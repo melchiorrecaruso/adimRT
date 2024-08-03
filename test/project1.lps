@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="project1.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="107" Y="36"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../adimpas/adim.pas"/>
+        <UnitName Value="ADim"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="3671"/>
+        <CursorPos X="88" Y="3700"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../springone/libsrc/springtolerances.pas"/>
+        <UnitName Value="SpringTolerances"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="274"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../adimpas/adim.inc"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="207"/>
+        <CursorPos X="51" Y="260"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="170" Column="19" TopLine="124"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="191" TopLine="154"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="153" Column="3" TopLine="127"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="190" Column="14" TopLine="154"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="140" Column="54" TopLine="103"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="135" Column="10" TopLine="110"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="21" Column="40"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="31" Column="40" TopLine="6"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="40" Column="70" TopLine="7"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="69" Column="33" TopLine="43"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="92" Column="33" TopLine="52"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="105" Column="34" TopLine="79"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="38" Column="46" TopLine="12"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="40" Column="51" TopLine="27"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="152" Column="19" TopLine="127"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="61" Column="51" TopLine="40"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="31" Column="40" TopLine="6"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="60" Column="53" TopLine="34"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="151" Column="3" TopLine="121"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="163" Column="5" TopLine="136"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="202" Column="46" TopLine="180"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="273" Column="7" TopLine="228"/>
+      </Position>
+      <Position>
+        <Filename Value="project1.lpr"/>
+        <Caret Line="235" Column="25" TopLine="212"/>
+      </Position>
+      <Position>
+        <Filename Value="../adimpas/adim.inc"/>
+        <Caret Line="173" Column="33" TopLine="91"/>
+      </Position>
+      <Position>
+        <Filename Value="../adimpas/adim.inc"/>
+        <Caret Line="86" Column="44" TopLine="58"/>
+      </Position>
+      <Position>
+        <Filename Value="../adimpas/adim.inc"/>
+        <Caret Line="106" Column="102" TopLine="40"/>
+      </Position>
+      <Position>
+        <Filename Value="../adimpas/adim.inc"/>
+        <Caret Line="8" Column="43"/>
+      </Position>
+      <Position>
+        <Filename Value="../adimpas/adim.inc"/>
+        <Caret Line="44" Column="7" TopLine="18"/>
+      </Position>
+      <Position>
+        <Filename Value="../adimpas/adim.inc"/>
+        <Caret Line="46" Column="31" TopLine="20"/>
+      </Position>
+      <Position>
+        <Filename Value="../adimpas/adim.inc"/>
+        <Caret Line="20" Column="32"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
