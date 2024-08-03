@@ -1,0 +1,23 @@
+unit ADim;
+
+{$H+}{$J-}
+{$modeswitch typehelpers} 
+{$modeswitch advancedrecords}
+{$WARN 5024 OFF} // Suppress warning for unused routine parameter.
+{$WARN 5033 OFF} // Suppress warning for unassigned function's return value.
+{$MACRO ON}
+
+interface
+
+uses SysUtils;
+
+type
+  { Prefix }
+  TPrefix = (pQuetta, pRonna, pYotta, pZetta, pExa, pPeta, pTera, pGiga, pMega, pKilo, pHecto, pDeca, 
+    pNone, pDeci, pCenti, pMilli, pMicro, pNano, pPico, pFemto, pAtto, pZepto, pYocto, pRonto, pQuecto);
+
+  { Prefixes } 
+  TPrefixes = array of TPrefix; 
+
+  { Exponents } 
+  TExponents = array of longint;  

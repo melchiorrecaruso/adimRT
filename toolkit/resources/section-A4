@@ -1,0 +1,90 @@
+{ Trigonometric functions } 
+
+function Cos(const AQuantity: TRadians): double;
+function Sin(const AQuantity: TRadians): double;
+function Tan(const AQuantity: TRadians): double;
+function Cotan(const AQuantity: TRadians): double;
+function Secant(const AQuantity: TRadians): double;
+function Cosecant(const AQuantity: TRadians): double;
+
+function ArcCos(const AValue: double): TRadians;
+function ArcSin(const AValue: double): TRadians;
+function ArcTan(const AValue: double): TRadians;
+function ArcTan2(const x, y: double): TRadians;
+
+{ Override trigonometric functions }
+
+function Cos(const AQuantity: double): double;
+function Sin(const AQuantity: double): double;
+function Tan(const AQuantity: double): double;
+function Cotan(const AQuantity: double): double;
+function Secant(const AQuantity: double): double;
+function Cosecant(const AQuantity: double): double;
+
+{ Math functions }
+
+generic function Min<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
+generic function Max<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
+
+{ Useful routines }
+
+function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;
+function GetName(const AName: string; const Prefixes: TPrefixes): string;
+
+{ Constants }
+
+const
+  AvogadroConstant               : TReciprocalMoles                     = (FValue: 6.02214076E+23);
+  BohrMagneton                   : TSquareMeterAmperes                  = (FValue: 9.2740100657E-24);
+  BohrRadius                     : TMeters                              = (FValue: 5.29177210903E-11);
+  BoltzmannConstant              : TJoulesPerKelvin                     = (FValue: 1.380649E-23);
+  ComptonWaveLength              : TMeters                              = (FValue: 2.42631023867E-12);
+  CoulombConstant                : TNewtonSquareMetersPerSquareCoulomb  = (FValue: 8.9875517923E+9);
+  DeuteronMass                   : TKilograms                           = (FValue: 3.3435837768E-27); 
+  ElectricPermittivity           : TFaradsPerMeter                      = (FValue: 8.8541878128E-12); 
+  ElectronMass                   : TKilograms                           = (FValue: 9.1093837015E-31); 
+  ElectronCharge                 : TCoulombs                            = (FValue: 1.602176634E-19);
+  ElementaryCharge               : TCoulombs                            = (FValue: 1.602176634E-19);
+  MagneticPermeability           : THenriesPerMeter                     = (FValue: 1.25663706212E-6);
+  MolarGasConstant               : TJoulesPerMolePerKelvin              = (FValue: 8.314462618);
+  NeutronMass                    : TKilograms                           = (FValue: 1.67492750056E-27); 
+  NewtonianConstantOfGravitation : TNewtonSquareMetersPerSquareKilogram = (FValue: 6.67430E-11);
+  PlanckConstant                 : TJouleSeconds                        = (FValue: 6.62607015E-34);
+  ProtonMass                     : TKilograms                           = (FValue: 1.67262192595E-27);
+  RydbergConstant                : TReciprocalMeters                    = (FValue: 10973731.568157);
+  SpeedOfLight                   : TMetersPerSecond                     = (FValue: 299792458);  
+  SquaredSpeedOfLight            : TSquareMetersPerSquareSecond         = (FValue: 8.98755178736818E+16);  
+  StandardAccelerationOfGravity  : TMetersPerSquareSecond               = (FValue: 9.80665);
+  ReducedPlanckConstant          : TJouleSeconds                        = (FValue: 6.62607015E-34/2/pi);
+  UnifiedAtomicMassUnit          : TKilograms                           = (FValue: 1.66053906892E-27);
+  
+const
+  PrefixTable: array[pQuetta..pQuecto] of 
+    record  Symbol, Name: string; Exponent: longint end = (
+    (Symbol: 'Q';   Name: 'quetta';  Exponent: +30),
+    (Symbol: 'R';   Name: 'ronna';   Exponent: +27),
+    (Symbol: 'Y';   Name: 'yotta';   Exponent: +24),
+    (Symbol: 'Z';   Name: 'zetta';   Exponent: +21),
+    (Symbol: 'E';   Name: 'exa';     Exponent: +18),  
+    (Symbol: 'P';   Name: 'peta';    Exponent: +15),
+    (Symbol: 'T';   Name: 'tera';    Exponent: +12),
+    (Symbol: 'G';   Name: 'giga';    Exponent: +09),
+    (Symbol: 'M';   Name: 'mega';    Exponent: +06),
+    (Symbol: 'k';   Name: 'kilo';    Exponent: +03),
+    (Symbol: 'h';   Name: 'hecto';   Exponent: +02),
+    (Symbol: 'da';  Name: 'deca';    Exponent: +01),
+    (Symbol: '';    Name: '';        Exponent:  00),
+    (Symbol: 'd';   Name: 'deci';    Exponent: -01),
+    (Symbol: 'c';   Name: 'centi';   Exponent: -02),
+    (Symbol: 'm';   Name: 'milli';   Exponent: -03),
+    (Symbol: 'μ';   Name: 'micro';   Exponent: -06),
+    (Symbol: 'n';   Name: 'nano';    Exponent: -09),
+    (Symbol: 'p';   Name: 'pico';    Exponent: -12),
+    (Symbol: 'f';   Name: 'femto';   Exponent: -15),
+    (Symbol: 'a';   Name: 'atto';    Exponent: -18),
+    (Symbol: 'z';   Name: 'zepto';   Exponent: -21),
+    (Symbol: 'y';   Name: 'yocto';   Exponent: -24),
+    (Symbol: 'r';   Name: 'ronto';   Exponent: -27),
+    (Symbol: 'q';   Name: 'quecto';  Exponent: -30)
+  );
+

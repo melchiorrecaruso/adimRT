@@ -1,0 +1,103 @@
+{ Trigonometric functions } 
+
+function Cos(const AQuantity: TRadianQty): double;
+begin 
+  result := System.Cos(AQuantity.FValue); 
+end;
+
+function Sin(const AQuantity: TRadianQty): double;
+begin 
+  result := System.Sin(AQuantity.FValue);
+end;
+
+function Tan(const AQuantity: TRadianQty): double;
+begin 
+  result := Math.Tan(AQuantity.FValue);
+end;
+
+function Cotan(const AQuantity: TRadianQty): double;
+begin 
+  result := Math.Cotan(AQuantity.FValue);
+end;
+
+function Secant(const AQuantity: TRadianQty): double;
+begin 
+  result := Math.Secant(AQuantity.FValue);
+end;
+
+function Cosecant(const AQuantity: TRadianQty): double;
+begin 
+  result := Math.Cosecant(AQuantity.FValue);
+end;
+
+function ArcCos(const AValue: double): TRadianQty;
+begin 
+  result.FValue := Math.ArcCos(AValue);
+end;
+
+function ArcSin(const AValue: double): TRadianQty;
+begin 
+  result.FValue := Math.ArcSin(AValue);
+end;
+
+function ArcTan(const AValue: double): TRadianQty;
+begin 
+  result.FValue := System.ArcTan(AValue);
+end;
+
+function ArcTan2(const x, y: double): TRadianQty;
+begin
+  result.FValue := Math.ArcTan2(x, y);
+end;
+
+{ Override trigonometric functions }
+
+function Cos(const AQuantity: double): double;
+begin 
+  result := System.Cos(AQuantity); 
+end;
+
+function Sin(const AQuantity: double): double;
+begin 
+  result := System.Sin(AQuantity);
+end;
+
+function Tan(const AQuantity: double): double;
+begin 
+  result := Math.Tan(AQuantity);
+end;
+
+function Cotan(const AQuantity: double): double;
+begin 
+  result := Math.Cotan(AQuantity);
+end;
+
+function Secant(const AQuantity: double): double;
+begin 
+  result := Math.Secant(AQuantity);
+end;
+
+function Cosecant(const AQuantity: double): double;
+begin 
+  result := Math.Cosecant(AQuantity);
+end;
+
+{ Math functions }
+
+generic function Min<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
+begin
+  if AValue1 < AValue2 then
+    result := AValue1
+  else
+    result := AValue2;
+end;
+
+generic function Max<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
+begin
+  if AValue1 > AValue2 then
+    result := AValue1
+  else
+    result := AValue2;
+end;
+
+end.

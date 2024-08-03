@@ -1,0 +1,396 @@
+object InsertFrm: TInsertFrm
+  Left = 728
+  Height = 616
+  Top = 378
+  Width = 819
+  Caption = 'InsertFrm'
+  ClientHeight = 616
+  ClientWidth = 819
+  LCLVersion = '3.99.0.0'
+  object Field: TComboBox
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 20
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 20
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 0
+  end
+  object OkBtn: TBitBtn
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 693
+    Height = 36
+    Top = 574
+    Width = 120
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 6
+    BorderSpacing.Bottom = 6
+    Caption = 'OK'
+    ModalResult = 1
+    TabOrder = 1
+  end
+  object CancelBtn: TBitBtn
+    AnchorSideTop.Control = OkBtn
+    AnchorSideRight.Control = OkBtn
+    AnchorSideBottom.Control = OkBtn
+    AnchorSideBottom.Side = asrBottom
+    Left = 563
+    Height = 36
+    Top = 574
+    Width = 120
+    Anchors = [akTop, akRight, akBottom]
+    BorderSpacing.Right = 10
+    Caption = 'Cancel'
+    ModalResult = 2
+    TabOrder = 2
+  end
+  object BaseQuantity: TComboBox
+    AnchorSideLeft.Control = BaseQuantityLB
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 296
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 3
+  end
+  object TypeQuantity: TComboBox
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 434
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 4
+  end
+  object FieldLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Field
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Field
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 20
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    Caption = 'Field'
+    Layout = tlCenter
+  end
+  object QuantityLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Quantity
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Quantity
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 66
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    Caption = 'Quantity'
+    Layout = tlCenter
+  end
+  object DimensionLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Dimension
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Dimension
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 112
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    Caption = 'Dimension'
+    Layout = tlCenter
+  end
+  object LongStringLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = LongSymbol
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = LongSymbol
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 158
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    Caption = 'Long string'
+    Layout = tlCenter
+  end
+  object ShortStringLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = ShortSymbol
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = ShortSymbol
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 204
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    Caption = 'Short string'
+    Layout = tlCenter
+  end
+  object IdentifierLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Identifier
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Identifier
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 250
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    Caption = 'Identifier'
+    Layout = tlCenter
+  end
+  object BaseQuantityLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = BaseQuantity
+    AnchorSideBottom.Control = BaseQuantity
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 296
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akBottom]
+    BorderSpacing.Left = 6
+    BorderSpacing.Right = 12
+    Caption = 'Base quantity'
+    Layout = tlCenter
+  end
+  object FactorLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Factor
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Factor
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 342
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    Caption = 'Factor'
+    Layout = tlCenter
+  end
+  object PrefixesLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Prefixes
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Prefixes
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 388
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    Caption = 'Prefixes'
+    Layout = tlCenter
+  end
+  object TypeQuantityLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = TypeQuantity
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = TypeQuantity
+    AnchorSideBottom.Side = asrBottom
+    Left = 0
+    Height = 36
+    Top = 434
+    Width = 94
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Caption = 'Type quantity'
+    Layout = tlCenter
+  end
+  object Quantity: TComboBox
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Control = Field
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 66
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 5
+  end
+  object Dimension: TComboBox
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 112
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 6
+  end
+  object LongSymbol: TComboBox
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 158
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 7
+  end
+  object ShortSymbol: TComboBox
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 204
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 8
+  end
+  object Identifier: TComboBox
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 250
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 9
+  end
+  object Factor: TComboBox
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Control = BaseQuantity
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 342
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 10
+  end
+  object Prefixes: TComboBox
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 36
+    Top = 388
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    ItemHeight = 0
+    TabOrder = 11
+  end
+  object ColorBtn: TColorButton
+    AnchorSideLeft.Control = BaseQuantity
+    AnchorSideTop.Control = TypeQuantity
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 106
+    Height = 38
+    Top = 480
+    Width = 707
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
+    BorderWidth = 2
+    ButtonColorSize = 16
+    ButtonColor = clBlack
+  end
+  object ColorLB: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = ColorBtn
+    AnchorSideRight.Control = BaseQuantityLB
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = ColorBtn
+    AnchorSideBottom.Side = asrBottom
+    Left = 6
+    Height = 38
+    Top = 480
+    Width = 88
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 6
+    Caption = 'Color'
+    Layout = tlCenter
+  end
+end
