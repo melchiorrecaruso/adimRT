@@ -1,7 +1,7 @@
 {
-  Description: ADimPas Test program.
+  Description: ADimRT Test program.
 
-  Copyright (C) 2023-2024 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2024 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -24,161 +24,161 @@ program adimtest;
 {$endif}
 
 uses
-  ADim, Math, SysUtils;
+  ADimRT, Math, SysUtils;
 
 var
-  side1, side2, side3, side4: TMeters;
-  area: TSquareMeters;
-  volume: TCubicMeters;
-  hypervolume: TQuarticMeters;
+  side1, side2, side3, side4: TQuantity;
+  area: TQuantity;
+  volume: TQuantity;
+  hypervolume: TQuantity;
 
-  pressure: TPascals;
-  stiffness: TNewtonsPerMeter;
+  pressure: TQuantity;
+  stiffness: TQuantity;
 
-  squarecharge: TSquareCoulombs;
-  capacitance: TFarads;
+  squarecharge: TQuantity;
+  capacitance: TQuantity;
 
-  distance: TMeters;
-  tolerance: TMeters;
-  time: TSeconds;
-  speed: TMetersPerSecond;
-  spin: TKilogramSquareMetersPerSecond;
-  acc: TMetersPerSquareSecond;
-  density: TKilogramsPerCubicMeter;
-  specificw: TNewtonsPerCubicMeter;
-  force, normal: TNewtons;
+  distance: TQuantity;
+  tolerance: TQuantity;
+  time: TQuantity;
+  speed: TQuantity;
+  spin: TQuantity;
+  acc: TQuantity;
+  density: TQuantity;
+  specificw: TQuantity;
+  force, normal: TQuantity;
 
-  torque: TNewtonMeters;
-  work: TJoules;
-  power: TWatts;
+  torque: TQuantity;
+  work: TQuantity;
+  power: TQuantity;
 
-  charge: TCoulombs;
-  potential: TVolts;
-  current: TAmperes;
+  charge: TQuantity;
+  potential: TQuantity;
+  current: TQuantity;
 
-  flux: TWebers;
-  fluxdensity: TTeslas;
+  flux: TQuantity;
+  fluxdensity: TQuantity;
 
-  inductance: THenries;
-  resistance: TOhms;
-  conductance: TSiemens;
+  inductance: TQuantity;
+  resistance: TQuantity;
+  conductance: TQuantity;
 
-  solidangle: TSteradians;
-  intensity: TCandelas;
-  luminousflux: TLumens;
+  solidangle: TQuantity;
+  intensity: TQuantity;
+  luminousflux: TQuantity;
 
-  dose1: TSieverts;
-  dose2: TGrays;
+  dose1: TQuantity;
+  dose2: TQuantity;
 
-  angularspeed: TRadiansPerSecond;
+  angularspeed: TQuantity;
 
   kA: double;
-  kAr: TMeters;
-  radius: TMeters;
-  radius1: TMeters;
-  radius2: TMeters;
+  kAr: TQuantity;
+  radius: TQuantity;
+  radius1: TQuantity;
+  radius2: TQuantity;
 
-  Mass: TKilograms;
-  MassOfSun: TKilograms;
-  MassOfSagittariusAStar: TKilograms;
-  eta: TPascalSeconds;
-  Cb: TKilogramsPerSecond;
+  Mass: TQuantity;
+  MassOfSun: TQuantity;
+  MassOfSagittariusAStar: TQuantity;
+  eta: TQuantity;
+  Cb: TQuantity;
 
-  mass1: TKilograms;
-  mass2: TKilograms;
+  mass1: TQuantity;
+  mass2: TQuantity;
 
   cCd: double;
-  angle: TRadians;
+  angle: TQuantity;
 
-  Uc: TJoules;
-  Ug: TJoules;
+  Uc: TQuantity;
+  Ug: TQuantity;
 
-  Ue: TJoules;
-  kx: TNewtonsPerMeter;
-  x: TMeters;
+  Ue: TQuantity;
+  kx: TQuantity;
+  x: TQuantity;
 
-  q1: TCoulombs;
-  q2: TCoulombs;
-  Uel: TJoules;
-  U: TJoules;
+  q1: TQuantity;
+  q2: TQuantity;
+  Uel: TQuantity;
+  U: TQuantity;
 
-  p: TKilogramMetersPerSecond;
-  p2: TSquareKilogramSquareMetersPerSquareSecond;
-  impulse: TKilogramMetersPerSecond;
-  Lp: TKilogramSquareMetersPerSecond;
+  p: TQuantity;
+  p2: TQuantity;
+  impulse: TQuantity;
+  Lp: TQuantity;
 
-  flowrate: TCubicMetersPerSecond;
+  flowrate: TQuantity;
 
-  lambda: TReciprocalKelvins;
-  deltadist: TMeters;
-  deltatemp: TKelvins;
+  lambda: TQuantity;
+  deltadist: TQuantity;
+  deltatemp: TQuantity;
 
-  specificheatcapacity: TJoulesPerKilogramPerKelvin;
-  heatcapacity: TJoulesPerKelvin;
+  specificheatcapacity: TQuantity;
+  heatcapacity: TQuantity;
 
-  _m1: TKilograms;
-  _m2: TKilograms;
-  _tf: TKelvins;
-  _t1: TKelvins;
-  _t2: TKelvins;
-  _c1: TJoulesPerKilogramPerKelvin;
-  _c2: TJoulesPerKilogramPerKelvin;
+  _m1: TQuantity;
+  _m2: TQuantity;
+  _tf: TQuantity;
+  _t1: TQuantity;
+  _t2: TQuantity;
+  _c1: TQuantity;
+  _c2: TQuantity;
 
-  lambda2: TWattsPerMeterPerKelvin;
+  lambda2: TQuantity;
 
-  E: TVoltsPerMeter;
-  sigma: TCoulombsPerSquareMeter;
+  E: TQuantity;
+  sigma: TQuantity;
 
-  B: TTeslas;
-  len: TMeters;
-  r: TMeters;
-  z: TMeters;
+  B: TQuantity;
+  len: TQuantity;
+  r: TQuantity;
+  z: TQuantity;
   loops: longint;
 
-  i1, i2: TAmperes;
-  magneticflux: TWebers;
+  i1, i2: TQuantity;
+  magneticflux: TQuantity;
 
-  DeltaE: TVoltsPerMeter;
+  DeltaE: TQuantity;
 
-  Ampl: TMeters;
-  Kw: TRadiansPerMeter;
-  Omega: TRadiansPerSecond;
-  phi: TRadians;
+  Ampl: TQuantity;
+  Kw: TQuantity;
+  Omega: TQuantity;
+  phi: TQuantity;
 
-  wavelen: TMeters;
-  wavelenc: TMeters;
-  yspeed: TMetersperSecond;
-  yacc: TMetersPerSquareSecond;
+  wavelen: TQuantity;
+  wavelenc: TQuantity;
+  yspeed: TQuantity;
+  yacc: TQuantity;
 
-  E0: TJoules;
-  Energy: TJoules;
-  freq: THertz;
+  E0: TQuantity;
+  Energy: TQuantity;
+  freq: TQuantity;
 
-  I: TKilogramSquareMeters;
+  I: TQuantity;
   Re: double;
 
   num: integer;
   alpha: double;
-  kc: TReciprocalMeters;
-  BoxLen: TMeters;
-  EnergyLevels: array[1..4] of TJoules;
-  SquarePsi: array[1..4] of TReciprocalMeters;
-  Psi0: TReciprocalSquareRootMeters;
-  PsiValues: array [1..4] of TReciprocalMeters;
-  A0: TReciprocalSquareRootMeters;
+  kc: TQuantity;
+  BoxLen: TQuantity;
+  EnergyLevels: array[1..4] of TQuantity;
+  SquarePsi: array[1..4] of TQuantity;
+  Psi0: TQuantity;
+  PsiValues: array [1..4] of TQuantity;
+  A0: TQuantity;
   y: double;
 
   Iteration: longint;
   Iterations: longint;
   Probability: double;
-  mu: TJoulesPerTesla;
+  mu: TQuantity;
 
-  E1, E2: TJoules;
-  L1, L2: TMeters;
+  E1, E2: TQuantity;
+  L1, L2: TQuantity;
 
-  kfactor: TReciprocalMeters;
-  bfactor: TReciprocalMeters;
-  U0: TElectronVolts;
+  kfactor: TQuantity;
+  bfactor: TQuantity;
+  U0: TQuantity;
   TunnelingProbability: double;
 
 begin

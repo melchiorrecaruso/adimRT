@@ -73,8 +73,13 @@ function GetReciprocalUnitTypeHelper(const S: string): string;
 function GetQuantityType(const S: string): string;
 function GetQuantity(const S: string): string;
 function GetUnitType(const S: string): string;
+function GetUnit(const S: string): string;
 
 function GetUnitID(const S: string): string;
+function GetUnitIndex(const S: string): string;
+
+function GetHelperFuncName(const S: string): string;
+
 
 function GetUnitTypeHelper(const S: string): string;
 function GetUnitIdentifier(const S: string): string;
@@ -356,6 +361,50 @@ begin
 
   if Result = 'double' then Result := '';
   if Result <> ''      then Result := Result + 'Unit';
+end;
+
+function GetUnit(const S: string): string;
+begin
+  if IsASpecialKey(S) then Exit(S);
+
+  Result := S;
+  Result := StringReplace(Result, '!',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, '?',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, 'T' + VECPrefix, 'T', [rfReplaceAll]);
+
+  if Result = 'double' then Result := '';
+  if Result <> ''      then Result := Result + 'Unit';
+end;
+
+function GetUnitIndex(const S: string): string;
+begin
+  if IsASpecialKey(S) then Exit(S);
+
+  Result := S;
+  Result := StringReplace(Result, '!',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, '?',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, 'T' + VECPrefix, 'T', [rfReplaceAll]);
+  Result[1] := 'u';
+
+  if Result = 'double' then Result := '';
+  if Result <> ''      then Result := Result;
+end;
+
+function GetHelperFuncName(const S: string): string;
+begin
+  if IsASpecialKey(S) then Exit(S);
+
+  Result := S;
+  Result := StringReplace(Result, '!',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, '?',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, 'T' + VECPrefix, 'T', [rfReplaceAll]);
+  Delete(Result, 1, 1);
+
+  if Result = 'double' then Result := '';
+  if Result <> ''      then Result := Result;
 end;
 
 function GetReciprocalUnitTypeHelper(const S: string): string;

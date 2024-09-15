@@ -46,16 +46,11 @@
     </SearchPaths>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
-      <Optimizations>
-        <OptimizationLevel Value="4"/>
-      </Optimizations>
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <GenerateDebugInfo Value="False"/>
         <RunWithoutDebug Value="True"/>
         <DebugInfoType Value="dsDwarf3"/>
-        <UseLineInfoUnit Value="False"/>
       </Debugging>
       <LinkSmart Value="True"/>
     </Linking>

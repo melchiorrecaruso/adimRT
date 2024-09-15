@@ -78,7 +78,7 @@ type
 
   TToolKitThread = class(TThread)
   private
-    FList: TToolKitBuilder;
+    FBuilder: TToolKitBuilder;
     FMessage: string;
     procedure OnMessage(const AMessage: string);
   public
@@ -122,6 +122,7 @@ end;
 
 procedure TMainForm.LoadBtnClick(Sender: TObject);
 begin
+  OpenDialog.Filter := 'CSV Document|*.csv;';
   if OpenDialog.Execute then
   begin
     FList.Clear;
@@ -132,6 +133,7 @@ end;
 
 procedure TMainForm.SaveBtnClick(Sender: TObject);
 begin
+  SaveDialog.Filter := 'CSV Document|*.csv;';
   if SaveDialog.Execute then
   begin
     FList.SaveToFile(SaveDialog.FileName);
@@ -276,6 +278,7 @@ end;
 
 procedure TMainForm.ExportBtnClick(Sender: TObject);
 begin
+  SaveDialog.Filter := 'FreePascal unit|*.pas;';
   if SaveDialog.Execute then
   begin
     SynEdit.Lines.SaveToFile(SaveDialog.FileName);
@@ -291,33 +294,15 @@ begin
   UpdateButton(False);
   ToolKitThread := TToolKitThread.Create;
   ToolKitThread.OnTerminate := @OnTerminate;
-  (*
-  for i := 0 to WorksheetGrid.Worksheet.GetLastRowIndex do
-  begin
-    T.FClassName        := CleanSingleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 00));
-    T.FOperator         := CleanSingleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 01));
-    T.FClassParent1     := CleanSingleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 02));
-    T.FClassParent2     := CleanSingleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 03));
-    T.FLongSymbol       := CleanDoubleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 04));
-    T.FShortSymbol      := CleanSingleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 05));
-    T.FIdentifierSymbol := CleanSingleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 06));
-    T.FBaseClass        := CleanSingleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 07));
-    T.FFactor           := CleanDoubleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 08));
-    T.FPrefixes         := CleanSingleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 09));
-    T.FClassType        := CleanSingleSpaces(WorksheetGrid.Worksheet.ReadAsText(i, 10));
 
-    if (T.FClassName <> '') and (T.FClassName[1] <> '/') then
+  for i := 0 to FList.Count -1 do
+  begin
+    T := FList[i];
+    if (T.FType = '') or (SkipVectorialUnits.Checked = False) then
     begin
-      if SkipVectorialUnits.Checked then
-      begin
-        if (T.FClassType = '') then
-          ToolKitThread.FList.Add(T);
-      end else
-        ToolKitThread.FList.Add(T);
+      ToolKitThread.FBuilder.Add(T);
     end;
   end;
-  *)
-
   ToolKitThread.Start;
 end;
 
@@ -327,7 +312,7 @@ var
 begin
   SynEdit.BeginUpdate(True);
   SynEdit.Clear;
-  with ToolKitThread.FList do
+  with ToolKitThread.FBuilder do
   begin
     for I := 0 to Document.Count - 1 do SynEdit.Append(Document[I]);
     for I := 0 to Messages.Count - 1 do Memo.Lines.Add(Messages[I]);
@@ -378,21 +363,21 @@ end;
 
 constructor TToolKitThread.Create;
 begin
-  FList := TToolKitBuilder.Create;
-  FList.SkipVectorialUnits := Mainform.SkipVectorialUnits.Checked;
+  FBuilder := TToolKitBuilder.Create;
+  FBuilder.SkipVectorialUnits := Mainform.SkipVectorialUnits.Checked;
   FreeOnTerminate := True;
   inherited Create(True);
 end;
 
 destructor TToolKitThread.Destroy;
 begin
-  FList.Destroy;
+  FBuilder := nil;
   inherited Destroy;
 end;
 
 procedure TToolKitThread.Execute;
 begin
-  FList.Run;
+  FBuilder.Run;
 end;
 
 procedure TToolKitThread.OnMessage(const AMessage: string);

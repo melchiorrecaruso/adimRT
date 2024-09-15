@@ -117,7 +117,7 @@ type
     SectionB10: TStringList;
 
     //FOnMessage: TMessageEvent;
-    FMessage: string;
+    //FMessage: string;
 
     // private routines
 
@@ -135,7 +135,6 @@ type
     property SkipVectorialUnits: boolean read FSkipVectorialUnits write FSkipVectorialUnits;
     property Document: TStringList read FDocument;
     property Messages: TStringList read FMessages;
-    property Message: string read FMessage;
   end;
 
 
@@ -143,32 +142,6 @@ implementation
 
 uses
   Common, CSVDocument, DateUtils, IniFiles, LCLType, Math, Process;
-
-(*
-function TToolKitItemExponents.ToString: string;
-const
-  Symbols : array [1..9] of string = ('kg', 'm', 's', 'K', 'A', 'cd', 'mol', 'rad', 'sr');
-var
-  i: longint;
-begin
-  result := '';
-  for i := Low(FValue) to high(FValue) do
-  begin
-    if not SameValue(FValue[i], 0) then
-    begin
-      if FValue[i] > 0 then
-        result := result + Symbols[i] + '+' + Abs(FValue[1]).ToString + ' '
-      else
-        result := result + Symbols[i] + '-' + Abs(FValue[1]).ToString + ' ';
-    end;
-  end;
-
-  if Length(result) > 0 then
-  begin
-    SetLength(result, Length(result) -1);
-  end;
-end;
-*)
 
 // TToolKitBuilder
 
@@ -205,17 +178,14 @@ end;
 
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
 begin
-  //FMessage := FList.Add(AItem);
-  if FMessage <> '' then
-  begin
-    FMessages.Append(FMessage);
-  end;
+  FList.Add(AItem);
 end;
 
 procedure TToolKitBuilder.Run;
 var
   I, J: longint;
   Stream: TResourceStream;
+  S: string;
 begin
   SectionA0  := TStringList.Create;
   SectionA1  := TStringList.Create;
@@ -246,43 +216,230 @@ begin
   SectionB9  := TStringList.Create;
   SectionB10 := TStringList.Create;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-A0', RT_RCDATA);
-  SectionA0.LoadFromStream(Stream);
-  SectionA0.Insert(0, '');
-  Stream.Destroy;
+  BaseUnitCount     := 0;
+  FactoredUnitCount := 0;
+  ExternalOperators := 0;
+  InternalOperators := 0;
+  ForcedOperators   := 0;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-A1', RT_RCDATA);
-  SectionA1.LoadFromStream(Stream);
-  SectionA1.Insert(0, '');
-  SectionA1.Append('');
-  Stream.Destroy;
-
-  Stream := TResourceStream.Create(HInstance, 'SECTION-B1', RT_RCDATA);
-  SectionB1.LoadFromStream(Stream);
-  SectionB1.Insert(0, '');
-  Stream.Destroy;
+  FClassList.Clear;
+  FCommUnits.Clear;
+  FOperatorList.Clear;
 
   SectionA2.Append('');
-  SectionA2.Append('{ TQuantity classes }');
   SectionA2.Append('');
+  SectionA2.Append('');
+  SectionA2.Append('');
+
+  SectionA2.Append('');
+  SectionA2.Append('{ TQuantity }');
+  SectionA2.Append('');
+  SectionA2.Append('type');
+  SectionA2.Append('  {$IFOPT D+}');
+  SectionA2.Append('  TQuantity = record');
+  SectionA2.Append('  private');
+  SectionA2.Append('    FUnitOfMeasurement: TUnitOfMeasurement;');
+  SectionA2.Append('    FValue: double;');
+  SectionA2.Append('  public');
+  SectionA2.Append('    class operator Copy(constref ASrc: TQuantity; var ADst: TQuantity); inline;');
+  SectionA2.Append('    class operator +(const ALeft, ARight: TQuantity): TQuantity; inline;');
+  SectionA2.Append('    class operator -(const ALeft, ARight: TQuantity): TQuantity; inline;');
+  SectionA2.Append('    class operator *(const ALeft, ARight: TQuantity): TQuantity; inline;');
+  SectionA2.Append('    class operator /(const ALeft, ARight: TQuantity): TQuantity; inline;');
+  SectionA2.Append('    class operator *(const ALeft: double; const ARight: TQuantity): TQuantity; inline;');
+  SectionA2.Append('    class operator *(const ALeft: TQuantity; const ARight: double): TQuantity; inline;');
+  SectionA2.Append('    class operator /(const ALeft: TQuantity; const ARight: double): TQuantity; inline;');
+  SectionA2.Append('  end;');
+  SectionA2.Append('  {$ELSE}');
+  SectionA2.Append('  TQuantity = double;');
+  SectionA2.Append('  {$ENDIF}');
+
   SectionB2.Append('');
-  SectionB2.Append('{ TQuantity classes }');
+  SectionB2.Append('implementation');
+  SectionB2.Append('');
+  SectionB2.Append('const');
+  SectionB2.Append(Format('  %-50s = %d;', ['uScalar', BaseUnitCount]));
+  for i := 0 to FList.Count -1 do
+  begin
+    if FList[i].FBase = '' then
+    begin
+      Inc(BaseUnitCount);
+      SectionB2.Append(Format('  %-50s = %d;', [GetUnitIndex(FList[i].FQuantity) , BaseUnitCount]));
+    end else
+      Inc(FactoredUnitCount);
+  end;
+
+  SectionB2.Append('');
+  SectionB2.Append('{$IFOPT D+}');
+  SectionB2.Append('class operator TQuantity.+(const ALeft, ARight: TQuantity): TQuantity;');
+  SectionB2.Append('begin');
+  SectionB2.Append('  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then');
+  SectionB2.Append('    raise Exception.Create(''Summing operator (+) has detected wrong unit of measurements.'');');
+  SectionB2.Append('  result.FValue := ALeft.FValue + ARight.FValue;');
+  SectionB2.Append('end;');
+  SectionB2.Append('');
+  SectionB2.Append('class operator TQuantity.-(const ALeft, ARight: TQuantity): TQuantity;');
+  SectionB2.Append('begin');
+  SectionB2.Append('  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then');
+  SectionB2.Append('    raise Exception.Create(''Subtracting operator (-) has detected wrong unit of measurements.'');');
+  SectionB2.Append('  result.FValue := ALeft.FValue - ARight.FValue;');
+  SectionB2.Append('end;');
+  SectionB2.Append('');
+  SectionB2.Append('class operator TQuantity.*(const ALeft, ARight: TQuantity): TQuantity;');
+  SectionB2.Append('begin');
+  SectionB2.Append('  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];');
+  SectionB2.Append('  result.FValue := ALeft.FValue * ARight.FValue;');
+  SectionB2.Append('end;');
+  SectionB2.Append('');
+  SectionB2.Append('class operator TQuantity./(const ALeft, ARight: TQuantity): TQuantity;');
+  SectionB2.Append('begin');
+  SectionB2.Append('  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];');
+  SectionB2.Append('  result.FValue := ALeft.FValue / ARight.FValue;');
+  SectionB2.Append('end;');
+  SectionB2.Append('');
+  SectionB2.Append('class operator TQuantity.Copy(constref ASrc: TQuantity; var ADst: TQuantity);');
+  SectionB2.Append('begin');
+  SectionB2.Append('  if ASrc.FUnitOfMeasurement <> ADst.FUnitOfMeasurement then');
+  SectionB2.Append('    raise Exception.Create(''Assignment operator (:=) has detected wrong unit of measurements.'');');
+  SectionB2.Append('  ADst.FValue := ASrc.FValue;');
+  SectionB2.Append('end;');
+  SectionB2.Append('');
+  SectionB2.Append('class operator TQuantity.*(const ALeft: double; const ARight: TQuantity): TQuantity;');
+  SectionB2.Append('begin');
+  SectionB2.Append('  result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;');
+  SectionB2.Append('  result.FValue:= ALeft * ARight.FValue;');
+  SectionB2.Append('end;');
+  SectionB2.Append('');
+  SectionB2.Append('class operator TQuantity.*(const ALeft: TQuantity; const ARight: double): TQuantity;');
+  SectionB2.Append('begin');
+  SectionB2.Append('  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;');
+  SectionB2.Append('  result.FValue:= ALeft.FValue * ARight;');
+  SectionB2.Append('end;');
+  SectionB2.Append('');
+  SectionB2.Append('class operator TQuantity./(const ALeft: TQuantity; const ARight: double): TQuantity;');
+  SectionB2.Append('begin');
+  SectionB2.Append('  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;');
+  SectionB2.Append('  result.FValue:= ALeft.FValue / ARight;');
+  SectionB2.Append('end;');
+  SectionB2.Append('{$ENDIF}');
   SectionB2.Append('');
 
-  SectionA21.Append('');
-  SectionB21.Append('');
-
-  SectionA22.Append('');
-  SectionA22.Append('{ External Operators }');
-  SectionA22.Append('');
-  SectionB22.Append('');
-  SectionB22.Append('{ External Operators }');
-  SectionB22.Append('');
 
   SectionA3.Append('');
-  SectionA3.Append('{ TUnit classes }');
+  SectionA3.Append('{ Base units }');
   SectionA3.Append('');
+  SectionA3.Append('type');
+
   SectionB3.Append('');
+  SectionB3.Append('{ Base units }');
+  SectionB3.Append('');
+  for i := 0 to FList.Count -1 do
+  begin
+    if (FList[i].FIdentifier <> '') and (FList[i].FBase = '') then
+    begin
+      SectionA3.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
+      SectionA3.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+      SectionA3.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+      SectionA3.Add(Format('  end;',[]));
+      SectionA3.Add(Format('',[]));
+
+      SectionB3.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+      SectionB3.Add(Format('begin',[]));
+      SectionB3.Add(Format('  {$IFOPT D+}',[]));
+      SectionB3.Add(Format('  result.FUnitOfMeasurement := %s;',[GetUnitIndex(FList[i].FQuantity)]));
+      SectionB3.Add(Format('  result.FValue := AValue',[]));
+      SectionB3.Add(Format('  {$ELSE}',[]));
+      SectionB3.Add(Format('  result := AValue',[]));
+      SectionB3.Add(Format('  {$ENDIF}',[]));
+      SectionB3.Add(Format('end;',[]));
+      SectionB3.Add(Format('',[]));
+
+      SectionB3.Add(Format('class operator %s.*(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+      SectionB3.Add(Format('begin',[]));
+      SectionB3.Add(Format('  {$IFOPT D+}',[]));
+      SectionB3.Add(Format('  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FQuantity)]));
+      SectionB3.Add(Format('  result.FValue := AValue.FValue',[]));
+      SectionB3.Add(Format('  {$ELSE}',[]));
+      SectionB3.Add(Format('  result := AValue',[]));
+      SectionB3.Add(Format('  {$ENDIF}',[]));
+      SectionB3.Add(Format('end;',[]));
+      SectionB3.Add(Format('',[]));
+    end;
+  end;
+  SectionA3.Append('');
+  SectionA3.Append('{ Factored units }');
+  SectionA3.Append('');
+  SectionA3.Append('type');
+
+  SectionB3.Append('');
+  SectionB3.Append('{ Factored units }');
+  SectionB3.Append('');
+  for i := 0 to FList.Count -1 do
+  begin
+    if (FList[i].FIdentifier <> '') and (FList[i].FBase <> '') then
+    begin
+
+      SectionA3.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
+      SectionA3.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+      SectionA3.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+      SectionA3.Add(Format('  end;',[]));
+      SectionA3.Add(Format('',[]));
+
+
+
+      SectionB3.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+      SectionB3.Add(Format('begin',[]));
+      SectionB3.Add(Format('  {$IFOPT D+}',[]));
+      SectionB3.Add(Format('  result.FUnitOfMeasurement := %s;',[GetUnitIndex(FList[i].FBase)]));
+
+      if Pos('%s', FList[i].FFactor) <> 0 then
+        SectionB3.Add(Format('  result.FValue := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]))
+      else
+        if (FList[i].FFactor <> '') then
+          SectionB3.Add(Format('  result.FValue := AValue * %s;', [FList[i].FFactor]))
+        else
+          SectionB3.Add(Format('  result.FValue := AValue;', []));
+
+      SectionB3.Add(Format('  {$ELSE}',[]));
+
+      if Pos('%s', FList[i].FFactor) <> 0 then
+        SectionB3.Add(Format('  result := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]))
+      else
+        if (FList[i].FFactor <> '') then
+          SectionB3.Add(Format('  result := AValue * %s;', [FList[i].FFactor]))
+        else
+          SectionB3.Add(Format('  result := AValue;', []));
+
+      SectionB3.Add(Format('  {$ENDIF}',[]));
+
+      SectionB3.Add(Format('end;',[]));
+      SectionB3.Add(Format('',[]));
+
+    end;
+  end;
+
+  SectionA3.Append('');
+  SectionA3.Append('var');
+  for i := 0 to FList.Count -1 do
+  begin
+    if (FList[i].FIdentifier <> '') and (FList[i].FBase = '') then
+    begin
+      SectionA3.Add(Format('  %-10s : %s;', [FList[i].FIdentifier, GetUnit(FList[i].FQuantity)]));
+    end;
+  end;
+  SectionA3.Append('');
+  SectionA3.Append('var');
+  for i := 0 to FList.Count -1 do
+  begin
+    if (FList[i].FIdentifier <> '') and (FList[i].FBase <> '') then
+    begin
+      SectionA3.Add(Format('  %-10s : %s;', [FList[i].FIdentifier, GetUnit(FList[i].FQuantity)]));
+    end;
+  end;
+  SectionA3.Append('');
+
+
+
   SectionB3.Append('{ TUnit classes }');
   SectionB3.Append('');
 
@@ -304,10 +461,90 @@ begin
   SectionA8.Append('');
   SectionA8.Append('{ Helpers }');
   SectionA8.Append('');
-  SectionA8.Append('type ');
+
+  for i := 0 to FList.Count -1 do
+  begin
+    if (FList[i].FBase = '') then
+    begin
+      SectionA8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('begin',[]));
+      SectionB8.Add(Format('  {$IFOPT D+}',[]));
+      SectionB8.Add(Format('  if.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
+      SectionB8.Add(Format('    raise Exception.Create(Wrong units of measurements);', []));
+      SectionB8.Add(Format('  {$ENDIF}', []));
+      SectionB8.Add(Format('  result := '';', []));
+      SectionB8.Add(Format('end;',[]));
+      SectionB8.Add(Format('',[]));
+
+      SectionA8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('begin',[]));
+      SectionB8.Add(Format('  {$IFOPT D+}',[]));
+      SectionB8.Add(Format('  if.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
+      SectionB8.Add(Format('    raise Exception.Create(Wrong units of measurements);', []));
+      SectionB8.Add(Format('  {$ENDIF}', []));
+      SectionB8.Add(Format('  result := '';', []));
+      SectionB8.Add(Format('end;',[]));
+      SectionB8.Add(Format('',[]));
+
+      SectionA8.Add(Format('function %sToFloat(const AValue: TQuantity): double;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sToFloat(const AValue: TQuantity): double;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('begin',[]));
+      SectionB8.Add(Format('  {$IFOPT D+}',[]));
+      SectionB8.Add(Format('  if.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
+      SectionB8.Add(Format('    raise Exception.Create(Wrong units of measurements', []));
+      SectionB8.Add(Format('  {$ENDIF}', []));
+      SectionB8.Add(Format('  result := 0;', []));
+      SectionB8.Add(Format('end;',[]));
+      SectionB8.Add(Format('',[]));
+    end else
+    begin
+      SectionA8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('begin',[]));
+      SectionB8.Add(Format('  {$IFOPT D+}',[]));
+      SectionB8.Add(Format('  if.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
+      SectionB8.Add(Format('    raise Exception.Create(Wrong units of measurements', []));
+      SectionB8.Add(Format('  {$ENDIF}', []));
+      SectionB8.Add(Format('  result := '';', []));
+      SectionB8.Add(Format('end;',[]));
+      SectionB8.Add(Format('',[]));
+
+      SectionA8.Add(Format('function %sVerboseToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sVerboseToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('begin',[]));
+      SectionB8.Add(Format('  {$IFOPT D+}',[]));
+      SectionB8.Add(Format('  if.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
+      SectionB8.Add(Format('    raise Exception.Create(Wrong units of measurements', []));
+      SectionB8.Add(Format('  {$ENDIF}', []));
+      SectionB8.Add(Format('  result := '';', []));
+      SectionB8.Add(Format('end;',[]));
+      SectionB8.Add(Format('',[]));
+
+      SectionA8.Add(Format('function %sToFloat(const AValue: TQuantity): double;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sToFloat(const AValue: TQuantity): double;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('begin',[]));
+      SectionB8.Add(Format('  {$IFOPT D+}',[]));
+      SectionB8.Add(Format('  if.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
+      SectionB8.Add(Format('    raise Exception.Create(Wrong units of measurements', []));
+      SectionB8.Add(Format('  {$ENDIF}', []));
+      SectionB8.Add(Format('  result := 0;', []));
+      SectionB8.Add(Format('end;',[]));
+      SectionB8.Add(Format('',[]));
+    end;
+  end;
+
+
+
+
   SectionB8.Append('');
   SectionB8.Append('{ Helpers }');
   SectionB8.Append('');
+
+
+
+
 
   SectionA9.Append('');
   SectionA9.Append('{ Power functions }');
@@ -319,25 +556,7 @@ begin
   SectionA10.Append('');
   SectionB10.Append('');
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-A4', RT_RCDATA);
-  SectionA10.LoadFromStream(Stream);
-  SectionA10.Insert(0, '');
-  Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-B4', RT_RCDATA);
-  SectionB10.LoadFromStream(Stream);
-  SectionB10.Insert(0, '');
-  Stream.Destroy;
-
-  FClassList.Clear;
-  FCommUnits.Clear;
-  FOperatorList.Clear;
-
-  BaseUnitCount     := 0;
-  FactoredUnitCount := 0;
-  ExternalOperators := 0;
-  InternalOperators := 0;
-  ForcedOperators   := 0;
 
 
 
@@ -345,12 +564,39 @@ begin
   SectionA0.Append('{');
   SectionA0.Append(Format('  ADimRT library built on %s.', [DateToStr(Now)]));
   SectionA0.Append('');
+
   SectionA0.Append(Format('  Number of base units: %d', [BaseUnitCount]));
   SectionA0.Append(Format('  Number of factored units: %d', [FactoredUnitCount]));
   SectionA0.Append(Format('  Number of operators: %d (%d external, %d internal)',
     [ExternalOperators + InternalOperators, ExternalOperators, InternalOperators]));
   SectionA0.Append('}');
+
   SectionA0.Append('');
+  SectionA0.Append('unit ADimRT;');
+  SectionA0.Append('');
+  SectionA0.Append('{$H+}{$J-}');
+  SectionA0.Append('{$modeswitch typehelpers}');
+  SectionA0.Append('{$modeswitch advancedrecords}');
+  SectionA0.Append('{$WARN 5024 OFF} // Suppress warning for unused routine parameter.');
+  SectionA0.Append('{$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.');
+  SectionA0.Append('{$MACRO ON}');
+  SectionA0.Append('');
+  SectionA0.Append('interface');
+  SectionA0.Append('');
+  SectionA0.Append('uses');
+  SectionA0.Append('  DateUtils, Sysutils;');
+  SectionA0.Append('');
+
+
+
+
+
+
+
+
+
+
+
 
   for I := 0 to SectionA0 .Count -1 do FDocument.Append(SectionA0 [I]);
   for I := 0 to SectionA1 .Count -1 do FDocument.Append(SectionA1 [I]);
@@ -384,6 +630,9 @@ begin
   for I := 0 to SectionB8 .Count -1 do FDocument.Append(SectionB8 [I]);
   for I := 0 to SectionB9 .Count -1 do FDocument.Append(SectionB9 [I]);
   for I := 0 to SectionB10.Count -1 do FDocument.Append(SectionB10[I]);
+
+  FDocument.Add('');
+  FDocument.Add('end.');
   CleanDocument(FDocument);
 
   SectionB10.Destroy;
@@ -449,7 +698,6 @@ end;
 
 procedure TToolKitList.Delete(Index: longint);
 begin
-  TToolKitItem(FList[Index]).Destroy;
   FList.Delete(Index);
 end;
 
@@ -457,10 +705,6 @@ procedure TToolKitList.Clear;
 var
   i: longint;
 begin
-  for i := 0 to FList.Count -1 do
-  begin
-    TToolKitItem(FList[i]).Destroy;
-  end;
   FList.Clear;
 end;
 

@@ -892,6 +892,8 @@ object MainForm: TMainForm
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 20
     Caption = 'Skip vectorial units'
+    Checked = True
+    State = cbChecked
     TabOrder = 4
   end
   object SaveBtn: TBitBtn
@@ -911,12 +913,10 @@ object MainForm: TMainForm
     OnClick = SaveBtnClick
   end
   object SaveDialog: TSaveDialog
-    Filter = 'CSV Document|*.csv;'
     Left = 96
     Top = 200
   end
   object OpenDialog: TOpenDialog
-    Filter = 'CSV Document|*.csv'
     Left = 96
     Top = 264
   end
