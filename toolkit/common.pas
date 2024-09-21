@@ -27,7 +27,7 @@ uses
   Classes, SysUtils;
 
 type
-  TExponents = array [1..7] of longint;
+  TExponents = array [1..7] of double;
 
 const
   INTF_NOP            = '{$DEFINE NOP}';
@@ -79,6 +79,11 @@ function GetUnitID(const S: string): string;
 function GetUnitIndex(const S: string): string;
 
 function GetHelperFuncName(const S: string): string;
+
+function GetDimensions(const S: string): TExponents;
+function SumDim(const ADim1, ADim2: TExponents): TExponents;
+function SubDim(const ADim1, ADim2: TExponents): TExponents;
+
 
 
 function GetUnitTypeHelper(const S: string): string;
@@ -406,6 +411,66 @@ begin
   if Result = 'double' then Result := '';
   if Result <> ''      then Result := Result;
 end;
+
+
+function GetExponent(const S, Key: string): double;
+var
+  i, j: longint;
+begin
+  i := Pos(Key, S);
+  if i <> 0 then
+  begin
+    i := i + Length(Key);
+    j := i;
+    while (j < Length(S)) and (S[j] <> ' ') do
+    begin
+      Inc(j);
+    end;
+
+    if j > i then
+    begin
+      if TryStrToFloat(Copy(S, i, j - i), result) then Exit;
+    end else
+      Exit(1);
+  end;
+  result := 0;
+end;
+
+function GetDimensions(const S: string): TExponents;
+begin
+  result[1] := GetExponent(S,  'kg');
+  result[2] := GetExponent(S,   'm');
+  result[3] := GetExponent(S,   's');
+  result[4] := GetExponent(S,   'A');
+  result[5] := GetExponent(S, 'mol');
+  result[6] := GetExponent(S,  'cd');
+  result[7] := GetExponent(S,   'K');
+end;
+
+function SumDim(const ADim1, ADim2: TExponents): TExponents;
+begin
+  result[1] := ADim1[1] + ADim2[1];
+  result[2] := ADim1[2] + ADim2[2];
+  result[3] := ADim1[3] + ADim2[3];
+  result[4] := ADim1[4] + ADim2[4];
+  result[5] := ADim1[5] + ADim2[5];
+  result[6] := ADim1[6] + ADim2[6];
+  result[7] := ADim1[7] + ADim2[7];
+end;
+
+function SubDim(const ADim1, ADim2: TExponents): TExponents;
+begin
+  result[1] := ADim1[1] - ADim2[1];
+  result[2] := ADim1[2] - ADim2[2];
+  result[3] := ADim1[3] - ADim2[3];
+  result[4] := ADim1[4] - ADim2[4];
+  result[5] := ADim1[5] - ADim2[5];
+  result[6] := ADim1[6] - ADim2[6];
+  result[7] := ADim1[7] - ADim2[7];
+end;
+
+
+
 
 function GetReciprocalUnitTypeHelper(const S: string): string;
 begin

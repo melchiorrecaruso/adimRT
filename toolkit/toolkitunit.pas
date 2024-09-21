@@ -25,7 +25,7 @@ unit ToolKitUnit;
 interface
 
 uses
-  Classes, Dialogs, Graphics, StrUtils, SysUtils;
+  Classes, Common, Dialogs, Graphics, StrUtils, SysUtils;
 
 type
   TToolKitItem = class
@@ -40,6 +40,8 @@ type
     FPrefixes: string;
     FType: string;
     FColor: string;
+    FIndex: longint;
+    FExponents: TExponents;
   end;
 
   TToolKitList = class
@@ -59,6 +61,8 @@ type
     procedure MoveDown(Index: longint);
 
     function Search(const AValue: string; AIndex: longint): longint;
+    function Search(const ADim: TExponents): longint;
+    function SearchFromEnd(const ADim: TExponents): longint;
 
     procedure SaveToFile(const AFileName: string);
     procedure LoadFromFile(const AFileName: string);
@@ -93,7 +97,6 @@ type
     SectionA21: TStringList;
     SectionA22: TStringList;
     SectionA3:  TStringList;
-    SectionA31: TStringList;
     SectionA4:  TStringList;
     SectionA5:  TStringList;
     SectionA6:  TStringList;
@@ -107,7 +110,6 @@ type
     SectionB21: TStringList;
     SectionB22: TStringList;
     SectionB3:  TStringList;
-    SectionB31: TStringList;
     SectionB4:  TStringList;
     SectionB5:  TStringList;
     SectionB6:  TStringList;
@@ -141,7 +143,7 @@ type
 implementation
 
 uses
-  Common, CSVDocument, DateUtils, IniFiles, LCLType, Math, Process;
+  CSVDocument, DateUtils, IniFiles, LCLType, Math, Process;
 
 // TToolKitBuilder
 
@@ -183,9 +185,11 @@ end;
 
 procedure TToolKitBuilder.Run;
 var
-  I, J: longint;
+  I, J, K: longint;
+  Line: string;
   Stream: TResourceStream;
   S: string;
+  Table: array of array of longint;
 begin
   SectionA0  := TStringList.Create;
   SectionA1  := TStringList.Create;
@@ -193,7 +197,6 @@ begin
   SectionA21 := TStringList.Create;
   SectionA22 := TStringList.Create;
   SectionA3  := TStringList.Create;
-  SectionA31 := TStringList.Create;
   SectionA4  := TStringList.Create;
   SectionA5  := TStringList.Create;
   SectionA6  := TStringList.Create;
@@ -207,7 +210,6 @@ begin
   SectionB21 := TStringList.Create;
   SectionB22 := TStringList.Create;
   SectionB3  := TStringList.Create;
-  SectionB31 := TStringList.Create;
   SectionB4  := TStringList.Create;
   SectionB5  := TStringList.Create;
   SectionB6  := TStringList.Create;
@@ -238,7 +240,7 @@ begin
   SectionA2.Append('  {$IFOPT D+}');
   SectionA2.Append('  TQuantity = record');
   SectionA2.Append('  private');
-  SectionA2.Append('    FUnitOfMeasurement: TUnitOfMeasurement;');
+  SectionA2.Append('    FUnitOfMeasurement: longint;');
   SectionA2.Append('    FValue: double;');
   SectionA2.Append('  public');
   SectionA2.Append('    class operator Copy(constref ASrc: TQuantity; var ADst: TQuantity); inline;');
@@ -264,10 +266,86 @@ begin
     if FList[i].FBase = '' then
     begin
       Inc(BaseUnitCount);
-      SectionB2.Append(Format('  %-50s = %d;', [GetUnitIndex(FList[i].FQuantity) , BaseUnitCount]));
+      FList[i].FIndex := BaseUnitCount;
+      FList[i].FExponents := GetDimensions(FList[i].FDimension);
+      SectionB2.Append(Format('  %-50s = %d;', [GetUnitIndex(FList[i].FQuantity) , FList[i].FIndex]));
     end else
       Inc(FactoredUnitCount);
   end;
+
+
+  SectionB2.Append('const');
+  SectionB2.Append('');
+  SectionB2.Append('  { Mul Table }');
+  SectionB2.Append('');
+  SectionB2.Append(Format('  MulTable : array[0..%d, 0..%d] of longint = (', [BaseUnitCount, BaseUnitCount]));
+
+  Table := nil;
+  SetLength(Table, BaseUnitCount);
+  for i := Low(Table) to High(Table) do
+    SetLength(Table[i], BaseUnitCount);
+
+  for i := 0 to FList.Count -1 do
+  begin
+    if (FList[i].FBase = '') then
+    begin
+      Line := '    (';
+      for j := 0 to FList.Count -1 do
+      begin
+        if (FList[j].FBase = '') then
+        begin
+          Line := Line +  IntToStr(FList.Search(SumDim(FList[i].FExponents, FList[j].FExponents))) + ', ';
+        end;
+      end;
+      Line[High(Line) -1] := ')';
+      Line[High(Line)   ] := ',';
+      SectionB2.Append(Line);
+    end;
+  end;
+  SectionB2.Append('    );');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   SectionB2.Append('');
   SectionB2.Append('{$IFOPT D+}');
@@ -443,11 +521,12 @@ begin
   SectionB3.Append('{ TUnit classes }');
   SectionB3.Append('');
 
-  SectionA31.Append('');
-  SectionB31.Append('');
+
 
   SectionA4.Append('');
   SectionB4.Append('');
+
+
 
   SectionA5.Append('');
   SectionB5.Append('');
@@ -605,8 +684,6 @@ begin
   for I := 0 to SectionA22.Count -1 do FDocument.Append(SectionA22[I]);
 
   for I := 0 to SectionA3 .Count -1 do FDocument.Append(SectionA3 [I]);
-  for I := 0 to SectionA31.Count -1 do FDocument.Append(SectionA31[I]);
-
   for I := 0 to SectionA4 .Count -1 do FDocument.Append(SectionA4 [I]);
   for I := 0 to SectionA5 .Count -1 do FDocument.Append(SectionA5 [I]);
   for I := 0 to SectionA6 .Count -1 do FDocument.Append(SectionA6 [I]);
@@ -621,8 +698,6 @@ begin
   for I := 0 to SectionB22.Count -1 do FDocument.Append(SectionB22[I]);
 
   for I := 0 to SectionB3 .Count -1 do FDocument.Append(SectionB3 [I]);
-  for I := 0 to SectionB31.Count -1 do FDocument.Append(SectionB31[I]);
-
   for I := 0 to SectionB4 .Count -1 do FDocument.Append(SectionB4 [I]);
   for I := 0 to SectionB5 .Count -1 do FDocument.Append(SectionB5 [I]);
   for I := 0 to SectionB6 .Count -1 do FDocument.Append(SectionB6 [I]);
@@ -642,7 +717,6 @@ begin
   SectionB6 .Destroy;
   SectionB5 .Destroy;
   SectionB4 .Destroy;
-  SectionB31.Destroy;
   SectionB3 .Destroy;
   SectionB22.Destroy;
   SectionB21.Destroy;
@@ -656,7 +730,6 @@ begin
   SectionA6 .Destroy;
   SectionA5 .Destroy;
   SectionA4 .Destroy;
-  SectionA31.Destroy;
   SectionA3 .Destroy;
   SectionA22.Destroy;
   SectionA21.Destroy;
@@ -702,8 +775,6 @@ begin
 end;
 
 procedure TToolKitList.Clear;
-var
-  i: longint;
 begin
   FList.Clear;
 end;
@@ -762,9 +833,54 @@ begin
   result := -1;
 end;
 
+
+function TToolKitList.Search(const ADim: TExponents): longint;
+var
+  i: longint;
+  Item: TToolKitItem;
+begin
+  for i := 0 to FList.Count -1 do
+  begin
+    Item := TToolKitItem(FList[i]);
+    if Item.FBase = '' then
+    begin
+      if (Item.FExponents[1] = ADim[1]) and
+         (Item.FExponents[2] = ADim[2]) and
+         (Item.FExponents[3] = ADim[3]) and
+         (Item.FExponents[4] = ADim[4]) and
+         (Item.FExponents[5] = ADim[5]) and
+         (Item.FExponents[6] = ADim[6]) and
+         (Item.FExponents[7] = ADim[7]) then Exit(Item.FIndex);
+    end;
+  end;
+  result := 0;
+end;
+
+function TToolKitList.SearchFromEnd(const ADim: TExponents): longint;
+var
+  i: longint;
+  Item: TToolKitItem;
+begin
+  for i := FList.Count -1 downto 0 do
+  begin
+    Item := TToolKitItem(FList[i]);
+    if Item.FBase = '' then
+    begin
+      if (Item.FExponents[1] = ADim[1]) and
+         (Item.FExponents[2] = ADim[2]) and
+         (Item.FExponents[3] = ADim[3]) and
+         (Item.FExponents[4] = ADim[4]) and
+         (Item.FExponents[5] = ADim[5]) and
+         (Item.FExponents[6] = ADim[6]) and
+         (Item.FExponents[7] = ADim[7]) then Exit(Item.FIndex);
+    end;
+  end;
+  result := 0;
+end;
+
 procedure TToolKitList.SaveToFile(const AFileName: string);
 var
-  i, j: longint;
+  i: longint;
   CSVDoc:TCSVDocument;
   Item: TToolKitItem;
 begin
