@@ -53,6 +53,10 @@ const
 
   VECPrefix           = 'CL';
 
+
+procedure Clear(var AValue: TExponents);
+
+
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
 function GetPluralNameResourceString(const AClassName: string): string;
@@ -169,6 +173,13 @@ begin
       result[Index] := result[Index] + AStr[I];
    end;
   SetLength(result, Index + 1);
+end;
+
+procedure Clear(var AValue: TExponents);
+var
+  i: longint;
+begin
+  for i := Low(AValue) to high(AValue) do AValue[i] := 0;
 end;
 
 function GetSymbolResourceString(const AClassName: string): string;

@@ -192,9 +192,9 @@ begin
   area  := side1*side2;
   side1 := area/side2;
   side2 := area/side1;
-  if side1.ToVerboseString <> '10 meters'        then halt(1);
-  if side2.ToVerboseString <> '5 meters'         then halt(2);
-  if area .ToVerboseString <> '50 square meters' then halt(3);
+  if MeterToVerboseString(side1)      <> '10 meters'        then halt(1);
+  if MeterToVerboseString(side2)      <> '5 meters'         then halt(2);
+  if SquareMeterToVerboseString(area) <> '50 square meters' then halt(3);
   writeln('* TEST-00: PASSED');
 
   // TEST-01 - VOLUME
@@ -205,10 +205,10 @@ begin
   side1  := volume/side2/side3;
   side2  := volume/side1/side3;
   side3  := volume/side1/side2;
-  if side1 .ToVerboseString <> '10 meters'        then halt(1);
-  if side2 .ToVerboseString <> '5 meters'         then halt(2);
-  if side3 .ToVerboseString <> '2 meters'         then halt(3);
-  if volume.ToVerboseString <> '100 cubic meters' then halt(4);
+  if MeterToVerboseString(side1)       <> '10 meters'        then halt(1);
+  if MeterToVerboseString(side2)       <> '5 meters'         then halt(2);
+  if MeterToVerboseString(side3)       <> '2 meters'         then halt(3);
+  if CubicMeterToVerboseString(volume) <> '100 cubic meters' then halt(4);
   writeln('* TEST-01: PASSED');
 
   // TEST-02 - HYPER VOLUME
@@ -221,11 +221,11 @@ begin
   side2 := hypervolume/side1/side3/side4;
   side3 := hypervolume/side1/side2/side4;
   side4 := hypervolume/side1/side2/side3;
-  if side1      .ToVerboseString <> '10 meters'          then halt(1);
-  if side2      .ToVerboseString <> '5 meters'           then halt(2);
-  if side3      .ToVerboseString <> '2 meters'           then halt(3);
-  if side4      .ToVerboseString <> '7 meters'           then halt(4);
-  if hypervolume.ToVerboseString <> '700 quartic meters' then halt(5);
+  if MeterToVerboseString(side1)              <> '10 meters'          then halt(1);
+  if MeterToVerboseString(side2)              <> '5 meters'           then halt(2);
+  if MeterToVerboseString(side3)              <> '2 meters'           then halt(3);
+  if MeterToVerboseString(side4)              <> '7 meters'           then halt(4);
+  if QuarticMeterToVerboseString(hypervolume) <> '700 quartic meters' then halt(5);
   writeln('* TEST-02: PASSED');
 
   // TEST-03 - SPEED
@@ -234,7 +234,7 @@ begin
   speed    := distance/time;
   time     := distance/speed;
   distance := speed*time;
-  if speed   .ToMeterPerHour.ToVerboseString(5, 0, [pKilo]) <> '10 kilometers per hour' then halt(1);
+  if MeterPerHourToString(speed).ToVerboseString(5, 0, [pKilo]) <> '10 kilometers per hour' then halt(1);
   if time    .ToHour        .ToVerboseString                <> '2 hours'                then halt(2);
   if distance               .ToVerboseString(5, 0, [pKilo]) <> '20 kilometers'          then halt(3);
   writeln('* TEST-03: PASSED');
