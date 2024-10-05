@@ -25,7 +25,7 @@ unit ToolKitUnit;
 interface
 
 uses
-  Classes, Common, Dialogs, Graphics, IntegerList, StrUtils, SysUtils;
+  Classes, Common, Dialogs, Graphics, StrUtils, SysUtils;
 
 type
   TToolKitItem = class
@@ -41,6 +41,7 @@ type
     FType: string;
     FColor: string;
     FExponents: TExponents;
+    FReserved: longint;
   end;
 
   TToolKitList = class
@@ -88,8 +89,6 @@ type
     FUseFuncInsteadOfOperators: boolean;
     FExpandQuantityOperators: boolean;
 
-    MyList: TIntegerList;
-
     FDocument:  TStringList;
     FMessages:  TStringList;
     SectionA0:  TStringList;
@@ -129,7 +128,6 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure AddUnitIDs(const SectionA: TStringList);
     procedure AddBaseUnits(const SectionA, SectionB: TStringList);
 
     procedure AddUnitRecources(const AItem: TToolKitItem; const ASection: TStringList);
@@ -185,43 +183,21 @@ begin
   inherited Destroy;
 end;
 
-procedure TToolKitBuilder.AddUnitIDs(const SectionA: TStringList);
-var
-  i: longint;
-begin
-  SectionA.Append('');
-  SectionA.Append('const');
-  SectionA.Append(Format('  %s = %d;', ['uScalar', BaseUnitCount]));
-
-  MyList.Clear;
-  MyList.Add(-1);
-  for i := 0 to FList.Count -1 do
-  begin
-    if FList[i].FBase = '' then
-    begin
-      MyList.Add(i);
-      Inc(BaseUnitCount);
-      FList[i].FExponents := GetDimensions(FList[i].FDimension);
-      SectionA.Append(Format('  %s = %d;', [GetUnitIndex(FList[i].FQuantity) , BaseUnitCount]));
-    end else
-      Inc(FactoredUnitCount);
-  end;
-end;
-
 procedure TToolKitBuilder.AddBaseUnits(const SectionA, SectionB: TStringList);
 var
   i: longint;
 begin
   for i := 0 to FList.Count -1 do
   begin
-
     if (FList[i].FBase = '') then
     begin
-      SectionA.Append('type');
+      SectionA.Add(Format('type', []));
       SectionA.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
       SectionA.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+      SectionA.Add(Format('    class operator /(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
       SectionA.Add(Format('  {$IFOPT D+}',[]));
       SectionA.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+      SectionA.Add(Format('    class operator /(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
       SectionA.Add(Format('  {$ENDIF}',[]));
       SectionA.Add(Format('  end;',[]));
       SectionA.Add(Format('',[]));
@@ -232,7 +208,18 @@ begin
       SectionB.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
       SectionB.Add(Format('begin',[]));
       SectionB.Add(Format('{$IFOPT D+}',[]));
-      SectionB.Add(Format('  result.FUnitOfMeasurement := %s;',[GetUnitIndex(FList[i].FQuantity)]));
+      SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FQuantity)]));
+      SectionB.Add(Format('  result.FValue := AValue',[]));
+      SectionB.Add(Format('{$ELSE}',[]));
+      SectionB.Add(Format('  result := AValue',[]));
+      SectionB.Add(Format('{$ENDIF}',[]));
+      SectionB.Add(Format('end;',[]));
+      SectionB.Add(Format('',[]));
+
+      SectionB.Add(Format('class operator %s./(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+      SectionB.Add(Format('begin',[]));
+      SectionB.Add(Format('{$IFOPT D+}',[]));
+      SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FQuantity)]));
       SectionB.Add(Format('  result.FValue := AValue',[]));
       SectionB.Add(Format('{$ELSE}',[]));
       SectionB.Add(Format('  result := AValue',[]));
@@ -248,15 +235,26 @@ begin
       SectionB.Add(Format('end;',[]));
       SectionB.Add(Format('{$ENDIF}',[]));
       SectionB.Add(Format('',[]));
+
+      SectionB.Add(Format('{$IFOPT D+}',[]));
+      SectionB.Add(Format('class operator %s./(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+      SectionB.Add(Format('begin',[]));
+      SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FQuantity)]));
+      SectionB.Add(Format('  result.FValue := AValue.FValue',[]));
+      SectionB.Add(Format('end;',[]));
+      SectionB.Add(Format('{$ENDIF}',[]));
+      SectionB.Add(Format('',[]));
     end else
     begin
       if Pos('%s', FList[i].FFactor) > 0 then
       begin
-        SectionA.Append('type');
+        SectionA.Add(Format('type', []));
         SectionA.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
         SectionA.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+        SectionA.Add(Format('    class operator /(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
         SectionA.Add(Format('  {$IFOPT D+}',[]));
         SectionA.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+        SectionA.Add(Format('    class operator /(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
         SectionA.Add(Format('  {$ENDIF}',[]));
         SectionA.Add(Format('  end;',[]));
         SectionA.Add(Format('',[]));
@@ -267,7 +265,18 @@ begin
         SectionB.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
         SectionB.Add(Format('begin',[]));
         SectionB.Add(Format('{$IFOPT D+}',[]));
-        SectionB.Add(Format('  result.FUnitOfMeasurement := %s;',[GetUnitIndex(FList[i].FBase)]));
+        SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
+        SectionB.Add(Format('  result.FValue := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]));
+        SectionB.Add(Format('{$ELSE}',[]));
+        SectionB.Add(Format('  result := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]));
+        SectionB.Add(Format('{$ENDIF}',[]));
+        SectionB.Add(Format('end;',[]));
+        SectionB.Add(Format('',[]));
+
+        SectionB.Add(Format('class operator %s./(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+        SectionB.Add(Format('begin',[]));
+        SectionB.Add(Format('{$IFOPT D+}',[]));
+        SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
         SectionB.Add(Format('  result.FValue := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]));
         SectionB.Add(Format('{$ELSE}',[]));
         SectionB.Add(Format('  result := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]));
@@ -278,7 +287,16 @@ begin
         SectionB.Add(Format('{$IFOPT D+}',[]));
         SectionB.Add(Format('class operator %s.*(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
         SectionB.Add(Format('begin',[]));
-        SectionB.Add(Format('  result.FUnitOfMeasurement := %s;',[GetUnitIndex(FList[i].FBase)]));
+        SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FBase)]));
+        SectionB.Add(Format('  result.FValue := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue.FValue'])]));
+        SectionB.Add(Format('end;',[]));
+        SectionB.Add(Format('{$ENDIF}',[]));
+        SectionB.Add(Format('',[]));
+
+        SectionB.Add(Format('{$IFOPT D+}',[]));
+        SectionB.Add(Format('class operator %s./(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+        SectionB.Add(Format('begin',[]));
+        SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FBase)]));
         SectionB.Add(Format('  result.FValue := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue.FValue'])]));
         SectionB.Add(Format('end;',[]));
         SectionB.Add(Format('{$ENDIF}',[]));
@@ -286,11 +304,13 @@ begin
       end else
         if (FList[i].FFactor = '') then
         begin
-          SectionA.Append('type');
+          SectionA.Add(Format('type', []));
           SectionA.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
           SectionA.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+          SectionA.Add(Format('    class operator /(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
           SectionA.Add(Format('  {$IFOPT D+}',[]));
           SectionA.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+          SectionA.Add(Format('    class operator /(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
           SectionA.Add(Format('  {$ENDIF}',[]));
           SectionA.Add(Format('  end;',[]));
           SectionA.Add(Format('',[]));
@@ -301,7 +321,18 @@ begin
           SectionB.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
           SectionB.Add(Format('begin',[]));
           SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := %s;',[GetUnitIndex(FList[i].FBase)]));
+          SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
+          SectionB.Add(Format('  result.FValue := AValue;',[]));
+          SectionB.Add(Format('{$ELSE}',[]));
+          SectionB.Add(Format('  result := AValue;', []));
+          SectionB.Add(Format('{$ENDIF}',[]));
+          SectionB.Add(Format('end;',[]));
+          SectionB.Add(Format('',[]));
+
+          SectionB.Add(Format('class operator %s./(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+          SectionB.Add(Format('begin',[]));
+          SectionB.Add(Format('{$IFOPT D+}',[]));
+          SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
           SectionB.Add(Format('  result.FValue := AValue;',[]));
           SectionB.Add(Format('{$ELSE}',[]));
           SectionB.Add(Format('  result := AValue;', []));
@@ -312,18 +343,29 @@ begin
           SectionB.Add(Format('{$IFOPT D+}',[]));
           SectionB.Add(Format('class operator %s.*(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
           SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := %s;',[GetUnitIndex(FList[i].FBase)]));
+          SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FBase)]));
+          SectionB.Add(Format('  result.FValue := AValue.FValue;',[]));
+          SectionB.Add(Format('end;',[]));
+          SectionB.Add(Format('{$ENDIF}',[]));
+          SectionB.Add(Format('',[]));
+
+          SectionB.Add(Format('{$IFOPT D+}',[]));
+          SectionB.Add(Format('class operator %s./(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+          SectionB.Add(Format('begin',[]));
+          SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FBase)]));
           SectionB.Add(Format('  result.FValue := AValue.FValue;',[]));
           SectionB.Add(Format('end;',[]));
           SectionB.Add(Format('{$ENDIF}',[]));
           SectionB.Add(Format('',[]));
         end else
         begin
-          SectionA.Append('type');
+          SectionA.Add(Format('type', []));
           SectionA.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
           SectionA.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+          SectionA.Add(Format('    class operator /(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
           SectionA.Add(Format('  {$IFOPT D+}',[]));
           SectionA.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
+          SectionA.Add(Format('    class operator /(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
           SectionA.Add(Format('  {$ENDIF}',[]));
           SectionA.Add(Format('  end;',[]));
           SectionA.Add(Format('',[]));
@@ -334,7 +376,18 @@ begin
           SectionB.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
           SectionB.Add(Format('begin',[]));
           SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := %s;',[GetUnitIndex(FList[i].FBase)]));
+          SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
+          SectionB.Add(Format('  result.FValue := AValue * %s;',[FList[i].FFactor]));
+          SectionB.Add(Format('{$ELSE}',[]));
+          SectionB.Add(Format('  result := AValue * %s;', [FList[i].FFactor]));
+          SectionB.Add(Format('{$ENDIF}',[]));
+          SectionB.Add(Format('end;',[]));
+          SectionB.Add(Format('',[]));
+
+          SectionB.Add(Format('class operator %s./(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+          SectionB.Add(Format('begin',[]));
+          SectionB.Add(Format('{$IFOPT D+}',[]));
+          SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
           SectionB.Add(Format('  result.FValue := AValue * %s;',[FList[i].FFactor]));
           SectionB.Add(Format('{$ELSE}',[]));
           SectionB.Add(Format('  result := AValue * %s;', [FList[i].FFactor]));
@@ -345,7 +398,16 @@ begin
           SectionB.Add(Format('{$IFOPT D+}',[]));
           SectionB.Add(Format('class operator %s.*(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
           SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := %s;',[GetUnitIndex(FList[i].FBase)]));
+          SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
+          SectionB.Add(Format('  result.FValue := AValue.FValue * %s;',[FList[i].FFactor]));
+          SectionB.Add(Format('end;',[]));
+          SectionB.Add(Format('{$ENDIF}',[]));
+          SectionB.Add(Format('',[]));
+
+          SectionB.Add(Format('{$IFOPT D+}',[]));
+          SectionB.Add(Format('class operator %s./(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
+          SectionB.Add(Format('begin',[]));
+          SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
           SectionB.Add(Format('  result.FValue := AValue.FValue * %s;',[FList[i].FFactor]));
           SectionB.Add(Format('end;',[]));
           SectionB.Add(Format('{$ENDIF}',[]));
@@ -362,9 +424,19 @@ begin
   ASection.Add('  %s       = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
   ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
   ASection.Add('');
+
   ASection.Add('const');
-  ASection.Add('  %s  : TPrefixes  = (%s);', [GetPrefixesConst(AItem.FQuantity), GetPrefixes(AItem.FShortString)]);
-  ASection.Add('  %s : TExponents = (%s);', [GetExponentsConst(AItem.FQuantity), GetExponents(AItem.FShortString)]);
+  ASection.Add('  %s                       = (%d);', [GetUnitIndex(AItem.FQuantity), AItem.FReserved]);
+
+  if AItem.FBase = '' then
+  begin
+    ASection.Add('  %s  : TPrefixes  = (%s);', [GetPrefixesConst(AItem.FQuantity), GetPrefixes(AItem.FShortString)]);
+    ASection.Add('  %s : TExponents = (%s);', [GetExponentsConst(AItem.FQuantity), GetExponents(AItem.FShortString)]);
+  end else
+  begin
+    ASection.Add('  %s  : TPrefixes  = (%s);', [GetPrefixesConst(AItem.FQuantity), GetPrefixes(AItem.FShortString)]);
+    ASection.Add('  %s : TExponents = (%s);', [GetExponentsConst(AItem.FQuantity), GetExponents(AItem.FShortString)]);
+  end;
   ASection.Add('');
 end;
 
@@ -404,7 +476,7 @@ begin
         if (Pos('%s', AItem.FFactor) = 0) then
         begin
           ASection.Append('const');
-          ASection.Add(Format('  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %s; FValue: %s); {$ELSE} %s; {$ENDIF}', [AItem.FIdentifier, GetUnitIndex(AItem.FBase), AItem.FFactor, AItem.FFactor]));
+          ASection.Add(Format('  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %s; FValue: %s); {$ELSE} (%s); {$ENDIF}', [AItem.FIdentifier, GetUnitIndex(AItem.FBase), AItem.FFactor, AItem.FFactor]));
           ASection.Append('');
           if (Pos('S', AItem.FPrefixes) > 0) or
              (Pos('L', AItem.FPrefixes) > 0) then
@@ -439,7 +511,7 @@ var
   Str: string;
   Factor: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %s; FValue: %s); {$ELSE} %s; {$ENDIF}';
+  Str := '  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %s; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AFactor <> '' then
@@ -561,8 +633,6 @@ procedure TToolKitBuilder.Run;
 var
   I, J, K: longint;
   Line: string;
-  Stream: TResourceStream;
-  S: string;
   Table: array of array of longint;
   Dim1: TExponents;
   Dim2: TExponents;
@@ -595,8 +665,6 @@ begin
   SectionB9  := TStringList.Create;
   SectionB10 := TStringList.Create;
 
-  MyList := TIntegerList.Create;
-
   BaseUnitCount     := 0;
   FactoredUnitCount := 0;
   ExternalOperators := 0;
@@ -612,11 +680,7 @@ begin
   SectionA2.Append('');
   SectionA2.Append('');
 
-  AddUnitIDs(SectionA2);
-
-
   SectionA2.Append('type');
-  SectionA2.Append('');
   SectionA2.Append('  { Prefix }');
   SectionA2.Append('');
   SectionA2.Append('  TPrefix = (pQuetta, pRonna, pYotta, pZetta, pExa, pPeta, pTera, pGiga, pMega, pKilo, pHecto, pDeca, ');
@@ -641,7 +705,6 @@ begin
   SectionA2.Append('    FUnitOfMeasurement: longint;');
   SectionA2.Append('    FValue: double;');
   SectionA2.Append('  public');
-  SectionA2.Append('    class operator Copy(constref ASrc: TQuantity; var ADst: TQuantity); inline;');
   SectionA2.Append('    class operator +(const ALeft, ARight: TQuantity): TQuantity; inline;');
   SectionA2.Append('    class operator -(const ALeft, ARight: TQuantity): TQuantity; inline;');
   SectionA2.Append('    class operator *(const ALeft, ARight: TQuantity): TQuantity; inline;');
@@ -655,95 +718,180 @@ begin
   SectionA2.Append('  {$ENDIF}');
   SectionA2.Append('');
 
-
   AddBaseUnits(SectionA3, SectionB3);
 
+  SectionA3.Append('const');
+  SectionA3.Append('  AvogadroConstant               : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cReciprocalMole;                     FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}');
+  SectionA3.Append('  BohrMagneton                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cSquareMeterAmpere;                  FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}');
+  SectionA3.Append('  BohrRadius                     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeter;                              FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}');
+  SectionA3.Append('  BoltzmannConstant              : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cJoulePerKelvin;                     FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}');
+  SectionA3.Append('  ComptonWaveLength              : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeter;                              FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}');
+  SectionA3.Append('  CoulombConstant                : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareCoulomb;  FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}');
+  SectionA3.Append('  DeuteronMass                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}');
+  SectionA3.Append('  ElectricPermittivity           : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cFaradPerMeter;                      FValue:     8.8541878128E-12); {$ELSE} (    8.8541878128E-12); {$ENDIF}');
+  SectionA3.Append('  ElectronMass                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}');
+  SectionA3.Append('  ElectronCharge                 : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cCoulomb;                            FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}');
+  SectionA3.Append('  MagneticPermeability           : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cHenryPerMeter;                      FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}');
+  SectionA3.Append('  MolarGasConstant               : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cJoulePerMolePerKelvin;              FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}');
+  SectionA3.Append('  NeutronMass                    : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}');
+  SectionA3.Append('  NewtonianConstantOfGravitation : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareKilogram; FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}');
+  SectionA3.Append('  PlanckConstant                 : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}');
+  SectionA3.Append('  ProtonMass                     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}');
+  SectionA3.Append('  RydbergConstant                : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cReciprocalMeter;                    FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}');
+  SectionA3.Append('  SpeedOfLight                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeterPerSecond;                     FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}');
+  SectionA3.Append('  SquaredSpeedOfLight            : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cSquareMeterPerSquareSecond;         FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}');
+  SectionA3.Append('  StandardAccelerationOfGravity  : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeterPerSquareSecond;               FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}');
+  SectionA3.Append('  ReducedPlanckConstant          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}');
+  SectionA3.Append('  UnifiedAtomicMassUnit          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}');
+  SectionA3.Append('');
+
+  SectionA3.Append('const');
+  SectionA3.Append('  PrefixTable: array[pQuetta..pQuecto] of');
+  SectionA3.Append('    record  Symbol, Name: string; Exponent: longint end = (');
+  SectionA3.Append('    (Symbol: ''Q'';   Name: ''quetta'';  Exponent: +30),');
+  SectionA3.Append('    (Symbol: ''R'';   Name: ''ronna'';   Exponent: +27),');
+  SectionA3.Append('    (Symbol: ''Y'';   Name: ''yotta'';   Exponent: +24),');
+  SectionA3.Append('    (Symbol: ''Z'';   Name: ''zetta'';   Exponent: +21),');
+  SectionA3.Append('    (Symbol: ''E'';   Name: ''exa'';     Exponent: +18),');
+  SectionA3.Append('    (Symbol: ''P'';   Name: ''peta'';    Exponent: +15),');
+  SectionA3.Append('    (Symbol: ''T'';   Name: ''tera'';    Exponent: +12),');
+  SectionA3.Append('    (Symbol: ''G'';   Name: ''giga'';    Exponent: +09),');
+  SectionA3.Append('    (Symbol: ''M'';   Name: ''mega'';    Exponent: +06),');
+  SectionA3.Append('    (Symbol: ''k'';   Name: ''kilo'';    Exponent: +03),');
+  SectionA3.Append('    (Symbol: ''h'';   Name: ''hecto'';   Exponent: +02),');
+  SectionA3.Append('    (Symbol: ''da'';  Name: ''deca'';    Exponent: +01),');
+  SectionA3.Append('    (Symbol: '''';    Name: '''';        Exponent:  00),');
+  SectionA3.Append('    (Symbol: ''d'';   Name: ''deci'';    Exponent: -01),');
+  SectionA3.Append('    (Symbol: ''c'';   Name: ''centi'';   Exponent: -02),');
+  SectionA3.Append('    (Symbol: ''m'';   Name: ''milli'';   Exponent: -03),');
+  SectionA3.Append('    (Symbol: ''μ'';   Name: ''micro'';   Exponent: -06),');
+  SectionA3.Append('    (Symbol: ''n'';   Name: ''nano'';    Exponent: -09),');
+  SectionA3.Append('    (Symbol: ''p'';   Name: ''pico'';    Exponent: -12),');
+  SectionA3.Append('    (Symbol: ''f'';   Name: ''femto'';   Exponent: -15),');
+  SectionA3.Append('    (Symbol: ''a'';   Name: ''atto'';    Exponent: -18),');
+  SectionA3.Append('    (Symbol: ''z'';   Name: ''zepto'';   Exponent: -21),');
+  SectionA3.Append('    (Symbol: ''y'';   Name: ''yocto'';   Exponent: -24),');
+  SectionA3.Append('    (Symbol: ''r'';   Name: ''ronto'';   Exponent: -27),');
+  SectionA3.Append('    (Symbol: ''q'';   Name: ''quecto'';  Exponent: -30)');
+  SectionA3.Append('  );');
+  SectionA3.Append('');
 
 
-  SectionB2.Append('');
   SectionB2.Append('implementation');
-
   SectionB2.Append('');
+  SectionB2.Append('uses');
+  SectionB2.Append('  Math;');
+  SectionB2.Append('');
+
+  for i := 0 to FList.Count -1 do
+  begin
+    if FList[i].FBase = '' then
+    begin
+      Inc(BaseUnitCount);
+    end else
+    begin
+      Inc(FactoredUnitCount);
+    end;
+    FList[i].FExponents := GetDimensions(FList[i].FDimension);
+    FList[i].FReserved  := i;
+  end;
+
+  SetLength(Table, BaseUnitCount);
+  for i := Low(Table) to High(Table) do
+    SetLength(Table[i], BaseUnitCount);
+
   SectionB2.Append('const');
   SectionB2.Append('');
   SectionB2.Append('  { Mul Table }');
   SectionB2.Append('');
-  SectionB2.Append(Format('  MulTable : array[0..%d, 0..%d] of longint = (', [BaseUnitCount, BaseUnitCount]));
+  SectionB2.Append(Format('  MulTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
 
+  for i := 0 to FList.Count -1 do
+  begin
+    if FList[i].FBase = '' then
+    begin
+      Clear(Dim1);
+      Dim1 := FList[i].FExponents;
+      Line := '    (';
+      for j := 0 to FList.Count -1 do
+      begin
+        if FList[j].FBase = '' then
+        begin
+          Clear(Dim2);
+          Dim2 := FList[j].FExponents;
+
+          K := FList.Search(SumDim(Dim1, Dim2));
+          if K <> -1 then
+            Line := Line + K.ToString + ', '
+          else
+            Line := Line +  '-1, '
+        end;
+      end;
+
+      if i = (FList.Count - 1) then
+      begin
+        Line[High(Line) -1] := ')';
+        Line[High(Line)   ] := ' ';
+      end else
+      begin
+        Line[High(Line) -1] := ')';
+        Line[High(Line)   ] := ',';
+      end;
+      SectionB2.Append(Line);
+    end;
+  end;
+  for i := Low(Table) to High(Table) do Table[i] := nil;
   Table := nil;
+  SectionB2.Append('  );');
+  SectionB2.Append('');
+
+
   SetLength(Table, BaseUnitCount);
   for i := Low(Table) to High(Table) do
     SetLength(Table[i], BaseUnitCount);
 
-  for i := 0 to MyList.Count -1 do
-  begin
-    Clear(Dim1);
-    if MyList[i] <> -1 then
-      Dim1 := FList[MyList[i]].FExponents;
-
-    Line := '    (';
-    for j := 0 to MyList.Count -1 do
-    begin
-      Clear(Dim2);
-      if MyList[j] <> -1 then
-        Dim2 := FList[MyList[j]].FExponents;
-
-      Line := Line +  GetUnitIndex(FList[FList.Search(SumDim(Dim1, Dim2))].FQuantity) + ', ';
-    end;
-
-    if i = (MyList.Count - 1) then
-    begin
-      Line[High(Line) -1] := ')';
-      Line[High(Line)   ] := ' ';
-    end else
-    begin
-      Line[High(Line) -1] := ')';
-      Line[High(Line)   ] := ',';
-    end;
-    SectionB2.Append(Line);
-  end;
-  SectionB2.Append('  );');
-
-
-  SectionB2.Append('');
   SectionB2.Append('  { Div Table }');
   SectionB2.Append('');
-  SectionB2.Append(Format('  DivTable : array[0..%d, 0..%d] of longint = (', [BaseUnitCount, BaseUnitCount]));
+  SectionB2.Append(Format('  DivTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
 
-  Table := nil;
-  SetLength(Table, BaseUnitCount);
-  for i := Low(Table) to High(Table) do
-    SetLength(Table[i], BaseUnitCount);
-
-  for i := 0 to MyList.Count -1 do
+  for i := 0 to FList.Count -1 do
   begin
-    Clear(Dim1);
-    if MyList[i] <> -1 then
-      Dim1 := FList[MyList[i]].FExponents;
+    if FList[i].FBase = '' then
+    begin
+      Clear(Dim1);
+      Dim1 := FList[i].FExponents;
+      Line := '    (';
+      for j := 0 to FList.Count -1 do
+      begin
+        if FList[j].FBase = '' then
+        begin
+          Clear(Dim2);
+          Dim2 := FList[j].FExponents;
 
-    Line := '    (';
-    for j := 0 to MyList.Count -1 do
-    begin
-      Clear(Dim2);
-      if MyList[j] <> -1 then
-        Dim2 := FList[MyList[j]].FExponents;
-      Line := Line +  GetUnitIndex(FList[FList.Search(SubDim(Dim1, Dim2))].FQuantity) + ', ';
-    end;
+          K := FList.Search(SubDim(Dim1, Dim2));
+          if K <> -1 then
+            Line := Line + K.ToString + ', '
+          else
+            Line := Line +  '-1, '
+        end;
+      end;
 
-    if i = (MyList.Count - 1) then
-    begin
-      Line[High(Line) -1] := ')';
-      Line[High(Line)   ] := ' ';
-    end else
-    begin
-      Line[High(Line) -1] := ')';
-      Line[High(Line)   ] := ',';
+      if i = (FList.Count - 1) then
+      begin
+        Line[High(Line) -1] := ')';
+        Line[High(Line)   ] := ' ';
+      end else
+      begin
+        Line[High(Line) -1] := ')';
+        Line[High(Line)   ] := ',';
+      end;
+      SectionB2.Append(Line);
     end;
-    SectionB2.Append(Line);
   end;
+  for i := Low(Table) to High(Table) do Table[i] := nil;
+  Table := nil;
   SectionB2.Append('  );');
   SectionB2.Append('');
-  MyList.Destroy;
 
 
 
@@ -762,7 +910,6 @@ begin
   SectionB2.Append('end;');
   SectionB2.Append('');
 
-
   SectionB2.Append('function GetName(const AName: string; const Prefixes: TPrefixes): string;');
   SectionB2.Append('var');
   SectionB2.Append('  PrefixCount: longint;');
@@ -777,6 +924,37 @@ begin
   SectionB2.Append('  end;');
   SectionB2.Append('end;');
   SectionB2.Append('');
+
+
+  SectionB2.Append('function GetValue(const AValue: double; const APrefixes, ABasePrefixes: TPrefixes; const AExponents, ABaseExponents: TExponents): double;');
+  SectionB2.Append('var');
+  SectionB2.Append('  I: longint;');
+  SectionB2.Append('  Exponent: longint;');
+  SectionB2.Append('  PrefixCount: longint;');
+  SectionB2.Append('begin');
+  SectionB2.Append('  PrefixCount := Length(APrefixes);');
+  SectionB2.Append('  if PrefixCount = Length(ABasePrefixes) then');
+  SectionB2.Append('  begin');
+  SectionB2.Append('    Exponent := 0;');
+  SectionB2.Append('    for I := 0 to PrefixCount -1 do');
+  SectionB2.Append('      Inc(Exponent, PrefixTable[ABasePrefixes[I]].Exponent * ABaseExponents[I]);');
+  SectionB2.Append('');
+  SectionB2.Append('    for I := 0 to PrefixCount -1 do');
+  SectionB2.Append('      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * ABaseExponents[I]);');
+  SectionB2.Append('');
+  SectionB2.Append('    if Exponent <> 0 then');
+  SectionB2.Append('      result := AValue * IntPower(10, Exponent)');
+  SectionB2.Append('    else');
+  SectionB2.Append('      result := AValue;');
+  SectionB2.Append('  end else');
+  SectionB2.Append('    if PrefixCount = 0 then');
+  SectionB2.Append('      result := AValue');
+  SectionB2.Append('    else');
+  SectionB2.Append('      raise Exception.Create(''Wrong number of prefixes.'');');
+  SectionB2.Append('end;');
+  SectionB2.Append('');
+
+
 
   SectionB2.Append('{$IFOPT D+}');
   SectionB2.Append('class operator TQuantity.+(const ALeft, ARight: TQuantity): TQuantity;');
@@ -803,13 +981,6 @@ begin
   SectionB2.Append('begin');
   SectionB2.Append('  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];');
   SectionB2.Append('  result.FValue := ALeft.FValue / ARight.FValue;');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
-  SectionB2.Append('class operator TQuantity.Copy(constref ASrc: TQuantity; var ADst: TQuantity);');
-  SectionB2.Append('begin');
-  SectionB2.Append('  if ASrc.FUnitOfMeasurement <> ADst.FUnitOfMeasurement then');
-  SectionB2.Append('    raise Exception.Create(''Assignment operator (:=) has detected wrong unit of measurements.'');');
-  SectionB2.Append('  ADst.FValue := ASrc.FValue;');
   SectionB2.Append('end;');
   SectionB2.Append('');
   SectionB2.Append('class operator TQuantity.*(const ALeft: double; const ARight: TQuantity): TQuantity;');
@@ -868,8 +1039,10 @@ begin
       SectionB8.Add(Format('{$IFOPT D+}',[]));
       SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
       SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('{$ENDIF}', []));
       SectionB8.Add(Format('  result := FloatToStr(AValue.FValue) + '' '' + GetSymbol(%s, %s);', [GetSymbolResourceString(FList[i].FQuantity), GetPrefixesConst(FList[i].FQuantity)]));
+      SectionB8.Add(Format('{$ELSE}', []));
+      SectionB8.Add(Format('  result := FloatToStr(AValue) + '' '' + GetSymbol(%s, %s);', [GetSymbolResourceString(FList[i].FQuantity), GetPrefixesConst(FList[i].FQuantity)]));
+      SectionB8.Add(Format('{$ENDIF}', []));
       SectionB8.Add(Format('end;',[]));
       SectionB8.Add(Format('',[]));
 
@@ -881,9 +1054,9 @@ begin
       SectionB8.Add(Format('{$IFOPT D+}',[]));
       SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
       SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('  FactoredValue := Value(APrefixes);', []));
+      SectionB8.Add(Format('  FactoredValue := GetValue(AValue.FValue, APrefixes, %s, %s, %s);', [GetPrefixesConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity)]));
       SectionB8.Add(Format('{$ELSE}', []));
-      SectionB8.Add(Format('  FactoredValue := Value(APrefixes);', []));
+      SectionB8.Add(Format('  FactoredValue := GetValue(AValue, APrefixes, %s, %s, %s);', [GetPrefixesConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity)]));
       SectionB8.Add(Format('{$ENDIF}', []));
       SectionB8.Add(Format('  if Length(APrefixes) = 0 then', []));
       SectionB8.Add(Format('    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(%s, %s)', [GetSymbolResourceString(FList[i].FQuantity), GetPrefixesConst(FList[i].FQuantity)]));
@@ -895,6 +1068,17 @@ begin
       // %sToVerboseString
       SectionA8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
       SectionB8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('begin',[]));
+      SectionB8.Add(Format('{$IFOPT D+}',[]));
+      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
+      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
+      SectionB8.Add(Format('{$ENDIF}', []));
+      SectionB8.Add(Format('  result := '''';', []));
+      SectionB8.Add(Format('end;',[]));
+      SectionB8.Add(Format('',[]));
+
+      SectionA8.Add(Format('function %sToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
       SectionB8.Add(Format('begin',[]));
       SectionB8.Add(Format('{$IFOPT D+}',[]));
       SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
@@ -916,6 +1100,7 @@ begin
       SectionB8.Add(Format('',[]));
     end else
     begin
+      // %sToString
       SectionA8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
       SectionB8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
       SectionB8.Add(Format('begin',[]));
@@ -927,8 +1112,39 @@ begin
       SectionB8.Add(Format('end;',[]));
       SectionB8.Add(Format('',[]));
 
-      SectionA8.Add(Format('function %sVerboseToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sVerboseToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionA8.Add(Format('function %sToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('var',[]));
+      SectionB8.Add(Format('  FactoredValue: double;',[]));
+      SectionB8.Add(Format('begin',[]));
+      SectionB8.Add(Format('{$IFOPT D+}',[]));
+      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
+      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
+      SectionB8.Add(Format('  FactoredValue := GetValue(AValue.FValue, APrefixes, %s, %s, %s);', [GetPrefixesConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity)]));
+      SectionB8.Add(Format('{$ELSE}', []));
+      SectionB8.Add(Format('  FactoredValue := GetValue(AValue, APrefixes, %s, %s, %s);', [GetPrefixesConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity)]));
+      SectionB8.Add(Format('{$ENDIF}', []));
+      SectionB8.Add(Format('  if Length(APrefixes) = 0 then', []));
+      SectionB8.Add(Format('    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(%s, %s)', [GetSymbolResourceString(FList[i].FQuantity), GetPrefixesConst(FList[i].FQuantity)]));
+      SectionB8.Add(Format('  else', []));
+      SectionB8.Add(Format('    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(%s, APrefixes);', [GetSymbolResourceString(FList[i].FQuantity)]));
+      SectionB8.Add(Format('end;',[]));
+      SectionB8.Add(Format('',[]));
+
+      // %sToVerboseString
+      SectionA8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('begin',[]));
+      SectionB8.Add(Format('{$IFOPT D+}',[]));
+      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
+      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
+      SectionB8.Add(Format('{$ENDIF}', []));
+      SectionB8.Add(Format('  result := '''';', []));
+      SectionB8.Add(Format('end;',[]));
+      SectionB8.Add(Format('',[]));
+
+      SectionA8.Add(Format('function %sToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
+      SectionB8.Add(Format('function %sToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
       SectionB8.Add(Format('begin',[]));
       SectionB8.Add(Format('{$IFOPT D+}',[]));
       SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
@@ -1190,7 +1406,7 @@ begin
          (Item.FExponents[7] = ADim[7]) then Exit(i);
     end;
   end;
-  result := 0;
+  result := -1;
 end;
 
 function TToolKitList.SearchFromEnd(const ADim: TExponents): longint;
@@ -1212,7 +1428,7 @@ begin
          (Item.FExponents[7] = ADim[7]) then Exit(i);
     end;
   end;
-  result := 0;
+  result := -1;
 end;
 
 procedure TToolKitList.SaveToFile(const AFileName: string);

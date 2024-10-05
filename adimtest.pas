@@ -27,7 +27,8 @@ uses
   ADimRT, Math, SysUtils;
 
 var
-  side1, side2, side3, side4: TQuantity;
+  side1: TQuantity;
+  side2, side3, side4: TQuantity;
   area: TQuantity;
   volume: TQuantity;
   hypervolume: TQuantity;
@@ -184,7 +185,7 @@ var
 begin
   ExitCode := 0;
   DefaultFormatSettings.DecimalSeparator := '.';
-  writeln('ADIM-TEST STARTING ...');
+  writeln('ADim TEST STARTING ...');
 
   // TEST-00 - AREA
   side1 := 10*m;
@@ -234,9 +235,9 @@ begin
   speed    := distance/time;
   time     := distance/speed;
   distance := speed*time;
-  if MeterPerHourToString(speed).ToVerboseString(5, 0, [pKilo]) <> '10 kilometers per hour' then halt(1);
-  if time    .ToHour        .ToVerboseString                <> '2 hours'                then halt(2);
-  if distance               .ToVerboseString(5, 0, [pKilo]) <> '20 kilometers'          then halt(3);
+  if MeterPerHourToVerboseString(speed, 5, 0, [pKilo]) <> '10 kilometers per hour' then halt(1);
+  if HourToVerboseString(time)                         <> '2 hours'                then halt(2);
+  if MeterToVerboseString(distance, 5, 0, [pKilo])     <> '20 kilometers'          then halt(3);
   writeln('* TEST-03: PASSED');
 
   // TEST-04 - ACCELERATION
@@ -245,10 +246,10 @@ begin
   acc   := speed/time;
   time  := speed/acc;
   speed := acc*time;
-  if speed.ToMeterPerHour         .ToVerboseString(5, 0, [pKilo       ]) <> '100 kilometers per hour'           then halt(1);
-  if time                         .ToVerboseString(5, 0, [            ]) <> '5 seconds'                         then halt(2);
-  if acc  .ToMeterPerHourPerSecond.ToVerboseString(5, 0, [pKilo, pNone]) <> '20 kilometers per hour per second' then halt(3);
-  if acc                          .ToVerboseString(5, 0, [            ]) <> '5.5556 meters per second squared'  then halt(4);
+  if MeterPerHourToVerboseString         (speed, 5, 0, [pKilo       ]) <> '100 kilometers per hour'           then halt(1);
+  if SecondToVerboseString               (time,  5, 0, [            ]) <> '5 seconds'                         then halt(2);
+  if MeterPerHourPerSecondToVerboseString(acc,   5, 0, [pKilo, pNone]) <> '20 kilometers per hour per second' then halt(3);
+  if MeterPerSquareSecondToVerboseString (acc,   5, 0, [            ]) <> '5.5556 meters per second squared'  then halt(4);
   writeln('* TEST-04: PASSED');
 
   // TEST-05 - FORCE
@@ -257,9 +258,9 @@ begin
   force := mass*acc;
   mass  := force/acc;
   acc   := force/mass;
-  if mass .ToVerboseString(5, 0, []) <> '5 kilograms' then halt(1);
-  if acc  .ToString       (5, 0, []) <> '10 m/s2'     then halt(2);
-  if force.ToVerboseString(5, 0, []) <> '50 newtons'  then halt(3);
+  if KilogramToVerboseString     (mass,  5, 0, []) <> '5 kilograms' then halt(1);
+  if MeterPerSquareSecondToString(acc,   5, 0, []) <> '10 m/s2'     then halt(2);
+  if NewtonToVerboseString       (force, 5, 0, []) <> '50 newtons'  then halt(3);
   writeln('* TEST-05: PASSED');
 
   // TEST-06 - ANGULAR SPEED
@@ -269,8 +270,8 @@ begin
   radius       := 2*m;
   speed        := angularspeed*radius;
   angularspeed := speed/radius;
-  if angularspeed.ToRadianPerSecond.ToVerboseString(5, 1, []) <> '2.5 radians per second' then halt(1);
-  if speed                         .ToVerboseString(5, 1, []) <> '5 meters per second'    then halt(2);
+  if RadianPerSecondToVerboseString(angularspeed, 5, 1, []) <> '2.5 radians per second' then halt(1);
+  if MeterPerSecondToVerboseString (speed,        5, 1, []) <> '5 meters per second'    then halt(2);
   writeln('* TEST-06: PASSED');
 
   // TEST-07 - CENTRIFUGAL FORCE
@@ -280,9 +281,9 @@ begin
   speed        := angularspeed*radius;
   acc          := (angularspeed*angularspeed)*radius;
   force        := mass*acc;
-  if speed.ToString(5, 0, []) <> '20 m/s'  then halt(1);
-  if acc  .ToString(5, 0, []) <> '40 m/s2' then halt(2);
-  if force.ToString(5, 0, []) <> '40 N'    then halt(3);
+  if MeterPerSecondToString      (speed, 5, 0, []) <> '20 m/s'  then halt(1);
+  if MeterPerSquareSecondToString(acc,   5, 0, []) <> '40 m/s2' then halt(2);
+  if NewtonToString              (force, 5, 0, []) <> '40 N'    then halt(3);
   writeln('* TEST-07: PASSED');
 
   // TEST-08 - CENTRIPETAL FORCE

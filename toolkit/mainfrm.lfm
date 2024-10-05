@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 819
+  Left = 662
   Height = 801
-  Top = 300
+  Top = 299
   Width = 1452
   Caption = 'ADimPas Toolkit-v2'
   ClientHeight = 801
@@ -22,11 +22,11 @@ object MainForm: TMainForm
     Height = 747
     Top = 54
     Width = 1452
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 10
     ParentFont = False
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Unit of measurement'

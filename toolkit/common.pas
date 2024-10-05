@@ -106,7 +106,7 @@ function IsAVector(const AClassName: string): boolean;
 implementation
 
 uses
-  StrUtils;
+  StrUtils, Types;
 
 function IsASpecialKey(const AKey: string): boolean;
 begin
@@ -402,7 +402,7 @@ begin
   Result := StringReplace(Result, '?',  '', [rfReplaceAll]);
   Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
   Result := StringReplace(Result, 'T' + VECPrefix, 'T', [rfReplaceAll]);
-  Result[1] := 'u';
+  Result[1] := 'c';
 
   if Result = 'double' then Result := '';
   if Result <> ''      then Result := Result;
@@ -423,39 +423,57 @@ begin
   if Result <> ''      then Result := Result;
 end;
 
-
-function GetExponent(const S, Key: string): double;
-var
-  i, j: longint;
-begin
-  i := Pos(Key, S);
-  if i <> 0 then
-  begin
-    i := i + Length(Key);
-    j := i;
-    while (j < Length(S)) and (S[j] <> ' ') do
-    begin
-      Inc(j);
-    end;
-
-    if j > i then
-    begin
-      if TryStrToFloat(Copy(S, i, j - i), result) then Exit;
-    end else
-      Exit(1);
-  end;
-  result := 0;
-end;
-
 function GetDimensions(const S: string): TExponents;
+var
+  i: longint;
+  List1: TStringList;
+  List2: TStringDynArray;
+  R: string;
+
+  function GetExponent(const AKey: string): double;
+  var
+    i: longint;
+  begin
+    i := 0;
+    while i < List1.Count do
+    begin
+      if Pos(AKey, List1[i]) <> 0 then
+      begin
+        R := List1[i];
+        Delete(R, 1, Length(AKey));
+
+        if Length(R) = 0 then
+        begin
+          List1.Delete(i);
+          Exit(1.0)
+        end else
+          if TryStrTofloat(R, result) then
+          begin
+            List1.Delete(i);
+            Exit(result);
+          end;
+      end;
+      Inc(i);
+    end;
+    result := 0;
+  end;
+
 begin
-  result[1] := GetExponent(S,  'kg');
-  result[2] := GetExponent(S,   'm');
-  result[3] := GetExponent(S,   's');
-  result[4] := GetExponent(S,   'A');
-  result[5] := GetExponent(S, 'mol');
-  result[6] := GetExponent(S,  'cd');
-  result[7] := GetExponent(S,   'K');
+  List1 := TStringList.Create;
+  List2 := SplitString(S, ' ');
+  for i := Low(List2) to High(List2) do
+  begin
+    List1.Add(List2[i]);
+  end;
+  List2 := nil;
+  result[7] := GetExponent(  'K');
+  result[6] := GetExponent( 'cd');
+  result[5] := GetExponent('mol');
+  result[4] := GetExponent(  'A');
+  result[3] := GetExponent(  's');
+  result[2] := GetExponent(  'm');
+  result[1] := GetExponent( 'kg');
+  List1.Destroy;
 end;
 
 function SumDim(const ADim1, ADim2: TExponents): TExponents;
@@ -589,11 +607,8 @@ begin
   end;
   S := nil;
 
-  while (Length(Result) > 0) and (Result[Low (Result)] = ' ') do
-    Delete(Result, Low (Result), 1);
-
-  while (Length(Result) > 0) and (Result[High(Result)] = ',') do
-    Delete(Result, High(Result), 1);
+  while (Length(Result) > 0) and (Result[Low (Result)] = ' ') do Delete(Result, Low (Result), 1);
+  while (Length(Result) > 0) and (Result[High(Result)] = ',') do Delete(Result, High(Result), 1);
 end;
 
 function CleanDoubleSpaces(const S: string): string;

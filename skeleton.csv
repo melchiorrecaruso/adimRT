@@ -1,3 +1,8 @@
+;TScalar;;;;;;;;;clLime
+;TRadian?;rad;radian?;rad;rad;TScalar;;;;clWhite
+;TDegree?;;degree?;deg;deg;TScalar;Pi/180;;;clWhite
+;TSteradian?;sr;steradian?;sr;sr;TScalar;;;;clWhite
+;TSquareDegree?;;square degree?;deg2;deg2;TScalar;Pi*Pi/32400;;;clWhite
 ;TSecond?;s;%ssecond?;%ss;s;;;------------SSSSSS------;;clLime
 ;TDay?;;day?;d;day;TSecond?;86400;;;clWhite
 ;THour?;;hour?;h;hr;TSecond?;3600;;;clWhite
@@ -51,10 +56,6 @@
 ;TQuarticKelvin?;K4;quartic %skelvin?;%sK4;K4;;;;;clLime
 ;TMole?;mol;%smole?;%smol;mol;;;---------SSS------------;;clLime
 ;TCandela?;cd;%scandela?;%scd;cd;;;;;clLime
-;TRadian?;rad;radian?;rad;rad;;;;;clLime
-;TDegree?;;degree?;deg;deg;TRadian?;Pi/180;;;clWhite
-;TSteradian?;sr;steradian?;sr;sr;;;;;clLime
-;TSquareDegree?;;square degree?;deg2;deg2;TSteradian?;Pi*Pi/32400;;;clWhite
 ;THertz;s-1;%shertz;%sHz;Hz;;;------SSSS--------------;;clLime
 ;TReciprocalSecond?;;reciprocal %ssecond?;1/%ss;;THertz;;;;clWhite
 ;TRadian?PerSecond;;radian? per %ssecond;rad/%ss;;THertz;;;;clWhite
