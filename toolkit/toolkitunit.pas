@@ -134,6 +134,9 @@ type
     procedure AddUnitSymbols(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredSymbols(const AIdentifier, ABase, AFactor, APrefixes: string; const SectionA: TStringList);
 
+    procedure AddPowerTable(const Section: TStringList);
+    procedure AddRootTable(const Section: TStringList);
+
     procedure Add(const AItem: TToolkitItem);
     procedure Run;
   public
@@ -624,6 +627,66 @@ begin
   LocList.Destroy;
 end;
 
+
+procedure TToolKitBuilder.AddPowerTable(const Section: TStringList);
+var
+  i, j: longint;
+  D1, D2, D3, D4, D5, D6: TExponents;
+  S: string;
+begin
+  Section.Add(Format('const', []));
+  Section.Add(Format('  PowerTable: = array[0..%d] of', [BaseUnitCount]));
+  Section.Add(Format('    record  Square, Cubic, Quartic, Quintic, Sextic: longint; end = (', []));
+
+  for i := 0 to FList.Count -1 do
+  begin
+    D1 := GetDimensions(FList[i].FDimension);
+
+    for j := Low(D1) to High(D1) do D2[j] := 2 * D1[j];
+    for j := Low(D1) to High(D1) do D3[j] := 3 * D1[j];
+    for j := Low(D1) to High(D1) do D4[j] := 4 * D1[j];
+    for j := Low(D1) to High(D1) do D5[j] := 5 * D1[j];
+    for j := Low(D1) to High(D1) do D6[j] := 6 * D1[j];
+
+    S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),',
+      [FList.Search(D2), FList.Search(D3), FList.Search(D4), FList.Search(D5), FList.Search(D6)]);
+
+    if i = FList.Count -1 then
+    begin
+      SetLength(S, Length(S) -1);
+    end;
+    Section.Add(S);
+  end;
+
+  Section.Add(Format('  );', []));
+  Section.Add(Format('', []));
+end;
+
+procedure TToolKitBuilder.AddRootTable(const Section: TStringList);
+var
+  i, j, k: longint;
+  Exponent: longint;
+  D1, D2: TExponents;
+begin
+  for i := 0 to FList.Count -1 do
+
+  begin
+    D1 := GetDimensions(FList[i].FDimension);
+
+    for Exponent := 2 to 10 do
+    begin
+      for j := Low(D1) to High(D1) do D2[j] := Exponent * D1[j];
+
+      k := FList.Search(D2);
+      if k <> -1 then
+      begin
+      end;
+
+    end;
+
+  end;
+end;
+
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
 begin
   FList.Add(AItem);
@@ -695,7 +758,7 @@ begin
   SectionA2.Append('  TExponents = array of longint;');
   SectionA2.Append('');
 
-
+  SectionA2.Append('type');
   SectionA2.Append('{ TQuantity }');
   SectionA2.Append('');
   SectionA2.Append('type');
@@ -893,6 +956,8 @@ begin
   SectionB2.Append('  );');
   SectionB2.Append('');
 
+
+  AddPowerTable(SectionB2);
 
 
   SectionB2.Append('function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;');
@@ -1419,13 +1484,13 @@ begin
     Item := TToolKitItem(FList[i]);
     if Item.FBase = '' then
     begin
-      if (Item.FExponents[1] = ADim[1]) and
-         (Item.FExponents[2] = ADim[2]) and
-         (Item.FExponents[3] = ADim[3]) and
-         (Item.FExponents[4] = ADim[4]) and
-         (Item.FExponents[5] = ADim[5]) and
-         (Item.FExponents[6] = ADim[6]) and
-         (Item.FExponents[7] = ADim[7]) then Exit(i);
+      if SameValue(Item.FExponents[1], ADim[1]) and
+         SameValue(Item.FExponents[2], ADim[2]) and
+         SameValue(Item.FExponents[3], ADim[3]) and
+         SameValue(Item.FExponents[4], ADim[4]) and
+         SameValue(Item.FExponents[5], ADim[5]) and
+         SameValue(Item.FExponents[6], ADim[6]) and
+         SameValue(Item.FExponents[7], ADim[7]) then Exit(i);
     end;
   end;
   result := -1;
