@@ -1,11 +1,3 @@
-unit ADimRT;
-
-{$H+}{$J-}
-{$modeswitch typehelpers} 
-{$modeswitch advancedrecords}
-{$WARN 5024 OFF} // Suppress warning for unused routine parameter.
-{$WARN 5033 OFF} // Suppress warning for unassigned function's return value.
-{$MACRO ON}
 
 interface
 
@@ -60,7 +52,7 @@ type
     type TSelf = specialize TUnit<U>;
   public
     function ToFloat(const AQuantity: TQuantity): double;
-    function ToFloat(const AQuantity; const APrefixes: TPrefixes): double;
+    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
     function ToString(const AQuantity: TQuantity): string;
     function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
     function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -83,7 +75,7 @@ type
     type TSelf = specialize TFactoredUnit<U>;
   public
     function ToFloat(const AQuantity: TQuantity): double;
-    function ToFloat(const AQuantity; const APrefixes: TPrefixes): double;
+    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
     function ToString(const AQuantity: TQuantity): string;
     function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
     function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;

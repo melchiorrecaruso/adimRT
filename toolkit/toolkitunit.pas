@@ -105,6 +105,7 @@ type
     SectionA9:  TStringList;
     SectionA10: TStringList;
 
+    SectionB0:  TStringList;
     SectionB1:  TStringList;
     SectionB2:  TStringList;
     SectionB21: TStringList;
@@ -128,11 +129,12 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure AddBaseUnits(const SectionA, SectionB: TStringList);
+    procedure AddUnits(const SectionA, SectionB: TStringList);
 
     procedure AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
+    procedure AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
-
+    procedure AddCustomUnit(const AItem: TToolKitItem; const ASection: TStringList);
 
     procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
@@ -193,13 +195,12 @@ begin
   inherited Destroy;
 end;
 
-procedure TToolKitBuilder.AddBaseUnits(const SectionA, SectionB: TStringList);
+procedure TToolKitBuilder.AddUnits(const SectionA, SectionB: TStringList);
 var
   i, j: longint;
 begin
   for i := 0 to FList.Count -1 do
   begin
-
     if (FList[i].FBase = '') then
     begin
       FList[i].FReserved  := BaseUnitCount;
@@ -217,23 +218,27 @@ begin
         FList[i].FExponents := FList[j].FExponents;
         Inc(FactoredUnitCount);
 
-        AddUnit(FList[i], SectionA);
+        AddClonedUnit(FList[i], SectionA);
         AddSymbols(FList[i], SectionA);
       end else
         if Pos('%s', FList[i].FFactor) = 0 then
         begin
-
-
-
-
+          j := FList.Search(FList[i].FBase, 1);
+          FList[i].FReserved  := FList[j].FReserved;
+          FList[i].FExponents := FList[j].FExponents;
+          Inc(FactoredUnitCount);
 
           AddFactoredUnit(FList[i], SectionA);
           AddSymbols(FList[i], SectionA);
         end else
         begin
+          j := FList.Search(FList[i].FBase, 1);
+          FList[i].FReserved  := FList[j].FReserved;
+          FList[i].FExponents := FList[j].FExponents;
+          Inc(FactoredUnitCount);
 
-
-
+          AddFactoredUnit(FList[i], SectionA);
+          AddSymbols(FList[i], SectionA);
         end;
     end;
   end;
@@ -241,12 +246,12 @@ end;
 
 procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
+  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('');
   ASection.Add('const');
   ASection.Add('  c%s = %d;', [GetUnitID(AItem.FQuantity), AItem.FReserved]);
   ASection.Add('');
   ASection.Add('type');
-  ASection.Add('  { T%s }', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('');
   ASection.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
@@ -259,16 +264,30 @@ begin
   ASection.Add('');
 end;
 
-procedure TToolKitBuilder.AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
+procedure TToolKitBuilder.AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  ASection.Add('const');
-  ASection.Add('  c%s = %d;', [GetUnitID(AItem.FQuantity), AItem.FReserved]);
+  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
   ASection.Add('type');
-  ASection.Add('  { T%s }', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('');
   ASection.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    const FUnitOfMeasurement = %d;', [AItem.FReserved]);
+  ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
+  ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
+  ASection.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
+  ASection.Add('  end;');
+  ASection.Add('  %s = specialize TUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
+  ASection.Add('');
+end;
+
+procedure TToolKitBuilder.AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
+begin
+  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('');
+  ASection.Add('type');
+  ASection.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
   ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
   ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
   ASection.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
@@ -279,6 +298,16 @@ begin
   ASection.Add('  end;');
   ASection.Add('  %s = specialize TUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
+end;
+
+procedure TToolKitBuilder.AddCustomUnit(const AItem: TToolKitItem; const ASection: TStringList);
+begin
+
+
+
+
+
+
 end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
@@ -527,22 +556,22 @@ end;
 
 procedure TToolKitBuilder.AddGetValueFunctions(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
 begin
-  SectionB.Add(Format('function %s.GetValue(const AValue: TQuantity): double;', [GetHelperFuncName(AItem.FQuantity)]));
+  SectionB.Add(Format('function T%s.GetValue(const AQuantity: TQuantity): double;', [GetUnitID(AItem.FQuantity)]));
   SectionB.Add(Format('begin',[]));
   SectionB.Add(Format('{$IFOPT D+}',[]));
-  SectionB.Add(Format('  result := GetValue( %s );', ['AValue.FValue']));
+  SectionB.Add(Format('  result := GetValue( %s );', ['AQuantity.FValue']));
   SectionB.Add(Format('{$ELSE}', []));
-  SectionB.Add(Format('  result := GetValue( %s );', ['AValue']));
+  SectionB.Add(Format('  result := GetValue( %s );', ['AQuantity']));
   SectionB.Add(Format('{$ENDIF}', []));
   SectionB.Add(Format('end;',[]));
   SectionB.Add(Format('',[]));
 
-  SectionB.Add(Format('function %s.GetValue(const AValue: TQuantity; const APrefixes: TPrefixes): double;', [GetHelperFuncName(AItem.FQuantity)]));
+  SectionB.Add(Format('function T%s.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;', [GetUnitID(AItem.FQuantity)]));
   SectionB.Add(Format('begin',[]));
   SectionB.Add(Format('{$IFOPT D+}',[]));
-  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AValue.FValue']));
+  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AQuantity.FValue']));
   SectionB.Add(Format('{$ELSE}', []));
-  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AValue']));
+  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AQuantity']));
   SectionB.Add(Format('{$ENDIF}', []));
   SectionB.Add(Format('end;',[]));
   SectionB.Add(Format('',[]));
@@ -561,7 +590,7 @@ var
   Table: array of array of longint;
   Dim1: TExponents;
   Dim2: TExponents;
-
+  Stream: TResourceStream;
 begin
   SectionA0  := TStringList.Create;
   SectionA1  := TStringList.Create;
@@ -577,6 +606,7 @@ begin
   SectionA9  := TStringList.Create;
   SectionA10 := TStringList.Create;
 
+  SectionB0  := TStringList.Create;
   SectionB1  := TStringList.Create;
   SectionB2  := TStringList.Create;
   SectionB21 := TStringList.Create;
@@ -600,39 +630,41 @@ begin
   FCommUnits.Clear;
   FOperatorList.Clear;
 
-  SectionA2.Add('');
-  SectionA2.Add('');
-  SectionA2.Add('');
-  SectionA2.Add('');
+  Stream := TResourceStream.Create(HInstance, 'SECTION-A0', RT_RCDATA);
+  SectionA0.LoadFromStream(Stream);
+  SectionA0.Insert(0, '');
+  SectionA0.Append('');
+  Stream.Destroy;
 
+  Stream := TResourceStream.Create(HInstance, 'SECTION-B0', RT_RCDATA);
+  SectionB0.LoadFromStream(Stream);
+  SectionB0.Insert(0, '');
+  SectionB0.Append('');
+  Stream.Destroy;
 
+  Stream := TResourceStream.Create(HInstance, 'SECTION-A1', RT_RCDATA);
+  SectionA1.LoadFromStream(Stream);
+  SectionA1.Insert(0, '');
+  SectionA1.Append('');
+  Stream.Destroy;
 
+  Stream := TResourceStream.Create(HInstance, 'SECTION-B1', RT_RCDATA);
+  SectionB1.LoadFromStream(Stream);
+  SectionB1.Insert(0, '');
+  SectionB1.Append('');
+  Stream.Destroy;
 
-
-
-
-  AddBaseUnits(SectionA3, SectionB3);
-
-
-
-
-  SectionB2.Append('implementation');
-  SectionB2.Append('');
-  SectionB2.Append('uses');
-  SectionB2.Append('  Math;');
-  SectionB2.Append('');
-
-
+  AddUnits(SectionA3, SectionB3);
 
   SetLength(Table, BaseUnitCount);
   for i := Low(Table) to High(Table) do
     SetLength(Table[i], BaseUnitCount);
 
-  SectionB2.Append('const');
-  SectionB2.Append('');
-  SectionB2.Append('  { Mul Table }');
-  SectionB2.Append('');
-  SectionB2.Append(Format('  MulTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
+  SectionA3.Append('const');
+  SectionA3.Append('');
+  SectionA3.Append('  { Mul Table }');
+  SectionA3.Append('');
+  SectionA3.Append(Format('  MulTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
 
   for i := 0 to FList.Count -1 do
   begin
@@ -650,7 +682,7 @@ begin
 
           K := FList.Search(SumDim(Dim1, Dim2));
           if K <> -1 then
-            Line := Line + 'c' + GetUnit(FList[K].FQuantity) + ', '
+            Line := Line + 'c' + GetUnitID(FList[K].FQuantity) + ', '
           else
             Line := Line +  '-1, '
         end;
@@ -665,22 +697,22 @@ begin
         Line[High(Line) -1] := ')';
         Line[High(Line)   ] := ',';
       end;
-      SectionB2.Append(Line);
+      SectionA3.Append(Line);
     end;
   end;
   for i := Low(Table) to High(Table) do Table[i] := nil;
   Table := nil;
-  SectionB2.Append('  );');
-  SectionB2.Append('');
+  SectionA3.Append('  );');
+  SectionA3.Append('');
 
 
   SetLength(Table, BaseUnitCount);
   for i := Low(Table) to High(Table) do
     SetLength(Table[i], BaseUnitCount);
 
-  SectionB2.Append('  { Div Table }');
-  SectionB2.Append('');
-  SectionB2.Append(Format('  DivTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
+  SectionA3.Append('  { Div Table }');
+  SectionA3.Append('');
+  SectionA3.Append(Format('  DivTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
 
   for i := 0 to FList.Count -1 do
   begin
@@ -698,7 +730,7 @@ begin
 
           K := FList.Search(SubDim(Dim1, Dim2));
           if K <> -1 then
-            Line := Line + 'c' + GetUnit(FList[K].FQuantity) + ', '
+            Line := Line + 'c' + GetUnitID(FList[K].FQuantity) + ', '
           else
             Line := Line +  '-1, '
         end;
@@ -713,20 +745,30 @@ begin
         Line[High(Line) -1] := ')';
         Line[High(Line)   ] := ',';
       end;
-      SectionB2.Append(Line);
+      SectionA3.Append(Line);
     end;
   end;
   for i := Low(Table) to High(Table) do Table[i] := nil;
   Table := nil;
-  SectionB2.Append('  );');
-  SectionB2.Append('');
+  SectionA3.Append('  );');
+  SectionA3.Append('');
+
+  AddPowerTable(SectionA3);
+  AddRootTable(SectionA3);
 
 
-  AddPowerTable(SectionB2);
-  AddRootTable(SectionB2);
 
+  Stream := TResourceStream.Create(HInstance, 'SECTION-A4', RT_RCDATA);
+  SectionA4.LoadFromStream(Stream);
+  SectionA4.Insert(0, '');
+  SectionA4.Append('');
+  Stream.Destroy;
 
-
+  Stream := TResourceStream.Create(HInstance, 'SECTION-B4', RT_RCDATA);
+  SectionB4.LoadFromStream(Stream);
+  SectionB4.Insert(0, '');
+  SectionB4.Append('');
+  Stream.Destroy;
 
 
 
@@ -788,16 +830,10 @@ begin
 
 
 
-  SectionA0.Append('');
-  SectionA0.Append('{');
-  SectionA0.Append(Format('  ADimRT library built on %s.', [DateToStr(Now)]));
-  SectionA0.Append('');
 
-  SectionA0.Append(Format('  Number of base units: %d', [BaseUnitCount]));
-  SectionA0.Append(Format('  Number of factored units: %d', [FactoredUnitCount]));
-  SectionA0.Append(Format('  Number of operators: %d (%d external, %d internal)',
-    [ExternalOperators + InternalOperators, ExternalOperators, InternalOperators]));
-  SectionA0.Append('}');
+
+
+
 
   SectionA0.Append('');
   SectionA0.Append('unit ADimRT;');
@@ -809,11 +845,20 @@ begin
   SectionA0.Append('{$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.');
   SectionA0.Append('{$MACRO ON}');
   SectionA0.Append('');
-  SectionA0.Append('interface');
+
+  SectionA0.Append('{');
+  SectionA0.Append(Format('  ADimRT library built on %s.', [DateToStr(Now)]));
   SectionA0.Append('');
-  SectionA0.Append('uses');
-  SectionA0.Append('  DateUtils, Sysutils;');
+
+  SectionA0.Append(Format('  Number of base units: %d', [BaseUnitCount]));
+  SectionA0.Append(Format('  Number of factored units: %d', [FactoredUnitCount]));
+  SectionA0.Append(Format('  Number of operators: %d (%d external, %d internal)',
+    [ExternalOperators + InternalOperators, ExternalOperators, InternalOperators]));
+  SectionA0.Append('}');
   SectionA0.Append('');
+
+
+
 
 
 
@@ -841,6 +886,7 @@ begin
   for I := 0 to SectionA9 .Count -1 do FDocument.Append(SectionA9 [I]);
   for I := 0 to SectionA10.Count -1 do FDocument.Append(SectionA10[I]);
 
+  for I := 0 to SectionB0 .Count -1 do FDocument.Append(SectionB0 [I]);
   for I := 0 to SectionB1 .Count -1 do FDocument.Append(SectionB1 [I]);
   for I := 0 to SectionB2 .Count -1 do FDocument.Append(SectionB2 [I]);
   for I := 0 to SectionB21.Count -1 do FDocument.Append(SectionB21[I]);
@@ -871,6 +917,7 @@ begin
   SectionB21.Destroy;
   SectionB2 .Destroy;
   SectionB1 .Destroy;
+  SectionB0 .Destroy;
 
   SectionA10.Destroy;
   SectionA9 .Destroy;

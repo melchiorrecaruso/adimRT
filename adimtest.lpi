@@ -30,11 +30,6 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages>
-      <Item>
-        <PackageName Value="adimpack"/>
-      </Item>
-    </RequiredPackages>
     <Units>
       <Unit>
         <Filename Value="adimtest.pas"/>

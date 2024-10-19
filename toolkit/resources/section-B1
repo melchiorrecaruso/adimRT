@@ -1,6 +1,3 @@
-implementation
-
-uses Math;
 
 function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;
 var
@@ -44,29 +41,7 @@ end;
 
 { TQuantity }
 
-function TUnit<U>.ToFloat(const AValue: TQuantity): double;
-begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create('Wrong units of measurements');
-  result := AValue.FValue;
-{$ELSE}
-  result := AValue;
-{$ENDIF}
-end;
-
-function TUnit<U>.ToFloat(const AValue: TQuantity; const APrefixes: TPrefixes): double;
-begin
-{$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create('Wrong units of measurements');
-  result := GetValue(AValue.FValue, APrefixes);
-{$ELSE}
-  result := GetValue(AValue, APrefixes);
-{$ENDIF}
-end;
-
-{$IFOPT D+};
 class operator TQuantity.:=(const ASelf: double): TQuantity;
 begin
   result.FUnitOfMeasurement := cScalar;
@@ -76,7 +51,7 @@ end;
 class operator TQuantity.:=(const ASelf: TQuantity): double;
 begin
   if ASelf.FUnitOfMeasurement <> cScalar then
-    raise Exception.Create(''Assign operator (:=) has detected wrong unit of measurements.');
+    raise Exception.Create('Assign operator (:=) has detected wrong unit of measurements.');
   result := ASelf.FValue;
 end;
 
@@ -95,7 +70,7 @@ end;
 class operator TQuantity.+(const ALeft, ARight: TQuantity): TQuantity;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
-    raise Exception.Create(''Summing operator (+) has detected wrong unit of measurements.'');    
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
   result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;  
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
@@ -103,7 +78,7 @@ end;
 class operator TQuantity.-(const ALeft, ARight: TQuantity): TQuantity;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
-    raise Exception.Create(''Subtracting operator (-) has detected wrong unit of measurements.'');    
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
   result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;   
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
@@ -133,13 +108,13 @@ begin
 end;
 
 class operator TQuantity.*(const ALeft: TQuantity; const ARight: double): TQuantity;
-begin'
+begin
   result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
   result.FValue:= ALeft.FValue * ARight;
 end;
 
-class operator TQuantity./(const ALeft: TQuantity; const ARight: double): TQuantity;');
-begin');
+class operator TQuantity./(const ALeft: TQuantity; const ARight: double): TQuantity;
+begin
   result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
   result.FValue:= ALeft.FValue / ARight;
 end;
@@ -147,124 +122,150 @@ end;
 class operator TQuantity.=(const ALeft, ARight: TQuantity): boolean; inline;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TQuantity.<(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result := ALeft.FValue < ARight.FValue;
 end;
 
 class operator TQuantity.>(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result := ALeft.FValue > ARight.FValue;
 end;
 
 class operator TQuantity.<=(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result := ALeft.FValue <= ARight.FValue;
 end;
 
 class operator TQuantity.>=(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result := ALeft.FValue >= ARight.FValue;
 end;
 
 class operator TQuantity.<>(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'')
+    raise Exception.Create('Wrong units of measurements');
   result := ALeft.FValue <> ARight.FValue;
 end;
 {$ENDIF}
 
 { TUnit }
 
-class operator TUnit<U>.*(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit.*(const AValue: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := MulTable[cScalar, U.FUnitOfMeasurement];
-{$ENDIF}
+  result.FValue := AValue;
+{$ELSE}
   result := AValue;
+{$ENDIF}
 end;
 
-class operator TUnit<U>./(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit./(const AValue: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := 1/AValue;
+{$ELSE}
+  result := 1/AValue;
 {$ENDIF}
-  result := AValue;
 end;
 
 {$IFOPT D+}
-class operator TUnit<U>.*(const AValue: TQuantity; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit.*(const AValue: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := AValue.FValue;
 end;
 
-class operator TUnit<U>./(const AValue: TQuantity; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit./(const AValue: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := AValue.FValue;
-end
+end;
 {$ENDIF}
 
-function TUnit<U>.ToString(const AValue: TQuantity): string;
+function TUnit.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
-  result := FloatToStr(AValue.FValue) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes);
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('Wrong units of measurements');
+  result := AQuantity.FValue;
 {$ELSE}
-  result := FloatToStr(AValue) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := AQuantity;
 {$ENDIF}
 end;
 
-function TUnit<U>.ToString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
+function TUnit.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('Wrong units of measurements');
+  result := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AValue: TQuantity): string;
+begin
+{$IFOPT D+}
+  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('Wrong units of measurements');
+  result := FloatToStr(AValue.FValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+{$ELSE}
+  result := FloatToStr(AValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   FactoredValue := GetValue(AValue.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AValue, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
-     result := FloatToStr(FactoredValue) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes)
-  else');
-    result := FloatToStr(FactoredValue) + '' '' + GetSymbol(U.FSymbol, APrefixes);
+     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+  else
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, APrefixes);
 end;
 
-function TUnit<U>.ToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   FactoredValue := GetValue(AValue.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AValue, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes)
-  else', []));
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+  else
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
 end;
 
-function TUnit<U>.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -274,106 +275,106 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' ± '' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
   end else
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' ± '' +');
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + '' ''   + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +');
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
   end;
 end;    
 
-function TUnit<U>.ToVerboseString(const AValue: TQuantity): string;
+function TUnit.ToVerboseString(const AValue: TQuantity): string;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
 
   if (AValue.FValue > -1) and (AValue.FValue < 1) then
-    result := FloatToStr(AValue.FValue) + '' '' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(AValue.FValue) + ' ' + GetName(U.FName, U.FPrefixes)
   else
-    result := FloatToStr(AValue.FValue) + '' '' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AValue.FValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
 {$ELSE}
   if (AValue > -1) and (AValue < 1) then
-    result := FloatToStr(AValue) + '' '' + GetName(U.FName, U.FPrefixes)
-  else', []));
-    result := FloatToStr(AValue) + '' '' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AValue) + ' ' + GetName(U.FName, U.FPrefixes)
+  else
+    result := FloatToStr(AValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
 {$ENDIF}
 end;
 
-function TUnit<U>.ToVerboseString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
+function TUnit.ToVerboseString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
 
   if Length(APrefixes) = 0 then
   begin
     if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStr(AValue.FValue) + '' '' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStr(AValue.FValue) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStr(AValue.FValue) + '' '' + GetName(U.PluralName, U.FPRefixes);  
+      result := FloatToStr(AValue.FValue) + ' ' + GetName(U.PluralName, U.FPRefixes);
   end else
   begin
     if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStr(AValue.FValue) + '' '' + GetName(U.FName, APRefixes)
+      result := FloatToStr(AValue.FValue) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStr(AValue.FValue) + '' '' + GetName(U.PluralName, APRefixes);     
+      result := FloatToStr(AValue.FValue) + ' ' + GetName(U.PluralName, APRefixes);
   end;
 {$ELSE}
   if Length(APrefixes) = 0 then
   begin
     if (AValue > -1) and (AValue < 1) then
-      result := FloatToStr(AValue) + '' '' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStr(AValue) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStr(AValue) + '' '' + GetName(U.PluralName, U.FPRefixes);  
+      result := FloatToStr(AValue) + ' ' + GetName(U.PluralName, U.FPRefixes);
   end else
   begin
     if (AValue > -1) and (AValue < 1) then
-      result := FloatToStr(AValue) + '' '' + GetName(U.FName, APRefixes)
+      result := FloatToStr(AValue) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStr(AValue) + '' '' + GetName(U.PluralName, APRefixes);    
+      result := FloatToStr(AValue) + ' ' + GetName(U.PluralName, APRefixes);
   end;
 {$ENDIF}
 end;
 
-function TUnit<U>.ToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
 
   if Length(APrefixes) = 0 then
   begin
     if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.PluralName, U.FPRefixes);  
+      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPRefixes);
   end else
   begin
     if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.FName, APRefixes)
+      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.PluralName, APRefixes);     
+      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APRefixes);
   end;
 {$ELSE}
   if Length(APrefixes) = 0 then
   begin
     if (AValue > -1) and (AValue < 1) then
-      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.PluralName, U.FPRefixes);  
+      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPRefixes);
   end else
   begin
     if (AValue > -1) and (AValue < 1) then
-      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.FName, APRefixes)
+      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.PluralName, APRefixes);    
+      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APRefixes);
   end;
 {$ENDIF}
 end;
 
-function TUnit<U>.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -383,115 +384,119 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' ± '' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + '' ''   + GetName(U.PluralName, U.FPrefixes);
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPrefixes);
   end else
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' ± '' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + '' ''   + GetName(U.PluralName, APrefixes);
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APrefixes);
   end;
 end;
 
 { TFactoredUnit }
 
-function TFactoredUnit<U>.ToFloat(const AValue: TQuantity): double;
+function TFactoredUnit.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  result := AValue.FValue / U.FFactor;
+  result := AQuantity.FValue / U.FFactor;
 {$ELSE}
-  result := AValue / U.FFactor;
+  result := AQuantity / U.FFactor;
 {$ENDIF}
 end;
 
-function TFactoredUnit<U>.ToFloat(const AValue: TQuantity; const APrefixes: TPrefixes): double;
+function TFactoredUnit.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  result := GetValue(AValue.FValue / U.FFactor, APrefixes);
+  result := GetValue(AQuantity.FValue / U.FFactor, APrefixes);
 {$ELSE}
-  result := GetValue(AValue / U.FFactor, APrefixes);
+  result := GetValue(AQuantity / U.FFactor, APrefixes);
 {$ENDIF}
 end;
 
-class operator TFactoredUnit<U>.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := MulTable[cScalar, U.FUnitOfMeasurement] * U.FFactor;
-{$ENDIF}
+  result.FValue := AValue * U.FFactor;
+{$ELSE}
   result := AValue * U.FFactor;
+{$ENDIF}
 end;
 
-class operator TFactoredUnit<U>./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement] / U.FFactor;
+  result.FValue := 1 / (AValue * U.FFactor);
+{$ELSE}
+  result := 1 / (AValue * U.FFactor);
 {$ENDIF}
-  result := AValue / U.FFactor;
 end;
 
 {$IFOPT D+}
-class operator TFactoredUnit<U>.*(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit.*(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement] * U.FFactor;
   result.FValue := AValue.FValue * U.FFactor;
 end;
 
-class operator TFactoredUnit<U>./(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit./(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement] / U.FFactor;
   result.FValue := AValue.FValue / U.FFactor;
 end
 {$ENDIF}
 
-function TFactoredUnit<U>.ToString(const AValue: TQuantity): string;
+function TFactoredUnit.ToString(const AValue: TQuantity): string;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
-  result := FloatToStr(AValue.FValue / U.FFactor) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes);
+    raise Exception.Create('Wrong units of measurements');
+  result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
 {$ELSE}
-  result := FloatToStr(AValue / U.FFactor) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(AValue / U.FFactor) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
 {$ENDIF}
 end;
 
-function TFactoredUnit<U>.ToString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   FactoredValue := GetValue(AValue.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AValue, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
-    result := FloatToStr(FactoredValue / U.FFactor) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStr(FactoredValue / U.FFactor) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
   else');
-    result := FloatToStr(FactoredValue / U.FFactor) + '' '' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStr(FactoredValue / U.FFactor) + ' ' + GetSymbol(U.FSymbol, APrefixes);
 end;
 
-function TFactoredUnit<U>.ToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   FactoredValue := GetValue(AValue.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AValue, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
   else', []));
-    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
 end;
 
-function TFactoredUnit<U>.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -501,106 +506,106 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' ± '' +
-              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
   end else
   begin
-    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' ± '' +');
-              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + '' ''   + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ± ' +');
+              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
   end;
 end;
 
-function TFactoredUnit<U>.ToVerboseString(const AValue: TQuantity): string;
+function TFactoredUnit.ToVerboseString(const AValue: TQuantity): string;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
 
   if (AValue.FValue > -1) and (AValue.FValue < 1) then
-    result := FloatToStr(AValue.FValue / U.FFactor) + '' '' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.FName, U.FPrefixes)
   else
-    result := FloatToStr(AValue.FValue / U.FFactor) + '' '' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.FPluralName, U.FPrefixes);
 {$ELSE}
   if (AValue > -1) and (AValue < 1) then
-    result := FloatToStr(AValue / U.FFactor) + '' '' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.FName, U.FPrefixes)
   else', []));
-    result := FloatToStr(AValue / U.FFactor) + '' '' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.FPluralName, U.FPrefixes);
 {$ENDIF}
 end;
 
-function TFactoredUnit<U>.ToVerboseString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToVerboseString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
 
   if Length(APrefixes) = 0 then
   begin
     if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStr(AValue.FValue / U.FFactor) + '' '' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStr(AValue.FValue / U.FFactor) + '' '' + GetName(U.PluralName, U.FPRefixes);
+      result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.PluralName, U.FPRefixes);
   end else
   begin
     if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStr(AValue.FValue / U.FFactor) + '' '' + GetName(U.FName, APRefixes)
+      result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStr(AValue.FValue / U.FFactor) + '' '' + GetName(U.PluralName, APRefixes);
+      result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.PluralName, APRefixes);
   end;
 {$ELSE}
   if Length(APrefixes) = 0 then
   begin
     if (AValue > -1) and (AValue < 1) then
-      result := FloatToStr(AValue / U.FFactor) + '' '' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStr(AValue / U.FFactor) + '' '' + GetName(U.PluralName, U.FPRefixes);
+      result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.PluralName, U.FPRefixes);
   end else
   begin
     if (AValue > -1) and (AValue < 1) then
-      result := FloatToStr(AValue / U.FFactor) + '' '' + GetName(U.FName, APRefixes)
+      result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStr(AValue / U.FFactor) + '' '' + GetName(U.PluralName, APRefixes);
+      result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.PluralName, APRefixes);
   end;
 {$ENDIF}
 end;
 
-function TFactoredUnit<U>.ToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 begin
 {$IFOPT D+}
   if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
 
   if Length(APrefixes) = 0 then
   begin
     if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.PluralName, U.FPRefixes);
+      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPRefixes);
   end else
   begin
     if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.FName, APRefixes)
+      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.PluralName, APRefixes);
+      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APRefixes);
   end;
 {$ELSE}
   if Length(APrefixes) = 0 then
   begin
     if (AValue > -1) and (AValue < 1) then
-      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.PluralName, U.FPRefixes);
+      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPRefixes);
   end else
   begin
     if (AValue > -1) and (AValue < 1) then
-      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.FName, APRefixes)
+      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' '' + GetName(U.PluralName, APRefixes);
+      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APRefixes);
   end;
 {$ENDIF}
 end;
 
-function TFactoredUnit<U>.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -610,12 +615,12 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' ± '' +
-              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + '' ''   + GetName(U.PluralName, U.FPrefixes);
+    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPrefixes);
   end else
   begin
-    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + '' ± '' +
-              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + '' ''   + GetName(U.PluralName, APrefixes);
+    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APrefixes);
   end;
 end;
 

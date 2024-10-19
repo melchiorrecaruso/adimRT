@@ -1,16 +1,29 @@
+{ Power functions }
+
+function SquarePower(const AValue: TQuantity): TQuantity;
+function CubicPower(const AValue: TQuantity): TQuantity;
+function QuarticPower(const AValue: TQuantity): TQuantity;
+function QuinticPower(const AValue: TQuantity): TQuantity;
+function SexticPower(const AValue: TQuantity): TQuantity;
+function SquareRoot(const AValue: TQuantity): TQuantity;
+function CubicRoot(const AValue: TQuantity): TQuantity;
+function QuarticRoot(const AValue: TQuantity): TQuantity;
+function QuinticRoot(const AValue: TQuantity): TQuantity;
+function SexticRoot(const AValue: TQuantity): TQuantity;
+
 { Trigonometric functions }
 
-function Cos(const AQuantity: TQuantity): double;', []));
-function Sin(const AQuantity: TQuantity): double;', []));
-function Tan(const AQuantity: TQuantity): double;', []));
-function Cotan(const AQuantity: TQuantity): double;', []));
-function Secant(const AQuantity: TQuantity): double;', []));
-function Cosecant(const AQuantity: TQuantity): double;', []));
+function Cos(const AQuantity: TQuantity): double;
+function Sin(const AQuantity: TQuantity): double;
+function Tan(const AQuantity: TQuantity): double;
+function Cotan(const AQuantity: TQuantity): double;
+function Secant(const AQuantity: TQuantity): double;
+function Cosecant(const AQuantity: TQuantity): double;
 
-function ArcCos(const AQuantity: double): TQuantity;', []));
-function ArcSin(const AQuantity: double): TQuantity;', []));
-function ArcTan(const AQuantity: double): TQuantity;', []));
-function ArcTan2(const x, y: double): TQuantity;', []));
+function ArcCos(const AQuantity: double): TQuantity;
+function ArcSin(const AQuantity: double): TQuantity;
+function ArcTan(const AQuantity: double): TQuantity;
+function ArcTan2(const x, y: double): TQuantity;
 
 { Override trigonometric functions }
 
@@ -40,33 +53,31 @@ function Min(const ALeft, ARight: TQuantity): TQuantity;
 function Max(const ALeft, ARight: TQuantity): TQuantity;
 function Exp(const AQuantity: TQuantity): TQuantity;
 
-
 { Constants }
 
 const
-  AvogadroConstant               : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23);
-  BohrMagneton                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24);
-  BohrRadius                     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11);
-  BoltzmannConstant              : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:         1.380649E-23); {$ELSE} (        1.380649E-23);
-  ComptonWaveLength              : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12);
-  CoulombConstant                : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9);
-  DeuteronMass                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27);
-  ElectricPermittivity           : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:     8.8541878128E-12); {$ELSE} (    8.8541878128E-12);
-  ElectronMass                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31);
-  ElectronCharge                 : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19);
-  MagneticPermeability           : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6);
-  MolarGasConstant               : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:          8.314462618); {$ELSE} (         8.314462618);
-  NeutronMass                    : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27);
-  NewtonianConstantOfGravitation : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:          6.67430E-11); {$ELSE} (         6.67430E-11);
-  PlanckConstant                 : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34);
-  ProtonMass                     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27);
-  RydbergConstant                : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:      10973731.568157); {$ELSE} (     10973731.568157);
-  SpeedOfLight                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:            299792458); {$ELSE} (           299792458);
-  SquaredSpeedOfLight            : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16);
-  StandardAccelerationOfGravity  : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:              9.80665); {$ELSE} (             9.80665);
-  ReducedPlanckConstant          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi);
-  UnifiedAtomicMassUnit          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27);
-
+  AvogadroConstant               : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cReciprocalMole;                     FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
+  BohrMagneton                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cSquareMeterAmpere;                  FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
+  BohrRadius                     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeter;                              FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
+  BoltzmannConstant              : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cJoulePerKelvin;                     FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
+  ComptonWaveLength              : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeter;                              FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
+  CoulombConstant                : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareCoulomb;  FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
+  DeuteronMass                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
+  ElectricPermittivity           : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cFaradPerMeter;                      FValue:     8.8541878128E-12); {$ELSE} (    8.8541878128E-12); {$ENDIF}
+  ElectronMass                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
+  ElectronCharge                 : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cCoulomb;                            FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
+  MagneticPermeability           : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cHenryPerMeter;                      FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
+  MolarGasConstant               : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cJoulePerMolePerKelvin;              FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
+  NeutronMass                    : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+  NewtonianConstantOfGravitation : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareKilogram; FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
+  PlanckConstant                 : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
+  ProtonMass                     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+  RydbergConstant                : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cReciprocalMeter;                    FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
+  SpeedOfLight                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeterPerSecond;                     FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
+  SquaredSpeedOfLight            : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cSquareMeterPerSquareSecond;         FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
+  StandardAccelerationOfGravity  : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeterPerSquareSecond;               FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
+  ReducedPlanckConstant          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
+  UnifiedAtomicMassUnit          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
 
 { Prefix Table }
 

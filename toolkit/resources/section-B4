@@ -30,7 +30,7 @@ begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Quartic;
   if result.FUnitOfMeasurement = -1 then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result.FValue := IntPower(AValue.FValue, 4);
 {$ELSE}
   result := IntPower(AValue, 4);
@@ -42,7 +42,7 @@ begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Quintic;
   if result.FUnitOfMeasurement = -1 then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result.FValue := IntPower(AValue.FValue, 5);
 {$ELSE}
   result := IntPower(AValue, 5);
@@ -54,7 +54,7 @@ begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Sextic;
   if result.FUnitOfMeasurement = -1 then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
    result.FValue := IntPower(AValue.FValue, 6);
 {$ELSE}
   result := IntPower(AValue, 6);
@@ -66,7 +66,7 @@ begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Square;
   if result.FUnitOfMeasurement = -1 then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AValue.FValue, 1/2);
 {$ELSE};
   result := Power(AValue, 1/2);
@@ -78,7 +78,7 @@ begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Cubic;
   if result.FUnitOfMeasurement = -1 then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AValue.FValue, 1/3);
 {$ELSE}
   result := Power(AValue, 1/3);
@@ -90,7 +90,7 @@ begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Quartic;
   if result.FUnitOfMeasurement = -1 then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AValue.FValue, 1/4);
 {$ELSE}
   result := Power(AValue, 1/4);
@@ -102,7 +102,7 @@ begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Quintic;
   if result.FUnitOfMeasurement = -1 then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AValue.FValue, 1/5);
 {$ELSE}
   result := Power(AValue, 1/5);
@@ -114,7 +114,7 @@ begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Sextic;
   if result.FUnitOfMeasurement = -1 then
-    raise Exception.Create(''Wrong units of measurements'');
+    raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AValue.FValue, 1/6);
 {$ELSE}
   result := Power(AValue, 1/6);
