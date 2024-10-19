@@ -133,7 +133,7 @@ type
 
     procedure AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
-    procedure AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
+    procedure AddFactoredUnit(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
     procedure AddCustomUnit(const AItem: TToolKitItem; const ASection: TStringList);
 
     procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
@@ -142,7 +142,7 @@ type
     procedure AddPowerTable(const Section: TStringList);
     procedure AddRootTable(const Section: TStringList);
 
-    procedure AddGetValueFunctions(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+
 
 
 
@@ -228,7 +228,7 @@ begin
           FList[i].FExponents := FList[j].FExponents;
           Inc(FactoredUnitCount);
 
-          AddFactoredUnit(FList[i], SectionA);
+          AddFactoredUnit(FList[i], SectionA, SectionB);
           AddSymbols(FList[i], SectionA);
         end else
         begin
@@ -237,7 +237,7 @@ begin
           FList[i].FExponents := FList[j].FExponents;
           Inc(FactoredUnitCount);
 
-          AddFactoredUnit(FList[i], SectionA);
+          AddFactoredUnit(FList[i], SectionA, SectionB);
           AddSymbols(FList[i], SectionA);
         end;
     end;
@@ -281,23 +281,44 @@ begin
   ASection.Add('');
 end;
 
-procedure TToolKitBuilder.AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
+procedure TToolKitBuilder.AddFactoredUnit(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
 begin
-  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('');
-  ASection.Add('type');
-  ASection.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
-  ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
-  ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
-  ASection.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
-  ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
-  ASection.Add('    function GetValue(const AQuantity: TQuantity): double;');
-  ASection.Add('    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;');
-  ASection.Add('  end;');
-  ASection.Add('  %s = specialize TUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
-  ASection.Add('');
+  SectionA.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+  SectionA.Add('');
+  SectionA.Add('type');
+  SectionA.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
+  SectionA.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
+  SectionA.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
+  SectionA.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
+  SectionA.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
+  SectionA.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
+  SectionA.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
+  SectionA.Add('    function GetValue(const AQuantity: TQuantity): double;');
+  SectionA.Add('    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;');
+  SectionA.Add('  end;');
+  SectionA.Add('  %s = specialize TUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
+  SectionA.Add('');
+
+  SectionB.Add(Format('function T%s.GetValue(const AQuantity: TQuantity): double;', [GetUnitID(AItem.FQuantity)]));
+  SectionB.Add(Format('begin',[]));
+  SectionB.Add(Format('{$IFOPT D+}',[]));
+  SectionB.Add(Format('  result := GetValue( %s );', ['AQuantity.FValue']));
+  SectionB.Add(Format('{$ELSE}', []));
+  SectionB.Add(Format('  result := GetValue( %s );', ['AQuantity']));
+  SectionB.Add(Format('{$ENDIF}', []));
+  SectionB.Add(Format('end;',[]));
+  SectionB.Add(Format('',[]));
+
+  SectionB.Add(Format('function T%s.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;', [GetUnitID(AItem.FQuantity)]));
+  SectionB.Add(Format('begin',[]));
+  SectionB.Add(Format('{$IFOPT D+}',[]));
+  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AQuantity.FValue']));
+  SectionB.Add(Format('{$ELSE}', []));
+  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AQuantity']));
+  SectionB.Add(Format('{$ENDIF}', []));
+  SectionB.Add(Format('end;',[]));
+  SectionB.Add(Format('',[]));
+  SectionB.Add(Format('',[]));
 end;
 
 procedure TToolKitBuilder.AddCustomUnit(const AItem: TToolKitItem; const ASection: TStringList);
@@ -306,49 +327,54 @@ begin
 
 
 
-
-
 end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
+var
+  Identifier: string;
 begin
-  // Base unit symbols
-  if (AItem.FBase = '') and (AItem.FIdentifier <> '') then
+  Identifier := AItem.FIdentifier;
+  if Identifier = '' then
+    Identifier := GetUnitID(AItem.FQuantity);
+
+  if (AItem.FBase = '') then
   begin
+    // Base unit symbols
     ASection.Append('');
     ASection.Append('var');
-    ASection.Add(Format('  %-10s : %s;', [AItem.FIdentifier, GetUnit(AItem.FQuantity)]));
+    ASection.Add(Format('  %-10s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
     ASection.Append('');
-
-    AddFactoredSymbols(AItem, ASection);
+    if AItem.FIdentifier <> '' then
+      AddFactoredSymbols(AItem, ASection);
   end else
-    // Factored unit symbols
-    if (AItem.FBase <> '') and (AItem.FIdentifier <> '') then
+  begin
+    if (AItem.FFactor = '') then
     begin
-      if (AItem.FFactor = '') then
-      begin
-        ASection.Append('var');
-        ASection.Add(Format('  %-10s : %s;', [AItem.FIdentifier, GetUnit(AItem.FQuantity)]));
-        ASection.Append('');
-
+      // Cloned unit symbols
+      ASection.Append('var');
+      ASection.Add(Format('  %-10s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+      ASection.Append('');
+      if AItem.FIdentifier <> '' then
         AddFactoredSymbols(AItem, ASection);
-      end else
-        if (Pos('%s', AItem.FFactor) = 0) then
-        begin
-          ASection.Append('const');
-          ASection.Add(Format('  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}', [AItem.FIdentifier, AItem.FReserved, AItem.FFactor, AItem.FFactor]));
-          ASection.Append('');
-
+    end else
+      if (Pos('%s', AItem.FFactor) = 0) then
+      begin
+        // Factored unit symbols
+        ASection.Append('var');
+        ASection.Add(Format('  %-10s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+        ASection.Append('');
+        if AItem.FIdentifier <> '' then
           AddFactoredSymbols(AItem, ASection);
-        end else
-          if (Pos('%s', AItem.FFactor) > 0) then
-          begin
-            ASection.Append('var');
-            ASection.Add(Format('  %-10s : %s;', [AItem.FIdentifier, GetUnit(AItem.FQuantity)]));
-            ASection.Append('');
-
+      end else
+        if (Pos('%s', AItem.FFactor) > 0) then
+        begin
+          // Custom unit symbols
+          ASection.Append('var');
+          ASection.Add(Format('  %-10s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+          ASection.Append('');
+          if AItem.FIdentifier <> '' then
             AddFactoredSymbols(AItem, ASection);
-          end;
+        end;
      end;
 end;
 
@@ -552,30 +578,6 @@ begin
   end;
   Section.Add(Format('  );', []));
   Section.Add(Format('', []));
-end;
-
-procedure TToolKitBuilder.AddGetValueFunctions(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
-begin
-  SectionB.Add(Format('function T%s.GetValue(const AQuantity: TQuantity): double;', [GetUnitID(AItem.FQuantity)]));
-  SectionB.Add(Format('begin',[]));
-  SectionB.Add(Format('{$IFOPT D+}',[]));
-  SectionB.Add(Format('  result := GetValue( %s );', ['AQuantity.FValue']));
-  SectionB.Add(Format('{$ELSE}', []));
-  SectionB.Add(Format('  result := GetValue( %s );', ['AQuantity']));
-  SectionB.Add(Format('{$ENDIF}', []));
-  SectionB.Add(Format('end;',[]));
-  SectionB.Add(Format('',[]));
-
-  SectionB.Add(Format('function T%s.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;', [GetUnitID(AItem.FQuantity)]));
-  SectionB.Add(Format('begin',[]));
-  SectionB.Add(Format('{$IFOPT D+}',[]));
-  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AQuantity.FValue']));
-  SectionB.Add(Format('{$ELSE}', []));
-  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AQuantity']));
-  SectionB.Add(Format('{$ENDIF}', []));
-  SectionB.Add(Format('end;',[]));
-  SectionB.Add(Format('',[]));
-  SectionB.Add(Format('',[]));
 end;
 
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
@@ -800,11 +802,6 @@ begin
   SectionA8.Append('');
 
 
-  for i := 0 to FList.Count -1 do
-  begin
-    if Pos('%s', FList[i].FFactor) <> 0 then
-      AddGetValueFunctions(FList[i], SectionA8, SectionB8);
-  end;
 
 
 

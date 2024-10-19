@@ -1,15 +1,15 @@
 { Power functions }
 
-function SquarePower(const AValue: TQuantity): TQuantity;
-function CubicPower(const AValue: TQuantity): TQuantity;
-function QuarticPower(const AValue: TQuantity): TQuantity;
-function QuinticPower(const AValue: TQuantity): TQuantity;
-function SexticPower(const AValue: TQuantity): TQuantity;
-function SquareRoot(const AValue: TQuantity): TQuantity;
-function CubicRoot(const AValue: TQuantity): TQuantity;
-function QuarticRoot(const AValue: TQuantity): TQuantity;
-function QuinticRoot(const AValue: TQuantity): TQuantity;
-function SexticRoot(const AValue: TQuantity): TQuantity;
+function SquarePower(const AQuantity: TQuantity): TQuantity;
+function CubicPower(const AQuantity: TQuantity): TQuantity;
+function QuarticPower(const AQuantity: TQuantity): TQuantity;
+function QuinticPower(const AQuantity: TQuantity): TQuantity;
+function SexticPower(const AQuantity: TQuantity): TQuantity;
+function SquareRoot(const AQuantity: TQuantity): TQuantity;
+function CubicRoot(const AQuantity: TQuantity): TQuantity;
+function QuarticRoot(const AQuantity: TQuantity): TQuantity;
+function QuinticRoot(const AQuantity: TQuantity): TQuantity;
+function SexticRoot(const AQuantity: TQuantity): TQuantity;
 
 { Trigonometric functions }
 
@@ -38,20 +38,15 @@ function Cosecant(const AQuantity: double): double;
 
 { Math functions }
 
-generic function Min<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
-generic function Max<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
+function SameValue(const ALeft, ARight: TQuantity): boolean;
+function Min(const ALeft, ARight: TQuantity): TQuantity;
+function Max(const ALeft, ARight: TQuantity): TQuantity;
+function Exp(const AQuantity: TQuantity): TQuantity;
 
 { Useful routines }
 
 function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;
 function GetName(const AName: string; const Prefixes: TPrefixes): string;
-
-{ Helper functions }
-
-function SameValue(const ALeft, ARight: TQuantity): boolean;
-function Min(const ALeft, ARight: TQuantity): TQuantity;
-function Max(const ALeft, ARight: TQuantity): TQuantity;
-function Exp(const AQuantity: TQuantity): TQuantity;
 
 { Constants }
 

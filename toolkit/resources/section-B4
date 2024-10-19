@@ -1,123 +1,123 @@
 
 { Power functions }
 
-function SquarePower(const AValue: TQuantity): TQuantity;
-begin'
+function SquarePower(const AQuantity: TQuantity): TQuantity;
+begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Square;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Square;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := IntPower(AValue.FValue, 2);
+  result.FValue := IntPower(AQuantity.FValue, 2);
 {$ELSE}
-  result := IntPower(AValue, 2);
+  result := IntPower(AQuantity, 2);
 {$ENDIF}
 end;
 
-function CubicPower(const AValue: TQuantity): TQuantity;
+function CubicPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Cubic;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Cubic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := IntPower(AValue.FValue, 3);
+  result.FValue := IntPower(AQuantity.FValue, 3);
 {$ELSE}
-  result := IntPower(AValue, 3);
+  result := IntPower(AQuantity, 3);
 {$ENDIF}
 end;
 
-function QuarticPower(const AValue: TQuantity): TQuantity;
+function QuarticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Quartic;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quartic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := IntPower(AValue.FValue, 4);
+  result.FValue := IntPower(AQuantity.FValue, 4);
 {$ELSE}
-  result := IntPower(AValue, 4);
+  result := IntPower(AQuantity, 4);
 {$ENDIF}
 end;
 
-function QuinticPower(const AValue: TQuantity): TQuantity;
+function QuinticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Quintic;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quintic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := IntPower(AValue.FValue, 5);
+  result.FValue := IntPower(AQuantity.FValue, 5);
 {$ELSE}
-  result := IntPower(AValue, 5);
+  result := IntPower(AQuantity, 5);
 {$ENDIF}
 end;
 
-function SexticPower(const AValue: TQuantity): TQuantity;
+function SexticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Sextic;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Sextic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-   result.FValue := IntPower(AValue.FValue, 6);
+   result.FValue := IntPower(AQuantity.FValue, 6);
 {$ELSE}
-  result := IntPower(AValue, 6);
+  result := IntPower(AQuantity, 6);
 {$ENDIF}
 end;
 
-function SquareRoot(const AValue: TQuantity): TQuantity;
+function SquareRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Square;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Square;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/2);
+  result.FValue := Power(AQuantity.FValue, 1/2);
 {$ELSE};
-  result := Power(AValue, 1/2);
+  result := Power(AQuantity, 1/2);
 {$ENDIF}
 end;
 
-function CubicRoot(const AValue: TQuantity): TQuantity;
+function CubicRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Cubic;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Cubic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/3);
+  result.FValue := Power(AQuantity.FValue, 1/3);
 {$ELSE}
-  result := Power(AValue, 1/3);
+  result := Power(AQuantity, 1/3);
 {$ENDIF}
 end;
 
-function QuarticRoot(const AValue: TQuantity): TQuantity;
+function QuarticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Quartic;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quartic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/4);
+  result.FValue := Power(AQuantity.FValue, 1/4);
 {$ELSE}
-  result := Power(AValue, 1/4);
+  result := Power(AQuantity, 1/4);
 {$ENDIF}
 end;
 
-function QuinticRoot(const AValue: TQuantity): TQuantity;
+function QuinticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Quintic;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quintic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/5);
+  result.FValue := Power(AQuantity.FValue, 1/5);
 {$ELSE}
-  result := Power(AValue, 1/5);
+  result := Power(AQuantity, 1/5);
 {$ENDIF}
 end;
 
-function SexticRoot(const AValue: TQuantity): TQuantity;
+function SexticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Sextic;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Sextic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/6);
+  result.FValue := Power(AQuantity.FValue, 1/6);
 {$ELSE}
-  result := Power(AValue, 1/6);
+  result := Power(AQuantity, 1/6);
 {$ENDIF}
 end;
 

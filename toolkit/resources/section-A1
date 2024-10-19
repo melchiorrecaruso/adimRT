@@ -50,6 +50,8 @@ type
 
   generic TUnit<U> = record
     type TSelf = specialize TUnit<U>;
+  private
+    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   public
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
@@ -73,6 +75,8 @@ type
 
   generic TFactoredUnit<U> = record
     type TSelf = specialize TFactoredUnit<U>;
+  private
+    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   public
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;

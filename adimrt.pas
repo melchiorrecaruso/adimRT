@@ -27,7 +27,7 @@ unit ADimRT;
 {$MACRO ON}
 
 {
-  ADimRT library built on 19/10/2024.
+  ADimRT library built on 19-10-24.
 
   Number of base units: 160
   Number of factored units: 120
@@ -85,6 +85,8 @@ type
 
   generic TUnit<U> = record
     type TSelf = specialize TUnit<U>;
+  private
+    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   public
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
@@ -108,6 +110,8 @@ type
 
   generic TFactoredUnit<U> = record
     type TSelf = specialize TFactoredUnit<U>;
+  private
+    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   public
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
@@ -143,6 +147,9 @@ type
   end;
   TScalarUnit = specialize TUnit<TScalar>;
 
+var
+  Scalar     : TScalarUnit;
+
 { TRadian }
 
 type
@@ -174,8 +181,8 @@ type
   end;
   TDegreeUnit = specialize TUnit<TDegree>;
 
-const
-  deg        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 0; FValue: Pi/180); {$ELSE} (Pi/180); {$ENDIF}
+var
+  deg        : TDegreeUnit;
 
 { TSteradian }
 
@@ -208,8 +215,8 @@ type
   end;
   TSquareDegreeUnit = specialize TUnit<TSquareDegree>;
 
-const
-  deg2       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 0; FValue: Pi*Pi/32400); {$ELSE} (Pi*Pi/32400); {$ENDIF}
+var
+  deg2       : TSquareDegreeUnit;
 
 { TSecond }
 
@@ -253,8 +260,8 @@ type
   end;
   TDayUnit = specialize TUnit<TDay>;
 
-const
-  day        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 1; FValue: 86400); {$ELSE} (86400); {$ENDIF}
+var
+  day        : TDayUnit;
 
 { THour }
 
@@ -271,8 +278,8 @@ type
   end;
   THourUnit = specialize TUnit<THour>;
 
-const
-  hr         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 1; FValue: 3600); {$ELSE} (3600); {$ENDIF}
+var
+  hr         : THourUnit;
 
 { TMinute }
 
@@ -289,8 +296,8 @@ type
   end;
   TMinuteUnit = specialize TUnit<TMinute>;
 
-const
-  minute     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 1; FValue: 60); {$ELSE} (60); {$ENDIF}
+var
+  minute     : TMinuteUnit;
 
 { TSquareSecond }
 
@@ -334,8 +341,8 @@ type
   end;
   TSquareDayUnit = specialize TUnit<TSquareDay>;
 
-const
-  day2       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 2; FValue: 7464960000); {$ELSE} (7464960000); {$ENDIF}
+var
+  day2       : TSquareDayUnit;
 
 { TSquareHour }
 
@@ -352,8 +359,8 @@ type
   end;
   TSquareHourUnit = specialize TUnit<TSquareHour>;
 
-const
-  hr2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 2; FValue: 12960000); {$ELSE} (12960000); {$ENDIF}
+var
+  hr2        : TSquareHourUnit;
 
 { TSquareMinute }
 
@@ -370,8 +377,8 @@ type
   end;
   TSquareMinuteUnit = specialize TUnit<TSquareMinute>;
 
-const
-  minute2    : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 2; FValue: 3600); {$ELSE} (3600); {$ENDIF}
+var
+  minute2    : TSquareMinuteUnit;
 
 { TCubicSecond }
 
@@ -524,8 +531,8 @@ type
   end;
   TAstronomicalUnit = specialize TUnit<TAstronomical>;
 
-const
-  au         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 149597870691); {$ELSE} (149597870691); {$ENDIF}
+var
+  au         : TAstronomicalUnit;
 
 { TInch }
 
@@ -542,8 +549,8 @@ type
   end;
   TInchUnit = specialize TUnit<TInch>;
 
-const
-  inch       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 0.0254); {$ELSE} (0.0254); {$ENDIF}
+var
+  inch       : TInchUnit;
 
 { TFoot }
 
@@ -560,8 +567,8 @@ type
   end;
   TFootUnit = specialize TUnit<TFoot>;
 
-const
-  ft         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 0.3048); {$ELSE} (0.3048); {$ENDIF}
+var
+  ft         : TFootUnit;
 
 { TYard }
 
@@ -578,8 +585,8 @@ type
   end;
   TYardUnit = specialize TUnit<TYard>;
 
-const
-  yd         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 0.9144); {$ELSE} (0.9144); {$ENDIF}
+var
+  yd         : TYardUnit;
 
 { TMile }
 
@@ -596,8 +603,8 @@ type
   end;
   TMileUnit = specialize TUnit<TMile>;
 
-const
-  mi         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 1609.344); {$ELSE} (1609.344); {$ENDIF}
+var
+  mi         : TMileUnit;
 
 { TNauticalMile }
 
@@ -614,8 +621,8 @@ type
   end;
   TNauticalMileUnit = specialize TUnit<TNauticalMile>;
 
-const
-  nmi        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 1852); {$ELSE} (1852); {$ENDIF}
+var
+  nmi        : TNauticalMileUnit;
 
 { TAngstrom }
 
@@ -632,8 +639,8 @@ type
   end;
   TAngstromUnit = specialize TUnit<TAngstrom>;
 
-const
-  angstrom   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+var
+  angstrom   : TAngstromUnit;
 
 { TSquareRootMeter }
 
@@ -650,6 +657,9 @@ type
     const FExponents         : TExponents = (1);
   end;
   TSquareRootMeterUnit = specialize TUnit<TSquareRootMeter>;
+
+var
+  SquareRootMeter : TSquareRootMeterUnit;
 
 { TSquareMeter }
 
@@ -694,8 +704,8 @@ type
   end;
   TSquareInchUnit = specialize TUnit<TSquareInch>;
 
-const
-  inch2      : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 9; FValue: 0.00064516); {$ELSE} (0.00064516); {$ENDIF}
+var
+  inch2      : TSquareInchUnit;
 
 { TSquareFoot }
 
@@ -712,8 +722,8 @@ type
   end;
   TSquareFootUnit = specialize TUnit<TSquareFoot>;
 
-const
-  ft2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 9; FValue: 0.09290304); {$ELSE} (0.09290304); {$ENDIF}
+var
+  ft2        : TSquareFootUnit;
 
 { TSquareYard }
 
@@ -730,8 +740,8 @@ type
   end;
   TSquareYardUnit = specialize TUnit<TSquareYard>;
 
-const
-  yd2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 9; FValue: 0.83612736); {$ELSE} (0.83612736); {$ENDIF}
+var
+  yd2        : TSquareYardUnit;
 
 { TSquareMile }
 
@@ -748,8 +758,8 @@ type
   end;
   TSquareMileUnit = specialize TUnit<TSquareMile>;
 
-const
-  mi2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 9; FValue: 2589988.110336); {$ELSE} (2589988.110336); {$ENDIF}
+var
+  mi2        : TSquareMileUnit;
 
 { TCubicMeter }
 
@@ -794,8 +804,8 @@ type
   end;
   TCubicInchUnit = specialize TUnit<TCubicInch>;
 
-const
-  inch3      : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 0.000016387064); {$ELSE} (0.000016387064); {$ENDIF}
+var
+  inch3      : TCubicInchUnit;
 
 { TCubicFoot }
 
@@ -812,8 +822,8 @@ type
   end;
   TCubicFootUnit = specialize TUnit<TCubicFoot>;
 
-const
-  ft3        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 0.028316846592); {$ELSE} (0.028316846592); {$ENDIF}
+var
+  ft3        : TCubicFootUnit;
 
 { TCubicYard }
 
@@ -830,8 +840,8 @@ type
   end;
   TCubicYardUnit = specialize TUnit<TCubicYard>;
 
-const
-  yd3        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 0.764554857984); {$ELSE} (0.764554857984); {$ENDIF}
+var
+  yd3        : TCubicYardUnit;
 
 { TLitre }
 
@@ -848,8 +858,8 @@ type
   end;
   TLitreUnit = specialize TUnit<TLitre>;
 
-const
-  L          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+var
+  L          : TLitreUnit;
 
 const
   dL         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
@@ -871,8 +881,8 @@ type
   end;
   TGallonUnit = specialize TUnit<TGallon>;
 
-const
-  gal        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 0.0037854119678); {$ELSE} (0.0037854119678); {$ENDIF}
+var
+  gal        : TGallonUnit;
 
 { TQuarticMeter }
 
@@ -1003,8 +1013,8 @@ type
   end;
   TTonneUnit = specialize TUnit<TTonne>;
 
-const
-  tonne      : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+var
+  tonne      : TTonneUnit;
 
 const
   gigatonne  : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
@@ -1026,8 +1036,8 @@ type
   end;
   TPoundUnit = specialize TUnit<TPound>;
 
-const
-  lb         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 0.45359237); {$ELSE} (0.45359237); {$ENDIF}
+var
+  lb         : TPoundUnit;
 
 { TOunce }
 
@@ -1044,8 +1054,8 @@ type
   end;
   TOunceUnit = specialize TUnit<TOunce>;
 
-const
-  oz         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 0.028349523125); {$ELSE} (0.028349523125); {$ENDIF}
+var
+  oz         : TOunceUnit;
 
 { TStone }
 
@@ -1062,8 +1072,8 @@ type
   end;
   TStoneUnit = specialize TUnit<TStone>;
 
-const
-  st         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 6.35029318); {$ELSE} (6.35029318); {$ENDIF}
+var
+  st         : TStoneUnit;
 
 { TTon }
 
@@ -1080,8 +1090,8 @@ type
   end;
   TTonUnit = specialize TUnit<TTon>;
 
-const
-  ton        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 907.18474); {$ELSE} (907.18474); {$ENDIF}
+var
+  ton        : TTonUnit;
 
 { TElectronvoltPerSquareSpeedOfLight }
 
@@ -1097,6 +1107,9 @@ type
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   end;
   TElectronvoltPerSquareSpeedOfLightUnit = specialize TUnit<TElectronvoltPerSquareSpeedOfLight>;
+
+var
+  ElectronvoltPerSquareSpeedOfLight : TElectronvoltPerSquareSpeedOfLightUnit;
 
 { TSquareKilogram }
 
@@ -1381,6 +1394,9 @@ type
   end;
   TReciprocalSecondUnit = specialize TUnit<TReciprocalSecond>;
 
+var
+  ReciprocalSecond : TReciprocalSecondUnit;
+
 { TRadianPerSecond }
 
 type
@@ -1393,6 +1409,9 @@ type
     const FExponents         : TExponents = (-1);
   end;
   TRadianPerSecondUnit = specialize TUnit<TRadianPerSecond>;
+
+var
+  RadianPerSecond : TRadianPerSecondUnit;
 
 { TSquareHertz }
 
@@ -1432,6 +1451,9 @@ type
   end;
   TReciprocalSquareSecondUnit = specialize TUnit<TReciprocalSquareSecond>;
 
+var
+  ReciprocalSquareSecond : TReciprocalSquareSecondUnit;
+
 { TRadianPerSquareSecond }
 
 type
@@ -1444,6 +1466,9 @@ type
     const FExponents         : TExponents = (-2);
   end;
   TRadianPerSquareSecondUnit = specialize TUnit<TRadianPerSquareSecond>;
+
+var
+  RadianPerSquareSecond : TRadianPerSquareSecondUnit;
 
 { TSteradianPerSquareSecond }
 
@@ -1461,6 +1486,9 @@ type
   end;
   TSteradianPerSquareSecondUnit = specialize TUnit<TSteradianPerSquareSecond>;
 
+var
+  SteradianPerSquareSecond : TSteradianPerSquareSecondUnit;
+
 { TMeterPerSecond }
 
 const
@@ -1477,6 +1505,9 @@ type
   end;
   TMeterPerSecondUnit = specialize TUnit<TMeterPerSecond>;
 
+var
+  MeterPerSecond : TMeterPerSecondUnit;
+
 { TMeterPerHour }
 
 type
@@ -1491,6 +1522,9 @@ type
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   end;
   TMeterPerHourUnit = specialize TUnit<TMeterPerHour>;
+
+var
+  MeterPerHour : TMeterPerHourUnit;
 
 { TMilePerHour }
 
@@ -1507,6 +1541,9 @@ type
   end;
   TMilePerHourUnit = specialize TUnit<TMilePerHour>;
 
+var
+  MilePerHour : TMilePerHourUnit;
+
 { TNauticalMilePerHour }
 
 type
@@ -1521,6 +1558,9 @@ type
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   end;
   TNauticalMilePerHourUnit = specialize TUnit<TNauticalMilePerHour>;
+
+var
+  NauticalMilePerHour : TNauticalMilePerHourUnit;
 
 { TMeterPerSquareSecond }
 
@@ -1538,6 +1578,9 @@ type
   end;
   TMeterPerSquareSecondUnit = specialize TUnit<TMeterPerSquareSecond>;
 
+var
+  MeterPerSquareSecond : TMeterPerSquareSecondUnit;
+
 { TMeterPerSecondPerSecond }
 
 type
@@ -1550,6 +1593,9 @@ type
     const FExponents         : TExponents = (1, -1, -1);
   end;
   TMeterPerSecondPerSecondUnit = specialize TUnit<TMeterPerSecondPerSecond>;
+
+var
+  MeterPerSecondPerSecond : TMeterPerSecondPerSecondUnit;
 
 { TMeterPerHourPerSecond }
 
@@ -1565,6 +1611,9 @@ type
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   end;
   TMeterPerHourPerSecondUnit = specialize TUnit<TMeterPerHourPerSecond>;
+
+var
+  MeterPerHourPerSecond : TMeterPerHourPerSecondUnit;
 
 { TMeterPerCubicSecond }
 
@@ -1582,6 +1631,9 @@ type
   end;
   TMeterPerCubicSecondUnit = specialize TUnit<TMeterPerCubicSecond>;
 
+var
+  MeterPerCubicSecond : TMeterPerCubicSecondUnit;
+
 { TMeterPerQuarticSecond }
 
 const
@@ -1597,6 +1649,9 @@ type
     const FExponents         : TExponents = (1, -4);
   end;
   TMeterPerQuarticSecondUnit = specialize TUnit<TMeterPerQuarticSecond>;
+
+var
+  MeterPerQuarticSecond : TMeterPerQuarticSecondUnit;
 
 { TMeterPerQuinticSecond }
 
@@ -1614,6 +1669,9 @@ type
   end;
   TMeterPerQuinticSecondUnit = specialize TUnit<TMeterPerQuinticSecond>;
 
+var
+  MeterPerQuinticSecond : TMeterPerQuinticSecondUnit;
+
 { TMeterPerSexticSecond }
 
 const
@@ -1629,6 +1687,9 @@ type
     const FExponents         : TExponents = (1, -6);
   end;
   TMeterPerSexticSecondUnit = specialize TUnit<TMeterPerSexticSecond>;
+
+var
+  MeterPerSexticSecond : TMeterPerSexticSecondUnit;
 
 { TSquareMeterPerSquareSecond }
 
@@ -1646,6 +1707,9 @@ type
   end;
   TSquareMeterPerSquareSecondUnit = specialize TUnit<TSquareMeterPerSquareSecond>;
 
+var
+  SquareMeterPerSquareSecond : TSquareMeterPerSquareSecondUnit;
+
 { TJoulePerKilogram }
 
 type
@@ -1658,6 +1722,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TJoulePerKilogramUnit = specialize TUnit<TJoulePerKilogram>;
+
+var
+  JoulePerKilogram : TJoulePerKilogramUnit;
 
 { TGray }
 
@@ -1719,6 +1786,9 @@ type
   end;
   TMeterSecondUnit = specialize TUnit<TMeterSecond>;
 
+var
+  MeterSecond : TMeterSecondUnit;
+
 { TKilogramMeter }
 
 const
@@ -1734,6 +1804,9 @@ type
     const FExponents         : TExponents = (1, 1);
   end;
   TKilogramMeterUnit = specialize TUnit<TKilogramMeter>;
+
+var
+  KilogramMeter : TKilogramMeterUnit;
 
 { TKilogramPerSecond }
 
@@ -1751,6 +1824,9 @@ type
   end;
   TKilogramPerSecondUnit = specialize TUnit<TKilogramPerSecond>;
 
+var
+  KilogramPerSecond : TKilogramPerSecondUnit;
+
 { TJoulePerSquareMeterPerHertz }
 
 type
@@ -1763,6 +1839,9 @@ type
     const FExponents         : TExponents = (1, -2, -1);
   end;
   TJoulePerSquareMeterPerHertzUnit = specialize TUnit<TJoulePerSquareMeterPerHertz>;
+
+var
+  JoulePerSquareMeterPerHertz : TJoulePerSquareMeterPerHertzUnit;
 
 { TKilogramMeterPerSecond }
 
@@ -1780,6 +1859,9 @@ type
   end;
   TKilogramMeterPerSecondUnit = specialize TUnit<TKilogramMeterPerSecond>;
 
+var
+  KilogramMeterPerSecond : TKilogramMeterPerSecondUnit;
+
 { TNewtonSecond }
 
 type
@@ -1792,6 +1874,9 @@ type
     const FExponents         : TExponents = (1, 1);
   end;
   TNewtonSecondUnit = specialize TUnit<TNewtonSecond>;
+
+var
+  NewtonSecond : TNewtonSecondUnit;
 
 { TSquareKilogramSquareMeterPerSquareSecond }
 
@@ -1809,6 +1894,9 @@ type
   end;
   TSquareKilogramSquareMeterPerSquareSecondUnit = specialize TUnit<TSquareKilogramSquareMeterPerSquareSecond>;
 
+var
+  SquareKilogramSquareMeterPerSquareSecond : TSquareKilogramSquareMeterPerSquareSecondUnit;
+
 { TReciprocalSquareRootMeter }
 
 const
@@ -1824,6 +1912,9 @@ type
     const FExponents         : TExponents = (-1);
   end;
   TReciprocalSquareRootMeterUnit = specialize TUnit<TReciprocalSquareRootMeter>;
+
+var
+  ReciprocalSquareRootMeter : TReciprocalSquareRootMeterUnit;
 
 { TReciprocalMeter }
 
@@ -1841,6 +1932,9 @@ type
   end;
   TReciprocalMeterUnit = specialize TUnit<TReciprocalMeter>;
 
+var
+  ReciprocalMeter : TReciprocalMeterUnit;
+
 { TDioptre }
 
 type
@@ -1853,6 +1947,9 @@ type
     const FExponents         : TExponents = ();
   end;
   TDioptreUnit = specialize TUnit<TDioptre>;
+
+var
+  Dioptre    : TDioptreUnit;
 
 { TReciprocalSquareRootCubicMeter }
 
@@ -1870,6 +1967,9 @@ type
   end;
   TReciprocalSquareRootCubicMeterUnit = specialize TUnit<TReciprocalSquareRootCubicMeter>;
 
+var
+  ReciprocalSquareRootCubicMeter : TReciprocalSquareRootCubicMeterUnit;
+
 { TReciprocalSquareMeter }
 
 const
@@ -1885,6 +1985,9 @@ type
     const FExponents         : TExponents = (-2);
   end;
   TReciprocalSquareMeterUnit = specialize TUnit<TReciprocalSquareMeter>;
+
+var
+  ReciprocalSquareMeter : TReciprocalSquareMeterUnit;
 
 { TReciprocalCubicMeter }
 
@@ -1902,6 +2005,9 @@ type
   end;
   TReciprocalCubicMeterUnit = specialize TUnit<TReciprocalCubicMeter>;
 
+var
+  ReciprocalCubicMeter : TReciprocalCubicMeterUnit;
+
 { TReciprocalQuarticMeter }
 
 const
@@ -1917,6 +2023,9 @@ type
     const FExponents         : TExponents = (-4);
   end;
   TReciprocalQuarticMeterUnit = specialize TUnit<TReciprocalQuarticMeter>;
+
+var
+  ReciprocalQuarticMeter : TReciprocalQuarticMeterUnit;
 
 { TKilogramSquareMeter }
 
@@ -1934,6 +2043,9 @@ type
   end;
   TKilogramSquareMeterUnit = specialize TUnit<TKilogramSquareMeter>;
 
+var
+  KilogramSquareMeter : TKilogramSquareMeterUnit;
+
 { TKilogramSquareMeterPerSecond }
 
 const
@@ -1950,6 +2062,9 @@ type
   end;
   TKilogramSquareMeterPerSecondUnit = specialize TUnit<TKilogramSquareMeterPerSecond>;
 
+var
+  KilogramSquareMeterPerSecond : TKilogramSquareMeterPerSecondUnit;
+
 { TNewtonMeterSecond }
 
 type
@@ -1962,6 +2077,9 @@ type
     const FExponents         : TExponents = (1, 1, 1);
   end;
   TNewtonMeterSecondUnit = specialize TUnit<TNewtonMeterSecond>;
+
+var
+  NewtonMeterSecond : TNewtonMeterSecondUnit;
 
 { TSecondPerMeter }
 
@@ -1979,6 +2097,9 @@ type
   end;
   TSecondPerMeterUnit = specialize TUnit<TSecondPerMeter>;
 
+var
+  SecondPerMeter : TSecondPerMeterUnit;
+
 { TKilogramPerMeter }
 
 const
@@ -1994,6 +2115,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TKilogramPerMeterUnit = specialize TUnit<TKilogramPerMeter>;
+
+var
+  KilogramPerMeter : TKilogramPerMeterUnit;
 
 { TKilogramPerSquareMeter }
 
@@ -2011,6 +2135,9 @@ type
   end;
   TKilogramPerSquareMeterUnit = specialize TUnit<TKilogramPerSquareMeter>;
 
+var
+  KilogramPerSquareMeter : TKilogramPerSquareMeterUnit;
+
 { TKilogramPerCubicMeter }
 
 const
@@ -2027,6 +2154,9 @@ type
   end;
   TKilogramPerCubicMeterUnit = specialize TUnit<TKilogramPerCubicMeter>;
 
+var
+  KilogramPerCubicMeter : TKilogramPerCubicMeterUnit;
+
 { TPoundPerCubicInch }
 
 type
@@ -2041,6 +2171,9 @@ type
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   end;
   TPoundPerCubicInchUnit = specialize TUnit<TPoundPerCubicInch>;
+
+var
+  PoundPerCubicInch : TPoundPerCubicInchUnit;
 
 { TNewton }
 
@@ -2083,8 +2216,8 @@ type
   end;
   TPoundForceUnit = specialize TUnit<TPoundForce>;
 
-const
-  lbf        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 51; FValue: 4.4482216152605); {$ELSE} (4.4482216152605); {$ENDIF}
+var
+  lbf        : TPoundForceUnit;
 
 { TKilogramMeterPerSquareSecond }
 
@@ -2098,6 +2231,9 @@ type
     const FExponents         : TExponents = (1, 1, -2);
   end;
   TKilogramMeterPerSquareSecondUnit = specialize TUnit<TKilogramMeterPerSquareSecond>;
+
+var
+  KilogramMeterPerSquareSecond : TKilogramMeterPerSquareSecondUnit;
 
 { TNewtonRadian }
 
@@ -2114,6 +2250,9 @@ type
     const FExponents         : TExponents = (1, 1);
   end;
   TNewtonRadianUnit = specialize TUnit<TNewtonRadian>;
+
+var
+  NewtonRadian : TNewtonRadianUnit;
 
 { TSquareNewton }
 
@@ -2154,6 +2293,9 @@ type
   end;
   TSquareKilogramSquareMeterPerQuarticSecondUnit = specialize TUnit<TSquareKilogramSquareMeterPerQuarticSecond>;
 
+var
+  SquareKilogramSquareMeterPerQuarticSecond : TSquareKilogramSquareMeterPerQuarticSecondUnit;
+
 { TPascal }
 
 const
@@ -2192,6 +2334,9 @@ type
   end;
   TNewtonPerSquareMeterUnit = specialize TUnit<TNewtonPerSquareMeter>;
 
+var
+  NewtonPerSquareMeter : TNewtonPerSquareMeterUnit;
+
 { TBar }
 
 type
@@ -2207,8 +2352,8 @@ type
   end;
   TBarUnit = specialize TUnit<TBar>;
 
-const
-  bar        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 54; FValue: 1E+05); {$ELSE} (1E+05); {$ENDIF}
+var
+  bar        : TBarUnit;
 
 const
   kbar       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 54; FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
@@ -2229,8 +2374,8 @@ type
   end;
   TPoundPerSquareInchUnit = specialize TUnit<TPoundPerSquareInch>;
 
-const
-  psi        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 54; FValue: 6894.75729316836); {$ELSE} (6894.75729316836); {$ENDIF}
+var
+  psi        : TPoundPerSquareInchUnit;
 
 const
   kpsi       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 54; FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
@@ -2248,6 +2393,9 @@ type
   end;
   TJoulePerCubicMeterUnit = specialize TUnit<TJoulePerCubicMeter>;
 
+var
+  JoulePerCubicMeter : TJoulePerCubicMeterUnit;
+
 { TKilogramPerMeterPerSquareSecond }
 
 type
@@ -2260,6 +2408,9 @@ type
     const FExponents         : TExponents = (1, -1, -2);
   end;
   TKilogramPerMeterPerSquareSecondUnit = specialize TUnit<TKilogramPerMeterPerSquareSecond>;
+
+var
+  KilogramPerMeterPerSquareSecond : TKilogramPerMeterPerSquareSecondUnit;
 
 { TJoule }
 
@@ -2301,6 +2452,9 @@ type
   end;
   TWattHourUnit = specialize TUnit<TWattHour>;
 
+var
+  WattHour   : TWattHourUnit;
+
 { TWattSecond }
 
 type
@@ -2314,6 +2468,9 @@ type
   end;
   TWattSecondUnit = specialize TUnit<TWattSecond>;
 
+var
+  WattSecond : TWattSecondUnit;
+
 { TWattPerHertz }
 
 type
@@ -2326,6 +2483,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TWattPerHertzUnit = specialize TUnit<TWattPerHertz>;
+
+var
+  WattPerHertz : TWattPerHertzUnit;
 
 { TElectronvolt }
 
@@ -2342,8 +2502,8 @@ type
   end;
   TElectronvoltUnit = specialize TUnit<TElectronvolt>;
 
-const
-  eV         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019); {$ELSE} (1.602176634E-019); {$ENDIF}
+var
+  eV         : TElectronvoltUnit;
 
 const
   TeV        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
@@ -2364,6 +2524,9 @@ type
   end;
   TNewtonMeterUnit = specialize TUnit<TNewtonMeter>;
 
+var
+  NewtonMeter : TNewtonMeterUnit;
+
 { TPoundForceInch }
 
 type
@@ -2378,6 +2541,9 @@ type
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   end;
   TPoundForceInchUnit = specialize TUnit<TPoundForceInch>;
+
+var
+  PoundForceInch : TPoundForceInchUnit;
 
 { TRydberg }
 
@@ -2394,8 +2560,8 @@ type
   end;
   TRydbergUnit = specialize TUnit<TRydberg>;
 
-const
-  Ry         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 2.1798723611035E-18); {$ELSE} (2.1798723611035E-18); {$ENDIF}
+var
+  Ry         : TRydbergUnit;
 
 { TCalorie }
 
@@ -2412,8 +2578,8 @@ type
   end;
   TCalorieUnit = specialize TUnit<TCalorie>;
 
-const
-  cal        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 4.184); {$ELSE} (4.184); {$ENDIF}
+var
+  cal        : TCalorieUnit;
 
 const
   Mcal       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
@@ -2432,6 +2598,9 @@ type
   end;
   TKilogramSquareMeterPerSquareSecondUnit = specialize TUnit<TKilogramSquareMeterPerSquareSecond>;
 
+var
+  KilogramSquareMeterPerSquareSecond : TKilogramSquareMeterPerSquareSecondUnit;
+
 { TJoulePerRadian }
 
 const
@@ -2448,6 +2617,9 @@ type
   end;
   TJoulePerRadianUnit = specialize TUnit<TJoulePerRadian>;
 
+var
+  JoulePerRadian : TJoulePerRadianUnit;
+
 { TJoulePerDegree }
 
 type
@@ -2463,6 +2635,9 @@ type
   end;
   TJoulePerDegreeUnit = specialize TUnit<TJoulePerDegree>;
 
+var
+  JoulePerDegree : TJoulePerDegreeUnit;
+
 { TNewtonMeterPerRadian }
 
 type
@@ -2475,6 +2650,9 @@ type
     const FExponents         : TExponents = (1, 1);
   end;
   TNewtonMeterPerRadianUnit = specialize TUnit<TNewtonMeterPerRadian>;
+
+var
+  NewtonMeterPerRadian : TNewtonMeterPerRadianUnit;
 
 { TNewtonMeterPerDegree }
 
@@ -2491,6 +2669,9 @@ type
   end;
   TNewtonMeterPerDegreeUnit = specialize TUnit<TNewtonMeterPerDegree>;
 
+var
+  NewtonMeterPerDegree : TNewtonMeterPerDegreeUnit;
+
 { TKilogramSquareMeterPerSquareSecondPerRadian }
 
 type
@@ -2503,6 +2684,9 @@ type
     const FExponents         : TExponents = (1, 2, -2);
   end;
   TKilogramSquareMeterPerSquareSecondPerRadianUnit = specialize TUnit<TKilogramSquareMeterPerSquareSecondPerRadian>;
+
+var
+  KilogramSquareMeterPerSquareSecondPerRadian : TKilogramSquareMeterPerSquareSecondPerRadianUnit;
 
 { TWatt }
 
@@ -2542,6 +2726,9 @@ type
     const FExponents         : TExponents = (1, 2, -3);
   end;
   TKilogramSquareMeterPerCubicSecondUnit = specialize TUnit<TKilogramSquareMeterPerCubicSecond>;
+
+var
+  KilogramSquareMeterPerCubicSecond : TKilogramSquareMeterPerCubicSecondUnit;
 
 { TCoulomb }
 
@@ -2588,6 +2775,9 @@ type
   end;
   TAmpereHourUnit = specialize TUnit<TAmpereHour>;
 
+var
+  AmpereHour : TAmpereHourUnit;
+
 { TAmpereSecond }
 
 type
@@ -2600,6 +2790,9 @@ type
     const FExponents         : TExponents = (1, 1);
   end;
   TAmpereSecondUnit = specialize TUnit<TAmpereSecond>;
+
+var
+  AmpereSecond : TAmpereSecondUnit;
 
 { TSquareCoulomb }
 
@@ -2644,6 +2837,9 @@ type
   end;
   TSquareAmpereSquareSecondUnit = specialize TUnit<TSquareAmpereSquareSecond>;
 
+var
+  SquareAmpereSquareSecond : TSquareAmpereSquareSecondUnit;
+
 { TCoulombMeter }
 
 const
@@ -2659,6 +2855,9 @@ type
     const FExponents         : TExponents = (1, 1);
   end;
   TCoulombMeterUnit = specialize TUnit<TCoulombMeter>;
+
+var
+  CoulombMeter : TCoulombMeterUnit;
 
 { TVolt }
 
@@ -2696,6 +2895,9 @@ type
   end;
   TJoulePerCoulombUnit = specialize TUnit<TJoulePerCoulomb>;
 
+var
+  JoulePerCoulomb : TJoulePerCoulombUnit;
+
 { TKilogramSquareMeterPerAmperePerCubicSecond }
 
 type
@@ -2708,6 +2910,9 @@ type
     const FExponents         : TExponents = (1, 2, -1, -3);
   end;
   TKilogramSquareMeterPerAmperePerCubicSecondUnit = specialize TUnit<TKilogramSquareMeterPerAmperePerCubicSecond>;
+
+var
+  KilogramSquareMeterPerAmperePerCubicSecond : TKilogramSquareMeterPerAmperePerCubicSecondUnit;
 
 { TSquareVolt }
 
@@ -2744,6 +2949,9 @@ type
     const FExponents         : TExponents = (2, 3, -2, -6);
   end;
   TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit = specialize TUnit<TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond>;
+
+var
+  SquareKilogramQuarticMeterPerSquareAmperePerSexticSecond : TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit;
 
 { TFarad }
 
@@ -2783,6 +2991,9 @@ type
   end;
   TCoulombPerVoltUnit = specialize TUnit<TCoulombPerVolt>;
 
+var
+  CoulombPerVolt : TCoulombPerVoltUnit;
+
 { TSquareAmpereQuarticSecondPerKilogramPerSquareMeter }
 
 type
@@ -2795,6 +3006,9 @@ type
     const FExponents         : TExponents = (2, 4, -1, -2);
   end;
   TSquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit = specialize TUnit<TSquareAmpereQuarticSecondPerKilogramPerSquareMeter>;
+
+var
+  SquareAmpereQuarticSecondPerKilogramPerSquareMeter : TSquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit;
 
 { TOhm }
 
@@ -2836,6 +3050,9 @@ type
   end;
   TKilogramSquareMeterPerSquareAmperePerCubicSecondUnit = specialize TUnit<TKilogramSquareMeterPerSquareAmperePerCubicSecond>;
 
+var
+  KilogramSquareMeterPerSquareAmperePerCubicSecond : TKilogramSquareMeterPerSquareAmperePerCubicSecondUnit;
+
 { TSiemens }
 
 const
@@ -2873,6 +3090,9 @@ type
   end;
   TSquareAmpereCubicSecondPerKilogramPerSquareMeterUnit = specialize TUnit<TSquareAmpereCubicSecondPerKilogramPerSquareMeter>;
 
+var
+  SquareAmpereCubicSecondPerKilogramPerSquareMeter : TSquareAmpereCubicSecondPerKilogramPerSquareMeterUnit;
+
 { TSiemensPerMeter }
 
 const
@@ -2888,6 +3108,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TSiemensPerMeterUnit = specialize TUnit<TSiemensPerMeter>;
+
+var
+  SiemensPerMeter : TSiemensPerMeterUnit;
 
 { TTesla }
 
@@ -2926,6 +3149,9 @@ type
   end;
   TWeberPerSquareMeterUnit = specialize TUnit<TWeberPerSquareMeter>;
 
+var
+  WeberPerSquareMeter : TWeberPerSquareMeterUnit;
+
 { TKilogramPerAmperePerSquareSecond }
 
 type
@@ -2938,6 +3164,9 @@ type
     const FExponents         : TExponents = (1, -1, -2);
   end;
   TKilogramPerAmperePerSquareSecondUnit = specialize TUnit<TKilogramPerAmperePerSquareSecond>;
+
+var
+  KilogramPerAmperePerSquareSecond : TKilogramPerAmperePerSquareSecondUnit;
 
 { TWeber }
 
@@ -2970,6 +3199,9 @@ type
     const FExponents         : TExponents = (1, 2, -1, -2);
   end;
   TKilogramSquareMeterPerAmperePerSquareSecondUnit = specialize TUnit<TKilogramSquareMeterPerAmperePerSquareSecond>;
+
+var
+  KilogramSquareMeterPerAmperePerSquareSecond : TKilogramSquareMeterPerAmperePerSquareSecondUnit;
 
 { THenry }
 
@@ -3008,6 +3240,9 @@ type
   end;
   TKilogramSquareMeterPerSquareAmperePerSquareSecondUnit = specialize TUnit<TKilogramSquareMeterPerSquareAmperePerSquareSecond>;
 
+var
+  KilogramSquareMeterPerSquareAmperePerSquareSecond : TKilogramSquareMeterPerSquareAmperePerSquareSecondUnit;
+
 { TReciprocalHenry }
 
 const
@@ -3023,6 +3258,9 @@ type
     const FExponents         : TExponents = (-1);
   end;
   TReciprocalHenryUnit = specialize TUnit<TReciprocalHenry>;
+
+var
+  ReciprocalHenry : TReciprocalHenryUnit;
 
 { TLumen }
 
@@ -3056,6 +3294,9 @@ type
   end;
   TCandelaSteradianUnit = specialize TUnit<TCandelaSteradian>;
 
+var
+  CandelaSteradian : TCandelaSteradianUnit;
+
 { TLumenSecond }
 
 const
@@ -3072,6 +3313,9 @@ type
   end;
   TLumenSecondUnit = specialize TUnit<TLumenSecond>;
 
+var
+  LumenSecond : TLumenSecondUnit;
+
 { TLumenSecondPerCubicMeter }
 
 const
@@ -3087,6 +3331,9 @@ type
     const FExponents         : TExponents = (1, 1, -3);
   end;
   TLumenSecondPerCubicMeterUnit = specialize TUnit<TLumenSecondPerCubicMeter>;
+
+var
+  LumenSecondPerCubicMeter : TLumenSecondPerCubicMeterUnit;
 
 { TLux }
 
@@ -3120,6 +3367,9 @@ type
   end;
   TCandelaSteradianPerSquareMeterUnit = specialize TUnit<TCandelaSteradianPerSquareMeter>;
 
+var
+  CandelaSteradianPerSquareMeter : TCandelaSteradianPerSquareMeterUnit;
+
 { TLuxSecond }
 
 const
@@ -3135,6 +3385,9 @@ type
     const FExponents         : TExponents = (1, 1);
   end;
   TLuxSecondUnit = specialize TUnit<TLuxSecond>;
+
+var
+  LuxSecond  : TLuxSecondUnit;
 
 { TBequerel }
 
@@ -3191,6 +3444,9 @@ type
   end;
   TMolePerSecondUnit = specialize TUnit<TMolePerSecond>;
 
+var
+  MolePerSecond : TMolePerSecondUnit;
+
 { TNewtonPerCubicMeter }
 
 const
@@ -3207,6 +3463,9 @@ type
   end;
   TNewtonPerCubicMeterUnit = specialize TUnit<TNewtonPerCubicMeter>;
 
+var
+  NewtonPerCubicMeter : TNewtonPerCubicMeterUnit;
+
 { TPascalPerMeter }
 
 type
@@ -3220,6 +3479,9 @@ type
   end;
   TPascalPerMeterUnit = specialize TUnit<TPascalPerMeter>;
 
+var
+  PascalPerMeter : TPascalPerMeterUnit;
+
 { TKilogramPerSquareMeterPerSquareSecond }
 
 type
@@ -3232,6 +3494,9 @@ type
     const FExponents         : TExponents = (1, -2, -2);
   end;
   TKilogramPerSquareMeterPerSquareSecondUnit = specialize TUnit<TKilogramPerSquareMeterPerSquareSecond>;
+
+var
+  KilogramPerSquareMeterPerSquareSecond : TKilogramPerSquareMeterPerSquareSecondUnit;
 
 { TNewtonPerMeter }
 
@@ -3249,6 +3514,9 @@ type
   end;
   TNewtonPerMeterUnit = specialize TUnit<TNewtonPerMeter>;
 
+var
+  NewtonPerMeter : TNewtonPerMeterUnit;
+
 { TJoulePerSquareMeter }
 
 type
@@ -3262,6 +3530,9 @@ type
   end;
   TJoulePerSquareMeterUnit = specialize TUnit<TJoulePerSquareMeter>;
 
+var
+  JoulePerSquareMeter : TJoulePerSquareMeterUnit;
+
 { TWattPerSquareMeterPerHertz }
 
 type
@@ -3274,6 +3545,9 @@ type
     const FExponents         : TExponents = (1, -2, -1);
   end;
   TWattPerSquareMeterPerHertzUnit = specialize TUnit<TWattPerSquareMeterPerHertz>;
+
+var
+  WattPerSquareMeterPerHertz : TWattPerSquareMeterPerHertzUnit;
 
 { TPoundForcePerInch }
 
@@ -3290,6 +3564,9 @@ type
   end;
   TPoundForcePerInchUnit = specialize TUnit<TPoundForcePerInch>;
 
+var
+  PoundForcePerInch : TPoundForcePerInchUnit;
+
 { TKilogramPerSquareSecond }
 
 type
@@ -3302,6 +3579,9 @@ type
     const FExponents         : TExponents = (1, -2);
   end;
   TKilogramPerSquareSecondUnit = specialize TUnit<TKilogramPerSquareSecond>;
+
+var
+  KilogramPerSquareSecond : TKilogramPerSquareSecondUnit;
 
 { TCubicMeterPerSecond }
 
@@ -3318,6 +3598,9 @@ type
     const FExponents         : TExponents = (3, -1);
   end;
   TCubicMeterPerSecondUnit = specialize TUnit<TCubicMeterPerSecond>;
+
+var
+  CubicMeterPerSecond : TCubicMeterPerSecondUnit;
 
 { TPoiseuille }
 
@@ -3356,6 +3639,9 @@ type
   end;
   TPascalSecondUnit = specialize TUnit<TPascalSecond>;
 
+var
+  PascalSecond : TPascalSecondUnit;
+
 { TKilogramPerMeterPerSecond }
 
 type
@@ -3368,6 +3654,9 @@ type
     const FExponents         : TExponents = (1, -1, -1);
   end;
   TKilogramPerMeterPerSecondUnit = specialize TUnit<TKilogramPerMeterPerSecond>;
+
+var
+  KilogramPerMeterPerSecond : TKilogramPerMeterPerSecondUnit;
 
 { TSquareMeterPerSecond }
 
@@ -3385,6 +3674,9 @@ type
   end;
   TSquareMeterPerSecondUnit = specialize TUnit<TSquareMeterPerSecond>;
 
+var
+  SquareMeterPerSecond : TSquareMeterPerSecondUnit;
+
 { TKilogramPerQuarticMeter }
 
 const
@@ -3400,6 +3692,9 @@ type
     const FExponents         : TExponents = (1, -4);
   end;
   TKilogramPerQuarticMeterUnit = specialize TUnit<TKilogramPerQuarticMeter>;
+
+var
+  KilogramPerQuarticMeter : TKilogramPerQuarticMeterUnit;
 
 { TQuarticMeterSecond }
 
@@ -3417,6 +3712,9 @@ type
   end;
   TQuarticMeterSecondUnit = specialize TUnit<TQuarticMeterSecond>;
 
+var
+  QuarticMeterSecond : TQuarticMeterSecondUnit;
+
 { TKilogramPerQuarticMeterPerSecond }
 
 const
@@ -3432,6 +3730,9 @@ type
     const FExponents         : TExponents = (1, -4, -1);
   end;
   TKilogramPerQuarticMeterPerSecondUnit = specialize TUnit<TKilogramPerQuarticMeterPerSecond>;
+
+var
+  KilogramPerQuarticMeterPerSecond : TKilogramPerQuarticMeterPerSecondUnit;
 
 { TCubicMeterPerKilogram }
 
@@ -3449,6 +3750,9 @@ type
   end;
   TCubicMeterPerKilogramUnit = specialize TUnit<TCubicMeterPerKilogram>;
 
+var
+  CubicMeterPerKilogram : TCubicMeterPerKilogramUnit;
+
 { TKilogramSquareSecond }
 
 const
@@ -3464,6 +3768,9 @@ type
     const FExponents         : TExponents = (1, 2);
   end;
   TKilogramSquareSecondUnit = specialize TUnit<TKilogramSquareSecond>;
+
+var
+  KilogramSquareSecond : TKilogramSquareSecondUnit;
 
 { TCubicMeterPerSquareSecond }
 
@@ -3481,6 +3788,9 @@ type
   end;
   TCubicMeterPerSquareSecondUnit = specialize TUnit<TCubicMeterPerSquareSecond>;
 
+var
+  CubicMeterPerSquareSecond : TCubicMeterPerSquareSecondUnit;
+
 { TNewtonSquareMeter }
 
 const
@@ -3497,6 +3807,9 @@ type
   end;
   TNewtonSquareMeterUnit = specialize TUnit<TNewtonSquareMeter>;
 
+var
+  NewtonSquareMeter : TNewtonSquareMeterUnit;
+
 { TKilogramCubicMeterPerSquareSecond }
 
 type
@@ -3509,6 +3822,9 @@ type
     const FExponents         : TExponents = (1, 3, -2);
   end;
   TKilogramCubicMeterPerSquareSecondUnit = specialize TUnit<TKilogramCubicMeterPerSquareSecond>;
+
+var
+  KilogramCubicMeterPerSquareSecond : TKilogramCubicMeterPerSquareSecondUnit;
 
 { TNewtonCubicMeter }
 
@@ -3526,6 +3842,9 @@ type
   end;
   TNewtonCubicMeterUnit = specialize TUnit<TNewtonCubicMeter>;
 
+var
+  NewtonCubicMeter : TNewtonCubicMeterUnit;
+
 { TKilogramQuarticMeterPerSquareSecond }
 
 type
@@ -3538,6 +3857,9 @@ type
     const FExponents         : TExponents = (1, 4, -2);
   end;
   TKilogramQuarticMeterPerSquareSecondUnit = specialize TUnit<TKilogramQuarticMeterPerSquareSecond>;
+
+var
+  KilogramQuarticMeterPerSquareSecond : TKilogramQuarticMeterPerSquareSecondUnit;
 
 { TNewtonPerSquareKilogram }
 
@@ -3555,6 +3877,9 @@ type
   end;
   TNewtonPerSquareKilogramUnit = specialize TUnit<TNewtonPerSquareKilogram>;
 
+var
+  NewtonPerSquareKilogram : TNewtonPerSquareKilogramUnit;
+
 { TMeterPerKilogramPerSquareSecond }
 
 type
@@ -3567,6 +3892,9 @@ type
     const FExponents         : TExponents = (1, -1, -2);
   end;
   TMeterPerKilogramPerSquareSecondUnit = specialize TUnit<TMeterPerKilogramPerSquareSecond>;
+
+var
+  MeterPerKilogramPerSquareSecond : TMeterPerKilogramPerSquareSecondUnit;
 
 { TSquareKilogramPerMeter }
 
@@ -3584,6 +3912,9 @@ type
   end;
   TSquareKilogramPerMeterUnit = specialize TUnit<TSquareKilogramPerMeter>;
 
+var
+  SquareKilogramPerMeter : TSquareKilogramPerMeterUnit;
+
 { TSquareKilogramPerSquareMeter }
 
 const
@@ -3599,6 +3930,9 @@ type
     const FExponents         : TExponents = (2, -2);
   end;
   TSquareKilogramPerSquareMeterUnit = specialize TUnit<TSquareKilogramPerSquareMeter>;
+
+var
+  SquareKilogramPerSquareMeter : TSquareKilogramPerSquareMeterUnit;
 
 { TSquareMeterPerSquareKilogram }
 
@@ -3616,6 +3950,9 @@ type
   end;
   TSquareMeterPerSquareKilogramUnit = specialize TUnit<TSquareMeterPerSquareKilogram>;
 
+var
+  SquareMeterPerSquareKilogram : TSquareMeterPerSquareKilogramUnit;
+
 { TNewtonSquareMeterPerSquareKilogram }
 
 const
@@ -3632,6 +3969,9 @@ type
   end;
   TNewtonSquareMeterPerSquareKilogramUnit = specialize TUnit<TNewtonSquareMeterPerSquareKilogram>;
 
+var
+  NewtonSquareMeterPerSquareKilogram : TNewtonSquareMeterPerSquareKilogramUnit;
+
 { TCubicMeterPerKilogramPerSquareSecond }
 
 type
@@ -3644,6 +3984,9 @@ type
     const FExponents         : TExponents = (3, -1, -2);
   end;
   TCubicMeterPerKilogramPerSquareSecondUnit = specialize TUnit<TCubicMeterPerKilogramPerSquareSecond>;
+
+var
+  CubicMeterPerKilogramPerSquareSecond : TCubicMeterPerKilogramPerSquareSecondUnit;
 
 { TReciprocalKelvin }
 
@@ -3661,6 +4004,9 @@ type
   end;
   TReciprocalKelvinUnit = specialize TUnit<TReciprocalKelvin>;
 
+var
+  ReciprocalKelvin : TReciprocalKelvinUnit;
+
 { TKilogramKelvin }
 
 const
@@ -3676,6 +4022,9 @@ type
     const FExponents         : TExponents = (1, 1);
   end;
   TKilogramKelvinUnit = specialize TUnit<TKilogramKelvin>;
+
+var
+  KilogramKelvin : TKilogramKelvinUnit;
 
 { TJoulePerKelvin }
 
@@ -3693,6 +4042,9 @@ type
   end;
   TJoulePerKelvinUnit = specialize TUnit<TJoulePerKelvin>;
 
+var
+  JoulePerKelvin : TJoulePerKelvinUnit;
+
 { TKilogramSquareMeterPerSquareSecondPerKelvin }
 
 type
@@ -3705,6 +4057,9 @@ type
     const FExponents         : TExponents = (1, 2, -2, -1);
   end;
   TKilogramSquareMeterPerSquareSecondPerKelvinUnit = specialize TUnit<TKilogramSquareMeterPerSquareSecondPerKelvin>;
+
+var
+  KilogramSquareMeterPerSquareSecondPerKelvin : TKilogramSquareMeterPerSquareSecondPerKelvinUnit;
 
 { TJoulePerKilogramPerKelvin }
 
@@ -3722,6 +4077,9 @@ type
   end;
   TJoulePerKilogramPerKelvinUnit = specialize TUnit<TJoulePerKilogramPerKelvin>;
 
+var
+  JoulePerKilogramPerKelvin : TJoulePerKilogramPerKelvinUnit;
+
 { TSquareMeterPerSquareSecondPerKelvin }
 
 type
@@ -3734,6 +4092,9 @@ type
     const FExponents         : TExponents = (2, -2, -1);
   end;
   TSquareMeterPerSquareSecondPerKelvinUnit = specialize TUnit<TSquareMeterPerSquareSecondPerKelvin>;
+
+var
+  SquareMeterPerSquareSecondPerKelvin : TSquareMeterPerSquareSecondPerKelvinUnit;
 
 { TMeterKelvin }
 
@@ -3751,6 +4112,9 @@ type
   end;
   TMeterKelvinUnit = specialize TUnit<TMeterKelvin>;
 
+var
+  MeterKelvin : TMeterKelvinUnit;
+
 { TKelvinPerMeter }
 
 const
@@ -3766,6 +4130,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TKelvinPerMeterUnit = specialize TUnit<TKelvinPerMeter>;
+
+var
+  KelvinPerMeter : TKelvinPerMeterUnit;
 
 { TWattPerMeter }
 
@@ -3783,6 +4150,9 @@ type
   end;
   TWattPerMeterUnit = specialize TUnit<TWattPerMeter>;
 
+var
+  WattPerMeter : TWattPerMeterUnit;
+
 { TKilogramMeterPerCubicSecond }
 
 type
@@ -3795,6 +4165,9 @@ type
     const FExponents         : TExponents = (1, 1, -3);
   end;
   TKilogramMeterPerCubicSecondUnit = specialize TUnit<TKilogramMeterPerCubicSecond>;
+
+var
+  KilogramMeterPerCubicSecond : TKilogramMeterPerCubicSecondUnit;
 
 { TWattPerSquareMeter }
 
@@ -3812,6 +4185,9 @@ type
   end;
   TWattPerSquareMeterUnit = specialize TUnit<TWattPerSquareMeter>;
 
+var
+  WattPerSquareMeter : TWattPerSquareMeterUnit;
+
 { TKilogramPerCubicSecond }
 
 type
@@ -3824,6 +4200,9 @@ type
     const FExponents         : TExponents = (1, -3);
   end;
   TKilogramPerCubicSecondUnit = specialize TUnit<TKilogramPerCubicSecond>;
+
+var
+  KilogramPerCubicSecond : TKilogramPerCubicSecondUnit;
 
 { TWattPerCubicMeter }
 
@@ -3841,6 +4220,9 @@ type
   end;
   TWattPerCubicMeterUnit = specialize TUnit<TWattPerCubicMeter>;
 
+var
+  WattPerCubicMeter : TWattPerCubicMeterUnit;
+
 { TWattPerKelvin }
 
 const
@@ -3857,6 +4239,9 @@ type
   end;
   TWattPerKelvinUnit = specialize TUnit<TWattPerKelvin>;
 
+var
+  WattPerKelvin : TWattPerKelvinUnit;
+
 { TKilogramSquareMeterPerCubicSecondPerKelvin }
 
 type
@@ -3869,6 +4254,9 @@ type
     const FExponents         : TExponents = (1, 2, -3, -1);
   end;
   TKilogramSquareMeterPerCubicSecondPerKelvinUnit = specialize TUnit<TKilogramSquareMeterPerCubicSecondPerKelvin>;
+
+var
+  KilogramSquareMeterPerCubicSecondPerKelvin : TKilogramSquareMeterPerCubicSecondPerKelvinUnit;
 
 { TWattPerMeterPerKelvin }
 
@@ -3886,6 +4274,9 @@ type
   end;
   TWattPerMeterPerKelvinUnit = specialize TUnit<TWattPerMeterPerKelvin>;
 
+var
+  WattPerMeterPerKelvin : TWattPerMeterPerKelvinUnit;
+
 { TKilogramMeterPerCubicSecondPerKelvin }
 
 type
@@ -3898,6 +4289,9 @@ type
     const FExponents         : TExponents = (1, 1, -3, -1);
   end;
   TKilogramMeterPerCubicSecondPerKelvinUnit = specialize TUnit<TKilogramMeterPerCubicSecondPerKelvin>;
+
+var
+  KilogramMeterPerCubicSecondPerKelvin : TKilogramMeterPerCubicSecondPerKelvinUnit;
 
 { TKelvinPerWatt }
 
@@ -3915,6 +4309,9 @@ type
   end;
   TKelvinPerWattUnit = specialize TUnit<TKelvinPerWatt>;
 
+var
+  KelvinPerWatt : TKelvinPerWattUnit;
+
 { TMeterPerWatt }
 
 const
@@ -3930,6 +4327,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TMeterPerWattUnit = specialize TUnit<TMeterPerWatt>;
+
+var
+  MeterPerWatt : TMeterPerWattUnit;
 
 { TMeterKelvinPerWatt }
 
@@ -3947,6 +4347,9 @@ type
   end;
   TMeterKelvinPerWattUnit = specialize TUnit<TMeterKelvinPerWatt>;
 
+var
+  MeterKelvinPerWatt : TMeterKelvinPerWattUnit;
+
 { TSquareMeterKelvin }
 
 const
@@ -3962,6 +4365,9 @@ type
     const FExponents         : TExponents = (2, 1);
   end;
   TSquareMeterKelvinUnit = specialize TUnit<TSquareMeterKelvin>;
+
+var
+  SquareMeterKelvin : TSquareMeterKelvinUnit;
 
 { TWattPerSquareMeterPerKelvin }
 
@@ -3979,6 +4385,9 @@ type
   end;
   TWattPerSquareMeterPerKelvinUnit = specialize TUnit<TWattPerSquareMeterPerKelvin>;
 
+var
+  WattPerSquareMeterPerKelvin : TWattPerSquareMeterPerKelvinUnit;
+
 { TKilogramPerCubicSecondPerKelvin }
 
 type
@@ -3991,6 +4400,9 @@ type
     const FExponents         : TExponents = (1, -3, -1);
   end;
   TKilogramPerCubicSecondPerKelvinUnit = specialize TUnit<TKilogramPerCubicSecondPerKelvin>;
+
+var
+  KilogramPerCubicSecondPerKelvin : TKilogramPerCubicSecondPerKelvinUnit;
 
 { TSquareMeterQuarticKelvin }
 
@@ -4008,6 +4420,9 @@ type
   end;
   TSquareMeterQuarticKelvinUnit = specialize TUnit<TSquareMeterQuarticKelvin>;
 
+var
+  SquareMeterQuarticKelvin : TSquareMeterQuarticKelvinUnit;
+
 { TWattPerQuarticKelvin }
 
 const
@@ -4023,6 +4438,9 @@ type
     const FExponents         : TExponents = (1, -4);
   end;
   TWattPerQuarticKelvinUnit = specialize TUnit<TWattPerQuarticKelvin>;
+
+var
+  WattPerQuarticKelvin : TWattPerQuarticKelvinUnit;
 
 { TWattPerSquareMeterPerQuarticKelvin }
 
@@ -4040,6 +4458,9 @@ type
   end;
   TWattPerSquareMeterPerQuarticKelvinUnit = specialize TUnit<TWattPerSquareMeterPerQuarticKelvin>;
 
+var
+  WattPerSquareMeterPerQuarticKelvin : TWattPerSquareMeterPerQuarticKelvinUnit;
+
 { TJoulePerMole }
 
 const
@@ -4055,6 +4476,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TJoulePerMoleUnit = specialize TUnit<TJoulePerMole>;
+
+var
+  JoulePerMole : TJoulePerMoleUnit;
 
 { TMoleKelvin }
 
@@ -4072,6 +4496,9 @@ type
   end;
   TMoleKelvinUnit = specialize TUnit<TMoleKelvin>;
 
+var
+  MoleKelvin : TMoleKelvinUnit;
+
 { TJoulePerMolePerKelvin }
 
 const
@@ -4087,6 +4514,9 @@ type
     const FExponents         : TExponents = (1, -1, -1);
   end;
   TJoulePerMolePerKelvinUnit = specialize TUnit<TJoulePerMolePerKelvin>;
+
+var
+  JoulePerMolePerKelvin : TJoulePerMolePerKelvinUnit;
 
 { TOhmMeter }
 
@@ -4104,6 +4534,9 @@ type
   end;
   TOhmMeterUnit = specialize TUnit<TOhmMeter>;
 
+var
+  OhmMeter   : TOhmMeterUnit;
+
 { TVoltPerMeter }
 
 const
@@ -4120,6 +4553,9 @@ type
   end;
   TVoltPerMeterUnit = specialize TUnit<TVoltPerMeter>;
 
+var
+  VoltPerMeter : TVoltPerMeterUnit;
+
 { TNewtonPerCoulomb }
 
 type
@@ -4132,6 +4568,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TNewtonPerCoulombUnit = specialize TUnit<TNewtonPerCoulomb>;
+
+var
+  NewtonPerCoulomb : TNewtonPerCoulombUnit;
 
 { TCoulombPerMeter }
 
@@ -4149,6 +4588,9 @@ type
   end;
   TCoulombPerMeterUnit = specialize TUnit<TCoulombPerMeter>;
 
+var
+  CoulombPerMeter : TCoulombPerMeterUnit;
+
 { TSquareCoulombPerMeter }
 
 const
@@ -4164,6 +4606,9 @@ type
     const FExponents         : TExponents = (2, -1);
   end;
   TSquareCoulombPerMeterUnit = specialize TUnit<TSquareCoulombPerMeter>;
+
+var
+  SquareCoulombPerMeter : TSquareCoulombPerMeterUnit;
 
 { TCoulombPerSquareMeter }
 
@@ -4181,6 +4626,9 @@ type
   end;
   TCoulombPerSquareMeterUnit = specialize TUnit<TCoulombPerSquareMeter>;
 
+var
+  CoulombPerSquareMeter : TCoulombPerSquareMeterUnit;
+
 { TSquareMeterPerSquareCoulomb }
 
 const
@@ -4196,6 +4644,9 @@ type
     const FExponents         : TExponents = (2, -2);
   end;
   TSquareMeterPerSquareCoulombUnit = specialize TUnit<TSquareMeterPerSquareCoulomb>;
+
+var
+  SquareMeterPerSquareCoulomb : TSquareMeterPerSquareCoulombUnit;
 
 { TNewtonPerSquareCoulomb }
 
@@ -4213,6 +4664,9 @@ type
   end;
   TNewtonPerSquareCoulombUnit = specialize TUnit<TNewtonPerSquareCoulomb>;
 
+var
+  NewtonPerSquareCoulomb : TNewtonPerSquareCoulombUnit;
+
 { TNewtonSquareMeterPerSquareCoulomb }
 
 const
@@ -4228,6 +4682,9 @@ type
     const FExponents         : TExponents = (1, 2, -2);
   end;
   TNewtonSquareMeterPerSquareCoulombUnit = specialize TUnit<TNewtonSquareMeterPerSquareCoulomb>;
+
+var
+  NewtonSquareMeterPerSquareCoulomb : TNewtonSquareMeterPerSquareCoulombUnit;
 
 { TVoltMeter }
 
@@ -4245,6 +4702,9 @@ type
   end;
   TVoltMeterUnit = specialize TUnit<TVoltMeter>;
 
+var
+  VoltMeter  : TVoltMeterUnit;
+
 { TNewtonSquareMeterPerCoulomb }
 
 type
@@ -4257,6 +4717,9 @@ type
     const FExponents         : TExponents = (1, 2, -1);
   end;
   TNewtonSquareMeterPerCoulombUnit = specialize TUnit<TNewtonSquareMeterPerCoulomb>;
+
+var
+  NewtonSquareMeterPerCoulomb : TNewtonSquareMeterPerCoulombUnit;
 
 { TVoltMeterPerSecond }
 
@@ -4274,6 +4737,9 @@ type
   end;
   TVoltMeterPerSecondUnit = specialize TUnit<TVoltMeterPerSecond>;
 
+var
+  VoltMeterPerSecond : TVoltMeterPerSecondUnit;
+
 { TFaradPerMeter }
 
 const
@@ -4289,6 +4755,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TFaradPerMeterUnit = specialize TUnit<TFaradPerMeter>;
+
+var
+  FaradPerMeter : TFaradPerMeterUnit;
 
 { TAmperePerMeter }
 
@@ -4306,6 +4775,9 @@ type
   end;
   TAmperePerMeterUnit = specialize TUnit<TAmperePerMeter>;
 
+var
+  AmperePerMeter : TAmperePerMeterUnit;
+
 { TMeterPerAmpere }
 
 const
@@ -4321,6 +4793,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TMeterPerAmpereUnit = specialize TUnit<TMeterPerAmpere>;
+
+var
+  MeterPerAmpere : TMeterPerAmpereUnit;
 
 { TTeslaMeter }
 
@@ -4338,6 +4813,9 @@ type
   end;
   TTeslaMeterUnit = specialize TUnit<TTeslaMeter>;
 
+var
+  TeslaMeter : TTeslaMeterUnit;
+
 { TNewtonPerAmpere }
 
 type
@@ -4350,6 +4828,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TNewtonPerAmpereUnit = specialize TUnit<TNewtonPerAmpere>;
+
+var
+  NewtonPerAmpere : TNewtonPerAmpereUnit;
 
 { TTeslaPerAmpere }
 
@@ -4367,6 +4848,9 @@ type
   end;
   TTeslaPerAmpereUnit = specialize TUnit<TTeslaPerAmpere>;
 
+var
+  TeslaPerAmpere : TTeslaPerAmpereUnit;
+
 { THenryPerMeter }
 
 const
@@ -4383,6 +4867,9 @@ type
   end;
   THenryPerMeterUnit = specialize TUnit<THenryPerMeter>;
 
+var
+  HenryPerMeter : THenryPerMeterUnit;
+
 { TTeslaMeterPerAmpere }
 
 type
@@ -4396,6 +4883,9 @@ type
   end;
   TTeslaMeterPerAmpereUnit = specialize TUnit<TTeslaMeterPerAmpere>;
 
+var
+  TeslaMeterPerAmpere : TTeslaMeterPerAmpereUnit;
+
 { TNewtonPerSquareAmpere }
 
 type
@@ -4408,6 +4898,9 @@ type
     const FExponents         : TExponents = (1, -2);
   end;
   TNewtonPerSquareAmpereUnit = specialize TUnit<TNewtonPerSquareAmpere>;
+
+var
+  NewtonPerSquareAmpere : TNewtonPerSquareAmpereUnit;
 
 { TRadianPerMeter }
 
@@ -4425,6 +4918,9 @@ type
   end;
   TRadianPerMeterUnit = specialize TUnit<TRadianPerMeter>;
 
+var
+  RadianPerMeter : TRadianPerMeterUnit;
+
 { TSquareKilogramPerSquareSecond }
 
 const
@@ -4441,6 +4937,9 @@ type
   end;
   TSquareKilogramPerSquareSecondUnit = specialize TUnit<TSquareKilogramPerSquareSecond>;
 
+var
+  SquareKilogramPerSquareSecond : TSquareKilogramPerSquareSecondUnit;
+
 { TSquareSecondPerSquareMeter }
 
 const
@@ -4456,6 +4955,9 @@ type
     const FExponents         : TExponents = (2, -2);
   end;
   TSquareSecondPerSquareMeterUnit = specialize TUnit<TSquareSecondPerSquareMeter>;
+
+var
+  SquareSecondPerSquareMeter : TSquareSecondPerSquareMeterUnit;
 
 { TSquareJoule }
 
@@ -4495,6 +4997,9 @@ type
   end;
   TJouleSecondUnit = specialize TUnit<TJouleSecond>;
 
+var
+  JouleSecond : TJouleSecondUnit;
+
 { TJoulePerHertz }
 
 type
@@ -4507,6 +5012,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TJoulePerHertzUnit = specialize TUnit<TJoulePerHertz>;
+
+var
+  JoulePerHertz : TJoulePerHertzUnit;
 
 { TElectronvoltSecond }
 
@@ -4523,6 +5031,9 @@ type
   end;
   TElectronvoltSecondUnit = specialize TUnit<TElectronvoltSecond>;
 
+var
+  ElectronvoltSecond : TElectronvoltSecondUnit;
+
 { TElectronvoltMeterPerSpeedOfLight }
 
 type
@@ -4537,6 +5048,9 @@ type
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   end;
   TElectronvoltMeterPerSpeedOfLightUnit = specialize TUnit<TElectronvoltMeterPerSpeedOfLight>;
+
+var
+  ElectronvoltMeterPerSpeedOfLight : TElectronvoltMeterPerSpeedOfLightUnit;
 
 { TSquareJouleSquareSecond }
 
@@ -4554,6 +5068,9 @@ type
   end;
   TSquareJouleSquareSecondUnit = specialize TUnit<TSquareJouleSquareSecond>;
 
+var
+  SquareJouleSquareSecond : TSquareJouleSquareSecondUnit;
+
 { TCoulombPerKilogram }
 
 const
@@ -4569,6 +5086,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TCoulombPerKilogramUnit = specialize TUnit<TCoulombPerKilogram>;
+
+var
+  CoulombPerKilogram : TCoulombPerKilogramUnit;
 
 { TSquareMeterAmpere }
 
@@ -4586,6 +5106,9 @@ type
   end;
   TSquareMeterAmpereUnit = specialize TUnit<TSquareMeterAmpere>;
 
+var
+  SquareMeterAmpere : TSquareMeterAmpereUnit;
+
 { TJoulePerTesla }
 
 type
@@ -4598,6 +5121,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TJoulePerTeslaUnit = specialize TUnit<TJoulePerTesla>;
+
+var
+  JoulePerTesla : TJoulePerTeslaUnit;
 
 { TLumenPerWatt }
 
@@ -4615,6 +5141,9 @@ type
   end;
   TLumenPerWattUnit = specialize TUnit<TLumenPerWatt>;
 
+var
+  LumenPerWatt : TLumenPerWattUnit;
+
 { TReciprocalMole }
 
 const
@@ -4630,6 +5159,9 @@ type
     const FExponents         : TExponents = (-1);
   end;
   TReciprocalMoleUnit = specialize TUnit<TReciprocalMole>;
+
+var
+  ReciprocalMole : TReciprocalMoleUnit;
 
 { TAmperePerSquareMeter }
 
@@ -4647,6 +5179,9 @@ type
   end;
   TAmperePerSquareMeterUnit = specialize TUnit<TAmperePerSquareMeter>;
 
+var
+  AmperePerSquareMeter : TAmperePerSquareMeterUnit;
+
 { TMolePerCubicMeter }
 
 const
@@ -4662,6 +5197,9 @@ type
     const FExponents         : TExponents = (1, -3);
   end;
   TMolePerCubicMeterUnit = specialize TUnit<TMolePerCubicMeter>;
+
+var
+  MolePerCubicMeter : TMolePerCubicMeterUnit;
 
 { TCandelaPerSquareMeter }
 
@@ -4679,6 +5217,9 @@ type
   end;
   TCandelaPerSquareMeterUnit = specialize TUnit<TCandelaPerSquareMeter>;
 
+var
+  CandelaPerSquareMeter : TCandelaPerSquareMeterUnit;
+
 { TCoulombPerCubicMeter }
 
 const
@@ -4694,6 +5235,9 @@ type
     const FExponents         : TExponents = (1, -3);
   end;
   TCoulombPerCubicMeterUnit = specialize TUnit<TCoulombPerCubicMeter>;
+
+var
+  CoulombPerCubicMeter : TCoulombPerCubicMeterUnit;
 
 { TGrayPerSecond }
 
@@ -4711,6 +5255,9 @@ type
   end;
   TGrayPerSecondUnit = specialize TUnit<TGrayPerSecond>;
 
+var
+  GrayPerSecond : TGrayPerSecondUnit;
+
 { TSteradianHertz }
 
 const
@@ -4726,6 +5273,9 @@ type
     const FExponents         : TExponents = (1);
   end;
   TSteradianHertzUnit = specialize TUnit<TSteradianHertz>;
+
+var
+  SteradianHertz : TSteradianHertzUnit;
 
 { TMeterSteradian }
 
@@ -4743,6 +5293,9 @@ type
   end;
   TMeterSteradianUnit = specialize TUnit<TMeterSteradian>;
 
+var
+  MeterSteradian : TMeterSteradianUnit;
+
 { TSquareMeterSteradian }
 
 const
@@ -4758,6 +5311,9 @@ type
     const FExponents         : TExponents = (2);
   end;
   TSquareMeterSteradianUnit = specialize TUnit<TSquareMeterSteradian>;
+
+var
+  SquareMeterSteradian : TSquareMeterSteradianUnit;
 
 { TCubicMeterSteradian }
 
@@ -4775,6 +5331,9 @@ type
   end;
   TCubicMeterSteradianUnit = specialize TUnit<TCubicMeterSteradian>;
 
+var
+  CubicMeterSteradian : TCubicMeterSteradianUnit;
+
 { TSquareMeterSteradianHertz }
 
 const
@@ -4790,6 +5349,9 @@ type
     const FExponents         : TExponents = (2, 1);
   end;
   TSquareMeterSteradianHertzUnit = specialize TUnit<TSquareMeterSteradianHertz>;
+
+var
+  SquareMeterSteradianHertz : TSquareMeterSteradianHertzUnit;
 
 { TWattPerSteradian }
 
@@ -4807,6 +5369,9 @@ type
   end;
   TWattPerSteradianUnit = specialize TUnit<TWattPerSteradian>;
 
+var
+  WattPerSteradian : TWattPerSteradianUnit;
+
 { TWattPerSteradianPerHertz }
 
 const
@@ -4822,6 +5387,9 @@ type
     const FExponents         : TExponents = (1, -1);
   end;
   TWattPerSteradianPerHertzUnit = specialize TUnit<TWattPerSteradianPerHertz>;
+
+var
+  WattPerSteradianPerHertz : TWattPerSteradianPerHertzUnit;
 
 { TWattPerMeterPerSteradian }
 
@@ -4839,6 +5407,9 @@ type
   end;
   TWattPerMeterPerSteradianUnit = specialize TUnit<TWattPerMeterPerSteradian>;
 
+var
+  WattPerMeterPerSteradian : TWattPerMeterPerSteradianUnit;
+
 { TWattPerSquareMeterPerSteradian }
 
 const
@@ -4854,6 +5425,9 @@ type
     const FExponents         : TExponents = (1, -2);
   end;
   TWattPerSquareMeterPerSteradianUnit = specialize TUnit<TWattPerSquareMeterPerSteradian>;
+
+var
+  WattPerSquareMeterPerSteradian : TWattPerSquareMeterPerSteradianUnit;
 
 { TWattPerCubicMeterPerSteradian }
 
@@ -4871,6 +5445,9 @@ type
   end;
   TWattPerCubicMeterPerSteradianUnit = specialize TUnit<TWattPerCubicMeterPerSteradian>;
 
+var
+  WattPerCubicMeterPerSteradian : TWattPerCubicMeterPerSteradianUnit;
+
 { TWattPerSquareMeterPerSteradianPerHertz }
 
 const
@@ -4886,6 +5463,9 @@ type
     const FExponents         : TExponents = (1, -2, -1);
   end;
   TWattPerSquareMeterPerSteradianPerHertzUnit = specialize TUnit<TWattPerSquareMeterPerSteradianPerHertz>;
+
+var
+  WattPerSquareMeterPerSteradianPerHertz : TWattPerSquareMeterPerSteradianPerHertzUnit;
 
 { TKatalPerCubicMeter }
 
@@ -4903,6 +5483,9 @@ type
   end;
   TKatalPerCubicMeterUnit = specialize TUnit<TKatalPerCubicMeter>;
 
+var
+  KatalPerCubicMeter : TKatalPerCubicMeterUnit;
+
 { TCoulombPerMole }
 
 const
@@ -4919,336 +5502,339 @@ type
   end;
   TCoulombPerMoleUnit = specialize TUnit<TCoulombPerMole>;
 
+var
+  CoulombPerMole : TCoulombPerMoleUnit;
+
 const
 
   { Mul Table }
 
   MulTable : array[0..159, 0..159] of longint = (
-    (cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, cMeter, cScalar, cSquareMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, cKilogram, cSquareKilogram, cAmpere, cSquareAmpere, cKelvin, cSquareKelvin, cCubicKelvin, cQuarticKelvin, cMole, cCandela, cHertz, cSquareHertz, cSquareHertz, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, cSquareMeterPerSquareSecond, cMeterSecond, cKilogramMeter, cKilogramPerSecond, cKilogramMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, cScalar, cReciprocalMeter, cScalar, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cKilogramSquareMeter, cKilogramSquareMeterPerSecond, cSecondPerMeter, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cNewton, cNewton, cSquareNewton, cPascal, cJoule, cJoule, cWatt, cCoulomb, cSquareCoulomb, cCoulombMeter, cVolt, cSquareVolt, cFarad, cOhm, cSiemens, cSiemensPerMeter, cTesla, cWeber, cHenry, cReciprocalHenry, cCandela, cLumenSecond, cLumenSecondPerCubicMeter, cLux, cLuxSecond, cKatal, cNewtonPerCubicMeter, cNewtonPerMeter, cCubicMeterPerSecond, cPoiseuille, cSquareMeterPerSecond, cKilogramPerQuarticMeter, cQuarticMeterSecond, cKilogramPerQuarticMeterPerSecond, cCubicMeterPerKilogram, cKilogramSquareSecond, cCubicMeterPerSquareSecond, cNewtonSquareMeter, cNewtonCubicMeter, cNewtonPerSquareKilogram, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareMeterPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, cReciprocalKelvin, cKilogramKelvin, cJoulePerKelvin, cJoulePerKilogramPerKelvin, cMeterKelvin, cKelvinPerMeter, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerKelvin, cWattPerMeterPerKelvin, cKelvinPerWatt, cMeterPerWatt, cMeterKelvinPerWatt, cSquareMeterKelvin, cWattPerSquareMeterPerKelvin, cSquareMeterQuarticKelvin, cWattPerQuarticKelvin, cWattPerSquareMeterPerQuarticKelvin, cJoulePerMole, cMoleKelvin, cJoulePerMolePerKelvin, cOhmMeter, cVoltPerMeter, cCoulombPerMeter, cSquareCoulombPerMeter, cCoulombPerSquareMeter, cSquareMeterPerSquareCoulomb, cNewtonPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, cVoltMeter, cVoltMeterPerSecond, cFaradPerMeter, cAmperePerMeter, cMeterPerAmpere, cTeslaMeter, cTeslaPerAmpere, cHenryPerMeter, cReciprocalMeter, cSquareKilogramPerSquareSecond, cSquareSecondPerSquareMeter, cSquareJoule, cSquareJouleSquareSecond, cCoulombPerKilogram, cSquareMeterAmpere, cLumenPerWatt, cReciprocalMole, cAmperePerSquareMeter, cMolePerCubicMeter, cLux, cCoulombPerCubicMeter, cGrayPerSecond, cHertz, cMeter, cSquareMeter, cCubicMeter, cSquareMeterPerSecond, cWatt, cJoule, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cNewtonPerMeter, cKatalPerCubicMeter, cCoulombPerMole),
-    (cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, cMeterSecond, cSecond, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, cLumenSecond, cScalar, cHertz, cHertz, cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cSquareMeterPerSecond, -1, -1, cKilogram, cKilogramMeter, -1, cSecond, cSecondPerMeter, cSecond, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramMeterPerSecond, -1, cPoiseuille, cKilogramSquareMeterPerSecond, cKilogramSquareMeterPerSecond, cJoule, -1, -1, -1, cWeber, -1, -1, cHenry, cFarad, cFaradPerMeter, -1, -1, -1, cSiemens, cLumenSecond, -1, -1, cLuxSecond, -1, cMole, -1, cKilogramPerSecond, cCubicMeter, cKilogramPerMeter, cSquareMeter, -1, -1, cKilogramPerQuarticMeter, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cNewtonPerMeter, cPascal, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, cOhmMeter, -1, cVoltMeter, -1, cCoulombPerMeter, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, cLuxSecond, -1, cSquareMeterPerSquareSecond, cScalar, cMeterSecond, -1, -1, cSquareMeter, cJoule, cKilogramSquareMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, cKilogramPerSecond, cMolePerCubicMeter, -1),
-    (cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSecond, cScalar, cScalar, cMeterSecond, cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cSquareMeter, -1, -1, -1, -1, -1, cSquareSecond, -1, cSquareSecond, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogramMeter, cSquareKilogramSquareMeterPerSquareSecond, cKilogramPerMeter, cKilogramSquareMeter, cKilogramSquareMeter, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, cSquareMeterKelvin, -1, -1, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cSecond, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, cKilogram, -1, -1),
-    (cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSecond, cSecond, -1, cMeterSecond, cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, -1, -1, -1, cKilogramSquareSecond, -1, -1, cCubicSecond, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogram, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cSquareSecond, -1, -1, -1, -1, cKilogramSquareMeter, -1, cKilogramMeter, cKilogram, cKilogramPerMeter, -1, -1, -1),
-    (cQuarticSecond, cQuinticSecond, cSexticSecond, -1, -1, -1, -1, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, cSquareSecond, cSquareSecond, -1, -1, cMeterSecond, cMeter, cMeterPerSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cQuarticSecond, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1),
-    (cQuinticSecond, cSexticSecond, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, cCubicSecond, cCubicSecond, -1, -1, -1, cMeterSecond, cMeter, cMeterPerSecond, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1),
-    (cSexticSecond, -1, -1, -1, -1, -1, -1, -1, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, cQuarticSecond, cQuarticSecond, -1, -1, -1, -1, cMeterSecond, cMeter, -1, -1, -1, -1, -1, -1, cSexticSecond, -1, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeter, cMeterSecond, -1, -1, -1, -1, -1, cSquareMeter, cMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, cKilogramMeter, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, cCubicMeterPerSquareSecond, -1, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cMeter, cScalar, cMeter, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, -1, -1, cSecond, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, cJoule, cJoule, -1, cNewtonPerMeter, cNewtonSquareMeter, cNewtonSquareMeter, -1, cCoulombMeter, -1, -1, cVoltMeter, -1, -1, cOhmMeter, -1, cSiemens, cTeslaMeter, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, cPascal, cNewton, -1, cKilogramPerSecond, cCubicMeterPerSecond, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, cKelvin, cWatt, cWattPerMeter, cWattPerSquareMeter, -1, cWattPerKelvin, cMeterKelvinPerWatt, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, cVolt, cCoulomb, cSquareCoulomb, cCoulombPerMeter, -1, -1, -1, -1, -1, cFarad, cAmpere, -1, cWeber, cHenryPerMeter, cHenry, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, cCoulombPerSquareMeter, -1, cMeterPerSecond, cSquareMeter, cCubicMeter, cQuarticMeter, cCubicMeterPerSecond, -1, cNewtonSquareMeter, cWatt, cWattPerMeter, cWattPerSquareMeter, cNewton, -1, -1),
-    (cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, cMeter, cScalar, cSquareMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, cKilogram, cSquareKilogram, cAmpere, cSquareAmpere, cKelvin, cSquareKelvin, cCubicKelvin, cQuarticKelvin, cMole, cCandela, cHertz, cSquareHertz, cSquareHertz, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, cSquareMeterPerSquareSecond, cMeterSecond, cKilogramMeter, cKilogramPerSecond, cKilogramMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, cScalar, cReciprocalMeter, cScalar, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cKilogramSquareMeter, cKilogramSquareMeterPerSecond, cSecondPerMeter, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cNewton, cNewton, cSquareNewton, cPascal, cJoule, cJoule, cWatt, cCoulomb, cSquareCoulomb, cCoulombMeter, cVolt, cSquareVolt, cFarad, cOhm, cSiemens, cSiemensPerMeter, cTesla, cWeber, cHenry, cReciprocalHenry, cCandela, cLumenSecond, cLumenSecondPerCubicMeter, cLux, cLuxSecond, cKatal, cNewtonPerCubicMeter, cNewtonPerMeter, cCubicMeterPerSecond, cPoiseuille, cSquareMeterPerSecond, cKilogramPerQuarticMeter, cQuarticMeterSecond, cKilogramPerQuarticMeterPerSecond, cCubicMeterPerKilogram, cKilogramSquareSecond, cCubicMeterPerSquareSecond, cNewtonSquareMeter, cNewtonCubicMeter, cNewtonPerSquareKilogram, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareMeterPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, cReciprocalKelvin, cKilogramKelvin, cJoulePerKelvin, cJoulePerKilogramPerKelvin, cMeterKelvin, cKelvinPerMeter, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerKelvin, cWattPerMeterPerKelvin, cKelvinPerWatt, cMeterPerWatt, cMeterKelvinPerWatt, cSquareMeterKelvin, cWattPerSquareMeterPerKelvin, cSquareMeterQuarticKelvin, cWattPerQuarticKelvin, cWattPerSquareMeterPerQuarticKelvin, cJoulePerMole, cMoleKelvin, cJoulePerMolePerKelvin, cOhmMeter, cVoltPerMeter, cCoulombPerMeter, cSquareCoulombPerMeter, cCoulombPerSquareMeter, cSquareMeterPerSquareCoulomb, cNewtonPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, cVoltMeter, cVoltMeterPerSecond, cFaradPerMeter, cAmperePerMeter, cMeterPerAmpere, cTeslaMeter, cTeslaPerAmpere, cHenryPerMeter, cReciprocalMeter, cSquareKilogramPerSquareSecond, cSquareSecondPerSquareMeter, cSquareJoule, cSquareJouleSquareSecond, cCoulombPerKilogram, cSquareMeterAmpere, cLumenPerWatt, cReciprocalMole, cAmperePerSquareMeter, cMolePerCubicMeter, cLux, cCoulombPerCubicMeter, cGrayPerSecond, cHertz, cMeter, cSquareMeter, cCubicMeter, cSquareMeterPerSecond, cWatt, cJoule, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cNewtonPerMeter, cKatalPerCubicMeter, cCoulombPerMole),
-    (cSquareMeter, -1, -1, -1, -1, -1, -1, cCubicMeter, cSquareMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, cKilogramSquareMeter, -1, cSquareMeterAmpere, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, -1, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, cSquareJouleSquareSecond, cSquareMeter, cMeter, cSquareMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, -1, -1, cMeterSecond, cKilogramMeter, cKilogram, cKilogramPerMeter, cNewtonSquareMeter, cNewtonSquareMeter, cSquareJoule, cNewton, cNewtonCubicMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, cCandela, cLumenSecond, -1, cNewtonPerMeter, cJoule, -1, cKilogramMeterPerSecond, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, cSquareKilogram, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, cMeterKelvin, -1, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cCoulombMeter, -1, cCoulomb, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, cMeter, cSquareKilogramSquareMeterPerSquareSecond, cSquareSecond, -1, -1, -1, -1, -1, -1, cAmpere, -1, cCandela, cCoulombPerMeter, -1, cSquareMeterPerSecond, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, cNewtonCubicMeter, -1, cWatt, cWattPerMeter, cJoule, -1, -1),
-    (cCubicMeter, -1, -1, -1, -1, -1, -1, cQuarticMeter, cCubicMeter, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, cCubicMeter, cSquareMeter, cCubicMeter, cMeter, cScalar, cReciprocalMeter, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, cKilogram, cNewtonCubicMeter, cNewtonCubicMeter, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecond, -1, -1, -1, cNewton, cNewtonSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, cKilogramPerMeter, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, cCoulomb, -1, cCubicMeterPerSecond, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cKatal, -1),
-    (cQuarticMeter, cQuarticMeterSecond, -1, -1, -1, -1, -1, cQuinticMeter, cQuarticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cCubicMeter, cQuarticMeter, cSquareMeter, cMeter, cScalar, -1, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewtonCubicMeter, -1, -1, -1, cKilogram, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, cCoulombMeter, -1, -1, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1),
-    (cQuinticMeter, -1, -1, -1, -1, -1, -1, cSexticMeter, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, cQuarticMeter, cQuinticMeter, cCubicMeter, cSquareMeter, cMeter, -1, -1, cQuarticMeterSecond, -1, -1, cKilogramSquareMeter, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, cKilogramMeter, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSexticMeter, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, cQuinticMeter, cSexticMeter, cQuarticMeter, cCubicMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, cKilogramSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogram, -1, cKilogramSquareSecond, -1, -1, -1, -1, cKilogramMeter, cKilogram, cKilogramSquareMeter, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, cKilogramPerSecond, cNewtonPerMeter, cNewtonPerMeter, cKilogramMeterPerSecond, cNewton, cWattPerMeter, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, cKilogram, cKilogramPerMeter, cKilogram, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, cCubicMeter, -1, cNewtonSquareMeter, -1, cSquareJouleSquareSecond, cMeterPerSquareSecond, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, cWatt, cKilogramPerSecond, cKilogramMeter, cKilogramSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1),
-    (cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, cSquareKilogram, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, cSquareMeter, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cAmpere, cCoulomb, -1, -1, -1, -1, -1, -1, cAmpere, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, cAmpere, cAmperePerMeter, cAmpere, cAmperePerSquareMeter, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, cVolt, -1, -1, cNewtonPerMeter, cJoule, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cWattPerMeter, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, cMeter, cNewton, cTesla, cTeslaMeter, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareAmpere, -1, cSquareCoulomb, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKelvin, -1, -1, -1, -1, -1, -1, cMeterKelvin, cKelvin, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, cSquareKelvin, cCubicKelvin, cQuarticKelvin, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cKelvinPerMeter, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cJoule, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cWatt, cWattPerMeter, -1, cMeterKelvinPerWatt, -1, cSquareMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, -1, cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, -1, cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1),
-    (cMole, -1, -1, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, cMole, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb),
-    (cCandela, cLumenSecond, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, cCandela, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cMeterPerSecond, cHertz, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, cSquareHertz, -1, -1, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, cGrayPerSecond, cMeter, cKilogramMeterPerSecond, cNewtonPerMeter, cNewton, -1, cHertz, -1, cHertz, -1, -1, -1, cKilogramSquareMeterPerSecond, cJoule, cReciprocalMeter, cPoiseuille, -1, -1, cWattPerMeter, cWattPerMeter, -1, cWattPerCubicMeter, cWatt, cWatt, -1, cAmpere, -1, -1, -1, -1, cSiemens, -1, cReciprocalHenry, -1, -1, cVolt, cOhm, -1, -1, cCandela, -1, -1, cLux, -1, -1, cWattPerSquareMeter, cCubicMeterPerSquareSecond, cPascal, cSquareMeterPerSquareSecond, cKilogramPerQuarticMeterPerSecond, cQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cAmperePerMeter, -1, cAmperePerSquareMeter, -1, -1, -1, cVoltMeterPerSecond, -1, cSiemensPerMeter, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, cSquareHertz, cMeterPerSecond, cSquareMeterPerSecond, cCubicMeterPerSecond, cSquareMeterPerSquareSecond, -1, cWatt, -1, -1, -1, cWattPerSquareMeter, -1, -1),
-    (cSquareHertz, cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cMeterPerSquareSecond, cSquareHertz, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, cNewtonPerMeter, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, cMeterPerSecond, cNewton, cWattPerSquareMeter, cWattPerMeter, cSquareNewton, cSquareHertz, -1, cSquareHertz, -1, -1, -1, cJoule, cWatt, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cGrayPerSecond, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, cReciprocalSquareMeter, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareHertz, cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cMeterPerSquareSecond, cSquareHertz, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, cNewtonPerMeter, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, cMeterPerSecond, cNewton, cWattPerSquareMeter, cWattPerMeter, cSquareNewton, cSquareHertz, -1, cSquareHertz, -1, -1, -1, cJoule, cWatt, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cGrayPerSecond, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, cReciprocalSquareMeter, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerSecond, cMeter, cMeterSecond, -1, -1, -1, -1, cSquareMeterPerSecond, cMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerCubicSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, -1, cSquareMeter, cKilogramSquareMeterPerSecond, cNewton, cJoule, -1, cMeterPerSecond, cHertz, cMeterPerSecond, -1, -1, -1, -1, cNewtonSquareMeter, cScalar, cKilogramPerSecond, cPoiseuille, -1, cWatt, cWatt, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, cSquareMeterAmpere, cVoltMeterPerSecond, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cReciprocalHenry, cVoltPerMeter, cVoltMeter, cOhmMeter, -1, -1, -1, cLux, -1, -1, -1, cWattPerCubicMeter, cWattPerMeter, -1, cNewtonPerMeter, cCubicMeterPerSquareSecond, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, cAmperePerMeter, -1, -1, -1, -1, -1, cSiemens, -1, -1, cVolt, -1, cOhm, cHertz, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, cMeterPerSquareSecond, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1),
-    (cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, -1, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuarticSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cJoule, cWattPerMeter, cWatt, -1, cMeterPerSquareSecond, cSquareHertz, cMeterPerSquareSecond, -1, -1, -1, cNewtonSquareMeter, -1, cHertz, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, cNewtonPerSquareCoulomb, -1, cSquareHertz, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, cGrayPerSecond, cMeterPerCubicSecond, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cWatt, -1, -1, -1, cMeterPerCubicSecond, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, cSquareHertz, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerQuarticSecond, cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, cMeterPerSexticSecond, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerQuinticSecond, cMeterPerQuarticSecond, cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerSexticSecond, cMeterPerQuinticSecond, cMeterPerQuarticSecond, cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, -1, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSexticSecond, -1, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cJoule, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cNewtonSquareMeter, cWatt, -1, cSquareJoule, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cSquareHertz, -1, -1, cNewtonCubicMeter, -1, cMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, cNewtonPerCubicMeter, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, cNewtonSquareMeterPerSquareCoulomb, cMeterPerSquareSecond, cSquareNewton, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterSecond, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, cMeter, cMeterPerSecond, cMeterPerSecond, cSquareMeter, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, cCubicMeterPerSecond, -1, -1, cKilogramMeter, cKilogramSquareMeter, -1, cMeterSecond, cSecond, cMeterSecond, cSecondPerMeter, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cKilogramPerSecond, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cKilogramMeterPerSecond, cQuarticMeter, cKilogram, cCubicMeter, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewton, cNewtonPerMeter, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, cCubicMeterPerSquareSecond, cMeter, -1, -1, cQuarticMeterSecond, cCubicMeter, cNewtonSquareMeter, -1, cJoule, cNewton, cNewtonPerMeter, cKilogramMeterPerSecond, -1, -1),
-    (cKilogramMeter, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cNewton, cNewton, cKilogramSquareMeterPerSecond, cJoule, cWatt, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, cKilogramMeter, cKilogram, cKilogramMeter, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, -1, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareKilogramSquareMeterPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cNewtonCubicMeter, cSquareJouleSquareSecond, -1, cSquareMeterPerSquareSecond, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, -1, cKilogramMeterPerSecond, cKilogramPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cWattPerSquareMeter, cWattPerSquareMeter, cNewton, cWattPerMeter, -1, -1, -1, -1, cWatt, cKilogramMeter, -1, cSquareKilogramPerSquareSecond, -1, -1, cKilogramPerSecond, cPoiseuille, cKilogramPerSecond, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, cSquareKilogramSquareMeterPerSquareSecond, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cJoule, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cJoule, cSquareNewton, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cWattPerMeter, cWattPerMeter, cJoule, cWatt, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cKilogramMeterPerSecond, cKilogramPerSecond, cKilogramMeterPerSecond, cPoiseuille, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, cSquareKilogramPerSquareSecond, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cKilogramSquareMeterPerSecond, -1, -1, cNewtonSquareMeter, -1, -1, cSquareNewton, -1, -1, -1, -1, -1),
-    (cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramSquareMeterPerSquareSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, cMeter, cScalar, cSquareMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, cKilogram, cSquareKilogram, cAmpere, cSquareAmpere, cKelvin, cSquareKelvin, cCubicKelvin, cQuarticKelvin, cMole, cCandela, cHertz, cSquareHertz, cSquareHertz, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, cSquareMeterPerSquareSecond, cMeterSecond, cKilogramMeter, cKilogramPerSecond, cKilogramMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, cScalar, cReciprocalMeter, cScalar, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cKilogramSquareMeter, cKilogramSquareMeterPerSecond, cSecondPerMeter, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cNewton, cNewton, cSquareNewton, cPascal, cJoule, cJoule, cWatt, cCoulomb, cSquareCoulomb, cCoulombMeter, cVolt, cSquareVolt, cFarad, cOhm, cSiemens, cSiemensPerMeter, cTesla, cWeber, cHenry, cReciprocalHenry, cCandela, cLumenSecond, cLumenSecondPerCubicMeter, cLux, cLuxSecond, cKatal, cNewtonPerCubicMeter, cNewtonPerMeter, cCubicMeterPerSecond, cPoiseuille, cSquareMeterPerSecond, cKilogramPerQuarticMeter, cQuarticMeterSecond, cKilogramPerQuarticMeterPerSecond, cCubicMeterPerKilogram, cKilogramSquareSecond, cCubicMeterPerSquareSecond, cNewtonSquareMeter, cNewtonCubicMeter, cNewtonPerSquareKilogram, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareMeterPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, cReciprocalKelvin, cKilogramKelvin, cJoulePerKelvin, cJoulePerKilogramPerKelvin, cMeterKelvin, cKelvinPerMeter, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerKelvin, cWattPerMeterPerKelvin, cKelvinPerWatt, cMeterPerWatt, cMeterKelvinPerWatt, cSquareMeterKelvin, cWattPerSquareMeterPerKelvin, cSquareMeterQuarticKelvin, cWattPerQuarticKelvin, cWattPerSquareMeterPerQuarticKelvin, cJoulePerMole, cMoleKelvin, cJoulePerMolePerKelvin, cOhmMeter, cVoltPerMeter, cCoulombPerMeter, cSquareCoulombPerMeter, cCoulombPerSquareMeter, cSquareMeterPerSquareCoulomb, cNewtonPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, cVoltMeter, cVoltMeterPerSecond, cFaradPerMeter, cAmperePerMeter, cMeterPerAmpere, cTeslaMeter, cTeslaPerAmpere, cHenryPerMeter, cReciprocalMeter, cSquareKilogramPerSquareSecond, cSquareSecondPerSquareMeter, cSquareJoule, cSquareJouleSquareSecond, cCoulombPerKilogram, cSquareMeterAmpere, cLumenPerWatt, cReciprocalMole, cAmperePerSquareMeter, cMolePerCubicMeter, cLux, cCoulombPerCubicMeter, cGrayPerSecond, cHertz, cMeter, cSquareMeter, cCubicMeter, cSquareMeterPerSecond, cWatt, cJoule, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cNewtonPerMeter, cKatalPerCubicMeter, cCoulombPerMole),
-    (cReciprocalMeter, cSecondPerMeter, -1, -1, -1, -1, -1, cScalar, cReciprocalMeter, cMeter, cSquareMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cKilogramPerMeter, cSquareKilogramPerMeter, cAmperePerMeter, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cSquareHertz, -1, -1, -1, -1, cMeterPerSquareSecond, cSecond, cKilogram, cPoiseuille, cKilogramPerSecond, -1, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, cKilogramMeter, cKilogramMeterPerSecond, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, cNewtonPerMeter, cNewtonPerMeter, -1, cNewtonPerCubicMeter, cNewton, cNewton, cWattPerMeter, cCoulombPerMeter, cSquareCoulombPerMeter, cCoulomb, cVoltPerMeter, -1, cFaradPerMeter, -1, cSiemensPerMeter, -1, -1, cTeslaMeter, cHenryPerMeter, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, cPascal, cSquareMeterPerSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cJoule, cNewtonSquareMeter, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, cWattPerSquareMeter, cWattPerCubicMeter, -1, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, cCoulombPerSquareMeter, -1, cCoulombPerCubicMeter, -1, -1, -1, cVolt, -1, -1, cAmperePerSquareMeter, -1, cTesla, -1, cTeslaPerAmpere, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cScalar, cMeter, cSquareMeter, cMeterPerSecond, cWattPerMeter, cNewton, cWattPerSquareMeter, cWattPerCubicMeter, -1, cPascal, -1, -1),
-    (cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, cMeter, cScalar, cSquareMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, cKilogram, cSquareKilogram, cAmpere, cSquareAmpere, cKelvin, cSquareKelvin, cCubicKelvin, cQuarticKelvin, cMole, cCandela, cHertz, cSquareHertz, cSquareHertz, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, cSquareMeterPerSquareSecond, cMeterSecond, cKilogramMeter, cKilogramPerSecond, cKilogramMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, cScalar, cReciprocalMeter, cScalar, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cKilogramSquareMeter, cKilogramSquareMeterPerSecond, cSecondPerMeter, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cNewton, cNewton, cSquareNewton, cPascal, cJoule, cJoule, cWatt, cCoulomb, cSquareCoulomb, cCoulombMeter, cVolt, cSquareVolt, cFarad, cOhm, cSiemens, cSiemensPerMeter, cTesla, cWeber, cHenry, cReciprocalHenry, cCandela, cLumenSecond, cLumenSecondPerCubicMeter, cLux, cLuxSecond, cKatal, cNewtonPerCubicMeter, cNewtonPerMeter, cCubicMeterPerSecond, cPoiseuille, cSquareMeterPerSecond, cKilogramPerQuarticMeter, cQuarticMeterSecond, cKilogramPerQuarticMeterPerSecond, cCubicMeterPerKilogram, cKilogramSquareSecond, cCubicMeterPerSquareSecond, cNewtonSquareMeter, cNewtonCubicMeter, cNewtonPerSquareKilogram, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareMeterPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, cReciprocalKelvin, cKilogramKelvin, cJoulePerKelvin, cJoulePerKilogramPerKelvin, cMeterKelvin, cKelvinPerMeter, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerKelvin, cWattPerMeterPerKelvin, cKelvinPerWatt, cMeterPerWatt, cMeterKelvinPerWatt, cSquareMeterKelvin, cWattPerSquareMeterPerKelvin, cSquareMeterQuarticKelvin, cWattPerQuarticKelvin, cWattPerSquareMeterPerQuarticKelvin, cJoulePerMole, cMoleKelvin, cJoulePerMolePerKelvin, cOhmMeter, cVoltPerMeter, cCoulombPerMeter, cSquareCoulombPerMeter, cCoulombPerSquareMeter, cSquareMeterPerSquareCoulomb, cNewtonPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, cVoltMeter, cVoltMeterPerSecond, cFaradPerMeter, cAmperePerMeter, cMeterPerAmpere, cTeslaMeter, cTeslaPerAmpere, cHenryPerMeter, cReciprocalMeter, cSquareKilogramPerSquareSecond, cSquareSecondPerSquareMeter, cSquareJoule, cSquareJouleSquareSecond, cCoulombPerKilogram, cSquareMeterAmpere, cLumenPerWatt, cReciprocalMole, cAmperePerSquareMeter, cMolePerCubicMeter, cLux, cCoulombPerCubicMeter, cGrayPerSecond, cHertz, cMeter, cSquareMeter, cCubicMeter, cSquareMeterPerSecond, cWatt, cJoule, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cNewtonPerMeter, cKatalPerCubicMeter, cCoulombPerMole),
-    (cReciprocalSquareMeter, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, cReciprocalMeter, cReciprocalSquareMeter, cScalar, cMeter, cSquareMeter, cCubicMeter, cQuarticMeter, cKilogramPerSquareMeter, cSquareKilogramPerSquareMeter, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, cSecondPerMeter, cKilogramPerMeter, -1, cPoiseuille, cSquareKilogramPerSquareSecond, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalSquareMeter, cReciprocalQuarticMeter, -1, -1, cKilogram, cKilogramPerSecond, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, cPascal, cPascal, -1, -1, cNewtonPerMeter, cNewtonPerMeter, cWattPerSquareMeter, cCoulombPerSquareMeter, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cTesla, cTeslaPerAmpere, -1, cLux, cLuxSecond, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cMeterPerSecond, -1, cHertz, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cNewton, cJoule, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, cKelvinPerMeter, -1, cWattPerCubicMeter, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, cReciprocalKelvin, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, cSquareNewton, cSquareKilogramSquareMeterPerSquareSecond, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cScalar, cMeter, cHertz, cWattPerSquareMeter, cNewtonPerMeter, cWattPerCubicMeter, -1, -1, cNewtonPerCubicMeter, -1, -1),
-    (cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalMeter, cScalar, cMeter, cSquareMeter, cCubicMeter, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, cReciprocalCubicMeter, cReciprocalQuarticMeter, cReciprocalCubicMeter, -1, -1, -1, cKilogramPerMeter, cPoiseuille, -1, cKilogramPerQuarticMeter, -1, -1, cNewtonPerCubicMeter, cNewtonPerCubicMeter, -1, -1, cPascal, cPascal, cWattPerCubicMeter, cCoulombPerCubicMeter, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, cKatalPerCubicMeter, -1, -1, cHertz, cKilogramPerQuarticMeterPerSecond, -1, -1, cMeterSecond, -1, -1, -1, cSquareHertz, cNewtonPerMeter, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, cWattPerCubicMeter, cPascal, -1, -1, -1, -1, -1, -1),
-    (cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, cReciprocalQuarticMeter, cReciprocalSquareMeter, cReciprocalMeter, cScalar, cMeter, cSquareMeter, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeterPerSecond, -1, -1, cReciprocalQuarticMeter, -1, cReciprocalQuarticMeter, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cNewtonPerCubicMeter, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, cPascal, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, cReciprocalSquareMeter, cReciprocalMeter, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1),
-    (cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cJoule, cJoule, -1, cNewtonSquareMeter, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, cKilogramSquareMeter, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, -1, -1, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, -1, -1, -1, -1, cSquareJouleSquareSecond, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, cQuinticMeter, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1),
-    (cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cWatt, cWatt, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, cKilogramSquareMeterPerSecond, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, cKilogramPerSecond, cPoiseuille, -1, -1, cSquareJouleSquareSecond, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, cNewtonCubicMeter, cSquareJoule, -1, -1, cSquareNewton, -1, -1, -1, -1),
-    (cSecondPerMeter, -1, -1, -1, -1, -1, -1, cSecond, cSecondPerMeter, cMeterSecond, -1, -1, cQuarticMeterSecond, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, cScalar, cHertz, cSquareHertz, -1, -1, -1, cMeterPerSecond, cSquareSecond, -1, cKilogramPerMeter, cKilogram, -1, cSecondPerMeter, -1, cSecondPerMeter, -1, -1, -1, -1, cKilogramMeter, cSquareSecondPerSquareMeter, -1, -1, -1, cKilogramPerSecond, cKilogramPerSecond, -1, -1, cKilogramMeterPerSecond, cKilogramMeterPerSecond, cNewton, -1, -1, -1, cTeslaMeter, -1, -1, cHenryPerMeter, cFaradPerMeter, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, cPoiseuille, cSquareMeter, cKilogramPerSquareMeter, cMeter, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, cTesla, -1, -1, -1, -1, -1, cOhm, cWeber, cVolt, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, cCoulombPerCubicMeter, -1, cLumenSecondPerCubicMeter, -1, cMeterPerSquareSecond, cReciprocalMeter, cSecond, cMeterSecond, -1, cMeter, cNewton, cKilogramMeterPerSecond, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cPoiseuille, -1, -1),
-    (cKilogramPerMeter, -1, -1, -1, -1, -1, -1, cKilogram, cKilogramPerMeter, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cPascal, cPascal, cKilogramPerSecond, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, cNewton, -1, cSquareKilogram, -1, -1, -1, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, cSquareKilogramPerSquareSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, cKilogramMeterPerSecond, -1, -1, -1, cSquareMeter, -1, cJoule, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareHertz, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cPoiseuille, cKilogram, cKilogramMeter, cKilogramSquareMeter, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogram, cKilogramMeter, cKilogramSquareMeter, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cNewtonPerCubicMeter, cPoiseuille, cPascal, cWattPerCubicMeter, -1, -1, -1, cNewtonPerMeter, -1, cSquareKilogramPerMeter, -1, -1, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerSquareMeter, cKilogramPerQuarticMeter, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, cKilogramPerSecond, -1, -1, -1, cMeter, -1, cNewton, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, cKilogramPerMeter, cKilogram, cKilogramMeter, cKilogramPerSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1),
-    (cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerMeter, cKilogram, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, cPascal, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, cKilogramPerCubicMeter, -1, -1, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, cPoiseuille, -1, -1, -1, cScalar, -1, cNewtonPerMeter, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, cKilogramPerSquareMeter, cKilogramPerMeter, cKilogram, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cJoule, cNewton, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, cNewton, cNewtonPerMeter, cNewton, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cKilogramPerSecond, cSquareKilogramPerSquareSecond, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cSquareVolt, -1, -1, -1, -1, cWeber, -1, -1, -1, cNewtonPerMeter, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cJoule, cNewton, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, cNewton, cNewtonPerMeter, cNewton, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cKilogramPerSecond, cSquareKilogramPerSquareSecond, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cSquareVolt, -1, -1, -1, -1, cWeber, -1, -1, -1, cNewtonPerMeter, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareNewton, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cSquareNewton, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, cNewtonPerMeter, cPascal, cNewton, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, cPascal, cNewtonPerCubicMeter, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cWattPerMeter, -1, -1, -1, cSquareMeterPerSquareSecond, cSquareKilogramPerMeter, -1, cSquareNewton, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, cNewtonPerCubicMeter, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cNewtonPerMeter, cNewton, cJoule, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cNewtonSquareMeter, cJoule, cNewtonCubicMeter, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewton, cJoule, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cSquareJouleSquareSecond, -1, cKilogramMeterPerSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cSquareJoule, cSquareJoule, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, cNewton, -1, cKilogram, -1, -1, -1, -1, cLumenSecond, cJoulePerMole, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cSquareJoule, -1, -1, -1, cSquareNewton, -1, -1),
-    (cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cNewtonSquareMeter, cJoule, cNewtonCubicMeter, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewton, cJoule, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cSquareJouleSquareSecond, -1, cKilogramMeterPerSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cSquareJoule, cSquareJoule, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, cNewton, -1, cKilogram, -1, -1, -1, -1, cLumenSecond, cJoulePerMole, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cSquareJoule, -1, -1, -1, cSquareNewton, -1, -1),
-    (cWatt, cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cSquareNewton, -1, -1, cWatt, cWattPerMeter, cWatt, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, cSquareJoule, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cMeter, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cWattPerMeter, -1, cKilogramPerSecond, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCoulomb, -1, -1, -1, -1, -1, -1, cCoulombMeter, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, cCoulombPerMeter, cCoulomb, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, cJoule, -1, -1, cWeber, -1, -1, cKilogramPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cSquareCoulombPerMeter, -1, -1, -1, cVoltPerMeter, cVoltMeter, cNewtonSquareMeter, -1, -1, -1, cMeterSecond, cKilogramMeterPerSecond, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMole, -1, -1, -1, -1, -1, cAmpere, cCoulombMeter, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cSquareCoulombPerMeter, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cNewton, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, cKilogram, cKilogramMeter, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, cCoulomb, cCoulombMeter, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cSquareCoulomb, -1, cSquareCoulombPerMeter, -1, cVolt, -1, cNewtonCubicMeter, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cVolt, cWeber, -1, -1, -1, -1, -1, cVoltMeter, cVolt, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cVoltPerMeter, cVolt, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, cNewtonSquareMeter, cSquareVolt, -1, cCoulomb, -1, cAmpere, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, cCoulombPerMeter, cWattPerMeter, cOhmMeter, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, cWattPerSquareMeter, -1, -1, cPascal, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole),
-    (cSquareVolt, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, cJoule, -1, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cFarad, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cReciprocalHenry, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, cFaradPerMeter, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, cSquareCoulombPerMeter, -1, -1, cSquareCoulomb, cSquareCoulomb, -1, -1, -1, -1, cCoulomb, cJoule, -1, cSecond, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cCoulombPerMeter, -1, -1, -1, -1, cReciprocalMeter, cMeter, cCoulombMeter, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1),
-    (cOhm, cHenry, -1, -1, -1, -1, -1, cOhmMeter, cOhm, -1, -1, -1, -1, -1, -1, -1, cVolt, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, cOhm, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, cWeber, cKilogramSquareMeterPerSecond, -1, -1, -1, cSecond, -1, cScalar, cReciprocalMeter, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cKilogramMeterPerSecond, cTesla, -1, -1, -1, -1, -1, cSecondPerMeter, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1),
-    (cSiemens, cFarad, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, cSiemens, cSiemensPerMeter, cSiemens, -1, -1, -1, -1, cSquareCoulomb, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, cAmpere, cWatt, -1, cScalar, -1, -1, cCoulombPerSquareMeter, cCoulomb, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cAmperePerMeter, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, cSecondPerMeter, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1),
-    (cSiemensPerMeter, cFaradPerMeter, -1, -1, -1, -1, -1, cSiemens, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, cSiemensPerMeter, -1, cSiemensPerMeter, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cWattPerMeter, -1, cReciprocalMeter, -1, -1, cCoulombPerCubicMeter, cCoulombPerMeter, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cAmperePerSquareMeter, -1, -1, -1, -1, -1, cHertz, cAmpere, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cTesla, -1, -1, -1, -1, -1, -1, cTeslaMeter, cTesla, cWeber, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, cVolt, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cJoule, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, cTeslaMeter, cWeber, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWeber, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, cVoltMeter, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cTeslaMeter, cWeber, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, cCoulomb, cCoulombPerMeter, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, cSquareMeterPerSecond, cNewtonCubicMeter, -1, -1, cNewtonPerMeter, -1, -1, cPoiseuille, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cHenry, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, cWeber, cJoule, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, cOhmMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, cHenryPerMeter, cHenry, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, cSquareSecond, -1, cSecond, cSecondPerMeter, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cReciprocalHenry, cSiemens, cFarad, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, cReciprocalHenry, -1, cReciprocalHenry, -1, -1, -1, cSquareCoulomb, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, cAmperePerSquareMeter, cAmpere, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, cAmperePerMeter, cReciprocalSquareMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1),
-    (cCandela, cLumenSecond, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, cCandela, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cLumenSecond, -1, -1, -1, -1, -1, -1, -1, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecond, -1, cLumenSecond, cLuxSecond, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, cLuxSecond, cLumenSecondPerCubicMeter, -1, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, -1, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cLux, cLuxSecond, -1, -1, -1, -1, -1, -1, cLux, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, cLux, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cLuxSecond, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, cLumenSecondPerCubicMeter, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, cLumenSecond, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKatal, cMole, -1, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, cKatal, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere),
-    (cNewtonPerCubicMeter, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cPascal, cNewtonPerCubicMeter, cNewtonPerMeter, cNewton, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, cNewtonPerCubicMeter, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, cWattPerSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, cMeterPerSquareSecond, cSquareKilogramPerSquareMeter, -1, -1, cSquareNewton, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cNewtonPerMeter, cNewton, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, cNewton, cNewtonPerMeter, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, cNewtonPerMeter, cPascal, cNewtonPerMeter, cNewtonPerCubicMeter, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareKilogram, -1, -1, cSquareJoule, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, cPascal, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cNewton, cJoule, cNewtonSquareMeter, cWatt, -1, cSquareNewton, -1, -1, -1, -1, -1, -1),
-    (cCubicMeterPerSecond, cCubicMeter, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cNewtonSquareMeter, cNewtonCubicMeter, -1, cCubicMeterPerSecond, cSquareMeterPerSecond, cCubicMeterPerSecond, cMeterPerSecond, cHertz, -1, -1, -1, cSquareMeter, cKilogramSquareMeterPerSecond, cKilogramMeterPerSecond, cKilogramPerSecond, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, cWattPerMeter, -1, -1, cJoule, -1, cPoiseuille, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, cSquareMeterPerSecond, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, cAmpere, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, -1, cKilogramPerSecond, cPoiseuille, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cWattPerCubicMeter, cWattPerCubicMeter, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, cWattPerMeter, cKilogram, -1, -1, cSquareKilogramPerSquareSecond, -1, cPoiseuille, -1, cPoiseuille, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, cNewton, -1, -1, -1, cSquareMeterPerSecond, -1, cWatt, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cKilogramPerSecond, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, cNewton, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cGrayPerSecond, cGrayPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, cJoule, cNewtonSquareMeter, -1, cSquareMeterPerSecond, cMeterPerSecond, cSquareMeterPerSecond, cHertz, -1, -1, -1, cNewtonCubicMeter, cMeter, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, -1, -1, -1, cWattPerMeter, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, cWattPerSquareMeter, cWatt, -1, cNewton, -1, -1, cSexticMeter, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cOhm, cOhmMeter, cMeterPerSecond, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1),
-    (cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, cKilogramPerSquareMeter, cKilogramPerMeter, cKilogram, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, cKilogramPerQuarticMeter, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, cReciprocalMeter, -1, cPascal, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, cKilogramPerCubicMeter, cKilogramPerSquareMeter, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, cQuarticMeterSecond, -1, cMeterSecond, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, cSexticMeter, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, -1, -1, cSexticMeter, -1, -1, -1, cNewtonCubicMeter, cNewtonSquareMeter, -1, -1, -1),
-    (cKilogramPerQuarticMeterPerSecond, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, cPoiseuille, cKilogramPerSecond, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, cNewtonPerCubicMeter, -1, cKilogram, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cCubicMeterPerSecond, -1, -1, cCubicMeterPerKilogram, -1, cCubicMeterPerKilogram, -1, -1, -1, cQuinticMeter, -1, -1, cSquareMeter, cMeter, cScalar, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, cSquareMeterPerSecond, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, cCubicMeterPerSquareSecond, -1, -1),
-    (cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cKilogram, -1, cKilogramMeter, cKilogramMeterPerSecond, cNewton, cWattPerMeter, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1),
-    (cCubicMeterPerSquareSecond, cCubicMeterPerSecond, cCubicMeter, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cMeterPerSquareSecond, cSquareHertz, -1, -1, -1, cSquareMeterPerSecond, cJoule, cNewton, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cPascal, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cSquareMeterPerSquareSecond, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, cNewtonSquareMeter, cJoule, cNewtonSquareMeter, cNewton, cNewtonPerMeter, cPascal, -1, -1, cKilogramSquareMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramPerSquareSecond, cSquareJoule, cSquareJoule, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, cJoule, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, cNewtonSquareMeter, cNewtonCubicMeter, cJoule, cNewton, cNewtonPerMeter, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, cSquareJoule, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1),
-    (cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, cMeterPerSquareSecond, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cMeterPerCubicSecond, cGrayPerSecond, -1, cNewtonPerSquareKilogram, -1, cNewtonPerSquareKilogram, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, cNewtonPerMeter, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, cMeterPerQuarticSecond, -1, -1),
-    (cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, cNewtonPerMeter, -1, -1, cMeter, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, cPascal, -1, -1, cScalar, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, cSquareMeterPerSquareKilogram, -1, cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonSquareMeterPerSquareKilogram, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, cJoule, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cKelvin, cSquareKelvin, cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, cJoulePerKelvin, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, cMeter, cReciprocalMeter, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, cWattPerKelvin, cJoulePerKelvin, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1),
-    (cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, cSquareKilogramSquareMeterPerSquareSecond, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, cNewtonSquareMeter, cNewton, -1, -1, -1, -1, -1, cSecond, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cJoulePerKilogramPerKelvin, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, cJoulePerKilogramPerKelvin, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, cCubicMeterPerSquareSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, cKelvin, cMeterKelvin, cKelvinPerMeter, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, cNewtonSquareMeter, cCubicMeterPerSquareSecond, -1, cSquareKelvin, -1, -1, -1, -1, cWatt, -1, -1, -1, cCubicMeter, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKelvinPerMeter, -1, -1, -1, -1, -1, -1, cKelvin, cKelvinPerMeter, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, cKelvinPerMeter, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, cNewton, cMeterPerSquareSecond, cSquareKelvin, -1, -1, -1, -1, cWattPerMeter, cWattPerSquareMeter, -1, cKelvinPerWatt, -1, cMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerMeter, cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, cSquareNewton, -1, cWattPerMeter, cWattPerSquareMeter, cWattPerMeter, cWattPerCubicMeter, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, cScalar, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, cWattPerSquareMeter, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerSquareMeter, cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, cWattPerMeter, cWattPerSquareMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerSquareMeter, -1, -1, -1, -1, cSquareNewton, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cKelvinPerMeter, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerCubicMeter, cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, cWattPerCubicMeter, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerKelvin, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, cWattPerMeterPerKelvin, cWattPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, cScalar, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, cWattPerKelvin, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, cWattPerSquareMeter, -1, -1, -1, -1, -1, cReciprocalMeter, cReciprocalKelvin, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKelvinPerWatt, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, cKelvinPerMeter, -1, -1, cScalar, cReciprocalMeter, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, cKelvin, -1, cKelvinPerMeter, -1, -1, -1, -1, -1),
-    (cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, cSquareSecond, -1, cMeterPerWatt, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cSecond, cKilogramMeterPerSecond, -1, cMeterSecond, cMeterSecond, cMeter, -1, -1, -1, cMeterPerAmpere, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, cScalar, cReciprocalMeter, cReciprocalSquareMeter, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cMeterSecond, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cSecondPerMeter, -1, -1),
-    (cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, cKelvinPerWatt, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, cMeterSecond, -1, -1, -1, cKelvin, cKelvinPerMeter, -1, cMeter, cScalar, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, cKelvin, cKelvinPerMeter, -1, -1, -1, -1),
-    (cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, -1, cSquareMeterKelvin, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, cCubicMeter, cMeter, -1, cWattPerKelvin, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, cWattPerMeterPerKelvin, cJoulePerKelvin, -1, -1),
-    (cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, cSquareMeterQuarticKelvin, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cWattPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerQuarticKelvin, -1, cWattPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1),
-    (cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cOhmMeter, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, cOhm, cOhmMeter, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, cMeter, cScalar, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cKilogramSquareMeterPerSecond, cTeslaMeter, -1, -1, -1, -1, -1, cSecond, cVolt, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, cTesla, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1),
-    (cVoltPerMeter, cTeslaMeter, -1, -1, -1, -1, -1, cVolt, cVoltPerMeter, cVoltMeter, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, cVoltPerMeter, -1, cVoltPerMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, cJoule, -1, -1, cCoulombPerMeter, -1, cAmperePerMeter, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, cPascal, -1, -1, -1, cSquareVolt, -1, cCoulombPerSquareMeter, cWattPerSquareMeter, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, cWattPerCubicMeter, -1, -1, cNewtonPerCubicMeter, -1, -1, cVolt, cVoltMeter, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCoulombPerMeter, -1, -1, -1, -1, -1, -1, cCoulomb, cCoulombPerMeter, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulombPerMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, cSquareCoulomb, cNewton, -1, -1, cTeslaMeter, -1, -1, cPoiseuille, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cNewtonPerMeter, -1, -1, -1, -1, -1, cVolt, cJoule, cWatt, -1, -1, cSecond, cKilogramPerSecond, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cCoulomb, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, cMeter, cNewtonPerMeter, cJoule, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulomb, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, cCoulombPerCubicMeter, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, cNewtonPerMeter, -1, -1, cTesla, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cPascal, -1, -1, -1, -1, -1, cVoltPerMeter, cNewton, cWattPerMeter, -1, -1, cSecondPerMeter, cPoiseuille, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, cCoulombPerMeter, cCoulomb, cCoulombMeter, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, cHenry, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, cOhmMeter, -1, cSquareMeterPerSquareCoulomb, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cTeslaPerAmpere, -1, cNewtonSquareMeterPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, cSquareVolt, cNewtonPerSquareCoulomb, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonPerSquareCoulomb, -1, cHenryPerMeter, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, cNewton, cVolt, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonSquareMeterPerSquareCoulomb, cOhmMeter, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cNewtonSquareMeterPerSquareCoulomb, cNewtonPerSquareCoulomb, -1, -1, -1, -1, cOhm, -1, -1, -1, cSquareVolt, cSquareVolt, -1, -1, -1, -1, -1, cVoltMeter, cNewtonSquareMeter, -1, -1, -1, cMeter, -1, cMeterPerSecond, cHertz, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cJoule, cVoltPerMeter, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cVoltMeter, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cVolt, cVoltMeter, cVoltPerMeter, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cNewtonCubicMeter, -1, -1, cCoulombMeter, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, cJoule, -1, cNewton, -1, -1, -1, -1, -1, cCoulomb, cWatt, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, cWattPerMeter, -1, -1, cNewtonPerMeter, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cVoltMeterPerSecond, cVoltMeter, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cWattPerMeter, -1, -1, -1, -1, -1, cAmpere, -1, -1, cSquareVolt, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cFaradPerMeter, -1, -1, -1, -1, -1, -1, cFarad, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, cSiemens, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, cSquareCoulombPerMeter, -1, -1, -1, -1, cCoulombPerMeter, cNewton, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cCoulombPerSquareMeter, -1, -1, -1, -1, cReciprocalSquareMeter, cScalar, cCoulomb, cAmpere, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, cFarad, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1),
-    (cAmperePerMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, cAmpere, cAmperePerMeter, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, cAmperePerMeter, cAmperePerSquareMeter, cAmperePerMeter, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, cVoltPerMeter, -1, -1, cPascal, cNewton, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cScalar, cNewtonPerMeter, -1, cTesla, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cWeber, -1, cTesla, -1, -1, cVoltMeter, cMeterSecond, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, cSecond, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, cScalar, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, cVolt, cVoltPerMeter, -1, cTeslaMeter, -1, -1),
-    (cTeslaMeter, -1, -1, -1, -1, -1, -1, cWeber, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, cVolt, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cTeslaMeter, cTesla, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, cCoulombPerMeter, cCoulombPerSquareMeter, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, cPoiseuille, -1, -1, -1, -1, cSquareVolt, -1, cNewtonPerMeter, cHenry, -1, -1, -1, cTesla, -1, -1, -1, -1, cMeterPerSecond, cNewtonSquareMeter, -1, -1, cPascal, -1, -1, -1, -1, cVoltPerMeter, cWeber, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cTeslaPerAmpere, cHenry, -1, -1, -1, -1, -1, -1, cTesla, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, cOhm, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cHenry, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cHenryPerMeter, -1, -1, -1, -1, -1, -1, cHenry, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cNewton, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cNewtonPerSquareCoulomb, cOhm, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, cHenryPerMeter, cTeslaPerAmpere, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cTesla, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cReciprocalMeter, cSecondPerMeter, -1, -1, -1, -1, -1, cScalar, cReciprocalMeter, cMeter, cSquareMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cKilogramPerMeter, cSquareKilogramPerMeter, cAmperePerMeter, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cSquareHertz, -1, -1, -1, -1, cMeterPerSquareSecond, cSecond, cKilogram, cPoiseuille, cKilogramPerSecond, -1, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, cKilogramMeter, cKilogramMeterPerSecond, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, cNewtonPerMeter, cNewtonPerMeter, -1, cNewtonPerCubicMeter, cNewton, cNewton, cWattPerMeter, cCoulombPerMeter, cSquareCoulombPerMeter, cCoulomb, cVoltPerMeter, -1, cFaradPerMeter, -1, cSiemensPerMeter, -1, -1, cTeslaMeter, cHenryPerMeter, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, cPascal, cSquareMeterPerSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cJoule, cNewtonSquareMeter, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, cWattPerSquareMeter, cWattPerCubicMeter, -1, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, cCoulombPerSquareMeter, -1, cCoulombPerCubicMeter, -1, -1, -1, cVolt, -1, -1, cAmperePerSquareMeter, -1, cTesla, -1, cTeslaPerAmpere, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cScalar, cMeter, cSquareMeter, cMeterPerSecond, cWattPerMeter, cNewton, cWattPerSquareMeter, cWattPerCubicMeter, -1, cPascal, -1, -1),
-    (cSquareKilogramPerSquareSecond, -1, cSquareKilogram, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalSquareMeter, cSecondPerMeter, cReciprocalMeter, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, cSquareKilogram, cSquareSecondPerSquareMeter, -1, cSquareSecondPerSquareMeter, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, cKilogramPerMeter, cKilogramPerMeter, cSquareKilogramPerSquareSecond, cKilogramPerCubicMeter, cKilogram, cKilogram, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, cKilogramPerSquareMeter, cMeterSecond, -1, cSecond, -1, -1, -1, -1, -1, cMeter, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, cSquareSecond, -1, cSecond, cKilogramPerSecond, cKilogram, cPoiseuille, -1, -1, cKilogramPerSquareMeter, -1, -1),
-    (cSquareJoule, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, cSquareJoule, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, cSquareJouleSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, cAmpere, -1, -1, cCoulombPerKilogram, -1, cCoulombPerKilogram, -1, -1, -1, -1, cSquareMeterAmpere, -1, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cHertz, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, cReciprocalHenry, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, cSquareMeterAmpere, cAmpere, cAmperePerMeter, cAmperePerSquareMeter, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeter, cNewtonSquareMeter, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, cLumenSecond, cLumenSecond, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, cLumenSecond, -1, cLux, -1, cLuxSecond, -1, -1),
-    (cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, cJoulePerMole, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1),
-    (cAmperePerSquareMeter, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, cAmperePerMeter, cAmperePerSquareMeter, cAmpere, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, cAmperePerSquareMeter, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cNewtonPerMeter, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, cReciprocalMeter, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter),
-    (cLux, cLuxSecond, -1, -1, -1, -1, -1, -1, cLux, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, cLux, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, cCoulombPerCubicMeter, cCoulombPerMeter, cCoulomb, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, cAmperePerMeter, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, cCoulombPerMeter, cCoulomb, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cGrayPerSecond, cSquareMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cGrayPerSecond, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cMeterPerSecond, cHertz, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, cSquareHertz, -1, -1, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, cGrayPerSecond, cMeter, cKilogramMeterPerSecond, cNewtonPerMeter, cNewton, -1, cHertz, -1, cHertz, -1, -1, -1, cKilogramSquareMeterPerSecond, cJoule, cReciprocalMeter, cPoiseuille, -1, -1, cWattPerMeter, cWattPerMeter, -1, cWattPerCubicMeter, cWatt, cWatt, -1, cAmpere, -1, -1, -1, -1, cSiemens, -1, cReciprocalHenry, -1, -1, cVolt, cOhm, -1, -1, cCandela, -1, -1, cLux, -1, -1, cWattPerSquareMeter, cCubicMeterPerSquareSecond, cPascal, cSquareMeterPerSquareSecond, cKilogramPerQuarticMeterPerSecond, cQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cAmperePerMeter, -1, cAmperePerSquareMeter, -1, -1, -1, cVoltMeterPerSecond, -1, cSiemensPerMeter, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, cSquareHertz, cMeterPerSecond, cSquareMeterPerSecond, cCubicMeterPerSecond, cSquareMeterPerSquareSecond, -1, cWatt, -1, -1, -1, cWattPerSquareMeter, -1, -1),
-    (cMeter, cMeterSecond, -1, -1, -1, -1, -1, cSquareMeter, cMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, cKilogramMeter, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, cCubicMeterPerSquareSecond, -1, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cMeter, cScalar, cMeter, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, -1, -1, cSecond, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, cJoule, cJoule, -1, cNewtonPerMeter, cNewtonSquareMeter, cNewtonSquareMeter, -1, cCoulombMeter, -1, -1, cVoltMeter, -1, -1, cOhmMeter, -1, cSiemens, cTeslaMeter, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, cPascal, cNewton, -1, cKilogramPerSecond, cCubicMeterPerSecond, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, cKelvin, cWatt, cWattPerMeter, cWattPerSquareMeter, -1, cWattPerKelvin, cMeterKelvinPerWatt, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, cVolt, cCoulomb, cSquareCoulomb, cCoulombPerMeter, -1, -1, -1, -1, -1, cFarad, cAmpere, -1, cWeber, cHenryPerMeter, cHenry, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, cCoulombPerSquareMeter, -1, cMeterPerSecond, cSquareMeter, cCubicMeter, cQuarticMeter, cCubicMeterPerSecond, -1, cNewtonSquareMeter, cWatt, cWattPerMeter, cWattPerSquareMeter, cNewton, -1, -1),
-    (cSquareMeter, -1, -1, -1, -1, -1, -1, cCubicMeter, cSquareMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, cKilogramSquareMeter, -1, cSquareMeterAmpere, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, -1, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, cSquareJouleSquareSecond, cSquareMeter, cMeter, cSquareMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, -1, -1, cMeterSecond, cKilogramMeter, cKilogram, cKilogramPerMeter, cNewtonSquareMeter, cNewtonSquareMeter, cSquareJoule, cNewton, cNewtonCubicMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, cCandela, cLumenSecond, -1, cNewtonPerMeter, cJoule, -1, cKilogramMeterPerSecond, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, cSquareKilogram, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, cMeterKelvin, -1, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cCoulombMeter, -1, cCoulomb, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, cMeter, cSquareKilogramSquareMeterPerSquareSecond, cSquareSecond, -1, -1, -1, -1, -1, -1, cAmpere, -1, cCandela, cCoulombPerMeter, -1, cSquareMeterPerSecond, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, cNewtonCubicMeter, -1, cWatt, cWattPerMeter, cJoule, -1, -1),
-    (cCubicMeter, -1, -1, -1, -1, -1, -1, cQuarticMeter, cCubicMeter, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, cCubicMeter, cSquareMeter, cCubicMeter, cMeter, cScalar, cReciprocalMeter, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, cKilogram, cNewtonCubicMeter, cNewtonCubicMeter, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecond, -1, -1, -1, cNewton, cNewtonSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, cKilogramPerMeter, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, cCoulomb, -1, cCubicMeterPerSecond, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cKatal, -1),
-    (cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cGrayPerSecond, cGrayPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, cJoule, cNewtonSquareMeter, -1, cSquareMeterPerSecond, cMeterPerSecond, cSquareMeterPerSecond, cHertz, -1, -1, -1, cNewtonCubicMeter, cMeter, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, -1, -1, -1, cWattPerMeter, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, cWattPerSquareMeter, cWatt, -1, cNewton, -1, -1, cSexticMeter, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cOhm, cOhmMeter, cMeterPerSecond, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1),
-    (cWatt, cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cSquareNewton, -1, -1, cWatt, cWattPerMeter, cWatt, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, cSquareJoule, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cMeter, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cWattPerMeter, -1, cKilogramPerSecond, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cNewtonSquareMeter, cJoule, cNewtonCubicMeter, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewton, cJoule, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cSquareJouleSquareSecond, -1, cKilogramMeterPerSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cSquareJoule, cSquareJoule, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, cNewton, -1, cKilogram, -1, -1, -1, -1, cLumenSecond, cJoulePerMole, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cSquareJoule, -1, -1, -1, cSquareNewton, -1, -1),
-    (cWattPerMeter, cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, cSquareNewton, -1, cWattPerMeter, cWattPerSquareMeter, cWattPerMeter, cWattPerCubicMeter, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, cScalar, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, cWattPerSquareMeter, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerSquareMeter, cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, cWattPerMeter, cWattPerSquareMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerSquareMeter, -1, -1, -1, -1, cSquareNewton, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cKelvinPerMeter, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerCubicMeter, cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, cWattPerCubicMeter, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, cNewton, cNewtonPerMeter, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, cNewtonPerMeter, cPascal, cNewtonPerMeter, cNewtonPerCubicMeter, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareKilogram, -1, -1, cSquareJoule, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, cPascal, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cNewton, cJoule, cNewtonSquareMeter, cWatt, -1, cSquareNewton, -1, -1, -1, -1, -1, -1),
-    (cKatalPerCubicMeter, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMole, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)
+    (cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, cMeter, cSquareRootMeter, cSquareMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, cKilogram, cSquareKilogram, cAmpere, cSquareAmpere, cKelvin, cSquareKelvin, cCubicKelvin, cQuarticKelvin, cMole, cCandela, cHertz, cSquareHertz, cSquareHertz, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, cSquareMeterPerSquareSecond, cMeterSecond, cKilogramMeter, cKilogramPerSecond, cKilogramMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, cReciprocalSquareRootMeter, cReciprocalMeter, cReciprocalSquareRootCubicMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cKilogramSquareMeter, cKilogramSquareMeterPerSecond, cSecondPerMeter, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cNewton, cNewton, cSquareNewton, cPascal, cJoule, cJoule, cWatt, cCoulomb, cSquareCoulomb, cCoulombMeter, cVolt, cSquareVolt, cFarad, cOhm, cSiemens, cSiemensPerMeter, cTesla, cWeber, cHenry, cReciprocalHenry, cCandela, cLumenSecond, cLumenSecondPerCubicMeter, cLux, cLuxSecond, cKatal, cNewtonPerCubicMeter, cNewtonPerMeter, cCubicMeterPerSecond, cPoiseuille, cSquareMeterPerSecond, cKilogramPerQuarticMeter, cQuarticMeterSecond, cKilogramPerQuarticMeterPerSecond, cCubicMeterPerKilogram, cKilogramSquareSecond, cCubicMeterPerSquareSecond, cNewtonSquareMeter, cNewtonCubicMeter, cNewtonPerSquareKilogram, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareMeterPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, cReciprocalKelvin, cKilogramKelvin, cJoulePerKelvin, cJoulePerKilogramPerKelvin, cMeterKelvin, cKelvinPerMeter, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerKelvin, cWattPerMeterPerKelvin, cKelvinPerWatt, cMeterPerWatt, cMeterKelvinPerWatt, cSquareMeterKelvin, cWattPerSquareMeterPerKelvin, cSquareMeterQuarticKelvin, cWattPerQuarticKelvin, cWattPerSquareMeterPerQuarticKelvin, cJoulePerMole, cMoleKelvin, cJoulePerMolePerKelvin, cOhmMeter, cVoltPerMeter, cCoulombPerMeter, cSquareCoulombPerMeter, cCoulombPerSquareMeter, cSquareMeterPerSquareCoulomb, cNewtonPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, cVoltMeter, cVoltMeterPerSecond, cFaradPerMeter, cAmperePerMeter, cMeterPerAmpere, cTeslaMeter, cTeslaPerAmpere, cHenryPerMeter, cReciprocalMeter, cSquareKilogramPerSquareSecond, cSquareSecondPerSquareMeter, cSquareJoule, cSquareJouleSquareSecond, cCoulombPerKilogram, cSquareMeterAmpere, cLumenPerWatt, cReciprocalMole, cAmperePerSquareMeter, cMolePerCubicMeter, cLux, cCoulombPerCubicMeter, cGrayPerSecond, cHertz, cMeter, cSquareMeter, cCubicMeter, cSquareMeterPerSecond, cWatt, cJoule, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cNewtonPerMeter, cKatalPerCubicMeter, cCoulombPerMole),
+    (cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, cMeterSecond, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, cLumenSecond, cScalar, cHertz, cHertz, cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cSquareMeterPerSecond, -1, -1, cKilogram, cKilogramMeter, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramMeterPerSecond, -1, cPoiseuille, cKilogramSquareMeterPerSecond, cKilogramSquareMeterPerSecond, cJoule, -1, -1, -1, cWeber, -1, -1, cHenry, cFarad, cFaradPerMeter, -1, -1, -1, cSiemens, cLumenSecond, -1, -1, cLuxSecond, -1, cMole, -1, cKilogramPerSecond, cCubicMeter, cKilogramPerMeter, cSquareMeter, -1, -1, cKilogramPerQuarticMeter, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cNewtonPerMeter, cPascal, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, cOhmMeter, -1, cVoltMeter, -1, cCoulombPerMeter, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, cLuxSecond, -1, cSquareMeterPerSquareSecond, cScalar, cMeterSecond, -1, -1, cSquareMeter, cJoule, cKilogramSquareMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, cKilogramPerSecond, cMolePerCubicMeter, -1),
+    (cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSecond, cScalar, cScalar, cMeterSecond, cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogramMeter, cSquareKilogramSquareMeterPerSquareSecond, cKilogramPerMeter, cKilogramSquareMeter, cKilogramSquareMeter, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, cSquareMeterKelvin, -1, -1, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cSecond, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, cKilogram, -1, -1),
+    (cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSecond, cSecond, -1, cMeterSecond, cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogram, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cSquareSecond, -1, -1, -1, -1, cKilogramSquareMeter, -1, cKilogramMeter, cKilogram, cKilogramPerMeter, -1, -1, -1),
+    (cQuarticSecond, cQuinticSecond, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, cSquareSecond, cSquareSecond, -1, -1, cMeterSecond, cMeter, cMeterPerSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1),
+    (cQuinticSecond, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, cCubicSecond, cCubicSecond, -1, -1, -1, cMeterSecond, cMeter, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1),
+    (cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, cQuarticSecond, cQuarticSecond, -1, -1, -1, -1, cMeterSecond, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeter, cMeterSecond, -1, -1, -1, -1, -1, cSquareMeter, -1, cCubicMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, cKilogramMeter, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, cCubicMeterPerSquareSecond, -1, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cSquareRootMeter, cScalar, cReciprocalSquareRootMeter, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, -1, -1, cSecond, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, cJoule, cJoule, -1, cNewtonPerMeter, cNewtonSquareMeter, cNewtonSquareMeter, -1, cCoulombMeter, -1, -1, cVoltMeter, -1, -1, cOhmMeter, -1, cSiemens, cTeslaMeter, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, cPascal, cNewton, -1, cKilogramPerSecond, cCubicMeterPerSecond, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, cKelvin, cWatt, cWattPerMeter, cWattPerSquareMeter, -1, cWattPerKelvin, cMeterKelvinPerWatt, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, cVolt, cCoulomb, cSquareCoulomb, cCoulombPerMeter, -1, -1, -1, -1, -1, cFarad, cAmpere, -1, cWeber, cHenryPerMeter, cHenry, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, cCoulombPerSquareMeter, -1, cMeterPerSecond, cSquareMeter, cCubicMeter, cQuarticMeter, cCubicMeterPerSecond, -1, cNewtonSquareMeter, cWatt, cWattPerMeter, cWattPerSquareMeter, cNewton, -1, -1),
+    (cSquareRootMeter, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cReciprocalSquareRootMeter, cReciprocalMeter, cReciprocalSquareRootCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeter, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, cKilogramSquareMeter, -1, cSquareMeterAmpere, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, -1, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, cSquareJouleSquareSecond, -1, cMeter, cSquareRootMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, -1, -1, cMeterSecond, cKilogramMeter, cKilogram, cKilogramPerMeter, cNewtonSquareMeter, cNewtonSquareMeter, cSquareJoule, cNewton, cNewtonCubicMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, cCandela, cLumenSecond, -1, cNewtonPerMeter, cJoule, -1, cKilogramMeterPerSecond, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, cSquareKilogram, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, cMeterKelvin, -1, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cCoulombMeter, -1, cCoulomb, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, cMeter, cSquareKilogramSquareMeterPerSquareSecond, cSquareSecond, -1, -1, -1, -1, -1, -1, cAmpere, -1, cCandela, cCoulombPerMeter, -1, cSquareMeterPerSecond, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, cNewtonCubicMeter, -1, cWatt, cWattPerMeter, cJoule, -1, -1),
+    (cCubicMeter, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, cSquareMeter, -1, cMeter, cScalar, cReciprocalMeter, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, cKilogram, cNewtonCubicMeter, cNewtonCubicMeter, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecond, -1, -1, -1, cNewton, cNewtonSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, cKilogramPerMeter, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, cCoulomb, -1, cCubicMeterPerSecond, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cKatal, -1),
+    (cQuarticMeter, cQuarticMeterSecond, -1, -1, -1, -1, -1, cQuinticMeter, -1, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, cSquareMeter, cMeter, cScalar, -1, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewtonCubicMeter, -1, -1, -1, cKilogram, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, cCoulombMeter, -1, -1, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1),
+    (cQuinticMeter, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cCubicMeter, cSquareMeter, cMeter, -1, -1, cQuarticMeterSecond, -1, -1, cKilogramSquareMeter, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, cKilogramMeter, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, cQuarticMeter, cCubicMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, cKilogramSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogram, -1, cKilogramSquareSecond, -1, -1, -1, -1, cKilogramMeter, -1, cKilogramSquareMeter, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, cKilogramPerSecond, cNewtonPerMeter, cNewtonPerMeter, cKilogramMeterPerSecond, cNewton, cWattPerMeter, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, cCubicMeter, -1, cNewtonSquareMeter, -1, cSquareJouleSquareSecond, cMeterPerSquareSecond, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, cWatt, cKilogramPerSecond, cKilogramMeter, cKilogramSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1),
+    (cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, cSquareMeter, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cAmpere, cCoulomb, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, cAmperePerSquareMeter, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, cVolt, -1, -1, cNewtonPerMeter, cJoule, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cWattPerMeter, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, cMeter, cNewton, cTesla, cTeslaMeter, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareAmpere, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKelvin, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, cSquareKelvin, cCubicKelvin, cQuarticKelvin, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cJoule, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cWatt, cWattPerMeter, -1, cMeterKelvinPerWatt, -1, cSquareMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1),
+    (cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb),
+    (cCandela, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cMeterPerSecond, -1, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, cSquareHertz, -1, -1, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, cGrayPerSecond, cMeter, cKilogramMeterPerSecond, cNewtonPerMeter, cNewton, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cJoule, cReciprocalMeter, cPoiseuille, -1, -1, cWattPerMeter, cWattPerMeter, -1, cWattPerCubicMeter, cWatt, cWatt, -1, cAmpere, -1, -1, -1, -1, cSiemens, -1, cReciprocalHenry, -1, -1, cVolt, cOhm, -1, -1, cCandela, -1, -1, cLux, -1, -1, cWattPerSquareMeter, cCubicMeterPerSquareSecond, cPascal, cSquareMeterPerSquareSecond, cKilogramPerQuarticMeterPerSecond, cQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cAmperePerMeter, -1, cAmperePerSquareMeter, -1, -1, -1, cVoltMeterPerSecond, -1, cSiemensPerMeter, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, cSquareHertz, cMeterPerSecond, cSquareMeterPerSecond, cCubicMeterPerSecond, cSquareMeterPerSquareSecond, -1, cWatt, -1, -1, -1, cWattPerSquareMeter, -1, -1),
+    (cSquareHertz, cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cMeterPerSquareSecond, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, cNewtonPerMeter, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, cMeterPerSecond, cNewton, cWattPerSquareMeter, cWattPerMeter, cSquareNewton, -1, -1, -1, -1, -1, -1, cJoule, cWatt, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cGrayPerSecond, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, cReciprocalSquareMeter, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareHertz, cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cMeterPerSquareSecond, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, cNewtonPerMeter, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, cMeterPerSecond, cNewton, cWattPerSquareMeter, cWattPerMeter, cSquareNewton, -1, -1, -1, -1, -1, -1, cJoule, cWatt, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cGrayPerSecond, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, cReciprocalSquareMeter, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerSecond, cMeter, cMeterSecond, -1, -1, -1, -1, cSquareMeterPerSecond, -1, cCubicMeterPerSecond, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerCubicSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, -1, cSquareMeter, cKilogramSquareMeterPerSecond, cNewton, cJoule, -1, -1, cHertz, -1, -1, -1, -1, -1, cNewtonSquareMeter, cScalar, cKilogramPerSecond, cPoiseuille, -1, cWatt, cWatt, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, cSquareMeterAmpere, cVoltMeterPerSecond, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cReciprocalHenry, cVoltPerMeter, cVoltMeter, cOhmMeter, -1, -1, -1, cLux, -1, -1, -1, cWattPerCubicMeter, cWattPerMeter, -1, cNewtonPerMeter, cCubicMeterPerSquareSecond, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, cAmperePerMeter, -1, -1, -1, -1, -1, cSiemens, -1, -1, cVolt, -1, cOhm, cHertz, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, cMeterPerSquareSecond, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1),
+    (cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, -1, cSquareMeterPerSquareSecond, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuarticSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cJoule, cWattPerMeter, cWatt, -1, -1, cSquareHertz, -1, -1, -1, -1, cNewtonSquareMeter, -1, cHertz, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, cNewtonPerSquareCoulomb, -1, cSquareHertz, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerQuarticSecond, cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, cMeterPerSexticSecond, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerQuinticSecond, cMeterPerQuarticSecond, cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerSexticSecond, cMeterPerQuinticSecond, cMeterPerQuarticSecond, cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cJoule, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cNewtonSquareMeter, cWatt, -1, cSquareJoule, -1, cMeterPerSquareSecond, -1, cSquareHertz, -1, -1, cNewtonCubicMeter, -1, cMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, cNewtonPerCubicMeter, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, cNewtonSquareMeterPerSquareCoulomb, cMeterPerSquareSecond, cSquareNewton, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, cMeter, cMeterPerSecond, cMeterPerSecond, cSquareMeter, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, cCubicMeterPerSecond, -1, -1, cKilogramMeter, cKilogramSquareMeter, -1, -1, cSecond, -1, cSecondPerMeter, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cKilogramPerSecond, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cKilogramMeterPerSecond, cQuarticMeter, cKilogram, cCubicMeter, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewton, cNewtonPerMeter, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, cCubicMeterPerSquareSecond, cMeter, -1, -1, cQuarticMeterSecond, cCubicMeter, cNewtonSquareMeter, -1, cJoule, cNewton, cNewtonPerMeter, cKilogramMeterPerSecond, -1, -1),
+    (cKilogramMeter, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cNewton, cNewton, cKilogramSquareMeterPerSecond, cJoule, cWatt, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, cKilogram, -1, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, -1, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareKilogramSquareMeterPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cNewtonCubicMeter, cSquareJouleSquareSecond, -1, cSquareMeterPerSquareSecond, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, -1, cKilogramMeterPerSecond, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cWattPerSquareMeter, cWattPerSquareMeter, cNewton, cWattPerMeter, -1, -1, -1, -1, cWatt, cKilogramMeter, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, cPoiseuille, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, cSquareKilogramSquareMeterPerSquareSecond, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cJoule, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cJoule, cSquareNewton, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cWattPerMeter, cWattPerMeter, cJoule, cWatt, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, cKilogramPerSecond, -1, cPoiseuille, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, cSquareKilogramPerSquareSecond, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cKilogramSquareMeterPerSecond, -1, -1, cNewtonSquareMeter, -1, -1, cSquareNewton, -1, -1, -1, -1, -1),
+    (cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalSquareRootMeter, -1, -1, -1, -1, -1, -1, cSquareRootMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cReciprocalSquareRootCubicMeter, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareRootMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalMeter, cSecondPerMeter, -1, -1, -1, -1, -1, cScalar, cReciprocalSquareRootMeter, cMeter, cSquareMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cKilogramPerMeter, cSquareKilogramPerMeter, cAmperePerMeter, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cSquareHertz, -1, -1, -1, -1, cMeterPerSquareSecond, cSecond, cKilogram, cPoiseuille, cKilogramPerSecond, -1, cReciprocalSquareRootCubicMeter, cReciprocalSquareMeter, -1, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, cKilogramMeter, cKilogramMeterPerSecond, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, cNewtonPerMeter, cNewtonPerMeter, -1, cNewtonPerCubicMeter, cNewton, cNewton, cWattPerMeter, cCoulombPerMeter, cSquareCoulombPerMeter, cCoulomb, cVoltPerMeter, -1, cFaradPerMeter, -1, cSiemensPerMeter, -1, -1, cTeslaMeter, cHenryPerMeter, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, cPascal, cSquareMeterPerSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cJoule, cNewtonSquareMeter, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, cWattPerSquareMeter, cWattPerCubicMeter, -1, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, cCoulombPerSquareMeter, -1, cCoulombPerCubicMeter, -1, -1, -1, cVolt, -1, -1, cAmperePerSquareMeter, -1, cTesla, -1, cTeslaPerAmpere, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cScalar, cMeter, cSquareMeter, cMeterPerSecond, cWattPerMeter, cNewton, cWattPerSquareMeter, cWattPerCubicMeter, -1, cPascal, -1, -1),
+    (cReciprocalSquareRootCubicMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootMeter, cReciprocalMeter, cSquareRootMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootMeter, cSquareRootMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalSquareMeter, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, cReciprocalMeter, cReciprocalSquareRootCubicMeter, cScalar, cMeter, cSquareMeter, cCubicMeter, cQuarticMeter, cKilogramPerSquareMeter, cSquareKilogramPerSquareMeter, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, cSecondPerMeter, cKilogramPerMeter, -1, cPoiseuille, cSquareKilogramPerSquareSecond, -1, cReciprocalCubicMeter, -1, cReciprocalQuarticMeter, -1, -1, cKilogram, cKilogramPerSecond, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, cPascal, cPascal, -1, -1, cNewtonPerMeter, cNewtonPerMeter, cWattPerSquareMeter, cCoulombPerSquareMeter, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cTesla, cTeslaPerAmpere, -1, cLux, cLuxSecond, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cMeterPerSecond, -1, cHertz, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cNewton, cJoule, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, cKelvinPerMeter, -1, cWattPerCubicMeter, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, cReciprocalKelvin, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, cSquareNewton, cSquareKilogramSquareMeterPerSquareSecond, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cScalar, cMeter, cHertz, cWattPerSquareMeter, cNewtonPerMeter, cWattPerCubicMeter, -1, -1, cNewtonPerCubicMeter, -1, -1),
+    (cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalMeter, cScalar, cMeter, cSquareMeter, cCubicMeter, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, cKilogramPerMeter, cPoiseuille, -1, cKilogramPerQuarticMeter, -1, -1, cNewtonPerCubicMeter, cNewtonPerCubicMeter, -1, -1, cPascal, cPascal, cWattPerCubicMeter, cCoulombPerCubicMeter, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, cKatalPerCubicMeter, -1, -1, cHertz, cKilogramPerQuarticMeterPerSecond, -1, -1, cMeterSecond, -1, -1, -1, cSquareHertz, cNewtonPerMeter, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, cWattPerCubicMeter, cPascal, -1, -1, -1, -1, -1, -1),
+    (cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, cMeter, cSquareMeter, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cNewtonPerCubicMeter, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, cPascal, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, cReciprocalSquareMeter, cReciprocalMeter, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1),
+    (cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cJoule, cJoule, -1, cNewtonSquareMeter, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, -1, -1, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, -1, -1, -1, -1, cSquareJouleSquareSecond, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, cQuinticMeter, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1),
+    (cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cWatt, cWatt, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, cKilogramMeterPerSecond, -1, cKilogramPerSecond, cPoiseuille, -1, -1, cSquareJouleSquareSecond, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, cNewtonCubicMeter, cSquareJoule, -1, -1, cSquareNewton, -1, -1, -1, -1),
+    (cSecondPerMeter, -1, -1, -1, -1, -1, -1, cSecond, -1, cMeterSecond, -1, -1, cQuarticMeterSecond, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, cScalar, cHertz, cSquareHertz, -1, -1, -1, cMeterPerSecond, cSquareSecond, -1, cKilogramPerMeter, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cSquareSecondPerSquareMeter, -1, -1, -1, cKilogramPerSecond, cKilogramPerSecond, -1, -1, cKilogramMeterPerSecond, cKilogramMeterPerSecond, cNewton, -1, -1, -1, cTeslaMeter, -1, -1, cHenryPerMeter, cFaradPerMeter, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, cPoiseuille, cSquareMeter, cKilogramPerSquareMeter, cMeter, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, cTesla, -1, -1, -1, -1, -1, cOhm, cWeber, cVolt, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, cCoulombPerCubicMeter, -1, cLumenSecondPerCubicMeter, -1, cMeterPerSquareSecond, cReciprocalMeter, cSecond, cMeterSecond, -1, cMeter, cNewton, cKilogramMeterPerSecond, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cPoiseuille, -1, -1),
+    (cKilogramPerMeter, -1, -1, -1, -1, -1, -1, cKilogram, -1, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cPascal, cPascal, cKilogramPerSecond, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, cNewton, -1, cSquareKilogram, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, cSquareKilogramPerSquareSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, cKilogramMeterPerSecond, -1, -1, -1, cSquareMeter, -1, cJoule, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareHertz, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cPoiseuille, cKilogram, cKilogramMeter, cKilogramSquareMeter, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, cKilogram, cKilogramMeter, cKilogramSquareMeter, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cNewtonPerCubicMeter, cPoiseuille, cPascal, cWattPerCubicMeter, -1, -1, -1, cNewtonPerMeter, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, cKilogramPerQuarticMeter, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, cKilogramPerSecond, -1, -1, -1, cMeter, -1, cNewton, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, cKilogramPerMeter, cKilogram, cKilogramMeter, cKilogramPerSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1),
+    (cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, cKilogramPerMeter, cKilogram, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, cPascal, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, cPoiseuille, -1, -1, -1, cScalar, -1, cNewtonPerMeter, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, cKilogramPerSquareMeter, cKilogramPerMeter, cKilogram, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cJoule, -1, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, cNewtonPerMeter, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cKilogramPerSecond, cSquareKilogramPerSquareSecond, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cSquareVolt, -1, -1, -1, -1, cWeber, -1, -1, -1, cNewtonPerMeter, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cJoule, -1, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, cNewtonPerMeter, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cKilogramPerSecond, cSquareKilogramPerSquareSecond, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cSquareVolt, -1, -1, -1, -1, cWeber, -1, -1, -1, cNewtonPerMeter, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareNewton, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, cNewtonPerMeter, -1, cNewton, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cWattPerMeter, -1, -1, -1, cSquareMeterPerSquareSecond, cSquareKilogramPerMeter, -1, cSquareNewton, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, cNewtonPerCubicMeter, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cNewtonPerMeter, cNewton, cJoule, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cNewtonSquareMeter, -1, cNewtonCubicMeter, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cSquareJouleSquareSecond, -1, cKilogramMeterPerSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cSquareJoule, cSquareJoule, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, cNewton, -1, cKilogram, -1, -1, -1, -1, cLumenSecond, cJoulePerMole, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cSquareJoule, -1, -1, -1, cSquareNewton, -1, -1),
+    (cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cNewtonSquareMeter, -1, cNewtonCubicMeter, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cSquareJouleSquareSecond, -1, cKilogramMeterPerSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cSquareJoule, cSquareJoule, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, cNewton, -1, cKilogram, -1, -1, -1, -1, cLumenSecond, cJoulePerMole, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cSquareJoule, -1, -1, -1, cSquareNewton, -1, -1),
+    (cWatt, cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cSquareNewton, -1, -1, -1, cWattPerMeter, -1, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, cSquareJoule, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cMeter, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cWattPerMeter, -1, cKilogramPerSecond, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCoulomb, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, cJoule, -1, -1, cWeber, -1, -1, cKilogramPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cSquareCoulombPerMeter, -1, -1, -1, cVoltPerMeter, cVoltMeter, cNewtonSquareMeter, -1, -1, -1, cMeterSecond, cKilogramMeterPerSecond, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMole, -1, -1, -1, -1, -1, cAmpere, cCoulombMeter, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cNewton, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, cKilogram, cKilogramMeter, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cSquareCoulomb, -1, cSquareCoulombPerMeter, -1, cVolt, -1, cNewtonCubicMeter, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cVolt, cWeber, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, cNewtonSquareMeter, cSquareVolt, -1, cCoulomb, -1, cAmpere, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, cCoulombPerMeter, cWattPerMeter, cOhmMeter, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, cWattPerSquareMeter, -1, -1, cPascal, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole),
+    (cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1, -1, cJoule, -1, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cReciprocalHenry, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, cSquareCoulombPerMeter, -1, -1, cSquareCoulomb, cSquareCoulomb, -1, -1, -1, -1, cCoulomb, cJoule, -1, cSecond, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cCoulombPerMeter, -1, -1, -1, -1, cReciprocalMeter, cMeter, cCoulombMeter, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1),
+    (cOhm, cHenry, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, cWeber, cKilogramSquareMeterPerSecond, -1, -1, -1, cSecond, -1, cScalar, cReciprocalMeter, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cKilogramMeterPerSecond, cTesla, -1, -1, -1, -1, -1, cSecondPerMeter, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1),
+    (cSiemens, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, cSquareCoulomb, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, cAmpere, cWatt, -1, cScalar, -1, -1, cCoulombPerSquareMeter, cCoulomb, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cAmperePerMeter, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, cSecondPerMeter, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1),
+    (cSiemensPerMeter, cFaradPerMeter, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cWattPerMeter, -1, cReciprocalMeter, -1, -1, cCoulombPerCubicMeter, cCoulombPerMeter, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cAmperePerSquareMeter, -1, -1, -1, -1, -1, cHertz, cAmpere, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cTesla, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, cWeber, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, cVolt, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cJoule, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, cTeslaMeter, cWeber, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, cVoltMeter, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, cCoulomb, cCoulombPerMeter, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, cSquareMeterPerSecond, cNewtonCubicMeter, -1, -1, cNewtonPerMeter, -1, -1, cPoiseuille, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cJoule, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, cOhmMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, cSquareSecond, -1, cSecond, cSecondPerMeter, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalHenry, cSiemens, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, cAmperePerSquareMeter, cAmpere, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, cAmperePerMeter, cReciprocalSquareMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1),
+    (cCandela, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, -1, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cLux, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cLuxSecond, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, cLumenSecond, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKatal, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere),
+    (cNewtonPerCubicMeter, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cPascal, -1, cNewtonPerMeter, cNewton, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, cWattPerSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, cMeterPerSquareSecond, cSquareKilogramPerSquareMeter, -1, -1, cSquareNewton, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cNewtonPerMeter, cNewton, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, cNewton, -1, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, cPascal, -1, cNewtonPerCubicMeter, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareKilogram, -1, -1, cSquareJoule, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, cPascal, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cNewton, cJoule, cNewtonSquareMeter, cWatt, -1, cSquareNewton, -1, -1, -1, -1, -1, -1),
+    (cCubicMeterPerSecond, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, cSquareMeterPerSecond, -1, cMeterPerSecond, cHertz, -1, -1, -1, cSquareMeter, cKilogramSquareMeterPerSecond, cKilogramMeterPerSecond, cKilogramPerSecond, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, cWattPerMeter, -1, -1, cJoule, -1, cPoiseuille, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, cSquareMeterPerSecond, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, cAmpere, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cWattPerCubicMeter, cWattPerCubicMeter, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, cWattPerMeter, cKilogram, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, cNewton, -1, -1, -1, cSquareMeterPerSecond, -1, cWatt, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cKilogramPerSecond, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, cNewton, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cGrayPerSecond, cGrayPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, cJoule, cNewtonSquareMeter, -1, -1, cMeterPerSecond, -1, cHertz, -1, -1, -1, cNewtonCubicMeter, cMeter, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, -1, -1, -1, cWattPerMeter, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, cWattPerSquareMeter, cWatt, -1, cNewton, -1, -1, cSexticMeter, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cOhm, cOhmMeter, cMeterPerSecond, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1),
+    (cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, cKilogramPerSquareMeter, cKilogramPerMeter, cKilogram, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, cReciprocalMeter, -1, cPascal, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, cKilogramPerCubicMeter, cKilogramPerSquareMeter, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, cSexticMeter, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, -1, -1, cSexticMeter, -1, -1, -1, cNewtonCubicMeter, cNewtonSquareMeter, -1, -1, -1),
+    (cKilogramPerQuarticMeterPerSecond, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cKilogramPerSecond, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, cNewtonPerCubicMeter, -1, cKilogram, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, -1, cSquareMeter, cMeter, cScalar, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, cSquareMeterPerSecond, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, cCubicMeterPerSquareSecond, -1, -1),
+    (cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cKilogram, -1, cKilogramMeter, cKilogramMeterPerSecond, cNewton, cWattPerMeter, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1),
+    (cCubicMeterPerSquareSecond, cCubicMeterPerSecond, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, cMeterPerSquareSecond, cSquareHertz, -1, -1, -1, cSquareMeterPerSecond, cJoule, cNewton, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cPascal, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cSquareMeterPerSquareSecond, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, cJoule, -1, cNewton, cNewtonPerMeter, cPascal, -1, -1, cKilogramSquareMeterPerSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramPerSquareSecond, cSquareJoule, cSquareJoule, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, cJoule, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cJoule, cNewton, cNewtonPerMeter, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, cSquareJoule, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, -1, -1),
+    (cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, cMeterPerSquareSecond, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, cNewtonPerMeter, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, cMeterPerQuarticSecond, -1, -1),
+    (cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, cNewtonPerMeter, -1, -1, cMeter, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, cPascal, -1, -1, cScalar, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonSquareMeterPerSquareKilogram, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, cJoule, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cKelvin, cSquareKelvin, cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, cJoulePerKelvin, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, cMeter, cReciprocalMeter, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, cWattPerKelvin, cJoulePerKelvin, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1),
+    (cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, cSquareKilogramSquareMeterPerSquareSecond, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, cNewtonSquareMeter, cNewton, -1, -1, -1, -1, -1, cSecond, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cJoulePerKilogramPerKelvin, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, cCubicMeterPerSquareSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, cNewtonSquareMeter, cCubicMeterPerSquareSecond, -1, cSquareKelvin, -1, -1, -1, -1, cWatt, -1, -1, -1, cCubicMeter, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKelvinPerMeter, -1, -1, -1, -1, -1, -1, cKelvin, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, cNewton, cMeterPerSquareSecond, cSquareKelvin, -1, -1, -1, -1, cWattPerMeter, cWattPerSquareMeter, -1, cKelvinPerWatt, -1, cMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerMeter, cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, cSquareNewton, -1, -1, cWattPerSquareMeter, -1, cWattPerCubicMeter, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, cScalar, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, cWattPerSquareMeter, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerSquareMeter, cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, cWattPerMeter, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, cSquareNewton, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cKelvinPerMeter, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerCubicMeter, cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, cWattPerSquareMeter, -1, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerKelvin, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, cScalar, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, cWattPerSquareMeter, -1, -1, -1, -1, -1, cReciprocalMeter, cReciprocalKelvin, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKelvinPerWatt, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, cKelvinPerMeter, -1, -1, cScalar, cReciprocalMeter, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, cKelvin, -1, cKelvinPerMeter, -1, -1, -1, -1, -1),
+    (cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cSecond, cKilogramMeterPerSecond, -1, cMeterSecond, cMeterSecond, cMeter, -1, -1, -1, cMeterPerAmpere, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, cScalar, cReciprocalMeter, cReciprocalSquareMeter, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cMeterSecond, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cSecondPerMeter, -1, -1),
+    (cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, cMeterSecond, -1, -1, -1, cKelvin, cKelvinPerMeter, -1, cMeter, cScalar, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, cKelvin, cKelvinPerMeter, -1, -1, -1, -1),
+    (cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, cCubicMeter, cMeter, -1, cWattPerKelvin, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, cWattPerMeterPerKelvin, cJoulePerKelvin, -1, -1),
+    (cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1),
+    (cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, cMeter, cScalar, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cKilogramSquareMeterPerSecond, cTeslaMeter, -1, -1, -1, -1, -1, cSecond, cVolt, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, cTesla, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1),
+    (cVoltPerMeter, cTeslaMeter, -1, -1, -1, -1, -1, cVolt, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, cJoule, -1, -1, cCoulombPerMeter, -1, cAmperePerMeter, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, cPascal, -1, -1, -1, cSquareVolt, -1, cCoulombPerSquareMeter, cWattPerSquareMeter, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, cWattPerCubicMeter, -1, -1, cNewtonPerCubicMeter, -1, -1, cVolt, cVoltMeter, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCoulombPerMeter, -1, -1, -1, -1, -1, -1, cCoulomb, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, cSquareCoulomb, cNewton, -1, -1, cTeslaMeter, -1, -1, cPoiseuille, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cNewtonPerMeter, -1, -1, -1, -1, -1, cVolt, cJoule, cWatt, -1, -1, cSecond, cKilogramPerSecond, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cCoulomb, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, cMeter, cNewtonPerMeter, cJoule, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, cCoulomb, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, cNewtonPerMeter, -1, -1, cTesla, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cPascal, -1, -1, -1, -1, -1, cVoltPerMeter, cNewton, cWattPerMeter, -1, -1, cSecondPerMeter, cPoiseuille, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, cCoulombPerMeter, cCoulomb, cCoulombMeter, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cTeslaPerAmpere, -1, cNewtonSquareMeterPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, cSquareVolt, cNewtonPerSquareCoulomb, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonPerSquareCoulomb, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, cNewton, cVolt, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonSquareMeterPerSquareCoulomb, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, cOhm, -1, -1, -1, cSquareVolt, cSquareVolt, -1, -1, -1, -1, -1, cVoltMeter, cNewtonSquareMeter, -1, -1, -1, cMeter, -1, cMeterPerSecond, cHertz, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cJoule, cVoltPerMeter, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, cVoltPerMeter, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cNewtonCubicMeter, -1, -1, cCoulombMeter, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, cJoule, -1, cNewton, -1, -1, -1, -1, -1, cCoulomb, cWatt, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, cWattPerMeter, -1, -1, cNewtonPerMeter, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cVoltMeterPerSecond, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cWattPerMeter, -1, -1, -1, -1, -1, cAmpere, -1, -1, cSquareVolt, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cFaradPerMeter, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, cSiemens, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, cSquareCoulombPerMeter, -1, -1, -1, -1, cCoulombPerMeter, cNewton, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cCoulombPerSquareMeter, -1, -1, -1, -1, cReciprocalSquareMeter, cScalar, cCoulomb, cAmpere, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, cFarad, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1),
+    (cAmperePerMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, cAmpere, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, cVoltPerMeter, -1, -1, cPascal, cNewton, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cScalar, cNewtonPerMeter, -1, cTesla, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cWeber, -1, cTesla, -1, -1, cVoltMeter, cMeterSecond, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, cSecond, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, cScalar, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, cVolt, cVoltPerMeter, -1, cTeslaMeter, -1, -1),
+    (cTeslaMeter, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, cVolt, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, cCoulombPerMeter, cCoulombPerSquareMeter, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, cPoiseuille, -1, -1, -1, -1, cSquareVolt, -1, cNewtonPerMeter, cHenry, -1, -1, -1, cTesla, -1, -1, -1, -1, cMeterPerSecond, cNewtonSquareMeter, -1, -1, cPascal, -1, -1, -1, -1, cVoltPerMeter, cWeber, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, cHenry, -1, -1, -1, -1, -1, -1, cTesla, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, cOhm, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cHenry, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cHenryPerMeter, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cNewton, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cNewtonPerSquareCoulomb, cOhm, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cTesla, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalMeter, cSecondPerMeter, -1, -1, -1, -1, -1, cScalar, cReciprocalSquareRootMeter, cMeter, cSquareMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, cKilogramPerMeter, cSquareKilogramPerMeter, cAmperePerMeter, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cSquareHertz, -1, -1, -1, -1, cMeterPerSquareSecond, cSecond, cKilogram, cPoiseuille, cKilogramPerSecond, -1, cReciprocalSquareRootCubicMeter, cReciprocalSquareMeter, -1, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, cKilogramMeter, cKilogramMeterPerSecond, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, cNewtonPerMeter, cNewtonPerMeter, -1, cNewtonPerCubicMeter, cNewton, cNewton, cWattPerMeter, cCoulombPerMeter, cSquareCoulombPerMeter, cCoulomb, cVoltPerMeter, -1, cFaradPerMeter, -1, cSiemensPerMeter, -1, -1, cTeslaMeter, cHenryPerMeter, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, cPascal, cSquareMeterPerSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cJoule, cNewtonSquareMeter, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, cWattPerSquareMeter, cWattPerCubicMeter, -1, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, cCoulombPerSquareMeter, -1, cCoulombPerCubicMeter, -1, -1, -1, cVolt, -1, -1, cAmperePerSquareMeter, -1, cTesla, -1, cTeslaPerAmpere, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cScalar, cMeter, cSquareMeter, cMeterPerSecond, cWattPerMeter, cNewton, cWattPerSquareMeter, cWattPerCubicMeter, -1, cPascal, -1, -1),
+    (cSquareKilogramPerSquareSecond, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalSquareMeter, cSecondPerMeter, cReciprocalMeter, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, cKilogramPerMeter, cKilogramPerMeter, cSquareKilogramPerSquareSecond, cKilogramPerCubicMeter, cKilogram, cKilogram, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, cKilogramPerSquareMeter, cMeterSecond, -1, cSecond, -1, -1, -1, -1, -1, cMeter, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, cSquareSecond, -1, cSecond, cKilogramPerSecond, cKilogram, cPoiseuille, -1, -1, cKilogramPerSquareMeter, -1, -1),
+    (cSquareJoule, -1, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cHertz, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, cReciprocalHenry, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, cAmperePerMeter, cAmperePerSquareMeter, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeter, cNewtonSquareMeter, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, cLumenSecond, cLumenSecond, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, cLumenSecond, -1, cLux, -1, cLuxSecond, -1, -1),
+    (cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, cJoulePerMole, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1),
+    (cAmperePerSquareMeter, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, cAmpere, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cNewtonPerMeter, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, cReciprocalMeter, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter),
+    (cLux, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, cCoulombPerMeter, cCoulomb, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, cAmperePerMeter, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, cCoulombPerMeter, cCoulomb, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cGrayPerSecond, cSquareMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cMeterPerSecond, -1, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, cSquareHertz, -1, -1, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, cGrayPerSecond, cMeter, cKilogramMeterPerSecond, cNewtonPerMeter, cNewton, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cJoule, cReciprocalMeter, cPoiseuille, -1, -1, cWattPerMeter, cWattPerMeter, -1, cWattPerCubicMeter, cWatt, cWatt, -1, cAmpere, -1, -1, -1, -1, cSiemens, -1, cReciprocalHenry, -1, -1, cVolt, cOhm, -1, -1, cCandela, -1, -1, cLux, -1, -1, cWattPerSquareMeter, cCubicMeterPerSquareSecond, cPascal, cSquareMeterPerSquareSecond, cKilogramPerQuarticMeterPerSecond, cQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cAmperePerMeter, -1, cAmperePerSquareMeter, -1, -1, -1, cVoltMeterPerSecond, -1, cSiemensPerMeter, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, cSquareHertz, cMeterPerSecond, cSquareMeterPerSecond, cCubicMeterPerSecond, cSquareMeterPerSquareSecond, -1, cWatt, -1, -1, -1, cWattPerSquareMeter, -1, -1),
+    (cMeter, cMeterSecond, -1, -1, -1, -1, -1, cSquareMeter, -1, cCubicMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, cKilogramMeter, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, cCubicMeterPerSquareSecond, -1, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cSquareRootMeter, cScalar, cReciprocalSquareRootMeter, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, -1, -1, cSecond, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, cJoule, cJoule, -1, cNewtonPerMeter, cNewtonSquareMeter, cNewtonSquareMeter, -1, cCoulombMeter, -1, -1, cVoltMeter, -1, -1, cOhmMeter, -1, cSiemens, cTeslaMeter, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, cPascal, cNewton, -1, cKilogramPerSecond, cCubicMeterPerSecond, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, cSquareKilogram, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, cKelvin, cWatt, cWattPerMeter, cWattPerSquareMeter, -1, cWattPerKelvin, cMeterKelvinPerWatt, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, cVolt, cCoulomb, cSquareCoulomb, cCoulombPerMeter, -1, -1, -1, -1, -1, cFarad, cAmpere, -1, cWeber, cHenryPerMeter, cHenry, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, cCoulombPerSquareMeter, -1, cMeterPerSecond, cSquareMeter, cCubicMeter, cQuarticMeter, cCubicMeterPerSecond, -1, cNewtonSquareMeter, cWatt, cWattPerMeter, cWattPerSquareMeter, cNewton, -1, -1),
+    (cSquareMeter, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, cKilogramSquareMeter, -1, cSquareMeterAmpere, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, -1, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, cSquareJouleSquareSecond, -1, cMeter, cSquareRootMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, -1, -1, cMeterSecond, cKilogramMeter, cKilogram, cKilogramPerMeter, cNewtonSquareMeter, cNewtonSquareMeter, cSquareJoule, cNewton, cNewtonCubicMeter, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, cCandela, cLumenSecond, -1, cNewtonPerMeter, cJoule, -1, cKilogramMeterPerSecond, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, cSquareKilogram, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, cMeterKelvin, -1, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cCoulombMeter, -1, cCoulomb, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, cMeter, cSquareKilogramSquareMeterPerSquareSecond, cSquareSecond, -1, -1, -1, -1, -1, -1, cAmpere, -1, cCandela, cCoulombPerMeter, -1, cSquareMeterPerSecond, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, cNewtonCubicMeter, -1, cWatt, cWattPerMeter, cJoule, -1, -1),
+    (cCubicMeter, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, cSquareMeter, -1, cMeter, cScalar, cReciprocalMeter, -1, -1, -1, cKilogramSquareMeter, cKilogramMeter, cKilogram, cNewtonCubicMeter, cNewtonCubicMeter, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecond, -1, -1, -1, cNewton, cNewtonSquareMeter, -1, cKilogramSquareMeterPerSecond, -1, cKilogramPerMeter, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, cCoulomb, -1, cCubicMeterPerSecond, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cKatal, -1),
+    (cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cGrayPerSecond, cGrayPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, cJoule, cNewtonSquareMeter, -1, -1, cMeterPerSecond, -1, cHertz, -1, -1, -1, cNewtonCubicMeter, cMeter, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, -1, -1, -1, cWattPerMeter, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, cWattPerSquareMeter, cWatt, -1, cNewton, -1, -1, cSexticMeter, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, cOhm, cOhmMeter, cMeterPerSecond, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1),
+    (cWatt, cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cSquareNewton, -1, -1, -1, cWattPerMeter, -1, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, cSquareJoule, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cMeter, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cWattPerMeter, -1, cKilogramPerSecond, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cNewtonSquareMeter, -1, cNewtonCubicMeter, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cSquareJouleSquareSecond, -1, cKilogramMeterPerSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cSquareJoule, cSquareJoule, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, cNewton, -1, cKilogram, -1, -1, -1, -1, cLumenSecond, cJoulePerMole, -1, -1, -1, -1, -1, cWatt, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cSquareJoule, -1, -1, -1, cSquareNewton, -1, -1),
+    (cWattPerMeter, cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, cSquareNewton, -1, -1, cWattPerSquareMeter, -1, cWattPerCubicMeter, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, cScalar, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, cWattPerSquareMeter, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerSquareMeter, cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, cWattPerMeter, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, cSquareNewton, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cKelvinPerMeter, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerCubicMeter, cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, cWattPerSquareMeter, -1, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, cNewton, -1, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, cPascal, -1, cNewtonPerCubicMeter, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareKilogram, -1, -1, cSquareJoule, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, cPascal, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cNewton, cJoule, cNewtonSquareMeter, cWatt, -1, cSquareNewton, -1, -1, -1, -1, -1, -1),
+    (cKatalPerCubicMeter, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1)
   );
 
   { Div Table }
 
   DivTable : array[0..159, 0..159] of longint = (
-    (cScalar, cHertz, cSquareHertz, -1, -1, -1, -1, cReciprocalMeter, cScalar, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, cReciprocalMole, -1, cSecond, cSquareSecond, cSquareSecond, cSecondPerMeter, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, cScalar, cMeter, cScalar, cSquareMeter, cCubicMeter, cQuarticMeter, -1, -1, cMeterPerSecond, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cOhm, cOhmMeter, -1, -1, cReciprocalHenry, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, cSquareKilogramPerSquareMeter, -1, cKelvin, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, cKelvinPerWatt, cMeterKelvinPerWatt, cWattPerKelvin, cWattPerMeter, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, cNewtonSquareMeterPerSquareCoulomb, cMeterPerAmpere, cAmperePerMeter, -1, -1, -1, cMeter, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, cSecond, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1),
-    (cSecond, cScalar, cHertz, cSquareHertz, -1, -1, -1, cSecondPerMeter, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cCubicSecond, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, cSecond, cMeterSecond, cSecond, -1, -1, cQuarticMeterSecond, -1, -1, cMeter, -1, -1, -1, cMeterPerWatt, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, cFarad, cHenry, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, cCoulombPerMeter, -1, -1, -1, cMeterSecond, -1, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSecondPerMeter, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareSecond, cSecond, cScalar, cHertz, cSquareHertz, -1, -1, -1, cSquareSecond, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, cQuarticSecond, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, cMeterPerWatt, -1, cSquareSecond, -1, cSquareSecond, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCubicSecond, cSquareSecond, cSecond, cScalar, cHertz, cSquareHertz, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, cQuinticSecond, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, cCubicSecond, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cQuarticSecond, cCubicSecond, cSquareSecond, cSecond, cScalar, cHertz, cSquareHertz, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, cSexticSecond, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cQuinticSecond, cQuarticSecond, cCubicSecond, cSquareSecond, cSecond, cScalar, cHertz, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSexticSecond, cQuinticSecond, cQuarticSecond, cCubicSecond, cSquareSecond, cSecond, cScalar, -1, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticSecond, -1, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, cScalar, cMeter, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, cHertz, -1, -1, -1, -1, cMeter, cSquareMeter, cMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, cSquareMeterPerSecond, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cKilogramPerSquareMeter, cNewtonPerSquareKilogram, cSquareSecondPerSquareMeter, -1, -1, cKilogramSquareSecond, cSquareMeterPerSquareKilogram, -1, cSquareKilogramPerMeter, -1, cMeterKelvin, -1, -1, -1, cReciprocalKelvin, cSquareMeterKelvin, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, cWatt, cWattPerKelvin, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, cSquareMeterPerSquareCoulomb, -1, cSquareCoulombPerMeter, -1, cFarad, -1, -1, -1, -1, cAmpere, -1, -1, -1, cSquareMeter, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cSecondPerMeter, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1),
-    (cScalar, cHertz, cSquareHertz, -1, -1, -1, -1, cReciprocalMeter, cScalar, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, cReciprocalMole, -1, cSecond, cSquareSecond, cSquareSecond, cSecondPerMeter, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, cScalar, cMeter, cScalar, cSquareMeter, cCubicMeter, cQuarticMeter, -1, -1, cMeterPerSecond, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cOhm, cOhmMeter, -1, -1, cReciprocalHenry, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, cSquareKilogramPerSquareMeter, -1, cKelvin, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, cKelvinPerWatt, cMeterKelvinPerWatt, cWattPerKelvin, cWattPerMeter, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, cNewtonSquareMeterPerSquareCoulomb, cMeterPerAmpere, cAmperePerMeter, -1, -1, -1, cMeter, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, cSecond, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1),
-    (cSquareMeter, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, cMeter, cSquareMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, cSquareMeterPerSquareKilogram, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, cSquareSecond, cMeterPerSecond, -1, -1, -1, -1, cSquareMeter, cCubicMeter, cSquareMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, cCubicMeterPerSecond, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cSecond, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, cMeter, cScalar, cReciprocalMeter, cSecond, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCubicMeter, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cSquareMeter, cCubicMeter, cMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, -1, -1, -1, cCubicMeter, cQuarticMeter, cCubicMeter, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, cMeterSecond, -1, -1, -1, cKilogram, cNewtonSquareMeterPerSquareKilogram, cSquareSecond, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cMeter, cScalar, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cQuarticMeter, -1, -1, -1, -1, -1, -1, cCubicMeter, cQuarticMeter, cSquareMeter, cMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cCubicMeterPerKilogram, -1, -1, -1, cQuarticMeter, cQuinticMeter, cQuarticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, cHertz, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, cCubicMeter, cSquareMeter, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cQuinticMeter, -1, -1, -1, -1, -1, -1, cQuarticMeter, cQuinticMeter, cCubicMeter, cSquareMeter, cMeter, cScalar, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, cSexticMeter, cQuinticMeter, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cCubicMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSexticMeter, -1, -1, -1, -1, -1, -1, cQuinticMeter, cSexticMeter, cQuarticMeter, cCubicMeter, cSquareMeter, cMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, cQuarticMeter, cCubicMeter, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogram, cKilogramPerSecond, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, cKilogramPerMeter, cKilogram, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cReciprocalMeter, cSecond, cSecondPerMeter, -1, cKilogram, cKilogramMeter, cKilogram, cKilogramSquareMeter, -1, -1, cReciprocalSquareMeter, -1, cKilogramMeterPerSecond, cMeter, cSquareMeter, cCubicMeter, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cSquareSecondPerSquareMeter, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, cMeterSecond, -1, cQuarticMeter, cKilogramPerQuarticMeterPerSecond, cQuarticMeterSecond, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramKelvin, cReciprocalKelvin, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cSquareCoulombPerMeter, cKilogramMeter, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, -1, -1, cSquareSecondPerSquareMeter, -1, cCubicSecond, -1, cSquareSecond, -1, -1),
-    (cSquareKilogram, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogram, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, cKilogram, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, cSquareSecondPerSquareMeter, cSquareKilogram, -1, cSquareKilogram, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, cMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1),
-    (cAmpere, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cAmpere, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, cAmpere, -1, cAmpere, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, cSiemens, -1, -1, -1, cVolt, cVoltMeter, -1, cReciprocalHenry, -1, cWeber, -1, -1, -1, -1, -1, cCoulombPerMole, -1, -1, cCoulombPerCubicMeter, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cSquareMeterPerSecond, -1, -1, -1, cSiemensPerMeter, cFaradPerMeter, cVoltMeterPerSecond, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cReciprocalSquareMeter, -1, -1, cSquareMeter, -1, -1, cCubicMeterPerSecond, -1, cCoulomb, cAmperePerMeter, cAmperePerSquareMeter, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cKatal),
-    (cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cAmpere, cScalar, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cSquareCoulomb, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, cReciprocalHenry, cSiemens, -1, cSquareHertz, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cReciprocalHenry, -1, -1, -1, -1, -1, -1),
-    (cKelvin, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cMeterKelvin, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, -1, -1, -1, cReciprocalMeter, cMeter, cMeterKelvinPerWatt, -1, -1, -1, -1, cWatt, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, cKelvinPerWatt, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1),
-    (cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cScalar, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, -1, cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, -1, -1, -1, cKelvinPerMeter, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, cKelvin, cScalar, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, -1, cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, cSquareKelvin, cKelvin, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, cQuarticKelvin, cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMole, cKatal, -1, -1, -1, -1, -1, -1, cMole, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCandela, -1, -1, -1, -1, -1, -1, -1, cCandela, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cHertz, cCubicMeterPerSecond, cSquareMeter, cSquareMeterPerSecond, -1, -1, -1, cLumenSecondPerCubicMeter, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cSquareMeter, -1, -1, cLumenSecond, -1, cLux, -1, cLuxSecond, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1),
-    (cHertz, cSquareHertz, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSecond, cSecond, cReciprocalMeter, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cMeterPerSecond, cHertz, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, cNewtonSquareMeterPerSquareCoulomb, cCoulombPerKilogram, -1, -1, cOhm, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cGrayPerSecond, -1, -1, cTesla, -1, -1, cKatal, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cScalar, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareHertz, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cScalar, cScalar, -1, cReciprocalMeter, cSecondPerMeter, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, cSquareHertz, cMeterPerSquareSecond, cSquareHertz, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, cMeterPerCubicSecond, cNewtonPerSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, cKilogramPerMeter, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareHertz, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cScalar, cScalar, -1, cReciprocalMeter, cSecondPerMeter, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, cSquareHertz, cMeterPerSquareSecond, cSquareHertz, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, cMeterPerCubicSecond, cNewtonPerSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, cKilogramPerMeter, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, cHertz, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cMeterSecond, cMeterSecond, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSecondPerMeter, cSquareHertz, -1, -1, -1, -1, cMeterPerSecond, cSquareMeterPerSecond, cMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, cSquareMeterPerSecond, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cHertz, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, cSquareHertz, cMeterPerSquareSecond, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, cMeter, cMeter, cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cReciprocalMeter, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cGrayPerSecond, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, cReciprocalSquareMeter, -1, -1, cKilogram, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, cKelvinPerMeter, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, cMeterPerSecond, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cMeterPerSecond, cMeterPerSecond, cSquareHertz, cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSquareSecond, -1, cSquareHertz, cHertz, cScalar, cSecond, cSquareSecond, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1),
-    (cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, cMeterPerCubicSecond, cMeterPerCubicSecond, -1, -1, cSquareHertz, cHertz, cScalar, cSecond, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1),
-    (cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, cMeterPerQuarticSecond, cMeterPerQuarticSecond, -1, -1, -1, cSquareHertz, cHertz, cScalar, -1, -1, -1, -1, -1, -1, cMeterPerSexticSecond, -1, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cSquareMeter, cSquareMeter, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, -1, cScalar, cMeterPerCubicSecond, cNewtonPerSquareKilogram, -1, -1, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, cPascal, -1, cReciprocalMeter, -1, -1, cKilogramMeter, -1, -1, cSquareKilogramPerSquareSecond, cKilogramPerMeter, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareMeterPerSquareKilogram, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, cSecond, cSquareMeterPerSecond, cMeterPerSquareSecond, cSquareHertz, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterSecond, cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cSecond, cMeterSecond, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, -1, cScalar, -1, -1, -1, -1, cMeterSecond, -1, cMeterSecond, -1, cQuarticMeterSecond, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, cMeterPerWatt, -1, cMeterPerAmpere, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cSecondPerMeter, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1),
-    (cKilogramMeter, cKilogramMeterPerSecond, cNewton, cWattPerMeter, -1, -1, -1, cKilogram, cKilogramMeter, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, cKilogramPerSecond, cScalar, cMeterSecond, cSecond, -1, cKilogramMeter, cKilogramSquareMeter, cKilogramMeter, -1, -1, -1, cReciprocalMeter, cSecondPerMeter, cKilogramSquareMeterPerSecond, cSquareMeter, cCubicMeter, cQuarticMeter, cSquareSecond, cSquareSecond, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, -1, cSquareKilogramPerSquareMeter, cMeterPerSquareSecond, -1, cSquareSecondPerSquareMeter, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cKilogramSquareMeter, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1),
-    (cKilogramPerSecond, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, cPoiseuille, cKilogramPerSecond, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, cPascal, -1, cScalar, cReciprocalMeter, -1, cKilogramPerSecond, cKilogramMeterPerSecond, cKilogramPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, cReciprocalSquareMeter, cNewton, cMeterPerSecond, cSquareMeterPerSecond, cCubicMeterPerSecond, cSecondPerMeter, cSecondPerMeter, -1, cMeterSecond, -1, -1, cSquareSecondPerSquareMeter, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cKilogramPerCubicMeter, cMeter, cKilogramPerSquareMeter, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, cKilogramMeterPerSecond, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cPoiseuille, -1, -1, cKilogramPerSquareMeter, cSquareSecondPerSquareMeter, -1, -1, cSquareSecond, -1, cSecond, -1, -1),
-    (cKilogramMeterPerSecond, cNewton, cWattPerMeter, -1, -1, -1, -1, cKilogramPerSecond, cKilogramMeterPerSecond, cPoiseuille, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, cKilogram, -1, cKilogramSquareSecond, -1, -1, -1, -1, cNewtonPerMeter, cHertz, cMeter, cScalar, -1, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, cKilogramMeterPerSecond, -1, -1, -1, -1, cReciprocalMeter, cJoule, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, cSecond, cSecond, cMeterPerWatt, -1, cSecondPerMeter, cSecondPerMeter, -1, cTeslaMeter, -1, cTesla, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, cCoulombMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cKilogramPerSquareMeter, cSquareMeter, cKilogramPerMeter, -1, -1, cQuinticMeter, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogramPerSecond, cPoiseuille, -1, cKilogramPerMeter, -1, cSecondPerMeter, cSquareSecond, -1, -1, cMeterSecond, -1, -1),
-    (cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareNewton, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, cJoule, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, cNewton, cKilogramSquareMeterPerSecond, cKilogramMeterPerSecond, cScalar, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramSquareMeterPerSquareSecond, cSquareJouleSquareSecond, -1, -1, cNewtonPerMeter, cKilogramPerSecond, -1, cNewtonSquareMeter, cNewtonCubicMeter, -1, cKilogramMeter, cKilogramMeter, cSquareSecond, -1, cKilogram, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cKilogramPerMeter, cKilogramPerSquareMeter, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cJoulePerKelvin, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cSquareJoule, cSquareSecondPerSquareMeter, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, cKilogram, -1, -1, -1, cKilogramSquareMeter, -1, -1),
-    (cScalar, cHertz, cSquareHertz, -1, -1, -1, -1, cReciprocalMeter, cScalar, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, cReciprocalMole, -1, cSecond, cSquareSecond, cSquareSecond, cSecondPerMeter, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, cScalar, cMeter, cScalar, cSquareMeter, cCubicMeter, cQuarticMeter, -1, -1, cMeterPerSecond, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cOhm, cOhmMeter, -1, -1, cReciprocalHenry, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, cSquareKilogramPerSquareMeter, -1, cKelvin, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, cKelvinPerWatt, cMeterKelvinPerWatt, cWattPerKelvin, cWattPerMeter, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, cNewtonSquareMeterPerSquareCoulomb, cMeterPerAmpere, cAmperePerMeter, -1, -1, -1, cMeter, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, cSecond, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1),
-    (cReciprocalMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cScalar, cReciprocalMeter, cMeter, cSquareMeter, cCubicMeter, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cSiemensPerMeter, -1, cOhm, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, cReciprocalKelvin, -1, cMeterPerWatt, -1, -1, cKelvinPerWatt, cWattPerMeterPerKelvin, cWattPerSquareMeter, cWattPerSquareMeterPerKelvin, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, cReciprocalHenry, cScalar, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, cSecondPerMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1),
-    (cScalar, cHertz, cSquareHertz, -1, -1, -1, -1, cReciprocalMeter, cScalar, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, cReciprocalMole, -1, cSecond, cSquareSecond, cSquareSecond, cSecondPerMeter, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, cScalar, cMeter, cScalar, cSquareMeter, cCubicMeter, cQuarticMeter, -1, -1, cMeterPerSecond, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cOhm, cOhmMeter, -1, -1, cReciprocalHenry, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, cSquareKilogramPerSquareMeter, -1, cKelvin, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, cKelvinPerWatt, cMeterKelvinPerWatt, cWattPerKelvin, cWattPerMeter, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, cNewtonSquareMeterPerSquareCoulomb, cMeterPerAmpere, cAmperePerMeter, -1, -1, -1, cMeter, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, cSecond, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1),
-    (cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, cReciprocalSquareMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalMeter, cReciprocalSquareMeter, cScalar, cMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, cWattPerSquareMeterPerKelvin, cWattPerCubicMeter, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, cReciprocalHenry, -1, cReciprocalMeter, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1),
-    (cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalMeter, cScalar, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, cReciprocalMole, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogramSquareMeter, cKilogramSquareMeterPerSecond, cJoule, cWatt, -1, -1, -1, cKilogramMeter, cKilogramSquareMeter, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, cKilogramMeterPerSecond, cMeter, -1, cMeterSecond, -1, cKilogramSquareMeter, -1, cKilogramSquareMeter, -1, -1, -1, cScalar, cSecond, -1, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, -1, -1, cSquareSecond, cSquareSecond, cCubicSecond, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, -1, cSquareKilogramPerMeter, cSquareMeterPerSquareSecond, -1, -1, cSquareSecondPerSquareMeter, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogram, cKilogramPerMeter, -1, cCubicSecond, cSquareSecond, -1, -1, -1, -1, -1, -1),
-    (cKilogramSquareMeterPerSecond, cJoule, cWatt, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, cKilogramPerSecond, cPoiseuille, -1, -1, cKilogramPerQuarticMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, cNewton, cMeterPerSecond, cSquareMeter, cMeter, -1, cKilogramSquareMeterPerSecond, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, cHertz, cScalar, cNewtonSquareMeter, cCubicMeterPerSecond, -1, -1, cMeterSecond, cMeterSecond, -1, -1, cSecond, cSecond, cSquareSecond, cWeber, cOhm, cTeslaMeter, -1, -1, -1, cSquareCoulomb, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, cKilogramPerMeter, cCubicMeter, cKilogram, -1, cNewtonPerCubicMeter, cSexticMeter, -1, cGrayPerSecond, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, cKilogram, cSquareSecond, cSecond, -1, -1, -1, -1, -1, -1),
-    (cSecondPerMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, cSecondPerMeter, cSecond, cSecondPerMeter, cMeterSecond, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, cHenryPerMeter, cHenry, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, cOhm, -1, cCoulombPerSquareMeter, -1, -1, cSiemens, cSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1),
-    (cKilogramPerMeter, cPoiseuille, cPascal, cWattPerCubicMeter, -1, -1, -1, cKilogramPerSquareMeter, cKilogramPerMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cSecondPerMeter, -1, -1, cKilogramPerMeter, cKilogram, cKilogramPerMeter, cKilogramMeter, cKilogramSquareMeter, -1, cReciprocalCubicMeter, -1, cKilogramPerSecond, cScalar, cMeter, cSquareMeter, cSquareSecondPerSquareMeter, cSquareSecondPerSquareMeter, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, cKilogram, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1),
-    (cKilogramPerSquareMeter, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerSquareMeter, cKilogramPerQuarticMeter, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, cKilogramPerSquareMeter, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogram, cKilogramMeter, cKilogramSquareMeter, cReciprocalQuarticMeter, -1, cPoiseuille, cReciprocalMeter, cScalar, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSquareSecondPerSquareMeter, -1, cSecondPerMeter, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1),
-    (cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, cReciprocalQuarticMeter, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerMeter, cKilogram, cKilogramMeter, -1, -1, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewton, cWattPerMeter, -1, -1, -1, -1, -1, cNewtonPerMeter, cNewton, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cMeterPerSquareSecond, cNewtonPerSquareKilogram, cTeslaMeter, cHenryPerMeter, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramMeter, cKilogramMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, cKilogramPerMeter, cWattPerSquareMeter, cSquareHertz, cMeterPerSecond, cHertz, -1, cNewton, cJoule, cNewton, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cWatt, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, cScalar, cScalar, -1, cSquareMeter, cReciprocalMeter, cReciprocalMeter, cSecondPerMeter, cVoltPerMeter, cNewtonPerSquareCoulomb, -1, cCoulombPerMeter, cFaradPerMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, cMeter, -1, cSquareMeterPerSecond, cPoiseuille, -1, -1, -1, -1, cMeterPerQuarticSecond, cKilogramPerSquareMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, cSquareKilogramPerSquareMeter, -1, -1, cKelvinPerMeter, -1, -1, cJoulePerKelvin, cSecond, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, cVolt, -1, cVoltMeter, -1, cSquareCoulomb, -1, cCoulombPerSquareMeter, -1, cSquareVolt, cWeber, -1, cAmpere, -1, cSquareAmpere, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cPoiseuille, cSecondPerMeter, cReciprocalMeter, cSecond, cMeterSecond, -1, cMeter, -1, -1),
-    (cNewton, cWattPerMeter, -1, -1, -1, -1, -1, cNewtonPerMeter, cNewton, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cMeterPerSquareSecond, cNewtonPerSquareKilogram, cTeslaMeter, cHenryPerMeter, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramMeter, cKilogramMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, cKilogramPerMeter, cWattPerSquareMeter, cSquareHertz, cMeterPerSecond, cHertz, -1, cNewton, cJoule, cNewton, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cWatt, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, cScalar, cScalar, -1, cSquareMeter, cReciprocalMeter, cReciprocalMeter, cSecondPerMeter, cVoltPerMeter, cNewtonPerSquareCoulomb, -1, cCoulombPerMeter, cFaradPerMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, cMeter, -1, cSquareMeterPerSecond, cPoiseuille, -1, -1, -1, -1, cMeterPerQuarticSecond, cKilogramPerSquareMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, cSquareKilogramPerSquareMeter, -1, -1, cKelvinPerMeter, -1, -1, cJoulePerKelvin, cSecond, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, cVolt, -1, cVoltMeter, -1, cSquareCoulomb, -1, cCoulombPerSquareMeter, -1, cSquareVolt, cWeber, -1, cAmpere, -1, cSquareAmpere, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cPoiseuille, cSecondPerMeter, cReciprocalMeter, cSecond, cMeterSecond, -1, cMeter, -1, -1),
-    (cSquareNewton, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, cWatt, cWattPerMeter, cSquareHertz, cSquareNewton, -1, cSquareNewton, cSquareJoule, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, cNewton, cNewton, cScalar, cNewtonSquareMeter, cNewtonPerMeter, cNewtonPerMeter, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cNewtonPerMeter, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cJoule, -1, -1),
-    (cPascal, cWattPerCubicMeter, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cKilogramPerMeter, cKilogramPerMeter, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, cPascal, cNewtonPerMeter, cPascal, cNewton, cJoule, cNewtonSquareMeter, -1, -1, cWattPerSquareMeter, cSquareHertz, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cReciprocalSquareMeter, cReciprocalSquareMeter, -1, cScalar, cReciprocalCubicMeter, cReciprocalCubicMeter, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cReciprocalMeter, cKilogramPerQuarticMeterPerSecond, cHertz, -1, cCubicMeterPerSquareSecond, -1, cCubicMeterPerSecond, -1, -1, cKilogramPerQuarticMeter, cReciprocalQuarticMeter, -1, cSquareKilogramPerSquareMeter, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, cTesla, -1, cAmperePerSquareMeter, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cJoulePerMole, -1, cVolt, -1, cPoiseuille, cNewtonPerCubicMeter, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cSecondPerMeter, cSecond, cReciprocalMeter, -1, -1),
-    (cJoule, cWatt, -1, -1, -1, -1, -1, cNewton, cJoule, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, cSquareMeterPerSquareSecond, -1, cWeber, cHenry, cJoulePerKelvin, -1, -1, -1, cJoulePerMole, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cKilogram, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSecond, cMeterPerSecond, -1, cJoule, cNewtonSquareMeter, cJoule, cNewtonCubicMeter, -1, -1, cSquareHertz, cHertz, -1, cCubicMeterPerSquareSecond, -1, -1, cMeter, cMeter, -1, cCubicMeter, cScalar, cScalar, cSecond, cVolt, -1, cVoltPerMeter, cCoulomb, cFarad, cSquareVolt, -1, -1, -1, cSquareMeterAmpere, cAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cSquareMeter, cPoiseuille, cCubicMeterPerSecond, cKilogramPerSecond, -1, -1, -1, -1, -1, cKilogramPerMeter, cReciprocalMeter, cReciprocalSquareMeter, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, cSquareKilogramPerMeter, -1, cJoulePerKilogramPerKelvin, cKelvin, cKilogramKelvin, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, cJoulePerMolePerKelvin, cMoleKelvin, -1, cCoulombMeter, cVoltMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, cSquareCoulombPerMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, cKilogramPerSecond, cSecond, cScalar, cMeterSecond, -1, -1, cSquareMeter, -1, -1),
-    (cJoule, cWatt, -1, -1, -1, -1, -1, cNewton, cJoule, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, cSquareMeterPerSquareSecond, -1, cWeber, cHenry, cJoulePerKelvin, -1, -1, -1, cJoulePerMole, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cKilogram, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSecond, cMeterPerSecond, -1, cJoule, cNewtonSquareMeter, cJoule, cNewtonCubicMeter, -1, -1, cSquareHertz, cHertz, -1, cCubicMeterPerSquareSecond, -1, -1, cMeter, cMeter, -1, cCubicMeter, cScalar, cScalar, cSecond, cVolt, -1, cVoltPerMeter, cCoulomb, cFarad, cSquareVolt, -1, -1, -1, cSquareMeterAmpere, cAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cSquareMeter, cPoiseuille, cCubicMeterPerSecond, cKilogramPerSecond, -1, -1, -1, -1, -1, cKilogramPerMeter, cReciprocalMeter, cReciprocalSquareMeter, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, cSquareKilogramPerMeter, -1, cJoulePerKilogramPerKelvin, cKelvin, cKilogramKelvin, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, cJoulePerMolePerKelvin, cMoleKelvin, -1, cCoulombMeter, cVoltMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, cSquareCoulombPerMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, cKilogramPerSecond, cSecond, cScalar, cMeterSecond, -1, -1, cSquareMeter, -1, -1),
-    (cWatt, -1, -1, -1, -1, -1, -1, cWattPerMeter, cWatt, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, -1, cGrayPerSecond, -1, cVolt, cOhm, cWattPerKelvin, -1, -1, cWattPerQuarticKelvin, -1, -1, cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeterPerSecond, cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, cKilogramPerSecond, -1, cMeterPerCubicSecond, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, -1, cWatt, -1, cWatt, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, cMeterPerSecond, cMeterPerSecond, -1, cCubicMeterPerSecond, cHertz, cHertz, cScalar, -1, -1, -1, cAmpere, cSiemens, -1, cSquareAmpere, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, cSquareMeterPerSecond, cPascal, cCubicMeterPerSquareSecond, cNewtonPerMeter, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, cMeter, cSquareMeter, cCubicMeter, cKelvin, cMeterKelvin, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, cKatal, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cAmperePerMeter, cCoulombPerMeter, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cJoule, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cNewtonPerMeter, cScalar, cHertz, cMeter, cSquareMeter, cCubicMeter, cSquareMeterPerSecond, -1, -1),
-    (cCoulomb, cAmpere, -1, -1, -1, -1, -1, cCoulombPerMeter, cCoulomb, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, cCoulombPerKilogram, -1, cSecond, -1, -1, -1, -1, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, cCoulomb, cCoulombMeter, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cReciprocalMeter, cFarad, -1, cVolt, -1, cWeber, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, cSquareMeter, -1, -1, -1, cFaradPerMeter, -1, cVoltMeter, cMeterSecond, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMole),
-    (cSquareCoulomb, -1, cSquareAmpere, -1, -1, -1, -1, cSquareCoulombPerMeter, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, cSquareCoulomb, -1, -1, -1, cReciprocalHenry, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, cFarad, -1, cCoulomb, cScalar, cCoulombPerMeter, -1, -1, cJoule, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, cMeter, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1),
-    (cCoulombMeter, -1, -1, -1, -1, -1, -1, cCoulomb, cCoulombMeter, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, cCoulombPerKilogram, -1, -1, -1, cCoulombMeter, -1, cCoulombMeter, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, cScalar, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, cCubicMeter, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cSecondPerMeter, -1, -1, -1, -1, -1, cQuarticMeter, -1, -1, cCoulomb, cCoulombPerMeter, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cVolt, -1, -1, -1, -1, -1, -1, cVoltPerMeter, cVolt, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cVoltMeter, cVolt, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cScalar, -1, -1, cAmpere, -1, -1, cSquareMeterPerSecond, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, cCoulombMeter, cCoulombPerMeter, cReciprocalMeter, cSecondPerMeter, -1, cOhmMeter, cWattPerMeter, cMeterPerSecond, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cVoltPerMeter, -1, -1, cTesla, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1),
-    (cSquareVolt, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, cSquareMeterPerSquareCoulomb, -1, -1, -1, cOhm, -1, -1, -1, cVolt, cScalar, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cVoltMeter, -1, -1, -1, cSquareNewton, cNewtonSquareMeter, cNewton, cVoltPerMeter, cTeslaMeter, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, cOhmMeter, -1, -1, -1, -1, -1),
-    (cFarad, cSiemens, cReciprocalHenry, -1, -1, -1, -1, cFaradPerMeter, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, cFarad, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cSecond, cMeterSecond, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cOhm, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, cSquareMeterPerSquareCoulomb, -1, -1, cOhm, cOhmMeter, cOhm, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cMeterPerAmpere, -1, -1, -1, cKilogramPerSecond, cMeterSecond, cSecondPerMeter, -1, -1, -1, -1, cVoltPerMeter, -1, cSquareMeterPerSecond, cMeterPerSecond, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSiemens, cReciprocalHenry, -1, -1, -1, -1, -1, cSiemensPerMeter, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, cScalar, cMeter, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, cSiemens, cSiemensPerMeter, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cScalar, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cTesla, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, cTeslaMeter, cTesla, cWeber, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, cScalar, cReciprocalSquareMeter, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, cSecondPerMeter, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cPascal, cReciprocalMeter, cAmpere, cAmperePerMeter, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWeber, cVolt, -1, -1, -1, -1, -1, cTeslaMeter, cWeber, cTesla, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, cWeber, -1, cWeber, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cMeterPerAmpere, cMeterPerAmpere, -1, -1, -1, -1, -1, cOhm, -1, -1, cSecond, -1, -1, cCoulomb, -1, -1, cSquareMeter, cScalar, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cMeterSecond, cOhmMeter, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cNewton, cMeter, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cHenry, cOhm, -1, -1, -1, -1, -1, cHenryPerMeter, cHenry, cTeslaPerAmpere, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, cHenry, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, cTeslaMeter, cMeterPerAmpere, cSquareMeter, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cFarad, cFarad, cSiemensPerMeter, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, cHertz, cMeterPerSecond, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCandela, -1, -1, -1, -1, -1, -1, -1, cCandela, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cHertz, cCubicMeterPerSecond, cSquareMeter, cSquareMeterPerSecond, -1, -1, -1, cLumenSecondPerCubicMeter, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cSquareMeter, -1, -1, cLumenSecond, -1, cLux, -1, cLuxSecond, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1),
-    (cLumenSecond, cCandela, -1, -1, -1, -1, -1, -1, cLumenSecond, cLuxSecond, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecond, -1, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cScalar, cCubicMeter, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, cLumenSecondPerCubicMeter, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1),
-    (cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, cLuxSecond, cLumenSecondPerCubicMeter, -1, cLumenSecond, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, cScalar, cSecondPerMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cLux, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cLuxSecond, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, cLux, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cMeterPerSecond, cScalar, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, cScalar, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1),
-    (cLuxSecond, cLux, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, -1, cLuxSecond, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cMeter, cSecond, cScalar, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, cSecond, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1),
-    (cKatal, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, cMole, -1, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1),
-    (cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, cKilogramPerSquareMeter, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, cPascal, cNewtonPerCubicMeter, cNewtonPerMeter, cNewton, cJoule, -1, -1, cWattPerCubicMeter, -1, cSquareHertz, cMeterPerSquareSecond, cReciprocalCubicMeter, cReciprocalCubicMeter, -1, cReciprocalMeter, cReciprocalQuarticMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cReciprocalSquareMeter, -1, -1, cKilogramPerQuarticMeterPerSecond, cSquareMeterPerSquareSecond, -1, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, cReciprocalQuarticMeter, -1, -1, cSecondPerMeter, cReciprocalSquareMeter, -1, -1),
-    (cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, cPascal, cNewtonPerMeter, cNewtonPerCubicMeter, -1, -1, -1, -1, cSquareHertz, -1, cTesla, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cKilogram, cKilogram, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, cKilogramPerSquareMeter, cWattPerCubicMeter, -1, cHertz, -1, -1, cNewtonPerMeter, cNewton, cNewtonPerMeter, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cReciprocalMeter, cReciprocalMeter, -1, cMeter, cReciprocalSquareMeter, cReciprocalSquareMeter, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, cAmpere, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cScalar, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cSquareKilogramPerMeter, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, cSecond, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cVoltPerMeter, cNewtonPerSquareCoulomb, cVolt, -1, cSquareCoulombPerMeter, -1, cCoulombPerCubicMeter, -1, -1, cTeslaMeter, -1, cAmperePerMeter, cSquareAmpere, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, cVoltMeter, -1, cKilogramPerSecond, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cReciprocalSquareMeter, cSecondPerMeter, cSecond, cMeterSecond, cScalar, -1, -1),
-    (cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cCubicMeterPerSecond, cMeterPerSecond, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, cMeterSecond, cSquareMeterPerSquareSecond, -1, cCubicMeterPerKilogram, -1, -1, cCubicMeterPerSecond, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cMeter, -1, -1, -1, cKilogramPerSecond, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, cSquareMeterPerSecond, cMeterPerSecond, cHertz, cMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cPoiseuille, cPascal, cWattPerCubicMeter, -1, -1, -1, -1, -1, cPoiseuille, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, cReciprocalMeter, cReciprocalSquareMeter, -1, cPoiseuille, cKilogramPerSecond, cPoiseuille, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, cReciprocalCubicMeter, cNewtonPerMeter, cHertz, cMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cSecondPerMeter, cKilogramPerQuarticMeter, cScalar, cKilogramPerCubicMeter, cCubicMeterPerSecond, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, cKilogramPerSecond, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, cKilogramPerMeter, -1, -1, cKilogramPerQuarticMeterPerSecond, cKilogramPerCubicMeter, -1, -1, cSquareSecondPerSquareMeter, -1, cSquareSecond, cSecondPerMeter, -1, -1),
-    (cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, cMeterPerSecond, cSquareMeterPerSecond, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, cMeter, cMeterSecond, -1, -1, -1, -1, cSecond, cMeterPerSquareSecond, -1, -1, -1, -1, cSquareMeterPerSecond, cCubicMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cCubicMeterPerKilogram, cScalar, -1, -1, -1, cPoiseuille, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSquareMeter, cMeterPerSecond, cHertz, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogramPerQuarticMeter, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, cKilogramPerSquareMeter, cKilogramPerMeter, cKilogram, -1, -1, -1, cReciprocalCubicMeter, cReciprocalSquareMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, cScalar, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cQuarticMeterSecond, cQuarticMeter, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, cMeterSecond, cSecond, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, cQuarticMeterSecond, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, cKilogramPerQuarticMeterPerSecond, -1, cPoiseuille, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cHertz, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCubicMeterPerKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, -1, -1, -1, cCubicMeterPerKilogram, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogramSquareSecond, -1, cKilogram, cKilogramPerSecond, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, cKilogramSquareSecond, -1, cKilogramSquareSecond, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, cQuarticSecond, -1, -1),
-    (cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cMeterPerSquareSecond, cSquareHertz, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cCubicMeter, cCubicMeter, cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, cMeter, cGrayPerSecond, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, cCubicMeterPerSquareSecond, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, cHertz, -1, cMeterPerSecond, -1, -1, -1, cNewtonPerMeter, -1, cScalar, -1, -1, cKilogramSquareMeter, -1, -1, -1, cKilogram, -1, -1, -1, cMeterKelvin, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cCubicMeterPerSecond, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, cSquareHertz, cMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1),
-    (cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, cJoule, cNewtonSquareMeter, cNewton, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, cCubicMeterPerSquareSecond, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cKilogramMeter, cWatt, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, cSquareMeterPerSecond, -1, cNewtonSquareMeter, cNewtonCubicMeter, cNewtonSquareMeter, -1, -1, -1, cMeterPerSquareSecond, cMeterPerSecond, -1, -1, -1, -1, cSquareMeter, cSquareMeter, -1, cQuarticMeter, cMeter, cMeter, cMeterSecond, cVoltMeter, cNewtonSquareMeterPerSquareCoulomb, cVolt, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, cCubicMeter, cKilogramPerSecond, -1, cKilogramMeterPerSecond, -1, cWattPerCubicMeter, -1, cSquareKilogramPerSquareSecond, -1, cKilogram, cScalar, cReciprocalMeter, -1, -1, -1, -1, cSquareKilogram, -1, -1, cMeterKelvin, -1, cJoulePerKelvin, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cCoulomb, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, cNewtonCubicMeter, cCubicMeterPerKilogram, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewton, cNewtonPerMeter, cKilogramMeterPerSecond, cMeterSecond, cMeter, -1, -1, cQuarticMeterSecond, cCubicMeter, -1, -1),
-    (cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, cNewtonCubicMeter, cJoule, cNewton, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, cCubicMeterPerSquareSecond, -1, cCubicMeterPerSecond, -1, cNewtonCubicMeter, -1, cNewtonCubicMeter, -1, -1, -1, cSquareMeterPerSquareSecond, cSquareMeterPerSecond, -1, -1, -1, -1, cCubicMeter, cCubicMeter, -1, cQuinticMeter, cSquareMeter, cSquareMeter, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, cQuarticMeter, cKilogramMeterPerSecond, -1, cKilogramSquareMeterPerSecond, -1, cWattPerSquareMeter, -1, -1, -1, cKilogramMeter, cMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, cJoule, cNewton, cKilogramSquareMeterPerSecond, -1, cSquareMeter, -1, cQuarticMeterSecond, -1, cQuarticMeter, -1, -1),
-    (cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, cNewtonPerSquareKilogram, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, cPascal, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, cSquareKilogramPerMeter, -1, -1, -1, -1, -1, cKilogramPerMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogram, cSquareKilogramPerMeter, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, cKilogram, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, cScalar, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, cSquareKilogramPerSquareMeter, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, cSquareKilogram, -1, -1, cKilogramPerQuarticMeter, -1, -1, cKilogramPerMeter, cKilogram, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, cReciprocalMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cSquareSecondPerSquareMeter, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, -1, cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, cSquareMeter, -1, -1, cNewton, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, cReciprocalKelvin, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, cWattPerMeterPerKelvin, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, cKilogramKelvin, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, cKilogramPerMeter, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cJoulePerKelvin, cWattPerKelvin, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, cJoulePerKelvin, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, cScalar, cKilogram, -1, -1, -1, -1, -1, cSecond, cMeterSecond, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, cSquareMeterKelvin, -1, -1),
-    (cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterKelvin, -1, -1, -1, -1, -1, -1, cKelvin, cMeterKelvin, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cKelvinPerMeter, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1),
-    (cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, cKelvin, cKelvinPerMeter, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cScalar, cKelvinPerWatt, cMeterKelvinPerWatt, -1, -1, -1, cWattPerMeter, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, cMeterKelvinPerWatt, -1, -1, -1, -1),
-    (cWattPerMeter, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cWattPerMeter, cWattPerCubicMeter, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cVoltPerMeter, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, cNewton, cKilogramMeterPerSecond, cKilogramMeterPerSecond, cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, cPoiseuille, -1, -1, cMeterPerSquareSecond, cSquareHertz, -1, cWattPerMeter, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, cHertz, cHertz, -1, cSquareMeterPerSecond, -1, -1, cReciprocalMeter, -1, -1, -1, cAmperePerMeter, cSiemensPerMeter, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cMeterPerSecond, cNewtonPerCubicMeter, cSquareMeterPerSquareSecond, cPascal, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cWattPerKelvin, cScalar, cMeter, cSquareMeter, cKelvinPerMeter, cKelvin, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, cVoltMeterPerSecond, -1, -1, -1, cAmperePerSquareMeter, cCoulombPerSquareMeter, -1, cVolt, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cKilogramPerMeter, cNewton, cWattPerSquareMeter, cWattPerCubicMeter, -1, cPascal, cReciprocalMeter, -1, cScalar, cMeter, cSquareMeter, cMeterPerSecond, -1, -1),
-    (cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, cNewtonPerMeter, cKilogramPerSecond, cKilogramPerSecond, cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, cWattPerSquareMeter, cWattPerMeter, cWattPerSquareMeter, cWatt, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, -1, cMeterPerSecond, -1, -1, cReciprocalSquareMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cHertz, -1, cMeterPerSquareSecond, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, cReciprocalMeter, cScalar, cMeter, -1, cKelvinPerMeter, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, cVoltPerMeter, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, cVoltMeterPerSecond, cKilogramPerSquareMeter, cNewtonPerMeter, cWattPerCubicMeter, -1, -1, cNewtonPerCubicMeter, cReciprocalSquareMeter, -1, cReciprocalMeter, cScalar, cMeter, cHertz, -1, -1),
-    (cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cPoiseuille, cPoiseuille, cNewtonPerCubicMeter, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, cHertz, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, cSquareHertz, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, cKilogramPerCubicMeter, cPascal, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, cJoulePerMole, -1),
-    (cWattPerKelvin, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, cWattPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerQuarticKelvin, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, cWattPerKelvin, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cHertz, cKilogramPerSecond, -1, -1, -1, cSquareMeterKelvin, -1, cScalar, cMeter, -1, -1, -1, cWattPerSquareMeter, cSquareMeter, -1, cCubicKelvin, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, cReciprocalKelvin, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1),
-    (cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, cWattPerKelvin, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, cPoiseuille, -1, -1, cReciprocalKelvin, -1, cSquareMeterKelvin, cReciprocalMeter, cScalar, -1, -1, -1, cWattPerCubicMeter, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, cSquareMeterKelvin, -1, -1, -1),
-    (cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, cMeterKelvinPerWatt, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, cScalar, cKelvinPerMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cKelvin, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterKelvin, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, cSquareMeterKelvin, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, cReciprocalSquareMeter, cReciprocalMeter, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1),
-    (cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cSquareMeterQuarticKelvin, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cWattPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerQuarticKelvin, -1, cWattPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerQuarticKelvin, -1, cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1),
-    (cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, cReciprocalMole, -1, -1, -1, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, -1, -1, -1, cVolt),
-    (cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cOhmMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, cOhm, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, cOhmMeter, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, cMeterPerWatt, -1, cMeter, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, cSecond, -1, -1, -1, -1, cVolt, -1, cCubicMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, cVolt, cVoltPerMeter, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, cReciprocalMeter, -1, -1, cAmperePerMeter, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, cScalar, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cCoulomb, cCoulombPerSquareMeter, cReciprocalSquareMeter, -1, -1, cOhm, cWattPerSquareMeter, cHertz, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1),
-    (cCoulombPerMeter, cAmperePerMeter, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, cCoulombPerMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, cCoulombPerMeter, cCoulomb, cCoulombPerMeter, cCoulombMeter, -1, -1, -1, -1, cAmpere, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, cReciprocalSquareMeter, cFaradPerMeter, -1, cVoltPerMeter, -1, cTeslaMeter, cWeber, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, cScalar, -1, cMeter, -1, -1, -1, -1, -1, cVolt, cSecond, -1, cSiemens, -1, -1, cCoulomb, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, cMeterSecond, -1, -1, cSquareMeter, -1, -1, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, cSiemens, -1, cSquareCoulombPerMeter, cSquareCoulomb, cSquareCoulombPerMeter, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, cFarad, cFarad, -1, -1, cFaradPerMeter, cFaradPerMeter, -1, cCoulombPerMeter, cReciprocalMeter, cCoulombPerSquareMeter, -1, -1, cNewton, -1, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, cScalar, cCoulombMeter, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1),
-    (cCoulombPerSquareMeter, cAmperePerSquareMeter, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulomb, cCoulombMeter, -1, -1, -1, cAmperePerMeter, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalCubicMeter, -1, -1, -1, -1, cTesla, cTeslaMeter, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, cReciprocalMeter, -1, cScalar, -1, -1, -1, -1, -1, cVoltPerMeter, cSecondPerMeter, -1, cSiemensPerMeter, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, cSecond, -1, -1, cMeter, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cHenryPerMeter, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, cNewtonPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cScalar, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, cOhm, cHenry, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, cNewton, cSquareMeter, cScalar, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cVoltMeter, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cVolt, cVoltMeter, cVoltPerMeter, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, cNewtonSquareMeterPerSquareCoulomb, -1, -1, cMeter, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, cSquareMeter, -1, -1, -1, -1, -1, cCoulomb, cScalar, cSecond, -1, -1, cWatt, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cVoltPerMeter, -1, cTeslaMeter, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1),
-    (cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, cVolt, cWeber, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, -1, -1, -1, cSquareMeterAmpere, cAmpere, cHertz, cScalar, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cFaradPerMeter, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, cFarad, cFaradPerMeter, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, cSecondPerMeter, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cAmperePerMeter, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cAmpere, cAmperePerMeter, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, cVoltPerMeter, cVolt, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cHertz, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, cScalar, -1, cReciprocalHenry, -1, -1, cAmpere, -1, -1, -1, -1, cPoiseuille, cReciprocalCubicMeter, -1, -1, cMeter, -1, -1, cSquareMeterPerSecond, -1, cCoulombPerMeter, cAmperePerSquareMeter, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cTeslaMeter, cVoltPerMeter, -1, -1, -1, -1, -1, cTesla, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cWeber, cTeslaMeter, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, cCoulombPerMeter, -1, -1, cMeter, cReciprocalMeter, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, cSecond, cOhm, -1, cOhmMeter, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, cHenry, cNewtonPerMeter, cScalar, -1, cAmpere, cWeber, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1),
-    (cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, cHenryPerMeter, cTeslaPerAmpere, cHenry, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cReciprocalMeter, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cHenryPerMeter, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, cTeslaPerAmpere, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cHenry, cHenryPerMeter, -1, -1, -1, -1, -1, cOhm, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, cMeterPerAmpere, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, cSquareSecond, cSquareSecondPerSquareMeter, -1, -1, -1, -1, cTesla, -1, cMeter, cScalar, cHenry, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cReciprocalMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cScalar, cReciprocalMeter, cMeter, cSquareMeter, cCubicMeter, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cSiemensPerMeter, -1, cOhm, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, cReciprocalKelvin, -1, cMeterPerWatt, -1, -1, cKelvinPerWatt, cWattPerMeterPerKelvin, cWattPerSquareMeter, cWattPerSquareMeterPerKelvin, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, cReciprocalHenry, cScalar, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, cSecondPerMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1),
-    (cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, cNewtonPerMeter, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, cSquareKilogram, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, cPascal, cKilogramPerSecond, cPoiseuille, cReciprocalSquareMeter, cSquareKilogramPerSquareSecond, -1, cSquareKilogramPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareJouleSquareSecond, cNewtonPerCubicMeter, -1, -1, cNewton, cJoule, cNewtonSquareMeter, cKilogramPerMeter, cKilogramPerMeter, cSquareSecondPerSquareMeter, cKilogramMeter, cKilogramPerSquareMeter, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, cKilogram, -1, cKilogramMeterPerSecond, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSquareNewton, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, cKilogram, -1, -1),
-    (cSquareSecondPerSquareMeter, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, cSquareSecondPerSquareMeter, cSquareSecond, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, cFarad, cFaradPerMeter, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareJoule, -1, -1, -1, -1, -1, -1, -1, cSquareJoule, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cSquareJoule, -1, cSquareJoule, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, cNewtonSquareMeter, cNewtonSquareMeter, cSquareMeter, -1, cJoule, cJoule, cKilogramSquareMeterPerSecond, -1, cSquareVolt, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, cKilogramSquareMeterPerSecond, cJoule, -1, -1, -1, cNewtonCubicMeter, -1, -1),
-    (cSquareJouleSquareSecond, -1, cSquareJoule, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, cSquareMeter, cSquareJouleSquareSecond, -1, cSquareJouleSquareSecond, -1, -1, -1, cJoule, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cSquareSecond, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1),
-    (cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, cAmpere, cAmperePerMeter, cAmperePerSquareMeter, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, cSquareMeterAmpere, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cScalar, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, -1, cAmpere, cAmperePerMeter, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, cAmperePerMeter, cAmperePerSquareMeter, cAmpere, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, cReciprocalHenry, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, cScalar, -1, -1, cMeterPerSecond, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMolePerCubicMeter, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, cMolePerCubicMeter, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1),
-    (cLux, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cLuxSecond, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, cLux, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cMeterPerSecond, cScalar, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, cScalar, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1),
-    (cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, cCoulombPerSquareMeter, cCoulombPerCubicMeter, cCoulombPerMeter, cCoulomb, cCoulombMeter, -1, -1, cAmperePerSquareMeter, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, cTesla, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, cSecondPerMeter, cCoulombPerMole, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter),
-    (cGrayPerSecond, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeterPerSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, cHertz, cMeterPerQuarticSecond, -1, -1, cNewtonPerSquareKilogram, -1, cGrayPerSecond, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cSquareHertz, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSquareMeterPerSquareSecond, cMeterPerCubicSecond, -1, -1, cSquareHertz, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1),
-    (cHertz, cSquareHertz, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSecond, cSecond, cReciprocalMeter, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cMeterPerSecond, cHertz, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, cNewtonSquareMeterPerSquareCoulomb, cCoulombPerKilogram, -1, -1, cOhm, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cGrayPerSecond, -1, -1, cTesla, -1, -1, cKatal, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cScalar, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, cScalar, cMeter, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, cHertz, -1, -1, -1, -1, cMeter, cSquareMeter, cMeter, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, cSquareMeterPerSecond, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cKilogramPerSquareMeter, cNewtonPerSquareKilogram, cSquareSecondPerSquareMeter, -1, -1, cKilogramSquareSecond, cSquareMeterPerSquareKilogram, -1, cSquareKilogramPerMeter, -1, cMeterKelvin, -1, -1, -1, cReciprocalKelvin, cSquareMeterKelvin, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, cWatt, cWattPerKelvin, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, cSquareMeterPerSquareCoulomb, -1, cSquareCoulombPerMeter, -1, cFarad, -1, -1, -1, -1, cAmpere, -1, -1, -1, cSquareMeter, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cSecondPerMeter, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeter, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, cMeter, cSquareMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, cSquareMeterPerSquareKilogram, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, cSquareSecond, cMeterPerSecond, -1, -1, -1, -1, cSquareMeter, cCubicMeter, cSquareMeter, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, cCubicMeterPerSecond, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cSecond, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, cMeter, cScalar, cReciprocalMeter, cSecond, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cCubicMeter, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cSquareMeter, cCubicMeter, cMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, -1, -1, -1, cCubicMeter, cQuarticMeter, cCubicMeter, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, cMeterSecond, -1, -1, -1, cKilogram, cNewtonSquareMeterPerSquareKilogram, cSquareSecond, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cMeter, cScalar, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, cMeterPerSecond, cSquareMeterPerSecond, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, cMeter, cMeterSecond, -1, -1, -1, -1, cSecond, cMeterPerSquareSecond, -1, -1, -1, -1, cSquareMeterPerSecond, cCubicMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cCubicMeterPerKilogram, cScalar, -1, -1, -1, cPoiseuille, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSquareMeter, cMeterPerSecond, cHertz, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1),
-    (cWatt, -1, -1, -1, -1, -1, -1, cWattPerMeter, cWatt, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, -1, cGrayPerSecond, -1, cVolt, cOhm, cWattPerKelvin, -1, -1, cWattPerQuarticKelvin, -1, -1, cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeterPerSecond, cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, cKilogramPerSecond, -1, cMeterPerCubicSecond, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, -1, cWatt, -1, cWatt, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, cMeterPerSecond, cMeterPerSecond, -1, cCubicMeterPerSecond, cHertz, cHertz, cScalar, -1, -1, -1, cAmpere, cSiemens, -1, cSquareAmpere, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, cSquareMeterPerSecond, cPascal, cCubicMeterPerSquareSecond, cNewtonPerMeter, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, cMeter, cSquareMeter, cCubicMeter, cKelvin, cMeterKelvin, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, cKatal, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cAmperePerMeter, cCoulombPerMeter, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cJoule, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cNewtonPerMeter, cScalar, cHertz, cMeter, cSquareMeter, cCubicMeter, cSquareMeterPerSecond, -1, -1),
-    (cJoule, cWatt, -1, -1, -1, -1, -1, cNewton, cJoule, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, cSquareMeterPerSquareSecond, -1, cWeber, cHenry, cJoulePerKelvin, -1, -1, -1, cJoulePerMole, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cKilogram, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSecond, cMeterPerSecond, -1, cJoule, cNewtonSquareMeter, cJoule, cNewtonCubicMeter, -1, -1, cSquareHertz, cHertz, -1, cCubicMeterPerSquareSecond, -1, -1, cMeter, cMeter, -1, cCubicMeter, cScalar, cScalar, cSecond, cVolt, -1, cVoltPerMeter, cCoulomb, cFarad, cSquareVolt, -1, -1, -1, cSquareMeterAmpere, cAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cSquareMeter, cPoiseuille, cCubicMeterPerSecond, cKilogramPerSecond, -1, -1, -1, -1, -1, cKilogramPerMeter, cReciprocalMeter, cReciprocalSquareMeter, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, cSquareKilogramPerMeter, -1, cJoulePerKilogramPerKelvin, cKelvin, cKilogramKelvin, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, cJoulePerMolePerKelvin, cMoleKelvin, -1, cCoulombMeter, cVoltMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, cSquareCoulombPerMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, cKilogramPerSecond, cSecond, cScalar, cMeterSecond, -1, -1, cSquareMeter, -1, -1),
-    (cWattPerMeter, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, cWattPerMeter, cWattPerCubicMeter, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cVoltPerMeter, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, cNewton, cKilogramMeterPerSecond, cKilogramMeterPerSecond, cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, cPoiseuille, -1, -1, cMeterPerSquareSecond, cSquareHertz, -1, cWattPerMeter, cWatt, cWattPerMeter, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, cHertz, cHertz, -1, cSquareMeterPerSecond, -1, -1, cReciprocalMeter, -1, -1, -1, cAmperePerMeter, cSiemensPerMeter, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cMeterPerSecond, cNewtonPerCubicMeter, cSquareMeterPerSquareSecond, cPascal, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cWattPerKelvin, cScalar, cMeter, cSquareMeter, cKelvinPerMeter, cKelvin, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, cVoltMeterPerSecond, -1, -1, -1, cAmperePerSquareMeter, cCoulombPerSquareMeter, -1, cVolt, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cKilogramPerMeter, cNewton, cWattPerSquareMeter, cWattPerCubicMeter, -1, cPascal, cReciprocalMeter, -1, cScalar, cMeter, cSquareMeter, cMeterPerSecond, -1, -1),
-    (cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, cNewtonPerMeter, cKilogramPerSecond, cKilogramPerSecond, cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, cWattPerSquareMeter, cWattPerMeter, cWattPerSquareMeter, cWatt, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, -1, cMeterPerSecond, -1, -1, cReciprocalSquareMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cHertz, -1, cMeterPerSquareSecond, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, cReciprocalMeter, cScalar, cMeter, -1, cKelvinPerMeter, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, cVoltPerMeter, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, cVoltMeterPerSecond, cKilogramPerSquareMeter, cNewtonPerMeter, cWattPerCubicMeter, -1, -1, cNewtonPerCubicMeter, cReciprocalSquareMeter, -1, cReciprocalMeter, cScalar, cMeter, cHertz, -1, -1),
-    (cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cPoiseuille, cPoiseuille, cNewtonPerCubicMeter, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, cWattPerSquareMeter, cWattPerCubicMeter, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, cHertz, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, cSquareHertz, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, cKilogramPerCubicMeter, cPascal, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, cJoulePerMole, -1),
-    (cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, cPascal, cNewtonPerMeter, cNewtonPerCubicMeter, -1, -1, -1, -1, cSquareHertz, -1, cTesla, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cKilogram, cKilogram, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, cKilogramPerSquareMeter, cWattPerCubicMeter, -1, cHertz, -1, -1, cNewtonPerMeter, cNewton, cNewtonPerMeter, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cReciprocalMeter, cReciprocalMeter, -1, cMeter, cReciprocalSquareMeter, cReciprocalSquareMeter, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, cAmpere, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cScalar, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cSquareKilogramPerMeter, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, cSecond, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cVoltPerMeter, cNewtonPerSquareCoulomb, cVolt, -1, cSquareCoulombPerMeter, -1, cCoulombPerCubicMeter, -1, -1, cTeslaMeter, -1, cAmperePerMeter, cSquareAmpere, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, cVoltMeter, -1, cKilogramPerSecond, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cReciprocalSquareMeter, cSecondPerMeter, cSecond, cMeterSecond, cScalar, -1, -1),
-    (cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, cKatalPerCubicMeter, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1),
-    (cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMole, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar)
+    (cScalar, cHertz, cSquareHertz, -1, -1, -1, -1, cReciprocalMeter, cReciprocalSquareRootMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, cReciprocalMole, -1, cSecond, cSquareSecond, cSquareSecond, cSecondPerMeter, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, cSquareRootMeter, cMeter, -1, cSquareMeter, cCubicMeter, cQuarticMeter, -1, -1, cMeterPerSecond, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cOhm, cOhmMeter, -1, -1, cReciprocalHenry, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, cSquareKilogramPerSquareMeter, -1, cKelvin, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, cKelvinPerWatt, cMeterKelvinPerWatt, cWattPerKelvin, cWattPerMeter, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, cNewtonSquareMeterPerSquareCoulomb, cMeterPerAmpere, cAmperePerMeter, -1, -1, -1, cMeter, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, cSecond, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1),
+    (cSecond, cScalar, cHertz, cSquareHertz, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cCubicSecond, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, cQuarticMeterSecond, -1, -1, cMeter, -1, -1, -1, cMeterPerWatt, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, cFarad, cHenry, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, cCoulombPerMeter, -1, -1, -1, cMeterSecond, -1, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSecondPerMeter, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareSecond, cSecond, cScalar, cHertz, cSquareHertz, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, cQuarticSecond, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCubicSecond, cSquareSecond, cSecond, cScalar, cHertz, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, cQuinticSecond, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cQuarticSecond, cCubicSecond, cSquareSecond, cSecond, cScalar, cHertz, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, cSexticSecond, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cQuinticSecond, cQuarticSecond, cCubicSecond, cSquareSecond, cSecond, cScalar, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSexticSecond, cQuinticSecond, cQuarticSecond, cCubicSecond, cSquareSecond, cSecond, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, cScalar, cSquareRootMeter, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, cHertz, -1, -1, -1, -1, -1, cSquareMeter, -1, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, cSquareMeterPerSecond, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cKilogramPerSquareMeter, cNewtonPerSquareKilogram, cSquareSecondPerSquareMeter, -1, -1, cKilogramSquareSecond, cSquareMeterPerSquareKilogram, -1, cSquareKilogramPerMeter, -1, cMeterKelvin, -1, -1, -1, cReciprocalKelvin, cSquareMeterKelvin, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, cWatt, cWattPerKelvin, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, cSquareMeterPerSquareCoulomb, -1, cSquareCoulombPerMeter, -1, cFarad, -1, -1, -1, -1, cAmpere, -1, -1, -1, cSquareMeter, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cSecondPerMeter, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareRootMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootMeter, cScalar, cReciprocalSquareRootCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootMeter, cReciprocalSquareRootCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeter, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, cMeter, -1, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, cSquareMeterPerSquareKilogram, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, cSquareSecond, cMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeter, -1, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, cCubicMeterPerSecond, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cSecond, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, cMeter, cScalar, cReciprocalMeter, cSecond, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCubicMeter, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cSquareMeter, -1, cMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, -1, -1, -1, -1, cQuarticMeter, -1, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, cMeterSecond, -1, -1, -1, cKilogram, cNewtonSquareMeterPerSquareKilogram, cSquareSecond, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cMeter, cScalar, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cQuarticMeter, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, cSquareMeter, cMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cCubicMeterPerKilogram, -1, -1, -1, -1, cQuinticMeter, -1, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, cHertz, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, cCubicMeter, cSquareMeter, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cQuinticMeter, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cCubicMeter, cSquareMeter, cMeter, cScalar, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cCubicMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSexticMeter, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, cQuarticMeter, cCubicMeter, cSquareMeter, cMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, cQuarticMeter, cCubicMeter, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogram, cKilogramPerSecond, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, cKilogramPerMeter, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cReciprocalMeter, cSecond, cSecondPerMeter, -1, -1, cKilogramMeter, -1, cKilogramSquareMeter, -1, -1, cReciprocalSquareMeter, -1, cKilogramMeterPerSecond, cMeter, cSquareMeter, cCubicMeter, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cSquareSecondPerSquareMeter, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, cMeterSecond, -1, cQuarticMeter, cKilogramPerQuarticMeterPerSecond, cQuarticMeterSecond, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramKelvin, cReciprocalKelvin, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cSquareCoulombPerMeter, cKilogramMeter, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, -1, -1, cSquareSecondPerSquareMeter, -1, cCubicSecond, -1, cSquareSecond, -1, -1),
+    (cSquareKilogram, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, cSquareKilogramPerMeter, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, cKilogram, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, cMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1),
+    (cAmpere, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, cSiemens, -1, -1, -1, cVolt, cVoltMeter, -1, cReciprocalHenry, -1, cWeber, -1, -1, -1, -1, -1, cCoulombPerMole, -1, -1, cCoulombPerCubicMeter, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cSquareMeterPerSecond, -1, -1, -1, cSiemensPerMeter, cFaradPerMeter, cVoltMeterPerSecond, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cReciprocalSquareMeter, -1, -1, cSquareMeter, -1, -1, cCubicMeterPerSecond, -1, cCoulomb, cAmperePerMeter, cAmperePerSquareMeter, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, cKatal),
+    (cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, cScalar, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cSquareCoulomb, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, cReciprocalHenry, cSiemens, -1, cSquareHertz, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cReciprocalHenry, -1, -1, -1, -1, -1, -1),
+    (cKelvin, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, -1, -1, -1, cReciprocalMeter, cMeter, cMeterKelvinPerWatt, -1, -1, -1, -1, cWatt, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, cKelvinPerWatt, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1),
+    (cSquareKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cScalar, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, -1, -1, -1, cKelvinPerMeter, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCubicKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKelvin, cKelvin, cScalar, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicKelvin, cSquareKelvin, cKelvin, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMole, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCandela, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cHertz, cCubicMeterPerSecond, cSquareMeter, cSquareMeterPerSecond, -1, -1, -1, cLumenSecondPerCubicMeter, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cSquareMeter, -1, -1, cLumenSecond, -1, cLux, -1, cLuxSecond, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1),
+    (cHertz, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSecond, cSecond, cReciprocalMeter, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, cNewtonSquareMeterPerSquareCoulomb, cCoulombPerKilogram, -1, -1, cOhm, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cGrayPerSecond, -1, -1, cTesla, -1, -1, cKatal, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cScalar, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cScalar, cScalar, -1, cReciprocalMeter, cSecondPerMeter, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, cMeterPerCubicSecond, cNewtonPerSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, cKilogramPerMeter, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, cScalar, cScalar, -1, cReciprocalMeter, cSecondPerMeter, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, -1, -1, cMeterPerCubicSecond, cNewtonPerSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, cKilogramPerMeter, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cMeterSecond, cMeterSecond, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSecondPerMeter, cSquareHertz, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, cCubicMeterPerSecond, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, cSquareMeterPerSecond, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cHertz, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, cMeter, cMeter, cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cReciprocalMeter, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cGrayPerSecond, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, cReciprocalSquareMeter, -1, -1, cKilogram, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, cKelvinPerMeter, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, cMeterPerSecond, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cMeterPerSecond, cMeterPerSecond, cSquareHertz, cHertz, cScalar, cSecond, cSquareSecond, cCubicSecond, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cMeterPerSquareSecond, cMeterPerSquareSecond, -1, cSquareHertz, cHertz, cScalar, cSecond, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1),
+    (cMeterPerQuinticSecond, cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, cMeterPerCubicSecond, cMeterPerCubicSecond, -1, -1, cSquareHertz, cHertz, cScalar, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1),
+    (cMeterPerSexticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, cMeterPerQuarticSecond, cMeterPerQuarticSecond, -1, -1, -1, cSquareHertz, cHertz, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cSquareMeter, cSquareMeter, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, -1, cScalar, cMeterPerCubicSecond, cNewtonPerSquareKilogram, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, cPascal, -1, cReciprocalMeter, -1, -1, cKilogramMeter, -1, -1, cSquareKilogramPerSquareSecond, cKilogramPerMeter, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareMeterPerSquareKilogram, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, cSecond, cSquareMeterPerSecond, cMeterPerSquareSecond, cSquareHertz, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterSecond, cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cSecond, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, cMeterPerWatt, -1, cMeterPerAmpere, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cSecondPerMeter, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1),
+    (cKilogramMeter, cKilogramMeterPerSecond, cNewton, cWattPerMeter, -1, -1, -1, cKilogram, -1, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, cKilogramPerSecond, cScalar, cMeterSecond, cSecond, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, cReciprocalMeter, cSecondPerMeter, cKilogramSquareMeterPerSecond, cSquareMeter, cCubicMeter, cQuarticMeter, cSquareSecond, cSquareSecond, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, -1, cSquareKilogramPerSquareMeter, cMeterPerSquareSecond, -1, cSquareSecondPerSquareMeter, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cKilogramSquareMeter, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1),
+    (cKilogramPerSecond, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, cPascal, -1, cScalar, cReciprocalMeter, -1, -1, cKilogramMeterPerSecond, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, cReciprocalSquareMeter, cNewton, cMeterPerSecond, cSquareMeterPerSecond, cCubicMeterPerSecond, cSecondPerMeter, cSecondPerMeter, -1, cMeterSecond, -1, -1, cSquareSecondPerSquareMeter, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cKilogramPerCubicMeter, cMeter, cKilogramPerSquareMeter, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, cKilogramMeterPerSecond, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cPoiseuille, -1, -1, cKilogramPerSquareMeter, cSquareSecondPerSquareMeter, -1, -1, cSquareSecond, -1, cSecond, -1, -1),
+    (cKilogramMeterPerSecond, cNewton, cWattPerMeter, -1, -1, -1, -1, cKilogramPerSecond, -1, cPoiseuille, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, -1, -1, cKilogram, -1, cKilogramSquareSecond, -1, -1, -1, -1, cNewtonPerMeter, cHertz, cMeter, cScalar, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, cReciprocalMeter, cJoule, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, cSecond, cSecond, cMeterPerWatt, -1, cSecondPerMeter, cSecondPerMeter, -1, cTeslaMeter, -1, cTesla, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, cCoulombMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cKilogramPerSquareMeter, cSquareMeter, cKilogramPerMeter, -1, -1, cQuinticMeter, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogramPerSecond, cPoiseuille, -1, cKilogramPerMeter, -1, cSecondPerMeter, cSquareSecond, -1, -1, cMeterSecond, -1, -1),
+    (cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, cJoule, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, cNewton, cKilogramSquareMeterPerSecond, cKilogramMeterPerSecond, cScalar, -1, -1, -1, cSquareJouleSquareSecond, -1, -1, cNewtonPerMeter, cKilogramPerSecond, -1, cNewtonSquareMeter, cNewtonCubicMeter, -1, cKilogramMeter, cKilogramMeter, cSquareSecond, -1, cKilogram, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cKilogramPerMeter, cKilogramPerSquareMeter, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cJoulePerKelvin, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cSquareJoule, cSquareSecondPerSquareMeter, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, -1, cKilogram, -1, -1, -1, cKilogramSquareMeter, -1, -1),
+    (cReciprocalSquareRootMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootCubicMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSquareRootMeter, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareRootMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalSquareRootCubicMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootMeter, cScalar, cSquareRootMeter, cMeter, cSquareMeter, cCubicMeter, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cSiemensPerMeter, -1, cOhm, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, cReciprocalKelvin, -1, cMeterPerWatt, -1, -1, cKelvinPerWatt, cWattPerMeterPerKelvin, cWattPerSquareMeter, cWattPerSquareMeterPerKelvin, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, cReciprocalHenry, cScalar, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, cSecondPerMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1),
+    (cReciprocalSquareRootCubicMeter, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cReciprocalSquareRootMeter, cScalar, cSquareRootMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootCubicMeter, cReciprocalMeter, cReciprocalSquareRootMeter, cScalar, cMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, cWattPerSquareMeterPerKelvin, cWattPerCubicMeter, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, cReciprocalHenry, -1, cReciprocalMeter, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1),
+    (cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalSquareRootCubicMeter, cReciprocalMeter, cScalar, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, cReciprocalMole, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogramSquareMeter, cKilogramSquareMeterPerSecond, cJoule, cWatt, -1, -1, -1, cKilogramMeter, -1, cKilogram, cKilogramPerMeter, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, cKilogramMeterPerSecond, cMeter, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, cScalar, cSecond, -1, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, -1, -1, cSquareSecond, cSquareSecond, cCubicSecond, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, -1, -1, cSquareKilogramPerMeter, cSquareMeterPerSquareSecond, -1, -1, cSquareSecondPerSquareMeter, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogram, cKilogramPerMeter, -1, cCubicSecond, cSquareSecond, -1, -1, -1, -1, -1, -1),
+    (cKilogramSquareMeterPerSecond, cJoule, cWatt, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, cKilogramPerSecond, cPoiseuille, -1, -1, cKilogramPerQuarticMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, cNewton, cMeterPerSecond, cSquareMeter, cMeter, -1, -1, -1, -1, -1, -1, -1, cHertz, cScalar, cNewtonSquareMeter, cCubicMeterPerSecond, -1, -1, cMeterSecond, cMeterSecond, -1, -1, cSecond, cSecond, cSquareSecond, cWeber, cOhm, cTeslaMeter, -1, -1, -1, cSquareCoulomb, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, cKilogramPerMeter, cCubicMeter, cKilogram, -1, cNewtonPerCubicMeter, cSexticMeter, -1, cGrayPerSecond, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramPerSecond, cPoiseuille, cKilogram, cSquareSecond, cSecond, -1, -1, -1, -1, -1, -1),
+    (cSecondPerMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, cSecond, -1, cMeterSecond, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, cHenryPerMeter, cHenry, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, cOhm, -1, cCoulombPerSquareMeter, -1, -1, cSiemens, cSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1),
+    (cKilogramPerMeter, cPoiseuille, cPascal, cWattPerCubicMeter, -1, -1, -1, cKilogramPerSquareMeter, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cSecondPerMeter, -1, -1, -1, cKilogram, -1, cKilogramMeter, cKilogramSquareMeter, -1, cReciprocalCubicMeter, -1, cKilogramPerSecond, cScalar, cMeter, cSquareMeter, cSquareSecondPerSquareMeter, cSquareSecondPerSquareMeter, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, cKilogram, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1),
+    (cKilogramPerSquareMeter, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, cKilogramPerMeter, -1, cKilogram, cKilogramMeter, cKilogramSquareMeter, cReciprocalQuarticMeter, -1, cPoiseuille, cReciprocalMeter, cScalar, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSquareSecondPerSquareMeter, -1, cSecondPerMeter, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1),
+    (cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, cReciprocalQuarticMeter, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, cKilogramPerMeter, cKilogram, cKilogramMeter, -1, -1, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewton, cWattPerMeter, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cMeterPerSquareSecond, cNewtonPerSquareKilogram, cTeslaMeter, cHenryPerMeter, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramMeter, cKilogramMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, cKilogramPerMeter, cWattPerSquareMeter, cSquareHertz, cMeterPerSecond, cHertz, -1, -1, cJoule, -1, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cWatt, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, cScalar, cScalar, -1, cSquareMeter, cReciprocalMeter, cReciprocalMeter, cSecondPerMeter, cVoltPerMeter, cNewtonPerSquareCoulomb, -1, cCoulombPerMeter, cFaradPerMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, cMeter, -1, cSquareMeterPerSecond, cPoiseuille, -1, -1, -1, -1, cMeterPerQuarticSecond, cKilogramPerSquareMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, cSquareKilogramPerSquareMeter, -1, -1, cKelvinPerMeter, -1, -1, cJoulePerKelvin, cSecond, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, cVolt, -1, cVoltMeter, -1, cSquareCoulomb, -1, cCoulombPerSquareMeter, -1, cSquareVolt, cWeber, -1, cAmpere, -1, cSquareAmpere, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cPoiseuille, cSecondPerMeter, cReciprocalMeter, cSecond, cMeterSecond, -1, cMeter, -1, -1),
+    (cNewton, cWattPerMeter, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cMeterPerSquareSecond, cNewtonPerSquareKilogram, cTeslaMeter, cHenryPerMeter, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramMeter, cKilogramMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, -1, cKilogramPerMeter, cWattPerSquareMeter, cSquareHertz, cMeterPerSecond, cHertz, -1, -1, cJoule, -1, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, -1, cWatt, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, -1, cScalar, cScalar, -1, cSquareMeter, cReciprocalMeter, cReciprocalMeter, cSecondPerMeter, cVoltPerMeter, cNewtonPerSquareCoulomb, -1, cCoulombPerMeter, cFaradPerMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, cMeter, -1, cSquareMeterPerSecond, cPoiseuille, -1, -1, -1, -1, cMeterPerQuarticSecond, cKilogramPerSquareMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cSquareKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, cSquareKilogramPerSquareMeter, -1, -1, cKelvinPerMeter, -1, -1, cJoulePerKelvin, cSecond, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, cVolt, -1, cVoltMeter, -1, cSquareCoulomb, -1, cCoulombPerSquareMeter, -1, cSquareVolt, cWeber, -1, cAmpere, -1, cSquareAmpere, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, cPoiseuille, cSecondPerMeter, cReciprocalMeter, cSecond, cMeterSecond, -1, cMeter, -1, -1),
+    (cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareSecond, -1, -1, cWatt, cWattPerMeter, cSquareHertz, -1, -1, -1, cSquareJoule, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, cNewton, cNewton, cScalar, cNewtonSquareMeter, cNewtonPerMeter, cNewtonPerMeter, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cNewtonPerMeter, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, cJoule, -1, -1),
+    (cPascal, cWattPerCubicMeter, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, cKilogramPerMeter, cKilogramPerMeter, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, cNewton, cJoule, cNewtonSquareMeter, -1, -1, cWattPerSquareMeter, cSquareHertz, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cReciprocalSquareMeter, cReciprocalSquareMeter, -1, cScalar, cReciprocalCubicMeter, cReciprocalCubicMeter, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cReciprocalMeter, cKilogramPerQuarticMeterPerSecond, cHertz, -1, cCubicMeterPerSquareSecond, -1, cCubicMeterPerSecond, -1, -1, cKilogramPerQuarticMeter, cReciprocalQuarticMeter, -1, cSquareKilogramPerSquareMeter, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, cTesla, -1, cAmperePerSquareMeter, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cJoulePerMole, -1, cVolt, -1, cPoiseuille, cNewtonPerCubicMeter, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cSecondPerMeter, cSecond, cReciprocalMeter, -1, -1),
+    (cJoule, cWatt, -1, -1, -1, -1, -1, cNewton, -1, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, cSquareMeterPerSquareSecond, -1, cWeber, cHenry, cJoulePerKelvin, -1, -1, -1, cJoulePerMole, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cKilogram, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSecond, cMeterPerSecond, -1, -1, cNewtonSquareMeter, -1, cNewtonCubicMeter, -1, -1, cSquareHertz, cHertz, -1, cCubicMeterPerSquareSecond, -1, -1, cMeter, cMeter, -1, cCubicMeter, cScalar, cScalar, cSecond, cVolt, -1, cVoltPerMeter, cCoulomb, cFarad, cSquareVolt, -1, -1, -1, cSquareMeterAmpere, cAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cSquareMeter, cPoiseuille, cCubicMeterPerSecond, cKilogramPerSecond, -1, -1, -1, -1, -1, cKilogramPerMeter, cReciprocalMeter, cReciprocalSquareMeter, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, cSquareKilogramPerMeter, -1, cJoulePerKilogramPerKelvin, cKelvin, cKilogramKelvin, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, cJoulePerMolePerKelvin, cMoleKelvin, -1, cCoulombMeter, cVoltMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, cSquareCoulombPerMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, cKilogramPerSecond, cSecond, cScalar, cMeterSecond, -1, -1, cSquareMeter, -1, -1),
+    (cJoule, cWatt, -1, -1, -1, -1, -1, cNewton, -1, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, cSquareMeterPerSquareSecond, -1, cWeber, cHenry, cJoulePerKelvin, -1, -1, -1, cJoulePerMole, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cKilogram, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSecond, cMeterPerSecond, -1, -1, cNewtonSquareMeter, -1, cNewtonCubicMeter, -1, -1, cSquareHertz, cHertz, -1, cCubicMeterPerSquareSecond, -1, -1, cMeter, cMeter, -1, cCubicMeter, cScalar, cScalar, cSecond, cVolt, -1, cVoltPerMeter, cCoulomb, cFarad, cSquareVolt, -1, -1, -1, cSquareMeterAmpere, cAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cSquareMeter, cPoiseuille, cCubicMeterPerSecond, cKilogramPerSecond, -1, -1, -1, -1, -1, cKilogramPerMeter, cReciprocalMeter, cReciprocalSquareMeter, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, cSquareKilogramPerMeter, -1, cJoulePerKilogramPerKelvin, cKelvin, cKilogramKelvin, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, cJoulePerMolePerKelvin, cMoleKelvin, -1, cCoulombMeter, cVoltMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, cSquareCoulombPerMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, cKilogramPerSecond, cSecond, cScalar, cMeterSecond, -1, -1, cSquareMeter, -1, -1),
+    (cWatt, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, -1, cGrayPerSecond, -1, cVolt, cOhm, cWattPerKelvin, -1, -1, cWattPerQuarticKelvin, -1, -1, cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeterPerSecond, cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, cKilogramPerSecond, -1, cMeterPerCubicSecond, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, cMeterPerSecond, cMeterPerSecond, -1, cCubicMeterPerSecond, cHertz, cHertz, cScalar, -1, -1, -1, cAmpere, cSiemens, -1, cSquareAmpere, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, cSquareMeterPerSecond, cPascal, cCubicMeterPerSquareSecond, cNewtonPerMeter, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, cMeter, cSquareMeter, cCubicMeter, cKelvin, cMeterKelvin, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, cKatal, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cAmperePerMeter, cCoulombPerMeter, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cJoule, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cNewtonPerMeter, cScalar, cHertz, cMeter, cSquareMeter, cCubicMeter, cSquareMeterPerSecond, -1, -1),
+    (cCoulomb, cAmpere, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, cCoulombPerKilogram, -1, cSecond, -1, -1, -1, -1, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cReciprocalMeter, cFarad, -1, cVolt, -1, cWeber, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, cSquareMeter, -1, -1, -1, cFaradPerMeter, -1, cVoltMeter, cMeterSecond, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMole),
+    (cSquareCoulomb, -1, cSquareAmpere, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, cFarad, -1, cCoulomb, cScalar, cCoulombPerMeter, -1, -1, cJoule, -1, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, cMeter, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulombPerMeter, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1),
+    (cCoulombMeter, -1, -1, -1, -1, -1, -1, cCoulomb, -1, cCoulombPerMeter, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, cScalar, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, cCubicMeter, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cSecondPerMeter, -1, -1, -1, -1, -1, cQuarticMeter, -1, -1, cCoulomb, cCoulombPerMeter, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cVolt, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cScalar, -1, -1, cAmpere, -1, -1, cSquareMeterPerSecond, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, cMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, cCoulombMeter, cCoulombPerMeter, cReciprocalMeter, cSecondPerMeter, -1, cOhmMeter, cWattPerMeter, cMeterPerSecond, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, cVoltPerMeter, -1, -1, cTesla, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1),
+    (cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, cNewtonSquareMeterPerSquareCoulomb, cSquareMeterPerSquareCoulomb, -1, -1, -1, cOhm, -1, -1, -1, cVolt, cScalar, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, cVoltMeter, -1, -1, -1, cSquareNewton, cNewtonSquareMeter, cNewton, cVoltPerMeter, cTeslaMeter, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, cOhmMeter, -1, -1, -1, -1, -1),
+    (cFarad, cSiemens, cReciprocalHenry, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cSecond, cMeterSecond, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cMeterPerAmpere, -1, -1, -1, cKilogramPerSecond, cMeterSecond, cSecondPerMeter, -1, -1, -1, -1, cVoltPerMeter, -1, cSquareMeterPerSecond, cMeterPerSecond, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSiemens, cReciprocalHenry, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, cScalar, cMeter, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cScalar, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, cWeber, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, cScalar, cReciprocalSquareMeter, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, cSecondPerMeter, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cPascal, cReciprocalMeter, cAmpere, cAmperePerMeter, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWeber, cVolt, -1, -1, -1, -1, -1, cTeslaMeter, -1, cTesla, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cMeterPerAmpere, cMeterPerAmpere, -1, -1, -1, -1, -1, cOhm, -1, -1, cSecond, -1, -1, cCoulomb, -1, -1, cSquareMeter, cScalar, cAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cMeterSecond, cOhmMeter, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cNewton, cMeter, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cHenry, cOhm, -1, -1, -1, -1, -1, cHenryPerMeter, -1, cTeslaPerAmpere, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, cTeslaMeter, cMeterPerAmpere, cSquareMeter, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cFarad, cFarad, cSiemensPerMeter, cFaradPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, cHertz, cMeterPerSecond, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCandela, -1, -1, -1, -1, -1, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cHertz, cCubicMeterPerSecond, cSquareMeter, cSquareMeterPerSecond, -1, -1, -1, cLumenSecondPerCubicMeter, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, cSquareMeter, -1, -1, cLumenSecond, -1, cLux, -1, cLuxSecond, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1),
+    (cLumenSecond, cCandela, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, cScalar, cCubicMeter, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, cLumenSecondPerCubicMeter, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1),
+    (cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, cLumenSecond, -1, -1, -1, cLux, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, cScalar, cSecondPerMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cLuxSecond, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cMeterPerSecond, cScalar, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, cScalar, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1),
+    (cLuxSecond, cLux, -1, -1, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cMeter, cSecond, cScalar, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, cSecond, -1, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1),
+    (cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, cMole, -1, -1, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1),
+    (cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, cKilogramPerSquareMeter, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, cPascal, -1, cNewtonPerMeter, cNewton, cJoule, -1, -1, cWattPerCubicMeter, -1, cSquareHertz, cMeterPerSquareSecond, cReciprocalCubicMeter, cReciprocalCubicMeter, -1, cReciprocalMeter, cReciprocalQuarticMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cReciprocalSquareMeter, -1, -1, cKilogramPerQuarticMeterPerSecond, cSquareMeterPerSquareSecond, -1, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, cReciprocalQuarticMeter, -1, -1, cSecondPerMeter, cReciprocalSquareMeter, -1, -1),
+    (cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, cPascal, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, cSquareHertz, -1, cTesla, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cKilogram, cKilogram, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, cKilogramPerSquareMeter, cWattPerCubicMeter, -1, cHertz, -1, -1, -1, cNewton, -1, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cReciprocalMeter, cReciprocalMeter, -1, cMeter, cReciprocalSquareMeter, cReciprocalSquareMeter, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, cAmpere, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cScalar, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cSquareKilogramPerMeter, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, cSecond, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cVoltPerMeter, cNewtonPerSquareCoulomb, cVolt, -1, cSquareCoulombPerMeter, -1, cCoulombPerCubicMeter, -1, -1, cTeslaMeter, -1, cAmperePerMeter, cSquareAmpere, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, cVoltMeter, -1, cKilogramPerSecond, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cReciprocalSquareMeter, cSecondPerMeter, cSecond, cMeterSecond, cScalar, -1, -1),
+    (cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, cMeterPerSecond, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, cMeterSecond, cSquareMeterPerSquareSecond, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cMeter, -1, -1, -1, cKilogramPerSecond, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, cSquareMeterPerSecond, cMeterPerSecond, cHertz, cMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cPoiseuille, cPascal, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, cNewtonPerCubicMeter, -1, cReciprocalMeter, cReciprocalSquareMeter, -1, -1, cKilogramPerSecond, -1, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, cReciprocalCubicMeter, cNewtonPerMeter, cHertz, cMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cSecondPerMeter, cKilogramPerQuarticMeter, cScalar, cKilogramPerCubicMeter, cCubicMeterPerSecond, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, cKilogramPerSecond, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, cKilogramPerMeter, -1, -1, cKilogramPerQuarticMeterPerSecond, cKilogramPerCubicMeter, -1, -1, cSquareSecondPerSquareMeter, -1, cSquareSecond, cSecondPerMeter, -1, -1),
+    (cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, cMeterPerSecond, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, cMeter, cMeterSecond, -1, -1, -1, -1, cSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cCubicMeterPerKilogram, cScalar, -1, -1, -1, cPoiseuille, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSquareMeter, cMeterPerSecond, cHertz, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogramPerQuarticMeter, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, cKilogramPerSquareMeter, cKilogramPerMeter, cKilogram, -1, -1, -1, cReciprocalCubicMeter, cReciprocalSquareMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, cScalar, -1, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cQuarticMeterSecond, cQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cSecond, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, cPoiseuille, cKilogramPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cHertz, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCubicMeterPerKilogram, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogramSquareSecond, -1, cKilogram, cKilogramPerSecond, cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticSecond, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticSecond, -1, cQuarticSecond, -1, -1),
+    (cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, cMeterPerSquareSecond, cSquareHertz, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cCubicMeter, cCubicMeter, cSquareMeterPerSecond, cSquareMeter, -1, -1, -1, -1, cMeter, cGrayPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, cHertz, -1, cMeterPerSecond, -1, -1, -1, cNewtonPerMeter, -1, cScalar, -1, -1, cKilogramSquareMeter, -1, -1, -1, cKilogram, -1, -1, -1, cMeterKelvin, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cCubicMeterPerSecond, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, cSquareHertz, cMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1),
+    (cNewtonSquareMeter, -1, -1, -1, -1, -1, -1, cJoule, -1, cNewton, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, cCubicMeterPerSquareSecond, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, -1, -1, -1, -1, cKilogramMeter, cWatt, cSquareMeterPerSquareSecond, cCubicMeterPerSecond, cSquareMeterPerSecond, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, cMeterPerSquareSecond, cMeterPerSecond, -1, -1, -1, -1, cSquareMeter, cSquareMeter, -1, cQuarticMeter, cMeter, cMeter, cMeterSecond, cVoltMeter, cNewtonSquareMeterPerSquareCoulomb, cVolt, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuinticMeter, cCubicMeter, cKilogramPerSecond, -1, cKilogramMeterPerSecond, -1, cWattPerCubicMeter, -1, cSquareKilogramPerSquareSecond, -1, cKilogram, cScalar, cReciprocalMeter, -1, -1, -1, -1, cSquareKilogram, -1, -1, cMeterKelvin, -1, cJoulePerKelvin, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, cCoulomb, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, cNewtonCubicMeter, cCubicMeterPerKilogram, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, cNewton, cNewtonPerMeter, cKilogramMeterPerSecond, cMeterSecond, cMeter, -1, -1, cQuarticMeterSecond, cCubicMeter, -1, -1),
+    (cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, cJoule, cNewton, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, -1, cCubicMeterPerSquareSecond, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cSquareMeterPerSecond, -1, -1, -1, -1, cCubicMeter, cCubicMeter, -1, cQuinticMeter, cSquareMeter, cSquareMeter, -1, -1, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cSexticMeter, cQuarticMeter, cKilogramMeterPerSecond, -1, cKilogramSquareMeterPerSecond, -1, cWattPerSquareMeter, -1, -1, -1, cKilogramMeter, cMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, cJoule, cNewton, cKilogramSquareMeterPerSecond, -1, cSquareMeter, -1, cQuarticMeterSecond, -1, cQuarticMeter, -1, -1),
+    (cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, cPascal, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareKilogramPerMeter, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, cKilogram, cKilogramMeter, cKilogramSquareMeter, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, -1, -1, -1, -1, cScalar, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, -1, cSquareKilogramPerMeter, -1, cSquareKilogram, -1, -1, cKilogramPerQuarticMeter, -1, -1, cKilogramPerMeter, cKilogram, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, cReciprocalMeter, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramPerMeter, cSquareSecondPerSquareMeter, cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareKilogram, cSquareMeterPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, cSquareMeter, -1, -1, cNewton, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, cWattPerMeterPerKelvin, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cKilogramKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, cKilogramPerMeter, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cJoulePerKelvin, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, cScalar, cKilogram, -1, -1, -1, -1, -1, cSecond, cMeterSecond, -1, -1, -1, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, cSquareMeterKelvin, -1, -1),
+    (cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterKelvin, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterKelvin, -1, -1, -1, -1, -1, -1, cKelvin, -1, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, cKelvinPerMeter, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1),
+    (cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cScalar, cKelvinPerWatt, cMeterKelvinPerWatt, -1, -1, -1, cWattPerMeter, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, cMeterKelvinPerWatt, -1, -1, -1, -1),
+    (cWattPerMeter, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, cWattPerCubicMeter, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cVoltPerMeter, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, cNewton, cKilogramMeterPerSecond, cKilogramMeterPerSecond, cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, cPoiseuille, -1, -1, cMeterPerSquareSecond, cSquareHertz, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, cHertz, cHertz, -1, cSquareMeterPerSecond, -1, -1, cReciprocalMeter, -1, -1, -1, cAmperePerMeter, cSiemensPerMeter, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cMeterPerSecond, cNewtonPerCubicMeter, cSquareMeterPerSquareSecond, cPascal, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cWattPerKelvin, cScalar, cMeter, cSquareMeter, cKelvinPerMeter, cKelvin, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, cVoltMeterPerSecond, -1, -1, -1, cAmperePerSquareMeter, cCoulombPerSquareMeter, -1, cVolt, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cKilogramPerMeter, cNewton, cWattPerSquareMeter, cWattPerCubicMeter, -1, cPascal, cReciprocalMeter, -1, cScalar, cMeter, cSquareMeter, cMeterPerSecond, -1, -1),
+    (cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, cNewtonPerMeter, cKilogramPerSecond, cKilogramPerSecond, cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, cWattPerMeter, -1, cWatt, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, -1, cMeterPerSecond, -1, -1, cReciprocalSquareMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cHertz, -1, cMeterPerSquareSecond, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, cReciprocalMeter, cScalar, cMeter, -1, cKelvinPerMeter, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, cVoltPerMeter, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, cVoltMeterPerSecond, cKilogramPerSquareMeter, cNewtonPerMeter, cWattPerCubicMeter, -1, -1, cNewtonPerCubicMeter, cReciprocalSquareMeter, -1, cReciprocalMeter, cScalar, cMeter, cHertz, -1, -1),
+    (cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cPoiseuille, cPoiseuille, cNewtonPerCubicMeter, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, cHertz, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, cSquareHertz, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, cKilogramPerCubicMeter, cPascal, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, cJoulePerMole, -1),
+    (cWattPerKelvin, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerQuarticKelvin, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, cHertz, cKilogramPerSecond, -1, -1, -1, cSquareMeterKelvin, -1, cScalar, cMeter, -1, -1, -1, cWattPerSquareMeter, cSquareMeter, -1, cCubicKelvin, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, cWattPerMeterPerKelvin, cWattPerSquareMeterPerKelvin, -1, -1, cReciprocalKelvin, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1),
+    (cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, -1, cPoiseuille, -1, -1, cReciprocalKelvin, -1, cSquareMeterKelvin, cReciprocalMeter, cScalar, -1, -1, -1, cWattPerCubicMeter, cMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, cSquareMeterKelvin, -1, -1, -1),
+    (cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, cScalar, cKelvinPerMeter, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeter, cKelvin, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterKelvin, -1, cJoulePerKilogramPerKelvin, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, cSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, cWattPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, cReciprocalSquareMeter, cReciprocalMeter, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, -1, -1, -1),
+    (cSquareMeterQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWattPerSquareMeterPerQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, -1, -1, -1),
+    (cJoulePerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, cReciprocalMole, -1, -1, -1, -1, cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, -1, -1, -1, cVolt),
+    (cMoleKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cJoulePerMolePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalKelvin, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cOhmMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, cOhm, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, cMeterPerWatt, -1, cMeter, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, cSecond, -1, -1, -1, -1, cVolt, -1, cCubicMeterPerSecond, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhm, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaMeter, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, cReciprocalMeter, -1, -1, cAmperePerMeter, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, cScalar, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cCoulomb, cCoulombPerSquareMeter, cReciprocalSquareMeter, -1, -1, cOhm, cWattPerSquareMeter, cHertz, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1),
+    (cCoulombPerMeter, cAmperePerMeter, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, cCoulomb, -1, cCoulombMeter, -1, -1, -1, -1, cAmpere, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, cReciprocalSquareMeter, cFaradPerMeter, -1, cVoltPerMeter, -1, cTeslaMeter, cWeber, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, cScalar, -1, cMeter, -1, -1, -1, -1, -1, cVolt, cSecond, -1, cSiemens, -1, -1, cCoulomb, -1, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, cMeterSecond, -1, -1, cSquareMeter, -1, -1, cCoulombPerSquareMeter, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, cSiemens, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, cFarad, cFarad, -1, -1, cFaradPerMeter, cFaradPerMeter, -1, cCoulombPerMeter, cReciprocalMeter, cCoulombPerSquareMeter, -1, -1, cNewton, -1, cKilogramMeterPerSecond, cKilogramSquareMeterPerSecond, -1, -1, -1, cKilogramMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, cScalar, cCoulombMeter, -1, -1, -1, -1, -1, cJoule, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, -1, -1, -1, -1, -1, -1),
+    (cCoulombPerSquareMeter, cAmperePerSquareMeter, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, cCoulomb, cCoulombMeter, -1, -1, -1, cAmperePerMeter, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalCubicMeter, -1, -1, -1, -1, cTesla, cTeslaMeter, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFaradPerMeter, cReciprocalMeter, -1, cScalar, -1, -1, -1, -1, -1, cVoltPerMeter, cSecondPerMeter, -1, cSiemensPerMeter, -1, -1, cCoulombPerMeter, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, cSecond, -1, -1, cMeter, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, cHenryPerMeter, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cScalar, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, cMeterPerSquareSecond, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, cOhm, cHenry, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, -1, cNewton, cSquareMeter, cScalar, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cVoltMeter, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cVolt, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, cNewtonSquareMeterPerSquareCoulomb, -1, -1, cMeter, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, cSquareMeter, -1, -1, -1, -1, -1, cCoulomb, cScalar, cSecond, -1, -1, cWatt, cSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, cVoltPerMeter, -1, cTeslaMeter, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1),
+    (cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, cVolt, cWeber, -1, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, -1, -1, -1, cSquareMeterAmpere, cAmpere, cHertz, cScalar, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cVoltPerMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cFaradPerMeter, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, cSecondPerMeter, cSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cAmperePerMeter, -1, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, cVoltPerMeter, cVolt, -1, -1, -1, cTeslaMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemens, cHertz, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, cScalar, -1, cReciprocalHenry, -1, -1, cAmpere, -1, -1, -1, -1, cPoiseuille, cReciprocalCubicMeter, -1, -1, cMeter, -1, -1, cSquareMeterPerSecond, -1, cCoulombPerMeter, cAmperePerSquareMeter, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cTeslaMeter, cVoltPerMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, cCoulombPerMeter, -1, -1, cMeter, cReciprocalMeter, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, cSecond, cOhm, -1, cOhmMeter, -1, -1, -1, -1, cSquareSecondPerSquareMeter, -1, cHenry, cNewtonPerMeter, cScalar, -1, cAmpere, cWeber, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1),
+    (cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, cHenry, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cReciprocalMeter, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cHenryPerMeter, -1, cNewtonPerSquareCoulomb, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenry, -1, -1, -1, -1, -1, -1, cOhm, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, cMeterPerAmpere, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerMeter, cSquareSecond, cSquareSecondPerSquareMeter, -1, -1, -1, -1, cTesla, -1, cMeter, cScalar, cHenry, -1, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalMeter, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cReciprocalSquareRootCubicMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cSquareSecondPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareRootMeter, cScalar, cSquareRootMeter, cMeter, cSquareMeter, cCubicMeter, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerSquareCoulomb, cSiemensPerMeter, -1, cOhm, -1, -1, -1, cHenryPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, cKilogramPerQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, -1, cReciprocalKelvin, -1, cMeterPerWatt, -1, -1, cKelvinPerWatt, cWattPerMeterPerKelvin, cWattPerSquareMeter, cWattPerSquareMeterPerKelvin, -1, cMeterKelvinPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cFarad, -1, -1, -1, -1, -1, cAmperePerSquareMeter, -1, -1, cReciprocalHenry, cScalar, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, cSecondPerMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1),
+    (cSquareKilogramPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonPerMeter, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, cSquareKilogram, -1, cSquareKilogramPerMeter, -1, -1, -1, -1, cSquareKilogramPerSquareMeter, -1, cPascal, cKilogramPerSecond, cPoiseuille, cReciprocalSquareMeter, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareJouleSquareSecond, cNewtonPerCubicMeter, -1, -1, cNewton, cJoule, cNewtonSquareMeter, cKilogramPerMeter, cKilogramPerMeter, cSquareSecondPerSquareMeter, cKilogramMeter, cKilogramPerSquareMeter, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, cKilogram, -1, cKilogramMeterPerSecond, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cKilogramPerQuarticMeter, -1, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSquareNewton, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramPerSquareMeter, -1, -1, -1, cKilogram, -1, -1),
+    (cSquareSecondPerSquareMeter, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHenryPerMeter, -1, -1, -1, cFarad, cFaradPerMeter, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareJoule, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareJouleSquareSecond, cSquareJouleSquareSecond, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, -1, cSquareMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, cNewtonSquareMeter, cNewtonSquareMeter, cSquareMeter, -1, cJoule, cJoule, cKilogramSquareMeterPerSecond, -1, cSquareVolt, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewton, cNewtonPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareNewton, -1, -1, cKilogramSquareMeterPerSecond, cJoule, -1, -1, -1, cNewtonCubicMeter, -1, -1),
+    (cSquareJouleSquareSecond, -1, cSquareJoule, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, cSquareKilogramPerSquareSecond, -1, -1, cNewtonCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, cJoule, cKilogramSquareMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeter, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramMeter, cKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, -1, cSquareSecond, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareKilogramSquareMeterPerSquareSecond, -1, -1, -1, cKilogramSquareMeter, -1, -1, -1, -1, -1, -1),
+    (cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cAmpere, cAmperePerMeter, cAmperePerSquareMeter, -1, -1, -1, -1, cSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cScalar, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, -1, cAmpere, cAmperePerMeter, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, cAmpere, -1, cSquareMeterAmpere, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, cReciprocalHenry, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, cHertz, -1, -1, -1, -1, -1, -1, cReciprocalMeter, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, cReciprocalQuarticMeter, -1, -1, cScalar, -1, -1, cMeterPerSecond, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMolePerCubicMeter, cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1),
+    (cLux, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, cLuxSecond, -1, -1, cLumenSecondPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCandela, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cMeterPerSecond, cScalar, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, cScalar, -1, -1, cLuxSecond, -1, -1, -1, -1, -1, -1, -1, cLumenPerWatt, -1, -1, -1, -1),
+    (cCoulombPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, cCoulombPerMeter, cCoulomb, cCoulombMeter, -1, -1, cAmperePerSquareMeter, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cReciprocalQuarticMeter, -1, -1, -1, -1, -1, cTesla, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalSquareMeter, -1, cReciprocalMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, cKilogramPerCubicMeter, -1, -1, -1, cSecondPerMeter, cCoulombPerMole, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter),
+    (cGrayPerSecond, -1, -1, -1, -1, -1, -1, cMeterPerCubicSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareSecond, cSquareMeterPerSecond, cSquareMeterPerSecond, cMeterPerSquareSecond, cMeterPerSecond, cMeter, cMeterSecond, -1, -1, cHertz, cMeterPerQuarticSecond, -1, -1, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareKilogram, cSquareHertz, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, cKilogramMeterPerSecond, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSquareMeterPerSquareSecond, cMeterPerCubicSecond, -1, -1, cSquareHertz, -1, -1, -1, -1, cCubicMeterPerKilogram, -1, -1, -1),
+    (cHertz, cSquareHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, cSecond, cSecond, cReciprocalMeter, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cSquareMeterPerSecond, cCubicMeterPerSecond, -1, -1, -1, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalHenry, -1, cNewtonSquareMeterPerSquareCoulomb, cCoulombPerKilogram, -1, -1, cOhm, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSiemensPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, cGrayPerSecond, -1, -1, cTesla, -1, -1, cKatal, -1, -1, -1, -1, cSquareSecondPerSquareMeter, cScalar, -1, -1, -1, cReciprocalSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cMeter, cMeterPerSecond, cMeterPerSquareSecond, cMeterPerCubicSecond, cMeterPerQuarticSecond, cMeterPerQuinticSecond, cMeterPerSexticSecond, cScalar, cSquareRootMeter, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, cSecond, cSquareSecond, cCubicSecond, cQuarticSecond, cQuinticSecond, cSexticSecond, -1, cHertz, -1, -1, -1, -1, -1, cSquareMeter, -1, cCubicMeter, cQuarticMeter, cQuinticMeter, -1, -1, cSquareMeterPerSecond, -1, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, cMeterPerWatt, -1, -1, -1, -1, -1, cNewtonSquareMeterPerSquareCoulomb, -1, cOhmMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, -1, -1, cKilogramPerSquareMeter, cNewtonPerSquareKilogram, cSquareSecondPerSquareMeter, -1, -1, cKilogramSquareSecond, cSquareMeterPerSquareKilogram, -1, cSquareKilogramPerMeter, -1, cMeterKelvin, -1, -1, -1, cReciprocalKelvin, cSquareMeterKelvin, -1, -1, -1, cMeterKelvinPerWatt, -1, -1, cWatt, cWattPerKelvin, cKelvinPerMeter, -1, -1, -1, -1, -1, -1, -1, cSiemens, -1, -1, cSquareMeterPerSquareCoulomb, -1, cSquareCoulombPerMeter, -1, cFarad, -1, -1, -1, -1, cAmpere, -1, -1, -1, cSquareMeter, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cSecondPerMeter, cMeterPerWatt, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeter, cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, cMeter, -1, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, -1, cSquareMeterPerSquareKilogram, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, cSquareSecond, cMeterPerSecond, -1, -1, -1, -1, -1, cCubicMeter, -1, cQuarticMeter, cQuinticMeter, cSexticMeter, -1, -1, cCubicMeterPerSecond, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, -1, cSecond, -1, -1, -1, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, -1, cSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicSecond, -1, cMeter, cScalar, cReciprocalMeter, cSecond, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cCubicMeter, cCubicMeterPerSecond, cCubicMeterPerSquareSecond, -1, -1, -1, -1, cSquareMeter, -1, cMeter, cScalar, cReciprocalMeter, cReciprocalSquareMeter, cReciprocalCubicMeter, cCubicMeterPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, -1, -1, -1, -1, -1, cQuarticMeter, -1, cQuinticMeter, cSexticMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecond, -1, cMeterSecond, -1, -1, -1, cKilogram, cNewtonSquareMeterPerSquareKilogram, cSquareSecond, -1, -1, -1, -1, -1, -1, cKilogramSquareSecond, -1, -1, -1, -1, cSquareMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterAmpere, -1, -1, -1, cQuarticMeter, -1, -1, -1, -1, -1, cMeterPerAmpere, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cMeter, cScalar, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cSquareMeterPerSecond, cSquareMeterPerSquareSecond, cGrayPerSecond, -1, -1, -1, -1, cMeterPerSecond, -1, cHertz, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, -1, -1, cMeter, cMeterSecond, -1, -1, -1, -1, cSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMeter, cCubicMeterPerKilogram, cScalar, -1, -1, -1, cPoiseuille, -1, cSecondPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, -1, -1, -1, -1, cWeber, -1, -1, -1, -1, -1, -1, -1, cSquareSecond, cSquareMeter, cMeterPerSecond, cHertz, -1, cScalar, -1, -1, -1, -1, -1, -1, -1, -1),
+    (cWatt, -1, -1, -1, -1, -1, -1, cWattPerMeter, -1, cWattPerSquareMeter, cWattPerCubicMeter, -1, -1, -1, cGrayPerSecond, -1, cVolt, cOhm, cWattPerKelvin, -1, -1, cWattPerQuarticKelvin, -1, -1, cJoule, cKilogramSquareMeterPerSecond, cKilogramSquareMeterPerSecond, cNewton, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, cKilogramPerSecond, -1, cMeterPerCubicSecond, cSquareMeterPerSquareSecond, cMeterPerSquareSecond, -1, -1, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, -1, cMeterPerSecond, cMeterPerSecond, -1, cCubicMeterPerSecond, cHertz, cHertz, cScalar, -1, -1, -1, cAmpere, cSiemens, -1, cSquareAmpere, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cJoulePerMole, -1, cSquareMeterPerSecond, cPascal, cCubicMeterPerSquareSecond, cNewtonPerMeter, -1, -1, -1, -1, -1, cPoiseuille, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, -1, cMeter, cSquareMeter, cCubicMeter, cKelvin, cMeterKelvin, -1, -1, -1, -1, -1, -1, cQuarticKelvin, -1, cKatal, -1, -1, -1, -1, cVoltMeterPerSecond, -1, -1, -1, -1, -1, cAmperePerMeter, cCoulombPerMeter, -1, cVoltMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKilogram, cJoule, cWattPerMeter, cWattPerSquareMeter, cWattPerCubicMeter, cNewtonPerMeter, cScalar, cHertz, cMeter, cSquareMeter, cCubicMeter, cSquareMeterPerSecond, -1, -1),
+    (cJoule, cWatt, -1, -1, -1, -1, -1, cNewton, -1, cNewtonPerMeter, cPascal, cNewtonPerCubicMeter, -1, -1, cSquareMeterPerSquareSecond, -1, cWeber, cHenry, cJoulePerKelvin, -1, -1, -1, cJoulePerMole, -1, cKilogramSquareMeterPerSecond, cKilogramSquareMeter, cKilogramSquareMeter, cKilogramMeterPerSecond, cKilogramMeter, -1, -1, -1, -1, cKilogram, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSecond, cMeterPerSecond, -1, -1, cNewtonSquareMeter, -1, cNewtonCubicMeter, -1, -1, cSquareHertz, cHertz, -1, cCubicMeterPerSquareSecond, -1, -1, cMeter, cMeter, -1, cCubicMeter, cScalar, cScalar, cSecond, cVolt, -1, cVoltPerMeter, cCoulomb, cFarad, cSquareVolt, -1, -1, -1, cSquareMeterAmpere, cAmpere, cSquareAmpere, -1, -1, -1, -1, -1, -1, -1, cQuarticMeter, cSquareMeter, cPoiseuille, cCubicMeterPerSecond, cKilogramPerSecond, -1, -1, -1, -1, -1, cKilogramPerMeter, cReciprocalMeter, cReciprocalSquareMeter, -1, cNewtonSquareMeterPerSquareKilogram, -1, -1, cSquareKilogramPerMeter, -1, cJoulePerKilogramPerKelvin, cKelvin, cKilogramKelvin, -1, -1, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMole, cJoulePerMolePerKelvin, cMoleKelvin, -1, cCoulombMeter, cVoltMeter, cNewtonSquareMeterPerSquareCoulomb, -1, -1, -1, cSquareCoulombPerMeter, cCoulombPerMeter, -1, -1, -1, -1, -1, -1, -1, cNewtonSquareMeter, -1, -1, -1, -1, -1, cTesla, -1, -1, -1, -1, -1, -1, -1, cKilogramSquareMeterPerSecond, cNewton, cNewtonPerMeter, cPascal, cKilogramPerSecond, cSecond, cScalar, cMeterSecond, -1, -1, cSquareMeter, -1, -1),
+    (cWattPerMeter, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, cWattPerCubicMeter, -1, -1, -1, -1, cMeterPerCubicSecond, -1, cVoltPerMeter, -1, cWattPerMeterPerKelvin, -1, -1, -1, -1, -1, cNewton, cKilogramMeterPerSecond, cKilogramMeterPerSecond, cNewtonPerMeter, cKilogramPerSecond, cKilogram, -1, cKilogramSquareSecond, -1, cPoiseuille, -1, -1, cMeterPerSquareSecond, cSquareHertz, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, cGrayPerSecond, -1, -1, cHertz, cHertz, -1, cSquareMeterPerSecond, -1, -1, cReciprocalMeter, -1, -1, -1, cAmperePerMeter, cSiemensPerMeter, -1, -1, -1, cSquareVolt, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCubicMeterPerSecond, cMeterPerSecond, cNewtonPerCubicMeter, cSquareMeterPerSquareSecond, cPascal, -1, -1, -1, -1, cMeterPerQuinticSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cWattPerKelvin, cScalar, cMeter, cSquareMeter, cKelvinPerMeter, cKelvin, -1, -1, -1, -1, cMeterKelvin, -1, -1, -1, -1, -1, -1, -1, cAmpere, -1, -1, cVoltMeterPerSecond, -1, -1, -1, cAmperePerSquareMeter, cCoulombPerSquareMeter, -1, cVolt, -1, -1, -1, -1, cWatt, -1, -1, -1, -1, -1, -1, -1, -1, cVoltMeter, -1, -1, -1, cKilogramPerMeter, cNewton, cWattPerSquareMeter, cWattPerCubicMeter, -1, cPascal, cReciprocalMeter, -1, cScalar, cMeter, cSquareMeter, cMeterPerSecond, -1, -1),
+    (cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, -1, -1, -1, -1, -1, cNewtonPerMeter, cKilogramPerSecond, cKilogramPerSecond, cPascal, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, -1, -1, cSquareHertz, -1, -1, -1, cWattPerMeter, -1, cWatt, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, -1, cMeterPerSecond, -1, -1, cReciprocalSquareMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeterPerSecond, cHertz, -1, cMeterPerSquareSecond, cNewtonPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerMeterPerKelvin, cReciprocalMeter, cScalar, cMeter, -1, cKelvinPerMeter, -1, -1, -1, -1, cKelvin, -1, -1, -1, -1, -1, -1, -1, cAmperePerMeter, -1, -1, -1, -1, -1, -1, -1, cCoulombPerCubicMeter, -1, cVoltPerMeter, -1, -1, -1, -1, cWattPerMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVolt, -1, -1, cVoltMeterPerSecond, cKilogramPerSquareMeter, cNewtonPerMeter, cWattPerCubicMeter, -1, -1, cNewtonPerCubicMeter, cReciprocalSquareMeter, -1, cReciprocalMeter, cScalar, cMeter, cHertz, -1, -1),
+    (cWattPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cPascal, cPoiseuille, cPoiseuille, cNewtonPerCubicMeter, -1, cKilogramPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, cWattPerMeter, cWatt, -1, -1, -1, -1, -1, cMeterPerCubicSecond, cGrayPerSecond, -1, -1, -1, cHertz, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMeterPerSecond, -1, -1, cSquareHertz, -1, -1, -1, cCubicMeterPerSquareSecond, -1, -1, cKilogramPerQuarticMeterPerSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeterPerKelvin, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, -1, -1, -1, -1, -1, cKelvinPerMeter, -1, -1, -1, cKatalPerCubicMeter, -1, -1, -1, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cWattPerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cVoltPerMeter, -1, -1, -1, cKilogramPerCubicMeter, cPascal, -1, -1, -1, -1, cReciprocalCubicMeter, -1, cReciprocalSquareMeter, cReciprocalMeter, cScalar, -1, cJoulePerMole, -1),
+    (cNewtonPerMeter, cWattPerSquareMeter, -1, -1, -1, -1, -1, cPascal, -1, cNewtonPerCubicMeter, -1, -1, -1, -1, cSquareHertz, -1, cTesla, cTeslaPerAmpere, -1, -1, -1, -1, -1, -1, cKilogramPerSecond, cKilogram, cKilogram, cPoiseuille, cKilogramPerMeter, -1, -1, -1, -1, cKilogramPerSquareMeter, cWattPerCubicMeter, -1, cHertz, -1, -1, -1, cNewton, -1, cJoule, cNewtonSquareMeter, cNewtonCubicMeter, -1, -1, cWattPerMeter, cMeterPerSquareSecond, cSquareMeterPerSquareSecond, cCubicMeterPerSquareSecond, cReciprocalMeter, cReciprocalMeter, -1, cMeter, cReciprocalSquareMeter, cReciprocalSquareMeter, -1, -1, -1, -1, cCoulombPerSquareMeter, -1, -1, -1, -1, -1, cAmpere, cAmperePerSquareMeter, -1, -1, -1, -1, -1, -1, -1, -1, cSquareMeter, cScalar, -1, cMeterPerSecond, -1, -1, -1, -1, -1, -1, cKilogramPerCubicMeter, cReciprocalCubicMeter, cReciprocalQuarticMeter, cSquareKilogramPerMeter, cNewtonPerSquareKilogram, -1, -1, -1, -1, -1, -1, -1, -1, -1, cSecondPerMeter, cSecond, cMeterSecond, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulombPerMeter, cVoltPerMeter, cNewtonPerSquareCoulomb, cVolt, -1, cSquareCoulombPerMeter, -1, cCoulombPerCubicMeter, -1, -1, cTeslaMeter, -1, cAmperePerMeter, cSquareAmpere, -1, cNewton, -1, -1, -1, -1, -1, -1, -1, -1, cWeber, -1, -1, cVoltMeter, -1, cKilogramPerSecond, cPascal, cNewtonPerCubicMeter, -1, -1, -1, cReciprocalSquareMeter, cSecondPerMeter, cSecond, cMeterSecond, cScalar, -1, -1),
+    (cKatalPerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cKatal, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cHertz, -1, -1, -1, cMolePerCubicMeter, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar, -1),
+    (cCoulombPerMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cReciprocalMole, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cCoulomb, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, cScalar)
   );
 
 const
@@ -5262,7 +5848,7 @@ const
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: 26; Cubic: 31; Quartic: 37; Quintic: 38; Sextic: 39),
-    (Square: 0; Cubic: 0; Quartic: 0; Quintic: 0; Sextic: 0),
+    (Square: 17; Cubic: -1; Quartic: 26; Quintic: -1; Sextic: 31),
     (Square: 37; Cubic: 39; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: 39; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
@@ -5293,9 +5879,9 @@ const
     (Square: 249; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: 86; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: 0; Cubic: 0; Quartic: 0; Quintic: 0; Sextic: 0),
+    (Square: 88; Cubic: 90; Quartic: 91; Quintic: -1; Sextic: 92),
     (Square: 91; Cubic: 92; Quartic: 93; Quintic: -1; Sextic: -1),
-    (Square: 0; Cubic: 0; Quartic: 0; Quintic: 0; Sextic: 0),
+    (Square: 92; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: 93; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
@@ -5426,10 +6012,10 @@ const
     (Square: 9; Cubic: -1; Quartic: 5; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: 5; Sextic: -1),
     (Square: 13; Cubic: 9; Quartic: -1; Quintic: -1; Sextic: 5),
+    (Square: 25; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: 0; Cubic: 0; Quartic: 0; Quintic: 0; Sextic: 0),
-    (Square: 17; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: -1; Cubic: 17; Quartic: -1; Quintic: -1; Sextic: -1),
+    (Square: 17; Cubic: -1; Quartic: 25; Quintic: -1; Sextic: -1),
+    (Square: -1; Cubic: 17; Quartic: -1; Quintic: -1; Sextic: 25),
     (Square: 26; Cubic: -1; Quartic: 17; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: 17; Sextic: -1),
     (Square: 31; Cubic: 26; Quartic: -1; Quintic: -1; Sextic: 17),
@@ -5458,11 +6044,11 @@ const
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: 84; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: 0; Cubic: 0; Quartic: 0; Quintic: 0; Sextic: 0),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: 0; Cubic: 0; Quartic: 0; Quintic: 0; Sextic: 0),
-    (Square: 88; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: -1; Cubic: 88; Quartic: -1; Quintic: -1; Sextic: -1),
+    (Square: 87; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
+    (Square: -1; Cubic: 87; Quartic: -1; Quintic: -1; Sextic: -1),
+    (Square: 88; Cubic: -1; Quartic: 87; Quintic: -1; Sextic: -1),
+    (Square: 90; Cubic: 88; Quartic: -1; Quintic: -1; Sextic: 87),
     (Square: 91; Cubic: -1; Quartic: 88; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
@@ -5552,7 +6138,7 @@ const
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
+    (Square: 87; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: 82; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: 97; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: 114; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
@@ -5567,9 +6153,9 @@ const
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: 17; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
-    (Square: -1; Cubic: 17; Quartic: -1; Quintic: -1; Sextic: -1),
+    (Square: 25; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
+    (Square: 17; Cubic: -1; Quartic: 25; Quintic: -1; Sextic: -1),
+    (Square: -1; Cubic: 17; Quartic: -1; Quintic: -1; Sextic: 25),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
     (Square: -1; Cubic: -1; Quartic: -1; Quintic: -1; Sextic: -1),
@@ -5583,16 +6169,16 @@ const
 
 { Power functions }
 
-function SquarePower(const AValue: TQuantity): TQuantity;
-function CubicPower(const AValue: TQuantity): TQuantity;
-function QuarticPower(const AValue: TQuantity): TQuantity;
-function QuinticPower(const AValue: TQuantity): TQuantity;
-function SexticPower(const AValue: TQuantity): TQuantity;
-function SquareRoot(const AValue: TQuantity): TQuantity;
-function CubicRoot(const AValue: TQuantity): TQuantity;
-function QuarticRoot(const AValue: TQuantity): TQuantity;
-function QuinticRoot(const AValue: TQuantity): TQuantity;
-function SexticRoot(const AValue: TQuantity): TQuantity;
+function SquarePower(const AQuantity: TQuantity): TQuantity;
+function CubicPower(const AQuantity: TQuantity): TQuantity;
+function QuarticPower(const AQuantity: TQuantity): TQuantity;
+function QuinticPower(const AQuantity: TQuantity): TQuantity;
+function SexticPower(const AQuantity: TQuantity): TQuantity;
+function SquareRoot(const AQuantity: TQuantity): TQuantity;
+function CubicRoot(const AQuantity: TQuantity): TQuantity;
+function QuarticRoot(const AQuantity: TQuantity): TQuantity;
+function QuinticRoot(const AQuantity: TQuantity): TQuantity;
+function SexticRoot(const AQuantity: TQuantity): TQuantity;
 
 { Trigonometric functions }
 
@@ -5621,20 +6207,15 @@ function Cosecant(const AQuantity: double): double;
 
 { Math functions }
 
-generic function Min<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
-generic function Max<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
+function SameValue(const ALeft, ARight: TQuantity): boolean;
+function Min(const ALeft, ARight: TQuantity): TQuantity;
+function Max(const ALeft, ARight: TQuantity): TQuantity;
+function Exp(const AQuantity: TQuantity): TQuantity;
 
 { Useful routines }
 
 function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;
 function GetName(const AName: string; const Prefixes: TPrefixes): string;
-
-{ Helper functions }
-
-function SameValue(const ALeft, ARight: TQuantity): boolean;
-function Min(const ALeft, ARight: TQuantity): TQuantity;
-function Max(const ALeft, ARight: TQuantity): TQuantity;
-function Exp(const AQuantity: TQuantity): TQuantity;
 
 { Constants }
 
@@ -5881,9 +6462,9 @@ class operator TUnit./(const AValue: double; const ASelf: TUnit): TQuantity; inl
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
-  result.FValue := 1/AValue;
+  result.FValue := AValue;
 {$ELSE}
-  result := 1/AValue;
+  result := AValue;
 {$ENDIF}
 end;
 
@@ -5900,6 +6481,34 @@ begin
   result.FValue := AValue.FValue;
 end;
 {$ENDIF}
+
+function TUnit.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+var
+  I: longint;
+  Exponent: longint;
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(APrefixes);
+  if PrefixCount = Length(U.FPrefixes) then
+  begin
+    Exponent := 0;
+    for I := 0 to PrefixCount -1 do
+      Inc(Exponent, PrefixTable[U.FPREFIXES[I]].Exponent * U.FEXPONENTS[I]);
+
+    for I := 0 to PrefixCount -1 do
+      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * U.FEXPONENTS[I]);
+
+    if Exponent <> 0 then
+      {$IFOPT D+} result := AQuantity.FValue * IntPower(10, Exponent) {$ELSE} result := AQuantity * IntPower(10, Exponent) {$ENDIF}
+    else
+      {$IFOPT D+} result := AQuantity.FValue; {$ELSE} result := AQuantity; {$ENDIF}
+
+  end else
+    if PrefixCount = 0 then
+      {$IFOPT D+} result := AQuantity.FValue {$ELSE} result := AQuantity {$ENDIF}
+    else
+      raise Exception.Create('Wrong number of prefixes.');
+end;
 
 function TUnit.ToFloat(const AQuantity: TQuantity): double;
 begin
@@ -5923,27 +6532,27 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToString(const AValue: TQuantity): string;
+function TUnit.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  result := FloatToStr(AValue.FValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
 {$ELSE}
-  result := FloatToStr(AValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(AQuantity) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
 {$ENDIF}
 end;
 
-function TUnit.ToString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
+function TUnit.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  FactoredValue := GetValue(AValue.FValue, APrefixes);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(AValue, APrefixes);
+  FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
      result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
@@ -5951,16 +6560,16 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, APrefixes);
 end;
 
-function TUnit.ToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  FactoredValue := GetValue(AValue.FValue, APrefixes);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(AValue, APrefixes);
+  FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
@@ -5982,99 +6591,77 @@ begin
               FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
   end else
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +');
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
               FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
   end;
 end;
 
-function TUnit.ToVerboseString(const AValue: TQuantity): string;
+function TUnit.ToVerboseString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
 
-  if (AValue.FValue > -1) and (AValue.FValue < 1) then
-    result := FloatToStr(AValue.FValue) + ' ' + GetName(U.FName, U.FPrefixes)
+  if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
+    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(U.FName, U.FPrefixes)
   else
-    result := FloatToStr(AValue.FValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
 {$ELSE}
-  if (AValue > -1) and (AValue < 1) then
-    result := FloatToStr(AValue) + ' ' + GetName(U.FName, U.FPrefixes)
+  if (AQuantity > -1) and (AQuantity < 1) then
+    result := FloatToStr(AQuantity) + ' ' + GetName(U.FName, U.FPrefixes)
   else
-    result := FloatToStr(AValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AQuantity) + ' ' + GetName(U.FPluralName, U.FPrefixes);
 {$ENDIF}
 end;
 
-function TUnit.ToVerboseString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
+function TUnit.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
+{$ENDIF}
+  FactoredValue := GetValue(AQuantity, APrefixes);
 
   if Length(APrefixes) = 0 then
   begin
-    if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStr(AValue.FValue) + ' ' + GetName(U.FName, U.FPRefixes)
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStr(AValue.FValue) + ' ' + GetName(U.PluralName, U.FPRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, U.FPRefixes);
   end else
   begin
-    if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStr(AValue.FValue) + ' ' + GetName(U.FName, APRefixes)
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStr(AValue.FValue) + ' ' + GetName(U.PluralName, APRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, APRefixes);
   end;
-{$ELSE}
-  if Length(APrefixes) = 0 then
-  begin
-    if (AValue > -1) and (AValue < 1) then
-      result := FloatToStr(AValue) + ' ' + GetName(U.FName, U.FPRefixes)
-    else
-      result := FloatToStr(AValue) + ' ' + GetName(U.PluralName, U.FPRefixes);
-  end else
-  begin
-    if (AValue > -1) and (AValue < 1) then
-      result := FloatToStr(AValue) + ' ' + GetName(U.FName, APRefixes)
-    else
-      result := FloatToStr(AValue) + ' ' + GetName(U.PluralName, APRefixes);
-  end;
-{$ENDIF}
 end;
 
-function TUnit.ToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
+{$ENDIF}
+  FactoredValue := GetValue(AQuantity, APrefixes);
 
   if Length(APrefixes) = 0 then
   begin
-    if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPRefixes);
   end else
   begin
-    if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStrF(AValue.FValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APRefixes);
   end;
-{$ELSE}
-  if Length(APrefixes) = 0 then
-  begin
-    if (AValue > -1) and (AValue < 1) then
-      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
-    else
-      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPRefixes);
-  end else
-  begin
-    if (AValue > -1) and (AValue < 1) then
-      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
-    else
-      result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APRefixes);
-  end;
-{$ENDIF}
 end;
 
 function TUnit.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -6088,15 +6675,77 @@ begin
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPrefixes);
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APrefixes);
   end;
 end;
 
 { TFactoredUnit }
+
+class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := MulTable[cScalar, U.FUnitOfMeasurement] * U.FFactor;
+  result.FValue := AValue * U.FFactor;
+{$ELSE}
+  result := AValue * U.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement] / U.FFactor;
+  result.FValue := AValue * U.FFactor;
+{$ELSE}
+  result := AValue * U.FFactor;
+{$ENDIF}
+end;
+
+{$IFOPT D+}
+class operator TFactoredUnit.*(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement] * U.FFactor;
+  result.FValue := AValue.FValue * U.FFactor;
+end;
+
+class operator TFactoredUnit./(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement] / U.FFactor;
+  result.FValue := AValue.FValue * U.FFactor;
+end;
+{$ENDIF}
+
+function TFactoredUnit.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+var
+  I: longint;
+  Exponent: longint;
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(APrefixes);
+  if PrefixCount = Length(U.FPrefixes) then
+  begin
+    Exponent := 0;
+    for I := 0 to PrefixCount -1 do
+      Inc(Exponent, PrefixTable[U.FPREFIXES[I]].Exponent * U.FEXPONENTS[I]);
+
+    for I := 0 to PrefixCount -1 do
+      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * U.FEXPONENTS[I]);
+
+    if Exponent <> 0 then
+      {$IFOPT D+} result := AQuantity.FValue * IntPower(10, Exponent) {$ELSE} result := AQuantity * IntPower(10, Exponent) {$ENDIF}
+    else
+      {$IFOPT D+} result := AQuantity.FValue; {$ELSE} result := AQuantity; {$ENDIF}
+
+  end else
+    if PrefixCount = 0 then
+      {$IFOPT D+} result := AQuantity.FValue {$ELSE} result := AQuantity {$ENDIF}
+    else
+      raise Exception.Create('Wrong number of prefixes.');
+end;
 
 function TFactoredUnit.ToFloat(const AQuantity: TQuantity): double;
 begin
@@ -6120,82 +6769,46 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+function TFactoredUnit.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := MulTable[cScalar, U.FUnitOfMeasurement] * U.FFactor;
-  result.FValue := AValue * U.FFactor;
-{$ELSE}
-  result := AValue * U.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
-begin
-{$IFOPT D+}
-  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement] / U.FFactor;
-  result.FValue := 1 / (AValue * U.FFactor);
-{$ELSE}
-  result := 1 / (AValue * U.FFactor);
-{$ENDIF}
-end;
-
-{$IFOPT D+}
-class operator TFactoredUnit.*(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
-begin
-  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement] * U.FFactor;
-  result.FValue := AValue.FValue * U.FFactor;
-end;
-
-class operator TFactoredUnit./(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
-begin
-  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement] / U.FFactor;
-  result.FValue := AValue.FValue / U.FFactor;
-end
-{$ENDIF}
-
-function TFactoredUnit.ToString(const AValue: TQuantity): string;
-begin
-{$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(AQuantity.FValue / U.FFactor) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
 {$ELSE}
-  result := FloatToStr(AValue / U.FFactor) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(AQuantity / U.FFactor) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  FactoredValue := GetValue(AValue.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AValue, APrefixes);
 {$ENDIF}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+
   if Length(APrefixes) = 0 then
     result := FloatToStr(FactoredValue / U.FFactor) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
-  else');
+  else
     result := FloatToStr(FactoredValue / U.FFactor) + ' ' + GetSymbol(U.FSymbol, APrefixes);
 end;
 
-function TFactoredUnit.ToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  FactoredValue := GetValue(AValue.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AValue, APrefixes);
 {$ENDIF}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+
   if Length(APrefixes) = 0 then
     result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
-  else', []));
+  else
     result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
 end;
 
@@ -6213,99 +6826,77 @@ begin
               FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
   end else
   begin
-    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ± ' +');
+    result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ± ' +
               FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AValue: TQuantity): string;
+function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
 
-  if (AValue.FValue > -1) and (AValue.FValue < 1) then
-    result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.FName, U.FPrefixes)
+  if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
+    result := FloatToStr(AQuantity.FValue / U.FFactor) + ' ' + GetName(U.FName, U.FPrefixes)
   else
-    result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AQuantity.FValue / U.FFactor) + ' ' + GetName(U.FPluralName, U.FPrefixes);
 {$ELSE}
-  if (AValue > -1) and (AValue < 1) then
-    result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.FName, U.FPrefixes)
-  else', []));
-    result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+  if (AQuantity > -1) and (AQuantity < 1) then
+    result := FloatToStr(AQuantity / U.FFactor) + ' ' + GetName(U.FName, U.FPrefixes)
+  else
+    result := FloatToStr(AQuantity / U.FFactor) + ' ' + GetName(U.FPluralName, U.FPrefixes);
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToVerboseString(const AValue: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
+{$ENDIF}
+  FactoredValue := GetValue(AQuantity, APrefixes);
 
   if Length(APrefixes) = 0 then
   begin
-    if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.FName, U.FPRefixes)
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStr(FactoredValue / U.FFactor) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.PluralName, U.FPRefixes);
+      result := FloatToStr(FactoredValue / U.FFactor) + ' ' + GetName(U.FPluralName, U.FPRefixes);
   end else
   begin
-    if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.FName, APRefixes)
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStr(FactoredValue / U.FFactor) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStr(AValue.FValue / U.FFactor) + ' ' + GetName(U.PluralName, APRefixes);
+      result := FloatToStr(FactoredValue / U.FFactor) + ' ' + GetName(U.FPluralName, APRefixes);
   end;
-{$ELSE}
-  if Length(APrefixes) = 0 then
-  begin
-    if (AValue > -1) and (AValue < 1) then
-      result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.FName, U.FPRefixes)
-    else
-      result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.PluralName, U.FPRefixes);
-  end else
-  begin
-    if (AValue > -1) and (AValue < 1) then
-      result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.FName, APRefixes)
-    else
-      result := FloatToStr(AValue / U.FFactor) + ' ' + GetName(U.PluralName, APRefixes);
-  end;
-{$ENDIF}
 end;
 
-function TFactoredUnit.ToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
 begin
 {$IFOPT D+}
-  if AValue.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
+{$ENDIF}
+  FactoredValue := GetValue(AQuantity, APrefixes);
 
   if Length(APrefixes) = 0 then
   begin
-    if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
     else
-      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPRefixes);
+      result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPRefixes);
   end else
   begin
-    if (AValue.FValue > -1) and (AValue.FValue < 1) then
-      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
     else
-      result := FloatToStrF(AValue.FValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APRefixes);
+      result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APRefixes);
   end;
-{$ELSE}
-  if Length(APrefixes) = 0 then
-  begin
-    if (AValue > -1) and (AValue < 1) then
-      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
-    else
-      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, U.FPRefixes);
-  end else
-  begin
-    if (AValue > -1) and (AValue < 1) then
-      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
-    else
-      result := FloatToStrF(AValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APRefixes);
-  end;
-{$ENDIF}
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -6313,6 +6904,10 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
+{$IFOPT D+}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('Wrong units of measurements');
+{$ENDIF}
   FactoredValue := GetValue(AQuantity, APrefixes);
   FactoredTol   := GetValue(ATolerance, APrefixes);
 
@@ -6323,129 +6918,1047 @@ begin
   end else
   begin
     result := FloatToStrF(FactoredValue / U.FFactor, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.PluralName, APrefixes);
+              FloatToStrF(FactoredTol   / U.FFactor, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APrefixes);
   end;
+end;
+
+function TDegree.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TDegree.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TSquareDegree.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TSquareDegree.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TDay.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TDay.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function THour.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function THour.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TMinute.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TMinute.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TSquareDay.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TSquareDay.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TSquareHour.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TSquareHour.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TSquareMinute.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TSquareMinute.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TAstronomical.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TAstronomical.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TInch.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TInch.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TFoot.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TFoot.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TYard.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TYard.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TMile.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TMile.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TNauticalMile.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TNauticalMile.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TAngstrom.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TAngstrom.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TSquareInch.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TSquareInch.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TSquareFoot.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TSquareFoot.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TSquareYard.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TSquareYard.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TSquareMile.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TSquareMile.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TCubicInch.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TCubicInch.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TCubicFoot.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TCubicFoot.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TCubicYard.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TCubicYard.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TLitre.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TLitre.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TGallon.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TGallon.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TTonne.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TTonne.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TPound.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TPound.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TOunce.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TOunce.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TStone.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TStone.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TTon.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TTon.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TElectronvoltPerSquareSpeedOfLight.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TElectronvoltPerSquareSpeedOfLight.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TDegreeCelsius.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TDegreeCelsius.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TDegreeFahrenheit.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TDegreeFahrenheit.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TMeterPerHour.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TMeterPerHour.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TMilePerHour.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TMilePerHour.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TNauticalMilePerHour.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TNauticalMilePerHour.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TMeterPerHourPerSecond.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TMeterPerHourPerSecond.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TPoundPerCubicInch.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TPoundPerCubicInch.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TPoundForce.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TPoundForce.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TBar.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TBar.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TPoundPerSquareInch.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TPoundPerSquareInch.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TWattHour.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TWattHour.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TElectronvolt.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TElectronvolt.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TPoundForceInch.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TPoundForceInch.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TRydberg.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TRydberg.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TCalorie.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TCalorie.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TJoulePerDegree.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TJoulePerDegree.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TNewtonMeterPerDegree.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TNewtonMeterPerDegree.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TAmpereHour.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TAmpereHour.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TPoundForcePerInch.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TPoundForcePerInch.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TElectronvoltSecond.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TElectronvoltSecond.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
+end;
+
+function TElectronvoltMeterPerSpeedOfLight.GetValue(const AQuantity: TQuantity): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue );
+{$ELSE}
+  result := GetValue( AQuantity );
+{$ENDIF}
+end;
+
+function TElectronvoltMeterPerSpeedOfLight.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+begin
+{$IFOPT D+}
+  result := GetValue( AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue( AQuantity, APrefixes);
+{$ENDIF}
 end;
 
 { Power functions }
 
-function SquarePower(const AValue: TQuantity): TQuantity;
-begin'
+function SquarePower(const AQuantity: TQuantity): TQuantity;
+begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Square;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Square;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := IntPower(AValue.FValue, 2);
+  result.FValue := IntPower(AQuantity.FValue, 2);
 {$ELSE}
-  result := IntPower(AValue, 2);
+  result := IntPower(AQuantity, 2);
 {$ENDIF}
 end;
 
-function CubicPower(const AValue: TQuantity): TQuantity;
+function CubicPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Cubic;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Cubic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := IntPower(AValue.FValue, 3);
+  result.FValue := IntPower(AQuantity.FValue, 3);
 {$ELSE}
-  result := IntPower(AValue, 3);
+  result := IntPower(AQuantity, 3);
 {$ENDIF}
 end;
 
-function QuarticPower(const AValue: TQuantity): TQuantity;
+function QuarticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Quartic;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quartic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := IntPower(AValue.FValue, 4);
+  result.FValue := IntPower(AQuantity.FValue, 4);
 {$ELSE}
-  result := IntPower(AValue, 4);
+  result := IntPower(AQuantity, 4);
 {$ENDIF}
 end;
 
-function QuinticPower(const AValue: TQuantity): TQuantity;
+function QuinticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Quintic;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quintic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := IntPower(AValue.FValue, 5);
+  result.FValue := IntPower(AQuantity.FValue, 5);
 {$ELSE}
-  result := IntPower(AValue, 5);
+  result := IntPower(AQuantity, 5);
 {$ENDIF}
 end;
 
-function SexticPower(const AValue: TQuantity): TQuantity;
+function SexticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Sextic;
+  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Sextic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-   result.FValue := IntPower(AValue.FValue, 6);
+   result.FValue := IntPower(AQuantity.FValue, 6);
 {$ELSE}
-  result := IntPower(AValue, 6);
+  result := IntPower(AQuantity, 6);
 {$ENDIF}
 end;
 
-function SquareRoot(const AValue: TQuantity): TQuantity;
+function SquareRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Square;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Square;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/2);
+  result.FValue := Power(AQuantity.FValue, 1/2);
 {$ELSE};
-  result := Power(AValue, 1/2);
+  result := Power(AQuantity, 1/2);
 {$ENDIF}
 end;
 
-function CubicRoot(const AValue: TQuantity): TQuantity;
+function CubicRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Cubic;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Cubic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/3);
+  result.FValue := Power(AQuantity.FValue, 1/3);
 {$ELSE}
-  result := Power(AValue, 1/3);
+  result := Power(AQuantity, 1/3);
 {$ENDIF}
 end;
 
-function QuarticRoot(const AValue: TQuantity): TQuantity;
+function QuarticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Quartic;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quartic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/4);
+  result.FValue := Power(AQuantity.FValue, 1/4);
 {$ELSE}
-  result := Power(AValue, 1/4);
+  result := Power(AQuantity, 1/4);
 {$ENDIF}
 end;
 
-function QuinticRoot(const AValue: TQuantity): TQuantity;
+function QuinticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Quintic;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quintic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/5);
+  result.FValue := Power(AQuantity.FValue, 1/5);
 {$ELSE}
-  result := Power(AValue, 1/5);
+  result := Power(AQuantity, 1/5);
 {$ENDIF}
 end;
 
-function SexticRoot(const AValue: TQuantity): TQuantity;
+function SexticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFOPT D+}
-  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Sextic;
+  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Sextic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
-  result.FValue := Power(AValue.FValue, 1/6);
+  result.FValue := Power(AQuantity.FValue, 1/6);
 {$ELSE}
-  result := Power(AValue, 1/6);
+  result := Power(AQuantity, 1/6);
 {$ENDIF}
 end;
 
@@ -6587,42 +8100,6 @@ begin
 end;
 
 end.
-
-function TDegreeCelsius.GetValue(const AQuantity: TQuantity): double;
-begin
-{$IFOPT D+}
-  result := GetValue( AQuantity.FValue );
-{$ELSE}
-  result := GetValue( AQuantity );
-{$ENDIF}
-end;
-
-function TDegreeCelsius.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
-begin
-{$IFOPT D+}
-  result := GetValue( AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue( AQuantity, APrefixes);
-{$ENDIF}
-end;
-
-function TDegreeFahrenheit.GetValue(const AQuantity: TQuantity): double;
-begin
-{$IFOPT D+}
-  result := GetValue( AQuantity.FValue );
-{$ELSE}
-  result := GetValue( AQuantity );
-{$ENDIF}
-end;
-
-function TDegreeFahrenheit.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
-begin
-{$IFOPT D+}
-  result := GetValue( AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue( AQuantity, APrefixes);
-{$ENDIF}
-end;
 
 { Helpers }
 
