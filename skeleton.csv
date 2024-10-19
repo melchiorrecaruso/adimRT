@@ -38,7 +38,7 @@
 ;TQuarticMeter?;m4;quartic %smeter?;%sm4;m4;;;---------S--SSSSSS------;;clLime
 ;TQuinticMeter?;m5;quintic %smeter?;%sm5;m5;;;---------S--SSSSSS------;;clLime
 ;TSexticMeter?;m6;sextic %smeter?;%sm6;m6;;;---------S--SSSSSS------;;clLime
-;TKilogram?;kg;%sgram?;%sg;kg;;;not used;;clLime
+;TKilogram?;kg;%sgram?;%sg;kg;;;;;clLime
 ;TTonne?;;%stonne?;%st;tonne;TKilogram?;1E+03;-------LLL--------------;;clWhite
 ;TPound?;;pound?;lb;lb;TKilogram?;0.45359237;;;clWhite
 ;TOunce?;;ounce?;oz;oz;TKilogram?;0.028349523125;;;clWhite

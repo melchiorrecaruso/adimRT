@@ -130,12 +130,19 @@ type
 
     procedure AddBaseUnits(const SectionA, SectionB: TStringList);
 
-    procedure AddUnitRecources(const AItem: TToolKitItem; const ASection: TStringList);
-    procedure AddUnitSymbols(const AItem: TToolKitItem; const ASection: TStringList);
-    procedure AddFactoredSymbols(const AIdentifier, ABase, AFactor, APrefixes: string; const SectionA: TStringList);
+    procedure AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
+    procedure AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
+
+
+    procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
+    procedure AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
 
     procedure AddPowerTable(const Section: TStringList);
     procedure AddRootTable(const Section: TStringList);
+
+    procedure AddGetValueFunctions(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+
+
 
     procedure Add(const AItem: TToolkitItem);
     procedure Run;
@@ -188,262 +195,93 @@ end;
 
 procedure TToolKitBuilder.AddBaseUnits(const SectionA, SectionB: TStringList);
 var
-  i: longint;
+  i, j: longint;
 begin
   for i := 0 to FList.Count -1 do
   begin
+
     if (FList[i].FBase = '') then
     begin
-      SectionA.Add(Format('type', []));
-      SectionA.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
-      SectionA.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-      SectionA.Add(Format('    class operator /(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-      SectionA.Add(Format('  {$IFOPT D+}',[]));
-      SectionA.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-      SectionA.Add(Format('    class operator /(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-      SectionA.Add(Format('  {$ENDIF}',[]));
-      SectionA.Add(Format('  end;',[]));
-      SectionA.Add(Format('',[]));
+      FList[i].FReserved  := BaseUnitCount;
+      FList[i].FExponents := GetDimensions(FList[i].FDimension);
+      Inc(BaseUnitCount);
 
-      AddUnitRecources(FList[i], SectionA);
-      AddUnitSymbols(FList[i], SectionA);
-
-      SectionB.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-      SectionB.Add(Format('begin',[]));
-      SectionB.Add(Format('{$IFOPT D+}',[]));
-      SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FQuantity)]));
-      SectionB.Add(Format('  result.FValue := AValue',[]));
-      SectionB.Add(Format('{$ELSE}',[]));
-      SectionB.Add(Format('  result := AValue',[]));
-      SectionB.Add(Format('{$ENDIF}',[]));
-      SectionB.Add(Format('end;',[]));
-      SectionB.Add(Format('',[]));
-
-      SectionB.Add(Format('class operator %s./(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-      SectionB.Add(Format('begin',[]));
-      SectionB.Add(Format('{$IFOPT D+}',[]));
-      SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FQuantity)]));
-      SectionB.Add(Format('  result.FValue := AValue',[]));
-      SectionB.Add(Format('{$ELSE}',[]));
-      SectionB.Add(Format('  result := AValue',[]));
-      SectionB.Add(Format('{$ENDIF}',[]));
-      SectionB.Add(Format('end;',[]));
-      SectionB.Add(Format('',[]));
-
-      SectionB.Add(Format('{$IFOPT D+}',[]));
-      SectionB.Add(Format('class operator %s.*(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-      SectionB.Add(Format('begin',[]));
-      SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FQuantity)]));
-      SectionB.Add(Format('  result.FValue := AValue.FValue',[]));
-      SectionB.Add(Format('end;',[]));
-      SectionB.Add(Format('{$ENDIF}',[]));
-      SectionB.Add(Format('',[]));
-
-      SectionB.Add(Format('{$IFOPT D+}',[]));
-      SectionB.Add(Format('class operator %s./(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-      SectionB.Add(Format('begin',[]));
-      SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FQuantity)]));
-      SectionB.Add(Format('  result.FValue := AValue.FValue',[]));
-      SectionB.Add(Format('end;',[]));
-      SectionB.Add(Format('{$ENDIF}',[]));
-      SectionB.Add(Format('',[]));
+      AddUnit(FList[i], SectionA);
+      AddSymbols(FList[i], SectionA);
     end else
     begin
-      if Pos('%s', FList[i].FFactor) > 0 then
+      if (FList[i].FFactor = '') then
       begin
-        SectionA.Add(Format('type', []));
-        SectionA.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
-        SectionA.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-        SectionA.Add(Format('    class operator /(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-        SectionA.Add(Format('  {$IFOPT D+}',[]));
-        SectionA.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-        SectionA.Add(Format('    class operator /(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-        SectionA.Add(Format('  {$ENDIF}',[]));
-        SectionA.Add(Format('  end;',[]));
-        SectionA.Add(Format('',[]));
+        j := FList.Search(FList[i].FBase, 1);
+        FList[i].FReserved  := FList[j].FReserved;
+        FList[i].FExponents := FList[j].FExponents;
+        Inc(FactoredUnitCount);
 
-        AddUnitRecources(FList[i], SectionA);
-        AddUnitSymbols(FList[i], SectionA);
-
-        SectionB.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-        SectionB.Add(Format('begin',[]));
-        SectionB.Add(Format('{$IFOPT D+}',[]));
-        SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
-        SectionB.Add(Format('  result.FValue := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]));
-        SectionB.Add(Format('{$ELSE}',[]));
-        SectionB.Add(Format('  result := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]));
-        SectionB.Add(Format('{$ENDIF}',[]));
-        SectionB.Add(Format('end;',[]));
-        SectionB.Add(Format('',[]));
-
-        SectionB.Add(Format('class operator %s./(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-        SectionB.Add(Format('begin',[]));
-        SectionB.Add(Format('{$IFOPT D+}',[]));
-        SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
-        SectionB.Add(Format('  result.FValue := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]));
-        SectionB.Add(Format('{$ELSE}',[]));
-        SectionB.Add(Format('  result := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue'])]));
-        SectionB.Add(Format('{$ENDIF}',[]));
-        SectionB.Add(Format('end;',[]));
-        SectionB.Add(Format('',[]));
-
-        SectionB.Add(Format('{$IFOPT D+}',[]));
-        SectionB.Add(Format('class operator %s.*(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-        SectionB.Add(Format('begin',[]));
-        SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FBase)]));
-        SectionB.Add(Format('  result.FValue := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue.FValue'])]));
-        SectionB.Add(Format('end;',[]));
-        SectionB.Add(Format('{$ENDIF}',[]));
-        SectionB.Add(Format('',[]));
-
-        SectionB.Add(Format('{$IFOPT D+}',[]));
-        SectionB.Add(Format('class operator %s./(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-        SectionB.Add(Format('begin',[]));
-        SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FBase)]));
-        SectionB.Add(Format('  result.FValue := %s;',[Format(Copy(FList[i].FFactor, 1, Pos('|', FList[i].FFactor) -1), ['AValue.FValue'])]));
-        SectionB.Add(Format('end;',[]));
-        SectionB.Add(Format('{$ENDIF}',[]));
-        SectionB.Add(Format('',[]));
+        AddUnit(FList[i], SectionA);
+        AddSymbols(FList[i], SectionA);
       end else
-        if (FList[i].FFactor = '') then
+        if Pos('%s', FList[i].FFactor) = 0 then
         begin
-          SectionA.Add(Format('type', []));
-          SectionA.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('    class operator /(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('  {$IFOPT D+}',[]));
-          SectionA.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('    class operator /(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('  {$ENDIF}',[]));
-          SectionA.Add(Format('  end;',[]));
-          SectionA.Add(Format('',[]));
 
-          AddUnitRecources(FList[i], SectionA);
-          AddUnitSymbols(FList[i], SectionA);
 
-          SectionB.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-          SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
-          SectionB.Add(Format('  result.FValue := AValue;',[]));
-          SectionB.Add(Format('{$ELSE}',[]));
-          SectionB.Add(Format('  result := AValue;', []));
-          SectionB.Add(Format('{$ENDIF}',[]));
-          SectionB.Add(Format('end;',[]));
-          SectionB.Add(Format('',[]));
 
-          SectionB.Add(Format('class operator %s./(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-          SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
-          SectionB.Add(Format('  result.FValue := AValue;',[]));
-          SectionB.Add(Format('{$ELSE}',[]));
-          SectionB.Add(Format('  result := AValue;', []));
-          SectionB.Add(Format('{$ENDIF}',[]));
-          SectionB.Add(Format('end;',[]));
-          SectionB.Add(Format('',[]));
 
-          SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('class operator %s.*(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-          SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FBase)]));
-          SectionB.Add(Format('  result.FValue := AValue.FValue;',[]));
-          SectionB.Add(Format('end;',[]));
-          SectionB.Add(Format('{$ENDIF}',[]));
-          SectionB.Add(Format('',[]));
 
-          SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('class operator %s./(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-          SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, %s];',[GetUnitIndex(FList[i].FBase)]));
-          SectionB.Add(Format('  result.FValue := AValue.FValue;',[]));
-          SectionB.Add(Format('end;',[]));
-          SectionB.Add(Format('{$ENDIF}',[]));
-          SectionB.Add(Format('',[]));
+          AddFactoredUnit(FList[i], SectionA);
+          AddSymbols(FList[i], SectionA);
         end else
         begin
-          SectionA.Add(Format('type', []));
-          SectionA.Add(Format('  %s = record', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('    class operator *(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('    class operator /(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('  {$IFOPT D+}',[]));
-          SectionA.Add(Format('    class operator *(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('    class operator /(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity)]));
-          SectionA.Add(Format('  {$ENDIF}',[]));
-          SectionA.Add(Format('  end;',[]));
-          SectionA.Add(Format('',[]));
 
-          AddUnitRecources(FList[i], SectionA);
-          AddUnitSymbols(FList[i], SectionA);
 
-          SectionB.Add(Format('class operator %s.*(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-          SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
-          SectionB.Add(Format('  result.FValue := AValue * %s;',[FList[i].FFactor]));
-          SectionB.Add(Format('{$ELSE}',[]));
-          SectionB.Add(Format('  result := AValue * %s;', [FList[i].FFactor]));
-          SectionB.Add(Format('{$ENDIF}',[]));
-          SectionB.Add(Format('end;',[]));
-          SectionB.Add(Format('',[]));
 
-          SectionB.Add(Format('class operator %s./(const AValue: double; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-          SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
-          SectionB.Add(Format('  result.FValue := AValue * %s;',[FList[i].FFactor]));
-          SectionB.Add(Format('{$ELSE}',[]));
-          SectionB.Add(Format('  result := AValue * %s;', [FList[i].FFactor]));
-          SectionB.Add(Format('{$ENDIF}',[]));
-          SectionB.Add(Format('end;',[]));
-          SectionB.Add(Format('',[]));
-
-          SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('class operator %s.*(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-          SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := MulTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
-          SectionB.Add(Format('  result.FValue := AValue.FValue * %s;',[FList[i].FFactor]));
-          SectionB.Add(Format('end;',[]));
-          SectionB.Add(Format('{$ENDIF}',[]));
-          SectionB.Add(Format('',[]));
-
-          SectionB.Add(Format('{$IFOPT D+}',[]));
-          SectionB.Add(Format('class operator %s./(const AValue: TQuantity; const ASelf: %s): TQuantity; inline;', [GetUnit(FList[i].FQuantity), GetUnit(FList[i].FQuantity)]));
-          SectionB.Add(Format('begin',[]));
-          SectionB.Add(Format('  result.FUnitOfMeasurement := DivTable[cScalar, %s];',[GetUnitIndex(FList[i].FBase)]));
-          SectionB.Add(Format('  result.FValue := AValue.FValue * %s;',[FList[i].FFactor]));
-          SectionB.Add(Format('end;',[]));
-          SectionB.Add(Format('{$ENDIF}',[]));
-          SectionB.Add(Format('',[]));
         end;
     end;
   end;
 end;
 
-procedure TToolKitBuilder.AddUnitRecources(const AItem: TToolKitItem; const ASection: TStringList);
+procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
   ASection.Add('const');
-  ASection.Add('  %s     = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), AItem.FShortString]);
-  ASection.Add('  %s       = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('  c%s = %d;', [GetUnitID(AItem.FQuantity), AItem.FReserved]);
   ASection.Add('');
-
-  ASection.Add('const');
-  ASection.Add('  %s                       = (%d);', [GetUnitIndex(AItem.FQuantity), AItem.FReserved]);
-
-  if AItem.FBase = '' then
-  begin
-    ASection.Add('  %s  : TPrefixes  = (%s);', [GetPrefixesConst(AItem.FQuantity), GetPrefixes(AItem.FShortString)]);
-    ASection.Add('  %s : TExponents = (%s);', [GetExponentsConst(AItem.FQuantity), GetExponents(AItem.FShortString)]);
-  end else
-  begin
-    ASection.Add('  %s  : TPrefixes  = (%s);', [GetPrefixesConst(AItem.FQuantity), GetPrefixes(AItem.FShortString)]);
-    ASection.Add('  %s : TExponents = (%s);', [GetExponentsConst(AItem.FQuantity), GetExponents(AItem.FShortString)]);
-  end;
+  ASection.Add('type');
+  ASection.Add('  { T%s }', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('');
+  ASection.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
+  ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
+  ASection.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
+  ASection.Add('  end;');
+  ASection.Add('  %s = specialize TUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
 end;
 
-procedure TToolKitBuilder.AddUnitSymbols(const AItem: TToolKitItem; const ASection: TStringList);
+procedure TToolKitBuilder.AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
+begin
+  ASection.Add('const');
+  ASection.Add('  c%s = %d;', [GetUnitID(AItem.FQuantity), AItem.FReserved]);
+  ASection.Add('');
+  ASection.Add('type');
+  ASection.Add('  { T%s }', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('');
+  ASection.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    const FUnitOfMeasurement = %d;', [AItem.FReserved]);
+  ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
+  ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
+  ASection.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
+  ASection.Add('    function GetValue(const AQuantity: TQuantity): double;');
+  ASection.Add('    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;');
+  ASection.Add('  end;');
+  ASection.Add('  %s = specialize TUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
+  ASection.Add('');
+end;
+
+procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
 begin
   // Base unit symbols
   if (AItem.FBase = '') and (AItem.FIdentifier <> '') then
@@ -452,13 +290,8 @@ begin
     ASection.Append('var');
     ASection.Add(Format('  %-10s : %s;', [AItem.FIdentifier, GetUnit(AItem.FQuantity)]));
     ASection.Append('');
-    if (Pos('S', AItem.FPrefixes) > 0) or
-       (Pos('L', AItem.FPrefixes) > 0) then
-    begin
-      ASection.Append('const');
-      AddFactoredSymbols(AItem.FIdentifier, AItem.FQuantity, AItem.FFactor, AItem.FPrefixes, ASection);
-      ASection.Append('');
-    end;
+
+    AddFactoredSymbols(AItem, ASection);
   end else
     // Factored unit symbols
     if (AItem.FBase <> '') and (AItem.FIdentifier <> '') then
@@ -468,44 +301,29 @@ begin
         ASection.Append('var');
         ASection.Add(Format('  %-10s : %s;', [AItem.FIdentifier, GetUnit(AItem.FQuantity)]));
         ASection.Append('');
-        if (Pos('S', AItem.FPrefixes) > 0) or
-           (Pos('L', AItem.FPrefixes) > 0) then
-        begin
-          ASection.Append('const');
-          AddFactoredSymbols(AItem.FIdentifier, AItem.FBase, AItem.FFactor, AItem.FPrefixes, ASection);
-          ASection.Append('');
-        end;
+
+        AddFactoredSymbols(AItem, ASection);
       end else
         if (Pos('%s', AItem.FFactor) = 0) then
         begin
           ASection.Append('const');
-          ASection.Add(Format('  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %s; FValue: %s); {$ELSE} (%s); {$ENDIF}', [AItem.FIdentifier, GetUnitIndex(AItem.FBase), AItem.FFactor, AItem.FFactor]));
+          ASection.Add(Format('  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}', [AItem.FIdentifier, AItem.FReserved, AItem.FFactor, AItem.FFactor]));
           ASection.Append('');
-          if (Pos('S', AItem.FPrefixes) > 0) or
-             (Pos('L', AItem.FPrefixes) > 0) then
-          begin
-            ASection.Append('const');
-            AddFactoredSymbols(AItem.FIdentifier, AItem.FBase, AItem.FFactor, AItem.FPrefixes, ASection);
-            ASection.Append('');
-          end;
+
+          AddFactoredSymbols(AItem, ASection);
         end else
           if (Pos('%s', AItem.FFactor) > 0) then
           begin
             ASection.Append('var');
             ASection.Add(Format('  %-10s : %s;', [AItem.FIdentifier, GetUnit(AItem.FQuantity)]));
             ASection.Append('');
-            if (Pos('S', AItem.FPrefixes) > 0) or
-               (Pos('L', AItem.FPrefixes) > 0) then
-            begin
-              ASection.Append('const');
-              AddFactoredSymbols(AItem.FIdentifier, AItem.FBase, AItem.FFactor, AItem.FPrefixes, ASection);
-              ASection.Append('');
-            end;
+
+            AddFactoredSymbols(AItem, ASection);
           end;
      end;
 end;
 
-procedure TToolKitBuilder.AddFactoredSymbols(const AIdentifier, ABase, AFactor, APrefixes: string; const SectionA: TStringList);
+procedure TToolKitBuilder.AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
 var
   i, j: longint;
   Params: string;
@@ -514,115 +332,122 @@ var
   Str: string;
   Factor: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %s; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
-  if AFactor <> '' then
-    Factor := AFactor + ' * ';
+  if AItem.FFactor <> '' then
+    Factor := AItem.FFactor + ' * ';
 
-  if Length(APrefixes) = 24 then
+  if Length(AItem.FPrefixes) = 24 then
   begin
-    Params := APrefixes;
+    Params := AItem.FPrefixes;
   end else
     Params := '------------------------';
 
   Power  := 1;
-  if Pos('2', AIdentifier) > 0 then Power := 2;
-  if Pos('3', AIdentifier) > 0 then Power := 3;
-  if Pos('4', AIdentifier) > 0 then Power := 4;
-  if Pos('5', AIdentifier) > 0 then Power := 5;
-  if Pos('6', AIdentifier) > 0 then Power := 6;
-  if Pos('7', AIdentifier) > 0 then Power := 7;
-  if Pos('8', AIdentifier) > 0 then Power := 8;
-  if Pos('9', AIdentifier) > 0 then Power := 9;
+  if Pos('2', AItem.FIdentifier) > 0 then Power := 2;
+  if Pos('3', AItem.FIdentifier) > 0 then Power := 3;
+  if Pos('4', AItem.FIdentifier) > 0 then Power := 4;
+  if Pos('5', AItem.FIdentifier) > 0 then Power := 5;
+  if Pos('6', AItem.FIdentifier) > 0 then Power := 6;
+  if Pos('7', AItem.FIdentifier) > 0 then Power := 7;
+  if Pos('8', AItem.FIdentifier) > 0 then Power := 8;
+  if Pos('9', AItem.FIdentifier) > 0 then Power := 9;
 
   LocList := TStringList.Create;
-  if (LowerCase(AIdentifier) <> 'kg' ) and
-     (LowerCase(AIdentifier) <> 'kg2') then
+  if (LowerCase(AItem.FIdentifier) <> 'kg' ) and
+     (LowerCase(AItem.FIdentifier) <> 'kg2') then
   begin
-    if Params[ 1] = 'L' then LocList.Append(Format(Str, ['quetta' + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +30*Power)), Factor + FormatFloat('0E+00', IntPower(10, +30*Power))]));
-    if Params[ 1] = 'S' then LocList.Append(Format(Str, ['Q'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +30*Power)), Factor + FormatFloat('0E+00', IntPower(10, +30*Power))]));
-    if Params[ 2] = 'L' then LocList.Append(Format(Str, ['ronna'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +27*Power)), Factor + FormatFloat('0E+00', IntPower(10, +27*Power))]));
-    if Params[ 2] = 'S' then LocList.Append(Format(Str, ['R'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +27*Power)), Factor + FormatFloat('0E+00', IntPower(10, +27*Power))]));
-    if Params[ 3] = 'L' then LocList.Append(Format(Str, ['yotta'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +24*Power)), Factor + FormatFloat('0E+00', IntPower(10, +24*Power))]));
-    if Params[ 3] = 'S' then LocList.Append(Format(Str, ['Y'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +24*Power)), Factor + FormatFloat('0E+00', IntPower(10, +24*Power))]));
-    if Params[ 4] = 'L' then LocList.Append(Format(Str, ['zetta'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +21*Power)), Factor + FormatFloat('0E+00', IntPower(10, +21*Power))]));
-    if Params[ 4] = 'S' then LocList.Append(Format(Str, ['Z'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +21*Power)), Factor + FormatFloat('0E+00', IntPower(10, +21*Power))]));
-    if Params[ 5] = 'L' then LocList.Append(Format(Str, ['exa'    + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +18*Power)), Factor + FormatFloat('0E+00', IntPower(10, +18*Power))]));
-    if Params[ 5] = 'S' then LocList.Append(Format(Str, ['E'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +18*Power)), Factor + FormatFloat('0E+00', IntPower(10, +18*Power))]));
-    if Params[ 6] = 'L' then LocList.Append(Format(Str, ['peta'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +15*Power)), Factor + FormatFloat('0E+00', IntPower(10, +15*Power))]));
-    if Params[ 6] = 'S' then LocList.Append(Format(Str, ['P'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +15*Power)), Factor + FormatFloat('0E+00', IntPower(10, +15*Power))]));
+    if Params[ 1] = 'L' then LocList.Append(Format(Str, ['quetta' + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +30*Power)), Factor + FormatFloat('0E+00', IntPower(10, +30*Power))]));
+    if Params[ 1] = 'S' then LocList.Append(Format(Str, ['Q'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +30*Power)), Factor + FormatFloat('0E+00', IntPower(10, +30*Power))]));
+    if Params[ 2] = 'L' then LocList.Append(Format(Str, ['ronna'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +27*Power)), Factor + FormatFloat('0E+00', IntPower(10, +27*Power))]));
+    if Params[ 2] = 'S' then LocList.Append(Format(Str, ['R'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +27*Power)), Factor + FormatFloat('0E+00', IntPower(10, +27*Power))]));
+    if Params[ 3] = 'L' then LocList.Append(Format(Str, ['yotta'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +24*Power)), Factor + FormatFloat('0E+00', IntPower(10, +24*Power))]));
+    if Params[ 3] = 'S' then LocList.Append(Format(Str, ['Y'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +24*Power)), Factor + FormatFloat('0E+00', IntPower(10, +24*Power))]));
+    if Params[ 4] = 'L' then LocList.Append(Format(Str, ['zetta'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +21*Power)), Factor + FormatFloat('0E+00', IntPower(10, +21*Power))]));
+    if Params[ 4] = 'S' then LocList.Append(Format(Str, ['Z'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +21*Power)), Factor + FormatFloat('0E+00', IntPower(10, +21*Power))]));
+    if Params[ 5] = 'L' then LocList.Append(Format(Str, ['exa'    + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +18*Power)), Factor + FormatFloat('0E+00', IntPower(10, +18*Power))]));
+    if Params[ 5] = 'S' then LocList.Append(Format(Str, ['E'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +18*Power)), Factor + FormatFloat('0E+00', IntPower(10, +18*Power))]));
+    if Params[ 6] = 'L' then LocList.Append(Format(Str, ['peta'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +15*Power)), Factor + FormatFloat('0E+00', IntPower(10, +15*Power))]));
+    if Params[ 6] = 'S' then LocList.Append(Format(Str, ['P'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +15*Power)), Factor + FormatFloat('0E+00', IntPower(10, +15*Power))]));
 
-    if Params[ 7] = 'L' then LocList.Append(Format(Str, ['tera'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +12*Power)), Factor + FormatFloat('0E+00', IntPower(10, +12*Power))]));
-    if Params[ 7] = 'S' then LocList.Append(Format(Str, ['T'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, +12*Power)), Factor + FormatFloat('0E+00', IntPower(10, +12*Power))]));
-    if Params[ 8] = 'L' then LocList.Append(Format(Str, ['giga'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power))]));
-    if Params[ 8] = 'S' then LocList.Append(Format(Str, ['G'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power))]));
-    if Params[ 9] = 'L' then LocList.Append(Format(Str, ['mega'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power))]));
-    if Params[ 9] = 'S' then LocList.Append(Format(Str, ['M'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power))]));
-    if Params[10] = 'L' then LocList.Append(Format(Str, ['kilo'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power))]));
-    if Params[10] = 'S' then LocList.Append(Format(Str, ['k'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power))]));
-    if Params[11] = 'L' then LocList.Append(Format(Str, ['hecto'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power))]));
-    if Params[11] = 'S' then LocList.Append(Format(Str, ['h'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power))]));
-    if Params[12] = 'L' then LocList.Append(Format(Str, ['deca'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power))]));
-    if Params[12] = 'S' then LocList.Append(Format(Str, ['da'     + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power))]));
-    if Params[13] = 'L' then LocList.Append(Format(Str, ['deci'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power))]));
-    if Params[13] = 'S' then LocList.Append(Format(Str, ['d'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power))]));
-    if Params[14] = 'L' then LocList.Append(Format(Str, ['centi'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power))]));
-    if Params[14] = 'S' then LocList.Append(Format(Str, ['c'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power))]));
-    if Params[15] = 'L' then LocList.Append(Format(Str, ['milli'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power))]));
-    if Params[15] = 'S' then LocList.Append(Format(Str, ['m'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power))]));
-    if Params[16] = 'L' then LocList.Append(Format(Str, ['micro'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power))]));
-    if Params[16] = 'S' then LocList.Append(Format(Str, ['mi'     + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power))]));
-    if Params[17] = 'L' then LocList.Append(Format(Str, ['nano'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power))]));
-    if Params[17] = 'S' then LocList.Append(Format(Str, ['n'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power))]));
-    if Params[18] = 'L' then LocList.Append(Format(Str, ['pico'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -12*Power)), Factor + FormatFloat('0E+00', IntPower(10, -12*Power))]));
-    if Params[18] = 'S' then LocList.Append(Format(Str, ['p'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -12*Power)), Factor + FormatFloat('0E+00', IntPower(10, -12*Power))]));
+    if Params[ 7] = 'L' then LocList.Append(Format(Str, ['tera'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +12*Power)), Factor + FormatFloat('0E+00', IntPower(10, +12*Power))]));
+    if Params[ 7] = 'S' then LocList.Append(Format(Str, ['T'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, +12*Power)), Factor + FormatFloat('0E+00', IntPower(10, +12*Power))]));
+    if Params[ 8] = 'L' then LocList.Append(Format(Str, ['giga'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power))]));
+    if Params[ 8] = 'S' then LocList.Append(Format(Str, ['G'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power))]));
+    if Params[ 9] = 'L' then LocList.Append(Format(Str, ['mega'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power))]));
+    if Params[ 9] = 'S' then LocList.Append(Format(Str, ['M'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power))]));
+    if Params[10] = 'L' then LocList.Append(Format(Str, ['kilo'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power))]));
+    if Params[10] = 'S' then LocList.Append(Format(Str, ['k'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power))]));
+    if Params[11] = 'L' then LocList.Append(Format(Str, ['hecto'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power))]));
+    if Params[11] = 'S' then LocList.Append(Format(Str, ['h'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power))]));
+    if Params[12] = 'L' then LocList.Append(Format(Str, ['deca'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power))]));
+    if Params[12] = 'S' then LocList.Append(Format(Str, ['da'     + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, + 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power))]));
+    if Params[13] = 'L' then LocList.Append(Format(Str, ['deci'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power))]));
+    if Params[13] = 'S' then LocList.Append(Format(Str, ['d'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power))]));
+    if Params[14] = 'L' then LocList.Append(Format(Str, ['centi'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power))]));
+    if Params[14] = 'S' then LocList.Append(Format(Str, ['c'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power))]));
+    if Params[15] = 'L' then LocList.Append(Format(Str, ['milli'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power))]));
+    if Params[15] = 'S' then LocList.Append(Format(Str, ['m'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power))]));
+    if Params[16] = 'L' then LocList.Append(Format(Str, ['micro'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power))]));
+    if Params[16] = 'S' then LocList.Append(Format(Str, ['mi'     + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power))]));
+    if Params[17] = 'L' then LocList.Append(Format(Str, ['nano'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power))]));
+    if Params[17] = 'S' then LocList.Append(Format(Str, ['n'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, - 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power))]));
+    if Params[18] = 'L' then LocList.Append(Format(Str, ['pico'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -12*Power)), Factor + FormatFloat('0E+00', IntPower(10, -12*Power))]));
+    if Params[18] = 'S' then LocList.Append(Format(Str, ['p'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -12*Power)), Factor + FormatFloat('0E+00', IntPower(10, -12*Power))]));
 
-    if Params[19] = 'L' then LocList.Append(Format(Str, ['femto'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -15*Power)), Factor + FormatFloat('0E+00', IntPower(10, -15*Power))]));
-    if Params[19] = 'S' then LocList.Append(Format(Str, ['f'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -15*Power)), Factor + FormatFloat('0E+00', IntPower(10, -15*Power))]));
-    if Params[20] = 'L' then LocList.Append(Format(Str, ['atto'   + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -18*Power)), Factor + FormatFloat('0E+00', IntPower(10, -18*Power))]));
-    if Params[20] = 'S' then LocList.Append(Format(Str, ['a'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -18*Power)), Factor + FormatFloat('0E+00', IntPower(10, -18*Power))]));
-    if Params[21] = 'L' then LocList.Append(Format(Str, ['zepto'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -21*Power)), Factor + FormatFloat('0E+00', IntPower(10, -21*Power))]));
-    if Params[21] = 'S' then LocList.Append(Format(Str, ['z'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -21*Power)), Factor + FormatFloat('0E+00', IntPower(10, -21*Power))]));
-    if Params[22] = 'L' then LocList.Append(Format(Str, ['yocto'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -24*Power)), Factor + FormatFloat('0E+00', IntPower(10, -24*Power))]));
-    if Params[22] = 'S' then LocList.Append(Format(Str, ['y'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -24*Power)), Factor + FormatFloat('0E+00', IntPower(10, -24*Power))]));
-    if Params[23] = 'L' then LocList.Append(Format(Str, ['ronto'  + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -27*Power)), Factor + FormatFloat('0E+00', IntPower(10, -27*Power))]));
-    if Params[23] = 'S' then LocList.Append(Format(Str, ['r'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -27*Power)), Factor + FormatFloat('0E+00', IntPower(10, -27*Power))]));
-    if Params[24] = 'L' then LocList.Append(Format(Str, ['quecto' + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -30*Power)), Factor + FormatFloat('0E+00', IntPower(10, -30*Power))]));
-    if Params[24] = 'S' then LocList.Append(Format(Str, ['q'      + AIdentifier, GetUnitIndex(ABase), Factor + FormatFloat('0E+00', IntPower(10, -30*Power)), Factor + FormatFloat('0E+00', IntPower(10, -30*Power))]));
+    if Params[19] = 'L' then LocList.Append(Format(Str, ['femto'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -15*Power)), Factor + FormatFloat('0E+00', IntPower(10, -15*Power))]));
+    if Params[19] = 'S' then LocList.Append(Format(Str, ['f'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -15*Power)), Factor + FormatFloat('0E+00', IntPower(10, -15*Power))]));
+    if Params[20] = 'L' then LocList.Append(Format(Str, ['atto'   + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -18*Power)), Factor + FormatFloat('0E+00', IntPower(10, -18*Power))]));
+    if Params[20] = 'S' then LocList.Append(Format(Str, ['a'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -18*Power)), Factor + FormatFloat('0E+00', IntPower(10, -18*Power))]));
+    if Params[21] = 'L' then LocList.Append(Format(Str, ['zepto'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -21*Power)), Factor + FormatFloat('0E+00', IntPower(10, -21*Power))]));
+    if Params[21] = 'S' then LocList.Append(Format(Str, ['z'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -21*Power)), Factor + FormatFloat('0E+00', IntPower(10, -21*Power))]));
+    if Params[22] = 'L' then LocList.Append(Format(Str, ['yocto'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -24*Power)), Factor + FormatFloat('0E+00', IntPower(10, -24*Power))]));
+    if Params[22] = 'S' then LocList.Append(Format(Str, ['y'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -24*Power)), Factor + FormatFloat('0E+00', IntPower(10, -24*Power))]));
+    if Params[23] = 'L' then LocList.Append(Format(Str, ['ronto'  + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -27*Power)), Factor + FormatFloat('0E+00', IntPower(10, -27*Power))]));
+    if Params[23] = 'S' then LocList.Append(Format(Str, ['r'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -27*Power)), Factor + FormatFloat('0E+00', IntPower(10, -27*Power))]));
+    if Params[24] = 'L' then LocList.Append(Format(Str, ['quecto' + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -30*Power)), Factor + FormatFloat('0E+00', IntPower(10, -30*Power))]));
+    if Params[24] = 'S' then LocList.Append(Format(Str, ['q'      + AItem.FIdentifier, AItem.FReserved, Factor + FormatFloat('0E+00', IntPower(10, -30*Power)), Factor + FormatFloat('0E+00', IntPower(10, -30*Power))]));
   end else
-    if (LowerCase(AIdentifier) = 'kg') then
+    if (LowerCase(AItem.FIdentifier) = 'kg') then
     begin
-      LocList.Append(Format(Str, ['hg'  , GetUnitIndex(ABase), '1E-01']));
-      LocList.Append(Format(Str, ['dag' , GetUnitIndex(ABase), '1E-02']));
-      LocList.Append(Format(Str, ['g'   , GetUnitIndex(ABase), '1E-03']));
-      LocList.Append(Format(Str, ['dg'  , GetUnitIndex(ABase), '1E-04']));
-      LocList.Append(Format(Str, ['cg'  , GetUnitIndex(ABase), '1E-05']));
-      LocList.Append(Format(Str, ['mg'  , GetUnitIndex(ABase), '1E-06']));
-      LocList.Append(Format(Str, ['mig' , GetUnitIndex(ABase), '1E-09']));
-      LocList.Append(Format(Str, ['ng'  , GetUnitIndex(ABase), '1E-12']));
-      LocList.Append(Format(Str, ['pg'  , GetUnitIndex(ABase), '1E-15']));
+      LocList.Append(Format(Str, ['hg'  , AItem.FReserved, '1E-01', '1E-01']));
+      LocList.Append(Format(Str, ['dag' , AItem.FReserved, '1E-02', '1E-02']));
+      LocList.Append(Format(Str, ['g'   , AItem.FReserved, '1E-03', '1E-03']));
+      LocList.Append(Format(Str, ['dg'  , AItem.FReserved, '1E-04', '1E-04']));
+      LocList.Append(Format(Str, ['cg'  , AItem.FReserved, '1E-05', '1E-05']));
+      LocList.Append(Format(Str, ['mg'  , AItem.FReserved, '1E-06', '1E-06']));
+      LocList.Append(Format(Str, ['mig' , AItem.FReserved, '1E-09', '1E-09']));
+      LocList.Append(Format(Str, ['ng'  , AItem.FReserved, '1E-12', '1E-12']));
+      LocList.Append(Format(Str, ['pg'  , AItem.FReserved, '1E-15', '1E-15']));
     end else
-      if (LowerCase(AIdentifier) = 'kg2') then
+      if (LowerCase(AItem.FIdentifier) = 'kg2') then
       begin
-        LocList.Append(Format(Str, ['hg2'  , GetUnitIndex(ABase), '1E-02']));
-        LocList.Append(Format(Str, ['dag2' , GetUnitIndex(ABase), '1E-04']));
-        LocList.Append(Format(Str, ['g2'   , GetUnitIndex(ABase), '1E-06']));
-        LocList.Append(Format(Str, ['dg2'  , GetUnitIndex(ABase), '1E-08']));
-        LocList.Append(Format(Str, ['cg2'  , GetUnitIndex(ABase), '1E-10']));
-        LocList.Append(Format(Str, ['mg2'  , GetUnitIndex(ABase), '1E-12']));
-        LocList.Append(Format(Str, ['mig2' , GetUnitIndex(ABase), '1E-18']));
-        LocList.Append(Format(Str, ['ng2'  , GetUnitIndex(ABase), '1E-24']));
-        LocList.Append(Format(Str, ['pg2'  , GetUnitIndex(ABase), '1E-30']));
+        LocList.Append(Format(Str, ['hg2'  , AItem.FReserved, '1E-02', '1E-02']));
+        LocList.Append(Format(Str, ['dag2' , AItem.FReserved, '1E-04', '1E-04']));
+        LocList.Append(Format(Str, ['g2'   , AItem.FReserved, '1E-06', '1E-06']));
+        LocList.Append(Format(Str, ['dg2'  , AItem.FReserved, '1E-08', '1E-08']));
+        LocList.Append(Format(Str, ['cg2'  , AItem.FReserved, '1E-10', '1E-10']));
+        LocList.Append(Format(Str, ['mg2'  , AItem.FReserved, '1E-12', '1E-12']));
+        LocList.Append(Format(Str, ['mig2' , AItem.FReserved, '1E-18', '1E-18']));
+        LocList.Append(Format(Str, ['ng2'  , AItem.FReserved, '1E-24', '1E-24']));
+        LocList.Append(Format(Str, ['pg2'  , AItem.FReserved, '1E-30', '1E-30']));
       end;
 
   j := 0;
-  for i := 0 to LocList.Count -1 do j := Max(j, Length(LocList[i]));
-  for i := 0 to LocList.Count -1 do
+  if LocList.Count > 0 then
   begin
-    while Length(LocList[i]) < j do
-      LocList[i] := ' ' + LocList[i];
-    SectionA.Append(LocList[i]);
+    SectionA.Append('const');
+    for i := 0 to LocList.Count -1 do
+      j := Max(j, Length(LocList[i]));
+
+    for i := 0 to LocList.Count -1 do
+    begin
+      while Length(LocList[i]) < j do
+        LocList[i] := ' ' + LocList[i];
+      SectionA.Append(LocList[i]);
+    end;
+    SectionA.Append('');
   end;
   LocList.Destroy;
 end;
@@ -635,56 +460,93 @@ var
   S: string;
 begin
   Section.Add(Format('const', []));
-  Section.Add(Format('  PowerTable: = array[0..%d] of', [BaseUnitCount]));
+  Section.Add(Format('  PowerTable : array[0..%d] of', [BaseUnitCount -1]));
   Section.Add(Format('    record  Square, Cubic, Quartic, Quintic, Sextic: longint; end = (', []));
 
   for i := 0 to FList.Count -1 do
   begin
-    D1 := GetDimensions(FList[i].FDimension);
-
-    for j := Low(D1) to High(D1) do D2[j] := 2 * D1[j];
-    for j := Low(D1) to High(D1) do D3[j] := 3 * D1[j];
-    for j := Low(D1) to High(D1) do D4[j] := 4 * D1[j];
-    for j := Low(D1) to High(D1) do D5[j] := 5 * D1[j];
-    for j := Low(D1) to High(D1) do D6[j] := 6 * D1[j];
-
-    S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),',
-      [FList.Search(D2), FList.Search(D3), FList.Search(D4), FList.Search(D5), FList.Search(D6)]);
-
-    if i = FList.Count -1 then
+    if FList[i].FBase = '' then
     begin
-      SetLength(S, Length(S) -1);
-    end;
-    Section.Add(S);
-  end;
+      D1 := GetDimensions(FList[i].FDimension);
 
+      for j := Low(D1) to High(D1) do D2[j] := D1[j] *2;
+      for j := Low(D1) to High(D1) do D3[j] := D1[j] *3;
+      for j := Low(D1) to High(D1) do D4[j] := D1[j] *4;
+      for j := Low(D1) to High(D1) do D5[j] := D1[j] *5;
+      for j := Low(D1) to High(D1) do D6[j] := D1[j] *6;
+
+      S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),',
+        [FList.Search(D2), FList.Search(D3), FList.Search(D4), FList.Search(D5), FList.Search(D6)]);
+
+      if i = FList.Count -1 then
+      begin
+        SetLength(S, Length(S) -1);
+      end;
+      Section.Add(S);
+    end;
+  end;
   Section.Add(Format('  );', []));
   Section.Add(Format('', []));
 end;
 
 procedure TToolKitBuilder.AddRootTable(const Section: TStringList);
 var
-  i, j, k: longint;
-  Exponent: longint;
-  D1, D2: TExponents;
+  i, j: longint;
+  D1, D2, D3, D4, D5, D6: TExponents;
+  S: string;
 begin
+  Section.Add(Format('const', []));
+  Section.Add(Format('  RootTable : array[0..%d] of', [BaseUnitCount -1]));
+  Section.Add(Format('    record  Square, Cubic, Quartic, Quintic, Sextic: longint; end = (', []));
+
   for i := 0 to FList.Count -1 do
-
   begin
-    D1 := GetDimensions(FList[i].FDimension);
-
-    for Exponent := 2 to 10 do
+    if FList[i].FBase = '' then
     begin
-      for j := Low(D1) to High(D1) do D2[j] := Exponent * D1[j];
+      D1 := GetDimensions(FList[i].FDimension);
 
-      k := FList.Search(D2);
-      if k <> -1 then
+      for j := Low(D1) to High(D1) do D2[j] := D1[j] /2;
+      for j := Low(D1) to High(D1) do D3[j] := D1[j] /3;
+      for j := Low(D1) to High(D1) do D4[j] := D1[j] /4;
+      for j := Low(D1) to High(D1) do D5[j] := D1[j] /5;
+      for j := Low(D1) to High(D1) do D6[j] := D1[j] /6;
+
+      S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),',
+        [FList.Search(D2), FList.Search(D3), FList.Search(D4), FList.Search(D5), FList.Search(D6)]);
+
+      if i = FList.Count -1 then
       begin
+        SetLength(S, Length(S) -1);
       end;
-
+      Section.Add(S);
     end;
-
   end;
+  Section.Add(Format('  );', []));
+  Section.Add(Format('', []));
+end;
+
+procedure TToolKitBuilder.AddGetValueFunctions(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+begin
+  SectionB.Add(Format('function %s.GetValue(const AValue: TQuantity): double;', [GetHelperFuncName(AItem.FQuantity)]));
+  SectionB.Add(Format('begin',[]));
+  SectionB.Add(Format('{$IFOPT D+}',[]));
+  SectionB.Add(Format('  result := GetValue( %s );', ['AValue.FValue']));
+  SectionB.Add(Format('{$ELSE}', []));
+  SectionB.Add(Format('  result := GetValue( %s );', ['AValue']));
+  SectionB.Add(Format('{$ENDIF}', []));
+  SectionB.Add(Format('end;',[]));
+  SectionB.Add(Format('',[]));
+
+  SectionB.Add(Format('function %s.GetValue(const AValue: TQuantity; const APrefixes: TPrefixes): double;', [GetHelperFuncName(AItem.FQuantity)]));
+  SectionB.Add(Format('begin',[]));
+  SectionB.Add(Format('{$IFOPT D+}',[]));
+  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AValue.FValue']));
+  SectionB.Add(Format('{$ELSE}', []));
+  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AValue']));
+  SectionB.Add(Format('{$ENDIF}', []));
+  SectionB.Add(Format('end;',[]));
+  SectionB.Add(Format('',[]));
+  SectionB.Add(Format('',[]));
 end;
 
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
@@ -738,106 +600,20 @@ begin
   FCommUnits.Clear;
   FOperatorList.Clear;
 
-  SectionA2.Append('');
-  SectionA2.Append('');
-  SectionA2.Append('');
-  SectionA2.Append('');
+  SectionA2.Add('');
+  SectionA2.Add('');
+  SectionA2.Add('');
+  SectionA2.Add('');
 
-  SectionA2.Append('type');
-  SectionA2.Append('  { Prefix }');
-  SectionA2.Append('');
-  SectionA2.Append('  TPrefix = (pQuetta, pRonna, pYotta, pZetta, pExa, pPeta, pTera, pGiga, pMega, pKilo, pHecto, pDeca, ');
-  SectionA2.Append('    pNone, pDeci, pCenti, pMilli, pMicro, pNano, pPico, pFemto, pAtto, pZepto, pYocto, pRonto, pQuecto); ');
-  SectionA2.Append('');
-  SectionA2.Append('  { Prefixes }');
-  SectionA2.Append('');
-  SectionA2.Append('  TPrefixes = array of TPrefix;');
-  SectionA2.Append('');
-  SectionA2.Append('  { Exponents }');
-  SectionA2.Append('');
-  SectionA2.Append('  TExponents = array of longint;');
-  SectionA2.Append('');
 
-  SectionA2.Append('type');
-  SectionA2.Append('{ TQuantity }');
-  SectionA2.Append('');
-  SectionA2.Append('type');
-  SectionA2.Append('  {$IFOPT D+}');
-  SectionA2.Append('  TQuantity = record');
-  SectionA2.Append('  private');
-  SectionA2.Append('    FUnitOfMeasurement: longint;');
-  SectionA2.Append('    FValue: double;');
-  SectionA2.Append('  public');
-  SectionA2.Append('    class operator +(const ALeft, ARight: TQuantity): TQuantity; inline;');
-  SectionA2.Append('    class operator -(const ALeft, ARight: TQuantity): TQuantity; inline;');
-  SectionA2.Append('    class operator *(const ALeft, ARight: TQuantity): TQuantity; inline;');
-  SectionA2.Append('    class operator /(const ALeft, ARight: TQuantity): TQuantity; inline;');
-  SectionA2.Append('    class operator *(const ALeft: double; const ARight: TQuantity): TQuantity; inline;');
-  SectionA2.Append('    class operator *(const ALeft: TQuantity; const ARight: double): TQuantity; inline;');
-  SectionA2.Append('    class operator /(const ALeft: TQuantity; const ARight: double): TQuantity; inline;');
-  SectionA2.Append('  end;');
-  SectionA2.Append('  {$ELSE}');
-  SectionA2.Append('  TQuantity = double;');
-  SectionA2.Append('  {$ENDIF}');
-  SectionA2.Append('');
+
+
+
+
 
   AddBaseUnits(SectionA3, SectionB3);
 
-  SectionA3.Append('const');
-  SectionA3.Append('  AvogadroConstant               : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cReciprocalMole;                     FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}');
-  SectionA3.Append('  BohrMagneton                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cSquareMeterAmpere;                  FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}');
-  SectionA3.Append('  BohrRadius                     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeter;                              FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}');
-  SectionA3.Append('  BoltzmannConstant              : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cJoulePerKelvin;                     FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}');
-  SectionA3.Append('  ComptonWaveLength              : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeter;                              FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}');
-  SectionA3.Append('  CoulombConstant                : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareCoulomb;  FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}');
-  SectionA3.Append('  DeuteronMass                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}');
-  SectionA3.Append('  ElectricPermittivity           : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cFaradPerMeter;                      FValue:     8.8541878128E-12); {$ELSE} (    8.8541878128E-12); {$ENDIF}');
-  SectionA3.Append('  ElectronMass                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}');
-  SectionA3.Append('  ElectronCharge                 : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cCoulomb;                            FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}');
-  SectionA3.Append('  MagneticPermeability           : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cHenryPerMeter;                      FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}');
-  SectionA3.Append('  MolarGasConstant               : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cJoulePerMolePerKelvin;              FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}');
-  SectionA3.Append('  NeutronMass                    : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}');
-  SectionA3.Append('  NewtonianConstantOfGravitation : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareKilogram; FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}');
-  SectionA3.Append('  PlanckConstant                 : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}');
-  SectionA3.Append('  ProtonMass                     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}');
-  SectionA3.Append('  RydbergConstant                : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cReciprocalMeter;                    FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}');
-  SectionA3.Append('  SpeedOfLight                   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeterPerSecond;                     FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}');
-  SectionA3.Append('  SquaredSpeedOfLight            : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cSquareMeterPerSquareSecond;         FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}');
-  SectionA3.Append('  StandardAccelerationOfGravity  : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cMeterPerSquareSecond;               FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}');
-  SectionA3.Append('  ReducedPlanckConstant          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}');
-  SectionA3.Append('  UnifiedAtomicMassUnit          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: cKilogram;                           FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}');
-  SectionA3.Append('');
 
-  SectionA3.Append('const');
-  SectionA3.Append('  PrefixTable: array[pQuetta..pQuecto] of');
-  SectionA3.Append('    record  Symbol, Name: string; Exponent: longint end = (');
-  SectionA3.Append('    (Symbol: ''Q'';   Name: ''quetta'';  Exponent: +30),');
-  SectionA3.Append('    (Symbol: ''R'';   Name: ''ronna'';   Exponent: +27),');
-  SectionA3.Append('    (Symbol: ''Y'';   Name: ''yotta'';   Exponent: +24),');
-  SectionA3.Append('    (Symbol: ''Z'';   Name: ''zetta'';   Exponent: +21),');
-  SectionA3.Append('    (Symbol: ''E'';   Name: ''exa'';     Exponent: +18),');
-  SectionA3.Append('    (Symbol: ''P'';   Name: ''peta'';    Exponent: +15),');
-  SectionA3.Append('    (Symbol: ''T'';   Name: ''tera'';    Exponent: +12),');
-  SectionA3.Append('    (Symbol: ''G'';   Name: ''giga'';    Exponent: +09),');
-  SectionA3.Append('    (Symbol: ''M'';   Name: ''mega'';    Exponent: +06),');
-  SectionA3.Append('    (Symbol: ''k'';   Name: ''kilo'';    Exponent: +03),');
-  SectionA3.Append('    (Symbol: ''h'';   Name: ''hecto'';   Exponent: +02),');
-  SectionA3.Append('    (Symbol: ''da'';  Name: ''deca'';    Exponent: +01),');
-  SectionA3.Append('    (Symbol: '''';    Name: '''';        Exponent:  00),');
-  SectionA3.Append('    (Symbol: ''d'';   Name: ''deci'';    Exponent: -01),');
-  SectionA3.Append('    (Symbol: ''c'';   Name: ''centi'';   Exponent: -02),');
-  SectionA3.Append('    (Symbol: ''m'';   Name: ''milli'';   Exponent: -03),');
-  SectionA3.Append('    (Symbol: ''μ'';   Name: ''micro'';   Exponent: -06),');
-  SectionA3.Append('    (Symbol: ''n'';   Name: ''nano'';    Exponent: -09),');
-  SectionA3.Append('    (Symbol: ''p'';   Name: ''pico'';    Exponent: -12),');
-  SectionA3.Append('    (Symbol: ''f'';   Name: ''femto'';   Exponent: -15),');
-  SectionA3.Append('    (Symbol: ''a'';   Name: ''atto'';    Exponent: -18),');
-  SectionA3.Append('    (Symbol: ''z'';   Name: ''zepto'';   Exponent: -21),');
-  SectionA3.Append('    (Symbol: ''y'';   Name: ''yocto'';   Exponent: -24),');
-  SectionA3.Append('    (Symbol: ''r'';   Name: ''ronto'';   Exponent: -27),');
-  SectionA3.Append('    (Symbol: ''q'';   Name: ''quecto'';  Exponent: -30)');
-  SectionA3.Append('  );');
-  SectionA3.Append('');
 
 
   SectionB2.Append('implementation');
@@ -846,18 +622,7 @@ begin
   SectionB2.Append('  Math;');
   SectionB2.Append('');
 
-  for i := 0 to FList.Count -1 do
-  begin
-    if FList[i].FBase = '' then
-    begin
-      Inc(BaseUnitCount);
-    end else
-    begin
-      Inc(FactoredUnitCount);
-    end;
-    FList[i].FExponents := GetDimensions(FList[i].FDimension);
-    FList[i].FReserved  := i;
-  end;
+
 
   SetLength(Table, BaseUnitCount);
   for i := Low(Table) to High(Table) do
@@ -885,7 +650,7 @@ begin
 
           K := FList.Search(SumDim(Dim1, Dim2));
           if K <> -1 then
-            Line := Line + K.ToString + ', '
+            Line := Line + 'c' + GetUnit(FList[K].FQuantity) + ', '
           else
             Line := Line +  '-1, '
         end;
@@ -933,7 +698,7 @@ begin
 
           K := FList.Search(SubDim(Dim1, Dim2));
           if K <> -1 then
-            Line := Line + K.ToString + ', '
+            Line := Line + 'c' + GetUnit(FList[K].FQuantity) + ', '
           else
             Line := Line +  '-1, '
         end;
@@ -958,115 +723,17 @@ begin
 
 
   AddPowerTable(SectionB2);
-
-
-  SectionB2.Append('function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;');
-  SectionB2.Append('var');
-  SectionB2.Append('  PrefixCount: longint;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  PrefixCount := Length(Prefixes);');
-  SectionB2.Append('  case PrefixCount of');
-  SectionB2.Append('    0:  result := ASymbol;');
-  SectionB2.Append('    1:  result := Format(ASymbol, [PrefixTable[Prefixes[0]].Symbol]);');
-  SectionB2.Append('    2:  result := Format(ASymbol, [PrefixTable[Prefixes[0]].Symbol, PrefixTable[Prefixes[1]].Symbol]);  ');
-  SectionB2.Append('    3:  result := Format(ASymbol, [PrefixTable[Prefixes[0]].Symbol, PrefixTable[Prefixes[1]].Symbol, PrefixTable[Prefixes[2]].Symbol]);');
-  SectionB2.Append('  else raise Exception.Create(''Wrong number of prefixes.''); ');
-  SectionB2.Append('  end;');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
-
-  SectionB2.Append('function GetName(const AName: string; const Prefixes: TPrefixes): string;');
-  SectionB2.Append('var');
-  SectionB2.Append('  PrefixCount: longint;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  PrefixCount := Length(Prefixes);');
-  SectionB2.Append('  case PrefixCount of');
-  SectionB2.Append('    0:  result := AName;');
-  SectionB2.Append('    1:  result := Format(AName, [PrefixTable[Prefixes[0]].Name]);');
-  SectionB2.Append('    2:  result := Format(AName, [PrefixTable[Prefixes[0]].Name, PrefixTable[Prefixes[1]].Name]); ');
-  SectionB2.Append('    3:  result := Format(AName, [PrefixTable[Prefixes[0]].Name, PrefixTable[Prefixes[1]].Name, PrefixTable[Prefixes[2]].Name]);');
-  SectionB2.Append('  else raise Exception.Create(''Wrong number of prefixes.'');');
-  SectionB2.Append('  end;');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
-
-
-  SectionB2.Append('function GetValue(const AValue: double; const APrefixes, ABasePrefixes: TPrefixes; const AExponents, ABaseExponents: TExponents): double;');
-  SectionB2.Append('var');
-  SectionB2.Append('  I: longint;');
-  SectionB2.Append('  Exponent: longint;');
-  SectionB2.Append('  PrefixCount: longint;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  PrefixCount := Length(APrefixes);');
-  SectionB2.Append('  if PrefixCount = Length(ABasePrefixes) then');
-  SectionB2.Append('  begin');
-  SectionB2.Append('    Exponent := 0;');
-  SectionB2.Append('    for I := 0 to PrefixCount -1 do');
-  SectionB2.Append('      Inc(Exponent, PrefixTable[ABasePrefixes[I]].Exponent * ABaseExponents[I]);');
-  SectionB2.Append('');
-  SectionB2.Append('    for I := 0 to PrefixCount -1 do');
-  SectionB2.Append('      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * ABaseExponents[I]);');
-  SectionB2.Append('');
-  SectionB2.Append('    if Exponent <> 0 then');
-  SectionB2.Append('      result := AValue * IntPower(10, Exponent)');
-  SectionB2.Append('    else');
-  SectionB2.Append('      result := AValue;');
-  SectionB2.Append('  end else');
-  SectionB2.Append('    if PrefixCount = 0 then');
-  SectionB2.Append('      result := AValue');
-  SectionB2.Append('    else');
-  SectionB2.Append('      raise Exception.Create(''Wrong number of prefixes.'');');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
+  AddRootTable(SectionB2);
 
 
 
-  SectionB2.Append('{$IFOPT D+}');
-  SectionB2.Append('class operator TQuantity.+(const ALeft, ARight: TQuantity): TQuantity;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then');
-  SectionB2.Append('    raise Exception.Create(''Summing operator (+) has detected wrong unit of measurements.'');');
-  SectionB2.Append('  result.FValue := ALeft.FValue + ARight.FValue;');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
-  SectionB2.Append('class operator TQuantity.-(const ALeft, ARight: TQuantity): TQuantity;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then');
-  SectionB2.Append('    raise Exception.Create(''Subtracting operator (-) has detected wrong unit of measurements.'');');
-  SectionB2.Append('  result.FValue := ALeft.FValue - ARight.FValue;');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
-  SectionB2.Append('class operator TQuantity.*(const ALeft, ARight: TQuantity): TQuantity;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];');
-  SectionB2.Append('  result.FValue := ALeft.FValue * ARight.FValue;');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
-  SectionB2.Append('class operator TQuantity./(const ALeft, ARight: TQuantity): TQuantity;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];');
-  SectionB2.Append('  result.FValue := ALeft.FValue / ARight.FValue;');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
-  SectionB2.Append('class operator TQuantity.*(const ALeft: double; const ARight: TQuantity): TQuantity;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;');
-  SectionB2.Append('  result.FValue:= ALeft * ARight.FValue;');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
-  SectionB2.Append('class operator TQuantity.*(const ALeft: TQuantity; const ARight: double): TQuantity;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;');
-  SectionB2.Append('  result.FValue:= ALeft.FValue * ARight;');
-  SectionB2.Append('end;');
-  SectionB2.Append('');
-  SectionB2.Append('class operator TQuantity./(const ALeft: TQuantity; const ARight: double): TQuantity;');
-  SectionB2.Append('begin');
-  SectionB2.Append('  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;');
-  SectionB2.Append('  result.FValue:= ALeft.FValue / ARight;');
-  SectionB2.Append('end;');
-  SectionB2.Append('{$ENDIF}');
-  SectionB2.Append('');
+
+
+
+
+
+
+
 
 
 
@@ -1076,8 +743,6 @@ begin
 
   SectionA4.Append('');
   SectionB4.Append('');
-
-
 
   SectionA5.Append('');
   SectionB5.Append('');
@@ -1095,141 +760,8 @@ begin
 
   for i := 0 to FList.Count -1 do
   begin
-    if (FList[i].FBase = '') then
-    begin
-      // %sToString
-      SectionA8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('  result := FloatToStr(AValue.FValue) + '' '' + GetSymbol(%s, %s);', [GetSymbolResourceString(FList[i].FQuantity), GetPrefixesConst(FList[i].FQuantity)]));
-      SectionB8.Add(Format('{$ELSE}', []));
-      SectionB8.Add(Format('  result := FloatToStr(AValue) + '' '' + GetSymbol(%s, %s);', [GetSymbolResourceString(FList[i].FQuantity), GetPrefixesConst(FList[i].FQuantity)]));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-
-      SectionA8.Add(Format('function %sToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('var',[]));
-      SectionB8.Add(Format('  FactoredValue: double;',[]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('  FactoredValue := GetValue(AValue.FValue, APrefixes, %s, %s, %s);', [GetPrefixesConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity)]));
-      SectionB8.Add(Format('{$ELSE}', []));
-      SectionB8.Add(Format('  FactoredValue := GetValue(AValue, APrefixes, %s, %s, %s);', [GetPrefixesConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity)]));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('  if Length(APrefixes) = 0 then', []));
-      SectionB8.Add(Format('    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(%s, %s)', [GetSymbolResourceString(FList[i].FQuantity), GetPrefixesConst(FList[i].FQuantity)]));
-      SectionB8.Add(Format('  else', []));
-      SectionB8.Add(Format('    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(%s, APrefixes);', [GetSymbolResourceString(FList[i].FQuantity)]));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-
-      // %sToVerboseString
-      SectionA8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('  result := '''';', []));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-
-      SectionA8.Add(Format('function %sToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('  result := '''';', []));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-
-      SectionA8.Add(Format('function %sToFloat(const AValue: TQuantity): double;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToFloat(const AValue: TQuantity): double;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FQuantity)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('  result := 0;', []));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-    end else
-    begin
-      // %sToString
-      SectionA8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('  result := '''';', []));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-
-      SectionA8.Add(Format('function %sToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('var',[]));
-      SectionB8.Add(Format('  FactoredValue: double;',[]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('  FactoredValue := GetValue(AValue.FValue, APrefixes, %s, %s, %s);', [GetPrefixesConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity)]));
-      SectionB8.Add(Format('{$ELSE}', []));
-      SectionB8.Add(Format('  FactoredValue := GetValue(AValue, APrefixes, %s, %s, %s);', [GetPrefixesConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity), GetExponentsConst(FList[i].FQuantity)]));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('  if Length(APrefixes) = 0 then', []));
-      SectionB8.Add(Format('    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(%s, %s)', [GetSymbolResourceString(FList[i].FQuantity), GetPrefixesConst(FList[i].FQuantity)]));
-      SectionB8.Add(Format('  else', []));
-      SectionB8.Add(Format('    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + '' '' + GetSymbol(%s, APrefixes);', [GetSymbolResourceString(FList[i].FQuantity)]));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-
-      // %sToVerboseString
-      SectionA8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToVerboseString(const AValue: TQuantity): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('  result := '''';', []));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-
-      SectionA8.Add(Format('function %sToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToVerboseString(const AValue: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('  result := '''';', []));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-
-      SectionA8.Add(Format('function %sToFloat(const AValue: TQuantity): double;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('function %sToFloat(const AValue: TQuantity): double;', [GetHelperFuncName(FList[i].FQuantity)]));
-      SectionB8.Add(Format('begin',[]));
-      SectionB8.Add(Format('{$IFOPT D+}',[]));
-      SectionB8.Add(Format('  if AValue.FUnitOfMeasurement <> %s then;',[GetUnitIndex(FList[i].FBase)]));
-      SectionB8.Add(Format('    raise Exception.Create(''Wrong units of measurements'');', []));
-      SectionB8.Add(Format('{$ENDIF}', []));
-      SectionB8.Add(Format('  result := 0;', []));
-      SectionB8.Add(Format('end;',[]));
-      SectionB8.Add(Format('',[]));
-    end;
+    if Pos('%s', FList[i].FFactor) <> 0 then
+      AddGetValueFunctions(FList[i], SectionA8, SectionB8);
   end;
 
 
@@ -1240,15 +772,14 @@ begin
   SectionB8.Append('');
 
 
-
-
-
   SectionA9.Append('');
   SectionA9.Append('{ Power functions }');
   SectionA9.Append('');
   SectionB9.Append('');
   SectionB9.Append('{ Power functions }');
   SectionB9.Append('');
+
+
 
   SectionA10.Append('');
   SectionB10.Append('');
@@ -1462,13 +993,13 @@ begin
     Item := TToolKitItem(FList[i]);
     if Item.FBase = '' then
     begin
-      if (Item.FExponents[1] = ADim[1]) and
-         (Item.FExponents[2] = ADim[2]) and
-         (Item.FExponents[3] = ADim[3]) and
-         (Item.FExponents[4] = ADim[4]) and
-         (Item.FExponents[5] = ADim[5]) and
-         (Item.FExponents[6] = ADim[6]) and
-         (Item.FExponents[7] = ADim[7]) then Exit(i);
+      if SameValue(Item.FExponents[1], ADim[1]) and
+         SameValue(Item.FExponents[2], ADim[2]) and
+         SameValue(Item.FExponents[3], ADim[3]) and
+         SameValue(Item.FExponents[4], ADim[4]) and
+         SameValue(Item.FExponents[5], ADim[5]) and
+         SameValue(Item.FExponents[6], ADim[6]) and
+         SameValue(Item.FExponents[7], ADim[7]) then Exit(i);
     end;
   end;
   result := -1;

@@ -1,103 +1,261 @@
-{ Trigonometric functions } 
 
-function Cos(const AQuantity: TRadianQty): double;
-begin 
-  result := System.Cos(AQuantity.FValue); 
+{ Power functions }
+
+function SquarePower(const AValue: TQuantity): TQuantity;
+begin'
+{$IFOPT D+}
+  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Square;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create('Wrong units of measurements');
+  result.FValue := IntPower(AValue.FValue, 2);
+{$ELSE}
+  result := IntPower(AValue, 2);
+{$ENDIF}
 end;
 
-function Sin(const AQuantity: TRadianQty): double;
-begin 
+function CubicPower(const AValue: TQuantity): TQuantity;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Cubic;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create('Wrong units of measurements');
+  result.FValue := IntPower(AValue.FValue, 3);
+{$ELSE}
+  result := IntPower(AValue, 3);
+{$ENDIF}
+end;
+
+function QuarticPower(const AValue: TQuantity): TQuantity;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Quartic;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create(''Wrong units of measurements'');
+  result.FValue := IntPower(AValue.FValue, 4);
+{$ELSE}
+  result := IntPower(AValue, 4);
+{$ENDIF}
+end;
+
+function QuinticPower(const AValue: TQuantity): TQuantity;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Quintic;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create(''Wrong units of measurements'');
+  result.FValue := IntPower(AValue.FValue, 5);
+{$ELSE}
+  result := IntPower(AValue, 5);
+{$ENDIF}
+end;
+
+function SexticPower(const AValue: TQuantity): TQuantity;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := PowerTable[result.FUnitOfMeasurement].Sextic;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create(''Wrong units of measurements'');
+   result.FValue := IntPower(AValue.FValue, 6);
+{$ELSE}
+  result := IntPower(AValue, 6);
+{$ENDIF}
+end;
+
+function SquareRoot(const AValue: TQuantity): TQuantity;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Square;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create(''Wrong units of measurements'');
+  result.FValue := Power(AValue.FValue, 1/2);
+{$ELSE};
+  result := Power(AValue, 1/2);
+{$ENDIF}
+end;
+
+function CubicRoot(const AValue: TQuantity): TQuantity;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Cubic;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create(''Wrong units of measurements'');
+  result.FValue := Power(AValue.FValue, 1/3);
+{$ELSE}
+  result := Power(AValue, 1/3);
+{$ENDIF}
+end;
+
+function QuarticRoot(const AValue: TQuantity): TQuantity;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Quartic;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create(''Wrong units of measurements'');
+  result.FValue := Power(AValue.FValue, 1/4);
+{$ELSE}
+  result := Power(AValue, 1/4);
+{$ENDIF}
+end;
+
+function QuinticRoot(const AValue: TQuantity): TQuantity;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Quintic;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create(''Wrong units of measurements'');
+  result.FValue := Power(AValue.FValue, 1/5);
+{$ELSE}
+  result := Power(AValue, 1/5);
+{$ENDIF}
+end;
+
+function SexticRoot(const AValue: TQuantity): TQuantity;
+begin
+{$IFOPT D+}
+  result.FUnitOfMeasurement := RootTable[result.FUnitOfMeasurement].Sextic;
+  if result.FUnitOfMeasurement = -1 then
+    raise Exception.Create(''Wrong units of measurements'');
+  result.FValue := Power(AValue.FValue, 1/6);
+{$ELSE}
+  result := Power(AValue, 1/6);
+{$ENDIF}
+end;
+
+{ Trigonometric functions }
+
+function Cos(const AQuantity: TQuantity): double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+  result := System.Cos(AQuantity.FValue);
+end;
+
+function Sin(const AQuantity: TQuantity): double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
   result := System.Sin(AQuantity.FValue);
 end;
 
-function Tan(const AQuantity: TRadianQty): double;
-begin 
+function Tan(const AQuantity: TQuantity): double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
   result := Math.Tan(AQuantity.FValue);
 end;
 
-function Cotan(const AQuantity: TRadianQty): double;
-begin 
+function Cotan(const AQuantity: TQuantity): double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
   result := Math.Cotan(AQuantity.FValue);
 end;
 
-function Secant(const AQuantity: TRadianQty): double;
-begin 
+function Secant(const AQuantity: TQuantity): double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
   result := Math.Secant(AQuantity.FValue);
 end;
 
-function Cosecant(const AQuantity: TRadianQty): double;
-begin 
+function Cosecant(const AQuantity: TQuantity): double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
   result := Math.Cosecant(AQuantity.FValue);
 end;
 
-function ArcCos(const AValue: double): TRadianQty;
-begin 
-  result.FValue := Math.ArcCos(AValue);
-end;
-
-function ArcSin(const AValue: double): TRadianQty;
-begin 
-  result.FValue := Math.ArcSin(AValue);
-end;
-
-function ArcTan(const AValue: double): TRadianQty;
-begin 
-  result.FValue := System.ArcTan(AValue);
-end;
-
-function ArcTan2(const x, y: double): TRadianQty;
+function ArcCos(const AQuantity: double): TQuantity;
 begin
+  result.FUnitOfMeasurement := cScalar;
+  result.FValue := Math.ArcCos(AQuantity);
+end;
+
+function ArcSin(const AQuantity: double): TQuantity;
+begin
+  result.FUnitOfMeasurement := cScalar;
+  result.FValue := Math.ArcSin(AQuantity);
+end;
+
+function ArcTan(const AQuantity: double): TQuantity;
+begin
+  result.FUnitOfMeasurement := cScalar;
+  result.FValue := System.ArcTan(AQuantity);
+end;
+
+function ArcTan2(const x, y: double): TQuantity;
+begin
+  result.FUnitOfMeasurement := cScalar;
   result.FValue := Math.ArcTan2(x, y);
 end;
 
 { Override trigonometric functions }
 
+{$IFOPT D+}
 function Cos(const AQuantity: double): double;
-begin 
-  result := System.Cos(AQuantity); 
+begin
+  result := System.Cos(AQuantity);
 end;
 
 function Sin(const AQuantity: double): double;
-begin 
+begin
   result := System.Sin(AQuantity);
 end;
 
 function Tan(const AQuantity: double): double;
-begin 
+begin
   result := Math.Tan(AQuantity);
 end;
 
 function Cotan(const AQuantity: double): double;
-begin 
+begin
   result := Math.Cotan(AQuantity);
 end;
 
 function Secant(const AQuantity: double): double;
-begin 
+begin
   result := Math.Secant(AQuantity);
 end;
 
 function Cosecant(const AQuantity: double): double;
-begin 
+begin
   result := Math.Cosecant(AQuantity);
 end;
+{$ENDIF}
 
 { Math functions }
 
-generic function Min<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
+function Min(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  if AValue1 < AValue2 then
-    result := AValue1
-  else
-    result := AValue2;
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Wrong units of measurements');
+  result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;
+  result.FValue := Math.Min(ALeft.FValue, ARight.FValue);
 end;
 
-generic function Max<TQuantity>(const AValue1, AValue2: TQuantity): TQuantity;
+function Max(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  if AValue1 > AValue2 then
-    result := AValue1
-  else
-    result := AValue2;
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Wrong units of measurements');
+  result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;
+  result.FValue := Math.Max(ALeft.FValue, ARight.FValue);
+end;
+
+function Exp(const AQuantity: TQuantity): TQuantity;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+  result.FUnitOfMeasurement := cScalar;
+  result.FValue := System.Exp(AQuantity.FValue);
+end;
+
+{ Helper functions }
+
+function SameValue(const ALeft, ARight: TQuantity): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Wrong units of measurements');
+  result := Math.SameValue(ALeft.FValue, ARight.FValue);
 end;
 
 end.
