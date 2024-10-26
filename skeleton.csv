@@ -156,7 +156,7 @@
 ;THenry!;kg m2 s-2 A-2;%shenry!;%sH;H;;;--------------SSS-------;;clLime
 ;TKilogramSquareMeter?PerSquareAmperePerSquareSecond;;%sgram square %smeter? per square %sampere per square %ssecond;%sg.%sm2/%sA2/%ss2;;THenry!;;;;clWhite
 ;TReciprocalHenry!;s2 A2 kg-1 m-2;reciprocal %shenry!;1/%sH;;;;;;clLime
-;TLumen?;cd sr;%slumen?;%slm;lm;;;;;clLime
+;TLumen?;cd;%slumen?;%slm;lm;TCandela?;;;;clRed
 ;TCandelaSteradian?;;%scandela %ssteradian?;%scd.%ssr;;TLumen?;;;;clWhite
 ;TLumenSecond?;cd sr s;%slumen %ssecond?;%slm.%ss;;;;;;clLime
 ;TLumenSecond?PerCubicMeter;cd sr s m-3;%slumen %ssecond? per cubic meter;%slm.%ss/%sm3;;;;;;clLime

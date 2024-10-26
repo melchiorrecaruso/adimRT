@@ -27,7 +27,7 @@ uses
   Classes, SysUtils;
 
 type
-  TExponents = array [1..7] of double;
+  TExponents = array [1..8] of double;
 
 const
   INTF_NOP            = '{$DEFINE NOP}';
@@ -178,7 +178,10 @@ procedure Clear(var AValue: TExponents);
 var
   i: longint;
 begin
-  for i := Low(AValue) to high(AValue) do AValue[i] := 0;
+  for i := Low(AValue) to High(AValue) do
+  begin
+    AValue[i] := 0;
+  end;
 end;
 
 function GetSymbolResourceString(const AClassName: string): string;
@@ -450,6 +453,8 @@ begin
     List1.Add(List2[i]);
   end;
   List2 := nil;
+
+  result[8] := GetExponent('rad');
   result[7] := GetExponent(  'K');
   result[6] := GetExponent( 'cd');
   result[5] := GetExponent('mol');
@@ -469,6 +474,7 @@ begin
   result[5] := ADim1[5] + ADim2[5];
   result[6] := ADim1[6] + ADim2[6];
   result[7] := ADim1[7] + ADim2[7];
+  result[8] := ADim1[8] + ADim2[8];
 end;
 
 function SubDim(const ADim1, ADim2: TExponents): TExponents;
@@ -480,10 +486,8 @@ begin
   result[5] := ADim1[5] - ADim2[5];
   result[6] := ADim1[6] - ADim2[6];
   result[7] := ADim1[7] - ADim2[7];
+  result[8] := ADim1[8] - ADim2[8];
 end;
-
-
-
 
 function GetReciprocalUnitTypeHelper(const S: string): string;
 begin

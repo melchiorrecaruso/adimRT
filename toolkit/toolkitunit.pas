@@ -122,7 +122,7 @@ type
     //FOnMessage: TMessageEvent;
     //FMessage: string;
 
-    // private routines
+    //private routines
 
     function  SearchLine(const ALine: string; ASection: TStringList): longint;
   public
@@ -160,7 +160,7 @@ type
 implementation
 
 uses
-  CSVDocument, DateUtils, IniFiles, LCLType, Math, Process;
+  CSVDocument, DateUtils, LCLType, Math, Process;
 
 // TToolKitBuilder
 
@@ -293,32 +293,51 @@ begin
   SectionA.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
   SectionA.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
   SectionA.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
-  SectionA.Add('    function GetValue(const AQuantity: TQuantity): double;');
-  SectionA.Add('    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;');
+  SectionA.Add('    class function GetValue(const AQuantity: double): double; static;');
+  SectionA.Add('    class function PutValue(const AQuantity: double): double; static;');
   SectionA.Add('  end;');
-  SectionA.Add('  %s = specialize TUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
+  SectionA.Add('  %s = specialize TFactoredUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
   SectionA.Add('');
 
-  SectionB.Add(Format('function T%s.GetValue(const AQuantity: TQuantity): double;', [GetUnitID(AItem.FQuantity)]));
-  SectionB.Add(Format('begin',[]));
-  SectionB.Add(Format('{$IFOPT D+}',[]));
-  SectionB.Add(Format('  result := GetValue( %s );', ['AQuantity.FValue']));
-  SectionB.Add(Format('{$ELSE}', []));
-  SectionB.Add(Format('  result := GetValue( %s );', ['AQuantity']));
-  SectionB.Add(Format('{$ENDIF}', []));
-  SectionB.Add(Format('end;',[]));
-  SectionB.Add(Format('',[]));
+  if AItem.FFactor.Contains('%s') then
+  begin
+    SectionB.Add(Format('class function T%s.PutValue(const AQuantity: double): double;', [GetUnitID(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('{$IFOPT D+}',[]));
+    SectionB.Add(Format('{$ENDIF}', []));
+    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, 1, Pos('|', AItem.FFactor) -1), ['AQuantity'])]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
 
-  SectionB.Add(Format('function T%s.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;', [GetUnitID(AItem.FQuantity)]));
-  SectionB.Add(Format('begin',[]));
-  SectionB.Add(Format('{$IFOPT D+}',[]));
-  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AQuantity.FValue']));
-  SectionB.Add(Format('{$ELSE}', []));
-  SectionB.Add(Format('  result := GetValue( %s, APrefixes);', ['AQuantity']));
-  SectionB.Add(Format('{$ENDIF}', []));
-  SectionB.Add(Format('end;',[]));
-  SectionB.Add(Format('',[]));
-  SectionB.Add(Format('',[]));
+    SectionB.Add(Format('class function T%s.GetValue(const AQuantity: double): double;', [GetUnitID(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('{$IFOPT D+}',[]));
+    SectionB.Add(Format('{$ENDIF}', []));
+    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AQuantity'])]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    //Format(Copy(AItem.FFactor, 1, Pos('|', AItem.FFactor) -1), ['AQuantity']));
+    //Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AQuantity']);
+
+  end else
+  begin
+    SectionB.Add(Format('class  function T%s.PutValue(const AQuantity: double): double;', [GetUnitID(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('{$IFOPT D+}',[]));
+    SectionB.Add(Format('{$ENDIF}', []));
+    SectionB.Add(Format('  result := AQuantity * (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function T%s.GetValue(const AQuantity: double): double;', [GetUnitID(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('{$IFOPT D+}',[]));
+    SectionB.Add(Format('{$ENDIF}', []));
+    SectionB.Add(Format('  result := AQuantity / (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end;
 end;
 
 procedure TToolKitBuilder.AddCustomUnit(const AItem: TToolKitItem; const ASection: TStringList);
@@ -330,6 +349,8 @@ begin
 end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
+const
+  S = '  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 var
   Identifier: string;
 begin
@@ -360,8 +381,11 @@ begin
       if (Pos('%s', AItem.FFactor) = 0) then
       begin
         // Factored unit symbols
+        ASection.Append('const');
+        ASection.Add(Format(S, [Identifier, AItem.FReserved, AItem.FFactor, AItem.FFactor]));
+        ASection.Append('');
         ASection.Append('var');
-        ASection.Add(Format('  %-10s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+        ASection.Add(Format('  %sUnit : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
         ASection.Append('');
         if AItem.FIdentifier <> '' then
           AddFactoredSymbols(AItem, ASection);
@@ -512,6 +536,7 @@ procedure TToolKitBuilder.AddPowerTable(const Section: TStringList);
 var
   i, j: longint;
   D1, D2, D3, D4, D5, D6: TExponents;
+  J1, J2, J3, J4, J5, J6: longint;
   S: string;
 begin
   Section.Add(Format('const', []));
@@ -530,8 +555,13 @@ begin
       for j := Low(D1) to High(D1) do D5[j] := D1[j] *5;
       for j := Low(D1) to High(D1) do D6[j] := D1[j] *6;
 
-      S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),',
-        [FList.Search(D2), FList.Search(D3), FList.Search(D4), FList.Search(D5), FList.Search(D6)]);
+      j2 := FList.Search(D2); if j2 <> -1 then j2 := FList[j2].FReserved;
+      j3 := FList.Search(D3); if j3 <> -1 then j3 := FList[j3].FReserved;
+      j4 := FList.Search(D4); if j4 <> -1 then j4 := FList[j4].FReserved;
+      j5 := FList.Search(D5); if j5 <> -1 then j5 := FList[j5].FReserved;
+      j6 := FList.Search(D6); if j6 <> -1 then j6 := FList[j6].FReserved;
+
+      S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),', [j2, j3, j4, j5, j6]);
 
       if i = FList.Count -1 then
       begin
@@ -548,6 +578,7 @@ procedure TToolKitBuilder.AddRootTable(const Section: TStringList);
 var
   i, j: longint;
   D1, D2, D3, D4, D5, D6: TExponents;
+  J1, J2, J3, J4, J5, J6: longint;
   S: string;
 begin
   Section.Add(Format('const', []));
@@ -566,8 +597,13 @@ begin
       for j := Low(D1) to High(D1) do D5[j] := D1[j] /5;
       for j := Low(D1) to High(D1) do D6[j] := D1[j] /6;
 
-      S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),',
-        [FList.Search(D2), FList.Search(D3), FList.Search(D4), FList.Search(D5), FList.Search(D6)]);
+      j2 := FList.Search(D2); if j2 <> -1 then j2 := FList[j2].FReserved;
+      j3 := FList.Search(D3); if j3 <> -1 then j3 := FList[j3].FReserved;
+      j4 := FList.Search(D4); if j4 <> -1 then j4 := FList[j4].FReserved;
+      j5 := FList.Search(D5); if j5 <> -1 then j5 := FList[j5].FReserved;
+      j6 := FList.Search(D6); if j6 <> -1 then j6 := FList[j6].FReserved;
+
+      S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),', [j2, j3, j4, j5, j6]);
 
       if i = FList.Count -1 then
       begin
@@ -656,7 +692,11 @@ begin
   SectionB1.Append('');
   Stream.Destroy;
 
+  Messages.Add('OK-1');
+
   AddUnits(SectionA3, SectionB3);
+
+  Messages.Add('OK-2');
 
   SetLength(Table, BaseUnitCount);
   for i := Low(Table) to High(Table) do
@@ -1043,6 +1083,22 @@ begin
          SameValue(Item.FExponents[4], ADim[4]) and
          SameValue(Item.FExponents[5], ADim[5]) and
          SameValue(Item.FExponents[6], ADim[6]) and
+         SameValue(Item.FExponents[7], ADim[7]) and
+         SameValue(Item.FExponents[8], ADim[8]) then Exit(i);
+    end;
+  end;
+
+  for i := 0 to FList.Count -1 do
+  begin
+    Item := TToolKitItem(FList[i]);
+    if Item.FBase = '' then
+    begin
+      if SameValue(Item.FExponents[1], ADim[1]) and
+         SameValue(Item.FExponents[2], ADim[2]) and
+         SameValue(Item.FExponents[3], ADim[3]) and
+         SameValue(Item.FExponents[4], ADim[4]) and
+         SameValue(Item.FExponents[5], ADim[5]) and
+         SameValue(Item.FExponents[6], ADim[6]) and
          SameValue(Item.FExponents[7], ADim[7]) then Exit(i);
     end;
   end;
@@ -1054,6 +1110,22 @@ var
   i: longint;
   Item: TToolKitItem;
 begin
+  for i := FList.Count -1 downto 0 do
+  begin
+    Item := TToolKitItem(FList[i]);
+    if Item.FBase = '' then
+    begin
+      if SameValue(Item.FExponents[1], ADim[1]) and
+         SameValue(Item.FExponents[2], ADim[2]) and
+         SameValue(Item.FExponents[3], ADim[3]) and
+         SameValue(Item.FExponents[4], ADim[4]) and
+         SameValue(Item.FExponents[5], ADim[5]) and
+         SameValue(Item.FExponents[6], ADim[6]) and
+         SameValue(Item.FExponents[7], ADim[7]) and
+         SameValue(Item.FExponents[8], ADim[8]) then Exit(i);
+    end;
+  end;
+
   for i := FList.Count -1 downto 0 do
   begin
     Item := TToolKitItem(FList[i]);
