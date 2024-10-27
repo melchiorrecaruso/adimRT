@@ -8,13 +8,6 @@ begin
   result.FValue := ASelf;
 end;
 
-class operator TQuantity.:=(const ASelf: TQuantity): double;
-begin
-  if ASelf.FUnitOfMeasurement <> cScalar then
-    raise Exception.Create('Assign operator (:=) has detected wrong unit of measurements.');
-  result := ASelf.FValue;
-end;
-
 class operator TQuantity.+(const ASelf: TQuantity): TQuantity;
 begin
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;

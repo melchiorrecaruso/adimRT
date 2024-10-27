@@ -40,7 +40,6 @@ type
     class operator >=(const ALeft, ARight: TQuantity): boolean;
     class operator <>(const ALeft, ARight: TQuantity): boolean;
     class operator :=(const ASelf: double): TQuantity;
-    class operator :=(const ASelf: TQuantity): double;
   end;
   {$ELSE}
   TQuantity = double;

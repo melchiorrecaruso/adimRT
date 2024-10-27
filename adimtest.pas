@@ -73,7 +73,7 @@ var
 
   angularspeed: TQuantity;
 
-  kA: double;
+  kA: TScalar;
   kAr: TQuantity;
   radius: TQuantity;
   radius1: TQuantity;
@@ -88,7 +88,7 @@ var
   mass1: TQuantity;
   mass2: TQuantity;
 
-  cCd: double;
+  cCd: TScalar;
   angle: TQuantity;
 
   Uc: TQuantity;
@@ -156,7 +156,7 @@ var
   freq: TQuantity;
 
   I: TQuantity;
-  Re: double;
+  Re: TScalar;
 
   num: integer;
   alpha: TQuantity;
@@ -167,11 +167,11 @@ var
   Psi0: TQuantity;
   PsiValues: array [1..4] of TQuantity;
   A0: TQuantity;
-  y: double;
+  y: TScalar;
 
   Iteration: longint;
   Iterations: longint;
-  Probability: double;
+  Probability: TScalar;
   mu: TQuantity;
 
   E1, E2: TQuantity;
@@ -180,7 +180,7 @@ var
   kfactor: TQuantity;
   bfactor: TQuantity;
   U0: TQuantity;
-  TunnelingProbability: double;
+  TunnelingProbability: TScalar;
 
 begin
   ExitCode := 0;
@@ -963,7 +963,7 @@ begin
     begin
       Probability := Probability + (2/BoxLen)*Sqr(Sin(Num*pi/BoxLen*(BoxLen*Iteration/Iterations)))*(BoxLen/Iterations);
     end;
-    if Format('∫|Ψ²|dx = %0.3f', [Probability]) <> '∫|Ψ²|dx = 1.000' then halt(num);
+    if Format('∫|Ψ²|dx = %0.3f', [ScalarUnit.ToFloat(Probability)]) <> '∫|Ψ²|dx = 1.000' then Halt(1);
   end;
   writeln('* TEST-103: PASSED');
 
@@ -1022,7 +1022,7 @@ begin
   TunnelingProbability := (16*SquarePower(kfactor)*SquarePower(bfactor))/SquarePower(SquarePower(kfactor) + SquarePower(bfactor))*Exp(-2*bfactor*L1);
 
   if ReciprocalMeter.ToString(bfactor, 3, 3, [pNano])  <> '8.87 1/nm' then halt(1);
-  if Format('%0.3e', [TunnelingProbability])           <> '9.75E-039' then halt(2);
+  if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)])           <> '9.75E-039' then halt(2);
 
   // SubCase-2
   E2      := 9*eV;
@@ -1032,7 +1032,7 @@ begin
   TunnelingProbability := (16*(E2/U0)*(1-E2/U0))*Exp(-2*bfactor*L2);
 
   if ReciprocalMeter.ToString(bfactor, 3, 3, [pNano]) <> '5.12 1/nm' then halt(1);
-  if Format('%0.3e', [TunnelingProbability])          <> '5.11E-005' then halt(2);
+  if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)])          <> '5.11E-005' then halt(2);
   writeln('* TEST-107: PASSED');
 
   writeln('ADIM-TEST DONE.');

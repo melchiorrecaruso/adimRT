@@ -75,7 +75,6 @@ type
     class operator >=(const ALeft, ARight: TQuantity): boolean;
     class operator <>(const ALeft, ARight: TQuantity): boolean;
     class operator :=(const ASelf: double): TQuantity;
-    class operator :=(const ASelf: TQuantity): double;
   end;
   {$ELSE}
   TQuantity = double;
@@ -6956,13 +6955,6 @@ class operator TQuantity.:=(const ASelf: double): TQuantity;
 begin
   result.FUnitOfMeasurement := cScalar;
   result.FValue := ASelf;
-end;
-
-class operator TQuantity.:=(const ASelf: TQuantity): double;
-begin
-  if ASelf.FUnitOfMeasurement <> cScalar then
-    raise Exception.Create('Assign operator (:=) has detected wrong unit of measurements.');
-  result := ASelf.FValue;
 end;
 
 class operator TQuantity.+(const ASelf: TQuantity): TQuantity;
