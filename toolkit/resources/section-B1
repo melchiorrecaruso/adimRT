@@ -1,44 +1,4 @@
 
-function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
-begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := ASymbol;
-    1:  result := Format(ASymbol, [
-          PrefixTable[Prefixes[0]].Symbol]);
-    2:  result := Format(ASymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol]);
-    3:  result := Format(ASymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol,
-          PrefixTable[Prefixes[2]].Symbol]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
-end;
-
-function GetName(const AName: string; const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
-begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := AName;
-    1:  result := Format(AName, [
-          PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(AName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(AName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
-end;
-
 { TQuantity }
 
 {$IFOPT D+}
@@ -162,9 +122,9 @@ begin
 end;
 {$ENDIF}
 
-{ TUnit }
+{ TSymbol }
 
-class operator TUnit.*(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+class operator TSymbol.*(const AValue: double; const ASelf: TSymbol): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := MulTable[cScalar, U.FUnitOfMeasurement];
@@ -174,7 +134,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+class operator TSymbol./(const AValue: double; const ASelf: TSymbol): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
@@ -185,20 +145,80 @@ begin
 end;
 
 {$IFOPT D+}
-class operator TUnit.*(const AValue: TQuantity; const ASelf: TUnit): TQuantity; inline;
+class operator TSymbol.*(const AQuantity: TQuantity; const ASelf: TSymbol): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := AValue.FValue;
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AValue: TQuantity; const ASelf: TUnit): TQuantity; inline;
+class operator TSymbol./(const AQuantity: TQuantity; const ASelf: TSymbol): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := AValue.FValue;
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
 end;
 {$ENDIF}
 
-function TUnit.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TSymbol.GetName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FName;
+    1:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TSymbol.GetPluralName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FPluralName;
+    1:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TSymbol.GetSymbol(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FSymbol;
+    1:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol]);
+    2:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol]);
+    3:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol,
+          PrefixTable[Prefixes[2]].Symbol]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
+end;
+
+function TSymbol.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 var
   I: longint;
   Exponent: longint;
@@ -226,7 +246,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-function TUnit.ToFloat(const AQuantity: TQuantity): double;
+function TSymbol.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -237,7 +257,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TSymbol.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -248,18 +268,18 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToString(const AQuantity: TQuantity): string;
+function TSymbol.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(U.FPrefixes);
 {$ELSE}
-  result := FloatToStr(AQuantity) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(AQuantity) + ' ' + GetSymbol(U.FPrefixes);
 {$ENDIF}
 end;
 
-function TUnit.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TSymbol.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -271,12 +291,12 @@ begin
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
-     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnit.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TSymbol.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -288,12 +308,12 @@ begin
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
   else
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnit.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TSymbol.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -304,33 +324,33 @@ begin
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
   end;
 end;    
 
-function TUnit.ToVerboseString(const AQuantity: TQuantity): string;
+function TSymbol.ToVerboseString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
 
   if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
-    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(U.FPrefixes)
   else
-    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AQuantity.FValue) + ' ' + GetPluralName(U.FPrefixes);
 {$ELSE}
   if (AQuantity > -1) and (AQuantity < 1) then
-    result := FloatToStr(AQuantity) + ' ' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(AQuantity) + ' ' + GetName(U.FPrefixes)
   else
-    result := FloatToStr(AQuantity) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AQuantity) + ' ' + GetPluralName(U.FPrefixes);
 {$ENDIF}
 end;
 
-function TUnit.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TSymbol.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -343,19 +363,19 @@ begin
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPRefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, U.FPRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPRefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, APRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, APRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
   end;
 end;
 
-function TUnit.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TSymbol.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -368,19 +388,19 @@ begin
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPRefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(U.FPRefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
   end;
 end;
 
-function TUnit.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TSymbol.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -391,17 +411,17 @@ begin
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPrefixes);
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
 end;
 
-{ TFactoredUnit }
+{ TFactoredSymbol }
 
-class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredSymbol.*(const AValue: double; const ASelf: TFactoredSymbol): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := MulTable[cScalar, U.FUnitOfMeasurement];
@@ -409,7 +429,7 @@ begin
   result.FValue := U.PutValue(AValue);
 end;
 
-class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredSymbol./(const AValue: double; const ASelf: TFactoredSymbol): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
@@ -418,20 +438,80 @@ begin
 end;
 
 {$IFOPT D+}
-class operator TFactoredUnit.*(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredSymbol.*(const AQuantity: TQuantity; const ASelf: TFactoredSymbol): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AValue.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
 end;
 
-class operator TFactoredUnit./(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredSymbol./(const AQuantity: TQuantity; const ASelf: TFactoredSymbol): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AValue.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
 end;
 {$ENDIF}
 
-function TFactoredUnit.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TFactoredSymbol.GetName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FName;
+    1:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TFactoredSymbol.GetPluralName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FPluralName;
+    1:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TFactoredSymbol.GetSymbol(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FSymbol;
+    1:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol]);
+    2:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol]);
+    3:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol,
+          PrefixTable[Prefixes[2]].Symbol]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
+end;
+
+function TFactoredSymbol.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 var
   I: longint;
   Exponent: longint;
@@ -459,7 +539,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-function TFactoredUnit.ToFloat(const AQuantity: TQuantity): double;
+function TFactoredSymbol.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -470,7 +550,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TFactoredSymbol.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -481,19 +561,19 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToString(const AQuantity: TQuantity): string;
+function TFactoredSymbol.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
 
-  result := FloatToStr(U.GetValue(AQuantity.FValue)) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(U.GetValue(AQuantity.FValue)) + ' ' + GetSymbol(U.FPrefixes);
 {$ELSE}
-  result := FloatToStr(U.GetValue(AQuantity)) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(U.GetValue(AQuantity)) + ' ' + GetSymbol(U.FPrefixes);
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -504,12 +584,12 @@ begin
   FactoredValue := U.GetValue(GetValue(AQuantity.FValue, APrefixes));
 
   if Length(APrefixes) = 0 then
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnit.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -520,12 +600,12 @@ begin
   FactoredValue := U.GetValue(GetValue(AQuantity.FValue, APrefixes));
 
   if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
   else
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnit.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -536,15 +616,15 @@ begin
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity): string;
+function TFactoredSymbol.ToVerboseString(const AQuantity: TQuantity): string;
 var
   FactoredValue: double;
 begin
@@ -554,19 +634,19 @@ begin
 
   FactoredValue := U.GetValue(AQuantity.FValue);
   if (FactoredValue > -1) and (FactoredValue < 1) then
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPrefixes);
 {$ELSE}
   FactoredValue := U.GetValue(AQuantity);
   if (FactoredValue > -1) and (FactoredValue < 1) then
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPrefixes);
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -579,19 +659,19 @@ begin
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPRefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, U.FPRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPRefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, APRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, APRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -604,19 +684,19 @@ begin
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPRefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(U.FPRefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -631,11 +711,11 @@ begin
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPrefixes);
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
 end;
 

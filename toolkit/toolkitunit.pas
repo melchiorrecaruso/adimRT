@@ -252,7 +252,7 @@ begin
   ASection.Add('  c%s = %d;', [GetUnitID(AItem.FQuantity), AItem.FReserved]);
   ASection.Add('');
   ASection.Add('type');
-  ASection.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('  %s = record', [GetUnitRec(AItem.FQuantity)]);
   ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
   ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
@@ -260,7 +260,8 @@ begin
   ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
   ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
   ASection.Add('  end;');
-  ASection.Add('  %s = specialize TUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
+  ASection.Add('  %s = specialize TSymbol<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
+  ASection.Add('  %s = TQuantity;', [GetQuantity(AItem.FQuantity)]);
   ASection.Add('');
 end;
 
@@ -269,7 +270,7 @@ begin
   ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
   ASection.Add('type');
-  ASection.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('  %s = record', [GetUnitRec(AItem.FQuantity)]);
   ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
   ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
   ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
@@ -277,7 +278,8 @@ begin
   ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
   ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
   ASection.Add('  end;');
-  ASection.Add('  %s = specialize TUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
+  ASection.Add('  %s = specialize TSymbol<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
+  ASection.Add('  %s = TQuantity;', [GetQuantity(AItem.FQuantity)]);
   ASection.Add('');
 end;
 
@@ -286,7 +288,7 @@ begin
   SectionA.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   SectionA.Add('');
   SectionA.Add('type');
-  SectionA.Add('  T%s = record', [GetUnitID(AItem.FQuantity)]);
+  SectionA.Add('  %s = record', [GetUnitREc(AItem.FQuantity)]);
   SectionA.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
   SectionA.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
   SectionA.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
@@ -296,12 +298,13 @@ begin
   SectionA.Add('    class function GetValue(const AQuantity: double): double; static;');
   SectionA.Add('    class function PutValue(const AQuantity: double): double; static;');
   SectionA.Add('  end;');
-  SectionA.Add('  %s = specialize TFactoredUnit<T%s>;', [GetUnit(AItem.FQuantity), GetUnitID(AItem.FQuantity)]);
+  SectionA.Add('  %s = specialize TFactoredSymbol<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
+  SectionA.Add('  %s = TQuantity;', [GetQuantity(AItem.FQuantity)]);
   SectionA.Add('');
 
   if AItem.FFactor.Contains('%s') then
   begin
-    SectionB.Add(Format('class function T%s.PutValue(const AQuantity: double): double;', [GetUnitID(AItem.FQuantity)]));
+    SectionB.Add(Format('class function %s.PutValue(const AQuantity: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
     SectionB.Add(Format('{$IFOPT D+}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
@@ -309,7 +312,7 @@ begin
     SectionB.Add(Format('end;',[]));
     SectionB.Add(Format('',[]));
 
-    SectionB.Add(Format('class function T%s.GetValue(const AQuantity: double): double;', [GetUnitID(AItem.FQuantity)]));
+    SectionB.Add(Format('class function %s.GetValue(const AQuantity: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
     SectionB.Add(Format('{$IFOPT D+}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
@@ -322,7 +325,7 @@ begin
 
   end else
   begin
-    SectionB.Add(Format('class  function T%s.PutValue(const AQuantity: double): double;', [GetUnitID(AItem.FQuantity)]));
+    SectionB.Add(Format('class  function %s.PutValue(const AQuantity: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
     SectionB.Add(Format('{$IFOPT D+}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
@@ -330,7 +333,7 @@ begin
     SectionB.Add(Format('end;',[]));
     SectionB.Add(Format('',[]));
 
-    SectionB.Add(Format('class  function T%s.GetValue(const AQuantity: double): double;', [GetUnitID(AItem.FQuantity)]));
+    SectionB.Add(Format('class  function %s.GetValue(const AQuantity: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
     SectionB.Add(Format('{$IFOPT D+}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
@@ -363,7 +366,8 @@ begin
     // Base unit symbols
     ASection.Append('');
     ASection.Append('var');
-    ASection.Add(Format('  %-10s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+    ASection.Add(Format('  %s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+    ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
     ASection.Append('');
     if AItem.FIdentifier <> '' then
       AddFactoredSymbols(AItem, ASection);
@@ -373,7 +377,8 @@ begin
     begin
       // Cloned unit symbols
       ASection.Append('var');
-      ASection.Add(Format('  %-10s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+      ASection.Add(Format('  %s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+      ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
       ASection.Append('');
       if AItem.FIdentifier <> '' then
         AddFactoredSymbols(AItem, ASection);
@@ -385,7 +390,7 @@ begin
         ASection.Add(Format(S, [Identifier, AItem.FReserved, AItem.FFactor, AItem.FFactor]));
         ASection.Append('');
         ASection.Append('var');
-        ASection.Add(Format('  %sUnit : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+        ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
         ASection.Append('');
         if AItem.FIdentifier <> '' then
           AddFactoredSymbols(AItem, ASection);
@@ -394,7 +399,7 @@ begin
         begin
           // Custom unit symbols
           ASection.Append('var');
-          ASection.Add(Format('  %-10s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+          ASection.Add(Format('  %s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
           ASection.Append('');
           if AItem.FIdentifier <> '' then
             AddFactoredSymbols(AItem, ASection);

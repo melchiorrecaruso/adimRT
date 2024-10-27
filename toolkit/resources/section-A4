@@ -20,33 +20,44 @@ function Cotan(const AQuantity: TQuantity): double;
 function Secant(const AQuantity: TQuantity): double;
 function Cosecant(const AQuantity: TQuantity): double;
 
-function ArcCos(const AQuantity: double): TQuantity;
-function ArcSin(const AQuantity: double): TQuantity;
-function ArcTan(const AQuantity: double): TQuantity;
+function ArcCos(const AValue: double): TQuantity;
+function ArcSin(const AValue: double): TQuantity;
+function ArcTan(const AValue: double): TQuantity;
 function ArcTan2(const x, y: double): TQuantity;
 
 { Override trigonometric functions }
 
 {$IFOPT D+}
-function Cos(const AQuantity: double): double;
-function Sin(const AQuantity: double): double;
-function Tan(const AQuantity: double): double;
-function Cotan(const AQuantity: double): double;
-function Secant(const AQuantity: double): double;
-function Cosecant(const AQuantity: double): double;
+function Cos(const AValue: double): double;
+function Sin(const AValue: double): double;
+function Tan(const AValue: double): double;
+function Cotan(const AValue: double): double;
+function Secant(const AValue: double): double;
+function Cosecant(const AValue: double): double;
 {$ENDIF}
 
 { Math functions }
 
-function SameValue(const ALeft, ARight: TQuantity): boolean;
 function Min(const ALeft, ARight: TQuantity): TQuantity;
 function Max(const ALeft, ARight: TQuantity): TQuantity;
 function Exp(const AQuantity: TQuantity): TQuantity;
 
-{ Useful routines }
+function Log10(const AQuantity : TQuantity) : double;
+function Log2(const AQuantity : TQuantity) : double;
+function LogN(ABase: longint; const AQuantity: TQuantity): double;
+function LogN(const ABase, AQuantity: TQuantity): double;
 
-function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;
-function GetName(const AName: string; const Prefixes: TPrefixes): string;
+function Power(const ABase: TQuantity; AExponent: double): double;
+
+{ Helper functions }
+
+function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+function LessThanZero(const AQuantity: TQuantity): boolean;
+function EqualToZero(const AQuantity: TQuantity): boolean;
+function NotEqualToZero(const AQuantity: TQuantity): boolean;
+function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+function GreaterThanZero(const AQuantity: TQuantity): boolean;
+function SameValue(const ALeft, ARight: TQuantity): boolean;
 
 { Constants }
 

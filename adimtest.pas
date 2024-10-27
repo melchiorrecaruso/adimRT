@@ -237,7 +237,7 @@ begin
   time     := distance/speed;
   distance := speed*time;
   if MeterPerHourUnit.ToVerboseString(speed, 5, 0, [pKilo]) <> '10 kilometers per hour' then halt(1);
-  if hrUnit.ToVerboseString(time)                           <> '2 hours'                then halt(2);
+  if hourUnit.ToVerboseString(time)                           <> '2 hours'                then halt(2);
   if m.ToVerboseString(distance, 5, 0, [pKilo])         <> '20 kilometers'          then halt(3);
   writeln('* TEST-03: PASSED');
 
@@ -750,7 +750,7 @@ begin
   // TEST-62 - RELATIVTY: ENERGY
   mass       := 1*kg;
   energy     := mass*SquarePower(SpeedOfLight);
-  if eVUnit.ToString(energy, 4, 2, [pTera]) <> '5.61E23 TeV' then halt(1);
+  if ElectronVoltUnit.ToString(energy, 4, 2, [pTera]) <> '5.61E23 TeV' then halt(1);
   if J.ToString(energy, 4, 2, [pTera])        <> '8.988E4 TJ'  then halt(2);
   writeln('* TEST-62: PASSED');
 
@@ -760,7 +760,7 @@ begin
   p          := mass*speed;
   energy     := SquareRoot(SquarePower(p*SpeedOfLight)+ SquarePower(mass*SquarePower(SpeedOfLight)));
   if KilogramMeterPerSecond.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '2733 pg.pm/s' then halt(1);
-  if eVUnit.ToString(energy, 4, 2, [pKilo])                    <> '511 keV'      then halt(2);
+  if ElectronVoltUnit.ToString(energy, 4, 2, [pKilo])                    <> '511 keV'      then halt(2);
   writeln('* TEST-63: PASSED');
 
   // TEST-64 - MOMENTUM OF PHOTON
@@ -770,7 +770,7 @@ begin
   p      := PlanckConstant*freq/SpeedOfLight;
   p      := PlanckConstant/len;
   speed  := len*freq;
-  if eVUnit.ToString(energy, 4, 2, [])                         <> '1.24 eV'        then halt(1);
+  if ElectronVoltUnit.ToString(energy, 4, 2, [])                         <> '1.24 eV'        then halt(1);
   if KilogramMeterPerSecond.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '0.6626 pg.pm/s' then halt(2);
   if MeterPerSecond.ToString(speed, 9, 2, [pPico, pNone])            <> '1000000 pm/s'   then halt(3);
   writeln('* TEST-64: PASSED');
@@ -913,8 +913,8 @@ begin
   if SameValue(radius ,BohrRadius)            <> TRUE          then halt(1);
   if m.ToString(radius, 4, 4, [])          <> '5.292E-11 m' then halt(2);
   if MeterPerSecond.ToString(speed, 4, 4, [])  <> '2.188E6 m/s' then halt(3);
-  if eVUnit.ToString(energy, 3, 3, [])   <> '-13.6 eV'    then halt(4);
-  if RyUnit.ToString(energy, 3, 3, [])        <> '-1 Ry'       then halt(5);
+  if ElectronVoltUnit.ToString(energy, 3, 3, [])   <> '-13.6 eV'    then halt(4);
+  if RydbergUnit.ToString(energy, 3, 3, [])        <> '-1 Ry'       then halt(5);
   writeln('* TEST-100: PASSED');
 
   // TEST-101 - QUANTUM MECHANICS

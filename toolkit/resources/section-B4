@@ -165,22 +165,22 @@ begin
   result := Math.Cosecant(AQuantity.FValue);
 end;
 
-function ArcCos(const AQuantity: double): TQuantity;
+function ArcCos(const AValue: double): TQuantity;
 begin
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcCos(AQuantity);
+  result.FValue := Math.ArcCos(AValue);
 end;
 
-function ArcSin(const AQuantity: double): TQuantity;
+function ArcSin(const AValue: double): TQuantity;
 begin
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcSin(AQuantity);
+  result.FValue := Math.ArcSin(AValue);
 end;
 
-function ArcTan(const AQuantity: double): TQuantity;
+function ArcTan(const AValue: double): TQuantity;
 begin
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := System.ArcTan(AQuantity);
+  result.FValue := System.ArcTan(AValue);
 end;
 
 function ArcTan2(const x, y: double): TQuantity;
@@ -192,34 +192,34 @@ end;
 { Override trigonometric functions }
 
 {$IFOPT D+}
-function Cos(const AQuantity: double): double;
+function Cos(const AValue: double): double;
 begin
-  result := System.Cos(AQuantity);
+  result := System.Cos(AValue);
 end;
 
-function Sin(const AQuantity: double): double;
+function Sin(const AValue: double): double;
 begin
-  result := System.Sin(AQuantity);
+  result := System.Sin(AValue);
 end;
 
-function Tan(const AQuantity: double): double;
+function Tan(const AValue: double): double;
 begin
-  result := Math.Tan(AQuantity);
+  result := Math.Tan(AValue);
 end;
 
-function Cotan(const AQuantity: double): double;
+function Cotan(const AValue: double): double;
 begin
-  result := Math.Cotan(AQuantity);
+  result := Math.Cotan(AValue);
 end;
 
-function Secant(const AQuantity: double): double;
+function Secant(const AValue: double): double;
 begin
-  result := Math.Secant(AQuantity);
+  result := Math.Secant(AValue);
 end;
 
-function Cosecant(const AQuantity: double): double;
+function Cosecant(const AValue: double): double;
 begin
-  result := Math.Cosecant(AQuantity);
+  result := Math.Cosecant(AValue);
 end;
 {$ENDIF}
 
@@ -249,7 +249,77 @@ begin
   result.FValue := System.Exp(AQuantity.FValue);
 end;
 
+function Log10(const AQuantity : TQuantity) : double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+  result := Math.Log10(AQuantity.FValue);
+end;
+
+function Log2(const AQuantity : TQuantity) : double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+  result := Math.Log2(AQuantity.FValue);
+end;
+
+function LogN(ABase: longint; const AQuantity: TQuantity): double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+  result := Math.LogN(ABase, AQuantity.FValue);
+end;
+
+function LogN(const ABase, AQuantity: TQuantity): double;
+begin
+  if ABase.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+
+  result := Math.LogN(ABase.FValue, AQuantity.FValue);
+end;
+
+function Power(const ABase: TQuantity; AExponent: double): double;
+begin
+  if ABase.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+
+   result := Math.Power(ABase.FValue, AExponent);
+end;
+
 { Helper functions }
+
+function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue <= 0;
+end;
+
+function LessThanZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue < 0;
+end;
+
+function EqualToZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue = 0;
+end;
+
+function NotEqualToZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue <> 0;
+end;
+
+function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue >= 0;
+end;
+
+function GreaterThanZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue > 0;
+end;
 
 function SameValue(const ALeft, ARight: TQuantity): boolean;
 begin

@@ -27,7 +27,7 @@ unit ADimRT;
 {$MACRO ON}
 
 {
-  ADimRT library built on 26-10-24.
+  ADimRT library built on 27-10-24.
 
   Number of base units: 159
   Number of factored units: 121
@@ -83,9 +83,12 @@ type
 
   { TUnit }
 
-  generic TUnit<U> = record
-    type TSelf = specialize TUnit<U>;
-  private
+  generic TSymbol<U> = record
+    type TSelf = specialize TSymbol<U>;
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   public
     function ToFloat(const AQuantity: TQuantity): double;
@@ -101,16 +104,19 @@ type
     class operator *(const AValue: double; const ASelf: TSelf): TQuantity; inline;
     class operator /(const AValue: double; const ASelf: TSelf): TQuantity; inline;
   {$IFOPT D+}
-    class operator *(const AValue: TQuantity; const ASelf: TSelf): TQuantity; inline;
-    class operator /(const AValue: TQuantity; const ASelf: TSelf): TQuantity; inline;
+    class operator *(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
+    class operator /(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
   {$ENDIF}
   end;
 
-  { TFactoredUnit }
+  { TFactoredSymbol }
 
-  generic TFactoredUnit<U> = record
-    type TSelf = specialize TFactoredUnit<U>;
-  private
+  generic TFactoredSymbol<U> = record
+    type TSelf = specialize TFactoredSymbol<U>;
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   public
     function ToFloat(const AQuantity: TQuantity): double;
@@ -126,8 +132,8 @@ type
     class operator *(const AValue: double; const ASelf: TSelf): TQuantity; inline;
     class operator /(const AValue: double; const ASelf: TSelf): TQuantity; inline;
   {$IFOPT D+}
-    class operator *(const AValue: TQuantity; const ASelf: TSelf): TQuantity; inline;
-    class operator /(const AValue: TQuantity; const ASelf: TSelf): TQuantity; inline;
+    class operator *(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
+    class operator /(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
   {$ENDIF}
   end;
 
@@ -137,7 +143,7 @@ const
   cScalar = 0;
 
 type
-  TScalar = record
+  TScalarRec = record
     const FUnitOfMeasurement = cScalar;
     const FSymbol            = '';
     const FName              = '';
@@ -145,15 +151,17 @@ type
     const FPrefixes          : TPrefixes  = ();
     const FExponents         : TExponents = ();
   end;
-  TScalarUnit = specialize TUnit<TScalar>;
+  TScalarUnit = specialize TSymbol<TScalarRec>;
+  TScalar = TQuantity;
 
 var
-  Scalar     : TScalarUnit;
+  Scalar : TScalarUnit;
+  ScalarUnit : TScalarUnit;
 
 { TRadian }
 
 type
-  TRadian = record
+  TRadianRec = record
     const FUnitOfMeasurement = cScalar;
     const FSymbol            = 'rad';
     const FName              = 'radian';
@@ -161,15 +169,17 @@ type
     const FPrefixes          : TPrefixes  = ();
     const FExponents         : TExponents = ();
   end;
-  TRadianUnit = specialize TUnit<TRadian>;
+  TRadianUnit = specialize TSymbol<TRadianRec>;
+  TRadians = TQuantity;
 
 var
-  rad        : TRadianUnit;
+  rad : TRadianUnit;
+  RadianUnit : TRadianUnit;
 
 { TDegree }
 
 type
-  TDegree = record
+  TDegreeRec = record
     const FUnitOfMeasurement = cScalar;
     const FSymbol            = 'deg';
     const FName              = 'degree';
@@ -179,18 +189,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TDegreeUnit = specialize TFactoredUnit<TDegree>;
+  TDegreeUnit = specialize TFactoredSymbol<TDegreeRec>;
+  TDegrees = TQuantity;
 
 const
   deg        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 0; FValue: Pi/180); {$ELSE} (Pi/180); {$ENDIF}
 
 var
-  degUnit : TDegreeUnit;
+  DegreeUnit : TDegreeUnit;
 
 { TSteradian }
 
 type
-  TSteradian = record
+  TSteradianRec = record
     const FUnitOfMeasurement = cScalar;
     const FSymbol            = 'sr';
     const FName              = 'steradian';
@@ -198,15 +209,17 @@ type
     const FPrefixes          : TPrefixes  = ();
     const FExponents         : TExponents = ();
   end;
-  TSteradianUnit = specialize TUnit<TSteradian>;
+  TSteradianUnit = specialize TSymbol<TSteradianRec>;
+  TSteradians = TQuantity;
 
 var
-  sr         : TSteradianUnit;
+  sr : TSteradianUnit;
+  SteradianUnit : TSteradianUnit;
 
 { TSquareDegree }
 
 type
-  TSquareDegree = record
+  TSquareDegreeRec = record
     const FUnitOfMeasurement = cScalar;
     const FSymbol            = 'deg2';
     const FName              = 'square degree';
@@ -216,13 +229,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TSquareDegreeUnit = specialize TFactoredUnit<TSquareDegree>;
+  TSquareDegreeUnit = specialize TFactoredSymbol<TSquareDegreeRec>;
+  TSquareDegrees = TQuantity;
 
 const
   deg2       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 0; FValue: Pi*Pi/32400); {$ELSE} (Pi*Pi/32400); {$ENDIF}
 
 var
-  deg2Unit : TSquareDegreeUnit;
+  SquareDegreeUnit : TSquareDegreeUnit;
 
 { TSecond }
 
@@ -230,7 +244,7 @@ const
   cSecond = 1;
 
 type
-  TSecond = record
+  TSecondRec = record
     const FUnitOfMeasurement = cSecond;
     const FSymbol            = '%ss';
     const FName              = '%ssecond';
@@ -238,10 +252,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TSecondUnit = specialize TUnit<TSecond>;
+  TSecondUnit = specialize TSymbol<TSecondRec>;
+  TSeconds = TQuantity;
 
 var
-  s          : TSecondUnit;
+  s : TSecondUnit;
+  SecondUnit : TSecondUnit;
 
 const
   ds         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 1; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
@@ -254,7 +270,7 @@ const
 { TDay }
 
 type
-  TDay = record
+  TDayRec = record
     const FUnitOfMeasurement = cSecond;
     const FSymbol            = 'd';
     const FName              = 'day';
@@ -264,18 +280,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TDayUnit = specialize TFactoredUnit<TDay>;
+  TDayUnit = specialize TFactoredSymbol<TDayRec>;
+  TDays = TQuantity;
 
 const
   day        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 1; FValue: 86400); {$ELSE} (86400); {$ENDIF}
 
 var
-  dayUnit : TDayUnit;
+  DayUnit : TDayUnit;
 
 { THour }
 
 type
-  THour = record
+  THourRec = record
     const FUnitOfMeasurement = cSecond;
     const FSymbol            = 'h';
     const FName              = 'hour';
@@ -285,18 +302,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  THourUnit = specialize TFactoredUnit<THour>;
+  THourUnit = specialize TFactoredSymbol<THourRec>;
+  THours = TQuantity;
 
 const
   hr         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 1; FValue: 3600); {$ELSE} (3600); {$ENDIF}
 
 var
-  hrUnit : THourUnit;
+  HourUnit : THourUnit;
 
 { TMinute }
 
 type
-  TMinute = record
+  TMinuteRec = record
     const FUnitOfMeasurement = cSecond;
     const FSymbol            = 'min';
     const FName              = 'minute';
@@ -306,13 +324,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TMinuteUnit = specialize TFactoredUnit<TMinute>;
+  TMinuteUnit = specialize TFactoredSymbol<TMinuteRec>;
+  TMinutes = TQuantity;
 
 const
   minute     : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 1; FValue: 60); {$ELSE} (60); {$ENDIF}
 
 var
-  minuteUnit : TMinuteUnit;
+  MinuteUnit : TMinuteUnit;
 
 { TSquareSecond }
 
@@ -320,7 +339,7 @@ const
   cSquareSecond = 2;
 
 type
-  TSquareSecond = record
+  TSquareSecondRec = record
     const FUnitOfMeasurement = cSquareSecond;
     const FSymbol            = '%ss2';
     const FName              = 'square %ssecond';
@@ -328,10 +347,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareSecondUnit = specialize TUnit<TSquareSecond>;
+  TSquareSecondUnit = specialize TSymbol<TSquareSecondRec>;
+  TSquareSeconds = TQuantity;
 
 var
-  s2         : TSquareSecondUnit;
+  s2 : TSquareSecondUnit;
+  SquareSecondUnit : TSquareSecondUnit;
 
 const
   ds2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 2; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
@@ -344,7 +365,7 @@ const
 { TSquareDay }
 
 type
-  TSquareDay = record
+  TSquareDayRec = record
     const FUnitOfMeasurement = cSquareSecond;
     const FSymbol            = 'd2';
     const FName              = 'square day';
@@ -354,18 +375,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TSquareDayUnit = specialize TFactoredUnit<TSquareDay>;
+  TSquareDayUnit = specialize TFactoredSymbol<TSquareDayRec>;
+  TSquareDays = TQuantity;
 
 const
   day2       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 2; FValue: 7464960000); {$ELSE} (7464960000); {$ENDIF}
 
 var
-  day2Unit : TSquareDayUnit;
+  SquareDayUnit : TSquareDayUnit;
 
 { TSquareHour }
 
 type
-  TSquareHour = record
+  TSquareHourRec = record
     const FUnitOfMeasurement = cSquareSecond;
     const FSymbol            = 'h2';
     const FName              = 'square hour';
@@ -375,18 +397,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TSquareHourUnit = specialize TFactoredUnit<TSquareHour>;
+  TSquareHourUnit = specialize TFactoredSymbol<TSquareHourRec>;
+  TSquareHours = TQuantity;
 
 const
   hr2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 2; FValue: 12960000); {$ELSE} (12960000); {$ENDIF}
 
 var
-  hr2Unit : TSquareHourUnit;
+  SquareHourUnit : TSquareHourUnit;
 
 { TSquareMinute }
 
 type
-  TSquareMinute = record
+  TSquareMinuteRec = record
     const FUnitOfMeasurement = cSquareSecond;
     const FSymbol            = 'min2';
     const FName              = 'square minute';
@@ -396,13 +419,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TSquareMinuteUnit = specialize TFactoredUnit<TSquareMinute>;
+  TSquareMinuteUnit = specialize TFactoredSymbol<TSquareMinuteRec>;
+  TSquareMinutes = TQuantity;
 
 const
   minute2    : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 2; FValue: 3600); {$ELSE} (3600); {$ENDIF}
 
 var
-  minute2Unit : TSquareMinuteUnit;
+  SquareMinuteUnit : TSquareMinuteUnit;
 
 { TCubicSecond }
 
@@ -410,7 +434,7 @@ const
   cCubicSecond = 3;
 
 type
-  TCubicSecond = record
+  TCubicSecondRec = record
     const FUnitOfMeasurement = cCubicSecond;
     const FSymbol            = '%ss3';
     const FName              = 'cubic %ssecond';
@@ -418,10 +442,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (3);
   end;
-  TCubicSecondUnit = specialize TUnit<TCubicSecond>;
+  TCubicSecondUnit = specialize TSymbol<TCubicSecondRec>;
+  TCubicSeconds = TQuantity;
 
 var
-  s3         : TCubicSecondUnit;
+  s3 : TCubicSecondUnit;
+  CubicSecondUnit : TCubicSecondUnit;
 
 const
   ds3        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 3; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
@@ -437,7 +463,7 @@ const
   cQuarticSecond = 4;
 
 type
-  TQuarticSecond = record
+  TQuarticSecondRec = record
     const FUnitOfMeasurement = cQuarticSecond;
     const FSymbol            = '%ss4';
     const FName              = 'quartic %ssecond';
@@ -445,10 +471,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (4);
   end;
-  TQuarticSecondUnit = specialize TUnit<TQuarticSecond>;
+  TQuarticSecondUnit = specialize TSymbol<TQuarticSecondRec>;
+  TQuarticSeconds = TQuantity;
 
 var
-  s4         : TQuarticSecondUnit;
+  s4 : TQuarticSecondUnit;
+  QuarticSecondUnit : TQuarticSecondUnit;
 
 const
   ds4        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 4; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
@@ -464,7 +492,7 @@ const
   cQuinticSecond = 5;
 
 type
-  TQuinticSecond = record
+  TQuinticSecondRec = record
     const FUnitOfMeasurement = cQuinticSecond;
     const FSymbol            = '%ss5';
     const FName              = 'quintic %ssecond';
@@ -472,10 +500,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (5);
   end;
-  TQuinticSecondUnit = specialize TUnit<TQuinticSecond>;
+  TQuinticSecondUnit = specialize TSymbol<TQuinticSecondRec>;
+  TQuinticSeconds = TQuantity;
 
 var
-  s5         : TQuinticSecondUnit;
+  s5 : TQuinticSecondUnit;
+  QuinticSecondUnit : TQuinticSecondUnit;
 
 const
   ds5        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 5; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
@@ -491,7 +521,7 @@ const
   cSexticSecond = 6;
 
 type
-  TSexticSecond = record
+  TSexticSecondRec = record
     const FUnitOfMeasurement = cSexticSecond;
     const FSymbol            = '%ss6';
     const FName              = 'sextic %ssecond';
@@ -499,10 +529,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (6);
   end;
-  TSexticSecondUnit = specialize TUnit<TSexticSecond>;
+  TSexticSecondUnit = specialize TSymbol<TSexticSecondRec>;
+  TSexticSeconds = TQuantity;
 
 var
-  s6         : TSexticSecondUnit;
+  s6 : TSexticSecondUnit;
+  SexticSecondUnit : TSexticSecondUnit;
 
 const
   ds6        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 6; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
@@ -518,7 +550,7 @@ const
   cMeter = 7;
 
 type
-  TMeter = record
+  TMeterRec = record
     const FUnitOfMeasurement = cMeter;
     const FSymbol            = '%sm';
     const FName              = '%smeter';
@@ -526,10 +558,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TMeterUnit = specialize TUnit<TMeter>;
+  TMeterUnit = specialize TSymbol<TMeterRec>;
+  TMeters = TQuantity;
 
 var
-  m          : TMeterUnit;
+  m : TMeterUnit;
+  MeterUnit : TMeterUnit;
 
 const
   km         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
@@ -543,7 +577,7 @@ const
 { TAstronomical }
 
 type
-  TAstronomical = record
+  TAstronomicalRec = record
     const FUnitOfMeasurement = cMeter;
     const FSymbol            = 'au';
     const FName              = 'astronomical unit';
@@ -553,18 +587,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TAstronomicalUnit = specialize TFactoredUnit<TAstronomical>;
+  TAstronomicalUnit = specialize TFactoredSymbol<TAstronomicalRec>;
+  TAstronomical = TQuantity;
 
 const
   au         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 149597870691); {$ELSE} (149597870691); {$ENDIF}
 
 var
-  auUnit : TAstronomicalUnit;
+  AstronomicalUnit : TAstronomicalUnit;
 
 { TInch }
 
 type
-  TInch = record
+  TInchRec = record
     const FUnitOfMeasurement = cMeter;
     const FSymbol            = 'in';
     const FName              = 'inch';
@@ -574,18 +609,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TInchUnit = specialize TFactoredUnit<TInch>;
+  TInchUnit = specialize TFactoredSymbol<TInchRec>;
+  TInches = TQuantity;
 
 const
   inch       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 0.0254); {$ELSE} (0.0254); {$ENDIF}
 
 var
-  inchUnit : TInchUnit;
+  InchUnit : TInchUnit;
 
 { TFoot }
 
 type
-  TFoot = record
+  TFootRec = record
     const FUnitOfMeasurement = cMeter;
     const FSymbol            = 'ft';
     const FName              = 'foot';
@@ -595,18 +631,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TFootUnit = specialize TFactoredUnit<TFoot>;
+  TFootUnit = specialize TFactoredSymbol<TFootRec>;
+  TFeet = TQuantity;
 
 const
   ft         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 0.3048); {$ELSE} (0.3048); {$ENDIF}
 
 var
-  ftUnit : TFootUnit;
+  FootUnit : TFootUnit;
 
 { TYard }
 
 type
-  TYard = record
+  TYardRec = record
     const FUnitOfMeasurement = cMeter;
     const FSymbol            = 'yd';
     const FName              = 'yard';
@@ -616,18 +653,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TYardUnit = specialize TFactoredUnit<TYard>;
+  TYardUnit = specialize TFactoredSymbol<TYardRec>;
+  TYards = TQuantity;
 
 const
   yd         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 0.9144); {$ELSE} (0.9144); {$ENDIF}
 
 var
-  ydUnit : TYardUnit;
+  YardUnit : TYardUnit;
 
 { TMile }
 
 type
-  TMile = record
+  TMileRec = record
     const FUnitOfMeasurement = cMeter;
     const FSymbol            = 'mi';
     const FName              = 'mile';
@@ -637,18 +675,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TMileUnit = specialize TFactoredUnit<TMile>;
+  TMileUnit = specialize TFactoredSymbol<TMileRec>;
+  TMiles = TQuantity;
 
 const
   mi         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 1609.344); {$ELSE} (1609.344); {$ENDIF}
 
 var
-  miUnit : TMileUnit;
+  MileUnit : TMileUnit;
 
 { TNauticalMile }
 
 type
-  TNauticalMile = record
+  TNauticalMileRec = record
     const FUnitOfMeasurement = cMeter;
     const FSymbol            = 'nmi';
     const FName              = 'nautical mile';
@@ -658,18 +697,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TNauticalMileUnit = specialize TFactoredUnit<TNauticalMile>;
+  TNauticalMileUnit = specialize TFactoredSymbol<TNauticalMileRec>;
+  TNauticalMiles = TQuantity;
 
 const
   nmi        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 1852); {$ELSE} (1852); {$ENDIF}
 
 var
-  nmiUnit : TNauticalMileUnit;
+  NauticalMileUnit : TNauticalMileUnit;
 
 { TAngstrom }
 
 type
-  TAngstrom = record
+  TAngstromRec = record
     const FUnitOfMeasurement = cMeter;
     const FSymbol            = '%sÅ';
     const FName              = '%sangstrom';
@@ -679,13 +719,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TAngstromUnit = specialize TFactoredUnit<TAngstrom>;
+  TAngstromUnit = specialize TFactoredSymbol<TAngstromRec>;
+  TAngstroms = TQuantity;
 
 const
   angstrom   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 7; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
 
 var
-  angstromUnit : TAngstromUnit;
+  AngstromUnit : TAngstromUnit;
 
 { TSquareRootMeter }
 
@@ -693,7 +734,7 @@ const
   cSquareRootMeter = 8;
 
 type
-  TSquareRootMeter = record
+  TSquareRootMeterRec = record
     const FUnitOfMeasurement = cSquareRootMeter;
     const FSymbol            = '√%sm';
     const FName              = 'square root %smeter';
@@ -701,10 +742,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TSquareRootMeterUnit = specialize TUnit<TSquareRootMeter>;
+  TSquareRootMeterUnit = specialize TSymbol<TSquareRootMeterRec>;
+  TSquareRootMeters = TQuantity;
 
 var
   SquareRootMeter : TSquareRootMeterUnit;
+  SquareRootMeterUnit : TSquareRootMeterUnit;
 
 { TSquareMeter }
 
@@ -712,7 +755,7 @@ const
   cSquareMeter = 9;
 
 type
-  TSquareMeter = record
+  TSquareMeterRec = record
     const FUnitOfMeasurement = cSquareMeter;
     const FSymbol            = '%sm2';
     const FName              = 'square %smeter';
@@ -720,10 +763,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareMeterUnit = specialize TUnit<TSquareMeter>;
+  TSquareMeterUnit = specialize TSymbol<TSquareMeterRec>;
+  TSquareMeters = TQuantity;
 
 var
-  m2         : TSquareMeterUnit;
+  m2 : TSquareMeterUnit;
+  SquareMeterUnit : TSquareMeterUnit;
 
 const
   km2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 9; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
@@ -737,7 +782,7 @@ const
 { TSquareInch }
 
 type
-  TSquareInch = record
+  TSquareInchRec = record
     const FUnitOfMeasurement = cSquareMeter;
     const FSymbol            = 'in2';
     const FName              = 'square inch';
@@ -747,18 +792,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TSquareInchUnit = specialize TFactoredUnit<TSquareInch>;
+  TSquareInchUnit = specialize TFactoredSymbol<TSquareInchRec>;
+  TSquareInches = TQuantity;
 
 const
   inch2      : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 9; FValue: 0.00064516); {$ELSE} (0.00064516); {$ENDIF}
 
 var
-  inch2Unit : TSquareInchUnit;
+  SquareInchUnit : TSquareInchUnit;
 
 { TSquareFoot }
 
 type
-  TSquareFoot = record
+  TSquareFootRec = record
     const FUnitOfMeasurement = cSquareMeter;
     const FSymbol            = 'ft2';
     const FName              = 'square foot';
@@ -768,18 +814,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TSquareFootUnit = specialize TFactoredUnit<TSquareFoot>;
+  TSquareFootUnit = specialize TFactoredSymbol<TSquareFootRec>;
+  TSquareFeet = TQuantity;
 
 const
   ft2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 9; FValue: 0.09290304); {$ELSE} (0.09290304); {$ENDIF}
 
 var
-  ft2Unit : TSquareFootUnit;
+  SquareFootUnit : TSquareFootUnit;
 
 { TSquareYard }
 
 type
-  TSquareYard = record
+  TSquareYardRec = record
     const FUnitOfMeasurement = cSquareMeter;
     const FSymbol            = 'yd2';
     const FName              = 'square yard';
@@ -789,18 +836,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TSquareYardUnit = specialize TFactoredUnit<TSquareYard>;
+  TSquareYardUnit = specialize TFactoredSymbol<TSquareYardRec>;
+  TSquareYards = TQuantity;
 
 const
   yd2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 9; FValue: 0.83612736); {$ELSE} (0.83612736); {$ENDIF}
 
 var
-  yd2Unit : TSquareYardUnit;
+  SquareYardUnit : TSquareYardUnit;
 
 { TSquareMile }
 
 type
-  TSquareMile = record
+  TSquareMileRec = record
     const FUnitOfMeasurement = cSquareMeter;
     const FSymbol            = 'mi2';
     const FName              = 'square mile';
@@ -810,13 +858,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TSquareMileUnit = specialize TFactoredUnit<TSquareMile>;
+  TSquareMileUnit = specialize TFactoredSymbol<TSquareMileRec>;
+  TSquareMiles = TQuantity;
 
 const
   mi2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 9; FValue: 2589988.110336); {$ELSE} (2589988.110336); {$ENDIF}
 
 var
-  mi2Unit : TSquareMileUnit;
+  SquareMileUnit : TSquareMileUnit;
 
 { TCubicMeter }
 
@@ -824,7 +873,7 @@ const
   cCubicMeter = 10;
 
 type
-  TCubicMeter = record
+  TCubicMeterRec = record
     const FUnitOfMeasurement = cCubicMeter;
     const FSymbol            = '%sm3';
     const FName              = 'cubic %smeter';
@@ -832,10 +881,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (3);
   end;
-  TCubicMeterUnit = specialize TUnit<TCubicMeter>;
+  TCubicMeterUnit = specialize TSymbol<TCubicMeterRec>;
+  TCubicMeters = TQuantity;
 
 var
-  m3         : TCubicMeterUnit;
+  m3 : TCubicMeterUnit;
+  CubicMeterUnit : TCubicMeterUnit;
 
 const
   km3        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
@@ -849,7 +900,7 @@ const
 { TCubicInch }
 
 type
-  TCubicInch = record
+  TCubicInchRec = record
     const FUnitOfMeasurement = cCubicMeter;
     const FSymbol            = 'in3';
     const FName              = 'cubic inch';
@@ -859,18 +910,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TCubicInchUnit = specialize TFactoredUnit<TCubicInch>;
+  TCubicInchUnit = specialize TFactoredSymbol<TCubicInchRec>;
+  TCubicInches = TQuantity;
 
 const
   inch3      : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 0.000016387064); {$ELSE} (0.000016387064); {$ENDIF}
 
 var
-  inch3Unit : TCubicInchUnit;
+  CubicInchUnit : TCubicInchUnit;
 
 { TCubicFoot }
 
 type
-  TCubicFoot = record
+  TCubicFootRec = record
     const FUnitOfMeasurement = cCubicMeter;
     const FSymbol            = 'ft3';
     const FName              = 'cubic foot';
@@ -880,18 +932,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TCubicFootUnit = specialize TFactoredUnit<TCubicFoot>;
+  TCubicFootUnit = specialize TFactoredSymbol<TCubicFootRec>;
+  TCubicFeet = TQuantity;
 
 const
   ft3        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 0.028316846592); {$ELSE} (0.028316846592); {$ENDIF}
 
 var
-  ft3Unit : TCubicFootUnit;
+  CubicFootUnit : TCubicFootUnit;
 
 { TCubicYard }
 
 type
-  TCubicYard = record
+  TCubicYardRec = record
     const FUnitOfMeasurement = cCubicMeter;
     const FSymbol            = 'yd3';
     const FName              = 'cubic yard';
@@ -901,18 +954,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TCubicYardUnit = specialize TFactoredUnit<TCubicYard>;
+  TCubicYardUnit = specialize TFactoredSymbol<TCubicYardRec>;
+  TCubicYards = TQuantity;
 
 const
   yd3        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 0.764554857984); {$ELSE} (0.764554857984); {$ENDIF}
 
 var
-  yd3Unit : TCubicYardUnit;
+  CubicYardUnit : TCubicYardUnit;
 
 { TLitre }
 
 type
-  TLitre = record
+  TLitreRec = record
     const FUnitOfMeasurement = cCubicMeter;
     const FSymbol            = '%sL';
     const FName              = '%slitre';
@@ -922,13 +976,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TLitreUnit = specialize TFactoredUnit<TLitre>;
+  TLitreUnit = specialize TFactoredSymbol<TLitreRec>;
+  TLitres = TQuantity;
 
 const
   L          : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 var
-  LUnit : TLitreUnit;
+  LitreUnit : TLitreUnit;
 
 const
   dL         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
@@ -938,7 +993,7 @@ const
 { TGallon }
 
 type
-  TGallon = record
+  TGallonRec = record
     const FUnitOfMeasurement = cCubicMeter;
     const FSymbol            = 'gal';
     const FName              = 'gallon';
@@ -948,13 +1003,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TGallonUnit = specialize TFactoredUnit<TGallon>;
+  TGallonUnit = specialize TFactoredSymbol<TGallonRec>;
+  TGallons = TQuantity;
 
 const
   gal        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 10; FValue: 0.0037854119678); {$ELSE} (0.0037854119678); {$ENDIF}
 
 var
-  galUnit : TGallonUnit;
+  GallonUnit : TGallonUnit;
 
 { TQuarticMeter }
 
@@ -962,7 +1018,7 @@ const
   cQuarticMeter = 11;
 
 type
-  TQuarticMeter = record
+  TQuarticMeterRec = record
     const FUnitOfMeasurement = cQuarticMeter;
     const FSymbol            = '%sm4';
     const FName              = 'quartic %smeter';
@@ -970,10 +1026,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (4);
   end;
-  TQuarticMeterUnit = specialize TUnit<TQuarticMeter>;
+  TQuarticMeterUnit = specialize TSymbol<TQuarticMeterRec>;
+  TQuarticMeters = TQuantity;
 
 var
-  m4         : TQuarticMeterUnit;
+  m4 : TQuarticMeterUnit;
+  QuarticMeterUnit : TQuarticMeterUnit;
 
 const
   km4        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 11; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
@@ -990,7 +1048,7 @@ const
   cQuinticMeter = 12;
 
 type
-  TQuinticMeter = record
+  TQuinticMeterRec = record
     const FUnitOfMeasurement = cQuinticMeter;
     const FSymbol            = '%sm5';
     const FName              = 'quintic %smeter';
@@ -998,10 +1056,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (5);
   end;
-  TQuinticMeterUnit = specialize TUnit<TQuinticMeter>;
+  TQuinticMeterUnit = specialize TSymbol<TQuinticMeterRec>;
+  TQuinticMeters = TQuantity;
 
 var
-  m5         : TQuinticMeterUnit;
+  m5 : TQuinticMeterUnit;
+  QuinticMeterUnit : TQuinticMeterUnit;
 
 const
   km5        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 12; FValue: 1E+15); {$ELSE} (1E+15); {$ENDIF}
@@ -1018,7 +1078,7 @@ const
   cSexticMeter = 13;
 
 type
-  TSexticMeter = record
+  TSexticMeterRec = record
     const FUnitOfMeasurement = cSexticMeter;
     const FSymbol            = '%sm6';
     const FName              = 'sextic %smeter';
@@ -1026,10 +1086,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (6);
   end;
-  TSexticMeterUnit = specialize TUnit<TSexticMeter>;
+  TSexticMeterUnit = specialize TSymbol<TSexticMeterRec>;
+  TSexticMeters = TQuantity;
 
 var
-  m6         : TSexticMeterUnit;
+  m6 : TSexticMeterUnit;
+  SexticMeterUnit : TSexticMeterUnit;
 
 const
   km6        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 13; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
@@ -1046,7 +1108,7 @@ const
   cKilogram = 14;
 
 type
-  TKilogram = record
+  TKilogramRec = record
     const FUnitOfMeasurement = cKilogram;
     const FSymbol            = '%sg';
     const FName              = '%sgram';
@@ -1054,10 +1116,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo);
     const FExponents         : TExponents = (1);
   end;
-  TKilogramUnit = specialize TUnit<TKilogram>;
+  TKilogramUnit = specialize TSymbol<TKilogramRec>;
+  TKilograms = TQuantity;
 
 var
-  kg         : TKilogramUnit;
+  kg : TKilogramUnit;
+  KilogramUnit : TKilogramUnit;
 
 const
   hg         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
@@ -1073,7 +1137,7 @@ const
 { TTonne }
 
 type
-  TTonne = record
+  TTonneRec = record
     const FUnitOfMeasurement = cKilogram;
     const FSymbol            = '%st';
     const FName              = '%stonne';
@@ -1083,13 +1147,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TTonneUnit = specialize TFactoredUnit<TTonne>;
+  TTonneUnit = specialize TFactoredSymbol<TTonneRec>;
+  TTonnes = TQuantity;
 
 const
   tonne      : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 var
-  tonneUnit : TTonneUnit;
+  TonneUnit : TTonneUnit;
 
 const
   gigatonne  : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
@@ -1099,7 +1164,7 @@ const
 { TPound }
 
 type
-  TPound = record
+  TPoundRec = record
     const FUnitOfMeasurement = cKilogram;
     const FSymbol            = 'lb';
     const FName              = 'pound';
@@ -1109,18 +1174,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TPoundUnit = specialize TFactoredUnit<TPound>;
+  TPoundUnit = specialize TFactoredSymbol<TPoundRec>;
+  TPounds = TQuantity;
 
 const
   lb         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 0.45359237); {$ELSE} (0.45359237); {$ENDIF}
 
 var
-  lbUnit : TPoundUnit;
+  PoundUnit : TPoundUnit;
 
 { TOunce }
 
 type
-  TOunce = record
+  TOunceRec = record
     const FUnitOfMeasurement = cKilogram;
     const FSymbol            = 'oz';
     const FName              = 'ounce';
@@ -1130,18 +1196,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TOunceUnit = specialize TFactoredUnit<TOunce>;
+  TOunceUnit = specialize TFactoredSymbol<TOunceRec>;
+  TOunces = TQuantity;
 
 const
   oz         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 0.028349523125); {$ELSE} (0.028349523125); {$ENDIF}
 
 var
-  ozUnit : TOunceUnit;
+  OunceUnit : TOunceUnit;
 
 { TStone }
 
 type
-  TStone = record
+  TStoneRec = record
     const FUnitOfMeasurement = cKilogram;
     const FSymbol            = 'st';
     const FName              = 'stone';
@@ -1151,18 +1218,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TStoneUnit = specialize TFactoredUnit<TStone>;
+  TStoneUnit = specialize TFactoredSymbol<TStoneRec>;
+  TStones = TQuantity;
 
 const
   st         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 6.35029318); {$ELSE} (6.35029318); {$ENDIF}
 
 var
-  stUnit : TStoneUnit;
+  StoneUnit : TStoneUnit;
 
 { TTon }
 
 type
-  TTon = record
+  TTonRec = record
     const FUnitOfMeasurement = cKilogram;
     const FSymbol            = 'ton';
     const FName              = 'ton';
@@ -1172,18 +1240,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TTonUnit = specialize TFactoredUnit<TTon>;
+  TTonUnit = specialize TFactoredSymbol<TTonRec>;
+  TTons = TQuantity;
 
 const
   ton        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 907.18474); {$ELSE} (907.18474); {$ENDIF}
 
 var
-  tonUnit : TTonUnit;
+  TonUnit : TTonUnit;
 
 { TElectronvoltPerSquareSpeedOfLight }
 
 type
-  TElectronvoltPerSquareSpeedOfLight = record
+  TElectronvoltPerSquareSpeedOfLightRec = record
     const FUnitOfMeasurement = cKilogram;
     const FSymbol            = '%seV/c2';
     const FName              = '%selectronvolt per squared speed of light';
@@ -1193,7 +1262,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TElectronvoltPerSquareSpeedOfLightUnit = specialize TFactoredUnit<TElectronvoltPerSquareSpeedOfLight>;
+  TElectronvoltPerSquareSpeedOfLightUnit = specialize TFactoredSymbol<TElectronvoltPerSquareSpeedOfLightRec>;
+  TElectronvoltsPerSquareSpeedOfLight = TQuantity;
 
 const
   ElectronvoltPerSquareSpeedOfLight : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 14; FValue: 1.7826619216279E-36); {$ELSE} (1.7826619216279E-36); {$ENDIF}
@@ -1207,7 +1277,7 @@ const
   cSquareKilogram = 15;
 
 type
-  TSquareKilogram = record
+  TSquareKilogramRec = record
     const FUnitOfMeasurement = cSquareKilogram;
     const FSymbol            = '%sg2';
     const FName              = 'square %sgram';
@@ -1215,10 +1285,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo);
     const FExponents         : TExponents = (2);
   end;
-  TSquareKilogramUnit = specialize TUnit<TSquareKilogram>;
+  TSquareKilogramUnit = specialize TSymbol<TSquareKilogramRec>;
+  TSquareKilograms = TQuantity;
 
 var
-  kg2        : TSquareKilogramUnit;
+  kg2 : TSquareKilogramUnit;
+  SquareKilogramUnit : TSquareKilogramUnit;
 
 const
   hg2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 15; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
@@ -1237,7 +1309,7 @@ const
   cAmpere = 16;
 
 type
-  TAmpere = record
+  TAmpereRec = record
     const FUnitOfMeasurement = cAmpere;
     const FSymbol            = '%sA';
     const FName              = '%sampere';
@@ -1245,10 +1317,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TAmpereUnit = specialize TUnit<TAmpere>;
+  TAmpereUnit = specialize TSymbol<TAmpereRec>;
+  TAmperes = TQuantity;
 
 var
-  A          : TAmpereUnit;
+  A : TAmpereUnit;
+  AmpereUnit : TAmpereUnit;
 
 const
   kA         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 16; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
@@ -1267,7 +1341,7 @@ const
   cSquareAmpere = 17;
 
 type
-  TSquareAmpere = record
+  TSquareAmpereRec = record
     const FUnitOfMeasurement = cSquareAmpere;
     const FSymbol            = '%sA2';
     const FName              = 'square %sampere';
@@ -1275,10 +1349,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareAmpereUnit = specialize TUnit<TSquareAmpere>;
+  TSquareAmpereUnit = specialize TSymbol<TSquareAmpereRec>;
+  TSquareAmperes = TQuantity;
 
 var
-  A2         : TSquareAmpereUnit;
+  A2 : TSquareAmpereUnit;
+  SquareAmpereUnit : TSquareAmpereUnit;
 
 const
   kA2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 17; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
@@ -1297,7 +1373,7 @@ const
   cKelvin = 18;
 
 type
-  TKelvin = record
+  TKelvinRec = record
     const FUnitOfMeasurement = cKelvin;
     const FSymbol            = '%sK';
     const FName              = '%skelvin';
@@ -1305,15 +1381,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TKelvinUnit = specialize TUnit<TKelvin>;
+  TKelvinUnit = specialize TSymbol<TKelvinRec>;
+  TKelvins = TQuantity;
 
 var
-  K          : TKelvinUnit;
+  K : TKelvinUnit;
+  KelvinUnit : TKelvinUnit;
 
 { TDegreeCelsius }
 
 type
-  TDegreeCelsius = record
+  TDegreeCelsiusRec = record
     const FUnitOfMeasurement = cKelvin;
     const FSymbol            = 'ºC';
     const FName              = 'degree Celsius';
@@ -1323,15 +1401,16 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TDegreeCelsiusUnit = specialize TFactoredUnit<TDegreeCelsius>;
+  TDegreeCelsiusUnit = specialize TFactoredSymbol<TDegreeCelsiusRec>;
+  TDegreesCelsius = TQuantity;
 
 var
-  degC       : TDegreeCelsiusUnit;
+  degC : TDegreeCelsiusUnit;
 
 { TDegreeFahrenheit }
 
 type
-  TDegreeFahrenheit = record
+  TDegreeFahrenheitRec = record
     const FUnitOfMeasurement = cKelvin;
     const FSymbol            = 'ºF';
     const FName              = 'degree Fahrenheit';
@@ -1341,10 +1420,11 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TDegreeFahrenheitUnit = specialize TFactoredUnit<TDegreeFahrenheit>;
+  TDegreeFahrenheitUnit = specialize TFactoredSymbol<TDegreeFahrenheitRec>;
+  TDegreesFahrenheit = TQuantity;
 
 var
-  degF       : TDegreeFahrenheitUnit;
+  degF : TDegreeFahrenheitUnit;
 
 { TSquareKelvin }
 
@@ -1352,7 +1432,7 @@ const
   cSquareKelvin = 19;
 
 type
-  TSquareKelvin = record
+  TSquareKelvinRec = record
     const FUnitOfMeasurement = cSquareKelvin;
     const FSymbol            = '%sK2';
     const FName              = 'square %skelvin';
@@ -1360,10 +1440,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareKelvinUnit = specialize TUnit<TSquareKelvin>;
+  TSquareKelvinUnit = specialize TSymbol<TSquareKelvinRec>;
+  TSquareKelvins = TQuantity;
 
 var
-  K2         : TSquareKelvinUnit;
+  K2 : TSquareKelvinUnit;
+  SquareKelvinUnit : TSquareKelvinUnit;
 
 { TCubicKelvin }
 
@@ -1371,7 +1453,7 @@ const
   cCubicKelvin = 20;
 
 type
-  TCubicKelvin = record
+  TCubicKelvinRec = record
     const FUnitOfMeasurement = cCubicKelvin;
     const FSymbol            = '%sK3';
     const FName              = 'cubic %skelvin';
@@ -1379,10 +1461,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (3);
   end;
-  TCubicKelvinUnit = specialize TUnit<TCubicKelvin>;
+  TCubicKelvinUnit = specialize TSymbol<TCubicKelvinRec>;
+  TCubicKelvins = TQuantity;
 
 var
-  K3         : TCubicKelvinUnit;
+  K3 : TCubicKelvinUnit;
+  CubicKelvinUnit : TCubicKelvinUnit;
 
 { TQuarticKelvin }
 
@@ -1390,7 +1474,7 @@ const
   cQuarticKelvin = 21;
 
 type
-  TQuarticKelvin = record
+  TQuarticKelvinRec = record
     const FUnitOfMeasurement = cQuarticKelvin;
     const FSymbol            = '%sK4';
     const FName              = 'quartic %skelvin';
@@ -1398,10 +1482,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (4);
   end;
-  TQuarticKelvinUnit = specialize TUnit<TQuarticKelvin>;
+  TQuarticKelvinUnit = specialize TSymbol<TQuarticKelvinRec>;
+  TQuarticKelvins = TQuantity;
 
 var
-  K4         : TQuarticKelvinUnit;
+  K4 : TQuarticKelvinUnit;
+  QuarticKelvinUnit : TQuarticKelvinUnit;
 
 { TMole }
 
@@ -1409,7 +1495,7 @@ const
   cMole = 22;
 
 type
-  TMole = record
+  TMoleRec = record
     const FUnitOfMeasurement = cMole;
     const FSymbol            = '%smol';
     const FName              = '%smole';
@@ -1417,10 +1503,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TMoleUnit = specialize TUnit<TMole>;
+  TMoleUnit = specialize TSymbol<TMoleRec>;
+  TMoles = TQuantity;
 
 var
-  mol        : TMoleUnit;
+  mol : TMoleUnit;
+  MoleUnit : TMoleUnit;
 
 const
   kmol       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 22; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
@@ -1433,7 +1521,7 @@ const
   cCandela = 23;
 
 type
-  TCandela = record
+  TCandelaRec = record
     const FUnitOfMeasurement = cCandela;
     const FSymbol            = '%scd';
     const FName              = '%scandela';
@@ -1441,10 +1529,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TCandelaUnit = specialize TUnit<TCandela>;
+  TCandelaUnit = specialize TSymbol<TCandelaRec>;
+  TCandelas = TQuantity;
 
 var
-  cd         : TCandelaUnit;
+  cd : TCandelaUnit;
+  CandelaUnit : TCandelaUnit;
 
 { THertz }
 
@@ -1452,7 +1542,7 @@ const
   cHertz = 24;
 
 type
-  THertz = record
+  THertzRec = record
     const FUnitOfMeasurement = cHertz;
     const FSymbol            = '%sHz';
     const FName              = '%shertz';
@@ -1460,10 +1550,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  THertzUnit = specialize TUnit<THertz>;
+  THertzUnit = specialize TSymbol<THertzRec>;
+  THertz = TQuantity;
 
 var
-  Hz         : THertzUnit;
+  Hz : THertzUnit;
+  HertzUnit : THertzUnit;
 
 const
   THz        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 24; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
@@ -1474,7 +1566,7 @@ const
 { TReciprocalSecond }
 
 type
-  TReciprocalSecond = record
+  TReciprocalSecondRec = record
     const FUnitOfMeasurement = cHertz;
     const FSymbol            = '1/%ss';
     const FName              = 'reciprocal %ssecond';
@@ -1482,15 +1574,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-1);
   end;
-  TReciprocalSecondUnit = specialize TUnit<TReciprocalSecond>;
+  TReciprocalSecondUnit = specialize TSymbol<TReciprocalSecondRec>;
+  TReciprocalSeconds = TQuantity;
 
 var
   ReciprocalSecond : TReciprocalSecondUnit;
+  ReciprocalSecondUnit : TReciprocalSecondUnit;
 
 { TRadianPerSecond }
 
 type
-  TRadianPerSecond = record
+  TRadianPerSecondRec = record
     const FUnitOfMeasurement = cHertz;
     const FSymbol            = 'rad/%ss';
     const FName              = 'radian per %ssecond';
@@ -1498,10 +1592,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-1);
   end;
-  TRadianPerSecondUnit = specialize TUnit<TRadianPerSecond>;
+  TRadianPerSecondUnit = specialize TSymbol<TRadianPerSecondRec>;
+  TRadiansPerSecond = TQuantity;
 
 var
   RadianPerSecond : TRadianPerSecondUnit;
+  RadianPerSecondUnit : TRadianPerSecondUnit;
 
 { TSquareHertz }
 
@@ -1509,7 +1605,7 @@ const
   cSquareHertz = 25;
 
 type
-  TSquareHertz = record
+  TSquareHertzRec = record
     const FUnitOfMeasurement = cSquareHertz;
     const FSymbol            = '%sHz2';
     const FName              = 'square %shertz';
@@ -1517,10 +1613,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareHertzUnit = specialize TUnit<TSquareHertz>;
+  TSquareHertzUnit = specialize TSymbol<TSquareHertzRec>;
+  TSquareHertz = TQuantity;
 
 var
-  Hz2        : TSquareHertzUnit;
+  Hz2 : TSquareHertzUnit;
+  SquareHertzUnit : TSquareHertzUnit;
 
 const
   THz2       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 25; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
@@ -1531,7 +1629,7 @@ const
 { TReciprocalSquareSecond }
 
 type
-  TReciprocalSquareSecond = record
+  TReciprocalSquareSecondRec = record
     const FUnitOfMeasurement = cSquareHertz;
     const FSymbol            = '1/%ss2';
     const FName              = 'reciprocal square %ssecond';
@@ -1539,15 +1637,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-2);
   end;
-  TReciprocalSquareSecondUnit = specialize TUnit<TReciprocalSquareSecond>;
+  TReciprocalSquareSecondUnit = specialize TSymbol<TReciprocalSquareSecondRec>;
+  TReciprocalSquareSeconds = TQuantity;
 
 var
   ReciprocalSquareSecond : TReciprocalSquareSecondUnit;
+  ReciprocalSquareSecondUnit : TReciprocalSquareSecondUnit;
 
 { TRadianPerSquareSecond }
 
 type
-  TRadianPerSquareSecond = record
+  TRadianPerSquareSecondRec = record
     const FUnitOfMeasurement = cSquareHertz;
     const FSymbol            = 'rad/%ss2';
     const FName              = 'radian per square %ssecond';
@@ -1555,10 +1655,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-2);
   end;
-  TRadianPerSquareSecondUnit = specialize TUnit<TRadianPerSquareSecond>;
+  TRadianPerSquareSecondUnit = specialize TSymbol<TRadianPerSquareSecondRec>;
+  TRadiansPerSquareSecond = TQuantity;
 
 var
   RadianPerSquareSecond : TRadianPerSquareSecondUnit;
+  RadianPerSquareSecondUnit : TRadianPerSquareSecondUnit;
 
 { TSteradianPerSquareSecond }
 
@@ -1566,7 +1668,7 @@ const
   cSteradianPerSquareSecond = 26;
 
 type
-  TSteradianPerSquareSecond = record
+  TSteradianPerSquareSecondRec = record
     const FUnitOfMeasurement = cSteradianPerSquareSecond;
     const FSymbol            = 'sr/%ss2';
     const FName              = 'steradian per square %ssecond';
@@ -1574,10 +1676,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-2);
   end;
-  TSteradianPerSquareSecondUnit = specialize TUnit<TSteradianPerSquareSecond>;
+  TSteradianPerSquareSecondUnit = specialize TSymbol<TSteradianPerSquareSecondRec>;
+  TSteradiansPerSquareSecond = TQuantity;
 
 var
   SteradianPerSquareSecond : TSteradianPerSquareSecondUnit;
+  SteradianPerSquareSecondUnit : TSteradianPerSquareSecondUnit;
 
 { TMeterPerSecond }
 
@@ -1585,7 +1689,7 @@ const
   cMeterPerSecond = 27;
 
 type
-  TMeterPerSecond = record
+  TMeterPerSecondRec = record
     const FUnitOfMeasurement = cMeterPerSecond;
     const FSymbol            = '%sm/%ss';
     const FName              = '%smeter per %ssecond';
@@ -1593,15 +1697,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TMeterPerSecondUnit = specialize TUnit<TMeterPerSecond>;
+  TMeterPerSecondUnit = specialize TSymbol<TMeterPerSecondRec>;
+  TMetersPerSecond = TQuantity;
 
 var
   MeterPerSecond : TMeterPerSecondUnit;
+  MeterPerSecondUnit : TMeterPerSecondUnit;
 
 { TMeterPerHour }
 
 type
-  TMeterPerHour = record
+  TMeterPerHourRec = record
     const FUnitOfMeasurement = cMeterPerSecond;
     const FSymbol            = '%sm/h';
     const FName              = '%smeter per hour';
@@ -1611,7 +1717,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TMeterPerHourUnit = specialize TFactoredUnit<TMeterPerHour>;
+  TMeterPerHourUnit = specialize TFactoredSymbol<TMeterPerHourRec>;
+  TMetersPerHour = TQuantity;
 
 const
   MeterPerHour : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 27; FValue: 1/3600); {$ELSE} (1/3600); {$ENDIF}
@@ -1622,7 +1729,7 @@ var
 { TMilePerHour }
 
 type
-  TMilePerHour = record
+  TMilePerHourRec = record
     const FUnitOfMeasurement = cMeterPerSecond;
     const FSymbol            = 'mi/h';
     const FName              = 'mile per hour';
@@ -1632,7 +1739,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TMilePerHourUnit = specialize TFactoredUnit<TMilePerHour>;
+  TMilePerHourUnit = specialize TFactoredSymbol<TMilePerHourRec>;
+  TMilesPerHour = TQuantity;
 
 const
   MilePerHour : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 27; FValue: 0.44704); {$ELSE} (0.44704); {$ENDIF}
@@ -1643,7 +1751,7 @@ var
 { TNauticalMilePerHour }
 
 type
-  TNauticalMilePerHour = record
+  TNauticalMilePerHourRec = record
     const FUnitOfMeasurement = cMeterPerSecond;
     const FSymbol            = 'nmi/h';
     const FName              = 'nautical mile per hour';
@@ -1653,7 +1761,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TNauticalMilePerHourUnit = specialize TFactoredUnit<TNauticalMilePerHour>;
+  TNauticalMilePerHourUnit = specialize TFactoredSymbol<TNauticalMilePerHourRec>;
+  TNauticalMilesPerHour = TQuantity;
 
 const
   NauticalMilePerHour : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 27; FValue: 463/900); {$ELSE} (463/900); {$ENDIF}
@@ -1667,7 +1776,7 @@ const
   cMeterPerSquareSecond = 28;
 
 type
-  TMeterPerSquareSecond = record
+  TMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cMeterPerSquareSecond;
     const FSymbol            = '%sm/%ss2';
     const FName              = '%smeter per %ssecond squared';
@@ -1675,15 +1784,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TMeterPerSquareSecondUnit = specialize TUnit<TMeterPerSquareSecond>;
+  TMeterPerSquareSecondUnit = specialize TSymbol<TMeterPerSquareSecondRec>;
+  TMetersPerSquareSecond = TQuantity;
 
 var
   MeterPerSquareSecond : TMeterPerSquareSecondUnit;
+  MeterPerSquareSecondUnit : TMeterPerSquareSecondUnit;
 
 { TMeterPerSecondPerSecond }
 
 type
-  TMeterPerSecondPerSecond = record
+  TMeterPerSecondPerSecondRec = record
     const FUnitOfMeasurement = cMeterPerSquareSecond;
     const FSymbol            = '%sm/%ss/%ss';
     const FName              = '%smeter per %ssecond per %ssecond';
@@ -1691,15 +1802,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, -1, -1);
   end;
-  TMeterPerSecondPerSecondUnit = specialize TUnit<TMeterPerSecondPerSecond>;
+  TMeterPerSecondPerSecondUnit = specialize TSymbol<TMeterPerSecondPerSecondRec>;
+  TMetersPerSecondPerSecond = TQuantity;
 
 var
   MeterPerSecondPerSecond : TMeterPerSecondPerSecondUnit;
+  MeterPerSecondPerSecondUnit : TMeterPerSecondPerSecondUnit;
 
 { TMeterPerHourPerSecond }
 
 type
-  TMeterPerHourPerSecond = record
+  TMeterPerHourPerSecondRec = record
     const FUnitOfMeasurement = cMeterPerSquareSecond;
     const FSymbol            = '%sm/h/%ss';
     const FName              = '%smeter per hour per %ssecond';
@@ -1709,7 +1822,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TMeterPerHourPerSecondUnit = specialize TFactoredUnit<TMeterPerHourPerSecond>;
+  TMeterPerHourPerSecondUnit = specialize TFactoredSymbol<TMeterPerHourPerSecondRec>;
+  TMetersPerHourPerSecond = TQuantity;
 
 const
   MeterPerHourPerSecond : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 28; FValue: 1/3600); {$ELSE} (1/3600); {$ENDIF}
@@ -1723,7 +1837,7 @@ const
   cMeterPerCubicSecond = 29;
 
 type
-  TMeterPerCubicSecond = record
+  TMeterPerCubicSecondRec = record
     const FUnitOfMeasurement = cMeterPerCubicSecond;
     const FSymbol            = '%sm/%ss3';
     const FName              = '%smeter per cubic %ssecond';
@@ -1731,10 +1845,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TMeterPerCubicSecondUnit = specialize TUnit<TMeterPerCubicSecond>;
+  TMeterPerCubicSecondUnit = specialize TSymbol<TMeterPerCubicSecondRec>;
+  TMetersPerCubicSecond = TQuantity;
 
 var
   MeterPerCubicSecond : TMeterPerCubicSecondUnit;
+  MeterPerCubicSecondUnit : TMeterPerCubicSecondUnit;
 
 { TMeterPerQuarticSecond }
 
@@ -1742,7 +1858,7 @@ const
   cMeterPerQuarticSecond = 30;
 
 type
-  TMeterPerQuarticSecond = record
+  TMeterPerQuarticSecondRec = record
     const FUnitOfMeasurement = cMeterPerQuarticSecond;
     const FSymbol            = '%sm/%ss4';
     const FName              = '%smeter per quartic %ssecond';
@@ -1750,10 +1866,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -4);
   end;
-  TMeterPerQuarticSecondUnit = specialize TUnit<TMeterPerQuarticSecond>;
+  TMeterPerQuarticSecondUnit = specialize TSymbol<TMeterPerQuarticSecondRec>;
+  TMetersPerQuarticSecond = TQuantity;
 
 var
   MeterPerQuarticSecond : TMeterPerQuarticSecondUnit;
+  MeterPerQuarticSecondUnit : TMeterPerQuarticSecondUnit;
 
 { TMeterPerQuinticSecond }
 
@@ -1761,7 +1879,7 @@ const
   cMeterPerQuinticSecond = 31;
 
 type
-  TMeterPerQuinticSecond = record
+  TMeterPerQuinticSecondRec = record
     const FUnitOfMeasurement = cMeterPerQuinticSecond;
     const FSymbol            = '%sm/%ss5';
     const FName              = '%smeter per quintic %ssecond';
@@ -1769,10 +1887,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -5);
   end;
-  TMeterPerQuinticSecondUnit = specialize TUnit<TMeterPerQuinticSecond>;
+  TMeterPerQuinticSecondUnit = specialize TSymbol<TMeterPerQuinticSecondRec>;
+  TMetersPerQuinticSecond = TQuantity;
 
 var
   MeterPerQuinticSecond : TMeterPerQuinticSecondUnit;
+  MeterPerQuinticSecondUnit : TMeterPerQuinticSecondUnit;
 
 { TMeterPerSexticSecond }
 
@@ -1780,7 +1900,7 @@ const
   cMeterPerSexticSecond = 32;
 
 type
-  TMeterPerSexticSecond = record
+  TMeterPerSexticSecondRec = record
     const FUnitOfMeasurement = cMeterPerSexticSecond;
     const FSymbol            = '%sm/%ss6';
     const FName              = '%smeter per sextic %ssecond';
@@ -1788,10 +1908,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -6);
   end;
-  TMeterPerSexticSecondUnit = specialize TUnit<TMeterPerSexticSecond>;
+  TMeterPerSexticSecondUnit = specialize TSymbol<TMeterPerSexticSecondRec>;
+  TMetersPerSexticSecond = TQuantity;
 
 var
   MeterPerSexticSecond : TMeterPerSexticSecondUnit;
+  MeterPerSexticSecondUnit : TMeterPerSexticSecondUnit;
 
 { TSquareMeterPerSquareSecond }
 
@@ -1799,7 +1921,7 @@ const
   cSquareMeterPerSquareSecond = 33;
 
 type
-  TSquareMeterPerSquareSecond = record
+  TSquareMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cSquareMeterPerSquareSecond;
     const FSymbol            = '%sm2/%ss2';
     const FName              = 'square %smeter per square %ssecond';
@@ -1807,15 +1929,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, -2);
   end;
-  TSquareMeterPerSquareSecondUnit = specialize TUnit<TSquareMeterPerSquareSecond>;
+  TSquareMeterPerSquareSecondUnit = specialize TSymbol<TSquareMeterPerSquareSecondRec>;
+  TSquareMetersPerSquareSecond = TQuantity;
 
 var
   SquareMeterPerSquareSecond : TSquareMeterPerSquareSecondUnit;
+  SquareMeterPerSquareSecondUnit : TSquareMeterPerSquareSecondUnit;
 
 { TJoulePerKilogram }
 
 type
-  TJoulePerKilogram = record
+  TJoulePerKilogramRec = record
     const FUnitOfMeasurement = cSquareMeterPerSquareSecond;
     const FSymbol            = '%sJ/%sg';
     const FName              = '%sjoule per %sgram';
@@ -1823,15 +1947,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pKilo);
     const FExponents         : TExponents = (1, -1);
   end;
-  TJoulePerKilogramUnit = specialize TUnit<TJoulePerKilogram>;
+  TJoulePerKilogramUnit = specialize TSymbol<TJoulePerKilogramRec>;
+  TJoulesPerKilogram = TQuantity;
 
 var
   JoulePerKilogram : TJoulePerKilogramUnit;
+  JoulePerKilogramUnit : TJoulePerKilogramUnit;
 
 { TGray }
 
 type
-  TGray = record
+  TGrayRec = record
     const FUnitOfMeasurement = cSquareMeterPerSquareSecond;
     const FSymbol            = '%sGy';
     const FName              = '%sgray';
@@ -1839,10 +1965,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TGrayUnit = specialize TUnit<TGray>;
+  TGrayUnit = specialize TSymbol<TGrayRec>;
+  TGrays = TQuantity;
 
 var
-  Gy         : TGrayUnit;
+  Gy : TGrayUnit;
+  GrayUnit : TGrayUnit;
 
 const
   kGy        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 33; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
@@ -1853,7 +1981,7 @@ const
 { TSievert }
 
 type
-  TSievert = record
+  TSievertRec = record
     const FUnitOfMeasurement = cSquareMeterPerSquareSecond;
     const FSymbol            = '%sSv';
     const FName              = '%ssievert';
@@ -1861,10 +1989,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TSievertUnit = specialize TUnit<TSievert>;
+  TSievertUnit = specialize TSymbol<TSievertRec>;
+  TSieverts = TQuantity;
 
 var
-  Sv         : TSievertUnit;
+  Sv : TSievertUnit;
+  SievertUnit : TSievertUnit;
 
 const
   kSv        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 33; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
@@ -1878,7 +2008,7 @@ const
   cMeterSecond = 34;
 
 type
-  TMeterSecond = record
+  TMeterSecondRec = record
     const FUnitOfMeasurement = cMeterSecond;
     const FSymbol            = '%sm.%ss';
     const FName              = '%smeter %ssecond';
@@ -1886,10 +2016,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TMeterSecondUnit = specialize TUnit<TMeterSecond>;
+  TMeterSecondUnit = specialize TSymbol<TMeterSecondRec>;
+  TMeterSeconds = TQuantity;
 
 var
   MeterSecond : TMeterSecondUnit;
+  MeterSecondUnit : TMeterSecondUnit;
 
 { TKilogramMeter }
 
@@ -1897,7 +2029,7 @@ const
   cKilogramMeter = 35;
 
 type
-  TKilogramMeter = record
+  TKilogramMeterRec = record
     const FUnitOfMeasurement = cKilogramMeter;
     const FSymbol            = '%sg.%sm';
     const FName              = '%sgram %smeter';
@@ -1905,10 +2037,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TKilogramMeterUnit = specialize TUnit<TKilogramMeter>;
+  TKilogramMeterUnit = specialize TSymbol<TKilogramMeterRec>;
+  TKilogramMeters = TQuantity;
 
 var
   KilogramMeter : TKilogramMeterUnit;
+  KilogramMeterUnit : TKilogramMeterUnit;
 
 { TKilogramPerSecond }
 
@@ -1916,7 +2050,7 @@ const
   cKilogramPerSecond = 36;
 
 type
-  TKilogramPerSecond = record
+  TKilogramPerSecondRec = record
     const FUnitOfMeasurement = cKilogramPerSecond;
     const FSymbol            = '%sg/%ss';
     const FName              = '%sgram per %ssecond';
@@ -1924,15 +2058,17 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TKilogramPerSecondUnit = specialize TUnit<TKilogramPerSecond>;
+  TKilogramPerSecondUnit = specialize TSymbol<TKilogramPerSecondRec>;
+  TKilogramsPerSecond = TQuantity;
 
 var
   KilogramPerSecond : TKilogramPerSecondUnit;
+  KilogramPerSecondUnit : TKilogramPerSecondUnit;
 
 { TJoulePerSquareMeterPerHertz }
 
 type
-  TJoulePerSquareMeterPerHertz = record
+  TJoulePerSquareMeterPerHertzRec = record
     const FUnitOfMeasurement = cKilogramPerSecond;
     const FSymbol            = '%sJ/%sm2/%sHz';
     const FName              = '%sjoule per square %smeter per %shertz';
@@ -1940,10 +2076,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, -2, -1);
   end;
-  TJoulePerSquareMeterPerHertzUnit = specialize TUnit<TJoulePerSquareMeterPerHertz>;
+  TJoulePerSquareMeterPerHertzUnit = specialize TSymbol<TJoulePerSquareMeterPerHertzRec>;
+  TJoulesPerSquareMeterPerHertz = TQuantity;
 
 var
   JoulePerSquareMeterPerHertz : TJoulePerSquareMeterPerHertzUnit;
+  JoulePerSquareMeterPerHertzUnit : TJoulePerSquareMeterPerHertzUnit;
 
 { TKilogramMeterPerSecond }
 
@@ -1951,7 +2089,7 @@ const
   cKilogramMeterPerSecond = 37;
 
 type
-  TKilogramMeterPerSecond = record
+  TKilogramMeterPerSecondRec = record
     const FUnitOfMeasurement = cKilogramMeterPerSecond;
     const FSymbol            = '%sg.%sm/%ss';
     const FName              = '%sgram %smeter per %ssecond';
@@ -1959,15 +2097,17 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, 1, -1);
   end;
-  TKilogramMeterPerSecondUnit = specialize TUnit<TKilogramMeterPerSecond>;
+  TKilogramMeterPerSecondUnit = specialize TSymbol<TKilogramMeterPerSecondRec>;
+  TKilogramMetersPerSecond = TQuantity;
 
 var
   KilogramMeterPerSecond : TKilogramMeterPerSecondUnit;
+  KilogramMeterPerSecondUnit : TKilogramMeterPerSecondUnit;
 
 { TNewtonSecond }
 
 type
-  TNewtonSecond = record
+  TNewtonSecondRec = record
     const FUnitOfMeasurement = cKilogramMeterPerSecond;
     const FSymbol            = '%sN.%ss';
     const FName              = '%snewton %ssecond';
@@ -1975,10 +2115,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TNewtonSecondUnit = specialize TUnit<TNewtonSecond>;
+  TNewtonSecondUnit = specialize TSymbol<TNewtonSecondRec>;
+  TNewtonSeconds = TQuantity;
 
 var
   NewtonSecond : TNewtonSecondUnit;
+  NewtonSecondUnit : TNewtonSecondUnit;
 
 { TSquareKilogramSquareMeterPerSquareSecond }
 
@@ -1986,7 +2128,7 @@ const
   cSquareKilogramSquareMeterPerSquareSecond = 38;
 
 type
-  TSquareKilogramSquareMeterPerSquareSecond = record
+  TSquareKilogramSquareMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cSquareKilogramSquareMeterPerSquareSecond;
     const FSymbol            = '%sg2.%sm2/%ss2';
     const FName              = 'square%sgram square%smeter per square%ssecond';
@@ -1994,10 +2136,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (2, 2, -2);
   end;
-  TSquareKilogramSquareMeterPerSquareSecondUnit = specialize TUnit<TSquareKilogramSquareMeterPerSquareSecond>;
+  TSquareKilogramSquareMeterPerSquareSecondUnit = specialize TSymbol<TSquareKilogramSquareMeterPerSquareSecondRec>;
+  TSquareKilogramSquareMetersPerSquareSecond = TQuantity;
 
 var
   SquareKilogramSquareMeterPerSquareSecond : TSquareKilogramSquareMeterPerSquareSecondUnit;
+  SquareKilogramSquareMeterPerSquareSecondUnit : TSquareKilogramSquareMeterPerSquareSecondUnit;
 
 { TReciprocalSquareRootMeter }
 
@@ -2005,7 +2149,7 @@ const
   cReciprocalSquareRootMeter = 39;
 
 type
-  TReciprocalSquareRootMeter = record
+  TReciprocalSquareRootMeterRec = record
     const FUnitOfMeasurement = cReciprocalSquareRootMeter;
     const FSymbol            = '1/√%sm';
     const FName              = 'reciprocal square root %smeter';
@@ -2013,10 +2157,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-1);
   end;
-  TReciprocalSquareRootMeterUnit = specialize TUnit<TReciprocalSquareRootMeter>;
+  TReciprocalSquareRootMeterUnit = specialize TSymbol<TReciprocalSquareRootMeterRec>;
+  TReciprocalSquareRootMeters = TQuantity;
 
 var
   ReciprocalSquareRootMeter : TReciprocalSquareRootMeterUnit;
+  ReciprocalSquareRootMeterUnit : TReciprocalSquareRootMeterUnit;
 
 { TReciprocalMeter }
 
@@ -2024,7 +2170,7 @@ const
   cReciprocalMeter = 40;
 
 type
-  TReciprocalMeter = record
+  TReciprocalMeterRec = record
     const FUnitOfMeasurement = cReciprocalMeter;
     const FSymbol            = '1/%sm';
     const FName              = 'reciprocal %smeter';
@@ -2032,15 +2178,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-1);
   end;
-  TReciprocalMeterUnit = specialize TUnit<TReciprocalMeter>;
+  TReciprocalMeterUnit = specialize TSymbol<TReciprocalMeterRec>;
+  TReciprocalMeters = TQuantity;
 
 var
   ReciprocalMeter : TReciprocalMeterUnit;
+  ReciprocalMeterUnit : TReciprocalMeterUnit;
 
 { TDioptre }
 
 type
-  TDioptre = record
+  TDioptreRec = record
     const FUnitOfMeasurement = cReciprocalMeter;
     const FSymbol            = 'dpt';
     const FName              = '%sdioptre';
@@ -2048,10 +2196,12 @@ type
     const FPrefixes          : TPrefixes  = ();
     const FExponents         : TExponents = ();
   end;
-  TDioptreUnit = specialize TUnit<TDioptre>;
+  TDioptreUnit = specialize TSymbol<TDioptreRec>;
+  TDioptres = TQuantity;
 
 var
-  Dioptre    : TDioptreUnit;
+  Dioptre : TDioptreUnit;
+  DioptreUnit : TDioptreUnit;
 
 { TReciprocalSquareRootCubicMeter }
 
@@ -2059,7 +2209,7 @@ const
   cReciprocalSquareRootCubicMeter = 41;
 
 type
-  TReciprocalSquareRootCubicMeter = record
+  TReciprocalSquareRootCubicMeterRec = record
     const FUnitOfMeasurement = cReciprocalSquareRootCubicMeter;
     const FSymbol            = '1/√%sm3';
     const FName              = 'reciprocal square root cubic %smeter';
@@ -2067,10 +2217,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-3);
   end;
-  TReciprocalSquareRootCubicMeterUnit = specialize TUnit<TReciprocalSquareRootCubicMeter>;
+  TReciprocalSquareRootCubicMeterUnit = specialize TSymbol<TReciprocalSquareRootCubicMeterRec>;
+  TReciprocalSquareRootCubicMeters = TQuantity;
 
 var
   ReciprocalSquareRootCubicMeter : TReciprocalSquareRootCubicMeterUnit;
+  ReciprocalSquareRootCubicMeterUnit : TReciprocalSquareRootCubicMeterUnit;
 
 { TReciprocalSquareMeter }
 
@@ -2078,7 +2230,7 @@ const
   cReciprocalSquareMeter = 42;
 
 type
-  TReciprocalSquareMeter = record
+  TReciprocalSquareMeterRec = record
     const FUnitOfMeasurement = cReciprocalSquareMeter;
     const FSymbol            = '1/%sm2';
     const FName              = 'reciprocal square %smeter';
@@ -2086,10 +2238,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-2);
   end;
-  TReciprocalSquareMeterUnit = specialize TUnit<TReciprocalSquareMeter>;
+  TReciprocalSquareMeterUnit = specialize TSymbol<TReciprocalSquareMeterRec>;
+  TReciprocalSquareMeters = TQuantity;
 
 var
   ReciprocalSquareMeter : TReciprocalSquareMeterUnit;
+  ReciprocalSquareMeterUnit : TReciprocalSquareMeterUnit;
 
 { TReciprocalCubicMeter }
 
@@ -2097,7 +2251,7 @@ const
   cReciprocalCubicMeter = 43;
 
 type
-  TReciprocalCubicMeter = record
+  TReciprocalCubicMeterRec = record
     const FUnitOfMeasurement = cReciprocalCubicMeter;
     const FSymbol            = '1/%sm3';
     const FName              = 'reciprocal cubic %smeter';
@@ -2105,10 +2259,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-3);
   end;
-  TReciprocalCubicMeterUnit = specialize TUnit<TReciprocalCubicMeter>;
+  TReciprocalCubicMeterUnit = specialize TSymbol<TReciprocalCubicMeterRec>;
+  TReciprocalCubicMeters = TQuantity;
 
 var
   ReciprocalCubicMeter : TReciprocalCubicMeterUnit;
+  ReciprocalCubicMeterUnit : TReciprocalCubicMeterUnit;
 
 { TReciprocalQuarticMeter }
 
@@ -2116,7 +2272,7 @@ const
   cReciprocalQuarticMeter = 44;
 
 type
-  TReciprocalQuarticMeter = record
+  TReciprocalQuarticMeterRec = record
     const FUnitOfMeasurement = cReciprocalQuarticMeter;
     const FSymbol            = '1/%sm4';
     const FName              = 'reciprocal quartic %smeter';
@@ -2124,10 +2280,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-4);
   end;
-  TReciprocalQuarticMeterUnit = specialize TUnit<TReciprocalQuarticMeter>;
+  TReciprocalQuarticMeterUnit = specialize TSymbol<TReciprocalQuarticMeterRec>;
+  TReciprocalQuarticMeters = TQuantity;
 
 var
   ReciprocalQuarticMeter : TReciprocalQuarticMeterUnit;
+  ReciprocalQuarticMeterUnit : TReciprocalQuarticMeterUnit;
 
 { TKilogramSquareMeter }
 
@@ -2135,7 +2293,7 @@ const
   cKilogramSquareMeter = 45;
 
 type
-  TKilogramSquareMeter = record
+  TKilogramSquareMeterRec = record
     const FUnitOfMeasurement = cKilogramSquareMeter;
     const FSymbol            = '%sg.%sm2';
     const FName              = '%sgram square %smeter';
@@ -2143,10 +2301,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, 2);
   end;
-  TKilogramSquareMeterUnit = specialize TUnit<TKilogramSquareMeter>;
+  TKilogramSquareMeterUnit = specialize TSymbol<TKilogramSquareMeterRec>;
+  TKilogramSquareMeters = TQuantity;
 
 var
   KilogramSquareMeter : TKilogramSquareMeterUnit;
+  KilogramSquareMeterUnit : TKilogramSquareMeterUnit;
 
 { TKilogramSquareMeterPerSecond }
 
@@ -2154,7 +2314,7 @@ const
   cKilogramSquareMeterPerSecond = 46;
 
 type
-  TKilogramSquareMeterPerSecond = record
+  TKilogramSquareMeterPerSecondRec = record
     const FUnitOfMeasurement = cKilogramSquareMeterPerSecond;
     const FSymbol            = '%sg.%sm2/%ss';
     const FName              = '%sgram square %smeter per %ssecond';
@@ -2162,15 +2322,17 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -1);
   end;
-  TKilogramSquareMeterPerSecondUnit = specialize TUnit<TKilogramSquareMeterPerSecond>;
+  TKilogramSquareMeterPerSecondUnit = specialize TSymbol<TKilogramSquareMeterPerSecondRec>;
+  TKilogramSquareMetersPerSecond = TQuantity;
 
 var
   KilogramSquareMeterPerSecond : TKilogramSquareMeterPerSecondUnit;
+  KilogramSquareMeterPerSecondUnit : TKilogramSquareMeterPerSecondUnit;
 
 { TNewtonMeterSecond }
 
 type
-  TNewtonMeterSecond = record
+  TNewtonMeterSecondRec = record
     const FUnitOfMeasurement = cKilogramSquareMeterPerSecond;
     const FSymbol            = '%sN.%sm.%ss';
     const FName              = '%snewton %smeter %ssecond';
@@ -2178,10 +2340,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 1, 1);
   end;
-  TNewtonMeterSecondUnit = specialize TUnit<TNewtonMeterSecond>;
+  TNewtonMeterSecondUnit = specialize TSymbol<TNewtonMeterSecondRec>;
+  TNewtonMeterSeconds = TQuantity;
 
 var
   NewtonMeterSecond : TNewtonMeterSecondUnit;
+  NewtonMeterSecondUnit : TNewtonMeterSecondUnit;
 
 { TSecondPerMeter }
 
@@ -2189,7 +2353,7 @@ const
   cSecondPerMeter = 47;
 
 type
-  TSecondPerMeter = record
+  TSecondPerMeterRec = record
     const FUnitOfMeasurement = cSecondPerMeter;
     const FSymbol            = '%ss/%sm';
     const FName              = '%ssecond per %smeter';
@@ -2197,10 +2361,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TSecondPerMeterUnit = specialize TUnit<TSecondPerMeter>;
+  TSecondPerMeterUnit = specialize TSymbol<TSecondPerMeterRec>;
+  TSecondsPerMeter = TQuantity;
 
 var
   SecondPerMeter : TSecondPerMeterUnit;
+  SecondPerMeterUnit : TSecondPerMeterUnit;
 
 { TKilogramPerMeter }
 
@@ -2208,7 +2374,7 @@ const
   cKilogramPerMeter = 48;
 
 type
-  TKilogramPerMeter = record
+  TKilogramPerMeterRec = record
     const FUnitOfMeasurement = cKilogramPerMeter;
     const FSymbol            = '%sg/%sm';
     const FName              = '%sgram per %smeter';
@@ -2216,10 +2382,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TKilogramPerMeterUnit = specialize TUnit<TKilogramPerMeter>;
+  TKilogramPerMeterUnit = specialize TSymbol<TKilogramPerMeterRec>;
+  TKilogramsPerMeter = TQuantity;
 
 var
   KilogramPerMeter : TKilogramPerMeterUnit;
+  KilogramPerMeterUnit : TKilogramPerMeterUnit;
 
 { TKilogramPerSquareMeter }
 
@@ -2227,7 +2395,7 @@ const
   cKilogramPerSquareMeter = 49;
 
 type
-  TKilogramPerSquareMeter = record
+  TKilogramPerSquareMeterRec = record
     const FUnitOfMeasurement = cKilogramPerSquareMeter;
     const FSymbol            = '%sg/%sm2';
     const FName              = '%sgram per square %smeter';
@@ -2235,10 +2403,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TKilogramPerSquareMeterUnit = specialize TUnit<TKilogramPerSquareMeter>;
+  TKilogramPerSquareMeterUnit = specialize TSymbol<TKilogramPerSquareMeterRec>;
+  TKilogramsPerSquareMeter = TQuantity;
 
 var
   KilogramPerSquareMeter : TKilogramPerSquareMeterUnit;
+  KilogramPerSquareMeterUnit : TKilogramPerSquareMeterUnit;
 
 { TKilogramPerCubicMeter }
 
@@ -2246,7 +2416,7 @@ const
   cKilogramPerCubicMeter = 50;
 
 type
-  TKilogramPerCubicMeter = record
+  TKilogramPerCubicMeterRec = record
     const FUnitOfMeasurement = cKilogramPerCubicMeter;
     const FSymbol            = '%sg/%sm3';
     const FName              = '%sgram per cubic %smeter';
@@ -2254,15 +2424,17 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TKilogramPerCubicMeterUnit = specialize TUnit<TKilogramPerCubicMeter>;
+  TKilogramPerCubicMeterUnit = specialize TSymbol<TKilogramPerCubicMeterRec>;
+  TKilogramsPerCubicMeter = TQuantity;
 
 var
   KilogramPerCubicMeter : TKilogramPerCubicMeterUnit;
+  KilogramPerCubicMeterUnit : TKilogramPerCubicMeterUnit;
 
 { TPoundPerCubicInch }
 
 type
-  TPoundPerCubicInch = record
+  TPoundPerCubicInchRec = record
     const FUnitOfMeasurement = cKilogramPerCubicMeter;
     const FSymbol            = 'lb/in3';
     const FName              = 'pound per cubic inch';
@@ -2272,7 +2444,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TPoundPerCubicInchUnit = specialize TFactoredUnit<TPoundPerCubicInch>;
+  TPoundPerCubicInchUnit = specialize TFactoredSymbol<TPoundPerCubicInchRec>;
+  TPoundsPerCubicInch = TQuantity;
 
 const
   PoundPerCubicInch : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 50; FValue: 27679.9047102031); {$ELSE} (27679.9047102031); {$ENDIF}
@@ -2286,7 +2459,7 @@ const
   cNewton = 51;
 
 type
-  TNewton = record
+  TNewtonRec = record
     const FUnitOfMeasurement = cNewton;
     const FSymbol            = '%sN';
     const FName              = '%snewton';
@@ -2294,10 +2467,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TNewtonUnit = specialize TUnit<TNewton>;
+  TNewtonUnit = specialize TSymbol<TNewtonRec>;
+  TNewtons = TQuantity;
 
 var
-  N          : TNewtonUnit;
+  N : TNewtonUnit;
+  NewtonUnit : TNewtonUnit;
 
 const
   GN         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 51; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
@@ -2309,7 +2484,7 @@ const
 { TPoundForce }
 
 type
-  TPoundForce = record
+  TPoundForceRec = record
     const FUnitOfMeasurement = cNewton;
     const FSymbol            = 'lbf';
     const FName              = 'pound-force';
@@ -2319,18 +2494,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TPoundForceUnit = specialize TFactoredUnit<TPoundForce>;
+  TPoundForceUnit = specialize TFactoredSymbol<TPoundForceRec>;
+  TPoundsForce = TQuantity;
 
 const
   lbf        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 51; FValue: 4.4482216152605); {$ELSE} (4.4482216152605); {$ENDIF}
 
 var
-  lbfUnit : TPoundForceUnit;
+  PoundForceUnit : TPoundForceUnit;
 
 { TKilogramMeterPerSquareSecond }
 
 type
-  TKilogramMeterPerSquareSecond = record
+  TKilogramMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cNewton;
     const FSymbol            = '%sg.%sm/%ss2';
     const FName              = '%sgram %smeter per square %ssecond';
@@ -2338,10 +2514,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, 1, -2);
   end;
-  TKilogramMeterPerSquareSecondUnit = specialize TUnit<TKilogramMeterPerSquareSecond>;
+  TKilogramMeterPerSquareSecondUnit = specialize TSymbol<TKilogramMeterPerSquareSecondRec>;
+  TKilogramMetersPerSquareSecond = TQuantity;
 
 var
   KilogramMeterPerSquareSecond : TKilogramMeterPerSquareSecondUnit;
+  KilogramMeterPerSquareSecondUnit : TKilogramMeterPerSquareSecondUnit;
 
 { TNewtonRadian }
 
@@ -2349,7 +2527,7 @@ const
   cNewtonRadian = 52;
 
 type
-  TNewtonRadian = record
+  TNewtonRadianRec = record
     const FUnitOfMeasurement = cNewtonRadian;
     const FSymbol            = '%sN.%srad';
     const FName              = '%snewton %sradian';
@@ -2357,10 +2535,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TNewtonRadianUnit = specialize TUnit<TNewtonRadian>;
+  TNewtonRadianUnit = specialize TSymbol<TNewtonRadianRec>;
+  TNewtonRadians = TQuantity;
 
 var
   NewtonRadian : TNewtonRadianUnit;
+  NewtonRadianUnit : TNewtonRadianUnit;
 
 { TSquareNewton }
 
@@ -2368,7 +2548,7 @@ const
   cSquareNewton = 53;
 
 type
-  TSquareNewton = record
+  TSquareNewtonRec = record
     const FUnitOfMeasurement = cSquareNewton;
     const FSymbol            = '%sN2';
     const FName              = 'square %snewton';
@@ -2376,10 +2556,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareNewtonUnit = specialize TUnit<TSquareNewton>;
+  TSquareNewtonUnit = specialize TSymbol<TSquareNewtonRec>;
+  TSquareNewtons = TQuantity;
 
 var
-  N2         : TSquareNewtonUnit;
+  N2 : TSquareNewtonUnit;
+  SquareNewtonUnit : TSquareNewtonUnit;
 
 const
   GN2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 53; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
@@ -2391,7 +2573,7 @@ const
 { TSquareKilogramSquareMeterPerQuarticSecond }
 
 type
-  TSquareKilogramSquareMeterPerQuarticSecond = record
+  TSquareKilogramSquareMeterPerQuarticSecondRec = record
     const FUnitOfMeasurement = cSquareNewton;
     const FSymbol            = '%sg2.%sm2/%ss4';
     const FName              = 'square %sgram square %smeter per quartic %ssecond';
@@ -2399,10 +2581,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (2, 2, -4);
   end;
-  TSquareKilogramSquareMeterPerQuarticSecondUnit = specialize TUnit<TSquareKilogramSquareMeterPerQuarticSecond>;
+  TSquareKilogramSquareMeterPerQuarticSecondUnit = specialize TSymbol<TSquareKilogramSquareMeterPerQuarticSecondRec>;
+  TSquareKilogramSquareMetersPerQuarticSecond = TQuantity;
 
 var
   SquareKilogramSquareMeterPerQuarticSecond : TSquareKilogramSquareMeterPerQuarticSecondUnit;
+  SquareKilogramSquareMeterPerQuarticSecondUnit : TSquareKilogramSquareMeterPerQuarticSecondUnit;
 
 { TPascal }
 
@@ -2410,7 +2594,7 @@ const
   cPascal = 54;
 
 type
-  TPascal = record
+  TPascalRec = record
     const FUnitOfMeasurement = cPascal;
     const FSymbol            = '%sPa';
     const FName              = '%spascal';
@@ -2418,10 +2602,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TPascalUnit = specialize TUnit<TPascal>;
+  TPascalUnit = specialize TSymbol<TPascalRec>;
+  TPascals = TQuantity;
 
 var
-  Pa         : TPascalUnit;
+  Pa : TPascalUnit;
+  PascalUnit : TPascalUnit;
 
 const
   TPa        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 54; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
@@ -2432,7 +2618,7 @@ const
 { TNewtonPerSquareMeter }
 
 type
-  TNewtonPerSquareMeter = record
+  TNewtonPerSquareMeterRec = record
     const FUnitOfMeasurement = cPascal;
     const FSymbol            = '%sN/%sm2';
     const FName              = '%snewton per square %smeter';
@@ -2440,15 +2626,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TNewtonPerSquareMeterUnit = specialize TUnit<TNewtonPerSquareMeter>;
+  TNewtonPerSquareMeterUnit = specialize TSymbol<TNewtonPerSquareMeterRec>;
+  TNewtonsPerSquareMeter = TQuantity;
 
 var
   NewtonPerSquareMeter : TNewtonPerSquareMeterUnit;
+  NewtonPerSquareMeterUnit : TNewtonPerSquareMeterUnit;
 
 { TBar }
 
 type
-  TBar = record
+  TBarRec = record
     const FUnitOfMeasurement = cPascal;
     const FSymbol            = '%sbar';
     const FName              = '%sbar';
@@ -2458,13 +2646,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TBarUnit = specialize TFactoredUnit<TBar>;
+  TBarUnit = specialize TFactoredSymbol<TBarRec>;
+  TBars = TQuantity;
 
 const
   bar        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 54; FValue: 1E+05); {$ELSE} (1E+05); {$ENDIF}
 
 var
-  barUnit : TBarUnit;
+  BarUnit : TBarUnit;
 
 const
   kbar       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 54; FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
@@ -2473,7 +2662,7 @@ const
 { TPoundPerSquareInch }
 
 type
-  TPoundPerSquareInch = record
+  TPoundPerSquareInchRec = record
     const FUnitOfMeasurement = cPascal;
     const FSymbol            = '%spsi';
     const FName              = '%spound per square inch';
@@ -2483,13 +2672,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TPoundPerSquareInchUnit = specialize TFactoredUnit<TPoundPerSquareInch>;
+  TPoundPerSquareInchUnit = specialize TFactoredSymbol<TPoundPerSquareInchRec>;
+  TPoundsPerSquareInch = TQuantity;
 
 const
   psi        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 54; FValue: 6894.75729316836); {$ELSE} (6894.75729316836); {$ENDIF}
 
 var
-  psiUnit : TPoundPerSquareInchUnit;
+  PoundPerSquareInchUnit : TPoundPerSquareInchUnit;
 
 const
   kpsi       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 54; FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
@@ -2497,7 +2687,7 @@ const
 { TJoulePerCubicMeter }
 
 type
-  TJoulePerCubicMeter = record
+  TJoulePerCubicMeterRec = record
     const FUnitOfMeasurement = cPascal;
     const FSymbol            = '%sJ/%sm3';
     const FName              = '%sjoule per cubic %smeter';
@@ -2505,15 +2695,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TJoulePerCubicMeterUnit = specialize TUnit<TJoulePerCubicMeter>;
+  TJoulePerCubicMeterUnit = specialize TSymbol<TJoulePerCubicMeterRec>;
+  TJoulesPerCubicMeter = TQuantity;
 
 var
   JoulePerCubicMeter : TJoulePerCubicMeterUnit;
+  JoulePerCubicMeterUnit : TJoulePerCubicMeterUnit;
 
 { TKilogramPerMeterPerSquareSecond }
 
 type
-  TKilogramPerMeterPerSquareSecond = record
+  TKilogramPerMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cPascal;
     const FSymbol            = '%sg/%sm/%ss2';
     const FName              = '%sgram per %smeter per square %ssecond';
@@ -2521,10 +2713,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, -1, -2);
   end;
-  TKilogramPerMeterPerSquareSecondUnit = specialize TUnit<TKilogramPerMeterPerSquareSecond>;
+  TKilogramPerMeterPerSquareSecondUnit = specialize TSymbol<TKilogramPerMeterPerSquareSecondRec>;
+  TKilogramsPerMeterPerSquareSecond = TQuantity;
 
 var
   KilogramPerMeterPerSquareSecond : TKilogramPerMeterPerSquareSecondUnit;
+  KilogramPerMeterPerSquareSecondUnit : TKilogramPerMeterPerSquareSecondUnit;
 
 { TJoule }
 
@@ -2532,7 +2726,7 @@ const
   cJoule = 55;
 
 type
-  TJoule = record
+  TJouleRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = '%sJ';
     const FName              = '%sjoule';
@@ -2540,10 +2734,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TJouleUnit = specialize TUnit<TJoule>;
+  TJouleUnit = specialize TSymbol<TJouleRec>;
+  TJoules = TQuantity;
 
 var
-  J          : TJouleUnit;
+  J : TJouleUnit;
+  JouleUnit : TJouleUnit;
 
 const
   TJ         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
@@ -2554,7 +2750,7 @@ const
 { TWattHour }
 
 type
-  TWattHour = record
+  TWattHourRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = '%sW.h';
     const FName              = '%swatt hour';
@@ -2564,7 +2760,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TWattHourUnit = specialize TFactoredUnit<TWattHour>;
+  TWattHourUnit = specialize TFactoredSymbol<TWattHourRec>;
+  TWattHours = TQuantity;
 
 const
   WattHour   : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 3600); {$ELSE} (3600); {$ENDIF}
@@ -2575,7 +2772,7 @@ var
 { TWattSecond }
 
 type
-  TWattSecond = record
+  TWattSecondRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = '%sW.%ss';
     const FName              = '%swatt %ssecond';
@@ -2583,15 +2780,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TWattSecondUnit = specialize TUnit<TWattSecond>;
+  TWattSecondUnit = specialize TSymbol<TWattSecondRec>;
+  TWattSeconds = TQuantity;
 
 var
   WattSecond : TWattSecondUnit;
+  WattSecondUnit : TWattSecondUnit;
 
 { TWattPerHertz }
 
 type
-  TWattPerHertz = record
+  TWattPerHertzRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = '%sW/%shz';
     const FName              = '%swatt per %shertz';
@@ -2599,15 +2798,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TWattPerHertzUnit = specialize TUnit<TWattPerHertz>;
+  TWattPerHertzUnit = specialize TSymbol<TWattPerHertzRec>;
+  TWattsPerHertz = TQuantity;
 
 var
   WattPerHertz : TWattPerHertzUnit;
+  WattPerHertzUnit : TWattPerHertzUnit;
 
 { TElectronvolt }
 
 type
-  TElectronvolt = record
+  TElectronvoltRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = '%seV';
     const FName              = '%selectronvolt';
@@ -2617,13 +2818,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TElectronvoltUnit = specialize TFactoredUnit<TElectronvolt>;
+  TElectronvoltUnit = specialize TFactoredSymbol<TElectronvoltRec>;
+  TElectronvolts = TQuantity;
 
 const
   eV         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019); {$ELSE} (1.602176634E-019); {$ENDIF}
 
 var
-  eVUnit : TElectronvoltUnit;
+  ElectronvoltUnit : TElectronvoltUnit;
 
 const
   TeV        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
@@ -2634,7 +2836,7 @@ const
 { TNewtonMeter }
 
 type
-  TNewtonMeter = record
+  TNewtonMeterRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = '%sN.%sm';
     const FName              = '%snewton %smeter';
@@ -2642,15 +2844,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TNewtonMeterUnit = specialize TUnit<TNewtonMeter>;
+  TNewtonMeterUnit = specialize TSymbol<TNewtonMeterRec>;
+  TNewtonMeters = TQuantity;
 
 var
   NewtonMeter : TNewtonMeterUnit;
+  NewtonMeterUnit : TNewtonMeterUnit;
 
 { TPoundForceInch }
 
 type
-  TPoundForceInch = record
+  TPoundForceInchRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = 'lbf.in';
     const FName              = 'pound-force inch';
@@ -2660,7 +2864,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TPoundForceInchUnit = specialize TFactoredUnit<TPoundForceInch>;
+  TPoundForceInchUnit = specialize TFactoredSymbol<TPoundForceInchRec>;
+  TPoundForceInches = TQuantity;
 
 const
   PoundForceInch : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 0.112984829027617); {$ELSE} (0.112984829027617); {$ENDIF}
@@ -2671,7 +2876,7 @@ var
 { TRydberg }
 
 type
-  TRydberg = record
+  TRydbergRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = '%sRy';
     const FName              = '%srydberg';
@@ -2681,18 +2886,19 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TRydbergUnit = specialize TFactoredUnit<TRydberg>;
+  TRydbergUnit = specialize TFactoredSymbol<TRydbergRec>;
+  TRydbergs = TQuantity;
 
 const
   Ry         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 2.1798723611035E-18); {$ELSE} (2.1798723611035E-18); {$ENDIF}
 
 var
-  RyUnit : TRydbergUnit;
+  RydbergUnit : TRydbergUnit;
 
 { TCalorie }
 
 type
-  TCalorie = record
+  TCalorieRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = '%scal';
     const FName              = '%scalorie';
@@ -2702,13 +2908,14 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TCalorieUnit = specialize TFactoredUnit<TCalorie>;
+  TCalorieUnit = specialize TFactoredSymbol<TCalorieRec>;
+  TCalories = TQuantity;
 
 const
   cal        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 4.184); {$ELSE} (4.184); {$ENDIF}
 
 var
-  calUnit : TCalorieUnit;
+  CalorieUnit : TCalorieUnit;
 
 const
   Mcal       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 55; FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
@@ -2717,7 +2924,7 @@ const
 { TKilogramSquareMeterPerSquareSecond }
 
 type
-  TKilogramSquareMeterPerSquareSecond = record
+  TKilogramSquareMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cJoule;
     const FSymbol            = '%sg.%sm2/%ss2';
     const FName              = '%sgram square %smeter per square %ssecond';
@@ -2725,10 +2932,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -2);
   end;
-  TKilogramSquareMeterPerSquareSecondUnit = specialize TUnit<TKilogramSquareMeterPerSquareSecond>;
+  TKilogramSquareMeterPerSquareSecondUnit = specialize TSymbol<TKilogramSquareMeterPerSquareSecondRec>;
+  TKilogramSquareMetersPerSquareSecond = TQuantity;
 
 var
   KilogramSquareMeterPerSquareSecond : TKilogramSquareMeterPerSquareSecondUnit;
+  KilogramSquareMeterPerSquareSecondUnit : TKilogramSquareMeterPerSquareSecondUnit;
 
 { TJoulePerRadian }
 
@@ -2736,7 +2945,7 @@ const
   cJoulePerRadian = 56;
 
 type
-  TJoulePerRadian = record
+  TJoulePerRadianRec = record
     const FUnitOfMeasurement = cJoulePerRadian;
     const FSymbol            = '%sJ/rad';
     const FName              = '%sjoule per radian';
@@ -2744,15 +2953,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TJoulePerRadianUnit = specialize TUnit<TJoulePerRadian>;
+  TJoulePerRadianUnit = specialize TSymbol<TJoulePerRadianRec>;
+  TJoulesPerRadian = TQuantity;
 
 var
   JoulePerRadian : TJoulePerRadianUnit;
+  JoulePerRadianUnit : TJoulePerRadianUnit;
 
 { TJoulePerDegree }
 
 type
-  TJoulePerDegree = record
+  TJoulePerDegreeRec = record
     const FUnitOfMeasurement = cJoulePerRadian;
     const FSymbol            = '%sJ/deg';
     const FName              = '%sjoule per degree';
@@ -2762,7 +2973,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TJoulePerDegreeUnit = specialize TFactoredUnit<TJoulePerDegree>;
+  TJoulePerDegreeUnit = specialize TFactoredSymbol<TJoulePerDegreeRec>;
+  TJoulesPerDegree = TQuantity;
 
 const
   JoulePerDegree : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 56; FValue: 180/Pi); {$ELSE} (180/Pi); {$ENDIF}
@@ -2773,7 +2985,7 @@ var
 { TNewtonMeterPerRadian }
 
 type
-  TNewtonMeterPerRadian = record
+  TNewtonMeterPerRadianRec = record
     const FUnitOfMeasurement = cJoulePerRadian;
     const FSymbol            = '%sN.%sm/rad';
     const FName              = '%snewton %smeter per radian';
@@ -2781,15 +2993,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TNewtonMeterPerRadianUnit = specialize TUnit<TNewtonMeterPerRadian>;
+  TNewtonMeterPerRadianUnit = specialize TSymbol<TNewtonMeterPerRadianRec>;
+  TNewtonMetersPerRadian = TQuantity;
 
 var
   NewtonMeterPerRadian : TNewtonMeterPerRadianUnit;
+  NewtonMeterPerRadianUnit : TNewtonMeterPerRadianUnit;
 
 { TNewtonMeterPerDegree }
 
 type
-  TNewtonMeterPerDegree = record
+  TNewtonMeterPerDegreeRec = record
     const FUnitOfMeasurement = cJoulePerRadian;
     const FSymbol            = '%sN.%sm/deg';
     const FName              = '%snewton %smeter per degree';
@@ -2799,7 +3013,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TNewtonMeterPerDegreeUnit = specialize TFactoredUnit<TNewtonMeterPerDegree>;
+  TNewtonMeterPerDegreeUnit = specialize TFactoredSymbol<TNewtonMeterPerDegreeRec>;
+  TNewtonMetersPerDegree = TQuantity;
 
 const
   NewtonMeterPerDegree : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 56; FValue: 180/Pi); {$ELSE} (180/Pi); {$ENDIF}
@@ -2810,7 +3025,7 @@ var
 { TKilogramSquareMeterPerSquareSecondPerRadian }
 
 type
-  TKilogramSquareMeterPerSquareSecondPerRadian = record
+  TKilogramSquareMeterPerSquareSecondPerRadianRec = record
     const FUnitOfMeasurement = cJoulePerRadian;
     const FSymbol            = '%sg.%sm2/%ss2/rad';
     const FName              = '%sgram square %smeter per square %ssecond per radian';
@@ -2818,10 +3033,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -2);
   end;
-  TKilogramSquareMeterPerSquareSecondPerRadianUnit = specialize TUnit<TKilogramSquareMeterPerSquareSecondPerRadian>;
+  TKilogramSquareMeterPerSquareSecondPerRadianUnit = specialize TSymbol<TKilogramSquareMeterPerSquareSecondPerRadianRec>;
+  TKilogramSquareMetersPerSquareSecondPerRadian = TQuantity;
 
 var
   KilogramSquareMeterPerSquareSecondPerRadian : TKilogramSquareMeterPerSquareSecondPerRadianUnit;
+  KilogramSquareMeterPerSquareSecondPerRadianUnit : TKilogramSquareMeterPerSquareSecondPerRadianUnit;
 
 { TWatt }
 
@@ -2829,7 +3046,7 @@ const
   cWatt = 57;
 
 type
-  TWatt = record
+  TWattRec = record
     const FUnitOfMeasurement = cWatt;
     const FSymbol            = '%sW';
     const FName              = '%swatt';
@@ -2837,10 +3054,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TWattUnit = specialize TUnit<TWatt>;
+  TWattUnit = specialize TSymbol<TWattRec>;
+  TWatts = TQuantity;
 
 var
-  W          : TWattUnit;
+  W : TWattUnit;
+  WattUnit : TWattUnit;
 
 const
   TW         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 57; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
@@ -2852,7 +3071,7 @@ const
 { TKilogramSquareMeterPerCubicSecond }
 
 type
-  TKilogramSquareMeterPerCubicSecond = record
+  TKilogramSquareMeterPerCubicSecondRec = record
     const FUnitOfMeasurement = cWatt;
     const FSymbol            = '%sg.%sm2/%ss3';
     const FName              = '%sgram square %smeter per cubic %ssecond';
@@ -2860,10 +3079,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -3);
   end;
-  TKilogramSquareMeterPerCubicSecondUnit = specialize TUnit<TKilogramSquareMeterPerCubicSecond>;
+  TKilogramSquareMeterPerCubicSecondUnit = specialize TSymbol<TKilogramSquareMeterPerCubicSecondRec>;
+  TKilogramSquareMetersPerCubicSecond = TQuantity;
 
 var
   KilogramSquareMeterPerCubicSecond : TKilogramSquareMeterPerCubicSecondUnit;
+  KilogramSquareMeterPerCubicSecondUnit : TKilogramSquareMeterPerCubicSecondUnit;
 
 { TCoulomb }
 
@@ -2871,7 +3092,7 @@ const
   cCoulomb = 58;
 
 type
-  TCoulomb = record
+  TCoulombRec = record
     const FUnitOfMeasurement = cCoulomb;
     const FSymbol            = '%sC';
     const FName              = '%scoulomb';
@@ -2879,10 +3100,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TCoulombUnit = specialize TUnit<TCoulomb>;
+  TCoulombUnit = specialize TSymbol<TCoulombRec>;
+  TCoulombs = TQuantity;
 
 var
-  C          : TCoulombUnit;
+  C : TCoulombUnit;
+  CoulombUnit : TCoulombUnit;
 
 const
   kC         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 58; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
@@ -2898,7 +3121,7 @@ const
 { TAmpereHour }
 
 type
-  TAmpereHour = record
+  TAmpereHourRec = record
     const FUnitOfMeasurement = cCoulomb;
     const FSymbol            = '%sA.h';
     const FName              = '%sampere hour';
@@ -2908,7 +3131,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TAmpereHourUnit = specialize TFactoredUnit<TAmpereHour>;
+  TAmpereHourUnit = specialize TFactoredSymbol<TAmpereHourRec>;
+  TAmpereHours = TQuantity;
 
 const
   AmpereHour : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 58; FValue: 3600); {$ELSE} (3600); {$ENDIF}
@@ -2919,7 +3143,7 @@ var
 { TAmpereSecond }
 
 type
-  TAmpereSecond = record
+  TAmpereSecondRec = record
     const FUnitOfMeasurement = cCoulomb;
     const FSymbol            = '%sA.%ss';
     const FName              = '%sampere %ssecond';
@@ -2927,10 +3151,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TAmpereSecondUnit = specialize TUnit<TAmpereSecond>;
+  TAmpereSecondUnit = specialize TSymbol<TAmpereSecondRec>;
+  TAmpereSeconds = TQuantity;
 
 var
   AmpereSecond : TAmpereSecondUnit;
+  AmpereSecondUnit : TAmpereSecondUnit;
 
 { TSquareCoulomb }
 
@@ -2938,7 +3164,7 @@ const
   cSquareCoulomb = 59;
 
 type
-  TSquareCoulomb = record
+  TSquareCoulombRec = record
     const FUnitOfMeasurement = cSquareCoulomb;
     const FSymbol            = '%sC2';
     const FName              = 'square %scoulomb';
@@ -2946,10 +3172,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareCoulombUnit = specialize TUnit<TSquareCoulomb>;
+  TSquareCoulombUnit = specialize TSymbol<TSquareCoulombRec>;
+  TSquareCoulombs = TQuantity;
 
 var
-  C2         : TSquareCoulombUnit;
+  C2 : TSquareCoulombUnit;
+  SquareCoulombUnit : TSquareCoulombUnit;
 
 const
   kC2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 59; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
@@ -2965,7 +3193,7 @@ const
 { TSquareAmpereSquareSecond }
 
 type
-  TSquareAmpereSquareSecond = record
+  TSquareAmpereSquareSecondRec = record
     const FUnitOfMeasurement = cSquareCoulomb;
     const FSymbol            = '%sA2.%ss2';
     const FName              = 'square %sampere square %ssecond';
@@ -2973,10 +3201,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, 2);
   end;
-  TSquareAmpereSquareSecondUnit = specialize TUnit<TSquareAmpereSquareSecond>;
+  TSquareAmpereSquareSecondUnit = specialize TSymbol<TSquareAmpereSquareSecondRec>;
+  TSquareAmpereSquareSeconds = TQuantity;
 
 var
   SquareAmpereSquareSecond : TSquareAmpereSquareSecondUnit;
+  SquareAmpereSquareSecondUnit : TSquareAmpereSquareSecondUnit;
 
 { TCoulombMeter }
 
@@ -2984,7 +3214,7 @@ const
   cCoulombMeter = 60;
 
 type
-  TCoulombMeter = record
+  TCoulombMeterRec = record
     const FUnitOfMeasurement = cCoulombMeter;
     const FSymbol            = '%sC.%sm';
     const FName              = '%scoulomb %smeter';
@@ -2992,10 +3222,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TCoulombMeterUnit = specialize TUnit<TCoulombMeter>;
+  TCoulombMeterUnit = specialize TSymbol<TCoulombMeterRec>;
+  TCoulombMeters = TQuantity;
 
 var
   CoulombMeter : TCoulombMeterUnit;
+  CoulombMeterUnit : TCoulombMeterUnit;
 
 { TVolt }
 
@@ -3003,7 +3235,7 @@ const
   cVolt = 61;
 
 type
-  TVolt = record
+  TVoltRec = record
     const FUnitOfMeasurement = cVolt;
     const FSymbol            = '%sV';
     const FName              = '%svolt';
@@ -3011,10 +3243,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TVoltUnit = specialize TUnit<TVolt>;
+  TVoltUnit = specialize TSymbol<TVoltRec>;
+  TVolts = TQuantity;
 
 var
-  V          : TVoltUnit;
+  V : TVoltUnit;
+  VoltUnit : TVoltUnit;
 
 const
   kV         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 61; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
@@ -3023,7 +3257,7 @@ const
 { TJoulePerCoulomb }
 
 type
-  TJoulePerCoulomb = record
+  TJoulePerCoulombRec = record
     const FUnitOfMeasurement = cVolt;
     const FSymbol            = '%sJ/%sC';
     const FName              = '%sJoule per %scoulomb';
@@ -3031,15 +3265,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TJoulePerCoulombUnit = specialize TUnit<TJoulePerCoulomb>;
+  TJoulePerCoulombUnit = specialize TSymbol<TJoulePerCoulombRec>;
+  TJoulesPerCoulomb = TQuantity;
 
 var
   JoulePerCoulomb : TJoulePerCoulombUnit;
+  JoulePerCoulombUnit : TJoulePerCoulombUnit;
 
 { TKilogramSquareMeterPerAmperePerCubicSecond }
 
 type
-  TKilogramSquareMeterPerAmperePerCubicSecond = record
+  TKilogramSquareMeterPerAmperePerCubicSecondRec = record
     const FUnitOfMeasurement = cVolt;
     const FSymbol            = '%sg.%sm2/%sA/%ss3';
     const FName              = '%sgram square %smeter per %sampere per cubic %ssecond';
@@ -3047,10 +3283,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -1, -3);
   end;
-  TKilogramSquareMeterPerAmperePerCubicSecondUnit = specialize TUnit<TKilogramSquareMeterPerAmperePerCubicSecond>;
+  TKilogramSquareMeterPerAmperePerCubicSecondUnit = specialize TSymbol<TKilogramSquareMeterPerAmperePerCubicSecondRec>;
+  TKilogramSquareMetersPerAmperePerCubicSecond = TQuantity;
 
 var
   KilogramSquareMeterPerAmperePerCubicSecond : TKilogramSquareMeterPerAmperePerCubicSecondUnit;
+  KilogramSquareMeterPerAmperePerCubicSecondUnit : TKilogramSquareMeterPerAmperePerCubicSecondUnit;
 
 { TSquareVolt }
 
@@ -3058,7 +3296,7 @@ const
   cSquareVolt = 62;
 
 type
-  TSquareVolt = record
+  TSquareVoltRec = record
     const FUnitOfMeasurement = cSquareVolt;
     const FSymbol            = '%sV2';
     const FName              = 'square %svolt';
@@ -3066,10 +3304,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareVoltUnit = specialize TUnit<TSquareVolt>;
+  TSquareVoltUnit = specialize TSymbol<TSquareVoltRec>;
+  TSquareVolts = TQuantity;
 
 var
-  V2         : TSquareVoltUnit;
+  V2 : TSquareVoltUnit;
+  SquareVoltUnit : TSquareVoltUnit;
 
 const
   kV2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 62; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
@@ -3078,7 +3318,7 @@ const
 { TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond }
 
 type
-  TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond = record
+  TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondRec = record
     const FUnitOfMeasurement = cSquareVolt;
     const FSymbol            = '%sg2.%sm3/%sA2/%ss6';
     const FName              = 'square %sgram quartic %smeter per square %sampere per sextic %ssecond';
@@ -3086,10 +3326,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone, pNone);
     const FExponents         : TExponents = (2, 3, -2, -6);
   end;
-  TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit = specialize TUnit<TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond>;
+  TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit = specialize TSymbol<TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondRec>;
+  TSquareKilogramQuarticMetersPerSquareAmperePerSexticSecond = TQuantity;
 
 var
   SquareKilogramQuarticMeterPerSquareAmperePerSexticSecond : TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit;
+  SquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit : TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit;
 
 { TFarad }
 
@@ -3097,7 +3339,7 @@ const
   cFarad = 63;
 
 type
-  TFarad = record
+  TFaradRec = record
     const FUnitOfMeasurement = cFarad;
     const FSymbol            = '%sF';
     const FName              = '%sfarad';
@@ -3105,10 +3347,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TFaradUnit = specialize TUnit<TFarad>;
+  TFaradUnit = specialize TSymbol<TFaradRec>;
+  TFarads = TQuantity;
 
 var
-  F          : TFaradUnit;
+  F : TFaradUnit;
+  FaradUnit : TFaradUnit;
 
 const
   mF         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 63; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
@@ -3119,7 +3363,7 @@ const
 { TCoulombPerVolt }
 
 type
-  TCoulombPerVolt = record
+  TCoulombPerVoltRec = record
     const FUnitOfMeasurement = cFarad;
     const FSymbol            = '%sC/%sV';
     const FName              = '%scoulomb per %svolt';
@@ -3127,15 +3371,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TCoulombPerVoltUnit = specialize TUnit<TCoulombPerVolt>;
+  TCoulombPerVoltUnit = specialize TSymbol<TCoulombPerVoltRec>;
+  TCoulombsPerVolt = TQuantity;
 
 var
   CoulombPerVolt : TCoulombPerVoltUnit;
+  CoulombPerVoltUnit : TCoulombPerVoltUnit;
 
 { TSquareAmpereQuarticSecondPerKilogramPerSquareMeter }
 
 type
-  TSquareAmpereQuarticSecondPerKilogramPerSquareMeter = record
+  TSquareAmpereQuarticSecondPerKilogramPerSquareMeterRec = record
     const FUnitOfMeasurement = cFarad;
     const FSymbol            = '%sA2.%ss4/%sg/%sm2';
     const FName              = 'square %sampere quartic %ssecond per %sgram per square %smeter';
@@ -3143,10 +3389,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pKilo, pNone);
     const FExponents         : TExponents = (2, 4, -1, -2);
   end;
-  TSquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit = specialize TUnit<TSquareAmpereQuarticSecondPerKilogramPerSquareMeter>;
+  TSquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit = specialize TSymbol<TSquareAmpereQuarticSecondPerKilogramPerSquareMeterRec>;
+  TSquareAmpereQuarticSecondsPerKilogramPerSquareMeter = TQuantity;
 
 var
   SquareAmpereQuarticSecondPerKilogramPerSquareMeter : TSquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit;
+  SquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit : TSquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit;
 
 { TOhm }
 
@@ -3154,7 +3402,7 @@ const
   cOhm = 64;
 
 type
-  TOhm = record
+  TOhmRec = record
     const FUnitOfMeasurement = cOhm;
     const FSymbol            = '%sΩ';
     const FName              = '%sohm';
@@ -3162,10 +3410,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TOhmUnit = specialize TUnit<TOhm>;
+  TOhmUnit = specialize TSymbol<TOhmRec>;
+  TOhms = TQuantity;
 
 var
-  ohm        : TOhmUnit;
+  ohm : TOhmUnit;
+  OhmUnit : TOhmUnit;
 
 const
   Gohm       : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 64; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
@@ -3178,7 +3428,7 @@ const
 { TKilogramSquareMeterPerSquareAmperePerCubicSecond }
 
 type
-  TKilogramSquareMeterPerSquareAmperePerCubicSecond = record
+  TKilogramSquareMeterPerSquareAmperePerCubicSecondRec = record
     const FUnitOfMeasurement = cOhm;
     const FSymbol            = '%sg.%sm2/%sA/%ss3';
     const FName              = '%sgram square %smeter per square %sampere per cubic %ssecond';
@@ -3186,10 +3436,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -1, -3);
   end;
-  TKilogramSquareMeterPerSquareAmperePerCubicSecondUnit = specialize TUnit<TKilogramSquareMeterPerSquareAmperePerCubicSecond>;
+  TKilogramSquareMeterPerSquareAmperePerCubicSecondUnit = specialize TSymbol<TKilogramSquareMeterPerSquareAmperePerCubicSecondRec>;
+  TKilogramSquareMetersPerSquareAmperePerCubicSecond = TQuantity;
 
 var
   KilogramSquareMeterPerSquareAmperePerCubicSecond : TKilogramSquareMeterPerSquareAmperePerCubicSecondUnit;
+  KilogramSquareMeterPerSquareAmperePerCubicSecondUnit : TKilogramSquareMeterPerSquareAmperePerCubicSecondUnit;
 
 { TSiemens }
 
@@ -3197,7 +3449,7 @@ const
   cSiemens = 65;
 
 type
-  TSiemens = record
+  TSiemensRec = record
     const FUnitOfMeasurement = cSiemens;
     const FSymbol            = '%sS';
     const FName              = '%ssiemens';
@@ -3205,10 +3457,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TSiemensUnit = specialize TUnit<TSiemens>;
+  TSiemensUnit = specialize TSymbol<TSiemensRec>;
+  TSiemens = TQuantity;
 
 var
-  siemens    : TSiemensUnit;
+  siemens : TSiemensUnit;
+  SiemensUnit : TSiemensUnit;
 
 const
   millisiemens : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 65; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
@@ -3218,7 +3472,7 @@ const
 { TSquareAmpereCubicSecondPerKilogramPerSquareMeter }
 
 type
-  TSquareAmpereCubicSecondPerKilogramPerSquareMeter = record
+  TSquareAmpereCubicSecondPerKilogramPerSquareMeterRec = record
     const FUnitOfMeasurement = cSiemens;
     const FSymbol            = '%sA2.%ss3/%sg/%sm2';
     const FName              = 'square %sampere cubic %ssecond per %sgram per square %smeter';
@@ -3226,10 +3480,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pKilo, pNone);
     const FExponents         : TExponents = (2, 3, -1, -2);
   end;
-  TSquareAmpereCubicSecondPerKilogramPerSquareMeterUnit = specialize TUnit<TSquareAmpereCubicSecondPerKilogramPerSquareMeter>;
+  TSquareAmpereCubicSecondPerKilogramPerSquareMeterUnit = specialize TSymbol<TSquareAmpereCubicSecondPerKilogramPerSquareMeterRec>;
+  TSquareAmpereCubicSecondsPerKilogramPerSquareMeter = TQuantity;
 
 var
   SquareAmpereCubicSecondPerKilogramPerSquareMeter : TSquareAmpereCubicSecondPerKilogramPerSquareMeterUnit;
+  SquareAmpereCubicSecondPerKilogramPerSquareMeterUnit : TSquareAmpereCubicSecondPerKilogramPerSquareMeterUnit;
 
 { TSiemensPerMeter }
 
@@ -3237,7 +3493,7 @@ const
   cSiemensPerMeter = 66;
 
 type
-  TSiemensPerMeter = record
+  TSiemensPerMeterRec = record
     const FUnitOfMeasurement = cSiemensPerMeter;
     const FSymbol            = '%sS/%sm';
     const FName              = '%ssiemens per %smeter';
@@ -3245,10 +3501,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TSiemensPerMeterUnit = specialize TUnit<TSiemensPerMeter>;
+  TSiemensPerMeterUnit = specialize TSymbol<TSiemensPerMeterRec>;
+  TSiemensPerMeter = TQuantity;
 
 var
   SiemensPerMeter : TSiemensPerMeterUnit;
+  SiemensPerMeterUnit : TSiemensPerMeterUnit;
 
 { TTesla }
 
@@ -3256,7 +3514,7 @@ const
   cTesla = 67;
 
 type
-  TTesla = record
+  TTeslaRec = record
     const FUnitOfMeasurement = cTesla;
     const FSymbol            = '%sT';
     const FName              = '%stesla';
@@ -3264,10 +3522,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TTeslaUnit = specialize TUnit<TTesla>;
+  TTeslaUnit = specialize TSymbol<TTeslaRec>;
+  TTeslas = TQuantity;
 
 var
-  T          : TTeslaUnit;
+  T : TTeslaUnit;
+  TeslaUnit : TTeslaUnit;
 
 const
   mT         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 67; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
@@ -3277,7 +3537,7 @@ const
 { TWeberPerSquareMeter }
 
 type
-  TWeberPerSquareMeter = record
+  TWeberPerSquareMeterRec = record
     const FUnitOfMeasurement = cTesla;
     const FSymbol            = '%sWb/%m2';
     const FName              = '%sweber per square %smeter';
@@ -3285,15 +3545,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TWeberPerSquareMeterUnit = specialize TUnit<TWeberPerSquareMeter>;
+  TWeberPerSquareMeterUnit = specialize TSymbol<TWeberPerSquareMeterRec>;
+  TWebersPerSquareMeter = TQuantity;
 
 var
   WeberPerSquareMeter : TWeberPerSquareMeterUnit;
+  WeberPerSquareMeterUnit : TWeberPerSquareMeterUnit;
 
 { TKilogramPerAmperePerSquareSecond }
 
 type
-  TKilogramPerAmperePerSquareSecond = record
+  TKilogramPerAmperePerSquareSecondRec = record
     const FUnitOfMeasurement = cTesla;
     const FSymbol            = '%sg/%sA/%ss2';
     const FName              = '%sgram per %sampere per square %ssecond';
@@ -3301,10 +3563,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, -1, -2);
   end;
-  TKilogramPerAmperePerSquareSecondUnit = specialize TUnit<TKilogramPerAmperePerSquareSecond>;
+  TKilogramPerAmperePerSquareSecondUnit = specialize TSymbol<TKilogramPerAmperePerSquareSecondRec>;
+  TKilogramsPerAmperePerSquareSecond = TQuantity;
 
 var
   KilogramPerAmperePerSquareSecond : TKilogramPerAmperePerSquareSecondUnit;
+  KilogramPerAmperePerSquareSecondUnit : TKilogramPerAmperePerSquareSecondUnit;
 
 { TWeber }
 
@@ -3312,7 +3576,7 @@ const
   cWeber = 68;
 
 type
-  TWeber = record
+  TWeberRec = record
     const FUnitOfMeasurement = cWeber;
     const FSymbol            = '%sWb';
     const FName              = '%sweber';
@@ -3320,15 +3584,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TWeberUnit = specialize TUnit<TWeber>;
+  TWeberUnit = specialize TSymbol<TWeberRec>;
+  TWebers = TQuantity;
 
 var
-  Wb         : TWeberUnit;
+  Wb : TWeberUnit;
+  WeberUnit : TWeberUnit;
 
 { TKilogramSquareMeterPerAmperePerSquareSecond }
 
 type
-  TKilogramSquareMeterPerAmperePerSquareSecond = record
+  TKilogramSquareMeterPerAmperePerSquareSecondRec = record
     const FUnitOfMeasurement = cWeber;
     const FSymbol            = '%sg.%sm2/%sA/%ss2';
     const FName              = '%sgram square %smeter per %sampere per square %ssecond';
@@ -3336,10 +3602,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -1, -2);
   end;
-  TKilogramSquareMeterPerAmperePerSquareSecondUnit = specialize TUnit<TKilogramSquareMeterPerAmperePerSquareSecond>;
+  TKilogramSquareMeterPerAmperePerSquareSecondUnit = specialize TSymbol<TKilogramSquareMeterPerAmperePerSquareSecondRec>;
+  TKilogramSquareMetersPerAmperePerSquareSecond = TQuantity;
 
 var
   KilogramSquareMeterPerAmperePerSquareSecond : TKilogramSquareMeterPerAmperePerSquareSecondUnit;
+  KilogramSquareMeterPerAmperePerSquareSecondUnit : TKilogramSquareMeterPerAmperePerSquareSecondUnit;
 
 { THenry }
 
@@ -3347,7 +3615,7 @@ const
   cHenry = 69;
 
 type
-  THenry = record
+  THenryRec = record
     const FUnitOfMeasurement = cHenry;
     const FSymbol            = '%sH';
     const FName              = '%shenry';
@@ -3355,10 +3623,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  THenryUnit = specialize TUnit<THenry>;
+  THenryUnit = specialize TSymbol<THenryRec>;
+  THenries = TQuantity;
 
 var
-  H          : THenryUnit;
+  H : THenryUnit;
+  HenryUnit : THenryUnit;
 
 const
   mH         : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 69; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
@@ -3368,7 +3638,7 @@ const
 { TKilogramSquareMeterPerSquareAmperePerSquareSecond }
 
 type
-  TKilogramSquareMeterPerSquareAmperePerSquareSecond = record
+  TKilogramSquareMeterPerSquareAmperePerSquareSecondRec = record
     const FUnitOfMeasurement = cHenry;
     const FSymbol            = '%sg.%sm2/%sA2/%ss2';
     const FName              = '%sgram square %smeter per square %sampere per square %ssecond';
@@ -3376,10 +3646,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -2, -2);
   end;
-  TKilogramSquareMeterPerSquareAmperePerSquareSecondUnit = specialize TUnit<TKilogramSquareMeterPerSquareAmperePerSquareSecond>;
+  TKilogramSquareMeterPerSquareAmperePerSquareSecondUnit = specialize TSymbol<TKilogramSquareMeterPerSquareAmperePerSquareSecondRec>;
+  TKilogramSquareMetersPerSquareAmperePerSquareSecond = TQuantity;
 
 var
   KilogramSquareMeterPerSquareAmperePerSquareSecond : TKilogramSquareMeterPerSquareAmperePerSquareSecondUnit;
+  KilogramSquareMeterPerSquareAmperePerSquareSecondUnit : TKilogramSquareMeterPerSquareAmperePerSquareSecondUnit;
 
 { TReciprocalHenry }
 
@@ -3387,7 +3659,7 @@ const
   cReciprocalHenry = 70;
 
 type
-  TReciprocalHenry = record
+  TReciprocalHenryRec = record
     const FUnitOfMeasurement = cReciprocalHenry;
     const FSymbol            = '1/%sH';
     const FName              = 'reciprocal %shenry';
@@ -3395,15 +3667,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-1);
   end;
-  TReciprocalHenryUnit = specialize TUnit<TReciprocalHenry>;
+  TReciprocalHenryUnit = specialize TSymbol<TReciprocalHenryRec>;
+  TReciprocalHenries = TQuantity;
 
 var
   ReciprocalHenry : TReciprocalHenryUnit;
+  ReciprocalHenryUnit : TReciprocalHenryUnit;
 
 { TLumen }
 
 type
-  TLumen = record
+  TLumenRec = record
     const FUnitOfMeasurement = cCandela;
     const FSymbol            = '%slm';
     const FName              = '%slumen';
@@ -3411,26 +3685,30 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TLumenUnit = specialize TUnit<TLumen>;
+  TLumenUnit = specialize TSymbol<TLumenRec>;
+  TLumens = TQuantity;
 
 var
-  lm         : TLumenUnit;
+  lm : TLumenUnit;
+  LumenUnit : TLumenUnit;
 
 { TCandelaSteradian }
 
 type
-  TCandelaSteradian = record
-    const FUnitOfMeasurement = 23;
+  TCandelaSteradianRec = record
+    const FUnitOfMeasurement = cCandela;
     const FSymbol            = '%scd.%ssr';
     const FName              = '%scandela %ssteradian';
     const FPluralName        = '%scandela %ssteradians';
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TCandelaSteradianUnit = specialize TUnit<TCandelaSteradian>;
+  TCandelaSteradianUnit = specialize TSymbol<TCandelaSteradianRec>;
+  TCandelaSteradians = TQuantity;
 
 var
   CandelaSteradian : TCandelaSteradianUnit;
+  CandelaSteradianUnit : TCandelaSteradianUnit;
 
 { TLumenSecond }
 
@@ -3438,7 +3716,7 @@ const
   cLumenSecond = 71;
 
 type
-  TLumenSecond = record
+  TLumenSecondRec = record
     const FUnitOfMeasurement = cLumenSecond;
     const FSymbol            = '%slm.%ss';
     const FName              = '%slumen %ssecond';
@@ -3446,10 +3724,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TLumenSecondUnit = specialize TUnit<TLumenSecond>;
+  TLumenSecondUnit = specialize TSymbol<TLumenSecondRec>;
+  TLumenSeconds = TQuantity;
 
 var
   LumenSecond : TLumenSecondUnit;
+  LumenSecondUnit : TLumenSecondUnit;
 
 { TLumenSecondPerCubicMeter }
 
@@ -3457,7 +3737,7 @@ const
   cLumenSecondPerCubicMeter = 72;
 
 type
-  TLumenSecondPerCubicMeter = record
+  TLumenSecondPerCubicMeterRec = record
     const FUnitOfMeasurement = cLumenSecondPerCubicMeter;
     const FSymbol            = '%slm.%ss/%sm3';
     const FName              = '%slumen %ssecond per cubic meter';
@@ -3465,10 +3745,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 1, -3);
   end;
-  TLumenSecondPerCubicMeterUnit = specialize TUnit<TLumenSecondPerCubicMeter>;
+  TLumenSecondPerCubicMeterUnit = specialize TSymbol<TLumenSecondPerCubicMeterRec>;
+  TLumenSecondsPerCubicMeter = TQuantity;
 
 var
   LumenSecondPerCubicMeter : TLumenSecondPerCubicMeterUnit;
+  LumenSecondPerCubicMeterUnit : TLumenSecondPerCubicMeterUnit;
 
 { TLux }
 
@@ -3476,7 +3758,7 @@ const
   cLux = 73;
 
 type
-  TLux = record
+  TLuxRec = record
     const FUnitOfMeasurement = cLux;
     const FSymbol            = '%slx';
     const FName              = '%slux';
@@ -3484,15 +3766,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TLuxUnit = specialize TUnit<TLux>;
+  TLuxUnit = specialize TSymbol<TLuxRec>;
+  TLux = TQuantity;
 
 var
-  lx         : TLuxUnit;
+  lx : TLuxUnit;
+  LuxUnit : TLuxUnit;
 
 { TCandelaSteradianPerSquareMeter }
 
 type
-  TCandelaSteradianPerSquareMeter = record
+  TCandelaSteradianPerSquareMeterRec = record
     const FUnitOfMeasurement = cLux;
     const FSymbol            = '%scd.%ssr/%sm2';
     const FName              = '%scandela %ssteradian per square %smeter';
@@ -3500,10 +3784,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 1, -2);
   end;
-  TCandelaSteradianPerSquareMeterUnit = specialize TUnit<TCandelaSteradianPerSquareMeter>;
+  TCandelaSteradianPerSquareMeterUnit = specialize TSymbol<TCandelaSteradianPerSquareMeterRec>;
+  TCandelaSteradiansPerSquareMeter = TQuantity;
 
 var
   CandelaSteradianPerSquareMeter : TCandelaSteradianPerSquareMeterUnit;
+  CandelaSteradianPerSquareMeterUnit : TCandelaSteradianPerSquareMeterUnit;
 
 { TLuxSecond }
 
@@ -3511,7 +3797,7 @@ const
   cLuxSecond = 74;
 
 type
-  TLuxSecond = record
+  TLuxSecondRec = record
     const FUnitOfMeasurement = cLuxSecond;
     const FSymbol            = '%slx.%ss';
     const FName              = '%slux %ssecond';
@@ -3519,15 +3805,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TLuxSecondUnit = specialize TUnit<TLuxSecond>;
+  TLuxSecondUnit = specialize TSymbol<TLuxSecondRec>;
+  TLuxSeconds = TQuantity;
 
 var
-  LuxSecond  : TLuxSecondUnit;
+  LuxSecond : TLuxSecondUnit;
+  LuxSecondUnit : TLuxSecondUnit;
 
 { TBequerel }
 
 type
-  TBequerel = record
+  TBequerelRec = record
     const FUnitOfMeasurement = cHertz;
     const FSymbol            = '%sBq';
     const FName              = '%sbequerel';
@@ -3535,10 +3823,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TBequerelUnit = specialize TUnit<TBequerel>;
+  TBequerelUnit = specialize TSymbol<TBequerelRec>;
+  TBequerels = TQuantity;
 
 var
-  Bq         : TBequerelUnit;
+  Bq : TBequerelUnit;
+  BequerelUnit : TBequerelUnit;
 
 const
   kBq        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 24; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
@@ -3553,7 +3843,7 @@ const
   cKatal = 75;
 
 type
-  TKatal = record
+  TKatalRec = record
     const FUnitOfMeasurement = cKatal;
     const FSymbol            = '%skat';
     const FName              = '%skatal';
@@ -3561,15 +3851,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TKatalUnit = specialize TUnit<TKatal>;
+  TKatalUnit = specialize TSymbol<TKatalRec>;
+  TKatals = TQuantity;
 
 var
-  kat        : TKatalUnit;
+  kat : TKatalUnit;
+  KatalUnit : TKatalUnit;
 
 { TMolePerSecond }
 
 type
-  TMolePerSecond = record
+  TMolePerSecondRec = record
     const FUnitOfMeasurement = cKatal;
     const FSymbol            = '%smol/%ss';
     const FName              = '%smole per %ssecond';
@@ -3577,10 +3869,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TMolePerSecondUnit = specialize TUnit<TMolePerSecond>;
+  TMolePerSecondUnit = specialize TSymbol<TMolePerSecondRec>;
+  TMolesPerSecond = TQuantity;
 
 var
   MolePerSecond : TMolePerSecondUnit;
+  MolePerSecondUnit : TMolePerSecondUnit;
 
 { TNewtonPerCubicMeter }
 
@@ -3588,7 +3882,7 @@ const
   cNewtonPerCubicMeter = 76;
 
 type
-  TNewtonPerCubicMeter = record
+  TNewtonPerCubicMeterRec = record
     const FUnitOfMeasurement = cNewtonPerCubicMeter;
     const FSymbol            = '%sN/%sm3';
     const FName              = '%snewton per cubic %smeter';
@@ -3596,15 +3890,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TNewtonPerCubicMeterUnit = specialize TUnit<TNewtonPerCubicMeter>;
+  TNewtonPerCubicMeterUnit = specialize TSymbol<TNewtonPerCubicMeterRec>;
+  TNewtonsPerCubicMeter = TQuantity;
 
 var
   NewtonPerCubicMeter : TNewtonPerCubicMeterUnit;
+  NewtonPerCubicMeterUnit : TNewtonPerCubicMeterUnit;
 
 { TPascalPerMeter }
 
 type
-  TPascalPerMeter = record
+  TPascalPerMeterRec = record
     const FUnitOfMeasurement = cNewtonPerCubicMeter;
     const FSymbol            = '%sPa/%sm';
     const FName              = '%spascal per %smeter';
@@ -3612,15 +3908,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TPascalPerMeterUnit = specialize TUnit<TPascalPerMeter>;
+  TPascalPerMeterUnit = specialize TSymbol<TPascalPerMeterRec>;
+  TPascalsPerMeter = TQuantity;
 
 var
   PascalPerMeter : TPascalPerMeterUnit;
+  PascalPerMeterUnit : TPascalPerMeterUnit;
 
 { TKilogramPerSquareMeterPerSquareSecond }
 
 type
-  TKilogramPerSquareMeterPerSquareSecond = record
+  TKilogramPerSquareMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cNewtonPerCubicMeter;
     const FSymbol            = '%sg/%sm2/%ss2';
     const FName              = '%sgram per square %smeter per square %ssecond';
@@ -3628,10 +3926,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, -2, -2);
   end;
-  TKilogramPerSquareMeterPerSquareSecondUnit = specialize TUnit<TKilogramPerSquareMeterPerSquareSecond>;
+  TKilogramPerSquareMeterPerSquareSecondUnit = specialize TSymbol<TKilogramPerSquareMeterPerSquareSecondRec>;
+  TKilogramsPerSquareMeterPerSquareSecond = TQuantity;
 
 var
   KilogramPerSquareMeterPerSquareSecond : TKilogramPerSquareMeterPerSquareSecondUnit;
+  KilogramPerSquareMeterPerSquareSecondUnit : TKilogramPerSquareMeterPerSquareSecondUnit;
 
 { TNewtonPerMeter }
 
@@ -3639,7 +3939,7 @@ const
   cNewtonPerMeter = 77;
 
 type
-  TNewtonPerMeter = record
+  TNewtonPerMeterRec = record
     const FUnitOfMeasurement = cNewtonPerMeter;
     const FSymbol            = '%sN/%sm';
     const FName              = '%snewton per %smeter';
@@ -3647,15 +3947,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TNewtonPerMeterUnit = specialize TUnit<TNewtonPerMeter>;
+  TNewtonPerMeterUnit = specialize TSymbol<TNewtonPerMeterRec>;
+  TNewtonsPerMeter = TQuantity;
 
 var
   NewtonPerMeter : TNewtonPerMeterUnit;
+  NewtonPerMeterUnit : TNewtonPerMeterUnit;
 
 { TJoulePerSquareMeter }
 
 type
-  TJoulePerSquareMeter = record
+  TJoulePerSquareMeterRec = record
     const FUnitOfMeasurement = cNewtonPerMeter;
     const FSymbol            = '%sJ/%sm2';
     const FName              = '%sjoule per square %smeter';
@@ -3663,15 +3965,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TJoulePerSquareMeterUnit = specialize TUnit<TJoulePerSquareMeter>;
+  TJoulePerSquareMeterUnit = specialize TSymbol<TJoulePerSquareMeterRec>;
+  TJoulesPerSquareMeter = TQuantity;
 
 var
   JoulePerSquareMeter : TJoulePerSquareMeterUnit;
+  JoulePerSquareMeterUnit : TJoulePerSquareMeterUnit;
 
 { TWattPerSquareMeterPerHertz }
 
 type
-  TWattPerSquareMeterPerHertz = record
+  TWattPerSquareMeterPerHertzRec = record
     const FUnitOfMeasurement = cNewtonPerMeter;
     const FSymbol            = '%sW/%sm2/%sHz';
     const FName              = '%swatt per square %smeter per %shertz';
@@ -3679,15 +3983,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, -2, -1);
   end;
-  TWattPerSquareMeterPerHertzUnit = specialize TUnit<TWattPerSquareMeterPerHertz>;
+  TWattPerSquareMeterPerHertzUnit = specialize TSymbol<TWattPerSquareMeterPerHertzRec>;
+  TWattsPerSquareMeterPerHertz = TQuantity;
 
 var
   WattPerSquareMeterPerHertz : TWattPerSquareMeterPerHertzUnit;
+  WattPerSquareMeterPerHertzUnit : TWattPerSquareMeterPerHertzUnit;
 
 { TPoundForcePerInch }
 
 type
-  TPoundForcePerInch = record
+  TPoundForcePerInchRec = record
     const FUnitOfMeasurement = cNewtonPerMeter;
     const FSymbol            = 'lbf/in';
     const FName              = 'pound-force per inch';
@@ -3697,7 +4003,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TPoundForcePerInchUnit = specialize TFactoredUnit<TPoundForcePerInch>;
+  TPoundForcePerInchUnit = specialize TFactoredSymbol<TPoundForcePerInchRec>;
+  TPoundsForcePerInch = TQuantity;
 
 const
   PoundForcePerInch : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 77; FValue: 175.126835246476); {$ELSE} (175.126835246476); {$ENDIF}
@@ -3708,7 +4015,7 @@ var
 { TKilogramPerSquareSecond }
 
 type
-  TKilogramPerSquareSecond = record
+  TKilogramPerSquareSecondRec = record
     const FUnitOfMeasurement = cNewtonPerMeter;
     const FSymbol            = '%sg/%ss2';
     const FName              = '%sgram per square %ssecond';
@@ -3716,10 +4023,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TKilogramPerSquareSecondUnit = specialize TUnit<TKilogramPerSquareSecond>;
+  TKilogramPerSquareSecondUnit = specialize TSymbol<TKilogramPerSquareSecondRec>;
+  TKilogramsPerSquareSecond = TQuantity;
 
 var
   KilogramPerSquareSecond : TKilogramPerSquareSecondUnit;
+  KilogramPerSquareSecondUnit : TKilogramPerSquareSecondUnit;
 
 { TCubicMeterPerSecond }
 
@@ -3727,7 +4036,7 @@ const
   cCubicMeterPerSecond = 78;
 
 type
-  TCubicMeterPerSecond = record
+  TCubicMeterPerSecondRec = record
     const FUnitOfMeasurement = cCubicMeterPerSecond;
     const FSymbol            = '%sm3/%ss';
     const FName              = 'cubic %smeter per %ssecond';
@@ -3735,10 +4044,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (3, -1);
   end;
-  TCubicMeterPerSecondUnit = specialize TUnit<TCubicMeterPerSecond>;
+  TCubicMeterPerSecondUnit = specialize TSymbol<TCubicMeterPerSecondRec>;
+  TCubicMetersPerSecond = TQuantity;
 
 var
   CubicMeterPerSecond : TCubicMeterPerSecondUnit;
+  CubicMeterPerSecondUnit : TCubicMeterPerSecondUnit;
 
 { TPoiseuille }
 
@@ -3746,7 +4057,7 @@ const
   cPoiseuille = 79;
 
 type
-  TPoiseuille = record
+  TPoiseuilleRec = record
     const FUnitOfMeasurement = cPoiseuille;
     const FSymbol            = '%sPl';
     const FName              = '%spoiseuille';
@@ -3754,10 +4065,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TPoiseuilleUnit = specialize TUnit<TPoiseuille>;
+  TPoiseuilleUnit = specialize TSymbol<TPoiseuilleRec>;
+  TPoiseuilles = TQuantity;
 
 var
-  Pl         : TPoiseuilleUnit;
+  Pl : TPoiseuilleUnit;
+  PoiseuilleUnit : TPoiseuilleUnit;
 
 const
   cPl        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 79; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
@@ -3767,7 +4080,7 @@ const
 { TPascalSecond }
 
 type
-  TPascalSecond = record
+  TPascalSecondRec = record
     const FUnitOfMeasurement = cPoiseuille;
     const FSymbol            = '%sPa.%ss';
     const FName              = '%spascal %ssecond';
@@ -3775,15 +4088,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TPascalSecondUnit = specialize TUnit<TPascalSecond>;
+  TPascalSecondUnit = specialize TSymbol<TPascalSecondRec>;
+  TPascalSeconds = TQuantity;
 
 var
   PascalSecond : TPascalSecondUnit;
+  PascalSecondUnit : TPascalSecondUnit;
 
 { TKilogramPerMeterPerSecond }
 
 type
-  TKilogramPerMeterPerSecond = record
+  TKilogramPerMeterPerSecondRec = record
     const FUnitOfMeasurement = cPoiseuille;
     const FSymbol            = '%sg/%sm/%ss';
     const FName              = '%sgram per %smeter per %ssecond';
@@ -3791,10 +4106,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, -1, -1);
   end;
-  TKilogramPerMeterPerSecondUnit = specialize TUnit<TKilogramPerMeterPerSecond>;
+  TKilogramPerMeterPerSecondUnit = specialize TSymbol<TKilogramPerMeterPerSecondRec>;
+  TKilogramsPerMeterPerSecond = TQuantity;
 
 var
   KilogramPerMeterPerSecond : TKilogramPerMeterPerSecondUnit;
+  KilogramPerMeterPerSecondUnit : TKilogramPerMeterPerSecondUnit;
 
 { TSquareMeterPerSecond }
 
@@ -3802,7 +4119,7 @@ const
   cSquareMeterPerSecond = 80;
 
 type
-  TSquareMeterPerSecond = record
+  TSquareMeterPerSecondRec = record
     const FUnitOfMeasurement = cSquareMeterPerSecond;
     const FSymbol            = '%sm2/%ss';
     const FName              = 'square %smeter per %ssecond';
@@ -3810,10 +4127,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, -1);
   end;
-  TSquareMeterPerSecondUnit = specialize TUnit<TSquareMeterPerSecond>;
+  TSquareMeterPerSecondUnit = specialize TSymbol<TSquareMeterPerSecondRec>;
+  TSquareMetersPerSecond = TQuantity;
 
 var
   SquareMeterPerSecond : TSquareMeterPerSecondUnit;
+  SquareMeterPerSecondUnit : TSquareMeterPerSecondUnit;
 
 { TKilogramPerQuarticMeter }
 
@@ -3821,7 +4140,7 @@ const
   cKilogramPerQuarticMeter = 81;
 
 type
-  TKilogramPerQuarticMeter = record
+  TKilogramPerQuarticMeterRec = record
     const FUnitOfMeasurement = cKilogramPerQuarticMeter;
     const FSymbol            = '%sg/%sm4';
     const FName              = '%sgram per quartic %smeter';
@@ -3829,10 +4148,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, -4);
   end;
-  TKilogramPerQuarticMeterUnit = specialize TUnit<TKilogramPerQuarticMeter>;
+  TKilogramPerQuarticMeterUnit = specialize TSymbol<TKilogramPerQuarticMeterRec>;
+  TKilogramsPerQuarticMeter = TQuantity;
 
 var
   KilogramPerQuarticMeter : TKilogramPerQuarticMeterUnit;
+  KilogramPerQuarticMeterUnit : TKilogramPerQuarticMeterUnit;
 
 { TQuarticMeterSecond }
 
@@ -3840,7 +4161,7 @@ const
   cQuarticMeterSecond = 82;
 
 type
-  TQuarticMeterSecond = record
+  TQuarticMeterSecondRec = record
     const FUnitOfMeasurement = cQuarticMeterSecond;
     const FSymbol            = '%sm4.%ss';
     const FName              = 'quartic %smeter %ssecond';
@@ -3848,10 +4169,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (4, 1);
   end;
-  TQuarticMeterSecondUnit = specialize TUnit<TQuarticMeterSecond>;
+  TQuarticMeterSecondUnit = specialize TSymbol<TQuarticMeterSecondRec>;
+  TQuarticMeterSeconds = TQuantity;
 
 var
   QuarticMeterSecond : TQuarticMeterSecondUnit;
+  QuarticMeterSecondUnit : TQuarticMeterSecondUnit;
 
 { TKilogramPerQuarticMeterPerSecond }
 
@@ -3859,7 +4182,7 @@ const
   cKilogramPerQuarticMeterPerSecond = 83;
 
 type
-  TKilogramPerQuarticMeterPerSecond = record
+  TKilogramPerQuarticMeterPerSecondRec = record
     const FUnitOfMeasurement = cKilogramPerQuarticMeterPerSecond;
     const FSymbol            = '%sg/%sm4/%ss';
     const FName              = '%sgram per quartic %smeter per %ssecond';
@@ -3867,10 +4190,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, -4, -1);
   end;
-  TKilogramPerQuarticMeterPerSecondUnit = specialize TUnit<TKilogramPerQuarticMeterPerSecond>;
+  TKilogramPerQuarticMeterPerSecondUnit = specialize TSymbol<TKilogramPerQuarticMeterPerSecondRec>;
+  TKilogramsPerQuarticMeterPerSecond = TQuantity;
 
 var
   KilogramPerQuarticMeterPerSecond : TKilogramPerQuarticMeterPerSecondUnit;
+  KilogramPerQuarticMeterPerSecondUnit : TKilogramPerQuarticMeterPerSecondUnit;
 
 { TCubicMeterPerKilogram }
 
@@ -3878,7 +4203,7 @@ const
   cCubicMeterPerKilogram = 84;
 
 type
-  TCubicMeterPerKilogram = record
+  TCubicMeterPerKilogramRec = record
     const FUnitOfMeasurement = cCubicMeterPerKilogram;
     const FSymbol            = '%sm3/%sg';
     const FName              = 'cubic %smeter per %sgram';
@@ -3886,10 +4211,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pKilo);
     const FExponents         : TExponents = (3, -1);
   end;
-  TCubicMeterPerKilogramUnit = specialize TUnit<TCubicMeterPerKilogram>;
+  TCubicMeterPerKilogramUnit = specialize TSymbol<TCubicMeterPerKilogramRec>;
+  TCubicMetersPerKilogram = TQuantity;
 
 var
   CubicMeterPerKilogram : TCubicMeterPerKilogramUnit;
+  CubicMeterPerKilogramUnit : TCubicMeterPerKilogramUnit;
 
 { TKilogramSquareSecond }
 
@@ -3897,7 +4224,7 @@ const
   cKilogramSquareSecond = 85;
 
 type
-  TKilogramSquareSecond = record
+  TKilogramSquareSecondRec = record
     const FUnitOfMeasurement = cKilogramSquareSecond;
     const FSymbol            = '%sg.%ss2';
     const FName              = '%sgram square %ssecond';
@@ -3905,10 +4232,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, 2);
   end;
-  TKilogramSquareSecondUnit = specialize TUnit<TKilogramSquareSecond>;
+  TKilogramSquareSecondUnit = specialize TSymbol<TKilogramSquareSecondRec>;
+  TKilogramSquareSeconds = TQuantity;
 
 var
   KilogramSquareSecond : TKilogramSquareSecondUnit;
+  KilogramSquareSecondUnit : TKilogramSquareSecondUnit;
 
 { TCubicMeterPerSquareSecond }
 
@@ -3916,7 +4245,7 @@ const
   cCubicMeterPerSquareSecond = 86;
 
 type
-  TCubicMeterPerSquareSecond = record
+  TCubicMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cCubicMeterPerSquareSecond;
     const FSymbol            = '%sm3/%ss2';
     const FName              = 'cubic %smeter per square %ssecond';
@@ -3924,10 +4253,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (3, -2);
   end;
-  TCubicMeterPerSquareSecondUnit = specialize TUnit<TCubicMeterPerSquareSecond>;
+  TCubicMeterPerSquareSecondUnit = specialize TSymbol<TCubicMeterPerSquareSecondRec>;
+  TCubicMetersPerSquareSecond = TQuantity;
 
 var
   CubicMeterPerSquareSecond : TCubicMeterPerSquareSecondUnit;
+  CubicMeterPerSquareSecondUnit : TCubicMeterPerSquareSecondUnit;
 
 { TNewtonSquareMeter }
 
@@ -3935,7 +4266,7 @@ const
   cNewtonSquareMeter = 87;
 
 type
-  TNewtonSquareMeter = record
+  TNewtonSquareMeterRec = record
     const FUnitOfMeasurement = cNewtonSquareMeter;
     const FSymbol            = '%sN.%sm2';
     const FName              = '%snewton square %smeter';
@@ -3943,15 +4274,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 2);
   end;
-  TNewtonSquareMeterUnit = specialize TUnit<TNewtonSquareMeter>;
+  TNewtonSquareMeterUnit = specialize TSymbol<TNewtonSquareMeterRec>;
+  TNewtonSquareMeters = TQuantity;
 
 var
   NewtonSquareMeter : TNewtonSquareMeterUnit;
+  NewtonSquareMeterUnit : TNewtonSquareMeterUnit;
 
 { TKilogramCubicMeterPerSquareSecond }
 
 type
-  TKilogramCubicMeterPerSquareSecond = record
+  TKilogramCubicMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cNewtonSquareMeter;
     const FSymbol            = '%sg.%sm3/%ss2';
     const FName              = '%sgram cubic %smeter per square %ssecond';
@@ -3959,10 +4292,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, 3, -2);
   end;
-  TKilogramCubicMeterPerSquareSecondUnit = specialize TUnit<TKilogramCubicMeterPerSquareSecond>;
+  TKilogramCubicMeterPerSquareSecondUnit = specialize TSymbol<TKilogramCubicMeterPerSquareSecondRec>;
+  TKilogramCubicMetersPerSquareSecond = TQuantity;
 
 var
   KilogramCubicMeterPerSquareSecond : TKilogramCubicMeterPerSquareSecondUnit;
+  KilogramCubicMeterPerSquareSecondUnit : TKilogramCubicMeterPerSquareSecondUnit;
 
 { TNewtonCubicMeter }
 
@@ -3970,7 +4305,7 @@ const
   cNewtonCubicMeter = 88;
 
 type
-  TNewtonCubicMeter = record
+  TNewtonCubicMeterRec = record
     const FUnitOfMeasurement = cNewtonCubicMeter;
     const FSymbol            = '%sN.%sm3';
     const FName              = '%snewton cubic %smeter';
@@ -3978,15 +4313,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 3);
   end;
-  TNewtonCubicMeterUnit = specialize TUnit<TNewtonCubicMeter>;
+  TNewtonCubicMeterUnit = specialize TSymbol<TNewtonCubicMeterRec>;
+  TNewtonCubicMeters = TQuantity;
 
 var
   NewtonCubicMeter : TNewtonCubicMeterUnit;
+  NewtonCubicMeterUnit : TNewtonCubicMeterUnit;
 
 { TKilogramQuarticMeterPerSquareSecond }
 
 type
-  TKilogramQuarticMeterPerSquareSecond = record
+  TKilogramQuarticMeterPerSquareSecondRec = record
     const FUnitOfMeasurement = cNewtonCubicMeter;
     const FSymbol            = '%sg.%sm4/%ss2';
     const FName              = '%sgram quartic %smeter per square %ssecond';
@@ -3994,10 +4331,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, 4, -2);
   end;
-  TKilogramQuarticMeterPerSquareSecondUnit = specialize TUnit<TKilogramQuarticMeterPerSquareSecond>;
+  TKilogramQuarticMeterPerSquareSecondUnit = specialize TSymbol<TKilogramQuarticMeterPerSquareSecondRec>;
+  TKilogramQuarticMetersPerSquareSecond = TQuantity;
 
 var
   KilogramQuarticMeterPerSquareSecond : TKilogramQuarticMeterPerSquareSecondUnit;
+  KilogramQuarticMeterPerSquareSecondUnit : TKilogramQuarticMeterPerSquareSecondUnit;
 
 { TNewtonPerSquareKilogram }
 
@@ -4005,7 +4344,7 @@ const
   cNewtonPerSquareKilogram = 89;
 
 type
-  TNewtonPerSquareKilogram = record
+  TNewtonPerSquareKilogramRec = record
     const FUnitOfMeasurement = cNewtonPerSquareKilogram;
     const FSymbol            = '%sN/%sg2';
     const FName              = '%snewton per square %sgram';
@@ -4013,15 +4352,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pKilo);
     const FExponents         : TExponents = (1, -2);
   end;
-  TNewtonPerSquareKilogramUnit = specialize TUnit<TNewtonPerSquareKilogram>;
+  TNewtonPerSquareKilogramUnit = specialize TSymbol<TNewtonPerSquareKilogramRec>;
+  TNewtonsPerSquareKilogram = TQuantity;
 
 var
   NewtonPerSquareKilogram : TNewtonPerSquareKilogramUnit;
+  NewtonPerSquareKilogramUnit : TNewtonPerSquareKilogramUnit;
 
 { TMeterPerKilogramPerSquareSecond }
 
 type
-  TMeterPerKilogramPerSquareSecond = record
+  TMeterPerKilogramPerSquareSecondRec = record
     const FUnitOfMeasurement = cNewtonPerSquareKilogram;
     const FSymbol            = '%sm/%sg/%ss2';
     const FName              = '%smeter per %sgram per square %ssecond';
@@ -4029,10 +4370,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pKilo, pNone);
     const FExponents         : TExponents = (1, -1, -2);
   end;
-  TMeterPerKilogramPerSquareSecondUnit = specialize TUnit<TMeterPerKilogramPerSquareSecond>;
+  TMeterPerKilogramPerSquareSecondUnit = specialize TSymbol<TMeterPerKilogramPerSquareSecondRec>;
+  TMetersPerKilogramPerSquareSecond = TQuantity;
 
 var
   MeterPerKilogramPerSquareSecond : TMeterPerKilogramPerSquareSecondUnit;
+  MeterPerKilogramPerSquareSecondUnit : TMeterPerKilogramPerSquareSecondUnit;
 
 { TSquareKilogramPerMeter }
 
@@ -4040,7 +4383,7 @@ const
   cSquareKilogramPerMeter = 90;
 
 type
-  TSquareKilogramPerMeter = record
+  TSquareKilogramPerMeterRec = record
     const FUnitOfMeasurement = cSquareKilogramPerMeter;
     const FSymbol            = '%sg2/%sm';
     const FName              = 'square %sgram per %smeter';
@@ -4048,10 +4391,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (2, -1);
   end;
-  TSquareKilogramPerMeterUnit = specialize TUnit<TSquareKilogramPerMeter>;
+  TSquareKilogramPerMeterUnit = specialize TSymbol<TSquareKilogramPerMeterRec>;
+  TSquareKilogramsPerMeter = TQuantity;
 
 var
   SquareKilogramPerMeter : TSquareKilogramPerMeterUnit;
+  SquareKilogramPerMeterUnit : TSquareKilogramPerMeterUnit;
 
 { TSquareKilogramPerSquareMeter }
 
@@ -4059,7 +4404,7 @@ const
   cSquareKilogramPerSquareMeter = 91;
 
 type
-  TSquareKilogramPerSquareMeter = record
+  TSquareKilogramPerSquareMeterRec = record
     const FUnitOfMeasurement = cSquareKilogramPerSquareMeter;
     const FSymbol            = '%sg2/%sm2';
     const FName              = 'square %sgram per square %smeter';
@@ -4067,10 +4412,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (2, -2);
   end;
-  TSquareKilogramPerSquareMeterUnit = specialize TUnit<TSquareKilogramPerSquareMeter>;
+  TSquareKilogramPerSquareMeterUnit = specialize TSymbol<TSquareKilogramPerSquareMeterRec>;
+  TSquareKilogramsPerSquareMeter = TQuantity;
 
 var
   SquareKilogramPerSquareMeter : TSquareKilogramPerSquareMeterUnit;
+  SquareKilogramPerSquareMeterUnit : TSquareKilogramPerSquareMeterUnit;
 
 { TSquareMeterPerSquareKilogram }
 
@@ -4078,7 +4425,7 @@ const
   cSquareMeterPerSquareKilogram = 92;
 
 type
-  TSquareMeterPerSquareKilogram = record
+  TSquareMeterPerSquareKilogramRec = record
     const FUnitOfMeasurement = cSquareMeterPerSquareKilogram;
     const FSymbol            = '%sm2/%sg2';
     const FName              = 'square %smeter per square %sgram';
@@ -4086,10 +4433,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pKilo);
     const FExponents         : TExponents = (2, -2);
   end;
-  TSquareMeterPerSquareKilogramUnit = specialize TUnit<TSquareMeterPerSquareKilogram>;
+  TSquareMeterPerSquareKilogramUnit = specialize TSymbol<TSquareMeterPerSquareKilogramRec>;
+  TSquareMetersPerSquareKilogram = TQuantity;
 
 var
   SquareMeterPerSquareKilogram : TSquareMeterPerSquareKilogramUnit;
+  SquareMeterPerSquareKilogramUnit : TSquareMeterPerSquareKilogramUnit;
 
 { TNewtonSquareMeterPerSquareKilogram }
 
@@ -4097,7 +4446,7 @@ const
   cNewtonSquareMeterPerSquareKilogram = 93;
 
 type
-  TNewtonSquareMeterPerSquareKilogram = record
+  TNewtonSquareMeterPerSquareKilogramRec = record
     const FUnitOfMeasurement = cNewtonSquareMeterPerSquareKilogram;
     const FSymbol            = '%sN.%sm2/%sg2';
     const FName              = '%snewton square %smeter per square %sgram';
@@ -4105,15 +4454,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pKilo);
     const FExponents         : TExponents = (1, 2, -2);
   end;
-  TNewtonSquareMeterPerSquareKilogramUnit = specialize TUnit<TNewtonSquareMeterPerSquareKilogram>;
+  TNewtonSquareMeterPerSquareKilogramUnit = specialize TSymbol<TNewtonSquareMeterPerSquareKilogramRec>;
+  TNewtonSquareMetersPerSquareKilogram = TQuantity;
 
 var
   NewtonSquareMeterPerSquareKilogram : TNewtonSquareMeterPerSquareKilogramUnit;
+  NewtonSquareMeterPerSquareKilogramUnit : TNewtonSquareMeterPerSquareKilogramUnit;
 
 { TCubicMeterPerKilogramPerSquareSecond }
 
 type
-  TCubicMeterPerKilogramPerSquareSecond = record
+  TCubicMeterPerKilogramPerSquareSecondRec = record
     const FUnitOfMeasurement = cNewtonSquareMeterPerSquareKilogram;
     const FSymbol            = '%sm3/%sg/%ss2';
     const FName              = 'cubic %smeter per %sgram per square %ssecond';
@@ -4121,10 +4472,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pKilo, pNone);
     const FExponents         : TExponents = (3, -1, -2);
   end;
-  TCubicMeterPerKilogramPerSquareSecondUnit = specialize TUnit<TCubicMeterPerKilogramPerSquareSecond>;
+  TCubicMeterPerKilogramPerSquareSecondUnit = specialize TSymbol<TCubicMeterPerKilogramPerSquareSecondRec>;
+  TCubicMetersPerKilogramPerSquareSecond = TQuantity;
 
 var
   CubicMeterPerKilogramPerSquareSecond : TCubicMeterPerKilogramPerSquareSecondUnit;
+  CubicMeterPerKilogramPerSquareSecondUnit : TCubicMeterPerKilogramPerSquareSecondUnit;
 
 { TReciprocalKelvin }
 
@@ -4132,7 +4485,7 @@ const
   cReciprocalKelvin = 94;
 
 type
-  TReciprocalKelvin = record
+  TReciprocalKelvinRec = record
     const FUnitOfMeasurement = cReciprocalKelvin;
     const FSymbol            = '1/%sK';
     const FName              = 'reciprocal %skelvin';
@@ -4140,10 +4493,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-1);
   end;
-  TReciprocalKelvinUnit = specialize TUnit<TReciprocalKelvin>;
+  TReciprocalKelvinUnit = specialize TSymbol<TReciprocalKelvinRec>;
+  TReciprocalKelvins = TQuantity;
 
 var
   ReciprocalKelvin : TReciprocalKelvinUnit;
+  ReciprocalKelvinUnit : TReciprocalKelvinUnit;
 
 { TKilogramKelvin }
 
@@ -4151,7 +4506,7 @@ const
   cKilogramKelvin = 95;
 
 type
-  TKilogramKelvin = record
+  TKilogramKelvinRec = record
     const FUnitOfMeasurement = cKilogramKelvin;
     const FSymbol            = '%sg.%sK';
     const FName              = '%sgram %skelvin';
@@ -4159,10 +4514,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TKilogramKelvinUnit = specialize TUnit<TKilogramKelvin>;
+  TKilogramKelvinUnit = specialize TSymbol<TKilogramKelvinRec>;
+  TKilogramKelvins = TQuantity;
 
 var
   KilogramKelvin : TKilogramKelvinUnit;
+  KilogramKelvinUnit : TKilogramKelvinUnit;
 
 { TJoulePerKelvin }
 
@@ -4170,7 +4527,7 @@ const
   cJoulePerKelvin = 96;
 
 type
-  TJoulePerKelvin = record
+  TJoulePerKelvinRec = record
     const FUnitOfMeasurement = cJoulePerKelvin;
     const FSymbol            = '%sJ/%sK';
     const FName              = '%sjoule per %skelvin';
@@ -4178,15 +4535,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TJoulePerKelvinUnit = specialize TUnit<TJoulePerKelvin>;
+  TJoulePerKelvinUnit = specialize TSymbol<TJoulePerKelvinRec>;
+  TJoulesPerKelvin = TQuantity;
 
 var
   JoulePerKelvin : TJoulePerKelvinUnit;
+  JoulePerKelvinUnit : TJoulePerKelvinUnit;
 
 { TKilogramSquareMeterPerSquareSecondPerKelvin }
 
 type
-  TKilogramSquareMeterPerSquareSecondPerKelvin = record
+  TKilogramSquareMeterPerSquareSecondPerKelvinRec = record
     const FUnitOfMeasurement = cJoulePerKelvin;
     const FSymbol            = '%sg.%sm2/%ss2/%sK';
     const FName              = '%sgram square %smeter per square %ssecond per %skelvin';
@@ -4194,10 +4553,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -2, -1);
   end;
-  TKilogramSquareMeterPerSquareSecondPerKelvinUnit = specialize TUnit<TKilogramSquareMeterPerSquareSecondPerKelvin>;
+  TKilogramSquareMeterPerSquareSecondPerKelvinUnit = specialize TSymbol<TKilogramSquareMeterPerSquareSecondPerKelvinRec>;
+  TKilogramSquareMetersPerSquareSecondPerKelvin = TQuantity;
 
 var
   KilogramSquareMeterPerSquareSecondPerKelvin : TKilogramSquareMeterPerSquareSecondPerKelvinUnit;
+  KilogramSquareMeterPerSquareSecondPerKelvinUnit : TKilogramSquareMeterPerSquareSecondPerKelvinUnit;
 
 { TJoulePerKilogramPerKelvin }
 
@@ -4205,7 +4566,7 @@ const
   cJoulePerKilogramPerKelvin = 97;
 
 type
-  TJoulePerKilogramPerKelvin = record
+  TJoulePerKilogramPerKelvinRec = record
     const FUnitOfMeasurement = cJoulePerKilogramPerKelvin;
     const FSymbol            = '%sJ/%sg/%sK';
     const FName              = '%sjoule per %sgram per %skelvin';
@@ -4213,15 +4574,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pKilo, pNone);
     const FExponents         : TExponents = (1, -1, -1);
   end;
-  TJoulePerKilogramPerKelvinUnit = specialize TUnit<TJoulePerKilogramPerKelvin>;
+  TJoulePerKilogramPerKelvinUnit = specialize TSymbol<TJoulePerKilogramPerKelvinRec>;
+  TJoulesPerKilogramPerKelvin = TQuantity;
 
 var
   JoulePerKilogramPerKelvin : TJoulePerKilogramPerKelvinUnit;
+  JoulePerKilogramPerKelvinUnit : TJoulePerKilogramPerKelvinUnit;
 
 { TSquareMeterPerSquareSecondPerKelvin }
 
 type
-  TSquareMeterPerSquareSecondPerKelvin = record
+  TSquareMeterPerSquareSecondPerKelvinRec = record
     const FUnitOfMeasurement = cJoulePerKilogramPerKelvin;
     const FSymbol            = '%sm2/%ss2/%sK';
     const FName              = 'square %smeter per square %ssecond per %skelvin';
@@ -4229,10 +4592,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (2, -2, -1);
   end;
-  TSquareMeterPerSquareSecondPerKelvinUnit = specialize TUnit<TSquareMeterPerSquareSecondPerKelvin>;
+  TSquareMeterPerSquareSecondPerKelvinUnit = specialize TSymbol<TSquareMeterPerSquareSecondPerKelvinRec>;
+  TSquareMetersPerSquareSecondPerKelvin = TQuantity;
 
 var
   SquareMeterPerSquareSecondPerKelvin : TSquareMeterPerSquareSecondPerKelvinUnit;
+  SquareMeterPerSquareSecondPerKelvinUnit : TSquareMeterPerSquareSecondPerKelvinUnit;
 
 { TMeterKelvin }
 
@@ -4240,7 +4605,7 @@ const
   cMeterKelvin = 98;
 
 type
-  TMeterKelvin = record
+  TMeterKelvinRec = record
     const FUnitOfMeasurement = cMeterKelvin;
     const FSymbol            = '%sm.%sK';
     const FName              = '%smeter %skelvin';
@@ -4248,10 +4613,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TMeterKelvinUnit = specialize TUnit<TMeterKelvin>;
+  TMeterKelvinUnit = specialize TSymbol<TMeterKelvinRec>;
+  TMeterKelvins = TQuantity;
 
 var
   MeterKelvin : TMeterKelvinUnit;
+  MeterKelvinUnit : TMeterKelvinUnit;
 
 { TKelvinPerMeter }
 
@@ -4259,7 +4626,7 @@ const
   cKelvinPerMeter = 99;
 
 type
-  TKelvinPerMeter = record
+  TKelvinPerMeterRec = record
     const FUnitOfMeasurement = cKelvinPerMeter;
     const FSymbol            = '%sK/%sm';
     const FName              = '%skelvin per %smeter';
@@ -4267,10 +4634,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TKelvinPerMeterUnit = specialize TUnit<TKelvinPerMeter>;
+  TKelvinPerMeterUnit = specialize TSymbol<TKelvinPerMeterRec>;
+  TKelvinsPerMeter = TQuantity;
 
 var
   KelvinPerMeter : TKelvinPerMeterUnit;
+  KelvinPerMeterUnit : TKelvinPerMeterUnit;
 
 { TWattPerMeter }
 
@@ -4278,7 +4647,7 @@ const
   cWattPerMeter = 100;
 
 type
-  TWattPerMeter = record
+  TWattPerMeterRec = record
     const FUnitOfMeasurement = cWattPerMeter;
     const FSymbol            = '%sW/%sm';
     const FName              = '%swatt per %smeter';
@@ -4286,15 +4655,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TWattPerMeterUnit = specialize TUnit<TWattPerMeter>;
+  TWattPerMeterUnit = specialize TSymbol<TWattPerMeterRec>;
+  TWattsPerMeter = TQuantity;
 
 var
   WattPerMeter : TWattPerMeterUnit;
+  WattPerMeterUnit : TWattPerMeterUnit;
 
 { TKilogramMeterPerCubicSecond }
 
 type
-  TKilogramMeterPerCubicSecond = record
+  TKilogramMeterPerCubicSecondRec = record
     const FUnitOfMeasurement = cWattPerMeter;
     const FSymbol            = '%sg.%sm/%ss3';
     const FName              = '%sgram %smeter per cubic %ssecond';
@@ -4302,10 +4673,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, 1, -3);
   end;
-  TKilogramMeterPerCubicSecondUnit = specialize TUnit<TKilogramMeterPerCubicSecond>;
+  TKilogramMeterPerCubicSecondUnit = specialize TSymbol<TKilogramMeterPerCubicSecondRec>;
+  TKilogramMetersPerCubicSecond = TQuantity;
 
 var
   KilogramMeterPerCubicSecond : TKilogramMeterPerCubicSecondUnit;
+  KilogramMeterPerCubicSecondUnit : TKilogramMeterPerCubicSecondUnit;
 
 { TWattPerSquareMeter }
 
@@ -4313,7 +4686,7 @@ const
   cWattPerSquareMeter = 101;
 
 type
-  TWattPerSquareMeter = record
+  TWattPerSquareMeterRec = record
     const FUnitOfMeasurement = cWattPerSquareMeter;
     const FSymbol            = '%sW/%sm2';
     const FName              = '%swatt per square %smeter';
@@ -4321,15 +4694,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TWattPerSquareMeterUnit = specialize TUnit<TWattPerSquareMeter>;
+  TWattPerSquareMeterUnit = specialize TSymbol<TWattPerSquareMeterRec>;
+  TWattsPerSquareMeter = TQuantity;
 
 var
   WattPerSquareMeter : TWattPerSquareMeterUnit;
+  WattPerSquareMeterUnit : TWattPerSquareMeterUnit;
 
 { TKilogramPerCubicSecond }
 
 type
-  TKilogramPerCubicSecond = record
+  TKilogramPerCubicSecondRec = record
     const FUnitOfMeasurement = cWattPerSquareMeter;
     const FSymbol            = '%sg/%ss3';
     const FName              = '%sgram per cubic %ssecond';
@@ -4337,10 +4712,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TKilogramPerCubicSecondUnit = specialize TUnit<TKilogramPerCubicSecond>;
+  TKilogramPerCubicSecondUnit = specialize TSymbol<TKilogramPerCubicSecondRec>;
+  TKilogramsPerCubicSecond = TQuantity;
 
 var
   KilogramPerCubicSecond : TKilogramPerCubicSecondUnit;
+  KilogramPerCubicSecondUnit : TKilogramPerCubicSecondUnit;
 
 { TWattPerCubicMeter }
 
@@ -4348,7 +4725,7 @@ const
   cWattPerCubicMeter = 102;
 
 type
-  TWattPerCubicMeter = record
+  TWattPerCubicMeterRec = record
     const FUnitOfMeasurement = cWattPerCubicMeter;
     const FSymbol            = '%sW/%sm3';
     const FName              = '%swatt per cubic %smeter';
@@ -4356,10 +4733,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TWattPerCubicMeterUnit = specialize TUnit<TWattPerCubicMeter>;
+  TWattPerCubicMeterUnit = specialize TSymbol<TWattPerCubicMeterRec>;
+  TWattsPerCubicMeter = TQuantity;
 
 var
   WattPerCubicMeter : TWattPerCubicMeterUnit;
+  WattPerCubicMeterUnit : TWattPerCubicMeterUnit;
 
 { TWattPerKelvin }
 
@@ -4367,7 +4746,7 @@ const
   cWattPerKelvin = 103;
 
 type
-  TWattPerKelvin = record
+  TWattPerKelvinRec = record
     const FUnitOfMeasurement = cWattPerKelvin;
     const FSymbol            = '%sW/%sK';
     const FName              = '%swatt per %skelvin';
@@ -4375,15 +4754,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TWattPerKelvinUnit = specialize TUnit<TWattPerKelvin>;
+  TWattPerKelvinUnit = specialize TSymbol<TWattPerKelvinRec>;
+  TWattsPerKelvin = TQuantity;
 
 var
   WattPerKelvin : TWattPerKelvinUnit;
+  WattPerKelvinUnit : TWattPerKelvinUnit;
 
 { TKilogramSquareMeterPerCubicSecondPerKelvin }
 
 type
-  TKilogramSquareMeterPerCubicSecondPerKelvin = record
+  TKilogramSquareMeterPerCubicSecondPerKelvinRec = record
     const FUnitOfMeasurement = cWattPerKelvin;
     const FSymbol            = '%sg.%sm2/%ss3/%sK';
     const FName              = '%sgram square %smeter per cubic %ssecond per %skelvin';
@@ -4391,10 +4772,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -3, -1);
   end;
-  TKilogramSquareMeterPerCubicSecondPerKelvinUnit = specialize TUnit<TKilogramSquareMeterPerCubicSecondPerKelvin>;
+  TKilogramSquareMeterPerCubicSecondPerKelvinUnit = specialize TSymbol<TKilogramSquareMeterPerCubicSecondPerKelvinRec>;
+  TKilogramSquareMetersPerCubicSecondPerKelvin = TQuantity;
 
 var
   KilogramSquareMeterPerCubicSecondPerKelvin : TKilogramSquareMeterPerCubicSecondPerKelvinUnit;
+  KilogramSquareMeterPerCubicSecondPerKelvinUnit : TKilogramSquareMeterPerCubicSecondPerKelvinUnit;
 
 { TWattPerMeterPerKelvin }
 
@@ -4402,7 +4785,7 @@ const
   cWattPerMeterPerKelvin = 104;
 
 type
-  TWattPerMeterPerKelvin = record
+  TWattPerMeterPerKelvinRec = record
     const FUnitOfMeasurement = cWattPerMeterPerKelvin;
     const FSymbol            = '%sW/%sm/%sK';
     const FName              = '%swatt per %smeter per %skelvin';
@@ -4410,15 +4793,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, -1, -1);
   end;
-  TWattPerMeterPerKelvinUnit = specialize TUnit<TWattPerMeterPerKelvin>;
+  TWattPerMeterPerKelvinUnit = specialize TSymbol<TWattPerMeterPerKelvinRec>;
+  TWattsPerMeterPerKelvin = TQuantity;
 
 var
   WattPerMeterPerKelvin : TWattPerMeterPerKelvinUnit;
+  WattPerMeterPerKelvinUnit : TWattPerMeterPerKelvinUnit;
 
 { TKilogramMeterPerCubicSecondPerKelvin }
 
 type
-  TKilogramMeterPerCubicSecondPerKelvin = record
+  TKilogramMeterPerCubicSecondPerKelvinRec = record
     const FUnitOfMeasurement = cWattPerMeterPerKelvin;
     const FSymbol            = '%sg.%sm/%ss3/%sK';
     const FName              = '%sgram %smeter per cubic %ssecond per %skelvin';
@@ -4426,10 +4811,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 1, -3, -1);
   end;
-  TKilogramMeterPerCubicSecondPerKelvinUnit = specialize TUnit<TKilogramMeterPerCubicSecondPerKelvin>;
+  TKilogramMeterPerCubicSecondPerKelvinUnit = specialize TSymbol<TKilogramMeterPerCubicSecondPerKelvinRec>;
+  TKilogramMetersPerCubicSecondPerKelvin = TQuantity;
 
 var
   KilogramMeterPerCubicSecondPerKelvin : TKilogramMeterPerCubicSecondPerKelvinUnit;
+  KilogramMeterPerCubicSecondPerKelvinUnit : TKilogramMeterPerCubicSecondPerKelvinUnit;
 
 { TKelvinPerWatt }
 
@@ -4437,7 +4824,7 @@ const
   cKelvinPerWatt = 105;
 
 type
-  TKelvinPerWatt = record
+  TKelvinPerWattRec = record
     const FUnitOfMeasurement = cKelvinPerWatt;
     const FSymbol            = '%sK/%sW';
     const FName              = '%skelvin per %swatt';
@@ -4445,10 +4832,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TKelvinPerWattUnit = specialize TUnit<TKelvinPerWatt>;
+  TKelvinPerWattUnit = specialize TSymbol<TKelvinPerWattRec>;
+  TKelvinsPerWatt = TQuantity;
 
 var
   KelvinPerWatt : TKelvinPerWattUnit;
+  KelvinPerWattUnit : TKelvinPerWattUnit;
 
 { TMeterPerWatt }
 
@@ -4456,7 +4845,7 @@ const
   cMeterPerWatt = 106;
 
 type
-  TMeterPerWatt = record
+  TMeterPerWattRec = record
     const FUnitOfMeasurement = cMeterPerWatt;
     const FSymbol            = '%sm/%sW';
     const FName              = '%smeter per %swatt';
@@ -4464,10 +4853,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TMeterPerWattUnit = specialize TUnit<TMeterPerWatt>;
+  TMeterPerWattUnit = specialize TSymbol<TMeterPerWattRec>;
+  TMetersPerWatt = TQuantity;
 
 var
   MeterPerWatt : TMeterPerWattUnit;
+  MeterPerWattUnit : TMeterPerWattUnit;
 
 { TMeterKelvinPerWatt }
 
@@ -4475,7 +4866,7 @@ const
   cMeterKelvinPerWatt = 107;
 
 type
-  TMeterKelvinPerWatt = record
+  TMeterKelvinPerWattRec = record
     const FUnitOfMeasurement = cMeterKelvinPerWatt;
     const FSymbol            = '%sK.%sm/%sW';
     const FName              = '%skelvin %smeter per %swatt';
@@ -4483,10 +4874,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 1, -1);
   end;
-  TMeterKelvinPerWattUnit = specialize TUnit<TMeterKelvinPerWatt>;
+  TMeterKelvinPerWattUnit = specialize TSymbol<TMeterKelvinPerWattRec>;
+  TMeterKelvinsPerWatt = TQuantity;
 
 var
   MeterKelvinPerWatt : TMeterKelvinPerWattUnit;
+  MeterKelvinPerWattUnit : TMeterKelvinPerWattUnit;
 
 { TSquareMeterKelvin }
 
@@ -4494,7 +4887,7 @@ const
   cSquareMeterKelvin = 108;
 
 type
-  TSquareMeterKelvin = record
+  TSquareMeterKelvinRec = record
     const FUnitOfMeasurement = cSquareMeterKelvin;
     const FSymbol            = '%sm2.%sK';
     const FName              = 'square %smeter %skelvin';
@@ -4502,10 +4895,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, 1);
   end;
-  TSquareMeterKelvinUnit = specialize TUnit<TSquareMeterKelvin>;
+  TSquareMeterKelvinUnit = specialize TSymbol<TSquareMeterKelvinRec>;
+  TSquareMeterKelvins = TQuantity;
 
 var
   SquareMeterKelvin : TSquareMeterKelvinUnit;
+  SquareMeterKelvinUnit : TSquareMeterKelvinUnit;
 
 { TWattPerSquareMeterPerKelvin }
 
@@ -4513,7 +4908,7 @@ const
   cWattPerSquareMeterPerKelvin = 109;
 
 type
-  TWattPerSquareMeterPerKelvin = record
+  TWattPerSquareMeterPerKelvinRec = record
     const FUnitOfMeasurement = cWattPerSquareMeterPerKelvin;
     const FSymbol            = '%sW/%sm2/%sK';
     const FName              = '%swatt per square %smeter per %skelvin';
@@ -4521,15 +4916,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, -2, -1);
   end;
-  TWattPerSquareMeterPerKelvinUnit = specialize TUnit<TWattPerSquareMeterPerKelvin>;
+  TWattPerSquareMeterPerKelvinUnit = specialize TSymbol<TWattPerSquareMeterPerKelvinRec>;
+  TWattsPerSquareMeterPerKelvin = TQuantity;
 
 var
   WattPerSquareMeterPerKelvin : TWattPerSquareMeterPerKelvinUnit;
+  WattPerSquareMeterPerKelvinUnit : TWattPerSquareMeterPerKelvinUnit;
 
 { TKilogramPerCubicSecondPerKelvin }
 
 type
-  TKilogramPerCubicSecondPerKelvin = record
+  TKilogramPerCubicSecondPerKelvinRec = record
     const FUnitOfMeasurement = cWattPerSquareMeterPerKelvin;
     const FSymbol            = '%sg/%ss3/%sK';
     const FName              = '%sgram per cubic %ssecond per %skelvin';
@@ -4537,10 +4934,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone, pNone);
     const FExponents         : TExponents = (1, -3, -1);
   end;
-  TKilogramPerCubicSecondPerKelvinUnit = specialize TUnit<TKilogramPerCubicSecondPerKelvin>;
+  TKilogramPerCubicSecondPerKelvinUnit = specialize TSymbol<TKilogramPerCubicSecondPerKelvinRec>;
+  TKilogramsPerCubicSecondPerKelvin = TQuantity;
 
 var
   KilogramPerCubicSecondPerKelvin : TKilogramPerCubicSecondPerKelvinUnit;
+  KilogramPerCubicSecondPerKelvinUnit : TKilogramPerCubicSecondPerKelvinUnit;
 
 { TSquareMeterQuarticKelvin }
 
@@ -4548,7 +4947,7 @@ const
   cSquareMeterQuarticKelvin = 110;
 
 type
-  TSquareMeterQuarticKelvin = record
+  TSquareMeterQuarticKelvinRec = record
     const FUnitOfMeasurement = cSquareMeterQuarticKelvin;
     const FSymbol            = '%sm2.%sK4';
     const FName              = 'square %smeter quartic %skelvin';
@@ -4556,10 +4955,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, 4);
   end;
-  TSquareMeterQuarticKelvinUnit = specialize TUnit<TSquareMeterQuarticKelvin>;
+  TSquareMeterQuarticKelvinUnit = specialize TSymbol<TSquareMeterQuarticKelvinRec>;
+  TSquareMeterQuarticKelvins = TQuantity;
 
 var
   SquareMeterQuarticKelvin : TSquareMeterQuarticKelvinUnit;
+  SquareMeterQuarticKelvinUnit : TSquareMeterQuarticKelvinUnit;
 
 { TWattPerQuarticKelvin }
 
@@ -4567,7 +4968,7 @@ const
   cWattPerQuarticKelvin = 111;
 
 type
-  TWattPerQuarticKelvin = record
+  TWattPerQuarticKelvinRec = record
     const FUnitOfMeasurement = cWattPerQuarticKelvin;
     const FSymbol            = '%sW/%sK4';
     const FName              = '%swatt per quartic %skelvin';
@@ -4575,10 +4976,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -4);
   end;
-  TWattPerQuarticKelvinUnit = specialize TUnit<TWattPerQuarticKelvin>;
+  TWattPerQuarticKelvinUnit = specialize TSymbol<TWattPerQuarticKelvinRec>;
+  TWattsPerQuarticKelvin = TQuantity;
 
 var
   WattPerQuarticKelvin : TWattPerQuarticKelvinUnit;
+  WattPerQuarticKelvinUnit : TWattPerQuarticKelvinUnit;
 
 { TWattPerSquareMeterPerQuarticKelvin }
 
@@ -4586,7 +4989,7 @@ const
   cWattPerSquareMeterPerQuarticKelvin = 112;
 
 type
-  TWattPerSquareMeterPerQuarticKelvin = record
+  TWattPerSquareMeterPerQuarticKelvinRec = record
     const FUnitOfMeasurement = cWattPerSquareMeterPerQuarticKelvin;
     const FSymbol            = '%sW/%sm2/%sK4';
     const FName              = '%swatt per square %smeter per quartic %skelvin';
@@ -4594,10 +4997,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, -2, -4);
   end;
-  TWattPerSquareMeterPerQuarticKelvinUnit = specialize TUnit<TWattPerSquareMeterPerQuarticKelvin>;
+  TWattPerSquareMeterPerQuarticKelvinUnit = specialize TSymbol<TWattPerSquareMeterPerQuarticKelvinRec>;
+  TWattsPerSquareMeterPerQuarticKelvin = TQuantity;
 
 var
   WattPerSquareMeterPerQuarticKelvin : TWattPerSquareMeterPerQuarticKelvinUnit;
+  WattPerSquareMeterPerQuarticKelvinUnit : TWattPerSquareMeterPerQuarticKelvinUnit;
 
 { TJoulePerMole }
 
@@ -4605,7 +5010,7 @@ const
   cJoulePerMole = 113;
 
 type
-  TJoulePerMole = record
+  TJoulePerMoleRec = record
     const FUnitOfMeasurement = cJoulePerMole;
     const FSymbol            = '%sJ/%smol';
     const FName              = '%sjoule per %smole';
@@ -4613,10 +5018,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TJoulePerMoleUnit = specialize TUnit<TJoulePerMole>;
+  TJoulePerMoleUnit = specialize TSymbol<TJoulePerMoleRec>;
+  TJoulesPerMole = TQuantity;
 
 var
   JoulePerMole : TJoulePerMoleUnit;
+  JoulePerMoleUnit : TJoulePerMoleUnit;
 
 { TMoleKelvin }
 
@@ -4624,7 +5031,7 @@ const
   cMoleKelvin = 114;
 
 type
-  TMoleKelvin = record
+  TMoleKelvinRec = record
     const FUnitOfMeasurement = cMoleKelvin;
     const FSymbol            = '%smol.%sK';
     const FName              = '%smole %skelvin';
@@ -4632,10 +5039,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TMoleKelvinUnit = specialize TUnit<TMoleKelvin>;
+  TMoleKelvinUnit = specialize TSymbol<TMoleKelvinRec>;
+  TMoleKelvins = TQuantity;
 
 var
   MoleKelvin : TMoleKelvinUnit;
+  MoleKelvinUnit : TMoleKelvinUnit;
 
 { TJoulePerMolePerKelvin }
 
@@ -4643,7 +5052,7 @@ const
   cJoulePerMolePerKelvin = 115;
 
 type
-  TJoulePerMolePerKelvin = record
+  TJoulePerMolePerKelvinRec = record
     const FUnitOfMeasurement = cJoulePerMolePerKelvin;
     const FSymbol            = '%sJ/%smol/%sK';
     const FName              = '%sjoule per %smole per %skelvin';
@@ -4651,10 +5060,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, -1, -1);
   end;
-  TJoulePerMolePerKelvinUnit = specialize TUnit<TJoulePerMolePerKelvin>;
+  TJoulePerMolePerKelvinUnit = specialize TSymbol<TJoulePerMolePerKelvinRec>;
+  TJoulesPerMolePerKelvin = TQuantity;
 
 var
   JoulePerMolePerKelvin : TJoulePerMolePerKelvinUnit;
+  JoulePerMolePerKelvinUnit : TJoulePerMolePerKelvinUnit;
 
 { TOhmMeter }
 
@@ -4662,7 +5073,7 @@ const
   cOhmMeter = 116;
 
 type
-  TOhmMeter = record
+  TOhmMeterRec = record
     const FUnitOfMeasurement = cOhmMeter;
     const FSymbol            = '%sΩ.%sm';
     const FName              = '%sohm %smeter';
@@ -4670,10 +5081,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TOhmMeterUnit = specialize TUnit<TOhmMeter>;
+  TOhmMeterUnit = specialize TSymbol<TOhmMeterRec>;
+  TOhmMeters = TQuantity;
 
 var
-  OhmMeter   : TOhmMeterUnit;
+  OhmMeter : TOhmMeterUnit;
+  OhmMeterUnit : TOhmMeterUnit;
 
 { TVoltPerMeter }
 
@@ -4681,7 +5094,7 @@ const
   cVoltPerMeter = 117;
 
 type
-  TVoltPerMeter = record
+  TVoltPerMeterRec = record
     const FUnitOfMeasurement = cVoltPerMeter;
     const FSymbol            = '%sV/%sm';
     const FName              = '%svolt per %smeter';
@@ -4689,15 +5102,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TVoltPerMeterUnit = specialize TUnit<TVoltPerMeter>;
+  TVoltPerMeterUnit = specialize TSymbol<TVoltPerMeterRec>;
+  TVoltsPerMeter = TQuantity;
 
 var
   VoltPerMeter : TVoltPerMeterUnit;
+  VoltPerMeterUnit : TVoltPerMeterUnit;
 
 { TNewtonPerCoulomb }
 
 type
-  TNewtonPerCoulomb = record
+  TNewtonPerCoulombRec = record
     const FUnitOfMeasurement = cVoltPerMeter;
     const FSymbol            = '%sN/%sC';
     const FName              = '%snewton per %scoulomb';
@@ -4705,10 +5120,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TNewtonPerCoulombUnit = specialize TUnit<TNewtonPerCoulomb>;
+  TNewtonPerCoulombUnit = specialize TSymbol<TNewtonPerCoulombRec>;
+  TNewtonsPerCoulomb = TQuantity;
 
 var
   NewtonPerCoulomb : TNewtonPerCoulombUnit;
+  NewtonPerCoulombUnit : TNewtonPerCoulombUnit;
 
 { TCoulombPerMeter }
 
@@ -4716,7 +5133,7 @@ const
   cCoulombPerMeter = 118;
 
 type
-  TCoulombPerMeter = record
+  TCoulombPerMeterRec = record
     const FUnitOfMeasurement = cCoulombPerMeter;
     const FSymbol            = '%sC/%sm';
     const FName              = '%scoulomb per %smeter';
@@ -4724,10 +5141,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TCoulombPerMeterUnit = specialize TUnit<TCoulombPerMeter>;
+  TCoulombPerMeterUnit = specialize TSymbol<TCoulombPerMeterRec>;
+  TCoulombsPerMeter = TQuantity;
 
 var
   CoulombPerMeter : TCoulombPerMeterUnit;
+  CoulombPerMeterUnit : TCoulombPerMeterUnit;
 
 { TSquareCoulombPerMeter }
 
@@ -4735,7 +5154,7 @@ const
   cSquareCoulombPerMeter = 119;
 
 type
-  TSquareCoulombPerMeter = record
+  TSquareCoulombPerMeterRec = record
     const FUnitOfMeasurement = cSquareCoulombPerMeter;
     const FSymbol            = '%sC2/%sm';
     const FName              = 'square %scoulomb per %smeter';
@@ -4743,10 +5162,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, -1);
   end;
-  TSquareCoulombPerMeterUnit = specialize TUnit<TSquareCoulombPerMeter>;
+  TSquareCoulombPerMeterUnit = specialize TSymbol<TSquareCoulombPerMeterRec>;
+  TSquareCoulombsPerMeter = TQuantity;
 
 var
   SquareCoulombPerMeter : TSquareCoulombPerMeterUnit;
+  SquareCoulombPerMeterUnit : TSquareCoulombPerMeterUnit;
 
 { TCoulombPerSquareMeter }
 
@@ -4754,7 +5175,7 @@ const
   cCoulombPerSquareMeter = 120;
 
 type
-  TCoulombPerSquareMeter = record
+  TCoulombPerSquareMeterRec = record
     const FUnitOfMeasurement = cCoulombPerSquareMeter;
     const FSymbol            = '%sC/%sm2';
     const FName              = '%scoulomb per square %smeter';
@@ -4762,10 +5183,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TCoulombPerSquareMeterUnit = specialize TUnit<TCoulombPerSquareMeter>;
+  TCoulombPerSquareMeterUnit = specialize TSymbol<TCoulombPerSquareMeterRec>;
+  TCoulombsPerSquareMeter = TQuantity;
 
 var
   CoulombPerSquareMeter : TCoulombPerSquareMeterUnit;
+  CoulombPerSquareMeterUnit : TCoulombPerSquareMeterUnit;
 
 { TSquareMeterPerSquareCoulomb }
 
@@ -4773,7 +5196,7 @@ const
   cSquareMeterPerSquareCoulomb = 121;
 
 type
-  TSquareMeterPerSquareCoulomb = record
+  TSquareMeterPerSquareCoulombRec = record
     const FUnitOfMeasurement = cSquareMeterPerSquareCoulomb;
     const FSymbol            = '%sm2/%sC2';
     const FName              = 'square %smeter per square %scoulomb';
@@ -4781,10 +5204,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, -2);
   end;
-  TSquareMeterPerSquareCoulombUnit = specialize TUnit<TSquareMeterPerSquareCoulomb>;
+  TSquareMeterPerSquareCoulombUnit = specialize TSymbol<TSquareMeterPerSquareCoulombRec>;
+  TSquareMetersPerSquareCoulomb = TQuantity;
 
 var
   SquareMeterPerSquareCoulomb : TSquareMeterPerSquareCoulombUnit;
+  SquareMeterPerSquareCoulombUnit : TSquareMeterPerSquareCoulombUnit;
 
 { TNewtonPerSquareCoulomb }
 
@@ -4792,7 +5217,7 @@ const
   cNewtonPerSquareCoulomb = 122;
 
 type
-  TNewtonPerSquareCoulomb = record
+  TNewtonPerSquareCoulombRec = record
     const FUnitOfMeasurement = cNewtonPerSquareCoulomb;
     const FSymbol            = '%sN/%sC2';
     const FName              = '%snewton per square %scoulomb';
@@ -4800,10 +5225,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TNewtonPerSquareCoulombUnit = specialize TUnit<TNewtonPerSquareCoulomb>;
+  TNewtonPerSquareCoulombUnit = specialize TSymbol<TNewtonPerSquareCoulombRec>;
+  TNewtonsPerSquareCoulomb = TQuantity;
 
 var
   NewtonPerSquareCoulomb : TNewtonPerSquareCoulombUnit;
+  NewtonPerSquareCoulombUnit : TNewtonPerSquareCoulombUnit;
 
 { TNewtonSquareMeterPerSquareCoulomb }
 
@@ -4811,7 +5238,7 @@ const
   cNewtonSquareMeterPerSquareCoulomb = 123;
 
 type
-  TNewtonSquareMeterPerSquareCoulomb = record
+  TNewtonSquareMeterPerSquareCoulombRec = record
     const FUnitOfMeasurement = cNewtonSquareMeterPerSquareCoulomb;
     const FSymbol            = '%sN.%sm2/%sC2';
     const FName              = '%snewton square %smeter per square %scoulomb';
@@ -4819,10 +5246,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -2);
   end;
-  TNewtonSquareMeterPerSquareCoulombUnit = specialize TUnit<TNewtonSquareMeterPerSquareCoulomb>;
+  TNewtonSquareMeterPerSquareCoulombUnit = specialize TSymbol<TNewtonSquareMeterPerSquareCoulombRec>;
+  TNewtonSquareMetersPerSquareCoulomb = TQuantity;
 
 var
   NewtonSquareMeterPerSquareCoulomb : TNewtonSquareMeterPerSquareCoulombUnit;
+  NewtonSquareMeterPerSquareCoulombUnit : TNewtonSquareMeterPerSquareCoulombUnit;
 
 { TVoltMeter }
 
@@ -4830,7 +5259,7 @@ const
   cVoltMeter = 124;
 
 type
-  TVoltMeter = record
+  TVoltMeterRec = record
     const FUnitOfMeasurement = cVoltMeter;
     const FSymbol            = '%sV.%sm';
     const FName              = '%svolt %smeter';
@@ -4838,15 +5267,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TVoltMeterUnit = specialize TUnit<TVoltMeter>;
+  TVoltMeterUnit = specialize TSymbol<TVoltMeterRec>;
+  TVoltMeters = TQuantity;
 
 var
-  VoltMeter  : TVoltMeterUnit;
+  VoltMeter : TVoltMeterUnit;
+  VoltMeterUnit : TVoltMeterUnit;
 
 { TNewtonSquareMeterPerCoulomb }
 
 type
-  TNewtonSquareMeterPerCoulomb = record
+  TNewtonSquareMeterPerCoulombRec = record
     const FUnitOfMeasurement = cVoltMeter;
     const FSymbol            = '%sN.%sm2/%sC';
     const FName              = '%snewton square %smeter per %scoulomb';
@@ -4854,10 +5285,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 2, -1);
   end;
-  TNewtonSquareMeterPerCoulombUnit = specialize TUnit<TNewtonSquareMeterPerCoulomb>;
+  TNewtonSquareMeterPerCoulombUnit = specialize TSymbol<TNewtonSquareMeterPerCoulombRec>;
+  TNewtonSquareMetersPerCoulomb = TQuantity;
 
 var
   NewtonSquareMeterPerCoulomb : TNewtonSquareMeterPerCoulombUnit;
+  NewtonSquareMeterPerCoulombUnit : TNewtonSquareMeterPerCoulombUnit;
 
 { TVoltMeterPerSecond }
 
@@ -4865,7 +5298,7 @@ const
   cVoltMeterPerSecond = 125;
 
 type
-  TVoltMeterPerSecond = record
+  TVoltMeterPerSecondRec = record
     const FUnitOfMeasurement = cVoltMeterPerSecond;
     const FSymbol            = '%sV.%sm/%ss';
     const FName              = '%svolt %smeter per %ssecond';
@@ -4873,10 +5306,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 1, -1);
   end;
-  TVoltMeterPerSecondUnit = specialize TUnit<TVoltMeterPerSecond>;
+  TVoltMeterPerSecondUnit = specialize TSymbol<TVoltMeterPerSecondRec>;
+  TVoltMetersPerSecond = TQuantity;
 
 var
   VoltMeterPerSecond : TVoltMeterPerSecondUnit;
+  VoltMeterPerSecondUnit : TVoltMeterPerSecondUnit;
 
 { TFaradPerMeter }
 
@@ -4884,7 +5319,7 @@ const
   cFaradPerMeter = 126;
 
 type
-  TFaradPerMeter = record
+  TFaradPerMeterRec = record
     const FUnitOfMeasurement = cFaradPerMeter;
     const FSymbol            = '%sF/%sm';
     const FName              = '%sfarad per %smeter';
@@ -4892,10 +5327,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TFaradPerMeterUnit = specialize TUnit<TFaradPerMeter>;
+  TFaradPerMeterUnit = specialize TSymbol<TFaradPerMeterRec>;
+  TFaradsPerMeter = TQuantity;
 
 var
   FaradPerMeter : TFaradPerMeterUnit;
+  FaradPerMeterUnit : TFaradPerMeterUnit;
 
 { TAmperePerMeter }
 
@@ -4903,7 +5340,7 @@ const
   cAmperePerMeter = 127;
 
 type
-  TAmperePerMeter = record
+  TAmperePerMeterRec = record
     const FUnitOfMeasurement = cAmperePerMeter;
     const FSymbol            = '%sA/%sm';
     const FName              = '%sampere per %smeter';
@@ -4911,10 +5348,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TAmperePerMeterUnit = specialize TUnit<TAmperePerMeter>;
+  TAmperePerMeterUnit = specialize TSymbol<TAmperePerMeterRec>;
+  TAmperesPerMeter = TQuantity;
 
 var
   AmperePerMeter : TAmperePerMeterUnit;
+  AmperePerMeterUnit : TAmperePerMeterUnit;
 
 { TMeterPerAmpere }
 
@@ -4922,7 +5361,7 @@ const
   cMeterPerAmpere = 128;
 
 type
-  TMeterPerAmpere = record
+  TMeterPerAmpereRec = record
     const FUnitOfMeasurement = cMeterPerAmpere;
     const FSymbol            = '%sm/%sA';
     const FName              = '%smeter per %sampere';
@@ -4930,10 +5369,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TMeterPerAmpereUnit = specialize TUnit<TMeterPerAmpere>;
+  TMeterPerAmpereUnit = specialize TSymbol<TMeterPerAmpereRec>;
+  TMetersPerAmpere = TQuantity;
 
 var
   MeterPerAmpere : TMeterPerAmpereUnit;
+  MeterPerAmpereUnit : TMeterPerAmpereUnit;
 
 { TTeslaMeter }
 
@@ -4941,7 +5382,7 @@ const
   cTeslaMeter = 129;
 
 type
-  TTeslaMeter = record
+  TTeslaMeterRec = record
     const FUnitOfMeasurement = cTeslaMeter;
     const FSymbol            = '%sT.%sm';
     const FName              = '%stesla %smeter';
@@ -4949,15 +5390,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TTeslaMeterUnit = specialize TUnit<TTeslaMeter>;
+  TTeslaMeterUnit = specialize TSymbol<TTeslaMeterRec>;
+  TTeslaMeters = TQuantity;
 
 var
   TeslaMeter : TTeslaMeterUnit;
+  TeslaMeterUnit : TTeslaMeterUnit;
 
 { TNewtonPerAmpere }
 
 type
-  TNewtonPerAmpere = record
+  TNewtonPerAmpereRec = record
     const FUnitOfMeasurement = cTeslaMeter;
     const FSymbol            = '%sN/%sA';
     const FName              = '%snewton per %sampere';
@@ -4965,10 +5408,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TNewtonPerAmpereUnit = specialize TUnit<TNewtonPerAmpere>;
+  TNewtonPerAmpereUnit = specialize TSymbol<TNewtonPerAmpereRec>;
+  TNewtonsPerAmpere = TQuantity;
 
 var
   NewtonPerAmpere : TNewtonPerAmpereUnit;
+  NewtonPerAmpereUnit : TNewtonPerAmpereUnit;
 
 { TTeslaPerAmpere }
 
@@ -4976,7 +5421,7 @@ const
   cTeslaPerAmpere = 130;
 
 type
-  TTeslaPerAmpere = record
+  TTeslaPerAmpereRec = record
     const FUnitOfMeasurement = cTeslaPerAmpere;
     const FSymbol            = '%sT/%sA';
     const FName              = '%stesla per %sampere';
@@ -4984,10 +5429,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TTeslaPerAmpereUnit = specialize TUnit<TTeslaPerAmpere>;
+  TTeslaPerAmpereUnit = specialize TSymbol<TTeslaPerAmpereRec>;
+  TTeslasPerAmpere = TQuantity;
 
 var
   TeslaPerAmpere : TTeslaPerAmpereUnit;
+  TeslaPerAmpereUnit : TTeslaPerAmpereUnit;
 
 { THenryPerMeter }
 
@@ -4995,7 +5442,7 @@ const
   cHenryPerMeter = 131;
 
 type
-  THenryPerMeter = record
+  THenryPerMeterRec = record
     const FUnitOfMeasurement = cHenryPerMeter;
     const FSymbol            = '%sH/%sm';
     const FName              = '%shenry per %smeter';
@@ -5003,15 +5450,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  THenryPerMeterUnit = specialize TUnit<THenryPerMeter>;
+  THenryPerMeterUnit = specialize TSymbol<THenryPerMeterRec>;
+  THenriesPerMeter = TQuantity;
 
 var
   HenryPerMeter : THenryPerMeterUnit;
+  HenryPerMeterUnit : THenryPerMeterUnit;
 
 { TTeslaMeterPerAmpere }
 
 type
-  TTeslaMeterPerAmpere = record
+  TTeslaMeterPerAmpereRec = record
     const FUnitOfMeasurement = cHenryPerMeter;
     const FSymbol            = '%sT.%sm/%sA';
     const FName              = '%stesla %smeter per %sampere';
@@ -5019,15 +5468,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, 1, -1);
   end;
-  TTeslaMeterPerAmpereUnit = specialize TUnit<TTeslaMeterPerAmpere>;
+  TTeslaMeterPerAmpereUnit = specialize TSymbol<TTeslaMeterPerAmpereRec>;
+  TTeslaMetersPerAmpere = TQuantity;
 
 var
   TeslaMeterPerAmpere : TTeslaMeterPerAmpereUnit;
+  TeslaMeterPerAmpereUnit : TTeslaMeterPerAmpereUnit;
 
 { TNewtonPerSquareAmpere }
 
 type
-  TNewtonPerSquareAmpere = record
+  TNewtonPerSquareAmpereRec = record
     const FUnitOfMeasurement = cHenryPerMeter;
     const FSymbol            = '%sN/%sA2';
     const FName              = '%snewton per square %sampere';
@@ -5035,10 +5486,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TNewtonPerSquareAmpereUnit = specialize TUnit<TNewtonPerSquareAmpere>;
+  TNewtonPerSquareAmpereUnit = specialize TSymbol<TNewtonPerSquareAmpereRec>;
+  TNewtonsPerSquareAmpere = TQuantity;
 
 var
   NewtonPerSquareAmpere : TNewtonPerSquareAmpereUnit;
+  NewtonPerSquareAmpereUnit : TNewtonPerSquareAmpereUnit;
 
 { TRadianPerMeter }
 
@@ -5046,7 +5499,7 @@ const
   cRadianPerMeter = 132;
 
 type
-  TRadianPerMeter = record
+  TRadianPerMeterRec = record
     const FUnitOfMeasurement = cRadianPerMeter;
     const FSymbol            = 'rad/%sm';
     const FName              = 'radian per %smeter';
@@ -5054,10 +5507,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-1);
   end;
-  TRadianPerMeterUnit = specialize TUnit<TRadianPerMeter>;
+  TRadianPerMeterUnit = specialize TSymbol<TRadianPerMeterRec>;
+  TRadiansPerMeter = TQuantity;
 
 var
   RadianPerMeter : TRadianPerMeterUnit;
+  RadianPerMeterUnit : TRadianPerMeterUnit;
 
 { TSquareKilogramPerSquareSecond }
 
@@ -5065,7 +5520,7 @@ const
   cSquareKilogramPerSquareSecond = 133;
 
 type
-  TSquareKilogramPerSquareSecond = record
+  TSquareKilogramPerSquareSecondRec = record
     const FUnitOfMeasurement = cSquareKilogramPerSquareSecond;
     const FSymbol            = '%sg2/%ss2';
     const FName              = 'square %sgram per square %ssecond';
@@ -5073,10 +5528,12 @@ type
     const FPrefixes          : TPrefixes  = (pKilo, pNone);
     const FExponents         : TExponents = (2, -2);
   end;
-  TSquareKilogramPerSquareSecondUnit = specialize TUnit<TSquareKilogramPerSquareSecond>;
+  TSquareKilogramPerSquareSecondUnit = specialize TSymbol<TSquareKilogramPerSquareSecondRec>;
+  TSquareKilogramsPerSquareSecond = TQuantity;
 
 var
   SquareKilogramPerSquareSecond : TSquareKilogramPerSquareSecondUnit;
+  SquareKilogramPerSquareSecondUnit : TSquareKilogramPerSquareSecondUnit;
 
 { TSquareSecondPerSquareMeter }
 
@@ -5084,7 +5541,7 @@ const
   cSquareSecondPerSquareMeter = 134;
 
 type
-  TSquareSecondPerSquareMeter = record
+  TSquareSecondPerSquareMeterRec = record
     const FUnitOfMeasurement = cSquareSecondPerSquareMeter;
     const FSymbol            = '%ss2/%sm2';
     const FName              = 'square %ssecond per square %smeter';
@@ -5092,10 +5549,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, -2);
   end;
-  TSquareSecondPerSquareMeterUnit = specialize TUnit<TSquareSecondPerSquareMeter>;
+  TSquareSecondPerSquareMeterUnit = specialize TSymbol<TSquareSecondPerSquareMeterRec>;
+  TSquareSecondsPerSquareMeter = TQuantity;
 
 var
   SquareSecondPerSquareMeter : TSquareSecondPerSquareMeterUnit;
+  SquareSecondPerSquareMeterUnit : TSquareSecondPerSquareMeterUnit;
 
 { TSquareJoule }
 
@@ -5103,7 +5562,7 @@ const
   cSquareJoule = 135;
 
 type
-  TSquareJoule = record
+  TSquareJouleRec = record
     const FUnitOfMeasurement = cSquareJoule;
     const FSymbol            = '%sJ2';
     const FName              = 'square %sjoule';
@@ -5111,10 +5570,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareJouleUnit = specialize TUnit<TSquareJoule>;
+  TSquareJouleUnit = specialize TSymbol<TSquareJouleRec>;
+  TSquareJoules = TQuantity;
 
 var
-  J2         : TSquareJouleUnit;
+  J2 : TSquareJouleUnit;
+  SquareJouleUnit : TSquareJouleUnit;
 
 const
   TJ2        : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 135; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
@@ -5125,7 +5586,7 @@ const
 { TJouleSecond }
 
 type
-  TJouleSecond = record
+  TJouleSecondRec = record
     const FUnitOfMeasurement = cKilogramSquareMeterPerSecond;
     const FSymbol            = '%sJ.%ss';
     const FName              = '%sjoule %ssecond';
@@ -5133,15 +5594,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, 1);
   end;
-  TJouleSecondUnit = specialize TUnit<TJouleSecond>;
+  TJouleSecondUnit = specialize TSymbol<TJouleSecondRec>;
+  TJouleSeconds = TQuantity;
 
 var
   JouleSecond : TJouleSecondUnit;
+  JouleSecondUnit : TJouleSecondUnit;
 
 { TJoulePerHertz }
 
 type
-  TJoulePerHertz = record
+  TJoulePerHertzRec = record
     const FUnitOfMeasurement = cKilogramSquareMeterPerSecond;
     const FSymbol            = '%sJ/%sHz';
     const FName              = '%sjoule per %shertz';
@@ -5149,15 +5612,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TJoulePerHertzUnit = specialize TUnit<TJoulePerHertz>;
+  TJoulePerHertzUnit = specialize TSymbol<TJoulePerHertzRec>;
+  TJoulePerHertzs = TQuantity;
 
 var
   JoulePerHertz : TJoulePerHertzUnit;
+  JoulePerHertzUnit : TJoulePerHertzUnit;
 
 { TElectronvoltSecond }
 
 type
-  TElectronvoltSecond = record
+  TElectronvoltSecondRec = record
     const FUnitOfMeasurement = cKilogramSquareMeterPerSecond;
     const FSymbol            = '%seV.%ss';
     const FName              = '%selectronvolt %ssecond';
@@ -5167,7 +5632,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TElectronvoltSecondUnit = specialize TFactoredUnit<TElectronvoltSecond>;
+  TElectronvoltSecondUnit = specialize TFactoredSymbol<TElectronvoltSecondRec>;
+  TElectronvoltSeconds = TQuantity;
 
 const
   ElectronvoltSecond : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 46; FValue: 1.60217742320523E-019); {$ELSE} (1.60217742320523E-019); {$ENDIF}
@@ -5178,7 +5644,7 @@ var
 { TElectronvoltMeterPerSpeedOfLight }
 
 type
-  TElectronvoltMeterPerSpeedOfLight = record
+  TElectronvoltMeterPerSpeedOfLightRec = record
     const FUnitOfMeasurement = cKilogramSquareMeterPerSecond;
     const FSymbol            = '%seV.%sm/c';
     const FName              = '%selectronvolt %smeter per speed of  light';
@@ -5188,7 +5654,8 @@ type
     class function GetValue(const AQuantity: double): double; static;
     class function PutValue(const AQuantity: double): double; static;
   end;
-  TElectronvoltMeterPerSpeedOfLightUnit = specialize TFactoredUnit<TElectronvoltMeterPerSpeedOfLight>;
+  TElectronvoltMeterPerSpeedOfLightUnit = specialize TFactoredSymbol<TElectronvoltMeterPerSpeedOfLightRec>;
+  TElectronvoltMetersPerSpeedOfLight = TQuantity;
 
 const
   ElectronvoltMeterPerSpeedOfLight : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: 46; FValue: 1.7826619216279E-36); {$ELSE} (1.7826619216279E-36); {$ENDIF}
@@ -5202,7 +5669,7 @@ const
   cSquareJouleSquareSecond = 136;
 
 type
-  TSquareJouleSquareSecond = record
+  TSquareJouleSquareSecondRec = record
     const FUnitOfMeasurement = cSquareJouleSquareSecond;
     const FSymbol            = '%sJ2.%ss2';
     const FName              = 'square %sjoule square %ssecond';
@@ -5210,10 +5677,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, 2);
   end;
-  TSquareJouleSquareSecondUnit = specialize TUnit<TSquareJouleSquareSecond>;
+  TSquareJouleSquareSecondUnit = specialize TSymbol<TSquareJouleSquareSecondRec>;
+  TSquareJouleSquareSeconds = TQuantity;
 
 var
   SquareJouleSquareSecond : TSquareJouleSquareSecondUnit;
+  SquareJouleSquareSecondUnit : TSquareJouleSquareSecondUnit;
 
 { TCoulombPerKilogram }
 
@@ -5221,7 +5690,7 @@ const
   cCoulombPerKilogram = 137;
 
 type
-  TCoulombPerKilogram = record
+  TCoulombPerKilogramRec = record
     const FUnitOfMeasurement = cCoulombPerKilogram;
     const FSymbol            = '%sC/%sg';
     const FName              = '%scoulomb per %sgram';
@@ -5229,10 +5698,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pKilo);
     const FExponents         : TExponents = (1, -1);
   end;
-  TCoulombPerKilogramUnit = specialize TUnit<TCoulombPerKilogram>;
+  TCoulombPerKilogramUnit = specialize TSymbol<TCoulombPerKilogramRec>;
+  TCoulombsPerKilogram = TQuantity;
 
 var
   CoulombPerKilogram : TCoulombPerKilogramUnit;
+  CoulombPerKilogramUnit : TCoulombPerKilogramUnit;
 
 { TSquareMeterAmpere }
 
@@ -5240,7 +5711,7 @@ const
   cSquareMeterAmpere = 138;
 
 type
-  TSquareMeterAmpere = record
+  TSquareMeterAmpereRec = record
     const FUnitOfMeasurement = cSquareMeterAmpere;
     const FSymbol            = '%sm2.%sA';
     const FName              = 'square %smeter %sampere';
@@ -5248,15 +5719,17 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, 1);
   end;
-  TSquareMeterAmpereUnit = specialize TUnit<TSquareMeterAmpere>;
+  TSquareMeterAmpereUnit = specialize TSymbol<TSquareMeterAmpereRec>;
+  TSquareMeterAmperes = TQuantity;
 
 var
   SquareMeterAmpere : TSquareMeterAmpereUnit;
+  SquareMeterAmpereUnit : TSquareMeterAmpereUnit;
 
 { TJoulePerTesla }
 
 type
-  TJoulePerTesla = record
+  TJoulePerTeslaRec = record
     const FUnitOfMeasurement = cSquareMeterAmpere;
     const FSymbol            = '%sJ/%sT';
     const FName              = '%sjoule per %stesla';
@@ -5264,10 +5737,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TJoulePerTeslaUnit = specialize TUnit<TJoulePerTesla>;
+  TJoulePerTeslaUnit = specialize TSymbol<TJoulePerTeslaRec>;
+  TJoulesPerTesla = TQuantity;
 
 var
   JoulePerTesla : TJoulePerTeslaUnit;
+  JoulePerTeslaUnit : TJoulePerTeslaUnit;
 
 { TLumenPerWatt }
 
@@ -5275,7 +5750,7 @@ const
   cLumenPerWatt = 139;
 
 type
-  TLumenPerWatt = record
+  TLumenPerWattRec = record
     const FUnitOfMeasurement = cLumenPerWatt;
     const FSymbol            = '%slm/%sW';
     const FName              = '%slumen per %swatt';
@@ -5283,10 +5758,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TLumenPerWattUnit = specialize TUnit<TLumenPerWatt>;
+  TLumenPerWattUnit = specialize TSymbol<TLumenPerWattRec>;
+  TLumensPerWatt = TQuantity;
 
 var
   LumenPerWatt : TLumenPerWattUnit;
+  LumenPerWattUnit : TLumenPerWattUnit;
 
 { TReciprocalMole }
 
@@ -5294,7 +5771,7 @@ const
   cReciprocalMole = 140;
 
 type
-  TReciprocalMole = record
+  TReciprocalMoleRec = record
     const FUnitOfMeasurement = cReciprocalMole;
     const FSymbol            = '1/%smol';
     const FName              = 'reciprocal %smole';
@@ -5302,10 +5779,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (-1);
   end;
-  TReciprocalMoleUnit = specialize TUnit<TReciprocalMole>;
+  TReciprocalMoleUnit = specialize TSymbol<TReciprocalMoleRec>;
+  TReciprocalMoles = TQuantity;
 
 var
   ReciprocalMole : TReciprocalMoleUnit;
+  ReciprocalMoleUnit : TReciprocalMoleUnit;
 
 { TAmperePerSquareMeter }
 
@@ -5313,7 +5792,7 @@ const
   cAmperePerSquareMeter = 141;
 
 type
-  TAmperePerSquareMeter = record
+  TAmperePerSquareMeterRec = record
     const FUnitOfMeasurement = cAmperePerSquareMeter;
     const FSymbol            = '%sA/%sm2';
     const FName              = '%sampere per square %smeter';
@@ -5321,10 +5800,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TAmperePerSquareMeterUnit = specialize TUnit<TAmperePerSquareMeter>;
+  TAmperePerSquareMeterUnit = specialize TSymbol<TAmperePerSquareMeterRec>;
+  TAmperesPerSquareMeter = TQuantity;
 
 var
   AmperePerSquareMeter : TAmperePerSquareMeterUnit;
+  AmperePerSquareMeterUnit : TAmperePerSquareMeterUnit;
 
 { TMolePerCubicMeter }
 
@@ -5332,7 +5813,7 @@ const
   cMolePerCubicMeter = 142;
 
 type
-  TMolePerCubicMeter = record
+  TMolePerCubicMeterRec = record
     const FUnitOfMeasurement = cMolePerCubicMeter;
     const FSymbol            = '%smol/%sm3';
     const FName              = '%smole per cubic %smeter';
@@ -5340,10 +5821,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TMolePerCubicMeterUnit = specialize TUnit<TMolePerCubicMeter>;
+  TMolePerCubicMeterUnit = specialize TSymbol<TMolePerCubicMeterRec>;
+  TMolesPerCubicMeter = TQuantity;
 
 var
   MolePerCubicMeter : TMolePerCubicMeterUnit;
+  MolePerCubicMeterUnit : TMolePerCubicMeterUnit;
 
 { TCandelaPerSquareMeter }
 
@@ -5351,7 +5834,7 @@ const
   cCandelaPerSquareMeter = 143;
 
 type
-  TCandelaPerSquareMeter = record
+  TCandelaPerSquareMeterRec = record
     const FUnitOfMeasurement = cCandelaPerSquareMeter;
     const FSymbol            = '%scd/%sm2';
     const FName              = '%scandela per square %smeter';
@@ -5359,10 +5842,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TCandelaPerSquareMeterUnit = specialize TUnit<TCandelaPerSquareMeter>;
+  TCandelaPerSquareMeterUnit = specialize TSymbol<TCandelaPerSquareMeterRec>;
+  TCandelasPerSquareMeter = TQuantity;
 
 var
   CandelaPerSquareMeter : TCandelaPerSquareMeterUnit;
+  CandelaPerSquareMeterUnit : TCandelaPerSquareMeterUnit;
 
 { TCoulombPerCubicMeter }
 
@@ -5370,7 +5855,7 @@ const
   cCoulombPerCubicMeter = 144;
 
 type
-  TCoulombPerCubicMeter = record
+  TCoulombPerCubicMeterRec = record
     const FUnitOfMeasurement = cCoulombPerCubicMeter;
     const FSymbol            = '%sC/%sm3';
     const FName              = '%scoulomb per cubic %smeter';
@@ -5378,10 +5863,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TCoulombPerCubicMeterUnit = specialize TUnit<TCoulombPerCubicMeter>;
+  TCoulombPerCubicMeterUnit = specialize TSymbol<TCoulombPerCubicMeterRec>;
+  TCoulombsPerCubicMeter = TQuantity;
 
 var
   CoulombPerCubicMeter : TCoulombPerCubicMeterUnit;
+  CoulombPerCubicMeterUnit : TCoulombPerCubicMeterUnit;
 
 { TGrayPerSecond }
 
@@ -5389,7 +5876,7 @@ const
   cGrayPerSecond = 145;
 
 type
-  TGrayPerSecond = record
+  TGrayPerSecondRec = record
     const FUnitOfMeasurement = cGrayPerSecond;
     const FSymbol            = '%sGy/%ss';
     const FName              = '%sgray per %ssecond';
@@ -5397,10 +5884,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TGrayPerSecondUnit = specialize TUnit<TGrayPerSecond>;
+  TGrayPerSecondUnit = specialize TSymbol<TGrayPerSecondRec>;
+  TGraysPerSecond = TQuantity;
 
 var
   GrayPerSecond : TGrayPerSecondUnit;
+  GrayPerSecondUnit : TGrayPerSecondUnit;
 
 { TSteradianHertz }
 
@@ -5408,7 +5897,7 @@ const
   cSteradianHertz = 146;
 
 type
-  TSteradianHertz = record
+  TSteradianHertzRec = record
     const FUnitOfMeasurement = cSteradianHertz;
     const FSymbol            = 'sr.%sHz';
     const FName              = 'steradian %shertz';
@@ -5416,10 +5905,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TSteradianHertzUnit = specialize TUnit<TSteradianHertz>;
+  TSteradianHertzUnit = specialize TSymbol<TSteradianHertzRec>;
+  TSteradianHertz = TQuantity;
 
 var
   SteradianHertz : TSteradianHertzUnit;
+  SteradianHertzUnit : TSteradianHertzUnit;
 
 { TMeterSteradian }
 
@@ -5427,7 +5918,7 @@ const
   cMeterSteradian = 147;
 
 type
-  TMeterSteradian = record
+  TMeterSteradianRec = record
     const FUnitOfMeasurement = cMeterSteradian;
     const FSymbol            = '%sm.sr';
     const FName              = '%smeter steradian';
@@ -5435,10 +5926,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TMeterSteradianUnit = specialize TUnit<TMeterSteradian>;
+  TMeterSteradianUnit = specialize TSymbol<TMeterSteradianRec>;
+  TMeterSteradians = TQuantity;
 
 var
   MeterSteradian : TMeterSteradianUnit;
+  MeterSteradianUnit : TMeterSteradianUnit;
 
 { TSquareMeterSteradian }
 
@@ -5446,7 +5939,7 @@ const
   cSquareMeterSteradian = 148;
 
 type
-  TSquareMeterSteradian = record
+  TSquareMeterSteradianRec = record
     const FUnitOfMeasurement = cSquareMeterSteradian;
     const FSymbol            = '%sm2.sr';
     const FName              = 'square %smeter steradian';
@@ -5454,10 +5947,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (2);
   end;
-  TSquareMeterSteradianUnit = specialize TUnit<TSquareMeterSteradian>;
+  TSquareMeterSteradianUnit = specialize TSymbol<TSquareMeterSteradianRec>;
+  TSquareMeterSteradians = TQuantity;
 
 var
   SquareMeterSteradian : TSquareMeterSteradianUnit;
+  SquareMeterSteradianUnit : TSquareMeterSteradianUnit;
 
 { TCubicMeterSteradian }
 
@@ -5465,7 +5960,7 @@ const
   cCubicMeterSteradian = 149;
 
 type
-  TCubicMeterSteradian = record
+  TCubicMeterSteradianRec = record
     const FUnitOfMeasurement = cCubicMeterSteradian;
     const FSymbol            = '%sm3.sr';
     const FName              = 'cubic %smeter steradian';
@@ -5473,10 +5968,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (3);
   end;
-  TCubicMeterSteradianUnit = specialize TUnit<TCubicMeterSteradian>;
+  TCubicMeterSteradianUnit = specialize TSymbol<TCubicMeterSteradianRec>;
+  TCubicMeterSteradians = TQuantity;
 
 var
   CubicMeterSteradian : TCubicMeterSteradianUnit;
+  CubicMeterSteradianUnit : TCubicMeterSteradianUnit;
 
 { TSquareMeterSteradianHertz }
 
@@ -5484,7 +5981,7 @@ const
   cSquareMeterSteradianHertz = 150;
 
 type
-  TSquareMeterSteradianHertz = record
+  TSquareMeterSteradianHertzRec = record
     const FUnitOfMeasurement = cSquareMeterSteradianHertz;
     const FSymbol            = '%sm2.sr.%shertz';
     const FName              = 'square %smeter steradian %shertz';
@@ -5492,10 +5989,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (2, 1);
   end;
-  TSquareMeterSteradianHertzUnit = specialize TUnit<TSquareMeterSteradianHertz>;
+  TSquareMeterSteradianHertzUnit = specialize TSymbol<TSquareMeterSteradianHertzRec>;
+  TSquareMeterSteradianHertz = TQuantity;
 
 var
   SquareMeterSteradianHertz : TSquareMeterSteradianHertzUnit;
+  SquareMeterSteradianHertzUnit : TSquareMeterSteradianHertzUnit;
 
 { TWattPerSteradian }
 
@@ -5503,7 +6002,7 @@ const
   cWattPerSteradian = 151;
 
 type
-  TWattPerSteradian = record
+  TWattPerSteradianRec = record
     const FUnitOfMeasurement = cWattPerSteradian;
     const FSymbol            = '%sW/sr';
     const FName              = '%swatt per steradian';
@@ -5511,10 +6010,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone);
     const FExponents         : TExponents = (1);
   end;
-  TWattPerSteradianUnit = specialize TUnit<TWattPerSteradian>;
+  TWattPerSteradianUnit = specialize TSymbol<TWattPerSteradianRec>;
+  TWattsPerSteradian = TQuantity;
 
 var
   WattPerSteradian : TWattPerSteradianUnit;
+  WattPerSteradianUnit : TWattPerSteradianUnit;
 
 { TWattPerSteradianPerHertz }
 
@@ -5522,7 +6023,7 @@ const
   cWattPerSteradianPerHertz = 152;
 
 type
-  TWattPerSteradianPerHertz = record
+  TWattPerSteradianPerHertzRec = record
     const FUnitOfMeasurement = cWattPerSteradianPerHertz;
     const FSymbol            = '%sW/sr/%sHz';
     const FName              = '%swatt per steradian per %shertz';
@@ -5530,10 +6031,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TWattPerSteradianPerHertzUnit = specialize TUnit<TWattPerSteradianPerHertz>;
+  TWattPerSteradianPerHertzUnit = specialize TSymbol<TWattPerSteradianPerHertzRec>;
+  TWattsPerSteradianPerHertz = TQuantity;
 
 var
   WattPerSteradianPerHertz : TWattPerSteradianPerHertzUnit;
+  WattPerSteradianPerHertzUnit : TWattPerSteradianPerHertzUnit;
 
 { TWattPerMeterPerSteradian }
 
@@ -5541,7 +6044,7 @@ const
   cWattPerMeterPerSteradian = 153;
 
 type
-  TWattPerMeterPerSteradian = record
+  TWattPerMeterPerSteradianRec = record
     const FUnitOfMeasurement = cWattPerMeterPerSteradian;
     const FSymbol            = '%sW/sr/%sm';
     const FName              = '%swatt per steradian per %smeter';
@@ -5549,10 +6052,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TWattPerMeterPerSteradianUnit = specialize TUnit<TWattPerMeterPerSteradian>;
+  TWattPerMeterPerSteradianUnit = specialize TSymbol<TWattPerMeterPerSteradianRec>;
+  TWattsPerMeterPerSteradian = TQuantity;
 
 var
   WattPerMeterPerSteradian : TWattPerMeterPerSteradianUnit;
+  WattPerMeterPerSteradianUnit : TWattPerMeterPerSteradianUnit;
 
 { TWattPerSquareMeterPerSteradian }
 
@@ -5560,7 +6065,7 @@ const
   cWattPerSquareMeterPerSteradian = 154;
 
 type
-  TWattPerSquareMeterPerSteradian = record
+  TWattPerSquareMeterPerSteradianRec = record
     const FUnitOfMeasurement = cWattPerSquareMeterPerSteradian;
     const FSymbol            = '%sW/%sm2/sr';
     const FName              = '%swatt per square %smeter per steradian';
@@ -5568,10 +6073,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -2);
   end;
-  TWattPerSquareMeterPerSteradianUnit = specialize TUnit<TWattPerSquareMeterPerSteradian>;
+  TWattPerSquareMeterPerSteradianUnit = specialize TSymbol<TWattPerSquareMeterPerSteradianRec>;
+  TWattsPerSquareMeterPerSteradian = TQuantity;
 
 var
   WattPerSquareMeterPerSteradian : TWattPerSquareMeterPerSteradianUnit;
+  WattPerSquareMeterPerSteradianUnit : TWattPerSquareMeterPerSteradianUnit;
 
 { TWattPerCubicMeterPerSteradian }
 
@@ -5579,7 +6086,7 @@ const
   cWattPerCubicMeterPerSteradian = 155;
 
 type
-  TWattPerCubicMeterPerSteradian = record
+  TWattPerCubicMeterPerSteradianRec = record
     const FUnitOfMeasurement = cWattPerCubicMeterPerSteradian;
     const FSymbol            = '%sW/%sm3/sr';
     const FName              = '%swatt per cubic %smeter per steradian';
@@ -5587,10 +6094,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TWattPerCubicMeterPerSteradianUnit = specialize TUnit<TWattPerCubicMeterPerSteradian>;
+  TWattPerCubicMeterPerSteradianUnit = specialize TSymbol<TWattPerCubicMeterPerSteradianRec>;
+  TWattsPerCubicMeterPerSteradian = TQuantity;
 
 var
   WattPerCubicMeterPerSteradian : TWattPerCubicMeterPerSteradianUnit;
+  WattPerCubicMeterPerSteradianUnit : TWattPerCubicMeterPerSteradianUnit;
 
 { TWattPerSquareMeterPerSteradianPerHertz }
 
@@ -5598,7 +6107,7 @@ const
   cWattPerSquareMeterPerSteradianPerHertz = 156;
 
 type
-  TWattPerSquareMeterPerSteradianPerHertz = record
+  TWattPerSquareMeterPerSteradianPerHertzRec = record
     const FUnitOfMeasurement = cWattPerSquareMeterPerSteradianPerHertz;
     const FSymbol            = '%sW/%sm2/sr/%sHz';
     const FName              = '%swatt per square %smeter per steradian per %shertz';
@@ -5606,10 +6115,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone, pNone);
     const FExponents         : TExponents = (1, -2, -1);
   end;
-  TWattPerSquareMeterPerSteradianPerHertzUnit = specialize TUnit<TWattPerSquareMeterPerSteradianPerHertz>;
+  TWattPerSquareMeterPerSteradianPerHertzUnit = specialize TSymbol<TWattPerSquareMeterPerSteradianPerHertzRec>;
+  TWattsPerSquareMeterPerSteradianPerHertz = TQuantity;
 
 var
   WattPerSquareMeterPerSteradianPerHertz : TWattPerSquareMeterPerSteradianPerHertzUnit;
+  WattPerSquareMeterPerSteradianPerHertzUnit : TWattPerSquareMeterPerSteradianPerHertzUnit;
 
 { TKatalPerCubicMeter }
 
@@ -5617,7 +6128,7 @@ const
   cKatalPerCubicMeter = 157;
 
 type
-  TKatalPerCubicMeter = record
+  TKatalPerCubicMeterRec = record
     const FUnitOfMeasurement = cKatalPerCubicMeter;
     const FSymbol            = '%skat/%sm3';
     const FName              = '%skatal per cubic %smeter';
@@ -5625,10 +6136,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -3);
   end;
-  TKatalPerCubicMeterUnit = specialize TUnit<TKatalPerCubicMeter>;
+  TKatalPerCubicMeterUnit = specialize TSymbol<TKatalPerCubicMeterRec>;
+  TKatalsPerCubicMeter = TQuantity;
 
 var
   KatalPerCubicMeter : TKatalPerCubicMeterUnit;
+  KatalPerCubicMeterUnit : TKatalPerCubicMeterUnit;
 
 { TCoulombPerMole }
 
@@ -5636,7 +6149,7 @@ const
   cCoulombPerMole = 158;
 
 type
-  TCoulombPerMole = record
+  TCoulombPerMoleRec = record
     const FUnitOfMeasurement = cCoulombPerMole;
     const FSymbol            = '%sC/%smol';
     const FName              = '%scoulomb per %smole';
@@ -5644,10 +6157,12 @@ type
     const FPrefixes          : TPrefixes  = (pNone, pNone);
     const FExponents         : TExponents = (1, -1);
   end;
-  TCoulombPerMoleUnit = specialize TUnit<TCoulombPerMole>;
+  TCoulombPerMoleUnit = specialize TSymbol<TCoulombPerMoleRec>;
+  TCoulombsPerMole = TQuantity;
 
 var
   CoulombPerMole : TCoulombPerMoleUnit;
+  CoulombPerMoleUnit : TCoulombPerMoleUnit;
 
 const
 
@@ -6329,33 +6844,44 @@ function Cotan(const AQuantity: TQuantity): double;
 function Secant(const AQuantity: TQuantity): double;
 function Cosecant(const AQuantity: TQuantity): double;
 
-function ArcCos(const AQuantity: double): TQuantity;
-function ArcSin(const AQuantity: double): TQuantity;
-function ArcTan(const AQuantity: double): TQuantity;
+function ArcCos(const AValue: double): TQuantity;
+function ArcSin(const AValue: double): TQuantity;
+function ArcTan(const AValue: double): TQuantity;
 function ArcTan2(const x, y: double): TQuantity;
 
 { Override trigonometric functions }
 
 {$IFOPT D+}
-function Cos(const AQuantity: double): double;
-function Sin(const AQuantity: double): double;
-function Tan(const AQuantity: double): double;
-function Cotan(const AQuantity: double): double;
-function Secant(const AQuantity: double): double;
-function Cosecant(const AQuantity: double): double;
+function Cos(const AValue: double): double;
+function Sin(const AValue: double): double;
+function Tan(const AValue: double): double;
+function Cotan(const AValue: double): double;
+function Secant(const AValue: double): double;
+function Cosecant(const AValue: double): double;
 {$ENDIF}
 
 { Math functions }
 
-function SameValue(const ALeft, ARight: TQuantity): boolean;
 function Min(const ALeft, ARight: TQuantity): TQuantity;
 function Max(const ALeft, ARight: TQuantity): TQuantity;
 function Exp(const AQuantity: TQuantity): TQuantity;
 
-{ Useful routines }
+function Log10(const AQuantity : TQuantity) : double;
+function Log2(const AQuantity : TQuantity) : double;
+function LogN(ABase: longint; const AQuantity: TQuantity): double;
+function LogN(const ABase, AQuantity: TQuantity): double;
 
-function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;
-function GetName(const AName: string; const Prefixes: TPrefixes): string;
+function Power(const ABase: TQuantity; AExponent: double): double;
+
+{ Helper functions }
+
+function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+function LessThanZero(const AQuantity: TQuantity): boolean;
+function EqualToZero(const AQuantity: TQuantity): boolean;
+function NotEqualToZero(const AQuantity: TQuantity): boolean;
+function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+function GreaterThanZero(const AQuantity: TQuantity): boolean;
+function SameValue(const ALeft, ARight: TQuantity): boolean;
 
 { Constants }
 
@@ -6422,46 +6948,6 @@ const
 implementation
 
 uses Math;
-
-function GetSymbol(const ASymbol: string; const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
-begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := ASymbol;
-    1:  result := Format(ASymbol, [
-          PrefixTable[Prefixes[0]].Symbol]);
-    2:  result := Format(ASymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol]);
-    3:  result := Format(ASymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol,
-          PrefixTable[Prefixes[2]].Symbol]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
-end;
-
-function GetName(const AName: string; const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
-begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := AName;
-    1:  result := Format(AName, [
-          PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(AName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(AName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
-end;
 
 { TQuantity }
 
@@ -6586,9 +7072,9 @@ begin
 end;
 {$ENDIF}
 
-{ TUnit }
+{ TSymbol }
 
-class operator TUnit.*(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+class operator TSymbol.*(const AValue: double; const ASelf: TSymbol): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := MulTable[cScalar, U.FUnitOfMeasurement];
@@ -6598,7 +7084,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+class operator TSymbol./(const AValue: double; const ASelf: TSymbol): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
@@ -6609,20 +7095,80 @@ begin
 end;
 
 {$IFOPT D+}
-class operator TUnit.*(const AValue: TQuantity; const ASelf: TUnit): TQuantity; inline;
+class operator TSymbol.*(const AQuantity: TQuantity; const ASelf: TSymbol): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := AValue.FValue;
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AValue: TQuantity; const ASelf: TUnit): TQuantity; inline;
+class operator TSymbol./(const AQuantity: TQuantity; const ASelf: TSymbol): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := AValue.FValue;
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
 end;
 {$ENDIF}
 
-function TUnit.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TSymbol.GetName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FName;
+    1:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TSymbol.GetPluralName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FPluralName;
+    1:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TSymbol.GetSymbol(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FSymbol;
+    1:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol]);
+    2:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol]);
+    3:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol,
+          PrefixTable[Prefixes[2]].Symbol]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
+end;
+
+function TSymbol.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 var
   I: longint;
   Exponent: longint;
@@ -6650,7 +7196,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-function TUnit.ToFloat(const AQuantity: TQuantity): double;
+function TSymbol.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6661,7 +7207,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TSymbol.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6672,18 +7218,18 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToString(const AQuantity: TQuantity): string;
+function TSymbol.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
-  result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(U.FPrefixes);
 {$ELSE}
-  result := FloatToStr(AQuantity) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(AQuantity) + ' ' + GetSymbol(U.FPrefixes);
 {$ENDIF}
 end;
 
-function TUnit.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TSymbol.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6695,12 +7241,12 @@ begin
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
-     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnit.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TSymbol.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6712,12 +7258,12 @@ begin
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
   if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
   else
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnit.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TSymbol.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -6728,33 +7274,33 @@ begin
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
   end;
 end;
 
-function TUnit.ToVerboseString(const AQuantity: TQuantity): string;
+function TSymbol.ToVerboseString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
 
   if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
-    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(U.FPrefixes)
   else
-    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AQuantity.FValue) + ' ' + GetPluralName(U.FPrefixes);
 {$ELSE}
   if (AQuantity > -1) and (AQuantity < 1) then
-    result := FloatToStr(AQuantity) + ' ' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(AQuantity) + ' ' + GetName(U.FPrefixes)
   else
-    result := FloatToStr(AQuantity) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(AQuantity) + ' ' + GetPluralName(U.FPrefixes);
 {$ENDIF}
 end;
 
-function TUnit.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TSymbol.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6767,19 +7313,19 @@ begin
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPRefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, U.FPRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPRefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, APRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, APRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
   end;
 end;
 
-function TUnit.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TSymbol.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6792,19 +7338,19 @@ begin
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPRefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(U.FPRefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
   end;
 end;
 
-function TUnit.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TSymbol.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -6815,17 +7361,17 @@ begin
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPrefixes);
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
 end;
 
-{ TFactoredUnit }
+{ TFactoredSymbol }
 
-class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredSymbol.*(const AValue: double; const ASelf: TFactoredSymbol): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := MulTable[cScalar, U.FUnitOfMeasurement];
@@ -6833,7 +7379,7 @@ begin
   result.FValue := U.PutValue(AValue);
 end;
 
-class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredSymbol./(const AValue: double; const ASelf: TFactoredSymbol): TQuantity; inline;
 begin
 {$IFOPT D+}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
@@ -6842,20 +7388,80 @@ begin
 end;
 
 {$IFOPT D+}
-class operator TFactoredUnit.*(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredSymbol.*(const AQuantity: TQuantity; const ASelf: TFactoredSymbol): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AValue.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
 end;
 
-class operator TFactoredUnit./(const AValue: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredSymbol./(const AQuantity: TQuantity; const ASelf: TFactoredSymbol): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AValue.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AValue.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
 end;
 {$ENDIF}
 
-function TFactoredUnit.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TFactoredSymbol.GetName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FName;
+    1:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TFactoredSymbol.GetPluralName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FPluralName;
+    1:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TFactoredSymbol.GetSymbol(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FSymbol;
+    1:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol]);
+    2:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol]);
+    3:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol,
+          PrefixTable[Prefixes[2]].Symbol]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
+end;
+
+function TFactoredSymbol.GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 var
   I: longint;
   Exponent: longint;
@@ -6883,7 +7489,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-function TFactoredUnit.ToFloat(const AQuantity: TQuantity): double;
+function TFactoredSymbol.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6894,7 +7500,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TFactoredSymbol.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6905,19 +7511,19 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToString(const AQuantity: TQuantity): string;
+function TFactoredSymbol.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFOPT D+}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Wrong units of measurements');
 
-  result := FloatToStr(U.GetValue(AQuantity.FValue)) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(U.GetValue(AQuantity.FValue)) + ' ' + GetSymbol(U.FPrefixes);
 {$ELSE}
-  result := FloatToStr(U.GetValue(AQuantity)) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes);
+  result := FloatToStr(U.GetValue(AQuantity)) + ' ' + GetSymbol(U.FPrefixes);
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6928,12 +7534,12 @@ begin
   FactoredValue := U.GetValue(GetValue(AQuantity.FValue, APrefixes));
 
   if Length(APrefixes) = 0 then
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnit.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6944,12 +7550,12 @@ begin
   FactoredValue := U.GetValue(GetValue(AQuantity.FValue, APrefixes));
 
   if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
   else
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnit.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -6960,15 +7566,15 @@ begin
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, U.FPrefixes)
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FSymbol, APrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity): string;
+function TFactoredSymbol.ToVerboseString(const AQuantity: TQuantity): string;
 var
   FactoredValue: double;
 begin
@@ -6978,19 +7584,19 @@ begin
 
   FactoredValue := U.GetValue(AQuantity.FValue);
   if (FactoredValue > -1) and (FactoredValue < 1) then
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPrefixes);
 {$ELSE}
   FactoredValue := U.GetValue(AQuantity);
   if (FactoredValue > -1) and (FactoredValue < 1) then
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPrefixes);
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -7003,19 +7609,19 @@ begin
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPRefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, U.FPRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPRefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FName, APRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPluralName, APRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -7028,19 +7634,19 @@ begin
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, U.FPRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPRefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(U.FPRefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FName, APRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredSymbol.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -7055,722 +7661,722 @@ begin
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, U.FPrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPrefixes);
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPluralName, APrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
 end;
 
-class  function TDegree.PutValue(const AQuantity: double): double;
+class  function TDegreeRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (Pi/180);
 end;
 
-class  function TDegree.GetValue(const AQuantity: double): double;
+class  function TDegreeRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (Pi/180);
 end;
 
-class  function TSquareDegree.PutValue(const AQuantity: double): double;
+class  function TSquareDegreeRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (Pi*Pi/32400);
 end;
 
-class  function TSquareDegree.GetValue(const AQuantity: double): double;
+class  function TSquareDegreeRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (Pi*Pi/32400);
 end;
 
-class  function TDay.PutValue(const AQuantity: double): double;
+class  function TDayRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (86400);
 end;
 
-class  function TDay.GetValue(const AQuantity: double): double;
+class  function TDayRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (86400);
 end;
 
-class  function THour.PutValue(const AQuantity: double): double;
+class  function THourRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (3600);
 end;
 
-class  function THour.GetValue(const AQuantity: double): double;
+class  function THourRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (3600);
 end;
 
-class  function TMinute.PutValue(const AQuantity: double): double;
+class  function TMinuteRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (60);
 end;
 
-class  function TMinute.GetValue(const AQuantity: double): double;
+class  function TMinuteRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (60);
 end;
 
-class  function TSquareDay.PutValue(const AQuantity: double): double;
+class  function TSquareDayRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (7464960000);
 end;
 
-class  function TSquareDay.GetValue(const AQuantity: double): double;
+class  function TSquareDayRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (7464960000);
 end;
 
-class  function TSquareHour.PutValue(const AQuantity: double): double;
+class  function TSquareHourRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (12960000);
 end;
 
-class  function TSquareHour.GetValue(const AQuantity: double): double;
+class  function TSquareHourRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (12960000);
 end;
 
-class  function TSquareMinute.PutValue(const AQuantity: double): double;
+class  function TSquareMinuteRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (3600);
 end;
 
-class  function TSquareMinute.GetValue(const AQuantity: double): double;
+class  function TSquareMinuteRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (3600);
 end;
 
-class  function TAstronomical.PutValue(const AQuantity: double): double;
+class  function TAstronomicalRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (149597870691);
 end;
 
-class  function TAstronomical.GetValue(const AQuantity: double): double;
+class  function TAstronomicalRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (149597870691);
 end;
 
-class  function TInch.PutValue(const AQuantity: double): double;
+class  function TInchRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.0254);
 end;
 
-class  function TInch.GetValue(const AQuantity: double): double;
+class  function TInchRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.0254);
 end;
 
-class  function TFoot.PutValue(const AQuantity: double): double;
+class  function TFootRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.3048);
 end;
 
-class  function TFoot.GetValue(const AQuantity: double): double;
+class  function TFootRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.3048);
 end;
 
-class  function TYard.PutValue(const AQuantity: double): double;
+class  function TYardRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.9144);
 end;
 
-class  function TYard.GetValue(const AQuantity: double): double;
+class  function TYardRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.9144);
 end;
 
-class  function TMile.PutValue(const AQuantity: double): double;
+class  function TMileRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1609.344);
 end;
 
-class  function TMile.GetValue(const AQuantity: double): double;
+class  function TMileRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1609.344);
 end;
 
-class  function TNauticalMile.PutValue(const AQuantity: double): double;
+class  function TNauticalMileRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1852);
 end;
 
-class  function TNauticalMile.GetValue(const AQuantity: double): double;
+class  function TNauticalMileRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1852);
 end;
 
-class  function TAngstrom.PutValue(const AQuantity: double): double;
+class  function TAngstromRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1E-10);
 end;
 
-class  function TAngstrom.GetValue(const AQuantity: double): double;
+class  function TAngstromRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1E-10);
 end;
 
-class  function TSquareInch.PutValue(const AQuantity: double): double;
+class  function TSquareInchRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.00064516);
 end;
 
-class  function TSquareInch.GetValue(const AQuantity: double): double;
+class  function TSquareInchRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.00064516);
 end;
 
-class  function TSquareFoot.PutValue(const AQuantity: double): double;
+class  function TSquareFootRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.09290304);
 end;
 
-class  function TSquareFoot.GetValue(const AQuantity: double): double;
+class  function TSquareFootRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.09290304);
 end;
 
-class  function TSquareYard.PutValue(const AQuantity: double): double;
+class  function TSquareYardRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.83612736);
 end;
 
-class  function TSquareYard.GetValue(const AQuantity: double): double;
+class  function TSquareYardRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.83612736);
 end;
 
-class  function TSquareMile.PutValue(const AQuantity: double): double;
+class  function TSquareMileRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (2589988.110336);
 end;
 
-class  function TSquareMile.GetValue(const AQuantity: double): double;
+class  function TSquareMileRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (2589988.110336);
 end;
 
-class  function TCubicInch.PutValue(const AQuantity: double): double;
+class  function TCubicInchRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.000016387064);
 end;
 
-class  function TCubicInch.GetValue(const AQuantity: double): double;
+class  function TCubicInchRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.000016387064);
 end;
 
-class  function TCubicFoot.PutValue(const AQuantity: double): double;
+class  function TCubicFootRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.028316846592);
 end;
 
-class  function TCubicFoot.GetValue(const AQuantity: double): double;
+class  function TCubicFootRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.028316846592);
 end;
 
-class  function TCubicYard.PutValue(const AQuantity: double): double;
+class  function TCubicYardRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.764554857984);
 end;
 
-class  function TCubicYard.GetValue(const AQuantity: double): double;
+class  function TCubicYardRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.764554857984);
 end;
 
-class  function TLitre.PutValue(const AQuantity: double): double;
+class  function TLitreRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1E-03);
 end;
 
-class  function TLitre.GetValue(const AQuantity: double): double;
+class  function TLitreRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1E-03);
 end;
 
-class  function TGallon.PutValue(const AQuantity: double): double;
+class  function TGallonRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.0037854119678);
 end;
 
-class  function TGallon.GetValue(const AQuantity: double): double;
+class  function TGallonRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.0037854119678);
 end;
 
-class  function TTonne.PutValue(const AQuantity: double): double;
+class  function TTonneRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1E+03);
 end;
 
-class  function TTonne.GetValue(const AQuantity: double): double;
+class  function TTonneRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1E+03);
 end;
 
-class  function TPound.PutValue(const AQuantity: double): double;
+class  function TPoundRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.45359237);
 end;
 
-class  function TPound.GetValue(const AQuantity: double): double;
+class  function TPoundRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.45359237);
 end;
 
-class  function TOunce.PutValue(const AQuantity: double): double;
+class  function TOunceRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.028349523125);
 end;
 
-class  function TOunce.GetValue(const AQuantity: double): double;
+class  function TOunceRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.028349523125);
 end;
 
-class  function TStone.PutValue(const AQuantity: double): double;
+class  function TStoneRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (6.35029318);
 end;
 
-class  function TStone.GetValue(const AQuantity: double): double;
+class  function TStoneRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (6.35029318);
 end;
 
-class  function TTon.PutValue(const AQuantity: double): double;
+class  function TTonRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (907.18474);
 end;
 
-class  function TTon.GetValue(const AQuantity: double): double;
+class  function TTonRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (907.18474);
 end;
 
-class  function TElectronvoltPerSquareSpeedOfLight.PutValue(const AQuantity: double): double;
+class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1.7826619216279E-36);
 end;
 
-class  function TElectronvoltPerSquareSpeedOfLight.GetValue(const AQuantity: double): double;
+class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1.7826619216279E-36);
 end;
 
-class function TDegreeCelsius.PutValue(const AQuantity: double): double;
+class function TDegreeCelsiusRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity + 273.15;
 end;
 
-class function TDegreeCelsius.GetValue(const AQuantity: double): double;
+class function TDegreeCelsiusRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity - 273.15;
 end;
 
-class function TDegreeFahrenheit.PutValue(const AQuantity: double): double;
+class function TDegreeFahrenheitRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := 5/9 * (AQuantity - 32) + 273.15;
 end;
 
-class function TDegreeFahrenheit.GetValue(const AQuantity: double): double;
+class function TDegreeFahrenheitRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := 9/5 * AQuantity - 459.67;
 end;
 
-class  function TMeterPerHour.PutValue(const AQuantity: double): double;
+class  function TMeterPerHourRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1/3600);
 end;
 
-class  function TMeterPerHour.GetValue(const AQuantity: double): double;
+class  function TMeterPerHourRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1/3600);
 end;
 
-class  function TMilePerHour.PutValue(const AQuantity: double): double;
+class  function TMilePerHourRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.44704);
 end;
 
-class  function TMilePerHour.GetValue(const AQuantity: double): double;
+class  function TMilePerHourRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.44704);
 end;
 
-class  function TNauticalMilePerHour.PutValue(const AQuantity: double): double;
+class  function TNauticalMilePerHourRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (463/900);
 end;
 
-class  function TNauticalMilePerHour.GetValue(const AQuantity: double): double;
+class  function TNauticalMilePerHourRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (463/900);
 end;
 
-class  function TMeterPerHourPerSecond.PutValue(const AQuantity: double): double;
+class  function TMeterPerHourPerSecondRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1/3600);
 end;
 
-class  function TMeterPerHourPerSecond.GetValue(const AQuantity: double): double;
+class  function TMeterPerHourPerSecondRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1/3600);
 end;
 
-class  function TPoundPerCubicInch.PutValue(const AQuantity: double): double;
+class  function TPoundPerCubicInchRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (27679.9047102031);
 end;
 
-class  function TPoundPerCubicInch.GetValue(const AQuantity: double): double;
+class  function TPoundPerCubicInchRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (27679.9047102031);
 end;
 
-class  function TPoundForce.PutValue(const AQuantity: double): double;
+class  function TPoundForceRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (4.4482216152605);
 end;
 
-class  function TPoundForce.GetValue(const AQuantity: double): double;
+class  function TPoundForceRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (4.4482216152605);
 end;
 
-class  function TBar.PutValue(const AQuantity: double): double;
+class  function TBarRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1E+05);
 end;
 
-class  function TBar.GetValue(const AQuantity: double): double;
+class  function TBarRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1E+05);
 end;
 
-class  function TPoundPerSquareInch.PutValue(const AQuantity: double): double;
+class  function TPoundPerSquareInchRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (6894.75729316836);
 end;
 
-class  function TPoundPerSquareInch.GetValue(const AQuantity: double): double;
+class  function TPoundPerSquareInchRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (6894.75729316836);
 end;
 
-class  function TWattHour.PutValue(const AQuantity: double): double;
+class  function TWattHourRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (3600);
 end;
 
-class  function TWattHour.GetValue(const AQuantity: double): double;
+class  function TWattHourRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (3600);
 end;
 
-class  function TElectronvolt.PutValue(const AQuantity: double): double;
+class  function TElectronvoltRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1.602176634E-019);
 end;
 
-class  function TElectronvolt.GetValue(const AQuantity: double): double;
+class  function TElectronvoltRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1.602176634E-019);
 end;
 
-class  function TPoundForceInch.PutValue(const AQuantity: double): double;
+class  function TPoundForceInchRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (0.112984829027617);
 end;
 
-class  function TPoundForceInch.GetValue(const AQuantity: double): double;
+class  function TPoundForceInchRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (0.112984829027617);
 end;
 
-class  function TRydberg.PutValue(const AQuantity: double): double;
+class  function TRydbergRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (2.1798723611035E-18);
 end;
 
-class  function TRydberg.GetValue(const AQuantity: double): double;
+class  function TRydbergRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (2.1798723611035E-18);
 end;
 
-class  function TCalorie.PutValue(const AQuantity: double): double;
+class  function TCalorieRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (4.184);
 end;
 
-class  function TCalorie.GetValue(const AQuantity: double): double;
+class  function TCalorieRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (4.184);
 end;
 
-class  function TJoulePerDegree.PutValue(const AQuantity: double): double;
+class  function TJoulePerDegreeRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (180/Pi);
 end;
 
-class  function TJoulePerDegree.GetValue(const AQuantity: double): double;
+class  function TJoulePerDegreeRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (180/Pi);
 end;
 
-class  function TNewtonMeterPerDegree.PutValue(const AQuantity: double): double;
+class  function TNewtonMeterPerDegreeRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (180/Pi);
 end;
 
-class  function TNewtonMeterPerDegree.GetValue(const AQuantity: double): double;
+class  function TNewtonMeterPerDegreeRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (180/Pi);
 end;
 
-class  function TAmpereHour.PutValue(const AQuantity: double): double;
+class  function TAmpereHourRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (3600);
 end;
 
-class  function TAmpereHour.GetValue(const AQuantity: double): double;
+class  function TAmpereHourRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (3600);
 end;
 
-class  function TPoundForcePerInch.PutValue(const AQuantity: double): double;
+class  function TPoundForcePerInchRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (175.126835246476);
 end;
 
-class  function TPoundForcePerInch.GetValue(const AQuantity: double): double;
+class  function TPoundForcePerInchRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (175.126835246476);
 end;
 
-class  function TElectronvoltSecond.PutValue(const AQuantity: double): double;
+class  function TElectronvoltSecondRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1.60217742320523E-019);
 end;
 
-class  function TElectronvoltSecond.GetValue(const AQuantity: double): double;
+class  function TElectronvoltSecondRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity / (1.60217742320523E-019);
 end;
 
-class  function TElectronvoltMeterPerSpeedOfLight.PutValue(const AQuantity: double): double;
+class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
   result := AQuantity * (1.7826619216279E-36);
 end;
 
-class  function TElectronvoltMeterPerSpeedOfLight.GetValue(const AQuantity: double): double;
+class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AQuantity: double): double;
 begin
 {$IFOPT D+}
 {$ENDIF}
@@ -7943,22 +8549,22 @@ begin
   result := Math.Cosecant(AQuantity.FValue);
 end;
 
-function ArcCos(const AQuantity: double): TQuantity;
+function ArcCos(const AValue: double): TQuantity;
 begin
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcCos(AQuantity);
+  result.FValue := Math.ArcCos(AValue);
 end;
 
-function ArcSin(const AQuantity: double): TQuantity;
+function ArcSin(const AValue: double): TQuantity;
 begin
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcSin(AQuantity);
+  result.FValue := Math.ArcSin(AValue);
 end;
 
-function ArcTan(const AQuantity: double): TQuantity;
+function ArcTan(const AValue: double): TQuantity;
 begin
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := System.ArcTan(AQuantity);
+  result.FValue := System.ArcTan(AValue);
 end;
 
 function ArcTan2(const x, y: double): TQuantity;
@@ -7970,34 +8576,34 @@ end;
 { Override trigonometric functions }
 
 {$IFOPT D+}
-function Cos(const AQuantity: double): double;
+function Cos(const AValue: double): double;
 begin
-  result := System.Cos(AQuantity);
+  result := System.Cos(AValue);
 end;
 
-function Sin(const AQuantity: double): double;
+function Sin(const AValue: double): double;
 begin
-  result := System.Sin(AQuantity);
+  result := System.Sin(AValue);
 end;
 
-function Tan(const AQuantity: double): double;
+function Tan(const AValue: double): double;
 begin
-  result := Math.Tan(AQuantity);
+  result := Math.Tan(AValue);
 end;
 
-function Cotan(const AQuantity: double): double;
+function Cotan(const AValue: double): double;
 begin
-  result := Math.Cotan(AQuantity);
+  result := Math.Cotan(AValue);
 end;
 
-function Secant(const AQuantity: double): double;
+function Secant(const AValue: double): double;
 begin
-  result := Math.Secant(AQuantity);
+  result := Math.Secant(AValue);
 end;
 
-function Cosecant(const AQuantity: double): double;
+function Cosecant(const AValue: double): double;
 begin
-  result := Math.Cosecant(AQuantity);
+  result := Math.Cosecant(AValue);
 end;
 {$ENDIF}
 
@@ -8027,7 +8633,77 @@ begin
   result.FValue := System.Exp(AQuantity.FValue);
 end;
 
+function Log10(const AQuantity : TQuantity) : double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+  result := Math.Log10(AQuantity.FValue);
+end;
+
+function Log2(const AQuantity : TQuantity) : double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+  result := Math.Log2(AQuantity.FValue);
+end;
+
+function LogN(ABase: longint; const AQuantity: TQuantity): double;
+begin
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+  result := Math.LogN(ABase, AQuantity.FValue);
+end;
+
+function LogN(const ABase, AQuantity: TQuantity): double;
+begin
+  if ABase.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+
+  if AQuantity.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+
+  result := Math.LogN(ABase.FValue, AQuantity.FValue);
+end;
+
+function Power(const ABase: TQuantity; AExponent: double): double;
+begin
+  if ABase.FUnitOfMeasurement <> cScalar then
+    raise Exception.Create('Wrong units of measurements');
+
+   result := Math.Power(ABase.FValue, AExponent);
+end;
+
 { Helper functions }
+
+function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue <= 0;
+end;
+
+function LessThanZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue < 0;
+end;
+
+function EqualToZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue = 0;
+end;
+
+function NotEqualToZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue <> 0;
+end;
+
+function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue >= 0;
+end;
+
+function GreaterThanZero(const AQuantity: TQuantity): boolean;
+begin
+  result := AQuantity.FValue > 0;
+end;
 
 function SameValue(const ALeft, ARight: TQuantity): boolean;
 begin

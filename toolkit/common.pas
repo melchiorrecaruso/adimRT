@@ -81,6 +81,9 @@ function GetUnit(const S: string): string;
 
 function GetUnitID(const S: string): string;
 
+function GetUnitRec(const S: string): string;
+
+
 function GetHelperFuncName(const S: string): string;
 
 function GetDimensions(const S: string): TExponents;
@@ -365,6 +368,15 @@ begin
   Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
   if Pos('T', Result) = 1 then
     Delete(Result, 1, 1);
+end;
+
+function GetUnitRec(const S: string): string;
+begin
+  Result := S;
+  Result := StringReplace(Result, '!',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, '?',  '', [rfReplaceAll]);
+  Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
+  Result := Result + 'Rec';
 end;
 
 function GetUnitType(const S: string): string;

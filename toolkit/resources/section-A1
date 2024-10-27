@@ -48,9 +48,12 @@ type
 
   { TUnit }
 
-  generic TUnit<U> = record
-    type TSelf = specialize TUnit<U>;
-  private
+  generic TSymbol<U> = record
+    type TSelf = specialize TSymbol<U>;
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   public
     function ToFloat(const AQuantity: TQuantity): double;
@@ -66,16 +69,19 @@ type
     class operator *(const AValue: double; const ASelf: TSelf): TQuantity; inline;
     class operator /(const AValue: double; const ASelf: TSelf): TQuantity; inline;
   {$IFOPT D+}
-    class operator *(const AValue: TQuantity; const ASelf: TSelf): TQuantity; inline;
-    class operator /(const AValue: TQuantity; const ASelf: TSelf): TQuantity; inline;
+    class operator *(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
+    class operator /(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
   {$ENDIF}
   end;
 
-  { TFactoredUnit }
+  { TFactoredSymbol }
 
-  generic TFactoredUnit<U> = record
-    type TSelf = specialize TFactoredUnit<U>;
-  private
+  generic TFactoredSymbol<U> = record
+    type TSelf = specialize TFactoredSymbol<U>;
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
   public
     function ToFloat(const AQuantity: TQuantity): double;
@@ -91,8 +97,8 @@ type
     class operator *(const AValue: double; const ASelf: TSelf): TQuantity; inline;
     class operator /(const AValue: double; const ASelf: TSelf): TQuantity; inline;
   {$IFOPT D+}
-    class operator *(const AValue: TQuantity; const ASelf: TSelf): TQuantity; inline;
-    class operator /(const AValue: TQuantity; const ASelf: TSelf): TQuantity; inline;
+    class operator *(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
+    class operator /(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
   {$ENDIF}
   end;
 
