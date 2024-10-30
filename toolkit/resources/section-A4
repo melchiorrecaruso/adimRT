@@ -13,6 +13,7 @@ function SexticRoot(const AQuantity: TQuantity): TQuantity;
 
 { Trigonometric functions }
 
+{$IFOPT D+}
 function Cos(const AQuantity: TQuantity): double;
 function Sin(const AQuantity: TQuantity): double;
 function Tan(const AQuantity: TQuantity): double;
@@ -24,20 +25,12 @@ function ArcCos(const AValue: double): TQuantity;
 function ArcSin(const AValue: double): TQuantity;
 function ArcTan(const AValue: double): TQuantity;
 function ArcTan2(const x, y: double): TQuantity;
-
-{ Override trigonometric functions }
-
-{$IFOPT D+}
-function Cos(const AValue: double): double;
-function Sin(const AValue: double): double;
-function Tan(const AValue: double): double;
-function Cotan(const AValue: double): double;
-function Secant(const AValue: double): double;
-function Cosecant(const AValue: double): double;
 {$ENDIF}
+
 
 { Math functions }
 
+{$IFOPT D+}
 function Min(const ALeft, ARight: TQuantity): TQuantity;
 function Max(const ALeft, ARight: TQuantity): TQuantity;
 function Exp(const AQuantity: TQuantity): TQuantity;
@@ -48,9 +41,11 @@ function LogN(ABase: longint; const AQuantity: TQuantity): double;
 function LogN(const ABase, AQuantity: TQuantity): double;
 
 function Power(const ABase: TQuantity; AExponent: double): double;
+{$ENDIF}
 
 { Helper functions }
 
+{$IFOPT D+}
 function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
 function LessThanZero(const AQuantity: TQuantity): boolean;
 function EqualToZero(const AQuantity: TQuantity): boolean;
@@ -58,6 +53,14 @@ function NotEqualToZero(const AQuantity: TQuantity): boolean;
 function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
 function GreaterThanZero(const AQuantity: TQuantity): boolean;
 function SameValue(const ALeft, ARight: TQuantity): boolean;
+{$ENDIF}
+
+function LessThanOrEqualToZero(const AValue: double): boolean;
+function LessThanZero(const AValue: double): boolean;
+function EqualToZero(const AValue: double): boolean;
+function NotEqualToZero(const AValue: double): boolean;
+function GreaterThanOrEqualToZero(const AValue: double): boolean;
+function GreaterThanZero(const AValue: double): boolean;
 
 { Constants }
 

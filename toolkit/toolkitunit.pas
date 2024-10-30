@@ -260,8 +260,7 @@ begin
   ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
   ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
   ASection.Add('  end;');
-  ASection.Add('  %s = specialize TSymbol<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
-  ASection.Add('  %s = TQuantity;', [GetQuantity(AItem.FQuantity)]);
+  ASection.Add('  %s = specialize TUnit<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
   ASection.Add('');
 end;
 
@@ -278,8 +277,7 @@ begin
   ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
   ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
   ASection.Add('  end;');
-  ASection.Add('  %s = specialize TSymbol<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
-  ASection.Add('  %s = TQuantity;', [GetQuantity(AItem.FQuantity)]);
+  ASection.Add('  %s = specialize TUnit<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
   ASection.Add('');
 end;
 
@@ -295,28 +293,27 @@ begin
   SectionA.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
   SectionA.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
   SectionA.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
-  SectionA.Add('    class function GetValue(const AQuantity: double): double; static;');
-  SectionA.Add('    class function PutValue(const AQuantity: double): double; static;');
+  SectionA.Add('    class function GetValue(const AValue: double): double; static;');
+  SectionA.Add('    class function PutValue(const AValue: double): double; static;');
   SectionA.Add('  end;');
-  SectionA.Add('  %s = specialize TFactoredSymbol<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
-  SectionA.Add('  %s = TQuantity;', [GetQuantity(AItem.FQuantity)]);
+  SectionA.Add('  %s = specialize TFactoredUnit<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
   SectionA.Add('');
 
   if AItem.FFactor.Contains('%s') then
   begin
-    SectionB.Add(Format('class function %s.PutValue(const AQuantity: double): double;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('class function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
     SectionB.Add(Format('{$IFOPT D+}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
-    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, 1, Pos('|', AItem.FFactor) -1), ['AQuantity'])]));
+    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, 1, Pos('|', AItem.FFactor) -1), ['AValue'])]));
     SectionB.Add(Format('end;',[]));
     SectionB.Add(Format('',[]));
 
-    SectionB.Add(Format('class function %s.GetValue(const AQuantity: double): double;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('class function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
     SectionB.Add(Format('{$IFOPT D+}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
-    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AQuantity'])]));
+    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AValue'])]));
     SectionB.Add(Format('end;',[]));
     SectionB.Add(Format('',[]));
 
@@ -325,19 +322,19 @@ begin
 
   end else
   begin
-    SectionB.Add(Format('class  function %s.PutValue(const AQuantity: double): double;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
     SectionB.Add(Format('{$IFOPT D+}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
-    SectionB.Add(Format('  result := AQuantity * (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
     SectionB.Add(Format('end;',[]));
     SectionB.Add(Format('',[]));
 
-    SectionB.Add(Format('class  function %s.GetValue(const AQuantity: double): double;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
     SectionB.Add(Format('{$IFOPT D+}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
-    SectionB.Add(Format('  result := AQuantity / (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
     SectionB.Add(Format('end;',[]));
     SectionB.Add(Format('',[]));
   end;

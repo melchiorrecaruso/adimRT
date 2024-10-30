@@ -24,7 +24,7 @@ program adimtest;
 {$endif}
 
 uses
-  ADimRT, SysUtils;
+  ADimRT, Math, SysUtils;
 
 var
   side1: TQuantity;
@@ -73,7 +73,7 @@ var
 
   angularspeed: TQuantity;
 
-  kA: TScalar;
+  kA: TQuantity;
   kAr: TQuantity;
   radius: TQuantity;
   radius1: TQuantity;
@@ -88,7 +88,7 @@ var
   mass1: TQuantity;
   mass2: TQuantity;
 
-  cCd: TScalar;
+  cCd: TQuantity;
   angle: TQuantity;
 
   Uc: TQuantity;
@@ -156,7 +156,7 @@ var
   freq: TQuantity;
 
   I: TQuantity;
-  Re: TScalar;
+  Re: TQuantity;
 
   num: integer;
   alpha: TQuantity;
@@ -167,11 +167,11 @@ var
   Psi0: TQuantity;
   PsiValues: array [1..4] of TQuantity;
   A0: TQuantity;
-  y: TScalar;
+  y: TQuantity;
 
   Iteration: longint;
   Iterations: longint;
-  Probability: TScalar;
+  Probability: TQuantity;
   mu: TQuantity;
 
   E1, E2: TQuantity;
@@ -180,7 +180,7 @@ var
   kfactor: TQuantity;
   bfactor: TQuantity;
   U0: TQuantity;
-  TunnelingProbability: TScalar;
+  TunnelingProbability: TQuantity;
 
 begin
   ExitCode := 0;
@@ -237,8 +237,8 @@ begin
   time     := distance/speed;
   distance := speed*time;
   if MeterPerHourUnit.ToVerboseString(speed, 5, 0, [pKilo]) <> '10 kilometers per hour' then halt(1);
-  if hourUnit.ToVerboseString(time)                           <> '2 hours'                then halt(2);
-  if m.ToVerboseString(distance, 5, 0, [pKilo])         <> '20 kilometers'          then halt(3);
+  if hourUnit.ToVerboseString(time)                         <> '2 hours'                then halt(2);
+  if m.ToVerboseString(distance, 5, 0, [pKilo])             <> '20 kilometers'          then halt(3);
   writeln('* TEST-03: PASSED');
 
   // TEST-04 - ACCELERATION

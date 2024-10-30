@@ -3,6 +3,7 @@
   <Package Version="5">
     <PathDelim Value="\"/>
     <Name Value="adimRTpack"/>
+    <Type Value="RunTimeOnly"/>
     <Author Value="Melchiorre Caruso"/>
     <CompilerOptions>
       <Version Value="11"/>
@@ -20,6 +21,12 @@
           <OptimizationLevel Value="0"/>
         </Optimizations>
       </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <GenerateDebugInfo Value="False"/>
+          <UseLineInfoUnit Value="False"/>
+        </Debugging>
+      </Linking>
     </CompilerOptions>
     <Description Value="Type checking of dimensioned quantities at compile time in FreePascal "/>
     <License Value="LGPL3"/>

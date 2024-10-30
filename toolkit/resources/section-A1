@@ -47,14 +47,15 @@ type
 
   { TUnit }
 
-  generic TSymbol<U> = record
-    type TSelf = specialize TSymbol<U>;
+  generic TUnit<U> = record
+    type TSelf = specialize TUnit<U>;
   public
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
     function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
   public
+    procedure Check(var AQuantity: TQuantity);
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
     function ToString(const AQuantity: TQuantity): string;
@@ -73,16 +74,17 @@ type
   {$ENDIF}
   end;
 
-  { TFactoredSymbol }
+  { TFactoredUnit }
 
-  generic TFactoredSymbol<U> = record
-    type TSelf = specialize TFactoredSymbol<U>;
+  generic TFactoredUnit<U> = record
+    type TSelf = specialize TFactoredUnit<U>;
   public
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
     function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
   public
+    procedure Check(var AQuantity: TQuantity);
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
     function ToString(const AQuantity: TQuantity): string;
