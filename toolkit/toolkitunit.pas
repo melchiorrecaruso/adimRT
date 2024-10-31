@@ -81,9 +81,6 @@ type
 
     BaseUnitCount:     longint;
     FactoredUnitCount: longint;
-    ExternalOperators: longint;
-    ForcedOperators:   longint;
-    InternalOperators: longint;
     FTestingCount:     longint;
     FSkipVectorialUnits: boolean;
     FUseFuncInsteadOfOperators: boolean;
@@ -94,35 +91,20 @@ type
     SectionA0:  TStringList;
     SectionA1:  TStringList;
     SectionA2:  TStringList;
-    SectionA21: TStringList;
-    SectionA22: TStringList;
     SectionA3:  TStringList;
     SectionA4:  TStringList;
-    SectionA5:  TStringList;
-    SectionA6:  TStringList;
-    SectionA7:  TStringList;
-    SectionA8:  TStringList;
-    SectionA9:  TStringList;
-    SectionA10: TStringList;
 
     SectionB0:  TStringList;
     SectionB1:  TStringList;
     SectionB2:  TStringList;
-    SectionB21: TStringList;
-    SectionB22: TStringList;
     SectionB3:  TStringList;
     SectionB4:  TStringList;
-    SectionB5:  TStringList;
-    SectionB6:  TStringList;
-    SectionB7:  TStringList;
-    SectionB8:  TStringList;
-    SectionB9:  TStringList;
-    SectionB10: TStringList;
 
-    //FOnMessage: TMessageEvent;
-    //FMessage: string;
 
-    //private routines
+
+
+
+
 
     function  SearchLine(const ALine: string; ASection: TStringList): longint;
   public
@@ -134,7 +116,6 @@ type
     procedure AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredUnit(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
-    procedure AddCustomUnit(const AItem: TToolKitItem; const ASection: TStringList);
 
     procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
@@ -142,9 +123,8 @@ type
     procedure AddPowerTable(const Section: TStringList);
     procedure AddRootTable(const Section: TStringList);
 
-
-
-
+    procedure AddMulTable(const Section: TStringList);
+    procedure AddDivTable(const Section: TStringList);
 
     procedure Add(const AItem: TToolkitItem);
     procedure Run;
@@ -316,10 +296,6 @@ begin
     SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AValue'])]));
     SectionB.Add(Format('end;',[]));
     SectionB.Add(Format('',[]));
-
-    //Format(Copy(AItem.FFactor, 1, Pos('|', AItem.FFactor) -1), ['AQuantity']));
-    //Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AQuantity']);
-
   end else
   begin
     SectionB.Add(Format('class  function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
@@ -340,14 +316,6 @@ begin
   end;
 end;
 
-procedure TToolKitBuilder.AddCustomUnit(const AItem: TToolKitItem; const ASection: TStringList);
-begin
-
-
-
-
-end;
-
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
 const
   S = '  %-10s : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
@@ -363,8 +331,7 @@ begin
     // Base unit symbols
     ASection.Append('');
     ASection.Append('var');
-    ASection.Add(Format('  %s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
-    ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
+    ASection.Add(Format('  %s, %sUnit : %s;', [Identifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
     ASection.Append('');
     if AItem.FIdentifier <> '' then
       AddFactoredSymbols(AItem, ASection);
@@ -374,8 +341,7 @@ begin
     begin
       // Cloned unit symbols
       ASection.Append('var');
-      ASection.Add(Format('  %s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
-      ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
+      ASection.Add(Format('  %s, %sUnit : %s;', [Identifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
       ASection.Append('');
       if AItem.FIdentifier <> '' then
         AddFactoredSymbols(AItem, ASection);
@@ -533,7 +499,6 @@ begin
   LocList.Destroy;
 end;
 
-
 procedure TToolKitBuilder.AddPowerTable(const Section: TStringList);
 var
   i, j: longint;
@@ -563,7 +528,8 @@ begin
       j5 := FList.Search(D5); if j5 <> -1 then j5 := FList[j5].FReserved;
       j6 := FList.Search(D6); if j6 <> -1 then j6 := FList[j6].FReserved;
 
-      S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),', [j2, j3, j4, j5, j6]);
+      S := Format('    (Square: %3s; Cubic: %3s; Quartic: %3s; Quintic: %3s; Sextic: %3s),',
+        [j2.ToString, j3.ToString, j4.ToString, j5.ToString, j6.ToString]);
 
       if i = FList.Count -1 then
       begin
@@ -605,7 +571,8 @@ begin
       j5 := FList.Search(D5); if j5 <> -1 then j5 := FList[j5].FReserved;
       j6 := FList.Search(D6); if j6 <> -1 then j6 := FList[j6].FReserved;
 
-      S := Format('    (Square: %d; Cubic: %d; Quartic: %d; Quintic: %d; Sextic: %d),', [j2, j3, j4, j5, j6]);
+      S := Format('    (Square: %3s; Cubic: %3s; Quartic: %3s; Quintic: %3s; Sextic: %3s),',
+        [j2.ToString, j3.ToString, j4.ToString, j5.ToString, j6.ToString]);
 
       if i = FList.Count -1 then
       begin
@@ -618,6 +585,121 @@ begin
   Section.Add(Format('', []));
 end;
 
+procedure TToolKitBuilder.AddMulTable(const Section: TStringList);
+var
+  i, j, k: longint;
+  Table: array of array of longint;
+  Dim1, Dim2: TExponents;
+  Line: string;
+begin
+  SetLength(Table, BaseUnitCount);
+  for i := Low(Table) to High(Table) do
+    SetLength(Table[i], BaseUnitCount);
+
+  SectionA3.Append('const');
+  SectionA3.Append('');
+  SectionA3.Append('  { Mul Table }');
+  SectionA3.Append('');
+  SectionA3.Append(Format('  MulTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
+
+  for i := 0 to FList.Count -1 do
+  begin
+    if FList[i].FBase = '' then
+    begin
+      Clear(Dim1);
+      Dim1 := FList[i].FExponents;
+      Line := '    (';
+      for j := 0 to FList.Count -1 do
+      begin
+        if FList[j].FBase = '' then
+        begin
+          Clear(Dim2);
+          Dim2 := FList[j].FExponents;
+
+          k := FList.Search(SumDim(Dim1, Dim2));
+          if k <> -1 then
+            Line := Line + Format('%3s ,', [FList[k].FReserved.ToString])
+          else
+            Line := Line + Format('%3s ,', ['-1']);
+        end;
+      end;
+
+      if i = (FList.Count - 1) then
+      begin
+        Line[High(Line) -1] := ')';
+        Line[High(Line)   ] := ' ';
+      end else
+      begin
+        Line[High(Line) -1] := ')';
+        Line[High(Line)   ] := ',';
+      end;
+      SectionA3.Append(Line);
+    end;
+  end;
+  for i := Low(Table) to High(Table) do
+    Table[i] := nil;
+  Table := nil;
+  SectionA3.Append('  );');
+  SectionA3.Append('');
+end;
+
+
+procedure TToolKitBuilder.AddDivTable(const Section: TStringList);
+var
+  i, j, k: longint;
+  Table: array of array of longint;
+  Dim1, Dim2: TExponents;
+  Line: string;
+begin
+  SetLength(Table, BaseUnitCount);
+  for i := Low(Table) to High(Table) do
+    SetLength(Table[i], BaseUnitCount);
+
+  SectionA3.Append('  { Div Table }');
+  SectionA3.Append('');
+  SectionA3.Append(Format('  DivTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
+
+  for i := 0 to FList.Count -1 do
+  begin
+    if FList[i].FBase = '' then
+    begin
+      Clear(Dim1);
+      Dim1 := FList[i].FExponents;
+      Line := '    (';
+      for j := 0 to FList.Count -1 do
+      begin
+        if FList[j].FBase = '' then
+        begin
+          Clear(Dim2);
+          Dim2 := FList[j].FExponents;
+
+          k := FList.Search(SubDim(Dim1, Dim2));
+          if k <> -1 then
+            Line := Line + Format('%3s ,', [FList[k].FReserved.ToString])
+          else
+            Line := Line + Format('%3s ,', ['-1']);
+        end;
+      end;
+
+      if i = (FList.Count - 1) then
+      begin
+        Line[High(Line) -1] := ')';
+        Line[High(Line)   ] := ' ';
+      end else
+      begin
+        Line[High(Line) -1] := ')';
+        Line[High(Line)   ] := ',';
+      end;
+      SectionA3.Append(Line);
+    end;
+  end;
+  for i := Low(Table) to High(Table) do
+    Table[i] := nil;
+  Table := nil;
+  SectionA3.Append('  );');
+  SectionA3.Append('');
+end;
+
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
 begin
   FList.Add(AItem);
@@ -625,46 +707,22 @@ end;
 
 procedure TToolKitBuilder.Run;
 var
-  I, J, K: longint;
-  Line: string;
-  Table: array of array of longint;
-  Dim1: TExponents;
-  Dim2: TExponents;
+  i: longint;
   Stream: TResourceStream;
 begin
   SectionA0  := TStringList.Create;
   SectionA1  := TStringList.Create;
   SectionA2  := TStringList.Create;
-  SectionA21 := TStringList.Create;
-  SectionA22 := TStringList.Create;
   SectionA3  := TStringList.Create;
   SectionA4  := TStringList.Create;
-  SectionA5  := TStringList.Create;
-  SectionA6  := TStringList.Create;
-  SectionA7  := TStringList.Create;
-  SectionA8  := TStringList.Create;
-  SectionA9  := TStringList.Create;
-  SectionA10 := TStringList.Create;
-
   SectionB0  := TStringList.Create;
   SectionB1  := TStringList.Create;
   SectionB2  := TStringList.Create;
-  SectionB21 := TStringList.Create;
-  SectionB22 := TStringList.Create;
   SectionB3  := TStringList.Create;
   SectionB4  := TStringList.Create;
-  SectionB5  := TStringList.Create;
-  SectionB6  := TStringList.Create;
-  SectionB7  := TStringList.Create;
-  SectionB8  := TStringList.Create;
-  SectionB9  := TStringList.Create;
-  SectionB10 := TStringList.Create;
 
   BaseUnitCount     := 0;
   FactoredUnitCount := 0;
-  ExternalOperators := 0;
-  InternalOperators := 0;
-  ForcedOperators   := 0;
 
   FClassList.Clear;
   FCommUnits.Clear;
@@ -694,113 +752,11 @@ begin
   SectionB1.Append('');
   Stream.Destroy;
 
-  Messages.Add('OK-1');
-
   AddUnits(SectionA3, SectionB3);
-
-  Messages.Add('OK-2');
-
-  SetLength(Table, BaseUnitCount);
-  for i := Low(Table) to High(Table) do
-    SetLength(Table[i], BaseUnitCount);
-
-  SectionA3.Append('const');
-  SectionA3.Append('');
-  SectionA3.Append('  { Mul Table }');
-  SectionA3.Append('');
-  SectionA3.Append(Format('  MulTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
-
-  for i := 0 to FList.Count -1 do
-  begin
-    if FList[i].FBase = '' then
-    begin
-      Clear(Dim1);
-      Dim1 := FList[i].FExponents;
-      Line := '    (';
-      for j := 0 to FList.Count -1 do
-      begin
-        if FList[j].FBase = '' then
-        begin
-          Clear(Dim2);
-          Dim2 := FList[j].FExponents;
-
-          K := FList.Search(SumDim(Dim1, Dim2));
-          if K <> -1 then
-            Line := Line + 'c' + GetUnitID(FList[K].FQuantity) + ', '
-          else
-            Line := Line +  '-1, '
-        end;
-      end;
-
-      if i = (FList.Count - 1) then
-      begin
-        Line[High(Line) -1] := ')';
-        Line[High(Line)   ] := ' ';
-      end else
-      begin
-        Line[High(Line) -1] := ')';
-        Line[High(Line)   ] := ',';
-      end;
-      SectionA3.Append(Line);
-    end;
-  end;
-  for i := Low(Table) to High(Table) do Table[i] := nil;
-  Table := nil;
-  SectionA3.Append('  );');
-  SectionA3.Append('');
-
-
-  SetLength(Table, BaseUnitCount);
-  for i := Low(Table) to High(Table) do
-    SetLength(Table[i], BaseUnitCount);
-
-  SectionA3.Append('  { Div Table }');
-  SectionA3.Append('');
-  SectionA3.Append(Format('  DivTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
-
-  for i := 0 to FList.Count -1 do
-  begin
-    if FList[i].FBase = '' then
-    begin
-      Clear(Dim1);
-      Dim1 := FList[i].FExponents;
-      Line := '    (';
-      for j := 0 to FList.Count -1 do
-      begin
-        if FList[j].FBase = '' then
-        begin
-          Clear(Dim2);
-          Dim2 := FList[j].FExponents;
-
-          K := FList.Search(SubDim(Dim1, Dim2));
-          if K <> -1 then
-            Line := Line + 'c' + GetUnitID(FList[K].FQuantity) + ', '
-          else
-            Line := Line +  '-1, '
-        end;
-      end;
-
-      if i = (FList.Count - 1) then
-      begin
-        Line[High(Line) -1] := ')';
-        Line[High(Line)   ] := ' ';
-      end else
-      begin
-        Line[High(Line) -1] := ')';
-        Line[High(Line)   ] := ',';
-      end;
-      SectionA3.Append(Line);
-    end;
-  end;
-  for i := Low(Table) to High(Table) do Table[i] := nil;
-  Table := nil;
-  SectionA3.Append('  );');
-  SectionA3.Append('');
-
+  AddMulTable(SectionA3);
+  AddDivTable(SectionA3);
   AddPowerTable(SectionA3);
   AddRootTable(SectionA3);
-
-
 
   Stream := TResourceStream.Create(HInstance, 'SECTION-A4', RT_RCDATA);
   SectionA4.LoadFromStream(Stream);
@@ -813,55 +769,6 @@ begin
   SectionB4.Insert(0, '');
   SectionB4.Append('');
   Stream.Destroy;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  SectionA4.Append('');
-  SectionB4.Append('');
-
-  SectionA5.Append('');
-  SectionB5.Append('');
-
-  SectionA6.Append('');
-  SectionB6.Append('');
-
-  SectionA7.Append('');
-  SectionB7.Append('');
-
-  SectionA8.Append('');
-  SectionA8.Append('{ Helpers }');
-  SectionA8.Append('');
-
-
-
-
-
-
-  SectionB8.Append('');
-  SectionB8.Append('{ Helpers }');
-  SectionB8.Append('');
-
-
-  SectionA9.Append('');
-  SectionA9.Append('{ Power functions }');
-  SectionA9.Append('');
-  SectionB9.Append('');
-  SectionB9.Append('{ Power functions }');
-  SectionB9.Append('');
-
-  SectionA10.Append('');
-  SectionB10.Append('');
 
   SectionA0.Append('');
   SectionA0.Append('unit ADimRT;');
@@ -882,69 +789,33 @@ begin
 
   SectionA0.Append(Format('  Number of base units: %d', [BaseUnitCount]));
   SectionA0.Append(Format('  Number of factored units: %d', [FactoredUnitCount]));
-  SectionA0.Append(Format('  Number of operators: %d (%d external, %d internal)',
-    [ExternalOperators + InternalOperators, ExternalOperators, InternalOperators]));
   SectionA0.Append('}');
   SectionA0.Append('');
 
   for I := 0 to SectionA0 .Count -1 do FDocument.Append(SectionA0 [I]);
   for I := 0 to SectionA1 .Count -1 do FDocument.Append(SectionA1 [I]);
   for I := 0 to SectionA2 .Count -1 do FDocument.Append(SectionA2 [I]);
-  for I := 0 to SectionA21.Count -1 do FDocument.Append(SectionA21[I]);
-  for I := 0 to SectionA22.Count -1 do FDocument.Append(SectionA22[I]);
-
   for I := 0 to SectionA3 .Count -1 do FDocument.Append(SectionA3 [I]);
   for I := 0 to SectionA4 .Count -1 do FDocument.Append(SectionA4 [I]);
-  for I := 0 to SectionA5 .Count -1 do FDocument.Append(SectionA5 [I]);
-  for I := 0 to SectionA6 .Count -1 do FDocument.Append(SectionA6 [I]);
-  for I := 0 to SectionA7 .Count -1 do FDocument.Append(SectionA7 [I]);
-  for I := 0 to SectionA8 .Count -1 do FDocument.Append(SectionA8 [I]);
-  for I := 0 to SectionA9 .Count -1 do FDocument.Append(SectionA9 [I]);
-  for I := 0 to SectionA10.Count -1 do FDocument.Append(SectionA10[I]);
 
   for I := 0 to SectionB0 .Count -1 do FDocument.Append(SectionB0 [I]);
   for I := 0 to SectionB1 .Count -1 do FDocument.Append(SectionB1 [I]);
   for I := 0 to SectionB2 .Count -1 do FDocument.Append(SectionB2 [I]);
-  for I := 0 to SectionB21.Count -1 do FDocument.Append(SectionB21[I]);
-  for I := 0 to SectionB22.Count -1 do FDocument.Append(SectionB22[I]);
-
   for I := 0 to SectionB3 .Count -1 do FDocument.Append(SectionB3 [I]);
   for I := 0 to SectionB4 .Count -1 do FDocument.Append(SectionB4 [I]);
-  for I := 0 to SectionB5 .Count -1 do FDocument.Append(SectionB5 [I]);
-  for I := 0 to SectionB6 .Count -1 do FDocument.Append(SectionB6 [I]);
-  for I := 0 to SectionB7 .Count -1 do FDocument.Append(SectionB7 [I]);
-  for I := 0 to SectionB8 .Count -1 do FDocument.Append(SectionB8 [I]);
-  for I := 0 to SectionB9 .Count -1 do FDocument.Append(SectionB9 [I]);
-  for I := 0 to SectionB10.Count -1 do FDocument.Append(SectionB10[I]);
 
   FDocument.Add('');
   FDocument.Add('end.');
   CleanDocument(FDocument);
 
-  SectionB10.Destroy;
-  SectionB9 .Destroy;
-  SectionB8 .Destroy;
-  SectionB7 .Destroy;
-  SectionB6 .Destroy;
-  SectionB5 .Destroy;
   SectionB4 .Destroy;
   SectionB3 .Destroy;
-  SectionB22.Destroy;
-  SectionB21.Destroy;
   SectionB2 .Destroy;
   SectionB1 .Destroy;
   SectionB0 .Destroy;
 
-  SectionA10.Destroy;
-  SectionA9 .Destroy;
-  SectionA8 .Destroy;
-  SectionA7 .Destroy;
-  SectionA6 .Destroy;
-  SectionA5 .Destroy;
   SectionA4 .Destroy;
   SectionA3 .Destroy;
-  SectionA22.Destroy;
-  SectionA21.Destroy;
   SectionA2 .Destroy;
   SectionA1 .Destroy;
   SectionA0 .Destroy;
@@ -1180,17 +1051,7 @@ begin
     begin
       Item.FColor := ColorToString(clWhite);
     end;
-
-    //AddBool := Pos('//', Item.FQuantity) = 0;
-    //if AddBool then
-    //begin
-    //  AddBool := (Item.FLongString <> '') and (Item.FShortString <> '');
-    //end;
-
-    //if AddBool then
     Add(Item);
-    //else
-    //  Item.Destroy;
   end;
   CSVDoc.Destroy;
 end;

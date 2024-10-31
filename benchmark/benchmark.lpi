@@ -18,11 +18,13 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="benchmark"/>
+            <Filename Value="build/benchmark"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+            <Libraries Value=".."/>
+            <OtherUnitFiles Value=".."/>
+            <UnitOutputDirectory Value="build/"/>
           </SearchPaths>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
@@ -41,6 +43,7 @@
         </CompilerOptions>
       </Item>
     </BuildModes>
+    <ManyBuildModesSelection Value="Debug,Release"/>
     <PublishOptions>
       <Version Value="2"/>
       <UseFileFilters Value="True"/>
@@ -57,7 +60,8 @@
       <Unit>
         <Filename Value="benchmark.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="14" Y="44"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="9" Y="11"/>
         <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit>
@@ -93,15 +97,20 @@
       <Unit>
         <Filename Value="adimrt.pas"/>
         <UnitName Value="ADimRT"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="64"/>
         <CursorPos X="83" Y="104"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../adimrt.pas"/>
+        <UnitName Value="ADimRT"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4"/>
+        <UsageCount Value="10"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="5">
+    <JumpHistory HistoryIndex="7">
       <Position>
         <Filename Value="benchmark.lpr"/>
         <Caret Line="10" Column="5"/>
@@ -126,6 +135,14 @@
         <Filename Value="benchmark.lpr"/>
         <Caret Line="46" Column="18" TopLine="12"/>
       </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="44" Column="14"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="11" Column="9"/>
+      </Position>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -135,6 +152,8 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <Libraries Value=".."/>
+      <OtherUnitFiles Value=".."/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
