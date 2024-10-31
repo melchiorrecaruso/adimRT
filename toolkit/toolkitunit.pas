@@ -74,11 +74,6 @@ type
 
   TToolKitBuilder = class
   private
-    FList: TToolKitList;
-    FClassList: TStringList;
-    FCommUnits: TStringList;
-    FOperatorList: TStringList;
-
     BaseUnitCount:     longint;
     FactoredUnitCount: longint;
     FTestingCount:     longint;
@@ -86,6 +81,7 @@ type
     FUseFuncInsteadOfOperators: boolean;
     FExpandQuantityOperators: boolean;
 
+    FList:      TToolKitList;
     FDocument:  TStringList;
     FMessages:  TStringList;
     SectionA0:  TStringList;
@@ -99,12 +95,6 @@ type
     SectionB2:  TStringList;
     SectionB3:  TStringList;
     SectionB4:  TStringList;
-
-
-
-
-
-
 
     function  SearchLine(const ALine: string; ASection: TStringList): longint;
   public
@@ -150,12 +140,6 @@ begin
   FList         := TToolKitList.Create;
   FDocument     := TStringList.Create;
   FMessages     := TStringList.Create;
-  FClassList    := TStringList.Create;
-  FClassList.Sorted := TRUE;
-
-  FCommUnits    := TStringList.Create;
-  FOperatorList := TStringList.Create;
-  FOperatorList.Sorted := TRUE;
 
   FSkipVectorialunits := False;
   FUseFuncInsteadOfOperators := False;
@@ -165,10 +149,6 @@ end;
 
 destructor TToolKitBuilder.Destroy;
 begin
-  FOperatorList.Destroy;
-  FCommUnits.Destroy;
-  FClassList.Destroy;
-
   FMessages.Destroy;
   FDocument.Destroy;
   FList.Destroy;
@@ -266,7 +246,7 @@ begin
   SectionA.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   SectionA.Add('');
   SectionA.Add('type');
-  SectionA.Add('  %s = record', [GetUnitREc(AItem.FQuantity)]);
+  SectionA.Add('  %s = record', [GetUnitRec(AItem.FQuantity)]);
   SectionA.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
   SectionA.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
   SectionA.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
@@ -592,15 +572,16 @@ var
   Dim1, Dim2: TExponents;
   Line: string;
 begin
+  Table := nil;
   SetLength(Table, BaseUnitCount);
   for i := Low(Table) to High(Table) do
     SetLength(Table[i], BaseUnitCount);
 
-  SectionA3.Append('const');
-  SectionA3.Append('');
-  SectionA3.Append('  { Mul Table }');
-  SectionA3.Append('');
-  SectionA3.Append(Format('  MulTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
+  Section.Append('const');
+  Section.Append('');
+  Section.Append('  { Mul Table }');
+  Section.Append('');
+  Section.Append(Format('  MulTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
 
   for i := 0 to FList.Count -1 do
   begin
@@ -633,14 +614,14 @@ begin
         Line[High(Line) -1] := ')';
         Line[High(Line)   ] := ',';
       end;
-      SectionA3.Append(Line);
+      Section.Append(Line);
     end;
   end;
   for i := Low(Table) to High(Table) do
     Table[i] := nil;
   Table := nil;
-  SectionA3.Append('  );');
-  SectionA3.Append('');
+  Section.Append('  );');
+  Section.Append('');
 end;
 
 procedure TToolKitBuilder.AddDivTable(const Section: TStringList);
@@ -650,13 +631,14 @@ var
   Dim1, Dim2: TExponents;
   Line: string;
 begin
+  Table := nil;
   SetLength(Table, BaseUnitCount);
   for i := Low(Table) to High(Table) do
     SetLength(Table[i], BaseUnitCount);
 
-  SectionA3.Append('  { Div Table }');
-  SectionA3.Append('');
-  SectionA3.Append(Format('  DivTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
+  Section.Append('  { Div Table }');
+  Section.Append('');
+  Section.Append(Format('  DivTable : array[%d..%d, %d..%d] of longint = (', [Low(Table), High(Table), Low(Table), High(Table)]));
 
   for i := 0 to FList.Count -1 do
   begin
@@ -689,14 +671,14 @@ begin
         Line[High(Line) -1] := ')';
         Line[High(Line)   ] := ',';
       end;
-      SectionA3.Append(Line);
+      Section.Append(Line);
     end;
   end;
   for i := Low(Table) to High(Table) do
     Table[i] := nil;
   Table := nil;
-  SectionA3.Append('  );');
-  SectionA3.Append('');
+  Section.Append('  );');
+  Section.Append('');
 end;
 
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
@@ -722,10 +704,6 @@ begin
 
   BaseUnitCount     := 0;
   FactoredUnitCount := 0;
-
-  FClassList.Clear;
-  FCommUnits.Clear;
-  FOperatorList.Clear;
 
   Stream := TResourceStream.Create(HInstance, 'SECTION-A0', RT_RCDATA);
   SectionA0.LoadFromStream(Stream);
@@ -853,11 +831,16 @@ end;
 
 procedure TToolKitList.Delete(Index: longint);
 begin
+  TToolKitItem(FList[Index]).Destroy;
   FList.Delete(Index);
 end;
 
 procedure TToolKitList.Clear;
+var
+  i: longint;
 begin
+  for i := 0 to FList.Count -1 do
+    TToolKitItem(FList[i]).Destroy;
   FList.Clear;
 end;
 

@@ -58,44 +58,28 @@ type
     procedure MoveDownBtnClick(Sender: TObject);
     procedure MoveUtBtnClick(Sender: TObject);
     procedure SaveBtnClick(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure LoadBtnClick(Sender: TObject);
     procedure ExportBtnClick(Sender: TObject);
     procedure RunBtnClick(Sender: TObject);
-    procedure OnTerminate(Sender: TObject);
     procedure StringGridDblClick(Sender: TObject);
-    procedure StringGridPrepareCanvas(Sender: TObject; aCol, aRow: Integer;
-      aState: TGridDrawState);
+    procedure StringGridPrepareCanvas(Sender: TObject; aCol, aRow: Integer; aState: TGridDrawState);
     procedure UpdateButton(Value: boolean);
-    procedure DoMessage;
   public
     FList: TToolKitList;
     procedure UpdateGrid;
     procedure UpdateInsertFrmField;
   end;
 
-  TToolKitThread = class(TThread)
-  private
-    FBuilder: TToolKitBuilder;
-    FMessage: string;
-    procedure OnMessage(const AMessage: string);
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure Execute; override;
-  end;
-
 
 var
   MainForm: TMainForm;
-  ToolKitThread: TToolKitThread = nil;
 
 implementation
 
 uses
-  Common, InsertForm;
+  InsertForm;
 
 {$R *.lfm}
 
@@ -112,12 +96,10 @@ end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
-  FList.Destroy;
-end;
 
-procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-begin
-  //
+
+
+  FList.Destroy;
 end;
 
 procedure TMainForm.LoadBtnClick(Sender: TObject);
@@ -289,37 +271,35 @@ procedure TMainForm.RunBtnClick(Sender: TObject);
 var
   i: longint;
   T: TToolkitItem;
+  Builder: TToolKitBuilder;
 begin
-  Memo.Clear;
   UpdateButton(False);
-  ToolKitThread := TToolKitThread.Create;
-  ToolKitThread.OnTerminate := @OnTerminate;
+  Builder := TToolKitBuilder.Create;
+  Builder.SkipVectorialUnits := Mainform.SkipVectorialUnits.Checked;
 
+  Application.ProcessMessages;
   for i := 0 to FList.Count -1 do
   begin
     T := FList[i];
     if (T.FType = '') or (SkipVectorialUnits.Checked = False) then
     begin
-      ToolKitThread.FBuilder.Add(T);
+      //Builder.Add(T);
     end;
   end;
-  ToolKitThread.Start;
-end;
+  Builder.Run;
 
-procedure TMainForm.OnTerminate(Sender: TObject);
-var
-  I: longint;
-begin
   SynEdit.BeginUpdate(True);
   SynEdit.Clear;
-  with ToolKitThread.FBuilder do
-  begin
-    for I := 0 to Document.Count - 1 do SynEdit.Append(Document[I]);
-    for I := 0 to Messages.Count - 1 do Memo.Lines.Add(Messages[I]);
-  end;
+  for i := 0 to Builder.Document.Count - 1 do
+    SynEdit.Append(Builder.Document[i]);
   SynEdit.EndUpdate;
+
+  Memo.Clear;
+  for i := 0 to Builder.Messages.Count - 1 do
+    Memo.Lines.Add(Builder.Messages[i]);
+
+  Builder.Destroy;
   UpdateButton(True);
-  ToolKitThread := nil;
 end;
 
 procedure TMainForm.StringGridDblClick(Sender: TObject);
@@ -352,38 +332,6 @@ begin
     True:  PageControl.TabIndex := 1;
     False: PageControl.TabIndex := 2;
   end;
-end;
-
-procedure TMainForm.DoMessage;
-begin
-  Memo.Append(ToolKitThread.FMessage);
-end;
-
-{ TToolKitThread }
-
-constructor TToolKitThread.Create;
-begin
-  FBuilder := TToolKitBuilder.Create;
-  FBuilder.SkipVectorialUnits := Mainform.SkipVectorialUnits.Checked;
-  FreeOnTerminate := True;
-  inherited Create(True);
-end;
-
-destructor TToolKitThread.Destroy;
-begin
-  FBuilder := nil;
-  inherited Destroy;
-end;
-
-procedure TToolKitThread.Execute;
-begin
-  FBuilder.Run;
-end;
-
-procedure TToolKitThread.OnMessage(const AMessage: string);
-begin
-  FMessage := AMessage;
-  Synchronize(@MainForm.DoMessage);
 end;
 
 end.

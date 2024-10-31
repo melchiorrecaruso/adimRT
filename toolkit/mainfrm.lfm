@@ -6,8 +6,7 @@ object MainForm: TMainForm
   Caption = 'ADimPas Toolkit-v2'
   ClientHeight = 801
   ClientWidth = 1452
-  LCLVersion = '3.99.0.0'
-  OnCloseQuery = FormCloseQuery
+  LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   object PageControl: TPageControl
@@ -83,11 +82,11 @@ object MainForm: TMainForm
           end        
           item
             Title.Caption = 'Prefixes'
-            Width = 144
+            Width = 143
           end        
           item
             Title.Caption = 'Type'
-            Width = 144
+            Width = 143
           end>
         FixedCols = 0
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goAutoAddRows, goRowSelect, goSmoothScroll]
@@ -104,8 +103,8 @@ object MainForm: TMainForm
           144
           144
           144
-          144
-          144
+          143
+          143
         )
       end
       object AddBtn: TBitBtn
