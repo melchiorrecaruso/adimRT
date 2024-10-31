@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
-program adimtest;
+program adimrttest;
 
 {$if FPC_FULLVERSION >= 30301}
   {$modeswitch implicitfunctionspecialization}
