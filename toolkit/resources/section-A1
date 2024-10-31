@@ -16,7 +16,7 @@ type
 
   { TQuantity }
 
-  {$IFOPT D+}
+  {$IFDEF USEADIM}
   TQuantity = record
   private
     FUnitOfMeasurement: longint;
@@ -68,7 +68,7 @@ type
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     class operator *(const AValue: double; const ASelf: TSelf): TQuantity; inline;
     class operator /(const AValue: double; const ASelf: TSelf): TQuantity; inline;
-  {$IFOPT D+}
+  {$IFDEF USEADIM}
     class operator *(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
     class operator /(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
   {$ENDIF}
@@ -97,7 +97,7 @@ type
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     class operator *(const AValue: double; const ASelf: TSelf): TQuantity; inline;
     class operator /(const AValue: double; const ASelf: TSelf): TQuantity; inline;
-  {$IFOPT D+}
+  {$IFDEF USEADIM}
     class operator *(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
     class operator /(const AQuantity: TQuantity; const ASelf: TSelf): TQuantity; inline;
   {$ENDIF}

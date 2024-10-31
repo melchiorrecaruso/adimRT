@@ -1,7 +1,7 @@
 
 { TQuantity }
 
-{$IFOPT D+}
+{$IFDEF USEADIM}
 class operator TQuantity.:=(const ASelf: double): TQuantity;
 begin
   result.FUnitOfMeasurement := cScalar;
@@ -127,7 +127,7 @@ end;
 
 class operator TUnit.*(const AValue: double; const ASelf: TUnit): TQuantity; inline;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := U.FUnitOfMeasurement;
   result.FValue := AValue;
 {$ELSE}
@@ -137,7 +137,7 @@ end;
 
 class operator TUnit./(const AValue: double; const ASelf: TUnit): TQuantity; inline;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
   result.FValue := AValue;
 {$ELSE}
@@ -145,7 +145,7 @@ begin
 {$ENDIF}
 end;
 
-{$IFOPT D+}
+{$IFDEF USEADIM}
 class operator TUnit.*(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
@@ -249,7 +249,7 @@ end;
 
 procedure TUnit.Check(var AQuantity: TQuantity);
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
@@ -257,7 +257,7 @@ end;
 
 function TUnit.ToFloat(const AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -269,7 +269,7 @@ end;
 
 function TUnit.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -281,7 +281,7 @@ end;
 
 function TUnit.ToString(const AQuantity: TQuantity): string;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -295,7 +295,7 @@ function TUnit.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes):
 var
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -314,7 +314,7 @@ function TUnit.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint
 var
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -334,7 +334,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if (AQuantity.FUnitOfMeasurement  <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');  
 
@@ -358,7 +358,7 @@ end;
 
 function TUnit.ToVerboseString(const AQuantity: TQuantity): string;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -378,7 +378,7 @@ function TUnit.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPre
 var
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -406,7 +406,7 @@ function TUnit.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: 
 var
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -435,7 +435,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if (AQuantity.FUnitOfMeasurement  <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');  
 
@@ -461,7 +461,7 @@ end;
 
 class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := U.FUnitOfMeasurement;
   result.FValue := U.PutValue(AValue);
 {$ELSE}
@@ -471,7 +471,7 @@ end;
 
 class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
   result.FValue := U.PutValue(AValue);
 {$ELSE}
@@ -479,7 +479,7 @@ begin
 {$ENDIF}
 end;
 
-{$IFOPT D+}
+{$IFDEF USEADIM}
 class operator TFactoredUnit.*(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
@@ -583,7 +583,7 @@ end;
 
 procedure TFactoredUnit.Check(var AQuantity: TQuantity);
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
@@ -591,7 +591,7 @@ end;
 
 function TFactoredUnit.ToFloat(const AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -603,7 +603,7 @@ end;
 
 function TFactoredUnit.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -615,7 +615,7 @@ end;
 
 function TFactoredUnit.ToString(const AQuantity: TQuantity): string;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -629,7 +629,7 @@ function TFactoredUnit.ToString(const AQuantity: TQuantity; const APrefixes: TPr
 var
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -648,7 +648,7 @@ function TFactoredUnit.ToString(const AQuantity: TQuantity; APrecision, ADigits:
 var
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -668,7 +668,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if (AQuantity.FUnitOfMeasurement  <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.'); 
 
@@ -694,7 +694,7 @@ function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity): string;
 var
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -713,7 +713,7 @@ function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity; const APrefix
 var
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -741,7 +741,7 @@ function TFactoredUnit.ToVerboseString(const AQuantity: TQuantity; APrecision, A
 var
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -770,7 +770,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if (AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 

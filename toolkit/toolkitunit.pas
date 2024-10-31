@@ -303,7 +303,7 @@ begin
   begin
     SectionB.Add(Format('class function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('{$IFOPT D+}',[]));
+    SectionB.Add(Format('{$IFDEF USEADIM}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
     SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, 1, Pos('|', AItem.FFactor) -1), ['AValue'])]));
     SectionB.Add(Format('end;',[]));
@@ -311,7 +311,7 @@ begin
 
     SectionB.Add(Format('class function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('{$IFOPT D+}',[]));
+    SectionB.Add(Format('{$IFDEF USEADIM}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
     SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AValue'])]));
     SectionB.Add(Format('end;',[]));
@@ -324,7 +324,7 @@ begin
   begin
     SectionB.Add(Format('class  function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('{$IFOPT D+}',[]));
+    SectionB.Add(Format('{$IFDEF USEADIM}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
     SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
     SectionB.Add(Format('end;',[]));
@@ -332,7 +332,7 @@ begin
 
     SectionB.Add(Format('class  function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
     SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('{$IFOPT D+}',[]));
+    SectionB.Add(Format('{$IFDEF USEADIM}',[]));
     SectionB.Add(Format('{$ENDIF}', []));
     SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
     SectionB.Add(Format('end;',[]));
@@ -350,7 +350,7 @@ end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
 const
-  S = '  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  S = '  %-10s : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 var
   Identifier: string;
 begin
@@ -413,7 +413,7 @@ var
   Str: string;
   Factor: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFOPT D+} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AItem.FFactor <> '' then
@@ -860,19 +860,8 @@ begin
   SectionB9.Append('{ Power functions }');
   SectionB9.Append('');
 
-
-
   SectionA10.Append('');
   SectionB10.Append('');
-
-
-
-
-
-
-
-
-
 
   SectionA0.Append('');
   SectionA0.Append('unit ADimRT;');
@@ -882,7 +871,9 @@ begin
   SectionA0.Append('{$modeswitch advancedrecords}');
   SectionA0.Append('{$WARN 5024 OFF} // Suppress warning for unused routine parameter.');
   SectionA0.Append('{$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.');
-  SectionA0.Append('{$MACRO ON}');
+  SectionA0.Append('{$IFOPT D+}');
+  SectionA0.Append('  {$DEFINE USEADIM}');
+  SectionA0.Append('{$ENDIF}');
   SectionA0.Append('');
 
   SectionA0.Append('{');
@@ -895,20 +886,6 @@ begin
     [ExternalOperators + InternalOperators, ExternalOperators, InternalOperators]));
   SectionA0.Append('}');
   SectionA0.Append('');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   for I := 0 to SectionA0 .Count -1 do FDocument.Append(SectionA0 [I]);
   for I := 0 to SectionA1 .Count -1 do FDocument.Append(SectionA1 [I]);

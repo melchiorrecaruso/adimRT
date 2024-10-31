@@ -3,7 +3,7 @@
 
 function SquarePower(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Square;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -15,7 +15,7 @@ end;
 
 function CubicPower(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Cubic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -27,7 +27,7 @@ end;
 
 function QuarticPower(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quartic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -39,7 +39,7 @@ end;
 
 function QuinticPower(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quintic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -51,7 +51,7 @@ end;
 
 function SexticPower(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Sextic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -63,7 +63,7 @@ end;
 
 function SquareRoot(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Square;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -75,7 +75,7 @@ end;
 
 function CubicRoot(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Cubic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -87,7 +87,7 @@ end;
 
 function QuarticRoot(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quartic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -99,7 +99,7 @@ end;
 
 function QuinticRoot(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quintic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -111,7 +111,7 @@ end;
 
 function SexticRoot(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Sextic;
   if result.FUnitOfMeasurement = -1 then
     raise Exception.Create('Wrong units of measurements');
@@ -125,7 +125,7 @@ end;
 
 function Cos(const AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Cos routine has detected wrong units of measurements.');
 
@@ -137,7 +137,7 @@ end;
 
 function Sin(const AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Sin routine has detected wrong units of measurements.');
 
@@ -149,7 +149,7 @@ end;
 
 function Tan(const AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Tan routine has detected wrong units of measurements.');
 
@@ -161,7 +161,7 @@ end;
 
 function Cotan(const AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Cotan routine has detected wrong units of measurements.');
 
@@ -173,7 +173,7 @@ end;
 
 function Secant(const AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Setan routine has detected wrong units of measurements.');
 
@@ -185,7 +185,7 @@ end;
 
 function Cosecant(const AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Cosecant routine has detected wrong units of measurements.');
 
@@ -197,7 +197,7 @@ end;
 
 function ArcCos(const AValue: double): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
   result.FValue := Math.ArcCos(AValue);
 {$ELSE}
@@ -207,7 +207,7 @@ end;
 
 function ArcSin(const AValue: double): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
   result.FValue := Math.ArcSin(AValue);
 {$ELSE}
@@ -217,7 +217,7 @@ end;
 
 function ArcTan(const AValue: double): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
   result.FValue := System.ArcTan(AValue);
 {$ELSE}
@@ -227,7 +227,7 @@ end;
 
 function ArcTan2(const x, y: double): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
   result.FValue := Math.ArcTan2(x, y);
 {$ELSE}
@@ -240,7 +240,7 @@ end;
 
 function Min(const ALeft, ARight: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('Min routine has detected wrong units of measurements.');
 
@@ -253,7 +253,7 @@ end;
 
 function Max(const ALeft, ARight: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('Max routine has detected wrong units of measurements.');
 
@@ -266,7 +266,7 @@ end;
 
 function Exp(const AQuantity: TQuantity): TQuantity;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Exp routine has detected wrong units of measurements.');
 
@@ -279,7 +279,7 @@ end;
 
 function Log10(const AQuantity : TQuantity) : double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Log10 routine has detected wrong units of measurements.');
 
@@ -291,7 +291,7 @@ end;
 
 function Log2(const AQuantity : TQuantity) : double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Log2 routine has detected wrong units of measurements.');
 
@@ -303,7 +303,7 @@ end;
 
 function LogN(ABase: longint; const AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('LogN routine has detected wrong units of measurements.');
 
@@ -315,7 +315,7 @@ end;
 
 function LogN(const ABase, AQuantity: TQuantity): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if ABase.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('LogN routine has detected wrong units of measurements.');
 
@@ -330,7 +330,7 @@ end;
 
 function Power(const ABase: TQuantity; AExponent: double): double;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if ABase.FUnitOfMeasurement <> cScalar then
     raise Exception.Create('Power routine has detected wrong units of measurements.');
 
@@ -344,7 +344,7 @@ end;
 
 function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result := AQuantity.FValue <= 0;
 {$ELSE}  
   result := AQuantity <= 0;
@@ -353,7 +353,7 @@ end;
 
 function LessThanZero(const AQuantity: TQuantity): boolean;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result := AQuantity.FValue < 0;
 {$ELSE}  
   result := AQuantity < 0;
@@ -362,7 +362,7 @@ end;
 
 function EqualToZero(const AQuantity: TQuantity): boolean;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result := AQuantity.FValue = 0;
 {$ELSE} 
   result := AQuantity = 0;
@@ -371,7 +371,7 @@ end;
 
 function NotEqualToZero(const AQuantity: TQuantity): boolean;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result := AQuantity.FValue <> 0;
 {$ELSE}
   result := AQuantity <> 0;
@@ -380,7 +380,7 @@ end;
 
 function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result := AQuantity.FValue >= 0;
 {$ELSE}
   result := AQuantity >= 0;
@@ -389,7 +389,7 @@ end;
 
 function GreaterThanZero(const AQuantity: TQuantity): boolean;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   result := AQuantity.FValue > 0;
 {$ELSE}
   result := AQuantity > 0;
@@ -398,7 +398,7 @@ end;
 
 function SameValue(const ALeft, ARight: TQuantity): boolean;
 begin
-{$IFOPT D+}
+{$IFDEF USEADIM}
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('SameValue routine has detected wrong units of measurements.');
 
