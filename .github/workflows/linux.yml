@@ -1,0 +1,36 @@
+name: build-test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install Lazarus
+      run: |
+        sudo apt-get update
+        sudo apt-get install lazarus
+
+    - name: Build project
+      run: |
+        lazbuild adimrttest.lpi
+
+    - name: Test project
+      run: |
+        ./build/adimrttest
+        exit_code=$?
+
+        if [ $exit_code -ne 0 ]; then
+          echo "Test exited with a non-zero exit code: $exit_code"
+          exit 1
+        fi
+
+
+
