@@ -278,3 +278,92 @@
 ;TWatt?PerSquareMeterPerSteradianPerHertz;kg s-2 sr-1;%swatt? per square %smeter per steradian per %shertz;%sW/%sm2/sr/%sHz;;;;;;clLime
 ;TKatal?PerCubicMeter;mol m-3 s-1;%skatal? per cubic %smeter;%skat/%sm3;;;;;;clLime
 ;TCoulomb?PerMole;s A mol-1;%scoulomb? per %smole;%sC/%smol;;;;;;clLime
+;TCLMeter?;m;%smeter?;%sm;;;;;TVector;$007F7FFF
+;TCLAstronomical;;astronomical unit?;au;;TCLMeter?;149597870691;;TVector;clWhite
+;TCLInch!;;inch!;in;;TCLMeter?;0.0254;;TVector;clWhite
+;TCLFoot!;;foot!;ft;;TCLMeter?;0.3048;;TVector;clWhite
+;TCLYard?;;yard?;yd;;TCLMeter?;0.9144;;TVector;clWhite
+;TCLMile?;;mile?;mi;;TCLMeter?;1609.344;;TVector;clWhite
+;TCLNauticalMile?;;nautical mile?;nmi;;TCLMeter?;1852;;TVector;clWhite
+;TCLSquareMeter?;m2;square %smeter?;%sm2;;;;;TBivector;$007F7FFF
+;TCLSquareInch!;;square inch!;in2;;TCLSquareMeter?;0.00064516;;TBivector;clWhite
+;"TCLSquareFoot! ";;square foot!;ft2;;TCLSquareMeter?;0.09290304;;TBivector;clWhite
+;TCLSquareYard?;;square yard?;yd2;;TCLSquareMeter?;0.83612736;;TBivector;clWhite
+;TCLSquareMile?;;square mile?;mi2;;TCLSquareMeter?;2589988.110336;;TBivector;clWhite
+;TCLCubicMeter?;m3;cubic %smeter?;%sm3;;;;;TTrivector;$007F7FFF
+;TCLCubicInch!;;cubic inch!;in3;;TCLCubicMeter?;0.000016387064;;TTrivector;clWhite
+;"TCLCubicFoot! ";;cubic foot!;ft3;;TCLCubicMeter?;0.028316846592;;TTrivector;clWhite
+;TCLCubicYard?;;cubic yard?;yd3;;TCLCubicMeter?;0.764554857984;;TTrivector;clWhite
+;TCLLitre?;;%slitre?;%sL;;TCLCubicMeter?;1E-03;------------SSS---------;TTrivector;clWhite
+;TCLGallon?;;gallon?;gal;;TCLCubicMeter?;0.0037854119678;;TTrivector;clWhite
+;TCLReservedKilogram?;kg;%sgram;%sg;;;;;TMultivector;clYellow
+;TCLAmpere?;A;%sampere?;%sA;;;;;TMultivector;$007F7FFF
+;TCLRadian?;rad;radian?;rad;;;;;TBivector;$007F7FFF
+;TCLDegree?;;degree?;deg;;TCLRadian?;Pi/180;;TBivector;clWhite
+;TCLRadian?PerSecond;;radian? per %ssecond;rad/%ss;;;;;TBivector;clWhite
+;TCLRadian?PerSquareSecond;;radian? per %ssecond squared;rad/%ss2;;;;;TBivector;clWhite
+;TCLMeter?PerSecond;;%smeter? per %ssecond;%sm/%ss;;;;;TVector;clWhite
+;TCLMeter?PerHour;;%smeter? per hour;%sm/h;;TCLMeter?PerSecond;1/3600;;TVector;clWhite
+;TCLMile?PerHour;;mile? per hour;mi/h;;TCLMeter?PerSecond;0.44704;;TVector;clWhite
+;TCLNauticalMile?PerHour;;nautical mile? per hour;nmi/h;;TCLMeter?PerSecond;463/900;;TVector;clWhite
+;TCLMeter?PerSquareSecond;;%smeter? per %ssecond squared;%sm/%ss2;;;;;TVector;clWhite
+;TCLMeter?PerSecondPerSecond;;%smeter? per %ssecond per %ssecond;%sm/%ss/%ss;;TCLMeter?PerSquareSecond;;;TVector;clWhite
+;TCLMeter?PerHourPerSecond;;%smeter? per hour per %ssecond;%sm/h/%ss;;TCLMeter?PerSquareSecond;1/3600;;TVector;clWhite
+;TCLKilogramMeter?;;%sgram %smeter?;%sg.%sm;;;;;TVector;clWhite
+;TCLKilogramMeter?PerSecond;;%sgram %smeter? per %ssecond;%sg.%sm/%ss;;;;;TVector;clWhite
+;TCLNewtonSecond?;;%snewton %ssecond?;%sN.%ss;;TCLKilogramMeter?PerSecond;;;TVector;clWhite
+;TCLKilogramSquareMeter?;;%sgram square %smeter?;%sg.%sm2;;;;;TBivector;clWhite
+;TCLKilogramSquareMeter?PerSecond;;%sgram aquare %smeter? per %ssecond;%sg.%sm2/%ss;;;;;TBivector;clWhite
+;TCLNewtonMeterSecond?;;%snewton %smeter %ssecond?;%sN.%sm.%ss;;TCLKilogramSquareMeter?PerSecond;;;TBivector;clWhite
+;TCLSecond?PerMeter;;%ssecond? per %smeter;%ss/%sm;;;;;TVector;clWhite
+;TCLKilogram?PerMeter;;%sgram per %smeter?;%sg/%sm;;;;;TVector;clWhite
+;TCLKilogram?PerSquareMeter;;%sgram? per square %smeter;%sg/%sm2;;;;;TBIvector;clWhite
+;TCLKilogram?PerCubicMeter;;%sgram? per cubic %smeter;%sg/%sm3;;;;;TTrivector;clWhite
+;TCLPound?PerCubicInch;;pound? per cubic inch;lb/in3;;TCLKilogram?PerCubicMeter;27679.9047102031;;TTrivector;clWhite
+;TCLNewton?;;%snewton?;%sN;;;;;TVector;clWhite
+;TCLPound?Force;;pound?-force;lbf;;TCLNewton?;4.4482216152605;;TVector;clWhite
+;TCLReservedNewton?;;%snewton;%sN;;;;;TMultivector;clWhite
+;TCLPascal?;;%spascal?;%sPa;;;;;TTrivector;clWhite
+;TCLBar?;;%sbar?;%sbar;;TCLPascal?;1E+05;---------S----S---------;TTrivector;clWhite
+;TCLPound?PerSquareInch;;%spound? per square inch;%spsi;;TCLPascal?;6894.75729316836;---------S--------------;TTrivector;clWhite
+;TCLJoule?PerCubicMeter;;%sjoule? per cubic %smeter;%sJ/%sm3;;TCLPascal?;;;TTrivector;clWhite
+;TCLNewtonMeter?;;%sNewton %smeter?;%sN.%sm;;;;;TBivector;clWhite
+;TCLPoundForceInch!;;pound-force inch!;lbf.in;;TCLNewtonMeter?;0.112984829027617;;TBivector;clWhite
+;TCLNewtonMeter?PerRadian;;%snewton %smeter? per radian;%sN.%sm/rad;;;;;TBivector;clWhite
+;TCLWatt?;;%swatt?;%sW;;;;------SSSS----L---------;TMultivector;clWhite
+;TCLReservedFarad?;;%sfarad;%sF;;;;;TBivector;clWhite
+;TCLOhm?;;%sohm?;%sΩ;;;;-------SLS----SSS-------;TMultivector;clWhite
+;TCLOhm?;;%svolt?;%sV;;;;---------S----S---------;TMultivector;clWhite
+;TCLSiemens;;%ssiemens;%sS;;;;--------------LLL-------;TMultivector;clWhite
+;TCLDualTesla?;;%stesla?;%sT;;;;;TVector;clWhite
+;TCLTesla?;;%stesla?;%sT;;;;;TBivector;clWhite
+;TCLWeber?;;%sweber?;%sWb;;;;;TTrivector;clWhite
+;TCLNewton?PerMeter;;%snewton per %smeter;%sN/%sm;;;;;TBivector;clWhite
+;TCLPound?ForcePerInch;;pound?-force per inch;lbf/in;;TCLNewton?PerMeter;175.126835246476;;TBivector;clWhite
+;TCLVolt?PerMeter;;%svolt? per %smeter;%sV/%sm;;;;;TVector;clWhite
+;TCLNewton?PerCoulomb;;%snewton? per %scoulomb;%sN/%sC;;TCLVolt?PerMeter;;;TVector;clWhite
+;TCLReciprocalMeter?;;reciprocal %smeter;1/%sm;;;;;TVector;clWhite
+;TCLReciprocalSquareMeter?;;reciprocal square %smeter;1/%sm2;;;;;TBivector;clWhite
+;TCLReciprocalCubicMeter?;;reciprocal cubic %smeter;1/%sm3;;;;;TTrivector;clWhite
+;TCLReciprocalAmpere?;;reciprocal %sampere;1/%sA;;;;;TMultivector;clWhite
+;TCLSecond?PerRadian;;%ssecond? per %sradian;%ss/%srad;;;;;TBivector;clWhite
+;TCLSquareSecond?PerRadian;;squared %ssecond? per %sradian;%ss2/%srad;;;;;TBivector;clWhite
+;TCLSquareSecond?PerMeter;;squared %ssecond? per %smeter;%ss2/%sm;;;;;TVector;clWhite
+;TCLReciprocalNewtonMeter?;;reciprocal %snewton %smeter;1/%sN/%sm;;;;;TBivector;clWhite
+;TCLReciprocalKilogramSquareMeter?;;reciprocal %sgram square %smeter;1/%sg/%sm2;;;;;TBivector;clWhite
+;TCLRadianPerNewtonPerMeter?;;%sradian per %snewton per %smeter;1/%sN/%sm;;;;;TBivector;clWhite
+;TCLReciprocalDualTesla?;;reciprocal %stesla?;1/%sT;;;;;TVector;clWhite
+;TCLReciprocalVolt;;%svolt;%sV;;;;;TMultivector;clWhite
+;TCLMeter?PerKilogram;;%smeter per %sgram;%sm/%sg;;;;;TVector;clWhite
+;TCLSquareMeter?PerKilogram;;square %smeter per %sgram;%sm2/%sg;;;;;TBivector;clWhite
+;TCLCubicMeter?PerKilogram;;cubic %smeter per %sgram;%sm3/%sg;;;;;TTrivector;clWhite
+;TCLMeter?PerNewton;;%smeter per %snewton;%sm/%sN;;;;;TBivector;clWhite
+;TCLSecond?PerKilogramPerSquareMeter;;%sg square %sm per %ss;%sg.%sm2/%ss;;;;;TBivector;clWhite
+;TCLReciprocalRadian?;;reciprocal %sradian;1/%srad;;;;;TBivector;clWhite
+;TCLMeter?PerVolt;;%smeter? per %svolt;%sm/%sv;;;;;TVector;clWhite
+;TCLReciprocalKilogramMeter?;;reciprocal %sgram %smeter;1/%sg/%sm;;;;;TVector;clWhite
+;TCLSecond?PerKilogramPerMeter;;%ssecond? per %sgram per %smeter;%ss/%sg/%sm;;;;;TVector;clWhite
+;TCLReciprocalNewton?;;reciprocal %snewton;1/%sN;;;;;TVector;clWhite
+;TCLReciprocalPascal?;;reciprocal %spascal;1/%sPa;;;;;TTrivector;clWhite
+;TCLReciprocalWeber?;;reciprocal %sweber;1/%sWb;;;;;TTrivector;clWhite
+;TCLReciprocalWatt?;;reciprocal %swatt;1/%sW;;;;;TMultivector;clWhite
