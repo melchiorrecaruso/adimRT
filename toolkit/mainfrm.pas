@@ -37,7 +37,6 @@ type
     DeleteBtn: TBitBtn;
     EditBtn: TBitBtn;
     SaveBtn: TBitBtn;
-    SkipVectorialUnits: TCheckBox;
     Memo: TMemo;
     StringGrid: TStringGrid;
     TabSheet3: TTabSheet;
@@ -96,8 +95,9 @@ end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
-
-
+  SynEdit.BeginUpdate(True);
+  SynEdit.Clear;
+  SynEdit.EndUpdate;
 
   FList.Destroy;
 end;
@@ -270,22 +270,11 @@ end;
 procedure TMainForm.RunBtnClick(Sender: TObject);
 var
   i: longint;
-  T: TToolkitItem;
   Builder: TToolKitBuilder;
 begin
   UpdateButton(False);
-  Builder := TToolKitBuilder.Create;
-  Builder.SkipVectorialUnits := Mainform.SkipVectorialUnits.Checked;
-
   Application.ProcessMessages;
-  for i := 0 to FList.Count -1 do
-  begin
-    T := FList[i];
-    if (T.FType = '') or (SkipVectorialUnits.Checked = False) then
-    begin
-      //Builder.Add(T);
-    end;
-  end;
+  Builder := TToolKitBuilder.Create(FList);
   Builder.Run;
 
   SynEdit.BeginUpdate(True);
@@ -323,11 +312,9 @@ end;
 
 procedure TMainForm.UpdateButton(Value: boolean);
 begin
-  LoadBtn.Enabled                   := Value;
-  SkipVectorialUnits.Enabled        := Value;
-
-  ExportBtn.Enabled        := Value;
-  RunBtn.Enabled           := Value;
+  LoadBtn.Enabled   := Value;
+  ExportBtn.Enabled := Value;
+  RunBtn.Enabled    := Value;
   case Value of
     True:  PageControl.TabIndex := 1;
     False: PageControl.TabIndex := 2;

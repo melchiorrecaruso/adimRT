@@ -11,7 +11,6 @@ object MainForm: TMainForm
   OnDestroy = FormDestroy
   object PageControl: TPageControl
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = SkipVectorialUnits
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
@@ -879,22 +878,6 @@ object MainForm: TMainForm
     TabOrder = 3
     OnClick = ExportBtnClick
   end
-  object SkipVectorialUnits: TCheckBox
-    AnchorSideTop.Control = ExportBtn
-    AnchorSideRight.Control = ExportBtn
-    AnchorSideBottom.Control = ExportBtn
-    AnchorSideBottom.Side = asrBottom
-    Left = 1036
-    Height = 36
-    Top = 8
-    Width = 148
-    Anchors = [akTop, akRight, akBottom]
-    BorderSpacing.Right = 20
-    Caption = 'Skip vectorial units'
-    Checked = True
-    State = cbChecked
-    TabOrder = 4
-  end
   object SaveBtn: TBitBtn
     AnchorSideLeft.Control = LoadBtn
     AnchorSideLeft.Side = asrBottom
@@ -908,7 +891,7 @@ object MainForm: TMainForm
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 4
     Caption = 'Save'
-    TabOrder = 5
+    TabOrder = 4
     OnClick = SaveBtnClick
   end
   object SaveDialog: TSaveDialog
