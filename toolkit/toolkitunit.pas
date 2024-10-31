@@ -643,7 +643,6 @@ begin
   SectionA3.Append('');
 end;
 
-
 procedure TToolKitBuilder.AddDivTable(const Section: TStringList);
 var
   i, j, k: longint;
