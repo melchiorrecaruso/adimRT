@@ -20,7 +20,6 @@
 unit ToolKitUnit;
 
 {$mode ObjFPC}{$H+}
-{$modeswitch advancedrecords}
 
 interface
 
@@ -63,6 +62,7 @@ type
     function Search(const AValue: string; AIndex: longint): longint;
     function Search(const ADim: TExponents): longint;
     function SearchFromEnd(const ADim: TExponents): longint;
+    function SameValue(const ADim1, ADim2: TExponents): boolean;
 
     procedure LoadFromFile(const AFileName: string);
     procedure SaveToFile(const AFileName: string);
@@ -115,6 +115,7 @@ type
     procedure AddDivTable(const Section: TStringList);
 
     procedure Add(const AItem: TToolkitItem);
+    procedure Check;
     procedure Run;
   public
     property ExpandQuantityOperators: boolean read FExpandQuantityOperators write FExpandQuantityOperators;
@@ -198,6 +199,7 @@ begin
         end;
     end;
   end;
+  Check;
 end;
 
 procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
@@ -593,14 +595,13 @@ begin
   begin
     if FList[i].FBase = '' then
     begin
-      Clear(Dim1);
       Dim1 := FList[i].FExponents;
+
       Line := '    (';
       for j := 0 to FList.Count -1 do
       begin
         if FList[j].FBase = '' then
         begin
-          Clear(Dim2);
           Dim2 := FList[j].FExponents;
 
           k := FList.Search(SumDim(Dim1, Dim2));
@@ -651,14 +652,13 @@ begin
   begin
     if FList[i].FBase = '' then
     begin
-      Clear(Dim1);
       Dim1 := FList[i].FExponents;
+
       Line := '    (';
       for j := 0 to FList.Count -1 do
       begin
         if FList[j].FBase = '' then
         begin
-          Clear(Dim2);
           Dim2 := FList[j].FExponents;
 
           k := FList.Search(SubDim(Dim1, Dim2));
@@ -666,6 +666,12 @@ begin
             Line := Line + Format('%3s ,', [FList[k].FTableIndex.ToString])
           else
             Line := Line + Format('%3s ,', ['-1']);
+
+          if k <> -1 then
+            Messages.Add('%s / %s = %s', [FList[i].FDimension, FList[j].FDimension, FList[k].FDimension])
+          else
+            Messages.Add('%s / %s = unknow', [FList[i].FDimension, FList[j].FDimension]);
+
         end;
       end;
 
@@ -691,6 +697,20 @@ end;
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
 begin
   FList.Add(AItem);
+end;
+
+procedure TToolKitBuilder.Check;
+var
+  i, j: longint;
+begin
+  for i := 0 to FList.Count -1 do
+    if FList[i].FBase = '' then
+    begin
+      j := FList.SearchFromEnd(FList[i].FExponents);
+
+      if i <> j then
+        Messages.Add('Warning: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
+    end;
 end;
 
 procedure TToolKitBuilder.Run;
@@ -905,7 +925,6 @@ begin
   result := -1;
 end;
 
-
 function TToolKitList.Search(const ADim: TExponents): longint;
 var
   i: longint;
@@ -916,29 +935,14 @@ begin
     Item := TToolKitItem(FList[i]);
     if Item.FBase = '' then
     begin
-      if SameValue(Item.FExponents[1], ADim[1]) and
-         SameValue(Item.FExponents[2], ADim[2]) and
-         SameValue(Item.FExponents[3], ADim[3]) and
-         SameValue(Item.FExponents[4], ADim[4]) and
-         SameValue(Item.FExponents[5], ADim[5]) and
-         SameValue(Item.FExponents[6], ADim[6]) and
-         SameValue(Item.FExponents[7], ADim[7]) and
-         SameValue(Item.FExponents[8], ADim[8]) then Exit(i);
-    end;
-  end;
-
-  for i := 0 to FList.Count -1 do
-  begin
-    Item := TToolKitItem(FList[i]);
-    if Item.FBase = '' then
-    begin
-      if SameValue(Item.FExponents[1], ADim[1]) and
-         SameValue(Item.FExponents[2], ADim[2]) and
-         SameValue(Item.FExponents[3], ADim[3]) and
-         SameValue(Item.FExponents[4], ADim[4]) and
-         SameValue(Item.FExponents[5], ADim[5]) and
-         SameValue(Item.FExponents[6], ADim[6]) and
-         SameValue(Item.FExponents[7], ADim[7]) then Exit(i);
+      if Math.SameValue(Item.FExponents[1], ADim[1]) and
+         Math.SameValue(Item.FExponents[2], ADim[2]) and
+         Math.SameValue(Item.FExponents[3], ADim[3]) and
+         Math.SameValue(Item.FExponents[4], ADim[4]) and
+         Math.SameValue(Item.FExponents[5], ADim[5]) and
+         Math.SameValue(Item.FExponents[6], ADim[6]) and
+         Math.SameValue(Item.FExponents[7], ADim[7]) and
+         Math.SameValue(Item.FExponents[8], ADim[8]) then Exit(i);
     end;
   end;
   result := -1;
@@ -954,32 +958,28 @@ begin
     Item := TToolKitItem(FList[i]);
     if Item.FBase = '' then
     begin
-      if SameValue(Item.FExponents[1], ADim[1]) and
-         SameValue(Item.FExponents[2], ADim[2]) and
-         SameValue(Item.FExponents[3], ADim[3]) and
-         SameValue(Item.FExponents[4], ADim[4]) and
-         SameValue(Item.FExponents[5], ADim[5]) and
-         SameValue(Item.FExponents[6], ADim[6]) and
-         SameValue(Item.FExponents[7], ADim[7]) and
-         SameValue(Item.FExponents[8], ADim[8]) then Exit(i);
-    end;
-  end;
-
-  for i := FList.Count -1 downto 0 do
-  begin
-    Item := TToolKitItem(FList[i]);
-    if Item.FBase = '' then
-    begin
-      if SameValue(Item.FExponents[1], ADim[1]) and
-         SameValue(Item.FExponents[2], ADim[2]) and
-         SameValue(Item.FExponents[3], ADim[3]) and
-         SameValue(Item.FExponents[4], ADim[4]) and
-         SameValue(Item.FExponents[5], ADim[5]) and
-         SameValue(Item.FExponents[6], ADim[6]) and
-         SameValue(Item.FExponents[7], ADim[7]) then Exit(i);
+      if Math.SameValue(Item.FExponents[1], ADim[1]) and
+         Math.SameValue(Item.FExponents[2], ADim[2]) and
+         Math.SameValue(Item.FExponents[3], ADim[3]) and
+         Math.SameValue(Item.FExponents[4], ADim[4]) and
+         Math.SameValue(Item.FExponents[5], ADim[5]) and
+         Math.SameValue(Item.FExponents[6], ADim[6]) and
+         Math.SameValue(Item.FExponents[7], ADim[7]) and
+         Math.SameValue(Item.FExponents[8], ADim[8]) then Exit(i);
     end;
   end;
   result := -1;
+end;
+
+function TToolKitList.SameValue(const ADim1, ADim2: TExponents): boolean;
+begin
+  result := Math.SameValue(ADim1[1], ADim2[1]) and
+            Math.SameValue(ADim1[2], ADim2[2]) and
+            Math.SameValue(ADim1[3], ADim2[3]) and
+            Math.SameValue(ADim1[4], ADim2[4]) and
+            Math.SameValue(ADim1[5], ADim2[5]) and
+            Math.SameValue(ADim1[6], ADim2[6]) and
+            Math.SameValue(ADim1[7], ADim2[7]);
 end;
 
 procedure TToolKitList.SaveToFile(const AFileName: string);

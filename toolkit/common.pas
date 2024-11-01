@@ -54,9 +54,6 @@ const
   VECPrefix           = 'CL';
 
 
-procedure Clear(var AValue: TExponents);
-
-
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
 function GetPluralNameResourceString(const AClassName: string): string;
@@ -90,8 +87,6 @@ function GetDimensions(const S: string): TExponents;
 function SumDim(const ADim1, ADim2: TExponents): TExponents;
 function SubDim(const ADim1, ADim2: TExponents): TExponents;
 
-
-
 function GetUnitTypeHelper(const S: string): string;
 function GetUnitIdentifier(const S: string): string;
 
@@ -108,7 +103,7 @@ function IsAVector(const AClassName: string): boolean;
 implementation
 
 uses
-  StrUtils, Types;
+  Math, StrUtils, Types;
 
 function IsASpecialKey(const AKey: string): boolean;
 begin
