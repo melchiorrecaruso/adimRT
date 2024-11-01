@@ -19,10 +19,6 @@
 
 program adimrttest;
 
-{$if FPC_FULLVERSION >= 30301}
-  {$modeswitch implicitfunctionspecialization}
-{$endif}
-
 uses
   ADimRT, Math, SysUtils;
 
@@ -685,7 +681,7 @@ begin
   z        := 0*cm;
   B        := MagneticPermeability/(2*pi) * (current/(SquareRoot(CubicPower(SquarePower(z)+SquarePower(R)))/SquarePower(R)));
   {$IFDEF WINDOWS}
-  if Utf8ToAnsi(B.ToString(4, 2, [pMicro])) <> Utf8ToAnsi('1.2 µT') then halt(1);
+  if Utf8ToAnsi(T.ToVerboseString(B, 4, 2, [pMicro])) <> Utf8ToAnsi('1.2 µT') then halt(1);
   {$ENDIF}
   {$IFDEF UNIX}
   if T.ToVerboseString(B, 4, 2, [pMicro]) <> '1.2 microteslas' then halt(1);
@@ -871,13 +867,8 @@ begin
   writeln('* TEST-97: PASSED');
 
   // TEST-98
-  {$if FPC_FULLVERSION >= 30301}
   if Min(5.0*m, 6.0*m) <> (5.0*m) then halt(1);
   if Max(5.0*m, 6.0*m) <> (6.0*m) then halt(2);
-  {$else}
-  if Min(5.0*m, 6.0*m) <> (5.0*m) then halt(1);
-  if Max(5.0*m, 6.0*m) <> (6.0*m) then halt(2);
-  {$endif}
   writeln('* TEST-98: PASSED');
 
   // TEST-99 - COMPTON WAVE LEGNTH
