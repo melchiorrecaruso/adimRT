@@ -295,19 +295,17 @@ end;
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
 const
   S = '  %-10s : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
-var
-  Identifier: string;
 begin
-  Identifier := AItem.FIdentifier;
-  if Identifier = '' then
-    Identifier := GetUnitID(AItem.FQuantity);
-
   if (AItem.FBase = '') then
   begin
     // Base unit symbols
     ASection.Append('');
     ASection.Append('var');
-    ASection.Add(Format('  %s, %sUnit : %s;', [Identifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
+    if AItem.FIdentifier <> '' then
+      ASection.Add(Format('  %s, %sUnit : %s;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]))
+    else
+      ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
+
     ASection.Append('');
     if AItem.FIdentifier <> '' then
       AddFactoredSymbols(AItem, ASection);
@@ -317,7 +315,11 @@ begin
     begin
       // Cloned unit symbols
       ASection.Append('var');
-      ASection.Add(Format('  %s, %sUnit : %s;', [Identifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
+      if AItem.FIdentifier <> '' then
+        ASection.Add(Format('  %s, %sUnit : %s;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]))
+      else
+        ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
+
       ASection.Append('');
       if AItem.FIdentifier <> '' then
         AddFactoredSymbols(AItem, ASection);
@@ -325,9 +327,13 @@ begin
       if (Pos('%s', AItem.FFactor) = 0) then
       begin
         // Factored unit symbols
-        ASection.Append('const');
-        ASection.Add(Format(S, [Identifier, AItem.FTableIndex, AItem.FFactor, AItem.FFactor]));
-        ASection.Append('');
+        if AItem.FIdentifier <> '' then
+        begin
+          ASection.Append('const');
+          ASection.Add(Format(S, [AItem.FIdentifier, AItem.FTableIndex, AItem.FFactor, AItem.FFactor]));
+          ASection.Append('');
+        end;
+
         ASection.Append('var');
         ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
         ASection.Append('');
@@ -338,7 +344,11 @@ begin
         begin
           // Custom unit symbols
           ASection.Append('var');
-          ASection.Add(Format('  %s : %s;', [Identifier, GetUnit(AItem.FQuantity)]));
+          if AItem.FIdentifier <> '' then
+            ASection.Add(Format('  %s, %sUnit : %s;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]))
+          else
+            ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
+
           ASection.Append('');
           if AItem.FIdentifier <> '' then
             AddFactoredSymbols(AItem, ASection);

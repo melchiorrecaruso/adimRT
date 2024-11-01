@@ -29,7 +29,7 @@ unit ADimRT;
 {$ENDIF}
 
 {
-  ADimRT library built on 31-10-24.
+  ADimRT library built on 1-11-24.
 
   Number of base units: 159
   Number of factored units: 121
@@ -156,7 +156,7 @@ type
   TScalarUnit = specialize TUnit<TScalarRec>;
 
 var
-  Scalar, ScalarUnit : TScalarUnit;
+  ScalarUnit : TScalarUnit;
 
 { TRadian }
 
@@ -712,7 +712,7 @@ type
   TSquareRootMeterUnit = specialize TUnit<TSquareRootMeterRec>;
 
 var
-  SquareRootMeter, SquareRootMeterUnit : TSquareRootMeterUnit;
+  SquareRootMeterUnit : TSquareRootMeterUnit;
 
 { TSquareMeter }
 
@@ -1203,9 +1203,6 @@ type
   end;
   TElectronvoltPerSquareSpeedOfLightUnit = specialize TFactoredUnit<TElectronvoltPerSquareSpeedOfLightRec>;
 
-const
-  ElectronvoltPerSquareSpeedOfLight : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1.7826619216279E-36); {$ELSE} (1.7826619216279E-36); {$ENDIF}
-
 var
   ElectronvoltPerSquareSpeedOfLightUnit : TElectronvoltPerSquareSpeedOfLightUnit;
 
@@ -1334,7 +1331,7 @@ type
   TDegreeCelsiusUnit = specialize TFactoredUnit<TDegreeCelsiusRec>;
 
 var
-  degC : TDegreeCelsiusUnit;
+  degC, DegreeCelsiusUnit : TDegreeCelsiusUnit;
 
 { TDegreeFahrenheit }
 
@@ -1352,7 +1349,7 @@ type
   TDegreeFahrenheitUnit = specialize TFactoredUnit<TDegreeFahrenheitRec>;
 
 var
-  degF : TDegreeFahrenheitUnit;
+  degF, DegreeFahrenheitUnit : TDegreeFahrenheitUnit;
 
 { TSquareKelvin }
 
@@ -1493,7 +1490,7 @@ type
   TReciprocalSecondUnit = specialize TUnit<TReciprocalSecondRec>;
 
 var
-  ReciprocalSecond, ReciprocalSecondUnit : TReciprocalSecondUnit;
+  ReciprocalSecondUnit : TReciprocalSecondUnit;
 
 { TRadianPerSecond }
 
@@ -1509,7 +1506,7 @@ type
   TRadianPerSecondUnit = specialize TUnit<TRadianPerSecondRec>;
 
 var
-  RadianPerSecond, RadianPerSecondUnit : TRadianPerSecondUnit;
+  RadianPerSecondUnit : TRadianPerSecondUnit;
 
 { TSquareHertz }
 
@@ -1550,7 +1547,7 @@ type
   TReciprocalSquareSecondUnit = specialize TUnit<TReciprocalSquareSecondRec>;
 
 var
-  ReciprocalSquareSecond, ReciprocalSquareSecondUnit : TReciprocalSquareSecondUnit;
+  ReciprocalSquareSecondUnit : TReciprocalSquareSecondUnit;
 
 { TRadianPerSquareSecond }
 
@@ -1566,7 +1563,7 @@ type
   TRadianPerSquareSecondUnit = specialize TUnit<TRadianPerSquareSecondRec>;
 
 var
-  RadianPerSquareSecond, RadianPerSquareSecondUnit : TRadianPerSquareSecondUnit;
+  RadianPerSquareSecondUnit : TRadianPerSquareSecondUnit;
 
 { TSteradianPerSquareSecond }
 
@@ -1585,7 +1582,7 @@ type
   TSteradianPerSquareSecondUnit = specialize TUnit<TSteradianPerSquareSecondRec>;
 
 var
-  SteradianPerSquareSecond, SteradianPerSquareSecondUnit : TSteradianPerSquareSecondUnit;
+  SteradianPerSquareSecondUnit : TSteradianPerSquareSecondUnit;
 
 { TMeterPerSecond }
 
@@ -1604,7 +1601,7 @@ type
   TMeterPerSecondUnit = specialize TUnit<TMeterPerSecondRec>;
 
 var
-  MeterPerSecond, MeterPerSecondUnit : TMeterPerSecondUnit;
+  MeterPerSecondUnit : TMeterPerSecondUnit;
 
 { TMeterPerHour }
 
@@ -1620,9 +1617,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TMeterPerHourUnit = specialize TFactoredUnit<TMeterPerHourRec>;
-
-const
-  MeterPerHour : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 27; FValue: 1/3600); {$ELSE} (1/3600); {$ENDIF}
 
 var
   MeterPerHourUnit : TMeterPerHourUnit;
@@ -1642,9 +1636,6 @@ type
   end;
   TMilePerHourUnit = specialize TFactoredUnit<TMilePerHourRec>;
 
-const
-  MilePerHour : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 27; FValue: 0.44704); {$ELSE} (0.44704); {$ENDIF}
-
 var
   MilePerHourUnit : TMilePerHourUnit;
 
@@ -1662,9 +1653,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TNauticalMilePerHourUnit = specialize TFactoredUnit<TNauticalMilePerHourRec>;
-
-const
-  NauticalMilePerHour : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 27; FValue: 463/900); {$ELSE} (463/900); {$ENDIF}
 
 var
   NauticalMilePerHourUnit : TNauticalMilePerHourUnit;
@@ -1686,7 +1674,7 @@ type
   TMeterPerSquareSecondUnit = specialize TUnit<TMeterPerSquareSecondRec>;
 
 var
-  MeterPerSquareSecond, MeterPerSquareSecondUnit : TMeterPerSquareSecondUnit;
+  MeterPerSquareSecondUnit : TMeterPerSquareSecondUnit;
 
 { TMeterPerSecondPerSecond }
 
@@ -1702,7 +1690,7 @@ type
   TMeterPerSecondPerSecondUnit = specialize TUnit<TMeterPerSecondPerSecondRec>;
 
 var
-  MeterPerSecondPerSecond, MeterPerSecondPerSecondUnit : TMeterPerSecondPerSecondUnit;
+  MeterPerSecondPerSecondUnit : TMeterPerSecondPerSecondUnit;
 
 { TMeterPerHourPerSecond }
 
@@ -1718,9 +1706,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TMeterPerHourPerSecondUnit = specialize TFactoredUnit<TMeterPerHourPerSecondRec>;
-
-const
-  MeterPerHourPerSecond : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 28; FValue: 1/3600); {$ELSE} (1/3600); {$ENDIF}
 
 var
   MeterPerHourPerSecondUnit : TMeterPerHourPerSecondUnit;
@@ -1742,7 +1727,7 @@ type
   TMeterPerCubicSecondUnit = specialize TUnit<TMeterPerCubicSecondRec>;
 
 var
-  MeterPerCubicSecond, MeterPerCubicSecondUnit : TMeterPerCubicSecondUnit;
+  MeterPerCubicSecondUnit : TMeterPerCubicSecondUnit;
 
 { TMeterPerQuarticSecond }
 
@@ -1761,7 +1746,7 @@ type
   TMeterPerQuarticSecondUnit = specialize TUnit<TMeterPerQuarticSecondRec>;
 
 var
-  MeterPerQuarticSecond, MeterPerQuarticSecondUnit : TMeterPerQuarticSecondUnit;
+  MeterPerQuarticSecondUnit : TMeterPerQuarticSecondUnit;
 
 { TMeterPerQuinticSecond }
 
@@ -1780,7 +1765,7 @@ type
   TMeterPerQuinticSecondUnit = specialize TUnit<TMeterPerQuinticSecondRec>;
 
 var
-  MeterPerQuinticSecond, MeterPerQuinticSecondUnit : TMeterPerQuinticSecondUnit;
+  MeterPerQuinticSecondUnit : TMeterPerQuinticSecondUnit;
 
 { TMeterPerSexticSecond }
 
@@ -1799,7 +1784,7 @@ type
   TMeterPerSexticSecondUnit = specialize TUnit<TMeterPerSexticSecondRec>;
 
 var
-  MeterPerSexticSecond, MeterPerSexticSecondUnit : TMeterPerSexticSecondUnit;
+  MeterPerSexticSecondUnit : TMeterPerSexticSecondUnit;
 
 { TSquareMeterPerSquareSecond }
 
@@ -1818,7 +1803,7 @@ type
   TSquareMeterPerSquareSecondUnit = specialize TUnit<TSquareMeterPerSquareSecondRec>;
 
 var
-  SquareMeterPerSquareSecond, SquareMeterPerSquareSecondUnit : TSquareMeterPerSquareSecondUnit;
+  SquareMeterPerSquareSecondUnit : TSquareMeterPerSquareSecondUnit;
 
 { TJoulePerKilogram }
 
@@ -1834,7 +1819,7 @@ type
   TJoulePerKilogramUnit = specialize TUnit<TJoulePerKilogramRec>;
 
 var
-  JoulePerKilogram, JoulePerKilogramUnit : TJoulePerKilogramUnit;
+  JoulePerKilogramUnit : TJoulePerKilogramUnit;
 
 { TGray }
 
@@ -1897,7 +1882,7 @@ type
   TMeterSecondUnit = specialize TUnit<TMeterSecondRec>;
 
 var
-  MeterSecond, MeterSecondUnit : TMeterSecondUnit;
+  MeterSecondUnit : TMeterSecondUnit;
 
 { TKilogramMeter }
 
@@ -1916,7 +1901,7 @@ type
   TKilogramMeterUnit = specialize TUnit<TKilogramMeterRec>;
 
 var
-  KilogramMeter, KilogramMeterUnit : TKilogramMeterUnit;
+  KilogramMeterUnit : TKilogramMeterUnit;
 
 { TKilogramPerSecond }
 
@@ -1935,7 +1920,7 @@ type
   TKilogramPerSecondUnit = specialize TUnit<TKilogramPerSecondRec>;
 
 var
-  KilogramPerSecond, KilogramPerSecondUnit : TKilogramPerSecondUnit;
+  KilogramPerSecondUnit : TKilogramPerSecondUnit;
 
 { TJoulePerSquareMeterPerHertz }
 
@@ -1951,7 +1936,7 @@ type
   TJoulePerSquareMeterPerHertzUnit = specialize TUnit<TJoulePerSquareMeterPerHertzRec>;
 
 var
-  JoulePerSquareMeterPerHertz, JoulePerSquareMeterPerHertzUnit : TJoulePerSquareMeterPerHertzUnit;
+  JoulePerSquareMeterPerHertzUnit : TJoulePerSquareMeterPerHertzUnit;
 
 { TKilogramMeterPerSecond }
 
@@ -1970,7 +1955,7 @@ type
   TKilogramMeterPerSecondUnit = specialize TUnit<TKilogramMeterPerSecondRec>;
 
 var
-  KilogramMeterPerSecond, KilogramMeterPerSecondUnit : TKilogramMeterPerSecondUnit;
+  KilogramMeterPerSecondUnit : TKilogramMeterPerSecondUnit;
 
 { TNewtonSecond }
 
@@ -1986,7 +1971,7 @@ type
   TNewtonSecondUnit = specialize TUnit<TNewtonSecondRec>;
 
 var
-  NewtonSecond, NewtonSecondUnit : TNewtonSecondUnit;
+  NewtonSecondUnit : TNewtonSecondUnit;
 
 { TSquareKilogramSquareMeterPerSquareSecond }
 
@@ -2005,7 +1990,7 @@ type
   TSquareKilogramSquareMeterPerSquareSecondUnit = specialize TUnit<TSquareKilogramSquareMeterPerSquareSecondRec>;
 
 var
-  SquareKilogramSquareMeterPerSquareSecond, SquareKilogramSquareMeterPerSquareSecondUnit : TSquareKilogramSquareMeterPerSquareSecondUnit;
+  SquareKilogramSquareMeterPerSquareSecondUnit : TSquareKilogramSquareMeterPerSquareSecondUnit;
 
 { TReciprocalSquareRootMeter }
 
@@ -2024,7 +2009,7 @@ type
   TReciprocalSquareRootMeterUnit = specialize TUnit<TReciprocalSquareRootMeterRec>;
 
 var
-  ReciprocalSquareRootMeter, ReciprocalSquareRootMeterUnit : TReciprocalSquareRootMeterUnit;
+  ReciprocalSquareRootMeterUnit : TReciprocalSquareRootMeterUnit;
 
 { TReciprocalMeter }
 
@@ -2043,7 +2028,7 @@ type
   TReciprocalMeterUnit = specialize TUnit<TReciprocalMeterRec>;
 
 var
-  ReciprocalMeter, ReciprocalMeterUnit : TReciprocalMeterUnit;
+  ReciprocalMeterUnit : TReciprocalMeterUnit;
 
 { TDioptre }
 
@@ -2059,7 +2044,7 @@ type
   TDioptreUnit = specialize TUnit<TDioptreRec>;
 
 var
-  Dioptre, DioptreUnit : TDioptreUnit;
+  DioptreUnit : TDioptreUnit;
 
 { TReciprocalSquareRootCubicMeter }
 
@@ -2078,7 +2063,7 @@ type
   TReciprocalSquareRootCubicMeterUnit = specialize TUnit<TReciprocalSquareRootCubicMeterRec>;
 
 var
-  ReciprocalSquareRootCubicMeter, ReciprocalSquareRootCubicMeterUnit : TReciprocalSquareRootCubicMeterUnit;
+  ReciprocalSquareRootCubicMeterUnit : TReciprocalSquareRootCubicMeterUnit;
 
 { TReciprocalSquareMeter }
 
@@ -2097,7 +2082,7 @@ type
   TReciprocalSquareMeterUnit = specialize TUnit<TReciprocalSquareMeterRec>;
 
 var
-  ReciprocalSquareMeter, ReciprocalSquareMeterUnit : TReciprocalSquareMeterUnit;
+  ReciprocalSquareMeterUnit : TReciprocalSquareMeterUnit;
 
 { TReciprocalCubicMeter }
 
@@ -2116,7 +2101,7 @@ type
   TReciprocalCubicMeterUnit = specialize TUnit<TReciprocalCubicMeterRec>;
 
 var
-  ReciprocalCubicMeter, ReciprocalCubicMeterUnit : TReciprocalCubicMeterUnit;
+  ReciprocalCubicMeterUnit : TReciprocalCubicMeterUnit;
 
 { TReciprocalQuarticMeter }
 
@@ -2135,7 +2120,7 @@ type
   TReciprocalQuarticMeterUnit = specialize TUnit<TReciprocalQuarticMeterRec>;
 
 var
-  ReciprocalQuarticMeter, ReciprocalQuarticMeterUnit : TReciprocalQuarticMeterUnit;
+  ReciprocalQuarticMeterUnit : TReciprocalQuarticMeterUnit;
 
 { TKilogramSquareMeter }
 
@@ -2154,7 +2139,7 @@ type
   TKilogramSquareMeterUnit = specialize TUnit<TKilogramSquareMeterRec>;
 
 var
-  KilogramSquareMeter, KilogramSquareMeterUnit : TKilogramSquareMeterUnit;
+  KilogramSquareMeterUnit : TKilogramSquareMeterUnit;
 
 { TKilogramSquareMeterPerSecond }
 
@@ -2173,7 +2158,7 @@ type
   TKilogramSquareMeterPerSecondUnit = specialize TUnit<TKilogramSquareMeterPerSecondRec>;
 
 var
-  KilogramSquareMeterPerSecond, KilogramSquareMeterPerSecondUnit : TKilogramSquareMeterPerSecondUnit;
+  KilogramSquareMeterPerSecondUnit : TKilogramSquareMeterPerSecondUnit;
 
 { TNewtonMeterSecond }
 
@@ -2189,7 +2174,7 @@ type
   TNewtonMeterSecondUnit = specialize TUnit<TNewtonMeterSecondRec>;
 
 var
-  NewtonMeterSecond, NewtonMeterSecondUnit : TNewtonMeterSecondUnit;
+  NewtonMeterSecondUnit : TNewtonMeterSecondUnit;
 
 { TSecondPerMeter }
 
@@ -2208,7 +2193,7 @@ type
   TSecondPerMeterUnit = specialize TUnit<TSecondPerMeterRec>;
 
 var
-  SecondPerMeter, SecondPerMeterUnit : TSecondPerMeterUnit;
+  SecondPerMeterUnit : TSecondPerMeterUnit;
 
 { TKilogramPerMeter }
 
@@ -2227,7 +2212,7 @@ type
   TKilogramPerMeterUnit = specialize TUnit<TKilogramPerMeterRec>;
 
 var
-  KilogramPerMeter, KilogramPerMeterUnit : TKilogramPerMeterUnit;
+  KilogramPerMeterUnit : TKilogramPerMeterUnit;
 
 { TKilogramPerSquareMeter }
 
@@ -2246,7 +2231,7 @@ type
   TKilogramPerSquareMeterUnit = specialize TUnit<TKilogramPerSquareMeterRec>;
 
 var
-  KilogramPerSquareMeter, KilogramPerSquareMeterUnit : TKilogramPerSquareMeterUnit;
+  KilogramPerSquareMeterUnit : TKilogramPerSquareMeterUnit;
 
 { TKilogramPerCubicMeter }
 
@@ -2265,7 +2250,7 @@ type
   TKilogramPerCubicMeterUnit = specialize TUnit<TKilogramPerCubicMeterRec>;
 
 var
-  KilogramPerCubicMeter, KilogramPerCubicMeterUnit : TKilogramPerCubicMeterUnit;
+  KilogramPerCubicMeterUnit : TKilogramPerCubicMeterUnit;
 
 { TPoundPerCubicInch }
 
@@ -2281,9 +2266,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TPoundPerCubicInchUnit = specialize TFactoredUnit<TPoundPerCubicInchRec>;
-
-const
-  PoundPerCubicInch : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 50; FValue: 27679.9047102031); {$ELSE} (27679.9047102031); {$ENDIF}
 
 var
   PoundPerCubicInchUnit : TPoundPerCubicInchUnit;
@@ -2349,7 +2331,7 @@ type
   TKilogramMeterPerSquareSecondUnit = specialize TUnit<TKilogramMeterPerSquareSecondRec>;
 
 var
-  KilogramMeterPerSquareSecond, KilogramMeterPerSquareSecondUnit : TKilogramMeterPerSquareSecondUnit;
+  KilogramMeterPerSquareSecondUnit : TKilogramMeterPerSquareSecondUnit;
 
 { TNewtonRadian }
 
@@ -2368,7 +2350,7 @@ type
   TNewtonRadianUnit = specialize TUnit<TNewtonRadianRec>;
 
 var
-  NewtonRadian, NewtonRadianUnit : TNewtonRadianUnit;
+  NewtonRadianUnit : TNewtonRadianUnit;
 
 { TSquareNewton }
 
@@ -2410,7 +2392,7 @@ type
   TSquareKilogramSquareMeterPerQuarticSecondUnit = specialize TUnit<TSquareKilogramSquareMeterPerQuarticSecondRec>;
 
 var
-  SquareKilogramSquareMeterPerQuarticSecond, SquareKilogramSquareMeterPerQuarticSecondUnit : TSquareKilogramSquareMeterPerQuarticSecondUnit;
+  SquareKilogramSquareMeterPerQuarticSecondUnit : TSquareKilogramSquareMeterPerQuarticSecondUnit;
 
 { TPascal }
 
@@ -2451,7 +2433,7 @@ type
   TNewtonPerSquareMeterUnit = specialize TUnit<TNewtonPerSquareMeterRec>;
 
 var
-  NewtonPerSquareMeter, NewtonPerSquareMeterUnit : TNewtonPerSquareMeterUnit;
+  NewtonPerSquareMeterUnit : TNewtonPerSquareMeterUnit;
 
 { TBar }
 
@@ -2516,7 +2498,7 @@ type
   TJoulePerCubicMeterUnit = specialize TUnit<TJoulePerCubicMeterRec>;
 
 var
-  JoulePerCubicMeter, JoulePerCubicMeterUnit : TJoulePerCubicMeterUnit;
+  JoulePerCubicMeterUnit : TJoulePerCubicMeterUnit;
 
 { TKilogramPerMeterPerSquareSecond }
 
@@ -2532,7 +2514,7 @@ type
   TKilogramPerMeterPerSquareSecondUnit = specialize TUnit<TKilogramPerMeterPerSquareSecondRec>;
 
 var
-  KilogramPerMeterPerSquareSecond, KilogramPerMeterPerSquareSecondUnit : TKilogramPerMeterPerSquareSecondUnit;
+  KilogramPerMeterPerSquareSecondUnit : TKilogramPerMeterPerSquareSecondUnit;
 
 { TJoule }
 
@@ -2574,9 +2556,6 @@ type
   end;
   TWattHourUnit = specialize TFactoredUnit<TWattHourRec>;
 
-const
-  WattHour   : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 3600); {$ELSE} (3600); {$ENDIF}
-
 var
   WattHourUnit : TWattHourUnit;
 
@@ -2594,7 +2573,7 @@ type
   TWattSecondUnit = specialize TUnit<TWattSecondRec>;
 
 var
-  WattSecond, WattSecondUnit : TWattSecondUnit;
+  WattSecondUnit : TWattSecondUnit;
 
 { TWattPerHertz }
 
@@ -2610,7 +2589,7 @@ type
   TWattPerHertzUnit = specialize TUnit<TWattPerHertzRec>;
 
 var
-  WattPerHertz, WattPerHertzUnit : TWattPerHertzUnit;
+  WattPerHertzUnit : TWattPerHertzUnit;
 
 { TElectronvolt }
 
@@ -2653,7 +2632,7 @@ type
   TNewtonMeterUnit = specialize TUnit<TNewtonMeterRec>;
 
 var
-  NewtonMeter, NewtonMeterUnit : TNewtonMeterUnit;
+  NewtonMeterUnit : TNewtonMeterUnit;
 
 { TPoundForceInch }
 
@@ -2669,9 +2648,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TPoundForceInchUnit = specialize TFactoredUnit<TPoundForceInchRec>;
-
-const
-  PoundForceInch : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 0.112984829027617); {$ELSE} (0.112984829027617); {$ENDIF}
 
 var
   PoundForceInchUnit : TPoundForceInchUnit;
@@ -2736,7 +2712,7 @@ type
   TKilogramSquareMeterPerSquareSecondUnit = specialize TUnit<TKilogramSquareMeterPerSquareSecondRec>;
 
 var
-  KilogramSquareMeterPerSquareSecond, KilogramSquareMeterPerSquareSecondUnit : TKilogramSquareMeterPerSquareSecondUnit;
+  KilogramSquareMeterPerSquareSecondUnit : TKilogramSquareMeterPerSquareSecondUnit;
 
 { TJoulePerRadian }
 
@@ -2755,7 +2731,7 @@ type
   TJoulePerRadianUnit = specialize TUnit<TJoulePerRadianRec>;
 
 var
-  JoulePerRadian, JoulePerRadianUnit : TJoulePerRadianUnit;
+  JoulePerRadianUnit : TJoulePerRadianUnit;
 
 { TJoulePerDegree }
 
@@ -2771,9 +2747,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TJoulePerDegreeUnit = specialize TFactoredUnit<TJoulePerDegreeRec>;
-
-const
-  JoulePerDegree : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 180/Pi); {$ELSE} (180/Pi); {$ENDIF}
 
 var
   JoulePerDegreeUnit : TJoulePerDegreeUnit;
@@ -2792,7 +2765,7 @@ type
   TNewtonMeterPerRadianUnit = specialize TUnit<TNewtonMeterPerRadianRec>;
 
 var
-  NewtonMeterPerRadian, NewtonMeterPerRadianUnit : TNewtonMeterPerRadianUnit;
+  NewtonMeterPerRadianUnit : TNewtonMeterPerRadianUnit;
 
 { TNewtonMeterPerDegree }
 
@@ -2808,9 +2781,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TNewtonMeterPerDegreeUnit = specialize TFactoredUnit<TNewtonMeterPerDegreeRec>;
-
-const
-  NewtonMeterPerDegree : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 180/Pi); {$ELSE} (180/Pi); {$ENDIF}
 
 var
   NewtonMeterPerDegreeUnit : TNewtonMeterPerDegreeUnit;
@@ -2829,7 +2799,7 @@ type
   TKilogramSquareMeterPerSquareSecondPerRadianUnit = specialize TUnit<TKilogramSquareMeterPerSquareSecondPerRadianRec>;
 
 var
-  KilogramSquareMeterPerSquareSecondPerRadian, KilogramSquareMeterPerSquareSecondPerRadianUnit : TKilogramSquareMeterPerSquareSecondPerRadianUnit;
+  KilogramSquareMeterPerSquareSecondPerRadianUnit : TKilogramSquareMeterPerSquareSecondPerRadianUnit;
 
 { TWatt }
 
@@ -2871,7 +2841,7 @@ type
   TKilogramSquareMeterPerCubicSecondUnit = specialize TUnit<TKilogramSquareMeterPerCubicSecondRec>;
 
 var
-  KilogramSquareMeterPerCubicSecond, KilogramSquareMeterPerCubicSecondUnit : TKilogramSquareMeterPerCubicSecondUnit;
+  KilogramSquareMeterPerCubicSecondUnit : TKilogramSquareMeterPerCubicSecondUnit;
 
 { TCoulomb }
 
@@ -2918,9 +2888,6 @@ type
   end;
   TAmpereHourUnit = specialize TFactoredUnit<TAmpereHourRec>;
 
-const
-  AmpereHour : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 3600); {$ELSE} (3600); {$ENDIF}
-
 var
   AmpereHourUnit : TAmpereHourUnit;
 
@@ -2938,7 +2905,7 @@ type
   TAmpereSecondUnit = specialize TUnit<TAmpereSecondRec>;
 
 var
-  AmpereSecond, AmpereSecondUnit : TAmpereSecondUnit;
+  AmpereSecondUnit : TAmpereSecondUnit;
 
 { TSquareCoulomb }
 
@@ -2984,7 +2951,7 @@ type
   TSquareAmpereSquareSecondUnit = specialize TUnit<TSquareAmpereSquareSecondRec>;
 
 var
-  SquareAmpereSquareSecond, SquareAmpereSquareSecondUnit : TSquareAmpereSquareSecondUnit;
+  SquareAmpereSquareSecondUnit : TSquareAmpereSquareSecondUnit;
 
 { TCoulombMeter }
 
@@ -3003,7 +2970,7 @@ type
   TCoulombMeterUnit = specialize TUnit<TCoulombMeterRec>;
 
 var
-  CoulombMeter, CoulombMeterUnit : TCoulombMeterUnit;
+  CoulombMeterUnit : TCoulombMeterUnit;
 
 { TVolt }
 
@@ -3042,7 +3009,7 @@ type
   TJoulePerCoulombUnit = specialize TUnit<TJoulePerCoulombRec>;
 
 var
-  JoulePerCoulomb, JoulePerCoulombUnit : TJoulePerCoulombUnit;
+  JoulePerCoulombUnit : TJoulePerCoulombUnit;
 
 { TKilogramSquareMeterPerAmperePerCubicSecond }
 
@@ -3058,7 +3025,7 @@ type
   TKilogramSquareMeterPerAmperePerCubicSecondUnit = specialize TUnit<TKilogramSquareMeterPerAmperePerCubicSecondRec>;
 
 var
-  KilogramSquareMeterPerAmperePerCubicSecond, KilogramSquareMeterPerAmperePerCubicSecondUnit : TKilogramSquareMeterPerAmperePerCubicSecondUnit;
+  KilogramSquareMeterPerAmperePerCubicSecondUnit : TKilogramSquareMeterPerAmperePerCubicSecondUnit;
 
 { TSquareVolt }
 
@@ -3097,7 +3064,7 @@ type
   TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit = specialize TUnit<TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondRec>;
 
 var
-  SquareKilogramQuarticMeterPerSquareAmperePerSexticSecond, SquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit : TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit;
+  SquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit : TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit;
 
 { TFarad }
 
@@ -3138,7 +3105,7 @@ type
   TCoulombPerVoltUnit = specialize TUnit<TCoulombPerVoltRec>;
 
 var
-  CoulombPerVolt, CoulombPerVoltUnit : TCoulombPerVoltUnit;
+  CoulombPerVoltUnit : TCoulombPerVoltUnit;
 
 { TSquareAmpereQuarticSecondPerKilogramPerSquareMeter }
 
@@ -3154,7 +3121,7 @@ type
   TSquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit = specialize TUnit<TSquareAmpereQuarticSecondPerKilogramPerSquareMeterRec>;
 
 var
-  SquareAmpereQuarticSecondPerKilogramPerSquareMeter, SquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit : TSquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit;
+  SquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit : TSquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit;
 
 { TOhm }
 
@@ -3197,7 +3164,7 @@ type
   TKilogramSquareMeterPerSquareAmperePerCubicSecondUnit = specialize TUnit<TKilogramSquareMeterPerSquareAmperePerCubicSecondRec>;
 
 var
-  KilogramSquareMeterPerSquareAmperePerCubicSecond, KilogramSquareMeterPerSquareAmperePerCubicSecondUnit : TKilogramSquareMeterPerSquareAmperePerCubicSecondUnit;
+  KilogramSquareMeterPerSquareAmperePerCubicSecondUnit : TKilogramSquareMeterPerSquareAmperePerCubicSecondUnit;
 
 { TSiemens }
 
@@ -3237,7 +3204,7 @@ type
   TSquareAmpereCubicSecondPerKilogramPerSquareMeterUnit = specialize TUnit<TSquareAmpereCubicSecondPerKilogramPerSquareMeterRec>;
 
 var
-  SquareAmpereCubicSecondPerKilogramPerSquareMeter, SquareAmpereCubicSecondPerKilogramPerSquareMeterUnit : TSquareAmpereCubicSecondPerKilogramPerSquareMeterUnit;
+  SquareAmpereCubicSecondPerKilogramPerSquareMeterUnit : TSquareAmpereCubicSecondPerKilogramPerSquareMeterUnit;
 
 { TSiemensPerMeter }
 
@@ -3256,7 +3223,7 @@ type
   TSiemensPerMeterUnit = specialize TUnit<TSiemensPerMeterRec>;
 
 var
-  SiemensPerMeter, SiemensPerMeterUnit : TSiemensPerMeterUnit;
+  SiemensPerMeterUnit : TSiemensPerMeterUnit;
 
 { TTesla }
 
@@ -3296,7 +3263,7 @@ type
   TWeberPerSquareMeterUnit = specialize TUnit<TWeberPerSquareMeterRec>;
 
 var
-  WeberPerSquareMeter, WeberPerSquareMeterUnit : TWeberPerSquareMeterUnit;
+  WeberPerSquareMeterUnit : TWeberPerSquareMeterUnit;
 
 { TKilogramPerAmperePerSquareSecond }
 
@@ -3312,7 +3279,7 @@ type
   TKilogramPerAmperePerSquareSecondUnit = specialize TUnit<TKilogramPerAmperePerSquareSecondRec>;
 
 var
-  KilogramPerAmperePerSquareSecond, KilogramPerAmperePerSquareSecondUnit : TKilogramPerAmperePerSquareSecondUnit;
+  KilogramPerAmperePerSquareSecondUnit : TKilogramPerAmperePerSquareSecondUnit;
 
 { TWeber }
 
@@ -3347,7 +3314,7 @@ type
   TKilogramSquareMeterPerAmperePerSquareSecondUnit = specialize TUnit<TKilogramSquareMeterPerAmperePerSquareSecondRec>;
 
 var
-  KilogramSquareMeterPerAmperePerSquareSecond, KilogramSquareMeterPerAmperePerSquareSecondUnit : TKilogramSquareMeterPerAmperePerSquareSecondUnit;
+  KilogramSquareMeterPerAmperePerSquareSecondUnit : TKilogramSquareMeterPerAmperePerSquareSecondUnit;
 
 { THenry }
 
@@ -3387,7 +3354,7 @@ type
   TKilogramSquareMeterPerSquareAmperePerSquareSecondUnit = specialize TUnit<TKilogramSquareMeterPerSquareAmperePerSquareSecondRec>;
 
 var
-  KilogramSquareMeterPerSquareAmperePerSquareSecond, KilogramSquareMeterPerSquareAmperePerSquareSecondUnit : TKilogramSquareMeterPerSquareAmperePerSquareSecondUnit;
+  KilogramSquareMeterPerSquareAmperePerSquareSecondUnit : TKilogramSquareMeterPerSquareAmperePerSquareSecondUnit;
 
 { TReciprocalHenry }
 
@@ -3406,7 +3373,7 @@ type
   TReciprocalHenryUnit = specialize TUnit<TReciprocalHenryRec>;
 
 var
-  ReciprocalHenry, ReciprocalHenryUnit : TReciprocalHenryUnit;
+  ReciprocalHenryUnit : TReciprocalHenryUnit;
 
 { TLumen }
 
@@ -3438,7 +3405,7 @@ type
   TCandelaSteradianUnit = specialize TUnit<TCandelaSteradianRec>;
 
 var
-  CandelaSteradian, CandelaSteradianUnit : TCandelaSteradianUnit;
+  CandelaSteradianUnit : TCandelaSteradianUnit;
 
 { TLumenSecond }
 
@@ -3457,7 +3424,7 @@ type
   TLumenSecondUnit = specialize TUnit<TLumenSecondRec>;
 
 var
-  LumenSecond, LumenSecondUnit : TLumenSecondUnit;
+  LumenSecondUnit : TLumenSecondUnit;
 
 { TLumenSecondPerCubicMeter }
 
@@ -3476,7 +3443,7 @@ type
   TLumenSecondPerCubicMeterUnit = specialize TUnit<TLumenSecondPerCubicMeterRec>;
 
 var
-  LumenSecondPerCubicMeter, LumenSecondPerCubicMeterUnit : TLumenSecondPerCubicMeterUnit;
+  LumenSecondPerCubicMeterUnit : TLumenSecondPerCubicMeterUnit;
 
 { TLux }
 
@@ -3511,7 +3478,7 @@ type
   TCandelaSteradianPerSquareMeterUnit = specialize TUnit<TCandelaSteradianPerSquareMeterRec>;
 
 var
-  CandelaSteradianPerSquareMeter, CandelaSteradianPerSquareMeterUnit : TCandelaSteradianPerSquareMeterUnit;
+  CandelaSteradianPerSquareMeterUnit : TCandelaSteradianPerSquareMeterUnit;
 
 { TLuxSecond }
 
@@ -3530,7 +3497,7 @@ type
   TLuxSecondUnit = specialize TUnit<TLuxSecondRec>;
 
 var
-  LuxSecond, LuxSecondUnit : TLuxSecondUnit;
+  LuxSecondUnit : TLuxSecondUnit;
 
 { TBequerel }
 
@@ -3588,7 +3555,7 @@ type
   TMolePerSecondUnit = specialize TUnit<TMolePerSecondRec>;
 
 var
-  MolePerSecond, MolePerSecondUnit : TMolePerSecondUnit;
+  MolePerSecondUnit : TMolePerSecondUnit;
 
 { TNewtonPerCubicMeter }
 
@@ -3607,7 +3574,7 @@ type
   TNewtonPerCubicMeterUnit = specialize TUnit<TNewtonPerCubicMeterRec>;
 
 var
-  NewtonPerCubicMeter, NewtonPerCubicMeterUnit : TNewtonPerCubicMeterUnit;
+  NewtonPerCubicMeterUnit : TNewtonPerCubicMeterUnit;
 
 { TPascalPerMeter }
 
@@ -3623,7 +3590,7 @@ type
   TPascalPerMeterUnit = specialize TUnit<TPascalPerMeterRec>;
 
 var
-  PascalPerMeter, PascalPerMeterUnit : TPascalPerMeterUnit;
+  PascalPerMeterUnit : TPascalPerMeterUnit;
 
 { TKilogramPerSquareMeterPerSquareSecond }
 
@@ -3639,7 +3606,7 @@ type
   TKilogramPerSquareMeterPerSquareSecondUnit = specialize TUnit<TKilogramPerSquareMeterPerSquareSecondRec>;
 
 var
-  KilogramPerSquareMeterPerSquareSecond, KilogramPerSquareMeterPerSquareSecondUnit : TKilogramPerSquareMeterPerSquareSecondUnit;
+  KilogramPerSquareMeterPerSquareSecondUnit : TKilogramPerSquareMeterPerSquareSecondUnit;
 
 { TNewtonPerMeter }
 
@@ -3658,7 +3625,7 @@ type
   TNewtonPerMeterUnit = specialize TUnit<TNewtonPerMeterRec>;
 
 var
-  NewtonPerMeter, NewtonPerMeterUnit : TNewtonPerMeterUnit;
+  NewtonPerMeterUnit : TNewtonPerMeterUnit;
 
 { TJoulePerSquareMeter }
 
@@ -3674,7 +3641,7 @@ type
   TJoulePerSquareMeterUnit = specialize TUnit<TJoulePerSquareMeterRec>;
 
 var
-  JoulePerSquareMeter, JoulePerSquareMeterUnit : TJoulePerSquareMeterUnit;
+  JoulePerSquareMeterUnit : TJoulePerSquareMeterUnit;
 
 { TWattPerSquareMeterPerHertz }
 
@@ -3690,7 +3657,7 @@ type
   TWattPerSquareMeterPerHertzUnit = specialize TUnit<TWattPerSquareMeterPerHertzRec>;
 
 var
-  WattPerSquareMeterPerHertz, WattPerSquareMeterPerHertzUnit : TWattPerSquareMeterPerHertzUnit;
+  WattPerSquareMeterPerHertzUnit : TWattPerSquareMeterPerHertzUnit;
 
 { TPoundForcePerInch }
 
@@ -3706,9 +3673,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TPoundForcePerInchUnit = specialize TFactoredUnit<TPoundForcePerInchRec>;
-
-const
-  PoundForcePerInch : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 77; FValue: 175.126835246476); {$ELSE} (175.126835246476); {$ENDIF}
 
 var
   PoundForcePerInchUnit : TPoundForcePerInchUnit;
@@ -3727,7 +3691,7 @@ type
   TKilogramPerSquareSecondUnit = specialize TUnit<TKilogramPerSquareSecondRec>;
 
 var
-  KilogramPerSquareSecond, KilogramPerSquareSecondUnit : TKilogramPerSquareSecondUnit;
+  KilogramPerSquareSecondUnit : TKilogramPerSquareSecondUnit;
 
 { TCubicMeterPerSecond }
 
@@ -3746,7 +3710,7 @@ type
   TCubicMeterPerSecondUnit = specialize TUnit<TCubicMeterPerSecondRec>;
 
 var
-  CubicMeterPerSecond, CubicMeterPerSecondUnit : TCubicMeterPerSecondUnit;
+  CubicMeterPerSecondUnit : TCubicMeterPerSecondUnit;
 
 { TPoiseuille }
 
@@ -3786,7 +3750,7 @@ type
   TPascalSecondUnit = specialize TUnit<TPascalSecondRec>;
 
 var
-  PascalSecond, PascalSecondUnit : TPascalSecondUnit;
+  PascalSecondUnit : TPascalSecondUnit;
 
 { TKilogramPerMeterPerSecond }
 
@@ -3802,7 +3766,7 @@ type
   TKilogramPerMeterPerSecondUnit = specialize TUnit<TKilogramPerMeterPerSecondRec>;
 
 var
-  KilogramPerMeterPerSecond, KilogramPerMeterPerSecondUnit : TKilogramPerMeterPerSecondUnit;
+  KilogramPerMeterPerSecondUnit : TKilogramPerMeterPerSecondUnit;
 
 { TSquareMeterPerSecond }
 
@@ -3821,7 +3785,7 @@ type
   TSquareMeterPerSecondUnit = specialize TUnit<TSquareMeterPerSecondRec>;
 
 var
-  SquareMeterPerSecond, SquareMeterPerSecondUnit : TSquareMeterPerSecondUnit;
+  SquareMeterPerSecondUnit : TSquareMeterPerSecondUnit;
 
 { TKilogramPerQuarticMeter }
 
@@ -3840,7 +3804,7 @@ type
   TKilogramPerQuarticMeterUnit = specialize TUnit<TKilogramPerQuarticMeterRec>;
 
 var
-  KilogramPerQuarticMeter, KilogramPerQuarticMeterUnit : TKilogramPerQuarticMeterUnit;
+  KilogramPerQuarticMeterUnit : TKilogramPerQuarticMeterUnit;
 
 { TQuarticMeterSecond }
 
@@ -3859,7 +3823,7 @@ type
   TQuarticMeterSecondUnit = specialize TUnit<TQuarticMeterSecondRec>;
 
 var
-  QuarticMeterSecond, QuarticMeterSecondUnit : TQuarticMeterSecondUnit;
+  QuarticMeterSecondUnit : TQuarticMeterSecondUnit;
 
 { TKilogramPerQuarticMeterPerSecond }
 
@@ -3878,7 +3842,7 @@ type
   TKilogramPerQuarticMeterPerSecondUnit = specialize TUnit<TKilogramPerQuarticMeterPerSecondRec>;
 
 var
-  KilogramPerQuarticMeterPerSecond, KilogramPerQuarticMeterPerSecondUnit : TKilogramPerQuarticMeterPerSecondUnit;
+  KilogramPerQuarticMeterPerSecondUnit : TKilogramPerQuarticMeterPerSecondUnit;
 
 { TCubicMeterPerKilogram }
 
@@ -3897,7 +3861,7 @@ type
   TCubicMeterPerKilogramUnit = specialize TUnit<TCubicMeterPerKilogramRec>;
 
 var
-  CubicMeterPerKilogram, CubicMeterPerKilogramUnit : TCubicMeterPerKilogramUnit;
+  CubicMeterPerKilogramUnit : TCubicMeterPerKilogramUnit;
 
 { TKilogramSquareSecond }
 
@@ -3916,7 +3880,7 @@ type
   TKilogramSquareSecondUnit = specialize TUnit<TKilogramSquareSecondRec>;
 
 var
-  KilogramSquareSecond, KilogramSquareSecondUnit : TKilogramSquareSecondUnit;
+  KilogramSquareSecondUnit : TKilogramSquareSecondUnit;
 
 { TCubicMeterPerSquareSecond }
 
@@ -3935,7 +3899,7 @@ type
   TCubicMeterPerSquareSecondUnit = specialize TUnit<TCubicMeterPerSquareSecondRec>;
 
 var
-  CubicMeterPerSquareSecond, CubicMeterPerSquareSecondUnit : TCubicMeterPerSquareSecondUnit;
+  CubicMeterPerSquareSecondUnit : TCubicMeterPerSquareSecondUnit;
 
 { TNewtonSquareMeter }
 
@@ -3954,7 +3918,7 @@ type
   TNewtonSquareMeterUnit = specialize TUnit<TNewtonSquareMeterRec>;
 
 var
-  NewtonSquareMeter, NewtonSquareMeterUnit : TNewtonSquareMeterUnit;
+  NewtonSquareMeterUnit : TNewtonSquareMeterUnit;
 
 { TKilogramCubicMeterPerSquareSecond }
 
@@ -3970,7 +3934,7 @@ type
   TKilogramCubicMeterPerSquareSecondUnit = specialize TUnit<TKilogramCubicMeterPerSquareSecondRec>;
 
 var
-  KilogramCubicMeterPerSquareSecond, KilogramCubicMeterPerSquareSecondUnit : TKilogramCubicMeterPerSquareSecondUnit;
+  KilogramCubicMeterPerSquareSecondUnit : TKilogramCubicMeterPerSquareSecondUnit;
 
 { TNewtonCubicMeter }
 
@@ -3989,7 +3953,7 @@ type
   TNewtonCubicMeterUnit = specialize TUnit<TNewtonCubicMeterRec>;
 
 var
-  NewtonCubicMeter, NewtonCubicMeterUnit : TNewtonCubicMeterUnit;
+  NewtonCubicMeterUnit : TNewtonCubicMeterUnit;
 
 { TKilogramQuarticMeterPerSquareSecond }
 
@@ -4005,7 +3969,7 @@ type
   TKilogramQuarticMeterPerSquareSecondUnit = specialize TUnit<TKilogramQuarticMeterPerSquareSecondRec>;
 
 var
-  KilogramQuarticMeterPerSquareSecond, KilogramQuarticMeterPerSquareSecondUnit : TKilogramQuarticMeterPerSquareSecondUnit;
+  KilogramQuarticMeterPerSquareSecondUnit : TKilogramQuarticMeterPerSquareSecondUnit;
 
 { TNewtonPerSquareKilogram }
 
@@ -4024,7 +3988,7 @@ type
   TNewtonPerSquareKilogramUnit = specialize TUnit<TNewtonPerSquareKilogramRec>;
 
 var
-  NewtonPerSquareKilogram, NewtonPerSquareKilogramUnit : TNewtonPerSquareKilogramUnit;
+  NewtonPerSquareKilogramUnit : TNewtonPerSquareKilogramUnit;
 
 { TMeterPerKilogramPerSquareSecond }
 
@@ -4040,7 +4004,7 @@ type
   TMeterPerKilogramPerSquareSecondUnit = specialize TUnit<TMeterPerKilogramPerSquareSecondRec>;
 
 var
-  MeterPerKilogramPerSquareSecond, MeterPerKilogramPerSquareSecondUnit : TMeterPerKilogramPerSquareSecondUnit;
+  MeterPerKilogramPerSquareSecondUnit : TMeterPerKilogramPerSquareSecondUnit;
 
 { TSquareKilogramPerMeter }
 
@@ -4059,7 +4023,7 @@ type
   TSquareKilogramPerMeterUnit = specialize TUnit<TSquareKilogramPerMeterRec>;
 
 var
-  SquareKilogramPerMeter, SquareKilogramPerMeterUnit : TSquareKilogramPerMeterUnit;
+  SquareKilogramPerMeterUnit : TSquareKilogramPerMeterUnit;
 
 { TSquareKilogramPerSquareMeter }
 
@@ -4078,7 +4042,7 @@ type
   TSquareKilogramPerSquareMeterUnit = specialize TUnit<TSquareKilogramPerSquareMeterRec>;
 
 var
-  SquareKilogramPerSquareMeter, SquareKilogramPerSquareMeterUnit : TSquareKilogramPerSquareMeterUnit;
+  SquareKilogramPerSquareMeterUnit : TSquareKilogramPerSquareMeterUnit;
 
 { TSquareMeterPerSquareKilogram }
 
@@ -4097,7 +4061,7 @@ type
   TSquareMeterPerSquareKilogramUnit = specialize TUnit<TSquareMeterPerSquareKilogramRec>;
 
 var
-  SquareMeterPerSquareKilogram, SquareMeterPerSquareKilogramUnit : TSquareMeterPerSquareKilogramUnit;
+  SquareMeterPerSquareKilogramUnit : TSquareMeterPerSquareKilogramUnit;
 
 { TNewtonSquareMeterPerSquareKilogram }
 
@@ -4116,7 +4080,7 @@ type
   TNewtonSquareMeterPerSquareKilogramUnit = specialize TUnit<TNewtonSquareMeterPerSquareKilogramRec>;
 
 var
-  NewtonSquareMeterPerSquareKilogram, NewtonSquareMeterPerSquareKilogramUnit : TNewtonSquareMeterPerSquareKilogramUnit;
+  NewtonSquareMeterPerSquareKilogramUnit : TNewtonSquareMeterPerSquareKilogramUnit;
 
 { TCubicMeterPerKilogramPerSquareSecond }
 
@@ -4132,7 +4096,7 @@ type
   TCubicMeterPerKilogramPerSquareSecondUnit = specialize TUnit<TCubicMeterPerKilogramPerSquareSecondRec>;
 
 var
-  CubicMeterPerKilogramPerSquareSecond, CubicMeterPerKilogramPerSquareSecondUnit : TCubicMeterPerKilogramPerSquareSecondUnit;
+  CubicMeterPerKilogramPerSquareSecondUnit : TCubicMeterPerKilogramPerSquareSecondUnit;
 
 { TReciprocalKelvin }
 
@@ -4151,7 +4115,7 @@ type
   TReciprocalKelvinUnit = specialize TUnit<TReciprocalKelvinRec>;
 
 var
-  ReciprocalKelvin, ReciprocalKelvinUnit : TReciprocalKelvinUnit;
+  ReciprocalKelvinUnit : TReciprocalKelvinUnit;
 
 { TKilogramKelvin }
 
@@ -4170,7 +4134,7 @@ type
   TKilogramKelvinUnit = specialize TUnit<TKilogramKelvinRec>;
 
 var
-  KilogramKelvin, KilogramKelvinUnit : TKilogramKelvinUnit;
+  KilogramKelvinUnit : TKilogramKelvinUnit;
 
 { TJoulePerKelvin }
 
@@ -4189,7 +4153,7 @@ type
   TJoulePerKelvinUnit = specialize TUnit<TJoulePerKelvinRec>;
 
 var
-  JoulePerKelvin, JoulePerKelvinUnit : TJoulePerKelvinUnit;
+  JoulePerKelvinUnit : TJoulePerKelvinUnit;
 
 { TKilogramSquareMeterPerSquareSecondPerKelvin }
 
@@ -4205,7 +4169,7 @@ type
   TKilogramSquareMeterPerSquareSecondPerKelvinUnit = specialize TUnit<TKilogramSquareMeterPerSquareSecondPerKelvinRec>;
 
 var
-  KilogramSquareMeterPerSquareSecondPerKelvin, KilogramSquareMeterPerSquareSecondPerKelvinUnit : TKilogramSquareMeterPerSquareSecondPerKelvinUnit;
+  KilogramSquareMeterPerSquareSecondPerKelvinUnit : TKilogramSquareMeterPerSquareSecondPerKelvinUnit;
 
 { TJoulePerKilogramPerKelvin }
 
@@ -4224,7 +4188,7 @@ type
   TJoulePerKilogramPerKelvinUnit = specialize TUnit<TJoulePerKilogramPerKelvinRec>;
 
 var
-  JoulePerKilogramPerKelvin, JoulePerKilogramPerKelvinUnit : TJoulePerKilogramPerKelvinUnit;
+  JoulePerKilogramPerKelvinUnit : TJoulePerKilogramPerKelvinUnit;
 
 { TSquareMeterPerSquareSecondPerKelvin }
 
@@ -4240,7 +4204,7 @@ type
   TSquareMeterPerSquareSecondPerKelvinUnit = specialize TUnit<TSquareMeterPerSquareSecondPerKelvinRec>;
 
 var
-  SquareMeterPerSquareSecondPerKelvin, SquareMeterPerSquareSecondPerKelvinUnit : TSquareMeterPerSquareSecondPerKelvinUnit;
+  SquareMeterPerSquareSecondPerKelvinUnit : TSquareMeterPerSquareSecondPerKelvinUnit;
 
 { TMeterKelvin }
 
@@ -4259,7 +4223,7 @@ type
   TMeterKelvinUnit = specialize TUnit<TMeterKelvinRec>;
 
 var
-  MeterKelvin, MeterKelvinUnit : TMeterKelvinUnit;
+  MeterKelvinUnit : TMeterKelvinUnit;
 
 { TKelvinPerMeter }
 
@@ -4278,7 +4242,7 @@ type
   TKelvinPerMeterUnit = specialize TUnit<TKelvinPerMeterRec>;
 
 var
-  KelvinPerMeter, KelvinPerMeterUnit : TKelvinPerMeterUnit;
+  KelvinPerMeterUnit : TKelvinPerMeterUnit;
 
 { TWattPerMeter }
 
@@ -4297,7 +4261,7 @@ type
   TWattPerMeterUnit = specialize TUnit<TWattPerMeterRec>;
 
 var
-  WattPerMeter, WattPerMeterUnit : TWattPerMeterUnit;
+  WattPerMeterUnit : TWattPerMeterUnit;
 
 { TKilogramMeterPerCubicSecond }
 
@@ -4313,7 +4277,7 @@ type
   TKilogramMeterPerCubicSecondUnit = specialize TUnit<TKilogramMeterPerCubicSecondRec>;
 
 var
-  KilogramMeterPerCubicSecond, KilogramMeterPerCubicSecondUnit : TKilogramMeterPerCubicSecondUnit;
+  KilogramMeterPerCubicSecondUnit : TKilogramMeterPerCubicSecondUnit;
 
 { TWattPerSquareMeter }
 
@@ -4332,7 +4296,7 @@ type
   TWattPerSquareMeterUnit = specialize TUnit<TWattPerSquareMeterRec>;
 
 var
-  WattPerSquareMeter, WattPerSquareMeterUnit : TWattPerSquareMeterUnit;
+  WattPerSquareMeterUnit : TWattPerSquareMeterUnit;
 
 { TKilogramPerCubicSecond }
 
@@ -4348,7 +4312,7 @@ type
   TKilogramPerCubicSecondUnit = specialize TUnit<TKilogramPerCubicSecondRec>;
 
 var
-  KilogramPerCubicSecond, KilogramPerCubicSecondUnit : TKilogramPerCubicSecondUnit;
+  KilogramPerCubicSecondUnit : TKilogramPerCubicSecondUnit;
 
 { TWattPerCubicMeter }
 
@@ -4367,7 +4331,7 @@ type
   TWattPerCubicMeterUnit = specialize TUnit<TWattPerCubicMeterRec>;
 
 var
-  WattPerCubicMeter, WattPerCubicMeterUnit : TWattPerCubicMeterUnit;
+  WattPerCubicMeterUnit : TWattPerCubicMeterUnit;
 
 { TWattPerKelvin }
 
@@ -4386,7 +4350,7 @@ type
   TWattPerKelvinUnit = specialize TUnit<TWattPerKelvinRec>;
 
 var
-  WattPerKelvin, WattPerKelvinUnit : TWattPerKelvinUnit;
+  WattPerKelvinUnit : TWattPerKelvinUnit;
 
 { TKilogramSquareMeterPerCubicSecondPerKelvin }
 
@@ -4402,7 +4366,7 @@ type
   TKilogramSquareMeterPerCubicSecondPerKelvinUnit = specialize TUnit<TKilogramSquareMeterPerCubicSecondPerKelvinRec>;
 
 var
-  KilogramSquareMeterPerCubicSecondPerKelvin, KilogramSquareMeterPerCubicSecondPerKelvinUnit : TKilogramSquareMeterPerCubicSecondPerKelvinUnit;
+  KilogramSquareMeterPerCubicSecondPerKelvinUnit : TKilogramSquareMeterPerCubicSecondPerKelvinUnit;
 
 { TWattPerMeterPerKelvin }
 
@@ -4421,7 +4385,7 @@ type
   TWattPerMeterPerKelvinUnit = specialize TUnit<TWattPerMeterPerKelvinRec>;
 
 var
-  WattPerMeterPerKelvin, WattPerMeterPerKelvinUnit : TWattPerMeterPerKelvinUnit;
+  WattPerMeterPerKelvinUnit : TWattPerMeterPerKelvinUnit;
 
 { TKilogramMeterPerCubicSecondPerKelvin }
 
@@ -4437,7 +4401,7 @@ type
   TKilogramMeterPerCubicSecondPerKelvinUnit = specialize TUnit<TKilogramMeterPerCubicSecondPerKelvinRec>;
 
 var
-  KilogramMeterPerCubicSecondPerKelvin, KilogramMeterPerCubicSecondPerKelvinUnit : TKilogramMeterPerCubicSecondPerKelvinUnit;
+  KilogramMeterPerCubicSecondPerKelvinUnit : TKilogramMeterPerCubicSecondPerKelvinUnit;
 
 { TKelvinPerWatt }
 
@@ -4456,7 +4420,7 @@ type
   TKelvinPerWattUnit = specialize TUnit<TKelvinPerWattRec>;
 
 var
-  KelvinPerWatt, KelvinPerWattUnit : TKelvinPerWattUnit;
+  KelvinPerWattUnit : TKelvinPerWattUnit;
 
 { TMeterPerWatt }
 
@@ -4475,7 +4439,7 @@ type
   TMeterPerWattUnit = specialize TUnit<TMeterPerWattRec>;
 
 var
-  MeterPerWatt, MeterPerWattUnit : TMeterPerWattUnit;
+  MeterPerWattUnit : TMeterPerWattUnit;
 
 { TMeterKelvinPerWatt }
 
@@ -4494,7 +4458,7 @@ type
   TMeterKelvinPerWattUnit = specialize TUnit<TMeterKelvinPerWattRec>;
 
 var
-  MeterKelvinPerWatt, MeterKelvinPerWattUnit : TMeterKelvinPerWattUnit;
+  MeterKelvinPerWattUnit : TMeterKelvinPerWattUnit;
 
 { TSquareMeterKelvin }
 
@@ -4513,7 +4477,7 @@ type
   TSquareMeterKelvinUnit = specialize TUnit<TSquareMeterKelvinRec>;
 
 var
-  SquareMeterKelvin, SquareMeterKelvinUnit : TSquareMeterKelvinUnit;
+  SquareMeterKelvinUnit : TSquareMeterKelvinUnit;
 
 { TWattPerSquareMeterPerKelvin }
 
@@ -4532,7 +4496,7 @@ type
   TWattPerSquareMeterPerKelvinUnit = specialize TUnit<TWattPerSquareMeterPerKelvinRec>;
 
 var
-  WattPerSquareMeterPerKelvin, WattPerSquareMeterPerKelvinUnit : TWattPerSquareMeterPerKelvinUnit;
+  WattPerSquareMeterPerKelvinUnit : TWattPerSquareMeterPerKelvinUnit;
 
 { TKilogramPerCubicSecondPerKelvin }
 
@@ -4548,7 +4512,7 @@ type
   TKilogramPerCubicSecondPerKelvinUnit = specialize TUnit<TKilogramPerCubicSecondPerKelvinRec>;
 
 var
-  KilogramPerCubicSecondPerKelvin, KilogramPerCubicSecondPerKelvinUnit : TKilogramPerCubicSecondPerKelvinUnit;
+  KilogramPerCubicSecondPerKelvinUnit : TKilogramPerCubicSecondPerKelvinUnit;
 
 { TSquareMeterQuarticKelvin }
 
@@ -4567,7 +4531,7 @@ type
   TSquareMeterQuarticKelvinUnit = specialize TUnit<TSquareMeterQuarticKelvinRec>;
 
 var
-  SquareMeterQuarticKelvin, SquareMeterQuarticKelvinUnit : TSquareMeterQuarticKelvinUnit;
+  SquareMeterQuarticKelvinUnit : TSquareMeterQuarticKelvinUnit;
 
 { TWattPerQuarticKelvin }
 
@@ -4586,7 +4550,7 @@ type
   TWattPerQuarticKelvinUnit = specialize TUnit<TWattPerQuarticKelvinRec>;
 
 var
-  WattPerQuarticKelvin, WattPerQuarticKelvinUnit : TWattPerQuarticKelvinUnit;
+  WattPerQuarticKelvinUnit : TWattPerQuarticKelvinUnit;
 
 { TWattPerSquareMeterPerQuarticKelvin }
 
@@ -4605,7 +4569,7 @@ type
   TWattPerSquareMeterPerQuarticKelvinUnit = specialize TUnit<TWattPerSquareMeterPerQuarticKelvinRec>;
 
 var
-  WattPerSquareMeterPerQuarticKelvin, WattPerSquareMeterPerQuarticKelvinUnit : TWattPerSquareMeterPerQuarticKelvinUnit;
+  WattPerSquareMeterPerQuarticKelvinUnit : TWattPerSquareMeterPerQuarticKelvinUnit;
 
 { TJoulePerMole }
 
@@ -4624,7 +4588,7 @@ type
   TJoulePerMoleUnit = specialize TUnit<TJoulePerMoleRec>;
 
 var
-  JoulePerMole, JoulePerMoleUnit : TJoulePerMoleUnit;
+  JoulePerMoleUnit : TJoulePerMoleUnit;
 
 { TMoleKelvin }
 
@@ -4643,7 +4607,7 @@ type
   TMoleKelvinUnit = specialize TUnit<TMoleKelvinRec>;
 
 var
-  MoleKelvin, MoleKelvinUnit : TMoleKelvinUnit;
+  MoleKelvinUnit : TMoleKelvinUnit;
 
 { TJoulePerMolePerKelvin }
 
@@ -4662,7 +4626,7 @@ type
   TJoulePerMolePerKelvinUnit = specialize TUnit<TJoulePerMolePerKelvinRec>;
 
 var
-  JoulePerMolePerKelvin, JoulePerMolePerKelvinUnit : TJoulePerMolePerKelvinUnit;
+  JoulePerMolePerKelvinUnit : TJoulePerMolePerKelvinUnit;
 
 { TOhmMeter }
 
@@ -4681,7 +4645,7 @@ type
   TOhmMeterUnit = specialize TUnit<TOhmMeterRec>;
 
 var
-  OhmMeter, OhmMeterUnit : TOhmMeterUnit;
+  OhmMeterUnit : TOhmMeterUnit;
 
 { TVoltPerMeter }
 
@@ -4700,7 +4664,7 @@ type
   TVoltPerMeterUnit = specialize TUnit<TVoltPerMeterRec>;
 
 var
-  VoltPerMeter, VoltPerMeterUnit : TVoltPerMeterUnit;
+  VoltPerMeterUnit : TVoltPerMeterUnit;
 
 { TNewtonPerCoulomb }
 
@@ -4716,7 +4680,7 @@ type
   TNewtonPerCoulombUnit = specialize TUnit<TNewtonPerCoulombRec>;
 
 var
-  NewtonPerCoulomb, NewtonPerCoulombUnit : TNewtonPerCoulombUnit;
+  NewtonPerCoulombUnit : TNewtonPerCoulombUnit;
 
 { TCoulombPerMeter }
 
@@ -4735,7 +4699,7 @@ type
   TCoulombPerMeterUnit = specialize TUnit<TCoulombPerMeterRec>;
 
 var
-  CoulombPerMeter, CoulombPerMeterUnit : TCoulombPerMeterUnit;
+  CoulombPerMeterUnit : TCoulombPerMeterUnit;
 
 { TSquareCoulombPerMeter }
 
@@ -4754,7 +4718,7 @@ type
   TSquareCoulombPerMeterUnit = specialize TUnit<TSquareCoulombPerMeterRec>;
 
 var
-  SquareCoulombPerMeter, SquareCoulombPerMeterUnit : TSquareCoulombPerMeterUnit;
+  SquareCoulombPerMeterUnit : TSquareCoulombPerMeterUnit;
 
 { TCoulombPerSquareMeter }
 
@@ -4773,7 +4737,7 @@ type
   TCoulombPerSquareMeterUnit = specialize TUnit<TCoulombPerSquareMeterRec>;
 
 var
-  CoulombPerSquareMeter, CoulombPerSquareMeterUnit : TCoulombPerSquareMeterUnit;
+  CoulombPerSquareMeterUnit : TCoulombPerSquareMeterUnit;
 
 { TSquareMeterPerSquareCoulomb }
 
@@ -4792,7 +4756,7 @@ type
   TSquareMeterPerSquareCoulombUnit = specialize TUnit<TSquareMeterPerSquareCoulombRec>;
 
 var
-  SquareMeterPerSquareCoulomb, SquareMeterPerSquareCoulombUnit : TSquareMeterPerSquareCoulombUnit;
+  SquareMeterPerSquareCoulombUnit : TSquareMeterPerSquareCoulombUnit;
 
 { TNewtonPerSquareCoulomb }
 
@@ -4811,7 +4775,7 @@ type
   TNewtonPerSquareCoulombUnit = specialize TUnit<TNewtonPerSquareCoulombRec>;
 
 var
-  NewtonPerSquareCoulomb, NewtonPerSquareCoulombUnit : TNewtonPerSquareCoulombUnit;
+  NewtonPerSquareCoulombUnit : TNewtonPerSquareCoulombUnit;
 
 { TNewtonSquareMeterPerSquareCoulomb }
 
@@ -4830,7 +4794,7 @@ type
   TNewtonSquareMeterPerSquareCoulombUnit = specialize TUnit<TNewtonSquareMeterPerSquareCoulombRec>;
 
 var
-  NewtonSquareMeterPerSquareCoulomb, NewtonSquareMeterPerSquareCoulombUnit : TNewtonSquareMeterPerSquareCoulombUnit;
+  NewtonSquareMeterPerSquareCoulombUnit : TNewtonSquareMeterPerSquareCoulombUnit;
 
 { TVoltMeter }
 
@@ -4849,7 +4813,7 @@ type
   TVoltMeterUnit = specialize TUnit<TVoltMeterRec>;
 
 var
-  VoltMeter, VoltMeterUnit : TVoltMeterUnit;
+  VoltMeterUnit : TVoltMeterUnit;
 
 { TNewtonSquareMeterPerCoulomb }
 
@@ -4865,7 +4829,7 @@ type
   TNewtonSquareMeterPerCoulombUnit = specialize TUnit<TNewtonSquareMeterPerCoulombRec>;
 
 var
-  NewtonSquareMeterPerCoulomb, NewtonSquareMeterPerCoulombUnit : TNewtonSquareMeterPerCoulombUnit;
+  NewtonSquareMeterPerCoulombUnit : TNewtonSquareMeterPerCoulombUnit;
 
 { TVoltMeterPerSecond }
 
@@ -4884,7 +4848,7 @@ type
   TVoltMeterPerSecondUnit = specialize TUnit<TVoltMeterPerSecondRec>;
 
 var
-  VoltMeterPerSecond, VoltMeterPerSecondUnit : TVoltMeterPerSecondUnit;
+  VoltMeterPerSecondUnit : TVoltMeterPerSecondUnit;
 
 { TFaradPerMeter }
 
@@ -4903,7 +4867,7 @@ type
   TFaradPerMeterUnit = specialize TUnit<TFaradPerMeterRec>;
 
 var
-  FaradPerMeter, FaradPerMeterUnit : TFaradPerMeterUnit;
+  FaradPerMeterUnit : TFaradPerMeterUnit;
 
 { TAmperePerMeter }
 
@@ -4922,7 +4886,7 @@ type
   TAmperePerMeterUnit = specialize TUnit<TAmperePerMeterRec>;
 
 var
-  AmperePerMeter, AmperePerMeterUnit : TAmperePerMeterUnit;
+  AmperePerMeterUnit : TAmperePerMeterUnit;
 
 { TMeterPerAmpere }
 
@@ -4941,7 +4905,7 @@ type
   TMeterPerAmpereUnit = specialize TUnit<TMeterPerAmpereRec>;
 
 var
-  MeterPerAmpere, MeterPerAmpereUnit : TMeterPerAmpereUnit;
+  MeterPerAmpereUnit : TMeterPerAmpereUnit;
 
 { TTeslaMeter }
 
@@ -4960,7 +4924,7 @@ type
   TTeslaMeterUnit = specialize TUnit<TTeslaMeterRec>;
 
 var
-  TeslaMeter, TeslaMeterUnit : TTeslaMeterUnit;
+  TeslaMeterUnit : TTeslaMeterUnit;
 
 { TNewtonPerAmpere }
 
@@ -4976,7 +4940,7 @@ type
   TNewtonPerAmpereUnit = specialize TUnit<TNewtonPerAmpereRec>;
 
 var
-  NewtonPerAmpere, NewtonPerAmpereUnit : TNewtonPerAmpereUnit;
+  NewtonPerAmpereUnit : TNewtonPerAmpereUnit;
 
 { TTeslaPerAmpere }
 
@@ -4995,7 +4959,7 @@ type
   TTeslaPerAmpereUnit = specialize TUnit<TTeslaPerAmpereRec>;
 
 var
-  TeslaPerAmpere, TeslaPerAmpereUnit : TTeslaPerAmpereUnit;
+  TeslaPerAmpereUnit : TTeslaPerAmpereUnit;
 
 { THenryPerMeter }
 
@@ -5014,7 +4978,7 @@ type
   THenryPerMeterUnit = specialize TUnit<THenryPerMeterRec>;
 
 var
-  HenryPerMeter, HenryPerMeterUnit : THenryPerMeterUnit;
+  HenryPerMeterUnit : THenryPerMeterUnit;
 
 { TTeslaMeterPerAmpere }
 
@@ -5030,7 +4994,7 @@ type
   TTeslaMeterPerAmpereUnit = specialize TUnit<TTeslaMeterPerAmpereRec>;
 
 var
-  TeslaMeterPerAmpere, TeslaMeterPerAmpereUnit : TTeslaMeterPerAmpereUnit;
+  TeslaMeterPerAmpereUnit : TTeslaMeterPerAmpereUnit;
 
 { TNewtonPerSquareAmpere }
 
@@ -5046,7 +5010,7 @@ type
   TNewtonPerSquareAmpereUnit = specialize TUnit<TNewtonPerSquareAmpereRec>;
 
 var
-  NewtonPerSquareAmpere, NewtonPerSquareAmpereUnit : TNewtonPerSquareAmpereUnit;
+  NewtonPerSquareAmpereUnit : TNewtonPerSquareAmpereUnit;
 
 { TRadianPerMeter }
 
@@ -5065,7 +5029,7 @@ type
   TRadianPerMeterUnit = specialize TUnit<TRadianPerMeterRec>;
 
 var
-  RadianPerMeter, RadianPerMeterUnit : TRadianPerMeterUnit;
+  RadianPerMeterUnit : TRadianPerMeterUnit;
 
 { TSquareKilogramPerSquareSecond }
 
@@ -5084,7 +5048,7 @@ type
   TSquareKilogramPerSquareSecondUnit = specialize TUnit<TSquareKilogramPerSquareSecondRec>;
 
 var
-  SquareKilogramPerSquareSecond, SquareKilogramPerSquareSecondUnit : TSquareKilogramPerSquareSecondUnit;
+  SquareKilogramPerSquareSecondUnit : TSquareKilogramPerSquareSecondUnit;
 
 { TSquareSecondPerSquareMeter }
 
@@ -5103,7 +5067,7 @@ type
   TSquareSecondPerSquareMeterUnit = specialize TUnit<TSquareSecondPerSquareMeterRec>;
 
 var
-  SquareSecondPerSquareMeter, SquareSecondPerSquareMeterUnit : TSquareSecondPerSquareMeterUnit;
+  SquareSecondPerSquareMeterUnit : TSquareSecondPerSquareMeterUnit;
 
 { TSquareJoule }
 
@@ -5144,7 +5108,7 @@ type
   TJouleSecondUnit = specialize TUnit<TJouleSecondRec>;
 
 var
-  JouleSecond, JouleSecondUnit : TJouleSecondUnit;
+  JouleSecondUnit : TJouleSecondUnit;
 
 { TJoulePerHertz }
 
@@ -5160,7 +5124,7 @@ type
   TJoulePerHertzUnit = specialize TUnit<TJoulePerHertzRec>;
 
 var
-  JoulePerHertz, JoulePerHertzUnit : TJoulePerHertzUnit;
+  JoulePerHertzUnit : TJoulePerHertzUnit;
 
 { TElectronvoltSecond }
 
@@ -5176,9 +5140,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TElectronvoltSecondUnit = specialize TFactoredUnit<TElectronvoltSecondRec>;
-
-const
-  ElectronvoltSecond : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 46; FValue: 1.60217742320523E-019); {$ELSE} (1.60217742320523E-019); {$ENDIF}
 
 var
   ElectronvoltSecondUnit : TElectronvoltSecondUnit;
@@ -5197,9 +5158,6 @@ type
     class function PutValue(const AValue: double): double; static;
   end;
   TElectronvoltMeterPerSpeedOfLightUnit = specialize TFactoredUnit<TElectronvoltMeterPerSpeedOfLightRec>;
-
-const
-  ElectronvoltMeterPerSpeedOfLight : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: 46; FValue: 1.7826619216279E-36); {$ELSE} (1.7826619216279E-36); {$ENDIF}
 
 var
   ElectronvoltMeterPerSpeedOfLightUnit : TElectronvoltMeterPerSpeedOfLightUnit;
@@ -5221,7 +5179,7 @@ type
   TSquareJouleSquareSecondUnit = specialize TUnit<TSquareJouleSquareSecondRec>;
 
 var
-  SquareJouleSquareSecond, SquareJouleSquareSecondUnit : TSquareJouleSquareSecondUnit;
+  SquareJouleSquareSecondUnit : TSquareJouleSquareSecondUnit;
 
 { TCoulombPerKilogram }
 
@@ -5240,7 +5198,7 @@ type
   TCoulombPerKilogramUnit = specialize TUnit<TCoulombPerKilogramRec>;
 
 var
-  CoulombPerKilogram, CoulombPerKilogramUnit : TCoulombPerKilogramUnit;
+  CoulombPerKilogramUnit : TCoulombPerKilogramUnit;
 
 { TSquareMeterAmpere }
 
@@ -5259,7 +5217,7 @@ type
   TSquareMeterAmpereUnit = specialize TUnit<TSquareMeterAmpereRec>;
 
 var
-  SquareMeterAmpere, SquareMeterAmpereUnit : TSquareMeterAmpereUnit;
+  SquareMeterAmpereUnit : TSquareMeterAmpereUnit;
 
 { TJoulePerTesla }
 
@@ -5275,7 +5233,7 @@ type
   TJoulePerTeslaUnit = specialize TUnit<TJoulePerTeslaRec>;
 
 var
-  JoulePerTesla, JoulePerTeslaUnit : TJoulePerTeslaUnit;
+  JoulePerTeslaUnit : TJoulePerTeslaUnit;
 
 { TLumenPerWatt }
 
@@ -5294,7 +5252,7 @@ type
   TLumenPerWattUnit = specialize TUnit<TLumenPerWattRec>;
 
 var
-  LumenPerWatt, LumenPerWattUnit : TLumenPerWattUnit;
+  LumenPerWattUnit : TLumenPerWattUnit;
 
 { TReciprocalMole }
 
@@ -5313,7 +5271,7 @@ type
   TReciprocalMoleUnit = specialize TUnit<TReciprocalMoleRec>;
 
 var
-  ReciprocalMole, ReciprocalMoleUnit : TReciprocalMoleUnit;
+  ReciprocalMoleUnit : TReciprocalMoleUnit;
 
 { TAmperePerSquareMeter }
 
@@ -5332,7 +5290,7 @@ type
   TAmperePerSquareMeterUnit = specialize TUnit<TAmperePerSquareMeterRec>;
 
 var
-  AmperePerSquareMeter, AmperePerSquareMeterUnit : TAmperePerSquareMeterUnit;
+  AmperePerSquareMeterUnit : TAmperePerSquareMeterUnit;
 
 { TMolePerCubicMeter }
 
@@ -5351,7 +5309,7 @@ type
   TMolePerCubicMeterUnit = specialize TUnit<TMolePerCubicMeterRec>;
 
 var
-  MolePerCubicMeter, MolePerCubicMeterUnit : TMolePerCubicMeterUnit;
+  MolePerCubicMeterUnit : TMolePerCubicMeterUnit;
 
 { TCandelaPerSquareMeter }
 
@@ -5370,7 +5328,7 @@ type
   TCandelaPerSquareMeterUnit = specialize TUnit<TCandelaPerSquareMeterRec>;
 
 var
-  CandelaPerSquareMeter, CandelaPerSquareMeterUnit : TCandelaPerSquareMeterUnit;
+  CandelaPerSquareMeterUnit : TCandelaPerSquareMeterUnit;
 
 { TCoulombPerCubicMeter }
 
@@ -5389,7 +5347,7 @@ type
   TCoulombPerCubicMeterUnit = specialize TUnit<TCoulombPerCubicMeterRec>;
 
 var
-  CoulombPerCubicMeter, CoulombPerCubicMeterUnit : TCoulombPerCubicMeterUnit;
+  CoulombPerCubicMeterUnit : TCoulombPerCubicMeterUnit;
 
 { TGrayPerSecond }
 
@@ -5408,7 +5366,7 @@ type
   TGrayPerSecondUnit = specialize TUnit<TGrayPerSecondRec>;
 
 var
-  GrayPerSecond, GrayPerSecondUnit : TGrayPerSecondUnit;
+  GrayPerSecondUnit : TGrayPerSecondUnit;
 
 { TSteradianHertz }
 
@@ -5427,7 +5385,7 @@ type
   TSteradianHertzUnit = specialize TUnit<TSteradianHertzRec>;
 
 var
-  SteradianHertz, SteradianHertzUnit : TSteradianHertzUnit;
+  SteradianHertzUnit : TSteradianHertzUnit;
 
 { TMeterSteradian }
 
@@ -5446,7 +5404,7 @@ type
   TMeterSteradianUnit = specialize TUnit<TMeterSteradianRec>;
 
 var
-  MeterSteradian, MeterSteradianUnit : TMeterSteradianUnit;
+  MeterSteradianUnit : TMeterSteradianUnit;
 
 { TSquareMeterSteradian }
 
@@ -5465,7 +5423,7 @@ type
   TSquareMeterSteradianUnit = specialize TUnit<TSquareMeterSteradianRec>;
 
 var
-  SquareMeterSteradian, SquareMeterSteradianUnit : TSquareMeterSteradianUnit;
+  SquareMeterSteradianUnit : TSquareMeterSteradianUnit;
 
 { TCubicMeterSteradian }
 
@@ -5484,7 +5442,7 @@ type
   TCubicMeterSteradianUnit = specialize TUnit<TCubicMeterSteradianRec>;
 
 var
-  CubicMeterSteradian, CubicMeterSteradianUnit : TCubicMeterSteradianUnit;
+  CubicMeterSteradianUnit : TCubicMeterSteradianUnit;
 
 { TSquareMeterSteradianHertz }
 
@@ -5503,7 +5461,7 @@ type
   TSquareMeterSteradianHertzUnit = specialize TUnit<TSquareMeterSteradianHertzRec>;
 
 var
-  SquareMeterSteradianHertz, SquareMeterSteradianHertzUnit : TSquareMeterSteradianHertzUnit;
+  SquareMeterSteradianHertzUnit : TSquareMeterSteradianHertzUnit;
 
 { TWattPerSteradian }
 
@@ -5522,7 +5480,7 @@ type
   TWattPerSteradianUnit = specialize TUnit<TWattPerSteradianRec>;
 
 var
-  WattPerSteradian, WattPerSteradianUnit : TWattPerSteradianUnit;
+  WattPerSteradianUnit : TWattPerSteradianUnit;
 
 { TWattPerSteradianPerHertz }
 
@@ -5541,7 +5499,7 @@ type
   TWattPerSteradianPerHertzUnit = specialize TUnit<TWattPerSteradianPerHertzRec>;
 
 var
-  WattPerSteradianPerHertz, WattPerSteradianPerHertzUnit : TWattPerSteradianPerHertzUnit;
+  WattPerSteradianPerHertzUnit : TWattPerSteradianPerHertzUnit;
 
 { TWattPerMeterPerSteradian }
 
@@ -5560,7 +5518,7 @@ type
   TWattPerMeterPerSteradianUnit = specialize TUnit<TWattPerMeterPerSteradianRec>;
 
 var
-  WattPerMeterPerSteradian, WattPerMeterPerSteradianUnit : TWattPerMeterPerSteradianUnit;
+  WattPerMeterPerSteradianUnit : TWattPerMeterPerSteradianUnit;
 
 { TWattPerSquareMeterPerSteradian }
 
@@ -5579,7 +5537,7 @@ type
   TWattPerSquareMeterPerSteradianUnit = specialize TUnit<TWattPerSquareMeterPerSteradianRec>;
 
 var
-  WattPerSquareMeterPerSteradian, WattPerSquareMeterPerSteradianUnit : TWattPerSquareMeterPerSteradianUnit;
+  WattPerSquareMeterPerSteradianUnit : TWattPerSquareMeterPerSteradianUnit;
 
 { TWattPerCubicMeterPerSteradian }
 
@@ -5598,7 +5556,7 @@ type
   TWattPerCubicMeterPerSteradianUnit = specialize TUnit<TWattPerCubicMeterPerSteradianRec>;
 
 var
-  WattPerCubicMeterPerSteradian, WattPerCubicMeterPerSteradianUnit : TWattPerCubicMeterPerSteradianUnit;
+  WattPerCubicMeterPerSteradianUnit : TWattPerCubicMeterPerSteradianUnit;
 
 { TWattPerSquareMeterPerSteradianPerHertz }
 
@@ -5617,7 +5575,7 @@ type
   TWattPerSquareMeterPerSteradianPerHertzUnit = specialize TUnit<TWattPerSquareMeterPerSteradianPerHertzRec>;
 
 var
-  WattPerSquareMeterPerSteradianPerHertz, WattPerSquareMeterPerSteradianPerHertzUnit : TWattPerSquareMeterPerSteradianPerHertzUnit;
+  WattPerSquareMeterPerSteradianPerHertzUnit : TWattPerSquareMeterPerSteradianPerHertzUnit;
 
 { TKatalPerCubicMeter }
 
@@ -5636,7 +5594,7 @@ type
   TKatalPerCubicMeterUnit = specialize TUnit<TKatalPerCubicMeterRec>;
 
 var
-  KatalPerCubicMeter, KatalPerCubicMeterUnit : TKatalPerCubicMeterUnit;
+  KatalPerCubicMeterUnit : TKatalPerCubicMeterUnit;
 
 { TCoulombPerMole }
 
@@ -5655,7 +5613,7 @@ type
   TCoulombPerMoleUnit = specialize TUnit<TCoulombPerMoleRec>;
 
 var
-  CoulombPerMole, CoulombPerMoleUnit : TCoulombPerMoleUnit;
+  CoulombPerMoleUnit : TCoulombPerMoleUnit;
 
 const
 

@@ -100,9 +100,6 @@
     </Linking>
     <Other>
       <CustomOptions Value="-dUSEADIM"/>
-      <OtherDefines Count="1">
-        <Define0 Value="USEADIM"/>
-      </OtherDefines>
     </Other>
   </CompilerOptions>
   <Debugging>

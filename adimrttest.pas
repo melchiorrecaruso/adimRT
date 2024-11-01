@@ -244,10 +244,10 @@ begin
   time  := speed/acc;
   speed := acc*time;
 
-  if MeterPerHourUnit.ToVerboseString         (speed, 5, 0, [pKilo       ]) <> '100 kilometers per hour'           then halt(1);
-  if s.ToVerboseString                        (time,  5, 0, [            ]) <> '5 seconds'                         then halt(2);
-  if MeterPerHourPerSecondUnit.ToVerboseString(acc,   5, 0, [pKilo, pNone]) <> '20 kilometers per hour per second' then halt(3);
-  if MeterPerSquareSecond.ToVerboseString     (acc,   5, 0, [            ]) <> '5.5556 meters per second squared'  then halt(4);
+  if MeterPerHourUnit.ToVerboseString(speed, 5, 0, [pKilo])               <> '100 kilometers per hour'           then halt(1);
+  if s.ToVerboseString(time,  5, 0, [])                                   <> '5 seconds'                         then halt(2);
+  if MeterPerHourPerSecondUnit.ToVerboseString(acc, 5, 0, [pKilo, pNone]) <> '20 kilometers per hour per second' then halt(3);
+  if MeterPerSquareSecondUnit.ToVerboseString (acc, 5, 0, [])             <> '5.5556 meters per second squared'  then halt(4);
   writeln('* TEST-04: PASSED');
 
   // TEST-05 - FORCE
@@ -256,9 +256,9 @@ begin
   force := mass*acc;
   mass  := force/acc;
   acc   := force/mass;
-  if kg.ToVerboseString     (mass,  5, 0, []) <> '5 kilograms' then halt(1);
-  if MeterPerSquareSecond.ToString(acc,   5, 0, []) <> '10 m/s2'     then halt(2);
-  if N.ToVerboseString       (force, 5, 0, []) <> '50 newtons'  then halt(3);
+  if kg.ToVerboseString(mass,  5, 0, [])              <> '5 kilograms' then halt(1);
+  if MeterPerSquareSecondUnit.ToString(acc, 5, 0, []) <> '10 m/s2'     then halt(2);
+  if N.ToVerboseString(force, 5, 0, [])               <> '50 newtons'  then halt(3);
   writeln('* TEST-05: PASSED');
 
   // TEST-06 - ANGULAR SPEED
@@ -268,8 +268,8 @@ begin
   radius       := 2*m;
   speed        := angularspeed*radius;
   angularspeed := speed/radius;
-  if RadianPerSecond.ToVerboseString(angularspeed, 5, 1, []) <> '2.5 radians per second' then halt(1);
-  if MeterPerSecond.ToVerboseString (speed,        5, 1, []) <> '5 meters per second'    then halt(2);
+  if RadianPerSecondUnit.ToVerboseString(angularspeed, 5, 1, []) <> '2.5 radians per second' then halt(1);
+  if MeterPerSecondUnit.ToVerboseString (speed, 5, 1, [])        <> '5 meters per second'    then halt(2);
   writeln('* TEST-06: PASSED');
 
   // TEST-07 - CENTRIFUGAL FORCE
@@ -279,9 +279,9 @@ begin
   speed        := angularspeed*radius;
   acc          := (angularspeed*angularspeed)*radius;
   force        := mass*acc;
-  if MeterPerSecond.ToString      (speed, 5, 0, []) <> '20 m/s'  then halt(1);
-  if MeterPerSquareSecond.ToString(acc,   5, 0, []) <> '40 m/s2' then halt(2);
-  if N.ToString              (force, 5, 0, []) <> '40 N'    then halt(3);
+  if MeterPerSecondUnit.ToString(speed, 5, 0, [])     <> '20 m/s'  then halt(1);
+  if MeterPerSquareSecondUnit.ToString(acc, 5, 0, []) <> '40 m/s2' then halt(2);
+  if N.ToString(force, 5, 0, [])                      <> '40 N'    then halt(3);
   writeln('* TEST-07: PASSED');
 
   // TEST-08 - CENTRIPETAL FORCE
@@ -291,8 +291,8 @@ begin
   speed        := angularspeed*radius;
   force        := mass*(SquarePower(angularspeed)*radius);
   force        := mass*(SquarePower(speed)/radius);
-  if MeterPerSecond.ToString(speed, 5, 0, []) <> '2 m/s' then halt(1);
-  if N.ToString(force, 5, 0, [])         <> '40 N'  then halt(2);
+  if MeterPerSecondUnit.ToString(speed, 5, 0, []) <> '2 m/s' then halt(1);
+  if N.ToString(force, 5, 0, [])                  <> '40 N'  then halt(2);
   writeln('* TEST-08: PASSED');
 
   // TEST-09 - PRESSURE
@@ -302,8 +302,8 @@ begin
   force    := pressure*area;
   area     := force/pressure;
   if Pa.ToString(pressure)  <> '2 Pa' then halt(1);
-  if N.ToString(force)     <> '10 N' then halt(2);
-  if m2.ToString(area) <> '5 m2' then halt(3);
+  if N.ToString(force)      <> '10 N' then halt(2);
+  if m2.ToString(area)      <> '5 m2' then halt(3);
   writeln('* TEST-09: PASSED');
 
   // TEST-10 - WORK
@@ -344,7 +344,7 @@ begin
   current   := 5*A;
   potential := power/current;
   if V.ToString(potential) <> '2 V'  then halt(1);
-  if A.ToString(current) <> '5 A'  then halt(2);
+  if A.ToString(current)   <> '5 A'  then halt(2);
   if W.ToString(power)     <> '10 W' then halt(3);
   writeln('* TEST-14: PASSED');
 
@@ -426,17 +426,17 @@ begin
   dose2 := 5 *m2/s2;
   dose1 := 10*j/kg;
   dose2 := 5 *j/kg;
-  if SquareMeterPerSquareSecond.ToString(dose1) <> '10 m2/s2' then halt(1);
-  if SquareMeterPerSquareSecond.ToString(dose2) <> '5 m2/s2'  then halt(2);
-  if Sv.ToString(dose1)                         <> '10 Sv'    then halt(3);
-  if Gy.ToString(dose2)                         <> '5 Gy'     then halt(4);
+  if SquareMeterPerSquareSecondUnit.ToString(dose1) <> '10 m2/s2' then halt(1);
+  if SquareMeterPerSquareSecondUnit.ToString(dose2) <> '5 m2/s2'  then halt(2);
+  if Sv.ToString(dose1)                             <> '10 Sv'    then halt(3);
+  if Gy.ToString(dose2)                             <> '5 Gy'     then halt(4);
   writeln('* TEST-25: PASSED');
 
   // TEST-26 - NEWTON PER METER
   force     := 50*N;
   distance  := 10*mm;
   stiffness := force/distance;
-  if NewtonPerMeter.ToString(stiffness) <> '5000 N/m' then halt(1);
+  if NewtonPerMeterUnit.ToString(stiffness) <> '5000 N/m' then halt(1);
   writeln('* TEST-26: PASSED');
 
   // TEST-27 - DENSITY
@@ -445,9 +445,9 @@ begin
   density := mass/volume;
   mass    := density*volume;
   volume  := mass/density;
-  if KilogramPerCubicMeter.ToString(density) <> '2 kg/m3' then halt(1);
-  if Kg.ToString(mass)                       <> '10 kg'   then halt(2);
-  if m3.ToString(volume)                     <> '5 m3'    then halt(3);
+  if KilogramPerCubicMeterUnit.ToString(density) <> '2 kg/m3' then halt(1);
+  if Kg.ToString(mass)                           <> '10 kg'   then halt(2);
+  if m3.ToString(volume)                         <> '5 m3'    then halt(3);
   writeln('* TEST-27: PASSED');
 
   // TEST-28 - SPECIFIC WEIGHT
@@ -456,9 +456,9 @@ begin
   specificw := force/volume;
   force     := specificw*volume;
   volume    := force/specificw;
-  if NewtonPerCubicMeter.ToString(specificw) <> '10 N/m3' then halt(1);
-  if N.ToString(force)                  <> '100 N'   then halt(2);
-  if m3.ToString(volume)             <> '10 m3'   then halt(3);
+  if NewtonPerCubicMeterUnit.ToString(specificw) <> '10 N/m3' then halt(1);
+  if N.ToString(force)                           <> '100 N'   then halt(2);
+  if m3.ToString(volume)                         <> '10 m3'   then halt(3);
   writeln('* TEST-28: PASSED');
 
   // TEST-29 - SLIDING FRICTION
@@ -493,8 +493,8 @@ begin
   speed   := 5*m/s;
   density := 1.225*kg/m3;
   force   := 0.5*cCd*(density*SquarePower(Speed))*area;
-  if N.ToString(force, 4, 2, [])                  <> '0.007197 N'  then halt(1);
-  if KilogramPerCubicMeter.ToString(density, 4, 2, []) <> '1.225 kg/m3' then halt(2);
+  if N.ToString(force, 4, 2, [])                           <> '0.007197 N'  then halt(1);
+  if KilogramPerCubicMeterUnit.ToString(density, 4, 2, []) <> '1.225 kg/m3' then halt(2);
   writeln('* TEST-32: PASSED');
 
   // TEST-33 - UNIVERSAL GRAVITATION LAW
@@ -533,8 +533,8 @@ begin
   p     := 50*kg*m/s;
   p2    := p*p;
   Uc    := 0.5*p2/mass;
-  if KilogramMeterPerSecond.ToString(p, 4, 2, [])                    <> '50 kg.m/s'      then halt(1);
-  if SquareKilogramSquareMeterPerSquareSecond.ToString(p2, 4, 2, []) <> '2500 kg2.m2/s2' then halt(2);
+  if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [])                    <> '50 kg.m/s'      then halt(1);
+  if SquareKilogramSquareMeterPerSquareSecondUnit.ToString(p2, 4, 2, []) <> '2500 kg2.m2/s2' then halt(2);
   writeln('* TEST-37: PASSED');
 
   // TEST-38 - IMPULSE
@@ -542,7 +542,7 @@ begin
   time    := 5*ms;
   impulse := p;
   impulse := force*time;
-  if NewtonSecond.ToString(impulse, 4, 2, [pNone, pMilli]) <> '50 N.ms' then halt(1);
+  if NewtonSecondUnit.ToString(impulse, 4, 2, [pNone, pMilli]) <> '50 N.ms' then halt(1);
   writeln('* TEST-38: PASSED');
 
   // TEST-39 - STEVINO'S LAW
@@ -563,7 +563,7 @@ begin
   volume   := 50*m3;
   time     := 10*s;
   flowrate := volume/time;
-  if CubicMeterPerSecond.ToString(flowrate, 4, 2, []) <> '5 m3/s' then halt(1);
+  if CubicMeterPerSecondUnit.ToString(flowrate, 4, 2, []) <> '5 m3/s' then halt(1);
   writeln('* TEST-41: PASSED');
 
   // TEST-42 - BERNOULLI'S LAW
@@ -584,7 +584,7 @@ begin
   radius   := 0.9*cm;
   Re       := 2000;
   speed    := Re*eta/(2*density*radius);
-  if MeterPerSecond.ToString(speed, 4, 2, []) <> '0.3175 m/s' then halt(1);
+  if MeterPerSecondUnit.ToString(speed, 4, 2, []) <> '0.3175 m/s' then halt(1);
   writeln('* TEST-43: PASSED');
 
   // TEST-44 - LINEAR THERMAL EXPANSION
@@ -599,7 +599,7 @@ begin
   mass                 := 10*kg;
   specificheatcapacity := 7.5*J/kg/K;
   heatcapacity         := mass*specificheatcapacity;
-  if JoulePerKelvin.ToString(heatcapacity, 4, 2, []) <> '75 J/K' then halt(1);
+  if JoulePerKelvinUnit.ToString(heatcapacity, 4, 2, []) <> '75 J/K' then halt(1);
   writeln('* TEST-45: PASSED');
 
   // TEST-46 - CALORIMETER
@@ -648,7 +648,7 @@ begin
   q1 := 2*C;
   r  := 5*cm;
   E  := CoulombConstant*(q1/SquarePower(r));
-  if VoltPerMeter.ToString(E, 4, 2, [pMega, pMilli]) <> '7190 MV/mm' then halt(1);
+  if VoltPerMeterUnit.ToString(E, 4, 2, [pMega, pMilli]) <> '7190 MV/mm' then halt(1);
   writeln('* TEST-51: PASSED');
 
   // TEST-52 - ELECTRIC FIELD OF UNIFORM CHARGE SPHERE
@@ -656,7 +656,7 @@ begin
   r        := 10*cm;
   distance := 5*cm;
   E        := CoulombConstant*(q1/ (CubicPower(r)/distance));
-  if VoltPerMeter.ToString(E, 4, 2, [pMega, pMilli]) <> '898.8 MV/mm' then halt(1);
+  if VoltPerMeterUnit.ToString(E, 4, 2, [pMega, pMilli]) <> '898.8 MV/mm' then halt(1);
   writeln('* TEST-52: PASSED');
 
   // TEST-53 - ELECTRIC FIELD OF PARALLEL CONDUCTING PLATES
@@ -664,7 +664,7 @@ begin
   Area  := 4*cm2;
   sigma := q1/Area;
   E     := sigma/ElectricPermittivity;
-  if VoltPerMeter.ToString(E, 4, 2, [pGiga, pMilli]) <> '564.7 GV/mm' then halt(1);
+  if VoltPerMeterUnit.ToString(E, 4, 2, [pGiga, pMilli]) <> '564.7 GV/mm' then halt(1);
   writeln('* TEST-53: PASSED');
 
   // TEST-54 - MAGNETIC FORCE FOR LIFTING A OBJECT
@@ -737,17 +737,17 @@ begin
   yspeed  := -omega*Ampl*Cos(Kw*(1*m) -omega*(0.8*s));
   yacc    := -SquarePower(omega)*Ampl*cos(Kw*(1*m) -omega*(0.8*s));
   power   := (1.0*g/m)*SquarePower(omega*Ampl)*(5*mm/s);
-  if m.ToString(wavelen, 4, 2, [pMilli])       <> '-1648 mm'   then halt(1);
-  if MeterPerSecond.ToString(yspeed, 4, 2, [])     <> '-90.69 m/s' then halt(2);
-  if MeterPerSquareSecond.ToString(yacc, 4, 2, []) <> '-7255 m/s2' then halt(3);
-  if W.ToString(power, 4, 2, [pMilli])          <> '128 mW'     then halt(4);
+  if m.ToString(wavelen, 4, 2, [pMilli])               <> '-1648 mm'   then halt(1);
+  if MeterPerSecondUnit.ToString(yspeed, 4, 2, [])     <> '-90.69 m/s' then halt(2);
+  if MeterPerSquareSecondUnit.ToString(yacc, 4, 2, []) <> '-7255 m/s2' then halt(3);
+  if W.ToString(power, 4, 2, [pMilli])                 <> '128 mW'     then halt(4);
   writeln('* TEST-61: PASSED');
 
   // TEST-62 - RELATIVTY: ENERGY
   mass       := 1*kg;
   energy     := mass*SquarePower(SpeedOfLight);
   if ElectronVoltUnit.ToString(energy, 4, 2, [pTera]) <> '5.61E23 TeV' then halt(1);
-  if J.ToString(energy, 4, 2, [pTera])        <> '8.988E4 TJ'  then halt(2);
+  if J.ToString(energy, 4, 2, [pTera])                <> '8.988E4 TJ'  then halt(2);
   writeln('* TEST-62: PASSED');
 
   // TEST-63 - RELATIVTY: MOMENTUM
@@ -755,7 +755,7 @@ begin
   speed      := 10800000*km/hr;
   p          := mass*speed;
   energy     := SquareRoot(SquarePower(p*SpeedOfLight)+ SquarePower(mass*SquarePower(SpeedOfLight)));
-  if KilogramMeterPerSecond.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '2733 pg.pm/s' then halt(1);
+  if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '2733 pg.pm/s' then halt(1);
   if ElectronVoltUnit.ToString(energy, 4, 2, [pKilo])                    <> '511 keV'      then halt(2);
   writeln('* TEST-63: PASSED');
 
@@ -767,8 +767,8 @@ begin
   p      := PlanckConstant/len;
   speed  := len*freq;
   if ElectronVoltUnit.ToString(energy, 4, 2, [])                         <> '1.24 eV'        then halt(1);
-  if KilogramMeterPerSecond.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '0.6626 pg.pm/s' then halt(2);
-  if MeterPerSecond.ToString(speed, 9, 2, [pPico, pNone])            <> '1000000 pm/s'   then halt(3);
+  if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '0.6626 pg.pm/s' then halt(2);
+  if MeterPerSecondUnit.ToString(speed, 9, 2, [pPico, pNone])            <> '1000000 pm/s'   then halt(3);
   writeln('* TEST-64: PASSED');
 
   // TEST-65 - THIRD KEPLER'S LAW
@@ -783,14 +783,14 @@ begin
   mass     := 5.972E24*kg;
   distance := 6.373E6*m;
   acc      := NewtonianConstantOfGravitation*mass/SquarePower(distance);
-  if MeterPerSquareSecond.ToString(acc, 3, 2, []) <> '9.81 m/s2' then halt(1);
+  if MeterPerSquareSecondUnit.ToString(acc, 3, 2, []) <> '9.81 m/s2' then halt(1);
   writeln('* TEST-66: PASSED');
 
   // TEST-67 - SIMPLE HARMONIC OSCILLATOR
   mass  := 1*kg;
   kx    := 10*N/m;
   omega := SquareRoot(kx/mass);
-  if RadianPerSecond.ToString(omega, 3, 2, []) <> '3.16 rad/s' then halt(1);
+  if RadianPerSecondUnit.ToString(omega, 3, 2, []) <> '3.16 rad/s' then halt(1);
   writeln('* TEST-67: PASSED');
 
   // TEST-68 - DAMPED HARMONIC OSCILLATOR
@@ -798,7 +798,7 @@ begin
   kx     := 10*N/m;
   Cb     := 10*Pa*s*m;
   omega  := SquareRoot(kx/mass);
-  if RadianPerSecond.ToString(omega, 3, 2, []) <> '3.16 rad/s' then halt(1);
+  if RadianPerSecondUnit.ToString(omega, 3, 2, []) <> '3.16 rad/s' then halt(1);
   writeln('* TEST-68: PASSED');
 
   // TEST-69 - PHYSICAL PENDULUM
@@ -848,8 +848,8 @@ begin
   freq  := 10*Hz;
   omega := freq;
   freq  := omega;
-  if Hz.ToString(omega)          <> '10 Hz'    then halt(1);
-  if RadianPerSecond.ToString(freq) <> '10 rad/s' then halt(2);
+  if Hz.ToString(omega)                 <> '10 Hz'    then halt(1);
+  if RadianPerSecondUnit.ToString(freq) <> '10 rad/s' then halt(2);
   writeln('* TEST-95: PASSED');
 
   // TEST-96
@@ -901,9 +901,9 @@ begin
   // energy
   energy := 0.5*ElectronMass*SquarePower(speed) - (CoulombConstant*SquarePower(ElectronCharge))/radius;
 
-  if SameValue(radius ,BohrRadius)            <> TRUE          then halt(1);
-  if m.ToString(radius, 4, 4, [])          <> '5.292E-11 m' then halt(2);
-  if MeterPerSecond.ToString(speed, 4, 4, [])  <> '2.188E6 m/s' then halt(3);
+  if SameValue(radius ,BohrRadius)                 <> TRUE          then halt(1);
+  if m.ToString(radius, 4, 4, [])                  <> '5.292E-11 m' then halt(2);
+  if MeterPerSecondUnit.ToString(speed, 4, 4, [])  <> '2.188E6 m/s' then halt(3);
   if ElectronVoltUnit.ToString(energy, 3, 3, [])   <> '-13.6 eV'    then halt(4);
   if RydbergUnit.ToString(energy, 3, 3, [])        <> '-1 Ry'       then halt(5);
   writeln('* TEST-100: PASSED');
@@ -935,15 +935,15 @@ begin
   SquarePsi[3] := (2/BoxLen*Sqr(Sin(3*pi/BoxLen*BoxLen/6)));
   SquarePsi[4] := (2/BoxLen*Sqr(Sin(4*pi/BoxLen*BoxLen/8)));
 
-  if ('|Ψ| = ' + ReciprocalSquareRootMeter.ToString(SquareRoot(2/BoxLen)*Sin(1*pi/BoxLen*BoxLen/2), 4, 4, [])) <> '|Ψ| = 6.325 1/√m' then halt(1);
-  if ('|Ψ| = ' + ReciprocalSquareRootMeter.ToString(SquareRoot(2/BoxLen)*Sin(2*pi/BoxLen*BoxLen/4), 4, 4, [])) <> '|Ψ| = 6.325 1/√m' then halt(2);
-  if ('|Ψ| = ' + ReciprocalSquareRootMeter.ToString(SquareRoot(2/BoxLen)*Sin(3*pi/BoxLen*BoxLen/6), 4, 4, [])) <> '|Ψ| = 6.325 1/√m' then halt(3);
-  if ('|Ψ| = ' + ReciprocalSquareRootMeter.ToString(SquareRoot(2/BoxLen)*Sin(4*pi/BoxLen*BoxLen/8), 4, 4, [])) <> '|Ψ| = 6.325 1/√m' then halt(4);
+  if ('|Ψ| = ' + ReciprocalSquareRootMeterUnit.ToString(SquareRoot(2/BoxLen)*Sin(1*pi/BoxLen*BoxLen/2), 4, 4, [])) <> '|Ψ| = 6.325 1/√m' then halt(1);
+  if ('|Ψ| = ' + ReciprocalSquareRootMeterUnit.ToString(SquareRoot(2/BoxLen)*Sin(2*pi/BoxLen*BoxLen/4), 4, 4, [])) <> '|Ψ| = 6.325 1/√m' then halt(2);
+  if ('|Ψ| = ' + ReciprocalSquareRootMeterUnit.ToString(SquareRoot(2/BoxLen)*Sin(3*pi/BoxLen*BoxLen/6), 4, 4, [])) <> '|Ψ| = 6.325 1/√m' then halt(3);
+  if ('|Ψ| = ' + ReciprocalSquareRootMeterUnit.ToString(SquareRoot(2/BoxLen)*Sin(4*pi/BoxLen*BoxLen/8), 4, 4, [])) <> '|Ψ| = 6.325 1/√m' then halt(4);
 
-  if ('|Ψ²| = ' + ReciprocalMeter.ToString(SquarePsi[1])) <> '|Ψ²| = 40 1/m' then halt(5);
-  if ('|Ψ²| = ' + ReciprocalMeter.ToString(SquarePsi[2])) <> '|Ψ²| = 40 1/m' then halt(6);
-  if ('|Ψ²| = ' + ReciprocalMeter.ToString(SquarePsi[3])) <> '|Ψ²| = 40 1/m' then halt(7);
-  if ('|Ψ²| = ' + ReciprocalMeter.ToString(SquarePsi[4])) <> '|Ψ²| = 40 1/m' then halt(8);
+  if ('|Ψ²| = ' + ReciprocalMeterUnit.ToString(SquarePsi[1])) <> '|Ψ²| = 40 1/m' then halt(5);
+  if ('|Ψ²| = ' + ReciprocalMeterUnit.ToString(SquarePsi[2])) <> '|Ψ²| = 40 1/m' then halt(6);
+  if ('|Ψ²| = ' + ReciprocalMeterUnit.ToString(SquarePsi[3])) <> '|Ψ²| = 40 1/m' then halt(7);
+  if ('|Ψ²| = ' + ReciprocalMeterUnit.ToString(SquarePsi[4])) <> '|Ψ²| = 40 1/m' then halt(8);
 
   // TEST-103 : Calculate Ψ² integral
   Iterations  := 100;
@@ -1012,8 +1012,8 @@ begin
   bfactor := SquareRoot(2*Mass*(U0 - E1))/ReducedPlanckConstant;
   TunnelingProbability := (16*SquarePower(kfactor)*SquarePower(bfactor))/SquarePower(SquarePower(kfactor) + SquarePower(bfactor))*Exp(-2*bfactor*L1);
 
-  if ReciprocalMeter.ToString(bfactor, 3, 3, [pNano])  <> '8.87 1/nm' then halt(1);
-  if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)])           <> '9.75E-039' then halt(2);
+  if ReciprocalMeterUnit.ToString(bfactor, 3, 3, [pNano])        <> '8.87 1/nm' then halt(1);
+  if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)]) <> '9.75E-039' then halt(2);
 
   // SubCase-2
   E2      := 9*eV;
@@ -1022,8 +1022,8 @@ begin
   bfactor := SquareRoot(2*Mass*(U0 - E2))/ReducedPlanckConstant;
   TunnelingProbability := (16*(E2/U0)*(1-E2/U0))*Exp(-2*bfactor*L2);
 
-  if ReciprocalMeter.ToString(bfactor, 3, 3, [pNano]) <> '5.12 1/nm' then halt(1);
-  if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)])          <> '5.11E-005' then halt(2);
+  if ReciprocalMeterUnit.ToString(bfactor, 3, 3, [pNano])        <> '5.12 1/nm' then halt(1);
+  if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)]) <> '5.11E-005' then halt(2);
   writeln('* TEST-107: PASSED');
 
   writeln('ADIM-TEST DONE.');
