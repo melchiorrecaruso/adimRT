@@ -667,10 +667,10 @@ begin
           else
             Line := Line + Format('%3s ,', ['-1']);
 
-          if k <> -1 then
-            Messages.Add('%s / %s = %s', [FList[i].FDimension, FList[j].FDimension, FList[k].FDimension])
-          else
-            Messages.Add('%s / %s = unknow', [FList[i].FDimension, FList[j].FDimension]);
+          //if k <> -1 then
+          //  Messages.Add('%s / %s = %s', [FList[i].FDimension, FList[j].FDimension, FList[k].FDimension])
+          //else
+          //  Messages.Add('%s / %s = unknow', [FList[i].FDimension, FList[j].FDimension]);
 
         end;
       end;
@@ -706,10 +706,12 @@ begin
   for i := 0 to FList.Count -1 do
     if FList[i].FBase = '' then
     begin
-      j := FList.SearchFromEnd(FList[i].FExponents);
-
-      if i <> j then
-        Messages.Add('Warning: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
+      for j := 0 to FList.Count -1 do
+        if FList[j].FBase = '' then
+        begin
+          if FList.SameValue(FList[i].FExponents, FList[j].FExponents) and (i <> j) then
+            Messages.Add('Warning: %s and %s have same units of measurement [] .', [FList[i].FQuantity, FList[j].FQuantity]);
+        end;
     end;
 end;
 

@@ -441,7 +441,7 @@ var
           List1.Delete(i);
           Exit(1.0)
         end else
-          if TryStrTofloat(R, result) then
+          if TryStrToFloat(R, result) then
           begin
             List1.Delete(i);
             Exit(result);
@@ -470,6 +470,17 @@ begin
   result[2] := GetExponent(  'm');
   result[1] := GetExponent( 'kg');
   List1.Destroy;
+end;
+
+function DimensionToString(const ADim: TExponents): string;
+begin
+  if not Math.SameValue(ADim[1], 0)
+
+
+
+
+
+
 end;
 
 function SumDim(const ADim1, ADim2: TExponents): TExponents;
