@@ -1,6 +1,6 @@
 ;TScalar;;;;;;;;;clLime
 ;TRadian?;;radian?;rad;rad;TScalar;;;;clYellow
-;TDegree?;;degree?;deg;deg;TScalar;Pi/180;;;clWhite
+;TDegree?;;degree?;deg;deg;TScalar;Pi/180;;;clYellow
 ;TSteradian?;sr;steradian?;sr;sr;;;;;clLime
 ;TSquareDegree?;;square degree?;deg2;deg2;TSteradian?;Pi*Pi/32400;;;clWhite
 ;TSecond?;s;%ssecond?;%ss;s;;;------------SSSSSS------;;clLime
@@ -123,10 +123,10 @@
 ;TCalorie?;;%scalorie?;%scal;cal;TJoule?;4.184;--------SS--------------;;clWhite
 ;TKilogramSquareMeter?PerSquareSecond;;%sgram square %smeter? per square %ssecond;%sg.%sm2/%ss2;;TJoule?;;;;clWhite
 ;TJoule?PerRadian;;%sjoule? per radian;%sJ/rad;;TJoule?;;;;clYellow
-;TJoule?PerDegree;;%sjoule? per degree;%sJ/deg;;TJoule?;180/Pi;;;clWhite
-;TNewtonMeter?PerRadian;;%snewton %smeter? per radian;%sN.%sm/rad;;TJoule?;;;;clWhite
-;TNewtonMeter?PerDegree;;%snewton %smeter? per degree;%sN.%sm/deg;;TJoule?;180/Pi;;;clWhite
-;TKilogramSquareMeter?PerSquareSecondPerRadian;;%sgram square %smeter? per square %ssecond per radian;%sg.%sm2/%ss2/rad;;TJoule?;;;;clWhite
+;TJoule?PerDegree;;%sjoule? per degree;%sJ/deg;;TJoule?;180/Pi;;;clYellow
+;TNewtonMeter?PerRadian;;%snewton %smeter? per radian;%sN.%sm/rad;;TJoule?;;;;clYellow
+;TNewtonMeter?PerDegree;;%snewton %smeter? per degree;%sN.%sm/deg;;TJoule?;180/Pi;;;clYellow
+;TKilogramSquareMeter?PerSquareSecondPerRadian;;%sgram square %smeter? per square %ssecond per radian;%sg.%sm2/%ss2/rad;;TJoule?;;;;clYellow
 ;TWatt?;kg m2 s-3;%swatt?;%sW;W;;;------SSSS----L---------;;clLime
 ;TKilogramSquareMeter?PerCubicSecond;;%sgram square %smeter? per cubic %ssecond;%sg.%sm2/%ss3;;TWatt?;;;;clWhite
 ;TCoulomb?;s A;%scoulomb?;%sC;C;;;---------SSSSSSSSS------;;clLime
@@ -140,7 +140,7 @@
 ;TKilogramSquareMeter?PerAmperePerCubicSecond;;%sgram square %smeter? per %sampere per cubic %ssecond;%sg.%sm2/%sA/%ss3;;TVolt?;;;;clWhite
 ;TSquareVolt?;kg2 m4 s-6 A-2;square %svolt?;%sV2;V2;;;---------S----S---------;;clLime
 ;TSquareKilogramQuarticMeter?PerSquareAmperePerSexticSecond;;square %sgram quartic %smeter? per square %sampere per sextic %ssecond;%sg2.%sm3/%sA2/%ss6;;TSquareVolt?;;;;clWhite
-;TFarad?;s4 A2 kg-1 m-2;%sfarad?;%sF;F;;;--------------SSSS------;;$00FF80FF
+;TFarad?;s4 A2 kg-1 m-2;%sfarad?;%sF;F;;;--------------SSSS------;;clLime
 ;TCoulomb?PerVolt;;%scoulomb? per %svolt;%sC/%sV;;TFarad?;;;;clWhite
 ;TSquareAmpereQuarticSecond?PerKilogramPerSquareMeter;;square %sampere quartic %ssecond? per %sgram per square %smeter;%sA2.%ss4/%sg/%sm2;;TFarad?;;;;clWhite
 ;TOhm?;kg m2 s-3 A-2;%sohm?;%sΩ;ohm;;;-------SLS----SSS-------;;clLime
