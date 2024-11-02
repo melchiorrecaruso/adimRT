@@ -161,7 +161,7 @@ begin
     if (FList[i].FBase = '') then
     begin
       FList[i].FTableIndex := BaseUnitCount;
-      FList[i].FExponents  := GetDimensions(FList[i].FDimension);
+      FList[i].FExponents  := StringToDimensions(FList[i].FDimension);
       Inc(BaseUnitCount);
 
       AddUnit(FList[i], SectionA);
@@ -502,7 +502,7 @@ begin
   begin
     if FList[i].FBase = '' then
     begin
-      D1 := GetDimensions(FList[i].FDimension);
+      D1 := StringToDimensions(FList[i].FDimension);
 
       for j := Low(D1) to High(D1) do D2[j] := D1[j] *2;
       for j := Low(D1) to High(D1) do D3[j] := D1[j] *3;
@@ -545,7 +545,7 @@ begin
   begin
     if FList[i].FBase = '' then
     begin
-      D1 := GetDimensions(FList[i].FDimension);
+      D1 := StringToDimensions(FList[i].FDimension);
 
       for j := Low(D1) to High(D1) do D2[j] := D1[j] /2;
       for j := Low(D1) to High(D1) do D3[j] := D1[j] /3;
@@ -666,12 +666,6 @@ begin
             Line := Line + Format('%3s ,', [FList[k].FTableIndex.ToString])
           else
             Line := Line + Format('%3s ,', ['-1']);
-
-          //if k <> -1 then
-          //  Messages.Add('%s / %s = %s', [FList[i].FDimension, FList[j].FDimension, FList[k].FDimension])
-          //else
-          //  Messages.Add('%s / %s = unknow', [FList[i].FDimension, FList[j].FDimension]);
-
         end;
       end;
 
@@ -710,7 +704,7 @@ begin
         if FList[j].FBase = '' then
         begin
           if FList.SameValue(FList[i].FExponents, FList[j].FExponents) and (i <> j) then
-            Messages.Add('Warning: %s and %s have same units of measurement [] .', [FList[i].FQuantity, FList[j].FQuantity]);
+            Messages.Add('Warning: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
         end;
     end;
 end;
@@ -981,7 +975,8 @@ begin
             Math.SameValue(ADim1[4], ADim2[4]) and
             Math.SameValue(ADim1[5], ADim2[5]) and
             Math.SameValue(ADim1[6], ADim2[6]) and
-            Math.SameValue(ADim1[7], ADim2[7]);
+            Math.SameValue(ADim1[7], ADim2[7]) and
+            Math.SameValue(ADim1[8], ADim2[8]);
 end;
 
 procedure TToolKitList.SaveToFile(const AFileName: string);

@@ -83,7 +83,9 @@ function GetUnitRec(const S: string): string;
 
 function GetHelperFuncName(const S: string): string;
 
-function GetDimensions(const S: string): TExponents;
+function StringToDimensions(const S: string): TExponents;
+function DimensionToString(const ADim: TExponents): string;
+
 function SumDim(const ADim1, ADim2: TExponents): TExponents;
 function SubDim(const ADim1, ADim2: TExponents): TExponents;
 
@@ -170,16 +172,6 @@ begin
       result[Index] := result[Index] + AStr[I];
    end;
   SetLength(result, Index + 1);
-end;
-
-procedure Clear(var AValue: TExponents);
-var
-  i: longint;
-begin
-  for i := Low(AValue) to High(AValue) do
-  begin
-    AValue[i] := 0;
-  end;
 end;
 
 function GetSymbolResourceString(const AClassName: string): string;
@@ -417,7 +409,7 @@ begin
   if Result <> ''      then Result := Result;
 end;
 
-function GetDimensions(const S: string): TExponents;
+function StringToDimensions(const S: string): TExponents;
 var
   i: longint;
   List1: TStringList;
@@ -461,26 +453,37 @@ begin
   end;
   List2 := nil;
 
-  result[8] := GetExponent('rad');
-  result[7] := GetExponent(  'K');
-  result[6] := GetExponent( 'cd');
-  result[5] := GetExponent('mol');
-  result[4] := GetExponent(  'A');
-  result[3] := GetExponent(  's');
-  result[2] := GetExponent(  'm');
   result[1] := GetExponent( 'kg');
+  result[2] := GetExponent(  'm');
+  result[3] := GetExponent(  's');
+  result[4] := GetExponent(  'A');
+  result[5] := GetExponent('mol');
+  result[6] := GetExponent( 'cd');
+  result[7] := GetExponent(  'K');
+  result[8] := GetExponent( 'sr');
   List1.Destroy;
 end;
 
 function DimensionToString(const ADim: TExponents): string;
+var
+  i: longint;
 begin
-  if not Math.SameValue(ADim[1], 0)
+  result := '';
 
+  if not Math.SameValue(ADim[1], 0) then result := result + Format('kg%0.1f ',  [ADim[1]]);
+  if not Math.SameValue(ADim[2], 0) then result := result + Format('m%0.1f ',   [ADim[2]]);
+  if not Math.SameValue(ADim[3], 0) then result := result + Format('s%0.1f ',   [ADim[3]]);
+  if not Math.SameValue(ADim[4], 0) then result := result + Format('A%0.1f ',   [ADim[4]]);
+  if not Math.SameValue(ADim[5], 0) then result := result + Format('mol%0.1f ', [ADim[5]]);
+  if not Math.SameValue(ADim[6], 0) then result := result + Format('cd%0.1f ',  [ADim[6]]);
+  if not Math.SameValue(ADim[7], 0) then result := result + Format('K%0.1f ',   [ADim[7]]);
+  if not Math.SameValue(ADim[8], 0) then result := result + Format('sr%0.1f ',  [ADim[8]]);
 
-
-
-
-
+  i := Length(result);
+  if i > 0 then
+  begin
+    SetLength(result, i -1);
+  end;
 end;
 
 function SumDim(const ADim1, ADim2: TExponents): TExponents;
