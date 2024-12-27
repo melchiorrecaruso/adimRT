@@ -681,7 +681,7 @@ begin
   z        := 0*cm;
   B        := MagneticPermeability/(2*pi) * (current/(SquareRoot(CubicPower(SquarePower(z)+SquarePower(R)))/SquarePower(R)));
   {$IFDEF WINDOWS}
-  if Utf8ToAnsi(T.ToVerboseString(B, 4, 2, [pMicro])) <> Utf8ToAnsi('1.2 µT') then halt(1);
+  if Utf8ToAnsi(T.ToString(B, 4, 2, [pMicro])) <> Utf8ToAnsi('1.2 µT') then halt(1);
   {$ENDIF}
   {$IFDEF UNIX}
   if T.ToVerboseString(B, 4, 2, [pMicro]) <> '1.2 microteslas' then halt(1);
