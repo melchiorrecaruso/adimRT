@@ -14,35 +14,35 @@ type
   { Exponents } 
   TExponents = array of longint;
 
-  { TScalar }
+  { TAScalar }
 
   {$IFDEF USEADIM}
-  TScalar = record
+  TAScalar = record
   private
     FUnitOfMeasurement: longint;
     FValue: double;
   public
-    class operator + (const ASelf: TScalar): TScalar;
-    class operator - (const ASelf: TScalar): TScalar;
-    class operator + (const ALeft, ARight: TScalar): TScalar;
-    class operator - (const ALeft, ARight: TScalar): TScalar;
-    class operator * (const ALeft, ARight: TScalar): TScalar;
-    class operator / (const ALeft, ARight: TScalar): TScalar;
-    class operator * (const ALeft: double; const ARight: TScalar): TScalar;
-    class operator / (const ALeft: double; const ARight: TScalar): TScalar;
-    class operator * (const ALeft: TScalar; const ARight: double): TScalar;
-    class operator / (const ALeft: TScalar; const ARight: double): TScalar;
+    class operator + (const ASelf: TAScalar): TAScalar;
+    class operator - (const ASelf: TAScalar): TAScalar;
+    class operator + (const ALeft, ARight: TAScalar): TAScalar;
+    class operator - (const ALeft, ARight: TAScalar): TAScalar;
+    class operator * (const ALeft, ARight: TAScalar): TAScalar;
+    class operator / (const ALeft, ARight: TAScalar): TAScalar;
+    class operator * (const ALeft: double; const ARight: TAScalar): TAScalar;
+    class operator / (const ALeft: double; const ARight: TAScalar): TAScalar;
+    class operator * (const ALeft: TAScalar; const ARight: double): TAScalar;
+    class operator / (const ALeft: TAScalar; const ARight: double): TAScalar;
 
-    class operator = (const ALeft, ARight: TScalar): boolean;
-    class operator < (const ALeft, ARight: TScalar): boolean;
-    class operator > (const ALeft, ARight: TScalar): boolean;
-    class operator <=(const ALeft, ARight: TScalar): boolean;
-    class operator >=(const ALeft, ARight: TScalar): boolean;
-    class operator <>(const ALeft, ARight: TScalar): boolean;
-    class operator :=(const ASelf: double): TScalar;
+    class operator = (const ALeft, ARight: TAScalar): boolean;
+    class operator < (const ALeft, ARight: TAScalar): boolean;
+    class operator > (const ALeft, ARight: TAScalar): boolean;
+    class operator <=(const ALeft, ARight: TAScalar): boolean;
+    class operator >=(const ALeft, ARight: TAScalar): boolean;
+    class operator <>(const ALeft, ARight: TAScalar): boolean;
+    class operator :=(const ASelf: double): TAScalar;
   end;
   {$ELSE}
-  TScalar = double;
+  TAScalar = double;
   {$ENDIF}
 
   { TUnit }
@@ -53,24 +53,24 @@ type
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
     function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
-    procedure Check(var AQuantity: TScalar);
-    function ToFloat(const AQuantity: TScalar): double;
-    function ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TScalar): string;
-    function ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar): string;
-    function ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AValue: double; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AValue: double; const ASelf: TSelf): TScalar; inline;
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
   {$IFDEF USEADIM}
-    class operator *(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
   {$ENDIF}
   end;
 
@@ -82,24 +82,24 @@ type
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
     function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
-    procedure Check(var AQuantity: TScalar);
-    function ToFloat(const AQuantity: TScalar): double;
-    function ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TScalar): string;
-    function ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar): string;
-    function ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AValue: double; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AValue: double; const ASelf: TSelf): TScalar; inline;
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
   {$IFDEF USEADIM}
-    class operator *(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
   {$ENDIF}
   end;
 

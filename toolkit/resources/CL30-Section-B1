@@ -2079,23 +2079,103 @@ end;
 
 { TUnit }
 
-class operator TUnit.*(const AValue: double; const ASelf: TUnit): TScalar; inline;
+class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TScalar; inline;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := AValue;
+  result.FValue := AQuantity;
 {$ELSE}
-  result := AValue;
+  result := AQuantity;
 {$ENDIF}
 end;
 
-class operator TUnit./(const AValue: double; const ASelf: TUnit): TScalar; inline;
+class operator TUnit./(const AQuantity: double; const ASelf: TUnit): TScalar; inline;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
-  result.FValue := AValue;
+  result.FValue := AQuantity;
 {$ELSE}
-  result := AValue;
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AQuantity: CL3.TVector; const ASelf: TSelf): TVector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: CL3.TVector; const ASelf: TSelf): TVector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AQuantity: CL3.TBivector; const ASelf: TSelf): TBivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: CL3.TBivector; const ASelf: TSelf): TBivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AQuantity: CL3.TTrivector; const ASelf: TSelf): TTrivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: CL3.TTrivector; const ASelf: TSelf): TTrivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AQuantity: CL3.TMultivector; const ASelf: TSelf): TMultivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: CL3.TMultivector; const ASelf: TSelf): TMultivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
 {$ENDIF}
 end;
 
@@ -2111,6 +2191,55 @@ begin
   result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := AQuantity.FValue;
 end;
+
+class operator TUnit.*(const AQuantity: TVector; const ASelf: TSelf): TVector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TVector; const ASelf: TSelf): TVector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TBivector; const ASelf: TSelf): TBivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TBivector; const ASelf: TSelf): TBivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TTrivector; const ASelf: TSelf): TTrivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TTrivector; const ASelf: TSelf): TTrivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TMultivector; const ASelf: TSelf): TMultivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TMultivector; const ASelf: TSelf): TMultivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
 {$ENDIF}
 
 function TUnit.GetName(const Prefixes: TPrefixes): string;

@@ -23,160 +23,160 @@ uses
   ADim, Math, SysUtils;
 
 var
-  side1: TScalar;
-  side2, side3, side4: TScalar;
-  area: TScalar;
-  volume: TScalar;
-  hypervolume: TScalar;
+  side1: TAScalar;
+  side2, side3, side4: TAScalar;
+  area: TAScalar;
+  volume: TAScalar;
+  hypervolume: TAScalar;
 
-  pressure: TScalar;
-  stiffness: TScalar;
+  pressure: TAScalar;
+  stiffness: TAScalar;
 
-  squarecharge: TScalar;
-  capacitance: TScalar;
+  squarecharge: TAScalar;
+  capacitance: TAScalar;
 
-  distance: TScalar;
-  tolerance: TScalar;
-  time: TScalar;
-  speed: TScalar;
-  spin: TScalar;
-  acc: TScalar;
-  density: TScalar;
-  specificw: TScalar;
-  force, normal: TScalar;
+  distance: TAScalar;
+  tolerance: TAScalar;
+  time: TAScalar;
+  speed: TAScalar;
+  spin: TAScalar;
+  acc: TAScalar;
+  density: TAScalar;
+  specificw: TAScalar;
+  force, normal: TAScalar;
 
-  torque: TScalar;
-  work: TScalar;
-  power: TScalar;
+  torque: TAScalar;
+  work: TAScalar;
+  power: TAScalar;
 
-  charge: TScalar;
-  potential: TScalar;
-  current: TScalar;
+  charge: TAScalar;
+  potential: TAScalar;
+  current: TAScalar;
 
-  flux: TScalar;
-  fluxdensity: TScalar;
+  flux: TAScalar;
+  fluxdensity: TAScalar;
 
-  inductance: TScalar;
-  resistance: TScalar;
-  conductance: TScalar;
+  inductance: TAScalar;
+  resistance: TAScalar;
+  conductance: TAScalar;
 
-  solidangle: TScalar;
-  intensity: TScalar;
-  luminousflux: TScalar;
+  solidangle: TAScalar;
+  intensity: TAScalar;
+  luminousflux: TAScalar;
 
-  dose1: TScalar;
-  dose2: TScalar;
+  dose1: TAScalar;
+  dose2: TAScalar;
 
-  angularspeed: TScalar;
+  angularspeed: TAScalar;
 
-  kA: TScalar;
-  kAr: TScalar;
-  radius: TScalar;
-  radius1: TScalar;
-  radius2: TScalar;
+  kA: TAScalar;
+  kAr: TAScalar;
+  radius: TAScalar;
+  radius1: TAScalar;
+  radius2: TAScalar;
 
-  Mass: TScalar;
-  MassOfSun: TScalar;
-  MassOfSagittariusAStar: TScalar;
-  eta: TScalar;
-  Cb: TScalar;
+  Mass: TAScalar;
+  MassOfSun: TAScalar;
+  MassOfSagittariusAStar: TAScalar;
+  eta: TAScalar;
+  Cb: TAScalar;
 
-  mass1: TScalar;
-  mass2: TScalar;
+  mass1: TAScalar;
+  mass2: TAScalar;
 
-  cCd: TScalar;
-  angle: TScalar;
+  cCd: TAScalar;
+  angle: TAScalar;
 
-  Uc: TScalar;
-  Ug: TScalar;
+  Uc: TAScalar;
+  Ug: TAScalar;
 
-  Ue: TScalar;
-  kx: TScalar;
-  x: TScalar;
+  Ue: TAScalar;
+  kx: TAScalar;
+  x: TAScalar;
 
-  q1: TScalar;
-  q2: TScalar;
-  Uel: TScalar;
-  U: TScalar;
+  q1: TAScalar;
+  q2: TAScalar;
+  Uel: TAScalar;
+  U: TAScalar;
 
-  p: TScalar;
-  p2: TScalar;
-  impulse: TScalar;
-  Lp: TScalar;
+  p: TAScalar;
+  p2: TAScalar;
+  impulse: TAScalar;
+  Lp: TAScalar;
 
-  flowrate: TScalar;
+  flowrate: TAScalar;
 
-  lambda: TScalar;
-  deltadist: TScalar;
-  deltatemp: TScalar;
+  lambda: TAScalar;
+  deltadist: TAScalar;
+  deltatemp: TAScalar;
 
-  specificheatcapacity: TScalar;
-  heatcapacity: TScalar;
+  specificheatcapacity: TAScalar;
+  heatcapacity: TAScalar;
 
-  _m1: TScalar;
-  _m2: TScalar;
-  _tf: TScalar;
-  _t1: TScalar;
-  _t2: TScalar;
-  _c1: TScalar;
-  _c2: TScalar;
+  _m1: TAScalar;
+  _m2: TAScalar;
+  _tf: TAScalar;
+  _t1: TAScalar;
+  _t2: TAScalar;
+  _c1: TAScalar;
+  _c2: TAScalar;
 
-  lambda2: TScalar;
+  lambda2: TAScalar;
 
-  E: TScalar;
-  sigma: TScalar;
+  E: TAScalar;
+  sigma: TAScalar;
 
-  B: TScalar;
-  len: TScalar;
-  r: TScalar;
-  z: TScalar;
+  B: TAScalar;
+  len: TAScalar;
+  r: TAScalar;
+  z: TAScalar;
   loops: longint;
 
-  i1, i2: TScalar;
-  magneticflux: TScalar;
+  i1, i2: TAScalar;
+  magneticflux: TAScalar;
 
-  DeltaE: TScalar;
+  DeltaE: TAScalar;
 
-  Ampl: TScalar;
-  Kw: TScalar;
-  Omega: TScalar;
-  phi: TScalar;
+  Ampl: TAScalar;
+  Kw: TAScalar;
+  Omega: TAScalar;
+  phi: TAScalar;
 
-  wavelen: TScalar;
-  wavelenc: TScalar;
-  yspeed: TScalar;
-  yacc: TScalar;
+  wavelen: TAScalar;
+  wavelenc: TAScalar;
+  yspeed: TAScalar;
+  yacc: TAScalar;
 
-  E0: TScalar;
-  Energy: TScalar;
-  freq: TScalar;
+  E0: TAScalar;
+  Energy: TAScalar;
+  freq: TAScalar;
 
-  I: TScalar;
-  Re: TScalar;
+  I: TAScalar;
+  Re: TAScalar;
 
   num: integer;
-  alpha: TScalar;
-  kc: TScalar;
-  BoxLen: TScalar;
-  EnergyLevels: array[1..4] of TScalar;
-  SquarePsi: array[1..4] of TScalar;
-  Psi0: TScalar;
-  PsiValues: array [1..4] of TScalar;
-  A0: TScalar;
-  y: TScalar;
+  alpha: TAScalar;
+  kc: TAScalar;
+  BoxLen: TAScalar;
+  EnergyLevels: array[1..4] of TAScalar;
+  SquarePsi: array[1..4] of TAScalar;
+  Psi0: TAScalar;
+  PsiValues: array [1..4] of TAScalar;
+  A0: TAScalar;
+  y: TAScalar;
 
   Iteration: longint;
   Iterations: longint;
-  Probability: TScalar;
-  mu: TScalar;
+  Probability: TAScalar;
+  mu: TAScalar;
 
-  E1, E2: TScalar;
-  L1, L2: TScalar;
+  E1, E2: TAScalar;
+  L1, L2: TAScalar;
 
-  kfactor: TScalar;
-  bfactor: TScalar;
-  U0: TScalar;
-  TunnelingProbability: TScalar;
+  kfactor: TAScalar;
+  bfactor: TAScalar;
+  U0: TAScalar;
+  TunnelingProbability: TAScalar;
 
 begin
   ExitCode := 0;

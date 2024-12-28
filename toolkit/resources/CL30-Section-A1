@@ -494,11 +494,27 @@ type
     function ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AValue: double; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AValue: double; const ASelf: TSelf): TScalar; inline;
+    class operator *(const AQuantity: double; const ASelf: TSelf): TScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TSelf): TScalar; inline;
+    class operator *(const AQuantity: CL3.TVector; const ASelf: TSelf): TVector; inline;
+    class operator /(const AQuantity: CL3.TVector; const ASelf: TSelf): TVector; inline;
+    class operator *(const AQuantity: CL3.TBivector; const ASelf: TSelf): TBivector; inline;
+    class operator /(const AQuantity: CL3.TBivector; const ASelf: TSelf): TBivector; inline;
+    class operator *(const AQuantity: CL3.TTrivector; const ASelf: TSelf): TTrivector; inline;
+    class operator /(const AQuantity: CL3.TTrivector; const ASelf: TSelf): TTrivector; inline;
+    class operator *(const AQuantity: CL3.TMultivector; const ASelf: TSelf): TMultivector; inline;
+    class operator /(const AQuantity: CL3.TMultivector; const ASelf: TSelf): TMultivector; inline;
   {$IFDEF USEADIM}
     class operator *(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
     class operator /(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TSelf): TVector; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TSelf): TVector; inline;
+    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TBivector; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TBivector; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TTrivector; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TTrivector; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TMultivector; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TMultivector; inline;
   {$ENDIF}
   end;
 

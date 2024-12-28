@@ -50,35 +50,35 @@ type
   { Exponents }
   TExponents = array of longint;
 
-  { TScalar }
+  { TAScalar }
 
   {$IFDEF USEADIM}
-  TScalar = record
+  TAScalar = record
   private
     FUnitOfMeasurement: longint;
     FValue: double;
   public
-    class operator + (const ASelf: TScalar): TScalar;
-    class operator - (const ASelf: TScalar): TScalar;
-    class operator + (const ALeft, ARight: TScalar): TScalar;
-    class operator - (const ALeft, ARight: TScalar): TScalar;
-    class operator * (const ALeft, ARight: TScalar): TScalar;
-    class operator / (const ALeft, ARight: TScalar): TScalar;
-    class operator * (const ALeft: double; const ARight: TScalar): TScalar;
-    class operator / (const ALeft: double; const ARight: TScalar): TScalar;
-    class operator * (const ALeft: TScalar; const ARight: double): TScalar;
-    class operator / (const ALeft: TScalar; const ARight: double): TScalar;
+    class operator + (const ASelf: TAScalar): TAScalar;
+    class operator - (const ASelf: TAScalar): TAScalar;
+    class operator + (const ALeft, ARight: TAScalar): TAScalar;
+    class operator - (const ALeft, ARight: TAScalar): TAScalar;
+    class operator * (const ALeft, ARight: TAScalar): TAScalar;
+    class operator / (const ALeft, ARight: TAScalar): TAScalar;
+    class operator * (const ALeft: double; const ARight: TAScalar): TAScalar;
+    class operator / (const ALeft: double; const ARight: TAScalar): TAScalar;
+    class operator * (const ALeft: TAScalar; const ARight: double): TAScalar;
+    class operator / (const ALeft: TAScalar; const ARight: double): TAScalar;
 
-    class operator = (const ALeft, ARight: TScalar): boolean;
-    class operator < (const ALeft, ARight: TScalar): boolean;
-    class operator > (const ALeft, ARight: TScalar): boolean;
-    class operator <=(const ALeft, ARight: TScalar): boolean;
-    class operator >=(const ALeft, ARight: TScalar): boolean;
-    class operator <>(const ALeft, ARight: TScalar): boolean;
-    class operator :=(const ASelf: double): TScalar;
+    class operator = (const ALeft, ARight: TAScalar): boolean;
+    class operator < (const ALeft, ARight: TAScalar): boolean;
+    class operator > (const ALeft, ARight: TAScalar): boolean;
+    class operator <=(const ALeft, ARight: TAScalar): boolean;
+    class operator >=(const ALeft, ARight: TAScalar): boolean;
+    class operator <>(const ALeft, ARight: TAScalar): boolean;
+    class operator :=(const ASelf: double): TAScalar;
   end;
   {$ELSE}
-  TScalar = double;
+  TAScalar = double;
   {$ENDIF}
 
   { TUnit }
@@ -89,24 +89,24 @@ type
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
     function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
-    procedure Check(var AQuantity: TScalar);
-    function ToFloat(const AQuantity: TScalar): double;
-    function ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TScalar): string;
-    function ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar): string;
-    function ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AValue: double; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AValue: double; const ASelf: TSelf): TScalar; inline;
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
   {$IFDEF USEADIM}
-    class operator *(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
   {$ENDIF}
   end;
 
@@ -118,24 +118,24 @@ type
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
     function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
-    procedure Check(var AQuantity: TScalar);
-    function ToFloat(const AQuantity: TScalar): double;
-    function ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TScalar): string;
-    function ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar): string;
-    function ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AValue: double; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AValue: double; const ASelf: TSelf): TScalar; inline;
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
   {$IFDEF USEADIM}
-    class operator *(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
   {$ENDIF}
   end;
 
@@ -190,7 +190,7 @@ type
   TDegreeUnit = specialize TFactoredUnit<TDegreeRec>;
 
 const
-  deg        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 0; FValue: Pi/180); {$ELSE} (Pi/180); {$ENDIF}
+  deg        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 0; FValue: Pi/180); {$ELSE} (Pi/180); {$ENDIF}
 
 var
   DegreeUnit : TDegreeUnit;
@@ -230,7 +230,7 @@ type
   TSquareDegreeUnit = specialize TFactoredUnit<TSquareDegreeRec>;
 
 const
-  deg2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 1; FValue: Pi*Pi/32400); {$ELSE} (Pi*Pi/32400); {$ENDIF}
+  deg2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 1; FValue: Pi*Pi/32400); {$ELSE} (Pi*Pi/32400); {$ENDIF}
 
 var
   SquareDegreeUnit : TSquareDegreeUnit;
@@ -255,12 +255,12 @@ var
   s, SecondUnit : TSecondUnit;
 
 const
-  ds         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cs         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  ms         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  mis        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  ns         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  ps         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ds         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cs         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  ms         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  mis        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  ns         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  ps         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TDay }
 
@@ -278,7 +278,7 @@ type
   TDayUnit = specialize TFactoredUnit<TDayRec>;
 
 const
-  day        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 86400); {$ELSE} (86400); {$ENDIF}
+  day        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 86400); {$ELSE} (86400); {$ENDIF}
 
 var
   DayUnit : TDayUnit;
@@ -299,7 +299,7 @@ type
   THourUnit = specialize TFactoredUnit<THourRec>;
 
 const
-  hr         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 3600); {$ELSE} (3600); {$ENDIF}
+  hr         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 3600); {$ELSE} (3600); {$ENDIF}
 
 var
   HourUnit : THourUnit;
@@ -320,7 +320,7 @@ type
   TMinuteUnit = specialize TFactoredUnit<TMinuteRec>;
 
 const
-  minute     : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 60); {$ELSE} (60); {$ENDIF}
+  minute     : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 60); {$ELSE} (60); {$ENDIF}
 
 var
   MinuteUnit : TMinuteUnit;
@@ -345,12 +345,12 @@ var
   s2, SquareSecondUnit : TSquareSecondUnit;
 
 const
-  ds2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cs2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  ms2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mis2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  ns2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ps2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  ds2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cs2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  ms2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mis2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ns2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ps2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareDay }
 
@@ -368,7 +368,7 @@ type
   TSquareDayUnit = specialize TFactoredUnit<TSquareDayRec>;
 
 const
-  day2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 7464960000); {$ELSE} (7464960000); {$ENDIF}
+  day2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 7464960000); {$ELSE} (7464960000); {$ENDIF}
 
 var
   SquareDayUnit : TSquareDayUnit;
@@ -389,7 +389,7 @@ type
   TSquareHourUnit = specialize TFactoredUnit<TSquareHourRec>;
 
 const
-  hr2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 12960000); {$ELSE} (12960000); {$ENDIF}
+  hr2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 12960000); {$ELSE} (12960000); {$ENDIF}
 
 var
   SquareHourUnit : TSquareHourUnit;
@@ -410,7 +410,7 @@ type
   TSquareMinuteUnit = specialize TFactoredUnit<TSquareMinuteRec>;
 
 const
-  minute2    : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 3600); {$ELSE} (3600); {$ENDIF}
+  minute2    : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 3600); {$ELSE} (3600); {$ENDIF}
 
 var
   SquareMinuteUnit : TSquareMinuteUnit;
@@ -435,12 +435,12 @@ var
   s3, CubicSecondUnit : TCubicSecondUnit;
 
 const
-  ds3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  cs3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  ms3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  mis3       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ns3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
-  ps3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ds3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  cs3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  ms3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mis3       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ns3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
+  ps3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 4; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
 
 { TQuarticSecond }
 
@@ -462,12 +462,12 @@ var
   s4, QuarticSecondUnit : TQuarticSecondUnit;
 
 const
-  ds4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cs4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  ms4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mis4       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  ns4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  ps4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
+  ds4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cs4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  ms4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mis4       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  ns4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ps4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 5; FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
 
 { TQuinticSecond }
 
@@ -489,12 +489,12 @@ var
   s5, QuinticSecondUnit : TQuinticSecondUnit;
 
 const
-  ds5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  cs5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  ms5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
-  mis5       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
-  ns5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
-  ps5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
+  ds5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  cs5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  ms5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  mis5       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  ns5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
+  ps5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 6; FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
 
 { TSexticSecond }
 
@@ -516,12 +516,12 @@ var
   s6, SexticSecondUnit : TSexticSecondUnit;
 
 const
-  ds6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  cs6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  ms6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  mis6       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  ns6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
-  ps6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
+  ds6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cs6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ms6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  mis6       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ns6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
+  ps6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 7; FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
 
 { TMeter }
 
@@ -543,13 +543,13 @@ var
   m, MeterUnit : TMeterUnit;
 
 const
-  km         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  dm         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cm         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mm         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  mim        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nm         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pm         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  km         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  dm         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cm         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mm         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  mim        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nm         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pm         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TAstronomical }
 
@@ -567,7 +567,7 @@ type
   TAstronomicalUnit = specialize TFactoredUnit<TAstronomicalRec>;
 
 const
-  au         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 149597870691); {$ELSE} (149597870691); {$ENDIF}
+  au         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 149597870691); {$ELSE} (149597870691); {$ENDIF}
 
 var
   AstronomicalUnit : TAstronomicalUnit;
@@ -588,7 +588,7 @@ type
   TInchUnit = specialize TFactoredUnit<TInchRec>;
 
 const
-  inch       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 0.0254); {$ELSE} (0.0254); {$ENDIF}
+  inch       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 0.0254); {$ELSE} (0.0254); {$ENDIF}
 
 var
   InchUnit : TInchUnit;
@@ -609,7 +609,7 @@ type
   TFootUnit = specialize TFactoredUnit<TFootRec>;
 
 const
-  ft         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 0.3048); {$ELSE} (0.3048); {$ENDIF}
+  ft         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 0.3048); {$ELSE} (0.3048); {$ENDIF}
 
 var
   FootUnit : TFootUnit;
@@ -630,7 +630,7 @@ type
   TYardUnit = specialize TFactoredUnit<TYardRec>;
 
 const
-  yd         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 0.9144); {$ELSE} (0.9144); {$ENDIF}
+  yd         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 0.9144); {$ELSE} (0.9144); {$ENDIF}
 
 var
   YardUnit : TYardUnit;
@@ -651,7 +651,7 @@ type
   TMileUnit = specialize TFactoredUnit<TMileRec>;
 
 const
-  mi         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1609.344); {$ELSE} (1609.344); {$ENDIF}
+  mi         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1609.344); {$ELSE} (1609.344); {$ENDIF}
 
 var
   MileUnit : TMileUnit;
@@ -672,7 +672,7 @@ type
   TNauticalMileUnit = specialize TFactoredUnit<TNauticalMileRec>;
 
 const
-  nmi        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1852); {$ELSE} (1852); {$ENDIF}
+  nmi        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1852); {$ELSE} (1852); {$ENDIF}
 
 var
   NauticalMileUnit : TNauticalMileUnit;
@@ -693,7 +693,7 @@ type
   TAngstromUnit = specialize TFactoredUnit<TAngstromRec>;
 
 const
-  angstrom   : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  angstrom   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
 
 var
   AngstromUnit : TAngstromUnit;
@@ -737,13 +737,13 @@ var
   m2, SquareMeterUnit : TSquareMeterUnit;
 
 const
-  km2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  dm2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cm2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mm2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mim2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nm2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  pm2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  km2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  dm2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cm2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mm2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mim2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nm2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  pm2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareInch }
 
@@ -761,7 +761,7 @@ type
   TSquareInchUnit = specialize TFactoredUnit<TSquareInchRec>;
 
 const
-  inch2      : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 0.00064516); {$ELSE} (0.00064516); {$ENDIF}
+  inch2      : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 0.00064516); {$ELSE} (0.00064516); {$ENDIF}
 
 var
   SquareInchUnit : TSquareInchUnit;
@@ -782,7 +782,7 @@ type
   TSquareFootUnit = specialize TFactoredUnit<TSquareFootRec>;
 
 const
-  ft2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 0.09290304); {$ELSE} (0.09290304); {$ENDIF}
+  ft2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 0.09290304); {$ELSE} (0.09290304); {$ENDIF}
 
 var
   SquareFootUnit : TSquareFootUnit;
@@ -803,7 +803,7 @@ type
   TSquareYardUnit = specialize TFactoredUnit<TSquareYardRec>;
 
 const
-  yd2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 0.83612736); {$ELSE} (0.83612736); {$ENDIF}
+  yd2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 0.83612736); {$ELSE} (0.83612736); {$ENDIF}
 
 var
   SquareYardUnit : TSquareYardUnit;
@@ -824,7 +824,7 @@ type
   TSquareMileUnit = specialize TFactoredUnit<TSquareMileRec>;
 
 const
-  mi2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 2589988.110336); {$ELSE} (2589988.110336); {$ENDIF}
+  mi2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 2589988.110336); {$ELSE} (2589988.110336); {$ENDIF}
 
 var
   SquareMileUnit : TSquareMileUnit;
@@ -849,13 +849,13 @@ var
   m3, CubicMeterUnit : TCubicMeterUnit;
 
 const
-  km3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  dm3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  cm3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mm3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  mim3       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  nm3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
-  pm3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  km3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  dm3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  cm3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mm3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mim3       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  nm3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
+  pm3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
 
 { TCubicInch }
 
@@ -873,7 +873,7 @@ type
   TCubicInchUnit = specialize TFactoredUnit<TCubicInchRec>;
 
 const
-  inch3      : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.000016387064); {$ELSE} (0.000016387064); {$ENDIF}
+  inch3      : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.000016387064); {$ELSE} (0.000016387064); {$ENDIF}
 
 var
   CubicInchUnit : TCubicInchUnit;
@@ -894,7 +894,7 @@ type
   TCubicFootUnit = specialize TFactoredUnit<TCubicFootRec>;
 
 const
-  ft3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.028316846592); {$ELSE} (0.028316846592); {$ENDIF}
+  ft3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.028316846592); {$ELSE} (0.028316846592); {$ENDIF}
 
 var
   CubicFootUnit : TCubicFootUnit;
@@ -915,7 +915,7 @@ type
   TCubicYardUnit = specialize TFactoredUnit<TCubicYardRec>;
 
 const
-  yd3        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.764554857984); {$ELSE} (0.764554857984); {$ENDIF}
+  yd3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.764554857984); {$ELSE} (0.764554857984); {$ENDIF}
 
 var
   CubicYardUnit : TCubicYardUnit;
@@ -936,15 +936,15 @@ type
   TLitreUnit = specialize TFactoredUnit<TLitreRec>;
 
 const
-  L          : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  L          : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 var
   LitreUnit : TLitreUnit;
 
 const
-  dL         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
-  cL         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-02); {$ELSE} (1E-03 * 1E-02); {$ENDIF}
-  mL         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-03); {$ELSE} (1E-03 * 1E-03); {$ENDIF}
+  dL         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
+  cL         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-02); {$ELSE} (1E-03 * 1E-02); {$ENDIF}
+  mL         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-03); {$ELSE} (1E-03 * 1E-03); {$ENDIF}
 
 { TGallon }
 
@@ -962,7 +962,7 @@ type
   TGallonUnit = specialize TFactoredUnit<TGallonRec>;
 
 const
-  gal        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.0037854119678); {$ELSE} (0.0037854119678); {$ENDIF}
+  gal        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.0037854119678); {$ELSE} (0.0037854119678); {$ENDIF}
 
 var
   GallonUnit : TGallonUnit;
@@ -987,13 +987,13 @@ var
   m4, QuarticMeterUnit : TQuarticMeterUnit;
 
 const
-  km4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  dm4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cm4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  mm4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mim4       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  nm4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  pm4        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
+  km4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  dm4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cm4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  mm4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mim4       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  nm4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  pm4        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 12; FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
 
 { TQuinticMeter }
 
@@ -1015,13 +1015,13 @@ var
   m5, QuinticMeterUnit : TQuinticMeterUnit;
 
 const
-  km5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E+15); {$ELSE} (1E+15); {$ENDIF}
-  dm5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  cm5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  mm5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
-  mim5       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
-  nm5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
-  pm5        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
+  km5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E+15); {$ELSE} (1E+15); {$ENDIF}
+  dm5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  cm5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  mm5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  mim5       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  nm5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
+  pm5        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 13; FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
 
 { TSexticMeter }
 
@@ -1043,13 +1043,13 @@ var
   m6, SexticMeterUnit : TSexticMeterUnit;
 
 const
-  km6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  dm6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  cm6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mm6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  mim6       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  nm6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
-  pm6        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
+  km6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  dm6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cm6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mm6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  mim6       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  nm6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
+  pm6        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 14; FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
 
 { TKilogram }
 
@@ -1071,15 +1071,15 @@ var
   kg, KilogramUnit : TKilogramUnit;
 
 const
-  hg         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  dag        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  g          : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  dg         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cg         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  mg         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mig        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  ng         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  pg         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  hg         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  dag        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  g          : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  dg         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cg         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  mg         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mig        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  ng         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  pg         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
 
 { TTonne }
 
@@ -1097,15 +1097,15 @@ type
   TTonneUnit = specialize TFactoredUnit<TTonneRec>;
 
 const
-  tonne      : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  tonne      : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 var
   TonneUnit : TTonneUnit;
 
 const
-  gigatonne  : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
-  megatonne  : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+06); {$ELSE} (1E+03 * 1E+06); {$ENDIF}
-  kilotonne  : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+03); {$ELSE} (1E+03 * 1E+03); {$ENDIF}
+  gigatonne  : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
+  megatonne  : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+06); {$ELSE} (1E+03 * 1E+06); {$ENDIF}
+  kilotonne  : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+03); {$ELSE} (1E+03 * 1E+03); {$ENDIF}
 
 { TPound }
 
@@ -1123,7 +1123,7 @@ type
   TPoundUnit = specialize TFactoredUnit<TPoundRec>;
 
 const
-  lb         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 0.45359237); {$ELSE} (0.45359237); {$ENDIF}
+  lb         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 0.45359237); {$ELSE} (0.45359237); {$ENDIF}
 
 var
   PoundUnit : TPoundUnit;
@@ -1144,7 +1144,7 @@ type
   TOunceUnit = specialize TFactoredUnit<TOunceRec>;
 
 const
-  oz         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 0.028349523125); {$ELSE} (0.028349523125); {$ENDIF}
+  oz         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 0.028349523125); {$ELSE} (0.028349523125); {$ENDIF}
 
 var
   OunceUnit : TOunceUnit;
@@ -1165,7 +1165,7 @@ type
   TStoneUnit = specialize TFactoredUnit<TStoneRec>;
 
 const
-  st         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 6.35029318); {$ELSE} (6.35029318); {$ENDIF}
+  st         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 6.35029318); {$ELSE} (6.35029318); {$ENDIF}
 
 var
   StoneUnit : TStoneUnit;
@@ -1186,7 +1186,7 @@ type
   TTonUnit = specialize TFactoredUnit<TTonRec>;
 
 const
-  ton        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 907.18474); {$ELSE} (907.18474); {$ENDIF}
+  ton        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 907.18474); {$ELSE} (907.18474); {$ENDIF}
 
 var
   TonUnit : TTonUnit;
@@ -1229,15 +1229,15 @@ var
   kg2, SquareKilogramUnit : TSquareKilogramUnit;
 
 const
-  hg2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  dag2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  g2         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  dg2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  cg2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  mg2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mig2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ng2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  pg2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  hg2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  dag2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  g2         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  dg2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  cg2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  mg2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mig2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ng2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  pg2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 16; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
 
 { TAmpere }
 
@@ -1259,15 +1259,15 @@ var
   A, AmpereUnit : TAmpereUnit;
 
 const
-  kA         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hA         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daA        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
-  dA         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cA         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mA         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miA        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nA         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  picoA      : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kA         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hA         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daA        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  dA         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cA         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mA         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miA        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nA         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  picoA      : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 17; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TSquareAmpere }
 
@@ -1289,15 +1289,15 @@ var
   A2, SquareAmpereUnit : TSquareAmpereUnit;
 
 const
-  kA2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hA2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daA2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  dA2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cA2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mA2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  miA2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nA2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  picoA2     : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  kA2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hA2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daA2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  dA2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cA2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mA2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  miA2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nA2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  picoA2     : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 18; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TKelvin }
 
@@ -1431,9 +1431,9 @@ var
   mol, MoleUnit : TMoleUnit;
 
 const
-  kmol       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 23; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hmol       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 23; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  damol      : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 23; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  kmol       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 23; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hmol       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 23; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  damol      : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 23; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
 
 { TCandela }
 
@@ -1474,10 +1474,10 @@ var
   Hz, HertzUnit : THertzUnit;
 
 const
-  THz        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GHz        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MHz        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kHz        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  THz        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GHz        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MHz        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kHz        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TReciprocalSecond }
 
@@ -1531,10 +1531,10 @@ var
   Hz2, SquareHertzUnit : TSquareHertzUnit;
 
 const
-  THz2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 26; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
-  GHz2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 26; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MHz2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 26; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kHz2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 26; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  THz2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 26; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
+  GHz2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 26; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MHz2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 26; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kHz2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 26; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
 
 { TReciprocalSquareSecond }
 
@@ -1841,10 +1841,10 @@ var
   Gy, GrayUnit : TGrayUnit;
 
 const
-  kGy        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mGy        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miGy       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nGy        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  kGy        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mGy        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miGy       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nGy        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TSievert }
 
@@ -1863,10 +1863,10 @@ var
   Sv, SievertUnit : TSievertUnit;
 
 const
-  kSv        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mSv        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miSv       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nSv        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  kSv        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mSv        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miSv       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nSv        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 34; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TMeterSecond }
 
@@ -2293,11 +2293,11 @@ var
   N, NewtonUnit : TNewtonUnit;
 
 const
-  GN         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MN         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kN         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hN         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daN        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  GN         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MN         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kN         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hN         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daN        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
 
 { TPoundForce }
 
@@ -2315,7 +2315,7 @@ type
   TPoundForceUnit = specialize TFactoredUnit<TPoundForceRec>;
 
 const
-  lbf        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 4.4482216152605); {$ELSE} (4.4482216152605); {$ENDIF}
+  lbf        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 4.4482216152605); {$ELSE} (4.4482216152605); {$ENDIF}
 
 var
   PoundForceUnit : TPoundForceUnit;
@@ -2372,11 +2372,11 @@ var
   N2, SquareNewtonUnit : TSquareNewtonUnit;
 
 const
-  GN2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MN2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kN2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hN2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daN2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  GN2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MN2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kN2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hN2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daN2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 53; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
 
 { TSquareKilogramSquareMeterPerQuarticSecond }
 
@@ -2414,10 +2414,10 @@ var
   Pa, PascalUnit : TPascalUnit;
 
 const
-  TPa        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GPa        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MPa        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kPa        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  TPa        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GPa        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MPa        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kPa        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TNewtonPerSquareMeter }
 
@@ -2451,14 +2451,14 @@ type
   TBarUnit = specialize TFactoredUnit<TBarRec>;
 
 const
-  bar        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+05); {$ELSE} (1E+05); {$ENDIF}
+  bar        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+05); {$ELSE} (1E+05); {$ENDIF}
 
 var
   BarUnit : TBarUnit;
 
 const
-  kbar       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
-  mbar       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+05 * 1E-03); {$ELSE} (1E+05 * 1E-03); {$ENDIF}
+  kbar       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
+  mbar       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+05 * 1E-03); {$ELSE} (1E+05 * 1E-03); {$ENDIF}
 
 { TPoundPerSquareInch }
 
@@ -2476,13 +2476,13 @@ type
   TPoundPerSquareInchUnit = specialize TFactoredUnit<TPoundPerSquareInchRec>;
 
 const
-  psi        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 6894.75729316836); {$ELSE} (6894.75729316836); {$ENDIF}
+  psi        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 6894.75729316836); {$ELSE} (6894.75729316836); {$ENDIF}
 
 var
   PoundPerSquareInchUnit : TPoundPerSquareInchUnit;
 
 const
-  kpsi       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
+  kpsi       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
 
 { TJoulePerCubicMeter }
 
@@ -2536,10 +2536,10 @@ var
   J, JouleUnit : TJouleUnit;
 
 const
-  TJ         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GJ         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MJ         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kJ         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  TJ         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GJ         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MJ         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kJ         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TWattHour }
 
@@ -2607,16 +2607,16 @@ type
   TElectronvoltUnit = specialize TFactoredUnit<TElectronvoltRec>;
 
 const
-  eV         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019); {$ELSE} (1.602176634E-019); {$ENDIF}
+  eV         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019); {$ELSE} (1.602176634E-019); {$ENDIF}
 
 var
   ElectronvoltUnit : TElectronvoltUnit;
 
 const
-  TeV        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
-  GeV        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+09); {$ELSE} (1.602176634E-019 * 1E+09); {$ENDIF}
-  MeV        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+06); {$ELSE} (1.602176634E-019 * 1E+06); {$ENDIF}
-  keV        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+03); {$ELSE} (1.602176634E-019 * 1E+03); {$ENDIF}
+  TeV        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
+  GeV        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+09); {$ELSE} (1.602176634E-019 * 1E+09); {$ENDIF}
+  MeV        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+06); {$ELSE} (1.602176634E-019 * 1E+06); {$ENDIF}
+  keV        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+03); {$ELSE} (1.602176634E-019 * 1E+03); {$ENDIF}
 
 { TNewtonMeter }
 
@@ -2668,7 +2668,7 @@ type
   TRydbergUnit = specialize TFactoredUnit<TRydbergRec>;
 
 const
-  Ry         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 2.1798723611035E-18); {$ELSE} (2.1798723611035E-18); {$ENDIF}
+  Ry         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 2.1798723611035E-18); {$ELSE} (2.1798723611035E-18); {$ENDIF}
 
 var
   RydbergUnit : TRydbergUnit;
@@ -2689,14 +2689,14 @@ type
   TCalorieUnit = specialize TFactoredUnit<TCalorieRec>;
 
 const
-  cal        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 4.184); {$ELSE} (4.184); {$ENDIF}
+  cal        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 4.184); {$ELSE} (4.184); {$ENDIF}
 
 var
   CalorieUnit : TCalorieUnit;
 
 const
-  Mcal       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
-  kcal       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 4.184 * 1E+03); {$ELSE} (4.184 * 1E+03); {$ENDIF}
+  Mcal       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
+  kcal       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 4.184 * 1E+03); {$ELSE} (4.184 * 1E+03); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareSecond }
 
@@ -2818,11 +2818,11 @@ var
   W, WattUnit : TWattUnit;
 
 const
-  TW         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GW         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MW         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kW         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  milliW     : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  TW         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GW         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MW         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kW         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  milliW     : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 56; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 { TKilogramSquareMeterPerCubicSecond }
 
@@ -2860,15 +2860,15 @@ var
   C, CoulombUnit : TCoulombUnit;
 
 const
-  kC         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hC         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daC        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
-  dC         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cC         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mC         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miC        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nC         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pC         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kC         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hC         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daC        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  dC         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cC         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mC         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miC        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nC         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pC         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 57; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TAmpereHour }
 
@@ -2924,15 +2924,15 @@ var
   C2, SquareCoulombUnit : TSquareCoulombUnit;
 
 const
-  kC2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hC2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daC2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  dC2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cC2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mC2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  miC2       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nC2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  pC2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  kC2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hC2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daC2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  dC2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cC2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mC2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  miC2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nC2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  pC2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 58; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareAmpereSquareSecond }
 
@@ -2989,8 +2989,8 @@ var
   V, VoltUnit : TVoltUnit;
 
 const
-  kV         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 60; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mV         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 60; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  kV         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 60; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mV         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 60; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 { TJoulePerCoulomb }
 
@@ -3044,8 +3044,8 @@ var
   V2, SquareVoltUnit : TSquareVoltUnit;
 
 const
-  kV2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 61; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  mV2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 61; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  kV2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 61; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  mV2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 61; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
 
 { TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond }
 
@@ -3083,10 +3083,10 @@ var
   F, FaradUnit : TFaradUnit;
 
 const
-  mF         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 62; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miF        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 62; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nF         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 62; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pF         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 62; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mF         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 62; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miF        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 62; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nF         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 62; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pF         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 62; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TCoulombPerVolt }
 
@@ -3140,12 +3140,12 @@ var
   ohm, OhmUnit : TOhmUnit;
 
 const
-  Gohm       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  megaohm    : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kohm       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mohm       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miohm      : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nohm       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  Gohm       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  megaohm    : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kohm       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mohm       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miohm      : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nohm       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 63; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareAmperePerCubicSecond }
 
@@ -3183,9 +3183,9 @@ var
   siemens, SiemensUnit : TSiemensUnit;
 
 const
-  millisiemens : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 64; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  microsiemens : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 64; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-   nanosiemens : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 64; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  millisiemens : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 64; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  microsiemens : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 64; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+   nanosiemens : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 64; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TSquareAmpereCubicSecondPerKilogramPerSquareMeter }
 
@@ -3242,9 +3242,9 @@ var
   T, TeslaUnit : TTeslaUnit;
 
 const
-  mT         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 66; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miT        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 66; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nT         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 66; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mT         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 66; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miT        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 66; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nT         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 66; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TWeberPerSquareMeter }
 
@@ -3333,9 +3333,9 @@ var
   H, HenryUnit : THenryUnit;
 
 const
-  mH         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 68; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miH        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 68; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nH         : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 68; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mH         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 68; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miH        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 68; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nH         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 68; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareAmperePerSquareSecond }
 
@@ -3516,11 +3516,11 @@ var
   Bq, BequerelUnit : TBequerelUnit;
 
 const
-  kBq        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mBq        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miBq       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nBq        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pBq        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kBq        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mBq        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miBq       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nBq        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pBq        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 25; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TKatal }
 
@@ -3732,9 +3732,9 @@ var
   Pl, PoiseuilleUnit : TPoiseuilleUnit;
 
 const
-  cPl        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 79; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mPl        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 79; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miPl       : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 79; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cPl        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 79; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mPl        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 79; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miPl       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 79; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
 
 { TPascalSecond }
 
@@ -5086,10 +5086,10 @@ var
   J2, SquareJouleUnit : TSquareJouleUnit;
 
 const
-  TJ2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 134; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
-  GJ2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 134; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MJ2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 134; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kJ2        : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 134; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  TJ2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 134; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
+  GJ2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 134; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MJ2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 134; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kJ2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 134; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
 
 { TJouleSecond }
 
@@ -6268,79 +6268,79 @@ const
 
 { Power functions }
 
-function SquarePower(const AQuantity: TScalar): TScalar;
-function CubicPower(const AQuantity: TScalar): TScalar;
-function QuarticPower(const AQuantity: TScalar): TScalar;
-function QuinticPower(const AQuantity: TScalar): TScalar;
-function SexticPower(const AQuantity: TScalar): TScalar;
-function SquareRoot(const AQuantity: TScalar): TScalar;
-function CubicRoot(const AQuantity: TScalar): TScalar;
-function QuarticRoot(const AQuantity: TScalar): TScalar;
-function QuinticRoot(const AQuantity: TScalar): TScalar;
-function SexticRoot(const AQuantity: TScalar): TScalar;
+function SquarePower(const AQuantity: TAScalar): TAScalar;
+function CubicPower(const AQuantity: TAScalar): TAScalar;
+function QuarticPower(const AQuantity: TAScalar): TAScalar;
+function QuinticPower(const AQuantity: TAScalar): TAScalar;
+function SexticPower(const AQuantity: TAScalar): TAScalar;
+function SquareRoot(const AQuantity: TAScalar): TAScalar;
+function CubicRoot(const AQuantity: TAScalar): TAScalar;
+function QuarticRoot(const AQuantity: TAScalar): TAScalar;
+function QuinticRoot(const AQuantity: TAScalar): TAScalar;
+function SexticRoot(const AQuantity: TAScalar): TAScalar;
 
 { Trigonometric functions }
 
-function Cos(const AQuantity: TScalar): double;
-function Sin(const AQuantity: TScalar): double;
-function Tan(const AQuantity: TScalar): double;
-function Cotan(const AQuantity: TScalar): double;
-function Secant(const AQuantity: TScalar): double;
-function Cosecant(const AQuantity: TScalar): double;
+function Cos(const AQuantity: TAScalar): double;
+function Sin(const AQuantity: TAScalar): double;
+function Tan(const AQuantity: TAScalar): double;
+function Cotan(const AQuantity: TAScalar): double;
+function Secant(const AQuantity: TAScalar): double;
+function Cosecant(const AQuantity: TAScalar): double;
 
-function ArcCos(const AValue: double): TScalar;
-function ArcSin(const AValue: double): TScalar;
-function ArcTan(const AValue: double): TScalar;
-function ArcTan2(const x, y: double): TScalar;
+function ArcCos(const AQuantity: double): TAScalar;
+function ArcSin(const AQuantity: double): TAScalar;
+function ArcTan(const AQuantity: double): TAScalar;
+function ArcTan2(const x, y: double): TAScalar;
 
 { Math functions }
 
-function Min(const ALeft, ARight: TScalar): TScalar;
-function Max(const ALeft, ARight: TScalar): TScalar;
-function Exp(const AQuantity: TScalar): TScalar;
+function Min(const ALeft, ARight: TAScalar): TAScalar;
+function Max(const ALeft, ARight: TAScalar): TAScalar;
+function Exp(const AQuantity: TAScalar): TAScalar;
 
-function Log10(const AQuantity : TScalar) : double;
-function Log2(const AQuantity : TScalar) : double;
-function LogN(ABase: longint; const AQuantity: TScalar): double;
-function LogN(const ABase, AQuantity: TScalar): double;
+function Log10(const AQuantity : TAScalar) : double;
+function Log2(const AQuantity : TAScalar) : double;
+function LogN(ABase: longint; const AQuantity: TAScalar): double;
+function LogN(const ABase, AQuantity: TAScalar): double;
 
-function Power(const ABase: TScalar; AExponent: double): double;
+function Power(const ABase: TAScalar; AExponent: double): double;
 
 { Helper functions }
 
-function LessThanOrEqualToZero(const AQuantity: TScalar): boolean;
-function LessThanZero(const AQuantity: TScalar): boolean;
-function EqualToZero(const AQuantity: TScalar): boolean;
-function NotEqualToZero(const AQuantity: TScalar): boolean;
-function GreaterThanOrEqualToZero(const AQuantity: TScalar): boolean;
-function GreaterThanZero(const AQuantity: TScalar): boolean;
-function SameValue(const ALeft, ARight: TScalar): boolean;
+function LessThanOrEqualToZero(const AQuantity: TAScalar): boolean;
+function LessThanZero(const AQuantity: TAScalar): boolean;
+function EqualToZero(const AQuantity: TAScalar): boolean;
+function NotEqualToZero(const AQuantity: TAScalar): boolean;
+function GreaterThanOrEqualToZero(const AQuantity: TAScalar): boolean;
+function GreaterThanZero(const AQuantity: TAScalar): boolean;
+function SameValue(const ALeft, ARight: TAScalar): boolean;
 
 { Constants }
 
 const
-  AvogadroConstant               : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cReciprocalMole;                     FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
-  BohrMagneton                   : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cSquareMeterAmpere;                  FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
-  BohrRadius                     : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeter;                              FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
-  BoltzmannConstant              : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cJoulePerKelvin;                     FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
-  ComptonWaveLength              : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeter;                              FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
-  CoulombConstant                : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareCoulomb;  FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
-  DeuteronMass                   : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
-  ElectricPermittivity           : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cFaradPerMeter;                      FValue:     8.8541878128E-12); {$ELSE} (    8.8541878128E-12); {$ENDIF}
-  ElectronMass                   : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
-  ElectronCharge                 : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cCoulomb;                            FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
-  MagneticPermeability           : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cHenryPerMeter;                      FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
-  MolarGasConstant               : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cJoulePerMolePerKelvin;              FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
-  NeutronMass                    : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
-  NewtonianConstantOfGravitation : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareKilogram; FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
-  PlanckConstant                 : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
-  ProtonMass                     : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
-  RydbergConstant                : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cReciprocalMeter;                    FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
-  SpeedOfLight                   : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeterPerSecond;                     FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
-  SquaredSpeedOfLight            : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cSquareMeterPerSquareSecond;         FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
-  StandardAccelerationOfGravity  : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeterPerSquareSecond;               FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
-  ReducedPlanckConstant          : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
-  UnifiedAtomicMassUnit          : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
+  AvogadroConstant               : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cReciprocalMole;                     FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
+  BohrMagneton                   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cSquareMeterAmpere;                  FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
+  BohrRadius                     : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeter;                              FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
+  BoltzmannConstant              : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cJoulePerKelvin;                     FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
+  ComptonWaveLength              : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeter;                              FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
+  CoulombConstant                : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareCoulomb;  FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
+  DeuteronMass                   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
+  ElectricPermittivity           : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cFaradPerMeter;                      FValue:     8.8541878128E-12); {$ELSE} (    8.8541878128E-12); {$ENDIF}
+  ElectronMass                   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
+  ElectronCharge                 : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cCoulomb;                            FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
+  MagneticPermeability           : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cHenryPerMeter;                      FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
+  MolarGasConstant               : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cJoulePerMolePerKelvin;              FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
+  NeutronMass                    : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+  NewtonianConstantOfGravitation : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareKilogram; FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
+  PlanckConstant                 : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
+  ProtonMass                     : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+  RydbergConstant                : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cReciprocalMeter;                    FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
+  SpeedOfLight                   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeterPerSecond;                     FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
+  SquaredSpeedOfLight            : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cSquareMeterPerSquareSecond;         FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
+  StandardAccelerationOfGravity  : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeterPerSquareSecond;               FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
+  ReducedPlanckConstant          : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
+  UnifiedAtomicMassUnit          : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
 
 { Prefix Table }
 
@@ -6378,28 +6378,28 @@ implementation
 
 uses Math;
 
-{ TScalar }
+{ TAScalar }
 
 {$IFDEF USEADIM}
-class operator TScalar.:=(const ASelf: double): TScalar;
+class operator TAScalar.:=(const ASelf: double): TAScalar;
 begin
   result.FUnitOfMeasurement := cScalar;
   result.FValue := ASelf;
 end;
 
-class operator TScalar.+(const ASelf: TScalar): TScalar;
+class operator TAScalar.+(const ASelf: TAScalar): TAScalar;
 begin
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := ASelf.FValue;
 end;
 
-class operator TScalar.-(const ASelf: TScalar): TScalar;
+class operator TAScalar.-(const ASelf: TAScalar): TAScalar;
 begin
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := -ASelf.FValue;
 end;
 
-class operator TScalar.+(const ALeft, ARight: TScalar): TScalar;
+class operator TAScalar.+(const ALeft, ARight: TAScalar): TAScalar;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -6408,7 +6408,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TScalar.-(const ALeft, ARight: TScalar): TScalar;
+class operator TAScalar.-(const ALeft, ARight: TAScalar): TAScalar;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -6417,43 +6417,43 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TScalar.*(const ALeft, ARight: TScalar): TScalar;
+class operator TAScalar.*(const ALeft, ARight: TAScalar): TAScalar;
 begin
   result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TScalar./(const ALeft, ARight: TScalar): TScalar;
+class operator TAScalar./(const ALeft, ARight: TAScalar): TAScalar;
 begin
   result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TScalar.*(const ALeft: double; const ARight: TScalar): TScalar;
+class operator TAScalar.*(const ALeft: double; const ARight: TAScalar): TAScalar;
 begin
   result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;
   result.FValue:= ALeft * ARight.FValue;
 end;
 
-class operator TScalar./(const ALeft: double; const ARight: TScalar): TScalar;
+class operator TAScalar./(const ALeft: double; const ARight: TAScalar): TAScalar;
 begin
   result.FUnitOfMeasurement := DivTable[cScalar, ARight.FUnitOfMeasurement];
   result.FValue:= ALeft / ARight.FValue;
 end;
 
-class operator TScalar.*(const ALeft: TScalar; const ARight: double): TScalar;
+class operator TAScalar.*(const ALeft: TAScalar; const ARight: double): TAScalar;
 begin
   result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
   result.FValue:= ALeft.FValue * ARight;
 end;
 
-class operator TScalar./(const ALeft: TScalar; const ARight: double): TScalar;
+class operator TAScalar./(const ALeft: TAScalar; const ARight: double): TAScalar;
 begin
   result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
   result.FValue:= ALeft.FValue / ARight;
 end;
 
-class operator TScalar.=(const ALeft, ARight: TScalar): boolean; inline;
+class operator TAScalar.=(const ALeft, ARight: TAScalar): boolean; inline;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
@@ -6461,7 +6461,7 @@ begin
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TScalar.<(const ALeft, ARight: TScalar): boolean;
+class operator TAScalar.<(const ALeft, ARight: TAScalar): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('LessThan operator (<) has detected wrong unit of measurements.');
@@ -6469,7 +6469,7 @@ begin
   result := ALeft.FValue < ARight.FValue;
 end;
 
-class operator TScalar.>(const ALeft, ARight: TScalar): boolean;
+class operator TAScalar.>(const ALeft, ARight: TAScalar): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('GreaterThan operator (>) has detected wrong unit of measurements.');
@@ -6477,7 +6477,7 @@ begin
   result := ALeft.FValue > ARight.FValue;
 end;
 
-class operator TScalar.<=(const ALeft, ARight: TScalar): boolean;
+class operator TAScalar.<=(const ALeft, ARight: TAScalar): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('LessThanOrEqual operator (<=) has detected wrong unit of measurements.');
@@ -6485,7 +6485,7 @@ begin
   result := ALeft.FValue <= ARight.FValue;
 end;
 
-class operator TScalar.>=(const ALeft, ARight: TScalar): boolean;
+class operator TAScalar.>=(const ALeft, ARight: TAScalar): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('GreaterThanOrEqual operator (>=) has detected wrong unit of measurements.');
@@ -6493,7 +6493,7 @@ begin
   result := ALeft.FValue >= ARight.FValue;
 end;
 
-class operator TScalar.<>(const ALeft, ARight: TScalar): boolean;
+class operator TAScalar.<>(const ALeft, ARight: TAScalar): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
@@ -6504,34 +6504,34 @@ end;
 
 { TUnit }
 
-class operator TUnit.*(const AValue: double; const ASelf: TUnit): TScalar; inline;
+class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := AValue;
+  result.FValue := AQuantity;
 {$ELSE}
-  result := AValue;
+  result := AQuantity;
 {$ENDIF}
 end;
 
-class operator TUnit./(const AValue: double; const ASelf: TUnit): TScalar; inline;
+class operator TUnit./(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
-  result.FValue := AValue;
+  result.FValue := AQuantity;
 {$ELSE}
-  result := AValue;
+  result := AQuantity;
 {$ENDIF}
 end;
 
 {$IFDEF USEADIM}
-class operator TUnit.*(const AQuantity: TScalar; const ASelf: TUnit): TScalar; inline;
+class operator TUnit.*(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TScalar; const ASelf: TUnit): TScalar; inline;
+class operator TUnit./(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
 begin
   result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := AQuantity.FValue;
@@ -6598,7 +6598,7 @@ begin
   end;
 end;
 
-function TUnit.GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+function TUnit.GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
 var
   I: longint;
   Exponent: longint;
@@ -6615,18 +6615,18 @@ begin
       Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * U.FEXPONENTS[I]);
 
     if Exponent <> 0 then
-      result := AValue * IntPower(10, Exponent)
+      result := AQuantity * IntPower(10, Exponent)
     else
-      result := AValue;
+      result := AQuantity;
 
   end else
     if PrefixCount = 0 then
-      result := AValue
+      result := AQuantity
     else
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-procedure TUnit.Check(var AQuantity: TScalar);
+procedure TUnit.Check(var AQuantity: TAScalar);
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6634,7 +6634,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToFloat(const AQuantity: TScalar): double;
+function TUnit.ToFloat(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6646,7 +6646,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
+function TUnit.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6658,7 +6658,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToString(const AQuantity: TScalar): string;
+function TUnit.ToString(const AQuantity: TAScalar): string;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6670,7 +6670,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+function TUnit.ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6689,7 +6689,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnit.ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6708,7 +6708,7 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnit.ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -6735,7 +6735,7 @@ begin
   end;
 end;
 
-function TUnit.ToVerboseString(const AQuantity: TScalar): string;
+function TUnit.ToVerboseString(const AQuantity: TAScalar): string;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6753,7 +6753,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnit.ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+function TUnit.ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6781,7 +6781,7 @@ begin
   end;
 end;
 
-function TUnit.ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -6809,7 +6809,7 @@ begin
   end;
 end;
 
-function TUnit.ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnit.ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -6838,34 +6838,34 @@ end;
 
 { TFactoredUnit }
 
-class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TScalar; inline;
+class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AValue);
+  result.FValue := U.PutValue(AQuantity);
 {$ELSE}
-  result := U.PutValue(AValue);
+  result := U.PutValue(AQuantity);
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TScalar; inline;
+class operator TFactoredUnit./(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AValue);
+  result.FValue := U.PutValue(AQuantity);
 {$ELSE}
-  result := U.PutValue(AValue);
+  result := U.PutValue(AQuantity);
 {$ENDIF}
 end;
 
 {$IFDEF USEADIM}
-class operator TFactoredUnit.*(const AQuantity: TScalar; const ASelf: TFactoredUnit): TScalar; inline;
+class operator TFactoredUnit.*(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := U.PutValue(AQuantity.FValue);
 end;
 
-class operator TFactoredUnit./(const AQuantity: TScalar; const ASelf: TFactoredUnit): TScalar; inline;
+class operator TFactoredUnit./(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
   result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := U.PutValue(AQuantity.FValue);
@@ -6932,7 +6932,7 @@ begin
   end;
 end;
 
-function TFactoredUnit.GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+function TFactoredUnit.GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
 var
   I: longint;
   Exponent: longint;
@@ -6949,18 +6949,18 @@ begin
       Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * U.FEXPONENTS[I]);
 
     if Exponent <> 0 then
-      result := AValue * IntPower(10, Exponent)
+      result := AQuantity * IntPower(10, Exponent)
     else
-      result := AValue;
+      result := AQuantity;
 
   end else
     if PrefixCount = 0 then
-      result := AValue
+      result := AQuantity
     else
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-procedure TFactoredUnit.Check(var AQuantity: TScalar);
+procedure TFactoredUnit.Check(var AQuantity: TAScalar);
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6968,7 +6968,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToFloat(const AQuantity: TScalar): double;
+function TFactoredUnit.ToFloat(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6980,7 +6980,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
+function TFactoredUnit.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -6992,7 +6992,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToString(const AQuantity: TScalar): string;
+function TFactoredUnit.ToString(const AQuantity: TAScalar): string;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
@@ -7004,7 +7004,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnit.ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -7023,7 +7023,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnit.ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -7042,7 +7042,7 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnit.ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -7069,7 +7069,7 @@ begin
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity: TScalar): string;
+function TFactoredUnit.ToVerboseString(const AQuantity: TAScalar): string;
 var
   FactoredValue: double;
 begin
@@ -7088,7 +7088,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPrefixes);
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -7116,7 +7116,7 @@ begin
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -7144,7 +7144,7 @@ begin
   end;
 end;
 
-function TFactoredUnit.ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnit.ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -7887,7 +7887,7 @@ end;
 
 { Power functions }
 
-function SquarePower(const AQuantity: TScalar): TScalar;
+function SquarePower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Square;
@@ -7899,7 +7899,7 @@ begin
 {$ENDIF}
 end;
 
-function CubicPower(const AQuantity: TScalar): TScalar;
+function CubicPower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Cubic;
@@ -7911,7 +7911,7 @@ begin
 {$ENDIF}
 end;
 
-function QuarticPower(const AQuantity: TScalar): TScalar;
+function QuarticPower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quartic;
@@ -7923,7 +7923,7 @@ begin
 {$ENDIF}
 end;
 
-function QuinticPower(const AQuantity: TScalar): TScalar;
+function QuinticPower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quintic;
@@ -7935,7 +7935,7 @@ begin
 {$ENDIF}
 end;
 
-function SexticPower(const AQuantity: TScalar): TScalar;
+function SexticPower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Sextic;
@@ -7947,7 +7947,7 @@ begin
 {$ENDIF}
 end;
 
-function SquareRoot(const AQuantity: TScalar): TScalar;
+function SquareRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Square;
@@ -7959,7 +7959,7 @@ begin
 {$ENDIF}
 end;
 
-function CubicRoot(const AQuantity: TScalar): TScalar;
+function CubicRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Cubic;
@@ -7971,7 +7971,7 @@ begin
 {$ENDIF}
 end;
 
-function QuarticRoot(const AQuantity: TScalar): TScalar;
+function QuarticRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quartic;
@@ -7983,7 +7983,7 @@ begin
 {$ENDIF}
 end;
 
-function QuinticRoot(const AQuantity: TScalar): TScalar;
+function QuinticRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quintic;
@@ -7995,7 +7995,7 @@ begin
 {$ENDIF}
 end;
 
-function SexticRoot(const AQuantity: TScalar): TScalar;
+function SexticRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Sextic;
@@ -8009,7 +8009,7 @@ end;
 
 { Trigonometric functions }
 
-function Cos(const AQuantity: TScalar): double;
+function Cos(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8021,7 +8021,7 @@ begin
 {$ENDIF}
 end;
 
-function Sin(const AQuantity: TScalar): double;
+function Sin(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8033,7 +8033,7 @@ begin
 {$ENDIF}
 end;
 
-function Tan(const AQuantity: TScalar): double;
+function Tan(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8045,7 +8045,7 @@ begin
 {$ENDIF}
 end;
 
-function Cotan(const AQuantity: TScalar): double;
+function Cotan(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8057,7 +8057,7 @@ begin
 {$ENDIF}
 end;
 
-function Secant(const AQuantity: TScalar): double;
+function Secant(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8069,7 +8069,7 @@ begin
 {$ENDIF}
 end;
 
-function Cosecant(const AQuantity: TScalar): double;
+function Cosecant(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8081,37 +8081,37 @@ begin
 {$ENDIF}
 end;
 
-function ArcCos(const AValue: double): TScalar;
+function ArcCos(const AQuantity: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcCos(AValue);
+  result.FValue := Math.ArcCos(AQuantity);
 {$ELSE}
-  result := Math.ArcCos(AValue);
+  result := Math.ArcCos(AQuantity);
 {$ENDIF}
 end;
 
-function ArcSin(const AValue: double): TScalar;
+function ArcSin(const AQuantity: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcSin(AValue);
+  result.FValue := Math.ArcSin(AQuantity);
 {$ELSE}
-  result := Math.ArcSin(AValue);
+  result := Math.ArcSin(AQuantity);
 {$ENDIF}
 end;
 
-function ArcTan(const AValue: double): TScalar;
+function ArcTan(const AQuantity: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := System.ArcTan(AValue);
+  result.FValue := System.ArcTan(AQuantity);
 {$ELSE}
-  result := System.ArcTan(AValue);
+  result := System.ArcTan(AQuantity);
 {$ENDIF}
 end;
 
-function ArcTan2(const x, y: double): TScalar;
+function ArcTan2(const x, y: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
@@ -8123,7 +8123,7 @@ end;
 
 { Math functions }
 
-function Min(const ALeft, ARight: TScalar): TScalar;
+function Min(const ALeft, ARight: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
@@ -8136,7 +8136,7 @@ begin
 {$ENDIF}
 end;
 
-function Max(const ALeft, ARight: TScalar): TScalar;
+function Max(const ALeft, ARight: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
@@ -8149,7 +8149,7 @@ begin
 {$ENDIF}
 end;
 
-function Exp(const AQuantity: TScalar): TScalar;
+function Exp(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8162,7 +8162,7 @@ begin
 {$ENDIF}
 end;
 
-function Log10(const AQuantity : TScalar) : double;
+function Log10(const AQuantity : TAScalar) : double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8174,7 +8174,7 @@ begin
 {$ENDIF}
 end;
 
-function Log2(const AQuantity : TScalar) : double;
+function Log2(const AQuantity : TAScalar) : double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8186,7 +8186,7 @@ begin
 {$ENDIF}
 end;
 
-function LogN(ABase: longint; const AQuantity: TScalar): double;
+function LogN(ABase: longint; const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -8198,7 +8198,7 @@ begin
 {$ENDIF}
 end;
 
-function LogN(const ABase, AQuantity: TScalar): double;
+function LogN(const ABase, AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if ABase.FUnitOfMeasurement <> cScalar then
@@ -8213,7 +8213,7 @@ begin
 {$ENDIF}
 end;
 
-function Power(const ABase: TScalar; AExponent: double): double;
+function Power(const ABase: TAScalar; AExponent: double): double;
 begin
 {$IFDEF USEADIM}
   if ABase.FUnitOfMeasurement <> cScalar then
@@ -8227,7 +8227,7 @@ end;
 
 { Helper functions }
 
-function LessThanOrEqualToZero(const AQuantity: TScalar): boolean;
+function LessThanOrEqualToZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue <= 0;
@@ -8236,7 +8236,7 @@ begin
 {$ENDIF}
 end;
 
-function LessThanZero(const AQuantity: TScalar): boolean;
+function LessThanZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue < 0;
@@ -8245,7 +8245,7 @@ begin
 {$ENDIF}
 end;
 
-function EqualToZero(const AQuantity: TScalar): boolean;
+function EqualToZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue = 0;
@@ -8254,7 +8254,7 @@ begin
 {$ENDIF}
 end;
 
-function NotEqualToZero(const AQuantity: TScalar): boolean;
+function NotEqualToZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue <> 0;
@@ -8263,7 +8263,7 @@ begin
 {$ENDIF}
 end;
 
-function GreaterThanOrEqualToZero(const AQuantity: TScalar): boolean;
+function GreaterThanOrEqualToZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue >= 0;
@@ -8272,7 +8272,7 @@ begin
 {$ENDIF}
 end;
 
-function GreaterThanZero(const AQuantity: TScalar): boolean;
+function GreaterThanZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue > 0;
@@ -8281,7 +8281,7 @@ begin
 {$ENDIF}
 end;
 
-function SameValue(const ALeft, ARight: TScalar): boolean;
+function SameValue(const ALeft, ARight: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then

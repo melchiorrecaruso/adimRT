@@ -1,7 +1,7 @@
 
 { Power functions }
 
-function SquarePower(const AQuantity: TScalar): TScalar;
+function SquarePower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Square;
@@ -13,7 +13,7 @@ begin
 {$ENDIF}
 end;
 
-function CubicPower(const AQuantity: TScalar): TScalar;
+function CubicPower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Cubic;
@@ -25,7 +25,7 @@ begin
 {$ENDIF}
 end;
 
-function QuarticPower(const AQuantity: TScalar): TScalar;
+function QuarticPower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quartic;
@@ -37,7 +37,7 @@ begin
 {$ENDIF}
 end;
 
-function QuinticPower(const AQuantity: TScalar): TScalar;
+function QuinticPower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quintic;
@@ -49,7 +49,7 @@ begin
 {$ENDIF}
 end;
 
-function SexticPower(const AQuantity: TScalar): TScalar;
+function SexticPower(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Sextic;
@@ -61,7 +61,7 @@ begin
 {$ENDIF}
 end;
 
-function SquareRoot(const AQuantity: TScalar): TScalar;
+function SquareRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Square;
@@ -73,7 +73,7 @@ begin
 {$ENDIF}
 end;
 
-function CubicRoot(const AQuantity: TScalar): TScalar;
+function CubicRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Cubic;
@@ -85,7 +85,7 @@ begin
 {$ENDIF}
 end;
 
-function QuarticRoot(const AQuantity: TScalar): TScalar;
+function QuarticRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quartic;
@@ -97,7 +97,7 @@ begin
 {$ENDIF}
 end;
 
-function QuinticRoot(const AQuantity: TScalar): TScalar;
+function QuinticRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quintic;
@@ -109,7 +109,7 @@ begin
 {$ENDIF}
 end;
 
-function SexticRoot(const AQuantity: TScalar): TScalar;
+function SexticRoot(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Sextic;
@@ -123,7 +123,7 @@ end;
 
 { Trigonometric functions }
 
-function Cos(const AQuantity: TScalar): double;
+function Cos(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -135,7 +135,7 @@ begin
 {$ENDIF}
 end;
 
-function Sin(const AQuantity: TScalar): double;
+function Sin(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -147,7 +147,7 @@ begin
 {$ENDIF}
 end;
 
-function Tan(const AQuantity: TScalar): double;
+function Tan(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -159,7 +159,7 @@ begin
 {$ENDIF}
 end;
 
-function Cotan(const AQuantity: TScalar): double;
+function Cotan(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -171,7 +171,7 @@ begin
 {$ENDIF}
 end;
 
-function Secant(const AQuantity: TScalar): double;
+function Secant(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -183,7 +183,7 @@ begin
 {$ENDIF}
 end;
 
-function Cosecant(const AQuantity: TScalar): double;
+function Cosecant(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -195,37 +195,37 @@ begin
 {$ENDIF}
 end;
 
-function ArcCos(const AValue: double): TScalar;
+function ArcCos(const AQuantity: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcCos(AValue);
+  result.FValue := Math.ArcCos(AQuantity);
 {$ELSE}
-  result := Math.ArcCos(AValue);
+  result := Math.ArcCos(AQuantity);
 {$ENDIF}
 end;
 
-function ArcSin(const AValue: double): TScalar;
+function ArcSin(const AQuantity: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcSin(AValue);
+  result.FValue := Math.ArcSin(AQuantity);
 {$ELSE}
-  result := Math.ArcSin(AValue);
+  result := Math.ArcSin(AQuantity);
 {$ENDIF}
 end;
 
-function ArcTan(const AValue: double): TScalar;
+function ArcTan(const AQuantity: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := System.ArcTan(AValue);
+  result.FValue := System.ArcTan(AQuantity);
 {$ELSE}
-  result := System.ArcTan(AValue);
+  result := System.ArcTan(AQuantity);
 {$ENDIF}
 end;
 
-function ArcTan2(const x, y: double): TScalar;
+function ArcTan2(const x, y: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
@@ -238,7 +238,7 @@ end;
 { Math functions }
 
 
-function Min(const ALeft, ARight: TScalar): TScalar;
+function Min(const ALeft, ARight: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
@@ -251,7 +251,7 @@ begin
 {$ENDIF}
 end;
 
-function Max(const ALeft, ARight: TScalar): TScalar;
+function Max(const ALeft, ARight: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
@@ -264,7 +264,7 @@ begin
 {$ENDIF}
 end;
 
-function Exp(const AQuantity: TScalar): TScalar;
+function Exp(const AQuantity: TAScalar): TAScalar;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -277,7 +277,7 @@ begin
 {$ENDIF}
 end;
 
-function Log10(const AQuantity : TScalar) : double;
+function Log10(const AQuantity : TAScalar) : double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -289,7 +289,7 @@ begin
 {$ENDIF}
 end;
 
-function Log2(const AQuantity : TScalar) : double;
+function Log2(const AQuantity : TAScalar) : double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -301,7 +301,7 @@ begin
 {$ENDIF}
 end;
 
-function LogN(ABase: longint; const AQuantity: TScalar): double;
+function LogN(ABase: longint; const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if AQuantity.FUnitOfMeasurement <> cScalar then
@@ -313,7 +313,7 @@ begin
 {$ENDIF}
 end;
 
-function LogN(const ABase, AQuantity: TScalar): double;
+function LogN(const ABase, AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
   if ABase.FUnitOfMeasurement <> cScalar then
@@ -328,7 +328,7 @@ begin
 {$ENDIF}
 end;
 
-function Power(const ABase: TScalar; AExponent: double): double;
+function Power(const ABase: TAScalar; AExponent: double): double;
 begin
 {$IFDEF USEADIM}
   if ABase.FUnitOfMeasurement <> cScalar then
@@ -342,7 +342,7 @@ end;
 
 { Helper functions }
 
-function LessThanOrEqualToZero(const AQuantity: TScalar): boolean;
+function LessThanOrEqualToZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue <= 0;
@@ -351,7 +351,7 @@ begin
 {$ENDIF}
 end;
 
-function LessThanZero(const AQuantity: TScalar): boolean;
+function LessThanZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue < 0;
@@ -360,7 +360,7 @@ begin
 {$ENDIF}
 end;
 
-function EqualToZero(const AQuantity: TScalar): boolean;
+function EqualToZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue = 0;
@@ -369,7 +369,7 @@ begin
 {$ENDIF}
 end;
 
-function NotEqualToZero(const AQuantity: TScalar): boolean;
+function NotEqualToZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue <> 0;
@@ -378,7 +378,7 @@ begin
 {$ENDIF}
 end;
 
-function GreaterThanOrEqualToZero(const AQuantity: TScalar): boolean;
+function GreaterThanOrEqualToZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue >= 0;
@@ -387,7 +387,7 @@ begin
 {$ENDIF}
 end;
 
-function GreaterThanZero(const AQuantity: TScalar): boolean;
+function GreaterThanZero(const AQuantity: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   result := AQuantity.FValue > 0;
@@ -396,7 +396,7 @@ begin
 {$ENDIF}
 end;
 
-function SameValue(const ALeft, ARight: TScalar): boolean;
+function SameValue(const ALeft, ARight: TAScalar): boolean;
 begin
 {$IFDEF USEADIM}
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
