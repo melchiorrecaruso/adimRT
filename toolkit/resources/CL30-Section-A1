@@ -14,299 +14,295 @@ type
   { Exponents } 
   TExponents = array of longint;
 
-  { TScalar }
+  { TAScalar }
 
   {$IFDEF USEADIM}
-  TScalar = record
+  TAScalar = record
   private
     FUnitOfMeasurement: longint;
     FValue: double;
   public
-    class operator + (const ASelf: TScalar): TScalar;
-    class operator - (const ASelf: TScalar): TScalar;
-    class operator + (const ALeft, ARight: TScalar): TScalar;
-    class operator - (const ALeft, ARight: TScalar): TScalar;
-    class operator * (const ALeft, ARight: TScalar): TScalar;
-    class operator / (const ALeft, ARight: TScalar): TScalar;
-    class operator * (const ALeft: double; const ARight: TScalar): TScalar;
-    class operator / (const ALeft: double; const ARight: TScalar): TScalar;
-    class operator * (const ALeft: TScalar; const ARight: double): TScalar;
-    class operator / (const ALeft: TScalar; const ARight: double): TScalar;
+    class operator + (const ASelf: TAScalar): TAScalar;
+    class operator - (const ASelf: TAScalar): TAScalar;
+    class operator + (const ALeft, ARight: TAScalar): TAScalar;
+    class operator - (const ALeft, ARight: TAScalar): TAScalar;
+    class operator * (const ALeft, ARight: TAScalar): TAScalar;
+    class operator / (const ALeft, ARight: TAScalar): TAScalar;
+    class operator * (const ALeft: double; const ARight: TAScalar): TAScalar;
+    class operator / (const ALeft: double; const ARight: TAScalar): TAScalar;
+    class operator * (const ALeft: TAScalar; const ARight: double): TAScalar;
+    class operator / (const ALeft: TAScalar; const ARight: double): TAScalar;
 
-    class operator = (const ALeft, ARight: TScalar): boolean;
-    class operator < (const ALeft, ARight: TScalar): boolean;
-    class operator > (const ALeft, ARight: TScalar): boolean;
-    class operator <=(const ALeft, ARight: TScalar): boolean;
-    class operator >=(const ALeft, ARight: TScalar): boolean;
-    class operator <>(const ALeft, ARight: TScalar): boolean;
-    class operator :=(const ASelf: double): TScalar;
+    class operator = (const ALeft, ARight: TAScalar): boolean;
+    class operator < (const ALeft, ARight: TAScalar): boolean;
+    class operator > (const ALeft, ARight: TAScalar): boolean;
+    class operator <=(const ALeft, ARight: TAScalar): boolean;
+    class operator >=(const ALeft, ARight: TAScalar): boolean;
+    class operator <>(const ALeft, ARight: TAScalar): boolean;
+    class operator :=(const AValue: double): TAScalar;
   end;
   {$ELSE}
-  TScalar = double;
+  TAScalar = double;
   {$ENDIF}
 
-  { TMultivector }
+  { TAMultivector }
 
   {$IFDEF USEADIM}
-  TMultivector = record
+  TAMultivector = record
   private
     FUnitOfMeasurement: longint;
-    FValue: CL3.TMultivector;
+    FValue: TMultivector;
   public
-    class operator :=(const AValue: TScalar): TMultivector;
-    class operator :=(const AValue: TMultivector): TScalar;
-    class operator <>(const ALeft, ARight: TMultivector): boolean;
-    class operator <>(const ALeft: TMultivector; const ARight: TScalar): boolean;
-    class operator <>(const ALeft: TScalar; const ARight: TMultivector): boolean;
+    class operator :=(const AValue: TAScalar): TAMultivector;
+    class operator <>(const ALeft, ARight: TAMultivector): boolean;
+    class operator <>(const ALeft: TAMultivector; const ARight: TAScalar): boolean;
+    class operator <>(const ALeft: TAScalar; const ARight: TAMultivector): boolean;
 
-    class operator = (const ALeft, ARight: TMultivector): boolean;
-    class operator = (const ALeft: TMultivector; const ARight: TScalar): boolean;
-    class operator = (const ALeft: TScalar; const ARight: TMultivector): boolean;
+    class operator = (const ALeft, ARight: TAMultivector): boolean;
+    class operator = (const ALeft: TAMultivector; const ARight: TAScalar): boolean;
+    class operator = (const ALeft: TAScalar; const ARight: TAMultivector): boolean;
 
-    class operator + (const ALeft, ARight: TMultivector): TMultivector;
-    class operator + (const ALeft: TMultivector; const ARight: TScalar): TMultivector;
-    class operator + (const ALeft: TScalar; const ARight: TMultivector): TMultivector;
+    class operator + (const ALeft, ARight: TAMultivector): TAMultivector;
+    class operator + (const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+    class operator + (const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
 
-    class operator - (const ASelf: TMultivector): TMultivector;
-    class operator - (const ALeft, ARight: TMultivector): TMultivector;
-    class operator - (const ALeft: TMultivector; const ARight: TScalar): TMultivector;
-    class operator - (const ALeft: TScalar; const ARight: TMultivector): TMultivector;
+    class operator - (const ASelf: TAMultivector): TAMultivector;
+    class operator - (const ALeft, ARight: TAMultivector): TAMultivector;
+    class operator - (const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+    class operator - (const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
 
-    class operator * (const ALeft, ARight: TMultivector): TMultivector;
-    class operator * (const ALeft: TMultivector; const ARight: TScalar): TMultivector;
-    class operator * (const ALeft: TScalar; const ARight: TMultivector): TMultivector;
+    class operator * (const ALeft, ARight: TAMultivector): TAMultivector;
+    class operator * (const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+    class operator * (const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
 
-    class operator / (const ALeft, ARight: TMultivector): TMultivector;
-    class operator / (const ALeft: TMultivector; const ARight: TScalar): TMultivector;
-    class operator / (const ALeft: TScalar; const ARight: TMultivector): TMultivector;
+    class operator / (const ALeft, ARight: TAMultivector): TAMultivector;
+    class operator / (const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+    class operator / (const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
   end;
   {$ELSE}
-  TMultivector = CL3.TMultivector;
+  TAMultivector = TMultivector;
   {$ENDIF}
 
-  { TTrivector }
+  { TATrivector }
 
   {$IFDEF USEADIM}
-  TTrivector = record
+  TATrivector = record
   private
     FUnitOfMeasurement: longint;
-    FValue: CL3.TTrivector;
+    FValue: TTrivector;
   public
-    class operator :=(const AValue: TTrivector): TMultivector;
-    class operator :=(const AValue: TMultivector): TTrivector;
-    class operator <>(const ALeft, ARight: TTrivector): boolean;
-    class operator <>(const ALeft: TTrivector; const ARight: TMultivector): boolean;
-    class operator <>(const ALeft: TMultivector; const ARight: TTrivector): boolean;
+    class operator :=(const AValue: TATrivector): TAMultivector;
+    class operator <>(const ALeft, ARight: TATrivector): boolean;
+    class operator <>(const ALeft: TATrivector; const ARight: TAMultivector): boolean;
+    class operator <>(const ALeft: TAMultivector; const ARight: TATrivector): boolean;
 
-    class operator = (const ALeft, ARight: TTrivector): boolean;
-    class operator = (const ALeft: TTrivector; const ARight: TMultivector): boolean;
-    class operator = (const ALeft: TMultivector; const ARight: TTrivector): boolean;
+    class operator = (const ALeft, ARight: TATrivector): boolean;
+    class operator = (const ALeft: TATrivector; const ARight: TAMultivector): boolean;
+    class operator = (const ALeft: TAMultivector; const ARight: TATrivector): boolean;
 
-    class operator + (const ALeft, ARight: TTrivector): TTrivector;
-    class operator + (const ALeft: TTrivector; const ARight: TScalar): TMultivector;
-    class operator + (const ALeft: TScalar; const ARight: TTrivector): TMultivector;
-    class operator + (const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
-    class operator + (const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+    class operator + (const ALeft, ARight: TATrivector): TATrivector;
+    class operator + (const ALeft: TATrivector; const ARight: TAScalar): TAMultivector;
+    class operator + (const ALeft: TAScalar; const ARight: TATrivector): TAMultivector;
+    class operator + (const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+    class operator + (const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
 
-    class operator - (const ASelf: TTrivector): TTrivector;
-    class operator - (const ALeft, ARight: TTrivector): TTrivector;
-    class operator - (const ALeft: TTrivector; const ARight: TScalar): TMultivector;
-    class operator - (const ALeft: TScalar; const ARight: TTrivector): TMultivector;
-    class operator - (const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
-    class operator - (const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+    class operator - (const ASelf: TATrivector): TATrivector;
+    class operator - (const ALeft, ARight: TATrivector): TATrivector;
+    class operator - (const ALeft: TATrivector; const ARight: TAScalar): TAMultivector;
+    class operator - (const ALeft: TAScalar; const ARight: TATrivector): TAMultivector;
+    class operator - (const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+    class operator - (const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
 
-    class operator * (const ALeft, ARight: TTrivector): TScalar;
-    class operator * (const ALeft: TScalar; const ARight: TTrivector): TTrivector;
-    class operator * (const ALeft: TTrivector; const ARight: TScalar): TTrivector;
-    class operator * (const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
-    class operator * (const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+    class operator * (const ALeft, ARight: TATrivector): TAScalar;
+    class operator * (const ALeft: TAScalar; const ARight: TATrivector): TATrivector;
+    class operator * (const ALeft: TATrivector; const ARight: TAScalar): TATrivector;
+    class operator * (const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+    class operator * (const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
 
-    class operator / (const ALeft, ARight: TTrivector): TScalar;
-    class operator / (const ALeft: TTrivector; const ARight: TScalar): TTrivector;
-    class operator / (const ALeft: TScalar; const ARight: TTrivector): TTrivector;
-    class operator / (const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
-    class operator / (const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+    class operator / (const ALeft, ARight: TATrivector): TAScalar;
+    class operator / (const ALeft: TATrivector; const ARight: TAScalar): TATrivector;
+    class operator / (const ALeft: TAScalar; const ARight: TATrivector): TATrivector;
+    class operator / (const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+    class operator / (const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
   end;
   {$ELSE}
-  TTrivector = CL3.TTrivector;
+  TATrivector = TTrivector;
   {$ENDIF}
 
-  { TBivector }
+  { TABivector }
 
   {$IFDEF USEADIM}
-  TBivector = record
+  TABivector = record
   private
     FUnitOfMeasurement: longint;
-    FValue: CL3.TBivector;
+    FValue: TBivector;
   public
-    class operator :=(const AValue: TBivector): TMultivector;
-    class operator :=(const AValue: TMultivector): TBivector;
-    class operator <>(const ALeft, ARight: TBivector): boolean;
-    class operator <>(const ALeft: TBivector; const ARight: TMultivector): boolean;
-    class operator <>(const ALeft: TMultivector; const ARight: TBivector): boolean;
+    class operator :=(const AValue: TABivector): TAMultivector;
+    class operator <>(const ALeft, ARight: TABivector): boolean;
+    class operator <>(const ALeft: TABivector; const ARight: TAMultivector): boolean;
+    class operator <>(const ALeft: TAMultivector; const ARight: TABivector): boolean;
 
-    class operator = (const ALeft, ARight: TBivector): boolean;
-    class operator = (const ALeft: TBivector; const ARight: TMultivector): boolean;
-    class operator = (const ALeft: TMultivector; const ARight: TBivector): boolean;
+    class operator = (const ALeft, ARight: TABivector): boolean;
+    class operator = (const ALeft: TABivector; const ARight: TAMultivector): boolean;
+    class operator = (const ALeft: TAMultivector; const ARight: TABivector): boolean;
 
-    class operator + (const ALeft, ARight: TBivector): TBivector;
-    class operator + (const ALeft: TBivector; const ARight: TScalar): TMultivector;
-    class operator + (const ALeft: TScalar; const ARight: TBivector): TMultivector;
-    class operator + (const ALeft: TBivector; const ARight: TTrivector): TMultivector;
-    class operator + (const ALeft: TTrivector; const ARight: TBivector): TMultivector;
-    class operator + (const ALeft: TBivector; const ARight: TMultivector): TMultivector;
-    class operator + (const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+    class operator + (const ALeft, ARight: TABivector): TABivector;
+    class operator + (const ALeft: TABivector; const ARight: TAScalar): TAMultivector;
+    class operator + (const ALeft: TAScalar; const ARight: TABivector): TAMultivector;
+    class operator + (const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+    class operator + (const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+    class operator + (const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+    class operator + (const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
 
-    class operator - (const ASelf: TBivector): TBivector;
-    class operator - (const ALeft, ARight: TBivector): TBivector;
-    class operator - (const ALeft: TBivector; const ARight: TScalar): TMultivector;
-    class operator - (const ALeft: TScalar; const ARight: TBivector): TMultivector;
-    class operator - (const ALeft: TBivector; const ARight: TTrivector): TMultivector;
-    class operator - (const ALeft: TTrivector; const ARight: TBivector): TMultivector;
-    class operator - (const ALeft: TBivector; const ARight: TMultivector): TMultivector;
-    class operator - (const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+    class operator - (const ASelf: TABivector): TABivector;
+    class operator - (const ALeft, ARight: TABivector): TABivector;
+    class operator - (const ALeft: TABivector; const ARight: TAScalar): TAMultivector;
+    class operator - (const ALeft: TAScalar; const ARight: TABivector): TAMultivector;
+    class operator - (const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+    class operator - (const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+    class operator - (const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+    class operator - (const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
 
-    class operator * (const ALeft, ARight: TBivector): TMultivector;
-    class operator * (const ALeft: TScalar; const ARight: TBivector): TBivector;
-    class operator * (const ALeft: TBivector; const ARight: TScalar): TBivector;
-    class operator * (const ALeft: TBivector; const ARight: TMultivector): TMultivector;
-    class operator * (const ALeft: TBivector; const ARight: TTrivector): TMultivector;
-    class operator * (const ALeft: TTrivector; const ARight: TBivector): TMultivector;
-    class operator * (const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+    class operator * (const ALeft, ARight: TABivector): TAMultivector;
+    class operator * (const ALeft: TAScalar; const ARight: TABivector): TABivector;
+    class operator * (const ALeft: TABivector; const ARight: TAScalar): TABivector;
+    class operator * (const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+    class operator * (const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+    class operator * (const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+    class operator * (const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
 
-    class operator / (const ALeft, ARight: TBivector): TMultivector;
-    class operator / (const ALeft: TBivector; const ARight: TScalar): TBivector;
-    class operator / (const ALeft: TScalar; const ARight: TBivector): TBivector;
-    class operator / (const ALeft: TBivector; const ARight: TTrivector): TMultivector;
-    class operator / (const ALeft: TTrivector; const ARight: TBivector): TMultivector;
-    class operator / (const ALeft: TBivector; const ARight: TMultivector): TMultivector;
-    class operator / (const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+    class operator / (const ALeft, ARight: TABivector): TAMultivector;
+    class operator / (const ALeft: TABivector; const ARight: TAScalar): TABivector;
+    class operator / (const ALeft: TAScalar; const ARight: TABivector): TABivector;
+    class operator / (const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+    class operator / (const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+    class operator / (const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+    class operator / (const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
   end;
   {$ELSE}
-  TBivector = CL3.TBivector;
+  TABivector = TBivector;
   {$ENDIF}
 
-  { TVector }
+  { TAVector }
 
   {$IFDEF USEADIM}
-  TVector = record
+  TAVector = record
   private
     FUnitOfMeasurement: longint;
-    FValue: CL3.TVector;
+    FValue: TVector;
   public
-    class operator :=(const AValue: TVector): TMultivector;
-    class operator :=(const AValue: TMultivector): TVector;
-    class operator <>(const ALeft, ARight: TVector): boolean;
-    class operator <>(const ALeft: TVector; const ARight: TMultivector): boolean;
-    class operator <>(const ALeft: TMultivector; const ARight: TVector): boolean;
+    class operator :=(const AValue: TAVector): TAMultivector;
+    class operator <>(const ALeft, ARight: TAVector): boolean;
+    class operator <>(const ALeft: TAVector; const ARight: TAMultivector): boolean;
+    class operator <>(const ALeft: TAMultivector; const ARight: TAVector): boolean;
 
-    class operator = (const ALeft, ARight: TVector): boolean;
-    class operator = (const ALeft: TVector; const ARight: TMultivector): boolean;
-    class operator = (const ALeft: TMultivector; const ARight: TVector): boolean;
+    class operator = (const ALeft, ARight: TAVector): boolean;
+    class operator = (const ALeft: TAVector; const ARight: TAMultivector): boolean;
+    class operator = (const ALeft: TAMultivector; const ARight: TAVector): boolean;
 
-    class operator + (const ALeft, ARight: TVector): TVector;
-    class operator + (const ALeft: TVector; const ARight: TScalar): TMultivector;
-    class operator + (const ALeft: TScalar; const ARight: TVector): TMultivector;
-    class operator + (const ALeft: TVector; const ARight: TBivector): TMultivector;
-    class operator + (const ALeft: TBivector; const ARight: TVector): TMultivector;
-    class operator + (const ALeft: TVector; const ARight: TTrivector): TMultivector;
-    class operator + (const ALeft: TTrivector; const ARight: TVector): TMultivector;
-    class operator + (const ALeft: TVector; const ARight: TMultivector): TMultivector;
-    class operator + (const ALeft: TMultivector; const ARight: TVector): TMultivector;
+    class operator + (const ALeft, ARight: TAVector): TAVector;
+    class operator + (const ALeft: TAVector; const ARight: TAScalar): TAMultivector;
+    class operator + (const ALeft: TAScalar; const ARight: TAVector): TAMultivector;
+    class operator + (const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+    class operator + (const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+    class operator + (const ALeft: TAVector; const ARight: TATrivector): TAMultivector;
+    class operator + (const ALeft: TATrivector; const ARight: TAVector): TAMultivector;
+    class operator + (const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+    class operator + (const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
 
-    class operator - (const ASelf: TVector): TVector;
-    class operator - (const ALeft, ARight: TVector): TVector;
-    class operator - (const ALeft: TVector; const ARight: TScalar): TMultivector;
-    class operator - (const ALeft: TScalar; const ARight: TVector): TMultivector;
-    class operator - (const ALeft: TVector; const ARight: TBivector): TMultivector;
-    class operator - (const ALeft: TBivector; const ARight: TVector): TMultivector;
-    class operator - (const ALeft: TVector; const ARight: TTrivector): TMultivector;
-    class operator - (const ALeft: TTrivector; const ARight: TVector): TMultivector;
-    class operator - (const ALeft: TVector; const ARight: TMultivector): TMultivector;
-    class operator - (const ALeft: TMultivector; const ARight: TVector): TMultivector;
+    class operator - (const ASelf: TAVector): TAVector;
+    class operator - (const ALeft, ARight: TAVector): TAVector;
+    class operator - (const ALeft: TAVector; const ARight: TAScalar): TAMultivector;
+    class operator - (const ALeft: TAScalar; const ARight: TAVector): TAMultivector;
+    class operator - (const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+    class operator - (const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+    class operator - (const ALeft: TAVector; const ARight: TATrivector): TAMultivector;
+    class operator - (const ALeft: TATrivector; const ARight: TAVector): TAMultivector;
+    class operator - (const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+    class operator - (const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
 
-    class operator * (const ALeft, ARight: TVector): TMultivector;
-    class operator * (const ALeft: TScalar; const ARight: TVector): TVector;
-    class operator * (const ALeft: TVector; const ARight: TScalar): TVector;
-    class operator * (const ALeft: TVector; const ARight: TBivector): TMultivector;
-    class operator * (const ALeft: TVector; const ARight: TTrivector): TBivector;
-    class operator * (const ALeft: TVector; const ARight: TMultivector): TMultivector;
-    class operator * (const ALeft: TBivector; const ARight: TVector): TMultivector;
-    class operator * (const ALeft: TTrivector; const ARight: TVector): TBivector;
-    class operator * (const ALeft: TMultivector; const ARight: TVector): TMultivector;
+    class operator * (const ALeft, ARight: TAVector): TAMultivector;
+    class operator * (const ALeft: TAScalar; const ARight: TAVector): TAVector;
+    class operator * (const ALeft: TAVector; const ARight: TAScalar): TAVector;
+    class operator * (const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+    class operator * (const ALeft: TAVector; const ARight: TATrivector): TABivector;
+    class operator * (const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+    class operator * (const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+    class operator * (const ALeft: TATrivector; const ARight: TAVector): TABivector;
+    class operator * (const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
 
-    class operator / (const ALeft: TScalar; const ARight: TVector): TVector;
-    class operator / (const ALeft: TVector; const ARight: TScalar): TVector;
-    class operator / (const ALeft, ARight: TVector): TMultivector;
-    class operator / (const ALeft: TVector; const ARight: TBivector): TMultivector;
-    class operator / (const ALeft: TVector; const ARight: TTrivector): TBivector;
-    class operator / (const ALeft: TVector; const ARight: TMultivector): TMultivector;
-    class operator / (const ALeft: TBivector; const ARight: TVector): TMultivector;
-    class operator / (const ALeft: TTrivector; const ARight: TVector): TBivector;
-    class operator / (const ALeft: TMultivector; const ARight: TVector): TMultivector;
+    class operator / (const ALeft: TAScalar; const ARight: TAVector): TAVector;
+    class operator / (const ALeft: TAVector; const ARight: TAScalar): TAVector;
+    class operator / (const ALeft, ARight: TAVector): TAMultivector;
+    class operator / (const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+    class operator / (const ALeft: TAVector; const ARight: TATrivector): TABivector;
+    class operator / (const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+    class operator / (const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+    class operator / (const ALeft: TATrivector; const ARight: TAVector): TABivector;
+    class operator / (const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
   end;
   {$ELSE}
-  TVector = CL3.TVector;
+  TAVector = TVector;
   {$ENDIF}
 
-  { TMultivectorHelper }
+  { TAMultivectorHelper }
 
   {$IFDEF USEADIM}
-  TMultivectorHelper = record helper for TMultivector
-    function Dual: TMultivector;
-    function Inverse: TMultivector;
-    function Reverse: TMultivector;
-    function Conjugate: TMultivector;
-    function Reciprocal: TMultivector;
-    function LeftReciprocal: TMultivector;
-    function Normalized: TMultivector;
-    function Norm: TScalar;
-    function SquaredNorm: TScalar;
+  TAMultivectorHelper = record helper for TAMultivector
+    function Dual: TAMultivector;
+    function Inverse: TAMultivector;
+    function Reverse: TAMultivector;
+    function Conjugate: TAMultivector;
+    function Reciprocal: TAMultivector;
+    function LeftReciprocal: TAMultivector;
+    function Normalized: TAMultivector;
+    function Norm: TAScalar;
+    function SquaredNorm: TAScalar;
 
-    function Dot(const AVector: TVector): TMultivector; overload;
-    function Dot(const AVector: TBivector): TMultivector; overload;
-    function Dot(const AVector: TTrivector): TMultivector; overload;
-    function Dot(const AVector: TMultivector): TMultivector; overload;
+    function Dot(const AVector: TAVector): TAMultivector; overload;
+    function Dot(const AVector: TABivector): TAMultivector; overload;
+    function Dot(const AVector: TATrivector): TAMultivector; overload;
+    function Dot(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Wedge(const AVector: TVector): TMultivector; overload;
-    function Wedge(const AVector: TBivector): TMultivector; overload;
-    function Wedge(const AVector: TTrivector): TTrivector; overload;
-    function Wedge(const AVector: TMultivector): TMultivector; overload;
+    function Wedge(const AVector: TAVector): TAMultivector; overload;
+    function Wedge(const AVector: TABivector): TAMultivector; overload;
+    function Wedge(const AVector: TATrivector): TATrivector; overload;
+    function Wedge(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Projection(const AVector: TVector): TMultivector; overload;
-    function Projection(const AVector: TBivector): TMultivector; overload;
-    function Projection(const AVector: TTrivector): TMultivector; overload;
-    function Projection(const AVector: TMultivector): TMultivector; overload;
+    function Projection(const AVector: TAVector): TAMultivector; overload;
+    function Projection(const AVector: TABivector): TAMultivector; overload;
+    function Projection(const AVector: TATrivector): TAMultivector; overload;
+    function Projection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Rejection(const AVector: TVector): TMultivector; overload;
-    function Rejection(const AVector: TBivector): TMultivector; overload;
-    function Rejection(const AVector: TTrivector): TScalar; overload;
-    function Rejection(const AVector: TMultivector): TMultivector; overload;
+    function Rejection(const AVector: TAVector): TAMultivector; overload;
+    function Rejection(const AVector: TABivector): TAMultivector; overload;
+    function Rejection(const AVector: TATrivector): TAScalar; overload;
+    function Rejection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Reflection(const AVector: TVector): TMultivector; overload;
-    function Reflection(const AVector: TBivector): TMultivector; overload;
-    function Reflection(const AVector: TTrivector): TMultivector; overload;
-    function Reflection(const AVector: TMultivector): TMultivector; overload;
+    function Reflection(const AVector: TAVector): TAMultivector; overload;
+    function Reflection(const AVector: TABivector): TAMultivector; overload;
+    function Reflection(const AVector: TATrivector): TAMultivector; overload;
+    function Reflection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Rotation(const AVector1, AVector2: TVector): TMultivector; overload;
-    function Rotation(const AVector1, AVector2: TBivector): TMultivector; overload;
-    function Rotation(const AVector1, AVector2: TTrivector): TMultivector; overload;
-    function Rotation(const AVector1, AVector2: TMultivector): TMultivector;overload;
+    function Rotation(const AVector1, AVector2: TAVector): TAMultivector; overload;
+    function Rotation(const AVector1, AVector2: TABivector): TAMultivector; overload;
+    function Rotation(const AVector1, AVector2: TATrivector): TAMultivector; overload;
+    function Rotation(const AVector1, AVector2: TAMultivector): TAMultivector;overload;
 
-    function SameValue(const AValue: TMultivector): boolean;
-    function SameValue(const AValue: TTrivector): boolean;
-    function SameValue(const AValue: TBivector): boolean;
-    function SameValue(const AValue: TVector): boolean;
-    function SameValue(const AValue: TScalar): boolean;
+    function SameValue(const AVector: TAMultivector): boolean;
+    function SameValue(const AVector: TATrivector): boolean;
+    function SameValue(const AVector: TABivector): boolean;
+    function SameValue(const AVector: TAVector): boolean;
+    function SameValue(const AVector: TAScalar): boolean;
 
-    function ExtractMultivector(AComponents: TMultivectorComponents): TMultivector;
-    function ExtractBivector(AComponents: TMultivectorComponents): TBivector;
-    function ExtractVector(AComponents: TMultivectorComponents): TVector;
+    function ExtractMultivector(AComponents: TMultivectorComponents): TAMultivector;
+    function ExtractBivector(AComponents: TMultivectorComponents): TABivector;
+    function ExtractVector(AComponents: TMultivectorComponents): TAVector;
 
-    function ExtractTrivector: TTrivector;
-    function ExtractBivector: TBivector;
-    function ExtractVector: TVector;
-    function ExtractScalar: TScalar;
+    function ExtractTrivector: TATrivector;
+    function ExtractBivector: TABivector;
+    function ExtractVector: TAVector;
+    function ExtractScalar: TAScalar;
 
     function IsNull: boolean;
     function IsScalar: boolean;
@@ -317,159 +313,159 @@ type
   end;
   {$ENDIF}
 
-  { TTrivectorHelper }
+  { TATrivectorHelper }
 
   {$IFDEF USEADIM}
-  TTrivectorHelper = record helper for TTrivector
-    function Dual: TScalar;
-    function Inverse: TTrivector;
-    function Reverse: TTrivector;
-    function Conjugate: TTrivector;
-    function Reciprocal: TTrivector;
-    function Normalized: TTrivector;
-    function Norm: TScalar;
-    function SquaredNorm: TScalar;
+  TATrivectorHelper = record helper for TATrivector
+    function Dual: TAScalar;
+    function Inverse: TATrivector;
+    function Reverse: TATrivector;
+    function Conjugate: TATrivector;
+    function Reciprocal: TATrivector;
+    function Normalized: TATrivector;
+    function Norm: TAScalar;
+    function SquaredNorm: TAScalar;
 
-    function Dot(const AVector: TVector): TBivector; overload;
-    function Dot(const AVector: TBivector): TVector; overload;
-    function Dot(const AVector: TTrivector): TScalar; overload;
-    function Dot(const AVector: TMultivector): TMultivector; overload;
+    function Dot(const AVector: TAVector): TABivector; overload;
+    function Dot(const AVector: TABivector): TAVector; overload;
+    function Dot(const AVector: TATrivector): TAScalar; overload;
+    function Dot(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Wedge(const AVector: TVector): TScalar; overload;
-    function Wedge(const AVector: TBivector): TScalar; overload;
-    function Wedge(const AVector: TTrivector): TScalar; overload;
-    function Wedge(const AVector: TMultivector): TTrivector; overload;
+    function Wedge(const AVector: TAVector): TAScalar; overload;
+    function Wedge(const AVector: TABivector): TAScalar; overload;
+    function Wedge(const AVector: TATrivector): TAScalar; overload;
+    function Wedge(const AVector: TAMultivector): TATrivector; overload;
 
-    function Projection(const AVector: TVector): TTrivector; overload;
-    function Projection(const AVector: TBivector): TTrivector; overload;
-    function Projection(const AVector: TTrivector): TTrivector; overload;
-    function Projection(const AVector: TMultivector): TTrivector; overload;
+    function Projection(const AVector: TAVector): TATrivector; overload;
+    function Projection(const AVector: TABivector): TATrivector; overload;
+    function Projection(const AVector: TATrivector): TATrivector; overload;
+    function Projection(const AVector: TAMultivector): TATrivector; overload;
 
-    function Rejection(const AVector: TVector): TScalar; overload;
-    function Rejection(const AVector: TBivector): TScalar; overload;
-    function Rejection(const AVector: TTrivector): TScalar; overload;
-    function Rejection(const AVector: TMultivector): TMultivector; overload;
+    function Rejection(const AVector: TAVector): TAScalar; overload;
+    function Rejection(const AVector: TABivector): TAScalar; overload;
+    function Rejection(const AVector: TATrivector): TAScalar; overload;
+    function Rejection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Reflection(const AVector: TVector): TTrivector; overload;
-    function Reflection(const AVector: TBivector): TTrivector; overload;
-    function Reflection(const AVector: TTrivector): TTrivector; overload;
-    function Reflection(const AVector: TMultivector): TTrivector; overload;
+    function Reflection(const AVector: TAVector): TATrivector; overload;
+    function Reflection(const AVector: TABivector): TATrivector; overload;
+    function Reflection(const AVector: TATrivector): TATrivector; overload;
+    function Reflection(const AVector: TAMultivector): TATrivector; overload;
 
-    function Rotation(const AVector1, AVector2: TVector): TTrivector; overload;
-    function Rotation(const AVector1, AVector2: TBivector): TTrivector; overload;
-    function Rotation(const AVector1, AVector2: TTrivector): TTrivector; overload;
-    function Rotation(const AVector1, AVector2: TMultivector): TTrivector; overload;
+    function Rotation(const AVector1, AVector2: TAVector): TATrivector; overload;
+    function Rotation(const AVector1, AVector2: TABivector): TATrivector; overload;
+    function Rotation(const AVector1, AVector2: TATrivector): TATrivector; overload;
+    function Rotation(const AVector1, AVector2: TAMultivector): TATrivector; overload;
 
-    function SameValue(const AValue: TMultivector): boolean;
-    function SameValue(const AValue: TTrivector): boolean;
+    function SameValue(const AVector: TAMultivector): boolean;
+    function SameValue(const AVector: TATrivector): boolean;
 
-    function ToMultivector: TMultivector;
+    function ToMultivector: TAMultivector;
   end;
   {$ENDIF}
 
-  { TBivectorHelper }
+  { TABivectorHelper }
 
   {$IFDEF USEADIM}
-  TBivectorHelper = record helper for TBivector
-    function Dual: TVector;
-    function Inverse: TBivector;
-    function Reverse: TBivector;
-    function Conjugate: TBivector;
-    function Reciprocal: TBivector;
-    function Normalized: TBivector;
-    function Norm: TScalar;
-    function SquaredNorm: TScalar;
+  TABivectorHelper = record helper for TABivector
+    function Dual: TAVector;
+    function Inverse: TABivector;
+    function Reverse: TABivector;
+    function Conjugate: TABivector;
+    function Reciprocal: TABivector;
+    function Normalized: TABivector;
+    function Norm: TAScalar;
+    function SquaredNorm: TAScalar;
 
-    function Dot(const AVector: TVector): TVector; overload;
-    function Dot(const AVector: TBivector): TScalar; overload;
-    function Dot(const AVector: TTrivector): TVector; overload;
-    function Dot(const AVector: TMultivector): TMultivector; overload;
+    function Dot(const AVector: TAVector): TAVector; overload;
+    function Dot(const AVector: TABivector): TAScalar; overload;
+    function Dot(const AVector: TATrivector): TAVector; overload;
+    function Dot(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Wedge(const AVector: TVector): TTrivector; overload;
-    function Wedge(const AVector: TBivector): TScalar; overload;
-    function Wedge(const AVector: TTrivector): TScalar; overload;
-    function Wedge(const AVector: TMultivector): TMultivector; overload;
+    function Wedge(const AVector: TAVector): TATrivector; overload;
+    function Wedge(const AVector: TABivector): TAScalar; overload;
+    function Wedge(const AVector: TATrivector): TAScalar; overload;
+    function Wedge(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Projection(const AVector: TVector): TBivector; overload;
-    function Projection(const AVector: TBivector): TBivector; overload;
-    function Projection(const AVector: TTrivector): TBivector; overload;
-    function Projection(const AVector: TMultivector): TMultivector; overload;
+    function Projection(const AVector: TAVector): TABivector; overload;
+    function Projection(const AVector: TABivector): TABivector; overload;
+    function Projection(const AVector: TATrivector): TABivector; overload;
+    function Projection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Rejection(const AVector: TVector): TBivector; overload;
-    function Rejection(const AVector: TBivector): TScalar; overload;
-    function Rejection(const AVector: TTrivector): TScalar; overload;
-    function Rejection(const AVector: TMultivector): TMultivector; overload;
+    function Rejection(const AVector: TAVector): TABivector; overload;
+    function Rejection(const AVector: TABivector): TAScalar; overload;
+    function Rejection(const AVector: TATrivector): TAScalar; overload;
+    function Rejection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Reflection(const AVector: TVector): TBivector; overload;
-    function Reflection(const AVector: TBivector): TBivector; overload;
-    function Reflection(const AVector: TTrivector): TBivector; overload;
-    function Reflection(const AVector: TMultivector): TMultivector; overload;
+    function Reflection(const AVector: TAVector): TABivector; overload;
+    function Reflection(const AVector: TABivector): TABivector; overload;
+    function Reflection(const AVector: TATrivector): TABivector; overload;
+    function Reflection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Rotation(const AVector1, AVector2: TVector): TBivector; overload;
-    function Rotation(const AVector1, AVector2: TBivector): TBivector; overload;
-    function Rotation(const AVector1, AVector2: TTrivector): TBivector; overload;
-    function Rotation(const AVector1, AVector2: TMultivector): TMultivector; overload;
+    function Rotation(const AVector1, AVector2: TAVector): TABivector; overload;
+    function Rotation(const AVector1, AVector2: TABivector): TABivector; overload;
+    function Rotation(const AVector1, AVector2: TATrivector): TABivector; overload;
+    function Rotation(const AVector1, AVector2: TAMultivector): TAMultivector; overload;
 
-    function SameValue(const AValue: TMultivector): boolean;
-    function SameValue(const AValue: TBivector): boolean;
+    function SameValue(const AVector: TAMultivector): boolean;
+    function SameValue(const AVector: TABivector): boolean;
 
-    function ExtractBivector(AComponents: TMultivectorComponents): TBivector;
+    function ExtractBivector(AComponents: TMultivectorComponents): TABivector;
 
-    function ToMultivector: TMultivector;
+    function ToMultivector: TAMultivector;
   end;
   {$ENDIF}
 
-  { TVectorHelper }
+  { TAVectorHelper }
 
   {$IFDEF USEADIM}
-  TVectorHelper = record helper for TVector
-    function Dual: TBivector;
-    function Inverse: TVector;
-    function Reverse: TVector;
-    function Conjugate: TVector;
-    function Reciprocal: TVector;
-    function Normalized: TVector;
-    function Norm: TScalar;
-    function SquaredNorm: TScalar;
+  TAVectorHelper = record helper for TAVector
+    function Dual: TABivector;
+    function Inverse: TAVector;
+    function Reverse: TAVector;
+    function Conjugate: TAVector;
+    function Reciprocal: TAVector;
+    function Normalized: TAVector;
+    function Norm: TAScalar;
+    function SquaredNorm: TAScalar;
 
-    function Dot(const AVector: TVector): TScalar; overload;
-    function Dot(const AVector: TBivector): TVector; overload;
-    function Dot(const AVector: TTrivector): TBivector; overload;
-    function Dot(const AVector: TMultivector): TMultivector; overload;
+    function Dot(const AVector: TAVector): TAScalar; overload;
+    function Dot(const AVector: TABivector): TAVector; overload;
+    function Dot(const AVector: TATrivector): TABivector; overload;
+    function Dot(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Wedge(const AVector: TVector): TBivector; overload;
-    function Wedge(const AVector: TBivector): TTrivector; overload;
-    function Wedge(const AVector: TTrivector): TScalar; overload;
-    function Wedge(const AVector: TMultivector): TMultivector; overload;
+    function Wedge(const AVector: TAVector): TABivector; overload;
+    function Wedge(const AVector: TABivector): TATrivector; overload;
+    function Wedge(const AVector: TATrivector): TAScalar; overload;
+    function Wedge(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Cross(const AVector: TVector): TVector;
+    function Cross(const AVector: TAVector): TAVector;
 
-    function Projection(const AVector: TVector): TVector; overload;
-    function Projection(const AVector: TBivector): TVector; overload;
-    function Projection(const AVector: TTrivector): TVector; overload;
-    function Projection(const AVector: TMultivector): TMultivector; overload;
+    function Projection(const AVector: TAVector): TAVector; overload;
+    function Projection(const AVector: TABivector): TAVector; overload;
+    function Projection(const AVector: TATrivector): TAVector; overload;
+    function Projection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Rejection(const AVector: TVector): TVector; overload;
-    function Rejection(const AVector: TBivector): TVector; overload;
-    function Rejection(const AVector: TTrivector): TScalar; overload;
-    function Rejection(const AVector: TMultivector): TMultivector; overload;
+    function Rejection(const AVector: TAVector): TAVector; overload;
+    function Rejection(const AVector: TABivector): TAVector; overload;
+    function Rejection(const AVector: TATrivector): TAScalar; overload;
+    function Rejection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Reflection(const AVector: TVector): TVector; overload;
-    function Reflection(const AVector: TBivector): TVector; overload;
-    function Reflection(const AVector: TTrivector): TVector; overload;
-    function Reflection(const AVector: TMultivector): TMultivector; overload;
+    function Reflection(const AVector: TAVector): TAVector; overload;
+    function Reflection(const AVector: TABivector): TAVector; overload;
+    function Reflection(const AVector: TATrivector): TAVector; overload;
+    function Reflection(const AVector: TAMultivector): TAMultivector; overload;
 
-    function Rotation(const AVector1, AVector2: TVector): TVector; overload;
-    function Rotation(const AVector1, AVector2: TBivector): TVector; overload;
-    function Rotation(const AVector1, AVector2: TTrivector): TVector; overload;
-    function Rotation(const AVector1, AVector2: TMultivector): TMultivector; overload;
+    function Rotation(const AVector1, AVector2: TAVector): TAVector; overload;
+    function Rotation(const AVector1, AVector2: TABivector): TAVector; overload;
+    function Rotation(const AVector1, AVector2: TATrivector): TAVector; overload;
+    function Rotation(const AVector1, AVector2: TAMultivector): TAMultivector; overload;
 
-    function SameValue(const AValue: TMultivector): boolean;
-    function SameValue(const AValue: TVector): boolean;
+    function SameValue(const AVector: TAMultivector): boolean;
+    function SameValue(const AVector: TAVector): boolean;
 
-    function ExtractVector(AComponents: TMultivectorComponents): TVector;
+    function ExtractVector(AComponents: TMultivectorComponents): TAVector;
 
-    function ToMultivector: TMultivector;
+    function ToMultivector: TAMultivector;
   end;
   {$ENDIF}
 
@@ -481,40 +477,40 @@ type
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
     function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
-    procedure Check(var AQuantity: TScalar);
-    function ToFloat(const AQuantity: TScalar): double;
-    function ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TScalar): string;
-    function ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar): string;
-    function ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AQuantity: double; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AQuantity: double; const ASelf: TSelf): TScalar; inline;
-    class operator *(const AQuantity: CL3.TVector; const ASelf: TSelf): TVector; inline;
-    class operator /(const AQuantity: CL3.TVector; const ASelf: TSelf): TVector; inline;
-    class operator *(const AQuantity: CL3.TBivector; const ASelf: TSelf): TBivector; inline;
-    class operator /(const AQuantity: CL3.TBivector; const ASelf: TSelf): TBivector; inline;
-    class operator *(const AQuantity: CL3.TTrivector; const ASelf: TSelf): TTrivector; inline;
-    class operator /(const AQuantity: CL3.TTrivector; const ASelf: TSelf): TTrivector; inline;
-    class operator *(const AQuantity: CL3.TMultivector; const ASelf: TSelf): TMultivector; inline;
-    class operator /(const AQuantity: CL3.TMultivector; const ASelf: TSelf): TMultivector; inline;
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
   {$IFDEF USEADIM}
-    class operator *(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
-    class operator *(const AQuantity: TVector; const ASelf: TSelf): TVector; inline;
-    class operator /(const AQuantity: TVector; const ASelf: TSelf): TVector; inline;
-    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TBivector; inline;
-    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TBivector; inline;
-    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TTrivector; inline;
-    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TTrivector; inline;
-    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TMultivector; inline;
-    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TMultivector; inline;
+    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator *(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+    class operator /(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+    class operator *(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+    class operator /(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+    class operator *(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator /(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator *(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator /(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
   {$ENDIF}
   end;
 
@@ -526,24 +522,24 @@ type
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
     function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
-    procedure Check(var AQuantity: TScalar);
-    function ToFloat(const AQuantity: TScalar): double;
-    function ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TScalar): string;
-    function ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar): string;
-    function ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AValue: double; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AValue: double; const ASelf: TSelf): TScalar; inline;
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
   {$IFDEF USEADIM}
-    class operator *(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
-    class operator /(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
   {$ENDIF}
   end;
 
