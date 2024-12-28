@@ -1,5 +1,5 @@
 {
-  Description: ADimRT Test program.
+  Description: ADim Test program.
 
   Copyright (C) 2024 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -17,166 +17,166 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
-program adimrttest;
+program adimtest;
 
 uses
-  ADimRT, Math, SysUtils;
+  ADim, Math, SysUtils;
 
 var
-  side1: TQuantity;
-  side2, side3, side4: TQuantity;
-  area: TQuantity;
-  volume: TQuantity;
-  hypervolume: TQuantity;
+  side1: TScalar;
+  side2, side3, side4: TScalar;
+  area: TScalar;
+  volume: TScalar;
+  hypervolume: TScalar;
 
-  pressure: TQuantity;
-  stiffness: TQuantity;
+  pressure: TScalar;
+  stiffness: TScalar;
 
-  squarecharge: TQuantity;
-  capacitance: TQuantity;
+  squarecharge: TScalar;
+  capacitance: TScalar;
 
-  distance: TQuantity;
-  tolerance: TQuantity;
-  time: TQuantity;
-  speed: TQuantity;
-  spin: TQuantity;
-  acc: TQuantity;
-  density: TQuantity;
-  specificw: TQuantity;
-  force, normal: TQuantity;
+  distance: TScalar;
+  tolerance: TScalar;
+  time: TScalar;
+  speed: TScalar;
+  spin: TScalar;
+  acc: TScalar;
+  density: TScalar;
+  specificw: TScalar;
+  force, normal: TScalar;
 
-  torque: TQuantity;
-  work: TQuantity;
-  power: TQuantity;
+  torque: TScalar;
+  work: TScalar;
+  power: TScalar;
 
-  charge: TQuantity;
-  potential: TQuantity;
-  current: TQuantity;
+  charge: TScalar;
+  potential: TScalar;
+  current: TScalar;
 
-  flux: TQuantity;
-  fluxdensity: TQuantity;
+  flux: TScalar;
+  fluxdensity: TScalar;
 
-  inductance: TQuantity;
-  resistance: TQuantity;
-  conductance: TQuantity;
+  inductance: TScalar;
+  resistance: TScalar;
+  conductance: TScalar;
 
-  solidangle: TQuantity;
-  intensity: TQuantity;
-  luminousflux: TQuantity;
+  solidangle: TScalar;
+  intensity: TScalar;
+  luminousflux: TScalar;
 
-  dose1: TQuantity;
-  dose2: TQuantity;
+  dose1: TScalar;
+  dose2: TScalar;
 
-  angularspeed: TQuantity;
+  angularspeed: TScalar;
 
-  kA: TQuantity;
-  kAr: TQuantity;
-  radius: TQuantity;
-  radius1: TQuantity;
-  radius2: TQuantity;
+  kA: TScalar;
+  kAr: TScalar;
+  radius: TScalar;
+  radius1: TScalar;
+  radius2: TScalar;
 
-  Mass: TQuantity;
-  MassOfSun: TQuantity;
-  MassOfSagittariusAStar: TQuantity;
-  eta: TQuantity;
-  Cb: TQuantity;
+  Mass: TScalar;
+  MassOfSun: TScalar;
+  MassOfSagittariusAStar: TScalar;
+  eta: TScalar;
+  Cb: TScalar;
 
-  mass1: TQuantity;
-  mass2: TQuantity;
+  mass1: TScalar;
+  mass2: TScalar;
 
-  cCd: TQuantity;
-  angle: TQuantity;
+  cCd: TScalar;
+  angle: TScalar;
 
-  Uc: TQuantity;
-  Ug: TQuantity;
+  Uc: TScalar;
+  Ug: TScalar;
 
-  Ue: TQuantity;
-  kx: TQuantity;
-  x: TQuantity;
+  Ue: TScalar;
+  kx: TScalar;
+  x: TScalar;
 
-  q1: TQuantity;
-  q2: TQuantity;
-  Uel: TQuantity;
-  U: TQuantity;
+  q1: TScalar;
+  q2: TScalar;
+  Uel: TScalar;
+  U: TScalar;
 
-  p: TQuantity;
-  p2: TQuantity;
-  impulse: TQuantity;
-  Lp: TQuantity;
+  p: TScalar;
+  p2: TScalar;
+  impulse: TScalar;
+  Lp: TScalar;
 
-  flowrate: TQuantity;
+  flowrate: TScalar;
 
-  lambda: TQuantity;
-  deltadist: TQuantity;
-  deltatemp: TQuantity;
+  lambda: TScalar;
+  deltadist: TScalar;
+  deltatemp: TScalar;
 
-  specificheatcapacity: TQuantity;
-  heatcapacity: TQuantity;
+  specificheatcapacity: TScalar;
+  heatcapacity: TScalar;
 
-  _m1: TQuantity;
-  _m2: TQuantity;
-  _tf: TQuantity;
-  _t1: TQuantity;
-  _t2: TQuantity;
-  _c1: TQuantity;
-  _c2: TQuantity;
+  _m1: TScalar;
+  _m2: TScalar;
+  _tf: TScalar;
+  _t1: TScalar;
+  _t2: TScalar;
+  _c1: TScalar;
+  _c2: TScalar;
 
-  lambda2: TQuantity;
+  lambda2: TScalar;
 
-  E: TQuantity;
-  sigma: TQuantity;
+  E: TScalar;
+  sigma: TScalar;
 
-  B: TQuantity;
-  len: TQuantity;
-  r: TQuantity;
-  z: TQuantity;
+  B: TScalar;
+  len: TScalar;
+  r: TScalar;
+  z: TScalar;
   loops: longint;
 
-  i1, i2: TQuantity;
-  magneticflux: TQuantity;
+  i1, i2: TScalar;
+  magneticflux: TScalar;
 
-  DeltaE: TQuantity;
+  DeltaE: TScalar;
 
-  Ampl: TQuantity;
-  Kw: TQuantity;
-  Omega: TQuantity;
-  phi: TQuantity;
+  Ampl: TScalar;
+  Kw: TScalar;
+  Omega: TScalar;
+  phi: TScalar;
 
-  wavelen: TQuantity;
-  wavelenc: TQuantity;
-  yspeed: TQuantity;
-  yacc: TQuantity;
+  wavelen: TScalar;
+  wavelenc: TScalar;
+  yspeed: TScalar;
+  yacc: TScalar;
 
-  E0: TQuantity;
-  Energy: TQuantity;
-  freq: TQuantity;
+  E0: TScalar;
+  Energy: TScalar;
+  freq: TScalar;
 
-  I: TQuantity;
-  Re: TQuantity;
+  I: TScalar;
+  Re: TScalar;
 
   num: integer;
-  alpha: TQuantity;
-  kc: TQuantity;
-  BoxLen: TQuantity;
-  EnergyLevels: array[1..4] of TQuantity;
-  SquarePsi: array[1..4] of TQuantity;
-  Psi0: TQuantity;
-  PsiValues: array [1..4] of TQuantity;
-  A0: TQuantity;
-  y: TQuantity;
+  alpha: TScalar;
+  kc: TScalar;
+  BoxLen: TScalar;
+  EnergyLevels: array[1..4] of TScalar;
+  SquarePsi: array[1..4] of TScalar;
+  Psi0: TScalar;
+  PsiValues: array [1..4] of TScalar;
+  A0: TScalar;
+  y: TScalar;
 
   Iteration: longint;
   Iterations: longint;
-  Probability: TQuantity;
-  mu: TQuantity;
+  Probability: TScalar;
+  mu: TScalar;
 
-  E1, E2: TQuantity;
-  L1, L2: TQuantity;
+  E1, E2: TScalar;
+  L1, L2: TScalar;
 
-  kfactor: TQuantity;
-  bfactor: TQuantity;
-  U0: TQuantity;
-  TunnelingProbability: TQuantity;
+  kfactor: TScalar;
+  bfactor: TScalar;
+  U0: TScalar;
+  TunnelingProbability: TScalar;
 
 begin
   ExitCode := 0;
