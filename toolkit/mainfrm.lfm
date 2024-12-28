@@ -1,11 +1,12 @@
 object MainForm: TMainForm
-  Left = 662
-  Height = 801
-  Top = 299
-  Width = 1452
+  Left = 174
+  Height = 577
+  Top = 86
+  Width = 989
   Caption = 'ADimPas Toolkit-v2'
-  ClientHeight = 801
-  ClientWidth = 1452
+  ClientHeight = 577
+  ClientWidth = 989
+  Position = poMainFormCenter
   LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -17,19 +18,19 @@ object MainForm: TMainForm
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 0
-    Height = 747
+    Height = 523
     Top = 54
-    Width = 1452
-    ActivePage = TabSheet2
+    Width = 989
+    ActivePage = TabSheet1
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 10
     ParentFont = False
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Unit of measurement'
-      ClientHeight = 714
-      ClientWidth = 1442
+      ClientHeight = 495
+      ClientWidth = 981
       object StringGrid: TStringGrid
         AnchorSideLeft.Control = TabSheet1
         AnchorSideTop.Control = AddBtn
@@ -39,9 +40,9 @@ object MainForm: TMainForm
         AnchorSideBottom.Control = TabSheet1
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 666
+        Height = 447
         Top = 48
-        Width = 1442
+        Width = 981
         Anchors = [akTop, akLeft, akRight, akBottom]
         AutoFillColumns = True
         BorderSpacing.Top = 6
@@ -49,43 +50,43 @@ object MainForm: TMainForm
         Columns = <        
           item
             Title.Caption = 'Field'
-            Width = 144
+            Width = 98
           end        
           item
             Title.Caption = 'Quantity'
-            Width = 144
+            Width = 98
           end        
           item
             Title.Caption = 'Dimension'
-            Width = 144
+            Width = 98
           end        
           item
             Title.Caption = 'Long string'
-            Width = 144
+            Width = 98
           end        
           item
             Title.Caption = 'Short string'
-            Width = 144
+            Width = 98
           end        
           item
             Title.Caption = 'Identifier'
-            Width = 144
+            Width = 98
           end        
           item
             Title.Caption = 'Base quantity'
-            Width = 144
+            Width = 98
           end        
           item
             Title.Caption = 'Factor'
-            Width = 144
+            Width = 97
           end        
           item
             Title.Caption = 'Prefixes'
-            Width = 143
+            Width = 97
           end        
           item
             Title.Caption = 'Type'
-            Width = 143
+            Width = 97
           end>
         FixedCols = 0
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goAutoAddRows, goRowSelect, goSmoothScroll]
@@ -94,16 +95,16 @@ object MainForm: TMainForm
         OnDblClick = StringGridDblClick
         OnPrepareCanvas = StringGridPrepareCanvas
         ColWidths = (
-          144
-          144
-          144
-          144
-          144
-          144
-          144
-          144
-          143
-          143
+          98
+          98
+          98
+          98
+          98
+          98
+          98
+          97
+          97
+          97
         )
       end
       object AddBtn: TBitBtn
@@ -189,13 +190,13 @@ object MainForm: TMainForm
     end
     object TabSheet2: TTabSheet
       Caption = 'Unit Source Code'
-      ClientHeight = 714
-      ClientWidth = 1442
+      ClientHeight = 495
+      ClientWidth = 981
       inline SynEdit: TSynEdit
         Left = 0
-        Height = 714
+        Height = 495
         Top = 0
-        Width = 1442
+        Width = 981
         Align = alClient
         Anchors = []
         Font.Height = -13
@@ -660,15 +661,15 @@ object MainForm: TMainForm
     end
     object TabSheet3: TTabSheet
       Caption = 'Messages'
-      ClientHeight = 714
-      ClientWidth = 1442
+      ClientHeight = 495
+      ClientWidth = 981
       object Memo: TMemo
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 714
+        Height = 495
         Top = 0
-        Width = 1442
+        Width = 981
         Align = alClient
         Anchors = []
         Font.Height = -13
@@ -690,7 +691,7 @@ object MainForm: TMainForm
     Left = 8
     Height = 36
     Top = 8
-    Width = 120
+    Width = 100
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 8
     Caption = 'Load'
@@ -777,10 +778,10 @@ object MainForm: TMainForm
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Side = asrBottom
-    Left = 1328
+    Left = 860
     Height = 36
     Top = 8
-    Width = 120
+    Width = 125
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 4
     Caption = 'Run'
@@ -868,10 +869,10 @@ object MainForm: TMainForm
     AnchorSideRight.Control = RunBtn
     AnchorSideBottom.Control = RunBtn
     AnchorSideBottom.Side = asrBottom
-    Left = 1204
+    Left = 731
     Height = 36
     Top = 8
-    Width = 120
+    Width = 125
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 4
     Caption = 'Export ...'
@@ -884,23 +885,47 @@ object MainForm: TMainForm
     AnchorSideTop.Control = LoadBtn
     AnchorSideBottom.Control = LoadBtn
     AnchorSideBottom.Side = asrBottom
-    Left = 132
+    Left = 112
     Height = 36
     Top = 8
-    Width = 120
+    Width = 100
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 4
     Caption = 'Save'
     TabOrder = 4
     OnClick = SaveBtnClick
   end
+  object VectorSpace: TComboBox
+    AnchorSideLeft.Control = ExportBtn
+    AnchorSideTop.Control = RunBtn
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = RunBtn
+    AnchorSideRight.Side = asrBottom
+    Left = 731
+    Height = 23
+    Top = 48
+    Width = 254
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 4
+    ItemHeight = 15
+    ItemIndex = 0
+    Items.Strings = (
+      '0-D Vectorspace, R'
+      '2-D Vectorspace Geometric Algebra, CL2'
+      '3-D Vectorspace Geometric Algebra, CL3'
+      'STA SpaceTime  Geometric Algebra, CL13'
+    )
+    Style = csDropDownList
+    TabOrder = 5
+    Text = '0-D Vectorspace, R'
+  end
   object SaveDialog: TSaveDialog
-    Left = 96
-    Top = 200
+    Left = 120
+    Top = 176
   end
   object OpenDialog: TOpenDialog
-    Left = 96
-    Top = 264
+    Left = 192
+    Top = 176
   end
   object SynPasSyn: TSynPasSyn
     Enabled = False
@@ -909,7 +934,7 @@ object MainForm: TMainForm
     NestedComments = True
     TypeHelpers = False
     StringMultilineMode = []
-    Left = 96
-    Top = 136
+    Left = 48
+    Top = 176
   end
 end

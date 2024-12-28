@@ -1,0 +1,105 @@
+
+interface
+
+uses SysUtils;
+
+type
+  { Prefix }
+  TPrefix = (pQuetta, pRonna, pYotta, pZetta, pExa, pPeta, pTera, pGiga, pMega, pKilo, pHecto, pDeca, 
+    pNone, pDeci, pCenti, pMilli, pMicro, pNano, pPico, pFemto, pAtto, pZepto, pYocto, pRonto, pQuecto);
+
+  { Prefixes } 
+  TPrefixes = array of TPrefix; 
+
+  { Exponents } 
+  TExponents = array of longint;
+
+  { TScalar }
+
+  {$IFDEF USEADIM}
+  TScalar = record
+  private
+    FUnitOfMeasurement: longint;
+    FValue: double;
+  public
+    class operator + (const ASelf: TScalar): TScalar;
+    class operator - (const ASelf: TScalar): TScalar;
+    class operator + (const ALeft, ARight: TScalar): TScalar;
+    class operator - (const ALeft, ARight: TScalar): TScalar;
+    class operator * (const ALeft, ARight: TScalar): TScalar;
+    class operator / (const ALeft, ARight: TScalar): TScalar;
+    class operator * (const ALeft: double; const ARight: TScalar): TScalar;
+    class operator / (const ALeft: double; const ARight: TScalar): TScalar;
+    class operator * (const ALeft: TScalar; const ARight: double): TScalar;
+    class operator / (const ALeft: TScalar; const ARight: double): TScalar;
+
+    class operator = (const ALeft, ARight: TScalar): boolean;
+    class operator < (const ALeft, ARight: TScalar): boolean;
+    class operator > (const ALeft, ARight: TScalar): boolean;
+    class operator <=(const ALeft, ARight: TScalar): boolean;
+    class operator >=(const ALeft, ARight: TScalar): boolean;
+    class operator <>(const ALeft, ARight: TScalar): boolean;
+    class operator :=(const ASelf: double): TScalar;
+  end;
+  {$ELSE}
+  TScalar = double;
+  {$ENDIF}
+
+  { TUnit }
+
+  generic TUnit<U> = record
+    type TSelf = specialize TUnit<U>;
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+  public
+    procedure Check(var AQuantity: TScalar);
+    function ToFloat(const AQuantity: TScalar): double;
+    function ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TScalar): string;
+    function ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TScalar): string;
+    function ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    class operator *(const AValue: double; const ASelf: TSelf): TScalar; inline;
+    class operator /(const AValue: double; const ASelf: TSelf): TScalar; inline;
+  {$IFDEF USEADIM}
+    class operator *(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+    class operator /(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+  {$ENDIF}
+  end;
+
+  { TFactoredUnit }
+
+  generic TFactoredUnit<U> = record
+    type TSelf = specialize TFactoredUnit<U>;
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+  public
+    procedure Check(var AQuantity: TScalar);
+    function ToFloat(const AQuantity: TScalar): double;
+    function ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TScalar): string;
+    function ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TScalar): string;
+    function ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    class operator *(const AValue: double; const ASelf: TSelf): TScalar; inline;
+    class operator /(const AValue: double; const ASelf: TSelf): TScalar; inline;
+  {$IFDEF USEADIM}
+    class operator *(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+    class operator /(const AQuantity: TScalar; const ASelf: TSelf): TScalar; inline;
+  {$ENDIF}
+  end;
+

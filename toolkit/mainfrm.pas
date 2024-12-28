@@ -25,13 +25,15 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Grids, Buttons,
-  ComCtrls, StdCtrls, SynHighlighterPas, SynEdit, ToolKitUnit, Types;
+  ComCtrls, StdCtrls, Spin, SynHighlighterPas, SynEdit, SpinEx, ToolKitUnit,
+  Types;
 
 type
   { TMainForm }
 
   TMainForm = class(TForm)
     AddBtn: TBitBtn;
+    VectorSpace: TComboBox;
     MoveDownBtn: TBitBtn;
     MoveUtBtn: TBitBtn;
     DeleteBtn: TBitBtn;
@@ -275,6 +277,7 @@ begin
   UpdateButton(False);
   Application.ProcessMessages;
   Builder := TToolKitBuilder.Create(FList);
+  Builder.VectorSpace := VectorSpace.ItemIndex;
   Builder.Run;
 
   SynEdit.BeginUpdate(True);
@@ -312,9 +315,10 @@ end;
 
 procedure TMainForm.UpdateButton(Value: boolean);
 begin
-  LoadBtn.Enabled   := Value;
-  ExportBtn.Enabled := Value;
-  RunBtn.Enabled    := Value;
+  LoadBtn.Enabled     := Value;
+  ExportBtn.Enabled   := Value;
+  RunBtn.Enabled      := Value;
+  VectorSpace.Enabled := Value;
   case Value of
     True:  PageControl.TabIndex := 1;
     False: PageControl.TabIndex := 2;

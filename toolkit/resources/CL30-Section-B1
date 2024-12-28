@@ -1,0 +1,2748 @@
+
+{ TScalar }
+
+{$IFDEF USEADIM}
+class operator TScalar.:=(const ASelf: double): TScalar;
+begin
+  result.FUnitOfMeasurement := cScalar;
+  result.FValue := ASelf;
+end;
+
+class operator TScalar.+(const ASelf: TScalar): TScalar;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := ASelf.FValue;
+end;
+
+class operator TScalar.-(const ASelf: TScalar): TScalar;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TScalar.+(const ALeft, ARight: TScalar): TScalar;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;  
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TScalar.-(const ALeft, ARight: TScalar): TScalar;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+    
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;   
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TScalar.*(const ALeft, ARight: TScalar): TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TScalar./(const ALeft, ARight: TScalar): TScalar;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TScalar.*(const ALeft: double; const ARight: TScalar): TScalar;
+begin
+  result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;
+  result.FValue:= ALeft * ARight.FValue;
+end;
+
+class operator TScalar./(const ALeft: double; const ARight: TScalar): TScalar;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, ARight.FUnitOfMeasurement];
+  result.FValue:= ALeft / ARight.FValue;
+end;
+
+class operator TScalar.*(const ALeft: TScalar; const ARight: double): TScalar;
+begin
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue:= ALeft.FValue * ARight;
+end;
+
+class operator TScalar./(const ALeft: TScalar; const ARight: double): TScalar;
+begin
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue:= ALeft.FValue / ARight;
+end;
+
+class operator TScalar.=(const ALeft, ARight: TScalar): boolean; inline;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TScalar.<(const ALeft, ARight: TScalar): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('LessThan operator (<) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue < ARight.FValue;
+end;
+
+class operator TScalar.>(const ALeft, ARight: TScalar): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('GreaterThan operator (>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue > ARight.FValue;
+end;
+
+class operator TScalar.<=(const ALeft, ARight: TScalar): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('LessThanOrEqual operator (<=) has detected wrong unit of measurements.');
+    
+  result := ALeft.FValue <= ARight.FValue;
+end;
+
+class operator TScalar.>=(const ALeft, ARight: TScalar): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('GreaterThanOrEqual operator (>=) has detected wrong unit of measurements.');
+    
+  result := ALeft.FValue >= ARight.FValue;
+end;
+
+class operator TScalar.<>(const ALeft, ARight: TScalar): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+{$ENDIF}
+
+// TMultivector
+
+{$IFDEF USEADIM}
+class operator TMultivector.:=(const AValue: TScalar): TMultivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TMultivector.:=(const AValue: TMultivector): TScalar;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue.ExtractScalar;
+end;
+
+class operator TMultivector.<>(const ALeft, ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TMultivector.<>(const ALeft: TMultivector; const ARight: TScalar): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TMultivector.<>(const ALeft: TScalar; const ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TMultivector.=(const ALeft: TMultivector; const ARight: TScalar): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TMultivector.=(const ALeft: TScalar; const ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TMultivector.=(const ALeft, ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TMultivector.+(const ALeft: TMultivector; const ARight: TScalar): TMultivector;
+begin
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+end;
+
+class operator TMultivector.+(const ALeft: TScalar; const ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+end;
+
+class operator TMultivector.+(const ALeft, ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+end;
+
+class operator TMultivector.-(const ASelf: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TMultivector.-(const ALeft: TMultivector; const ARight: TScalar): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TMultivector.-(const ALeft: TScalar; const ARight: TMultivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TMultivector.-(const ALeft, ARight: TMultivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TMultivector.*(const ALeft: TMultivector; const ARight: TScalar): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TMultivector.*(const ALeft: TScalar; const ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TMultivector.*(const ALeft, ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TMultivector./(const ALeft: TMultivector; const ARight: TScalar): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TMultivector./(const ALeft: TScalar; const ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TMultivector./(const ALeft, ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+{$ENDIF}
+
+// TTrivector
+
+{$IFDEF USEADIM}
+
+class operator TTrivector.:=(const AValue: TTrivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TTrivector.:=(const AValue: TMultivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TTrivector.<>(const ALeft, ARight: TTrivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TTrivector.<>(const ALeft: TMultivector; const ARight: TTrivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TTrivector.<>(const ALeft: TTrivector; const ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TTrivector.=(const ALeft: TMultivector; const ARight: TTrivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TTrivector.=(const ALeft: TTrivector; const ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TTrivector.=(const ALeft, ARight: TTrivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TTrivector.+(const ALeft, ARight: TTrivector): TTrivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TTrivector.+(const ALeft: TTrivector; const ARight: TScalar): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TTrivector.+(const ALeft: TScalar; const ARight: TTrivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TTrivector.+(const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TTrivector.+(const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TTrivector.-(const ASelf: TTrivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TTrivector.-(const ALeft, ARight: TTrivector): TTrivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TTrivector.-(const ALeft: TTrivector; const ARight: TScalar): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TTrivector.-(const ALeft: TScalar; const ARight: TTrivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TTrivector.-(const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TTrivector.-(const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TTrivector.*(const ALeft: TScalar; const ARight: TTrivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TTrivector.*(const ALeft: TTrivector; const ARight: TScalar): TTrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TTrivector.*(const ALeft, ARight: TTrivector): TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TTrivector.*(const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TTrivector.*(const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TTrivector./(const ALeft, ARight: TTrivector): TScalar;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TTrivector./(const ALeft: TTrivector; const ARight: TScalar): TTrivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TTrivector./(const ALeft: TScalar; const ARight: TTrivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TTrivector./(const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TTrivector./(const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+{$ENDIF}
+
+// TBivector
+
+{$IFDEF USEADIM}
+class operator TBivector.:=(const AValue: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TBivector.:=(const AValue: TMultivector): TBivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TBivector.<>(const ALeft, ARight: TBivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TBivector.<>(const ALeft: TMultivector; const ARight: TBivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TBivector.<>(const ALeft: TBivector; const ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TBivector.=(const ALeft, ARight: TBivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TBivector.=(const ALeft: TMultivector; const ARight: TBivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TBivector.=(const ALeft: TBivector; const ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TBivector.+(const ALeft, ARight: TBivector): TBivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TBivector.+(const ALeft: TBivector; const ARight: TScalar): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TBivector.+(const ALeft: TScalar; const ARight: TBivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TBivector.+(const ALeft: TBivector; const ARight: TTrivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TBivector.+(const ALeft: TTrivector; const ARight: TBivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TBivector.+(const ALeft: TBivector; const ARight: TMultivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TBivector.+(const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TBivector.-(const ASelf: TBivector): TBivector;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TBivector.-(const ALeft, ARight: TBivector): TBivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TBivector.-(const ALeft: TBivector; const ARight: TScalar): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TBivector.-(const ALeft: TScalar; const ARight: TBivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TBivector.-(const ALeft: TBivector; const ARight: TTrivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TBivector.-(const ALeft: TTrivector; const ARight: TBivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TBivector.-(const ALeft: TBivector; const ARight: TMultivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TBivector.-(const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TBivector.*(const ALeft: TScalar; const ARight: TBivector): TBivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TBivector.*(const ALeft: TBivector; const ARight: TScalar): TBivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TBivector.*(const ALeft, ARight: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TBivector.*(const ALeft: TBivector; const ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TBivector.*(const ALeft: TBivector; const ARight: TTrivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TBivector.*(const ALeft: TTrivector; const ARight: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TBivector.*(const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TBivector./(const ALeft, ARight: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TBivector./(const ALeft: TBivector; const ARight: TScalar): TBivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TBivector./(const ALeft: TScalar; const ARight: TBivector): TBivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TBivector./(const ALeft: TBivector; const ARight: TTrivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TBivector./(const ALeft: TTrivector; const ARight: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TBivector./(const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TBivector./(const ALeft: TBivector; const ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+{$ENDIF}
+
+// TVector
+
+{$IFDEF USEADIM}
+class operator TVector.:=(const AValue: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TVector.:=(const AValue: TMultivector): TVector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TVector.<>(const ALeft, ARight: TVector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TVector.<>(const ALeft: TMultivector; const ARight: TVector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TVector.<>(const ALeft: TVector; const ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TVector.=(const ALeft, ARight: TVector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TVector.=(const ALeft: TVector; const ARight: TMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TVector.=(const ALeft: TMultivector; const ARight: TVector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TVector.+(const ALeft, ARight: TVector): TVector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVector.+(const ALeft: TVector; const ARight: TScalar): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVector.+(const ALeft: TScalar; const ARight: TVector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVector.+(const ALeft: TVector; const ARight: TBivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVector.+(const ALeft: TBivector; const ARight: TVector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVector.+(const ALeft: TVector; const ARight: TTrivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVector.+(const ALeft: TTrivector; const ARight: TVector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVector.+(const ALeft: TVector; const ARight: TMultivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVector.+(const ALeft: TMultivector; const ARight: TVector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVector.-(const ASelf: TVector): TVector;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TVector.-(const ALeft, ARight: TVector): TVector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVector.-(const ALeft: TVector; const ARight: TScalar): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVector.-(const ALeft: TScalar; const ARight: TVector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVector.-(const ALeft: TVector; const ARight: TBivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVector.-(const ALeft: TBivector; const ARight: TVector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVector.-(const ALeft: TVector; const ARight: TTrivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVector.-(const ALeft: TTrivector; const ARight: TVector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVector.-(const ALeft: TVector; const ARight: TMultivector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVector.-(const ALeft: TMultivector; const ARight: TVector): TMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVector.*(const ALeft: TScalar; const ARight: TVector): TVector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector.*(const ALeft: TVector; const ARight: TScalar): TVector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector.*(const ALeft, ARight: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector.*(const ALeft: TVector; const ARight: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector.*(const ALeft: TBivector; const ARight: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector.*(const ALeft: TVector; const ARight: TTrivector): TBivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector.*(const ALeft: TTrivector; const ARight: TVector): TBivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector.*(const ALeft: TVector; const ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector.*(const ALeft: TMultivector; const ARight: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector./(const ALeft, ARight: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TVector./ (const ALeft: TVector; const ARight: TScalar): TVector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVector./(const ALeft: TScalar; const ARight: TVector): TVector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TVector./(const ALeft: TVector; const ARight: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TVector./(const ALeft: TBivector; const ARight: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TVector./(const ALeft: TVector; const ARight: TTrivector): TBivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TVector./(const ALeft: TTrivector; const ARight: TVector): TBivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TVector./(const ALeft: TMultivector; const ARight: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TVector./(const ALeft: TVector; const ARight: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+{$ENDIF}
+
+// TMultivectorHelper
+
+{$IFDEF USEADIM}
+function TMultivectorHelper.Dual: TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Dual;
+end;
+
+function TMultivectorHelper.Inverse: TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Inverse;
+end;
+
+function TMultivectorHelper.Reverse: TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reverse;
+end;
+
+function TMultivectorHelper.Conjugate: TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Conjugate;
+end;
+
+function TMultivectorHelper.Reciprocal: TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TMultivectorHelper.LeftReciprocal: TMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.LeftReciprocal;
+end;
+
+function TMultivectorHelper.Normalized: TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Normalized;
+end;
+
+function TMultivectorHelper.Norm: TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Norm;
+end;
+
+function TMultivectorHelper.SquaredNorm: TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := FValue.SquaredNorm;
+end;
+
+function TMultivectorHelper.Dot(const AVector: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TMultivectorHelper.Dot(const AVector: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TMultivectorHelper.Dot(const AVector: TTrivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TMultivectorHelper.Dot(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TMultivectorHelper.Wedge(const AVector: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TMultivectorHelper.Wedge(const AVector: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TMultivectorHelper.Wedge(const AVector: TTrivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TMultivectorHelper.Wedge(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TMultivectorHelper.Projection(const AVector: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Projection(const AVector: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Projection(const AVector: TTrivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Projection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Rejection(const AVector: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Rejection(const AVector: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Rejection(const AVector: TTrivector): TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Rejection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Reflection(const AVector: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Reflection(const AVector: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Reflection(const AVector: TTrivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Reflection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TMultivectorHelper.Rotation(const AVector1, AVector2: TVector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TMultivectorHelper.Rotation(const AVector1, AVector2: TBivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TMultivectorHelper.Rotation(const AVector1, AVector2: TTrivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TMultivectorHelper.Rotation(const AVector1, AVector2: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TMultivectorHelper.SameValue(const AValue: TMultivector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TMultivectorHelper.SameValue(const AValue: TTrivector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TMultivectorHelper.SameValue(const AValue: TBivector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TMultivectorHelper.SameValue(const AValue: TVector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TMultivectorHelper.SameValue(const AValue: TScalar): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TMultivectorHelper.ExtractMultivector(AComponents: TMultivectorComponents): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractMultivector(AComponents);
+end;
+
+function TMultivectorHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractBivector(AComponents);
+end;
+
+function TMultivectorHelper.ExtractVector(AComponents: TMultivectorComponents): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractVector(AComponents);
+end;
+
+function TMultivectorHelper.ExtractTrivector: TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractTrivector;
+end;
+
+function TMultivectorHelper.ExtractBivector: TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractBivector;
+end;
+
+function TMultivectorHelper.ExtractVector: TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractVector;
+end;
+
+function TMultivectorHelper.ExtractScalar: TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractScalar;
+end;
+
+function TMultivectorHelper.IsNull: boolean;
+begin
+  result := FValue.SameValue(NullMultivector);
+end;
+
+function TMultivectorHelper.IsScalar: boolean;
+begin
+  result := FValue.IsScalar;
+end;
+
+function TMultivectorHelper.IsVector: boolean;
+begin
+  result := FValue.IsVector;
+end;
+
+function TMultivectorHelper.IsBiVector: boolean;
+begin
+  result := FValue.IsBiVector;
+end;
+
+function TMultivectorHelper.IsTrivector: boolean;
+begin
+  result := FValue.IsTrivector;
+end;
+
+function TMultivectorHelper.IsA: string;
+begin
+  result := FValue.IsA;
+end;
+{$ENDIF}
+
+// TTrivectorHelper
+
+{$IFDEF USEADIM}
+function TTrivectorHelper.Dual: TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Dual;
+end;
+
+function TTrivectorHelper.Inverse: TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Inverse;
+end;
+
+function TTrivectorHelper.Reverse: TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reverse;
+end;
+
+function TTrivectorHelper.Conjugate: TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Conjugate;
+end;
+
+function TTrivectorHelper.Reciprocal: TTrivector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TTrivectorHelper.Normalized: TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Normalized;
+end;
+
+function TTrivectorHelper.Norm: TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Norm;
+end;
+
+function TTrivectorHelper.SquaredNorm: TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := FValue.SquaredNorm;
+end;
+
+function TTrivectorHelper.Dot(const AVector: TVector): TBivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TTrivectorHelper.Dot(const AVector: TBivector): TVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TTrivectorHelper.Dot(const AVector: TTrivector): TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TTrivectorHelper.Dot(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TTrivectorHelper.Wedge(const AVector: TVector): TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TTrivectorHelper.Wedge(const AVector: TBivector): TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TTrivectorHelper.Wedge(const AVector: TTrivector): TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TTrivectorHelper.Wedge(const AVector: TMultivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TTrivectorHelper.Projection(const AVector: TVector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TTrivectorHelper.Projection(const AVector: TBivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TTrivectorHelper.Projection(const AVector: TTrivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TTrivectorHelper.Projection(const AVector: TMultivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TTrivectorHelper.Rejection(const AVector: TVector): TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TTrivectorHelper.Rejection(const AVector: TBivector): TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TTrivectorHelper.Rejection(const AVector: TTrivector): TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TTrivectorHelper.Rejection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TTrivectorHelper.Reflection(const AVector: TVector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TTrivectorHelper.Reflection(const AVector: TBivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TTrivectorHelper.Reflection(const AVector: TTrivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TTrivectorHelper.Reflection(const AVector: TMultivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TTrivectorHelper.Rotation(const AVector1, AVector2: TVector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TTrivectorHelper.Rotation(const AVector1, AVector2: TBivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TTrivectorHelper.Rotation(const AVector1, AVector2: TTrivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TTrivectorHelper.Rotation(const AVector1, AVector2: TMultivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TTrivectorHelper.SameValue(const AValue: TMultivector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TTrivectorHelper.SameValue(const AValue: TTrivector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TTrivectorHelper.ToMultivector: TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ToMultivector;
+end;
+{$ENDIF}
+
+// TBivectorHelper
+
+{$IFDEF USEADIM}
+function TBivectorHelper.Dual: TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Dual;
+end;
+
+function TBivectorHelper.Inverse: TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Inverse;
+end;
+
+function TBivectorHelper.Conjugate: TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Conjugate;
+end;
+
+function TBivectorHelper.Reverse: TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reverse;
+end;
+
+function TBivectorHelper.Reciprocal: TBivector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TBivectorHelper.Normalized: TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Normalized;
+end;
+
+function TBivectorHelper.Norm: TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Norm;
+end;
+
+function TBivectorHelper.SquaredNorm: TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := FValue.SquaredNorm;
+end;
+
+function TBivectorHelper.Dot(const AVector: TVector): TVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TBivectorHelper.Dot(const AVector: TBivector): TSCalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TBivectorHelper.Dot(const AVector: TTrivector): TVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TBivectorHelper.Dot(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TBivectorHelper.Wedge(const AVector: TVector): TTrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TBivectorHelper.Wedge(const AVector: TBivector): TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TBivectorHelper.Wedge(const AVector: TTrivector): TSCalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TBivectorHelper.Wedge(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TBivectorHelper.Projection(const AVector: TVector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TBivectorHelper.Projection(const AVector: TBivector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TBivectorHelper.Projection(const AVector: TTrivector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TBivectorHelper.Projection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TBivectorHelper.Rejection(const AVector: TVector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TBivectorHelper.Rejection(const AVector: TBivector): TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TBivectorHelper.Rejection(const AVector: TTrivector): TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TBivectorHelper.Rejection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TBivectorHelper.Reflection(const AVector: TVector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TBivectorHelper.Reflection(const AVector: TBivector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TBivectorHelper.Reflection(const AVector: TTrivector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TBivectorHelper.Reflection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TBivectorHelper.Rotation(const AVector1, AVector2: TVector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TBivectorHelper.Rotation(const AVector1, AVector2: TBivector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TBivectorHelper.Rotation(const AVector1, AVector2: Ttrivector): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TBivectorHelper.Rotation(const AVector1, AVector2: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TBivectorHelper.SameValue(const AValue: TMultivector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TBivectorHelper.SameValue(const AValue: TBivector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TBivectorHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractBivector(AComponents);
+end;
+
+function TBivectorHelper.ToMultivector: TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ToMultivector;
+end;
+{$ENDIF}
+
+// TVectorHelper
+
+{$IFDEF USEADIM}
+function TVectorHelper.Dual: TBivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Dual;
+end;
+
+function TVectorHelper.Inverse: TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Inverse;
+end;
+
+function TVectorHelper.Reverse: TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reverse;
+end;
+
+function TVectorHelper.Conjugate: TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Conjugate;
+end;
+
+function TVectorHelper.Reciprocal: TVector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TVectorHelper.Normalized: TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Normalized;
+end;
+
+function TVectorHelper.Norm: TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Norm;
+end;
+
+function TVectorHelper.SquaredNorm: TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := FValue.SquaredNorm;
+end;
+
+function TVectorHelper.Dot(const AVector: TVector): TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TVectorHelper.Dot(const AVector: TBivector): TVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TVectorHelper.Dot(const AVector: TTrivector): TBivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TVectorHelper.Dot(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TVectorHelper.Wedge(const AVector: TVector): TBivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TVectorHelper.Wedge(const AVector: TBivector): TTrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TVectorHelper.Wedge(const AVector: TTrivector): TScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TVectorHelper.Wedge(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TVectorHelper.Projection(const AVector: TVector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TVectorHelper.Projection(const AVector: TBivector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TVectorHelper.Projection(const AVector: TTrivector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TVectorHelper.Projection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TVectorHelper.Rejection(const AVector: TVector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function  TVectorHelper.Rejection(const AVector: TBivector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TVectorHelper.Rejection(const AVector: TTrivector): TScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TVectorHelper.Rejection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TVectorHelper.Reflection(const AVector: TVector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TVectorHelper.Reflection(const AVector: TBivector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TVectorHelper.Reflection(const AVector: TTrivector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TVectorHelper.Reflection(const AVector: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TVectorHelper.Rotation(const AVector1, AVector2: TVector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TVectorHelper.Rotation(const AVector1, AVector2: TBivector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TVectorHelper.Rotation(const AVector1, AVector2: TTrivector): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TVectorHelper.Rotation(const AVector1, AVector2: TMultivector): TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TVectorHelper.Cross(const AVector: TVector): TVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Cross(AVector.FValue);
+end;
+
+function TVectorHelper.SameValue(const AValue: TMultivector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TVectorHelper.SameValue(const AValue: TVector): boolean;
+begin
+  result := FValue.SameValue(AValue.FValue);
+end;
+
+function TVectorHelper.ExtractVector(AComponents: TMultivectorComponents): TVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractVector(AComponents);
+end;
+
+function TVectorHelper.ToMultivector: TMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ToMultivector;
+end;
+{$ENDIF}
+
+{ TUnit }
+
+class operator TUnit.*(const AValue: double; const ASelf: TUnit): TScalar; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := AValue;
+{$ELSE}
+  result := AValue;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AValue: double; const ASelf: TUnit): TScalar; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := AValue;
+{$ELSE}
+  result := AValue;
+{$ENDIF}
+end;
+
+{$IFDEF USEADIM}
+class operator TUnit.*(const AQuantity: TScalar; const ASelf: TUnit): TScalar; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TScalar; const ASelf: TUnit): TScalar; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+{$ENDIF}
+
+function TUnit.GetName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FName;
+    1:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TUnit.GetPluralName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FPluralName;
+    1:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TUnit.GetSymbol(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FSymbol;
+    1:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol]);
+    2:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol]);
+    3:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol,
+          PrefixTable[Prefixes[2]].Symbol]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
+end;
+
+function TUnit.GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+var
+  I: longint;
+  Exponent: longint;
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(APrefixes);
+  if PrefixCount = Length(U.FPrefixes) then
+  begin
+    Exponent := 0;
+    for I := 0 to PrefixCount -1 do
+      Inc(Exponent, PrefixTable[U.FPREFIXES[I]].Exponent * U.FEXPONENTS[I]);
+
+    for I := 0 to PrefixCount -1 do
+      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * U.FEXPONENTS[I]);
+
+    if Exponent <> 0 then
+      result := AValue * IntPower(10, Exponent)
+    else
+      result := AValue;
+
+  end else
+    if PrefixCount = 0 then
+      result := AValue
+    else
+      raise Exception.Create('Wrong number of prefixes.');
+end;
+
+procedure TUnit.Check(var AQuantity: TScalar);
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('Check routine has detected wrong units of measurements.');
+{$ENDIF}
+end;
+
+function TUnit.ToFloat(const AQuantity: TScalar): double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+function TUnit.ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
+
+  result := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity, APrefixes);
+{$ENDIF}  
+end;
+
+function TUnit.ToString(const AQuantity: TScalar): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
+
+  result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(U.FPrefixes);
+{$ELSE}
+  result := FloatToStr(AQuantity) + ' ' + GetSymbol(U.FPrefixes);
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
+
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes); 
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+ 
+  if Length(APrefixes) = 0 then
+     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FPrefixes)
+  else
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnit.ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
+
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}  
+
+  if Length(APrefixes) = 0 then
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
+  else
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnit.ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredTol: double;
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if (AQuantity.FUnitOfMeasurement  <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');  
+
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+  FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+  FactoredTol   := GetValue(ATolerance, APrefixes);
+{$ENDIF}  
+
+  if Length(APrefixes) = 0 then
+  begin
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
+  end else
+  begin
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
+  end;
+end;    
+
+function TUnit.ToVerboseString(const AQuantity: TScalar): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
+    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(U.FPrefixes)
+  else
+    result := FloatToStr(AQuantity.FValue) + ' ' + GetPluralName(U.FPrefixes);
+{$ELSE}
+  if (AQuantity > -1) and (AQuantity < 1) then
+    result := FloatToStr(AQuantity) + ' ' + GetName(U.FPrefixes)
+  else
+    result := FloatToStr(AQuantity) + ' ' + GetPluralName(U.FPrefixes);
+{$ENDIF}
+end;
+
+function TUnit.ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}  
+
+  if Length(APrefixes) = 0 then
+  begin
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPRefixes)
+    else
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPRefixes);
+  end else
+  begin
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
+    else
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
+  end;
+end;
+
+function TUnit.ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}  
+
+  if Length(APrefixes) = 0 then
+  begin
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPRefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(U.FPRefixes);
+  end else
+  begin
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
+  end;
+end;
+
+function TUnit.ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredTol: double;
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if (AQuantity.FUnitOfMeasurement  <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');  
+
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+  FactoredTol   := GetValue(ATolerance.FValue, APrefixes);    
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+  FactoredTol   := GetValue(ATolerance, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+  begin
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPrefixes);
+  end else
+  begin
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
+  end;
+end;
+
+{ TFactoredUnit }
+
+class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TScalar; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := U.PutValue(AValue);
+{$ELSE}
+  result := U.PutValue(AValue);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TScalar; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AValue);
+{$ELSE}
+  result := U.PutValue(AValue);
+{$ENDIF}
+end;
+
+{$IFDEF USEADIM}
+class operator TFactoredUnit.*(const AQuantity: TScalar; const ASelf: TFactoredUnit): TScalar; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit./(const AQuantity: TScalar; const ASelf: TFactoredUnit): TScalar; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+{$ENDIF}
+
+function TFactoredUnit.GetName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FName;
+    1:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TFactoredUnit.GetPluralName(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FPluralName;
+    1:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name]);
+    2:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name]);
+    3:  result := Format(U.FPluralName, [
+          PrefixTable[Prefixes[0]].Name,
+          PrefixTable[Prefixes[1]].Name,
+          PrefixTable[Prefixes[2]].Name]);
+   else raise Exception.Create('Wrong number of prefixes.');
+   end;
+end;
+
+function TFactoredUnit.GetSymbol(const Prefixes: TPrefixes): string;
+var
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(Prefixes);
+  case PrefixCount of
+    0:  result := U.FSymbol;
+    1:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol]);
+    2:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol]);
+    3:  result := Format(U.FSymbol, [
+          PrefixTable[Prefixes[0]].Symbol,
+          PrefixTable[Prefixes[1]].Symbol,
+          PrefixTable[Prefixes[2]].Symbol]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
+end;
+
+function TFactoredUnit.GetValue(const AValue: double; const APrefixes: TPrefixes): double;
+var
+  I: longint;
+  Exponent: longint;
+  PrefixCount: longint;
+begin
+  PrefixCount := Length(APrefixes);
+  if PrefixCount = Length(U.FPrefixes) then
+  begin
+    Exponent := 0;
+    for I := 0 to PrefixCount -1 do
+      Inc(Exponent, PrefixTable[U.FPREFIXES[I]].Exponent * U.FEXPONENTS[I]);
+
+    for I := 0 to PrefixCount -1 do
+      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * U.FEXPONENTS[I]);
+
+    if Exponent <> 0 then
+      result := AValue * IntPower(10, Exponent)
+    else
+      result := AValue;
+
+  end else
+    if PrefixCount = 0 then
+      result := AValue
+    else
+      raise Exception.Create('Wrong number of prefixes.');
+end;
+
+procedure TFactoredUnit.Check(var AQuantity: TScalar);
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('Check routine has detected wrong units of measurements.');
+{$ENDIF}
+end;
+
+function TFactoredUnit.ToFloat(const AQuantity: TScalar): double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
+
+  result := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  result := U.GetValue(AQuantity);
+{$ENDIF}  
+end;
+
+function TFactoredUnit.ToFloat(const AQuantity: TScalar; const APrefixes: TPrefixes): double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
+
+  result := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+{$ELSE}
+  result := GetValue(U.GetValue(AQuantity), APrefixes);
+{$ENDIF}  
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TScalar): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
+
+  result := FloatToStr(U.GetValue(AQuantity.FValue)) + ' ' + GetSymbol(U.FPrefixes);
+{$ELSE}
+  result := FloatToStr(U.GetValue(AQuantity)) + ' ' + GetSymbol(U.FPrefixes);
+{$ENDIF}
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
+
+  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FPrefixes)
+  else
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
+
+    FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+{$ELSE}
+    FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
+  else
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
+end;
+
+function TFactoredUnit.ToString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredTol: double;
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if (AQuantity.FUnitOfMeasurement  <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
+    raise Exception.Create('ToString routine has detected wrong units of measurements.'); 
+
+  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+  FactoredTol   := GetValue(U.GetValue(ATolerance.FValue), APrefixes);      
+{$ELSE}
+  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+  FactoredTol   := GetValue(U.GetValue(ATolerance), APrefixes); 
+{$ENDIF}  
+
+  if Length(APrefixes) = 0 then
+  begin
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
+  end else
+  begin
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
+  end;
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TScalar): string;
+var
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  if (FactoredValue > -1) and (FactoredValue < 1) then
+    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPrefixes)
+  else
+    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPrefixes);
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TScalar; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+  begin
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPRefixes)
+    else
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPRefixes);
+  end else
+  begin
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
+    else
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
+  end;
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);  
+{$ELSE}
+  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+{$ENDIF}  
+
+  if Length(APrefixes) = 0 then
+  begin
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPRefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(U.FPRefixes);
+  end else
+  begin
+    if (FactoredValue > -1) and (FactoredValue < 1) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
+  end;
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity, ATolerance: TScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredTol: double;
+  FactoredValue: double;
+begin
+{$IFDEF USEADIM}
+  if (AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+  FactoredTol   := GetValue(U.GetValue(ATolerance.FValue), APrefixes);    
+{$ELSE}
+  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+  FactoredTol   := GetValue(U.GetValue(ATolerance), APrefixes);
+{$ENDIF}  
+
+  if Length(APrefixes) = 0 then
+  begin
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPrefixes);
+  end else
+  begin
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
+  end;
+end;
+

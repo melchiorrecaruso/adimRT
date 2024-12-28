@@ -79,6 +79,7 @@ type
     FSkipVectorialUnits: boolean;
     FUseFuncInsteadOfOperators: boolean;
     FExpandQuantityOperators: boolean;
+    FVectorSpace: longint;
 
     FList:      TToolKitList;
     FDocument:  TStringList;
@@ -118,6 +119,7 @@ type
     procedure Check;
     procedure Run;
   public
+    property VectorSpace: longint read FVectorSpace write FVectorSpace;
     property ExpandQuantityOperators: boolean read FExpandQuantityOperators write FExpandQuantityOperators;
     property UseFuncInsteadOfOperators: boolean read FUseFuncInsteadOfOperators write FUseFuncInsteadOfOperators;
     property Document: TStringList read FDocument;
@@ -139,6 +141,7 @@ begin
   FDocument := TStringList.Create;
   FMessages := TStringList.Create;
 
+  FVectorSpace := 0;
   FSkipVectorialunits := False;
   FUseFuncInsteadOfOperators := False;
   FExpandQuantityOperators := False;
@@ -296,7 +299,7 @@ end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
 const
-  S = '  %-10s : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  S = '  %-10s : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 begin
   if (AItem.FBase = '') then
   begin
@@ -367,7 +370,7 @@ var
   Str: string;
   Factor: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AItem.FFactor <> '' then
@@ -713,6 +716,7 @@ procedure TToolKitBuilder.Run;
 var
   i: longint;
   Stream: TResourceStream;
+  SectionName: string;
 begin
   SectionA0  := TStringList.Create;
   SectionA1  := TStringList.Create;
@@ -728,25 +732,33 @@ begin
   BaseUnitCount     := 0;
   FactoredUnitCount := 0;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-A0', RT_RCDATA);
+  case FVectorSpace of
+    0: SectionName := 'CL00-Section-';
+    1: SectionName := 'CL20-Section-';
+    2: SectionName := 'CL30-Section-';
+    3: SectionName := 'CL13-Section-';
+  else SectionName := 'CL00-Section-';
+  end;
+
+  Stream := TResourceStream.Create(HInstance, SectionName + 'A0', RT_RCDATA);
   SectionA0.LoadFromStream(Stream);
   SectionA0.Insert(0, '');
   SectionA0.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-B0', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'B0', RT_RCDATA);
   SectionB0.LoadFromStream(Stream);
   SectionB0.Insert(0, '');
   SectionB0.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-A1', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'A1', RT_RCDATA);
   SectionA1.LoadFromStream(Stream);
   SectionA1.Insert(0, '');
   SectionA1.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-B1', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'B1', RT_RCDATA);
   SectionB1.LoadFromStream(Stream);
   SectionB1.Insert(0, '');
   SectionB1.Append('');
@@ -758,20 +770,20 @@ begin
   AddPowerTable(SectionA3);
   AddRootTable(SectionA3);
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-A4', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'A4', RT_RCDATA);
   SectionA4.LoadFromStream(Stream);
   SectionA4.Insert(0, '');
   SectionA4.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-B4', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'B4', RT_RCDATA);
   SectionB4.LoadFromStream(Stream);
   SectionB4.Insert(0, '');
   SectionB4.Append('');
   Stream.Destroy;
 
   SectionA0.Append('');
-  SectionA0.Append('unit ADimRT;');
+  SectionA0.Append('unit ADim;');
   SectionA0.Append('');
   SectionA0.Append('{$H+}{$J-}');
   SectionA0.Append('{$modeswitch typehelpers}');
@@ -784,7 +796,7 @@ begin
   SectionA0.Append('');
 
   SectionA0.Append('{');
-  SectionA0.Append(Format('  ADimRT library built on %s.', [DateToStr(Now)]));
+  SectionA0.Append(Format('  ADim Run-time library built on %s.', [DateToStr(Now)]));
   SectionA0.Append('');
 
   SectionA0.Append(Format('  Number of base units: %d', [BaseUnitCount]));
