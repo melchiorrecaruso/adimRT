@@ -20,11 +20,11 @@ jobs:
 
     - name: Build project
       run: |
-        lazbuild adimrttest.lpi
+        lazbuild adimtest.lpi
 
     - name: Test project
       run: |
-        ./build/adimrttest
+        ./build/adimtest
         exit_code=$?
 
         if [ $exit_code -ne 0 ]; then
