@@ -470,7 +470,7 @@ end;
 class operator TATrivector./(const ALeft: TATrivector; const ARight: TAScalar): TATrivector;
 begin
   result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
-  result.FValue := ALeft.FValue * ARight.FValue;
+  result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TATrivector./(const ALeft: TAScalar; const ARight: TATrivector): TATrivector;
@@ -1054,7 +1054,7 @@ end;
 class operator TAVector./ (const ALeft: TAVector; const ARight: TAScalar): TAVector;
 begin
   result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
-  result.FValue := ALeft.FValue * ARight.FValue;
+  result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TAVector./(const ALeft: TAScalar; const ARight: TAVector): TAVector;
@@ -2516,6 +2516,102 @@ begin
   end;
 end;
 
+function TUnit.ToVerboseString(const AQuantity: TAVector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetName(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToVerboseString(const AQuantity: TABivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetName(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToVerboseString(const AQuantity: TATrivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetName(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToVerboseString(const AQuantity: TAMultivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetName(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AQuantity: TAVector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AQuantity: TABivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AQuantity: TATrivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AQuantity: TAMultivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ENDIF}
+end;
+
 { TFactoredUnit }
 
 class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
@@ -2538,6 +2634,86 @@ begin
 {$ENDIF}
 end;
 
+class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
 {$IFDEF USEADIM}
 class operator TFactoredUnit.*(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
@@ -2546,6 +2722,54 @@ begin
 end;
 
 class operator TFactoredUnit./(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit./(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit./(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit./(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit./(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
 begin
   result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := U.PutValue(AQuantity.FValue);
@@ -2849,5 +3073,133 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
               FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TAVector): string;
+var
+  FactoredValue: TVector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TABivector): string;
+var
+  FactoredValue: TBivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TATrivector): string;
+var
+  FactoredValue: TTrivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TAMultivector): string;
+var
+  FactoredValue: TMultivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TAVector): string;
+var
+  FactoredValue: TVector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TABivector): string;
+var
+  FactoredValue: TBivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TATrivector): string;
+var
+  FactoredValue: TTrivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TAMultivector): string;
+var
+  FactoredValue: TMultivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
 end;
 

@@ -1,5 +1,5 @@
 {
-  Description: ADim Run-time library.
+  Description: ADim (CL3) Run-time library.
 
   Copyright (C) 2024 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -29,15 +29,15 @@ unit ADim;
 {$ENDIF}
 
 {
-  ADim Run-time library built on 28/12/2024.
+  ADim Run-time library built on 29/12/2024.
 
-  Number of base units: 158
+  Number of base units: 159
   Number of factored units: 122
 }
 
 interface
 
-uses SysUtils;
+uses CL3, SysUtils;
 
 type
   { Prefix }
@@ -75,10 +75,434 @@ type
     class operator <=(const ALeft, ARight: TAScalar): boolean;
     class operator >=(const ALeft, ARight: TAScalar): boolean;
     class operator <>(const ALeft, ARight: TAScalar): boolean;
-    class operator :=(const ASelf: double): TAScalar;
+    class operator :=(const AValue: double): TAScalar;
   end;
   {$ELSE}
   TAScalar = double;
+  {$ENDIF}
+
+  { TAMultivector }
+
+  {$IFDEF USEADIM}
+  TAMultivector = record
+  private
+    FUnitOfMeasurement: longint;
+    FValue: TMultivector;
+  public
+    class operator :=(const AValue: TAScalar): TAMultivector;
+    class operator <>(const ALeft, ARight: TAMultivector): boolean;
+    class operator <>(const ALeft: TAMultivector; const ARight: TAScalar): boolean;
+    class operator <>(const ALeft: TAScalar; const ARight: TAMultivector): boolean;
+
+    class operator = (const ALeft, ARight: TAMultivector): boolean;
+    class operator = (const ALeft: TAMultivector; const ARight: TAScalar): boolean;
+    class operator = (const ALeft: TAScalar; const ARight: TAMultivector): boolean;
+
+    class operator + (const ALeft, ARight: TAMultivector): TAMultivector;
+    class operator + (const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+    class operator + (const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
+
+    class operator - (const ASelf: TAMultivector): TAMultivector;
+    class operator - (const ALeft, ARight: TAMultivector): TAMultivector;
+    class operator - (const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+    class operator - (const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
+
+    class operator * (const ALeft, ARight: TAMultivector): TAMultivector;
+    class operator * (const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+    class operator * (const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
+
+    class operator / (const ALeft, ARight: TAMultivector): TAMultivector;
+    class operator / (const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+    class operator / (const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
+  end;
+  {$ELSE}
+  TAMultivector = TMultivector;
+  {$ENDIF}
+
+  { TATrivector }
+
+  {$IFDEF USEADIM}
+  TATrivector = record
+  private
+    FUnitOfMeasurement: longint;
+    FValue: TTrivector;
+  public
+    class operator :=(const AValue: TATrivector): TAMultivector;
+    class operator <>(const ALeft, ARight: TATrivector): boolean;
+    class operator <>(const ALeft: TATrivector; const ARight: TAMultivector): boolean;
+    class operator <>(const ALeft: TAMultivector; const ARight: TATrivector): boolean;
+
+    class operator = (const ALeft, ARight: TATrivector): boolean;
+    class operator = (const ALeft: TATrivector; const ARight: TAMultivector): boolean;
+    class operator = (const ALeft: TAMultivector; const ARight: TATrivector): boolean;
+
+    class operator + (const ALeft, ARight: TATrivector): TATrivector;
+    class operator + (const ALeft: TATrivector; const ARight: TAScalar): TAMultivector;
+    class operator + (const ALeft: TAScalar; const ARight: TATrivector): TAMultivector;
+    class operator + (const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+    class operator + (const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
+
+    class operator - (const ASelf: TATrivector): TATrivector;
+    class operator - (const ALeft, ARight: TATrivector): TATrivector;
+    class operator - (const ALeft: TATrivector; const ARight: TAScalar): TAMultivector;
+    class operator - (const ALeft: TAScalar; const ARight: TATrivector): TAMultivector;
+    class operator - (const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+    class operator - (const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
+
+    class operator * (const ALeft, ARight: TATrivector): TAScalar;
+    class operator * (const ALeft: TAScalar; const ARight: TATrivector): TATrivector;
+    class operator * (const ALeft: TATrivector; const ARight: TAScalar): TATrivector;
+    class operator * (const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+    class operator * (const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
+
+    class operator / (const ALeft, ARight: TATrivector): TAScalar;
+    class operator / (const ALeft: TATrivector; const ARight: TAScalar): TATrivector;
+    class operator / (const ALeft: TAScalar; const ARight: TATrivector): TATrivector;
+    class operator / (const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+    class operator / (const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
+  end;
+  {$ELSE}
+  TATrivector = TTrivector;
+  {$ENDIF}
+
+  { TABivector }
+
+  {$IFDEF USEADIM}
+  TABivector = record
+  private
+    FUnitOfMeasurement: longint;
+    FValue: TBivector;
+  public
+    class operator :=(const AValue: TABivector): TAMultivector;
+    class operator <>(const ALeft, ARight: TABivector): boolean;
+    class operator <>(const ALeft: TABivector; const ARight: TAMultivector): boolean;
+    class operator <>(const ALeft: TAMultivector; const ARight: TABivector): boolean;
+
+    class operator = (const ALeft, ARight: TABivector): boolean;
+    class operator = (const ALeft: TABivector; const ARight: TAMultivector): boolean;
+    class operator = (const ALeft: TAMultivector; const ARight: TABivector): boolean;
+
+    class operator + (const ALeft, ARight: TABivector): TABivector;
+    class operator + (const ALeft: TABivector; const ARight: TAScalar): TAMultivector;
+    class operator + (const ALeft: TAScalar; const ARight: TABivector): TAMultivector;
+    class operator + (const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+    class operator + (const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+    class operator + (const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+    class operator + (const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
+
+    class operator - (const ASelf: TABivector): TABivector;
+    class operator - (const ALeft, ARight: TABivector): TABivector;
+    class operator - (const ALeft: TABivector; const ARight: TAScalar): TAMultivector;
+    class operator - (const ALeft: TAScalar; const ARight: TABivector): TAMultivector;
+    class operator - (const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+    class operator - (const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+    class operator - (const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+    class operator - (const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
+
+    class operator * (const ALeft, ARight: TABivector): TAMultivector;
+    class operator * (const ALeft: TAScalar; const ARight: TABivector): TABivector;
+    class operator * (const ALeft: TABivector; const ARight: TAScalar): TABivector;
+    class operator * (const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+    class operator * (const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+    class operator * (const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+    class operator * (const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
+
+    class operator / (const ALeft, ARight: TABivector): TAMultivector;
+    class operator / (const ALeft: TABivector; const ARight: TAScalar): TABivector;
+    class operator / (const ALeft: TAScalar; const ARight: TABivector): TABivector;
+    class operator / (const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+    class operator / (const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+    class operator / (const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+    class operator / (const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
+  end;
+  {$ELSE}
+  TABivector = TBivector;
+  {$ENDIF}
+
+  { TAVector }
+
+  {$IFDEF USEADIM}
+  TAVector = record
+  private
+    FUnitOfMeasurement: longint;
+    FValue: TVector;
+  public
+    class operator :=(const AValue: TAVector): TAMultivector;
+    class operator <>(const ALeft, ARight: TAVector): boolean;
+    class operator <>(const ALeft: TAVector; const ARight: TAMultivector): boolean;
+    class operator <>(const ALeft: TAMultivector; const ARight: TAVector): boolean;
+
+    class operator = (const ALeft, ARight: TAVector): boolean;
+    class operator = (const ALeft: TAVector; const ARight: TAMultivector): boolean;
+    class operator = (const ALeft: TAMultivector; const ARight: TAVector): boolean;
+
+    class operator + (const ALeft, ARight: TAVector): TAVector;
+    class operator + (const ALeft: TAVector; const ARight: TAScalar): TAMultivector;
+    class operator + (const ALeft: TAScalar; const ARight: TAVector): TAMultivector;
+    class operator + (const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+    class operator + (const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+    class operator + (const ALeft: TAVector; const ARight: TATrivector): TAMultivector;
+    class operator + (const ALeft: TATrivector; const ARight: TAVector): TAMultivector;
+    class operator + (const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+    class operator + (const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
+
+    class operator - (const ASelf: TAVector): TAVector;
+    class operator - (const ALeft, ARight: TAVector): TAVector;
+    class operator - (const ALeft: TAVector; const ARight: TAScalar): TAMultivector;
+    class operator - (const ALeft: TAScalar; const ARight: TAVector): TAMultivector;
+    class operator - (const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+    class operator - (const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+    class operator - (const ALeft: TAVector; const ARight: TATrivector): TAMultivector;
+    class operator - (const ALeft: TATrivector; const ARight: TAVector): TAMultivector;
+    class operator - (const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+    class operator - (const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
+
+    class operator * (const ALeft, ARight: TAVector): TAMultivector;
+    class operator * (const ALeft: TAScalar; const ARight: TAVector): TAVector;
+    class operator * (const ALeft: TAVector; const ARight: TAScalar): TAVector;
+    class operator * (const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+    class operator * (const ALeft: TAVector; const ARight: TATrivector): TABivector;
+    class operator * (const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+    class operator * (const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+    class operator * (const ALeft: TATrivector; const ARight: TAVector): TABivector;
+    class operator * (const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
+
+    class operator / (const ALeft: TAScalar; const ARight: TAVector): TAVector;
+    class operator / (const ALeft: TAVector; const ARight: TAScalar): TAVector;
+    class operator / (const ALeft, ARight: TAVector): TAMultivector;
+    class operator / (const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+    class operator / (const ALeft: TAVector; const ARight: TATrivector): TABivector;
+    class operator / (const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+    class operator / (const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+    class operator / (const ALeft: TATrivector; const ARight: TAVector): TABivector;
+    class operator / (const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
+  end;
+  {$ELSE}
+  TAVector = TVector;
+  {$ENDIF}
+
+  { TAMultivectorHelper }
+
+  {$IFDEF USEADIM}
+  TAMultivectorHelper = record helper for TAMultivector
+    function Dual: TAMultivector;
+    function Inverse: TAMultivector;
+    function Reverse: TAMultivector;
+    function Conjugate: TAMultivector;
+    function Reciprocal: TAMultivector;
+    function LeftReciprocal: TAMultivector;
+    function Normalized: TAMultivector;
+    function Norm: TAScalar;
+    function SquaredNorm: TAScalar;
+
+    function Dot(const AVector: TAVector): TAMultivector; overload;
+    function Dot(const AVector: TABivector): TAMultivector; overload;
+    function Dot(const AVector: TATrivector): TAMultivector; overload;
+    function Dot(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Wedge(const AVector: TAVector): TAMultivector; overload;
+    function Wedge(const AVector: TABivector): TAMultivector; overload;
+    function Wedge(const AVector: TATrivector): TATrivector; overload;
+    function Wedge(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Projection(const AVector: TAVector): TAMultivector; overload;
+    function Projection(const AVector: TABivector): TAMultivector; overload;
+    function Projection(const AVector: TATrivector): TAMultivector; overload;
+    function Projection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Rejection(const AVector: TAVector): TAMultivector; overload;
+    function Rejection(const AVector: TABivector): TAMultivector; overload;
+    function Rejection(const AVector: TATrivector): TAScalar; overload;
+    function Rejection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Reflection(const AVector: TAVector): TAMultivector; overload;
+    function Reflection(const AVector: TABivector): TAMultivector; overload;
+    function Reflection(const AVector: TATrivector): TAMultivector; overload;
+    function Reflection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Rotation(const AVector1, AVector2: TAVector): TAMultivector; overload;
+    function Rotation(const AVector1, AVector2: TABivector): TAMultivector; overload;
+    function Rotation(const AVector1, AVector2: TATrivector): TAMultivector; overload;
+    function Rotation(const AVector1, AVector2: TAMultivector): TAMultivector;overload;
+
+    function SameValue(const AVector: TAMultivector): boolean;
+    function SameValue(const AVector: TATrivector): boolean;
+    function SameValue(const AVector: TABivector): boolean;
+    function SameValue(const AVector: TAVector): boolean;
+    function SameValue(const AVector: TAScalar): boolean;
+
+    function ExtractMultivector(AComponents: TMultivectorComponents): TAMultivector;
+    function ExtractBivector(AComponents: TMultivectorComponents): TABivector;
+    function ExtractVector(AComponents: TMultivectorComponents): TAVector;
+
+    function ExtractTrivector: TATrivector;
+    function ExtractBivector: TABivector;
+    function ExtractVector: TAVector;
+    function ExtractScalar: TAScalar;
+
+    function IsNull: boolean;
+    function IsScalar: boolean;
+    function IsVector: boolean;
+    function IsBiVector: boolean;
+    function IsTrivector: boolean;
+    function IsA: string;
+  end;
+  {$ENDIF}
+
+  { TATrivectorHelper }
+
+  {$IFDEF USEADIM}
+  TATrivectorHelper = record helper for TATrivector
+    function Dual: TAScalar;
+    function Inverse: TATrivector;
+    function Reverse: TATrivector;
+    function Conjugate: TATrivector;
+    function Reciprocal: TATrivector;
+    function Normalized: TATrivector;
+    function Norm: TAScalar;
+    function SquaredNorm: TAScalar;
+
+    function Dot(const AVector: TAVector): TABivector; overload;
+    function Dot(const AVector: TABivector): TAVector; overload;
+    function Dot(const AVector: TATrivector): TAScalar; overload;
+    function Dot(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Wedge(const AVector: TAVector): TAScalar; overload;
+    function Wedge(const AVector: TABivector): TAScalar; overload;
+    function Wedge(const AVector: TATrivector): TAScalar; overload;
+    function Wedge(const AVector: TAMultivector): TATrivector; overload;
+
+    function Projection(const AVector: TAVector): TATrivector; overload;
+    function Projection(const AVector: TABivector): TATrivector; overload;
+    function Projection(const AVector: TATrivector): TATrivector; overload;
+    function Projection(const AVector: TAMultivector): TATrivector; overload;
+
+    function Rejection(const AVector: TAVector): TAScalar; overload;
+    function Rejection(const AVector: TABivector): TAScalar; overload;
+    function Rejection(const AVector: TATrivector): TAScalar; overload;
+    function Rejection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Reflection(const AVector: TAVector): TATrivector; overload;
+    function Reflection(const AVector: TABivector): TATrivector; overload;
+    function Reflection(const AVector: TATrivector): TATrivector; overload;
+    function Reflection(const AVector: TAMultivector): TATrivector; overload;
+
+    function Rotation(const AVector1, AVector2: TAVector): TATrivector; overload;
+    function Rotation(const AVector1, AVector2: TABivector): TATrivector; overload;
+    function Rotation(const AVector1, AVector2: TATrivector): TATrivector; overload;
+    function Rotation(const AVector1, AVector2: TAMultivector): TATrivector; overload;
+
+    function SameValue(const AVector: TAMultivector): boolean;
+    function SameValue(const AVector: TATrivector): boolean;
+
+    function ToMultivector: TAMultivector;
+  end;
+  {$ENDIF}
+
+  { TABivectorHelper }
+
+  {$IFDEF USEADIM}
+  TABivectorHelper = record helper for TABivector
+    function Dual: TAVector;
+    function Inverse: TABivector;
+    function Reverse: TABivector;
+    function Conjugate: TABivector;
+    function Reciprocal: TABivector;
+    function Normalized: TABivector;
+    function Norm: TAScalar;
+    function SquaredNorm: TAScalar;
+
+    function Dot(const AVector: TAVector): TAVector; overload;
+    function Dot(const AVector: TABivector): TAScalar; overload;
+    function Dot(const AVector: TATrivector): TAVector; overload;
+    function Dot(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Wedge(const AVector: TAVector): TATrivector; overload;
+    function Wedge(const AVector: TABivector): TAScalar; overload;
+    function Wedge(const AVector: TATrivector): TAScalar; overload;
+    function Wedge(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Projection(const AVector: TAVector): TABivector; overload;
+    function Projection(const AVector: TABivector): TABivector; overload;
+    function Projection(const AVector: TATrivector): TABivector; overload;
+    function Projection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Rejection(const AVector: TAVector): TABivector; overload;
+    function Rejection(const AVector: TABivector): TAScalar; overload;
+    function Rejection(const AVector: TATrivector): TAScalar; overload;
+    function Rejection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Reflection(const AVector: TAVector): TABivector; overload;
+    function Reflection(const AVector: TABivector): TABivector; overload;
+    function Reflection(const AVector: TATrivector): TABivector; overload;
+    function Reflection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Rotation(const AVector1, AVector2: TAVector): TABivector; overload;
+    function Rotation(const AVector1, AVector2: TABivector): TABivector; overload;
+    function Rotation(const AVector1, AVector2: TATrivector): TABivector; overload;
+    function Rotation(const AVector1, AVector2: TAMultivector): TAMultivector; overload;
+
+    function SameValue(const AVector: TAMultivector): boolean;
+    function SameValue(const AVector: TABivector): boolean;
+
+    function ExtractBivector(AComponents: TMultivectorComponents): TABivector;
+
+    function ToMultivector: TAMultivector;
+  end;
+  {$ENDIF}
+
+  { TAVectorHelper }
+
+  {$IFDEF USEADIM}
+  TAVectorHelper = record helper for TAVector
+    function Dual: TABivector;
+    function Inverse: TAVector;
+    function Reverse: TAVector;
+    function Conjugate: TAVector;
+    function Reciprocal: TAVector;
+    function Normalized: TAVector;
+    function Norm: TAScalar;
+    function SquaredNorm: TAScalar;
+
+    function Dot(const AVector: TAVector): TAScalar; overload;
+    function Dot(const AVector: TABivector): TAVector; overload;
+    function Dot(const AVector: TATrivector): TABivector; overload;
+    function Dot(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Wedge(const AVector: TAVector): TABivector; overload;
+    function Wedge(const AVector: TABivector): TATrivector; overload;
+    function Wedge(const AVector: TATrivector): TAScalar; overload;
+    function Wedge(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Cross(const AVector: TAVector): TAVector;
+
+    function Projection(const AVector: TAVector): TAVector; overload;
+    function Projection(const AVector: TABivector): TAVector; overload;
+    function Projection(const AVector: TATrivector): TAVector; overload;
+    function Projection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Rejection(const AVector: TAVector): TAVector; overload;
+    function Rejection(const AVector: TABivector): TAVector; overload;
+    function Rejection(const AVector: TATrivector): TAScalar; overload;
+    function Rejection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Reflection(const AVector: TAVector): TAVector; overload;
+    function Reflection(const AVector: TABivector): TAVector; overload;
+    function Reflection(const AVector: TATrivector): TAVector; overload;
+    function Reflection(const AVector: TAMultivector): TAMultivector; overload;
+
+    function Rotation(const AVector1, AVector2: TAVector): TAVector; overload;
+    function Rotation(const AVector1, AVector2: TABivector): TAVector; overload;
+    function Rotation(const AVector1, AVector2: TATrivector): TAVector; overload;
+    function Rotation(const AVector1, AVector2: TAMultivector): TAMultivector; overload;
+
+    function SameValue(const AVector: TAMultivector): boolean;
+    function SameValue(const AVector: TAVector): boolean;
+
+    function ExtractVector(AComponents: TMultivectorComponents): TAVector;
+
+    function ToMultivector: TAMultivector;
+  end;
   {$ENDIF}
 
   { TUnit }
@@ -102,11 +526,38 @@ type
     function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    function ToString(const AQuantity: TAVector): string;
+    function ToString(const AQuantity: TABivector): string;
+    function ToString(const AQuantity: TATrivector): string;
+    function ToString(const AQuantity: TAMultivector): string;
+
+    function ToVerboseString(const AQuantity: TAVector): string;
+    function ToVerboseString(const AQuantity: TABivector): string;
+    function ToVerboseString(const AQuantity: TATrivector): string;
+    function ToVerboseString(const AQuantity: TAMultivector): string;
+
     class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
     class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
   {$IFDEF USEADIM}
     class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
     class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator *(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+    class operator /(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+    class operator *(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+    class operator /(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+    class operator *(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator /(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator *(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator /(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
   {$ENDIF}
   end;
 
@@ -133,9 +584,36 @@ type
     function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
     class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+
+    function ToString(const AQuantity: TAVector): string;
+    function ToString(const AQuantity: TABivector): string;
+    function ToString(const AQuantity: TATrivector): string;
+    function ToString(const AQuantity: TAMultivector): string;
+
+    function ToVerboseString(const AQuantity: TAVector): string;
+    function ToVerboseString(const AQuantity: TABivector): string;
+    function ToVerboseString(const AQuantity: TATrivector): string;
+    function ToVerboseString(const AQuantity: TAMultivector): string;
+
   {$IFDEF USEADIM}
     class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
     class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator *(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+    class operator /(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+    class operator *(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+    class operator /(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+    class operator *(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator /(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator *(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator /(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
   {$ENDIF}
   end;
 
@@ -186,6 +664,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TDegreeUnit = specialize TFactoredUnit<TDegreeRec>;
 
@@ -226,6 +712,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TSquareDegreeUnit = specialize TFactoredUnit<TSquareDegreeRec>;
 
@@ -274,6 +768,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TDayUnit = specialize TFactoredUnit<TDayRec>;
 
@@ -295,6 +797,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   THourUnit = specialize TFactoredUnit<THourRec>;
 
@@ -316,6 +826,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TMinuteUnit = specialize TFactoredUnit<TMinuteRec>;
 
@@ -364,6 +882,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TSquareDayUnit = specialize TFactoredUnit<TSquareDayRec>;
 
@@ -385,6 +911,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TSquareHourUnit = specialize TFactoredUnit<TSquareHourRec>;
 
@@ -406,6 +940,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TSquareMinuteUnit = specialize TFactoredUnit<TSquareMinuteRec>;
 
@@ -563,6 +1105,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TAstronomicalUnit = specialize TFactoredUnit<TAstronomicalRec>;
 
@@ -584,6 +1134,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TInchUnit = specialize TFactoredUnit<TInchRec>;
 
@@ -605,6 +1163,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TFootUnit = specialize TFactoredUnit<TFootRec>;
 
@@ -626,6 +1192,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TYardUnit = specialize TFactoredUnit<TYardRec>;
 
@@ -647,6 +1221,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TMileUnit = specialize TFactoredUnit<TMileRec>;
 
@@ -668,6 +1250,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TNauticalMileUnit = specialize TFactoredUnit<TNauticalMileRec>;
 
@@ -689,6 +1279,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TAngstromUnit = specialize TFactoredUnit<TAngstromRec>;
 
@@ -757,6 +1355,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TSquareInchUnit = specialize TFactoredUnit<TSquareInchRec>;
 
@@ -778,6 +1384,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TSquareFootUnit = specialize TFactoredUnit<TSquareFootRec>;
 
@@ -799,6 +1413,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TSquareYardUnit = specialize TFactoredUnit<TSquareYardRec>;
 
@@ -820,6 +1442,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TSquareMileUnit = specialize TFactoredUnit<TSquareMileRec>;
 
@@ -869,6 +1499,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TCubicInchUnit = specialize TFactoredUnit<TCubicInchRec>;
 
@@ -890,6 +1528,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TCubicFootUnit = specialize TFactoredUnit<TCubicFootRec>;
 
@@ -911,6 +1557,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TCubicYardUnit = specialize TFactoredUnit<TCubicYardRec>;
 
@@ -932,6 +1586,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TLitreUnit = specialize TFactoredUnit<TLitreRec>;
 
@@ -958,6 +1620,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TGallonUnit = specialize TFactoredUnit<TGallonRec>;
 
@@ -1093,6 +1763,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TTonneUnit = specialize TFactoredUnit<TTonneRec>;
 
@@ -1119,6 +1797,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TPoundUnit = specialize TFactoredUnit<TPoundRec>;
 
@@ -1140,6 +1826,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TOunceUnit = specialize TFactoredUnit<TOunceRec>;
 
@@ -1161,6 +1855,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TStoneUnit = specialize TFactoredUnit<TStoneRec>;
 
@@ -1182,6 +1884,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TTonUnit = specialize TFactoredUnit<TTonRec>;
 
@@ -1203,6 +1913,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TElectronvoltPerSquareSpeedOfLightUnit = specialize TFactoredUnit<TElectronvoltPerSquareSpeedOfLightRec>;
 
@@ -1330,6 +2048,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TDegreeCelsiusUnit = specialize TFactoredUnit<TDegreeCelsiusRec>;
 
@@ -1348,6 +2074,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TDegreeFahrenheitUnit = specialize TFactoredUnit<TDegreeFahrenheitRec>;
 
@@ -1618,6 +2352,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TMeterPerHourUnit = specialize TFactoredUnit<TMeterPerHourRec>;
 
@@ -1636,6 +2378,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TMilePerHourUnit = specialize TFactoredUnit<TMilePerHourRec>;
 
@@ -1654,6 +2404,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TNauticalMilePerHourUnit = specialize TFactoredUnit<TNauticalMilePerHourRec>;
 
@@ -1707,6 +2465,14 @@ type
     const FExponents         : TExponents = (1, -1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TMeterPerHourPerSecondUnit = specialize TFactoredUnit<TMeterPerHourPerSecondRec>;
 
@@ -2267,6 +3033,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TPoundPerCubicInchUnit = specialize TFactoredUnit<TPoundPerCubicInchRec>;
 
@@ -2311,6 +3085,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TPoundForceUnit = specialize TFactoredUnit<TPoundForceRec>;
 
@@ -2447,6 +3229,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TBarUnit = specialize TFactoredUnit<TBarRec>;
 
@@ -2472,6 +3262,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TPoundPerSquareInchUnit = specialize TFactoredUnit<TPoundPerSquareInchRec>;
 
@@ -2553,6 +3351,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TWattHourUnit = specialize TFactoredUnit<TWattHourRec>;
 
@@ -2603,6 +3409,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TElectronvoltUnit = specialize TFactoredUnit<TElectronvoltRec>;
 
@@ -2646,6 +3460,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TPoundForceInchUnit = specialize TFactoredUnit<TPoundForceInchRec>;
 
@@ -2664,6 +3486,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TRydbergUnit = specialize TFactoredUnit<TRydbergRec>;
 
@@ -2685,6 +3515,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TCalorieUnit = specialize TFactoredUnit<TCalorieRec>;
 
@@ -2742,6 +3580,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TJoulePerDegreeUnit = specialize TFactoredUnit<TJoulePerDegreeRec>;
 
@@ -2776,6 +3622,14 @@ type
     const FExponents         : TExponents = (1, 1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TNewtonMeterPerDegreeUnit = specialize TFactoredUnit<TNewtonMeterPerDegreeRec>;
 
@@ -2882,6 +3736,14 @@ type
     const FExponents         : TExponents = (1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TAmpereHourUnit = specialize TFactoredUnit<TAmpereHourRec>;
 
@@ -3671,6 +4533,14 @@ type
     const FExponents         : TExponents = ();
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TPoundForcePerInchUnit = specialize TFactoredUnit<TPoundForcePerInchRec>;
 
@@ -5135,6 +6005,14 @@ type
     const FExponents         : TExponents = (1, 1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TElectronvoltSecondUnit = specialize TFactoredUnit<TElectronvoltSecondRec>;
 
@@ -5153,6 +6031,14 @@ type
     const FExponents         : TExponents = (1, 1);
     class function GetValue(const AValue: double): double; static;
     class function PutValue(const AValue: double): double; static;
+    class function GetValue(const AValue: TVector): TVector; static;
+    class function PutValue(const AValue: TVector): TVector; static;
+    class function GetValue(const AValue: TBivector): TBivector; static;
+    class function PutValue(const AValue: TBivector): TBivector; static;
+    class function GetValue(const AValue: TTrivector): TTrivector; static;
+    class function PutValue(const AValue: TTrivector): TTrivector; static;
+    class function GetValue(const AValue: TMultivector): TMultivector; static;
+    class function PutValue(const AValue: TMultivector): TMultivector; static;
   end;
   TElectronvoltMeterPerSpeedOfLightUnit = specialize TFactoredUnit<TElectronvoltMeterPerSpeedOfLightRec>;
 
@@ -5612,336 +6498,357 @@ type
 var
   CoulombPerMoleUnit : TCoulombPerMoleUnit;
 
+{ TReciprocalNewton }
+
+const
+  cReciprocalNewton = 158;
+
+type
+  TReciprocalNewtonRec = record
+    const FUnitOfMeasurement = cReciprocalNewton;
+    const FSymbol            = '1/%sN';
+    const FName              = 'reciprocal %snewton';
+    const FPluralName        = 'reciprocal %snewtons';
+    const FPrefixes          : TPrefixes  = (pNone);
+    const FExponents         : TExponents = (-1);
+  end;
+  TReciprocalNewtonUnit = specialize TUnit<TReciprocalNewtonRec>;
+
+var
+  ReciprocalNewtonUnit : TReciprocalNewtonUnit;
+
 const
 
   { Mul Table }
 
-  MulTable : array[0..157, 0..157] of longint = (
-    (  0 ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 , 10 , 11 , 12 , 13 , 14 , 15 , 16 , 17 , 18 , 19 , 20 , 21 , 22 , 23 , 24 , 25 , 26 , 27 , 28 , 29 , 30 , 31 , 32 , 33 , 34 , 35 , 36 , 37 , 38 , 39 , 40 , 41 , 42 , 43 , 44 , 45 , 46 , 47 , 48 , 49 , 50 , 51 , 52 , 53 , 54 , 55 , 56 , 57 , 58 , 59 , 60 , 61 , 62 , 63 , 64 , 65 , 66 , 67 , 68 , 69 , 70 , 71 , 72 , 73 , 74 , 75 , 76 , 77 , 78 , 79 , 80 , 81 , 82 , 83 , 84 , 85 , 86 , 87 , 88 , 89 , 90 , 91 , 92 , 93 , 94 , 95 , 96 , 97 , 98 , 99 ,100 ,101 ,102 ,103 ,104 ,105 ,106 ,107 ,108 ,109 ,110 ,111 ,112 ,113 ,114 ,115 ,116 ,117 ,118 ,119 ,120 ,121 ,122 ,123 ,124 ,125 ,126 ,127 ,128 ,129 ,130 ,131 ,132 ,133 ,134 ,135 ,136 ,137 ,138 ,139 ,140 ,141 ,142 ,143 ,144 ,145 ,146 ,147 ,148 ,149 ,150 ,151 ,152 ,153 ,154 ,155 ,156 ,157),
-    (  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,147 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 ,145 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 ,153 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  2 , -1 ,  3 ,  4 ,  5 ,  6 ,  7 , -1 , 35 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 25 ,145 ,  8 , 28 , 29 , 30 , 31 , 32 , 80 , -1 , -1 , 15 , 36 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , 38 , -1 , 79 , 47 , 55 , -1 , -1 , -1 , 67 , -1 , -1 , 68 , 62 ,126 , -1 , -1 , -1 , 64 , 71 , -1 , -1 , 74 , -1 , 23 , -1 , 37 , 11 , 49 , 10 , -1 , -1 , 81 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , 77 , 54 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 ,116 , -1 ,124 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , 34 ,  1 , -1 , -1 , -1 ,147 ,151 , -1 , -1 ,155 , -1 , -1 ,141 , -1),
-    (  3 , -1 ,  4 ,  5 ,  6 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 ,  0 ,  1 , 35 ,  8 , 28 , 29 , 30 , 31 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , 39 , 49 , 46 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 ,108 , -1 , -1 , 38 , 37 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  4 , -1 ,  5 ,  6 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 ,  2 , -1 , -1 , 35 ,  8 , 28 , 29 , 30 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , 15 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  5 , -1 ,  6 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 ,  3 , -1 , -1 , -1 , 35 ,  8 , 28 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  6 , -1 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  5 ,  4 , -1 , -1 , -1 , -1 , 35 ,  8 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  6 ,  5 , -1 , -1 , -1 , -1 , -1 , 35 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  8 ,146 , 35 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , 11 , 12 , 13 , 14 , -1 , 36 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , 28 , 29 , -1 , 80 , 34 ,144 , -1 , -1 , -1 , 86 , -1 , 46 , 38 , 47 , -1 ,  9 ,  0 , 40 , 41 , 43 , 44 , -1 , -1 ,  2 , 15 , 49 , 50 , 55 , -1 , 77 , 87 , -1 , 59 , -1 , -1 ,124 , -1 , -1 ,116 , -1 , 64 ,129 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , -1 , 54 , 52 , -1 , 37 , 78 , 51 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , 16 , 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , 56 ,100 ,101 , -1 ,103 ,107 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , 57 , 58 ,118 , -1 , -1 , -1 , -1 , -1 , 62 , 17 , -1 , 67 ,131 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 ,120 , -1 , -1 ,147 ,148 , -1 , -1 , -1 , -1 ,150 ,152 ,153 , -1 , -1 , -1),
-    (  9 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 40 , 41 , 42 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 10 ,147 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 12 , 13 , 14 , -1 , -1 , 46 , -1 ,137 , -1 , -1 , -1 , -1 ,110 , -1 , -1 , 80 , 34 , -1 , 78 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 ,135 , -1 ,  8 ,  9 ,  0 , 41 , 43 , -1 , -1 , 35 , 36 , 15 , 49 , 87 ,134 , 52 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , 71 , -1 , 77 , 55 , -1 , 38 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , 16 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , 98 , -1 , 56 ,100 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , 59 , -1 , 57 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , 39 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , 24 ,118 , -1 ,149 ,148 , -1 , -1 , -1 , -1 , -1 , -1 ,150 ,152 ,151 , -1 , -1),
-    ( 11 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 13 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , 10 , -1 ,  8 ,  0 , 41 , -1 , -1 , -1 , 46 , 36 , 15 , 88 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 71 , -1 , -1 , -1 , 52 , 87 , -1 , 47 , -1 , 49 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , 75 , -1),
-    ( 12 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 10 ,  8 ,  0 , -1 , -1 , -1 , -1 , 46 , 36 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 88 , -1 , -1 , -1 , 15 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 11 , 10 ,  8 , -1 , -1 , 82 , -1 , -1 , 46 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , 36 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , 12 , 11 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , 46 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 15 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , 36 , -1 , 46 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , 37 , 77 ,155 , 38 , 52 ,100 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , 50 , 51 , 81 , -1 , -1 , -1 , 90 , 91 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , 47 , -1 , -1 , -1 , 11 , -1 , 87 , -1 ,135 , 29 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , 90 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , 10 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 17 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 ,127 , -1 ,140 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , 60 , -1 , -1 , 77 , 55 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 ,100 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 ,  8 , 52 , 66 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 18 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , 20 , 21 , 22 , -1 ,114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 55 , 34 , -1 , -1 , -1 , -1 , -1 , 56 ,100 , -1 ,107 , -1 , 10 ,101 , -1 , -1 , -1 , -1 , -1 ,113 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 20 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 21 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 21 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 20 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,110 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 21 , -1 , -1 , -1 , -1 , -1 , -1 ,112 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,114 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57),
-    ( 24 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 25 ,145 ,  0 ,  2 ,  3 ,  4 ,  5 ,  6 , 28 , -1 , 80 , 78 , -1 , -1 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , 26 , -1 , -1 , 29 , 30 , 31 , 32 , 33 , -1 ,144 ,  8 , 38 , 77 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 55 , 41 , 79 , -1 , -1 ,100 , -1 ,102 , 56 , -1 , 17 , -1 , -1 , -1 , -1 , 64 , -1 , 69 , -1 , -1 , 60 , 63 , -1 , -1 , 70 , -1 , -1 , 73 , -1 , -1 ,101 , 86 , 54 , 34 , 83 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 ,127 , -1 ,140 , -1 , -1 , -1 ,125 , -1 , 65 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,156 , -1 , -1 , -1 , 27 , -1 ,149 , -1 , -1 , -1 ,150 , -1 , -1 , -1 ,153 , -1 , -1),
-    ( 26 , 27 , 25 ,  0 ,  2 ,  3 ,  4 ,  5 , 29 , -1 , 34 , 86 , -1 , -1 , -1 , 77 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , 31 , 32 , 33 , -1 , -1 , -1 , 28 , 52 ,101 ,100 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 56 , -1 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 ,144 , -1 , -1 , -1 , 93 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , 43 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 27 , -1 ,145 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 28 , -1 ,  8 , 35 , -1 , -1 , -1 , -1 , 80 , -1 , 78 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , 30 , -1 , 34 ,144 , -1 , -1 , -1 , -1 , -1 , 10 , 47 , 52 , 55 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , 87 ,  0 , 37 , 79 , -1 , 56 , -1 ,101 , -1 , -1 , -1 , -1 ,137 ,125 , -1 , -1 ,123 , -1 , 69 ,117 ,124 ,116 , -1 , -1 , -1 , 73 , -1 , -1 , -1 ,102 ,100 , -1 , 77 , 86 , -1 , 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , 60 , -1 , 63 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 , -1),
-    ( 29 , -1 , 28 ,  8 , 35 , -1 , -1 , -1 , 34 , -1 , 86 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , 31 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , 55 ,100 , 56 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , 87 , -1 , 25 , 77 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 ,122 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 30 , -1 , 29 , 28 ,  8 , 35 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 31 , 32 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 ,101 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 31 , -1 , 30 , 29 , 28 ,  8 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 32 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 32 , -1 , 31 , 30 , 29 , 28 ,  8 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 33 , -1 , 32 , 31 , 30 , 29 , 28 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 34 , -1 , 80 , 10 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 87 , 56 , -1 ,134 , -1 , 29 , -1 , 26 , -1 , -1 , 88 , -1 , 28 , 52 , 77 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , 76 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 ,123 , 53 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , 28 , -1 , 10 , 80 , 34 ,144 , -1 , -1 , 78 , -1 , -1 , 36 , 46 , -1 , -1 ,  2 , -1 , 48 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , 47 , -1 , 37 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 38 , 12 , 15 , 11 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 52 , 77 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , 86 ,146 , -1 , -1 , -1 ,148 , -1 , -1 ,151 , -1 ,155 , -1 , -1 , -1),
-    ( 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , 52 , -1 , 47 , 55 , 56 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , 49 , 50 , 51 , -1 , -1 , -1 , 16 , 90 , 91 , 39 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 88 ,135 , -1 , 34 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 37 , -1 , 15 , -1 , 85 , -1 , -1 , -1 , 38 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 ,101 ,153 , 52 ,100 , -1 , -1 , -1 , -1 , 56 , 36 , -1 ,132 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , 83 , -1 , 39 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 55 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , 30 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 38 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 ,100 ,152 , 55 , 56 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , 39 , -1 , -1 , 37 , -1 , 79 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 ,132 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 40 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  9 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , 42 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 41 , -1 , 48 , -1 , -1 , -1 , -1 , -1 ,  0 , 40 ,  8 , 10 , 11 , 12 , 13 , 49 , 90 ,127 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , 26 , -1 , -1 , -1 , -1 , 29 ,  2 , 15 , 79 , 37 , -1 , 42 , 43 , -1 , 44 , 45 , -1 , 36 , 38 , -1 , 50 , 51 , 81 , 77 , -1 , 76 , 52 ,100 ,118 ,119 , 57 ,117 , -1 ,126 , -1 , 65 , -1 , -1 ,129 ,131 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , 54 , 80 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , 34 , 55 , 87 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 ,101 ,102 , -1 ,104 ,109 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 ,120 , -1 ,143 , -1 , -1 , -1 , 60 , -1 , -1 ,140 , -1 , 66 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , -1 ,  1 ,146 ,147 , -1 ,152 , -1 ,153 ,154 , -1 , -1 , -1 , -1),
-    ( 42 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 40 , 41 ,  9 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 43 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , 41 , 42 ,  0 ,  8 , 10 , 11 , 12 , 50 , 91 ,140 , -1 , -1 , -1 , -1 , -1 , -1 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , 48 , 49 , -1 , 79 ,132 , -1 , 44 , -1 , 45 , -1 , -1 , 15 , 37 , -1 , 51 , 81 , -1 , 54 , -1 , -1 , 77 ,101 ,120 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 ,130 , -1 , 73 , 74 , -1 , -1 , -1 , -1 , -1 , 76 , 28 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , 29 , 52 , 55 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , 99 , -1 ,102 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , 94 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 ,122 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , 39 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 ,146 ,145 ,153 ,155 ,154 , -1 , -1 , -1 , -1 , -1),
-    ( 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 41 ,  0 ,  8 , 10 , 11 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 45 , -1 , -1 , -1 , -1 , 49 , 79 , -1 , 81 , -1 , -1 , 76 , -1 , -1 , 54 ,102 ,143 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 ,156 , -1 , -1 , 25 , 83 , -1 , -1 , 35 , -1 , -1 , -1 , 26 , 77 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 43 , 41 ,  0 ,  8 , 10 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , 54 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 55 ,151 , -1 , 87 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , 15 , 49 , 50 , -1 , -1 , -1 , -1 , 16 , 90 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , 39 , -1 , -1 , -1 , 91 , -1 , -1 , 13 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 47 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 56 ,150 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , 38 , -1 , 37 , 79 , -1 , -1 ,135 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , 35 , -1 , -1 , 82 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 ,  0 , 25 , 26 , -1 , -1 , -1 , 28 ,  3 , -1 , 49 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 ,133 , -1 , -1 , -1 , 37 , -1 , -1 , 38 , 52 , -1 , -1 , -1 ,129 , -1 , -1 ,131 ,126 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , 79 , 10 , 50 ,  8 , -1 , -1 , -1 , -1 , -1 , 80 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , 66 , -1 , -1 , -1 , -1 , -1 , 63 , 67 , 60 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 ,143 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 ,146 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1),
-    ( 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , 36 , 46 , -1 , -1 , -1 , 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 54 , -1 , 37 , 77 ,101 , -1 , -1 , -1 , 52 , -1 , 16 , -1 , -1 , -1 , -1 , 50 , -1 , 51 , 81 , -1 , -1 , -1 , -1 , 91 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , 38 , -1 , -1 , -1 , 10 , -1 , 55 , 39 , -1 , 26 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , 15 , 36 , 46 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , 79 , 54 ,102 , -1 , -1 , -1 , 77 , -1 , 90 , -1 , -1 , -1 , -1 , 51 , -1 , 81 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , 37 , -1 , -1 , -1 ,  8 , -1 , 52 , -1 , 39 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , 49 , 15 , 36 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , 54 , -1 , 91 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , 79 , -1 , -1 , -1 ,  0 , -1 , 77 ,132 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 52 , -1 , 38 , 36 , -1 , -1 , -1 , -1 , 55 , -1 , 87 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 39 , -1 , -1 , -1 , -1 , 77 , -1 , 54 , 76 , -1 , -1 , -1 , 37 ,132 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , 61 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 53 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 54 , -1 , 79 , 49 , -1 , -1 , -1 , -1 , 77 , -1 , 52 , 55 , 87 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , 37 ,132 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 ,100 , -1 , -1 , -1 , 34 , 90 , -1 , 53 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 ,154 ,155 , -1 ,151 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 55 ,151 , 47 , 46 , -1 , -1 , -1 , -1 , 87 , -1 , 88 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , 77 , 54 , 76 ,135 , -1 , 38 , -1 ,132 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , 71 ,113 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 56 ,150 , 55 , 47 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 53 , -1 , -1 , -1 ,100 , -1 ,101 ,102 , -1 , -1 ,134 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 ,  8 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , 37 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 ,120 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , 55 , -1 , -1 , 67 , -1 , -1 , 37 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 ,119 , -1 , -1 , -1 ,117 ,124 , 87 , -1 , -1 , -1 , 35 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , 47 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , 52 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 ,118 ,120 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 58 , -1 ,119 , -1 , 60 , -1 , 88 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 60 , -1 , 67 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , 87 , 61 , -1 , 57 , -1 , 17 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , 77 , -1 , -1 , -1 , -1 , -1 ,118 ,100 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 ,101 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113),
-    ( 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , 55 , -1 , 56 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , 57 , 55 , -1 ,  2 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 ,118 , -1 , -1 , -1 , -1 , 41 ,  8 , 59 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 63 , -1 , 68 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , 67 , 47 , -1 , -1 , -1 ,  2 , -1 ,  0 , 41 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , 38 , 66 , -1 , -1 , -1 , -1 , -1 , 48 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 64 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , 58 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , 17 , 56 , -1 ,  0 , -1 , -1 ,120 , 57 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 ,127 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 65 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 ,100 , -1 , 41 , -1 , -1 ,143 ,118 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 ,140 , -1 , -1 , -1 , -1 , -1 , 25 , 17 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , 38 , -1 , -1 , -1 , -1 ,120 ,143 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , 60 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , 55 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 ,124 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , 57 ,118 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , 88 , -1 , -1 , 77 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 ,116 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 ,  3 , -1 ,  2 , 48 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 69 , -1 , 64 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 ,140 , 17 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 ,127 , 43 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 70 , -1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 73 , -1 , 74 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 74 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 75 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17),
-    ( 76 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 54 , -1 , 77 , 52 , 55 , 87 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 ,101 , -1 , 47 , -1 , 29 , 91 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , 31 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 ,153 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 77 ,155 , 37 , 15 , -1 , 85 , -1 , -1 , 52 , -1 , 55 , 87 , 88 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , 76 , -1 , -1 , 39 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , 86 , 16 , -1 , -1 ,134 , 31 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,151 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 78 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 87 , 88 , -1 , -1 , 80 , -1 , 28 , 25 , -1 , -1 , -1 , 10 , 47 , 38 , 37 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 ,100 , -1 , -1 , 55 , -1 , 79 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 79 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , 38 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 ,102 ,154 , 77 ,101 , -1 , -1 , -1 , -1 ,100 , 15 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , 83 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , 52 , -1 , -1 , -1 , 80 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 80 ,149 , 10 , -1 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 ,144 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 55 , 87 , -1 , -1 , 28 , -1 , 25 , -1 , -1 , -1 , 88 ,  8 , 38 , 37 , 79 , -1 , -1 ,100 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 ,101 , 56 , -1 , 52 , -1 , -1 , 14 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , 63 ,116 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1),
-    ( 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , 50 , 49 , 15 , 36 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , 54 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , -1 , 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , 14 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 83 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 37 , 38 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , 76 , -1 , 15 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , -1 , 10 ,  8 ,  0 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , 86 , -1 , 80 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , 36 , 38 , 52 ,100 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 86 , -1 , 78 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , 34 , -1 , 29 , 26 , -1 , -1 , -1 , 80 , 55 , 52 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , 54 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , 55 , -1 , 52 , 77 , 54 , -1 , -1 , 47 , 39 , -1 ,132 ,134 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 55 , 52 , 77 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 ,134 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , 29 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , 30 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 31 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , 77 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 32 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , 39 , -1 , -1 , 77 , -1 , -1 ,  8 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 90 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , 54 , -1 , -1 ,  0 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 93 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , 34 , 29 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 31 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , 55 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 19 , 20 , 21 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 ,  8 , 41 ,104 ,109 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 ,115 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , 39 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , 87 , 52 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 97 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , 86 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , 87 , 86 , -1 , 20 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , 11 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , 52 , 29 , 20 , -1 , -1 , -1 , -1 ,100 ,101 , -1 ,105 , -1 ,  8 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (100 ,152 , 52 , 38 , 36 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , 53 , -1 , -1 ,101 , -1 ,102 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 ,  0 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (101 ,153 , 77 , 37 , 15 , -1 , 85 , -1 ,100 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,112 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , 53 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , 32 , -1 , -1 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , 99 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (102 ,154 , 54 , 79 , 49 , -1 , -1 , -1 ,101 , -1 ,100 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 ,152 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (103 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 ,101 , -1 , -1 , -1 , -1 , -1 , 41 , 94 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , 99 , -1 , -1 ,  0 , 41 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , 38 , -1 , 35 ,  8 , -1 , -1 , -1 ,128 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 ,  0 , 41 , 43 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,  1 , -1 , -1 , -1 , -1 , -1),
-    (107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , 35 , -1 , -1 , -1 , 19 , 99 , -1 ,  8 ,  0 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , 11 ,  8 , -1 ,103 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 ,102 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (110 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (111 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (112 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (113 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1),
-    (114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 ,  8 ,  0 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , 47 ,129 , -1 , -1 , -1 , -1 , -1 ,  2 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (117 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , 60 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , 55 , -1 , -1 ,118 , -1 ,127 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , 54 , -1 , -1 , -1 , 61 , -1 ,120 ,101 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 ,102 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , 58 , 52 , -1 , -1 ,129 , -1 , -1 , 79 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , 77 , -1 , -1 , -1 , -1 , -1 , 60 , 55 , 56 , -1 , -1 ,  2 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 ,  8 , 77 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , 57 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , 77 , -1 , -1 , 66 , -1 , -1 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , 54 , -1 , -1 , -1 , -1 , -1 ,117 , 52 ,100 , -1 , -1 , 48 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 ,130 , -1 ,123 , 61 ,122 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (122 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , 52 , 60 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (123 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 ,124 , 87 , -1 , -1 , -1 ,  8 , -1 , 28 , 25 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , 55 ,117 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 ,117 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 88 , -1 , -1 , 59 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , 55 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , 57 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 ,100 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (125 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , 61 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , 64 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 ,118 , 52 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 ,120 , -1 , -1 , -1 , -1 , 43 ,  0 , 57 , 17 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (127 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 ,117 , -1 , -1 , 54 , 52 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 ,  0 , 77 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , 66 , -1 ,124 , 35 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 ,  2 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , 47 , -1 , -1 , -1 , -1 ,118 ,120 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , 79 , -1 , -1 , -1 , -1 , 61 , -1 , 77 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , 87 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , 63 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , 63 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (132 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 48 , 41 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , 49 ,132 , 51 , 15 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 81 , 50 , 35 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 ,  8 , 36 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (134 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 ,118 ,120 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , 25 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , 69 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 ,127 ,140 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , 11 , 87 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 72 , 71 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 ,157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (140 , -1 ,120 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , 17 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , 76 , 77 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 ,102 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , 41 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143),
-    (142 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 24 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 ,118 , 57 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 ,127 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , 77 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (144 , -1 , 34 , 80 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , 30 , -1 , -1 , -1 , -1 , -1 , -1 , 29 ,100 ,101 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (145 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 ,152 , -1 ,154 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 ,152 ,153 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (147 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 ,146 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (149 , -1 ,147 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,148 , -1 ,151 , -1 , -1 , -1 , -1 , -1 ,145 , -1 , -1 , -1 , -1 ,146 , -1 , -1 , -1 , -1 , -1 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (150 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 ,153 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,154 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (153 , -1 ,155 , -1 , -1 , -1 , -1 , -1 ,152 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,152 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 , -1 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (156 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1)
+  MulTable : array[0..158, 0..158] of longint = (
+    (  0 ,  1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 ,  8 ,  9 , 10 , 11 , 12 , 13 , 14 , 15 , 16 , 17 , 18 , 19 , 20 , 21 , 22 , 23 , 24 , 25 , 26 , 27 , 28 , 29 , 30 , 31 , 32 , 33 , 34 , 35 , 36 , 37 , 38 , 39 , 40 , 41 , 42 , 43 , 44 , 45 , 46 , 47 , 48 , 49 , 50 , 51 , 52 , 53 , 54 , 55 , 56 , 57 , 58 , 59 , 60 , 61 , 62 , 63 , 64 , 65 , 66 , 67 , 68 , 69 , 70 , 71 , 72 , 73 , 74 , 75 , 76 , 77 , 78 , 79 , 80 , 81 , 82 , 83 , 84 , 85 , 86 , 87 , 88 , 89 , 90 , 91 , 92 , 93 , 94 , 95 , 96 , 97 , 98 , 99 ,100 ,101 ,102 ,103 ,104 ,105 ,106 ,107 ,108 ,109 ,110 ,111 ,112 ,113 ,114 ,115 ,116 ,117 ,118 ,119 ,120 ,121 ,122 ,123 ,124 ,125 ,126 ,127 ,128 ,129 ,130 ,131 ,132 ,133 ,134 ,135 ,136 ,137 ,138 ,139 ,140 ,141 ,142 ,143 ,144 ,145 ,146 ,147 ,148 ,149 ,150 ,151 ,152 ,153 ,154 ,155 ,156 ,157 ,158),
+    (  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,147 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 ,145 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 ,153 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  2 , -1 ,  3 ,  4 ,  5 ,  6 ,  7 , -1 , 35 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 25 ,145 ,  8 , 28 , 29 , 30 , 31 , 32 , 80 , -1 , -1 , 15 , 36 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , 38 , -1 , 79 , 47 , 55 , -1 , -1 , -1 , 67 , -1 , -1 , 68 , 62 ,126 , -1 , -1 , -1 , 64 , 71 , -1 , -1 , 74 , -1 , 23 , -1 , 37 , 11 , 49 , 10 , -1 , -1 , 81 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , 77 , 54 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 ,116 , -1 ,124 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , 34 ,  1 , -1 , -1 , -1 ,147 ,151 , -1 , -1 ,155 , -1 , -1 ,141 , -1 ,106),
+    (  3 , -1 ,  4 ,  5 ,  6 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 ,  0 ,  1 , 35 ,  8 , 28 , 29 , 30 , 31 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , 39 , 49 , 46 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 ,108 , -1 , -1 , 38 , 37 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  4 , -1 ,  5 ,  6 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 ,  2 , -1 , -1 , 35 ,  8 , 28 , 29 , 30 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , 15 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  5 , -1 ,  6 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 ,  3 , -1 , -1 , -1 , 35 ,  8 , 28 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  6 , -1 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  5 ,  4 , -1 , -1 , -1 , -1 , 35 ,  8 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  6 ,  5 , -1 , -1 , -1 , -1 , -1 , 35 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  8 ,146 , 35 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , 11 , 12 , 13 , 14 , -1 , 36 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , 28 , 29 , -1 , 80 , 34 ,144 , -1 , -1 , -1 , 86 , -1 , 46 , 38 , 47 , -1 ,  9 ,  0 , 40 , 41 , 43 , 44 , -1 , -1 ,  2 , 15 , 49 , 50 , 55 , -1 , 77 , 87 , -1 , 59 , -1 , -1 ,124 , -1 , -1 ,116 , -1 , 64 ,129 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , -1 , 54 , 52 , -1 , 37 , 78 , 51 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , 16 , 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , 56 ,100 ,101 , -1 ,103 ,107 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , 57 , 58 ,118 , -1 , -1 , -1 , -1 , -1 , 62 , 17 , -1 , 67 ,131 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 ,120 , -1 , -1 ,147 ,148 , -1 , -1 , -1 , -1 ,150 ,152 ,153 , -1 , -1 , -1 , -1),
+    (  9 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 40 , 41 , 42 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 10 ,147 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 12 , 13 , 14 , -1 , -1 , 46 , -1 ,137 , -1 , -1 , -1 , -1 ,110 , -1 , -1 , 80 , 34 , -1 , 78 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 ,135 , -1 ,  8 ,  9 ,  0 , 41 , 43 , -1 , -1 , 35 , 36 , 15 , 49 , 87 ,134 , 52 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , 71 , -1 , 77 , 55 , -1 , 38 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , 16 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , 98 , -1 , 56 ,100 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , 59 , -1 , 57 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , 39 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , 24 ,118 , -1 ,149 ,148 , -1 , -1 , -1 , -1 , -1 , -1 ,150 ,152 ,151 , -1 , -1 , -1),
+    ( 11 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 13 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , 10 , -1 ,  8 ,  0 , 41 , -1 , -1 , -1 , 46 , 36 , 15 , 88 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 71 , -1 , -1 , -1 , 52 , 87 , -1 , 47 , -1 , 49 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , 75 , -1 , -1),
+    ( 12 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 10 ,  8 ,  0 , -1 , -1 , -1 , -1 , 46 , 36 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 88 , -1 , -1 , -1 , 15 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 11 , 10 ,  8 , -1 , -1 , 82 , -1 , -1 , 46 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , 36 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , 12 , 11 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , 46 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 15 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , 36 , -1 , 46 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , 37 , 77 ,155 , 38 , 52 ,100 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , 50 , 51 , 81 , -1 , -1 , -1 , 90 , 91 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , 47 , -1 , -1 , -1 , 11 , -1 , 87 , -1 ,135 , 29 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , 90 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , 10 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 17 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 ,127 , -1 ,140 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , 60 , -1 , -1 , 77 , 55 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 ,100 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 ,  8 , 52 , 66 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 18 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , 20 , 21 , 22 , -1 ,114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 55 , 34 , -1 , -1 , -1 , -1 , -1 , 56 ,100 , -1 ,107 , -1 , 10 ,101 , -1 , -1 , -1 , -1 , -1 ,113 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 20 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 21 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 21 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 20 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,110 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 21 , -1 , -1 , -1 , -1 , -1 , -1 ,112 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,114 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1),
+    ( 24 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 25 ,145 ,  0 ,  2 ,  3 ,  4 ,  5 ,  6 , 28 , -1 , 80 , 78 , -1 , -1 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , 26 , -1 , -1 , 29 , 30 , 31 , 32 , 33 , -1 ,144 ,  8 , 38 , 77 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 55 , 41 , 79 , -1 , -1 ,100 , -1 ,102 , 56 , -1 , 17 , -1 , -1 , -1 , -1 , 64 , -1 , 69 , -1 , -1 , 60 , 63 , -1 , -1 , 70 , -1 , -1 , 73 , -1 , -1 ,101 , 86 , 54 , 34 , 83 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 ,127 , -1 ,140 , -1 , -1 , -1 ,125 , -1 , 65 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,156 , -1 , -1 , -1 , 27 , -1 ,149 , -1 , -1 , -1 ,150 , -1 , -1 , -1 ,153 , -1 , -1 , -1),
+    ( 26 , 27 , 25 ,  0 ,  2 ,  3 ,  4 ,  5 , 29 , -1 , 34 , 86 , -1 , -1 , -1 , 77 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , 31 , 32 , 33 , -1 , -1 , -1 , 28 , 52 ,101 ,100 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 56 , -1 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 ,144 , -1 , -1 , -1 , 93 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , 43 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 27 , -1 ,145 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 28 , -1 ,  8 , 35 , -1 , -1 , -1 , -1 , 80 , -1 , 78 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , 30 , -1 , 34 ,144 , -1 , -1 , -1 , -1 , -1 , 10 , 47 , 52 , 55 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , 87 ,  0 , 37 , 79 , -1 , 56 , -1 ,101 , -1 , -1 , -1 , -1 ,137 ,125 , -1 , -1 ,123 , -1 , 69 ,117 ,124 ,116 , -1 , -1 , -1 , 73 , -1 , -1 , -1 ,102 ,100 , -1 , 77 , 86 , -1 , 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , 60 , -1 , 63 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 , -1 , -1),
+    ( 29 , -1 , 28 ,  8 , 35 , -1 , -1 , -1 , 34 , -1 , 86 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , 31 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , 55 ,100 , 56 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , 87 , -1 , 25 , 77 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 ,122 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 30 , -1 , 29 , 28 ,  8 , 35 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 31 , 32 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 ,101 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 31 , -1 , 30 , 29 , 28 ,  8 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 32 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 32 , -1 , 31 , 30 , 29 , 28 ,  8 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 33 , -1 , 32 , 31 , 30 , 29 , 28 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 34 , -1 , 80 , 10 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 87 , 56 , -1 ,134 , -1 , 29 , -1 , 26 , -1 , -1 , 88 , -1 , 28 , 52 , 77 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , 76 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 ,123 , 53 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , 28 , -1 , 10 , 80 , 34 ,144 , -1 , -1 , 78 , -1 , -1 , 36 , 46 , -1 , -1 ,  2 , -1 , 48 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , 47 , -1 , 37 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 38 , 12 , 15 , 11 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 52 , 77 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , 86 ,146 , -1 , -1 , -1 ,148 , -1 , -1 ,151 , -1 ,155 , -1 , -1 , -1 , -1),
+    ( 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , 52 , -1 , 47 , 55 , 56 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , 49 , 50 , 51 , -1 , -1 , -1 , 16 , 90 , 91 , 39 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 88 ,135 , -1 , 34 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3),
+    ( 37 , -1 , 15 , -1 , 85 , -1 , -1 , -1 , 38 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 ,101 ,153 , 52 ,100 , -1 , -1 , -1 , -1 , 56 , 36 , -1 ,132 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , 83 , -1 , 39 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 55 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , 30 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48),
+    ( 38 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 ,100 ,152 , 55 , 56 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , 39 , -1 , -1 , 37 , -1 , 79 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 ,132 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2),
+    ( 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36),
+    ( 40 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  9 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , 42 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 41 , -1 , 48 , -1 , -1 , -1 , -1 , -1 ,  0 , 40 ,  8 , 10 , 11 , 12 , 13 , 49 , 90 ,127 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , 26 , -1 , -1 , -1 , -1 , 29 ,  2 , 15 , 79 , 37 , -1 , 42 , 43 , -1 , 44 , 45 , -1 , 36 , 38 , -1 , 50 , 51 , 81 , 77 , -1 , 76 , 52 ,100 ,118 ,119 , 57 ,117 , -1 ,126 , -1 , 65 , -1 , -1 ,129 ,131 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , 54 , 80 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , 34 , 55 , 87 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 ,101 ,102 , -1 ,104 ,109 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 ,120 , -1 ,143 , -1 , -1 , -1 , 60 , -1 , -1 ,140 , -1 , 66 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , -1 ,  1 ,146 ,147 , -1 ,152 , -1 ,153 ,154 , -1 , -1 , -1 , -1 , -1),
+    ( 42 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 40 , 41 ,  9 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 43 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , 41 , 42 ,  0 ,  8 , 10 , 11 , 12 , 50 , 91 ,140 , -1 , -1 , -1 , -1 , -1 , -1 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , 48 , 49 , -1 , 79 ,132 , -1 , 44 , -1 , 45 , -1 , -1 , 15 , 37 , -1 , 51 , 81 , -1 , 54 , -1 , -1 , 77 ,101 ,120 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 ,130 , -1 , 73 , 74 , -1 , -1 , -1 , -1 , -1 , 76 , 28 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , 29 , 52 , 55 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , 99 , -1 ,102 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , 94 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 ,122 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , 39 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 ,146 ,145 ,153 ,155 ,154 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 41 ,  0 ,  8 , 10 , 11 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 45 , -1 , -1 , -1 , -1 , 49 , 79 , -1 , 81 , -1 , -1 , 76 , -1 , -1 , 54 ,102 ,143 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 ,156 , -1 , -1 , 25 , 83 , -1 , -1 , 35 , -1 , -1 , -1 , 26 , 77 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 43 , 41 ,  0 ,  8 , 10 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , 54 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 55 ,151 , -1 , 87 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , 15 , 49 , 50 , -1 , -1 , -1 , -1 , 16 , 90 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , 39 , -1 , -1 , -1 , 91 , -1 , -1 , 13 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 47 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 56 ,150 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , 38 , -1 , 37 , 79 , -1 , -1 ,135 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35),
+    ( 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , 35 , -1 , -1 , 82 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 ,  0 , 25 , 26 , -1 , -1 , -1 , 28 ,  3 , -1 , 49 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 ,133 , -1 , -1 , -1 , 37 , -1 , -1 , 38 , 52 , -1 , -1 , -1 ,129 , -1 , -1 ,131 ,126 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , 79 , 10 , 50 ,  8 , -1 , -1 , -1 , -1 , -1 , 80 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , 66 , -1 , -1 , -1 , -1 , -1 , 63 , 67 , 60 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 ,143 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 ,146 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , 36 , 46 , -1 , -1 , -1 , 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 54 , -1 , 37 , 77 ,101 , -1 , -1 , -1 , 52 , -1 , 16 , -1 , -1 , -1 , -1 , 50 , -1 , 51 , 81 , -1 , -1 , -1 , -1 , 91 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , 38 , -1 , -1 , -1 , 10 , -1 , 55 , 39 , -1 , 26 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133),
+    ( 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , 15 , 36 , 46 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , 79 , 54 ,102 , -1 , -1 , -1 , 77 , -1 , 90 , -1 , -1 , -1 , -1 , 51 , -1 , 81 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , 37 , -1 , -1 , -1 ,  8 , -1 , 52 , -1 , 39 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , 49 , 15 , 36 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , 54 , -1 , 91 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , 79 , -1 , -1 , -1 ,  0 , -1 , 77 ,132 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 52 , -1 , 38 , 36 , -1 , -1 , -1 , -1 , 55 , -1 , 87 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 39 , -1 , -1 , -1 , -1 , 77 , -1 , 54 , 76 , -1 , -1 , -1 , 37 ,132 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , 61 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0),
+    ( 53 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52),
+    ( 54 , -1 , 79 , 49 , -1 , -1 , -1 , -1 , 77 , -1 , 52 , 55 , 87 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , 37 ,132 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 ,100 , -1 , -1 , -1 , 34 , 90 , -1 , 53 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 ,154 ,155 , -1 ,151 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43),
+    ( 55 ,151 , 47 , 46 , -1 , -1 , -1 , -1 , 87 , -1 , 88 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , 77 , 54 , 76 ,135 , -1 , 38 , -1 ,132 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , 71 ,113 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8),
+    ( 56 ,150 , 55 , 47 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 53 , -1 , -1 , -1 ,100 , -1 ,101 ,102 , -1 , -1 ,134 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 ,  8 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , 37 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28),
+    ( 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 ,120 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , 55 , -1 , -1 , 67 , -1 , -1 , 37 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 ,119 , -1 , -1 , -1 ,117 ,124 , 87 , -1 , -1 , -1 , 35 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , 47 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , 52 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 ,118 ,120 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 58 , -1 ,119 , -1 , 60 , -1 , 88 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 60 , -1 , 67 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , 87 , 61 , -1 , 57 , -1 , 17 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , 77 , -1 , -1 , -1 , -1 , -1 ,118 ,100 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 ,101 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1),
+    ( 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , 55 , -1 , 56 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123),
+    ( 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , 57 , 55 , -1 ,  2 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 ,118 , -1 , -1 , -1 , -1 , 41 ,  8 , 59 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 63 , -1 , 68 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , 67 , 47 , -1 , -1 , -1 ,  2 , -1 ,  0 , 41 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , 38 , 66 , -1 , -1 , -1 , -1 , -1 , 48 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 64 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , 58 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , 17 , 56 , -1 ,  0 , -1 , -1 ,120 , 57 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 ,127 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 65 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 ,100 , -1 , 41 , -1 , -1 ,143 ,118 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 ,140 , -1 , -1 , -1 , -1 , -1 , 25 , 17 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , 38 , -1 , -1 , -1 , -1 ,120 ,143 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , 60 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , 55 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 ,124 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , 57 ,118 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , 88 , -1 , -1 , 77 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128),
+    ( 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 ,116 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 ,  3 , -1 ,  2 , 48 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 69 , -1 , 64 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 ,140 , 17 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 ,127 , 43 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 70 , -1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 73 , -1 , 74 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 74 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 75 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1),
+    ( 76 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 54 , -1 , 77 , 52 , 55 , 87 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 ,101 , -1 , 47 , -1 , 29 , 91 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , 31 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 ,153 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44),
+    ( 77 ,155 , 37 , 15 , -1 , 85 , -1 , -1 , 52 , -1 , 55 , 87 , 88 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , 76 , -1 , -1 , 39 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , 86 , 16 , -1 , -1 ,134 , 31 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,151 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41),
+    ( 78 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 87 , 88 , -1 , -1 , 80 , -1 , 28 , 25 , -1 , -1 , -1 , 10 , 47 , 38 , 37 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 ,100 , -1 , -1 , 55 , -1 , 79 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 79 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , 38 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 ,102 ,154 , 77 ,101 , -1 , -1 , -1 , -1 ,100 , 15 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , 83 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , 52 , -1 , -1 , -1 , 80 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 80 ,149 , 10 , -1 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 ,144 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 55 , 87 , -1 , -1 , 28 , -1 , 25 , -1 , -1 , -1 , 88 ,  8 , 38 , 37 , 79 , -1 , -1 ,100 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 ,101 , 56 , -1 , 52 , -1 , -1 , 14 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , 63 ,116 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1),
+    ( 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , 50 , 49 , 15 , 36 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , 54 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , -1 , 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , 14 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 83 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 37 , 38 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , 76 , -1 , 15 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , -1 , 10 ,  8 ,  0 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , 86 , -1 , 80 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , 36 , 38 , 52 ,100 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 86 , -1 , 78 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , 34 , -1 , 29 , 26 , -1 , -1 , -1 , 80 , 55 , 52 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , 54 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , 55 , -1 , 52 , 77 , 54 , -1 , -1 , 47 , 39 , -1 ,132 ,134 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10),
+    ( 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 55 , 52 , 77 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 ,134 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11),
+    ( 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , 29 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , 30 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 31 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , 77 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 32 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , 39 , -1 , -1 , 77 , -1 , -1 ,  8 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 90 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , 54 , -1 , -1 ,  0 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 93 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , 34 , 29 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 31 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , 55 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 92),
+    ( 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 19 , 20 , 21 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 ,  8 , 41 ,104 ,109 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 ,115 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , 39 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , 87 , 52 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 97 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , 86 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , 87 , 86 , -1 , 20 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , 11 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , 52 , 29 , 20 , -1 , -1 , -1 , -1 ,100 ,101 , -1 ,105 , -1 ,  8 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (100 ,152 , 52 , 38 , 36 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , 53 , -1 , -1 ,101 , -1 ,102 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 ,  0 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25),
+    (101 ,153 , 77 , 37 , 15 , -1 , 85 , -1 ,100 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,112 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , 53 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , 32 , -1 , -1 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , 99 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (102 ,154 , 54 , 79 , 49 , -1 , -1 , -1 ,101 , -1 ,100 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 ,152 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (103 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 ,101 , -1 , -1 , -1 , -1 , -1 , 41 , 94 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , 99 , -1 , -1 ,  0 , 41 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , 38 , -1 , 35 ,  8 , -1 , -1 , -1 ,128 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 ,  0 , 41 , 43 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , 35 , -1 , -1 , -1 , 19 , 99 , -1 ,  8 ,  0 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , 11 ,  8 , -1 ,103 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 ,102 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (110 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (111 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (112 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (113 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1),
+    (114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 ,  8 ,  0 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , 47 ,129 , -1 , -1 , -1 , -1 , -1 ,  2 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (117 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , 60 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , 55 , -1 , -1 ,118 , -1 ,127 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , 54 , -1 , -1 , -1 , 61 , -1 ,120 ,101 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 ,102 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , 58 , 52 , -1 , -1 ,129 , -1 , -1 , 79 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , 77 , -1 , -1 , -1 , -1 , -1 , 60 , 55 , 56 , -1 , -1 ,  2 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 ,  8 , 77 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62),
+    (120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , 57 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , 77 , -1 , -1 , 66 , -1 , -1 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , 54 , -1 , -1 , -1 , -1 , -1 ,117 , 52 ,100 , -1 , -1 , 48 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 ,130 , -1 ,123 , 61 ,122 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (122 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , 52 , 60 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (123 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 ,124 , 87 , -1 , -1 , -1 ,  8 , -1 , 28 , 25 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , 55 ,117 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121),
+    (124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 ,117 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 88 , -1 , -1 , 59 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , 55 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , 57 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 ,100 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (125 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , 61 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , 64 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 ,118 , 52 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 ,120 , -1 , -1 , -1 ,158 , 43 ,  0 , 57 , 17 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (127 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 ,117 , -1 , -1 , 54 , 52 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 ,  0 , 77 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , 66 , -1 ,124 , 35 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 ,  2 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , 47 , -1 , -1 , -1 , -1 ,118 ,120 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , 79 , -1 , -1 , -1 , -1 , 61 , -1 , 77 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , 87 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , 63 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , 63 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (132 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49),
+    (133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 48 , 41 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , 49 ,132 , 51 , 15 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 81 , 50 , 35 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 ,  8 , 36 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (134 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87),
+    (135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 ,118 ,120 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , 25 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , 69 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 ,127 ,140 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , 11 , 87 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 72 , 71 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 ,157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (140 , -1 ,120 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , 17 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , 76 , 77 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 ,102 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , 41 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1),
+    (142 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 24 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 ,118 , 57 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 ,127 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , 77 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (144 , -1 , 34 , 80 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , 30 , -1 , -1 , -1 , -1 , -1 , -1 , 29 ,100 ,101 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (145 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 ,152 , -1 ,154 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 ,152 ,153 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (147 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 ,146 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (149 , -1 ,147 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,148 , -1 ,151 , -1 , -1 , -1 , -1 , -1 ,145 , -1 , -1 , -1 , -1 ,146 , -1 , -1 , -1 , -1 , -1 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (150 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 ,153 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146),
+    (152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,154 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145),
+    (153 , -1 ,155 , -1 , -1 , -1 , -1 , -1 ,152 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,152 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 , -1 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (156 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (158 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , 48 ,  2 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 ,133 , -1 , -1 ,  0 , 52 , 43 ,  8 , 28 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , 11 , -1 , -1 , -1 , -1 , 92 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 ,145 , -1 , -1 , -1 , -1 , -1 , -1)
   );
 
   { Div Table }
 
-  DivTable : array[0..157, 0..157] of longint = (
-    (  0 , -1 , 25 , 26 , -1 , -1 , -1 , -1 , 41 , 40 , 43 , 44 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 ,139 , -1 ,  2 ,  3 , -1 , 48 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 ,  9 ,  8 , -1 , 10 , 11 , 12 , -1 , -1 , 28 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , 63 ,116 , -1 , -1 , 69 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , 91 , -1 , 19 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 ,105 ,107 ,103 ,100 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 ,123 ,128 ,127 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  1 ,  0 ,145 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,147 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , 41 , 43 , 44 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1),
-    (  2 , -1 ,  0 , 25 , 26 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , 82 , -1 , -1 ,  8 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , 62 , 68 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 ,118 , -1 , -1 , -1 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  3 , -1 ,  2 ,  0 , 25 , 26 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 ,  5 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  4 , -1 ,  3 ,  2 ,  0 , 25 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  5 ,  6 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  5 , -1 ,  4 ,  3 ,  2 ,  0 , 25 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  6 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  6 , -1 ,  5 ,  4 ,  3 ,  2 ,  0 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  7 , -1 ,  6 ,  5 ,  4 ,  3 ,  2 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  8 , -1 , 28 , 29 , 30 , 31 , 32 , 33 ,  0 ,  9 , 41 , 43 , 44 , 45 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , 11 , 12 , 13 , -1 , -1 , 80 , -1 , 84 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 ,123 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , 50 , 89 ,133 , -1 , -1 , 85 , 92 , -1 , 90 , -1 , 98 , -1 , -1 , -1 , 94 ,108 , -1 , -1 , -1 ,107 , -1 , -1 , 56 ,103 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 ,121 , -1 ,119 , -1 , 62 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (  9 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 40 ,  0 , 42 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 10 , -1 , 80 , 34 ,144 , -1 , -1 , -1 ,  8 , -1 ,  0 , 41 , 43 , 44 , 45 , -1 , 92 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 ,  3 , 28 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 12 , 13 , 14 , -1 , -1 , 78 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 ,  2 , -1 , -1 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 11 , -1 , 78 , 86 , -1 , -1 , -1 , -1 , 10 , -1 ,  8 ,  0 , 41 , 43 , 44 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 13 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , 35 , -1 , -1 , -1 , 15 , 93 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 10 ,  8 ,  0 , 41 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 84 , -1 , -1 , -1 , -1 , 13 , -1 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , 25 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 11 , 10 ,  8 ,  0 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 14 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , 12 , 11 , 10 ,  8 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 15 , -1 , 37 , 77 ,101 , -1 , -1 , -1 , 49 , -1 , 50 , 51 , 81 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 41 ,  2 , 48 , -1 , -1 , 36 , -1 , 46 , -1 , -1 , 43 , -1 , 38 ,  8 , 10 , 11 , -1 , -1 , -1 ,133 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , 35 , -1 , 12 , 83 , 82 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , 94 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 ,119 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 16 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , 90 , -1 , 91 , -1 , -1 , -1 , -1 , 15 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , 36 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 ,  8 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , 64 , -1 , -1 , -1 , 60 ,124 , -1 , 69 , -1 , 67 , -1 , -1 , -1 , -1 , -1 ,157 , -1 , -1 ,143 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , 80 , -1 , -1 , -1 , 65 ,126 ,125 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , 43 , -1 , -1 , 10 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75),
-    ( 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , 64 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 20 , -1 , -1 , -1 , 41 ,  8 ,107 , -1 , -1 , -1 , -1 , 56 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 ,139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 20 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 ,  0 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 21 , -1 , -1 , -1 , 99 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 21 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 20 , 19 ,  0 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 21 , 20 , 19 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,110 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 23 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 24 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 25 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 ,  2 , -1 , 41 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , 80 , 78 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 ,123 ,136 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 ,139 , -1 , -1 , 44 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , 66 , -1 , -1 , 75 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 ,  0 , -1 , -1 , 41 , 48 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , 34 , 86 , -1 , -1 , -1 , 30 , 89 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , 49 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 27 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 ,  1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 28 , -1 , 29 , 30 , 31 , 32 , 33 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , 35 , -1 ,  0 ,  2 ,  3 ,  4 ,  5 ,  6 , 48 , 26 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , 78 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 29 , -1 , 30 , 31 , 32 , 33 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 ,  8 , -1 , 25 ,  0 ,  2 ,  3 ,  4 ,  5 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , 86 , -1 , -1 , -1 , -1 ,144 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , 43 , -1 , -1 , 15 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , 99 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 30 , -1 , 31 , 32 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , 28 , -1 , 26 , 25 ,  0 ,  2 ,  3 ,  4 , -1 , -1 , -1 , 89 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 31 , -1 , 32 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , 29 , -1 , -1 , 26 , 25 ,  0 ,  2 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 32 , -1 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 31 , 30 , -1 , -1 , -1 , 26 , 25 ,  0 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 32 , 31 , -1 , -1 , -1 , -1 , 26 , 25 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 34 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , 97 , -1 , -1 , -1 , -1 , -1 , 80 , 10 , -1 , 28 ,  8 , 35 , -1 , -1 , -1 ,  0 , 30 , 89 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , 54 , -1 , 41 , -1 , -1 , 36 , -1 , -1 ,132 , 49 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 35 , -1 ,  8 , 28 , 29 , 30 , 31 , 32 ,  2 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 ,  4 ,  5 ,  6 ,  7 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 ,128 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 36 , -1 , 38 , 52 ,100 , -1 , -1 , -1 , 15 , -1 , 49 , 50 , 51 , 81 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , 37 ,  0 , 35 ,  2 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , 41 , 48 , 47 , 10 , 11 , 12 ,  3 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , -1 , 91 , 29 , -1 ,133 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 37 , -1 , 77 ,101 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , 83 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 ,  0 , 41 , -1 , -1 , 38 , -1 , 47 , -1 , -1 , -1 , 43 , 52 , 28 , 80 , 78 , 48 , -1 , 35 , -1 ,133 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , 51 ,  8 , 50 , -1 , -1 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 38 , -1 , 52 ,100 , -1 , -1 , -1 , -1 , 37 , -1 , 79 , -1 , -1 , 83 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , 15 , -1 , 85 , -1 , -1 , -1 , -1 , 77 , 25 ,  8 ,  0 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , 41 , 55 , 80 , 78 , -1 ,  2 ,106 , -1 , 48 , -1 ,129 , -1 , 66 , -1 , -1 , -1 ,119 , -1 , -1 , 59 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , 50 , 10 , 49 , -1 , -1 , 13 , -1 , 30 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 39 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , 55 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 , 52 , 47 , 38 ,  0 , -1 , -1 , -1 ,135 , -1 , -1 , 77 , 37 , -1 , 87 , 88 , -1 , 36 ,  3 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 90 , 49 , 50 , -1 , 86 , -1 , -1 , -1 , -1 , 96 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 ,134 ,133 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 40 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 42 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 ,  9 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , 42 , 44 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 40 ,  0 ,  9 ,  8 , 10 , 11 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , 65 , -1 , 63 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 , -1 , 94 , -1 ,106 , -1 , -1 ,105 ,104 ,101 ,109 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , 69 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 42 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , 40 ,  0 ,  9 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 42 , 41 , 40 ,  0 ,  8 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 ,109 ,102 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , 69 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , 42 , 41 ,  0 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 ,139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 43 , 41 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 46 , -1 , 47 , 55 , 56 , -1 , -1 , -1 , 36 , -1 , 15 , 49 , 50 , 51 , 81 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , 38 ,  8 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 ,  2 , -1 , 11 , 12 , 13 , -1 , -1 , -1 ,  3 ,  4 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 14 , -1 , -1 , 90 , 34 , -1 , -1 ,133 , -1 , 84 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 47 , -1 , 55 , 56 , -1 , -1 , -1 , -1 , 38 , -1 , 37 , 79 , -1 , -1 , 83 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , 28 , 10 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 ,  0 , 87 , 78 , -1 , -1 , 35 , -1 , -1 ,  2 ,  3 , 67 , 63 ,129 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , 49 , 11 , 15 , -1 , 76 , 14 , -1 ,144 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 48 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , 35 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 ,131 , 68 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , 63 , -1 ,120 , -1 , -1 , 64 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 49 , -1 , 79 , 54 ,102 , -1 , -1 , -1 , 50 , -1 , 51 , 81 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , 48 , -1 , -1 , -1 , 15 , -1 , 36 , 46 , -1 , 44 , -1 , 37 ,  0 ,  8 , 10 ,133 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 50 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , 51 , -1 , 81 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , 49 , -1 , 15 , 36 , 46 , 45 , -1 , 79 , 41 ,  0 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 ,133 , -1 , 48 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 83 , 45 , -1 , -1 , -1 , -1 , 50 , -1 , 49 , 15 , 36 , -1 , -1 , -1 , 43 , 41 ,  0 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 52 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , 54 , 76 , -1 , -1 , -1 , 29 , 89 ,129 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , 36 , -1 , 37 , 15 , -1 , 85 , -1 , -1 , 49 ,101 , 26 , 28 , 25 , -1 , -1 , 55 , -1 , 87 , 88 , -1 , -1 , -1 , 56 , 34 , 86 , -1 ,  0 , -1 , 10 , 41 , 48 ,117 ,122 , -1 ,118 ,126 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 ,  8 , -1 , 80 , 79 , -1 , -1 , -1 , -1 , 31 , 50 , 43 , 44 , 16 , -1 , 93 , -1 , 91 , -1 , -1 , 99 , -1 , -1 , 96 ,  2 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , 60 , -1 ,124 , -1 , 58 , -1 ,120 , -1 , 61 , 67 , -1 , 17 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , 56 ,100 , 26 , -1 , -1 , -1 ,134 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , 52 ,  0 , 87 , 77 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 54 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 49 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , 52 , 55 , 87 , -1 , -1 ,101 , 26 , 29 , 34 , 43 , -1 ,  0 , 44 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , 41 , 83 , 25 , -1 , 86 , -1 , 78 , -1 , -1 , 81 , 45 , -1 , 91 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 ,120 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 ,113 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 55 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , 77 , 54 , 76 , -1 , -1 , 34 , -1 , 67 , 68 , 96 , -1 , -1 , -1 ,113 , -1 , 47 , 46 , -1 , 38 , 36 , -1 , -1 , -1 , -1 , 15 ,100 , 29 , 80 , 28 , -1 , -1 , 87 , -1 , 88 , -1 , -1 , 26 , 25 , -1 , 86 , -1 , -1 ,  8 , -1 , 11 ,  0 ,  2 , 60 , -1 ,117 , 57 , 62 , 61 , -1 , -1 , -1 ,137 , 17 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , 10 , 79 , 78 , 37 , -1 , -1 , -1 , -1 , -1 , 49 , 41 , 43 , -1 , 93 , -1 , -1 , 90 , -1 , 97 , 19 , 95 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 ,115 ,114 , -1 , 59 ,124 ,123 , -1 , -1 , -1 ,119 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 ,101 ,102 , -1 , -1 , -1 ,144 , -1 , 60 , 63 ,103 , -1 , -1 ,111 , -1 , -1 , 55 , 47 , -1 , 52 , 38 , 36 , -1 , -1 , -1 , 37 , -1 , 30 , 34 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , 28 , -1 , 78 , 25 ,  0 , -1 , -1 , -1 , 17 , 64 , -1 , 18 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 , 80 , 54 , 86 , 77 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,  8 , 10 , 11 , 19 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , 75 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 ,127 ,118 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 57 , -1 , 17 , -1 , -1 , -1 , -1 , -1 ,118 , -1 ,120 ,143 , -1 , -1 , -1 ,136 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 ,157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 41 , 62 , -1 , 60 , -1 , 67 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , 10 , -1 , -1 , -1 ,126 , -1 ,124 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23),
-    ( 58 , -1 , -1 , 18 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , 57 ,  0 ,118 , -1 , -1 , 55 , -1 , 47 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 ,118 ,120 ,143 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 ,  0 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , 11 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , 48 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 ,  0 , -1 , -1 , 17 , -1 , -1 , 80 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 ,  8 ,123 , -1 , -1 , -1 , 59 ,118 , 41 , 48 , -1 ,116 ,100 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 ,121 , -1 , -1 , 63 , -1 , -1 , -1 , 60 ,  0 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 ,124 , -1 , -1 , -1 , 53 , 87 , 52 ,117 ,129 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 62 , -1 , 64 , 69 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 ,  2 , 35 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 ,121 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 ,128 , -1 , -1 , -1 , 37 , 35 , 48 , -1 , -1 , -1 , -1 ,117 , -1 , 80 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 64 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 ,  0 ,  8 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 ,  0 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 67 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 ,  0 , 43 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , 48 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , 54 , 41 , 17 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 67 , -1 , 60 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , 63 , -1 , -1 ,  2 , -1 , -1 , 57 , -1 , -1 , 10 ,  0 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , 35 ,116 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , 52 ,  8 ,137 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 68 , -1 , 63 , -1 , -1 , -1 , -1 , -1 ,131 , -1 ,130 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 ,129 ,128 , 10 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , 62 , -1 , 65 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , 25 , 28 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 70 , 24 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 25 , 78 , 10 , 80 , -1 , -1 , -1 , 72 , -1 , 74 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 ,147 , -1 , -1 , -1 , -1 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 71 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 ,  0 , 11 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , 71 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 ,  0 , 48 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 73 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 28 ,  0 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 74 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 ,  8 ,  2 ,  0 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1),
-    ( 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , 77 , 52 , 55 , -1 , -1 ,102 , -1 , 26 , 29 , 44 , -1 , 41 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 43 , -1 , -1 , 83 , 34 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 77 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , 76 , -1 , -1 , -1 , -1 , 26 , -1 , 66 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , 15 , -1 , 79 , 49 , -1 , -1 , -1 , -1 , 50 ,102 , -1 , 25 , -1 , -1 , -1 , 52 , -1 , 55 , 87 , 88 , -1 , -1 ,100 , 29 , 34 , 86 , 41 , -1 ,  8 , 43 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , 17 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 ,  0 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , 44 , 45 , 90 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 ,  2 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 ,117 ,122 , 60 , -1 ,119 , -1 ,143 , -1 , -1 ,129 , -1 ,127 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 78 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , 28 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , 35 , 34 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 ,  8 , -1 , -1 , -1 , 37 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 79 , -1 , 54 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , 41 , 43 , -1 , -1 , 37 , -1 , 38 , 47 , -1 , -1 , 44 , 77 , 25 , 28 , 80 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , 48 , 81 ,  0 , 51 , 78 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 80 , -1 , 34 ,144 , -1 , -1 , -1 , -1 , 28 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 ,  8 , 35 , -1 , -1 , -1 , -1 ,  2 , 29 , -1 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , 84 ,  0 , -1 , -1 , -1 , 79 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 81 , -1 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , 50 , 49 , 15 , -1 , -1 , -1 , 44 , 43 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 ,  0 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 82 , -1 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 ,  2 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 25 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 84 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 85 , -1 , -1 , 15 , 37 , 77 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  5 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  6 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , 29 , 26 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 11 , -1 , 80 , 10 , -1 , -1 , -1 , -1 ,  8 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , 25 , -1 , 28 , -1 , -1 , -1 , 77 , -1 ,  0 , -1 , -1 , 46 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , 98 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , 52 , 77 , 54 , 76 , -1 , 86 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 46 , -1 , -1 , -1 , -1 , 36 , 56 , 34 , 78 , 80 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , 29 , 28 , -1 , -1 , -1 , -1 , 10 , -1 , 12 ,  8 , 35 ,124 ,123 , 60 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , 11 , 37 , -1 , 38 , -1 ,102 , -1 ,132 , -1 , 15 ,  0 , 41 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , 98 , -1 , 96 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , 57 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , 84 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 55 , 52 , 77 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , 86 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , 80 , -1 , -1 , -1 , -1 , 11 , -1 , 13 , 10 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 14 , 12 , 38 , -1 , 47 , -1 ,101 , -1 , -1 , -1 , 36 ,  8 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , 54 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , 15 , 36 , 46 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 ,  0 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , 90 , -1 , 16 , -1 , -1 , 81 , -1 , -1 , 49 , 15 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , 41 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , 52 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 ,104 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , 49 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 96 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 ,  0 , 15 , -1 , -1 , -1 , -1 , -1 ,  2 , 35 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    ( 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 ,  0 ,105 ,107 , -1 , -1 , -1 ,100 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 ,102 , -1 , -1 , -1 , -1 , 30 , -1 ,117 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , 52 , 38 , -1 , 77 , 37 , 15 , -1 , 85 , -1 , 79 , -1 , -1 , 29 , 26 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , 25 , -1 , 80 , -1 , 41 , -1 , -1 , -1 ,127 , 65 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 28 , 76 , 34 , 54 , -1 , -1 , -1 , -1 , 32 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,109 ,103 ,  0 ,  8 , 10 , 99 , 19 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 ,125 , -1 , -1 , -1 ,140 ,120 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , 77 , 37 , -1 , 54 , 79 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 ,100 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , 30 ,144 , -1 , -1 , -1 , 28 , -1 , 43 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , 25 , -1 , 29 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , 41 ,  0 ,  8 , -1 , 99 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 ,125 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , 79 , -1 , 76 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 ,100 , 56 , -1 , -1 , -1 , -1 , -1 , 30 ,144 , -1 , -1 , 25 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , 26 , -1 , -1 , -1 , 86 , -1 , -1 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,109 , 43 , 41 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 ,156 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1),
-    (103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,111 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , 25 , 37 , -1 , -1 , -1 ,108 , -1 ,  0 ,  8 , -1 , -1 , -1 ,101 , 10 , -1 , 21 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , 79 , -1 , -1 , 94 , -1 ,108 , 41 ,  0 , -1 , -1 , -1 ,102 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 ,  0 , 99 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , 19 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (108 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , 43 , 41 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (110 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (111 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (112 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (113 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,139 , -1 , -1 , -1 , -1 ,157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60),
-    (114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 ,139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (116 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 ,106 , -1 ,  8 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , 38 , -1 ,  2 , -1 , -1 , -1 , -1 , 60 , -1 , 78 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , 41 , -1 , -1 ,127 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 ,  0 , -1 , -1 ,123 , -1 , 57 ,120 , 43 , -1 , -1 , 63 ,101 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (118 , -1 ,127 , -1 , -1 , -1 , -1 , -1 ,120 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , 59 , -1 , -1 , -1 , -1 , 17 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , 43 ,126 , -1 ,117 , -1 ,129 , 67 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 ,  0 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , 60 ,  2 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , -1 , -1 , 35 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , 64 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , 62 , -1 , -1 ,126 , -1 ,118 , 41 ,120 , -1 , -1 , 52 , -1 , 38 , 47 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 ,  0 , 59 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (120 , -1 ,140 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , 57 , 59 , -1 , -1 , -1 ,127 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 44 , -1 , -1 , -1 , -1 , 66 ,129 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , 41 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 ,117 , 48 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 ,  2 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 ,  0 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , 63 , 68 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , 52 , 10 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (124 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , 60 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 ,123 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , 78 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , 10 , -1 , -1 , -1 , -1 , -1 , 57 ,  0 ,  2 , -1 , -1 , 56 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , 60 , 67 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , 86 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , -1 , -1 , -1 ,137 , 17 , 25 ,  0 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (126 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , 48 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 ,117 , 60 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , 25 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 44 , -1 , -1 ,  8 , -1 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (129 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 ,118 , -1 , -1 ,  8 , 41 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 ,  2 , 63 , -1 ,116 , -1 , -1 , -1 , -1 ,133 , -1 , 68 , 77 ,  0 , -1 , 17 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (131 , -1 , -1 ,122 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , 63 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 ,128 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 ,  3 ,133 , -1 , -1 , -1 , -1 , 66 , -1 ,  8 ,  0 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , 90 , -1 , -1 , -1 , -1 , 91 , -1 , 54 , 37 , 79 , 43 , -1 , -1 , -1 , 39 , -1 ,135 , 76 , -1 , -1 , 52 , 55 , 87 , 49 ,133 , 36 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , 15 , -1 , 38 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , 51 , 81 , -1 , 29 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 53 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (133 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , 62 ,126 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , 87 , 10 , -1 , 55 , 47 , -1 , 61 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (135 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 ,132 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 ,  3 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 ,127 ,140 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 ,  0 , -1 , -1 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , 17 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , 69 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 45 , -1 , -1 ,  0 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (141 , -1 ,156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1),
-    (142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 24 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 ,118 , 57 , 59 , -1 , -1 ,140 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , 66 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , 48 ,157 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141),
-    (144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , 80 , -1 , 29 , 28 ,  8 , 35 , -1 , -1 , 25 , 31 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , 26 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (145 , 25 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (146 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 , -1 , -1 , -1 , -1 , -1 ,147 , -1 ,148 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 ,  0 , 41 , 43 , 48 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (147 , 10 ,149 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 ,  0 , 41 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (148 , 11 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 ,146 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 ,  8 ,  0 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (149 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 , -1 ,146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , 28 , 25 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
-    (150 , 56 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 ,153 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 ,147 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 ,100 ,101 ,102 , 77 ,  0 , 25 ,  8 , 10 , 11 , 80 , -1 , -1),
-    (151 , 55 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 ,145 , -1 , -1 , -1 , -1 ,146 , -1 ,148 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 52 , 77 , 54 , 37 ,  2 ,  0 , 35 , -1 , -1 , 10 , -1 , -1),
-    (152 ,100 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 ,146 ,147 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 ,101 ,102 , -1 , 54 , 41 , -1 ,  0 ,  8 , 10 , 28 , -1 , -1),
-    (153 ,101 , -1 , -1 , -1 , -1 , -1 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 ,152 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 ,145 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 ,146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 ,102 , -1 , -1 , 76 , 43 , -1 , 41 ,  0 ,  8 , 25 , -1 , -1),
-    (154 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,152 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , 44 , -1 , 43 , 41 ,  0 , -1 , -1 , -1),
-    (155 , 77 ,153 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,154 , -1 ,145 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 ,152 , -1 , -1 , -1 , -1 , -1 ,146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , 54 , 76 , -1 , -1 , -1 , 43 , 48 ,  2 , 35 ,  0 , -1 , -1),
-    (156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1),
-    (157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0)
+  DivTable : array[0..158, 0..158] of longint = (
+    (  0 , -1 , 25 , 26 , -1 , -1 , -1 , -1 , 41 , 40 , 43 , 44 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 ,139 , -1 ,  2 ,  3 , -1 , 48 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 ,  9 ,  8 , -1 , 10 , 11 , 12 , -1 , -1 , 28 , -1 , -1 , 84 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , 63 ,116 , -1 , -1 , 69 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , 91 , -1 , 19 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 ,105 ,107 ,103 ,100 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 ,123 ,128 ,127 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52),
+    (  1 ,  0 ,145 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,147 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , 41 , 43 , 44 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  2 , -1 ,  0 , 25 , 26 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 ,158 , -1 , -1 , 35 , -1 , -1 , -1 , 82 , -1 , -1 ,  8 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , 62 , 68 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 ,118 , -1 , -1 , -1 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38),
+    (  3 , -1 ,  2 ,  0 , 25 , 26 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 ,  5 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 ,158 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36),
+    (  4 , -1 ,  3 ,  2 ,  0 , 25 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  5 ,  6 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  5 , -1 ,  4 ,  3 ,  2 ,  0 , 25 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  6 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  6 , -1 ,  5 ,  4 ,  3 ,  2 ,  0 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  7 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  7 , -1 ,  6 ,  5 ,  4 ,  3 ,  2 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (  8 , -1 , 28 , 29 , 30 , 31 , 32 , 33 ,  0 ,  9 , 41 , 43 , 44 , 45 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 ,  2 ,  3 ,  4 ,  5 ,  6 ,  7 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , 11 , 12 , 13 , -1 , -1 , 80 , -1 , 84 , -1 , -1 , -1 , -1 ,158 ,106 , -1 , -1 , -1 , -1 , -1 ,123 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , 50 , 89 ,133 , -1 , -1 , 85 , 92 , -1 , 90 , -1 , 98 , -1 , -1 , -1 , 94 ,108 , -1 , -1 , -1 ,107 , -1 , -1 , 56 ,103 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 ,121 , -1 ,119 , -1 , 62 , -1 , -1 , -1 , -1 , 17 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55),
+    (  9 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 40 ,  0 , 42 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 10 , -1 , 80 , 34 ,144 , -1 , -1 , -1 ,  8 , -1 ,  0 , 41 , 43 , 44 , 45 , -1 , 92 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 ,  3 , 28 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 12 , 13 , 14 , -1 , -1 , 78 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 ,  2 , -1 , -1 , -1 , 49 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87),
+    ( 11 , -1 , 78 , 86 , -1 , -1 , -1 , -1 , 10 , -1 ,  8 ,  0 , 41 , 43 , 44 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 13 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , 35 , -1 , -1 , -1 , 15 , 93 ,  3 , -1 ,158 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88),
+    ( 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , 10 ,  8 ,  0 , 41 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 84 , -1 , -1 , -1 , -1 , 13 , -1 , 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , 25 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , 11 , 10 ,  8 ,  0 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 14 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 14 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , 12 , 11 , 10 ,  8 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 15 , -1 , 37 , 77 ,101 , -1 , -1 , -1 , 49 , -1 , 50 , 51 , 81 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 41 ,  2 , 48 , -1 , -1 , 36 , -1 , 46 , -1 , -1 , 43 , -1 , 38 ,  8 , 10 , 11 , -1 , -1 , -1 ,133 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , 35 , -1 , 12 , 83 , 82 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , 94 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 ,119 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 16 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , 90 , -1 , 91 , -1 , -1 , -1 , -1 , 15 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , 36 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 ,  8 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , 64 , -1 , -1 , -1 , 60 ,124 , -1 , 69 , -1 , 67 , -1 , -1 , -1 , -1 , -1 ,157 , -1 , -1 ,143 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , 80 , -1 , -1 , -1 , 65 ,126 ,125 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , 43 , -1 , -1 , 10 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1),
+    ( 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , 64 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 20 , -1 , -1 , -1 , 41 ,  8 ,107 , -1 , -1 , -1 , -1 , 56 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 ,139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 20 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 ,  0 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 21 , -1 , -1 , -1 , 99 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 21 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 20 , 19 ,  0 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 21 , 20 , 19 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,110 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 23 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 24 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 25 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 ,  2 , -1 , 41 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , 80 , 78 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 ,123 ,136 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 ,139 , -1 , -1 , 44 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , 66 , -1 , -1 , 75 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100),
+    ( 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 ,  0 , -1 , -1 , 41 , 48 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , 34 , 86 , -1 , -1 , -1 , 30 , 89 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , 49 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 27 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 ,  1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 28 , -1 , 29 , 30 , 31 , 32 , 33 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , 35 , -1 ,  0 ,  2 ,  3 ,  4 ,  5 ,  6 , 48 , 26 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , 78 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56),
+    ( 29 , -1 , 30 , 31 , 32 , 33 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 ,  8 , -1 , 25 ,  0 ,  2 ,  3 ,  4 ,  5 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , 86 , -1 , -1 , -1 , -1 ,144 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , 43 , -1 , -1 , 15 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , 99 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 30 , -1 , 31 , 32 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , 28 , -1 , 26 , 25 ,  0 ,  2 ,  3 ,  4 , -1 , -1 , -1 , 89 , -1 , -1 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 31 , -1 , 32 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , 29 , -1 , -1 , 26 , 25 ,  0 ,  2 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 32 , -1 , 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 31 , 30 , -1 , -1 , -1 , 26 , 25 ,  0 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 33 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 32 , 31 , -1 , -1 , -1 , -1 , 26 , 25 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 34 , -1 ,144 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , 97 , -1 , -1 , -1 , -1 , -1 , 80 , 10 , -1 , 28 ,  8 , 35 , -1 , -1 , -1 ,  0 , 30 , 89 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , 54 , -1 , 41 , -1 , -1 , 36 , -1 , -1 ,132 , 49 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 35 , -1 ,  8 , 28 , 29 , 30 , 31 , 32 ,  2 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 ,  4 ,  5 ,  6 ,  7 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 ,158 , 10 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 ,128 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47),
+    ( 36 , -1 , 38 , 52 ,100 , -1 , -1 , -1 , 15 , -1 , 49 , 50 , 51 , 81 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , 37 ,  0 , 35 ,  2 ,158 , -1 , 46 , -1 , -1 , -1 , -1 , 41 , 48 , 47 , 10 , 11 , 12 ,  3 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , -1 , 91 , 29 , -1 ,133 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39),
+    ( 37 , -1 , 77 ,101 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , 83 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 ,  0 , 41 , -1 , -1 , 38 , -1 , 47 , -1 , -1 , -1 , 43 , 52 , 28 , 80 , 78 , 48 , -1 , 35 , -1 ,133 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , 51 ,  8 , 50 , -1 , -1 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 38 , -1 , 52 ,100 , -1 , -1 , -1 , -1 , 37 , -1 , 79 , -1 , -1 , 83 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , -1 , -1 , 15 , -1 , 85 , -1 , -1 , -1 , -1 , 77 , 25 ,  8 ,  0 , -1 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , 41 , 55 , 80 , 78 , -1 ,  2 ,106 , -1 , 48 , -1 ,129 , -1 , 66 , -1 , -1 , -1 ,119 , -1 , -1 , 59 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , 50 , 10 , 49 , -1 , -1 , 13 , -1 , 30 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 39 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , -1 , -1 , 55 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 , 52 , 47 , 38 ,  0 , -1 , -1 , -1 ,135 , -1 , -1 , 77 , 37 , -1 , 87 , 88 , -1 , 36 ,  3 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 90 , 49 , 50 , -1 , 86 , -1 , -1 , -1 , -1 , 96 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 ,134 ,133 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 40 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 42 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 ,  9 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , 42 , 44 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 40 ,  0 ,  9 ,  8 , 10 , 11 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , 65 , -1 , 63 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , 84 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 , -1 , 94 , -1 ,106 , -1 , -1 ,105 ,104 ,101 ,109 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , 69 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77),
+    ( 42 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , 40 ,  0 ,  9 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 42 , 41 , 40 ,  0 ,  8 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 ,109 ,102 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , 69 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54),
+    ( 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , 42 , 41 ,  0 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 ,139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76),
+    ( 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 43 , 41 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 46 , -1 , 47 , 55 , 56 , -1 , -1 , -1 , 36 , -1 , 15 , 49 , 50 , 51 , 81 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , 38 ,  8 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 ,  2 , -1 , 11 , 12 , 13 , -1 , -1 , -1 ,  3 ,  4 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 14 , -1 , -1 , 90 , 34 , -1 , -1 ,133 , -1 , 84 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 47 , -1 , 55 , 56 , -1 , -1 , -1 , -1 , 38 , -1 , 37 , 79 , -1 , -1 , 83 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , 28 , 10 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 ,  0 , 87 , 78 , -1 , -1 , 35 , -1 , -1 ,  2 ,  3 , 67 , 63 ,129 , -1 , -1 , -1 , 58 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , 49 , 11 , 15 , -1 , 76 , 14 , -1 ,144 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 48 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 ,158 , -1 , -1 , -1 ,  2 , -1 , 35 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 ,131 , 68 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , 63 , -1 ,120 , -1 , -1 , 64 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37),
+    ( 49 , -1 , 79 , 54 ,102 , -1 , -1 , -1 , 50 , -1 , 51 , 81 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , 48 , -1 , -1 , -1 , 15 , -1 , 36 , 46 , -1 , 44 , -1 , 37 ,  0 ,  8 , 10 ,133 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119 , -1 ,158 , 52 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132),
+    ( 50 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , 51 , -1 , 81 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , 49 , -1 , 15 , 36 , 46 , 45 , -1 , 79 , 41 ,  0 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 ,133 , -1 , 48 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 83 , 45 , -1 , -1 , -1 , -1 , 50 , -1 , 49 , 15 , 36 , -1 , -1 , -1 , 43 , 41 ,  0 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 52 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , 54 , 76 , -1 , -1 , -1 , 29 , 89 ,129 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , 36 , -1 , 37 , 15 , -1 , 85 , -1 , -1 , 49 ,101 , 26 , 28 , 25 , -1 , -1 , 55 , -1 , 87 , 88 , -1 , -1 , -1 , 56 , 34 , 86 , -1 ,  0 ,158 , 10 , 41 , 48 ,117 ,122 , -1 ,118 ,126 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 ,  8 , -1 , 80 , 79 , -1 , -1 , -1 , -1 , 31 , 50 , 43 , 44 , 16 , -1 , 93 , -1 , 91 , -1 , -1 , 99 , -1 , -1 , 96 ,  2 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , 60 , -1 ,124 , -1 , 58 , -1 ,120 , -1 , 61 , 67 , -1 , 17 , -1 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53),
+    ( 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,132 , -1 , -1 , 56 ,100 , 26 , -1 , -1 , -1 ,134 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , 52 ,  0 , 87 , 77 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 54 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 49 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , 52 , 55 , 87 , -1 , -1 ,101 , 26 , 29 , 34 , 43 , -1 ,  0 , 44 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , 41 , 83 , 25 , -1 , 86 , -1 , 78 , -1 , -1 , 81 , 45 , -1 , 91 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 ,120 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 ,113 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 55 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , 52 , -1 , 77 , 54 , 76 , -1 , -1 , 34 , -1 , 67 , 68 , 96 , -1 , -1 , -1 ,113 , -1 , 47 , 46 , -1 , 38 , 36 , -1 , -1 , -1 , -1 , 15 ,100 , 29 , 80 , 28 , -1 , -1 , 87 , -1 , 88 , -1 , -1 , 26 , 25 , -1 , 86 , -1 , -1 ,  8 , -1 , 11 ,  0 ,  2 , 60 , -1 ,117 , 57 , 62 , 61 , -1 , -1 , -1 ,137 , 17 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , 10 , 79 , 78 , 37 , -1 , -1 , -1 , -1 , -1 , 49 , 41 , 43 , -1 , 93 , -1 , -1 , 90 , -1 , 97 , 19 , 95 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 ,115 ,114 , -1 , 59 ,124 ,123 , -1 , -1 , -1 ,119 ,118 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 ,101 ,102 , -1 , -1 , -1 ,144 , -1 , 60 , 63 ,103 , -1 , -1 ,111 , -1 , -1 , 55 , 47 , -1 , 52 , 38 , 36 , -1 , -1 , -1 , 37 , -1 , 30 , 34 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , 28 , -1 , 78 , 25 ,  0 , -1 , -1 , -1 , 17 , 64 , -1 , 18 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 , 80 , 54 , 86 , 77 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,  8 , 10 , 11 , 19 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , 75 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 ,127 ,118 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 57 , -1 , 17 , -1 , -1 , -1 , -1 , -1 ,118 , -1 ,120 ,143 , -1 , -1 , -1 ,136 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 ,157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 41 , 62 , -1 , 60 , -1 , 67 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , 10 , -1 , -1 , -1 ,126 , -1 ,124 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1),
+    ( 58 , -1 , -1 , 18 , -1 , -1 , -1 , -1 ,119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , 57 ,  0 ,118 , -1 , -1 , 55 , -1 , 47 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 ,118 ,120 ,143 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 ,  0 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , 11 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , 48 , -1 , -1 , -1 , -1 , -1 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 ,  0 , -1 , -1 , 17 , -1 , -1 , 80 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 ,  8 ,123 , -1 , -1 , -1 , 59 ,118 , 41 , 48 , -1 ,116 ,100 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 ,121 , -1 , -1 , 63 , -1 , -1 , -1 , 60 ,  0 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 ,124 , -1 , -1 , -1 , 53 , 87 , 52 ,117 ,129 , -1 , -1 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 62 , -1 , 64 , 69 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 ,  2 , 35 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,119),
+    ( 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 ,121 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 ,128 , -1 , -1 , -1 , 37 , 35 , 48 , -1 , -1 , -1 , -1 ,117 , -1 , 80 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 64 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 ,  0 ,  8 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 ,  0 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 67 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 ,  0 , 43 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , 48 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , 54 , 41 , 17 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 67 , -1 , 60 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , 63 , -1 , -1 ,  2 , -1 , -1 , 57 , -1 , -1 , 10 ,  0 , 17 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , 35 ,116 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , 52 ,  8 ,137 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 68 , -1 , 63 , -1 , -1 , -1 , -1 , -1 ,131 , -1 ,130 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 ,129 ,128 , 10 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 69 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , 62 , -1 , 65 ,126 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , 25 , 28 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 70 , 24 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 25 , 78 , 10 , 80 , -1 , -1 , -1 , 72 , -1 , 74 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 ,147 , -1 , -1 , -1 , -1 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 71 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 ,  0 , 11 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , 71 , -1 , -1 , -1 , 73 , -1 , -1 , -1 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 ,  0 , 48 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 73 ,142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 74 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 70 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 28 ,  0 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 74 , -1 , 73 , -1 , -1 , -1 , -1 , -1 , 72 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 71 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 ,  8 ,  2 ,  0 , -1 , -1 ,138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1),
+    ( 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , 77 , 52 , 55 , -1 , -1 ,102 , -1 , 26 , 29 , 44 , -1 , 41 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 43 , -1 , -1 , 83 , 34 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 77 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , 76 , -1 , -1 , -1 , -1 , 26 , -1 , 66 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , 15 , -1 , 79 , 49 , -1 , -1 , -1 , -1 , 50 ,102 , -1 , 25 , -1 , -1 , -1 , 52 , -1 , 55 , 87 , 88 , -1 , -1 ,100 , 29 , 34 , 86 , 41 , -1 ,  8 , 43 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , 17 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 ,  0 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , 44 , 45 , 90 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 ,  2 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 ,117 ,122 , 60 , -1 ,119 , -1 ,143 , -1 , -1 ,129 , -1 ,127 , 18 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 78 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , 28 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , 35 , 34 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 ,  8 , -1 , -1 , -1 , 37 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 79 , -1 , 54 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , 41 , 43 , -1 , -1 , 37 , -1 , 38 , 47 , -1 , -1 , 44 , 77 , 25 , 28 , 80 , -1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , 48 , 81 ,  0 , 51 , 78 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 , -1 ,100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 80 , -1 , 34 ,144 , -1 , -1 , -1 , -1 , 28 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 ,  8 , 35 , -1 , -1 , -1 , -1 ,  2 , 29 , -1 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , 84 ,  0 , -1 , -1 , -1 , 79 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 81 , -1 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , 50 , 49 , 15 , -1 , -1 , -1 , 44 , 43 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 ,  0 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 82 , -1 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 ,  2 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 81 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 25 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 84 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 85 , -1 , -1 , 15 , 37 , 77 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  4 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  5 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  6 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 86 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , 29 , 26 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 11 , -1 , 80 , 10 , -1 , -1 , -1 , -1 ,  8 ,144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , 25 , -1 , 28 , -1 , -1 , -1 , 77 , -1 ,  0 , -1 , -1 , 46 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , 98 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 87 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , 52 , 77 , 54 , 76 , -1 , 86 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 46 , -1 , -1 , -1 , -1 , 36 , 56 , 34 , 78 , 80 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , 29 , 28 , -1 , -1 , -1 , -1 , 10 , -1 , 12 ,  8 , 35 ,124 ,123 , 60 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 13 , 11 , 37 , -1 , 38 , -1 ,102 , -1 ,132 , -1 , 15 ,  0 , 41 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , 98 , -1 , 96 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 58 , 57 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , 84 , -1 ,158 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,134),
+    ( 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , 55 , 52 , 77 , 54 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , 86 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , 80 , -1 , -1 , -1 , -1 , 11 , -1 , 13 , 10 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 14 , 12 , 38 , -1 , 47 , -1 ,101 , -1 , -1 , -1 , 36 ,  8 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 82 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , 54 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 90 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 91 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , 15 , 36 , 46 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 ,  0 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 91 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , 90 , -1 , 16 , -1 , -1 , 81 , -1 , -1 , 49 , 15 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 85 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , 76 , -1 , -1 , -1 , -1 , 41 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,133 ,132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93),
+    ( 93 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 92 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , 52 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 ,133 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 ,104 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 95 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , 49 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 96 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 ,  0 , 15 , -1 , -1 , -1 , -1 , -1 ,  2 , 35 , -1 , -1 , -1 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,108 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    ( 99 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 19 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 ,  0 ,105 ,107 , -1 , -1 , -1 ,100 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (100 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 ,102 , -1 , -1 , -1 , -1 , 30 , -1 ,117 , -1 ,104 , -1 , -1 , -1 , -1 , -1 , 52 , 38 , -1 , 77 , 37 , 15 , -1 , 85 , -1 , 79 , -1 , -1 , 29 , 26 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,144 , -1 , -1 , 25 , -1 , 80 , -1 , 41 , -1 , -1 , -1 ,127 , 65 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , 28 , 76 , 34 , 54 , -1 , -1 , -1 , -1 , 32 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,109 ,103 ,  0 ,  8 , 10 , 99 , 19 , -1 , -1 , -1 , -1 , 98 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 ,125 , -1 , -1 , -1 ,140 ,120 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , -1 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , 77 , 37 , -1 , 54 , 79 , 49 , -1 , -1 , -1 , -1 , -1 , -1 , 26 , -1 , -1 , -1 ,100 , -1 , 56 , -1 , -1 , -1 , -1 , -1 , 30 ,144 , -1 , -1 , -1 , 28 , -1 , 43 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , 25 , -1 , 29 , 76 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , 41 ,  0 ,  8 , -1 , 99 , -1 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 ,125 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , 79 , -1 , 76 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 ,100 , 56 , -1 , -1 , -1 , -1 , -1 , 30 ,144 , -1 , -1 , 25 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , 26 , -1 , -1 , -1 , 86 , -1 , -1 , 83 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,109 , 43 , 41 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , 99 , -1 , -1 , -1 ,156 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 , -1),
+    (103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,111 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , 25 , 37 , -1 , -1 , -1 ,108 , -1 ,  0 ,  8 , -1 , -1 , -1 ,101 , 10 , -1 , 21 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (104 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,100 , -1 , -1 , 79 , -1 , -1 , 94 , -1 ,108 , 41 ,  0 , -1 , -1 , -1 ,102 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 ,  0 , 99 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (106 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2),
+    (107 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,105 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 , 19 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (108 , -1 , -1 , 97 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (109 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,104 , -1 ,103 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 , 43 , 41 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (110 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (111 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (112 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,101 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 22 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (113 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,139 , -1 , -1 , -1 , -1 ,157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1),
+    (114 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , 19 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (115 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,113 , -1 ,139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 94 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 96 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (116 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , 63 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 ,106 , -1 ,  8 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , 38 , -1 ,  2 , -1 , -1 , -1 , -1 , 60 , -1 , 78 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (117 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 ,124 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , 41 , -1 , -1 ,127 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 ,  0 , -1 , -1 ,123 , -1 , 57 ,120 , 43 , -1 , -1 , 63 ,101 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (118 , -1 ,127 , -1 , -1 , -1 , -1 , -1 ,120 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , 59 , -1 , -1 , -1 , -1 , 17 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , 43 ,126 , -1 ,117 , -1 ,129 , 67 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 ,  0 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , 60 ,  2 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , 49 , -1 , -1 , -1 , 35 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (119 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 69 , -1 , 64 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 , -1 , 62 , -1 , -1 ,126 , -1 ,118 , 41 ,120 , -1 , -1 , 52 , -1 , 38 , 47 , -1 , -1 , -1 , 36 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 ,  0 , 59 , -1 , -1 , -1 , -1 , -1 , 55 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (120 , -1 ,140 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , 57 , 59 , -1 , -1 , -1 ,127 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 44 , -1 , -1 , -1 , -1 , 66 ,129 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , 41 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 ,117 , 48 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 ,  2 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123),
+    (122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 ,  0 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , 29 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , 63 , 68 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , 28 , -1 , -1 , -1 , -1 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , 52 , 10 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , 86 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 61),
+    (124 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , 60 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , -1 ,116 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 ,123 , -1 , -1 ,  8 , -1 , -1 , -1 , -1 , -1 , 78 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 66 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , 10 , -1 , -1 , -1 , -1 , -1 , 57 ,  0 ,  2 , -1 , -1 , 56 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,124 , -1 , -1 , 60 , 67 , -1 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , 86 , 29 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , -1 , -1 , -1 ,137 , 17 , 25 ,  0 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,122 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (126 , -1 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 62 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , 48 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , -1 ,120 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 , -1 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , -1 ,117 , 60 , -1 , -1 , -1 ,129 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 64 , 25 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , 69 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , 44 , -1 , -1 ,  8 , -1 , -1 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67),
+    (129 , -1 ,117 , -1 , -1 , -1 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 67 , -1 , -1 , -1 , -1 , -1 , -1 , 60 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 ,118 , -1 , -1 ,  8 , 41 ,127 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,128 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 ,  2 , 63 , -1 ,116 , -1 , -1 , -1 , -1 ,133 , -1 , 68 , 77 ,  0 , -1 , 17 , -1 ,125 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (131 , -1 , -1 ,122 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 68 , -1 , -1 , -1 , -1 , -1 , -1 , 63 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 48 , -1 , -1 ,128 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49 ,  3 ,133 , -1 , -1 , -1 , -1 , 66 , -1 ,  8 ,  0 , -1 ,123 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (132 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 16 , -1 , -1 , 90 , -1 , -1 , -1 , -1 , 91 , -1 , 54 , 37 , 79 , 43 , -1 , -1 , -1 , 39 , -1 ,135 , 76 , -1 , -1 , 52 , 55 , 87 , 49 ,133 , 36 , 50 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , 15 , -1 , 38 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , 51 , 81 , -1 , 29 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 53 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (133 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  3 , -1 , -1 , -1 , -1 , 48 ,158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,130 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,131 , -1 , -1 , -1 , 62 ,126 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 49),
+    (134 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 53 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,135 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 , -1 , -1 , -1 , 34 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 56 , -1 , -1 , -1 , -1 , 87 , 10 , -1 , 55 , 47 , -1 , 61 , -1 , -1 , 58 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 , 77 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , 26 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (135 , -1 , -1 ,134 , -1 , -1 , -1 , -1 , -1 , -1 , 39 , -1 ,132 , -1 , -1 , 88 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 87 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , 55 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 36 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 12 , -1 ,  3 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 17 ,127 ,140 , -1 , -1 , -1 , -1 , 10 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 59 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 80 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,118 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 78 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 11 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 ,  0 , -1 , -1 , 12 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (138 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (140 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 , -1 ,143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,127 , -1 , 17 , -1 ,137 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,117 , 69 , -1 , -1 , 66 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 65 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 45 , -1 , -1 ,  0 , -1 , -1 , 28 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (141 , -1 ,156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 23 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  2 , -1 , -1),
+    (142 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 24 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (143 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,120 , -1 ,118 , 57 , 59 , -1 , -1 ,140 , -1 , -1 ,136 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , 45 , -1 , -1 , -1 , -1 , -1 , 66 , 65 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 43 , -1 , 41 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 51 , -1 , -1 , -1 , 48 ,157 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1),
+    (144 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 30 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 34 , 80 , -1 , 29 , 28 ,  8 , 35 , -1 , -1 , 25 , 31 , -1 , -1 , 89 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 93 , 26 , -1 , -1 , -1 ,102 , -1 , -1 , -1 , -1 , 38 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 84 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (145 , 25 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1 , -1 , 43 , -1 , -1 ,158 , -1 , -1 , -1 , -1 , -1 ,152),
+    (146 ,  8 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 , -1 , -1 , -1 , -1 , -1 ,147 , -1 ,148 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 35 ,  0 , 41 , 43 , 48 ,106 ,158 , -1 , -1 , -1 , -1 , -1 , -1 ,151),
+    (147 , 10 ,149 , -1 , -1 , -1 , -1 , -1 ,146 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  8 ,  0 , 41 ,  2 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (148 , 11 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 ,146 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 ,  8 ,  0 , 35 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (149 , 80 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 , -1 ,146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 10 , 28 , 25 , -1 ,  0 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1),
+    (150 , 56 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 ,153 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , 47 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,146 ,147 ,148 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 55 ,100 ,101 ,102 , 77 ,  0 , 25 ,  8 , 10 , 11 , 80 , -1 , -1 , -1),
+    (151 , 55 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 46 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,152 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 ,145 , -1 , -1 , -1 , -1 ,146 , -1 ,148 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 47 , 52 , 77 , 54 , 37 ,  2 ,  0 , 35 , -1 , -1 , 10 , -1 , -1 , -1),
+    (152 ,100 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 38 ,155 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 , -1 ,149 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 ,146 ,147 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 52 ,101 ,102 , -1 , 54 , 41 , -1 ,  0 ,  8 , 10 , 28 , -1 , -1 , -1),
+    (153 ,101 , -1 , -1 , -1 , -1 , -1 , -1 ,154 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,155 , -1 , 37 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 ,152 , -1 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,149 ,145 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 ,146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 77 ,102 , -1 , -1 , 76 , 43 , -1 , 41 ,  0 ,  8 , 25 , -1 , -1 , -1),
+    (154 ,102 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 79 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,153 , -1 ,152 ,150 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,145 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 54 , -1 , -1 , -1 , -1 , 44 , -1 , 43 , 41 ,  0 , -1 , -1 , -1 , -1),
+    (155 , 77 ,153 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 27 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 15 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,154 , -1 ,145 , -1 , -1 , -1 , -1 , -1 ,151 , -1 , -1 , -1 , -1 ,152 , -1 , -1 , -1 , -1 , -1 ,146 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,147 ,  1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 37 , 54 , 76 , -1 , -1 , -1 , 43 , 48 ,  2 , 35 ,  0 , -1 , -1 , -1),
+    (156 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,141 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 75 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 44 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1 , -1),
+    (157 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,139 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 57 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0 , -1),
+    (158 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,106 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , 25 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,126 , -1 , -1 , -1 , -1 ,121 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 , -1 ,  0)
   );
 
 const
-  PowerTable : array[0..157] of
+  PowerTable : array[0..158] of
     record  Square, Cubic, Quartic, Quintic, Sextic: longint; end = (
     (Square:   0; Cubic:   0; Quartic:   0; Quintic:   0; Sextic:   0),
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
@@ -6100,11 +7007,12 @@ const
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
+    (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1)
   );
 
 const
-  RootTable : array[0..157] of
+  RootTable : array[0..158] of
     record  Square, Cubic, Quartic, Quintic, Sextic: longint; end = (
     (Square:   0; Cubic:   0; Quartic:   0; Quintic:   0; Sextic:   0),
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
@@ -6263,6 +7171,7 @@ const
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
+    (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1),
     (Square:  -1; Cubic:  -1; Quartic:  -1; Quintic:  -1; Sextic:  -1)
   );
 
@@ -6288,9 +7197,9 @@ function Cotan(const AQuantity: TAScalar): double;
 function Secant(const AQuantity: TAScalar): double;
 function Cosecant(const AQuantity: TAScalar): double;
 
-function ArcCos(const AQuantity: double): TAScalar;
-function ArcSin(const AQuantity: double): TAScalar;
-function ArcTan(const AQuantity: double): TAScalar;
+function ArcCos(const AValue: double): TAScalar;
+function ArcSin(const AValue: double): TAScalar;
+function ArcTan(const AValue: double): TAScalar;
 function ArcTan2(const x, y: double): TAScalar;
 
 { Math functions }
@@ -6381,10 +7290,10 @@ uses Math;
 { TAScalar }
 
 {$IFDEF USEADIM}
-class operator TAScalar.:=(const ASelf: double): TAScalar;
+class operator TAScalar.:=(const AValue: double): TAScalar;
 begin
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := ASelf;
+  result.FValue := AValue;
 end;
 
 class operator TAScalar.+(const ASelf: TAScalar): TAScalar;
@@ -6502,6 +7411,1936 @@ begin
 end;
 {$ENDIF}
 
+// TAMultivector
+
+{$IFDEF USEADIM}
+class operator TAMultivector.:=(const AValue: TAScalar): TAMultivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TAMultivector.<>(const ALeft, ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TAMultivector.<>(const ALeft: TAMultivector; const ARight: TAScalar): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TAMultivector.<>(const ALeft: TAScalar; const ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TAMultivector.=(const ALeft: TAMultivector; const ARight: TAScalar): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TAMultivector.=(const ALeft: TAScalar; const ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TAMultivector.=(const ALeft, ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TAMultivector.+(const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+begin
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+end;
+
+class operator TAMultivector.+(const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+end;
+
+class operator TAMultivector.+(const ALeft, ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+end;
+
+class operator TAMultivector.-(const ASelf: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TAMultivector.-(const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAMultivector.-(const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAMultivector.-(const ALeft, ARight: TAMultivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAMultivector.*(const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAMultivector.*(const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAMultivector.*(const ALeft, ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAMultivector./(const ALeft: TAMultivector; const ARight: TAScalar): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TAMultivector./(const ALeft: TAScalar; const ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TAMultivector./(const ALeft, ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+{$ENDIF}
+
+// TATrivector
+
+{$IFDEF USEADIM}
+
+class operator TATrivector.:=(const AValue: TATrivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TATrivector.<>(const ALeft, ARight: TATrivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TATrivector.<>(const ALeft: TAMultivector; const ARight: TATrivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TATrivector.<>(const ALeft: TATrivector; const ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TATrivector.=(const ALeft: TAMultivector; const ARight: TATrivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TATrivector.=(const ALeft: TATrivector; const ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TATrivector.=(const ALeft, ARight: TATrivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TATrivector.+(const ALeft, ARight: TATrivector): TATrivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TATrivector.+(const ALeft: TATrivector; const ARight: TAScalar): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TATrivector.+(const ALeft: TAScalar; const ARight: TATrivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TATrivector.+(const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TATrivector.+(const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TATrivector.-(const ASelf: TATrivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TATrivector.-(const ALeft, ARight: TATrivector): TATrivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TATrivector.-(const ALeft: TATrivector; const ARight: TAScalar): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TATrivector.-(const ALeft: TAScalar; const ARight: TATrivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TATrivector.-(const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TATrivector.-(const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TATrivector.*(const ALeft: TAScalar; const ARight: TATrivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TATrivector.*(const ALeft: TATrivector; const ARight: TAScalar): TATrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TATrivector.*(const ALeft, ARight: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TATrivector.*(const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TATrivector.*(const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TATrivector./(const ALeft, ARight: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TATrivector./(const ALeft: TATrivector; const ARight: TAScalar): TATrivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TATrivector./(const ALeft: TAScalar; const ARight: TATrivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TATrivector./(const ALeft: TAMultivector; const ARight: TATrivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TATrivector./(const ALeft: TATrivector; const ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+{$ENDIF}
+
+// TABivector
+
+{$IFDEF USEADIM}
+class operator TABivector.:=(const AValue: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TABivector.<>(const ALeft, ARight: TABivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TABivector.<>(const ALeft: TAMultivector; const ARight: TABivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TABivector.<>(const ALeft: TABivector; const ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TABivector.=(const ALeft, ARight: TABivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TABivector.=(const ALeft: TAMultivector; const ARight: TABivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TABivector.=(const ALeft: TABivector; const ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TABivector.+(const ALeft, ARight: TABivector): TABivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TABivector.+(const ALeft: TABivector; const ARight: TAScalar): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TABivector.+(const ALeft: TAScalar; const ARight: TABivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TABivector.+(const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TABivector.+(const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TABivector.+(const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TABivector.+(const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TABivector.-(const ASelf: TABivector): TABivector;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TABivector.-(const ALeft, ARight: TABivector): TABivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TABivector.-(const ALeft: TABivector; const ARight: TAScalar): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TABivector.-(const ALeft: TAScalar; const ARight: TABivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TABivector.-(const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TABivector.-(const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TABivector.-(const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TABivector.-(const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TABivector.*(const ALeft: TAScalar; const ARight: TABivector): TABivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TABivector.*(const ALeft: TABivector; const ARight: TAScalar): TABivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TABivector.*(const ALeft, ARight: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TABivector.*(const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TABivector.*(const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TABivector.*(const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TABivector.*(const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TABivector./(const ALeft, ARight: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TABivector./(const ALeft: TABivector; const ARight: TAScalar): TABivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TABivector./(const ALeft: TAScalar; const ARight: TABivector): TABivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TABivector./(const ALeft: TABivector; const ARight: TATrivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TABivector./(const ALeft: TATrivector; const ARight: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TABivector./(const ALeft: TAMultivector; const ARight: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TABivector./(const ALeft: TABivector; const ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+{$ENDIF}
+
+// TAVector
+
+{$IFDEF USEADIM}
+class operator TAVector.:=(const AValue: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TAVector.<>(const ALeft, ARight: TAVector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TAVector.<>(const ALeft: TAMultivector; const ARight: TAVector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TAVector.<>(const ALeft: TAVector; const ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TAVector.=(const ALeft, ARight: TAVector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TAVector.=(const ALeft: TAVector; const ARight: TAMultivector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TAVector.=(const ALeft: TAMultivector; const ARight: TAVector): boolean;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
+
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TAVector.+(const ALeft, ARight: TAVector): TAVector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TAVector.+(const ALeft: TAVector; const ARight: TAScalar): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TAVector.+(const ALeft: TAScalar; const ARight: TAVector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TAVector.+(const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TAVector.+(const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TAVector.+(const ALeft: TAVector; const ARight: TATrivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TAVector.+(const ALeft: TATrivector; const ARight: TAVector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TAVector.+(const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TAVector.+(const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TAVector.-(const ASelf: TAVector): TAVector;
+begin
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TAVector.-(const ALeft, ARight: TAVector): TAVector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAVector.-(const ALeft: TAVector; const ARight: TAScalar): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAVector.-(const ALeft: TAScalar; const ARight: TAVector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAVector.-(const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAVector.-(const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAVector.-(const ALeft: TAVector; const ARight: TATrivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAVector.-(const ALeft: TATrivector; const ARight: TAVector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAVector.-(const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAVector.-(const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
+begin
+  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
+
+  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TAVector.*(const ALeft: TAScalar; const ARight: TAVector): TAVector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAVector.*(const ALeft: TAVector; const ARight: TAScalar): TAVector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAVector.*(const ALeft, ARight: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAVector.*(const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAVector.*(const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAVector.*(const ALeft: TAVector; const ARight: TATrivector): TABivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAVector.*(const ALeft: TATrivector; const ARight: TAVector): TABivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAVector.*(const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAVector.*(const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TAVector./(const ALeft, ARight: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TAVector./ (const ALeft: TAVector; const ARight: TAScalar): TAVector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TAVector./(const ALeft: TAScalar; const ARight: TAVector): TAVector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TAVector./(const ALeft: TAVector; const ARight: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TAVector./(const ALeft: TABivector; const ARight: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TAVector./(const ALeft: TAVector; const ARight: TATrivector): TABivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TAVector./(const ALeft: TATrivector; const ARight: TAVector): TABivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TAVector./(const ALeft: TAMultivector; const ARight: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TAVector./(const ALeft: TAVector; const ARight: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+{$ENDIF}
+
+// TAMultivectorHelper
+
+{$IFDEF USEADIM}
+function TAMultivectorHelper.Dual: TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Dual;
+end;
+
+function TAMultivectorHelper.Inverse: TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Inverse;
+end;
+
+function TAMultivectorHelper.Reverse: TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reverse;
+end;
+
+function TAMultivectorHelper.Conjugate: TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Conjugate;
+end;
+
+function TAMultivectorHelper.Reciprocal: TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TAMultivectorHelper.LeftReciprocal: TAMultivector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.LeftReciprocal;
+end;
+
+function TAMultivectorHelper.Normalized: TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Normalized;
+end;
+
+function TAMultivectorHelper.Norm: TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Norm;
+end;
+
+function TAMultivectorHelper.SquaredNorm: TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := FValue.SquaredNorm;
+end;
+
+function TAMultivectorHelper.Dot(const AVector: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Dot(const AVector: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Dot(const AVector: TATrivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Dot(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Wedge(const AVector: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Wedge(const AVector: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Wedge(const AVector: TATrivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Wedge(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Projection(const AVector: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Projection(const AVector: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Projection(const AVector: TATrivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Projection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Rejection(const AVector: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Rejection(const AVector: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Rejection(const AVector: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Rejection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Reflection(const AVector: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Reflection(const AVector: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Reflection(const AVector: TATrivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Reflection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TAMultivectorHelper.Rotation(const AVector1, AVector2: TAVector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TAMultivectorHelper.Rotation(const AVector1, AVector2: TABivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TAMultivectorHelper.Rotation(const AVector1, AVector2: TATrivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TAMultivectorHelper.Rotation(const AVector1, AVector2: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TAMultivectorHelper.SameValue(const AVector: TAMultivector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TAMultivectorHelper.SameValue(const AVector: TATrivector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TAMultivectorHelper.SameValue(const AVector: TABivector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TAMultivectorHelper.SameValue(const AVector: TAVector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TAMultivectorHelper.SameValue(const AVector: TAScalar): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TAMultivectorHelper.ExtractMultivector(AComponents: TMultivectorComponents): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractMultivector(AComponents);
+end;
+
+function TAMultivectorHelper.ExtractBivector(AComponents: TMultivectorComponents): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractBivector(AComponents);
+end;
+
+function TAMultivectorHelper.ExtractVector(AComponents: TMultivectorComponents): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractVector(AComponents);
+end;
+
+function TAMultivectorHelper.ExtractTrivector: TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractTrivector;
+end;
+
+function TAMultivectorHelper.ExtractBivector: TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractBivector;
+end;
+
+function TAMultivectorHelper.ExtractVector: TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractVector;
+end;
+
+function TAMultivectorHelper.ExtractScalar: TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractScalar;
+end;
+
+function TAMultivectorHelper.IsNull: boolean;
+begin
+  result := FValue.SameValue(NullMultivector);
+end;
+
+function TAMultivectorHelper.IsScalar: boolean;
+begin
+  result := FValue.IsScalar;
+end;
+
+function TAMultivectorHelper.IsVector: boolean;
+begin
+  result := FValue.IsVector;
+end;
+
+function TAMultivectorHelper.IsBiVector: boolean;
+begin
+  result := FValue.IsBiVector;
+end;
+
+function TAMultivectorHelper.IsTrivector: boolean;
+begin
+  result := FValue.IsTrivector;
+end;
+
+function TAMultivectorHelper.IsA: string;
+begin
+  result := FValue.IsA;
+end;
+{$ENDIF}
+
+// TATrivectorHelper
+
+{$IFDEF USEADIM}
+function TATrivectorHelper.Dual: TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Dual;
+end;
+
+function TATrivectorHelper.Inverse: TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Inverse;
+end;
+
+function TATrivectorHelper.Reverse: TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reverse;
+end;
+
+function TATrivectorHelper.Conjugate: TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Conjugate;
+end;
+
+function TATrivectorHelper.Reciprocal: TATrivector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TATrivectorHelper.Normalized: TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Normalized;
+end;
+
+function TATrivectorHelper.Norm: TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Norm;
+end;
+
+function TATrivectorHelper.SquaredNorm: TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := FValue.SquaredNorm;
+end;
+
+function TATrivectorHelper.Dot(const AVector: TAVector): TABivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TATrivectorHelper.Dot(const AVector: TABivector): TAVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TATrivectorHelper.Dot(const AVector: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TATrivectorHelper.Dot(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TATrivectorHelper.Wedge(const AVector: TAVector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TATrivectorHelper.Wedge(const AVector: TABivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TATrivectorHelper.Wedge(const AVector: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TATrivectorHelper.Wedge(const AVector: TAMultivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TATrivectorHelper.Projection(const AVector: TAVector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TATrivectorHelper.Projection(const AVector: TABivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TATrivectorHelper.Projection(const AVector: TATrivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TATrivectorHelper.Projection(const AVector: TAMultivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TATrivectorHelper.Rejection(const AVector: TAVector): TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TATrivectorHelper.Rejection(const AVector: TABivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TATrivectorHelper.Rejection(const AVector: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TATrivectorHelper.Rejection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TATrivectorHelper.Reflection(const AVector: TAVector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TATrivectorHelper.Reflection(const AVector: TABivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TATrivectorHelper.Reflection(const AVector: TATrivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TATrivectorHelper.Reflection(const AVector: TAMultivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TATrivectorHelper.Rotation(const AVector1, AVector2: TAVector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TATrivectorHelper.Rotation(const AVector1, AVector2: TABivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TATrivectorHelper.Rotation(const AVector1, AVector2: TATrivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TATrivectorHelper.Rotation(const AVector1, AVector2: TAMultivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TATrivectorHelper.SameValue(const AVector: TAMultivector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TATrivectorHelper.SameValue(const AVector: TATrivector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TATrivectorHelper.ToMultivector: TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ToMultivector;
+end;
+{$ENDIF}
+
+// TABivectorHelper
+
+{$IFDEF USEADIM}
+function TABivectorHelper.Dual: TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Dual;
+end;
+
+function TABivectorHelper.Inverse: TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Inverse;
+end;
+
+function TABivectorHelper.Conjugate: TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Conjugate;
+end;
+
+function TABivectorHelper.Reverse: TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reverse;
+end;
+
+function TABivectorHelper.Reciprocal: TABivector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TABivectorHelper.Normalized: TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Normalized;
+end;
+
+function TABivectorHelper.Norm: TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Norm;
+end;
+
+function TABivectorHelper.SquaredNorm: TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := FValue.SquaredNorm;
+end;
+
+function TABivectorHelper.Dot(const AVector: TAVector): TAVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TABivectorHelper.Dot(const AVector: TABivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TABivectorHelper.Dot(const AVector: TATrivector): TAVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TABivectorHelper.Dot(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TABivectorHelper.Wedge(const AVector: TAVector): TATrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TABivectorHelper.Wedge(const AVector: TABivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TABivectorHelper.Wedge(const AVector: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TABivectorHelper.Wedge(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TABivectorHelper.Projection(const AVector: TAVector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TABivectorHelper.Projection(const AVector: TABivector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TABivectorHelper.Projection(const AVector: TATrivector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TABivectorHelper.Projection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TABivectorHelper.Rejection(const AVector: TAVector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TABivectorHelper.Rejection(const AVector: TABivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TABivectorHelper.Rejection(const AVector: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TABivectorHelper.Rejection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TABivectorHelper.Reflection(const AVector: TAVector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TABivectorHelper.Reflection(const AVector: TABivector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TABivectorHelper.Reflection(const AVector: TATrivector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TABivectorHelper.Reflection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TABivectorHelper.Rotation(const AVector1, AVector2: TAVector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TABivectorHelper.Rotation(const AVector1, AVector2: TABivector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TABivectorHelper.Rotation(const AVector1, AVector2: TATrivector): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TABivectorHelper.Rotation(const AVector1, AVector2: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TABivectorHelper.SameValue(const AVector: TAMultivector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TABivectorHelper.SameValue(const AVector: TABivector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TABivectorHelper.ExtractBivector(AComponents: TMultivectorComponents): TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractBivector(AComponents);
+end;
+
+function TABivectorHelper.ToMultivector: TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ToMultivector;
+end;
+{$ENDIF}
+
+// TAVectorHelper
+
+{$IFDEF USEADIM}
+function TAVectorHelper.Dual: TABivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Dual;
+end;
+
+function TAVectorHelper.Inverse: TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Inverse;
+end;
+
+function TAVectorHelper.Reverse: TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reverse;
+end;
+
+function TAVectorHelper.Conjugate: TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Conjugate;
+end;
+
+function TAVectorHelper.Reciprocal: TAVector;
+begin
+  result.FUnitOfMeasurement := DivTable[cScalar, FUnitOfMeasurement];
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TAVectorHelper.Normalized: TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Normalized;
+end;
+
+function TAVectorHelper.Norm: TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Norm;
+end;
+
+function TAVectorHelper.SquaredNorm: TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := FValue.SquaredNorm;
+end;
+
+function TAVectorHelper.Dot(const AVector: TAVector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TAVectorHelper.Dot(const AVector: TABivector): TAVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TAVectorHelper.Dot(const AVector: TATrivector): TABivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TAVectorHelper.Dot(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TAVectorHelper.Wedge(const AVector: TAVector): TABivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TAVectorHelper.Wedge(const AVector: TABivector): TATrivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TAVectorHelper.Wedge(const AVector: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FValue := 0.0;
+end;
+
+function TAVectorHelper.Wedge(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Wedge(AVector.FValue);
+end;
+
+function TAVectorHelper.Projection(const AVector: TAVector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TAVectorHelper.Projection(const AVector: TABivector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TAVectorHelper.Projection(const AVector: TATrivector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TAVectorHelper.Projection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Projection(AVector.FValue);
+end;
+
+function TAVectorHelper.Rejection(const AVector: TAVector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function  TAVectorHelper.Rejection(const AVector: TABivector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TAVectorHelper.Rejection(const AVector: TATrivector): TAScalar;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := 0.0;
+end;
+
+function TAVectorHelper.Rejection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rejection(AVector.FValue);
+end;
+
+function TAVectorHelper.Reflection(const AVector: TAVector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TAVectorHelper.Reflection(const AVector: TABivector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TAVectorHelper.Reflection(const AVector: TATrivector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TAVectorHelper.Reflection(const AVector: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Reflection(AVector.FValue);
+end;
+
+function TAVectorHelper.Rotation(const AVector1, AVector2: TAVector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TAVectorHelper.Rotation(const AVector1, AVector2: TABivector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TAVectorHelper.Rotation(const AVector1, AVector2: TATrivector): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TAVectorHelper.Rotation(const AVector1, AVector2: TAMultivector): TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
+end;
+
+function TAVectorHelper.Cross(const AVector: TAVector): TAVector;
+begin
+  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FValue := FValue.Cross(AVector.FValue);
+end;
+
+function TAVectorHelper.SameValue(const AVector: TAMultivector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TAVectorHelper.SameValue(const AVector: TAVector): boolean;
+begin
+  result := FValue.SameValue(AVector.FValue);
+end;
+
+function TAVectorHelper.ExtractVector(AComponents: TMultivectorComponents): TAVector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ExtractVector(AComponents);
+end;
+
+function TAVectorHelper.ToMultivector: TAMultivector;
+begin
+  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FValue := FValue.ToMultivector;
+end;
+{$ENDIF}
+
 { TUnit }
 
 class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
@@ -6524,6 +9363,86 @@ begin
 {$ENDIF}
 end;
 
+class operator TUnit.*(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
 {$IFDEF USEADIM}
 class operator TUnit.*(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
 begin
@@ -6536,6 +9455,55 @@ begin
   result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := AQuantity.FValue;
 end;
+
+class operator TUnit.*(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue;
+end;
+
 {$ENDIF}
 
 function TUnit.GetName(const Prefixes: TPrefixes): string;
@@ -6836,6 +9804,102 @@ begin
   end;
 end;
 
+function TUnit.ToVerboseString(const AQuantity: TAVector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetName(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToVerboseString(const AQuantity: TABivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetName(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToVerboseString(const AQuantity: TATrivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetName(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToVerboseString(const AQuantity: TAMultivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetName(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AQuantity: TAVector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AQuantity: TABivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AQuantity: TATrivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ENDIF}
+end;
+
+function TUnit.ToString(const AQuantity: TAMultivector): string;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(U.FPrefixes)
+{$ENDIF}
+end;
+
 { TFactoredUnit }
 
 class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
@@ -6858,6 +9922,86 @@ begin
 {$ENDIF}
 end;
 
+class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+{$IFDEF USEADIM}
+  result.FUnitOfMeasurement := DivTable[cScalar, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity);
+{$ELSE}
+  result := U.PutValue(AQuantity);
+{$ENDIF}
+end;
+
 {$IFDEF USEADIM}
 class operator TFactoredUnit.*(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
@@ -6866,6 +10010,54 @@ begin
 end;
 
 class operator TFactoredUnit./(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit./(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit./(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit./(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+begin
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+begin
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
+  result.FValue := U.PutValue(AQuantity.FValue);
+end;
+
+class operator TFactoredUnit./(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
 begin
   result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
   result.FValue := U.PutValue(AQuantity.FValue);
@@ -7171,717 +10363,2665 @@ begin
   end;
 end;
 
-class  function TDegreeRec.PutValue(const AValue: double): double;
+function TFactoredUnit.ToString(const AQuantity: TAVector): string;
+var
+  FactoredValue: TVector;
 begin
 {$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
 {$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TABivector): string;
+var
+  FactoredValue: TBivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TATrivector): string;
+var
+  FactoredValue: TTrivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToString(const AQuantity: TAMultivector): string;
+var
+  FactoredValue: TMultivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TAVector): string;
+var
+  FactoredValue: TVector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TABivector): string;
+var
+  FactoredValue: TBivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TATrivector): string;
+var
+  FactoredValue: TTrivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+end;
+
+function TFactoredUnit.ToVerboseString(const AQuantity: TAMultivector): string;
+var
+  FactoredValue: TMultivector;
+begin
+{$IFDEF USEADIM}
+  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := U.GetValue(AQuantity.FValue);
+{$ELSE}
+  FactoredValue := U.GetValue(AQuantity);
+{$ENDIF}
+
+  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+end;
+
+class  function TDegreeRec.PutValue(const AValue: double): double;
+begin
   result := AValue * (Pi/180);
 end;
 
 class  function TDegreeRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (Pi/180);
+end;
+
+class  function TDegreeRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (Pi/180);
+end;
+
+class  function TDegreeRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (Pi/180);
+end;
+
+class  function TDegreeRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (Pi/180);
+end;
+
+class  function TDegreeRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (Pi/180);
+end;
+
+class  function TDegreeRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (Pi/180);
+end;
+
+class  function TDegreeRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (Pi/180);
+end;
+
+class  function TDegreeRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (Pi/180);
+end;
+
+class  function TDegreeRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (Pi/180);
 end;
 
 class  function TSquareDegreeRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (Pi*Pi/32400);
 end;
 
 class  function TSquareDegreeRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (Pi*Pi/32400);
+end;
+
+class  function TSquareDegreeRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (Pi*Pi/32400);
+end;
+
+class  function TSquareDegreeRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (Pi*Pi/32400);
+end;
+
+class  function TSquareDegreeRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (Pi*Pi/32400);
+end;
+
+class  function TSquareDegreeRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (Pi*Pi/32400);
+end;
+
+class  function TSquareDegreeRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (Pi*Pi/32400);
+end;
+
+class  function TSquareDegreeRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (Pi*Pi/32400);
+end;
+
+class  function TSquareDegreeRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (Pi*Pi/32400);
+end;
+
+class  function TSquareDegreeRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (Pi*Pi/32400);
 end;
 
 class  function TDayRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (86400);
 end;
 
 class  function TDayRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (86400);
+end;
+
+class  function TDayRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (86400);
+end;
+
+class  function TDayRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (86400);
+end;
+
+class  function TDayRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (86400);
+end;
+
+class  function TDayRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (86400);
+end;
+
+class  function TDayRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (86400);
+end;
+
+class  function TDayRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (86400);
+end;
+
+class  function TDayRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (86400);
+end;
+
+class  function TDayRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (86400);
 end;
 
 class  function THourRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (3600);
 end;
 
 class  function THourRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (3600);
+end;
+
+class  function THourRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function THourRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function THourRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function THourRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function THourRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function THourRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function THourRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function THourRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (3600);
 end;
 
 class  function TMinuteRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (60);
 end;
 
 class  function TMinuteRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (60);
+end;
+
+class  function TMinuteRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (60);
+end;
+
+class  function TMinuteRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (60);
+end;
+
+class  function TMinuteRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (60);
+end;
+
+class  function TMinuteRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (60);
+end;
+
+class  function TMinuteRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (60);
+end;
+
+class  function TMinuteRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (60);
+end;
+
+class  function TMinuteRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (60);
+end;
+
+class  function TMinuteRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (60);
 end;
 
 class  function TSquareDayRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (7464960000);
 end;
 
 class  function TSquareDayRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (7464960000);
+end;
+
+class  function TSquareDayRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (7464960000);
+end;
+
+class  function TSquareDayRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (7464960000);
+end;
+
+class  function TSquareDayRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (7464960000);
+end;
+
+class  function TSquareDayRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (7464960000);
+end;
+
+class  function TSquareDayRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (7464960000);
+end;
+
+class  function TSquareDayRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (7464960000);
+end;
+
+class  function TSquareDayRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (7464960000);
+end;
+
+class  function TSquareDayRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (7464960000);
 end;
 
 class  function TSquareHourRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (12960000);
 end;
 
 class  function TSquareHourRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (12960000);
+end;
+
+class  function TSquareHourRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (12960000);
+end;
+
+class  function TSquareHourRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (12960000);
+end;
+
+class  function TSquareHourRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (12960000);
+end;
+
+class  function TSquareHourRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (12960000);
+end;
+
+class  function TSquareHourRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (12960000);
+end;
+
+class  function TSquareHourRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (12960000);
+end;
+
+class  function TSquareHourRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (12960000);
+end;
+
+class  function TSquareHourRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (12960000);
 end;
 
 class  function TSquareMinuteRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (3600);
 end;
 
 class  function TSquareMinuteRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (3600);
+end;
+
+class  function TSquareMinuteRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TSquareMinuteRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function TSquareMinuteRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TSquareMinuteRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function TSquareMinuteRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TSquareMinuteRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function TSquareMinuteRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TSquareMinuteRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (3600);
 end;
 
 class  function TAstronomicalRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (149597870691);
 end;
 
 class  function TAstronomicalRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (149597870691);
+end;
+
+class  function TAstronomicalRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (149597870691);
+end;
+
+class  function TAstronomicalRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (149597870691);
+end;
+
+class  function TAstronomicalRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (149597870691);
+end;
+
+class  function TAstronomicalRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (149597870691);
+end;
+
+class  function TAstronomicalRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (149597870691);
+end;
+
+class  function TAstronomicalRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (149597870691);
+end;
+
+class  function TAstronomicalRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (149597870691);
+end;
+
+class  function TAstronomicalRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (149597870691);
 end;
 
 class  function TInchRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.0254);
 end;
 
 class  function TInchRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.0254);
+end;
+
+class  function TInchRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.0254);
+end;
+
+class  function TInchRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.0254);
+end;
+
+class  function TInchRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.0254);
+end;
+
+class  function TInchRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.0254);
+end;
+
+class  function TInchRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.0254);
+end;
+
+class  function TInchRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.0254);
+end;
+
+class  function TInchRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.0254);
+end;
+
+class  function TInchRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.0254);
 end;
 
 class  function TFootRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.3048);
 end;
 
 class  function TFootRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.3048);
+end;
+
+class  function TFootRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.3048);
+end;
+
+class  function TFootRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.3048);
+end;
+
+class  function TFootRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.3048);
+end;
+
+class  function TFootRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.3048);
+end;
+
+class  function TFootRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.3048);
+end;
+
+class  function TFootRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.3048);
+end;
+
+class  function TFootRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.3048);
+end;
+
+class  function TFootRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.3048);
 end;
 
 class  function TYardRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.9144);
 end;
 
 class  function TYardRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.9144);
+end;
+
+class  function TYardRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.9144);
+end;
+
+class  function TYardRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.9144);
+end;
+
+class  function TYardRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.9144);
+end;
+
+class  function TYardRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.9144);
+end;
+
+class  function TYardRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.9144);
+end;
+
+class  function TYardRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.9144);
+end;
+
+class  function TYardRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.9144);
+end;
+
+class  function TYardRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.9144);
 end;
 
 class  function TMileRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1609.344);
 end;
 
 class  function TMileRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1609.344);
+end;
+
+class  function TMileRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1609.344);
+end;
+
+class  function TMileRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1609.344);
+end;
+
+class  function TMileRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1609.344);
+end;
+
+class  function TMileRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1609.344);
+end;
+
+class  function TMileRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1609.344);
+end;
+
+class  function TMileRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1609.344);
+end;
+
+class  function TMileRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1609.344);
+end;
+
+class  function TMileRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1609.344);
 end;
 
 class  function TNauticalMileRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1852);
 end;
 
 class  function TNauticalMileRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1852);
+end;
+
+class  function TNauticalMileRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1852);
+end;
+
+class  function TNauticalMileRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1852);
+end;
+
+class  function TNauticalMileRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1852);
+end;
+
+class  function TNauticalMileRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1852);
+end;
+
+class  function TNauticalMileRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1852);
+end;
+
+class  function TNauticalMileRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1852);
+end;
+
+class  function TNauticalMileRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1852);
+end;
+
+class  function TNauticalMileRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1852);
 end;
 
 class  function TAngstromRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1E-10);
 end;
 
 class  function TAngstromRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1E-10);
+end;
+
+class  function TAngstromRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1E-10);
+end;
+
+class  function TAngstromRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1E-10);
+end;
+
+class  function TAngstromRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1E-10);
+end;
+
+class  function TAngstromRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1E-10);
+end;
+
+class  function TAngstromRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1E-10);
+end;
+
+class  function TAngstromRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1E-10);
+end;
+
+class  function TAngstromRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1E-10);
+end;
+
+class  function TAngstromRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1E-10);
 end;
 
 class  function TSquareInchRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.00064516);
 end;
 
 class  function TSquareInchRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.00064516);
+end;
+
+class  function TSquareInchRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.00064516);
+end;
+
+class  function TSquareInchRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.00064516);
+end;
+
+class  function TSquareInchRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.00064516);
+end;
+
+class  function TSquareInchRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.00064516);
+end;
+
+class  function TSquareInchRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.00064516);
+end;
+
+class  function TSquareInchRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.00064516);
+end;
+
+class  function TSquareInchRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.00064516);
+end;
+
+class  function TSquareInchRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.00064516);
 end;
 
 class  function TSquareFootRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.09290304);
 end;
 
 class  function TSquareFootRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.09290304);
+end;
+
+class  function TSquareFootRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.09290304);
+end;
+
+class  function TSquareFootRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.09290304);
+end;
+
+class  function TSquareFootRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.09290304);
+end;
+
+class  function TSquareFootRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.09290304);
+end;
+
+class  function TSquareFootRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.09290304);
+end;
+
+class  function TSquareFootRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.09290304);
+end;
+
+class  function TSquareFootRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.09290304);
+end;
+
+class  function TSquareFootRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.09290304);
 end;
 
 class  function TSquareYardRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.83612736);
 end;
 
 class  function TSquareYardRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.83612736);
+end;
+
+class  function TSquareYardRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.83612736);
+end;
+
+class  function TSquareYardRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.83612736);
+end;
+
+class  function TSquareYardRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.83612736);
+end;
+
+class  function TSquareYardRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.83612736);
+end;
+
+class  function TSquareYardRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.83612736);
+end;
+
+class  function TSquareYardRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.83612736);
+end;
+
+class  function TSquareYardRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.83612736);
+end;
+
+class  function TSquareYardRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.83612736);
 end;
 
 class  function TSquareMileRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (2589988.110336);
 end;
 
 class  function TSquareMileRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (2589988.110336);
+end;
+
+class  function TSquareMileRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (2589988.110336);
+end;
+
+class  function TSquareMileRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (2589988.110336);
+end;
+
+class  function TSquareMileRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (2589988.110336);
+end;
+
+class  function TSquareMileRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (2589988.110336);
+end;
+
+class  function TSquareMileRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (2589988.110336);
+end;
+
+class  function TSquareMileRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (2589988.110336);
+end;
+
+class  function TSquareMileRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (2589988.110336);
+end;
+
+class  function TSquareMileRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (2589988.110336);
 end;
 
 class  function TCubicInchRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.000016387064);
 end;
 
 class  function TCubicInchRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.000016387064);
+end;
+
+class  function TCubicInchRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.000016387064);
+end;
+
+class  function TCubicInchRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.000016387064);
+end;
+
+class  function TCubicInchRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.000016387064);
+end;
+
+class  function TCubicInchRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.000016387064);
+end;
+
+class  function TCubicInchRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.000016387064);
+end;
+
+class  function TCubicInchRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.000016387064);
+end;
+
+class  function TCubicInchRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.000016387064);
+end;
+
+class  function TCubicInchRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.000016387064);
 end;
 
 class  function TCubicFootRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.028316846592);
 end;
 
 class  function TCubicFootRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.028316846592);
+end;
+
+class  function TCubicFootRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.028316846592);
+end;
+
+class  function TCubicFootRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.028316846592);
+end;
+
+class  function TCubicFootRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.028316846592);
+end;
+
+class  function TCubicFootRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.028316846592);
+end;
+
+class  function TCubicFootRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.028316846592);
+end;
+
+class  function TCubicFootRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.028316846592);
+end;
+
+class  function TCubicFootRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.028316846592);
+end;
+
+class  function TCubicFootRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.028316846592);
 end;
 
 class  function TCubicYardRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.764554857984);
 end;
 
 class  function TCubicYardRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.764554857984);
+end;
+
+class  function TCubicYardRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.764554857984);
+end;
+
+class  function TCubicYardRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.764554857984);
+end;
+
+class  function TCubicYardRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.764554857984);
+end;
+
+class  function TCubicYardRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.764554857984);
+end;
+
+class  function TCubicYardRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.764554857984);
+end;
+
+class  function TCubicYardRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.764554857984);
+end;
+
+class  function TCubicYardRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.764554857984);
+end;
+
+class  function TCubicYardRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.764554857984);
 end;
 
 class  function TLitreRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1E-03);
 end;
 
 class  function TLitreRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1E-03);
+end;
+
+class  function TLitreRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1E-03);
+end;
+
+class  function TLitreRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1E-03);
+end;
+
+class  function TLitreRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1E-03);
+end;
+
+class  function TLitreRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1E-03);
+end;
+
+class  function TLitreRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1E-03);
+end;
+
+class  function TLitreRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1E-03);
+end;
+
+class  function TLitreRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1E-03);
+end;
+
+class  function TLitreRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1E-03);
 end;
 
 class  function TGallonRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.0037854119678);
 end;
 
 class  function TGallonRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.0037854119678);
+end;
+
+class  function TGallonRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.0037854119678);
+end;
+
+class  function TGallonRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.0037854119678);
+end;
+
+class  function TGallonRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.0037854119678);
+end;
+
+class  function TGallonRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.0037854119678);
+end;
+
+class  function TGallonRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.0037854119678);
+end;
+
+class  function TGallonRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.0037854119678);
+end;
+
+class  function TGallonRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.0037854119678);
+end;
+
+class  function TGallonRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.0037854119678);
 end;
 
 class  function TTonneRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1E+03);
 end;
 
 class  function TTonneRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1E+03);
+end;
+
+class  function TTonneRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1E+03);
+end;
+
+class  function TTonneRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1E+03);
+end;
+
+class  function TTonneRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1E+03);
+end;
+
+class  function TTonneRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1E+03);
+end;
+
+class  function TTonneRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1E+03);
+end;
+
+class  function TTonneRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1E+03);
+end;
+
+class  function TTonneRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1E+03);
+end;
+
+class  function TTonneRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1E+03);
 end;
 
 class  function TPoundRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.45359237);
 end;
 
 class  function TPoundRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.45359237);
+end;
+
+class  function TPoundRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.45359237);
+end;
+
+class  function TPoundRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.45359237);
+end;
+
+class  function TPoundRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.45359237);
+end;
+
+class  function TPoundRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.45359237);
+end;
+
+class  function TPoundRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.45359237);
+end;
+
+class  function TPoundRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.45359237);
+end;
+
+class  function TPoundRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.45359237);
+end;
+
+class  function TPoundRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.45359237);
 end;
 
 class  function TOunceRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.028349523125);
 end;
 
 class  function TOunceRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.028349523125);
+end;
+
+class  function TOunceRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.028349523125);
+end;
+
+class  function TOunceRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.028349523125);
+end;
+
+class  function TOunceRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.028349523125);
+end;
+
+class  function TOunceRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.028349523125);
+end;
+
+class  function TOunceRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.028349523125);
+end;
+
+class  function TOunceRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.028349523125);
+end;
+
+class  function TOunceRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.028349523125);
+end;
+
+class  function TOunceRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.028349523125);
 end;
 
 class  function TStoneRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (6.35029318);
 end;
 
 class  function TStoneRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (6.35029318);
+end;
+
+class  function TStoneRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (6.35029318);
+end;
+
+class  function TStoneRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (6.35029318);
+end;
+
+class  function TStoneRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (6.35029318);
+end;
+
+class  function TStoneRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (6.35029318);
+end;
+
+class  function TStoneRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (6.35029318);
+end;
+
+class  function TStoneRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (6.35029318);
+end;
+
+class  function TStoneRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (6.35029318);
+end;
+
+class  function TStoneRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (6.35029318);
 end;
 
 class  function TTonRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (907.18474);
 end;
 
 class  function TTonRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (907.18474);
+end;
+
+class  function TTonRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (907.18474);
+end;
+
+class  function TTonRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (907.18474);
+end;
+
+class  function TTonRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (907.18474);
+end;
+
+class  function TTonRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (907.18474);
+end;
+
+class  function TTonRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (907.18474);
+end;
+
+class  function TTonRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (907.18474);
+end;
+
+class  function TTonRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (907.18474);
+end;
+
+class  function TTonRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (907.18474);
 end;
 
 class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1.7826619216279E-36);
 end;
 
 class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1.7826619216279E-36);
 end;
 
 class function TDegreeCelsiusRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue + 273.15;
 end;
 
 class function TDegreeCelsiusRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue - 273.15;
+end;
+
+class  function TDegreeCelsiusRec.PutValue(const AValue: TVector): TVector;
+begin
+end;
+
+class  function TDegreeCelsiusRec.GetValue(const AValue: TVector): TVector;
+begin
+end;
+
+class  function TDegreeCelsiusRec.PutValue(const AValue: TBivector): TBivector;
+begin
+end;
+
+class  function TDegreeCelsiusRec.GetValue(const AValue: TBivector): TBivector;
+begin
+end;
+
+class  function TDegreeCelsiusRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+end;
+
+class  function TDegreeCelsiusRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+end;
+
+class  function TDegreeCelsiusRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+end;
+
+class  function TDegreeCelsiusRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
 end;
 
 class function TDegreeFahrenheitRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := 5/9 * (AValue - 32) + 273.15;
 end;
 
 class function TDegreeFahrenheitRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := 9/5 * AValue - 459.67;
+end;
+
+class  function TDegreeFahrenheitRec.PutValue(const AValue: TVector): TVector;
+begin
+end;
+
+class  function TDegreeFahrenheitRec.GetValue(const AValue: TVector): TVector;
+begin
+end;
+
+class  function TDegreeFahrenheitRec.PutValue(const AValue: TBivector): TBivector;
+begin
+end;
+
+class  function TDegreeFahrenheitRec.GetValue(const AValue: TBivector): TBivector;
+begin
+end;
+
+class  function TDegreeFahrenheitRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+end;
+
+class  function TDegreeFahrenheitRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+end;
+
+class  function TDegreeFahrenheitRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+end;
+
+class  function TDegreeFahrenheitRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
 end;
 
 class  function TMeterPerHourRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1/3600);
 end;
 
 class  function TMeterPerHourRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1/3600);
+end;
+
+class  function TMeterPerHourRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1/3600);
+end;
+
+class  function TMeterPerHourRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1/3600);
+end;
+
+class  function TMeterPerHourRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1/3600);
+end;
+
+class  function TMeterPerHourRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1/3600);
+end;
+
+class  function TMeterPerHourRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1/3600);
+end;
+
+class  function TMeterPerHourRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1/3600);
+end;
+
+class  function TMeterPerHourRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1/3600);
+end;
+
+class  function TMeterPerHourRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1/3600);
 end;
 
 class  function TMilePerHourRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.44704);
 end;
 
 class  function TMilePerHourRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.44704);
+end;
+
+class  function TMilePerHourRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.44704);
+end;
+
+class  function TMilePerHourRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.44704);
+end;
+
+class  function TMilePerHourRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.44704);
+end;
+
+class  function TMilePerHourRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.44704);
+end;
+
+class  function TMilePerHourRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.44704);
+end;
+
+class  function TMilePerHourRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.44704);
+end;
+
+class  function TMilePerHourRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.44704);
+end;
+
+class  function TMilePerHourRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.44704);
 end;
 
 class  function TNauticalMilePerHourRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (463/900);
 end;
 
 class  function TNauticalMilePerHourRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (463/900);
+end;
+
+class  function TNauticalMilePerHourRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (463/900);
+end;
+
+class  function TNauticalMilePerHourRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (463/900);
+end;
+
+class  function TNauticalMilePerHourRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (463/900);
+end;
+
+class  function TNauticalMilePerHourRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (463/900);
+end;
+
+class  function TNauticalMilePerHourRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (463/900);
+end;
+
+class  function TNauticalMilePerHourRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (463/900);
+end;
+
+class  function TNauticalMilePerHourRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (463/900);
+end;
+
+class  function TNauticalMilePerHourRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (463/900);
 end;
 
 class  function TMeterPerHourPerSecondRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1/3600);
 end;
 
 class  function TMeterPerHourPerSecondRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1/3600);
+end;
+
+class  function TMeterPerHourPerSecondRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1/3600);
+end;
+
+class  function TMeterPerHourPerSecondRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1/3600);
+end;
+
+class  function TMeterPerHourPerSecondRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1/3600);
+end;
+
+class  function TMeterPerHourPerSecondRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1/3600);
+end;
+
+class  function TMeterPerHourPerSecondRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1/3600);
+end;
+
+class  function TMeterPerHourPerSecondRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1/3600);
+end;
+
+class  function TMeterPerHourPerSecondRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1/3600);
+end;
+
+class  function TMeterPerHourPerSecondRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1/3600);
 end;
 
 class  function TPoundPerCubicInchRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (27679.9047102031);
 end;
 
 class  function TPoundPerCubicInchRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (27679.9047102031);
+end;
+
+class  function TPoundPerCubicInchRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (27679.9047102031);
+end;
+
+class  function TPoundPerCubicInchRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (27679.9047102031);
+end;
+
+class  function TPoundPerCubicInchRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (27679.9047102031);
+end;
+
+class  function TPoundPerCubicInchRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (27679.9047102031);
+end;
+
+class  function TPoundPerCubicInchRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (27679.9047102031);
+end;
+
+class  function TPoundPerCubicInchRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (27679.9047102031);
+end;
+
+class  function TPoundPerCubicInchRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (27679.9047102031);
+end;
+
+class  function TPoundPerCubicInchRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (27679.9047102031);
 end;
 
 class  function TPoundForceRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (4.4482216152605);
 end;
 
 class  function TPoundForceRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (4.4482216152605);
+end;
+
+class  function TPoundForceRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (4.4482216152605);
+end;
+
+class  function TPoundForceRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (4.4482216152605);
+end;
+
+class  function TPoundForceRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (4.4482216152605);
+end;
+
+class  function TPoundForceRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (4.4482216152605);
+end;
+
+class  function TPoundForceRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (4.4482216152605);
+end;
+
+class  function TPoundForceRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (4.4482216152605);
+end;
+
+class  function TPoundForceRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (4.4482216152605);
+end;
+
+class  function TPoundForceRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (4.4482216152605);
 end;
 
 class  function TBarRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1E+05);
 end;
 
 class  function TBarRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1E+05);
+end;
+
+class  function TBarRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1E+05);
+end;
+
+class  function TBarRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1E+05);
+end;
+
+class  function TBarRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1E+05);
+end;
+
+class  function TBarRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1E+05);
+end;
+
+class  function TBarRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1E+05);
+end;
+
+class  function TBarRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1E+05);
+end;
+
+class  function TBarRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1E+05);
+end;
+
+class  function TBarRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1E+05);
 end;
 
 class  function TPoundPerSquareInchRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (6894.75729316836);
 end;
 
 class  function TPoundPerSquareInchRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (6894.75729316836);
+end;
+
+class  function TPoundPerSquareInchRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (6894.75729316836);
+end;
+
+class  function TPoundPerSquareInchRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (6894.75729316836);
+end;
+
+class  function TPoundPerSquareInchRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (6894.75729316836);
+end;
+
+class  function TPoundPerSquareInchRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (6894.75729316836);
+end;
+
+class  function TPoundPerSquareInchRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (6894.75729316836);
+end;
+
+class  function TPoundPerSquareInchRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (6894.75729316836);
+end;
+
+class  function TPoundPerSquareInchRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (6894.75729316836);
+end;
+
+class  function TPoundPerSquareInchRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (6894.75729316836);
 end;
 
 class  function TWattHourRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (3600);
 end;
 
 class  function TWattHourRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (3600);
+end;
+
+class  function TWattHourRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TWattHourRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function TWattHourRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TWattHourRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function TWattHourRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TWattHourRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function TWattHourRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TWattHourRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (3600);
 end;
 
 class  function TElectronvoltRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1.602176634E-019);
 end;
 
 class  function TElectronvoltRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1.602176634E-019);
+end;
+
+class  function TElectronvoltRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1.602176634E-019);
+end;
+
+class  function TElectronvoltRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1.602176634E-019);
+end;
+
+class  function TElectronvoltRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1.602176634E-019);
+end;
+
+class  function TElectronvoltRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1.602176634E-019);
+end;
+
+class  function TElectronvoltRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1.602176634E-019);
+end;
+
+class  function TElectronvoltRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1.602176634E-019);
+end;
+
+class  function TElectronvoltRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1.602176634E-019);
+end;
+
+class  function TElectronvoltRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1.602176634E-019);
 end;
 
 class  function TPoundForceInchRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (0.112984829027617);
 end;
 
 class  function TPoundForceInchRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (0.112984829027617);
+end;
+
+class  function TPoundForceInchRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (0.112984829027617);
+end;
+
+class  function TPoundForceInchRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (0.112984829027617);
+end;
+
+class  function TPoundForceInchRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (0.112984829027617);
+end;
+
+class  function TPoundForceInchRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (0.112984829027617);
+end;
+
+class  function TPoundForceInchRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (0.112984829027617);
+end;
+
+class  function TPoundForceInchRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (0.112984829027617);
+end;
+
+class  function TPoundForceInchRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (0.112984829027617);
+end;
+
+class  function TPoundForceInchRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (0.112984829027617);
 end;
 
 class  function TRydbergRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (2.1798723611035E-18);
 end;
 
 class  function TRydbergRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (2.1798723611035E-18);
+end;
+
+class  function TRydbergRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (2.1798723611035E-18);
+end;
+
+class  function TRydbergRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (2.1798723611035E-18);
+end;
+
+class  function TRydbergRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (2.1798723611035E-18);
+end;
+
+class  function TRydbergRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (2.1798723611035E-18);
+end;
+
+class  function TRydbergRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (2.1798723611035E-18);
+end;
+
+class  function TRydbergRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (2.1798723611035E-18);
+end;
+
+class  function TRydbergRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (2.1798723611035E-18);
+end;
+
+class  function TRydbergRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (2.1798723611035E-18);
 end;
 
 class  function TCalorieRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (4.184);
 end;
 
 class  function TCalorieRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (4.184);
+end;
+
+class  function TCalorieRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (4.184);
+end;
+
+class  function TCalorieRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (4.184);
+end;
+
+class  function TCalorieRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (4.184);
+end;
+
+class  function TCalorieRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (4.184);
+end;
+
+class  function TCalorieRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (4.184);
+end;
+
+class  function TCalorieRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (4.184);
+end;
+
+class  function TCalorieRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (4.184);
+end;
+
+class  function TCalorieRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (4.184);
 end;
 
 class  function TJoulePerDegreeRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (180/Pi);
 end;
 
 class  function TJoulePerDegreeRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (180/Pi);
+end;
+
+class  function TJoulePerDegreeRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (180/Pi);
+end;
+
+class  function TJoulePerDegreeRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (180/Pi);
+end;
+
+class  function TJoulePerDegreeRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (180/Pi);
+end;
+
+class  function TJoulePerDegreeRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (180/Pi);
+end;
+
+class  function TJoulePerDegreeRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (180/Pi);
+end;
+
+class  function TJoulePerDegreeRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (180/Pi);
+end;
+
+class  function TJoulePerDegreeRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (180/Pi);
+end;
+
+class  function TJoulePerDegreeRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (180/Pi);
 end;
 
 class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (180/Pi);
 end;
 
 class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (180/Pi);
+end;
+
+class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (180/Pi);
+end;
+
+class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (180/Pi);
+end;
+
+class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (180/Pi);
+end;
+
+class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (180/Pi);
+end;
+
+class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (180/Pi);
+end;
+
+class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (180/Pi);
+end;
+
+class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (180/Pi);
+end;
+
+class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (180/Pi);
 end;
 
 class  function TAmpereHourRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (3600);
 end;
 
 class  function TAmpereHourRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (3600);
+end;
+
+class  function TAmpereHourRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TAmpereHourRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function TAmpereHourRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TAmpereHourRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function TAmpereHourRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TAmpereHourRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (3600);
+end;
+
+class  function TAmpereHourRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (3600);
+end;
+
+class  function TAmpereHourRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (3600);
 end;
 
 class  function TPoundForcePerInchRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (175.126835246476);
 end;
 
 class  function TPoundForcePerInchRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (175.126835246476);
+end;
+
+class  function TPoundForcePerInchRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (175.126835246476);
+end;
+
+class  function TPoundForcePerInchRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (175.126835246476);
+end;
+
+class  function TPoundForcePerInchRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (175.126835246476);
+end;
+
+class  function TPoundForcePerInchRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (175.126835246476);
+end;
+
+class  function TPoundForcePerInchRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (175.126835246476);
+end;
+
+class  function TPoundForcePerInchRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (175.126835246476);
+end;
+
+class  function TPoundForcePerInchRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (175.126835246476);
+end;
+
+class  function TPoundForcePerInchRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (175.126835246476);
 end;
 
 class  function TElectronvoltSecondRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1.60217742320523E-019);
 end;
 
 class  function TElectronvoltSecondRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1.60217742320523E-019);
+end;
+
+class  function TElectronvoltSecondRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1.60217742320523E-019);
+end;
+
+class  function TElectronvoltSecondRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1.60217742320523E-019);
+end;
+
+class  function TElectronvoltSecondRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1.60217742320523E-019);
+end;
+
+class  function TElectronvoltSecondRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1.60217742320523E-019);
+end;
+
+class  function TElectronvoltSecondRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1.60217742320523E-019);
+end;
+
+class  function TElectronvoltSecondRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1.60217742320523E-019);
+end;
+
+class  function TElectronvoltSecondRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1.60217742320523E-019);
+end;
+
+class  function TElectronvoltSecondRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1.60217742320523E-019);
 end;
 
 class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
   result := AValue * (1.7826619216279E-36);
 end;
 
 class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: double): double;
 begin
-{$IFDEF USEADIM}
-{$ENDIF}
+  result := AValue / (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: TVector): TVector;
+begin
+  result := AValue * (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: TVector): TVector;
+begin
+  result := AValue / (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue * (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: TBivector): TBivector;
+begin
+  result := AValue / (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue * (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: TTrivector): TTrivector;
+begin
+  result := AValue / (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: TMultivector): TMultivector;
+begin
+  result := AValue * (1.7826619216279E-36);
+end;
+
+class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: TMultivector): TMultivector;
+begin
   result := AValue / (1.7826619216279E-36);
 end;
 
@@ -8081,33 +13221,33 @@ begin
 {$ENDIF}
 end;
 
-function ArcCos(const AQuantity: double): TAScalar;
+function ArcCos(const AValue: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcCos(AQuantity);
+  result.FValue := Math.ArcCos(AValue);
 {$ELSE}
-  result := Math.ArcCos(AQuantity);
+  result := Math.ArcCos(AValue);
 {$ENDIF}
 end;
 
-function ArcSin(const AQuantity: double): TAScalar;
+function ArcSin(const AValue: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := Math.ArcSin(AQuantity);
+  result.FValue := Math.ArcSin(AValue);
 {$ELSE}
-  result := Math.ArcSin(AQuantity);
+  result := Math.ArcSin(AValue);
 {$ENDIF}
 end;
 
-function ArcTan(const AQuantity: double): TAScalar;
+function ArcTan(const AValue: double): TAScalar;
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := cScalar;
-  result.FValue := System.ArcTan(AQuantity);
+  result.FValue := System.ArcTan(AValue);
 {$ELSE}
-  result := System.ArcTan(AQuantity);
+  result := System.ArcTan(AValue);
 {$ENDIF}
 end;
 

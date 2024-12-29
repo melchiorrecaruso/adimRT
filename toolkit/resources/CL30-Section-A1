@@ -490,6 +490,17 @@ type
     function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    function ToString(const AQuantity: TAVector): string;
+    function ToString(const AQuantity: TABivector): string;
+    function ToString(const AQuantity: TATrivector): string;
+    function ToString(const AQuantity: TAMultivector): string;
+
+    function ToVerboseString(const AQuantity: TAVector): string;
+    function ToVerboseString(const AQuantity: TABivector): string;
+    function ToVerboseString(const AQuantity: TATrivector): string;
+    function ToVerboseString(const AQuantity: TAMultivector): string;
+
     class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
     class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
     class operator *(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
@@ -537,9 +548,36 @@ type
     function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
     class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+
+    function ToString(const AQuantity: TAVector): string;
+    function ToString(const AQuantity: TABivector): string;
+    function ToString(const AQuantity: TATrivector): string;
+    function ToString(const AQuantity: TAMultivector): string;
+
+    function ToVerboseString(const AQuantity: TAVector): string;
+    function ToVerboseString(const AQuantity: TABivector): string;
+    function ToVerboseString(const AQuantity: TATrivector): string;
+    function ToVerboseString(const AQuantity: TAMultivector): string;
+
   {$IFDEF USEADIM}
     class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
     class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
+    class operator *(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+    class operator /(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+    class operator *(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+    class operator /(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+    class operator *(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator /(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+    class operator *(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator /(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
   {$ENDIF}
   end;
 

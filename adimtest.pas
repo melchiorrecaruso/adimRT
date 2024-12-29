@@ -20,7 +20,7 @@
 program adimtest;
 
 uses
-  ADim, Math, SysUtils;
+  ADim, CL3, Math, SysUtils;
 
 var
   side1: TAScalar;
@@ -170,13 +170,29 @@ var
   Probability: TAScalar;
   mu: TAScalar;
 
-  E1, E2: TAScalar;
+  ELV1, ELV2: TAScalar;
   L1, L2: TAScalar;
 
   kfactor: TAScalar;
   bfactor: TAScalar;
   U0: TAScalar;
   TunnelingProbability: TAScalar;
+
+  side1_: TAVector;
+  side2_: TAVector;
+  area_: TABivector;
+  displacement_: TAVector;
+  speed_: TAVector;
+  acc_: TAVector;
+  momentum_: TAVector;
+
+  angle_: TABivector;
+  angularspeed_: TABivector;
+  angularacc_: TABivector;
+  radius_: TAVector;
+  angularmomentum_: TABivector;
+  force_: TAVector;
+  torque_: TABivector;
 
 begin
   ExitCode := 0;
@@ -1006,25 +1022,106 @@ begin
   Mass    := 511*keV/SquaredSpeedOfLight;
 
   // SubCase-1
-  E1      := 7*eV;
+  ELV1    := 7*eV;
   L1      := 5*nm;
-  kfactor := SquareRoot(2*Mass*E1/SquarePower(ReducedPlanckConstant));
-  bfactor := SquareRoot(2*Mass*(U0 - E1))/ReducedPlanckConstant;
+  kfactor := SquareRoot(2*Mass*ELV1/SquarePower(ReducedPlanckConstant));
+  bfactor := SquareRoot(2*Mass*(U0 - ELV1))/ReducedPlanckConstant;
   TunnelingProbability := (16*SquarePower(kfactor)*SquarePower(bfactor))/SquarePower(SquarePower(kfactor) + SquarePower(bfactor))*Exp(-2*bfactor*L1);
 
   if ReciprocalMeterUnit.ToString(bfactor, 3, 3, [pNano])        <> '8.87 1/nm' then halt(1);
   if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)]) <> '9.75E-039' then halt(2);
 
   // SubCase-2
-  E2      := 9*eV;
+  ELV2    := 9*eV;
   L2      := 1*nm;
-  kfactor := SquareRoot(2*Mass*E2/SquarePower(ReducedPlanckConstant));
-  bfactor := SquareRoot(2*Mass*(U0 - E2))/ReducedPlanckConstant;
-  TunnelingProbability := (16*(E2/U0)*(1-E2/U0))*Exp(-2*bfactor*L2);
+  kfactor := SquareRoot(2*Mass*ELV2/SquarePower(ReducedPlanckConstant));
+  bfactor := SquareRoot(2*Mass*(U0 - ELV2))/ReducedPlanckConstant;
+  TunnelingProbability := (16*(ELV2/U0)*(1-ELV2/U0))*Exp(-2*bfactor*L2);
 
   if ReciprocalMeterUnit.ToString(bfactor, 3, 3, [pNano])        <> '5.12 1/nm' then halt(1);
   if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)]) <> '5.11E-005' then halt(2);
   writeln('* TEST-107: PASSED');
 
+  // TEST-501 : Surface
+  side1_ := 5*e1*m;
+  side2_ := 10*e2*m;
+  area_  := 50*e12*m2;
+  area_  := side1_.wedge(side2_);
+  side1_ := area_.dot(1/side2_);
+  side2_ := (1/side1_).dot(area_);
+  if m2.ToString(area_) <> '(+50e12) m2' then halt(1);
+  if m.ToString(side1_) <> '(+5e1) m'    then halt(2);
+  if m.ToString(side2_) <> '(+10e2) m'   then halt(3);
+  writeln('* TEST-501: PASSED');
+
+  // TEST-502: Speed
+  displacement_ := (5*e1 + 5*e2)*m;
+  time          := 2*s;
+  speed_        := displacement_/time;
+  if MeterPerSecondUnit.ToString(speed_) <> '(+2.5e1 +2.5e2) m/s' then halt(1);
+  writeln('* TEST-502: PASSED');
+
+  // TEST-503: Acceleration
+  speed_ := (5*e1 + 5*e2)*m/s;
+  time   := 2*s;
+  acc_   := speed_/time;
+  if MeterPerSquareSecondUnit.ToString(acc_) <> '(+2.5e1 +2.5e2) m/s2' then halt(1);
+  writeln('* TEST-503: PASSED');
+
+  // TEST-504: Momentum
+  mass      := 10*kg;
+  speed_    := (5*e1 + 5*e2)*m/s;
+  momentum_ := mass*speed_;
+  if KilogramMeterPerSecondUnit.ToString(momentum_) <> '(+50e1 +50e2) kg.m/s' then halt(1);
+  writeln('* TEST-504: PASSED');
+
+  // TEST-505: Angular speed
+  angle_ := (10*e13)*rad;
+  time   := 2.5*s;
+  angularspeed_ := angle_/time;
+  time := angle_.dot(1/angularspeed_);
+  freq := angularspeed_.dot(1/angle_);
+
+  if SecondUnit.ToVerboseString(time) <> '2.5 seconds'              then halt(1);
+  if RadianPerSecondUnit.ToString(angularspeed_) <> '(+4e13) rad/s' then halt(2);
+  writeln('* TEST-505: PASSED');
+
+  // TEST-506: Angular acceleration
+  angularspeed_ := 5*e13*rad/s;
+  angularacc_   := angularspeed_/(2*s);
+  if RadianPerSquareSecondUnit.ToString(angularacc_) <> '(+2.5e13) rad/s2' then halt(1);
+  writeln('* TEST-506: PASSED');
+
+  // TEST-507: Angular momentum
+  radius_          := 2*e1*m;
+  momentum_        := 5*e2*kg*m/s;
+  angularmomentum_ := radius_.wedge(momentum_);
+  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e12) kg.m2/s' then halt(1);
+  writeln('* TEST-507: PASSED');
+
+  // TEST-508: Force
+  mass   := 10*kg;
+  acc_   := (2*e1 + 2*e2)*m/s2;
+  force_ := mass*acc_;
+  if NewtonUnit.ToString(force_) <> '(+20e1 +20e2) N' then halt(1);
+
+  momentum_ := 10*e1*kg*m/s;
+  time      := 10*s;
+  force_    := momentum_/time;
+  if NewtonUnit.ToString(force_) <> '(+1e1) N' then halt(2);
+  writeln('* TEST-508: PASSED');
+
+  // TEST-509: Torque
+  radius_ :=  2*e1*m;
+  force_  := 10*e2*N;
+  torque_ := radius_.wedge(force_);
+  radius_ := torque_.dot(1/force_);
+  force_  := (1/radius_).dot(torque_);
+  if NewtonMeterUnit.ToString(torque_) <> '(+20e12) N.m' then halt(1);
+  if MeterUnit.ToString(radius_) <> '(+2e1) m'           then halt(2);
+  if NewtonUnit.ToString(force_) <> '(+10e2) N'          then halt(3);
+  writeln('* TEST-509: PASSED');
+
+  writeln;
   writeln('ADIM-TEST DONE.');
 end.
