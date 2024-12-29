@@ -194,6 +194,9 @@ var
   force_: TAVector;
   torque_: TABivector;
 
+  magneticfield_: TABivector;
+  magneticflux_: TATrivector;
+
 begin
   ExitCode := 0;
   DefaultFormatSettings.DecimalSeparator := '.';
@@ -1121,6 +1124,18 @@ begin
   if MeterUnit.ToString(radius_) <> '(+2e1) m'           then halt(2);
   if NewtonUnit.ToString(force_) <> '(+10e2) N'          then halt(3);
   writeln('* TEST-509: PASSED');
+
+  // TEST-510: Weber
+  magneticfield_ := (10*e12)*T;
+  area_          := ( 5*e12)*m2;
+  magneticflux_  := -magneticfield_.dual.wedge(area_);
+  magneticfield_ := magneticflux_.dot(1/area_).dual;
+  area_          := -(1/magneticfield_.dual).dot(magneticflux_);
+  if WeberUnit.ToString(magneticflux_) <> '(+50e123) Wb' then halt(1);
+  if TeslaUnit.ToString(magneticfield_) <> '(+10e12) T'  then halt(2);
+  if SquareMeterUnit.ToString(area_) <> '(+5e12) m2'     then halt(3);
+  writeln('* TEST-510: PASSED');
+
 
   writeln;
   writeln('ADIM-TEST DONE.');
