@@ -278,3 +278,4 @@
 ;TWatt?PerSquareMeterPerSteradianPerHertz;kg s-2 sr;%swatt? per square %smeter per steradian per %shertz;%sW/%sm2/sr/%sHz;;;;;;clYellow
 ;TKatal?PerCubicMeter;mol m-3 s-1;%skatal? per cubic %smeter;%skat/%sm3;;;;;;clLime
 ;TCoulomb?PerMole;s A mol-1;%scoulomb? per %smole;%sC/%smol;;;;;;clLime
+;TReciprocalNewton?;s2 kg-1 m-1;reciprocal %snewton?;1/%sN;;;;;;clAqua

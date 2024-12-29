@@ -12,7 +12,7 @@
         <SaveFoldState Value="False"/>
       </Flags>
       <SessionStorage Value="None"/>
-      <Title Value="adimrttest"/>
+      <Title Value="adimtest"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -26,7 +26,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="build/adimrttest"/>
+            <Filename Value="build/adimtest"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -61,9 +61,14 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
+    <RequiredPackages>
+      <Item>
+        <PackageName Value="adimpk"/>
+      </Item>
+    </RequiredPackages>
     <Units>
       <Unit>
-        <Filename Value="adimrttest.pas"/>
+        <Filename Value="adimtest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
@@ -71,7 +76,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="build/adimrttest"/>
+      <Filename Value="build/adimtest"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

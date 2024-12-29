@@ -79,6 +79,7 @@ type
     FSkipVectorialUnits: boolean;
     FUseFuncInsteadOfOperators: boolean;
     FExpandQuantityOperators: boolean;
+    FVectorSpace: longint;
 
     FList:      TToolKitList;
     FDocument:  TStringList;
@@ -118,6 +119,7 @@ type
     procedure Check;
     procedure Run;
   public
+    property VectorSpace: longint read FVectorSpace write FVectorSpace;
     property ExpandQuantityOperators: boolean read FExpandQuantityOperators write FExpandQuantityOperators;
     property UseFuncInsteadOfOperators: boolean read FUseFuncInsteadOfOperators write FUseFuncInsteadOfOperators;
     property Document: TStringList read FDocument;
@@ -139,6 +141,7 @@ begin
   FDocument := TStringList.Create;
   FMessages := TStringList.Create;
 
+  FVectorSpace := 0;
   FSkipVectorialunits := False;
   FUseFuncInsteadOfOperators := False;
   FExpandQuantityOperators := False;
@@ -239,6 +242,200 @@ begin
   ASection.Add('');
 end;
 
+procedure AddScalar(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+begin
+  SectionA.Add('    class function GetValue(const AValue: double): double; static;');
+  SectionA.Add('    class function PutValue(const AValue: double): double; static;');
+
+  if AItem.FFactor.Contains('%s') then
+  begin
+    SectionB.Add(Format('class function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, 1, Pos('|', AItem.FFactor) -1), ['AValue'])]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AValue'])]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end else
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end;
+end;
+
+procedure AddVector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+begin
+  SectionA.Add('    class function GetValue(const AValue: TVector): TVector; static;');
+  SectionA.Add('    class function PutValue(const AValue: TVector): TVector; static;');
+
+  if AItem.FFactor.Contains('%s') then
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TVector): TVector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TVector): TVector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end else
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TVector): TVector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TVector): TVector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end;
+end;
+
+procedure AddBivector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+begin
+  SectionA.Add('    class function GetValue(const AValue: TBivector): TBivector; static;');
+  SectionA.Add('    class function PutValue(const AValue: TBivector): TBivector; static;');
+
+  if AItem.FFactor.Contains('%s') then
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TBivector): TBivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TBivector): TBivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end else
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TBivector): TBivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TBivector): TBivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end;
+end;
+
+procedure AddTrivector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+begin
+  SectionA.Add('    class function GetValue(const AValue: TTrivector): TTrivector; static;');
+  SectionA.Add('    class function PutValue(const AValue: TTrivector): TTrivector; static;');
+
+  if AItem.FFactor.Contains('%s') then
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TTrivector): TTrivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TTrivector): TTrivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end else
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TTrivector): TTrivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TTrivector): TTrivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end;
+end;
+
+procedure AddQuadrivector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+begin
+  SectionA.Add('    class function GetValue(const AValue: TQuadrivector): TQuadrivector; static;');
+  SectionA.Add('    class function PutValue(const AValue: TQuadrivector): TQuadrivector; static;');
+
+  if AItem.FFactor.Contains('%s') then
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TQuadrivector): TQuadrivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TQuadrivector): TQuadrivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end else
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TQuadrivector): TQuadrivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TQuadrivector): TQuadrivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end;
+end;
+
+procedure AddMultivector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+begin
+  SectionA.Add('    class function GetValue(const AValue: TMultivector): TMultivector; static;');
+  SectionA.Add('    class function PutValue(const AValue: TMultivector): TMultivector; static;');
+
+  if AItem.FFactor.Contains('%s') then
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TMultivector): TMultivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TMultivector): TMultivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end else
+  begin
+    SectionB.Add(Format('class  function %s.PutValue(const AValue: TMultivector): TMultivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+
+    SectionB.Add(Format('class  function %s.GetValue(const AValue: TMultivector): TMultivector;', [GetUnitRec(AItem.FQuantity)]));
+    SectionB.Add(Format('begin',[]));
+    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
+    SectionB.Add(Format('end;',[]));
+    SectionB.Add(Format('',[]));
+  end;
+end;
+
 procedure TToolKitBuilder.AddFactoredUnit(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
 begin
   SectionA.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
@@ -251,52 +448,22 @@ begin
   SectionA.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
   SectionA.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
   SectionA.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
-  SectionA.Add('    class function GetValue(const AValue: double): double; static;');
-  SectionA.Add('    class function PutValue(const AValue: double): double; static;');
+
+  AddScalar(AItem, SectionA, SectionB);
+  AddVector(AItem, SectionA, SectionB);
+  AddBivector(AItem, SectionA, SectionB);
+  AddTrivector(AItem, SectionA, SectionB);
+  //AddQuadrivector(AItem, SectionA, SectionB);
+  AddMultivector(AItem, SectionA, SectionB);
+
   SectionA.Add('  end;');
   SectionA.Add('  %s = specialize TFactoredUnit<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
   SectionA.Add('');
-
-  if AItem.FFactor.Contains('%s') then
-  begin
-    SectionB.Add(Format('class function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('{$IFDEF USEADIM}',[]));
-    SectionB.Add(Format('{$ENDIF}', []));
-    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, 1, Pos('|', AItem.FFactor) -1), ['AValue'])]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('{$IFDEF USEADIM}',[]));
-    SectionB.Add(Format('{$ENDIF}', []));
-    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AValue'])]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end else
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('{$IFDEF USEADIM}',[]));
-    SectionB.Add(Format('{$ENDIF}', []));
-    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('{$IFDEF USEADIM}',[]));
-    SectionB.Add(Format('{$ENDIF}', []));
-    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end;
 end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
 const
-  S = '  %-10s : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  S = '  %-10s : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 begin
   if (AItem.FBase = '') then
   begin
@@ -367,7 +534,7 @@ var
   Str: string;
   Factor: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AItem.FFactor <> '' then
@@ -713,6 +880,7 @@ procedure TToolKitBuilder.Run;
 var
   i: longint;
   Stream: TResourceStream;
+  SectionName: string;
 begin
   SectionA0  := TStringList.Create;
   SectionA1  := TStringList.Create;
@@ -728,25 +896,33 @@ begin
   BaseUnitCount     := 0;
   FactoredUnitCount := 0;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-A0', RT_RCDATA);
+  case FVectorSpace of
+    0: SectionName := 'CL00-Section-';
+    1: SectionName := 'CL20-Section-';
+    2: SectionName := 'CL30-Section-';
+    3: SectionName := 'CL13-Section-';
+  else SectionName := 'CL00-Section-';
+  end;
+
+  Stream := TResourceStream.Create(HInstance, SectionName + 'A0', RT_RCDATA);
   SectionA0.LoadFromStream(Stream);
   SectionA0.Insert(0, '');
   SectionA0.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-B0', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'B0', RT_RCDATA);
   SectionB0.LoadFromStream(Stream);
   SectionB0.Insert(0, '');
   SectionB0.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-A1', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'A1', RT_RCDATA);
   SectionA1.LoadFromStream(Stream);
   SectionA1.Insert(0, '');
   SectionA1.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-B1', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'B1', RT_RCDATA);
   SectionB1.LoadFromStream(Stream);
   SectionB1.Insert(0, '');
   SectionB1.Append('');
@@ -758,20 +934,20 @@ begin
   AddPowerTable(SectionA3);
   AddRootTable(SectionA3);
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-A4', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'A4', RT_RCDATA);
   SectionA4.LoadFromStream(Stream);
   SectionA4.Insert(0, '');
   SectionA4.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, 'SECTION-B4', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, SectionName + 'B4', RT_RCDATA);
   SectionB4.LoadFromStream(Stream);
   SectionB4.Insert(0, '');
   SectionB4.Append('');
   Stream.Destroy;
 
   SectionA0.Append('');
-  SectionA0.Append('unit ADimRT;');
+  SectionA0.Append('unit ADim;');
   SectionA0.Append('');
   SectionA0.Append('{$H+}{$J-}');
   SectionA0.Append('{$modeswitch typehelpers}');
@@ -784,7 +960,7 @@ begin
   SectionA0.Append('');
 
   SectionA0.Append('{');
-  SectionA0.Append(Format('  ADimRT library built on %s.', [DateToStr(Now)]));
+  SectionA0.Append(Format('  ADim Run-time library built on %s.', [DateToStr(Now)]));
   SectionA0.Append('');
 
   SectionA0.Append(Format('  Number of base units: %d', [BaseUnitCount]));

@@ -32,12 +32,16 @@ uses
   Forms,
   MainFrm,
   ToolKitUnit,
-  Common, insertform;
+  Common,
+  InsertForm,
+  SysUtils;
 
 {$R *.res}
 
 begin
   Randomize;
+  DefaultFormatSettings.DecimalSeparator  := '.';
+  DefaultFormatSettings.ThousandSeparator := ',';
   RequireDerivedFormResource:=True;
   Application.Title:='ADimPas Toolkit';
   Application.Scaled:=True;

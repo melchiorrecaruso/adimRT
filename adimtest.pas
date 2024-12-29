@@ -1,5 +1,5 @@
 {
-  Description: ADimRT Test program.
+  Description: ADim Test program.
 
   Copyright (C) 2024 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -17,166 +17,182 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
-program adimrttest;
+program adimtest;
 
 uses
-  ADimRT, Math, SysUtils;
+  ADim, CL3, Math, SysUtils;
 
 var
-  side1: TQuantity;
-  side2, side3, side4: TQuantity;
-  area: TQuantity;
-  volume: TQuantity;
-  hypervolume: TQuantity;
+  side1: TAScalar;
+  side2, side3, side4: TAScalar;
+  area: TAScalar;
+  volume: TAScalar;
+  hypervolume: TAScalar;
 
-  pressure: TQuantity;
-  stiffness: TQuantity;
+  pressure: TAScalar;
+  stiffness: TAScalar;
 
-  squarecharge: TQuantity;
-  capacitance: TQuantity;
+  squarecharge: TAScalar;
+  capacitance: TAScalar;
 
-  distance: TQuantity;
-  tolerance: TQuantity;
-  time: TQuantity;
-  speed: TQuantity;
-  spin: TQuantity;
-  acc: TQuantity;
-  density: TQuantity;
-  specificw: TQuantity;
-  force, normal: TQuantity;
+  distance: TAScalar;
+  tolerance: TAScalar;
+  time: TAScalar;
+  speed: TAScalar;
+  spin: TAScalar;
+  acc: TAScalar;
+  density: TAScalar;
+  specificw: TAScalar;
+  force, normal: TAScalar;
 
-  torque: TQuantity;
-  work: TQuantity;
-  power: TQuantity;
+  torque: TAScalar;
+  work: TAScalar;
+  power: TAScalar;
 
-  charge: TQuantity;
-  potential: TQuantity;
-  current: TQuantity;
+  charge: TAScalar;
+  potential: TAScalar;
+  current: TAScalar;
 
-  flux: TQuantity;
-  fluxdensity: TQuantity;
+  flux: TAScalar;
+  fluxdensity: TAScalar;
 
-  inductance: TQuantity;
-  resistance: TQuantity;
-  conductance: TQuantity;
+  inductance: TAScalar;
+  resistance: TAScalar;
+  conductance: TAScalar;
 
-  solidangle: TQuantity;
-  intensity: TQuantity;
-  luminousflux: TQuantity;
+  solidangle: TAScalar;
+  intensity: TAScalar;
+  luminousflux: TAScalar;
 
-  dose1: TQuantity;
-  dose2: TQuantity;
+  dose1: TAScalar;
+  dose2: TAScalar;
 
-  angularspeed: TQuantity;
+  angularspeed: TAScalar;
 
-  kA: TQuantity;
-  kAr: TQuantity;
-  radius: TQuantity;
-  radius1: TQuantity;
-  radius2: TQuantity;
+  kA: TAScalar;
+  kAr: TAScalar;
+  radius: TAScalar;
+  radius1: TAScalar;
+  radius2: TAScalar;
 
-  Mass: TQuantity;
-  MassOfSun: TQuantity;
-  MassOfSagittariusAStar: TQuantity;
-  eta: TQuantity;
-  Cb: TQuantity;
+  Mass: TAScalar;
+  MassOfSun: TAScalar;
+  MassOfSagittariusAStar: TAScalar;
+  eta: TAScalar;
+  Cb: TAScalar;
 
-  mass1: TQuantity;
-  mass2: TQuantity;
+  mass1: TAScalar;
+  mass2: TAScalar;
 
-  cCd: TQuantity;
-  angle: TQuantity;
+  cCd: TAScalar;
+  angle: TAScalar;
 
-  Uc: TQuantity;
-  Ug: TQuantity;
+  Uc: TAScalar;
+  Ug: TAScalar;
 
-  Ue: TQuantity;
-  kx: TQuantity;
-  x: TQuantity;
+  Ue: TAScalar;
+  kx: TAScalar;
+  x: TAScalar;
 
-  q1: TQuantity;
-  q2: TQuantity;
-  Uel: TQuantity;
-  U: TQuantity;
+  q1: TAScalar;
+  q2: TAScalar;
+  Uel: TAScalar;
+  U: TAScalar;
 
-  p: TQuantity;
-  p2: TQuantity;
-  impulse: TQuantity;
-  Lp: TQuantity;
+  p: TAScalar;
+  p2: TAScalar;
+  impulse: TAScalar;
+  Lp: TAScalar;
 
-  flowrate: TQuantity;
+  flowrate: TAScalar;
 
-  lambda: TQuantity;
-  deltadist: TQuantity;
-  deltatemp: TQuantity;
+  lambda: TAScalar;
+  deltadist: TAScalar;
+  deltatemp: TAScalar;
 
-  specificheatcapacity: TQuantity;
-  heatcapacity: TQuantity;
+  specificheatcapacity: TAScalar;
+  heatcapacity: TAScalar;
 
-  _m1: TQuantity;
-  _m2: TQuantity;
-  _tf: TQuantity;
-  _t1: TQuantity;
-  _t2: TQuantity;
-  _c1: TQuantity;
-  _c2: TQuantity;
+  _m1: TAScalar;
+  _m2: TAScalar;
+  _tf: TAScalar;
+  _t1: TAScalar;
+  _t2: TAScalar;
+  _c1: TAScalar;
+  _c2: TAScalar;
 
-  lambda2: TQuantity;
+  lambda2: TAScalar;
 
-  E: TQuantity;
-  sigma: TQuantity;
+  E: TAScalar;
+  sigma: TAScalar;
 
-  B: TQuantity;
-  len: TQuantity;
-  r: TQuantity;
-  z: TQuantity;
+  B: TAScalar;
+  len: TAScalar;
+  r: TAScalar;
+  z: TAScalar;
   loops: longint;
 
-  i1, i2: TQuantity;
-  magneticflux: TQuantity;
+  i1, i2: TAScalar;
+  magneticflux: TAScalar;
 
-  DeltaE: TQuantity;
+  DeltaE: TAScalar;
 
-  Ampl: TQuantity;
-  Kw: TQuantity;
-  Omega: TQuantity;
-  phi: TQuantity;
+  Ampl: TAScalar;
+  Kw: TAScalar;
+  Omega: TAScalar;
+  phi: TAScalar;
 
-  wavelen: TQuantity;
-  wavelenc: TQuantity;
-  yspeed: TQuantity;
-  yacc: TQuantity;
+  wavelen: TAScalar;
+  wavelenc: TAScalar;
+  yspeed: TAScalar;
+  yacc: TAScalar;
 
-  E0: TQuantity;
-  Energy: TQuantity;
-  freq: TQuantity;
+  E0: TAScalar;
+  Energy: TAScalar;
+  freq: TAScalar;
 
-  I: TQuantity;
-  Re: TQuantity;
+  I: TAScalar;
+  Re: TAScalar;
 
   num: integer;
-  alpha: TQuantity;
-  kc: TQuantity;
-  BoxLen: TQuantity;
-  EnergyLevels: array[1..4] of TQuantity;
-  SquarePsi: array[1..4] of TQuantity;
-  Psi0: TQuantity;
-  PsiValues: array [1..4] of TQuantity;
-  A0: TQuantity;
-  y: TQuantity;
+  alpha: TAScalar;
+  kc: TAScalar;
+  BoxLen: TAScalar;
+  EnergyLevels: array[1..4] of TAScalar;
+  SquarePsi: array[1..4] of TAScalar;
+  Psi0: TAScalar;
+  PsiValues: array [1..4] of TAScalar;
+  A0: TAScalar;
+  y: TAScalar;
 
   Iteration: longint;
   Iterations: longint;
-  Probability: TQuantity;
-  mu: TQuantity;
+  Probability: TAScalar;
+  mu: TAScalar;
 
-  E1, E2: TQuantity;
-  L1, L2: TQuantity;
+  ELV1, ELV2: TAScalar;
+  L1, L2: TAScalar;
 
-  kfactor: TQuantity;
-  bfactor: TQuantity;
-  U0: TQuantity;
-  TunnelingProbability: TQuantity;
+  kfactor: TAScalar;
+  bfactor: TAScalar;
+  U0: TAScalar;
+  TunnelingProbability: TAScalar;
+
+  side1_: TAVector;
+  side2_: TAVector;
+  area_: TABivector;
+  displacement_: TAVector;
+  speed_: TAVector;
+  acc_: TAVector;
+  momentum_: TAVector;
+
+  angle_: TABivector;
+  angularspeed_: TABivector;
+  angularacc_: TABivector;
+  radius_: TAVector;
+  angularmomentum_: TABivector;
+  force_: TAVector;
+  torque_: TABivector;
 
 begin
   ExitCode := 0;
@@ -681,7 +697,7 @@ begin
   z        := 0*cm;
   B        := MagneticPermeability/(2*pi) * (current/(SquareRoot(CubicPower(SquarePower(z)+SquarePower(R)))/SquarePower(R)));
   {$IFDEF WINDOWS}
-  if Utf8ToAnsi(T.ToVerboseString(B, 4, 2, [pMicro])) <> Utf8ToAnsi('1.2 µT') then halt(1);
+  if Utf8ToAnsi(T.ToString(B, 4, 2, [pMicro])) <> Utf8ToAnsi('1.2 µT') then halt(1);
   {$ENDIF}
   {$IFDEF UNIX}
   if T.ToVerboseString(B, 4, 2, [pMicro]) <> '1.2 microteslas' then halt(1);
@@ -1006,25 +1022,106 @@ begin
   Mass    := 511*keV/SquaredSpeedOfLight;
 
   // SubCase-1
-  E1      := 7*eV;
+  ELV1    := 7*eV;
   L1      := 5*nm;
-  kfactor := SquareRoot(2*Mass*E1/SquarePower(ReducedPlanckConstant));
-  bfactor := SquareRoot(2*Mass*(U0 - E1))/ReducedPlanckConstant;
+  kfactor := SquareRoot(2*Mass*ELV1/SquarePower(ReducedPlanckConstant));
+  bfactor := SquareRoot(2*Mass*(U0 - ELV1))/ReducedPlanckConstant;
   TunnelingProbability := (16*SquarePower(kfactor)*SquarePower(bfactor))/SquarePower(SquarePower(kfactor) + SquarePower(bfactor))*Exp(-2*bfactor*L1);
 
   if ReciprocalMeterUnit.ToString(bfactor, 3, 3, [pNano])        <> '8.87 1/nm' then halt(1);
   if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)]) <> '9.75E-039' then halt(2);
 
   // SubCase-2
-  E2      := 9*eV;
+  ELV2    := 9*eV;
   L2      := 1*nm;
-  kfactor := SquareRoot(2*Mass*E2/SquarePower(ReducedPlanckConstant));
-  bfactor := SquareRoot(2*Mass*(U0 - E2))/ReducedPlanckConstant;
-  TunnelingProbability := (16*(E2/U0)*(1-E2/U0))*Exp(-2*bfactor*L2);
+  kfactor := SquareRoot(2*Mass*ELV2/SquarePower(ReducedPlanckConstant));
+  bfactor := SquareRoot(2*Mass*(U0 - ELV2))/ReducedPlanckConstant;
+  TunnelingProbability := (16*(ELV2/U0)*(1-ELV2/U0))*Exp(-2*bfactor*L2);
 
   if ReciprocalMeterUnit.ToString(bfactor, 3, 3, [pNano])        <> '5.12 1/nm' then halt(1);
   if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)]) <> '5.11E-005' then halt(2);
   writeln('* TEST-107: PASSED');
 
+  // TEST-501 : Surface
+  side1_ := 5*e1*m;
+  side2_ := 10*e2*m;
+  area_  := 50*e12*m2;
+  area_  := side1_.wedge(side2_);
+  side1_ := area_.dot(1/side2_);
+  side2_ := (1/side1_).dot(area_);
+  if m2.ToString(area_) <> '(+50e12) m2' then halt(1);
+  if m.ToString(side1_) <> '(+5e1) m'    then halt(2);
+  if m.ToString(side2_) <> '(+10e2) m'   then halt(3);
+  writeln('* TEST-501: PASSED');
+
+  // TEST-502: Speed
+  displacement_ := (5*e1 + 5*e2)*m;
+  time          := 2*s;
+  speed_        := displacement_/time;
+  if MeterPerSecondUnit.ToString(speed_) <> '(+2.5e1 +2.5e2) m/s' then halt(1);
+  writeln('* TEST-502: PASSED');
+
+  // TEST-503: Acceleration
+  speed_ := (5*e1 + 5*e2)*m/s;
+  time   := 2*s;
+  acc_   := speed_/time;
+  if MeterPerSquareSecondUnit.ToString(acc_) <> '(+2.5e1 +2.5e2) m/s2' then halt(1);
+  writeln('* TEST-503: PASSED');
+
+  // TEST-504: Momentum
+  mass      := 10*kg;
+  speed_    := (5*e1 + 5*e2)*m/s;
+  momentum_ := mass*speed_;
+  if KilogramMeterPerSecondUnit.ToString(momentum_) <> '(+50e1 +50e2) kg.m/s' then halt(1);
+  writeln('* TEST-504: PASSED');
+
+  // TEST-505: Angular speed
+  angle_ := (10*e13)*rad;
+  time   := 2.5*s;
+  angularspeed_ := angle_/time;
+  time := angle_.dot(1/angularspeed_);
+  freq := angularspeed_.dot(1/angle_);
+
+  if SecondUnit.ToVerboseString(time) <> '2.5 seconds'              then halt(1);
+  if RadianPerSecondUnit.ToString(angularspeed_) <> '(+4e13) rad/s' then halt(2);
+  writeln('* TEST-505: PASSED');
+
+  // TEST-506: Angular acceleration
+  angularspeed_ := 5*e13*rad/s;
+  angularacc_   := angularspeed_/(2*s);
+  if RadianPerSquareSecondUnit.ToString(angularacc_) <> '(+2.5e13) rad/s2' then halt(1);
+  writeln('* TEST-506: PASSED');
+
+  // TEST-507: Angular momentum
+  radius_          := 2*e1*m;
+  momentum_        := 5*e2*kg*m/s;
+  angularmomentum_ := radius_.wedge(momentum_);
+  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e12) kg.m2/s' then halt(1);
+  writeln('* TEST-507: PASSED');
+
+  // TEST-508: Force
+  mass   := 10*kg;
+  acc_   := (2*e1 + 2*e2)*m/s2;
+  force_ := mass*acc_;
+  if NewtonUnit.ToString(force_) <> '(+20e1 +20e2) N' then halt(1);
+
+  momentum_ := 10*e1*kg*m/s;
+  time      := 10*s;
+  force_    := momentum_/time;
+  if NewtonUnit.ToString(force_) <> '(+1e1) N' then halt(2);
+  writeln('* TEST-508: PASSED');
+
+  // TEST-509: Torque
+  radius_ :=  2*e1*m;
+  force_  := 10*e2*N;
+  torque_ := radius_.wedge(force_);
+  radius_ := torque_.dot(1/force_);
+  force_  := (1/radius_).dot(torque_);
+  if NewtonMeterUnit.ToString(torque_) <> '(+20e12) N.m' then halt(1);
+  if MeterUnit.ToString(radius_) <> '(+2e1) m'           then halt(2);
+  if NewtonUnit.ToString(force_) <> '(+10e2) N'          then halt(3);
+  writeln('* TEST-509: PASSED');
+
+  writeln;
   writeln('ADIM-TEST DONE.');
 end.

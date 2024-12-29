@@ -1,0 +1,108 @@
+{ Power functions }
+
+function SquarePower(const AQuantity: TAScalar): TAScalar;
+function CubicPower(const AQuantity: TAScalar): TAScalar;
+function QuarticPower(const AQuantity: TAScalar): TAScalar;
+function QuinticPower(const AQuantity: TAScalar): TAScalar;
+function SexticPower(const AQuantity: TAScalar): TAScalar;
+function SquareRoot(const AQuantity: TAScalar): TAScalar;
+function CubicRoot(const AQuantity: TAScalar): TAScalar;
+function QuarticRoot(const AQuantity: TAScalar): TAScalar;
+function QuinticRoot(const AQuantity: TAScalar): TAScalar;
+function SexticRoot(const AQuantity: TAScalar): TAScalar;
+
+{ Trigonometric functions }
+
+function Cos(const AQuantity: TAScalar): double;
+function Sin(const AQuantity: TAScalar): double;
+function Tan(const AQuantity: TAScalar): double;
+function Cotan(const AQuantity: TAScalar): double;
+function Secant(const AQuantity: TAScalar): double;
+function Cosecant(const AQuantity: TAScalar): double;
+
+function ArcCos(const AValue: double): TAScalar;
+function ArcSin(const AValue: double): TAScalar;
+function ArcTan(const AValue: double): TAScalar;
+function ArcTan2(const x, y: double): TAScalar;
+
+{ Math functions }
+
+function Min(const ALeft, ARight: TAScalar): TAScalar;
+function Max(const ALeft, ARight: TAScalar): TAScalar;
+function Exp(const AQuantity: TAScalar): TAScalar;
+
+function Log10(const AQuantity : TAScalar) : double;
+function Log2(const AQuantity : TAScalar) : double;
+function LogN(ABase: longint; const AQuantity: TAScalar): double;
+function LogN(const ABase, AQuantity: TAScalar): double;
+
+function Power(const ABase: TAScalar; AExponent: double): double;
+
+{ Helper functions }
+
+function LessThanOrEqualToZero(const AQuantity: TAScalar): boolean;
+function LessThanZero(const AQuantity: TAScalar): boolean;
+function EqualToZero(const AQuantity: TAScalar): boolean;
+function NotEqualToZero(const AQuantity: TAScalar): boolean;
+function GreaterThanOrEqualToZero(const AQuantity: TAScalar): boolean;
+function GreaterThanZero(const AQuantity: TAScalar): boolean;
+function SameValue(const ALeft, ARight: TAScalar): boolean;
+
+{ Constants }
+
+const
+  AvogadroConstant               : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cReciprocalMole;                     FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
+  BohrMagneton                   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cSquareMeterAmpere;                  FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
+  BohrRadius                     : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeter;                              FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
+  BoltzmannConstant              : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cJoulePerKelvin;                     FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
+  ComptonWaveLength              : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeter;                              FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
+  CoulombConstant                : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareCoulomb;  FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
+  DeuteronMass                   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
+  ElectricPermittivity           : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cFaradPerMeter;                      FValue:     8.8541878128E-12); {$ELSE} (    8.8541878128E-12); {$ENDIF}
+  ElectronMass                   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
+  ElectronCharge                 : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cCoulomb;                            FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
+  MagneticPermeability           : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cHenryPerMeter;                      FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
+  MolarGasConstant               : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cJoulePerMolePerKelvin;              FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
+  NeutronMass                    : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+  NewtonianConstantOfGravitation : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cNewtonSquareMeterPerSquareKilogram; FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
+  PlanckConstant                 : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
+  ProtonMass                     : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+  RydbergConstant                : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cReciprocalMeter;                    FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
+  SpeedOfLight                   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeterPerSecond;                     FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
+  SquaredSpeedOfLight            : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cSquareMeterPerSquareSecond;         FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
+  StandardAccelerationOfGravity  : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cMeterPerSquareSecond;               FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
+  ReducedPlanckConstant          : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogramSquareMeterPerSecond;       FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
+  UnifiedAtomicMassUnit          : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: cKilogram;                           FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
+
+{ Prefix Table }
+
+const
+  PrefixTable: array[pQuetta..pQuecto] of 
+    record  Symbol, Name: string; Exponent: longint end = (
+    (Symbol: 'Q';   Name: 'quetta';  Exponent: +30),
+    (Symbol: 'R';   Name: 'ronna';   Exponent: +27),
+    (Symbol: 'Y';   Name: 'yotta';   Exponent: +24),
+    (Symbol: 'Z';   Name: 'zetta';   Exponent: +21),
+    (Symbol: 'E';   Name: 'exa';     Exponent: +18),  
+    (Symbol: 'P';   Name: 'peta';    Exponent: +15),
+    (Symbol: 'T';   Name: 'tera';    Exponent: +12),
+    (Symbol: 'G';   Name: 'giga';    Exponent: +09),
+    (Symbol: 'M';   Name: 'mega';    Exponent: +06),
+    (Symbol: 'k';   Name: 'kilo';    Exponent: +03),
+    (Symbol: 'h';   Name: 'hecto';   Exponent: +02),
+    (Symbol: 'da';  Name: 'deca';    Exponent: +01),
+    (Symbol: '';    Name: '';        Exponent:  00),
+    (Symbol: 'd';   Name: 'deci';    Exponent: -01),
+    (Symbol: 'c';   Name: 'centi';   Exponent: -02),
+    (Symbol: 'm';   Name: 'milli';   Exponent: -03),
+    (Symbol: 'μ';   Name: 'micro';   Exponent: -06),
+    (Symbol: 'n';   Name: 'nano';    Exponent: -09),
+    (Symbol: 'p';   Name: 'pico';    Exponent: -12),
+    (Symbol: 'f';   Name: 'femto';   Exponent: -15),
+    (Symbol: 'a';   Name: 'atto';    Exponent: -18),
+    (Symbol: 'z';   Name: 'zepto';   Exponent: -21),
+    (Symbol: 'y';   Name: 'yocto';   Exponent: -24),
+    (Symbol: 'r';   Name: 'ronto';   Exponent: -27),
+    (Symbol: 'q';   Name: 'quecto';  Exponent: -30)
+  );
+
