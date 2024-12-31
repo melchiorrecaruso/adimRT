@@ -210,36 +210,44 @@ begin
   ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
   ASection.Add('const');
-  ASection.Add('  c%s = %d;', [GetUnitID(AItem.FQuantity), AItem.FTableIndex]);
+  ASection.Add('  %sId = %d;', [GetUnitID(AItem.FQuantity), AItem.FTableIndex]);
+  ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
+  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
+  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
   ASection.Add('');
-  ASection.Add('type');
-  ASection.Add('  %s = record', [GetUnitRec(AItem.FQuantity)]);
-  ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
-  ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
-  ASection.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
-  ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
-  ASection.Add('  end;');
-  ASection.Add('  %s = specialize TUnit<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
-  ASection.Add('');
+
+  if AItem.FIdentifier <> '' then
+  begin
+    ASection.Add('var');
+    ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
+    ASection.Add('');
+  end;
 end;
 
 procedure TToolKitBuilder.AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
   ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
-  ASection.Add('type');
-  ASection.Add('  %s = record', [GetUnitRec(AItem.FQuantity)]);
-  ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
-  ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
-  ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
-  ASection.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
-  ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
-  ASection.Add('  end;');
-  ASection.Add('  %s = specialize TUnit<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
+  ASection.Add('const');
+  ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
+  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
+  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
   ASection.Add('');
+
+  if AItem.FIdentifier <> '' then
+  begin
+    ASection.Add('var');
+    ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
+    ASection.Add('');
+  end;
 end;
 
 procedure AddScalar(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
@@ -442,7 +450,7 @@ begin
   SectionA.Add('');
   SectionA.Add('type');
   SectionA.Add('  %s = record', [GetUnitRec(AItem.FQuantity)]);
-  SectionA.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
+  SectionA.Add('    const FUnitOfMeasurement = %sId;', [GetUnitID(AItem.FBase)]);
   SectionA.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
   SectionA.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
   SectionA.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
@@ -468,14 +476,7 @@ begin
   if (AItem.FBase = '') then
   begin
     // Base unit symbols
-    ASection.Append('');
-    ASection.Append('var');
-    if AItem.FIdentifier <> '' then
-      ASection.Add(Format('  %s, %sUnit : %s;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]))
-    else
-      ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
 
-    ASection.Append('');
     if AItem.FIdentifier <> '' then
       AddFactoredSymbols(AItem, ASection);
   end else
@@ -483,13 +484,7 @@ begin
     if (AItem.FFactor = '') then
     begin
       // Cloned unit symbols
-      ASection.Append('var');
-      if AItem.FIdentifier <> '' then
-        ASection.Add(Format('  %s, %sUnit : %s;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]))
-      else
-        ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
 
-      ASection.Append('');
       if AItem.FIdentifier <> '' then
         AddFactoredSymbols(AItem, ASection);
     end else

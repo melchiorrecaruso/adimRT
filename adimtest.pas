@@ -1136,7 +1136,6 @@ begin
   if SquareMeterUnit.ToString(area_) <> '(+5e12) m2'     then halt(3);
   writeln('* TEST-510: PASSED');
 
-
   writeln;
   writeln('ADIM-TEST DONE.');
 end.

@@ -471,8 +471,14 @@ type
 
   { TUnit }
 
-  generic TUnit<U> = record
-    type TSelf = specialize TUnit<U>;
+  TUnit = record
+  private
+    FUnitOfMeasurement: longint;
+    FSymbol: string;
+    FName: string;
+    FPluralName: string;
+    FPrefixes: TPrefixes;
+    FExponents: TExponents;
   public
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
@@ -501,27 +507,27 @@ type
     function ToVerboseString(const AQuantity: TATrivector): string;
     function ToVerboseString(const AQuantity: TAMultivector): string;
 
-    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
-    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
-    class operator *(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
-    class operator /(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
-    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
-    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
-    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
-    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator *(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TUnit): TAVector; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TUnit): TAVector; inline;
+    class operator *(const AQuantity: TBivector; const ASelf: TUnit): TABivector; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TUnit): TABivector; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TUnit): TATrivector; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TUnit): TATrivector; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TUnit): TAMultivector; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TUnit): TAMultivector; inline;
   {$IFDEF USEADIM}
-    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
-    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
-    class operator *(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
-    class operator /(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
-    class operator *(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
-    class operator /(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
-    class operator *(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator /(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator *(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
-    class operator /(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator *(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
+    class operator *(const AQuantity: TAVector; const ASelf: TUnit): TAVector; inline;
+    class operator /(const AQuantity: TAVector; const ASelf: TUnit): TAVector; inline;
+    class operator *(const AQuantity: TABivector; const ASelf: TUnit): TABivector; inline;
+    class operator /(const AQuantity: TABivector; const ASelf: TUnit): TABivector; inline;
+    class operator *(const AQuantity: TATrivector; const ASelf: TUnit): TATrivector; inline;
+    class operator /(const AQuantity: TATrivector; const ASelf: TUnit): TATrivector; inline;
+    class operator *(const AQuantity: TAMultivector; const ASelf: TUnit): TAMultivector; inline;
+    class operator /(const AQuantity: TAMultivector; const ASelf: TUnit): TAMultivector; inline;
   {$ENDIF}
   end;
 
