@@ -569,8 +569,15 @@ type
 
   { TFactoredUnit }
 
-  generic TFactoredUnit<U> = record
-    type TSelf = specialize TFactoredUnit<U>;
+  TFactoredUnit = record
+  private
+    FUnitOfMeasurement: longint;
+    FSymbol: string;
+    FName: string;
+    FPluralName: string;
+    FPrefixes: TPrefixes;
+    FExponents: TExponents;
+    FFactor: double;
   public
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
@@ -588,16 +595,17 @@ type
     function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar;
-    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar;
-    class operator *(const AQuantity: TVector; const ASelf: TSelf): TAVector;
-    class operator /(const AQuantity: TVector; const ASelf: TSelf): TAVector;
-    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TABivector;
-    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TABivector;
-    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector;
-    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector;
-    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector;
-    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector;
+
+    class operator *(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
+    class operator *(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 
     function ToString(const AQuantity: TAVector): string;
     function ToString(const AQuantity: TABivector): string;
@@ -610,16 +618,16 @@ type
     function ToVerboseString(const AQuantity: TAMultivector): string;
 
   {$IFDEF USEADIM}
-    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar;
-    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar;
-    class operator *(const AQuantity: TAVector; const ASelf: TSelf): TAVector;
-    class operator /(const AQuantity: TAVector; const ASelf: TSelf): TAVector;
-    class operator *(const AQuantity: TABivector; const ASelf: TSelf): TABivector;
-    class operator /(const AQuantity: TABivector; const ASelf: TSelf): TABivector;
-    class operator *(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector;
-    class operator /(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector;
-    class operator *(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector;
-    class operator /(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector;
+    class operator *(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator *(const AQuantity: TAVector; const ASelf: TFactoredUnit): TAVector; inline;
+    class operator /(const AQuantity: TAVector; const ASelf: TFactoredUnit): TAVector; inline;
+    class operator *(const AQuantity: TABivector; const ASelf: TFactoredUnit): TABivector; inline;
+    class operator /(const AQuantity: TABivector; const ASelf: TFactoredUnit): TABivector; inline;
+    class operator *(const AQuantity: TATrivector; const ASelf: TFactoredUnit): TATrivector; inline;
+    class operator /(const AQuantity: TATrivector; const ASelf: TFactoredUnit): TATrivector; inline;
+    class operator *(const AQuantity: TAMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
+    class operator /(const AQuantity: TAMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
   {$ENDIF}
   end;
 
@@ -651,32 +659,18 @@ var
 
 { TDegree }
 
-type
-  TDegreeRec = record
-    const FUnitOfMeasurement = ScalarId;
-    const FSymbol            = 'deg';
-    const FName              = 'degree';
-    const FPluralName        = 'degrees';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TDegreeUnit = specialize TFactoredUnit<TDegreeRec>;
-
 const
-  deg        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 0; FValue: Pi/180); {$ELSE} (Pi/180); {$ENDIF}
+  DegreeUnit : TFactoredUnit = (
+    FUnitOfMeasurement : ScalarId;
+    FSymbol            : 'deg';
+    FName              : 'degree';
+    FPluralName        : 'degrees';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (Pi/180));
 
 var
-  DegreeUnit : TDegreeUnit;
+  deg : TFactoredUnit absolute DegreeUnit;
 
 { TSteradian }
 
@@ -695,32 +689,18 @@ var
 
 { TSquareDegree }
 
-type
-  TSquareDegreeRec = record
-    const FUnitOfMeasurement = SteradianId;
-    const FSymbol            = 'deg2';
-    const FName              = 'square degree';
-    const FPluralName        = 'square degrees';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TSquareDegreeUnit = specialize TFactoredUnit<TSquareDegreeRec>;
-
 const
-  deg2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 1; FValue: Pi*Pi/32400); {$ELSE} (Pi*Pi/32400); {$ENDIF}
+  SquareDegreeUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SteradianId;
+    FSymbol            : 'deg2';
+    FName              : 'square degree';
+    FPluralName        : 'square degrees';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (Pi*Pi/32400));
 
 var
-  SquareDegreeUnit : TSquareDegreeUnit;
+  deg2 : TFactoredUnit absolute SquareDegreeUnit;
 
 { TSecond }
 
@@ -747,90 +727,48 @@ const
 
 { TDay }
 
-type
-  TDayRec = record
-    const FUnitOfMeasurement = SecondId;
-    const FSymbol            = 'd';
-    const FName              = 'day';
-    const FPluralName        = 'days';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TDayUnit = specialize TFactoredUnit<TDayRec>;
-
 const
-  day        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 86400); {$ELSE} (86400); {$ENDIF}
+  DayUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SecondId;
+    FSymbol            : 'd';
+    FName              : 'day';
+    FPluralName        : 'days';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (86400));
 
 var
-  DayUnit : TDayUnit;
+  day : TFactoredUnit absolute DayUnit;
 
 { THour }
 
-type
-  THourRec = record
-    const FUnitOfMeasurement = SecondId;
-    const FSymbol            = 'h';
-    const FName              = 'hour';
-    const FPluralName        = 'hours';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  THourUnit = specialize TFactoredUnit<THourRec>;
-
 const
-  hr         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 3600); {$ELSE} (3600); {$ENDIF}
+  HourUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SecondId;
+    FSymbol            : 'h';
+    FName              : 'hour';
+    FPluralName        : 'hours';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (3600));
 
 var
-  HourUnit : THourUnit;
+  hr : TFactoredUnit absolute HourUnit;
 
 { TMinute }
 
-type
-  TMinuteRec = record
-    const FUnitOfMeasurement = SecondId;
-    const FSymbol            = 'min';
-    const FName              = 'minute';
-    const FPluralName        = 'minutes';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TMinuteUnit = specialize TFactoredUnit<TMinuteRec>;
-
 const
-  minute     : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 2; FValue: 60); {$ELSE} (60); {$ENDIF}
+  MinuteUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SecondId;
+    FSymbol            : 'min';
+    FName              : 'minute';
+    FPluralName        : 'minutes';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (60));
 
 var
-  MinuteUnit : TMinuteUnit;
+  minute : TFactoredUnit absolute MinuteUnit;
 
 { TSquareSecond }
 
@@ -857,90 +795,48 @@ const
 
 { TSquareDay }
 
-type
-  TSquareDayRec = record
-    const FUnitOfMeasurement = SquareSecondId;
-    const FSymbol            = 'd2';
-    const FName              = 'square day';
-    const FPluralName        = 'square days';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TSquareDayUnit = specialize TFactoredUnit<TSquareDayRec>;
-
 const
-  day2       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 7464960000); {$ELSE} (7464960000); {$ENDIF}
+  SquareDayUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SquareSecondId;
+    FSymbol            : 'd2';
+    FName              : 'square day';
+    FPluralName        : 'square days';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (7464960000));
 
 var
-  SquareDayUnit : TSquareDayUnit;
+  day2 : TFactoredUnit absolute SquareDayUnit;
 
 { TSquareHour }
 
-type
-  TSquareHourRec = record
-    const FUnitOfMeasurement = SquareSecondId;
-    const FSymbol            = 'h2';
-    const FName              = 'square hour';
-    const FPluralName        = 'square hours';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TSquareHourUnit = specialize TFactoredUnit<TSquareHourRec>;
-
 const
-  hr2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 12960000); {$ELSE} (12960000); {$ENDIF}
+  SquareHourUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SquareSecondId;
+    FSymbol            : 'h2';
+    FName              : 'square hour';
+    FPluralName        : 'square hours';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (12960000));
 
 var
-  SquareHourUnit : TSquareHourUnit;
+  hr2 : TFactoredUnit absolute SquareHourUnit;
 
 { TSquareMinute }
 
-type
-  TSquareMinuteRec = record
-    const FUnitOfMeasurement = SquareSecondId;
-    const FSymbol            = 'min2';
-    const FName              = 'square minute';
-    const FPluralName        = 'square minutes';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TSquareMinuteUnit = specialize TFactoredUnit<TSquareMinuteRec>;
-
 const
-  minute2    : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 3; FValue: 3600); {$ELSE} (3600); {$ENDIF}
+  SquareMinuteUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SquareSecondId;
+    FSymbol            : 'min2';
+    FName              : 'square minute';
+    FPluralName        : 'square minutes';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (3600));
 
 var
-  SquareMinuteUnit : TSquareMinuteUnit;
+  minute2 : TFactoredUnit absolute SquareMinuteUnit;
 
 { TCubicSecond }
 
@@ -1060,206 +956,108 @@ const
 
 { TAstronomical }
 
-type
-  TAstronomicalRec = record
-    const FUnitOfMeasurement = MeterId;
-    const FSymbol            = 'au';
-    const FName              = 'astronomical unit';
-    const FPluralName        = 'astronomical units';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TAstronomicalUnit = specialize TFactoredUnit<TAstronomicalRec>;
-
 const
-  au         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 149597870691); {$ELSE} (149597870691); {$ENDIF}
+  AstronomicalUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterId;
+    FSymbol            : 'au';
+    FName              : 'astronomical unit';
+    FPluralName        : 'astronomical units';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (149597870691));
 
 var
-  AstronomicalUnit : TAstronomicalUnit;
+  au : TFactoredUnit absolute AstronomicalUnit;
 
 { TInch }
 
-type
-  TInchRec = record
-    const FUnitOfMeasurement = MeterId;
-    const FSymbol            = 'in';
-    const FName              = 'inch';
-    const FPluralName        = 'inches';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TInchUnit = specialize TFactoredUnit<TInchRec>;
-
 const
-  inch       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 0.0254); {$ELSE} (0.0254); {$ENDIF}
+  InchUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterId;
+    FSymbol            : 'in';
+    FName              : 'inch';
+    FPluralName        : 'inches';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.0254));
 
 var
-  InchUnit : TInchUnit;
+  inch : TFactoredUnit absolute InchUnit;
 
 { TFoot }
 
-type
-  TFootRec = record
-    const FUnitOfMeasurement = MeterId;
-    const FSymbol            = 'ft';
-    const FName              = 'foot';
-    const FPluralName        = 'feet';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TFootUnit = specialize TFactoredUnit<TFootRec>;
-
 const
-  ft         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 0.3048); {$ELSE} (0.3048); {$ENDIF}
+  FootUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterId;
+    FSymbol            : 'ft';
+    FName              : 'foot';
+    FPluralName        : 'feet';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.3048));
 
 var
-  FootUnit : TFootUnit;
+  ft : TFactoredUnit absolute FootUnit;
 
 { TYard }
 
-type
-  TYardRec = record
-    const FUnitOfMeasurement = MeterId;
-    const FSymbol            = 'yd';
-    const FName              = 'yard';
-    const FPluralName        = 'yards';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TYardUnit = specialize TFactoredUnit<TYardRec>;
-
 const
-  yd         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 0.9144); {$ELSE} (0.9144); {$ENDIF}
+  YardUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterId;
+    FSymbol            : 'yd';
+    FName              : 'yard';
+    FPluralName        : 'yards';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.9144));
 
 var
-  YardUnit : TYardUnit;
+  yd : TFactoredUnit absolute YardUnit;
 
 { TMile }
 
-type
-  TMileRec = record
-    const FUnitOfMeasurement = MeterId;
-    const FSymbol            = 'mi';
-    const FName              = 'mile';
-    const FPluralName        = 'miles';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TMileUnit = specialize TFactoredUnit<TMileRec>;
-
 const
-  mi         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1609.344); {$ELSE} (1609.344); {$ENDIF}
+  MileUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterId;
+    FSymbol            : 'mi';
+    FName              : 'mile';
+    FPluralName        : 'miles';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (1609.344));
 
 var
-  MileUnit : TMileUnit;
+  mi : TFactoredUnit absolute MileUnit;
 
 { TNauticalMile }
 
-type
-  TNauticalMileRec = record
-    const FUnitOfMeasurement = MeterId;
-    const FSymbol            = 'nmi';
-    const FName              = 'nautical mile';
-    const FPluralName        = 'nautical miles';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TNauticalMileUnit = specialize TFactoredUnit<TNauticalMileRec>;
-
 const
-  nmi        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1852); {$ELSE} (1852); {$ENDIF}
+  NauticalMileUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterId;
+    FSymbol            : 'nmi';
+    FName              : 'nautical mile';
+    FPluralName        : 'nautical miles';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (1852));
 
 var
-  NauticalMileUnit : TNauticalMileUnit;
+  nmi : TFactoredUnit absolute NauticalMileUnit;
 
 { TAngstrom }
 
-type
-  TAngstromRec = record
-    const FUnitOfMeasurement = MeterId;
-    const FSymbol            = '%sÅ';
-    const FName              = '%sangstrom';
-    const FPluralName        = '%sangstroms';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TAngstromUnit = specialize TFactoredUnit<TAngstromRec>;
-
 const
-  angstrom   : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 8; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  AngstromUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterId;
+    FSymbol            : '%sÅ';
+    FName              : '%sangstrom';
+    FPluralName        : '%sangstroms';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (1E-10));
 
 var
-  AngstromUnit : TAngstromUnit;
+  angstrom : TFactoredUnit absolute AngstromUnit;
 
 { TSquareRootMeter }
 
@@ -1299,119 +1097,63 @@ const
 
 { TSquareInch }
 
-type
-  TSquareInchRec = record
-    const FUnitOfMeasurement = SquareMeterId;
-    const FSymbol            = 'in2';
-    const FName              = 'square inch';
-    const FPluralName        = 'square inches';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TSquareInchUnit = specialize TFactoredUnit<TSquareInchRec>;
-
 const
-  inch2      : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 0.00064516); {$ELSE} (0.00064516); {$ENDIF}
+  SquareInchUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SquareMeterId;
+    FSymbol            : 'in2';
+    FName              : 'square inch';
+    FPluralName        : 'square inches';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.00064516));
 
 var
-  SquareInchUnit : TSquareInchUnit;
+  inch2 : TFactoredUnit absolute SquareInchUnit;
 
 { TSquareFoot }
 
-type
-  TSquareFootRec = record
-    const FUnitOfMeasurement = SquareMeterId;
-    const FSymbol            = 'ft2';
-    const FName              = 'square foot';
-    const FPluralName        = 'square feet';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TSquareFootUnit = specialize TFactoredUnit<TSquareFootRec>;
-
 const
-  ft2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 0.09290304); {$ELSE} (0.09290304); {$ENDIF}
+  SquareFootUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SquareMeterId;
+    FSymbol            : 'ft2';
+    FName              : 'square foot';
+    FPluralName        : 'square feet';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.09290304));
 
 var
-  SquareFootUnit : TSquareFootUnit;
+  ft2 : TFactoredUnit absolute SquareFootUnit;
 
 { TSquareYard }
 
-type
-  TSquareYardRec = record
-    const FUnitOfMeasurement = SquareMeterId;
-    const FSymbol            = 'yd2';
-    const FName              = 'square yard';
-    const FPluralName        = 'square yards';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TSquareYardUnit = specialize TFactoredUnit<TSquareYardRec>;
-
 const
-  yd2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 0.83612736); {$ELSE} (0.83612736); {$ENDIF}
+  SquareYardUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SquareMeterId;
+    FSymbol            : 'yd2';
+    FName              : 'square yard';
+    FPluralName        : 'square yards';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.83612736));
 
 var
-  SquareYardUnit : TSquareYardUnit;
+  yd2 : TFactoredUnit absolute SquareYardUnit;
 
 { TSquareMile }
 
-type
-  TSquareMileRec = record
-    const FUnitOfMeasurement = SquareMeterId;
-    const FSymbol            = 'mi2';
-    const FName              = 'square mile';
-    const FPluralName        = 'square miles';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TSquareMileUnit = specialize TFactoredUnit<TSquareMileRec>;
-
 const
-  mi2        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 10; FValue: 2589988.110336); {$ELSE} (2589988.110336); {$ENDIF}
+  SquareMileUnit : TFactoredUnit = (
+    FUnitOfMeasurement : SquareMeterId;
+    FSymbol            : 'mi2';
+    FName              : 'square mile';
+    FPluralName        : 'square miles';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (2589988.110336));
 
 var
-  SquareMileUnit : TSquareMileUnit;
+  mi2 : TFactoredUnit absolute SquareMileUnit;
 
 { TCubicMeter }
 
@@ -1439,119 +1181,63 @@ const
 
 { TCubicInch }
 
-type
-  TCubicInchRec = record
-    const FUnitOfMeasurement = CubicMeterId;
-    const FSymbol            = 'in3';
-    const FName              = 'cubic inch';
-    const FPluralName        = 'cubic inches';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TCubicInchUnit = specialize TFactoredUnit<TCubicInchRec>;
-
 const
-  inch3      : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.000016387064); {$ELSE} (0.000016387064); {$ENDIF}
+  CubicInchUnit : TFactoredUnit = (
+    FUnitOfMeasurement : CubicMeterId;
+    FSymbol            : 'in3';
+    FName              : 'cubic inch';
+    FPluralName        : 'cubic inches';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.000016387064));
 
 var
-  CubicInchUnit : TCubicInchUnit;
+  inch3 : TFactoredUnit absolute CubicInchUnit;
 
 { TCubicFoot }
 
-type
-  TCubicFootRec = record
-    const FUnitOfMeasurement = CubicMeterId;
-    const FSymbol            = 'ft3';
-    const FName              = 'cubic foot';
-    const FPluralName        = 'cubic feet';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TCubicFootUnit = specialize TFactoredUnit<TCubicFootRec>;
-
 const
-  ft3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.028316846592); {$ELSE} (0.028316846592); {$ENDIF}
+  CubicFootUnit : TFactoredUnit = (
+    FUnitOfMeasurement : CubicMeterId;
+    FSymbol            : 'ft3';
+    FName              : 'cubic foot';
+    FPluralName        : 'cubic feet';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.028316846592));
 
 var
-  CubicFootUnit : TCubicFootUnit;
+  ft3 : TFactoredUnit absolute CubicFootUnit;
 
 { TCubicYard }
 
-type
-  TCubicYardRec = record
-    const FUnitOfMeasurement = CubicMeterId;
-    const FSymbol            = 'yd3';
-    const FName              = 'cubic yard';
-    const FPluralName        = 'cubic yards';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TCubicYardUnit = specialize TFactoredUnit<TCubicYardRec>;
-
 const
-  yd3        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.764554857984); {$ELSE} (0.764554857984); {$ENDIF}
+  CubicYardUnit : TFactoredUnit = (
+    FUnitOfMeasurement : CubicMeterId;
+    FSymbol            : 'yd3';
+    FName              : 'cubic yard';
+    FPluralName        : 'cubic yards';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.764554857984));
 
 var
-  CubicYardUnit : TCubicYardUnit;
+  yd3 : TFactoredUnit absolute CubicYardUnit;
 
 { TLitre }
 
-type
-  TLitreRec = record
-    const FUnitOfMeasurement = CubicMeterId;
-    const FSymbol            = '%sL';
-    const FName              = '%slitre';
-    const FPluralName        = '%slitres';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TLitreUnit = specialize TFactoredUnit<TLitreRec>;
-
 const
-  L          : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  LitreUnit : TFactoredUnit = (
+    FUnitOfMeasurement : CubicMeterId;
+    FSymbol            : '%sL';
+    FName              : '%slitre';
+    FPluralName        : '%slitres';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (1E-03));
 
 var
-  LitreUnit : TLitreUnit;
+  L : TFactoredUnit absolute LitreUnit;
 
 const
   dL         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
@@ -1560,32 +1246,18 @@ const
 
 { TGallon }
 
-type
-  TGallonRec = record
-    const FUnitOfMeasurement = CubicMeterId;
-    const FSymbol            = 'gal';
-    const FName              = 'gallon';
-    const FPluralName        = 'gallons';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TGallonUnit = specialize TFactoredUnit<TGallonRec>;
-
 const
-  gal        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 11; FValue: 0.0037854119678); {$ELSE} (0.0037854119678); {$ENDIF}
+  GallonUnit : TFactoredUnit = (
+    FUnitOfMeasurement : CubicMeterId;
+    FSymbol            : 'gal';
+    FName              : 'gallon';
+    FPluralName        : 'gallons';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.0037854119678));
 
 var
-  GallonUnit : TGallonUnit;
+  gal : TFactoredUnit absolute GallonUnit;
 
 { TQuarticMeter }
 
@@ -1687,32 +1359,18 @@ const
 
 { TTonne }
 
-type
-  TTonneRec = record
-    const FUnitOfMeasurement = KilogramId;
-    const FSymbol            = '%st';
-    const FName              = '%stonne';
-    const FPluralName        = '%stonnes';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TTonneUnit = specialize TFactoredUnit<TTonneRec>;
-
 const
-  tonne      : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  TonneUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KilogramId;
+    FSymbol            : '%st';
+    FName              : '%stonne';
+    FPluralName        : '%stonnes';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (1E+03));
 
 var
-  TonneUnit : TTonneUnit;
+  tonne : TFactoredUnit absolute TonneUnit;
 
 const
   gigatonne  : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
@@ -1721,145 +1379,75 @@ const
 
 { TPound }
 
-type
-  TPoundRec = record
-    const FUnitOfMeasurement = KilogramId;
-    const FSymbol            = 'lb';
-    const FName              = 'pound';
-    const FPluralName        = 'pounds';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TPoundUnit = specialize TFactoredUnit<TPoundRec>;
-
 const
-  lb         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 0.45359237); {$ELSE} (0.45359237); {$ENDIF}
+  PoundUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KilogramId;
+    FSymbol            : 'lb';
+    FName              : 'pound';
+    FPluralName        : 'pounds';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.45359237));
 
 var
-  PoundUnit : TPoundUnit;
+  lb : TFactoredUnit absolute PoundUnit;
 
 { TOunce }
 
-type
-  TOunceRec = record
-    const FUnitOfMeasurement = KilogramId;
-    const FSymbol            = 'oz';
-    const FName              = 'ounce';
-    const FPluralName        = 'ounces';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TOunceUnit = specialize TFactoredUnit<TOunceRec>;
-
 const
-  oz         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 0.028349523125); {$ELSE} (0.028349523125); {$ENDIF}
+  OunceUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KilogramId;
+    FSymbol            : 'oz';
+    FName              : 'ounce';
+    FPluralName        : 'ounces';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.028349523125));
 
 var
-  OunceUnit : TOunceUnit;
+  oz : TFactoredUnit absolute OunceUnit;
 
 { TStone }
 
-type
-  TStoneRec = record
-    const FUnitOfMeasurement = KilogramId;
-    const FSymbol            = 'st';
-    const FName              = 'stone';
-    const FPluralName        = 'stones';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TStoneUnit = specialize TFactoredUnit<TStoneRec>;
-
 const
-  st         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 6.35029318); {$ELSE} (6.35029318); {$ENDIF}
+  StoneUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KilogramId;
+    FSymbol            : 'st';
+    FName              : 'stone';
+    FPluralName        : 'stones';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (6.35029318));
 
 var
-  StoneUnit : TStoneUnit;
+  st : TFactoredUnit absolute StoneUnit;
 
 { TTon }
 
-type
-  TTonRec = record
-    const FUnitOfMeasurement = KilogramId;
-    const FSymbol            = 'ton';
-    const FName              = 'ton';
-    const FPluralName        = 'tons';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TTonUnit = specialize TFactoredUnit<TTonRec>;
-
 const
-  ton        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 15; FValue: 907.18474); {$ELSE} (907.18474); {$ENDIF}
+  TonUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KilogramId;
+    FSymbol            : 'ton';
+    FName              : 'ton';
+    FPluralName        : 'tons';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (907.18474));
 
 var
-  TonUnit : TTonUnit;
+  ton : TFactoredUnit absolute TonUnit;
 
 { TElectronvoltPerSquareSpeedOfLight }
 
-type
-  TElectronvoltPerSquareSpeedOfLightRec = record
-    const FUnitOfMeasurement = KilogramId;
-    const FSymbol            = '%seV/c2';
-    const FName              = '%selectronvolt per squared speed of light';
-    const FPluralName        = '%selectronvolts per squared speed of light';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TElectronvoltPerSquareSpeedOfLightUnit = specialize TFactoredUnit<TElectronvoltPerSquareSpeedOfLightRec>;
-
-var
-  ElectronvoltPerSquareSpeedOfLightUnit : TElectronvoltPerSquareSpeedOfLightUnit;
+const
+  ElectronvoltPerSquareSpeedOfLightUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KilogramId;
+    FSymbol            : '%seV/c2';
+    FName              : '%selectronvolt per squared speed of light';
+    FPluralName        : '%selectronvolts per squared speed of light';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (1.7826619216279E-36));
 
 { TSquareKilogram }
 
@@ -1956,55 +1544,27 @@ var
 
 { TDegreeCelsius }
 
-type
-  TDegreeCelsiusRec = record
-    const FUnitOfMeasurement = KelvinId;
-    const FSymbol            = 'ºC';
-    const FName              = 'degree Celsius';
-    const FPluralName        = 'degrees Celsius';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TDegreeCelsiusUnit = specialize TFactoredUnit<TDegreeCelsiusRec>;
-
-var
-  degC, DegreeCelsiusUnit : TDegreeCelsiusUnit;
+const
+  DegreeCelsiusUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KelvinId;
+    FSymbol            : 'ºC';
+    FName              : 'degree Celsius';
+    FPluralName        : 'degrees Celsius';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : 1);
 
 { TDegreeFahrenheit }
 
-type
-  TDegreeFahrenheitRec = record
-    const FUnitOfMeasurement = KelvinId;
-    const FSymbol            = 'ºF';
-    const FName              = 'degree Fahrenheit';
-    const FPluralName        = 'degrees Fahrenheit';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TDegreeFahrenheitUnit = specialize TFactoredUnit<TDegreeFahrenheitRec>;
-
-var
-  degF, DegreeFahrenheitUnit : TDegreeFahrenheitUnit;
+const
+  DegreeFahrenheitUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KelvinId;
+    FSymbol            : 'ºF';
+    FName              : 'degree Fahrenheit';
+    FPluralName        : 'degrees Fahrenheit';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : 1);
 
 { TSquareKelvin }
 
@@ -2198,81 +1758,39 @@ const
 
 { TMeterPerHour }
 
-type
-  TMeterPerHourRec = record
-    const FUnitOfMeasurement = MeterPerSecondId;
-    const FSymbol            = '%sm/h';
-    const FName              = '%smeter per hour';
-    const FPluralName        = '%smeters per hour';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TMeterPerHourUnit = specialize TFactoredUnit<TMeterPerHourRec>;
-
-var
-  MeterPerHourUnit : TMeterPerHourUnit;
+const
+  MeterPerHourUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterPerSecondId;
+    FSymbol            : '%sm/h';
+    FName              : '%smeter per hour';
+    FPluralName        : '%smeters per hour';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (1/3600));
 
 { TMilePerHour }
 
-type
-  TMilePerHourRec = record
-    const FUnitOfMeasurement = MeterPerSecondId;
-    const FSymbol            = 'mi/h';
-    const FName              = 'mile per hour';
-    const FPluralName        = 'miles per hour';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TMilePerHourUnit = specialize TFactoredUnit<TMilePerHourRec>;
-
-var
-  MilePerHourUnit : TMilePerHourUnit;
+const
+  MilePerHourUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterPerSecondId;
+    FSymbol            : 'mi/h';
+    FName              : 'mile per hour';
+    FPluralName        : 'miles per hour';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.44704));
 
 { TNauticalMilePerHour }
 
-type
-  TNauticalMilePerHourRec = record
-    const FUnitOfMeasurement = MeterPerSecondId;
-    const FSymbol            = 'nmi/h';
-    const FName              = 'nautical mile per hour';
-    const FPluralName        = 'nautical miles per hour';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TNauticalMilePerHourUnit = specialize TFactoredUnit<TNauticalMilePerHourRec>;
-
-var
-  NauticalMilePerHourUnit : TNauticalMilePerHourUnit;
+const
+  NauticalMilePerHourUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterPerSecondId;
+    FSymbol            : 'nmi/h';
+    FName              : 'nautical mile per hour';
+    FPluralName        : 'nautical miles per hour';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (463/900));
 
 { TMeterPerSquareSecond }
 
@@ -2299,29 +1817,15 @@ const
 
 { TMeterPerHourPerSecond }
 
-type
-  TMeterPerHourPerSecondRec = record
-    const FUnitOfMeasurement = MeterPerSquareSecondId;
-    const FSymbol            = '%sm/h/%ss';
-    const FName              = '%smeter per hour per %ssecond';
-    const FPluralName        = '%smeters per hour per %ssecond';
-    const FPrefixes          : TPrefixes  = (pNone, pNone);
-    const FExponents         : TExponents = (1, -1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TMeterPerHourPerSecondUnit = specialize TFactoredUnit<TMeterPerHourPerSecondRec>;
-
-var
-  MeterPerHourPerSecondUnit : TMeterPerHourPerSecondUnit;
+const
+  MeterPerHourPerSecondUnit : TFactoredUnit = (
+    FUnitOfMeasurement : MeterPerSquareSecondId;
+    FSymbol            : '%sm/h/%ss';
+    FName              : '%smeter per hour per %ssecond';
+    FPluralName        : '%smeters per hour per %ssecond';
+    FPrefixes          : (pNone, pNone);
+    FExponents         : (1, -1);
+    FFactor            : (1/3600));
 
 { TMeterPerCubicSecond }
 
@@ -2684,29 +2188,15 @@ const
 
 { TPoundPerCubicInch }
 
-type
-  TPoundPerCubicInchRec = record
-    const FUnitOfMeasurement = KilogramPerCubicMeterId;
-    const FSymbol            = 'lb/in3';
-    const FName              = 'pound per cubic inch';
-    const FPluralName        = 'pounds per cubic inch';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TPoundPerCubicInchUnit = specialize TFactoredUnit<TPoundPerCubicInchRec>;
-
-var
-  PoundPerCubicInchUnit : TPoundPerCubicInchUnit;
+const
+  PoundPerCubicInchUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KilogramPerCubicMeterId;
+    FSymbol            : 'lb/in3';
+    FName              : 'pound per cubic inch';
+    FPluralName        : 'pounds per cubic inch';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (27679.9047102031));
 
 { TNewton }
 
@@ -2732,32 +2222,18 @@ const
 
 { TPoundForce }
 
-type
-  TPoundForceRec = record
-    const FUnitOfMeasurement = NewtonId;
-    const FSymbol            = 'lbf';
-    const FName              = 'pound-force';
-    const FPluralName        = 'pounds-force';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TPoundForceUnit = specialize TFactoredUnit<TPoundForceRec>;
-
 const
-  lbf        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 52; FValue: 4.4482216152605); {$ELSE} (4.4482216152605); {$ENDIF}
+  PoundForceUnit : TFactoredUnit = (
+    FUnitOfMeasurement : NewtonId;
+    FSymbol            : 'lbf';
+    FName              : 'pound-force';
+    FPluralName        : 'pounds-force';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (4.4482216152605));
 
 var
-  PoundForceUnit : TPoundForceUnit;
+  lbf : TFactoredUnit absolute PoundForceUnit;
 
 { TKilogramMeterPerSquareSecond }
 
@@ -2848,32 +2324,18 @@ const
 
 { TBar }
 
-type
-  TBarRec = record
-    const FUnitOfMeasurement = PascalId;
-    const FSymbol            = '%sbar';
-    const FName              = '%sbar';
-    const FPluralName        = '%sbars';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TBarUnit = specialize TFactoredUnit<TBarRec>;
-
 const
-  bar        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+05); {$ELSE} (1E+05); {$ENDIF}
+  BarUnit : TFactoredUnit = (
+    FUnitOfMeasurement : PascalId;
+    FSymbol            : '%sbar';
+    FName              : '%sbar';
+    FPluralName        : '%sbars';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (1E+05));
 
 var
-  BarUnit : TBarUnit;
+  bar : TFactoredUnit absolute BarUnit;
 
 const
   kbar       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
@@ -2881,32 +2343,18 @@ const
 
 { TPoundPerSquareInch }
 
-type
-  TPoundPerSquareInchRec = record
-    const FUnitOfMeasurement = PascalId;
-    const FSymbol            = '%spsi';
-    const FName              = '%spound per square inch';
-    const FPluralName        = '%spounds per square inch';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TPoundPerSquareInchUnit = specialize TFactoredUnit<TPoundPerSquareInchRec>;
-
 const
-  psi        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 6894.75729316836); {$ELSE} (6894.75729316836); {$ENDIF}
+  PoundPerSquareInchUnit : TFactoredUnit = (
+    FUnitOfMeasurement : PascalId;
+    FSymbol            : '%spsi';
+    FName              : '%spound per square inch';
+    FPluralName        : '%spounds per square inch';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (6894.75729316836));
 
 var
-  PoundPerSquareInchUnit : TPoundPerSquareInchUnit;
+  psi : TFactoredUnit absolute PoundPerSquareInchUnit;
 
 const
   kpsi       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 54; FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
@@ -2956,29 +2404,15 @@ const
 
 { TWattHour }
 
-type
-  TWattHourRec = record
-    const FUnitOfMeasurement = JouleId;
-    const FSymbol            = '%sW.h';
-    const FName              = '%swatt hour';
-    const FPluralName        = '%swatt hours';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TWattHourUnit = specialize TFactoredUnit<TWattHourRec>;
-
-var
-  WattHourUnit : TWattHourUnit;
+const
+  WattHourUnit : TFactoredUnit = (
+    FUnitOfMeasurement : JouleId;
+    FSymbol            : '%sW.h';
+    FName              : '%swatt hour';
+    FPluralName        : '%swatt hours';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (3600));
 
 { TWattSecond }
 
@@ -3004,32 +2438,18 @@ const
 
 { TElectronvolt }
 
-type
-  TElectronvoltRec = record
-    const FUnitOfMeasurement = JouleId;
-    const FSymbol            = '%seV';
-    const FName              = '%selectronvolt';
-    const FPluralName        = '%selectronvolts';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TElectronvoltUnit = specialize TFactoredUnit<TElectronvoltRec>;
-
 const
-  eV         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019); {$ELSE} (1.602176634E-019); {$ENDIF}
+  ElectronvoltUnit : TFactoredUnit = (
+    FUnitOfMeasurement : JouleId;
+    FSymbol            : '%seV';
+    FName              : '%selectronvolt';
+    FPluralName        : '%selectronvolts';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (1.602176634E-019));
 
 var
-  ElectronvoltUnit : TElectronvoltUnit;
+  eV : TFactoredUnit absolute ElectronvoltUnit;
 
 const
   TeV        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
@@ -3050,87 +2470,45 @@ const
 
 { TPoundForceInch }
 
-type
-  TPoundForceInchRec = record
-    const FUnitOfMeasurement = JouleId;
-    const FSymbol            = 'lbf.in';
-    const FName              = 'pound-force inch';
-    const FPluralName        = 'pound-force inches';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TPoundForceInchUnit = specialize TFactoredUnit<TPoundForceInchRec>;
-
-var
-  PoundForceInchUnit : TPoundForceInchUnit;
+const
+  PoundForceInchUnit : TFactoredUnit = (
+    FUnitOfMeasurement : JouleId;
+    FSymbol            : 'lbf.in';
+    FName              : 'pound-force inch';
+    FPluralName        : 'pound-force inches';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (0.112984829027617));
 
 { TRydberg }
 
-type
-  TRydbergRec = record
-    const FUnitOfMeasurement = JouleId;
-    const FSymbol            = '%sRy';
-    const FName              = '%srydberg';
-    const FPluralName        = '%srydbergs';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TRydbergUnit = specialize TFactoredUnit<TRydbergRec>;
-
 const
-  Ry         : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 2.1798723611035E-18); {$ELSE} (2.1798723611035E-18); {$ENDIF}
+  RydbergUnit : TFactoredUnit = (
+    FUnitOfMeasurement : JouleId;
+    FSymbol            : '%sRy';
+    FName              : '%srydberg';
+    FPluralName        : '%srydbergs';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (2.1798723611035E-18));
 
 var
-  RydbergUnit : TRydbergUnit;
+  Ry : TFactoredUnit absolute RydbergUnit;
 
 { TCalorie }
 
-type
-  TCalorieRec = record
-    const FUnitOfMeasurement = JouleId;
-    const FSymbol            = '%scal';
-    const FName              = '%scalorie';
-    const FPluralName        = '%scalories';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TCalorieUnit = specialize TFactoredUnit<TCalorieRec>;
-
 const
-  cal        : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 4.184); {$ELSE} (4.184); {$ENDIF}
+  CalorieUnit : TFactoredUnit = (
+    FUnitOfMeasurement : JouleId;
+    FSymbol            : '%scal';
+    FName              : '%scalorie';
+    FPluralName        : '%scalories';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (4.184));
 
 var
-  CalorieUnit : TCalorieUnit;
+  cal : TFactoredUnit absolute CalorieUnit;
 
 const
   Mcal       : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: 55; FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
@@ -3160,29 +2538,15 @@ const
 
 { TJoulePerDegree }
 
-type
-  TJoulePerDegreeRec = record
-    const FUnitOfMeasurement = JouleId;
-    const FSymbol            = '%sJ/deg';
-    const FName              = '%sjoule per degree';
-    const FPluralName        = '%sjoules per degree';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TJoulePerDegreeUnit = specialize TFactoredUnit<TJoulePerDegreeRec>;
-
-var
-  JoulePerDegreeUnit : TJoulePerDegreeUnit;
+const
+  JoulePerDegreeUnit : TFactoredUnit = (
+    FUnitOfMeasurement : JouleId;
+    FSymbol            : '%sJ/deg';
+    FName              : '%sjoule per degree';
+    FPluralName        : '%sjoules per degree';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (180/Pi));
 
 { TNewtonMeterPerRadian }
 
@@ -3197,29 +2561,15 @@ const
 
 { TNewtonMeterPerDegree }
 
-type
-  TNewtonMeterPerDegreeRec = record
-    const FUnitOfMeasurement = JouleId;
-    const FSymbol            = '%sN.%sm/deg';
-    const FName              = '%snewton %smeter per degree';
-    const FPluralName        = '%snewton %smeters per degree';
-    const FPrefixes          : TPrefixes  = (pNone, pNone);
-    const FExponents         : TExponents = (1, 1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TNewtonMeterPerDegreeUnit = specialize TFactoredUnit<TNewtonMeterPerDegreeRec>;
-
-var
-  NewtonMeterPerDegreeUnit : TNewtonMeterPerDegreeUnit;
+const
+  NewtonMeterPerDegreeUnit : TFactoredUnit = (
+    FUnitOfMeasurement : JouleId;
+    FSymbol            : '%sN.%sm/deg';
+    FName              : '%snewton %smeter per degree';
+    FPluralName        : '%snewton %smeters per degree';
+    FPrefixes          : (pNone, pNone);
+    FExponents         : (1, 1);
+    FFactor            : (180/Pi));
 
 { TKilogramSquareMeterPerSquareSecondPerRadian }
 
@@ -3293,29 +2643,15 @@ const
 
 { TAmpereHour }
 
-type
-  TAmpereHourRec = record
-    const FUnitOfMeasurement = CoulombId;
-    const FSymbol            = '%sA.h';
-    const FName              = '%sampere hour';
-    const FPluralName        = '%sampere hours';
-    const FPrefixes          : TPrefixes  = (pNone);
-    const FExponents         : TExponents = (1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TAmpereHourUnit = specialize TFactoredUnit<TAmpereHourRec>;
-
-var
-  AmpereHourUnit : TAmpereHourUnit;
+const
+  AmpereHourUnit : TFactoredUnit = (
+    FUnitOfMeasurement : CoulombId;
+    FSymbol            : '%sA.h';
+    FName              : '%sampere hour';
+    FPluralName        : '%sampere hours';
+    FPrefixes          : (pNone);
+    FExponents         : (1);
+    FFactor            : (3600));
 
 { TAmpereSecond }
 
@@ -3884,29 +3220,15 @@ const
 
 { TPoundForcePerInch }
 
-type
-  TPoundForcePerInchRec = record
-    const FUnitOfMeasurement = NewtonPerMeterId;
-    const FSymbol            = 'lbf/in';
-    const FName              = 'pound-force per inch';
-    const FPluralName        = 'pounds-force per inch';
-    const FPrefixes          : TPrefixes  = ();
-    const FExponents         : TExponents = ();
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TPoundForcePerInchUnit = specialize TFactoredUnit<TPoundForcePerInchRec>;
-
-var
-  PoundForcePerInchUnit : TPoundForcePerInchUnit;
+const
+  PoundForcePerInchUnit : TFactoredUnit = (
+    FUnitOfMeasurement : NewtonPerMeterId;
+    FSymbol            : 'lbf/in';
+    FName              : 'pound-force per inch';
+    FPluralName        : 'pounds-force per inch';
+    FPrefixes          : ();
+    FExponents         : ();
+    FFactor            : (175.126835246476));
 
 { TKilogramPerSquareSecond }
 
@@ -4853,55 +4175,27 @@ const
 
 { TElectronvoltSecond }
 
-type
-  TElectronvoltSecondRec = record
-    const FUnitOfMeasurement = KilogramSquareMeterPerSecondId;
-    const FSymbol            = '%seV.%ss';
-    const FName              = '%selectronvolt %ssecond';
-    const FPluralName        = '%selectronvolt %sseconds';
-    const FPrefixes          : TPrefixes  = (pNone, pNone);
-    const FExponents         : TExponents = (1, 1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TElectronvoltSecondUnit = specialize TFactoredUnit<TElectronvoltSecondRec>;
-
-var
-  ElectronvoltSecondUnit : TElectronvoltSecondUnit;
+const
+  ElectronvoltSecondUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KilogramSquareMeterPerSecondId;
+    FSymbol            : '%seV.%ss';
+    FName              : '%selectronvolt %ssecond';
+    FPluralName        : '%selectronvolt %sseconds';
+    FPrefixes          : (pNone, pNone);
+    FExponents         : (1, 1);
+    FFactor            : (1.60217742320523E-019));
 
 { TElectronvoltMeterPerSpeedOfLight }
 
-type
-  TElectronvoltMeterPerSpeedOfLightRec = record
-    const FUnitOfMeasurement = KilogramSquareMeterPerSecondId;
-    const FSymbol            = '%seV.%sm/c';
-    const FName              = '%selectronvolt %smeter per speed of  light';
-    const FPluralName        = '%selectronvolt %smeters per speed of  light';
-    const FPrefixes          : TPrefixes  = (pNone, pNone);
-    const FExponents         : TExponents = (1, 1);
-    class function GetValue(const AValue: double): double; static;
-    class function PutValue(const AValue: double): double; static;
-    class function GetValue(const AValue: TVector): TVector; static;
-    class function PutValue(const AValue: TVector): TVector; static;
-    class function GetValue(const AValue: TBivector): TBivector; static;
-    class function PutValue(const AValue: TBivector): TBivector; static;
-    class function GetValue(const AValue: TTrivector): TTrivector; static;
-    class function PutValue(const AValue: TTrivector): TTrivector; static;
-    class function GetValue(const AValue: TMultivector): TMultivector; static;
-    class function PutValue(const AValue: TMultivector): TMultivector; static;
-  end;
-  TElectronvoltMeterPerSpeedOfLightUnit = specialize TFactoredUnit<TElectronvoltMeterPerSpeedOfLightRec>;
-
-var
-  ElectronvoltMeterPerSpeedOfLightUnit : TElectronvoltMeterPerSpeedOfLightUnit;
+const
+  ElectronvoltMeterPerSpeedOfLightUnit : TFactoredUnit = (
+    FUnitOfMeasurement : KilogramSquareMeterPerSecondId;
+    FSymbol            : '%seV.%sm/c';
+    FName              : '%selectronvolt %smeter per speed of  light';
+    FPluralName        : '%selectronvolt %smeters per speed of  light';
+    FPrefixes          : (pNone, pNone);
+    FExponents         : (1, 1);
+    FFactor            : (1.7826619216279E-36));
 
 { TSquareJouleSquareSecond }
 
@@ -8606,162 +7900,162 @@ end;
 class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
 class operator TFactoredUnit./(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
 {$IFDEF USEADIM}
 class operator TFactoredUnit.*(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+class operator TFactoredUnit.*(const AQuantity: TAVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+class operator TFactoredUnit./(const AQuantity: TAVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TABivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+class operator TFactoredUnit./(const AQuantity: TABivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TATrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+class operator TFactoredUnit./(const AQuantity: TATrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TAMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+class operator TFactoredUnit./(const AQuantity: TAMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 {$ENDIF}
 
@@ -8771,13 +8065,13 @@ var
 begin
   PrefixCount := Length(Prefixes);
   case PrefixCount of
-    0:  result := U.FName;
-    1:  result := Format(U.FName, [
+    0:  result := FName;
+    1:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(U.FName, [
+    2:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(U.FName, [
+    3:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name,
           PrefixTable[Prefixes[2]].Name]);
@@ -8791,13 +8085,13 @@ var
 begin
   PrefixCount := Length(Prefixes);
   case PrefixCount of
-    0:  result := U.FPluralName;
-    1:  result := Format(U.FPluralName, [
+    0:  result := FPluralName;
+    1:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(U.FPluralName, [
+    2:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(U.FPluralName, [
+    3:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name,
           PrefixTable[Prefixes[2]].Name]);
@@ -8811,13 +8105,13 @@ var
 begin
   PrefixCount := Length(Prefixes);
   case PrefixCount of
-    0:  result := U.FSymbol;
-    1:  result := Format(U.FSymbol, [
+    0:  result := FSymbol;
+    1:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol]);
-    2:  result := Format(U.FSymbol, [
+    2:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol,
           PrefixTable[Prefixes[1]].Symbol]);
-    3:  result := Format(U.FSymbol, [
+    3:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol,
           PrefixTable[Prefixes[1]].Symbol,
           PrefixTable[Prefixes[2]].Symbol]);
@@ -8832,14 +8126,14 @@ var
   PrefixCount: longint;
 begin
   PrefixCount := Length(APrefixes);
-  if PrefixCount = Length(U.FPrefixes) then
+  if PrefixCount = Length(FPrefixes) then
   begin
     Exponent := 0;
     for I := 0 to PrefixCount -1 do
-      Inc(Exponent, PrefixTable[U.FPREFIXES[I]].Exponent * U.FEXPONENTS[I]);
+      Inc(Exponent, PrefixTable[FPrefixes[I]].Exponent * FExponents[I]);
 
     for I := 0 to PrefixCount -1 do
-      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * U.FEXPONENTS[I]);
+      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * FExponents[I]);
 
     if Exponent <> 0 then
       result := AQuantity * IntPower(10, Exponent)
@@ -8856,7 +8150,7 @@ end;
 procedure TFactoredUnit.Check(var AQuantity: TAScalar);
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
 end;
@@ -8864,36 +8158,36 @@ end;
 function TFactoredUnit.ToFloat(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
-  result := U.GetValue(AQuantity.FValue);
+  result := AQuantity.FValue / FFactor;
 {$ELSE}
-  result := U.GetValue(AQuantity);
+  result := AQuantity / FFactor;
 {$ENDIF}
 end;
 
 function TFactoredUnit.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
-  result := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-  result := GetValue(U.GetValue(AQuantity), APrefixes);
+  result := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 end;
 
 function TFactoredUnit.ToString(const AQuantity: TAScalar): string;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
-  result := FloatToStr(U.GetValue(AQuantity.FValue)) + ' ' + GetSymbol(U.FPrefixes);
+  result := FloatToStr(AQuantity.FValue / FFactor) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
-  result := FloatToStr(U.GetValue(AQuantity)) + ' ' + GetSymbol(U.FPrefixes);
+  result := FloatToStr(AQuantity / FFactor) + ' ' + GetSymbol(FPrefixes);
 {$ENDIF}
 end;
 
@@ -8902,16 +8196,16 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(FPrefixes)
   else
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
@@ -8921,16 +8215,16 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
-    FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+    FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-    FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+    FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
   else
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
@@ -8941,20 +8235,20 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if (AQuantity.FUnitOfMeasurement  <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
+  if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
-  FactoredTol   := GetValue(U.GetValue(ATolerance.FValue), APrefixes);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
+  FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
-  FactoredTol   := GetValue(U.GetValue(ATolerance), APrefixes);
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
+  FactoredTol   := GetValue(ATolerance / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
@@ -8967,18 +8261,18 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
   if (FactoredValue > -1) and (FactoredValue < 1) then
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
@@ -8986,20 +8280,20 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
@@ -9014,20 +8308,20 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(U.FPRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
@@ -9043,20 +8337,20 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if (AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
+  if (AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
-  FactoredTol   := GetValue(U.GetValue(ATolerance.FValue), APrefixes);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
+  FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
-  FactoredTol   := GetValue(U.GetValue(ATolerance), APrefixes);
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
+  FactoredTol   := GetValue(ATolerance / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes);
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
@@ -9069,15 +8363,15 @@ var
   FactoredValue: TVector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnit.ToString(const AQuantity: TABivector): string;
@@ -9085,15 +8379,15 @@ var
   FactoredValue: TBivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnit.ToString(const AQuantity: TATrivector): string;
@@ -9101,15 +8395,15 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnit.ToString(const AQuantity: TAMultivector): string;
@@ -9117,15 +8411,15 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TAVector): string;
@@ -9133,15 +8427,15 @@ var
   FactoredValue: TVector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TABivector): string;
@@ -9149,15 +8443,15 @@ var
   FactoredValue: TBivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TATrivector): string;
@@ -9165,15 +8459,15 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TAMultivector): string;
@@ -9181,2549 +8475,15 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
-end;
-
-class  function TDegreeRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (Pi/180);
-end;
-
-class  function TDegreeRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (Pi/180);
-end;
-
-class  function TDegreeRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (Pi/180);
-end;
-
-class  function TDegreeRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (Pi/180);
-end;
-
-class  function TDegreeRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (Pi/180);
-end;
-
-class  function TDegreeRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (Pi/180);
-end;
-
-class  function TDegreeRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (Pi/180);
-end;
-
-class  function TDegreeRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (Pi/180);
-end;
-
-class  function TDegreeRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (Pi/180);
-end;
-
-class  function TDegreeRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (Pi/180);
-end;
-
-class  function TSquareDegreeRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (Pi*Pi/32400);
-end;
-
-class  function TSquareDegreeRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (Pi*Pi/32400);
-end;
-
-class  function TSquareDegreeRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (Pi*Pi/32400);
-end;
-
-class  function TSquareDegreeRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (Pi*Pi/32400);
-end;
-
-class  function TSquareDegreeRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (Pi*Pi/32400);
-end;
-
-class  function TSquareDegreeRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (Pi*Pi/32400);
-end;
-
-class  function TSquareDegreeRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (Pi*Pi/32400);
-end;
-
-class  function TSquareDegreeRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (Pi*Pi/32400);
-end;
-
-class  function TSquareDegreeRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (Pi*Pi/32400);
-end;
-
-class  function TSquareDegreeRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (Pi*Pi/32400);
-end;
-
-class  function TDayRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (86400);
-end;
-
-class  function TDayRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (86400);
-end;
-
-class  function TDayRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (86400);
-end;
-
-class  function TDayRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (86400);
-end;
-
-class  function TDayRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (86400);
-end;
-
-class  function TDayRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (86400);
-end;
-
-class  function TDayRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (86400);
-end;
-
-class  function TDayRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (86400);
-end;
-
-class  function TDayRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (86400);
-end;
-
-class  function TDayRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (86400);
-end;
-
-class  function THourRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (3600);
-end;
-
-class  function THourRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (3600);
-end;
-
-class  function THourRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function THourRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function THourRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function THourRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function THourRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function THourRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function THourRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function THourRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TMinuteRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (60);
-end;
-
-class  function TMinuteRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (60);
-end;
-
-class  function TMinuteRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (60);
-end;
-
-class  function TMinuteRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (60);
-end;
-
-class  function TMinuteRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (60);
-end;
-
-class  function TMinuteRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (60);
-end;
-
-class  function TMinuteRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (60);
-end;
-
-class  function TMinuteRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (60);
-end;
-
-class  function TMinuteRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (60);
-end;
-
-class  function TMinuteRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (60);
-end;
-
-class  function TSquareDayRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (7464960000);
-end;
-
-class  function TSquareDayRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (7464960000);
-end;
-
-class  function TSquareDayRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (7464960000);
-end;
-
-class  function TSquareDayRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (7464960000);
-end;
-
-class  function TSquareDayRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (7464960000);
-end;
-
-class  function TSquareDayRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (7464960000);
-end;
-
-class  function TSquareDayRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (7464960000);
-end;
-
-class  function TSquareDayRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (7464960000);
-end;
-
-class  function TSquareDayRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (7464960000);
-end;
-
-class  function TSquareDayRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (7464960000);
-end;
-
-class  function TSquareHourRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (12960000);
-end;
-
-class  function TSquareHourRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (12960000);
-end;
-
-class  function TSquareHourRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (12960000);
-end;
-
-class  function TSquareHourRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (12960000);
-end;
-
-class  function TSquareHourRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (12960000);
-end;
-
-class  function TSquareHourRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (12960000);
-end;
-
-class  function TSquareHourRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (12960000);
-end;
-
-class  function TSquareHourRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (12960000);
-end;
-
-class  function TSquareHourRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (12960000);
-end;
-
-class  function TSquareHourRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (12960000);
-end;
-
-class  function TSquareMinuteRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TSquareMinuteRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TSquareMinuteRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TSquareMinuteRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TSquareMinuteRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TSquareMinuteRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TSquareMinuteRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TSquareMinuteRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TSquareMinuteRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TSquareMinuteRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TAstronomicalRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (149597870691);
-end;
-
-class  function TAstronomicalRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (149597870691);
-end;
-
-class  function TAstronomicalRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (149597870691);
-end;
-
-class  function TAstronomicalRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (149597870691);
-end;
-
-class  function TAstronomicalRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (149597870691);
-end;
-
-class  function TAstronomicalRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (149597870691);
-end;
-
-class  function TAstronomicalRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (149597870691);
-end;
-
-class  function TAstronomicalRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (149597870691);
-end;
-
-class  function TAstronomicalRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (149597870691);
-end;
-
-class  function TAstronomicalRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (149597870691);
-end;
-
-class  function TInchRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.0254);
-end;
-
-class  function TInchRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.0254);
-end;
-
-class  function TInchRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.0254);
-end;
-
-class  function TInchRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.0254);
-end;
-
-class  function TInchRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.0254);
-end;
-
-class  function TInchRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.0254);
-end;
-
-class  function TInchRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.0254);
-end;
-
-class  function TInchRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.0254);
-end;
-
-class  function TInchRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.0254);
-end;
-
-class  function TInchRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.0254);
-end;
-
-class  function TFootRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.3048);
-end;
-
-class  function TFootRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.3048);
-end;
-
-class  function TFootRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.3048);
-end;
-
-class  function TFootRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.3048);
-end;
-
-class  function TFootRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.3048);
-end;
-
-class  function TFootRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.3048);
-end;
-
-class  function TFootRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.3048);
-end;
-
-class  function TFootRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.3048);
-end;
-
-class  function TFootRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.3048);
-end;
-
-class  function TFootRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.3048);
-end;
-
-class  function TYardRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.9144);
-end;
-
-class  function TYardRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.9144);
-end;
-
-class  function TYardRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.9144);
-end;
-
-class  function TYardRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.9144);
-end;
-
-class  function TYardRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.9144);
-end;
-
-class  function TYardRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.9144);
-end;
-
-class  function TYardRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.9144);
-end;
-
-class  function TYardRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.9144);
-end;
-
-class  function TYardRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.9144);
-end;
-
-class  function TYardRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.9144);
-end;
-
-class  function TMileRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1609.344);
-end;
-
-class  function TMileRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1609.344);
-end;
-
-class  function TMileRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1609.344);
-end;
-
-class  function TMileRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1609.344);
-end;
-
-class  function TMileRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1609.344);
-end;
-
-class  function TMileRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1609.344);
-end;
-
-class  function TMileRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1609.344);
-end;
-
-class  function TMileRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1609.344);
-end;
-
-class  function TMileRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1609.344);
-end;
-
-class  function TMileRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1609.344);
-end;
-
-class  function TNauticalMileRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1852);
-end;
-
-class  function TNauticalMileRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1852);
-end;
-
-class  function TNauticalMileRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1852);
-end;
-
-class  function TNauticalMileRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1852);
-end;
-
-class  function TNauticalMileRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1852);
-end;
-
-class  function TNauticalMileRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1852);
-end;
-
-class  function TNauticalMileRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1852);
-end;
-
-class  function TNauticalMileRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1852);
-end;
-
-class  function TNauticalMileRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1852);
-end;
-
-class  function TNauticalMileRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1852);
-end;
-
-class  function TAngstromRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1E-10);
-end;
-
-class  function TAngstromRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1E-10);
-end;
-
-class  function TAngstromRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1E-10);
-end;
-
-class  function TAngstromRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1E-10);
-end;
-
-class  function TAngstromRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1E-10);
-end;
-
-class  function TAngstromRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1E-10);
-end;
-
-class  function TAngstromRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1E-10);
-end;
-
-class  function TAngstromRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1E-10);
-end;
-
-class  function TAngstromRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1E-10);
-end;
-
-class  function TAngstromRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1E-10);
-end;
-
-class  function TSquareInchRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.00064516);
-end;
-
-class  function TSquareInchRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.00064516);
-end;
-
-class  function TSquareInchRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.00064516);
-end;
-
-class  function TSquareInchRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.00064516);
-end;
-
-class  function TSquareInchRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.00064516);
-end;
-
-class  function TSquareInchRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.00064516);
-end;
-
-class  function TSquareInchRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.00064516);
-end;
-
-class  function TSquareInchRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.00064516);
-end;
-
-class  function TSquareInchRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.00064516);
-end;
-
-class  function TSquareInchRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.00064516);
-end;
-
-class  function TSquareFootRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.09290304);
-end;
-
-class  function TSquareFootRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.09290304);
-end;
-
-class  function TSquareFootRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.09290304);
-end;
-
-class  function TSquareFootRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.09290304);
-end;
-
-class  function TSquareFootRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.09290304);
-end;
-
-class  function TSquareFootRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.09290304);
-end;
-
-class  function TSquareFootRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.09290304);
-end;
-
-class  function TSquareFootRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.09290304);
-end;
-
-class  function TSquareFootRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.09290304);
-end;
-
-class  function TSquareFootRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.09290304);
-end;
-
-class  function TSquareYardRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.83612736);
-end;
-
-class  function TSquareYardRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.83612736);
-end;
-
-class  function TSquareYardRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.83612736);
-end;
-
-class  function TSquareYardRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.83612736);
-end;
-
-class  function TSquareYardRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.83612736);
-end;
-
-class  function TSquareYardRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.83612736);
-end;
-
-class  function TSquareYardRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.83612736);
-end;
-
-class  function TSquareYardRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.83612736);
-end;
-
-class  function TSquareYardRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.83612736);
-end;
-
-class  function TSquareYardRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.83612736);
-end;
-
-class  function TSquareMileRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (2589988.110336);
-end;
-
-class  function TSquareMileRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (2589988.110336);
-end;
-
-class  function TSquareMileRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (2589988.110336);
-end;
-
-class  function TSquareMileRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (2589988.110336);
-end;
-
-class  function TSquareMileRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (2589988.110336);
-end;
-
-class  function TSquareMileRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (2589988.110336);
-end;
-
-class  function TSquareMileRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (2589988.110336);
-end;
-
-class  function TSquareMileRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (2589988.110336);
-end;
-
-class  function TSquareMileRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (2589988.110336);
-end;
-
-class  function TSquareMileRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (2589988.110336);
-end;
-
-class  function TCubicInchRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.000016387064);
-end;
-
-class  function TCubicInchRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.000016387064);
-end;
-
-class  function TCubicInchRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.000016387064);
-end;
-
-class  function TCubicInchRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.000016387064);
-end;
-
-class  function TCubicInchRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.000016387064);
-end;
-
-class  function TCubicInchRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.000016387064);
-end;
-
-class  function TCubicInchRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.000016387064);
-end;
-
-class  function TCubicInchRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.000016387064);
-end;
-
-class  function TCubicInchRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.000016387064);
-end;
-
-class  function TCubicInchRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.000016387064);
-end;
-
-class  function TCubicFootRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.028316846592);
-end;
-
-class  function TCubicFootRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.028316846592);
-end;
-
-class  function TCubicFootRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.028316846592);
-end;
-
-class  function TCubicFootRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.028316846592);
-end;
-
-class  function TCubicFootRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.028316846592);
-end;
-
-class  function TCubicFootRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.028316846592);
-end;
-
-class  function TCubicFootRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.028316846592);
-end;
-
-class  function TCubicFootRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.028316846592);
-end;
-
-class  function TCubicFootRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.028316846592);
-end;
-
-class  function TCubicFootRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.028316846592);
-end;
-
-class  function TCubicYardRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.764554857984);
-end;
-
-class  function TCubicYardRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.764554857984);
-end;
-
-class  function TCubicYardRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.764554857984);
-end;
-
-class  function TCubicYardRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.764554857984);
-end;
-
-class  function TCubicYardRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.764554857984);
-end;
-
-class  function TCubicYardRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.764554857984);
-end;
-
-class  function TCubicYardRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.764554857984);
-end;
-
-class  function TCubicYardRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.764554857984);
-end;
-
-class  function TCubicYardRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.764554857984);
-end;
-
-class  function TCubicYardRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.764554857984);
-end;
-
-class  function TLitreRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1E-03);
-end;
-
-class  function TLitreRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1E-03);
-end;
-
-class  function TLitreRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1E-03);
-end;
-
-class  function TLitreRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1E-03);
-end;
-
-class  function TLitreRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1E-03);
-end;
-
-class  function TLitreRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1E-03);
-end;
-
-class  function TLitreRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1E-03);
-end;
-
-class  function TLitreRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1E-03);
-end;
-
-class  function TLitreRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1E-03);
-end;
-
-class  function TLitreRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1E-03);
-end;
-
-class  function TGallonRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.0037854119678);
-end;
-
-class  function TGallonRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.0037854119678);
-end;
-
-class  function TGallonRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.0037854119678);
-end;
-
-class  function TGallonRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.0037854119678);
-end;
-
-class  function TGallonRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.0037854119678);
-end;
-
-class  function TGallonRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.0037854119678);
-end;
-
-class  function TGallonRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.0037854119678);
-end;
-
-class  function TGallonRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.0037854119678);
-end;
-
-class  function TGallonRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.0037854119678);
-end;
-
-class  function TGallonRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.0037854119678);
-end;
-
-class  function TTonneRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1E+03);
-end;
-
-class  function TTonneRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1E+03);
-end;
-
-class  function TTonneRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1E+03);
-end;
-
-class  function TTonneRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1E+03);
-end;
-
-class  function TTonneRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1E+03);
-end;
-
-class  function TTonneRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1E+03);
-end;
-
-class  function TTonneRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1E+03);
-end;
-
-class  function TTonneRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1E+03);
-end;
-
-class  function TTonneRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1E+03);
-end;
-
-class  function TTonneRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1E+03);
-end;
-
-class  function TPoundRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.45359237);
-end;
-
-class  function TPoundRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.45359237);
-end;
-
-class  function TPoundRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.45359237);
-end;
-
-class  function TPoundRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.45359237);
-end;
-
-class  function TPoundRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.45359237);
-end;
-
-class  function TPoundRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.45359237);
-end;
-
-class  function TPoundRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.45359237);
-end;
-
-class  function TPoundRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.45359237);
-end;
-
-class  function TPoundRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.45359237);
-end;
-
-class  function TPoundRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.45359237);
-end;
-
-class  function TOunceRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.028349523125);
-end;
-
-class  function TOunceRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.028349523125);
-end;
-
-class  function TOunceRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.028349523125);
-end;
-
-class  function TOunceRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.028349523125);
-end;
-
-class  function TOunceRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.028349523125);
-end;
-
-class  function TOunceRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.028349523125);
-end;
-
-class  function TOunceRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.028349523125);
-end;
-
-class  function TOunceRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.028349523125);
-end;
-
-class  function TOunceRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.028349523125);
-end;
-
-class  function TOunceRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.028349523125);
-end;
-
-class  function TStoneRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (6.35029318);
-end;
-
-class  function TStoneRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (6.35029318);
-end;
-
-class  function TStoneRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (6.35029318);
-end;
-
-class  function TStoneRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (6.35029318);
-end;
-
-class  function TStoneRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (6.35029318);
-end;
-
-class  function TStoneRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (6.35029318);
-end;
-
-class  function TStoneRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (6.35029318);
-end;
-
-class  function TStoneRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (6.35029318);
-end;
-
-class  function TStoneRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (6.35029318);
-end;
-
-class  function TStoneRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (6.35029318);
-end;
-
-class  function TTonRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (907.18474);
-end;
-
-class  function TTonRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (907.18474);
-end;
-
-class  function TTonRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (907.18474);
-end;
-
-class  function TTonRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (907.18474);
-end;
-
-class  function TTonRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (907.18474);
-end;
-
-class  function TTonRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (907.18474);
-end;
-
-class  function TTonRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (907.18474);
-end;
-
-class  function TTonRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (907.18474);
-end;
-
-class  function TTonRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (907.18474);
-end;
-
-class  function TTonRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (907.18474);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltPerSquareSpeedOfLightRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1.7826619216279E-36);
-end;
-
-class function TDegreeCelsiusRec.PutValue(const AValue: double): double;
-begin
-  result := AValue + 273.15;
-end;
-
-class function TDegreeCelsiusRec.GetValue(const AValue: double): double;
-begin
-  result := AValue - 273.15;
-end;
-
-class  function TDegreeCelsiusRec.PutValue(const AValue: TVector): TVector;
-begin
-end;
-
-class  function TDegreeCelsiusRec.GetValue(const AValue: TVector): TVector;
-begin
-end;
-
-class  function TDegreeCelsiusRec.PutValue(const AValue: TBivector): TBivector;
-begin
-end;
-
-class  function TDegreeCelsiusRec.GetValue(const AValue: TBivector): TBivector;
-begin
-end;
-
-class  function TDegreeCelsiusRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-end;
-
-class  function TDegreeCelsiusRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-end;
-
-class  function TDegreeCelsiusRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-end;
-
-class  function TDegreeCelsiusRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-end;
-
-class function TDegreeFahrenheitRec.PutValue(const AValue: double): double;
-begin
-  result := 5/9 * (AValue - 32) + 273.15;
-end;
-
-class function TDegreeFahrenheitRec.GetValue(const AValue: double): double;
-begin
-  result := 9/5 * AValue - 459.67;
-end;
-
-class  function TDegreeFahrenheitRec.PutValue(const AValue: TVector): TVector;
-begin
-end;
-
-class  function TDegreeFahrenheitRec.GetValue(const AValue: TVector): TVector;
-begin
-end;
-
-class  function TDegreeFahrenheitRec.PutValue(const AValue: TBivector): TBivector;
-begin
-end;
-
-class  function TDegreeFahrenheitRec.GetValue(const AValue: TBivector): TBivector;
-begin
-end;
-
-class  function TDegreeFahrenheitRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-end;
-
-class  function TDegreeFahrenheitRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-end;
-
-class  function TDegreeFahrenheitRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-end;
-
-class  function TDegreeFahrenheitRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-end;
-
-class  function TMeterPerHourRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TMeterPerHourRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TMeterPerHourRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TMeterPerHourRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TMeterPerHourRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TMilePerHourRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.44704);
-end;
-
-class  function TMilePerHourRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.44704);
-end;
-
-class  function TMilePerHourRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.44704);
-end;
-
-class  function TMilePerHourRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.44704);
-end;
-
-class  function TMilePerHourRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.44704);
-end;
-
-class  function TMilePerHourRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.44704);
-end;
-
-class  function TMilePerHourRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.44704);
-end;
-
-class  function TMilePerHourRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.44704);
-end;
-
-class  function TMilePerHourRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.44704);
-end;
-
-class  function TMilePerHourRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.44704);
-end;
-
-class  function TNauticalMilePerHourRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (463/900);
-end;
-
-class  function TNauticalMilePerHourRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (463/900);
-end;
-
-class  function TNauticalMilePerHourRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (463/900);
-end;
-
-class  function TNauticalMilePerHourRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (463/900);
-end;
-
-class  function TNauticalMilePerHourRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (463/900);
-end;
-
-class  function TNauticalMilePerHourRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (463/900);
-end;
-
-class  function TNauticalMilePerHourRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (463/900);
-end;
-
-class  function TNauticalMilePerHourRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (463/900);
-end;
-
-class  function TNauticalMilePerHourRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (463/900);
-end;
-
-class  function TNauticalMilePerHourRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (463/900);
-end;
-
-class  function TMeterPerHourPerSecondRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourPerSecondRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TMeterPerHourPerSecondRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourPerSecondRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TMeterPerHourPerSecondRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourPerSecondRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TMeterPerHourPerSecondRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourPerSecondRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TMeterPerHourPerSecondRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1/3600);
-end;
-
-class  function TMeterPerHourPerSecondRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1/3600);
-end;
-
-class  function TPoundPerCubicInchRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (27679.9047102031);
-end;
-
-class  function TPoundPerCubicInchRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (27679.9047102031);
-end;
-
-class  function TPoundPerCubicInchRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (27679.9047102031);
-end;
-
-class  function TPoundPerCubicInchRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (27679.9047102031);
-end;
-
-class  function TPoundPerCubicInchRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (27679.9047102031);
-end;
-
-class  function TPoundPerCubicInchRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (27679.9047102031);
-end;
-
-class  function TPoundPerCubicInchRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (27679.9047102031);
-end;
-
-class  function TPoundPerCubicInchRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (27679.9047102031);
-end;
-
-class  function TPoundPerCubicInchRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (27679.9047102031);
-end;
-
-class  function TPoundPerCubicInchRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (27679.9047102031);
-end;
-
-class  function TPoundForceRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (4.4482216152605);
-end;
-
-class  function TPoundForceRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (4.4482216152605);
-end;
-
-class  function TPoundForceRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (4.4482216152605);
-end;
-
-class  function TPoundForceRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (4.4482216152605);
-end;
-
-class  function TPoundForceRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (4.4482216152605);
-end;
-
-class  function TPoundForceRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (4.4482216152605);
-end;
-
-class  function TPoundForceRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (4.4482216152605);
-end;
-
-class  function TPoundForceRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (4.4482216152605);
-end;
-
-class  function TPoundForceRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (4.4482216152605);
-end;
-
-class  function TPoundForceRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (4.4482216152605);
-end;
-
-class  function TBarRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1E+05);
-end;
-
-class  function TBarRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1E+05);
-end;
-
-class  function TBarRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1E+05);
-end;
-
-class  function TBarRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1E+05);
-end;
-
-class  function TBarRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1E+05);
-end;
-
-class  function TBarRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1E+05);
-end;
-
-class  function TBarRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1E+05);
-end;
-
-class  function TBarRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1E+05);
-end;
-
-class  function TBarRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1E+05);
-end;
-
-class  function TBarRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1E+05);
-end;
-
-class  function TPoundPerSquareInchRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (6894.75729316836);
-end;
-
-class  function TPoundPerSquareInchRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (6894.75729316836);
-end;
-
-class  function TPoundPerSquareInchRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (6894.75729316836);
-end;
-
-class  function TPoundPerSquareInchRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (6894.75729316836);
-end;
-
-class  function TPoundPerSquareInchRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (6894.75729316836);
-end;
-
-class  function TPoundPerSquareInchRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (6894.75729316836);
-end;
-
-class  function TPoundPerSquareInchRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (6894.75729316836);
-end;
-
-class  function TPoundPerSquareInchRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (6894.75729316836);
-end;
-
-class  function TPoundPerSquareInchRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (6894.75729316836);
-end;
-
-class  function TPoundPerSquareInchRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (6894.75729316836);
-end;
-
-class  function TWattHourRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TWattHourRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TWattHourRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TWattHourRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TWattHourRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TWattHourRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TWattHourRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TWattHourRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TWattHourRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TWattHourRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TElectronvoltRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1.602176634E-019);
-end;
-
-class  function TElectronvoltRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1.602176634E-019);
-end;
-
-class  function TElectronvoltRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1.602176634E-019);
-end;
-
-class  function TElectronvoltRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1.602176634E-019);
-end;
-
-class  function TElectronvoltRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1.602176634E-019);
-end;
-
-class  function TElectronvoltRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1.602176634E-019);
-end;
-
-class  function TElectronvoltRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1.602176634E-019);
-end;
-
-class  function TElectronvoltRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1.602176634E-019);
-end;
-
-class  function TElectronvoltRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1.602176634E-019);
-end;
-
-class  function TElectronvoltRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1.602176634E-019);
-end;
-
-class  function TPoundForceInchRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (0.112984829027617);
-end;
-
-class  function TPoundForceInchRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (0.112984829027617);
-end;
-
-class  function TPoundForceInchRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (0.112984829027617);
-end;
-
-class  function TPoundForceInchRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (0.112984829027617);
-end;
-
-class  function TPoundForceInchRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (0.112984829027617);
-end;
-
-class  function TPoundForceInchRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (0.112984829027617);
-end;
-
-class  function TPoundForceInchRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (0.112984829027617);
-end;
-
-class  function TPoundForceInchRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (0.112984829027617);
-end;
-
-class  function TPoundForceInchRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (0.112984829027617);
-end;
-
-class  function TPoundForceInchRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (0.112984829027617);
-end;
-
-class  function TRydbergRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (2.1798723611035E-18);
-end;
-
-class  function TRydbergRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (2.1798723611035E-18);
-end;
-
-class  function TRydbergRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (2.1798723611035E-18);
-end;
-
-class  function TRydbergRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (2.1798723611035E-18);
-end;
-
-class  function TRydbergRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (2.1798723611035E-18);
-end;
-
-class  function TRydbergRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (2.1798723611035E-18);
-end;
-
-class  function TRydbergRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (2.1798723611035E-18);
-end;
-
-class  function TRydbergRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (2.1798723611035E-18);
-end;
-
-class  function TRydbergRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (2.1798723611035E-18);
-end;
-
-class  function TRydbergRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (2.1798723611035E-18);
-end;
-
-class  function TCalorieRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (4.184);
-end;
-
-class  function TCalorieRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (4.184);
-end;
-
-class  function TCalorieRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (4.184);
-end;
-
-class  function TCalorieRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (4.184);
-end;
-
-class  function TCalorieRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (4.184);
-end;
-
-class  function TCalorieRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (4.184);
-end;
-
-class  function TCalorieRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (4.184);
-end;
-
-class  function TCalorieRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (4.184);
-end;
-
-class  function TCalorieRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (4.184);
-end;
-
-class  function TCalorieRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (4.184);
-end;
-
-class  function TJoulePerDegreeRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TJoulePerDegreeRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TJoulePerDegreeRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TJoulePerDegreeRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TJoulePerDegreeRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TJoulePerDegreeRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TJoulePerDegreeRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TJoulePerDegreeRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TJoulePerDegreeRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TJoulePerDegreeRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (180/Pi);
-end;
-
-class  function TNewtonMeterPerDegreeRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (180/Pi);
-end;
-
-class  function TAmpereHourRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TAmpereHourRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TAmpereHourRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TAmpereHourRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TAmpereHourRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TAmpereHourRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TAmpereHourRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TAmpereHourRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TAmpereHourRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (3600);
-end;
-
-class  function TAmpereHourRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (3600);
-end;
-
-class  function TPoundForcePerInchRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (175.126835246476);
-end;
-
-class  function TPoundForcePerInchRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (175.126835246476);
-end;
-
-class  function TPoundForcePerInchRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (175.126835246476);
-end;
-
-class  function TPoundForcePerInchRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (175.126835246476);
-end;
-
-class  function TPoundForcePerInchRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (175.126835246476);
-end;
-
-class  function TPoundForcePerInchRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (175.126835246476);
-end;
-
-class  function TPoundForcePerInchRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (175.126835246476);
-end;
-
-class  function TPoundForcePerInchRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (175.126835246476);
-end;
-
-class  function TPoundForcePerInchRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (175.126835246476);
-end;
-
-class  function TPoundForcePerInchRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (175.126835246476);
-end;
-
-class  function TElectronvoltSecondRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltSecondRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltSecondRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltSecondRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltSecondRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltSecondRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltSecondRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltSecondRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltSecondRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltSecondRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1.60217742320523E-019);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: double): double;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: double): double;
-begin
-  result := AValue / (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: TVector): TVector;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: TVector): TVector;
-begin
-  result := AValue / (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: TBivector): TBivector;
-begin
-  result := AValue / (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: TTrivector): TTrivector;
-begin
-  result := AValue / (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.PutValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue * (1.7826619216279E-36);
-end;
-
-class  function TElectronvoltMeterPerSpeedOfLightRec.GetValue(const AValue: TMultivector): TMultivector;
-begin
-  result := AValue / (1.7826619216279E-36);
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
 
 { Power functions }

@@ -2617,162 +2617,162 @@ end;
 class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
 class operator TFactoredUnit./(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
+class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
+class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
+class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := U.FUnitOfMeasurement;
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
+class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
 {$IFDEF USEADIM}
-  result.FUnitOfMeasurement := DivTable[ScalarId, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity);
+  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
-  result := U.PutValue(AQuantity);
+  result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
 
 {$IFDEF USEADIM}
 class operator TFactoredUnit.*(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+class operator TFactoredUnit.*(const AQuantity: TAVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
+class operator TFactoredUnit./(const AQuantity: TAVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TABivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
+class operator TFactoredUnit./(const AQuantity: TABivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TATrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
+class operator TFactoredUnit./(const AQuantity: TATrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+class operator TFactoredUnit.*(const AQuantity: TAMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+class operator TFactoredUnit./(const AQuantity: TAMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, U.FUnitOfMeasurement];
-  result.FValue := U.PutValue(AQuantity.FValue);
+  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 {$ENDIF}
 
@@ -2782,13 +2782,13 @@ var
 begin
   PrefixCount := Length(Prefixes);
   case PrefixCount of
-    0:  result := U.FName;
-    1:  result := Format(U.FName, [
+    0:  result := FName;
+    1:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(U.FName, [
+    2:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(U.FName, [
+    3:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name,
           PrefixTable[Prefixes[2]].Name]);
@@ -2802,13 +2802,13 @@ var
 begin
   PrefixCount := Length(Prefixes);
   case PrefixCount of
-    0:  result := U.FPluralName;
-    1:  result := Format(U.FPluralName, [
+    0:  result := FPluralName;
+    1:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(U.FPluralName, [
+    2:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(U.FPluralName, [
+    3:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name,
           PrefixTable[Prefixes[2]].Name]);
@@ -2822,13 +2822,13 @@ var
 begin
   PrefixCount := Length(Prefixes);
   case PrefixCount of
-    0:  result := U.FSymbol;
-    1:  result := Format(U.FSymbol, [
+    0:  result := FSymbol;
+    1:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol]);
-    2:  result := Format(U.FSymbol, [
+    2:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol,
           PrefixTable[Prefixes[1]].Symbol]);
-    3:  result := Format(U.FSymbol, [
+    3:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol,
           PrefixTable[Prefixes[1]].Symbol,
           PrefixTable[Prefixes[2]].Symbol]);
@@ -2843,14 +2843,14 @@ var
   PrefixCount: longint;
 begin
   PrefixCount := Length(APrefixes);
-  if PrefixCount = Length(U.FPrefixes) then
+  if PrefixCount = Length(FPrefixes) then
   begin
     Exponent := 0;
     for I := 0 to PrefixCount -1 do
-      Inc(Exponent, PrefixTable[U.FPREFIXES[I]].Exponent * U.FEXPONENTS[I]);
+      Inc(Exponent, PrefixTable[FPrefixes[I]].Exponent * FExponents[I]);
 
     for I := 0 to PrefixCount -1 do
-      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * U.FEXPONENTS[I]);
+      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * FExponents[I]);
 
     if Exponent <> 0 then
       result := AQuantity * IntPower(10, Exponent)
@@ -2867,7 +2867,7 @@ end;
 procedure TFactoredUnit.Check(var AQuantity: TAScalar);
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
 end;
@@ -2875,36 +2875,36 @@ end;
 function TFactoredUnit.ToFloat(const AQuantity: TAScalar): double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
-  result := U.GetValue(AQuantity.FValue);
+  result := AQuantity.FValue / FFactor;
 {$ELSE}
-  result := U.GetValue(AQuantity);
+  result := AQuantity / FFactor;
 {$ENDIF}  
 end;
 
 function TFactoredUnit.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
-  result := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-  result := GetValue(U.GetValue(AQuantity), APrefixes);
+  result := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}  
 end;
 
 function TFactoredUnit.ToString(const AQuantity: TAScalar): string;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
-  result := FloatToStr(U.GetValue(AQuantity.FValue)) + ' ' + GetSymbol(U.FPrefixes);
+  result := FloatToStr(AQuantity.FValue / FFactor) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
-  result := FloatToStr(U.GetValue(AQuantity)) + ' ' + GetSymbol(U.FPrefixes);
+  result := FloatToStr(AQuantity / FFactor) + ' ' + GetSymbol(FPrefixes);
 {$ENDIF}
 end;
 
@@ -2913,16 +2913,16 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(FPrefixes)
   else
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
@@ -2932,16 +2932,16 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
-    FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+    FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-    FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+    FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
+    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
   else
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
@@ -2952,20 +2952,20 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if (AQuantity.FUnitOfMeasurement  <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
+  if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.'); 
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
-  FactoredTol   := GetValue(U.GetValue(ATolerance.FValue), APrefixes);      
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
+  FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
-  FactoredTol   := GetValue(U.GetValue(ATolerance), APrefixes); 
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
+  FactoredTol   := GetValue(ATolerance / FFactor, APrefixes);
 {$ENDIF}  
 
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(U.FPrefixes)
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
@@ -2978,18 +2978,18 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
   if (FactoredValue > -1) and (FactoredValue < 1) then
-    result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPrefixes)
+    result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
   else
-    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPrefixes);
+    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
@@ -2997,20 +2997,20 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(U.FPRefixes)
+      result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
     else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(U.FPRefixes);
+      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
@@ -3025,20 +3025,20 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);  
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}  
 
   if Length(APrefixes) = 0 then
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPRefixes)
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
     else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(U.FPRefixes);
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
     if (FactoredValue > -1) and (FactoredValue < 1) then
@@ -3054,20 +3054,20 @@ var
   FactoredValue: double;
 begin
 {$IFDEF USEADIM}
-  if (AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> U.FUnitOfMeasurement) then
+  if (AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := GetValue(U.GetValue(AQuantity.FValue), APrefixes);
-  FactoredTol   := GetValue(U.GetValue(ATolerance.FValue), APrefixes);    
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
+  FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(U.GetValue(AQuantity), APrefixes);
-  FactoredTol   := GetValue(U.GetValue(ATolerance), APrefixes);
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
+  FactoredTol   := GetValue(ATolerance / FFactor, APrefixes);
 {$ENDIF}  
 
   if Length(APrefixes) = 0 then
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(U.FPrefixes);
+              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes);
   end else
   begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
@@ -3080,15 +3080,15 @@ var
   FactoredValue: TVector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnit.ToString(const AQuantity: TABivector): string;
@@ -3096,15 +3096,15 @@ var
   FactoredValue: TBivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnit.ToString(const AQuantity: TATrivector): string;
@@ -3112,15 +3112,15 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnit.ToString(const AQuantity: TAMultivector): string;
@@ -3128,15 +3128,15 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetSymbol(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TAVector): string;
@@ -3144,15 +3144,15 @@ var
   FactoredValue: TVector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TABivector): string;
@@ -3160,15 +3160,15 @@ var
   FactoredValue: TBivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TATrivector): string;
@@ -3176,15 +3176,15 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
 
 function TFactoredUnit.ToVerboseString(const AQuantity: TAMultivector): string;
@@ -3192,14 +3192,14 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFDEF USEADIM}
-  if AQuantity.FUnitOfMeasurement <> U.FUnitOfMeasurement then
+  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
-  FactoredValue := U.GetValue(AQuantity.FValue);
+  FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
-  FactoredValue := U.GetValue(AQuantity);
+  FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  result := FactoredValue.ToString + ' ' + GetName(U.FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
 
