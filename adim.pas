@@ -7756,8 +7756,10 @@ class operator TDegreeCelsiusUnit.*(const AQuantity: double; const ASelf: TDegre
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
-{$ENDIF}
   result.FValue := AQuantity + 273.15;
+{$ELSE}
+  result := AQuantity + 273.15;
+{$ENDIF}
 end;
 
 { TDegreeFahrenheitUnit }
@@ -7766,8 +7768,10 @@ class operator TDegreeFahrenheitUnit.*(const AQuantity: double; const ASelf: TDe
 begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
-{$ENDIF}
   result.FValue := 5/9 * (AQuantity - 32) + 273.15;
+{$ELSE}
+  result := 5/9 * (AQuantity - 32) + 273.15;
+{$ENDIF}
 end;
 
 { TUnitHelper }
