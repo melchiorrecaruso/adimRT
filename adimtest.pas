@@ -109,6 +109,7 @@ var
   lambda: TAScalar;
   deltadist: TAScalar;
   deltatemp: TAScalar;
+  temp: TAScalar;
 
   specificheatcapacity: TAScalar;
   heatcapacity: TAScalar;
@@ -1044,6 +1045,33 @@ begin
   if ReciprocalMeterUnit.ToString(bfactor, 3, 3, [pNano])        <> '5.12 1/nm' then halt(1);
   if Format('%0.3e', [ScalarUnit.ToFloat(TunnelingProbability)]) <> '5.11E-005' then halt(2);
   writeln('* TEST-107: PASSED');
+
+  // TEST-108 : FACTORED TEMPERATURE UNITS TEST
+  temp := 0*K;
+  {$IFDEF WINDOWS}
+  if Utf8ToAnsi(KelvinUnit.ToString(temp)) <> Utf8ToAnsi('0 K')                  then halt(1);
+  if Utf8ToAnsi(DegreeCelsiusUnit.ToString(temp)) <> Utf8ToAnsi('-273.15 °C')    then halt(2);
+  if Utf8ToAnsi(DegreeFahrenheitUnit.ToString(temp)) <> Utf8ToAnsi('-459.67 °F') then halt(3);
+  {$ELSE}
+  if KelvinUnit.ToString(temp) <> '0 K'                  then halt(1);
+  if DegreeCelsiusUnit.ToString(temp) <>('-273.15 °C'    then halt(2);
+  if DegreeFahrenheitUnit.ToString(temp) <> '-459.67 °F' then halt(3);
+  {$ENDIF}
+
+  temp := 0*degC;
+  {$IFDEF WINDOWS}
+  if Utf8ToAnsi(KelvinUnit.ToString(temp, 5, 2, [])) <> Utf8ToAnsi('273.15 K') then halt(4);
+  {$ELSE}
+  if KelvinUnit.ToString(temp, 5, 2, []) <> '273.15 K' then halt(4);
+  {$ENDIF}
+
+  temp := 0*degF;
+  {$IFDEF WINDOWS}
+  if Utf8ToAnsi(KelvinUnit.ToString(temp, 5, 2, [])) <> Utf8ToAnsi('255.37 K') then halt(5);
+  {$ELSE}
+  if KelvinUnit.ToString(temp, 5, 2, []) <> '255.37 K' then halt(5);
+  {$ENDIF}
+  writeln('* TEST-108: PASSED');
 
   // TEST-501 : Surface
   side1_ := 5*e1*m;

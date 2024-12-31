@@ -1628,7 +1628,7 @@ var
 const
   DegreeCelsiusUnit : TDegreeCelsiusUnit = (
     FUnitOfMeasurement : KelvinId;
-    FSymbol            : 'ºC';
+    FSymbol            : '°C';
     FName              : 'degree Celsius';
     FPluralName        : 'degrees Celsius';
     FPrefixes          : ();
@@ -1642,7 +1642,7 @@ var
 const
   DegreeFahrenheitUnit : TDegreeFahrenheitUnit = (
     FUnitOfMeasurement : KelvinId;
-    FSymbol            : 'ºF';
+    FSymbol            : '°F';
     FName              : 'degree Fahrenheit';
     FPluralName        : 'degrees Fahrenheit';
     FPrefixes          : ();
@@ -7757,7 +7757,7 @@ begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
 {$ENDIF}
-  result := AQuantity + 273.15;
+  result.FValue := AQuantity + 273.15;
 end;
 
 { TDegreeFahrenheitUnit }
@@ -7767,7 +7767,7 @@ begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
 {$ENDIF}
-  result := 5/9 * (AQuantity - 32) + 273.15;
+  result.FValue := 5/9 * (AQuantity - 32) + 273.15;
 end;
 
 { TUnitHelper }

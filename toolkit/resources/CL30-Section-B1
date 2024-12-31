@@ -2388,7 +2388,7 @@ begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
 {$ENDIF}
-  result := AQuantity + 273.15;
+  result.FValue := AQuantity + 273.15;
 end;
 
 { TDegreeFahrenheitUnit }
@@ -2398,7 +2398,7 @@ begin
 {$IFDEF USEADIM}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
 {$ENDIF}
-  result := 5/9 * (AQuantity - 32) + 273.15;
+  result.FValue := 5/9 * (AQuantity - 32) + 273.15;
 end;
 
 { TUnitHelper }
