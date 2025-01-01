@@ -197,6 +197,15 @@ var
 
   magneticfield_: TABivector;
   magneticflux_: TATrivector;
+  current_: TAMultivector;
+  pressure_: TATrivector;
+
+  torquestifness_: TABivector;
+  electricfield_: TAVector;
+  omega_: TABivector;
+  potential_: TAVector;
+  impedance_: TAMultivector;
+  power_: TAMultivector;
 
 begin
   ExitCode := 0;
@@ -1163,6 +1172,64 @@ begin
   if TeslaUnit.ToString(magneticfield_) <> '(+10e12) T'  then halt(2);
   if SquareMeterUnit.ToString(area_) <> '(+5e12) m2'     then halt(3);
   writeln('* TEST-510: PASSED');
+
+  // TEST-511: Henry
+  magneticflux_ := 50*e123*Wb;
+  current_      := 5*e2*A;
+  inductance    := -magneticflux_.Dual/current_.Norm;
+  if HenryUnit.ToVerboseString(inductance) <> '10 henries' then halt(1);
+  writeln('* TEST-511: PASSED');
+
+  // TEST-512: Pascal
+  force_    := 10*e1*N;
+  area_     := 2*e23*m2;
+  pressure_ := -force_.wedge(1/area_);
+  force_    := -pressure_.dot(area_);
+  area_     := -force_.dot(1/pressure_);
+  if PascalUnit.ToString(pressure_) <> '(+5e123) Pa' then halt(1);
+  if NewtonUnit.ToString(force_) <> '(+10e1) N'      then halt(2);
+  if SquareMeterUnit.ToString(area_) <> '(+2e23) m2' then halt(3);
+  writeln('* TEST-512: PASSED');
+
+  // TEST-513: Torque stiffness
+  torquestifness_ := 10*e12*N*m/rad;
+  torque_         := torquestifness_ * (5*rad);
+  if NewtonMeterPerRadianUnit.ToString(torquestifness_) <> '(+10e12) N.m/rad' then halt(1);
+  if NewtonMeterUnit.ToString(torque_) <> '(+50e12) N.m' then halt(2);
+  writeln('* TEST-513: PASSED');
+
+  // TEST-514: Loretz force
+  electricfield_ := (10*e1)*N/C;
+  charge         := ElectronCharge;
+  force_         := charge * electricfield_;
+  force_         := electricfield_ * charge;
+  charge         := force_.dot(1/electricfield_);
+  electricfield_ := force_/charge;
+  if not SameValue(charge, ElectronCharge) then halt(1);
+  writeln('* TEST-514: PASSED');
+
+  // TEST-515: Voltages
+  omega_      := 1*e12*rad/s;
+  potential_  := 50*e1*V;
+  resistance  := 2*Ohm;
+  capacitance := 1*F;
+  inductance  := 2*H;
+  impedance_  := resistance - (1/(omega_*capacitance) + omega_*inductance);
+  current_    := (1/impedance_) * potential_;
+  power_      := current_ * potential_;
+  {$IFDEF WINDOWS}
+  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance_)])) <> Utf8ToAnsi('Z = (+2 -1e12) Ω') then halt(1);
+  {$ELSE}
+  if            Format('Z = %s', [ohm.ToString(impedance_)]) <> 'Z = (+2 -1e12) Ω'              then halt(1);
+  {$ENDIF}
+  if            Format('I = %s', [A.ToString(current_)]) <> 'I = (+20e1 -10e2) A'               then halt(2);
+  if            Format('P = %s', [W.ToString(power_)]) <> 'P = (+1000 +500e12) W'               then halt(3);
+  if            Format('Y = %s', [siemens.ToString(1/impedance_)]) <> 'Y = (+0.4 +0.2e12) S'    then halt(4);
+
+  if V.ToString(potential_.Norm) <> '50 V'             then halt(5);
+  if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
+  if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
+  writeln('* TEST-515: PASSED');
 
   writeln;
   writeln('ADIM-TEST DONE.');
