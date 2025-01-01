@@ -24,12 +24,9 @@ unit ADim;
 {$modeswitch advancedrecords}
 {$WARN 5024 OFF} // Suppress warning for unused routine parameter.
 {$WARN 5033 OFF} // Suppress warning for unassigned function's return value.
-{$IFOPT D+}
-  {$DEFINE USEADIM}
-{$ENDIF}
 
 {
-  ADim Run-time library built on 31/12/2024.
+  ADim Run-time library built on 01/01/2025.
 
   Number of base units: 160
   Number of factored units: 122

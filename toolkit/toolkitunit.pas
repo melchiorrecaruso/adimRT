@@ -774,9 +774,6 @@ begin
   SectionA0.Append('{$modeswitch advancedrecords}');
   SectionA0.Append('{$WARN 5024 OFF} // Suppress warning for unused routine parameter.');
   SectionA0.Append('{$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.');
-  SectionA0.Append('{$IFOPT D+}');
-  SectionA0.Append('  {$DEFINE USEADIM}');
-  SectionA0.Append('{$ENDIF}');
   SectionA0.Append('');
 
   SectionA0.Append('{');

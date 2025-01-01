@@ -48,6 +48,9 @@
           </Linking>
         </CompilerOptions>
       </Item>
+      <SharedMatrixOptions Count="1">
+        <Item1 ID="316359826742" Modes="Debug" Value="-dUSEADIM"/>
+      </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -101,9 +104,6 @@
         <TrashVariables Value="True"/>
       </Debugging>
     </Linking>
-    <Other>
-      <CustomOptions Value="-dUSEADIM"/>
-    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions>
