@@ -1063,7 +1063,7 @@ begin
   if Utf8ToAnsi(DegreeFahrenheitUnit.ToString(temp)) <> Utf8ToAnsi('-459.67 °F') then halt(3);
   {$ELSE}
   if KelvinUnit.ToString(temp) <> '0 K'                  then halt(1);
-  if DegreeCelsiusUnit.ToString(temp) <>('-273.15 °C'    then halt(2);
+  if DegreeCelsiusUnit.ToString(temp) <> '-273.15 °C'    then halt(2);
   if DegreeFahrenheitUnit.ToString(temp) <> '-459.67 °F' then halt(3);
   {$ENDIF}
 
