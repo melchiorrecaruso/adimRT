@@ -19,8 +19,10 @@
 
 program adimtest;
 
+{$DEFINE ADIMCL3}
+
 uses
-  ADim, CL3, Math, SysUtils;
+  ADim, {$IFDEF ADIMCL3} CL3, {$ENDIF} Math, SysUtils;
 
 var
   side1: TAScalar;
@@ -179,6 +181,7 @@ var
   U0: TAScalar;
   TunnelingProbability: TAScalar;
 
+  {$IFDEF ADIMCL3}
   side1_: TAVector;
   side2_: TAVector;
   area_: TABivector;
@@ -206,6 +209,7 @@ var
   potential_: TAVector;
   impedance_: TAMultivector;
   power_: TAMultivector;
+  {$ENDIF}
 
 begin
   ExitCode := 0;
@@ -1082,6 +1086,7 @@ begin
   {$ENDIF}
   writeln('* TEST-108: PASSED');
 
+  {$IFDEF ADIMCL3}
   // TEST-501 : Surface
   side1_ := 5*e1*m;
   side2_ := 10*e2*m;
@@ -1230,6 +1235,7 @@ begin
   if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
   if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-515: PASSED');
+  {$ENDIF}
 
   writeln;
   writeln('ADIM-TEST DONE.');
