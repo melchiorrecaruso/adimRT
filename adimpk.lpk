@@ -29,11 +29,12 @@
         <Filename Value="adim.pas"/>
         <UnitName Value="ADim"/>
       </Item>
+      <Item>
+        <Filename Value="cl3.pas"/>
+        <UnitName Value="cl3"/>
+      </Item>
     </Files>
     <RequiredPkgs>
-      <Item>
-        <PackageName Value="clifford"/>
-      </Item>
       <Item>
         <PackageName Value="FCL"/>
       </Item>
