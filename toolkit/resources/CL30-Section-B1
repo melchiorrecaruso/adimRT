@@ -2757,7 +2757,7 @@ function TUnitHelper.ToString(const AQuantity: TAVector): string;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
@@ -2769,7 +2769,7 @@ function TUnitHelper.ToString(const AQuantity: TABivector): string;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
@@ -2781,7 +2781,7 @@ function TUnitHelper.ToString(const AQuantity: TATrivector): string;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
@@ -2793,7 +2793,7 @@ function TUnitHelper.ToString(const AQuantity: TAMultivector): string;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
@@ -3108,7 +3108,7 @@ var
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -3123,7 +3123,7 @@ var
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -3138,7 +3138,7 @@ var
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -3153,7 +3153,7 @@ var
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
