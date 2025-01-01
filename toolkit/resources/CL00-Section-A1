@@ -1,7 +1,7 @@
 
 interface
 
-uses SysUtils;
+uses CL3, SysUtils;
 
 type
   { Prefix }
@@ -16,7 +16,7 @@ type
 
   { TAScalar }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAScalar = record
   private
     FUnitOfMeasurement: longint;
@@ -39,41 +39,41 @@ type
     class operator <=(const ALeft, ARight: TAScalar): boolean;
     class operator >=(const ALeft, ARight: TAScalar): boolean;
     class operator <>(const ALeft, ARight: TAScalar): boolean;
-    class operator :=(const ASelf: double): TAScalar;
+    class operator :=(const AValue: double): TAScalar;
   end;
   {$ELSE}
   TAScalar = double;
   {$ENDIF}
 
+  
+  
+
+  
+
+ 
+
+  
+
+ 
+
+ 
+
+  
+
   { TUnit }
 
   TUnit = record
+  private
     FUnitOfMeasurement: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
     FPrefixes: TPrefixes;
-    FExponents: TExponents;;
+    FExponents: TExponents;
   public
-    function GetName(const Prefixes: TPrefixes): string;
-    function GetPluralName(const Prefixes: TPrefixes): string;
-    function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
-  public
-    procedure Check(var AQuantity: TAScalar);
-    function ToFloat(const AQuantity: TAScalar): double;
-    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TAScalar): string;
-    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar): string;
-    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     class operator *(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
     class operator /(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
     class operator *(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
     class operator /(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
   {$ENDIF}
@@ -81,8 +81,55 @@ type
 
   { TFactoredUnit }
 
-  generic TFactoredUnit<U> = record
-    type TSelf = specialize TFactoredUnit<U>;
+  TFactoredUnit = record
+  private
+    FUnitOfMeasurement: longint;
+    FSymbol: string;
+    FName: string;
+    FPluralName: string;
+    FPrefixes: TPrefixes;
+    FExponents: TExponents;
+    FFactor: double; 
+  public
+    class operator *(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
+  {$IFDEF ADIMDEBUG}
+    class operator *(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+  {$ENDIF}
+  end;
+
+  { TDegreeCelsiusUnit }
+
+  TDegreeCelsiusUnit = record
+  private
+    FUnitOfMeasurement: longint;
+    FSymbol: string;
+    FName: string;
+    FPluralName: string;
+    FPrefixes: TPrefixes;
+    FExponents: TExponents;
+  public
+    class operator *(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TAScalar; inline;
+  end;
+
+  { TDegreeFahrenheitUnit }
+
+  TDegreeFahrenheitUnit = record
+  private
+    FUnitOfMeasurement: longint;
+    FSymbol: string;
+    FName: string;
+    FPluralName: string;
+    FPrefixes: TPrefixes;
+    FExponents: TExponents;
+  public
+    class operator *(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TAScalar; inline;
+  end;   
+
+ { TUnitHelper }
+
+  TUnitHelper = record helper for TUnit
   public
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
@@ -100,11 +147,72 @@ type
     function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
-    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
-  {$IFDEF USEADIM}
-    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
-    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
-  {$ENDIF}
   end;
 
+ { TFactoredUnitHelper }
+
+  TFactoredUnitHelper = record helper for TFactoredUnit
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
+  public
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+  end;
+
+ { TDegreeCelsiusUnitHelper }
+
+  TDegreeCelsiusUnitHelper = record helper for TDegreeCelsiusUnit
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
+  public
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+  end;
+
+ { TDegreeFahrenheitUnitHelper }
+
+  TDegreeFahrenheitUnitHelper = record helper for TDegreeFahrenheitUnit
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
+  public
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+  end;
+  
+  
