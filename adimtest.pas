@@ -25,190 +25,190 @@ uses
   ADim, {$IFDEF ADIMCL3} CL3, {$ENDIF} Math, SysUtils;
 
 var
-  side1: TAScalar;
-  side2, side3, side4: TAScalar;
-  area: TAScalar;
-  volume: TAScalar;
-  hypervolume: TAScalar;
+  side1: TQuantity;
+  side2, side3, side4: TQuantity;
+  area: TQuantity;
+  volume: TQuantity;
+  hypervolume: TQuantity;
 
-  pressure: TAScalar;
-  stiffness: TAScalar;
+  pressure: TQuantity;
+  stiffness: TQuantity;
 
-  squarecharge: TAScalar;
-  capacitance: TAScalar;
+  squarecharge: TQuantity;
+  capacitance: TQuantity;
 
-  distance: TAScalar;
-  tolerance: TAScalar;
-  time: TAScalar;
-  speed: TAScalar;
-  spin: TAScalar;
-  acc: TAScalar;
-  density: TAScalar;
-  specificw: TAScalar;
-  force, normal: TAScalar;
+  distance: TQuantity;
+  tolerance: TQuantity;
+  time: TQuantity;
+  speed: TQuantity;
+  spin: TQuantity;
+  acc: TQuantity;
+  density: TQuantity;
+  specificw: TQuantity;
+  force, normal: TQuantity;
 
-  torque: TAScalar;
-  work: TAScalar;
-  power: TAScalar;
+  torque: TQuantity;
+  work: TQuantity;
+  power: TQuantity;
 
-  charge: TAScalar;
-  potential: TAScalar;
-  current: TAScalar;
+  charge: TQuantity;
+  potential: TQuantity;
+  current: TQuantity;
 
-  flux: TAScalar;
-  fluxdensity: TAScalar;
+  flux: TQuantity;
+  fluxdensity: TQuantity;
 
-  inductance: TAScalar;
-  resistance: TAScalar;
-  conductance: TAScalar;
+  inductance: TQuantity;
+  resistance: TQuantity;
+  conductance: TQuantity;
 
-  solidangle: TAScalar;
-  intensity: TAScalar;
-  luminousflux: TAScalar;
+  solidangle: TQuantity;
+  intensity: TQuantity;
+  luminousflux: TQuantity;
 
-  dose1: TAScalar;
-  dose2: TAScalar;
+  dose1: TQuantity;
+  dose2: TQuantity;
 
-  angularspeed: TAScalar;
+  angularspeed: TQuantity;
 
-  kA: TAScalar;
-  kAr: TAScalar;
-  radius: TAScalar;
-  radius1: TAScalar;
-  radius2: TAScalar;
+  kA: TQuantity;
+  kAr: TQuantity;
+  radius: TQuantity;
+  radius1: TQuantity;
+  radius2: TQuantity;
 
-  Mass: TAScalar;
-  MassOfSun: TAScalar;
-  MassOfSagittariusAStar: TAScalar;
-  eta: TAScalar;
-  Cb: TAScalar;
+  Mass: TQuantity;
+  MassOfSun: TQuantity;
+  MassOfSagittariusAStar: TQuantity;
+  eta: TQuantity;
+  Cb: TQuantity;
 
-  mass1: TAScalar;
-  mass2: TAScalar;
+  mass1: TQuantity;
+  mass2: TQuantity;
 
-  cCd: TAScalar;
-  angle: TAScalar;
+  cCd: TQuantity;
+  angle: TQuantity;
 
-  Uc: TAScalar;
-  Ug: TAScalar;
+  Uc: TQuantity;
+  Ug: TQuantity;
 
-  Ue: TAScalar;
-  kx: TAScalar;
-  x: TAScalar;
+  Ue: TQuantity;
+  kx: TQuantity;
+  x: TQuantity;
 
-  q1: TAScalar;
-  q2: TAScalar;
-  Uel: TAScalar;
-  U: TAScalar;
+  q1: TQuantity;
+  q2: TQuantity;
+  Uel: TQuantity;
+  U: TQuantity;
 
-  p: TAScalar;
-  p2: TAScalar;
-  impulse: TAScalar;
-  Lp: TAScalar;
+  p: TQuantity;
+  p2: TQuantity;
+  impulse: TQuantity;
+  Lp: TQuantity;
 
-  flowrate: TAScalar;
+  flowrate: TQuantity;
 
-  lambda: TAScalar;
-  deltadist: TAScalar;
-  deltatemp: TAScalar;
-  temp: TAScalar;
+  lambda: TQuantity;
+  deltadist: TQuantity;
+  deltatemp: TQuantity;
+  temp: TQuantity;
 
-  specificheatcapacity: TAScalar;
-  heatcapacity: TAScalar;
+  specificheatcapacity: TQuantity;
+  heatcapacity: TQuantity;
 
-  _m1: TAScalar;
-  _m2: TAScalar;
-  _tf: TAScalar;
-  _t1: TAScalar;
-  _t2: TAScalar;
-  _c1: TAScalar;
-  _c2: TAScalar;
+  _m1: TQuantity;
+  _m2: TQuantity;
+  _tf: TQuantity;
+  _t1: TQuantity;
+  _t2: TQuantity;
+  _c1: TQuantity;
+  _c2: TQuantity;
 
-  lambda2: TAScalar;
+  lambda2: TQuantity;
 
-  E: TAScalar;
-  sigma: TAScalar;
+  E: TQuantity;
+  sigma: TQuantity;
 
-  B: TAScalar;
-  len: TAScalar;
-  r: TAScalar;
-  z: TAScalar;
+  B: TQuantity;
+  len: TQuantity;
+  r: TQuantity;
+  z: TQuantity;
   loops: longint;
 
-  i1, i2: TAScalar;
-  magneticflux: TAScalar;
+  i1, i2: TQuantity;
+  magneticflux: TQuantity;
 
-  DeltaE: TAScalar;
+  DeltaE: TQuantity;
 
-  Ampl: TAScalar;
-  Kw: TAScalar;
-  Omega: TAScalar;
-  phi: TAScalar;
+  Ampl: TQuantity;
+  Kw: TQuantity;
+  Omega: TQuantity;
+  phi: TQuantity;
 
-  wavelen: TAScalar;
-  wavelenc: TAScalar;
-  yspeed: TAScalar;
-  yacc: TAScalar;
+  wavelen: TQuantity;
+  wavelenc: TQuantity;
+  yspeed: TQuantity;
+  yacc: TQuantity;
 
-  E0: TAScalar;
-  Energy: TAScalar;
-  freq: TAScalar;
+  E0: TQuantity;
+  Energy: TQuantity;
+  freq: TQuantity;
 
-  I: TAScalar;
-  Re: TAScalar;
+  I: TQuantity;
+  Re: TQuantity;
 
   num: integer;
-  alpha: TAScalar;
-  kc: TAScalar;
-  BoxLen: TAScalar;
-  EnergyLevels: array[1..4] of TAScalar;
-  SquarePsi: array[1..4] of TAScalar;
-  Psi0: TAScalar;
-  PsiValues: array [1..4] of TAScalar;
-  A0: TAScalar;
-  y: TAScalar;
+  alpha: TQuantity;
+  kc: TQuantity;
+  BoxLen: TQuantity;
+  EnergyLevels: array[1..4] of TQuantity;
+  SquarePsi: array[1..4] of TQuantity;
+  Psi0: TQuantity;
+  PsiValues: array [1..4] of TQuantity;
+  A0: TQuantity;
+  y: TQuantity;
 
   Iteration: longint;
   Iterations: longint;
-  Probability: TAScalar;
-  mu: TAScalar;
+  Probability: TQuantity;
+  mu: TQuantity;
 
-  ELV1, ELV2: TAScalar;
-  L1, L2: TAScalar;
+  ELV1, ELV2: TQuantity;
+  L1, L2: TQuantity;
 
-  kfactor: TAScalar;
-  bfactor: TAScalar;
-  U0: TAScalar;
-  TunnelingProbability: TAScalar;
+  kfactor: TQuantity;
+  bfactor: TQuantity;
+  U0: TQuantity;
+  TunnelingProbability: TQuantity;
 
   {$IFDEF ADIMCL3}
-  side1_: TAVector;
-  side2_: TAVector;
-  area_: TABivector;
-  displacement_: TAVector;
-  speed_: TAVector;
-  acc_: TAVector;
-  momentum_: TAVector;
+  side1_: TVecQuantity;
+  side2_: TVecQuantity;
+  area_: TBivecQuantity;
+  displacement_: TVecQuantity;
+  speed_: TVecQuantity;
+  acc_: TVecQuantity;
+  momentum_: TVecQuantity;
 
-  angle_: TABivector;
-  angularspeed_: TABivector;
-  angularacc_: TABivector;
-  radius_: TAVector;
-  angularmomentum_: TABivector;
-  force_: TAVector;
-  torque_: TABivector;
+  angle_: TBivecQuantity;
+  angularspeed_: TBivecQuantity;
+  angularacc_: TBivecQuantity;
+  radius_: TVecQuantity;
+  angularmomentum_: TBivecQuantity;
+  force_: TVecQuantity;
+  torque_: TBivecQuantity;
 
-  magneticfield_: TABivector;
-  magneticflux_: TATrivector;
-  current_: TAMultivector;
-  pressure_: TATrivector;
+  magneticfield_: TBivecQuantity;
+  magneticflux_: TTrivecQuantity;
+  current_: TMultivecQuantity;
+  pressure_: TTrivecQuantity;
 
-  torquestifness_: TABivector;
-  electricfield_: TAVector;
-  omega_: TABivector;
-  potential_: TAVector;
-  impedance_: TAMultivector;
-  power_: TAMultivector;
+  torquestifness_: TBivecQuantity;
+  electricfield_: TVecQuantity;
+  omega_: TBivecQuantity;
+  potential_: TVecQuantity;
+  impedance_: TMultivecQuantity;
+  power_: TMultivecQuantity;
   {$ENDIF}
 
 begin

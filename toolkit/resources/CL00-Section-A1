@@ -14,35 +14,35 @@ type
   { Exponents } 
   TExponents = array of longint;
 
-  { TAScalar }
+  { TQuantity }
 
   {$IFDEF ADIMDEBUG}
-  TAScalar = record
+  TQuantity = record
   private
     FUnitOfMeasurement: longint;
     FValue: double;
   public
-    class operator + (const ASelf: TAScalar): TAScalar;
-    class operator - (const ASelf: TAScalar): TAScalar;
-    class operator + (const ALeft, ARight: TAScalar): TAScalar;
-    class operator - (const ALeft, ARight: TAScalar): TAScalar;
-    class operator * (const ALeft, ARight: TAScalar): TAScalar;
-    class operator / (const ALeft, ARight: TAScalar): TAScalar;
-    class operator * (const ALeft: double; const ARight: TAScalar): TAScalar;
-    class operator / (const ALeft: double; const ARight: TAScalar): TAScalar;
-    class operator * (const ALeft: TAScalar; const ARight: double): TAScalar;
-    class operator / (const ALeft: TAScalar; const ARight: double): TAScalar;
+    class operator + (const ASelf: TQuantity): TQuantity;
+    class operator - (const ASelf: TQuantity): TQuantity;
+    class operator + (const ALeft, ARight: TQuantity): TQuantity;
+    class operator - (const ALeft, ARight: TQuantity): TQuantity;
+    class operator * (const ALeft, ARight: TQuantity): TQuantity;
+    class operator / (const ALeft, ARight: TQuantity): TQuantity;
+    class operator * (const ALeft: double; const ARight: TQuantity): TQuantity;
+    class operator / (const ALeft: double; const ARight: TQuantity): TQuantity;
+    class operator * (const ALeft: TQuantity; const ARight: double): TQuantity;
+    class operator / (const ALeft: TQuantity; const ARight: double): TQuantity;
 
-    class operator = (const ALeft, ARight: TAScalar): boolean;
-    class operator < (const ALeft, ARight: TAScalar): boolean;
-    class operator > (const ALeft, ARight: TAScalar): boolean;
-    class operator <=(const ALeft, ARight: TAScalar): boolean;
-    class operator >=(const ALeft, ARight: TAScalar): boolean;
-    class operator <>(const ALeft, ARight: TAScalar): boolean;
-    class operator :=(const AValue: double): TAScalar;
+    class operator = (const ALeft, ARight: TQuantity): boolean;
+    class operator < (const ALeft, ARight: TQuantity): boolean;
+    class operator > (const ALeft, ARight: TQuantity): boolean;
+    class operator <=(const ALeft, ARight: TQuantity): boolean;
+    class operator >=(const ALeft, ARight: TQuantity): boolean;
+    class operator <>(const ALeft, ARight: TQuantity): boolean;
+    class operator :=(const AValue: double): TQuantity;
   end;
   {$ELSE}
-  TAScalar = double;
+  TQuantity = double;
   {$ENDIF}
 
   
@@ -71,11 +71,11 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
-    class operator *(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
-    class operator /(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
+    class operator *(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
+    class operator /(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
   {$IFDEF ADIMDEBUG}
-    class operator *(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
-    class operator /(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
+    class operator *(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
+    class operator /(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
   {$ENDIF}
   end;
 
@@ -91,11 +91,11 @@ type
     FExponents: TExponents;
     FFactor: double; 
   public
-    class operator *(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
-    class operator /(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator *(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
+    class operator /(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
   {$IFDEF ADIMDEBUG}
-    class operator *(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
-    class operator /(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator *(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+    class operator /(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
   {$ENDIF}
   end;
 
@@ -110,7 +110,7 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
-    class operator *(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TAScalar; inline;
+    class operator *(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
   end;
 
   { TDegreeFahrenheitUnit }
@@ -124,7 +124,7 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
-    class operator *(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TAScalar; inline;
+    class operator *(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
   end;   
 
  { TUnitHelper }
@@ -136,17 +136,17 @@ type
     function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
-    procedure Check(var AQuantity: TAScalar);
-    function ToFloat(const AQuantity: TAScalar): double;
-    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TAScalar): string;
-    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar): string;
-    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    procedure Check(var AQuantity: TQuantity);
+    function ToFloat(const AQuantity: TQuantity): double;
+    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TQuantity): string;
+    function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TQuantity): string;
+    function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
 
  { TFactoredUnitHelper }
@@ -158,17 +158,17 @@ type
     function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
   public
-    procedure Check(var AQuantity: TAScalar);
-    function ToFloat(const AQuantity: TAScalar): double;
-    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TAScalar): string;
-    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar): string;
-    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    procedure Check(var AQuantity: TQuantity);
+    function ToFloat(const AQuantity: TQuantity): double;
+    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TQuantity): string;
+    function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TQuantity): string;
+    function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
 
  { TDegreeCelsiusUnitHelper }
@@ -180,17 +180,17 @@ type
     function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
   public
-    procedure Check(var AQuantity: TAScalar);
-    function ToFloat(const AQuantity: TAScalar): double;
-    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TAScalar): string;
-    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar): string;
-    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    procedure Check(var AQuantity: TQuantity);
+    function ToFloat(const AQuantity: TQuantity): double;
+    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TQuantity): string;
+    function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TQuantity): string;
+    function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
 
  { TDegreeFahrenheitUnitHelper }
@@ -202,17 +202,17 @@ type
     function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
   public
-    procedure Check(var AQuantity: TAScalar);
-    function ToFloat(const AQuantity: TAScalar): double;
-    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TAScalar): string;
-    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar): string;
-    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    procedure Check(var AQuantity: TQuantity);
+    function ToFloat(const AQuantity: TQuantity): double;
+    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TQuantity): string;
+    function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TQuantity): string;
+    function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
   
   
