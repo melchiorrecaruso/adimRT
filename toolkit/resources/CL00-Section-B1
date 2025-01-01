@@ -1,25 +1,25 @@
-{ TAScalar }
+{ TQuantity }
 
 {$IFDEF ADIMDEBUG}
-class operator TAScalar.:=(const AValue: double): TAScalar;
+class operator TQuantity.:=(const AValue: double): TQuantity;
 begin
   result.FUnitOfMeasurement := ScalarId;
   result.FValue := AValue;
 end;
 
-class operator TAScalar.+(const ASelf: TAScalar): TAScalar;
+class operator TQuantity.+(const ASelf: TQuantity): TQuantity;
 begin
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := ASelf.FValue;
 end;
 
-class operator TAScalar.-(const ASelf: TAScalar): TAScalar;
+class operator TQuantity.-(const ASelf: TQuantity): TQuantity;
 begin
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := -ASelf.FValue;
 end;
 
-class operator TAScalar.+(const ALeft, ARight: TAScalar): TAScalar;
+class operator TQuantity.+(const ALeft, ARight: TQuantity): TQuantity;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -28,7 +28,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TAScalar.-(const ALeft, ARight: TAScalar): TAScalar;
+class operator TQuantity.-(const ALeft, ARight: TQuantity): TQuantity;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -37,43 +37,43 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TAScalar.*(const ALeft, ARight: TAScalar): TAScalar;
+class operator TQuantity.*(const ALeft, ARight: TQuantity): TQuantity;
 begin
   result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TAScalar./(const ALeft, ARight: TAScalar): TAScalar;
+class operator TQuantity./(const ALeft, ARight: TQuantity): TQuantity;
 begin
   result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TAScalar.*(const ALeft: double; const ARight: TAScalar): TAScalar;
+class operator TQuantity.*(const ALeft: double; const ARight: TQuantity): TQuantity;
 begin
   result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;
   result.FValue:= ALeft * ARight.FValue;
 end;
 
-class operator TAScalar./(const ALeft: double; const ARight: TAScalar): TAScalar;
+class operator TQuantity./(const ALeft: double; const ARight: TQuantity): TQuantity;
 begin
   result.FUnitOfMeasurement := DivTable[ScalarId, ARight.FUnitOfMeasurement];
   result.FValue:= ALeft / ARight.FValue;
 end;
 
-class operator TAScalar.*(const ALeft: TAScalar; const ARight: double): TAScalar;
+class operator TQuantity.*(const ALeft: TQuantity; const ARight: double): TQuantity;
 begin
   result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
   result.FValue:= ALeft.FValue * ARight;
 end;
 
-class operator TAScalar./(const ALeft: TAScalar; const ARight: double): TAScalar;
+class operator TQuantity./(const ALeft: TQuantity; const ARight: double): TQuantity;
 begin
   result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
   result.FValue:= ALeft.FValue / ARight;
 end;
 
-class operator TAScalar.=(const ALeft, ARight: TAScalar): boolean; inline;
+class operator TQuantity.=(const ALeft, ARight: TQuantity): boolean; inline;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
@@ -81,7 +81,7 @@ begin
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TAScalar.<(const ALeft, ARight: TAScalar): boolean;
+class operator TQuantity.<(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('LessThan operator (<) has detected wrong unit of measurements.');
@@ -89,7 +89,7 @@ begin
   result := ALeft.FValue < ARight.FValue;
 end;
 
-class operator TAScalar.>(const ALeft, ARight: TAScalar): boolean;
+class operator TQuantity.>(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('GreaterThan operator (>) has detected wrong unit of measurements.');
@@ -97,7 +97,7 @@ begin
   result := ALeft.FValue > ARight.FValue;
 end;
 
-class operator TAScalar.<=(const ALeft, ARight: TAScalar): boolean;
+class operator TQuantity.<=(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('LessThanOrEqual operator (<=) has detected wrong unit of measurements.');
@@ -105,7 +105,7 @@ begin
   result := ALeft.FValue <= ARight.FValue;
 end;
 
-class operator TAScalar.>=(const ALeft, ARight: TAScalar): boolean;
+class operator TQuantity.>=(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('GreaterThanOrEqual operator (>=) has detected wrong unit of measurements.');
@@ -113,7 +113,7 @@ begin
   result := ALeft.FValue >= ARight.FValue;
 end;
 
-class operator TAScalar.<>(const ALeft, ARight: TAScalar): boolean;
+class operator TQuantity.<>(const ALeft, ARight: TQuantity): boolean;
 begin
   if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
@@ -124,7 +124,7 @@ end;
 
 { TUnit }
 
-class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
+class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
@@ -134,7 +134,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
+class operator TUnit./(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
@@ -145,13 +145,13 @@ begin
 end;
 
 {$IFDEF ADIMDEBUG}
-class operator TUnit.*(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
+class operator TUnit.*(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
+class operator TUnit./(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity.FValue;
@@ -161,7 +161,7 @@ end;
 
 { TFactoredUnit }
 
-class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
+class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
@@ -171,7 +171,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
+class operator TFactoredUnit./(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
@@ -182,13 +182,13 @@ begin
 end;
 
 {$IFDEF ADIMDEBUG}
-class operator TFactoredUnit.*(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+class operator TFactoredUnit.*(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+class operator TFactoredUnit./(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
   result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity.FValue / ASelf.FFactor;
@@ -197,7 +197,7 @@ end;
 
 { TDegreeCelsiusUnit }
 
-class operator TDegreeCelsiusUnit.*(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TAScalar; inline;
+class operator TDegreeCelsiusUnit.*(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
@@ -209,7 +209,7 @@ end;
 
 { TDegreeFahrenheitUnit }
 
-class operator TDegreeFahrenheitUnit.*(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TAScalar; inline;
+class operator TDegreeFahrenheitUnit.*(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
@@ -309,7 +309,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-procedure TUnitHelper.Check(var AQuantity: TAScalar);
+procedure TUnitHelper.Check(var AQuantity: TQuantity);
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -317,7 +317,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToFloat(const AQuantity: TAScalar): double;
+function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -329,7 +329,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+function TUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -341,7 +341,7 @@ begin
 {$ENDIF}  
 end;
 
-function TUnitHelper.ToString(const AQuantity: TAScalar): string;
+function TUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -353,7 +353,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -372,7 +372,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -391,7 +391,7 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -418,7 +418,7 @@ begin
   end;
 end;    
 
-function TUnitHelper.ToVerboseString(const AQuantity: TAScalar): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -436,7 +436,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -464,7 +464,7 @@ begin
   end;
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -492,7 +492,7 @@ begin
   end;
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -609,7 +609,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-procedure TFactoredUnitHelper.Check(var AQuantity: TAScalar);
+procedure TFactoredUnitHelper.Check(var AQuantity: TQuantity);
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -617,7 +617,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToFloat(const AQuantity: TAScalar): double;
+function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -629,7 +629,7 @@ begin
 {$ENDIF}  
 end;
 
-function TFactoredUnitHelper.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -641,7 +641,7 @@ begin
 {$ENDIF}  
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TAScalar): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -653,7 +653,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -672,7 +672,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -691,7 +691,7 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -718,7 +718,7 @@ begin
   end;
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TAScalar): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 var
   FactoredValue: double;
 begin
@@ -737,7 +737,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -765,7 +765,7 @@ begin
   end;
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -793,7 +793,7 @@ begin
   end;
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -910,7 +910,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-procedure TDegreeCelsiusUnitHelper.Check(var AQuantity: TAScalar);
+procedure TDegreeCelsiusUnitHelper.Check(var AQuantity: TQuantity);
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -918,7 +918,7 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TAScalar): double;
+function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -930,7 +930,7 @@ begin
 {$ENDIF}  
 end;
 
-function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -942,7 +942,7 @@ begin
 {$ENDIF}  
 end;
 
-function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TAScalar): string;
+function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -954,7 +954,7 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -973,7 +973,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -992,7 +992,7 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TDegreeCelsiusUnitHelper.ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -1019,7 +1019,7 @@ begin
   end;
 end;
 
-function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TAScalar): string;
+function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 var
   FactoredValue: double;
 begin
@@ -1038,7 +1038,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
 end;
 
-function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -1066,7 +1066,7 @@ begin
   end;
 end;
 
-function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -1094,7 +1094,7 @@ begin
   end;
 end;
 
-function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -1211,7 +1211,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-procedure TDegreeFahrenheitUnitHelper.Check(var AQuantity: TAScalar);
+procedure TDegreeFahrenheitUnitHelper.Check(var AQuantity: TQuantity);
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -1219,7 +1219,7 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TAScalar): double;
+function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -1231,7 +1231,7 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -1243,7 +1243,7 @@ begin
 {$ENDIF}  
 end;
 
-function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TAScalar): string;
+function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
@@ -1255,7 +1255,7 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -1274,7 +1274,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -1293,7 +1293,7 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TDegreeFahrenheitUnitHelper.ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
@@ -1320,7 +1320,7 @@ begin
   end;
 end;
 
-function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TAScalar): string;
+function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 var
   FactoredValue: double;
 begin
@@ -1339,7 +1339,7 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
 end;
 
-function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -1367,7 +1367,7 @@ begin
   end;
 end;
 
-function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredValue: double;
 begin
@@ -1395,7 +1395,7 @@ begin
   end;
 end;
 
-function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
   FactoredTol: double;
   FactoredValue: double;
