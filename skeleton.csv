@@ -280,3 +280,8 @@
 ;TCoulomb?PerMole;s A mol-1;%scoulomb? per %smole;%sC/%smol;;;;;;clLime
 ;TReciprocalNewton?;s2 kg-1 m-1;reciprocal %snewton?;1/%sN;;;;;;clAqua
 ;TReciprocalTesla?;s2 A kg-1;reciprocal %stesla?;1/%sT;;;;;;clAqua
+;TReciprocalPascal?;s2 m kg-1;reciprocal %spascal?;1/%sPa;;;;;;clAqua
+;TReciprocalWeber?;"s2 A kg-1 m-2 ";reciprocal %sweber?;1/%sWb;;;;;;clAqua
+;TReciprocalWatt?;s3 kg-1 m-2;reciprocal %swatt?;1/%sW;;;;;;clAqua
+;TReciprocalRadian?;rad-1;reciprocal %sradian?;1/%srad;;TScalar;;;;clAqua
+;TMeter?PerVolt;A s3 kg-1 m-1;%smeter? per %svolt;%sm/%sV;;;;;;clAqua
