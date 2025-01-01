@@ -16,7 +16,7 @@ type
 
   { TAScalar }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAScalar = record
   private
     FUnitOfMeasurement: longint;
@@ -47,7 +47,7 @@ type
 
   { TAMultivector }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAMultivector = record
   private
     FUnitOfMeasurement: longint;
@@ -85,7 +85,7 @@ type
 
   { TATrivector }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TATrivector = record
   private
     FUnitOfMeasurement: longint;
@@ -131,7 +131,7 @@ type
 
   { TABivector }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TABivector = record
   private
     FUnitOfMeasurement: longint;
@@ -185,7 +185,7 @@ type
 
   { TAVector }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAVector = record
   private
     FUnitOfMeasurement: longint;
@@ -247,7 +247,7 @@ type
 
   { TAMultivectorHelper }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAMultivectorHelper = record helper for TAMultivector
     function Dual: TAMultivector;
     function Inverse: TAMultivector;
@@ -315,7 +315,7 @@ type
 
   { TATrivectorHelper }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TATrivectorHelper = record helper for TATrivector
     function Dual: TAScalar;
     function Inverse: TATrivector;
@@ -365,7 +365,7 @@ type
 
   { TABivectorHelper }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TABivectorHelper = record helper for TABivector
     function Dual: TAVector;
     function Inverse: TABivector;
@@ -417,7 +417,7 @@ type
 
   { TAVectorHelper }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAVectorHelper = record helper for TAVector
     function Dual: TABivector;
     function Inverse: TAVector;
@@ -490,7 +490,7 @@ type
     class operator /(const AQuantity: TTrivector; const ASelf: TUnit): TATrivector; inline;
     class operator *(const AQuantity: TMultivector; const ASelf: TUnit): TAMultivector; inline;
     class operator /(const AQuantity: TMultivector; const ASelf: TUnit): TAMultivector; inline;
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
     class operator *(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
     class operator /(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
     class operator *(const AQuantity: TAVector; const ASelf: TUnit): TAVector; inline;
@@ -526,7 +526,7 @@ type
     class operator /(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
     class operator *(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
     class operator /(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
     class operator *(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
     class operator /(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
     class operator *(const AQuantity: TAVector; const ASelf: TFactoredUnit): TAVector; inline;

@@ -1,6 +1,6 @@
 { TAScalar }
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 class operator TAScalar.:=(const AValue: double): TAScalar;
 begin
   result.FUnitOfMeasurement := ScalarId;
@@ -124,7 +124,7 @@ end;
 
 // TAMultivector
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 class operator TAMultivector.:=(const AValue: TAScalar): TAMultivector;
 begin
   result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
@@ -278,7 +278,7 @@ end;
 
 // TATrivector
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 
 class operator TATrivector.:=(const AValue: TATrivector): TAMultivector;
 begin
@@ -493,7 +493,7 @@ end;
 
 // TABivector
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 class operator TABivector.:=(const AValue: TABivector): TAMultivector;
 begin
   result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
@@ -767,7 +767,7 @@ end;
 
 // TAVector
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 class operator TAVector.:=(const AValue: TAVector): TAMultivector;
 begin
   result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
@@ -1101,7 +1101,7 @@ end;
 
 // TAMultivectorHelper
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 function TAMultivectorHelper.Dual: TAMultivector;
 begin
   result.FUnitOfMeasurement := FUnitOfMeasurement;
@@ -1400,7 +1400,7 @@ end;
 
 // TATrivectorHelper
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 function TATrivectorHelper.Dual: TAScalar;
 begin
   result.FUnitOfMeasurement := FUnitOfMeasurement;
@@ -1612,7 +1612,7 @@ end;
 
 // TABivectorHelper
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 function TABivectorHelper.Dual: TAVector;
 begin
   result.FUnitOfMeasurement := FUnitOfMeasurement;
@@ -1830,7 +1830,7 @@ end;
 
 // TAVectorHelper
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 function TAVectorHelper.Dual: TABivector;
 begin
   result.FUnitOfMeasurement := FUnitOfMeasurement;
@@ -2056,7 +2056,7 @@ end;
 
 class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity;
 {$ELSE}
@@ -2066,7 +2066,7 @@ end;
 
 class operator TUnit./(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity;
 {$ELSE}
@@ -2076,7 +2076,7 @@ end;
 
 class operator TUnit.*(const AQuantity: TVector; const ASelf: TUnit): TAVector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity;
 {$ELSE}
@@ -2086,7 +2086,7 @@ end;
 
 class operator TUnit./(const AQuantity: TVector; const ASelf: TUnit): TAVector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity;
 {$ELSE}
@@ -2096,7 +2096,7 @@ end;
 
 class operator TUnit.*(const AQuantity: TBivector; const ASelf: TUnit): TABivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity;
 {$ELSE}
@@ -2106,7 +2106,7 @@ end;
 
 class operator TUnit./(const AQuantity: TBivector; const ASelf: TUnit): TABivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity;
 {$ELSE}
@@ -2116,7 +2116,7 @@ end;
 
 class operator TUnit.*(const AQuantity: TTrivector; const ASelf: TUnit): TATrivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity;
 {$ELSE}
@@ -2126,7 +2126,7 @@ end;
 
 class operator TUnit./(const AQuantity: TTrivector; const ASelf: TUnit): TATrivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity;
 {$ELSE}
@@ -2136,7 +2136,7 @@ end;
 
 class operator TUnit.*(const AQuantity: TMultivector; const ASelf: TUnit): TAMultivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity;
 {$ELSE}
@@ -2146,7 +2146,7 @@ end;
 
 class operator TUnit./(const AQuantity: TMultivector; const ASelf: TUnit): TAMultivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity;
 {$ELSE}
@@ -2154,7 +2154,7 @@ begin
 {$ENDIF}
 end;
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 class operator TUnit.*(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
@@ -2221,7 +2221,7 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -2231,7 +2231,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -2241,7 +2241,7 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -2251,7 +2251,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -2261,7 +2261,7 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -2271,7 +2271,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -2281,7 +2281,7 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -2291,7 +2291,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -2301,7 +2301,7 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -2311,7 +2311,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -2319,7 +2319,7 @@ begin
 {$ENDIF}
 end;
 
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
 class operator TFactoredUnit.*(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
 begin
   result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
@@ -2385,7 +2385,7 @@ end;
 
 class operator TDegreeCelsiusUnit.*(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TAScalar; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := AQuantity + 273.15;
 {$ELSE}
@@ -2397,7 +2397,7 @@ end;
 
 class operator TDegreeFahrenheitUnit.*(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TAScalar; inline;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
   result.FValue := 5/9 * (AQuantity - 32) + 273.15;
 {$ELSE}
@@ -2497,7 +2497,7 @@ end;
 
 procedure TUnitHelper.Check(var AQuantity: TAScalar);
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
@@ -2505,7 +2505,7 @@ end;
 
 function TUnitHelper.ToFloat(const AQuantity: TAScalar): double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -2517,7 +2517,7 @@ end;
 
 function TUnitHelper.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -2529,7 +2529,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TAScalar): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -2543,7 +2543,7 @@ function TUnitHelper.ToString(const AQuantity: TAScalar; const APrefixes: TPrefi
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -2562,7 +2562,7 @@ function TUnitHelper.ToString(const AQuantity: TAScalar; APrecision, ADigits: lo
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -2582,7 +2582,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');  
 
@@ -2606,7 +2606,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TAScalar): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2626,7 +2626,7 @@ function TUnitHelper.ToVerboseString(const AQuantity: TAScalar; const APrefixes:
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2654,7 +2654,7 @@ function TUnitHelper.ToVerboseString(const AQuantity: TAScalar; APrecision, ADig
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2683,7 +2683,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');  
 
@@ -2707,7 +2707,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TAVector): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2719,7 +2719,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TABivector): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2731,7 +2731,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TATrivector): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2743,7 +2743,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TAMultivector): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2755,7 +2755,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TAVector): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2767,7 +2767,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TABivector): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2779,7 +2779,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TATrivector): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2791,7 +2791,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TAMultivector): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -2893,7 +2893,7 @@ end;
 
 procedure TFactoredUnitHelper.Check(var AQuantity: TAScalar);
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
@@ -2901,7 +2901,7 @@ end;
 
 function TFactoredUnitHelper.ToFloat(const AQuantity: TAScalar): double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -2913,7 +2913,7 @@ end;
 
 function TFactoredUnitHelper.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -2925,7 +2925,7 @@ end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TAScalar): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -2939,7 +2939,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TAScalar; const APrefixes
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -2958,7 +2958,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TAScalar; APrecision, ADi
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -2978,7 +2978,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.'); 
 
@@ -3004,7 +3004,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TAScalar): string;
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3023,7 +3023,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TAScalar; const AP
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3051,7 +3051,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TAScalar; APrecisi
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3080,7 +3080,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if (AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3106,7 +3106,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TAVector): string;
 var
   FactoredValue: TVector;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3121,7 +3121,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TABivector): string;
 var
   FactoredValue: TBivector;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3136,7 +3136,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TATrivector): string;
 var
   FactoredValue: TTrivector;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3151,7 +3151,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TAMultivector): string;
 var
   FactoredValue: TMultivector;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3166,7 +3166,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TAVector): string;
 var
   FactoredValue: TVector;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3181,7 +3181,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TABivector): strin
 var
   FactoredValue: TBivector;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3196,7 +3196,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TATrivector): stri
 var
   FactoredValue: TTrivector;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3211,7 +3211,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TAMultivector): st
 var
   FactoredValue: TMultivector;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3314,7 +3314,7 @@ end;
 
 procedure TDegreeCelsiusUnitHelper.Check(var AQuantity: TAScalar);
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
@@ -3322,7 +3322,7 @@ end;
 
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TAScalar): double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -3334,7 +3334,7 @@ end;
 
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -3346,7 +3346,7 @@ end;
 
 function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TAScalar): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -3360,7 +3360,7 @@ function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TAScalar; const APre
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -3379,7 +3379,7 @@ function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TAScalar; APrecision
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -3399,7 +3399,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.'); 
 
@@ -3425,7 +3425,7 @@ function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TAScalar): st
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3444,7 +3444,7 @@ function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TAScalar; con
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3472,7 +3472,7 @@ function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TAScalar; APr
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3501,7 +3501,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if (AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3615,7 +3615,7 @@ end;
 
 procedure TDegreeFahrenheitUnitHelper.Check(var AQuantity: TAScalar);
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
@@ -3623,7 +3623,7 @@ end;
 
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TAScalar): double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -3635,7 +3635,7 @@ end;
 
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
@@ -3647,7 +3647,7 @@ end;
 
 function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TAScalar): string;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -3661,7 +3661,7 @@ function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TAScalar; const A
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -3680,7 +3680,7 @@ function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TAScalar; APrecis
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
@@ -3700,7 +3700,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.'); 
 
@@ -3726,7 +3726,7 @@ function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TAScalar):
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3745,7 +3745,7 @@ function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TAScalar; 
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3773,7 +3773,7 @@ function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TAScalar; 
 var
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
@@ -3802,7 +3802,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF USEADIM}
+{$IFDEF ADIMDEBUG}
   if (AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 

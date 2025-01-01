@@ -40,9 +40,8 @@
           </Linking>
         </CompilerOptions>
       </Item>
-      <SharedMatrixOptions Count="2">
-        <Item1 ID="939830620237" Modes="Debug" Value="-dUSEADIM"/>
-        <Item2 ID="609928605186" Modes="Release" Value="-O2"/>
+      <SharedMatrixOptions Count="1">
+        <Item1 ID="939830620237" Modes="Debug" Value="-dADIMDEBUG"/>
       </SharedMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Debug,Release"/>
@@ -119,7 +118,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="46"/>
-        <CursorPos X="52" Y="52"/>
+        <CursorPos X="21" Y="52"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>

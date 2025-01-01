@@ -49,7 +49,7 @@
         </CompilerOptions>
       </Item>
       <SharedMatrixOptions Count="1">
-        <Item1 ID="316359826742" Modes="Debug" Value="-dUSEADIM"/>
+        <Item1 ID="316359826742" Modes="Debug" Value="-dADIMDEBUG"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
