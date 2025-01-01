@@ -12,7 +12,7 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <BuildModes Active="Release">
+    <BuildModes Active="Debug">
       <Item Name="Debug" Default="True"/>
       <Item Name="Release">
         <CompilerOptions>
@@ -22,14 +22,12 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <Libraries Value=".."/>
-            <OtherUnitFiles Value=".."/>
-            <UnitOutputDirectory Value="build/"/>
+            <UnitOutputDirectory Value="build"/>
           </SearchPaths>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Optimizations>
-              <OptimizationLevel Value="3"/>
+              <OptimizationLevel Value="0"/>
             </Optimizations>
           </CodeGeneration>
           <Linking>
@@ -42,6 +40,9 @@
           </Linking>
         </CompilerOptions>
       </Item>
+      <SharedMatrixOptions Count="1">
+        <Item1 ID="939830620237" Modes="Debug" Value="-dADIMDEBUG"/>
+      </SharedMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Debug,Release"/>
     <PublishOptions>
@@ -55,14 +56,16 @@
       <Item>
         <PackageName Value="adimpack"/>
       </Item>
+      <Item>
+        <PackageName Value="adimpk"/>
+      </Item>
     </RequiredPackages>
     <Units>
       <Unit>
         <Filename Value="benchmark.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <CursorPos X="9" Y="11"/>
-        <UsageCount Value="37"/>
+        <CursorPos Y="9"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -109,8 +112,35 @@
         <TopLine Value="4"/>
         <UsageCount Value="10"/>
       </Unit>
+      <Unit>
+        <Filename Value="../adim.pas"/>
+        <UnitName Value="ADim"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="46"/>
+        <CursorPos X="21" Y="52"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="adim.pas"/>
+        <UnitName Value="ADim"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="44"/>
+        <CursorPos X="11" Y="53"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../lazarus/packager/registration/lazaruspackageintf.pas"/>
+        <UnitName Value="LazarusPackageIntf"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="104"/>
+        <CursorPos X="10" Y="118"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="7">
+    <JumpHistory HistoryIndex="25">
       <Position>
         <Filename Value="benchmark.lpr"/>
         <Caret Line="10" Column="5"/>
@@ -141,20 +171,90 @@
       </Position>
       <Position>
         <Filename Value="benchmark.lpr"/>
-        <Caret Line="11" Column="9"/>
+        <Caret Line="11" Column="3"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="20" Column="15" TopLine="6"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="24" Column="7" TopLine="19"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="58" Column="25" TopLine="24"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="58" Column="58" TopLine="31"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="7751" Column="21" TopLine="7745"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="7757" Column="23" TopLine="7745"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="7760" Column="10" TopLine="7745"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="59" Column="5" TopLine="44"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="7759" Column="14" TopLine="7745"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="40" Column="6" TopLine="25"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="78" Column="21" TopLine="55"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="45" Column="17"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="11" Column="14"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="78" Column="12" TopLine="58"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="28" Column="3" TopLine="22"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="55" Column="12" TopLine="52"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="52" Column="52" TopLine="46"/>
+      </Position>
+      <Position>
+        <Filename Value="../../lazarus/packager/registration/lazaruspackageintf.pas"/>
+        <Caret Line="118" Column="10" TopLine="104"/>
       </Position>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="benchmark"/>
+      <Filename Value="build/benchmarkdbg"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <Libraries Value=".."/>
-      <OtherUnitFiles Value=".."/>
-      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      <UnitOutputDirectory Value="build"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
@@ -169,6 +269,9 @@
         <StackChecks Value="True"/>
       </Checks>
       <VerifyObjMethodCallValidity Value="True"/>
+      <Optimizations>
+        <OptimizationLevel Value="0"/>
+      </Optimizations>
     </CodeGeneration>
     <Linking>
       <Debugging>

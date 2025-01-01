@@ -49,8 +49,8 @@
 ;TAmpere?;A;%sampere?;%sA;A;;;---------SSSSSSSSL------;;clLime
 ;TSquareAmpere?;A2;square %sampere?;%sA2;A2;;;---------SSSSSSSSL------;;clLime
 ;TKelvin?;K;%skelvin?;%sK;K;;;;;clLime
-;TDegree?Celsius;;degree? Celsius;ºC;degC;TKelvin?;%s + 273.15|%s - 273.15;;;clWhite
-;TDegree?Fahrenheit;;degree? Fahrenheit;ºF;degF;TKelvin?;5/9 * (%s - 32) + 273.15|9/5 * %s - 459.67;;;clWhite
+;TDegree?Celsius;;degree? Celsius;°C;degC;TKelvin?;Celsius;;;clWhite
+;TDegree?Fahrenheit;;degree? Fahrenheit;°F;degF;TKelvin?;Fahrenheit;;;clWhite
 ;TSquareKelvin?;K2;square %skelvin?;%sK2;K2;;;;;clLime
 ;TCubicKelvin?;K3;cubic %skelvin?;%sK3;K3;;;;;clLime
 ;TQuarticKelvin?;K4;quartic %skelvin?;%sK4;K4;;;;;clLime
@@ -279,3 +279,9 @@
 ;TKatal?PerCubicMeter;mol m-3 s-1;%skatal? per cubic %smeter;%skat/%sm3;;;;;;clLime
 ;TCoulomb?PerMole;s A mol-1;%scoulomb? per %smole;%sC/%smol;;;;;;clLime
 ;TReciprocalNewton?;s2 kg-1 m-1;reciprocal %snewton?;1/%sN;;;;;;clAqua
+;TReciprocalTesla?;s2 A kg-1;reciprocal %stesla?;1/%sT;;;;;;clAqua
+;TReciprocalPascal?;s2 m kg-1;reciprocal %spascal?;1/%sPa;;;;;;clAqua
+;TReciprocalWeber?;"s2 A kg-1 m-2 ";reciprocal %sweber?;1/%sWb;;;;;;clAqua
+;TReciprocalWatt?;s3 kg-1 m-2;reciprocal %swatt?;1/%sW;;;;;;clAqua
+;TReciprocalRadian?;rad-1;reciprocal %sradian?;1/%srad;;TScalar;;;;clAqua
+;TMeter?PerVolt;A s3 kg-1 m-1;%smeter? per %svolt;%sm/%sV;;;;;;clAqua

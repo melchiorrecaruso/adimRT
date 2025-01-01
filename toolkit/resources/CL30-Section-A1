@@ -16,7 +16,7 @@ type
 
   { TAScalar }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAScalar = record
   private
     FUnitOfMeasurement: longint;
@@ -47,7 +47,7 @@ type
 
   { TAMultivector }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAMultivector = record
   private
     FUnitOfMeasurement: longint;
@@ -85,7 +85,7 @@ type
 
   { TATrivector }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TATrivector = record
   private
     FUnitOfMeasurement: longint;
@@ -131,7 +131,7 @@ type
 
   { TABivector }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TABivector = record
   private
     FUnitOfMeasurement: longint;
@@ -185,7 +185,7 @@ type
 
   { TAVector }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAVector = record
   private
     FUnitOfMeasurement: longint;
@@ -247,7 +247,7 @@ type
 
   { TAMultivectorHelper }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAMultivectorHelper = record helper for TAMultivector
     function Dual: TAMultivector;
     function Inverse: TAMultivector;
@@ -315,7 +315,7 @@ type
 
   { TATrivectorHelper }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TATrivectorHelper = record helper for TATrivector
     function Dual: TAScalar;
     function Inverse: TATrivector;
@@ -365,7 +365,7 @@ type
 
   { TABivectorHelper }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TABivectorHelper = record helper for TABivector
     function Dual: TAVector;
     function Inverse: TABivector;
@@ -417,7 +417,7 @@ type
 
   { TAVectorHelper }
 
-  {$IFDEF USEADIM}
+  {$IFDEF ADIMDEBUG}
   TAVectorHelper = record helper for TAVector
     function Dual: TABivector;
     function Inverse: TAVector;
@@ -471,64 +471,106 @@ type
 
   { TUnit }
 
-  generic TUnit<U> = record
-    type TSelf = specialize TUnit<U>;
+  TUnit = record
+  private
+    FUnitOfMeasurement: longint;
+    FSymbol: string;
+    FName: string;
+    FPluralName: string;
+    FPrefixes: TPrefixes;
+    FExponents: TExponents;
   public
-    function GetName(const Prefixes: TPrefixes): string;
-    function GetPluralName(const Prefixes: TPrefixes): string;
-    function GetSymbol(const Prefixes: TPrefixes): string;
-    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
-  public
-    procedure Check(var AQuantity: TAScalar);
-    function ToFloat(const AQuantity: TAScalar): double;
-    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
-    function ToString(const AQuantity: TAScalar): string;
-    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar): string;
-    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-
-    function ToString(const AQuantity: TAVector): string;
-    function ToString(const AQuantity: TABivector): string;
-    function ToString(const AQuantity: TATrivector): string;
-    function ToString(const AQuantity: TAMultivector): string;
-
-    function ToVerboseString(const AQuantity: TAVector): string;
-    function ToVerboseString(const AQuantity: TABivector): string;
-    function ToVerboseString(const AQuantity: TATrivector): string;
-    function ToVerboseString(const AQuantity: TAMultivector): string;
-
-    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
-    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
-    class operator *(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
-    class operator /(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
-    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
-    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
-    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
-    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
-  {$IFDEF USEADIM}
-    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
-    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
-    class operator *(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
-    class operator /(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
-    class operator *(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
-    class operator /(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
-    class operator *(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator /(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator *(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
-    class operator /(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
+    class operator *(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TUnit): TAScalar; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TUnit): TAVector; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TUnit): TAVector; inline;
+    class operator *(const AQuantity: TBivector; const ASelf: TUnit): TABivector; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TUnit): TABivector; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TUnit): TATrivector; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TUnit): TATrivector; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TUnit): TAMultivector; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TUnit): TAMultivector; inline;
+  {$IFDEF ADIMDEBUG}
+    class operator *(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TUnit): TAScalar; inline;
+    class operator *(const AQuantity: TAVector; const ASelf: TUnit): TAVector; inline;
+    class operator /(const AQuantity: TAVector; const ASelf: TUnit): TAVector; inline;
+    class operator *(const AQuantity: TABivector; const ASelf: TUnit): TABivector; inline;
+    class operator /(const AQuantity: TABivector; const ASelf: TUnit): TABivector; inline;
+    class operator *(const AQuantity: TATrivector; const ASelf: TUnit): TATrivector; inline;
+    class operator /(const AQuantity: TATrivector; const ASelf: TUnit): TATrivector; inline;
+    class operator *(const AQuantity: TAMultivector; const ASelf: TUnit): TAMultivector; inline;
+    class operator /(const AQuantity: TAMultivector; const ASelf: TUnit): TAMultivector; inline;
   {$ENDIF}
   end;
 
   { TFactoredUnit }
 
-  generic TFactoredUnit<U> = record
-    type TSelf = specialize TFactoredUnit<U>;
+  TFactoredUnit = record
+  private
+    FUnitOfMeasurement: longint;
+    FSymbol: string;
+    FName: string;
+    FPluralName: string;
+    FPrefixes: TPrefixes;
+    FExponents: TExponents;
+    FFactor: double; 
+  public
+    class operator *(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator /(const AQuantity: double; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TFactoredUnit): TAVector; inline;
+    class operator *(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TFactoredUnit): TABivector; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TATrivector; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
+  {$IFDEF ADIMDEBUG}
+    class operator *(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator /(const AQuantity: TAScalar; const ASelf: TFactoredUnit): TAScalar; inline;
+    class operator *(const AQuantity: TAVector; const ASelf: TFactoredUnit): TAVector; inline;
+    class operator /(const AQuantity: TAVector; const ASelf: TFactoredUnit): TAVector; inline;
+    class operator *(const AQuantity: TABivector; const ASelf: TFactoredUnit): TABivector; inline;
+    class operator /(const AQuantity: TABivector; const ASelf: TFactoredUnit): TABivector; inline;
+    class operator *(const AQuantity: TATrivector; const ASelf: TFactoredUnit): TATrivector; inline;
+    class operator /(const AQuantity: TATrivector; const ASelf: TFactoredUnit): TATrivector; inline;
+    class operator *(const AQuantity: TAMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
+    class operator /(const AQuantity: TAMultivector; const ASelf: TFactoredUnit): TAMultivector; inline;
+  {$ENDIF}
+  end;
+
+  { TDegreeCelsiusUnit }
+
+  TDegreeCelsiusUnit = record
+  private
+    FUnitOfMeasurement: longint;
+    FSymbol: string;
+    FName: string;
+    FPluralName: string;
+    FPrefixes: TPrefixes;
+    FExponents: TExponents;
+  public
+    class operator *(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TAScalar; inline;
+  end;
+
+  { TDegreeFahrenheitUnit }
+
+  TDegreeFahrenheitUnit = record
+  private
+    FUnitOfMeasurement: longint;
+    FSymbol: string;
+    FName: string;
+    FPluralName: string;
+    FPrefixes: TPrefixes;
+    FExponents: TExponents;
+  public
+    class operator *(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TAScalar; inline;
+  end;   
+
+ { TUnitHelper }
+
+  TUnitHelper = record helper for TUnit
   public
     function GetName(const Prefixes: TPrefixes): string;
     function GetPluralName(const Prefixes: TPrefixes): string;
@@ -546,16 +588,6 @@ type
     function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    class operator *(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
-    class operator /(const AQuantity: double; const ASelf: TSelf): TAScalar; inline;
-    class operator *(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
-    class operator /(const AQuantity: TVector; const ASelf: TSelf): TAVector; inline;
-    class operator *(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
-    class operator /(const AQuantity: TBivector; const ASelf: TSelf): TABivector; inline;
-    class operator *(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator /(const AQuantity: TTrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator *(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
-    class operator /(const AQuantity: TMultivector; const ASelf: TSelf): TAMultivector; inline;
 
     function ToString(const AQuantity: TAVector): string;
     function ToString(const AQuantity: TABivector): string;
@@ -566,18 +598,82 @@ type
     function ToVerboseString(const AQuantity: TABivector): string;
     function ToVerboseString(const AQuantity: TATrivector): string;
     function ToVerboseString(const AQuantity: TAMultivector): string;
-
-  {$IFDEF USEADIM}
-    class operator *(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
-    class operator /(const AQuantity: TAScalar; const ASelf: TSelf): TAScalar; inline;
-    class operator *(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
-    class operator /(const AQuantity: TAVector; const ASelf: TSelf): TAVector; inline;
-    class operator *(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
-    class operator /(const AQuantity: TABivector; const ASelf: TSelf): TABivector; inline;
-    class operator *(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator /(const AQuantity: TATrivector; const ASelf: TSelf): TATrivector; inline;
-    class operator *(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
-    class operator /(const AQuantity: TAMultivector; const ASelf: TSelf): TAMultivector; inline;
-  {$ENDIF}
   end;
 
+ { TFactoredUnitHelper }
+
+  TFactoredUnitHelper = record helper for TFactoredUnit
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
+  public
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+  
+    function ToString(const AQuantity: TAVector): string;
+    function ToString(const AQuantity: TABivector): string;
+    function ToString(const AQuantity: TATrivector): string;
+    function ToString(const AQuantity: TAMultivector): string;
+
+    function ToVerboseString(const AQuantity: TAVector): string;
+    function ToVerboseString(const AQuantity: TABivector): string;
+    function ToVerboseString(const AQuantity: TATrivector): string;
+    function ToVerboseString(const AQuantity: TAMultivector): string;
+  end;
+
+ { TDegreeCelsiusUnitHelper }
+
+  TDegreeCelsiusUnitHelper = record helper for TDegreeCelsiusUnit
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
+  public
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+  end;
+
+ { TDegreeFahrenheitUnitHelper }
+
+  TDegreeFahrenheitUnitHelper = record helper for TDegreeFahrenheitUnit
+  public
+    function GetName(const Prefixes: TPrefixes): string;
+    function GetPluralName(const Prefixes: TPrefixes): string;
+    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
+  public
+    procedure Check(var AQuantity: TAScalar);
+    function ToFloat(const AQuantity: TAScalar): double;
+    function ToFloat(const AQuantity: TAScalar; const APrefixes: TPrefixes): double;
+    function ToString(const AQuantity: TAScalar): string;
+    function ToString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar): string;
+    function ToVerboseString(const AQuantity: TAScalar; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TAScalar; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+  end;
+  
+  

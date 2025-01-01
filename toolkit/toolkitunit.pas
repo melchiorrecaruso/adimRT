@@ -104,7 +104,9 @@ type
     procedure AddUnits(const SectionA, SectionB: TStringList);
     procedure AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
-    procedure AddFactoredUnit(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+    procedure AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
+    procedure AddDegreeCelsiusUnit(const AItem: TToolKitItem; const ASection: TStringList);
+    procedure AddDegreeFahrenheitUnit(const AItem: TToolKitItem; const ASection: TStringList);
 
     procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
@@ -188,7 +190,7 @@ begin
           FList[i].FExponents  := FList[j].FExponents;
           Inc(FactoredUnitCount);
 
-          AddFactoredUnit(FList[i], SectionA, SectionB);
+          AddFactoredUnit(FList[i], SectionA);
           AddSymbols(FList[i], SectionA);
         end else
         begin
@@ -197,7 +199,7 @@ begin
           FList[i].FExponents  := FList[j].FExponents;
           Inc(FactoredUnitCount);
 
-          AddFactoredUnit(FList[i], SectionA, SectionB);
+          AddFactoredUnit(FList[i], SectionA);
           AddSymbols(FList[i], SectionA);
         end;
     end;
@@ -210,18 +212,14 @@ begin
   ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
   ASection.Add('const');
-  ASection.Add('  c%s = %d;', [GetUnitID(AItem.FQuantity), AItem.FTableIndex]);
-  ASection.Add('');
-  ASection.Add('type');
-  ASection.Add('  %s = record', [GetUnitRec(AItem.FQuantity)]);
-  ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
-  ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
-  ASection.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
-  ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
-  ASection.Add('  end;');
-  ASection.Add('  %s = specialize TUnit<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
+  ASection.Add('  %sId = %d;', [GetUnitID(AItem.FQuantity), AItem.FTableIndex]);
+  ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
+  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
+  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
   ASection.Add('');
 end;
 
@@ -229,253 +227,88 @@ procedure TToolKitBuilder.AddClonedUnit(const AItem: TToolKitItem; const ASectio
 begin
   ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
-  ASection.Add('type');
-  ASection.Add('  %s = record', [GetUnitRec(AItem.FQuantity)]);
-  ASection.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
-  ASection.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
-  ASection.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
-  ASection.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
-  ASection.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
-  ASection.Add('  end;');
-  ASection.Add('  %s = specialize TUnit<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
+  ASection.Add('const');
+  ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
+  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
+  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
   ASection.Add('');
 end;
 
-procedure AddScalar(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+procedure TToolKitBuilder.AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  SectionA.Add('    class function GetValue(const AValue: double): double; static;');
-  SectionA.Add('    class function PutValue(const AValue: double): double; static;');
-
-  if AItem.FFactor.Contains('%s') then
+  if LowerCase(AItem.FFactor) = 'celsius' then
   begin
-    SectionB.Add(Format('class function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, 1, Pos('|', AItem.FFactor) -1), ['AValue'])]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := %s;', [Format(Copy(AItem.FFactor, Pos('|', AItem.FFactor) + 1, Length(AItem.FFactor)), ['AValue'])]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
+    AddDegreeCelsiusUnit(AItem, ASection)
   end else
   begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: double): double;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
+    if LowerCase(AItem.FFactor) = 'fahrenheit' then
+    begin
+      AddDegreeFahrenheitUnit(AItem, ASection)
+    end else
+    begin
+      ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+      ASection.Add('');
+      ASection.Add('const');
+      ASection.Add('  %sUnit : TFactoredUnit = (', [GetUnitID(AItem.FQuantity)]);
+      ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FBase)]);
+      ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
+      ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
+      ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
+      ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
+      ASection.Add('    FExponents         : (%s);', [GetExponents(AItem.FShortString)]);
+      ASection.Add('    FFactor            : (%s));', [AItem.FFactor]);
+      ASection.Add('');
+    end;
   end;
 end;
 
-procedure AddVector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+procedure TToolKitBuilder.AddDegreeCelsiusUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  SectionA.Add('    class function GetValue(const AValue: TVector): TVector; static;');
-  SectionA.Add('    class function PutValue(const AValue: TVector): TVector; static;');
-
-  if AItem.FFactor.Contains('%s') then
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TVector): TVector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TVector): TVector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end else
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TVector): TVector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TVector): TVector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end;
+  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('');
+  ASection.Add('const');
+  ASection.Add('  %sUnit : TDegreeCelsiusUnit = (', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
+  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
+  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
+  ASection.Add('');
 end;
 
-procedure AddBivector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
+procedure TToolKitBuilder.AddDegreeFahrenheitUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  SectionA.Add('    class function GetValue(const AValue: TBivector): TBivector; static;');
-  SectionA.Add('    class function PutValue(const AValue: TBivector): TBivector; static;');
-
-  if AItem.FFactor.Contains('%s') then
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TBivector): TBivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TBivector): TBivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end else
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TBivector): TBivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TBivector): TBivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end;
-end;
-
-procedure AddTrivector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
-begin
-  SectionA.Add('    class function GetValue(const AValue: TTrivector): TTrivector; static;');
-  SectionA.Add('    class function PutValue(const AValue: TTrivector): TTrivector; static;');
-
-  if AItem.FFactor.Contains('%s') then
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TTrivector): TTrivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TTrivector): TTrivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end else
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TTrivector): TTrivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TTrivector): TTrivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end;
-end;
-
-procedure AddQuadrivector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
-begin
-  SectionA.Add('    class function GetValue(const AValue: TQuadrivector): TQuadrivector; static;');
-  SectionA.Add('    class function PutValue(const AValue: TQuadrivector): TQuadrivector; static;');
-
-  if AItem.FFactor.Contains('%s') then
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TQuadrivector): TQuadrivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TQuadrivector): TQuadrivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end else
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TQuadrivector): TQuadrivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TQuadrivector): TQuadrivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end;
-end;
-
-procedure AddMultivector(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
-begin
-  SectionA.Add('    class function GetValue(const AValue: TMultivector): TMultivector; static;');
-  SectionA.Add('    class function PutValue(const AValue: TMultivector): TMultivector; static;');
-
-  if AItem.FFactor.Contains('%s') then
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TMultivector): TMultivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TMultivector): TMultivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end else
-  begin
-    SectionB.Add(Format('class  function %s.PutValue(const AValue: TMultivector): TMultivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue * (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-
-    SectionB.Add(Format('class  function %s.GetValue(const AValue: TMultivector): TMultivector;', [GetUnitRec(AItem.FQuantity)]));
-    SectionB.Add(Format('begin',[]));
-    SectionB.Add(Format('  result := AValue / (%s);', [AItem.FFactor]));
-    SectionB.Add(Format('end;',[]));
-    SectionB.Add(Format('',[]));
-  end;
-end;
-
-procedure TToolKitBuilder.AddFactoredUnit(const AItem: TToolKitItem; const SectionA, SectionB: TStringList);
-begin
-  SectionA.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
-  SectionA.Add('');
-  SectionA.Add('type');
-  SectionA.Add('  %s = record', [GetUnitRec(AItem.FQuantity)]);
-  SectionA.Add('    const FUnitOfMeasurement = c%s;', [GetUnitID(AItem.FBase)]);
-  SectionA.Add('    const FSymbol            = ''%s'';', [AItem.FShortString]);
-  SectionA.Add('    const FName              = ''%s'';', [GetSingularName(AItem.FLongString)]);
-  SectionA.Add('    const FPluralName        = ''%s'';', [GetPluralName(AItem.FLongString)]);
-  SectionA.Add('    const FPrefixes          : TPrefixes  = (%s);', [GetPrefixes(AItem.FShortString)]);
-  SectionA.Add('    const FExponents         : TExponents = (%s);', [GetExponents(AItem.FShortString)]);
-
-  AddScalar(AItem, SectionA, SectionB);
-  AddVector(AItem, SectionA, SectionB);
-  AddBivector(AItem, SectionA, SectionB);
-  AddTrivector(AItem, SectionA, SectionB);
-  //AddQuadrivector(AItem, SectionA, SectionB);
-  AddMultivector(AItem, SectionA, SectionB);
-
-  SectionA.Add('  end;');
-  SectionA.Add('  %s = specialize TFactoredUnit<%s>;', [GetUnit(AItem.FQuantity), GetUnitRec(AItem.FQuantity)]);
-  SectionA.Add('');
+  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('');
+  ASection.Add('const');
+  ASection.Add('  %sUnit : TDegreeFahrenheitUnit = (', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
+  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
+  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
+  ASection.Add('');
 end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
 const
-  S = '  %-10s : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  S = '  %-10s : TAScalar = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 begin
   if (AItem.FBase = '') then
   begin
     // Base unit symbols
-    ASection.Append('');
-    ASection.Append('var');
     if AItem.FIdentifier <> '' then
-      ASection.Add(Format('  %s, %sUnit : %s;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]))
-    else
-      ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
-
-    ASection.Append('');
+    begin
+      ASection.Add('var');
+      ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
+      ASection.Add('');
+    end;
     if AItem.FIdentifier <> '' then
       AddFactoredSymbols(AItem, ASection);
   end else
@@ -483,46 +316,33 @@ begin
     if (AItem.FFactor = '') then
     begin
       // Cloned unit symbols
-      ASection.Append('var');
       if AItem.FIdentifier <> '' then
-        ASection.Add(Format('  %s, %sUnit : %s;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]))
-      else
-        ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
-
-      ASection.Append('');
+      begin
+        ASection.Add('var');
+        ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
+        ASection.Add('');
+      end;
       if AItem.FIdentifier <> '' then
         AddFactoredSymbols(AItem, ASection);
     end else
-      if (Pos('%s', AItem.FFactor) = 0) then
+    begin
+      // Factored unit symbol
+      if AItem.FIdentifier <> '' then
       begin
-        // Factored unit symbols
-        if AItem.FIdentifier <> '' then
-        begin
-          ASection.Append('const');
-          ASection.Add(Format(S, [AItem.FIdentifier, AItem.FTableIndex, AItem.FFactor, AItem.FFactor]));
-          ASection.Append('');
-        end;
-
-        ASection.Append('var');
-        ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
-        ASection.Append('');
-        if AItem.FIdentifier <> '' then
-          AddFactoredSymbols(AItem, ASection);
-      end else
-        if (Pos('%s', AItem.FFactor) > 0) then
-        begin
-          // Custom unit symbols
-          ASection.Append('var');
-          if AItem.FIdentifier <> '' then
-            ASection.Add(Format('  %s, %sUnit : %s;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]))
+        ASection.Add('var');
+        if LowerCase(AItem.FFactor) = 'celsius' then
+          ASection.Add('  %s : TDegreeCelsiusUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)])
+        else
+          if LowerCase(AItem.FFactor) = 'fahrenheit' then
+            ASection.Add('  %s : TDegreeFahrenheitUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)])
           else
-            ASection.Add(Format('  %sUnit : %s;', [GetUnitID(AItem.FQuantity), GetUnit(AItem.FQuantity)]));
-
-          ASection.Append('');
-          if AItem.FIdentifier <> '' then
-            AddFactoredSymbols(AItem, ASection);
-        end;
-     end;
+            ASection.Add('  %s : TFactoredUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
+        ASection.Add('');
+      end;
+      if AItem.FIdentifier <> '' then
+        AddFactoredSymbols(AItem, ASection);
+    end;
+  end;
 end;
 
 procedure TToolKitBuilder.AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
@@ -534,7 +354,7 @@ var
   Str: string;
   Factor: string;
 begin
-  Str := '  %-10s : TAScalar = {$IFDEF USEADIM} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TAScalar = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AItem.FFactor <> '' then
@@ -954,9 +774,6 @@ begin
   SectionA0.Append('{$modeswitch advancedrecords}');
   SectionA0.Append('{$WARN 5024 OFF} // Suppress warning for unused routine parameter.');
   SectionA0.Append('{$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.');
-  SectionA0.Append('{$IFOPT D+}');
-  SectionA0.Append('  {$DEFINE USEADIM}');
-  SectionA0.Append('{$ENDIF}');
   SectionA0.Append('');
 
   SectionA0.Append('{');
