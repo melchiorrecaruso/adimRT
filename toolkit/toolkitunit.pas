@@ -693,6 +693,9 @@ begin
           if FList.SameValue(FList[i].FExponents, FList[j].FExponents) and (i <> j) then
             Messages.Add('Warning: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
         end;
+
+      if FList.Search(GetReciprocal(FList[i].FExponents)) = -1 then
+        Messages.Add('Warning: %s unit hasn''t a reciprocal.', [FList[i].FQuantity]);
     end;
 end;
 

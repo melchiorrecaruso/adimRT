@@ -70,6 +70,7 @@ function GetExponents(const AShortSymbol: string): string;
 function GetReciprocalClassName(S: string): string;
 function GetReciprocalQuantityType(S: string): string;
 function GetReciprocalUnitTypeHelper(const S: string): string;
+function GetReciprocal(const AExponents: TExponents): TExponents;
 
 function GetQuantityType(const S: string): string;
 function GetQuantity(const S: string): string;
@@ -513,6 +514,16 @@ end;
 function GetReciprocalUnitTypeHelper(const S: string): string;
 begin
   Result := GetUnitTypeHelper(GetReciprocalClassName(S));
+end;
+
+function GetReciprocal(const AExponents: TExponents): TExponents;
+var
+  i: longint;
+begin
+  for i := Low(AExponents) to High(AExponents) do
+  begin
+    result[i] := -AExponents[i];
+  end;
 end;
 
 function GetUnitTypeHelper(const S: string): string;
