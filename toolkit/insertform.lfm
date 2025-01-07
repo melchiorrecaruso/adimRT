@@ -1,26 +1,27 @@
 object InsertFrm: TInsertFrm
-  Left = 227
+  Left = 706
   Height = 616
-  Top = 40
+  Top = 396
   Width = 819
   Caption = 'InsertFrm'
   ClientHeight = 616
   ClientWidth = 819
   Position = poMainFormCenter
-  LCLVersion = '4.99.0.0'
+  LCLVersion = '4.0.0.2'
+  OnShow = FormShow
   object Field: TComboBox
     AnchorSideLeft.Control = BaseQuantity
     AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
+    Left = 106
+    Height = 36
     Top = 20
-    Width = 724
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 20
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 0
   end
   object OkBtn: TBitBtn
@@ -60,14 +61,14 @@ object InsertFrm: TInsertFrm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
+    Left = 106
+    Height = 36
     Top = 296
-    Width = 724
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 3
   end
   object TypeQuantity: TComboBox
@@ -75,14 +76,14 @@ object InsertFrm: TInsertFrm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
+    Left = 106
+    Height = 36
     Top = 434
-    Width = 724
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 4
   end
   object FieldLB: TLabel
@@ -93,9 +94,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = Field
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 23
+    Height = 36
     Top = 20
-    Width = 71
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -110,9 +111,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = Quantity
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 23
-    Top = 53
-    Width = 71
+    Height = 36
+    Top = 66
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -127,9 +128,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = Dimension
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 23
+    Height = 36
     Top = 112
-    Width = 71
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -144,9 +145,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = LongSymbol
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 23
+    Height = 36
     Top = 158
-    Width = 71
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -161,9 +162,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = ShortSymbol
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 23
+    Height = 36
     Top = 204
-    Width = 71
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -178,9 +179,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = Identifier
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 23
+    Height = 36
     Top = 250
-    Width = 71
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -193,9 +194,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = BaseQuantity
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 23
+    Height = 36
     Top = 296
-    Width = 71
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 6
@@ -211,9 +212,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = Factor
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 23
-    Top = 329
-    Width = 71
+    Height = 36
+    Top = 342
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -228,9 +229,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = Prefixes
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 23
+    Height = 36
     Top = 388
-    Width = 71
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
@@ -245,9 +246,9 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Control = TypeQuantity
     AnchorSideBottom.Side = asrBottom
     Left = 0
-    Height = 23
+    Height = 36
     Top = 434
-    Width = 77
+    Width = 94
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     Caption = 'Type quantity'
@@ -259,14 +260,14 @@ object InsertFrm: TInsertFrm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
-    Top = 53
-    Width = 724
+    Left = 106
+    Height = 36
+    Top = 66
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 5
   end
   object Dimension: TComboBox
@@ -274,29 +275,30 @@ object InsertFrm: TInsertFrm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
+    Left = 106
+    Height = 36
     Top = 112
-    Width = 724
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 6
+    OnEditingDone = DimensionEditingDone
   end
   object LongSymbol: TComboBox
     AnchorSideLeft.Control = BaseQuantity
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
+    Left = 106
+    Height = 36
     Top = 158
-    Width = 724
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 7
   end
   object ShortSymbol: TComboBox
@@ -304,14 +306,14 @@ object InsertFrm: TInsertFrm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
+    Left = 106
+    Height = 36
     Top = 204
-    Width = 724
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 8
   end
   object Identifier: TComboBox
@@ -319,14 +321,14 @@ object InsertFrm: TInsertFrm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
+    Left = 106
+    Height = 36
     Top = 250
-    Width = 724
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 9
   end
   object Factor: TComboBox
@@ -335,14 +337,14 @@ object InsertFrm: TInsertFrm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
-    Top = 329
-    Width = 724
+    Left = 106
+    Height = 36
+    Top = 342
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 10
   end
   object Prefixes: TComboBox
@@ -350,14 +352,14 @@ object InsertFrm: TInsertFrm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
-    Height = 23
+    Left = 106
+    Height = 36
     Top = 388
-    Width = 724
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
-    ItemHeight = 15
+    ItemHeight = 0
     TabOrder = 11
   end
   object ColorBtn: TColorButton
@@ -366,16 +368,16 @@ object InsertFrm: TInsertFrm
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 89
+    Left = 106
     Height = 38
-    Top = 467
-    Width = 724
+    Top = 480
+    Width = 707
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
     BorderSpacing.Right = 6
     BorderWidth = 2
     ButtonColorSize = 16
-    ButtonColor = clBlack
+    ButtonColor = clWhite
   end
   object ColorLB: TLabel
     AnchorSideLeft.Control = Owner
@@ -386,8 +388,8 @@ object InsertFrm: TInsertFrm
     AnchorSideBottom.Side = asrBottom
     Left = 6
     Height = 38
-    Top = 467
-    Width = 71
+    Top = 480
+    Width = 88
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6

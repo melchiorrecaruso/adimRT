@@ -56,6 +56,8 @@ type
     ShortStringLB: TLabel;
     QuantityLB: TLabel;
     FieldLB: TLabel;
+    procedure DimensionEditingDone(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
 
   public
@@ -68,6 +70,29 @@ var
 implementation
 
 {$R *.lfm}
+
+uses
+  Common;
+
+{ TInsertFrm }
+
+procedure TInsertFrm.FormShow(Sender: TObject);
+begin
+  DimensionEditingDone(Sender);
+end;
+
+procedure TInsertFrm.DimensionEditingDone(Sender: TObject);
+begin
+  LongSymbol.Items.Clear;
+  ShortSymbol.Items.Clear;
+  if Dimension.Text <> '' then
+  begin
+    LongSymbol.Items.Add(DimensionToLongString(StringToDimensions(Dimension.Text)));
+    ShortSymbol.Items.Add(DimensionToShortString(StringToDimensions(Dimension.Text)));
+  end;
+end;
+
+{ TInsertFrm }
 
 end.
 
