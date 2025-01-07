@@ -285,3 +285,29 @@
 ;TReciprocalWatt?;s3 kg-1 m-2;reciprocal %swatt?;1/%sW;;;;;;clAqua
 ;TReciprocalRadian?;rad-1;reciprocal %sradian?;1/%srad;;TScalar;;;;clAqua
 ;TMeter?PerVolt;A s3 kg-1 m-1;%smeter? per %svolt;%sm/%sV;;;;;;clAqua
+RECIPROCAL;TReciprocalSteradian;sr-1;reciprocal steradian;1/sr;;;;;;clFuchsia
+RECIPROCAL;TReciprocalCubicSecond;s-3;reciprocal cubic %ssecond;1/%ss3;;;;;;clFuchsia
+RECIPROCAL;TReciprocalQuarticSecond;s-4;reciprocal quartic %ssecond;1/%ss4;;;;;;clFuchsia
+RECIPROCAL;TReciprocalQuinticSecond;s-5;reciprocal quintic %ssecond;1/%ss5;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSexticSecond;s-6;reciprocal sextic %ssecond;1/%ss6;;;;;;clFuchsia
+RECIPROCAL;TReciprocalQuinticMeter;m-5;reciprocal quintic %smeter;1/%sm5;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSexticMeter;m-6;reciprocal sextic %smeter;1/%sm6;;;;;;clFuchsia
+RECIPROCAL;TReciprocalKilogram;kg-1;reciprocal %skilogram;1/%skg;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareKilogram;kg-2;reciprocal square %skilogram;1/%skg2;;;;;;clFuchsia
+RECIPROCAL;TReciprocalAmpere;A-1;reciprocal %sampere;1/%sA;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareAmpere;A-2;reciprocal square %sampere;1/%sA2;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareKelvin;K-2;reciprocal square %skelvin;1/%sK2;;;;;;clFuchsia
+RECIPROCAL;TReciprocalCubicKelvin;K-3;reciprocal cubic %skelvin;1/%sK3;;;;;;clFuchsia
+RECIPROCAL;TReciprocalQuarticKelvin;K-4;reciprocal quartic %skelvin;1/%sK4;;;;;;clFuchsia
+RECIPROCAL;TReciprocalCandela;cd-1;reciprocal %scandela;1/%scd;;;;;;clFuchsia
+RECIPROCAL;TSquareSecond?PerSteradian;s2 sr-1;square %ssecond?  per steradian;%ss2/sr;;;;;;clFuchsia
+RECIPROCAL;TSquareSecond?PerMeter;s2 m-1;square %ssecond? per %smeter;%ss2/%sm;;;;;;clFuchsia
+RECIPROCAL;TCubicSecond?PerMeter;s3 m-1;cubic %ssecond? per %smeter;%ss3/%sm;;;;;;clFuchsia
+RECIPROCAL;TQuarticSecond?PerMeter;s4 m-1;quartic %ssecond? per %smeter;%ss4/%sm;;;;;;clFuchsia
+RECIPROCAL;TQuinticSecond?PerMeter;s5 m-1;quintic %ssecond? per %smeter;%ss5/%sm;;;;;;clFuchsia
+RECIPROCAL;TSexticSecond?PerMeter;s6 m-1;sextic %ssecond? per %smeter;%ss6/%sm;;;;;;clFuchsia
+RECIPROCAL;"TReciprocalMeterSecond? ";m-1 s-1;reciprocal %smeter %ssecond;1/%sm/%ss;;;;;;clFuchsia
+RECIPROCAL;TReciprocalKilogramMeter?;kg-1 m-1;reciprocal %skilogram %smeter;1/%skg/%sm;;;;;;clFuchsia
+RECIPROCAL;TSecond?PerKilogram;s kg-1;%ssecond? per %skilogram;%ss/%skg;;;;;;clFuchsia
+RECIPROCAL;TSecond?PerKilogramMeter;s kg-1 m-1;%ssecond? per %skilogram per %smeter;%ss/%skg/%sm;;;;;;clFuchsia
+RECIPROCAL;TSquareSecond?PerSquareKilogramPerSquareMeter;s2 kg-2 m-2;square %ssecond? per square %skilogram per square %smeter;%ss2/%skg2/%sm2;;;;;;clFuchsia
