@@ -29,31 +29,6 @@ uses
 type
   TExponents = array [1..8] of double;
 
-const
-  INTF_NOP            = '{$DEFINE NOP}';
-  INTF_QUANTITY       = '{$DEFINE INTF_QUANTITY}{$DEFINE TQuantity:=%s}{$i %s}';
-  INTF_UNIT           = '{$DEFINE INTF_UNIT}{$DEFINE TQuantity:=%s}{$DEFINE TUnit:=%s}{$i %s}';
-  INTF_END            = '{$DEFINE INTF_END}{$i %s}';
-
-  IMPL_NOP            = '{$DEFINE NOP}';
-  IMPL_QUANTITY       = '{$DEFINE IMPL_QUANTITY}{$DEFINE TQuantity:=%s}{$i %s}';
-  IMPL_UNIT           = '{$DEFINE IMPL_UNIT}{$DEFINE TQuantity:=%s}{$DEFINE TUnit:=%s}{$i %s}';
-
-  IMPL_CSYMBOL        = '{$DEFINE CSYMBOL:=%s}';
-  IMPL_CSINGULARNAME  = '{$DEFINE CSINGULARNAME:=%s}';
-  IMPL_CPLURALNAME    = '{$DEFINE CPLURALNAME:=%s}';
-  IMPL_CPREFIXES      = '{$DEFINE CPREFIXES:=%s}';
-  IMPL_CEXPONENTS     = '{$DEFINE CEXPONENTS:=%s}';
-  IMPL_CFACTOR        = '{$DEFINE CFACTOR:=%s}';
-
-  INTF_OP_CLASS       = '  class operator %s(const ALeft: %s; const ARight: %s): %s;';
-  IMPL_OP_CLASS       = 'class operator %s.%s(const ALeft: %s; const ARight: %s): %s;';
-  INTF_OP             = 'operator %s(const ALeft: %s; const ARight: %s): %s;';
-  IMPL_OP             = 'operator %s(const ALeft: %s; const ARight: %s): %s;';
-
-  VECPrefix           = 'CL';
-
-
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
 function GetPluralNameResourceString(const AClassName: string): string;
@@ -415,31 +390,33 @@ begin
   if ADim[8] > 0 then Num := Num + DimensionToLongString(ADim[8], 'steradian '  );
 
   Denom := '';
-  if ADim[1] < 0 then Denom := Denom + DimensionToLongString(ADim[1], '%skilogram ');
-  if ADim[2] < 0 then Denom := Denom + DimensionToLongString(ADim[2], '%smeter '   );
-  if ADim[3] < 0 then Denom := Denom + DimensionToLongString(ADim[3], '%ssecond '  );
-  if ADim[4] < 0 then Denom := Denom + DimensionToLongString(ADim[4], '%sampere '  );
-  if ADim[5] < 0 then Denom := Denom + DimensionToLongString(ADim[5], '%skelvin '  );
-  if ADim[6] < 0 then Denom := Denom + DimensionToLongString(ADim[6], '%smole '    );
-  if ADim[7] < 0 then Denom := Denom + DimensionToLongString(ADim[7], '%scandela ' );
-  if ADim[8] < 0 then Denom := Denom + DimensionToLongString(ADim[8], 'steradian ' );
+  if ADim[1] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[1], '%skilogram ');
+  if ADim[2] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[2], '%smeter '   );
+  if ADim[3] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[3], '%ssecond '  );
+  if ADim[4] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[4], '%sampere '  );
+  if ADim[5] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[5], '%skelvin '  );
+  if ADim[6] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[6], '%smole '    );
+  if ADim[7] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[7], '%scandela ' );
+  if ADim[8] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[8], 'steradian ' );
 
   if Num = '' then
   begin
     if Denom = '' then
       result := ''
     else
-      result := 'reciprocal ' + Denom;
+      result := 'reciprocal ' + StringReplace(Denom, 'per ', '', [rfReplaceAll]);
   end else
   begin
     if Denom = '' then
       result := Num
     else
-      result := Num + ' per ' + Denom
+      result := Num + Denom
   end;
 
   while (Length(result) > 0) and (result[Low (result)] = ' ') do Delete(result, Low (result), 1);
   while (Length(result) > 0) and (result[High(result)] = ' ') do Delete(result, High(result), 1);
+  result := StringReplace(result, '//', '/', [rfReplaceAll]);
+  result := StringReplace(result, '  ', ' ', [rfReplaceAll]);
 end;
 
 function DimensionToShortString(const ADim: TExponents): string;
@@ -479,11 +456,13 @@ begin
     if Denom = '' then
       result := Num
     else
-      result := Num + '/' + Denom
+      result := Num + Denom
   end;
 
   while (Length(result) > 0) and (result[Low (result)] = ' ') do Delete(result, Low (result), 1);
   while (Length(result) > 0) and (result[High(result)] = ' ') do Delete(result, High(result), 1);
+  result := StringReplace(result, '//', '/', [rfReplaceAll]);
+  result := StringReplace(result, '  ', ' ', [rfReplaceAll]);
 end;
 
 function SumDim(const ADim1, ADim2: TExponents): TExponents;

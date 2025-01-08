@@ -1,7 +1,7 @@
 {
   Description: InsertForm.
 
-  Copyright (C) 2023-2024 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2023-2025 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
