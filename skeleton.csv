@@ -311,3 +311,20 @@ RECIPROCAL;TReciprocalKilogramMeter?;kg-1 m-1;reciprocal %skilogram %smeter;1/%s
 RECIPROCAL;TSecond?PerKilogram;s kg-1;%ssecond? per %skilogram;%ss/%skg;;;;;;clFuchsia
 RECIPROCAL;TSecond?PerKilogramMeter;s kg-1 m-1;%ssecond? per %skilogram per %smeter;%ss/%skg/%sm;;;;;;clFuchsia
 RECIPROCAL;TSquareSecond?PerSquareKilogramPerSquareMeter;s2 kg-2 m-2;square %ssecond? per square %skilogram per square %smeter;%ss2/%skg2/%sm2;;;;;;clFuchsia
+;TSquareRootCubicMeter?;m1.5;square root cubic %smeter?;√%sm3;;;;;;clFuchsia
+RECIPROCAL;TReciprocalKilogramSquareMeter;kg-1 m-2;reciprocal %skilogram square %smeter;1/%skg/%sm2;;;;;;clFuchsia
+;TSecond?PerKilogramSquareMeter;s kg-1 m-2;%ssecond? per %skilogram per square %smeter;%ss/%skg/%sm2;;;;;;clFuchsia
+;TMeter?PerKilogram;m kg-1;%smeter? per %skilogram;%sm/%skg;;;;;;clFuchsia
+;TSquareMeter?PerKilogram;m2 kg-1;square %smeter? per %skilogram;%sm2/%skg;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareNewton;s4 kg-2 m-2;reciprocal square %snewton;1/%sN2;;;;;;clFuchsia
+RECIPROCAL;TReciprocalJoule;s2 kg-1 m-2;reciprocal %sjoule;1/%sJ;;;;;;clFuchsia
+RECIPROCAL;TReciprocalCoulomb;s-1 A-1;reciprocal %scoulomb;1/%sC;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareCoulomb;s-2 A-2;reciprocal square %scoulomb;1/%sC2;;;;;;clFuchsia
+RECIPROCAL;TReciprocalCoulombMeter;m-1 s-1 A-1;reciprocal %scoulomb %smeter;1/%sC/%sm;;;;;;clFuchsia
+RECIPROCAL;TReciprovalVolt;s3 A kg-1 m-2;reciproval %svolt;1/%sV;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareVolt;s6 A2 kg-2 m-4;reciprocal square %svolt;1/%sV2;;;;;;clFuchsia
+RECIPROCAL;TReciprocalFarad;kg m2 s-4 A-2;reciprocal %sfarad;1/%sF;;;;;;clFuchsia
+RECIPROCAL;TReciprocalLumen;cd-1 sr-1;reciprocal %slumen;1/%slm;;;;;;clFuchsia
+RECIPROCAL;TReciprocalLumenSecond;s-1 cd-1 sr-1;reciprocal %slumen %ssecond;1/%slm/%ss;;;;;;clFuchsia
+;TCubicMeter?PerLumenSecond;m3 s-1 cd-1 sr-1;cubic %smeter? per %lumen per %ssecond;%sm3/%slm/%ss;;;;;;clFuchsia
+RECIPROCAL;TReciprocalLux;m2 cd-1 sr-1;reciprocal %slux;1/%slx;;;;;;clFuchsia
