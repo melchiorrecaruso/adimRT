@@ -1,7 +1,7 @@
 {
   Description: InsertForm.
 
-  Copyright (C) 2023-2024 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2023-2025 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -56,6 +56,8 @@ type
     ShortStringLB: TLabel;
     QuantityLB: TLabel;
     FieldLB: TLabel;
+    procedure DimensionEditingDone(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
 
   public
@@ -68,6 +70,29 @@ var
 implementation
 
 {$R *.lfm}
+
+uses
+  Common;
+
+{ TInsertFrm }
+
+procedure TInsertFrm.FormShow(Sender: TObject);
+begin
+  DimensionEditingDone(Sender);
+end;
+
+procedure TInsertFrm.DimensionEditingDone(Sender: TObject);
+begin
+  LongSymbol.Items.Clear;
+  ShortSymbol.Items.Clear;
+  if Dimension.Text <> '' then
+  begin
+    LongSymbol.Items.Add(DimensionToLongString(StringToDimensions(Dimension.Text)));
+    ShortSymbol.Items.Add(DimensionToShortString(StringToDimensions(Dimension.Text)));
+  end;
+end;
+
+{ TInsertFrm }
 
 end.
 

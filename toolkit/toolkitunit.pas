@@ -1,7 +1,7 @@
 {
   Description: Common unit.
 
-  Copyright (C) 2023-2024 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2023-2025 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -693,6 +693,9 @@ begin
           if FList.SameValue(FList[i].FExponents, FList[j].FExponents) and (i <> j) then
             Messages.Add('Warning: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
         end;
+
+      if FList.Search(GetReciprocal(FList[i].FExponents)) = -1 then
+        Messages.Add('Warning: %s unit hasn''t a reciprocal.', [FList[i].FQuantity]);
     end;
 end;
 
