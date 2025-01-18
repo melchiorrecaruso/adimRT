@@ -216,12 +216,12 @@
 ;TKelvin?PerWatt;s3 K kg-1 m-2;%skelvin? per %swatt;%sK/%sW;;;;;;clLime
 ;TMeter?PerWatt;s3 kg-1 m-1;%smeter? per %swatt?;%sm/%sW;;;;;;clLime
 ;TMeterKelvin?PerWatt;s3 K kg-1 m-1;%skelvin %smeter? per %swatt;%sK.%sm/%sW;;;;;;clLime
-;TSquareMeterKelvin?;m2 K-1;square %smeter %skelvin?;%sm2.%sK;;;;;;clLime
+;TSquareMeterKelvin?;m2 K;square %smeter %skelvin?;%sm2.%sK;;;;;;clLime
 ;TWatt?PerSquareMeterPerKelvin;kg s-3 K-1;%swatt? per square %smeter per %skelvin;%sW/%sm2/%sK;;;;;;clLime
 ;TKilogram?PerCubicSecondPerKelvin;;%sgram? per cubic %ssecond per %skelvin;%sg/%ss3/%sK;;TWatt?PerSquareMeterPerKelvin;;;;clWhite
 ;TSquareMeterQuarticKelvin?;m2 K4;square %smeter quartic %skelvin?;%sm2.%sK4;;;;;;clLime
 ;TWatt?PerQuarticKelvin;kg m2 s-3 K-4;%swatt? per quartic %skelvin;%sW/%sK4;;;;;;clLime
-;TWatt?PerSquareMeterPerQuarticKelvin;kg s-3 K4;%swatt? per square %smeter per quartic %skelvin;%sW/%sm2/%sK4;;;;;;clLime
+;TWatt?PerSquareMeterPerQuarticKelvin;kg s-3 K-4;%swatt? per square %smeter per quartic %skelvin;%sW/%sm2/%sK4;;;;;;clLime
 ;TJoule?PerMole;kg m2 s-2 mol-1;%sjoule? per %smole;%sJ/%smol;;;;;;clLime
 ;TMoleKelvin?;mol K;%smole %skelvin?;%smol.%sK;;;;;;clLime
 ;TJoule?PerMolePerKelvin;kg m2 s-2 mol-1 K-1;%sjoule? per %smole per %skelvin;%sJ/%smol/%sK;;;;;;clLime
@@ -270,12 +270,12 @@
 ;TSquareMeterSteradian?;m2 sr;square %smeter steradian?;%sm2.sr;;;;;;clYellow
 ;TCubicMeterSteradian?;m3 sr;cubic %smeter steradian?;%sm3.sr;;;;;;clYellow
 ;TSquareMeterSteradianHertz;m2 sr s-1;square %smeter steradian %shertz;%sm2.sr.%shertz;;;;;;clYellow
-;TWatt?PerSteradian;kg m2 s-3 sr;%swatt? per steradian;%sW/sr;;;;;;clYellow
-;TWatt?PerSteradianPerHertz;kg m2 s-2 sr;%swatt? per steradian per %shertz;%sW/sr/%sHz;;;;;;clYellow
-;TWatt?PerMeterPerSteradian;kg m s-3 sr;%swatt? per steradian per %smeter;%sW/sr/%sm;;;;;;clYellow
-;TWatt?PerSquareMeterPerSteradian;kg s-3 sr;%swatt? per square %smeter per steradian;%sW/%sm2/sr;;;;;;clYellow
-;TWatt?PerCubicMeterPerSteradian;kg s-3 m-1 sr;%swatt? per cubic %smeter per steradian;%sW/%sm3/sr;;;;;;clYellow
-;TWatt?PerSquareMeterPerSteradianPerHertz;kg s-2 sr;%swatt? per square %smeter per steradian per %shertz;%sW/%sm2/sr/%sHz;;;;;;clYellow
+;TWatt?PerSteradian;kg m2 s-3 sr-1;%swatt? per steradian;%sW/sr;;;;;;clYellow
+;TWatt?PerSteradianPerHertz;kg m2 s-2 sr-1;%swatt? per steradian per %shertz;%sW/sr/%sHz;;;;;;clYellow
+;TWatt?PerMeterPerSteradian;kg m s-3 sr-1;%swatt? per steradian per %smeter;%sW/sr/%sm;;;;;;clYellow
+;TWatt?PerSquareMeterPerSteradian;kg s-3 sr-1;%swatt? per square %smeter per steradian;%sW/%sm2/sr;;;;;;clYellow
+;TWatt?PerCubicMeterPerSteradian;kg s-3 m-1 sr-1;%swatt? per cubic %smeter per steradian;%sW/%sm3/sr;;;;;;clYellow
+;TWatt?PerSquareMeterPerSteradianPerHertz;kg s-2 sr-1;%swatt? per square %smeter per steradian per %shertz;%sW/%sm2/sr/%sHz;;;;;;clYellow
 ;TKatal?PerCubicMeter;mol m-3 s-1;%skatal? per cubic %smeter;%skat/%sm3;;;;;;clLime
 ;TCoulomb?PerMole;s A mol-1;%scoulomb? per %smole;%sC/%smol;;;;;;clLime
 ;TReciprocalNewton?;s2 kg-1 m-1;reciprocal %snewton?;1/%sN;;;;;;clAqua
@@ -338,3 +338,59 @@ RECIPROCAL;TReciprocalPoiseuille;m s kg-1;reciprocal %spoiseuille;1/%sPl;;;;;;cl
 RECIPROCAL;TQuarticMeter?PerKilogram;m4 kg-1;quartic %smeter? per %skilogram;%sm4/%skg;;;;;;clFuchsia
 RECIPROCAL;TReciprocalQuarticMeterSecond;m-4 s-1;reciprocal quartic %smeter %ssecond;1/%sm4/%ss;;;;;;clFuchsia
 ;TQuarticMeterSecond?PerKilogram;m4 s kg-1;quartic %smeter %ssecond? per %skilogram;%sm4.%ss/%skg;;;;;;clFuchsia
+RECIPROCAL;TReciprocalKilogramSquareSecond;kg-1 s-2;reciprocal %skilogram square %ssecond;1/%skg/%ss2;;;;;;clFuchsia
+;TSquareSecond?PerCubicMeter;s2 m-3;square %ssecond? per cubic %smeter;%ss2/%sm3;;;;;;clFuchsia
+RECIPROCAL;TReciprocalNewtonSquareMeter;s2 kg-1 m-3;reciprocal %snewton square %smeter;1/%sN/%sm2;;;;;;clFuchsia
+;TReciprocalNewtonCubicMeter;s2 kg-1 m-4;reciprocal %snewton cubic %smeter;1/%sN/%sm3;;;;;;clFuchsia
+;TSquareKilogram?PerNewton;kg s2 m-1;square %sgram per %snewton;%sg.%s2/%sm;;;;;;clFuchsia
+;TMeter?PerSquareKilogram;m kg-2;%smeter? per square %skilogram;%sm/%skg2;;;;;;clFuchsia
+;TSquareKilogram?PerNewtonPerSquareMeter;kg s2 m-3;%sgram square %ssecond? per cubic %smeter;%sg.%ss2/%m3;;;;;;clFuchsia
+RECIPROCAL;TReciprocalKilogramKelvin;kg-1 K-1;reciprocal %sgram %skelvin;1/%sg/%sK;;;;;;clFuchsia
+;TKelvin?PerJoule;s2 K kg-1 m-2;%skelvin? per %sjoule;%sK/%sJ;;;;;;clFuchsia
+;TKilogramKelvin?PerJoule;s2 K m-2;%sgram square %ssecond? per square %smeter;%sg.%ss2/%m2;;;;;;clFuchsia
+RECIPROCAL;TReciprocalMeterKelvin;m-1 K-1;reciprocal %smeter %skelvin;1/%sm/%sK;;;;;;clFuchsia
+;TMeter?PerKelvin;m K-1;%smeter? per %skelvin;%sm/%sK;;;;;;clFuchsia
+;TSquareMeter?PerWatt;s3 kg-1;square %smeter? per %swatt;%sm2/%sW;;;;;;clFuchsia
+;TCubicMeter?PerWatt;m s3 kg-1;cubic %smeter? per %swatt;%sm3/%sW;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareMeterKelvin;m-2 K-1;reciprocal square %smeter %skelvin;1/%sm2/%sK;;;;;;clFuchsia
+;TSquareMeterKelvin?PerWatt;s3 K kg-1;cubic %ssecond? %skelvin? per %skilogram;%ss3.%sK/%skg;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareMeterQuarticKelvin;m-2 K-4;reciprocal square %smeter quartic %skelvin;1/%sm2/%sK4;;;;;;clFuchsia
+;TQuarticKelvin?PerWatt;s3 K4 kg-1 m-2;quartic %skelvin? per %swatt;%sK4/%sW;;;;;;clFuchsia
+;TSquareMeterQuarticKelvin?PerWatt;s3 K4 kg-1;square %smeter quartic %skelvin? per %swatt;%sm2.%sK4/%sW;;;;;;clFuchsia
+;TMole?PerJoule;s2 mol kg-1 m-2;%smole? per %sjoule;%smol/%sJ;;;;;;clFuchsia
+RECIPROCAL;TReciprocalMoleKelvin;mol-1 K-1;reciprocal %skelvin %smole;1/%sK/%smol;;;;;;clFuchsia
+;TMoleKelvin?PerJoule;s2 mol K kg-1 m-2;%smole %skelvin? per joule;%smol.%sK/%sg/%sm2;;;;;;clFuchsia
+;TMeter?PerCoulomb;m s-1 A-1;%smeter? per %scoulomb;%sm/%sC;;;;;;clFuchsia
+;TMeter?PerSquareCoulomb;m s-2 A-2;%smeter? per square %scoulomb;%sm/%sC2;;;;;;clFuchsia
+;TSquareMeter?PerCoulomb;m2 s-1 A-1;square %smeter per %scoulomb;%sm2/%sC;;;;;;clFuchsia
+;TSquareCoulomb?PerSquareMeter;s2 A2 m-2;square %scoulomb? per square %smeter;%sC2/%sm2;;;;;;clFuchsia
+;TSquareCoulomb?PerNewton;s4 A2 kg-1 m-1;square %scoulomb? per %snewton;%sC2/%sN;;;;;;clFuchsia
+RECIPROCAL;TReciprocalVoltMeter;s3 A kg-1 m-3;reciprocal %svolt %smeter;1/%sV/%sm;;;;;;clFuchsia
+;TSecond?PerVoltMeter;s4 A kg-1 m-3;%ssecond? per %svolt per %smeter;%ss/%sV/%sm;;;;;;clFuchsia
+RECIPROCAL;TReciprocalTeslaMeter;s2 A kg-1 m-1;reciprocal %stesla %smeter;1/%sT/%sm;;;;;;clFuchsia
+;TAmpere?PerTesla;s2 A2 kg-1;%sampere? per %stesla;%sA/%sT;;;;;;clFuchsia
+;TMeter?PerHenry;s2 A2 kg-1 m-1;%smeter? per %shenry;%m/%sH;;;;;;clFuchsia
+;TSquareSecond?PerSquareKilogram;s2 kg-2;square %ssecond? per square %skilogram;%ss2/%skg2;;;;;;clFuchsia
+RECIPROCAL;"TReciprocalSquareJoule? ";s4 kg-2 m-4;reciprocal square %sjoule;1/%sJ2;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareJouleSquareSecond;s2 kg-2 m-4;reciprocal square %sjoule square %ssecond;1/%sJ2/%ss2;;;;;;clFuchsia
+;TKilogram?PerCoulomb;kg s-1 A-1;%sgram? per %scoulomb;%sg/%sC;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareMeterAmpere;m-2 A-1;reciprocal square %smeter %sampere;1/%sm2/%sA;;;;;;clFuchsia
+;TWatt ?PerLumen;kg m2 s-3 cd-1 sr-1;%swatt? per %slumen;%sW/%slm;;;;;;clFuchsia
+;TSquareMeter?PerAmpere;m2 A-1;square %smeter? per %sampere;%sm2/%sA;;;;;;clFuchsia
+;TCubicMeter?PerMole;m3 mol-1;cubic %smeter? per %smole;%sm3/%smol;;;;;;clFuchsia
+;TSquareMeterPerCandela;m2 cd-1;square %smeter? per %scandela;%sm2/%scd;;;;;;clFuchsia
+;TCubicMeter?PerCoulomb;m3 s-1 A-1;cubic %smeter? per %ssecond per %sampere;%sm3/%ss/%sA;;;;;;clFuchsia
+;TSecond?PerGray;s3 m-2;%ssecond? per %sgray;%ss/%sGy;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSteradianHertz;s sr-1;reciprocal %ssteradian %shertz;1/%ssr/%sHz;;;;;;clFuchsia
+RECIPROCAL;TReciprocalMeterSteradian;m-1 sr-1;reciprocal %smeter steradian;1/%sm/sr;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareMeterSteradian;m-2 sr-1;reciprocal square %smeter steradian;1/%sm2/sr;;;;;;clFuchsia
+RECIPROCAL;TReciprocalCubicMeterSteradian;m-3 sr-1;reciprocal cubic %smeter steradian;1/%sm3/sr;;;;;;clFuchsia
+RECIPROCAL;TReciprocalSquareMeterSteradianHertz;s m-2 sr-1;reciprocal square %smeter %ssteradian %shertz;1/%sm2/%ssr/%sHz;;;;;;clFuchsia
+;TSteradian?PerWatt;s3 sr kg-1 m-2;%ssteradian per %swatt;%ssr/%sW;;;;;;clFuchsia
+;TSteradianHertz!PerWatt;s2 sr kg-1 m-2;%ssteradian %shertz! per %swatt;%ssr.%sHz/%sW;;;;;;clFuchsia
+;TMeterSteradian?PerWatt;"s3 sr kg-1 m-1 ";%smeter %ssteradian? per %swatt;%sm.%ssr/%sW;;;;;;clFuchsia
+;TSquareMeterSteradian?PerWatt;s3 sr kg-1;square %smeter %ssteradian per %swatt;%sm2.%ssr/%sW;;;;;;clFuchsia
+;TCubicMeterSteradian?PerWatt;m s3 sr kg-1;%smeter cubic %ssecond %ssteradian? per %sgram;%sm.%ss3.%ssr/%sg;;;;;;clFuchsia
+;TSquareMeterSteradianHertz!PerWatt;s2 sr kg-1;square %smeter %ssteradian %shertz! per %swatt;%sm2.%ssr.%sHz/%sW;;;;;;clFuchsia
+;TCubicMeter?PerKatal;m3 s mol-1;cubic %smeter? per %skatal;%sm3/%skat;;;;;;clFuchsia
+;TMole?PerCoulomb;mol s-1 A-1;%smole? per %scoulomb;%smol/%sC;;;;;;clFuchsia
