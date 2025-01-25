@@ -1,3 +1,57 @@
 implementation
 
 uses Math;
+
+// Check routines
+
+procedure CheckEqual(ALeft, ARight: longint);
+begin
+  if ALeft <> ARight then
+  begin
+    raise Exception.Create('Fatal error: ''='' operator has detected wrong units of measurements.');
+  end;
+end;
+
+procedure CheckNotEqual(ALeft, ARight: longint);
+begin
+  if ALeft <> ARight then
+  begin
+    raise Exception.Create('Fatal error: ''<>'' operator has detected wrong units of measurements.');
+  end;
+end;
+
+function CheckSum(ALeft, ARight: longint): longint;
+begin
+  result := ALeft;
+  if ALeft <> ARight then
+  begin
+    raise Exception.Create('Fatal error: ''+'' operator has detected wrong units of measurements.');
+  end;
+end;
+
+function CheckSub(ALeft, ARight: longint): longint;
+begin
+  result := ALeft;
+  if ALeft <> ARight then
+  begin
+    raise Exception.Create('Fatal error: ''-'' operator has detected wrong units of measurements.');
+  end;
+end;
+
+function CheckMul(ALeft, ARight: longint): longint;
+begin
+  result := MulTable[ALeft, ARight];
+  if result = -1 then
+  begin
+    raise Exception.Create('Fatal error: ''*'' operator has detected wrong units of measurements.');
+  end;
+end;
+
+function CheckDiv(ALeft, ARight: longint): longint;
+begin
+  result := DivTable[ALeft, ARight];
+  if result = -1 then
+  begin
+    raise Exception.Create('Fatal error: ''/'' operator has detected wrong units of measurements.');
+  end;
+end;              

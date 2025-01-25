@@ -75,11 +75,6 @@ type
   private
     BaseUnitCount: longint;
     FactoredUnitCount: longint;
-    FTestingCount: longint;
-    FSkipVectorialUnits: boolean;
-    FUseFuncInsteadOfOperators: boolean;
-    FExpandQuantityOperators: boolean;
-    FVectorSpace: longint;
 
     FList:      TToolKitList;
     FDocument:  TStringList;
@@ -121,9 +116,6 @@ type
     procedure Check;
     procedure Run;
   public
-    property VectorSpace: longint read FVectorSpace write FVectorSpace;
-    property ExpandQuantityOperators: boolean read FExpandQuantityOperators write FExpandQuantityOperators;
-    property UseFuncInsteadOfOperators: boolean read FUseFuncInsteadOfOperators write FUseFuncInsteadOfOperators;
     property Document: TStringList read FDocument;
     property Messages: TStringList read FMessages;
   end;
@@ -142,12 +134,6 @@ begin
   FList     := AList;
   FDocument := TStringList.Create;
   FMessages := TStringList.Create;
-
-  FVectorSpace := 0;
-  FSkipVectorialunits := False;
-  FUseFuncInsteadOfOperators := False;
-  FExpandQuantityOperators := False;
-  FTestingCount := 0;
 end;
 
 destructor TToolKitBuilder.Destroy;
@@ -531,12 +517,14 @@ begin
       S := Format('    (Square: %3s; Cubic: %3s; Quartic: %3s; Quintic: %3s; Sextic: %3s),',
         [j2.ToString, j3.ToString, j4.ToString, j5.ToString, j6.ToString]);
 
-      if i = FList.Count -1 then
-      begin
-        SetLength(S, Length(S) -1);
-      end;
       Section.Add(S);
     end;
+  end;
+  if BaseUnitCount > 0 then
+  begin
+    Section[Section.Count -1] :=
+      Copy(Section[Section.Count -1], 1,
+      Length(Section[Section.Count -1]) -1);
   end;
   Section.Add(Format('  );', []));
   Section.Add(Format('', []));
@@ -574,12 +562,15 @@ begin
       S := Format('    (Square: %3s; Cubic: %3s; Quartic: %3s; Quintic: %3s; Sextic: %3s),',
         [j2.ToString, j3.ToString, j4.ToString, j5.ToString, j6.ToString]);
 
-      if i = FList.Count -1 then
-      begin
-        SetLength(S, Length(S) -1);
-      end;
       Section.Add(S);
     end;
+  end;
+
+  if BaseUnitCount > 0 then
+  begin
+    Section[Section.Count -1] :=
+      Copy(Section[Section.Count -1], 1,
+      Length(Section[Section.Count -1]) -1);
   end;
   Section.Add(Format('  );', []));
   Section.Add(Format('', []));
@@ -624,15 +615,8 @@ begin
         end;
       end;
 
-      if i = (FList.Count - 1) then
-      begin
-        Line[High(Line) -1] := ')';
-        Line[High(Line)   ] := ' ';
-      end else
-      begin
-        Line[High(Line) -1] := ')';
-        Line[High(Line)   ] := ',';
-      end;
+      Line[High(Line) -1] := ')';
+      Line[High(Line)   ] := ',';
       Section.Append(Line);
     end;
   end;
@@ -640,6 +624,12 @@ begin
     Table[i] := nil;
   Table := nil;
 
+  if BaseUnitCount > 0 then
+  begin
+    Section[Section.Count -1] :=
+      Copy(Section[Section.Count -1], 1,
+      Length(Section[Section.Count -1]) -1);
+  end;
   Section.Append('  );');
   Section.Append('');
 end;
@@ -681,21 +671,21 @@ begin
         end;
       end;
 
-      if i = (FList.Count - 1) then
-      begin
-        Line[High(Line) -1] := ')';
-        Line[High(Line)   ] := ' ';
-      end else
-      begin
-        Line[High(Line) -1] := ')';
-        Line[High(Line)   ] := ',';
-      end;
+      Line[High(Line) -1] := ')';
+      Line[High(Line)   ] := ',';
       Section.Append(Line);
     end;
   end;
   for i := Low(Table) to High(Table) do
     Table[i] := nil;
   Table := nil;
+
+  if BaseUnitCount > 0 then
+  begin
+    Section[Section.Count -1] :=
+      Copy(Section[Section.Count -1], 1,
+      Length(Section[Section.Count -1]) -1);
+  end;
   Section.Append('  );');
   Section.Append('');
 end;
@@ -728,7 +718,6 @@ procedure TToolKitBuilder.Run;
 var
   i: longint;
   Stream: TResourceStream;
-  SectionName: string;
 begin
   SectionA0  := TStringList.Create;
   SectionA1  := TStringList.Create;
@@ -744,33 +733,25 @@ begin
   BaseUnitCount     := 0;
   FactoredUnitCount := 0;
 
-  case FVectorSpace of
-    0: SectionName := 'CL00-Section-';
-    1: SectionName := 'CL20-Section-';
-    2: SectionName := 'CL30-Section-';
-    3: SectionName := 'CL13-Section-';
-  else SectionName := 'CL00-Section-';
-  end;
-
-  Stream := TResourceStream.Create(HInstance, SectionName + 'A0', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, 'Section-A0', RT_RCDATA);
   SectionA0.LoadFromStream(Stream);
   SectionA0.Insert(0, '');
   SectionA0.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, SectionName + 'B0', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, 'Section-B0', RT_RCDATA);
   SectionB0.LoadFromStream(Stream);
   SectionB0.Insert(0, '');
   SectionB0.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, SectionName + 'A1', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, 'Section-A1', RT_RCDATA);
   SectionA1.LoadFromStream(Stream);
   SectionA1.Insert(0, '');
   SectionA1.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, SectionName + 'B1', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, 'Section-B1', RT_RCDATA);
   SectionB1.LoadFromStream(Stream);
   SectionB1.Insert(0, '');
   SectionB1.Append('');
@@ -782,13 +763,13 @@ begin
   AddPowerTable(SectionA3);
   AddRootTable(SectionA3);
 
-  Stream := TResourceStream.Create(HInstance, SectionName + 'A4', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, 'Section-A4', RT_RCDATA);
   SectionA4.LoadFromStream(Stream);
   SectionA4.Insert(0, '');
   SectionA4.Append('');
   Stream.Destroy;
 
-  Stream := TResourceStream.Create(HInstance, SectionName + 'B4', RT_RCDATA);
+  Stream := TResourceStream.Create(HInstance, 'Section-B4', RT_RCDATA);
   SectionB4.LoadFromStream(Stream);
   SectionB4.Insert(0, '');
   SectionB4.Append('');

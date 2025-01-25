@@ -6,10 +6,10 @@ object MainForm: TMainForm
   Caption = 'ADimPas Toolkit-v2'
   ClientHeight = 577
   ClientWidth = 989
-  Position = poMainFormCenter
-  LCLVersion = '4.99.0.0'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  Position = poMainFormCenter
+  LCLVersion = '3.6.0.0'
   object PageControl: TPageControl
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Side = asrBottom
@@ -118,8 +118,8 @@ object MainForm: TMainForm
         BorderSpacing.Left = 6
         BorderSpacing.Top = 6
         Caption = 'Add'
-        TabOrder = 1
         OnClick = AddBtnClick
+        TabOrder = 1
       end
       object DeleteBtn: TBitBtn
         AnchorSideLeft.Control = AddBtn
@@ -136,8 +136,8 @@ object MainForm: TMainForm
         BorderSpacing.Left = 4
         BorderSpacing.Right = 6
         Caption = 'Delete'
-        TabOrder = 2
         OnClick = DeleteBtnClick
+        TabOrder = 2
       end
       object EditBtn: TBitBtn
         AnchorSideLeft.Control = DeleteBtn
@@ -152,8 +152,8 @@ object MainForm: TMainForm
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Left = 4
         Caption = 'Edit'
-        TabOrder = 3
         OnClick = EditBtnClick
+        TabOrder = 3
       end
       object MoveUtBtn: TBitBtn
         AnchorSideLeft.Control = EditBtn
@@ -168,8 +168,8 @@ object MainForm: TMainForm
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Left = 20
         Caption = 'Move Up'
-        TabOrder = 4
         OnClick = MoveUtBtnClick
+        TabOrder = 4
       end
       object MoveDownBtn: TBitBtn
         AnchorSideLeft.Control = MoveUtBtn
@@ -184,8 +184,8 @@ object MainForm: TMainForm
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Left = 4
         Caption = 'Move Down'
-        TabOrder = 5
         OnClick = MoveDownBtnClick
+        TabOrder = 5
       end
     end
     object TabSheet2: TTabSheet
@@ -771,8 +771,8 @@ object MainForm: TMainForm
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
     }
-    TabOrder = 1
     OnClick = LoadBtnClick
+    TabOrder = 1
   end
   object RunBtn: TBitBtn
     AnchorSideRight.Control = Owner
@@ -861,8 +861,8 @@ object MainForm: TMainForm
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
     }
-    TabOrder = 2
     OnClick = RunBtnClick
+    TabOrder = 2
   end
   object ExportBtn: TBitBtn
     AnchorSideTop.Control = RunBtn
@@ -876,8 +876,8 @@ object MainForm: TMainForm
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 4
     Caption = 'Export ...'
-    TabOrder = 3
     OnClick = ExportBtnClick
+    TabOrder = 3
   end
   object SaveBtn: TBitBtn
     AnchorSideLeft.Control = LoadBtn
@@ -892,32 +892,8 @@ object MainForm: TMainForm
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 4
     Caption = 'Save'
-    TabOrder = 4
     OnClick = SaveBtnClick
-  end
-  object VectorSpace: TComboBox
-    AnchorSideLeft.Control = ExportBtn
-    AnchorSideTop.Control = RunBtn
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = RunBtn
-    AnchorSideRight.Side = asrBottom
-    Left = 731
-    Height = 23
-    Top = 48
-    Width = 254
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Top = 4
-    ItemHeight = 15
-    ItemIndex = 0
-    Items.Strings = (
-      '0-D Vectorspace, R'
-      '2-D Vectorspace Geometric Algebra, CL2'
-      '3-D Vectorspace Geometric Algebra, CL3'
-      'STA SpaceTime  Geometric Algebra, CL13'
-    )
-    Style = csDropDownList
-    TabOrder = 5
-    Text = '0-D Vectorspace, R'
+    TabOrder = 4
   end
   object SaveDialog: TSaveDialog
     Left = 120

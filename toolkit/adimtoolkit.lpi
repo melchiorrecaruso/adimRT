@@ -18,31 +18,13 @@
         <DpiAware Value="True"/>
       </XPManifest>
       <Icon Value="0"/>
-      <Resources Count="24">
-        <Resource_0 FileName="resources\CL00-Section-A0" Type="RCDATA" ResourceName="CL00-SECTION-A0"/>
-        <Resource_1 FileName="resources\CL00-Section-A1" Type="RCDATA" ResourceName="CL00-SECTION-A1"/>
-        <Resource_2 FileName="resources\CL00-Section-A4" Type="RCDATA" ResourceName="CL00-SECTION-A4"/>
-        <Resource_3 FileName="resources\CL00-Section-B0" Type="RCDATA" ResourceName="CL00-SECTION-B0"/>
-        <Resource_4 FileName="resources\CL00-Section-B1" Type="RCDATA" ResourceName="CL00-SECTION-B1"/>
-        <Resource_5 FileName="resources\CL00-Section-B4" Type="RCDATA" ResourceName="CL00-SECTION-B4"/>
-        <Resource_6 FileName="resources\CL13-Section-A0" Type="RCDATA" ResourceName="CL13-SECTION-A0"/>
-        <Resource_7 FileName="resources\CL13-Section-A1" Type="RCDATA" ResourceName="CL13-SECTION-A1"/>
-        <Resource_8 FileName="resources\CL13-Section-A4" Type="RCDATA" ResourceName="CL13-SECTION-A4"/>
-        <Resource_9 FileName="resources\CL13-Section-B0" Type="RCDATA" ResourceName="CL13-SECTION-B0"/>
-        <Resource_10 FileName="resources\CL13-Section-B1" Type="RCDATA" ResourceName="CL13-SECTION-B1"/>
-        <Resource_11 FileName="resources\CL13-Section-B4" Type="RCDATA" ResourceName="CL13-SECTION-B4"/>
-        <Resource_12 FileName="resources\CL20-Section-A0" Type="RCDATA" ResourceName="CL20-SECTION-A0"/>
-        <Resource_13 FileName="resources\CL20-Section-A1" Type="RCDATA" ResourceName="CL20-SECTION-A1"/>
-        <Resource_14 FileName="resources\CL20-Section-A4" Type="RCDATA" ResourceName="CL20-SECTION-A4"/>
-        <Resource_15 FileName="resources\CL20-Section-B0" Type="RCDATA" ResourceName="CL20-SECTION-B0"/>
-        <Resource_16 FileName="resources\CL20-Section-B1" Type="RCDATA" ResourceName="CL20-SECTION-B1"/>
-        <Resource_17 FileName="resources\CL20-Section-B4" Type="RCDATA" ResourceName="CL20-SECTION-B4"/>
-        <Resource_18 FileName="resources\CL30-Section-A0" Type="RCDATA" ResourceName="CL30-SECTION-A0"/>
-        <Resource_19 FileName="resources\CL30-Section-A1" Type="RCDATA" ResourceName="CL30-SECTION-A1"/>
-        <Resource_20 FileName="resources\CL30-Section-A4" Type="RCDATA" ResourceName="CL30-SECTION-A4"/>
-        <Resource_21 FileName="resources\CL30-Section-B0" Type="RCDATA" ResourceName="CL30-SECTION-B0"/>
-        <Resource_22 FileName="resources\CL30-Section-B1" Type="RCDATA" ResourceName="CL30-SECTION-B1"/>
-        <Resource_23 FileName="resources\CL30-Section-B4" Type="RCDATA" ResourceName="CL30-SECTION-B4"/>
+      <Resources Count="6">
+        <Resource_0 FileName="resources\Section-A0" Type="RCDATA" ResourceName="SECTION-A0"/>
+        <Resource_1 FileName="resources\Section-A1" Type="RCDATA" ResourceName="SECTION-A1"/>
+        <Resource_2 FileName="resources\Section-A4" Type="RCDATA" ResourceName="SECTION-A4"/>
+        <Resource_3 FileName="resources\Section-B0" Type="RCDATA" ResourceName="SECTION-B0"/>
+        <Resource_4 FileName="resources\Section-B1" Type="RCDATA" ResourceName="SECTION-B1"/>
+        <Resource_5 FileName="resources\Section-B4" Type="RCDATA" ResourceName="SECTION-B4"/>
       </Resources>
     </General>
     <BuildModes>

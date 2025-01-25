@@ -33,7 +33,6 @@ type
 
   TMainForm = class(TForm)
     AddBtn: TBitBtn;
-    VectorSpace: TComboBox;
     MoveDownBtn: TBitBtn;
     MoveUtBtn: TBitBtn;
     DeleteBtn: TBitBtn;
@@ -277,7 +276,6 @@ begin
   UpdateButton(False);
   Application.ProcessMessages;
   Builder := TToolKitBuilder.Create(FList);
-  Builder.VectorSpace := VectorSpace.ItemIndex;
   Builder.Run;
 
   SynEdit.BeginUpdate(True);
@@ -318,7 +316,6 @@ begin
   LoadBtn.Enabled     := Value;
   ExportBtn.Enabled   := Value;
   RunBtn.Enabled      := Value;
-  VectorSpace.Enabled := Value;
   case Value of
     True:  PageControl.TabIndex := 1;
     False: PageControl.TabIndex := 2;
