@@ -19,10 +19,18 @@
 
 program adimtest;
 
-{$DEFINE ADIMCL3}
+//{$DEFINE CLIFFORD}
 
 uses
-  ADim, ADimC, {$IFDEF ADIMCL3} ADimCL3, {$ENDIF} Math, SysUtils;
+  ADim,
+  ADimC,
+  {$IFDEF CLIFFORD}
+  ADimCL3,
+  {$ELSE}
+  ADimVEC,
+  {$ENDIF}
+  Math,
+  SysUtils;
 
 var
   side1: TQuantity;
@@ -181,7 +189,7 @@ var
   U0: TQuantity;
   TunnelingProbability: TQuantity;
 
-  {$IFDEF ADIMCL3}
+  {$IFDEF CLIFFORD}
   side1_: TVecQuantity;
   side2_: TVecQuantity;
   area_: TBivecQuantity;
@@ -209,12 +217,17 @@ var
   potential_: TVecQuantity;
   impedance_: TMultivecQuantity;
   power_: TMultivecQuantity;
+  {$ELSE}
+  acc_ : TVecQuantity;
+  radius_: TVecQuantity;
+  force_ : TVecQuantity;
+  momentum_: TVecQuantity;
+  angle_: TVecQuantity;
+  angularspeed_: TVecQuantity;
+  angularacc_: TVecQuantity;
+  angularmomentum_: TVecQuantity;
+  torque_: TVecQuantity;
   {$ENDIF}
-
-  angle2_: TVecQuantity;
-  angularspeed2_: TVecQuantity;
-  angularmomentum2_: TVecQuantity;
-  torque2_: TVecQuantity;
 
 begin
   ExitCode := 0;
@@ -1091,7 +1104,7 @@ begin
   {$ENDIF}
   writeln('* TEST-108: PASSED');
 
-  {$IFDEF ADIMCL3}
+  {$IFDEF CLIFFORD}
   // TEST-501 : Surface
   side1_ := 5*e1*m;
   side2_ := 10*e2*m;
@@ -1240,54 +1253,31 @@ begin
   if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
   if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-515: PASSED');
-  {$ENDIF}
-
-  // TEST-601: Speed
-  displacement_ := (5*e1 + 5*e2)*m;
-  time          := 2*s;
-  speed_        := displacement_/time;
-  if MeterPerSecondUnit.ToString(speed_) <> '(+2.5e1 +2.5e2) m/s' then halt(1);
-  writeln('* TEST-601: PASSED');
-
-  // TEST-602: Acceleration
-  speed_ := (5*e1 + 5*e2)*m/s;
-  time   := 2*s;
-  acc_   := speed_/time;
-  if MeterPerSquareSecondUnit.ToString(acc_) <> '(+2.5e1 +2.5e2) m/s2' then halt(1);
-  writeln('* TEST-602: PASSED');
-
-  // TEST-603: Momentum
-  mass      := 10*kg;
-  speed_    := (5*e1 + 5*e2)*m/s;
-  momentum_ := mass*speed_;
-  if KilogramMeterPerSecondUnit.ToString(momentum_) <> '(+50e1 +50e2) kg.m/s' then halt(1);
-  writeln('* TEST-603: PASSED');
-
-  // TEST-604: Angular speed
-  angle2_ := (10*e3)*rad;
-  time    := 2.5*s;
+  {$ELSE}
+  // TEST-601: Angular speed
+  angle_ := (10*e3)*rad;
+  time   := 2.5*s;
   angularspeed_ := angle_/time;
   time := angle_.dot(1/angularspeed_);
   freq := angularspeed_.dot(1/angle_);
-
   if SecondUnit.ToVerboseString(time) <> '2.5 seconds'             then halt(1);
   if RadianPerSecondUnit.ToString(angularspeed_) <> '(+4e3) rad/s' then halt(2);
-  writeln('* TEST-604: PASSED');
+  writeln('* TEST-601: PASSED');
 
-  // TEST-605: Angular acceleration
-  angularspeed2_ := 5*e3*rad/s;
-  angularacc_    := angularspeed_/(2*s);
+  // TEST-602: Angular acceleration
+  angularspeed_ := 5*e3*rad/s;
+  angularacc_   := angularspeed_/(2*s);
   if RadianPerSquareSecondUnit.ToString(angularacc_) <> '(+2.5e3) rad/s2' then halt(1);
-  writeln('* TEST-605: PASSED');
+  writeln('* TEST-602: PASSED');
 
-  // TEST-606: Angular momentum
-  radius_           := 2*e1*m;
-  momentum_         := 5*e2*kg*m/s;
-  angularmomentum2_ := radius_.cross(momentum_);
+  // TEST-603: Angular momentum
+  radius_          := 2*e1*m;
+  momentum_        := 5*e2*kg*m/s;
+  angularmomentum_ := radius_.cross(momentum_);
   if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e3) kg.m2/s' then halt(1);
-  writeln('* TEST-606: PASSED');
+  writeln('* TEST-603: PASSED');
 
-  // TEST-607: Force
+  // TEST-604: Force
   mass   := 10*kg;
   acc_   := (2*e1 + 2*e2)*m/s2;
   force_ := mass*acc_;
@@ -1297,18 +1287,19 @@ begin
   time      := 10*s;
   force_    := momentum_/time;
   if NewtonUnit.ToString(force_) <> '(+1e1) N' then halt(2);
-  writeln('* TEST-607: PASSED');
+  writeln('* TEST-604: PASSED');
 
-  // TEST-608: Torque
-  radius_  :=  2*e1*m;
-  force_   := 10*e2*N;
-  torque2_ := radius_.cross(force_);
-  radius_  := torque2_.cross(1/force_);
-  force_   := (1/radius_).cross(torque2_);
+  // TEST-605: Torque
+  radius_ :=  2*e1*m;
+  force_  := 10*e2*N;
+  torque_ := radius_.cross(force_);
+  radius_ := (1/force_).cross(torque_);
+  force_  := (1/radius_).cross(torque_);
   if NewtonMeterUnit.ToString(torque_) <> '(+20e3) N.m' then halt(1);
-  if MeterUnit.ToString(radius_) <> '(+2e1) m'          then halt(2);
-  if NewtonUnit.ToString(force_) <> '(+10e2) N'         then halt(3);
-  writeln('* TEST-608: PASSED');
+  if MeterUnit.ToString(radius_) <> '(+2e1) m'           then halt(2);
+  if NewtonUnit.ToString(force_) <> '(+10e2) N'          then halt(3);
+  writeln('* TEST-605: PASSED');
+  {$ENDIF}
 
   (*
     // TEST-510: Weber

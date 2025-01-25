@@ -37,6 +37,10 @@
         <Filename Value="adimcl3.pas"/>
         <UnitName Value="ADimCL3"/>
       </Item>
+      <Item>
+        <Filename Value="adimvec.pas"/>
+        <UnitName Value="ADimVEC"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>
