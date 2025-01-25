@@ -19,7 +19,7 @@ type
   {$IFDEF ADIMDEBUG}
   TQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: double;
   public
     class operator + (const ASelf: TQuantity): TQuantity;
@@ -45,26 +45,11 @@ type
   TQuantity = double;
   {$ENDIF}
 
-  
-  
-
-  
-
- 
-
-  
-
- 
-
- 
-
-  
-
   { TUnit }
 
   TUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -83,7 +68,7 @@ type
 
   TFactoredUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -103,7 +88,7 @@ type
 
   TDegreeCelsiusUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -117,7 +102,7 @@ type
 
   TDegreeFahrenheitUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;

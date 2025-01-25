@@ -211,15 +211,20 @@ procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TSt
 begin
   ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
+  ASection.Add('resourcestring');
+  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('');
   ASection.Add('const');
-  ASection.Add('  %sId = %d;', [GetUnitID(AItem.FQuantity), AItem.FTableIndex]);
+  ASection.Add('  %sID = %d;', [GetUnitID(AItem.FQuantity), AItem.FTableIndex]);
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
-  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
-  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
-  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
+  ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
+  ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
+  ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
+  ASection.Add('    FPrefixes   : (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    FExponents  : (%s));', [GetExponents(AItem.FShortString)]);
   ASection.Add('');
 end;
 
@@ -227,14 +232,19 @@ procedure TToolKitBuilder.AddClonedUnit(const AItem: TToolKitItem; const ASectio
 begin
   ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
+  ASection.Add('resourcestring');
+  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('');
   ASection.Add('const');
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FBase)]);
-  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
-  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
-  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
-  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
+  ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
+  ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
+  ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
+  ASection.Add('    FPrefixes   : (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    FExponents  : (%s));', [GetExponents(AItem.FShortString)]);
   ASection.Add('');
 end;
 
@@ -252,15 +262,20 @@ begin
     begin
       ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
       ASection.Add('');
+      ASection.Add('resourcestring');
+      ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+      ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+      ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+      ASection.Add('');
       ASection.Add('const');
       ASection.Add('  %sUnit : TFactoredUnit = (', [GetUnitID(AItem.FQuantity)]);
-      ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FBase)]);
-      ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
-      ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
-      ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
-      ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
-      ASection.Add('    FExponents         : (%s);', [GetExponents(AItem.FShortString)]);
-      ASection.Add('    FFactor            : (%s));', [AItem.FFactor]);
+      ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FBase)]);
+      ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
+      ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
+      ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
+      ASection.Add('    FPrefixes   : (%s);', [GetPrefixes(AItem.FShortString)]);
+      ASection.Add('    FExponents  : (%s);', [GetExponents(AItem.FShortString)]);
+      ASection.Add('    FFactor     : (%s));', [AItem.FFactor]);
       ASection.Add('');
     end;
   end;
@@ -270,14 +285,19 @@ procedure TToolKitBuilder.AddDegreeCelsiusUnit(const AItem: TToolKitItem; const 
 begin
   ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
+  ASection.Add('resourcestring');
+  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('');
   ASection.Add('const');
   ASection.Add('  %sUnit : TDegreeCelsiusUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FBase)]);
-  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
-  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
-  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
-  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
+  ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
+  ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
+  ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
+  ASection.Add('    FPrefixes   : (%s);', [GetPrefixes(AItem.FShortString)]);
+  ASection.Add('    FExponents  : (%s));', [GetExponents(AItem.FShortString)]);
   ASection.Add('');
 end;
 
@@ -285,12 +305,17 @@ procedure TToolKitBuilder.AddDegreeFahrenheitUnit(const AItem: TToolKitItem; con
 begin
   ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('');
+  ASection.Add('resourcestring');
+  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('');
   ASection.Add('const');
   ASection.Add('  %sUnit : TDegreeFahrenheitUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FUnitOfMeasurement : %sId;', [GetUnitID(AItem.FBase)]);
-  ASection.Add('    FSymbol            : ''%s'';', [AItem.FShortString]);
-  ASection.Add('    FName              : ''%s'';', [GetSingularName(AItem.FLongString)]);
-  ASection.Add('    FPluralName        : ''%s'';', [GetPluralName(AItem.FLongString)]);
+  ASection.Add('    FID : %sID;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FSymbol            : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
+  ASection.Add('    FName              : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
+  ASection.Add('    FPluralName        : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
   ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
   ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
   ASection.Add('');
@@ -298,7 +323,7 @@ end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
 const
-  S = '  %-10s : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  S = '  %-10s : TQuantity = {$IFDEF ADIMDEBUG} (FID: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 begin
   if (AItem.FBase = '') then
   begin
@@ -354,7 +379,7 @@ var
   Str: string;
   Factor: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TQuantity = {$IFDEF ADIMDEBUG} (FID: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AItem.FFactor <> '' then

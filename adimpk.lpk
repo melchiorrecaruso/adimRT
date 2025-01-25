@@ -30,8 +30,12 @@
         <UnitName Value="ADim"/>
       </Item>
       <Item>
-        <Filename Value="cl3.pas"/>
-        <UnitName Value="cl3"/>
+        <Filename Value="adimc.pas"/>
+        <UnitName Value="ADimC"/>
+      </Item>
+      <Item>
+        <Filename Value="adimcl3.pas"/>
+        <UnitName Value="ADimCL3"/>
       </Item>
     </Files>
     <RequiredPkgs>

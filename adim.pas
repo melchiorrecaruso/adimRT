@@ -26,7 +26,7 @@ unit ADim;
 {$WARN 5033 OFF} // Suppress warning for unassigned function's return value.
 
 {
-  ADim Run-time library built on 18-1-25.
+  ADim Run-time library built on 19-1-25.
 
   Number of base units: 273
   Number of factored units: 123
@@ -34,7 +34,7 @@ unit ADim;
 
 interface
 
-uses CL3, SysUtils;
+uses ADimC, ADimCL3, SysUtils;
 
 type
   { Prefix }
@@ -52,7 +52,7 @@ type
   {$IFDEF ADIMDEBUG}
   TQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: double;
   public
     class operator + (const ASelf: TQuantity): TQuantity;
@@ -83,7 +83,7 @@ type
   {$IFDEF ADIMDEBUG}
   TMultivecQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: TMultivector;
   public
     class operator :=(const AValue: TQuantity): TMultivecQuantity;
@@ -121,7 +121,7 @@ type
   {$IFDEF ADIMDEBUG}
   TTrivecQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: TTrivector;
   public
     class operator :=(const AValue: TTrivecQuantity): TMultivecQuantity;
@@ -167,7 +167,7 @@ type
   {$IFDEF ADIMDEBUG}
   TBivecQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: TBivector;
   public
     class operator :=(const AValue: TBivecQuantity): TMultivecQuantity;
@@ -221,7 +221,7 @@ type
   {$IFDEF ADIMDEBUG}
   TVecQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: TVector;
   public
     class operator :=(const AValue: TVecQuantity): TMultivecQuantity;
@@ -506,7 +506,7 @@ type
 
   TUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -541,7 +541,7 @@ type
 
   TFactoredUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -577,7 +577,7 @@ type
 
   TDegreeCelsiusUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -591,7 +591,7 @@ type
 
   TDegreeFahrenheitUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -711,937 +711,1202 @@ type
 
 { TScalar }
 
+resourcestring
+  rsScalarSymbol = '';
+  rsScalarName = '';
+  rsScalarPluralName = '';
+
 const
-  ScalarId = 0;
+  ScalarID = 0;
   ScalarUnit : TUnit = (
-    FUnitOfMeasurement : ScalarId;
-    FSymbol            : '';
-    FName              : '';
-    FPluralName        : '';
-    FPrefixes          : ();
-    FExponents         : ());
+    FID         : ScalarID;
+    FSymbol     : rsScalarSymbol;
+    FName       : rsScalarName;
+    FPluralName : rsScalarPluralName;
+    FPrefixes   : ();
+    FExponents  : ());
 
 { TRadian }
 
+resourcestring
+  rsRadianSymbol = 'rad';
+  rsRadianName = 'radian';
+  rsRadianPluralName = 'radians';
+
 const
   RadianUnit : TUnit = (
-    FUnitOfMeasurement : ScalarId;
-    FSymbol            : 'rad';
-    FName              : 'radian';
-    FPluralName        : 'radians';
-    FPrefixes          : ();
-    FExponents         : ());
+    FID         : ScalarID;
+    FSymbol     : rsRadianSymbol;
+    FName       : rsRadianName;
+    FPluralName : rsRadianPluralName;
+    FPrefixes   : ();
+    FExponents  : ());
 
 var
   rad : TUnit absolute RadianUnit;
 
 { TDegree }
 
+resourcestring
+  rsDegreeSymbol = 'deg';
+  rsDegreeName = 'degree';
+  rsDegreePluralName = 'degrees';
+
 const
   DegreeUnit : TFactoredUnit = (
-    FUnitOfMeasurement : ScalarId;
-    FSymbol            : 'deg';
-    FName              : 'degree';
-    FPluralName        : 'degrees';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (Pi/180));
+    FID         : ScalarID;
+    FSymbol     : rsDegreeSymbol;
+    FName       : rsDegreeName;
+    FPluralName : rsDegreePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (Pi/180));
 
 var
   deg : TFactoredUnit absolute DegreeUnit;
 
 { TSteradian }
 
+resourcestring
+  rsSteradianSymbol = 'sr';
+  rsSteradianName = 'steradian';
+  rsSteradianPluralName = 'steradians';
+
 const
-  SteradianId = 1;
+  SteradianID = 1;
   SteradianUnit : TUnit = (
-    FUnitOfMeasurement : SteradianId;
-    FSymbol            : 'sr';
-    FName              : 'steradian';
-    FPluralName        : 'steradians';
-    FPrefixes          : ();
-    FExponents         : ());
+    FID         : SteradianID;
+    FSymbol     : rsSteradianSymbol;
+    FName       : rsSteradianName;
+    FPluralName : rsSteradianPluralName;
+    FPrefixes   : ();
+    FExponents  : ());
 
 var
   sr : TUnit absolute SteradianUnit;
 
 { TSquareDegree }
 
+resourcestring
+  rsSquareDegreeSymbol = 'deg2';
+  rsSquareDegreeName = 'square degree';
+  rsSquareDegreePluralName = 'square degrees';
+
 const
   SquareDegreeUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SteradianId;
-    FSymbol            : 'deg2';
-    FName              : 'square degree';
-    FPluralName        : 'square degrees';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (Pi*Pi/32400));
+    FID         : SteradianID;
+    FSymbol     : rsSquareDegreeSymbol;
+    FName       : rsSquareDegreeName;
+    FPluralName : rsSquareDegreePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (Pi*Pi/32400));
 
 var
   deg2 : TFactoredUnit absolute SquareDegreeUnit;
 
 { TSecond }
 
+resourcestring
+  rsSecondSymbol = '%ss';
+  rsSecondName = '%ssecond';
+  rsSecondPluralName = '%sseconds';
+
 const
-  SecondId = 2;
+  SecondID = 2;
   SecondUnit : TUnit = (
-    FUnitOfMeasurement : SecondId;
-    FSymbol            : '%ss';
-    FName              : '%ssecond';
-    FPluralName        : '%sseconds';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : SecondID;
+    FSymbol     : rsSecondSymbol;
+    FName       : rsSecondName;
+    FPluralName : rsSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   s : TUnit absolute SecondUnit;
 
 const
-  ds         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 2; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cs         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 2; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  ms         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 2; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  mis        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 2; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  ns         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 2; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  ps         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 2; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ds         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 2; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cs         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 2; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  ms         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 2; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  mis        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 2; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  ns         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 2; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  ps         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 2; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TDay }
 
+resourcestring
+  rsDaySymbol = 'd';
+  rsDayName = 'day';
+  rsDayPluralName = 'days';
+
 const
   DayUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SecondId;
-    FSymbol            : 'd';
-    FName              : 'day';
-    FPluralName        : 'days';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (86400));
+    FID         : SecondID;
+    FSymbol     : rsDaySymbol;
+    FName       : rsDayName;
+    FPluralName : rsDayPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (86400));
 
 var
   day : TFactoredUnit absolute DayUnit;
 
 { THour }
 
+resourcestring
+  rsHourSymbol = 'h';
+  rsHourName = 'hour';
+  rsHourPluralName = 'hours';
+
 const
   HourUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SecondId;
-    FSymbol            : 'h';
-    FName              : 'hour';
-    FPluralName        : 'hours';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (3600));
+    FID         : SecondID;
+    FSymbol     : rsHourSymbol;
+    FName       : rsHourName;
+    FPluralName : rsHourPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (3600));
 
 var
   hr : TFactoredUnit absolute HourUnit;
 
 { TMinute }
 
+resourcestring
+  rsMinuteSymbol = 'min';
+  rsMinuteName = 'minute';
+  rsMinutePluralName = 'minutes';
+
 const
   MinuteUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SecondId;
-    FSymbol            : 'min';
-    FName              : 'minute';
-    FPluralName        : 'minutes';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (60));
+    FID         : SecondID;
+    FSymbol     : rsMinuteSymbol;
+    FName       : rsMinuteName;
+    FPluralName : rsMinutePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (60));
 
 var
   minute : TFactoredUnit absolute MinuteUnit;
 
 { TSquareSecond }
 
+resourcestring
+  rsSquareSecondSymbol = '%ss2';
+  rsSquareSecondName = 'square %ssecond';
+  rsSquareSecondPluralName = 'square %sseconds';
+
 const
-  SquareSecondId = 3;
+  SquareSecondID = 3;
   SquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareSecondId;
-    FSymbol            : '%ss2';
-    FName              : 'square %ssecond';
-    FPluralName        : 'square %sseconds';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareSecondID;
+    FSymbol     : rsSquareSecondSymbol;
+    FName       : rsSquareSecondName;
+    FPluralName : rsSquareSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 var
   s2 : TUnit absolute SquareSecondUnit;
 
 const
-  ds2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 3; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cs2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 3; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  ms2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 3; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mis2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 3; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  ns2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 3; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ps2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 3; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  ds2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 3; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cs2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 3; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  ms2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 3; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mis2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 3; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ns2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 3; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ps2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 3; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareDay }
 
+resourcestring
+  rsSquareDaySymbol = 'd2';
+  rsSquareDayName = 'square day';
+  rsSquareDayPluralName = 'square days';
+
 const
   SquareDayUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SquareSecondId;
-    FSymbol            : 'd2';
-    FName              : 'square day';
-    FPluralName        : 'square days';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (7464960000));
+    FID         : SquareSecondID;
+    FSymbol     : rsSquareDaySymbol;
+    FName       : rsSquareDayName;
+    FPluralName : rsSquareDayPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (7464960000));
 
 var
   day2 : TFactoredUnit absolute SquareDayUnit;
 
 { TSquareHour }
 
+resourcestring
+  rsSquareHourSymbol = 'h2';
+  rsSquareHourName = 'square hour';
+  rsSquareHourPluralName = 'square hours';
+
 const
   SquareHourUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SquareSecondId;
-    FSymbol            : 'h2';
-    FName              : 'square hour';
-    FPluralName        : 'square hours';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (12960000));
+    FID         : SquareSecondID;
+    FSymbol     : rsSquareHourSymbol;
+    FName       : rsSquareHourName;
+    FPluralName : rsSquareHourPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (12960000));
 
 var
   hr2 : TFactoredUnit absolute SquareHourUnit;
 
 { TSquareMinute }
 
+resourcestring
+  rsSquareMinuteSymbol = 'min2';
+  rsSquareMinuteName = 'square minute';
+  rsSquareMinutePluralName = 'square minutes';
+
 const
   SquareMinuteUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SquareSecondId;
-    FSymbol            : 'min2';
-    FName              : 'square minute';
-    FPluralName        : 'square minutes';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (3600));
+    FID         : SquareSecondID;
+    FSymbol     : rsSquareMinuteSymbol;
+    FName       : rsSquareMinuteName;
+    FPluralName : rsSquareMinutePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (3600));
 
 var
   minute2 : TFactoredUnit absolute SquareMinuteUnit;
 
 { TCubicSecond }
 
+resourcestring
+  rsCubicSecondSymbol = '%ss3';
+  rsCubicSecondName = 'cubic %ssecond';
+  rsCubicSecondPluralName = 'cubic %sseconds';
+
 const
-  CubicSecondId = 4;
+  CubicSecondID = 4;
   CubicSecondUnit : TUnit = (
-    FUnitOfMeasurement : CubicSecondId;
-    FSymbol            : '%ss3';
-    FName              : 'cubic %ssecond';
-    FPluralName        : 'cubic %sseconds';
-    FPrefixes          : (pNone);
-    FExponents         : (3));
+    FID         : CubicSecondID;
+    FSymbol     : rsCubicSecondSymbol;
+    FName       : rsCubicSecondName;
+    FPluralName : rsCubicSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (3));
 
 var
   s3 : TUnit absolute CubicSecondUnit;
 
 const
-  ds3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 4; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  cs3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 4; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  ms3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 4; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  mis3       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 4; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ns3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 4; FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
-  ps3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 4; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ds3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 4; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  cs3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 4; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  ms3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 4; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mis3       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 4; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ns3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 4; FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
+  ps3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 4; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
 
 { TQuarticSecond }
 
+resourcestring
+  rsQuarticSecondSymbol = '%ss4';
+  rsQuarticSecondName = 'quartic %ssecond';
+  rsQuarticSecondPluralName = 'quartic %sseconds';
+
 const
-  QuarticSecondId = 5;
+  QuarticSecondID = 5;
   QuarticSecondUnit : TUnit = (
-    FUnitOfMeasurement : QuarticSecondId;
-    FSymbol            : '%ss4';
-    FName              : 'quartic %ssecond';
-    FPluralName        : 'quartic %sseconds';
-    FPrefixes          : (pNone);
-    FExponents         : (4));
+    FID         : QuarticSecondID;
+    FSymbol     : rsQuarticSecondSymbol;
+    FName       : rsQuarticSecondName;
+    FPluralName : rsQuarticSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (4));
 
 var
   s4 : TUnit absolute QuarticSecondUnit;
 
 const
-  ds4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 5; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cs4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 5; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  ms4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 5; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mis4       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 5; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  ns4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 5; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  ps4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 5; FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
+  ds4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 5; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cs4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 5; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  ms4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 5; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mis4       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 5; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  ns4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 5; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ps4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 5; FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
 
 { TQuinticSecond }
 
+resourcestring
+  rsQuinticSecondSymbol = '%ss5';
+  rsQuinticSecondName = 'quintic %ssecond';
+  rsQuinticSecondPluralName = 'quintic %sseconds';
+
 const
-  QuinticSecondId = 6;
+  QuinticSecondID = 6;
   QuinticSecondUnit : TUnit = (
-    FUnitOfMeasurement : QuinticSecondId;
-    FSymbol            : '%ss5';
-    FName              : 'quintic %ssecond';
-    FPluralName        : 'quintic %sseconds';
-    FPrefixes          : (pNone);
-    FExponents         : (5));
+    FID         : QuinticSecondID;
+    FSymbol     : rsQuinticSecondSymbol;
+    FName       : rsQuinticSecondName;
+    FPluralName : rsQuinticSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (5));
 
 var
   s5 : TUnit absolute QuinticSecondUnit;
 
 const
-  ds5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 6; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  cs5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 6; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  ms5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 6; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
-  mis5       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 6; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
-  ns5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 6; FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
-  ps5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 6; FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
+  ds5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 6; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  cs5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 6; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  ms5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 6; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  mis5       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 6; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  ns5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 6; FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
+  ps5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 6; FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
 
 { TSexticSecond }
 
+resourcestring
+  rsSexticSecondSymbol = '%ss6';
+  rsSexticSecondName = 'sextic %ssecond';
+  rsSexticSecondPluralName = 'sextic %sseconds';
+
 const
-  SexticSecondId = 7;
+  SexticSecondID = 7;
   SexticSecondUnit : TUnit = (
-    FUnitOfMeasurement : SexticSecondId;
-    FSymbol            : '%ss6';
-    FName              : 'sextic %ssecond';
-    FPluralName        : 'sextic %sseconds';
-    FPrefixes          : (pNone);
-    FExponents         : (6));
+    FID         : SexticSecondID;
+    FSymbol     : rsSexticSecondSymbol;
+    FName       : rsSexticSecondName;
+    FPluralName : rsSexticSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (6));
 
 var
   s6 : TUnit absolute SexticSecondUnit;
 
 const
-  ds6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 7; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  cs6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 7; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  ms6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 7; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  mis6       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 7; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  ns6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 7; FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
-  ps6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 7; FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
+  ds6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 7; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cs6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 7; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ms6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 7; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  mis6       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 7; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ns6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 7; FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
+  ps6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 7; FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
 
 { TMeter }
 
+resourcestring
+  rsMeterSymbol = '%sm';
+  rsMeterName = '%smeter';
+  rsMeterPluralName = '%smeters';
+
 const
-  MeterId = 8;
+  MeterID = 8;
   MeterUnit : TUnit = (
-    FUnitOfMeasurement : MeterId;
-    FSymbol            : '%sm';
-    FName              : '%smeter';
-    FPluralName        : '%smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : MeterID;
+    FSymbol     : rsMeterSymbol;
+    FName       : rsMeterName;
+    FPluralName : rsMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   m : TUnit absolute MeterUnit;
 
 const
-  km         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 8; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  dm         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 8; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cm         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 8; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mm         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 8; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  mim        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 8; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nm         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 8; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pm         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 8; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  km         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 8; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  dm         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 8; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cm         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 8; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mm         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 8; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  mim        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 8; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nm         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 8; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pm         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 8; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TAstronomical }
 
+resourcestring
+  rsAstronomicalSymbol = 'au';
+  rsAstronomicalName = 'astronomical unit';
+  rsAstronomicalPluralName = 'astronomical units';
+
 const
   AstronomicalUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterId;
-    FSymbol            : 'au';
-    FName              : 'astronomical unit';
-    FPluralName        : 'astronomical units';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (149597870691));
+    FID         : MeterID;
+    FSymbol     : rsAstronomicalSymbol;
+    FName       : rsAstronomicalName;
+    FPluralName : rsAstronomicalPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (149597870691));
 
 var
   au : TFactoredUnit absolute AstronomicalUnit;
 
 { TInch }
 
+resourcestring
+  rsInchSymbol = 'in';
+  rsInchName = 'inch';
+  rsInchPluralName = 'inches';
+
 const
   InchUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterId;
-    FSymbol            : 'in';
-    FName              : 'inch';
-    FPluralName        : 'inches';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.0254));
+    FID         : MeterID;
+    FSymbol     : rsInchSymbol;
+    FName       : rsInchName;
+    FPluralName : rsInchPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.0254));
 
 var
   inch : TFactoredUnit absolute InchUnit;
 
 { TFoot }
 
+resourcestring
+  rsFootSymbol = 'ft';
+  rsFootName = 'foot';
+  rsFootPluralName = 'feet';
+
 const
   FootUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterId;
-    FSymbol            : 'ft';
-    FName              : 'foot';
-    FPluralName        : 'feet';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.3048));
+    FID         : MeterID;
+    FSymbol     : rsFootSymbol;
+    FName       : rsFootName;
+    FPluralName : rsFootPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.3048));
 
 var
   ft : TFactoredUnit absolute FootUnit;
 
 { TYard }
 
+resourcestring
+  rsYardSymbol = 'yd';
+  rsYardName = 'yard';
+  rsYardPluralName = 'yards';
+
 const
   YardUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterId;
-    FSymbol            : 'yd';
-    FName              : 'yard';
-    FPluralName        : 'yards';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.9144));
+    FID         : MeterID;
+    FSymbol     : rsYardSymbol;
+    FName       : rsYardName;
+    FPluralName : rsYardPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.9144));
 
 var
   yd : TFactoredUnit absolute YardUnit;
 
 { TMile }
 
+resourcestring
+  rsMileSymbol = 'mi';
+  rsMileName = 'mile';
+  rsMilePluralName = 'miles';
+
 const
   MileUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterId;
-    FSymbol            : 'mi';
-    FName              : 'mile';
-    FPluralName        : 'miles';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (1609.344));
+    FID         : MeterID;
+    FSymbol     : rsMileSymbol;
+    FName       : rsMileName;
+    FPluralName : rsMilePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (1609.344));
 
 var
   mi : TFactoredUnit absolute MileUnit;
 
 { TNauticalMile }
 
+resourcestring
+  rsNauticalMileSymbol = 'nmi';
+  rsNauticalMileName = 'nautical mile';
+  rsNauticalMilePluralName = 'nautical miles';
+
 const
   NauticalMileUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterId;
-    FSymbol            : 'nmi';
-    FName              : 'nautical mile';
-    FPluralName        : 'nautical miles';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (1852));
+    FID         : MeterID;
+    FSymbol     : rsNauticalMileSymbol;
+    FName       : rsNauticalMileName;
+    FPluralName : rsNauticalMilePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (1852));
 
 var
   nmi : TFactoredUnit absolute NauticalMileUnit;
 
 { TAngstrom }
 
+resourcestring
+  rsAngstromSymbol = '%sÅ';
+  rsAngstromName = '%sangstrom';
+  rsAngstromPluralName = '%sangstroms';
+
 const
   AngstromUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterId;
-    FSymbol            : '%sÅ';
-    FName              : '%sangstrom';
-    FPluralName        : '%sangstroms';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (1E-10));
+    FID         : MeterID;
+    FSymbol     : rsAngstromSymbol;
+    FName       : rsAngstromName;
+    FPluralName : rsAngstromPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (1E-10));
 
 var
   angstrom : TFactoredUnit absolute AngstromUnit;
 
 { TSquareRootMeter }
 
+resourcestring
+  rsSquareRootMeterSymbol = '√%sm';
+  rsSquareRootMeterName = 'square root %smeter';
+  rsSquareRootMeterPluralName = 'square root %smeters';
+
 const
-  SquareRootMeterId = 9;
+  SquareRootMeterID = 9;
   SquareRootMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareRootMeterId;
-    FSymbol            : '√%sm';
-    FName              : 'square root %smeter';
-    FPluralName        : 'square root %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : SquareRootMeterID;
+    FSymbol     : rsSquareRootMeterSymbol;
+    FName       : rsSquareRootMeterName;
+    FPluralName : rsSquareRootMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 { TSquareMeter }
 
+resourcestring
+  rsSquareMeterSymbol = '%sm2';
+  rsSquareMeterName = 'square %smeter';
+  rsSquareMeterPluralName = 'square %smeters';
+
 const
-  SquareMeterId = 10;
+  SquareMeterID = 10;
   SquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterId;
-    FSymbol            : '%sm2';
-    FName              : 'square %smeter';
-    FPluralName        : 'square %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareMeterID;
+    FSymbol     : rsSquareMeterSymbol;
+    FName       : rsSquareMeterName;
+    FPluralName : rsSquareMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 var
   m2 : TUnit absolute SquareMeterUnit;
 
 const
-  km2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 10; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  dm2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 10; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cm2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 10; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mm2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 10; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mim2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 10; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nm2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 10; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  pm2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 10; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  km2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 10; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  dm2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 10; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cm2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 10; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mm2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 10; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mim2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 10; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nm2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 10; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  pm2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 10; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareInch }
 
+resourcestring
+  rsSquareInchSymbol = 'in2';
+  rsSquareInchName = 'square inch';
+  rsSquareInchPluralName = 'square inches';
+
 const
   SquareInchUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SquareMeterId;
-    FSymbol            : 'in2';
-    FName              : 'square inch';
-    FPluralName        : 'square inches';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.00064516));
+    FID         : SquareMeterID;
+    FSymbol     : rsSquareInchSymbol;
+    FName       : rsSquareInchName;
+    FPluralName : rsSquareInchPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.00064516));
 
 var
   inch2 : TFactoredUnit absolute SquareInchUnit;
 
 { TSquareFoot }
 
+resourcestring
+  rsSquareFootSymbol = 'ft2';
+  rsSquareFootName = 'square foot';
+  rsSquareFootPluralName = 'square feet';
+
 const
   SquareFootUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SquareMeterId;
-    FSymbol            : 'ft2';
-    FName              : 'square foot';
-    FPluralName        : 'square feet';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.09290304));
+    FID         : SquareMeterID;
+    FSymbol     : rsSquareFootSymbol;
+    FName       : rsSquareFootName;
+    FPluralName : rsSquareFootPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.09290304));
 
 var
   ft2 : TFactoredUnit absolute SquareFootUnit;
 
 { TSquareYard }
 
+resourcestring
+  rsSquareYardSymbol = 'yd2';
+  rsSquareYardName = 'square yard';
+  rsSquareYardPluralName = 'square yards';
+
 const
   SquareYardUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SquareMeterId;
-    FSymbol            : 'yd2';
-    FName              : 'square yard';
-    FPluralName        : 'square yards';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.83612736));
+    FID         : SquareMeterID;
+    FSymbol     : rsSquareYardSymbol;
+    FName       : rsSquareYardName;
+    FPluralName : rsSquareYardPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.83612736));
 
 var
   yd2 : TFactoredUnit absolute SquareYardUnit;
 
 { TSquareMile }
 
+resourcestring
+  rsSquareMileSymbol = 'mi2';
+  rsSquareMileName = 'square mile';
+  rsSquareMilePluralName = 'square miles';
+
 const
   SquareMileUnit : TFactoredUnit = (
-    FUnitOfMeasurement : SquareMeterId;
-    FSymbol            : 'mi2';
-    FName              : 'square mile';
-    FPluralName        : 'square miles';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (2589988.110336));
+    FID         : SquareMeterID;
+    FSymbol     : rsSquareMileSymbol;
+    FName       : rsSquareMileName;
+    FPluralName : rsSquareMilePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (2589988.110336));
 
 var
   mi2 : TFactoredUnit absolute SquareMileUnit;
 
 { TCubicMeter }
 
+resourcestring
+  rsCubicMeterSymbol = '%sm3';
+  rsCubicMeterName = 'cubic %smeter';
+  rsCubicMeterPluralName = 'cubic %smeters';
+
 const
-  CubicMeterId = 11;
+  CubicMeterID = 11;
   CubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterId;
-    FSymbol            : '%sm3';
-    FName              : 'cubic %smeter';
-    FPluralName        : 'cubic %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (3));
+    FID         : CubicMeterID;
+    FSymbol     : rsCubicMeterSymbol;
+    FName       : rsCubicMeterName;
+    FPluralName : rsCubicMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (3));
 
 var
   m3 : TUnit absolute CubicMeterUnit;
 
 const
-  km3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  dm3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  cm3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mm3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  mim3       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  nm3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
-  pm3        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  km3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  dm3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  cm3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mm3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mim3       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  nm3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
+  pm3        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
 
 { TCubicInch }
 
+resourcestring
+  rsCubicInchSymbol = 'in3';
+  rsCubicInchName = 'cubic inch';
+  rsCubicInchPluralName = 'cubic inches';
+
 const
   CubicInchUnit : TFactoredUnit = (
-    FUnitOfMeasurement : CubicMeterId;
-    FSymbol            : 'in3';
-    FName              : 'cubic inch';
-    FPluralName        : 'cubic inches';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.000016387064));
+    FID         : CubicMeterID;
+    FSymbol     : rsCubicInchSymbol;
+    FName       : rsCubicInchName;
+    FPluralName : rsCubicInchPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.000016387064));
 
 var
   inch3 : TFactoredUnit absolute CubicInchUnit;
 
 { TCubicFoot }
 
+resourcestring
+  rsCubicFootSymbol = 'ft3';
+  rsCubicFootName = 'cubic foot';
+  rsCubicFootPluralName = 'cubic feet';
+
 const
   CubicFootUnit : TFactoredUnit = (
-    FUnitOfMeasurement : CubicMeterId;
-    FSymbol            : 'ft3';
-    FName              : 'cubic foot';
-    FPluralName        : 'cubic feet';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.028316846592));
+    FID         : CubicMeterID;
+    FSymbol     : rsCubicFootSymbol;
+    FName       : rsCubicFootName;
+    FPluralName : rsCubicFootPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.028316846592));
 
 var
   ft3 : TFactoredUnit absolute CubicFootUnit;
 
 { TCubicYard }
 
+resourcestring
+  rsCubicYardSymbol = 'yd3';
+  rsCubicYardName = 'cubic yard';
+  rsCubicYardPluralName = 'cubic yards';
+
 const
   CubicYardUnit : TFactoredUnit = (
-    FUnitOfMeasurement : CubicMeterId;
-    FSymbol            : 'yd3';
-    FName              : 'cubic yard';
-    FPluralName        : 'cubic yards';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.764554857984));
+    FID         : CubicMeterID;
+    FSymbol     : rsCubicYardSymbol;
+    FName       : rsCubicYardName;
+    FPluralName : rsCubicYardPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.764554857984));
 
 var
   yd3 : TFactoredUnit absolute CubicYardUnit;
 
 { TLitre }
 
+resourcestring
+  rsLitreSymbol = '%sL';
+  rsLitreName = '%slitre';
+  rsLitrePluralName = '%slitres';
+
 const
   LitreUnit : TFactoredUnit = (
-    FUnitOfMeasurement : CubicMeterId;
-    FSymbol            : '%sL';
-    FName              : '%slitre';
-    FPluralName        : '%slitres';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (1E-03));
+    FID         : CubicMeterID;
+    FSymbol     : rsLitreSymbol;
+    FName       : rsLitreName;
+    FPluralName : rsLitrePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (1E-03));
 
 var
   L : TFactoredUnit absolute LitreUnit;
 
 const
-  dL         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
-  cL         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-02); {$ELSE} (1E-03 * 1E-02); {$ENDIF}
-  mL         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 11; FValue: 1E-03 * 1E-03); {$ELSE} (1E-03 * 1E-03); {$ENDIF}
+  dL         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
+  cL         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E-03 * 1E-02); {$ELSE} (1E-03 * 1E-02); {$ENDIF}
+  mL         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 11; FValue: 1E-03 * 1E-03); {$ELSE} (1E-03 * 1E-03); {$ENDIF}
 
 { TGallon }
 
+resourcestring
+  rsGallonSymbol = 'gal';
+  rsGallonName = 'gallon';
+  rsGallonPluralName = 'gallons';
+
 const
   GallonUnit : TFactoredUnit = (
-    FUnitOfMeasurement : CubicMeterId;
-    FSymbol            : 'gal';
-    FName              : 'gallon';
-    FPluralName        : 'gallons';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.0037854119678));
+    FID         : CubicMeterID;
+    FSymbol     : rsGallonSymbol;
+    FName       : rsGallonName;
+    FPluralName : rsGallonPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.0037854119678));
 
 var
   gal : TFactoredUnit absolute GallonUnit;
 
 { TQuarticMeter }
 
+resourcestring
+  rsQuarticMeterSymbol = '%sm4';
+  rsQuarticMeterName = 'quartic %smeter';
+  rsQuarticMeterPluralName = 'quartic %smeters';
+
 const
-  QuarticMeterId = 12;
+  QuarticMeterID = 12;
   QuarticMeterUnit : TUnit = (
-    FUnitOfMeasurement : QuarticMeterId;
-    FSymbol            : '%sm4';
-    FName              : 'quartic %smeter';
-    FPluralName        : 'quartic %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (4));
+    FID         : QuarticMeterID;
+    FSymbol     : rsQuarticMeterSymbol;
+    FName       : rsQuarticMeterName;
+    FPluralName : rsQuarticMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (4));
 
 var
   m4 : TUnit absolute QuarticMeterUnit;
 
 const
-  km4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 12; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  dm4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 12; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cm4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 12; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  mm4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 12; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mim4       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 12; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  nm4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 12; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  pm4        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 12; FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
+  km4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 12; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  dm4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 12; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cm4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 12; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  mm4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 12; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mim4       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 12; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  nm4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 12; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  pm4        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 12; FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
 
 { TQuinticMeter }
 
+resourcestring
+  rsQuinticMeterSymbol = '%sm5';
+  rsQuinticMeterName = 'quintic %smeter';
+  rsQuinticMeterPluralName = 'quintic %smeters';
+
 const
-  QuinticMeterId = 13;
+  QuinticMeterID = 13;
   QuinticMeterUnit : TUnit = (
-    FUnitOfMeasurement : QuinticMeterId;
-    FSymbol            : '%sm5';
-    FName              : 'quintic %smeter';
-    FPluralName        : 'quintic %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (5));
+    FID         : QuinticMeterID;
+    FSymbol     : rsQuinticMeterSymbol;
+    FName       : rsQuinticMeterName;
+    FPluralName : rsQuinticMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (5));
 
 var
   m5 : TUnit absolute QuinticMeterUnit;
 
 const
-  km5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 13; FValue: 1E+15); {$ELSE} (1E+15); {$ENDIF}
-  dm5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 13; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  cm5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 13; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  mm5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 13; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
-  mim5       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 13; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
-  nm5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 13; FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
-  pm5        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 13; FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
+  km5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 13; FValue: 1E+15); {$ELSE} (1E+15); {$ENDIF}
+  dm5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 13; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  cm5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 13; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  mm5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 13; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  mim5       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 13; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  nm5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 13; FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
+  pm5        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 13; FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
 
 { TSexticMeter }
 
+resourcestring
+  rsSexticMeterSymbol = '%sm6';
+  rsSexticMeterName = 'sextic %smeter';
+  rsSexticMeterPluralName = 'sextic %smeters';
+
 const
-  SexticMeterId = 14;
+  SexticMeterID = 14;
   SexticMeterUnit : TUnit = (
-    FUnitOfMeasurement : SexticMeterId;
-    FSymbol            : '%sm6';
-    FName              : 'sextic %smeter';
-    FPluralName        : 'sextic %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (6));
+    FID         : SexticMeterID;
+    FSymbol     : rsSexticMeterSymbol;
+    FName       : rsSexticMeterName;
+    FPluralName : rsSexticMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (6));
 
 var
   m6 : TUnit absolute SexticMeterUnit;
 
 const
-  km6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 14; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  dm6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 14; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  cm6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 14; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mm6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 14; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  mim6       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 14; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  nm6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 14; FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
-  pm6        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 14; FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
+  km6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 14; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  dm6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 14; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cm6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 14; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mm6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 14; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  mim6       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 14; FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  nm6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 14; FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
+  pm6        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 14; FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
 
 { TKilogram }
 
+resourcestring
+  rsKilogramSymbol = '%sg';
+  rsKilogramName = '%sgram';
+  rsKilogramPluralName = '%sgrams';
+
 const
-  KilogramId = 15;
+  KilogramID = 15;
   KilogramUnit : TUnit = (
-    FUnitOfMeasurement : KilogramId;
-    FSymbol            : '%sg';
-    FName              : '%sgram';
-    FPluralName        : '%sgrams';
-    FPrefixes          : (pKilo);
-    FExponents         : (1));
+    FID         : KilogramID;
+    FSymbol     : rsKilogramSymbol;
+    FName       : rsKilogramName;
+    FPluralName : rsKilogramPluralName;
+    FPrefixes   : (pKilo);
+    FExponents  : (1));
 
 var
   kg : TUnit absolute KilogramUnit;
 
 const
-  hg         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  dag        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  g          : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  dg         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cg         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  mg         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mig        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  ng         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  pg         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  hg         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  dag        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  g          : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  dg         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cg         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  mg         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mig        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  ng         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  pg         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
 
 { TTonne }
 
+resourcestring
+  rsTonneSymbol = '%st';
+  rsTonneName = '%stonne';
+  rsTonnePluralName = '%stonnes';
+
 const
   TonneUnit : TFactoredUnit = (
-    FUnitOfMeasurement : KilogramId;
-    FSymbol            : '%st';
-    FName              : '%stonne';
-    FPluralName        : '%stonnes';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (1E+03));
+    FID         : KilogramID;
+    FSymbol     : rsTonneSymbol;
+    FName       : rsTonneName;
+    FPluralName : rsTonnePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (1E+03));
 
 var
   tonne : TFactoredUnit absolute TonneUnit;
 
 const
-  gigatonne  : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
-  megatonne  : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+06); {$ELSE} (1E+03 * 1E+06); {$ENDIF}
-  kilotonne  : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 15; FValue: 1E+03 * 1E+03); {$ELSE} (1E+03 * 1E+03); {$ENDIF}
+  gigatonne  : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
+  megatonne  : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E+03 * 1E+06); {$ELSE} (1E+03 * 1E+06); {$ENDIF}
+  kilotonne  : TQuantity = {$IFDEF ADIMDEBUG} (FID: 15; FValue: 1E+03 * 1E+03); {$ELSE} (1E+03 * 1E+03); {$ENDIF}
 
 { TPound }
 
+resourcestring
+  rsPoundSymbol = 'lb';
+  rsPoundName = 'pound';
+  rsPoundPluralName = 'pounds';
+
 const
   PoundUnit : TFactoredUnit = (
-    FUnitOfMeasurement : KilogramId;
-    FSymbol            : 'lb';
-    FName              : 'pound';
-    FPluralName        : 'pounds';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.45359237));
+    FID         : KilogramID;
+    FSymbol     : rsPoundSymbol;
+    FName       : rsPoundName;
+    FPluralName : rsPoundPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.45359237));
 
 var
   lb : TFactoredUnit absolute PoundUnit;
 
 { TOunce }
 
+resourcestring
+  rsOunceSymbol = 'oz';
+  rsOunceName = 'ounce';
+  rsOuncePluralName = 'ounces';
+
 const
   OunceUnit : TFactoredUnit = (
-    FUnitOfMeasurement : KilogramId;
-    FSymbol            : 'oz';
-    FName              : 'ounce';
-    FPluralName        : 'ounces';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.028349523125));
+    FID         : KilogramID;
+    FSymbol     : rsOunceSymbol;
+    FName       : rsOunceName;
+    FPluralName : rsOuncePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.028349523125));
 
 var
   oz : TFactoredUnit absolute OunceUnit;
 
 { TStone }
 
+resourcestring
+  rsStoneSymbol = 'st';
+  rsStoneName = 'stone';
+  rsStonePluralName = 'stones';
+
 const
   StoneUnit : TFactoredUnit = (
-    FUnitOfMeasurement : KilogramId;
-    FSymbol            : 'st';
-    FName              : 'stone';
-    FPluralName        : 'stones';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (6.35029318));
+    FID         : KilogramID;
+    FSymbol     : rsStoneSymbol;
+    FName       : rsStoneName;
+    FPluralName : rsStonePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (6.35029318));
 
 var
   st : TFactoredUnit absolute StoneUnit;
 
 { TTon }
 
+resourcestring
+  rsTonSymbol = 'ton';
+  rsTonName = 'ton';
+  rsTonPluralName = 'tons';
+
 const
   TonUnit : TFactoredUnit = (
-    FUnitOfMeasurement : KilogramId;
-    FSymbol            : 'ton';
-    FName              : 'ton';
-    FPluralName        : 'tons';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (907.18474));
+    FID         : KilogramID;
+    FSymbol     : rsTonSymbol;
+    FName       : rsTonName;
+    FPluralName : rsTonPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (907.18474));
 
 var
   ton : TFactoredUnit absolute TonUnit;
 
 { TElectronvoltPerSquareSpeedOfLight }
 
+resourcestring
+  rsElectronvoltPerSquareSpeedOfLightSymbol = '%seV/c2';
+  rsElectronvoltPerSquareSpeedOfLightName = '%selectronvolt per squared speed of light';
+  rsElectronvoltPerSquareSpeedOfLightPluralName = '%selectronvolts per squared speed of light';
+
 const
   ElectronvoltPerSquareSpeedOfLightUnit : TFactoredUnit = (
-    FUnitOfMeasurement : KilogramId;
-    FSymbol            : '%seV/c2';
-    FName              : '%selectronvolt per squared speed of light';
-    FPluralName        : '%selectronvolts per squared speed of light';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (1.7826619216279E-36));
+    FID         : KilogramID;
+    FSymbol     : rsElectronvoltPerSquareSpeedOfLightSymbol;
+    FName       : rsElectronvoltPerSquareSpeedOfLightName;
+    FPluralName : rsElectronvoltPerSquareSpeedOfLightPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (1.7826619216279E-36));
 
 { TSquareKilogram }
 
+resourcestring
+  rsSquareKilogramSymbol = '%sg2';
+  rsSquareKilogramName = 'square %sgram';
+  rsSquareKilogramPluralName = 'square %sgrams';
+
 const
-  SquareKilogramId = 16;
+  SquareKilogramID = 16;
   SquareKilogramUnit : TUnit = (
-    FUnitOfMeasurement : SquareKilogramId;
-    FSymbol            : '%sg2';
-    FName              : 'square %sgram';
-    FPluralName        : 'square %sgrams';
-    FPrefixes          : (pKilo);
-    FExponents         : (2));
+    FID         : SquareKilogramID;
+    FSymbol     : rsSquareKilogramSymbol;
+    FName       : rsSquareKilogramName;
+    FPluralName : rsSquareKilogramPluralName;
+    FPrefixes   : (pKilo);
+    FExponents  : (2));
 
 var
   kg2 : TUnit absolute SquareKilogramUnit;
 
 const
-  hg2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 16; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  dag2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 16; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  g2         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 16; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  dg2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 16; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  cg2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 16; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  mg2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 16; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mig2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 16; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ng2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 16; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  pg2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 16; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  hg2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 16; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  dag2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 16; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  g2         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 16; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  dg2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 16; FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  cg2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 16; FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  mg2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 16; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mig2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 16; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ng2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 16; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  pg2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 16; FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
 
 { TAmpere }
 
+resourcestring
+  rsAmpereSymbol = '%sA';
+  rsAmpereName = '%sampere';
+  rsAmperePluralName = '%samperes';
+
 const
-  AmpereId = 17;
+  AmpereID = 17;
   AmpereUnit : TUnit = (
-    FUnitOfMeasurement : AmpereId;
-    FSymbol            : '%sA';
-    FName              : '%sampere';
-    FPluralName        : '%samperes';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : AmpereID;
+    FSymbol     : rsAmpereSymbol;
+    FName       : rsAmpereName;
+    FPluralName : rsAmperePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   A : TUnit absolute AmpereUnit;
 
 const
-  kA         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 17; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hA         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 17; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daA        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 17; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
-  dA         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 17; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cA         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 17; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mA         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 17; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miA        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 17; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nA         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 17; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  picoA      : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 17; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kA         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 17; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hA         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 17; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daA        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 17; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  dA         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 17; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cA         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 17; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mA         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 17; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miA        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 17; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nA         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 17; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  picoA      : TQuantity = {$IFDEF ADIMDEBUG} (FID: 17; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TSquareAmpere }
 
+resourcestring
+  rsSquareAmpereSymbol = '%sA2';
+  rsSquareAmpereName = 'square %sampere';
+  rsSquareAmperePluralName = 'square %samperes';
+
 const
-  SquareAmpereId = 18;
+  SquareAmpereID = 18;
   SquareAmpereUnit : TUnit = (
-    FUnitOfMeasurement : SquareAmpereId;
-    FSymbol            : '%sA2';
-    FName              : 'square %sampere';
-    FPluralName        : 'square %samperes';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareAmpereID;
+    FSymbol     : rsSquareAmpereSymbol;
+    FName       : rsSquareAmpereName;
+    FPluralName : rsSquareAmperePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 var
   A2 : TUnit absolute SquareAmpereUnit;
 
 const
-  kA2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 18; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hA2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 18; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daA2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 18; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  dA2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 18; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cA2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 18; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mA2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 18; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  miA2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 18; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nA2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 18; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  picoA2     : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 18; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  kA2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 18; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hA2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 18; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daA2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 18; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  dA2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 18; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cA2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 18; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mA2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 18; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  miA2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 18; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nA2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 18; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  picoA2     : TQuantity = {$IFDEF ADIMDEBUG} (FID: 18; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TKelvin }
 
+resourcestring
+  rsKelvinSymbol = '%sK';
+  rsKelvinName = '%skelvin';
+  rsKelvinPluralName = '%skelvins';
+
 const
-  KelvinId = 19;
+  KelvinID = 19;
   KelvinUnit : TUnit = (
-    FUnitOfMeasurement : KelvinId;
-    FSymbol            : '%sK';
-    FName              : '%skelvin';
-    FPluralName        : '%skelvins';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : KelvinID;
+    FSymbol     : rsKelvinSymbol;
+    FName       : rsKelvinName;
+    FPluralName : rsKelvinPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   K : TUnit absolute KelvinUnit;
 
 { TDegreeCelsius }
 
+resourcestring
+  rsDegreeCelsiusSymbol = '°C';
+  rsDegreeCelsiusName = 'degree Celsius';
+  rsDegreeCelsiusPluralName = 'degrees Celsius';
+
 const
   DegreeCelsiusUnit : TDegreeCelsiusUnit = (
-    FUnitOfMeasurement : KelvinId;
-    FSymbol            : '°C';
-    FName              : 'degree Celsius';
-    FPluralName        : 'degrees Celsius';
-    FPrefixes          : ();
-    FExponents         : ());
+    FID         : KelvinID;
+    FSymbol     : rsDegreeCelsiusSymbol;
+    FName       : rsDegreeCelsiusName;
+    FPluralName : rsDegreeCelsiusPluralName;
+    FPrefixes   : ();
+    FExponents  : ());
 
 var
   degC : TDegreeCelsiusUnit absolute DegreeCelsiusUnit;
 
 { TDegreeFahrenheit }
 
+resourcestring
+  rsDegreeFahrenheitSymbol = '°F';
+  rsDegreeFahrenheitName = 'degree Fahrenheit';
+  rsDegreeFahrenheitPluralName = 'degrees Fahrenheit';
+
 const
   DegreeFahrenheitUnit : TDegreeFahrenheitUnit = (
-    FUnitOfMeasurement : KelvinId;
-    FSymbol            : '°F';
-    FName              : 'degree Fahrenheit';
-    FPluralName        : 'degrees Fahrenheit';
+    FID : KelvinID;
+    FSymbol            : rsDegreeFahrenheitSymbol;
+    FName              : rsDegreeFahrenheitName;
+    FPluralName        : rsDegreeFahrenheitPluralName;
     FPrefixes          : ();
     FExponents         : ());
 
@@ -1650,4312 +1915,6027 @@ var
 
 { TSquareKelvin }
 
+resourcestring
+  rsSquareKelvinSymbol = '%sK2';
+  rsSquareKelvinName = 'square %skelvin';
+  rsSquareKelvinPluralName = 'square %skelvins';
+
 const
-  SquareKelvinId = 20;
+  SquareKelvinID = 20;
   SquareKelvinUnit : TUnit = (
-    FUnitOfMeasurement : SquareKelvinId;
-    FSymbol            : '%sK2';
-    FName              : 'square %skelvin';
-    FPluralName        : 'square %skelvins';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareKelvinID;
+    FSymbol     : rsSquareKelvinSymbol;
+    FName       : rsSquareKelvinName;
+    FPluralName : rsSquareKelvinPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 var
   K2 : TUnit absolute SquareKelvinUnit;
 
 { TCubicKelvin }
 
+resourcestring
+  rsCubicKelvinSymbol = '%sK3';
+  rsCubicKelvinName = 'cubic %skelvin';
+  rsCubicKelvinPluralName = 'cubic %skelvins';
+
 const
-  CubicKelvinId = 21;
+  CubicKelvinID = 21;
   CubicKelvinUnit : TUnit = (
-    FUnitOfMeasurement : CubicKelvinId;
-    FSymbol            : '%sK3';
-    FName              : 'cubic %skelvin';
-    FPluralName        : 'cubic %skelvins';
-    FPrefixes          : (pNone);
-    FExponents         : (3));
+    FID         : CubicKelvinID;
+    FSymbol     : rsCubicKelvinSymbol;
+    FName       : rsCubicKelvinName;
+    FPluralName : rsCubicKelvinPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (3));
 
 var
   K3 : TUnit absolute CubicKelvinUnit;
 
 { TQuarticKelvin }
 
+resourcestring
+  rsQuarticKelvinSymbol = '%sK4';
+  rsQuarticKelvinName = 'quartic %skelvin';
+  rsQuarticKelvinPluralName = 'quartic %skelvins';
+
 const
-  QuarticKelvinId = 22;
+  QuarticKelvinID = 22;
   QuarticKelvinUnit : TUnit = (
-    FUnitOfMeasurement : QuarticKelvinId;
-    FSymbol            : '%sK4';
-    FName              : 'quartic %skelvin';
-    FPluralName        : 'quartic %skelvins';
-    FPrefixes          : (pNone);
-    FExponents         : (4));
+    FID         : QuarticKelvinID;
+    FSymbol     : rsQuarticKelvinSymbol;
+    FName       : rsQuarticKelvinName;
+    FPluralName : rsQuarticKelvinPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (4));
 
 var
   K4 : TUnit absolute QuarticKelvinUnit;
 
 { TMole }
 
+resourcestring
+  rsMoleSymbol = '%smol';
+  rsMoleName = '%smole';
+  rsMolePluralName = '%smoles';
+
 const
-  MoleId = 23;
+  MoleID = 23;
   MoleUnit : TUnit = (
-    FUnitOfMeasurement : MoleId;
-    FSymbol            : '%smol';
-    FName              : '%smole';
-    FPluralName        : '%smoles';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : MoleID;
+    FSymbol     : rsMoleSymbol;
+    FName       : rsMoleName;
+    FPluralName : rsMolePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   mol : TUnit absolute MoleUnit;
 
 const
-  kmol       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 23; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hmol       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 23; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  damol      : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 23; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  kmol       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 23; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hmol       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 23; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  damol      : TQuantity = {$IFDEF ADIMDEBUG} (FID: 23; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
 
 { TCandela }
 
+resourcestring
+  rsCandelaSymbol = '%scd';
+  rsCandelaName = '%scandela';
+  rsCandelaPluralName = '%scandelas';
+
 const
-  CandelaId = 24;
+  CandelaID = 24;
   CandelaUnit : TUnit = (
-    FUnitOfMeasurement : CandelaId;
-    FSymbol            : '%scd';
-    FName              : '%scandela';
-    FPluralName        : '%scandelas';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : CandelaID;
+    FSymbol     : rsCandelaSymbol;
+    FName       : rsCandelaName;
+    FPluralName : rsCandelaPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   cd : TUnit absolute CandelaUnit;
 
 { THertz }
 
+resourcestring
+  rsHertzSymbol = '%sHz';
+  rsHertzName = '%shertz';
+  rsHertzPluralName = '%shertz';
+
 const
-  HertzId = 25;
+  HertzID = 25;
   HertzUnit : TUnit = (
-    FUnitOfMeasurement : HertzId;
-    FSymbol            : '%sHz';
-    FName              : '%shertz';
-    FPluralName        : '%shertz';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : HertzID;
+    FSymbol     : rsHertzSymbol;
+    FName       : rsHertzName;
+    FPluralName : rsHertzPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   Hz : TUnit absolute HertzUnit;
 
 const
-  THz        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 25; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GHz        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 25; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MHz        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 25; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kHz        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 25; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  THz        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 25; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GHz        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 25; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MHz        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 25; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kHz        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 25; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TReciprocalSecond }
 
+resourcestring
+  rsReciprocalSecondSymbol = '1/%ss';
+  rsReciprocalSecondName = 'reciprocal %ssecond';
+  rsReciprocalSecondPluralName = 'reciprocal %sseconds';
+
 const
   ReciprocalSecondUnit : TUnit = (
-    FUnitOfMeasurement : HertzId;
-    FSymbol            : '1/%ss';
-    FName              : 'reciprocal %ssecond';
-    FPluralName        : 'reciprocal %sseconds';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : HertzID;
+    FSymbol     : rsReciprocalSecondSymbol;
+    FName       : rsReciprocalSecondName;
+    FPluralName : rsReciprocalSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TRadianPerSecond }
 
+resourcestring
+  rsRadianPerSecondSymbol = 'rad/%ss';
+  rsRadianPerSecondName = 'radian per %ssecond';
+  rsRadianPerSecondPluralName = 'radians per %ssecond';
+
 const
   RadianPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : HertzId;
-    FSymbol            : 'rad/%ss';
-    FName              : 'radian per %ssecond';
-    FPluralName        : 'radians per %ssecond';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : HertzID;
+    FSymbol     : rsRadianPerSecondSymbol;
+    FName       : rsRadianPerSecondName;
+    FPluralName : rsRadianPerSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TSquareHertz }
 
+resourcestring
+  rsSquareHertzSymbol = '%sHz2';
+  rsSquareHertzName = 'square %shertz';
+  rsSquareHertzPluralName = 'square %shertz';
+
 const
-  SquareHertzId = 26;
+  SquareHertzID = 26;
   SquareHertzUnit : TUnit = (
-    FUnitOfMeasurement : SquareHertzId;
-    FSymbol            : '%sHz2';
-    FName              : 'square %shertz';
-    FPluralName        : 'square %shertz';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareHertzID;
+    FSymbol     : rsSquareHertzSymbol;
+    FName       : rsSquareHertzName;
+    FPluralName : rsSquareHertzPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 var
   Hz2 : TUnit absolute SquareHertzUnit;
 
 const
-  THz2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 26; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
-  GHz2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 26; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MHz2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 26; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kHz2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 26; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  THz2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 26; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
+  GHz2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 26; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MHz2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 26; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kHz2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 26; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
 
 { TReciprocalSquareSecond }
 
+resourcestring
+  rsReciprocalSquareSecondSymbol = '1/%ss2';
+  rsReciprocalSquareSecondName = 'reciprocal square %ssecond';
+  rsReciprocalSquareSecondPluralName = 'reciprocal square %sseconds';
+
 const
   ReciprocalSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareHertzId;
-    FSymbol            : '1/%ss2';
-    FName              : 'reciprocal square %ssecond';
-    FPluralName        : 'reciprocal square %sseconds';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : SquareHertzID;
+    FSymbol     : rsReciprocalSquareSecondSymbol;
+    FName       : rsReciprocalSquareSecondName;
+    FPluralName : rsReciprocalSquareSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TRadianPerSquareSecond }
 
+resourcestring
+  rsRadianPerSquareSecondSymbol = 'rad/%ss2';
+  rsRadianPerSquareSecondName = 'radian per square %ssecond';
+  rsRadianPerSquareSecondPluralName = 'radians per square %ssecond';
+
 const
   RadianPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareHertzId;
-    FSymbol            : 'rad/%ss2';
-    FName              : 'radian per square %ssecond';
-    FPluralName        : 'radians per square %ssecond';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : SquareHertzID;
+    FSymbol     : rsRadianPerSquareSecondSymbol;
+    FName       : rsRadianPerSquareSecondName;
+    FPluralName : rsRadianPerSquareSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TSteradianPerSquareSecond }
 
+resourcestring
+  rsSteradianPerSquareSecondSymbol = 'sr/%ss2';
+  rsSteradianPerSquareSecondName = 'steradian per square %ssecond';
+  rsSteradianPerSquareSecondPluralName = 'steradians per square %ssecond';
+
 const
-  SteradianPerSquareSecondId = 27;
+  SteradianPerSquareSecondID = 27;
   SteradianPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : SteradianPerSquareSecondId;
-    FSymbol            : 'sr/%ss2';
-    FName              : 'steradian per square %ssecond';
-    FPluralName        : 'steradians per square %ssecond';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : SteradianPerSquareSecondID;
+    FSymbol     : rsSteradianPerSquareSecondSymbol;
+    FName       : rsSteradianPerSquareSecondName;
+    FPluralName : rsSteradianPerSquareSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TMeterPerSecond }
 
+resourcestring
+  rsMeterPerSecondSymbol = '%sm/%ss';
+  rsMeterPerSecondName = '%smeter per %ssecond';
+  rsMeterPerSecondPluralName = '%smeters per %ssecond';
+
 const
-  MeterPerSecondId = 28;
+  MeterPerSecondID = 28;
   MeterPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerSecondId;
-    FSymbol            : '%sm/%ss';
-    FName              : '%smeter per %ssecond';
-    FPluralName        : '%smeters per %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MeterPerSecondID;
+    FSymbol     : rsMeterPerSecondSymbol;
+    FName       : rsMeterPerSecondName;
+    FPluralName : rsMeterPerSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TMeterPerHour }
 
+resourcestring
+  rsMeterPerHourSymbol = '%sm/h';
+  rsMeterPerHourName = '%smeter per hour';
+  rsMeterPerHourPluralName = '%smeters per hour';
+
 const
   MeterPerHourUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterPerSecondId;
-    FSymbol            : '%sm/h';
-    FName              : '%smeter per hour';
-    FPluralName        : '%smeters per hour';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (1/3600));
+    FID         : MeterPerSecondID;
+    FSymbol     : rsMeterPerHourSymbol;
+    FName       : rsMeterPerHourName;
+    FPluralName : rsMeterPerHourPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (1/3600));
 
 { TMilePerHour }
 
+resourcestring
+  rsMilePerHourSymbol = 'mi/h';
+  rsMilePerHourName = 'mile per hour';
+  rsMilePerHourPluralName = 'miles per hour';
+
 const
   MilePerHourUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterPerSecondId;
-    FSymbol            : 'mi/h';
-    FName              : 'mile per hour';
-    FPluralName        : 'miles per hour';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.44704));
+    FID         : MeterPerSecondID;
+    FSymbol     : rsMilePerHourSymbol;
+    FName       : rsMilePerHourName;
+    FPluralName : rsMilePerHourPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.44704));
 
 { TNauticalMilePerHour }
 
+resourcestring
+  rsNauticalMilePerHourSymbol = 'nmi/h';
+  rsNauticalMilePerHourName = 'nautical mile per hour';
+  rsNauticalMilePerHourPluralName = 'nautical miles per hour';
+
 const
   NauticalMilePerHourUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterPerSecondId;
-    FSymbol            : 'nmi/h';
-    FName              : 'nautical mile per hour';
-    FPluralName        : 'nautical miles per hour';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (463/900));
+    FID         : MeterPerSecondID;
+    FSymbol     : rsNauticalMilePerHourSymbol;
+    FName       : rsNauticalMilePerHourName;
+    FPluralName : rsNauticalMilePerHourPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (463/900));
 
 { TMeterPerSquareSecond }
 
+resourcestring
+  rsMeterPerSquareSecondSymbol = '%sm/%ss2';
+  rsMeterPerSquareSecondName = '%smeter per %ssecond squared';
+  rsMeterPerSquareSecondPluralName = '%smeters per %ssecond squared';
+
 const
-  MeterPerSquareSecondId = 29;
+  MeterPerSquareSecondID = 29;
   MeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerSquareSecondId;
-    FSymbol            : '%sm/%ss2';
-    FName              : '%smeter per %ssecond squared';
-    FPluralName        : '%smeters per %ssecond squared';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : MeterPerSquareSecondID;
+    FSymbol     : rsMeterPerSquareSecondSymbol;
+    FName       : rsMeterPerSquareSecondName;
+    FPluralName : rsMeterPerSquareSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TMeterPerSecondPerSecond }
 
+resourcestring
+  rsMeterPerSecondPerSecondSymbol = '%sm/%ss/%ss';
+  rsMeterPerSecondPerSecondName = '%smeter per %ssecond per %ssecond';
+  rsMeterPerSecondPerSecondPluralName = '%smeters per %ssecond per %ssecond';
+
 const
   MeterPerSecondPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerSquareSecondId;
-    FSymbol            : '%sm/%ss/%ss';
-    FName              : '%smeter per %ssecond per %ssecond';
-    FPluralName        : '%smeters per %ssecond per %ssecond';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -1, -1));
+    FID         : MeterPerSquareSecondID;
+    FSymbol     : rsMeterPerSecondPerSecondSymbol;
+    FName       : rsMeterPerSecondPerSecondName;
+    FPluralName : rsMeterPerSecondPerSecondPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -1, -1));
 
 { TMeterPerHourPerSecond }
 
+resourcestring
+  rsMeterPerHourPerSecondSymbol = '%sm/h/%ss';
+  rsMeterPerHourPerSecondName = '%smeter per hour per %ssecond';
+  rsMeterPerHourPerSecondPluralName = '%smeters per hour per %ssecond';
+
 const
   MeterPerHourPerSecondUnit : TFactoredUnit = (
-    FUnitOfMeasurement : MeterPerSquareSecondId;
-    FSymbol            : '%sm/h/%ss';
-    FName              : '%smeter per hour per %ssecond';
-    FPluralName        : '%smeters per hour per %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1);
-    FFactor            : (1/3600));
+    FID         : MeterPerSquareSecondID;
+    FSymbol     : rsMeterPerHourPerSecondSymbol;
+    FName       : rsMeterPerHourPerSecondName;
+    FPluralName : rsMeterPerHourPerSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1);
+    FFactor     : (1/3600));
 
 { TMeterPerCubicSecond }
 
+resourcestring
+  rsMeterPerCubicSecondSymbol = '%sm/%ss3';
+  rsMeterPerCubicSecondName = '%smeter per cubic %ssecond';
+  rsMeterPerCubicSecondPluralName = '%smeters per cubic %ssecond';
+
 const
-  MeterPerCubicSecondId = 30;
+  MeterPerCubicSecondID = 30;
   MeterPerCubicSecondUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerCubicSecondId;
-    FSymbol            : '%sm/%ss3';
-    FName              : '%smeter per cubic %ssecond';
-    FPluralName        : '%smeters per cubic %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -3));
+    FID         : MeterPerCubicSecondID;
+    FSymbol     : rsMeterPerCubicSecondSymbol;
+    FName       : rsMeterPerCubicSecondName;
+    FPluralName : rsMeterPerCubicSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -3));
 
 { TMeterPerQuarticSecond }
 
+resourcestring
+  rsMeterPerQuarticSecondSymbol = '%sm/%ss4';
+  rsMeterPerQuarticSecondName = '%smeter per quartic %ssecond';
+  rsMeterPerQuarticSecondPluralName = '%smeters per quartic %ssecond';
+
 const
-  MeterPerQuarticSecondId = 31;
+  MeterPerQuarticSecondID = 31;
   MeterPerQuarticSecondUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerQuarticSecondId;
-    FSymbol            : '%sm/%ss4';
-    FName              : '%smeter per quartic %ssecond';
-    FPluralName        : '%smeters per quartic %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -4));
+    FID         : MeterPerQuarticSecondID;
+    FSymbol     : rsMeterPerQuarticSecondSymbol;
+    FName       : rsMeterPerQuarticSecondName;
+    FPluralName : rsMeterPerQuarticSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -4));
 
 { TMeterPerQuinticSecond }
 
+resourcestring
+  rsMeterPerQuinticSecondSymbol = '%sm/%ss5';
+  rsMeterPerQuinticSecondName = '%smeter per quintic %ssecond';
+  rsMeterPerQuinticSecondPluralName = '%smeters per quintic %ssecond';
+
 const
-  MeterPerQuinticSecondId = 32;
+  MeterPerQuinticSecondID = 32;
   MeterPerQuinticSecondUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerQuinticSecondId;
-    FSymbol            : '%sm/%ss5';
-    FName              : '%smeter per quintic %ssecond';
-    FPluralName        : '%smeters per quintic %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -5));
+    FID         : MeterPerQuinticSecondID;
+    FSymbol     : rsMeterPerQuinticSecondSymbol;
+    FName       : rsMeterPerQuinticSecondName;
+    FPluralName : rsMeterPerQuinticSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -5));
 
 { TMeterPerSexticSecond }
 
+resourcestring
+  rsMeterPerSexticSecondSymbol = '%sm/%ss6';
+  rsMeterPerSexticSecondName = '%smeter per sextic %ssecond';
+  rsMeterPerSexticSecondPluralName = '%smeters per sextic %ssecond';
+
 const
-  MeterPerSexticSecondId = 33;
+  MeterPerSexticSecondID = 33;
   MeterPerSexticSecondUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerSexticSecondId;
-    FSymbol            : '%sm/%ss6';
-    FName              : '%smeter per sextic %ssecond';
-    FPluralName        : '%smeters per sextic %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -6));
+    FID         : MeterPerSexticSecondID;
+    FSymbol     : rsMeterPerSexticSecondSymbol;
+    FName       : rsMeterPerSexticSecondName;
+    FPluralName : rsMeterPerSexticSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -6));
 
 { TSquareMeterPerSquareSecond }
 
+resourcestring
+  rsSquareMeterPerSquareSecondSymbol = '%sm2/%ss2';
+  rsSquareMeterPerSquareSecondName = 'square %smeter per square %ssecond';
+  rsSquareMeterPerSquareSecondPluralName = 'square %smeters per square %ssecond';
+
 const
-  SquareMeterPerSquareSecondId = 34;
+  SquareMeterPerSquareSecondID = 34;
   SquareMeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerSquareSecondId;
-    FSymbol            : '%sm2/%ss2';
-    FName              : 'square %smeter per square %ssecond';
-    FPluralName        : 'square %smeters per square %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -2));
+    FID         : SquareMeterPerSquareSecondID;
+    FSymbol     : rsSquareMeterPerSquareSecondSymbol;
+    FName       : rsSquareMeterPerSquareSecondName;
+    FPluralName : rsSquareMeterPerSquareSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -2));
 
 { TJoulePerKilogram }
 
+resourcestring
+  rsJoulePerKilogramSymbol = '%sJ/%sg';
+  rsJoulePerKilogramName = '%sjoule per %sgram';
+  rsJoulePerKilogramPluralName = '%sjoules per %sgram';
+
 const
   JoulePerKilogramUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerSquareSecondId;
-    FSymbol            : '%sJ/%sg';
-    FName              : '%sjoule per %sgram';
-    FPluralName        : '%sjoules per %sgram';
-    FPrefixes          : (pNone, pKilo);
-    FExponents         : (1, -1));
+    FID         : SquareMeterPerSquareSecondID;
+    FSymbol     : rsJoulePerKilogramSymbol;
+    FName       : rsJoulePerKilogramName;
+    FPluralName : rsJoulePerKilogramPluralName;
+    FPrefixes   : (pNone, pKilo);
+    FExponents  : (1, -1));
 
 { TGray }
 
+resourcestring
+  rsGraySymbol = '%sGy';
+  rsGrayName = '%sgray';
+  rsGrayPluralName = '%sgrays';
+
 const
   GrayUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerSquareSecondId;
-    FSymbol            : '%sGy';
-    FName              : '%sgray';
-    FPluralName        : '%sgrays';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : SquareMeterPerSquareSecondID;
+    FSymbol     : rsGraySymbol;
+    FName       : rsGrayName;
+    FPluralName : rsGrayPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   Gy : TUnit absolute GrayUnit;
 
 const
-  kGy        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 34; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mGy        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 34; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miGy       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 34; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nGy        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 34; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  kGy        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 34; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mGy        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 34; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miGy       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 34; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nGy        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 34; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TSievert }
 
+resourcestring
+  rsSievertSymbol = '%sSv';
+  rsSievertName = '%ssievert';
+  rsSievertPluralName = '%ssieverts';
+
 const
   SievertUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerSquareSecondId;
-    FSymbol            : '%sSv';
-    FName              : '%ssievert';
-    FPluralName        : '%ssieverts';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : SquareMeterPerSquareSecondID;
+    FSymbol     : rsSievertSymbol;
+    FName       : rsSievertName;
+    FPluralName : rsSievertPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   Sv : TUnit absolute SievertUnit;
 
 const
-  kSv        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 34; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mSv        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 34; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miSv       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 34; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nSv        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 34; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  kSv        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 34; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mSv        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 34; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miSv       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 34; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nSv        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 34; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TMeterSecond }
 
+resourcestring
+  rsMeterSecondSymbol = '%sm.%ss';
+  rsMeterSecondName = '%smeter %ssecond';
+  rsMeterSecondPluralName = '%smeter %sseconds';
+
 const
-  MeterSecondId = 35;
+  MeterSecondID = 35;
   MeterSecondUnit : TUnit = (
-    FUnitOfMeasurement : MeterSecondId;
-    FSymbol            : '%sm.%ss';
-    FName              : '%smeter %ssecond';
-    FPluralName        : '%smeter %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : MeterSecondID;
+    FSymbol     : rsMeterSecondSymbol;
+    FName       : rsMeterSecondName;
+    FPluralName : rsMeterSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TKilogramMeter }
 
+resourcestring
+  rsKilogramMeterSymbol = '%sg.%sm';
+  rsKilogramMeterName = '%sgram %smeter';
+  rsKilogramMeterPluralName = '%sgram %smeters';
+
 const
-  KilogramMeterId = 36;
+  KilogramMeterID = 36;
   KilogramMeterUnit : TUnit = (
-    FUnitOfMeasurement : KilogramMeterId;
-    FSymbol            : '%sg.%sm';
-    FName              : '%sgram %smeter';
-    FPluralName        : '%sgram %smeters';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, 1));
+    FID         : KilogramMeterID;
+    FSymbol     : rsKilogramMeterSymbol;
+    FName       : rsKilogramMeterName;
+    FPluralName : rsKilogramMeterPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, 1));
 
 { TKilogramPerSecond }
 
+resourcestring
+  rsKilogramPerSecondSymbol = '%sg/%ss';
+  rsKilogramPerSecondName = '%sgram per %ssecond';
+  rsKilogramPerSecondPluralName = '%sgrams per %ssecond';
+
 const
-  KilogramPerSecondId = 37;
+  KilogramPerSecondID = 37;
   KilogramPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : KilogramPerSecondId;
-    FSymbol            : '%sg/%ss';
-    FName              : '%sgram per %ssecond';
-    FPluralName        : '%sgrams per %ssecond';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, -1));
+    FID         : KilogramPerSecondID;
+    FSymbol     : rsKilogramPerSecondSymbol;
+    FName       : rsKilogramPerSecondName;
+    FPluralName : rsKilogramPerSecondPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, -1));
 
 { TJoulePerSquareMeterPerHertz }
 
+resourcestring
+  rsJoulePerSquareMeterPerHertzSymbol = '%sJ/%sm2/%sHz';
+  rsJoulePerSquareMeterPerHertzName = '%sjoule per square %smeter per %shertz';
+  rsJoulePerSquareMeterPerHertzPluralName = '%sjoules per square %smeter per %shertz';
+
 const
   JoulePerSquareMeterPerHertzUnit : TUnit = (
-    FUnitOfMeasurement : KilogramPerSecondId;
-    FSymbol            : '%sJ/%sm2/%sHz';
-    FName              : '%sjoule per square %smeter per %shertz';
-    FPluralName        : '%sjoules per square %smeter per %shertz';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -2, -1));
+    FID         : KilogramPerSecondID;
+    FSymbol     : rsJoulePerSquareMeterPerHertzSymbol;
+    FName       : rsJoulePerSquareMeterPerHertzName;
+    FPluralName : rsJoulePerSquareMeterPerHertzPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -2, -1));
 
 { TKilogramMeterPerSecond }
 
+resourcestring
+  rsKilogramMeterPerSecondSymbol = '%sg.%sm/%ss';
+  rsKilogramMeterPerSecondName = '%sgram %smeter per %ssecond';
+  rsKilogramMeterPerSecondPluralName = '%sgram %smeters per %ssecond';
+
 const
-  KilogramMeterPerSecondId = 38;
+  KilogramMeterPerSecondID = 38;
   KilogramMeterPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : KilogramMeterPerSecondId;
-    FSymbol            : '%sg.%sm/%ss';
-    FName              : '%sgram %smeter per %ssecond';
-    FPluralName        : '%sgram %smeters per %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 1, -1));
+    FID         : KilogramMeterPerSecondID;
+    FSymbol     : rsKilogramMeterPerSecondSymbol;
+    FName       : rsKilogramMeterPerSecondName;
+    FPluralName : rsKilogramMeterPerSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 1, -1));
 
 { TNewtonSecond }
 
+resourcestring
+  rsNewtonSecondSymbol = '%sN.%ss';
+  rsNewtonSecondName = '%snewton %ssecond';
+  rsNewtonSecondPluralName = '%snewton %sseconds';
+
 const
   NewtonSecondUnit : TUnit = (
-    FUnitOfMeasurement : KilogramMeterPerSecondId;
-    FSymbol            : '%sN.%ss';
-    FName              : '%snewton %ssecond';
-    FPluralName        : '%snewton %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : KilogramMeterPerSecondID;
+    FSymbol     : rsNewtonSecondSymbol;
+    FName       : rsNewtonSecondName;
+    FPluralName : rsNewtonSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TSquareKilogramSquareMeterPerSquareSecond }
 
+resourcestring
+  rsSquareKilogramSquareMeterPerSquareSecondSymbol = '%sg2.%sm2/%ss2';
+  rsSquareKilogramSquareMeterPerSquareSecondName = 'square%sgram square%smeter per square%ssecond';
+  rsSquareKilogramSquareMeterPerSquareSecondPluralName = 'square%sgram square%smeters per square%ssecond';
+
 const
-  SquareKilogramSquareMeterPerSquareSecondId = 39;
+  SquareKilogramSquareMeterPerSquareSecondID = 39;
   SquareKilogramSquareMeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareKilogramSquareMeterPerSquareSecondId;
-    FSymbol            : '%sg2.%sm2/%ss2';
-    FName              : 'square%sgram square%smeter per square%ssecond';
-    FPluralName        : 'square%sgram square%smeters per square%ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (2, 2, -2));
+    FID         : SquareKilogramSquareMeterPerSquareSecondID;
+    FSymbol     : rsSquareKilogramSquareMeterPerSquareSecondSymbol;
+    FName       : rsSquareKilogramSquareMeterPerSquareSecondName;
+    FPluralName : rsSquareKilogramSquareMeterPerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (2, 2, -2));
 
 { TReciprocalSquareRootMeter }
 
+resourcestring
+  rsReciprocalSquareRootMeterSymbol = '1/√%sm';
+  rsReciprocalSquareRootMeterName = 'reciprocal square root %smeter';
+  rsReciprocalSquareRootMeterPluralName = 'reciprocal square root %smeters';
+
 const
-  ReciprocalSquareRootMeterId = 40;
+  ReciprocalSquareRootMeterID = 40;
   ReciprocalSquareRootMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareRootMeterId;
-    FSymbol            : '1/√%sm';
-    FName              : 'reciprocal square root %smeter';
-    FPluralName        : 'reciprocal square root %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalSquareRootMeterID;
+    FSymbol     : rsReciprocalSquareRootMeterSymbol;
+    FName       : rsReciprocalSquareRootMeterName;
+    FPluralName : rsReciprocalSquareRootMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalMeter }
 
+resourcestring
+  rsReciprocalMeterSymbol = '1/%sm';
+  rsReciprocalMeterName = 'reciprocal %smeter';
+  rsReciprocalMeterPluralName = 'reciprocal %smeters';
+
 const
-  ReciprocalMeterId = 41;
+  ReciprocalMeterID = 41;
   ReciprocalMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalMeterId;
-    FSymbol            : '1/%sm';
-    FName              : 'reciprocal %smeter';
-    FPluralName        : 'reciprocal %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalMeterID;
+    FSymbol     : rsReciprocalMeterSymbol;
+    FName       : rsReciprocalMeterName;
+    FPluralName : rsReciprocalMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TDioptre }
 
+resourcestring
+  rsDioptreSymbol = 'dpt';
+  rsDioptreName = '%sdioptre';
+  rsDioptrePluralName = '%sdioptres';
+
 const
   DioptreUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalMeterId;
-    FSymbol            : 'dpt';
-    FName              : '%sdioptre';
-    FPluralName        : '%sdioptres';
-    FPrefixes          : ();
-    FExponents         : ());
+    FID         : ReciprocalMeterID;
+    FSymbol     : rsDioptreSymbol;
+    FName       : rsDioptreName;
+    FPluralName : rsDioptrePluralName;
+    FPrefixes   : ();
+    FExponents  : ());
 
 { TReciprocalSquareRootCubicMeter }
 
+resourcestring
+  rsReciprocalSquareRootCubicMeterSymbol = '1/√%sm3';
+  rsReciprocalSquareRootCubicMeterName = 'reciprocal square root cubic %smeter';
+  rsReciprocalSquareRootCubicMeterPluralName = 'reciprocal square root cubic %smeters';
+
 const
-  ReciprocalSquareRootCubicMeterId = 42;
+  ReciprocalSquareRootCubicMeterID = 42;
   ReciprocalSquareRootCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareRootCubicMeterId;
-    FSymbol            : '1/√%sm3';
-    FName              : 'reciprocal square root cubic %smeter';
-    FPluralName        : 'reciprocal square root cubic %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (-3));
+    FID         : ReciprocalSquareRootCubicMeterID;
+    FSymbol     : rsReciprocalSquareRootCubicMeterSymbol;
+    FName       : rsReciprocalSquareRootCubicMeterName;
+    FPluralName : rsReciprocalSquareRootCubicMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-3));
 
 { TReciprocalSquareMeter }
 
+resourcestring
+  rsReciprocalSquareMeterSymbol = '1/%sm2';
+  rsReciprocalSquareMeterName = 'reciprocal square %smeter';
+  rsReciprocalSquareMeterPluralName = 'reciprocal square %smeters';
+
 const
-  ReciprocalSquareMeterId = 43;
+  ReciprocalSquareMeterID = 43;
   ReciprocalSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareMeterId;
-    FSymbol            : '1/%sm2';
-    FName              : 'reciprocal square %smeter';
-    FPluralName        : 'reciprocal square %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : ReciprocalSquareMeterID;
+    FSymbol     : rsReciprocalSquareMeterSymbol;
+    FName       : rsReciprocalSquareMeterName;
+    FPluralName : rsReciprocalSquareMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TReciprocalCubicMeter }
 
+resourcestring
+  rsReciprocalCubicMeterSymbol = '1/%sm3';
+  rsReciprocalCubicMeterName = 'reciprocal cubic %smeter';
+  rsReciprocalCubicMeterPluralName = 'reciprocal cubic %smeters';
+
 const
-  ReciprocalCubicMeterId = 44;
+  ReciprocalCubicMeterID = 44;
   ReciprocalCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalCubicMeterId;
-    FSymbol            : '1/%sm3';
-    FName              : 'reciprocal cubic %smeter';
-    FPluralName        : 'reciprocal cubic %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (-3));
+    FID         : ReciprocalCubicMeterID;
+    FSymbol     : rsReciprocalCubicMeterSymbol;
+    FName       : rsReciprocalCubicMeterName;
+    FPluralName : rsReciprocalCubicMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-3));
 
 { TReciprocalQuarticMeter }
 
+resourcestring
+  rsReciprocalQuarticMeterSymbol = '1/%sm4';
+  rsReciprocalQuarticMeterName = 'reciprocal quartic %smeter';
+  rsReciprocalQuarticMeterPluralName = 'reciprocal quartic %smeters';
+
 const
-  ReciprocalQuarticMeterId = 45;
+  ReciprocalQuarticMeterID = 45;
   ReciprocalQuarticMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalQuarticMeterId;
-    FSymbol            : '1/%sm4';
-    FName              : 'reciprocal quartic %smeter';
-    FPluralName        : 'reciprocal quartic %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (-4));
+    FID         : ReciprocalQuarticMeterID;
+    FSymbol     : rsReciprocalQuarticMeterSymbol;
+    FName       : rsReciprocalQuarticMeterName;
+    FPluralName : rsReciprocalQuarticMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-4));
 
 { TKilogramSquareMeter }
 
+resourcestring
+  rsKilogramSquareMeterSymbol = '%sg.%sm2';
+  rsKilogramSquareMeterName = '%sgram square %smeter';
+  rsKilogramSquareMeterPluralName = '%sgram square %smeters';
+
 const
-  KilogramSquareMeterId = 46;
+  KilogramSquareMeterID = 46;
   KilogramSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : KilogramSquareMeterId;
-    FSymbol            : '%sg.%sm2';
-    FName              : '%sgram square %smeter';
-    FPluralName        : '%sgram square %smeters';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, 2));
+    FID         : KilogramSquareMeterID;
+    FSymbol     : rsKilogramSquareMeterSymbol;
+    FName       : rsKilogramSquareMeterName;
+    FPluralName : rsKilogramSquareMeterPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, 2));
 
 { TKilogramSquareMeterPerSecond }
 
+resourcestring
+  rsKilogramSquareMeterPerSecondSymbol = '%sg.%sm2/%ss';
+  rsKilogramSquareMeterPerSecondName = '%sgram square %smeter per %ssecond';
+  rsKilogramSquareMeterPerSecondPluralName = '%sgram square %smeters per %ssecond';
+
 const
-  KilogramSquareMeterPerSecondId = 47;
+  KilogramSquareMeterPerSecondID = 47;
   KilogramSquareMeterPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : KilogramSquareMeterPerSecondId;
-    FSymbol            : '%sg.%sm2/%ss';
-    FName              : '%sgram square %smeter per %ssecond';
-    FPluralName        : '%sgram square %smeters per %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 2, -1));
+    FID         : KilogramSquareMeterPerSecondID;
+    FSymbol     : rsKilogramSquareMeterPerSecondSymbol;
+    FName       : rsKilogramSquareMeterPerSecondName;
+    FPluralName : rsKilogramSquareMeterPerSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 2, -1));
 
 { TNewtonMeterSecond }
 
+resourcestring
+  rsNewtonMeterSecondSymbol = '%sN.%sm.%ss';
+  rsNewtonMeterSecondName = '%snewton %smeter %ssecond';
+  rsNewtonMeterSecondPluralName = '%snewton %smeter %sseconds';
+
 const
   NewtonMeterSecondUnit : TUnit = (
-    FUnitOfMeasurement : KilogramSquareMeterPerSecondId;
-    FSymbol            : '%sN.%sm.%ss';
-    FName              : '%snewton %smeter %ssecond';
-    FPluralName        : '%snewton %smeter %sseconds';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 1, 1));
+    FID         : KilogramSquareMeterPerSecondID;
+    FSymbol     : rsNewtonMeterSecondSymbol;
+    FName       : rsNewtonMeterSecondName;
+    FPluralName : rsNewtonMeterSecondPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 1, 1));
 
 { TSecondPerMeter }
 
+resourcestring
+  rsSecondPerMeterSymbol = '%ss/%sm';
+  rsSecondPerMeterName = '%ssecond per %smeter';
+  rsSecondPerMeterPluralName = '%sseconds per %smeter';
+
 const
-  SecondPerMeterId = 48;
+  SecondPerMeterID = 48;
   SecondPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : SecondPerMeterId;
-    FSymbol            : '%ss/%sm';
-    FName              : '%ssecond per %smeter';
-    FPluralName        : '%sseconds per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : SecondPerMeterID;
+    FSymbol     : rsSecondPerMeterSymbol;
+    FName       : rsSecondPerMeterName;
+    FPluralName : rsSecondPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TKilogramPerMeter }
 
+resourcestring
+  rsKilogramPerMeterSymbol = '%sg/%sm';
+  rsKilogramPerMeterName = '%sgram per %smeter';
+  rsKilogramPerMeterPluralName = '%sgrams per %smeter';
+
 const
-  KilogramPerMeterId = 49;
+  KilogramPerMeterID = 49;
   KilogramPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : KilogramPerMeterId;
-    FSymbol            : '%sg/%sm';
-    FName              : '%sgram per %smeter';
-    FPluralName        : '%sgrams per %smeter';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, -1));
+    FID         : KilogramPerMeterID;
+    FSymbol     : rsKilogramPerMeterSymbol;
+    FName       : rsKilogramPerMeterName;
+    FPluralName : rsKilogramPerMeterPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, -1));
 
 { TKilogramPerSquareMeter }
 
+resourcestring
+  rsKilogramPerSquareMeterSymbol = '%sg/%sm2';
+  rsKilogramPerSquareMeterName = '%sgram per square %smeter';
+  rsKilogramPerSquareMeterPluralName = '%sgrams per square %smeter';
+
 const
-  KilogramPerSquareMeterId = 50;
+  KilogramPerSquareMeterID = 50;
   KilogramPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : KilogramPerSquareMeterId;
-    FSymbol            : '%sg/%sm2';
-    FName              : '%sgram per square %smeter';
-    FPluralName        : '%sgrams per square %smeter';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, -2));
+    FID         : KilogramPerSquareMeterID;
+    FSymbol     : rsKilogramPerSquareMeterSymbol;
+    FName       : rsKilogramPerSquareMeterName;
+    FPluralName : rsKilogramPerSquareMeterPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, -2));
 
 { TKilogramPerCubicMeter }
 
+resourcestring
+  rsKilogramPerCubicMeterSymbol = '%sg/%sm3';
+  rsKilogramPerCubicMeterName = '%sgram per cubic %smeter';
+  rsKilogramPerCubicMeterPluralName = '%sgrams per cubic %smeter';
+
 const
-  KilogramPerCubicMeterId = 51;
+  KilogramPerCubicMeterID = 51;
   KilogramPerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : KilogramPerCubicMeterId;
-    FSymbol            : '%sg/%sm3';
-    FName              : '%sgram per cubic %smeter';
-    FPluralName        : '%sgrams per cubic %smeter';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, -3));
+    FID         : KilogramPerCubicMeterID;
+    FSymbol     : rsKilogramPerCubicMeterSymbol;
+    FName       : rsKilogramPerCubicMeterName;
+    FPluralName : rsKilogramPerCubicMeterPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, -3));
 
 { TPoundPerCubicInch }
 
+resourcestring
+  rsPoundPerCubicInchSymbol = 'lb/in3';
+  rsPoundPerCubicInchName = 'pound per cubic inch';
+  rsPoundPerCubicInchPluralName = 'pounds per cubic inch';
+
 const
   PoundPerCubicInchUnit : TFactoredUnit = (
-    FUnitOfMeasurement : KilogramPerCubicMeterId;
-    FSymbol            : 'lb/in3';
-    FName              : 'pound per cubic inch';
-    FPluralName        : 'pounds per cubic inch';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (27679.9047102031));
+    FID         : KilogramPerCubicMeterID;
+    FSymbol     : rsPoundPerCubicInchSymbol;
+    FName       : rsPoundPerCubicInchName;
+    FPluralName : rsPoundPerCubicInchPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (27679.9047102031));
 
 { TNewton }
 
+resourcestring
+  rsNewtonSymbol = '%sN';
+  rsNewtonName = '%snewton';
+  rsNewtonPluralName = '%snewtons';
+
 const
-  NewtonId = 52;
+  NewtonID = 52;
   NewtonUnit : TUnit = (
-    FUnitOfMeasurement : NewtonId;
-    FSymbol            : '%sN';
-    FName              : '%snewton';
-    FPluralName        : '%snewtons';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : NewtonID;
+    FSymbol     : rsNewtonSymbol;
+    FName       : rsNewtonName;
+    FPluralName : rsNewtonPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   N : TUnit absolute NewtonUnit;
 
 const
-  GN         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 52; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MN         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 52; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kN         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 52; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hN         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 52; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daN        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 52; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  GN         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 52; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MN         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 52; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kN         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 52; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hN         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 52; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daN        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 52; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
 
 { TPoundForce }
 
+resourcestring
+  rsPoundForceSymbol = 'lbf';
+  rsPoundForceName = 'pound-force';
+  rsPoundForcePluralName = 'pounds-force';
+
 const
   PoundForceUnit : TFactoredUnit = (
-    FUnitOfMeasurement : NewtonId;
-    FSymbol            : 'lbf';
-    FName              : 'pound-force';
-    FPluralName        : 'pounds-force';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (4.4482216152605));
+    FID         : NewtonID;
+    FSymbol     : rsPoundForceSymbol;
+    FName       : rsPoundForceName;
+    FPluralName : rsPoundForcePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (4.4482216152605));
 
 var
   lbf : TFactoredUnit absolute PoundForceUnit;
 
 { TKilogramMeterPerSquareSecond }
 
+resourcestring
+  rsKilogramMeterPerSquareSecondSymbol = '%sg.%sm/%ss2';
+  rsKilogramMeterPerSquareSecondName = '%sgram %smeter per square %ssecond';
+  rsKilogramMeterPerSquareSecondPluralName = '%sgram %smeters per square %ssecond';
+
 const
   KilogramMeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : NewtonId;
-    FSymbol            : '%sg.%sm/%ss2';
-    FName              : '%sgram %smeter per square %ssecond';
-    FPluralName        : '%sgram %smeters per square %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 1, -2));
+    FID         : NewtonID;
+    FSymbol     : rsKilogramMeterPerSquareSecondSymbol;
+    FName       : rsKilogramMeterPerSquareSecondName;
+    FPluralName : rsKilogramMeterPerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 1, -2));
 
 { TNewtonRadian }
 
+resourcestring
+  rsNewtonRadianSymbol = '%sN.%srad';
+  rsNewtonRadianName = '%snewton %sradian';
+  rsNewtonRadianPluralName = '%snewton %sradians';
+
 const
   NewtonRadianUnit : TUnit = (
-    FUnitOfMeasurement : NewtonId;
-    FSymbol            : '%sN.%srad';
-    FName              : '%snewton %sradian';
-    FPluralName        : '%snewton %sradians';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : NewtonID;
+    FSymbol     : rsNewtonRadianSymbol;
+    FName       : rsNewtonRadianName;
+    FPluralName : rsNewtonRadianPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TSquareNewton }
 
+resourcestring
+  rsSquareNewtonSymbol = '%sN2';
+  rsSquareNewtonName = 'square %snewton';
+  rsSquareNewtonPluralName = 'square %snewtons';
+
 const
-  SquareNewtonId = 53;
+  SquareNewtonID = 53;
   SquareNewtonUnit : TUnit = (
-    FUnitOfMeasurement : SquareNewtonId;
-    FSymbol            : '%sN2';
-    FName              : 'square %snewton';
-    FPluralName        : 'square %snewtons';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareNewtonID;
+    FSymbol     : rsSquareNewtonSymbol;
+    FName       : rsSquareNewtonName;
+    FPluralName : rsSquareNewtonPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 var
   N2 : TUnit absolute SquareNewtonUnit;
 
 const
-  GN2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 53; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MN2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 53; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kN2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 53; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hN2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 53; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daN2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 53; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  GN2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 53; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MN2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 53; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kN2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 53; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hN2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 53; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daN2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 53; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
 
 { TSquareKilogramSquareMeterPerQuarticSecond }
 
+resourcestring
+  rsSquareKilogramSquareMeterPerQuarticSecondSymbol = '%sg2.%sm2/%ss4';
+  rsSquareKilogramSquareMeterPerQuarticSecondName = 'square %sgram square %smeter per quartic %ssecond';
+  rsSquareKilogramSquareMeterPerQuarticSecondPluralName = 'square %sgram square %smeters per quartic %ssecond';
+
 const
   SquareKilogramSquareMeterPerQuarticSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareNewtonId;
-    FSymbol            : '%sg2.%sm2/%ss4';
-    FName              : 'square %sgram square %smeter per quartic %ssecond';
-    FPluralName        : 'square %sgram square %smeters per quartic %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (2, 2, -4));
+    FID         : SquareNewtonID;
+    FSymbol     : rsSquareKilogramSquareMeterPerQuarticSecondSymbol;
+    FName       : rsSquareKilogramSquareMeterPerQuarticSecondName;
+    FPluralName : rsSquareKilogramSquareMeterPerQuarticSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (2, 2, -4));
 
 { TPascal }
 
+resourcestring
+  rsPascalSymbol = '%sPa';
+  rsPascalName = '%spascal';
+  rsPascalPluralName = '%spascals';
+
 const
-  PascalId = 54;
+  PascalID = 54;
   PascalUnit : TUnit = (
-    FUnitOfMeasurement : PascalId;
-    FSymbol            : '%sPa';
-    FName              : '%spascal';
-    FPluralName        : '%spascals';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : PascalID;
+    FSymbol     : rsPascalSymbol;
+    FName       : rsPascalName;
+    FPluralName : rsPascalPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   Pa : TUnit absolute PascalUnit;
 
 const
-  TPa        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 54; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GPa        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 54; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MPa        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 54; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kPa        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 54; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  TPa        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 54; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GPa        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 54; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MPa        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 54; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kPa        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 54; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TNewtonPerSquareMeter }
 
+resourcestring
+  rsNewtonPerSquareMeterSymbol = '%sN/%sm2';
+  rsNewtonPerSquareMeterName = '%snewton per square %smeter';
+  rsNewtonPerSquareMeterPluralName = '%snewtons per square %smeter';
+
 const
   NewtonPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : PascalId;
-    FSymbol            : '%sN/%sm2';
-    FName              : '%snewton per square %smeter';
-    FPluralName        : '%snewtons per square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : PascalID;
+    FSymbol     : rsNewtonPerSquareMeterSymbol;
+    FName       : rsNewtonPerSquareMeterName;
+    FPluralName : rsNewtonPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TBar }
 
+resourcestring
+  rsBarSymbol = '%sbar';
+  rsBarName = '%sbar';
+  rsBarPluralName = '%sbars';
+
 const
   BarUnit : TFactoredUnit = (
-    FUnitOfMeasurement : PascalId;
-    FSymbol            : '%sbar';
-    FName              : '%sbar';
-    FPluralName        : '%sbars';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (1E+05));
+    FID         : PascalID;
+    FSymbol     : rsBarSymbol;
+    FName       : rsBarName;
+    FPluralName : rsBarPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (1E+05));
 
 var
   bar : TFactoredUnit absolute BarUnit;
 
 const
-  kbar       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 54; FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
-  mbar       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 54; FValue: 1E+05 * 1E-03); {$ELSE} (1E+05 * 1E-03); {$ENDIF}
+  kbar       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 54; FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
+  mbar       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 54; FValue: 1E+05 * 1E-03); {$ELSE} (1E+05 * 1E-03); {$ENDIF}
 
 { TPoundPerSquareInch }
 
+resourcestring
+  rsPoundPerSquareInchSymbol = '%spsi';
+  rsPoundPerSquareInchName = '%spound per square inch';
+  rsPoundPerSquareInchPluralName = '%spounds per square inch';
+
 const
   PoundPerSquareInchUnit : TFactoredUnit = (
-    FUnitOfMeasurement : PascalId;
-    FSymbol            : '%spsi';
-    FName              : '%spound per square inch';
-    FPluralName        : '%spounds per square inch';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (6894.75729316836));
+    FID         : PascalID;
+    FSymbol     : rsPoundPerSquareInchSymbol;
+    FName       : rsPoundPerSquareInchName;
+    FPluralName : rsPoundPerSquareInchPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (6894.75729316836));
 
 var
   psi : TFactoredUnit absolute PoundPerSquareInchUnit;
 
 const
-  kpsi       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 54; FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
+  kpsi       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 54; FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
 
 { TJoulePerCubicMeter }
 
+resourcestring
+  rsJoulePerCubicMeterSymbol = '%sJ/%sm3';
+  rsJoulePerCubicMeterName = '%sjoule per cubic %smeter';
+  rsJoulePerCubicMeterPluralName = '%sjoules per cubic %smeter';
+
 const
   JoulePerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : PascalId;
-    FSymbol            : '%sJ/%sm3';
-    FName              : '%sjoule per cubic %smeter';
-    FPluralName        : '%sjoules per cubic %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -3));
+    FID         : PascalID;
+    FSymbol     : rsJoulePerCubicMeterSymbol;
+    FName       : rsJoulePerCubicMeterName;
+    FPluralName : rsJoulePerCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -3));
 
 { TKilogramPerMeterPerSquareSecond }
 
+resourcestring
+  rsKilogramPerMeterPerSquareSecondSymbol = '%sg/%sm/%ss2';
+  rsKilogramPerMeterPerSquareSecondName = '%sgram per %smeter per square %ssecond';
+  rsKilogramPerMeterPerSquareSecondPluralName = '%sgrams per %smeter per square %ssecond';
+
 const
   KilogramPerMeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : PascalId;
-    FSymbol            : '%sg/%sm/%ss2';
-    FName              : '%sgram per %smeter per square %ssecond';
-    FPluralName        : '%sgrams per %smeter per square %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, -1, -2));
+    FID         : PascalID;
+    FSymbol     : rsKilogramPerMeterPerSquareSecondSymbol;
+    FName       : rsKilogramPerMeterPerSquareSecondName;
+    FPluralName : rsKilogramPerMeterPerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, -1, -2));
 
 { TJoule }
 
+resourcestring
+  rsJouleSymbol = '%sJ';
+  rsJouleName = '%sjoule';
+  rsJoulePluralName = '%sjoules';
+
 const
-  JouleId = 55;
+  JouleID = 55;
   JouleUnit : TUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sJ';
-    FName              : '%sjoule';
-    FPluralName        : '%sjoules';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : JouleID;
+    FSymbol     : rsJouleSymbol;
+    FName       : rsJouleName;
+    FPluralName : rsJoulePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   J : TUnit absolute JouleUnit;
 
 const
-  TJ         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GJ         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MJ         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kJ         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  TJ         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GJ         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MJ         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kJ         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TWattHour }
 
+resourcestring
+  rsWattHourSymbol = '%sW.h';
+  rsWattHourName = '%swatt hour';
+  rsWattHourPluralName = '%swatt hours';
+
 const
   WattHourUnit : TFactoredUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sW.h';
-    FName              : '%swatt hour';
-    FPluralName        : '%swatt hours';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (3600));
+    FID         : JouleID;
+    FSymbol     : rsWattHourSymbol;
+    FName       : rsWattHourName;
+    FPluralName : rsWattHourPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (3600));
 
 { TWattSecond }
 
+resourcestring
+  rsWattSecondSymbol = '%sW.%ss';
+  rsWattSecondName = '%swatt %ssecond';
+  rsWattSecondPluralName = '%swatt %sseconds';
+
 const
   WattSecondUnit : TUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sW.%ss';
-    FName              : '%swatt %ssecond';
-    FPluralName        : '%swatt %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : JouleID;
+    FSymbol     : rsWattSecondSymbol;
+    FName       : rsWattSecondName;
+    FPluralName : rsWattSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TWattPerHertz }
 
+resourcestring
+  rsWattPerHertzSymbol = '%sW/%shz';
+  rsWattPerHertzName = '%swatt per %shertz';
+  rsWattPerHertzPluralName = '%swatts per %shertz';
+
 const
   WattPerHertzUnit : TUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sW/%shz';
-    FName              : '%swatt per %shertz';
-    FPluralName        : '%swatts per %shertz';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : JouleID;
+    FSymbol     : rsWattPerHertzSymbol;
+    FName       : rsWattPerHertzName;
+    FPluralName : rsWattPerHertzPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TElectronvolt }
 
+resourcestring
+  rsElectronvoltSymbol = '%seV';
+  rsElectronvoltName = '%selectronvolt';
+  rsElectronvoltPluralName = '%selectronvolts';
+
 const
   ElectronvoltUnit : TFactoredUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%seV';
-    FName              : '%selectronvolt';
-    FPluralName        : '%selectronvolts';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (1.602176634E-019));
+    FID         : JouleID;
+    FSymbol     : rsElectronvoltSymbol;
+    FName       : rsElectronvoltName;
+    FPluralName : rsElectronvoltPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (1.602176634E-019));
 
 var
   eV : TFactoredUnit absolute ElectronvoltUnit;
 
 const
-  TeV        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
-  GeV        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+09); {$ELSE} (1.602176634E-019 * 1E+09); {$ENDIF}
-  MeV        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+06); {$ELSE} (1.602176634E-019 * 1E+06); {$ENDIF}
-  keV        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 1.602176634E-019 * 1E+03); {$ELSE} (1.602176634E-019 * 1E+03); {$ENDIF}
+  TeV        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
+  GeV        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 1.602176634E-019 * 1E+09); {$ELSE} (1.602176634E-019 * 1E+09); {$ENDIF}
+  MeV        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 1.602176634E-019 * 1E+06); {$ELSE} (1.602176634E-019 * 1E+06); {$ENDIF}
+  keV        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 1.602176634E-019 * 1E+03); {$ELSE} (1.602176634E-019 * 1E+03); {$ENDIF}
 
 { TNewtonMeter }
 
+resourcestring
+  rsNewtonMeterSymbol = '%sN.%sm';
+  rsNewtonMeterName = '%snewton %smeter';
+  rsNewtonMeterPluralName = '%snewton %smeters';
+
 const
   NewtonMeterUnit : TUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sN.%sm';
-    FName              : '%snewton %smeter';
-    FPluralName        : '%snewton %smeters';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : JouleID;
+    FSymbol     : rsNewtonMeterSymbol;
+    FName       : rsNewtonMeterName;
+    FPluralName : rsNewtonMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TPoundForceInch }
 
+resourcestring
+  rsPoundForceInchSymbol = 'lbf.in';
+  rsPoundForceInchName = 'pound-force inch';
+  rsPoundForceInchPluralName = 'pound-force inches';
+
 const
   PoundForceInchUnit : TFactoredUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : 'lbf.in';
-    FName              : 'pound-force inch';
-    FPluralName        : 'pound-force inches';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (0.112984829027617));
+    FID         : JouleID;
+    FSymbol     : rsPoundForceInchSymbol;
+    FName       : rsPoundForceInchName;
+    FPluralName : rsPoundForceInchPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (0.112984829027617));
 
 { TRydberg }
 
+resourcestring
+  rsRydbergSymbol = '%sRy';
+  rsRydbergName = '%srydberg';
+  rsRydbergPluralName = '%srydbergs';
+
 const
   RydbergUnit : TFactoredUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sRy';
-    FName              : '%srydberg';
-    FPluralName        : '%srydbergs';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (2.1798723611035E-18));
+    FID         : JouleID;
+    FSymbol     : rsRydbergSymbol;
+    FName       : rsRydbergName;
+    FPluralName : rsRydbergPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (2.1798723611035E-18));
 
 var
   Ry : TFactoredUnit absolute RydbergUnit;
 
 { TCalorie }
 
+resourcestring
+  rsCalorieSymbol = '%scal';
+  rsCalorieName = '%scalorie';
+  rsCaloriePluralName = '%scalories';
+
 const
   CalorieUnit : TFactoredUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%scal';
-    FName              : '%scalorie';
-    FPluralName        : '%scalories';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (4.184));
+    FID         : JouleID;
+    FSymbol     : rsCalorieSymbol;
+    FName       : rsCalorieName;
+    FPluralName : rsCaloriePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (4.184));
 
 var
   cal : TFactoredUnit absolute CalorieUnit;
 
 const
-  Mcal       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
-  kcal       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 55; FValue: 4.184 * 1E+03); {$ELSE} (4.184 * 1E+03); {$ENDIF}
+  Mcal       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
+  kcal       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 55; FValue: 4.184 * 1E+03); {$ELSE} (4.184 * 1E+03); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareSecond }
 
+resourcestring
+  rsKilogramSquareMeterPerSquareSecondSymbol = '%sg.%sm2/%ss2';
+  rsKilogramSquareMeterPerSquareSecondName = '%sgram square %smeter per square %ssecond';
+  rsKilogramSquareMeterPerSquareSecondPluralName = '%sgram square %smeters per square %ssecond';
+
 const
   KilogramSquareMeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sg.%sm2/%ss2';
-    FName              : '%sgram square %smeter per square %ssecond';
-    FPluralName        : '%sgram square %smeters per square %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 2, -2));
+    FID         : JouleID;
+    FSymbol     : rsKilogramSquareMeterPerSquareSecondSymbol;
+    FName       : rsKilogramSquareMeterPerSquareSecondName;
+    FPluralName : rsKilogramSquareMeterPerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 2, -2));
 
 { TJoulePerRadian }
 
+resourcestring
+  rsJoulePerRadianSymbol = '%sJ/rad';
+  rsJoulePerRadianName = '%sjoule per radian';
+  rsJoulePerRadianPluralName = '%sjoules per radian';
+
 const
   JoulePerRadianUnit : TUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sJ/rad';
-    FName              : '%sjoule per radian';
-    FPluralName        : '%sjoules per radian';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : JouleID;
+    FSymbol     : rsJoulePerRadianSymbol;
+    FName       : rsJoulePerRadianName;
+    FPluralName : rsJoulePerRadianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 { TJoulePerDegree }
 
+resourcestring
+  rsJoulePerDegreeSymbol = '%sJ/deg';
+  rsJoulePerDegreeName = '%sjoule per degree';
+  rsJoulePerDegreePluralName = '%sjoules per degree';
+
 const
   JoulePerDegreeUnit : TFactoredUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sJ/deg';
-    FName              : '%sjoule per degree';
-    FPluralName        : '%sjoules per degree';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (180/Pi));
+    FID         : JouleID;
+    FSymbol     : rsJoulePerDegreeSymbol;
+    FName       : rsJoulePerDegreeName;
+    FPluralName : rsJoulePerDegreePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (180/Pi));
 
 { TNewtonMeterPerRadian }
 
+resourcestring
+  rsNewtonMeterPerRadianSymbol = '%sN.%sm/rad';
+  rsNewtonMeterPerRadianName = '%snewton %smeter per radian';
+  rsNewtonMeterPerRadianPluralName = '%snewton %smeters per radian';
+
 const
   NewtonMeterPerRadianUnit : TUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sN.%sm/rad';
-    FName              : '%snewton %smeter per radian';
-    FPluralName        : '%snewton %smeters per radian';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : JouleID;
+    FSymbol     : rsNewtonMeterPerRadianSymbol;
+    FName       : rsNewtonMeterPerRadianName;
+    FPluralName : rsNewtonMeterPerRadianPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TNewtonMeterPerDegree }
 
+resourcestring
+  rsNewtonMeterPerDegreeSymbol = '%sN.%sm/deg';
+  rsNewtonMeterPerDegreeName = '%snewton %smeter per degree';
+  rsNewtonMeterPerDegreePluralName = '%snewton %smeters per degree';
+
 const
   NewtonMeterPerDegreeUnit : TFactoredUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sN.%sm/deg';
-    FName              : '%snewton %smeter per degree';
-    FPluralName        : '%snewton %smeters per degree';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1);
-    FFactor            : (180/Pi));
+    FID         : JouleID;
+    FSymbol     : rsNewtonMeterPerDegreeSymbol;
+    FName       : rsNewtonMeterPerDegreeName;
+    FPluralName : rsNewtonMeterPerDegreePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1);
+    FFactor     : (180/Pi));
 
 { TKilogramSquareMeterPerSquareSecondPerRadian }
 
+resourcestring
+  rsKilogramSquareMeterPerSquareSecondPerRadianSymbol = '%sg.%sm2/%ss2/rad';
+  rsKilogramSquareMeterPerSquareSecondPerRadianName = '%sgram square %smeter per square %ssecond per radian';
+  rsKilogramSquareMeterPerSquareSecondPerRadianPluralName = '%sgram square %smeters per square %ssecond per radian';
+
 const
   KilogramSquareMeterPerSquareSecondPerRadianUnit : TUnit = (
-    FUnitOfMeasurement : JouleId;
-    FSymbol            : '%sg.%sm2/%ss2/rad';
-    FName              : '%sgram square %smeter per square %ssecond per radian';
-    FPluralName        : '%sgram square %smeters per square %ssecond per radian';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 2, -2));
+    FID         : JouleID;
+    FSymbol     : rsKilogramSquareMeterPerSquareSecondPerRadianSymbol;
+    FName       : rsKilogramSquareMeterPerSquareSecondPerRadianName;
+    FPluralName : rsKilogramSquareMeterPerSquareSecondPerRadianPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 2, -2));
 
 { TWatt }
 
+resourcestring
+  rsWattSymbol = '%sW';
+  rsWattName = '%swatt';
+  rsWattPluralName = '%swatts';
+
 const
-  WattId = 56;
+  WattID = 56;
   WattUnit : TUnit = (
-    FUnitOfMeasurement : WattId;
-    FSymbol            : '%sW';
-    FName              : '%swatt';
-    FPluralName        : '%swatts';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : WattID;
+    FSymbol     : rsWattSymbol;
+    FName       : rsWattName;
+    FPluralName : rsWattPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   W : TUnit absolute WattUnit;
 
 const
-  TW         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 56; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GW         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 56; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MW         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 56; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kW         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 56; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  milliW     : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 56; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  TW         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 56; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GW         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 56; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MW         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 56; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kW         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 56; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  milliW     : TQuantity = {$IFDEF ADIMDEBUG} (FID: 56; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 { TKilogramSquareMeterPerCubicSecond }
 
+resourcestring
+  rsKilogramSquareMeterPerCubicSecondSymbol = '%sg.%sm2/%ss3';
+  rsKilogramSquareMeterPerCubicSecondName = '%sgram square %smeter per cubic %ssecond';
+  rsKilogramSquareMeterPerCubicSecondPluralName = '%sgram square %smeters per cubic %ssecond';
+
 const
   KilogramSquareMeterPerCubicSecondUnit : TUnit = (
-    FUnitOfMeasurement : WattId;
-    FSymbol            : '%sg.%sm2/%ss3';
-    FName              : '%sgram square %smeter per cubic %ssecond';
-    FPluralName        : '%sgram square %smeters per cubic %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 2, -3));
+    FID         : WattID;
+    FSymbol     : rsKilogramSquareMeterPerCubicSecondSymbol;
+    FName       : rsKilogramSquareMeterPerCubicSecondName;
+    FPluralName : rsKilogramSquareMeterPerCubicSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 2, -3));
 
 { TCoulomb }
 
+resourcestring
+  rsCoulombSymbol = '%sC';
+  rsCoulombName = '%scoulomb';
+  rsCoulombPluralName = '%scoulombs';
+
 const
-  CoulombId = 57;
+  CoulombID = 57;
   CoulombUnit : TUnit = (
-    FUnitOfMeasurement : CoulombId;
-    FSymbol            : '%sC';
-    FName              : '%scoulomb';
-    FPluralName        : '%scoulombs';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : CoulombID;
+    FSymbol     : rsCoulombSymbol;
+    FName       : rsCoulombName;
+    FPluralName : rsCoulombPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   C : TUnit absolute CoulombUnit;
 
 const
-  kC         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 57; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hC         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 57; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daC        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 57; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
-  dC         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 57; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cC         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 57; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mC         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 57; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miC        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 57; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nC         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 57; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pC         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 57; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kC         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 57; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hC         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 57; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daC        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 57; FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  dC         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 57; FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cC         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 57; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mC         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 57; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miC        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 57; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nC         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 57; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pC         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 57; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TAmpereHour }
 
+resourcestring
+  rsAmpereHourSymbol = '%sA.h';
+  rsAmpereHourName = '%sampere hour';
+  rsAmpereHourPluralName = '%sampere hours';
+
 const
   AmpereHourUnit : TFactoredUnit = (
-    FUnitOfMeasurement : CoulombId;
-    FSymbol            : '%sA.h';
-    FName              : '%sampere hour';
-    FPluralName        : '%sampere hours';
-    FPrefixes          : (pNone);
-    FExponents         : (1);
-    FFactor            : (3600));
+    FID         : CoulombID;
+    FSymbol     : rsAmpereHourSymbol;
+    FName       : rsAmpereHourName;
+    FPluralName : rsAmpereHourPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (3600));
 
 { TAmpereSecond }
 
+resourcestring
+  rsAmpereSecondSymbol = '%sA.%ss';
+  rsAmpereSecondName = '%sampere %ssecond';
+  rsAmpereSecondPluralName = '%sampere %sseconds';
+
 const
   AmpereSecondUnit : TUnit = (
-    FUnitOfMeasurement : CoulombId;
-    FSymbol            : '%sA.%ss';
-    FName              : '%sampere %ssecond';
-    FPluralName        : '%sampere %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : CoulombID;
+    FSymbol     : rsAmpereSecondSymbol;
+    FName       : rsAmpereSecondName;
+    FPluralName : rsAmpereSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TSquareCoulomb }
 
+resourcestring
+  rsSquareCoulombSymbol = '%sC2';
+  rsSquareCoulombName = 'square %scoulomb';
+  rsSquareCoulombPluralName = 'square %scoulombs';
+
 const
-  SquareCoulombId = 58;
+  SquareCoulombID = 58;
   SquareCoulombUnit : TUnit = (
-    FUnitOfMeasurement : SquareCoulombId;
-    FSymbol            : '%sC2';
-    FName              : 'square %scoulomb';
-    FPluralName        : 'square %scoulombs';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareCoulombID;
+    FSymbol     : rsSquareCoulombSymbol;
+    FName       : rsSquareCoulombName;
+    FPluralName : rsSquareCoulombPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 var
   C2 : TUnit absolute SquareCoulombUnit;
 
 const
-  kC2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 58; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hC2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 58; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daC2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 58; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  dC2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 58; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cC2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 58; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mC2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 58; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  miC2       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 58; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nC2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 58; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  pC2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 58; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  kC2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 58; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hC2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 58; FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daC2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 58; FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  dC2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 58; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cC2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 58; FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mC2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 58; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  miC2       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 58; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nC2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 58; FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  pC2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 58; FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareAmpereSquareSecond }
 
+resourcestring
+  rsSquareAmpereSquareSecondSymbol = '%sA2.%ss2';
+  rsSquareAmpereSquareSecondName = 'square %sampere square %ssecond';
+  rsSquareAmpereSquareSecondPluralName = 'square %sampere square %sseconds';
+
 const
   SquareAmpereSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareCoulombId;
-    FSymbol            : '%sA2.%ss2';
-    FName              : 'square %sampere square %ssecond';
-    FPluralName        : 'square %sampere square %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, 2));
+    FID         : SquareCoulombID;
+    FSymbol     : rsSquareAmpereSquareSecondSymbol;
+    FName       : rsSquareAmpereSquareSecondName;
+    FPluralName : rsSquareAmpereSquareSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, 2));
 
 { TCoulombMeter }
 
+resourcestring
+  rsCoulombMeterSymbol = '%sC.%sm';
+  rsCoulombMeterName = '%scoulomb %smeter';
+  rsCoulombMeterPluralName = '%scoulomb %smeters';
+
 const
-  CoulombMeterId = 59;
+  CoulombMeterID = 59;
   CoulombMeterUnit : TUnit = (
-    FUnitOfMeasurement : CoulombMeterId;
-    FSymbol            : '%sC.%sm';
-    FName              : '%scoulomb %smeter';
-    FPluralName        : '%scoulomb %smeters';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : CoulombMeterID;
+    FSymbol     : rsCoulombMeterSymbol;
+    FName       : rsCoulombMeterName;
+    FPluralName : rsCoulombMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TVolt }
 
+resourcestring
+  rsVoltSymbol = '%sV';
+  rsVoltName = '%svolt';
+  rsVoltPluralName = '%svolts';
+
 const
-  VoltId = 60;
+  VoltID = 60;
   VoltUnit : TUnit = (
-    FUnitOfMeasurement : VoltId;
-    FSymbol            : '%sV';
-    FName              : '%svolt';
-    FPluralName        : '%svolts';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : VoltID;
+    FSymbol     : rsVoltSymbol;
+    FName       : rsVoltName;
+    FPluralName : rsVoltPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   V : TUnit absolute VoltUnit;
 
 const
-  kV         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 60; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mV         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 60; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  kV         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 60; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mV         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 60; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 { TJoulePerCoulomb }
 
+resourcestring
+  rsJoulePerCoulombSymbol = '%sJ/%sC';
+  rsJoulePerCoulombName = '%sJoule per %scoulomb';
+  rsJoulePerCoulombPluralName = '%sJoules per %scoulomb';
+
 const
   JoulePerCoulombUnit : TUnit = (
-    FUnitOfMeasurement : VoltId;
-    FSymbol            : '%sJ/%sC';
-    FName              : '%sJoule per %scoulomb';
-    FPluralName        : '%sJoules per %scoulomb';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : VoltID;
+    FSymbol     : rsJoulePerCoulombSymbol;
+    FName       : rsJoulePerCoulombName;
+    FPluralName : rsJoulePerCoulombPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TKilogramSquareMeterPerAmperePerCubicSecond }
 
+resourcestring
+  rsKilogramSquareMeterPerAmperePerCubicSecondSymbol = '%sg.%sm2/%sA/%ss3';
+  rsKilogramSquareMeterPerAmperePerCubicSecondName = '%sgram square %smeter per %sampere per cubic %ssecond';
+  rsKilogramSquareMeterPerAmperePerCubicSecondPluralName = '%sgram square %smeters per %sampere per cubic %ssecond';
+
 const
   KilogramSquareMeterPerAmperePerCubicSecondUnit : TUnit = (
-    FUnitOfMeasurement : VoltId;
-    FSymbol            : '%sg.%sm2/%sA/%ss3';
-    FName              : '%sgram square %smeter per %sampere per cubic %ssecond';
-    FPluralName        : '%sgram square %smeters per %sampere per cubic %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone, pNone);
-    FExponents         : (1, 2, -1, -3));
+    FID         : VoltID;
+    FSymbol     : rsKilogramSquareMeterPerAmperePerCubicSecondSymbol;
+    FName       : rsKilogramSquareMeterPerAmperePerCubicSecondName;
+    FPluralName : rsKilogramSquareMeterPerAmperePerCubicSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone, pNone);
+    FExponents  : (1, 2, -1, -3));
 
 { TSquareVolt }
 
+resourcestring
+  rsSquareVoltSymbol = '%sV2';
+  rsSquareVoltName = 'square %svolt';
+  rsSquareVoltPluralName = 'square %svolts';
+
 const
-  SquareVoltId = 61;
+  SquareVoltID = 61;
   SquareVoltUnit : TUnit = (
-    FUnitOfMeasurement : SquareVoltId;
-    FSymbol            : '%sV2';
-    FName              : 'square %svolt';
-    FPluralName        : 'square %svolts';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareVoltID;
+    FSymbol     : rsSquareVoltSymbol;
+    FName       : rsSquareVoltName;
+    FPluralName : rsSquareVoltPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 var
   V2 : TUnit absolute SquareVoltUnit;
 
 const
-  kV2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 61; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  mV2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 61; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  kV2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 61; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  mV2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 61; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
 
 { TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond }
 
+resourcestring
+  rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondSymbol = '%sg2.%sm3/%sA2/%ss6';
+  rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondName = 'square %sgram quartic %smeter per square %sampere per sextic %ssecond';
+  rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondPluralName = 'square %sgram quartic %smeters per square %sampere per sextic %ssecond';
+
 const
   SquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareVoltId;
-    FSymbol            : '%sg2.%sm3/%sA2/%ss6';
-    FName              : 'square %sgram quartic %smeter per square %sampere per sextic %ssecond';
-    FPluralName        : 'square %sgram quartic %smeters per square %sampere per sextic %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone, pNone);
-    FExponents         : (2, 3, -2, -6));
+    FID         : SquareVoltID;
+    FSymbol     : rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondSymbol;
+    FName       : rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondName;
+    FPluralName : rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone, pNone);
+    FExponents  : (2, 3, -2, -6));
 
 { TFarad }
 
+resourcestring
+  rsFaradSymbol = '%sF';
+  rsFaradName = '%sfarad';
+  rsFaradPluralName = '%sfarads';
+
 const
-  FaradId = 62;
+  FaradID = 62;
   FaradUnit : TUnit = (
-    FUnitOfMeasurement : FaradId;
-    FSymbol            : '%sF';
-    FName              : '%sfarad';
-    FPluralName        : '%sfarads';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : FaradID;
+    FSymbol     : rsFaradSymbol;
+    FName       : rsFaradName;
+    FPluralName : rsFaradPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   F : TUnit absolute FaradUnit;
 
 const
-  mF         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 62; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miF        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 62; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nF         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 62; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pF         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 62; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mF         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 62; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miF        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 62; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nF         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 62; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pF         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 62; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TCoulombPerVolt }
 
+resourcestring
+  rsCoulombPerVoltSymbol = '%sC/%sV';
+  rsCoulombPerVoltName = '%scoulomb per %svolt';
+  rsCoulombPerVoltPluralName = '%scoulombs per %svolt';
+
 const
   CoulombPerVoltUnit : TUnit = (
-    FUnitOfMeasurement : FaradId;
-    FSymbol            : '%sC/%sV';
-    FName              : '%scoulomb per %svolt';
-    FPluralName        : '%scoulombs per %svolt';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : FaradID;
+    FSymbol     : rsCoulombPerVoltSymbol;
+    FName       : rsCoulombPerVoltName;
+    FPluralName : rsCoulombPerVoltPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TSquareAmpereQuarticSecondPerKilogramPerSquareMeter }
 
+resourcestring
+  rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterSymbol = '%sA2.%ss4/%sg/%sm2';
+  rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterName = 'square %sampere quartic %ssecond per %sgram per square %smeter';
+  rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterPluralName = 'square %sampere quartic %sseconds per %sgram per square %smeter';
+
 const
   SquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : FaradId;
-    FSymbol            : '%sA2.%ss4/%sg/%sm2';
-    FName              : 'square %sampere quartic %ssecond per %sgram per square %smeter';
-    FPluralName        : 'square %sampere quartic %sseconds per %sgram per square %smeter';
-    FPrefixes          : (pNone, pNone, pKilo, pNone);
-    FExponents         : (2, 4, -1, -2));
+    FID         : FaradID;
+    FSymbol     : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterSymbol;
+    FName       : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterName;
+    FPluralName : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone, pKilo, pNone);
+    FExponents  : (2, 4, -1, -2));
 
 { TOhm }
 
+resourcestring
+  rsOhmSymbol = '%sΩ';
+  rsOhmName = '%sohm';
+  rsOhmPluralName = '%sohms';
+
 const
-  OhmId = 63;
+  OhmID = 63;
   OhmUnit : TUnit = (
-    FUnitOfMeasurement : OhmId;
-    FSymbol            : '%sΩ';
-    FName              : '%sohm';
-    FPluralName        : '%sohms';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : OhmID;
+    FSymbol     : rsOhmSymbol;
+    FName       : rsOhmName;
+    FPluralName : rsOhmPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   ohm : TUnit absolute OhmUnit;
 
 const
-  Gohm       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 63; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  megaohm    : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 63; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kohm       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 63; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mohm       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 63; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miohm      : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 63; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nohm       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 63; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  Gohm       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 63; FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  megaohm    : TQuantity = {$IFDEF ADIMDEBUG} (FID: 63; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kohm       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 63; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mohm       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 63; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miohm      : TQuantity = {$IFDEF ADIMDEBUG} (FID: 63; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nohm       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 63; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareAmperePerCubicSecond }
 
+resourcestring
+  rsKilogramSquareMeterPerSquareAmperePerCubicSecondSymbol = '%sg.%sm2/%sA/%ss3';
+  rsKilogramSquareMeterPerSquareAmperePerCubicSecondName = '%sgram square %smeter per square %sampere per cubic %ssecond';
+  rsKilogramSquareMeterPerSquareAmperePerCubicSecondPluralName = '%sgram square %smeters per square %sampere per cubic %ssecond';
+
 const
   KilogramSquareMeterPerSquareAmperePerCubicSecondUnit : TUnit = (
-    FUnitOfMeasurement : OhmId;
-    FSymbol            : '%sg.%sm2/%sA/%ss3';
-    FName              : '%sgram square %smeter per square %sampere per cubic %ssecond';
-    FPluralName        : '%sgram square %smeters per square %sampere per cubic %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone, pNone);
-    FExponents         : (1, 2, -1, -3));
+    FID         : OhmID;
+    FSymbol     : rsKilogramSquareMeterPerSquareAmperePerCubicSecondSymbol;
+    FName       : rsKilogramSquareMeterPerSquareAmperePerCubicSecondName;
+    FPluralName : rsKilogramSquareMeterPerSquareAmperePerCubicSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone, pNone);
+    FExponents  : (1, 2, -1, -3));
 
 { TSiemens }
 
+resourcestring
+  rsSiemensSymbol = '%sS';
+  rsSiemensName = '%ssiemens';
+  rsSiemensPluralName = '%ssiemens';
+
 const
-  SiemensId = 64;
+  SiemensID = 64;
   SiemensUnit : TUnit = (
-    FUnitOfMeasurement : SiemensId;
-    FSymbol            : '%sS';
-    FName              : '%ssiemens';
-    FPluralName        : '%ssiemens';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : SiemensID;
+    FSymbol     : rsSiemensSymbol;
+    FName       : rsSiemensName;
+    FPluralName : rsSiemensPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   siemens : TUnit absolute SiemensUnit;
 
 const
-  millisiemens : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 64; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  microsiemens : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 64; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-   nanosiemens : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 64; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  millisiemens : TQuantity = {$IFDEF ADIMDEBUG} (FID: 64; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  microsiemens : TQuantity = {$IFDEF ADIMDEBUG} (FID: 64; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+   nanosiemens : TQuantity = {$IFDEF ADIMDEBUG} (FID: 64; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TSquareAmpereCubicSecondPerKilogramPerSquareMeter }
 
+resourcestring
+  rsSquareAmpereCubicSecondPerKilogramPerSquareMeterSymbol = '%sA2.%ss3/%sg/%sm2';
+  rsSquareAmpereCubicSecondPerKilogramPerSquareMeterName = 'square %sampere cubic %ssecond per %sgram per square %smeter';
+  rsSquareAmpereCubicSecondPerKilogramPerSquareMeterPluralName = 'square %sampere cubic %sseconds per %sgram per square %smeter';
+
 const
   SquareAmpereCubicSecondPerKilogramPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : SiemensId;
-    FSymbol            : '%sA2.%ss3/%sg/%sm2';
-    FName              : 'square %sampere cubic %ssecond per %sgram per square %smeter';
-    FPluralName        : 'square %sampere cubic %sseconds per %sgram per square %smeter';
-    FPrefixes          : (pNone, pNone, pKilo, pNone);
-    FExponents         : (2, 3, -1, -2));
+    FID         : SiemensID;
+    FSymbol     : rsSquareAmpereCubicSecondPerKilogramPerSquareMeterSymbol;
+    FName       : rsSquareAmpereCubicSecondPerKilogramPerSquareMeterName;
+    FPluralName : rsSquareAmpereCubicSecondPerKilogramPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone, pKilo, pNone);
+    FExponents  : (2, 3, -1, -2));
 
 { TSiemensPerMeter }
 
+resourcestring
+  rsSiemensPerMeterSymbol = '%sS/%sm';
+  rsSiemensPerMeterName = '%ssiemens per %smeter';
+  rsSiemensPerMeterPluralName = '%ssiemens per %smeter';
+
 const
-  SiemensPerMeterId = 65;
+  SiemensPerMeterID = 65;
   SiemensPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : SiemensPerMeterId;
-    FSymbol            : '%sS/%sm';
-    FName              : '%ssiemens per %smeter';
-    FPluralName        : '%ssiemens per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : SiemensPerMeterID;
+    FSymbol     : rsSiemensPerMeterSymbol;
+    FName       : rsSiemensPerMeterName;
+    FPluralName : rsSiemensPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TTesla }
 
+resourcestring
+  rsTeslaSymbol = '%sT';
+  rsTeslaName = '%stesla';
+  rsTeslaPluralName = '%steslas';
+
 const
-  TeslaId = 66;
+  TeslaID = 66;
   TeslaUnit : TUnit = (
-    FUnitOfMeasurement : TeslaId;
-    FSymbol            : '%sT';
-    FName              : '%stesla';
-    FPluralName        : '%steslas';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : TeslaID;
+    FSymbol     : rsTeslaSymbol;
+    FName       : rsTeslaName;
+    FPluralName : rsTeslaPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   T : TUnit absolute TeslaUnit;
 
 const
-  mT         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 66; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miT        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 66; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nT         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 66; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mT         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 66; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miT        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 66; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nT         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 66; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TWeberPerSquareMeter }
 
+resourcestring
+  rsWeberPerSquareMeterSymbol = '%sWb/%m2';
+  rsWeberPerSquareMeterName = '%sweber per square %smeter';
+  rsWeberPerSquareMeterPluralName = '%swebers per square %smeter';
+
 const
   WeberPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : TeslaId;
-    FSymbol            : '%sWb/%m2';
-    FName              : '%sweber per square %smeter';
-    FPluralName        : '%swebers per square %smeter';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : TeslaID;
+    FSymbol     : rsWeberPerSquareMeterSymbol;
+    FName       : rsWeberPerSquareMeterName;
+    FPluralName : rsWeberPerSquareMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 { TKilogramPerAmperePerSquareSecond }
 
+resourcestring
+  rsKilogramPerAmperePerSquareSecondSymbol = '%sg/%sA/%ss2';
+  rsKilogramPerAmperePerSquareSecondName = '%sgram per %sampere per square %ssecond';
+  rsKilogramPerAmperePerSquareSecondPluralName = '%sgrams per %sampere per square %ssecond';
+
 const
   KilogramPerAmperePerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : TeslaId;
-    FSymbol            : '%sg/%sA/%ss2';
-    FName              : '%sgram per %sampere per square %ssecond';
-    FPluralName        : '%sgrams per %sampere per square %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, -1, -2));
+    FID         : TeslaID;
+    FSymbol     : rsKilogramPerAmperePerSquareSecondSymbol;
+    FName       : rsKilogramPerAmperePerSquareSecondName;
+    FPluralName : rsKilogramPerAmperePerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, -1, -2));
 
 { TWeber }
 
+resourcestring
+  rsWeberSymbol = '%sWb';
+  rsWeberName = '%sweber';
+  rsWeberPluralName = '%swebers';
+
 const
-  WeberId = 67;
+  WeberID = 67;
   WeberUnit : TUnit = (
-    FUnitOfMeasurement : WeberId;
-    FSymbol            : '%sWb';
-    FName              : '%sweber';
-    FPluralName        : '%swebers';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : WeberID;
+    FSymbol     : rsWeberSymbol;
+    FName       : rsWeberName;
+    FPluralName : rsWeberPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   Wb : TUnit absolute WeberUnit;
 
 { TKilogramSquareMeterPerAmperePerSquareSecond }
 
+resourcestring
+  rsKilogramSquareMeterPerAmperePerSquareSecondSymbol = '%sg.%sm2/%sA/%ss2';
+  rsKilogramSquareMeterPerAmperePerSquareSecondName = '%sgram square %smeter per %sampere per square %ssecond';
+  rsKilogramSquareMeterPerAmperePerSquareSecondPluralName = '%sgram square %smeters per %sampere per square %ssecond';
+
 const
   KilogramSquareMeterPerAmperePerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : WeberId;
-    FSymbol            : '%sg.%sm2/%sA/%ss2';
-    FName              : '%sgram square %smeter per %sampere per square %ssecond';
-    FPluralName        : '%sgram square %smeters per %sampere per square %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone, pNone);
-    FExponents         : (1, 2, -1, -2));
+    FID         : WeberID;
+    FSymbol     : rsKilogramSquareMeterPerAmperePerSquareSecondSymbol;
+    FName       : rsKilogramSquareMeterPerAmperePerSquareSecondName;
+    FPluralName : rsKilogramSquareMeterPerAmperePerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone, pNone);
+    FExponents  : (1, 2, -1, -2));
 
 { THenry }
 
+resourcestring
+  rsHenrySymbol = '%sH';
+  rsHenryName = '%shenry';
+  rsHenryPluralName = '%shenries';
+
 const
-  HenryId = 68;
+  HenryID = 68;
   HenryUnit : TUnit = (
-    FUnitOfMeasurement : HenryId;
-    FSymbol            : '%sH';
-    FName              : '%shenry';
-    FPluralName        : '%shenries';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : HenryID;
+    FSymbol     : rsHenrySymbol;
+    FName       : rsHenryName;
+    FPluralName : rsHenryPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   H : TUnit absolute HenryUnit;
 
 const
-  mH         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 68; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miH        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 68; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nH         : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 68; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mH         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 68; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miH        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 68; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nH         : TQuantity = {$IFDEF ADIMDEBUG} (FID: 68; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareAmperePerSquareSecond }
 
+resourcestring
+  rsKilogramSquareMeterPerSquareAmperePerSquareSecondSymbol = '%sg.%sm2/%sA2/%ss2';
+  rsKilogramSquareMeterPerSquareAmperePerSquareSecondName = '%sgram square %smeter per square %sampere per square %ssecond';
+  rsKilogramSquareMeterPerSquareAmperePerSquareSecondPluralName = '%sgram square %smeters per square %sampere per square %ssecond';
+
 const
   KilogramSquareMeterPerSquareAmperePerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : HenryId;
-    FSymbol            : '%sg.%sm2/%sA2/%ss2';
-    FName              : '%sgram square %smeter per square %sampere per square %ssecond';
-    FPluralName        : '%sgram square %smeters per square %sampere per square %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone, pNone);
-    FExponents         : (1, 2, -2, -2));
+    FID         : HenryID;
+    FSymbol     : rsKilogramSquareMeterPerSquareAmperePerSquareSecondSymbol;
+    FName       : rsKilogramSquareMeterPerSquareAmperePerSquareSecondName;
+    FPluralName : rsKilogramSquareMeterPerSquareAmperePerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone, pNone);
+    FExponents  : (1, 2, -2, -2));
 
 { TReciprocalHenry }
 
+resourcestring
+  rsReciprocalHenrySymbol = '1/%sH';
+  rsReciprocalHenryName = 'reciprocal %shenry';
+  rsReciprocalHenryPluralName = 'reciprocal %shenries';
+
 const
-  ReciprocalHenryId = 69;
+  ReciprocalHenryID = 69;
   ReciprocalHenryUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalHenryId;
-    FSymbol            : '1/%sH';
-    FName              : 'reciprocal %shenry';
-    FPluralName        : 'reciprocal %shenries';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalHenryID;
+    FSymbol     : rsReciprocalHenrySymbol;
+    FName       : rsReciprocalHenryName;
+    FPluralName : rsReciprocalHenryPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TLumen }
 
+resourcestring
+  rsLumenSymbol = '%slm';
+  rsLumenName = '%slumen';
+  rsLumenPluralName = '%slumens';
+
 const
-  LumenId = 70;
+  LumenID = 70;
   LumenUnit : TUnit = (
-    FUnitOfMeasurement : LumenId;
-    FSymbol            : '%slm';
-    FName              : '%slumen';
-    FPluralName        : '%slumens';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : LumenID;
+    FSymbol     : rsLumenSymbol;
+    FName       : rsLumenName;
+    FPluralName : rsLumenPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   lm : TUnit absolute LumenUnit;
 
 { TCandelaSteradian }
 
+resourcestring
+  rsCandelaSteradianSymbol = '%scd.%ssr';
+  rsCandelaSteradianName = '%scandela %ssteradian';
+  rsCandelaSteradianPluralName = '%scandela %ssteradians';
+
 const
   CandelaSteradianUnit : TUnit = (
-    FUnitOfMeasurement : LumenId;
-    FSymbol            : '%scd.%ssr';
-    FName              : '%scandela %ssteradian';
-    FPluralName        : '%scandela %ssteradians';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : LumenID;
+    FSymbol     : rsCandelaSteradianSymbol;
+    FName       : rsCandelaSteradianName;
+    FPluralName : rsCandelaSteradianPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TLumenSecond }
 
+resourcestring
+  rsLumenSecondSymbol = '%slm.%ss';
+  rsLumenSecondName = '%slumen %ssecond';
+  rsLumenSecondPluralName = '%slumen %sseconds';
+
 const
-  LumenSecondId = 71;
+  LumenSecondID = 71;
   LumenSecondUnit : TUnit = (
-    FUnitOfMeasurement : LumenSecondId;
-    FSymbol            : '%slm.%ss';
-    FName              : '%slumen %ssecond';
-    FPluralName        : '%slumen %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : LumenSecondID;
+    FSymbol     : rsLumenSecondSymbol;
+    FName       : rsLumenSecondName;
+    FPluralName : rsLumenSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TLumenSecondPerCubicMeter }
 
+resourcestring
+  rsLumenSecondPerCubicMeterSymbol = '%slm.%ss/%sm3';
+  rsLumenSecondPerCubicMeterName = '%slumen %ssecond per cubic meter';
+  rsLumenSecondPerCubicMeterPluralName = '%slumen %sseconds per cubic meter';
+
 const
-  LumenSecondPerCubicMeterId = 72;
+  LumenSecondPerCubicMeterID = 72;
   LumenSecondPerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : LumenSecondPerCubicMeterId;
-    FSymbol            : '%slm.%ss/%sm3';
-    FName              : '%slumen %ssecond per cubic meter';
-    FPluralName        : '%slumen %sseconds per cubic meter';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 1, -3));
+    FID         : LumenSecondPerCubicMeterID;
+    FSymbol     : rsLumenSecondPerCubicMeterSymbol;
+    FName       : rsLumenSecondPerCubicMeterName;
+    FPluralName : rsLumenSecondPerCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 1, -3));
 
 { TLux }
 
+resourcestring
+  rsLuxSymbol = '%slx';
+  rsLuxName = '%slux';
+  rsLuxPluralName = '%slux';
+
 const
-  LuxId = 73;
+  LuxID = 73;
   LuxUnit : TUnit = (
-    FUnitOfMeasurement : LuxId;
-    FSymbol            : '%slx';
-    FName              : '%slux';
-    FPluralName        : '%slux';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : LuxID;
+    FSymbol     : rsLuxSymbol;
+    FName       : rsLuxName;
+    FPluralName : rsLuxPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   lx : TUnit absolute LuxUnit;
 
 { TCandelaSteradianPerSquareMeter }
 
+resourcestring
+  rsCandelaSteradianPerSquareMeterSymbol = '%scd.%ssr/%sm2';
+  rsCandelaSteradianPerSquareMeterName = '%scandela %ssteradian per square %smeter';
+  rsCandelaSteradianPerSquareMeterPluralName = '%scandela %ssteradians per square %smeter';
+
 const
   CandelaSteradianPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : LuxId;
-    FSymbol            : '%scd.%ssr/%sm2';
-    FName              : '%scandela %ssteradian per square %smeter';
-    FPluralName        : '%scandela %ssteradians per square %smeter';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 1, -2));
+    FID         : LuxID;
+    FSymbol     : rsCandelaSteradianPerSquareMeterSymbol;
+    FName       : rsCandelaSteradianPerSquareMeterName;
+    FPluralName : rsCandelaSteradianPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 1, -2));
 
 { TLuxSecond }
 
+resourcestring
+  rsLuxSecondSymbol = '%slx.%ss';
+  rsLuxSecondName = '%slux %ssecond';
+  rsLuxSecondPluralName = '%slux %sseconds';
+
 const
-  LuxSecondId = 74;
+  LuxSecondID = 74;
   LuxSecondUnit : TUnit = (
-    FUnitOfMeasurement : LuxSecondId;
-    FSymbol            : '%slx.%ss';
-    FName              : '%slux %ssecond';
-    FPluralName        : '%slux %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : LuxSecondID;
+    FSymbol     : rsLuxSecondSymbol;
+    FName       : rsLuxSecondName;
+    FPluralName : rsLuxSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TBequerel }
 
+resourcestring
+  rsBequerelSymbol = '%sBq';
+  rsBequerelName = '%sbequerel';
+  rsBequerelPluralName = '%sbequerels';
+
 const
   BequerelUnit : TUnit = (
-    FUnitOfMeasurement : HertzId;
-    FSymbol            : '%sBq';
-    FName              : '%sbequerel';
-    FPluralName        : '%sbequerels';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : HertzID;
+    FSymbol     : rsBequerelSymbol;
+    FName       : rsBequerelName;
+    FPluralName : rsBequerelPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   Bq : TUnit absolute BequerelUnit;
 
 const
-  kBq        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 25; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mBq        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 25; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miBq       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 25; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nBq        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 25; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pBq        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 25; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kBq        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 25; FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mBq        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 25; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miBq       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 25; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nBq        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 25; FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pBq        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 25; FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TKatal }
 
+resourcestring
+  rsKatalSymbol = '%skat';
+  rsKatalName = '%skatal';
+  rsKatalPluralName = '%skatals';
+
 const
-  KatalId = 75;
+  KatalID = 75;
   KatalUnit : TUnit = (
-    FUnitOfMeasurement : KatalId;
-    FSymbol            : '%skat';
-    FName              : '%skatal';
-    FPluralName        : '%skatals';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : KatalID;
+    FSymbol     : rsKatalSymbol;
+    FName       : rsKatalName;
+    FPluralName : rsKatalPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   kat : TUnit absolute KatalUnit;
 
 { TMolePerSecond }
 
+resourcestring
+  rsMolePerSecondSymbol = '%smol/%ss';
+  rsMolePerSecondName = '%smole per %ssecond';
+  rsMolePerSecondPluralName = '%smoles per %ssecond';
+
 const
   MolePerSecondUnit : TUnit = (
-    FUnitOfMeasurement : KatalId;
-    FSymbol            : '%smol/%ss';
-    FName              : '%smole per %ssecond';
-    FPluralName        : '%smoles per %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : KatalID;
+    FSymbol     : rsMolePerSecondSymbol;
+    FName       : rsMolePerSecondName;
+    FPluralName : rsMolePerSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TNewtonPerCubicMeter }
 
+resourcestring
+  rsNewtonPerCubicMeterSymbol = '%sN/%sm3';
+  rsNewtonPerCubicMeterName = '%snewton per cubic %smeter';
+  rsNewtonPerCubicMeterPluralName = '%snewtons per cubic %smeter';
+
 const
-  NewtonPerCubicMeterId = 76;
+  NewtonPerCubicMeterID = 76;
   NewtonPerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerCubicMeterId;
-    FSymbol            : '%sN/%sm3';
-    FName              : '%snewton per cubic %smeter';
-    FPluralName        : '%snewtons per cubic %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -3));
+    FID         : NewtonPerCubicMeterID;
+    FSymbol     : rsNewtonPerCubicMeterSymbol;
+    FName       : rsNewtonPerCubicMeterName;
+    FPluralName : rsNewtonPerCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -3));
 
 { TPascalPerMeter }
 
+resourcestring
+  rsPascalPerMeterSymbol = '%sPa/%sm';
+  rsPascalPerMeterName = '%spascal per %smeter';
+  rsPascalPerMeterPluralName = '%spascals per %smeter';
+
 const
   PascalPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerCubicMeterId;
-    FSymbol            : '%sPa/%sm';
-    FName              : '%spascal per %smeter';
-    FPluralName        : '%spascals per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : NewtonPerCubicMeterID;
+    FSymbol     : rsPascalPerMeterSymbol;
+    FName       : rsPascalPerMeterName;
+    FPluralName : rsPascalPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TKilogramPerSquareMeterPerSquareSecond }
 
+resourcestring
+  rsKilogramPerSquareMeterPerSquareSecondSymbol = '%sg/%sm2/%ss2';
+  rsKilogramPerSquareMeterPerSquareSecondName = '%sgram per square %smeter per square %ssecond';
+  rsKilogramPerSquareMeterPerSquareSecondPluralName = '%sgrams per square %smeter per square %ssecond';
+
 const
   KilogramPerSquareMeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerCubicMeterId;
-    FSymbol            : '%sg/%sm2/%ss2';
-    FName              : '%sgram per square %smeter per square %ssecond';
-    FPluralName        : '%sgrams per square %smeter per square %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, -2, -2));
+    FID         : NewtonPerCubicMeterID;
+    FSymbol     : rsKilogramPerSquareMeterPerSquareSecondSymbol;
+    FName       : rsKilogramPerSquareMeterPerSquareSecondName;
+    FPluralName : rsKilogramPerSquareMeterPerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, -2, -2));
 
 { TNewtonPerMeter }
 
+resourcestring
+  rsNewtonPerMeterSymbol = '%sN/%sm';
+  rsNewtonPerMeterName = '%snewton per %smeter';
+  rsNewtonPerMeterPluralName = '%snewtons per %smeter';
+
 const
-  NewtonPerMeterId = 77;
+  NewtonPerMeterID = 77;
   NewtonPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerMeterId;
-    FSymbol            : '%sN/%sm';
-    FName              : '%snewton per %smeter';
-    FPluralName        : '%snewtons per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : NewtonPerMeterID;
+    FSymbol     : rsNewtonPerMeterSymbol;
+    FName       : rsNewtonPerMeterName;
+    FPluralName : rsNewtonPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TJoulePerSquareMeter }
 
+resourcestring
+  rsJoulePerSquareMeterSymbol = '%sJ/%sm2';
+  rsJoulePerSquareMeterName = '%sjoule per square %smeter';
+  rsJoulePerSquareMeterPluralName = '%sjoules per square %smeter';
+
 const
   JoulePerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerMeterId;
-    FSymbol            : '%sJ/%sm2';
-    FName              : '%sjoule per square %smeter';
-    FPluralName        : '%sjoules per square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : NewtonPerMeterID;
+    FSymbol     : rsJoulePerSquareMeterSymbol;
+    FName       : rsJoulePerSquareMeterName;
+    FPluralName : rsJoulePerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TWattPerSquareMeterPerHertz }
 
+resourcestring
+  rsWattPerSquareMeterPerHertzSymbol = '%sW/%sm2/%sHz';
+  rsWattPerSquareMeterPerHertzName = '%swatt per square %smeter per %shertz';
+  rsWattPerSquareMeterPerHertzPluralName = '%swatts per square %smeter per %shertz';
+
 const
   WattPerSquareMeterPerHertzUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerMeterId;
-    FSymbol            : '%sW/%sm2/%sHz';
-    FName              : '%swatt per square %smeter per %shertz';
-    FPluralName        : '%swatts per square %smeter per %shertz';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -2, -1));
+    FID         : NewtonPerMeterID;
+    FSymbol     : rsWattPerSquareMeterPerHertzSymbol;
+    FName       : rsWattPerSquareMeterPerHertzName;
+    FPluralName : rsWattPerSquareMeterPerHertzPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -2, -1));
 
 { TPoundForcePerInch }
 
+resourcestring
+  rsPoundForcePerInchSymbol = 'lbf/in';
+  rsPoundForcePerInchName = 'pound-force per inch';
+  rsPoundForcePerInchPluralName = 'pounds-force per inch';
+
 const
   PoundForcePerInchUnit : TFactoredUnit = (
-    FUnitOfMeasurement : NewtonPerMeterId;
-    FSymbol            : 'lbf/in';
-    FName              : 'pound-force per inch';
-    FPluralName        : 'pounds-force per inch';
-    FPrefixes          : ();
-    FExponents         : ();
-    FFactor            : (175.126835246476));
+    FID         : NewtonPerMeterID;
+    FSymbol     : rsPoundForcePerInchSymbol;
+    FName       : rsPoundForcePerInchName;
+    FPluralName : rsPoundForcePerInchPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (175.126835246476));
 
 { TKilogramPerSquareSecond }
 
+resourcestring
+  rsKilogramPerSquareSecondSymbol = '%sg/%ss2';
+  rsKilogramPerSquareSecondName = '%sgram per square %ssecond';
+  rsKilogramPerSquareSecondPluralName = '%sgrams per square %ssecond';
+
 const
   KilogramPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerMeterId;
-    FSymbol            : '%sg/%ss2';
-    FName              : '%sgram per square %ssecond';
-    FPluralName        : '%sgrams per square %ssecond';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, -2));
+    FID         : NewtonPerMeterID;
+    FSymbol     : rsKilogramPerSquareSecondSymbol;
+    FName       : rsKilogramPerSquareSecondName;
+    FPluralName : rsKilogramPerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, -2));
 
 { TCubicMeterPerSecond }
 
+resourcestring
+  rsCubicMeterPerSecondSymbol = '%sm3/%ss';
+  rsCubicMeterPerSecondName = 'cubic %smeter per %ssecond';
+  rsCubicMeterPerSecondPluralName = 'cubic %smeters per %ssecond';
+
 const
-  CubicMeterPerSecondId = 78;
+  CubicMeterPerSecondID = 78;
   CubicMeterPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterPerSecondId;
-    FSymbol            : '%sm3/%ss';
-    FName              : 'cubic %smeter per %ssecond';
-    FPluralName        : 'cubic %smeters per %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (3, -1));
+    FID         : CubicMeterPerSecondID;
+    FSymbol     : rsCubicMeterPerSecondSymbol;
+    FName       : rsCubicMeterPerSecondName;
+    FPluralName : rsCubicMeterPerSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (3, -1));
 
 { TPoiseuille }
 
+resourcestring
+  rsPoiseuilleSymbol = '%sPl';
+  rsPoiseuilleName = '%spoiseuille';
+  rsPoiseuillePluralName = '%spoiseuilles';
+
 const
-  PoiseuilleId = 79;
+  PoiseuilleID = 79;
   PoiseuilleUnit : TUnit = (
-    FUnitOfMeasurement : PoiseuilleId;
-    FSymbol            : '%sPl';
-    FName              : '%spoiseuille';
-    FPluralName        : '%spoiseuilles';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : PoiseuilleID;
+    FSymbol     : rsPoiseuilleSymbol;
+    FName       : rsPoiseuilleName;
+    FPluralName : rsPoiseuillePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 var
   Pl : TUnit absolute PoiseuilleUnit;
 
 const
-  cPl        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 79; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mPl        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 79; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miPl       : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 79; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cPl        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 79; FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mPl        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 79; FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miPl       : TQuantity = {$IFDEF ADIMDEBUG} (FID: 79; FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
 
 { TPascalSecond }
 
+resourcestring
+  rsPascalSecondSymbol = '%sPa.%ss';
+  rsPascalSecondName = '%spascal %ssecond';
+  rsPascalSecondPluralName = '%spascal %sseconds';
+
 const
   PascalSecondUnit : TUnit = (
-    FUnitOfMeasurement : PoiseuilleId;
-    FSymbol            : '%sPa.%ss';
-    FName              : '%spascal %ssecond';
-    FPluralName        : '%spascal %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : PoiseuilleID;
+    FSymbol     : rsPascalSecondSymbol;
+    FName       : rsPascalSecondName;
+    FPluralName : rsPascalSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TKilogramPerMeterPerSecond }
 
+resourcestring
+  rsKilogramPerMeterPerSecondSymbol = '%sg/%sm/%ss';
+  rsKilogramPerMeterPerSecondName = '%sgram per %smeter per %ssecond';
+  rsKilogramPerMeterPerSecondPluralName = '%sgrams per %smeter per %ssecond';
+
 const
   KilogramPerMeterPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : PoiseuilleId;
-    FSymbol            : '%sg/%sm/%ss';
-    FName              : '%sgram per %smeter per %ssecond';
-    FPluralName        : '%sgrams per %smeter per %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, -1, -1));
+    FID         : PoiseuilleID;
+    FSymbol     : rsKilogramPerMeterPerSecondSymbol;
+    FName       : rsKilogramPerMeterPerSecondName;
+    FPluralName : rsKilogramPerMeterPerSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, -1, -1));
 
 { TSquareMeterPerSecond }
 
+resourcestring
+  rsSquareMeterPerSecondSymbol = '%sm2/%ss';
+  rsSquareMeterPerSecondName = 'square %smeter per %ssecond';
+  rsSquareMeterPerSecondPluralName = 'square %smeters per %ssecond';
+
 const
-  SquareMeterPerSecondId = 80;
+  SquareMeterPerSecondID = 80;
   SquareMeterPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerSecondId;
-    FSymbol            : '%sm2/%ss';
-    FName              : 'square %smeter per %ssecond';
-    FPluralName        : 'square %smeters per %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareMeterPerSecondID;
+    FSymbol     : rsSquareMeterPerSecondSymbol;
+    FName       : rsSquareMeterPerSecondName;
+    FPluralName : rsSquareMeterPerSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -1));
 
 { TKilogramPerQuarticMeter }
 
+resourcestring
+  rsKilogramPerQuarticMeterSymbol = '%sg/%sm4';
+  rsKilogramPerQuarticMeterName = '%sgram per quartic %smeter';
+  rsKilogramPerQuarticMeterPluralName = '%sgrams per quartic %smeter';
+
 const
-  KilogramPerQuarticMeterId = 81;
+  KilogramPerQuarticMeterID = 81;
   KilogramPerQuarticMeterUnit : TUnit = (
-    FUnitOfMeasurement : KilogramPerQuarticMeterId;
-    FSymbol            : '%sg/%sm4';
-    FName              : '%sgram per quartic %smeter';
-    FPluralName        : '%sgrams per quartic %smeter';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, -4));
+    FID         : KilogramPerQuarticMeterID;
+    FSymbol     : rsKilogramPerQuarticMeterSymbol;
+    FName       : rsKilogramPerQuarticMeterName;
+    FPluralName : rsKilogramPerQuarticMeterPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, -4));
 
 { TQuarticMeterSecond }
 
+resourcestring
+  rsQuarticMeterSecondSymbol = '%sm4.%ss';
+  rsQuarticMeterSecondName = 'quartic %smeter %ssecond';
+  rsQuarticMeterSecondPluralName = 'quartic %smeter %sseconds';
+
 const
-  QuarticMeterSecondId = 82;
+  QuarticMeterSecondID = 82;
   QuarticMeterSecondUnit : TUnit = (
-    FUnitOfMeasurement : QuarticMeterSecondId;
-    FSymbol            : '%sm4.%ss';
-    FName              : 'quartic %smeter %ssecond';
-    FPluralName        : 'quartic %smeter %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (4, 1));
+    FID         : QuarticMeterSecondID;
+    FSymbol     : rsQuarticMeterSecondSymbol;
+    FName       : rsQuarticMeterSecondName;
+    FPluralName : rsQuarticMeterSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (4, 1));
 
 { TKilogramPerQuarticMeterPerSecond }
 
+resourcestring
+  rsKilogramPerQuarticMeterPerSecondSymbol = '%sg/%sm4/%ss';
+  rsKilogramPerQuarticMeterPerSecondName = '%sgram per quartic %smeter per %ssecond';
+  rsKilogramPerQuarticMeterPerSecondPluralName = '%sgrams per quartic %smeter per %ssecond';
+
 const
-  KilogramPerQuarticMeterPerSecondId = 83;
+  KilogramPerQuarticMeterPerSecondID = 83;
   KilogramPerQuarticMeterPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : KilogramPerQuarticMeterPerSecondId;
-    FSymbol            : '%sg/%sm4/%ss';
-    FName              : '%sgram per quartic %smeter per %ssecond';
-    FPluralName        : '%sgrams per quartic %smeter per %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, -4, -1));
+    FID         : KilogramPerQuarticMeterPerSecondID;
+    FSymbol     : rsKilogramPerQuarticMeterPerSecondSymbol;
+    FName       : rsKilogramPerQuarticMeterPerSecondName;
+    FPluralName : rsKilogramPerQuarticMeterPerSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, -4, -1));
 
 { TCubicMeterPerKilogram }
 
+resourcestring
+  rsCubicMeterPerKilogramSymbol = '%sm3/%sg';
+  rsCubicMeterPerKilogramName = 'cubic %smeter per %sgram';
+  rsCubicMeterPerKilogramPluralName = 'cubic %smeters per %sgram';
+
 const
-  CubicMeterPerKilogramId = 84;
+  CubicMeterPerKilogramID = 84;
   CubicMeterPerKilogramUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterPerKilogramId;
-    FSymbol            : '%sm3/%sg';
-    FName              : 'cubic %smeter per %sgram';
-    FPluralName        : 'cubic %smeters per %sgram';
-    FPrefixes          : (pNone, pKilo);
-    FExponents         : (3, -1));
+    FID         : CubicMeterPerKilogramID;
+    FSymbol     : rsCubicMeterPerKilogramSymbol;
+    FName       : rsCubicMeterPerKilogramName;
+    FPluralName : rsCubicMeterPerKilogramPluralName;
+    FPrefixes   : (pNone, pKilo);
+    FExponents  : (3, -1));
 
 { TKilogramSquareSecond }
 
+resourcestring
+  rsKilogramSquareSecondSymbol = '%sg.%ss2';
+  rsKilogramSquareSecondName = '%sgram square %ssecond';
+  rsKilogramSquareSecondPluralName = '%sgram square %sseconds';
+
 const
-  KilogramSquareSecondId = 85;
+  KilogramSquareSecondID = 85;
   KilogramSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : KilogramSquareSecondId;
-    FSymbol            : '%sg.%ss2';
-    FName              : '%sgram square %ssecond';
-    FPluralName        : '%sgram square %sseconds';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, 2));
+    FID         : KilogramSquareSecondID;
+    FSymbol     : rsKilogramSquareSecondSymbol;
+    FName       : rsKilogramSquareSecondName;
+    FPluralName : rsKilogramSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, 2));
 
 { TCubicMeterPerSquareSecond }
 
+resourcestring
+  rsCubicMeterPerSquareSecondSymbol = '%sm3/%ss2';
+  rsCubicMeterPerSquareSecondName = 'cubic %smeter per square %ssecond';
+  rsCubicMeterPerSquareSecondPluralName = 'cubic %smeters per square %ssecond';
+
 const
-  CubicMeterPerSquareSecondId = 86;
+  CubicMeterPerSquareSecondID = 86;
   CubicMeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterPerSquareSecondId;
-    FSymbol            : '%sm3/%ss2';
-    FName              : 'cubic %smeter per square %ssecond';
-    FPluralName        : 'cubic %smeters per square %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (3, -2));
+    FID         : CubicMeterPerSquareSecondID;
+    FSymbol     : rsCubicMeterPerSquareSecondSymbol;
+    FName       : rsCubicMeterPerSquareSecondName;
+    FPluralName : rsCubicMeterPerSquareSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (3, -2));
 
 { TNewtonSquareMeter }
 
+resourcestring
+  rsNewtonSquareMeterSymbol = '%sN.%sm2';
+  rsNewtonSquareMeterName = '%snewton square %smeter';
+  rsNewtonSquareMeterPluralName = '%snewton square %smeters';
+
 const
-  NewtonSquareMeterId = 87;
+  NewtonSquareMeterID = 87;
   NewtonSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : NewtonSquareMeterId;
-    FSymbol            : '%sN.%sm2';
-    FName              : '%snewton square %smeter';
-    FPluralName        : '%snewton square %smeters';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 2));
+    FID         : NewtonSquareMeterID;
+    FSymbol     : rsNewtonSquareMeterSymbol;
+    FName       : rsNewtonSquareMeterName;
+    FPluralName : rsNewtonSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 2));
 
 { TKilogramCubicMeterPerSquareSecond }
 
+resourcestring
+  rsKilogramCubicMeterPerSquareSecondSymbol = '%sg.%sm3/%ss2';
+  rsKilogramCubicMeterPerSquareSecondName = '%sgram cubic %smeter per square %ssecond';
+  rsKilogramCubicMeterPerSquareSecondPluralName = '%sgram cubic %smeters per square %ssecond';
+
 const
   KilogramCubicMeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : NewtonSquareMeterId;
-    FSymbol            : '%sg.%sm3/%ss2';
-    FName              : '%sgram cubic %smeter per square %ssecond';
-    FPluralName        : '%sgram cubic %smeters per square %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 3, -2));
+    FID         : NewtonSquareMeterID;
+    FSymbol     : rsKilogramCubicMeterPerSquareSecondSymbol;
+    FName       : rsKilogramCubicMeterPerSquareSecondName;
+    FPluralName : rsKilogramCubicMeterPerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 3, -2));
 
 { TNewtonCubicMeter }
 
+resourcestring
+  rsNewtonCubicMeterSymbol = '%sN.%sm3';
+  rsNewtonCubicMeterName = '%snewton cubic %smeter';
+  rsNewtonCubicMeterPluralName = '%snewton cubic %smeters';
+
 const
-  NewtonCubicMeterId = 88;
+  NewtonCubicMeterID = 88;
   NewtonCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : NewtonCubicMeterId;
-    FSymbol            : '%sN.%sm3';
-    FName              : '%snewton cubic %smeter';
-    FPluralName        : '%snewton cubic %smeters';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 3));
+    FID         : NewtonCubicMeterID;
+    FSymbol     : rsNewtonCubicMeterSymbol;
+    FName       : rsNewtonCubicMeterName;
+    FPluralName : rsNewtonCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 3));
 
 { TKilogramQuarticMeterPerSquareSecond }
 
+resourcestring
+  rsKilogramQuarticMeterPerSquareSecondSymbol = '%sg.%sm4/%ss2';
+  rsKilogramQuarticMeterPerSquareSecondName = '%sgram quartic %smeter per square %ssecond';
+  rsKilogramQuarticMeterPerSquareSecondPluralName = '%sgram quartic %smeters per square %ssecond';
+
 const
   KilogramQuarticMeterPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : NewtonCubicMeterId;
-    FSymbol            : '%sg.%sm4/%ss2';
-    FName              : '%sgram quartic %smeter per square %ssecond';
-    FPluralName        : '%sgram quartic %smeters per square %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 4, -2));
+    FID         : NewtonCubicMeterID;
+    FSymbol     : rsKilogramQuarticMeterPerSquareSecondSymbol;
+    FName       : rsKilogramQuarticMeterPerSquareSecondName;
+    FPluralName : rsKilogramQuarticMeterPerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 4, -2));
 
 { TNewtonPerSquareKilogram }
 
+resourcestring
+  rsNewtonPerSquareKilogramSymbol = '%sN/%sg2';
+  rsNewtonPerSquareKilogramName = '%snewton per square %sgram';
+  rsNewtonPerSquareKilogramPluralName = '%snewtons per square %sgram';
+
 const
-  NewtonPerSquareKilogramId = 89;
+  NewtonPerSquareKilogramID = 89;
   NewtonPerSquareKilogramUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerSquareKilogramId;
-    FSymbol            : '%sN/%sg2';
-    FName              : '%snewton per square %sgram';
-    FPluralName        : '%snewtons per square %sgram';
-    FPrefixes          : (pNone, pKilo);
-    FExponents         : (1, -2));
+    FID         : NewtonPerSquareKilogramID;
+    FSymbol     : rsNewtonPerSquareKilogramSymbol;
+    FName       : rsNewtonPerSquareKilogramName;
+    FPluralName : rsNewtonPerSquareKilogramPluralName;
+    FPrefixes   : (pNone, pKilo);
+    FExponents  : (1, -2));
 
 { TMeterPerKilogramPerSquareSecond }
 
+resourcestring
+  rsMeterPerKilogramPerSquareSecondSymbol = '%sm/%sg/%ss2';
+  rsMeterPerKilogramPerSquareSecondName = '%smeter per %sgram per square %ssecond';
+  rsMeterPerKilogramPerSquareSecondPluralName = '%smeters per %sgram per square %ssecond';
+
 const
   MeterPerKilogramPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerSquareKilogramId;
-    FSymbol            : '%sm/%sg/%ss2';
-    FName              : '%smeter per %sgram per square %ssecond';
-    FPluralName        : '%smeters per %sgram per square %ssecond';
-    FPrefixes          : (pNone, pKilo, pNone);
-    FExponents         : (1, -1, -2));
+    FID         : NewtonPerSquareKilogramID;
+    FSymbol     : rsMeterPerKilogramPerSquareSecondSymbol;
+    FName       : rsMeterPerKilogramPerSquareSecondName;
+    FPluralName : rsMeterPerKilogramPerSquareSecondPluralName;
+    FPrefixes   : (pNone, pKilo, pNone);
+    FExponents  : (1, -1, -2));
 
 { TSquareKilogramPerMeter }
 
+resourcestring
+  rsSquareKilogramPerMeterSymbol = '%sg2/%sm';
+  rsSquareKilogramPerMeterName = 'square %sgram per %smeter';
+  rsSquareKilogramPerMeterPluralName = 'square %sgrams per %smeter';
+
 const
-  SquareKilogramPerMeterId = 90;
+  SquareKilogramPerMeterID = 90;
   SquareKilogramPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareKilogramPerMeterId;
-    FSymbol            : '%sg2/%sm';
-    FName              : 'square %sgram per %smeter';
-    FPluralName        : 'square %sgrams per %smeter';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareKilogramPerMeterID;
+    FSymbol     : rsSquareKilogramPerMeterSymbol;
+    FName       : rsSquareKilogramPerMeterName;
+    FPluralName : rsSquareKilogramPerMeterPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (2, -1));
 
 { TSquareKilogramPerSquareMeter }
 
+resourcestring
+  rsSquareKilogramPerSquareMeterSymbol = '%sg2/%sm2';
+  rsSquareKilogramPerSquareMeterName = 'square %sgram per square %smeter';
+  rsSquareKilogramPerSquareMeterPluralName = 'square %sgrams per square %smeter';
+
 const
-  SquareKilogramPerSquareMeterId = 91;
+  SquareKilogramPerSquareMeterID = 91;
   SquareKilogramPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareKilogramPerSquareMeterId;
-    FSymbol            : '%sg2/%sm2';
-    FName              : 'square %sgram per square %smeter';
-    FPluralName        : 'square %sgrams per square %smeter';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (2, -2));
+    FID         : SquareKilogramPerSquareMeterID;
+    FSymbol     : rsSquareKilogramPerSquareMeterSymbol;
+    FName       : rsSquareKilogramPerSquareMeterName;
+    FPluralName : rsSquareKilogramPerSquareMeterPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (2, -2));
 
 { TSquareMeterPerSquareKilogram }
 
+resourcestring
+  rsSquareMeterPerSquareKilogramSymbol = '%sm2/%sg2';
+  rsSquareMeterPerSquareKilogramName = 'square %smeter per square %sgram';
+  rsSquareMeterPerSquareKilogramPluralName = 'square %smeters per square %sgram';
+
 const
-  SquareMeterPerSquareKilogramId = 92;
+  SquareMeterPerSquareKilogramID = 92;
   SquareMeterPerSquareKilogramUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerSquareKilogramId;
-    FSymbol            : '%sm2/%sg2';
-    FName              : 'square %smeter per square %sgram';
-    FPluralName        : 'square %smeters per square %sgram';
-    FPrefixes          : (pNone, pKilo);
-    FExponents         : (2, -2));
+    FID         : SquareMeterPerSquareKilogramID;
+    FSymbol     : rsSquareMeterPerSquareKilogramSymbol;
+    FName       : rsSquareMeterPerSquareKilogramName;
+    FPluralName : rsSquareMeterPerSquareKilogramPluralName;
+    FPrefixes   : (pNone, pKilo);
+    FExponents  : (2, -2));
 
 { TNewtonSquareMeterPerSquareKilogram }
 
+resourcestring
+  rsNewtonSquareMeterPerSquareKilogramSymbol = '%sN.%sm2/%sg2';
+  rsNewtonSquareMeterPerSquareKilogramName = '%snewton square %smeter per square %sgram';
+  rsNewtonSquareMeterPerSquareKilogramPluralName = '%snewton square %smeters per square %sgram';
+
 const
-  NewtonSquareMeterPerSquareKilogramId = 93;
+  NewtonSquareMeterPerSquareKilogramID = 93;
   NewtonSquareMeterPerSquareKilogramUnit : TUnit = (
-    FUnitOfMeasurement : NewtonSquareMeterPerSquareKilogramId;
-    FSymbol            : '%sN.%sm2/%sg2';
-    FName              : '%snewton square %smeter per square %sgram';
-    FPluralName        : '%snewton square %smeters per square %sgram';
-    FPrefixes          : (pNone, pNone, pKilo);
-    FExponents         : (1, 2, -2));
+    FID         : NewtonSquareMeterPerSquareKilogramID;
+    FSymbol     : rsNewtonSquareMeterPerSquareKilogramSymbol;
+    FName       : rsNewtonSquareMeterPerSquareKilogramName;
+    FPluralName : rsNewtonSquareMeterPerSquareKilogramPluralName;
+    FPrefixes   : (pNone, pNone, pKilo);
+    FExponents  : (1, 2, -2));
 
 { TCubicMeterPerKilogramPerSquareSecond }
 
+resourcestring
+  rsCubicMeterPerKilogramPerSquareSecondSymbol = '%sm3/%sg/%ss2';
+  rsCubicMeterPerKilogramPerSquareSecondName = 'cubic %smeter per %sgram per square %ssecond';
+  rsCubicMeterPerKilogramPerSquareSecondPluralName = 'cubic %smeters per %sgram per square %ssecond';
+
 const
   CubicMeterPerKilogramPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : NewtonSquareMeterPerSquareKilogramId;
-    FSymbol            : '%sm3/%sg/%ss2';
-    FName              : 'cubic %smeter per %sgram per square %ssecond';
-    FPluralName        : 'cubic %smeters per %sgram per square %ssecond';
-    FPrefixes          : (pNone, pKilo, pNone);
-    FExponents         : (3, -1, -2));
+    FID         : NewtonSquareMeterPerSquareKilogramID;
+    FSymbol     : rsCubicMeterPerKilogramPerSquareSecondSymbol;
+    FName       : rsCubicMeterPerKilogramPerSquareSecondName;
+    FPluralName : rsCubicMeterPerKilogramPerSquareSecondPluralName;
+    FPrefixes   : (pNone, pKilo, pNone);
+    FExponents  : (3, -1, -2));
 
 { TReciprocalKelvin }
 
+resourcestring
+  rsReciprocalKelvinSymbol = '1/%sK';
+  rsReciprocalKelvinName = 'reciprocal %skelvin';
+  rsReciprocalKelvinPluralName = 'reciprocal %skelvin';
+
 const
-  ReciprocalKelvinId = 94;
+  ReciprocalKelvinID = 94;
   ReciprocalKelvinUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalKelvinId;
-    FSymbol            : '1/%sK';
-    FName              : 'reciprocal %skelvin';
-    FPluralName        : 'reciprocal %skelvin';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalKelvinID;
+    FSymbol     : rsReciprocalKelvinSymbol;
+    FName       : rsReciprocalKelvinName;
+    FPluralName : rsReciprocalKelvinPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TKilogramKelvin }
 
+resourcestring
+  rsKilogramKelvinSymbol = '%sg.%sK';
+  rsKilogramKelvinName = '%sgram %skelvin';
+  rsKilogramKelvinPluralName = '%sgram %skelvins';
+
 const
-  KilogramKelvinId = 95;
+  KilogramKelvinID = 95;
   KilogramKelvinUnit : TUnit = (
-    FUnitOfMeasurement : KilogramKelvinId;
-    FSymbol            : '%sg.%sK';
-    FName              : '%sgram %skelvin';
-    FPluralName        : '%sgram %skelvins';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, 1));
+    FID         : KilogramKelvinID;
+    FSymbol     : rsKilogramKelvinSymbol;
+    FName       : rsKilogramKelvinName;
+    FPluralName : rsKilogramKelvinPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, 1));
 
 { TJoulePerKelvin }
 
+resourcestring
+  rsJoulePerKelvinSymbol = '%sJ/%sK';
+  rsJoulePerKelvinName = '%sjoule per %skelvin';
+  rsJoulePerKelvinPluralName = '%sjoules per %skelvin';
+
 const
-  JoulePerKelvinId = 96;
+  JoulePerKelvinID = 96;
   JoulePerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : JoulePerKelvinId;
-    FSymbol            : '%sJ/%sK';
-    FName              : '%sjoule per %skelvin';
-    FPluralName        : '%sjoules per %skelvin';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : JoulePerKelvinID;
+    FSymbol     : rsJoulePerKelvinSymbol;
+    FName       : rsJoulePerKelvinName;
+    FPluralName : rsJoulePerKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TKilogramSquareMeterPerSquareSecondPerKelvin }
 
+resourcestring
+  rsKilogramSquareMeterPerSquareSecondPerKelvinSymbol = '%sg.%sm2/%ss2/%sK';
+  rsKilogramSquareMeterPerSquareSecondPerKelvinName = '%sgram square %smeter per square %ssecond per %skelvin';
+  rsKilogramSquareMeterPerSquareSecondPerKelvinPluralName = '%sgram square %smeters per square %ssecond per %skelvin';
+
 const
   KilogramSquareMeterPerSquareSecondPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : JoulePerKelvinId;
-    FSymbol            : '%sg.%sm2/%ss2/%sK';
-    FName              : '%sgram square %smeter per square %ssecond per %skelvin';
-    FPluralName        : '%sgram square %smeters per square %ssecond per %skelvin';
-    FPrefixes          : (pKilo, pNone, pNone, pNone);
-    FExponents         : (1, 2, -2, -1));
+    FID         : JoulePerKelvinID;
+    FSymbol     : rsKilogramSquareMeterPerSquareSecondPerKelvinSymbol;
+    FName       : rsKilogramSquareMeterPerSquareSecondPerKelvinName;
+    FPluralName : rsKilogramSquareMeterPerSquareSecondPerKelvinPluralName;
+    FPrefixes   : (pKilo, pNone, pNone, pNone);
+    FExponents  : (1, 2, -2, -1));
 
 { TJoulePerKilogramPerKelvin }
 
+resourcestring
+  rsJoulePerKilogramPerKelvinSymbol = '%sJ/%sg/%sK';
+  rsJoulePerKilogramPerKelvinName = '%sjoule per %sgram per %skelvin';
+  rsJoulePerKilogramPerKelvinPluralName = '%sjoules per %sgram per %skelvin';
+
 const
-  JoulePerKilogramPerKelvinId = 97;
+  JoulePerKilogramPerKelvinID = 97;
   JoulePerKilogramPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : JoulePerKilogramPerKelvinId;
-    FSymbol            : '%sJ/%sg/%sK';
-    FName              : '%sjoule per %sgram per %skelvin';
-    FPluralName        : '%sjoules per %sgram per %skelvin';
-    FPrefixes          : (pNone, pKilo, pNone);
-    FExponents         : (1, -1, -1));
+    FID         : JoulePerKilogramPerKelvinID;
+    FSymbol     : rsJoulePerKilogramPerKelvinSymbol;
+    FName       : rsJoulePerKilogramPerKelvinName;
+    FPluralName : rsJoulePerKilogramPerKelvinPluralName;
+    FPrefixes   : (pNone, pKilo, pNone);
+    FExponents  : (1, -1, -1));
 
 { TSquareMeterPerSquareSecondPerKelvin }
 
+resourcestring
+  rsSquareMeterPerSquareSecondPerKelvinSymbol = '%sm2/%ss2/%sK';
+  rsSquareMeterPerSquareSecondPerKelvinName = 'square %smeter per square %ssecond per %skelvin';
+  rsSquareMeterPerSquareSecondPerKelvinPluralName = 'square %smeters per square %ssecond per %skelvin';
+
 const
   SquareMeterPerSquareSecondPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : JoulePerKilogramPerKelvinId;
-    FSymbol            : '%sm2/%ss2/%sK';
-    FName              : 'square %smeter per square %ssecond per %skelvin';
-    FPluralName        : 'square %smeters per square %ssecond per %skelvin';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (2, -2, -1));
+    FID         : JoulePerKilogramPerKelvinID;
+    FSymbol     : rsSquareMeterPerSquareSecondPerKelvinSymbol;
+    FName       : rsSquareMeterPerSquareSecondPerKelvinName;
+    FPluralName : rsSquareMeterPerSquareSecondPerKelvinPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (2, -2, -1));
 
 { TMeterKelvin }
 
+resourcestring
+  rsMeterKelvinSymbol = '%sm.%sK';
+  rsMeterKelvinName = '%smeter %skelvin';
+  rsMeterKelvinPluralName = '%smeter %skelvins';
+
 const
-  MeterKelvinId = 98;
+  MeterKelvinID = 98;
   MeterKelvinUnit : TUnit = (
-    FUnitOfMeasurement : MeterKelvinId;
-    FSymbol            : '%sm.%sK';
-    FName              : '%smeter %skelvin';
-    FPluralName        : '%smeter %skelvins';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : MeterKelvinID;
+    FSymbol     : rsMeterKelvinSymbol;
+    FName       : rsMeterKelvinName;
+    FPluralName : rsMeterKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TKelvinPerMeter }
 
+resourcestring
+  rsKelvinPerMeterSymbol = '%sK/%sm';
+  rsKelvinPerMeterName = '%skelvin per %smeter';
+  rsKelvinPerMeterPluralName = '%skelvins per %smeter';
+
 const
-  KelvinPerMeterId = 99;
+  KelvinPerMeterID = 99;
   KelvinPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : KelvinPerMeterId;
-    FSymbol            : '%sK/%sm';
-    FName              : '%skelvin per %smeter';
-    FPluralName        : '%skelvins per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : KelvinPerMeterID;
+    FSymbol     : rsKelvinPerMeterSymbol;
+    FName       : rsKelvinPerMeterName;
+    FPluralName : rsKelvinPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TWattPerMeter }
 
+resourcestring
+  rsWattPerMeterSymbol = '%sW/%sm';
+  rsWattPerMeterName = '%swatt per %smeter';
+  rsWattPerMeterPluralName = '%swatts per %smeter';
+
 const
-  WattPerMeterId = 100;
+  WattPerMeterID = 100;
   WattPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : WattPerMeterId;
-    FSymbol            : '%sW/%sm';
-    FName              : '%swatt per %smeter';
-    FPluralName        : '%swatts per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : WattPerMeterID;
+    FSymbol     : rsWattPerMeterSymbol;
+    FName       : rsWattPerMeterName;
+    FPluralName : rsWattPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TKilogramMeterPerCubicSecond }
 
+resourcestring
+  rsKilogramMeterPerCubicSecondSymbol = '%sg.%sm/%ss3';
+  rsKilogramMeterPerCubicSecondName = '%sgram %smeter per cubic %ssecond';
+  rsKilogramMeterPerCubicSecondPluralName = '%sgram %smeters per cubic %ssecond';
+
 const
   KilogramMeterPerCubicSecondUnit : TUnit = (
-    FUnitOfMeasurement : WattPerMeterId;
-    FSymbol            : '%sg.%sm/%ss3';
-    FName              : '%sgram %smeter per cubic %ssecond';
-    FPluralName        : '%sgram %smeters per cubic %ssecond';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 1, -3));
+    FID         : WattPerMeterID;
+    FSymbol     : rsKilogramMeterPerCubicSecondSymbol;
+    FName       : rsKilogramMeterPerCubicSecondName;
+    FPluralName : rsKilogramMeterPerCubicSecondPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 1, -3));
 
 { TWattPerSquareMeter }
 
+resourcestring
+  rsWattPerSquareMeterSymbol = '%sW/%sm2';
+  rsWattPerSquareMeterName = '%swatt per square %smeter';
+  rsWattPerSquareMeterPluralName = '%swatts per square %smeter';
+
 const
-  WattPerSquareMeterId = 101;
+  WattPerSquareMeterID = 101;
   WattPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : WattPerSquareMeterId;
-    FSymbol            : '%sW/%sm2';
-    FName              : '%swatt per square %smeter';
-    FPluralName        : '%swatts per square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : WattPerSquareMeterID;
+    FSymbol     : rsWattPerSquareMeterSymbol;
+    FName       : rsWattPerSquareMeterName;
+    FPluralName : rsWattPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TKilogramPerCubicSecond }
 
+resourcestring
+  rsKilogramPerCubicSecondSymbol = '%sg/%ss3';
+  rsKilogramPerCubicSecondName = '%sgram per cubic %ssecond';
+  rsKilogramPerCubicSecondPluralName = '%sgrams per cubic %ssecond';
+
 const
   KilogramPerCubicSecondUnit : TUnit = (
-    FUnitOfMeasurement : WattPerSquareMeterId;
-    FSymbol            : '%sg/%ss3';
-    FName              : '%sgram per cubic %ssecond';
-    FPluralName        : '%sgrams per cubic %ssecond';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, -3));
+    FID         : WattPerSquareMeterID;
+    FSymbol     : rsKilogramPerCubicSecondSymbol;
+    FName       : rsKilogramPerCubicSecondName;
+    FPluralName : rsKilogramPerCubicSecondPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, -3));
 
 { TWattPerCubicMeter }
 
+resourcestring
+  rsWattPerCubicMeterSymbol = '%sW/%sm3';
+  rsWattPerCubicMeterName = '%swatt per cubic %smeter';
+  rsWattPerCubicMeterPluralName = '%swatts per cubic %smeter';
+
 const
-  WattPerCubicMeterId = 102;
+  WattPerCubicMeterID = 102;
   WattPerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : WattPerCubicMeterId;
-    FSymbol            : '%sW/%sm3';
-    FName              : '%swatt per cubic %smeter';
-    FPluralName        : '%swatts per cubic %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -3));
+    FID         : WattPerCubicMeterID;
+    FSymbol     : rsWattPerCubicMeterSymbol;
+    FName       : rsWattPerCubicMeterName;
+    FPluralName : rsWattPerCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -3));
 
 { TWattPerKelvin }
 
+resourcestring
+  rsWattPerKelvinSymbol = '%sW/%sK';
+  rsWattPerKelvinName = '%swatt per %skelvin';
+  rsWattPerKelvinPluralName = '%swatts per %skelvin';
+
 const
-  WattPerKelvinId = 103;
+  WattPerKelvinID = 103;
   WattPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : WattPerKelvinId;
-    FSymbol            : '%sW/%sK';
-    FName              : '%swatt per %skelvin';
-    FPluralName        : '%swatts per %skelvin';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : WattPerKelvinID;
+    FSymbol     : rsWattPerKelvinSymbol;
+    FName       : rsWattPerKelvinName;
+    FPluralName : rsWattPerKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TKilogramSquareMeterPerCubicSecondPerKelvin }
 
+resourcestring
+  rsKilogramSquareMeterPerCubicSecondPerKelvinSymbol = '%sg.%sm2/%ss3/%sK';
+  rsKilogramSquareMeterPerCubicSecondPerKelvinName = '%sgram square %smeter per cubic %ssecond per %skelvin';
+  rsKilogramSquareMeterPerCubicSecondPerKelvinPluralName = '%sgram square %smeters per cubic %ssecond per %skelvin';
+
 const
   KilogramSquareMeterPerCubicSecondPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : WattPerKelvinId;
-    FSymbol            : '%sg.%sm2/%ss3/%sK';
-    FName              : '%sgram square %smeter per cubic %ssecond per %skelvin';
-    FPluralName        : '%sgram square %smeters per cubic %ssecond per %skelvin';
-    FPrefixes          : (pKilo, pNone, pNone, pNone);
-    FExponents         : (1, 2, -3, -1));
+    FID         : WattPerKelvinID;
+    FSymbol     : rsKilogramSquareMeterPerCubicSecondPerKelvinSymbol;
+    FName       : rsKilogramSquareMeterPerCubicSecondPerKelvinName;
+    FPluralName : rsKilogramSquareMeterPerCubicSecondPerKelvinPluralName;
+    FPrefixes   : (pKilo, pNone, pNone, pNone);
+    FExponents  : (1, 2, -3, -1));
 
 { TWattPerMeterPerKelvin }
 
+resourcestring
+  rsWattPerMeterPerKelvinSymbol = '%sW/%sm/%sK';
+  rsWattPerMeterPerKelvinName = '%swatt per %smeter per %skelvin';
+  rsWattPerMeterPerKelvinPluralName = '%swatts per %smeter per %skelvin';
+
 const
-  WattPerMeterPerKelvinId = 104;
+  WattPerMeterPerKelvinID = 104;
   WattPerMeterPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : WattPerMeterPerKelvinId;
-    FSymbol            : '%sW/%sm/%sK';
-    FName              : '%swatt per %smeter per %skelvin';
-    FPluralName        : '%swatts per %smeter per %skelvin';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -1, -1));
+    FID         : WattPerMeterPerKelvinID;
+    FSymbol     : rsWattPerMeterPerKelvinSymbol;
+    FName       : rsWattPerMeterPerKelvinName;
+    FPluralName : rsWattPerMeterPerKelvinPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -1, -1));
 
 { TKilogramMeterPerCubicSecondPerKelvin }
 
+resourcestring
+  rsKilogramMeterPerCubicSecondPerKelvinSymbol = '%sg.%sm/%ss3/%sK';
+  rsKilogramMeterPerCubicSecondPerKelvinName = '%sgram %smeter per cubic %ssecond per %skelvin';
+  rsKilogramMeterPerCubicSecondPerKelvinPluralName = '%sgram %smeters per cubic %ssecond per %skelvin';
+
 const
   KilogramMeterPerCubicSecondPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : WattPerMeterPerKelvinId;
-    FSymbol            : '%sg.%sm/%ss3/%sK';
-    FName              : '%sgram %smeter per cubic %ssecond per %skelvin';
-    FPluralName        : '%sgram %smeters per cubic %ssecond per %skelvin';
-    FPrefixes          : (pKilo, pNone, pNone, pNone);
-    FExponents         : (1, 1, -3, -1));
+    FID         : WattPerMeterPerKelvinID;
+    FSymbol     : rsKilogramMeterPerCubicSecondPerKelvinSymbol;
+    FName       : rsKilogramMeterPerCubicSecondPerKelvinName;
+    FPluralName : rsKilogramMeterPerCubicSecondPerKelvinPluralName;
+    FPrefixes   : (pKilo, pNone, pNone, pNone);
+    FExponents  : (1, 1, -3, -1));
 
 { TKelvinPerWatt }
 
+resourcestring
+  rsKelvinPerWattSymbol = '%sK/%sW';
+  rsKelvinPerWattName = '%skelvin per %swatt';
+  rsKelvinPerWattPluralName = '%skelvins per %swatt';
+
 const
-  KelvinPerWattId = 105;
+  KelvinPerWattID = 105;
   KelvinPerWattUnit : TUnit = (
-    FUnitOfMeasurement : KelvinPerWattId;
-    FSymbol            : '%sK/%sW';
-    FName              : '%skelvin per %swatt';
-    FPluralName        : '%skelvins per %swatt';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : KelvinPerWattID;
+    FSymbol     : rsKelvinPerWattSymbol;
+    FName       : rsKelvinPerWattName;
+    FPluralName : rsKelvinPerWattPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TMeterPerWatt }
 
+resourcestring
+  rsMeterPerWattSymbol = '%sm/%sW';
+  rsMeterPerWattName = '%smeter per %swatt';
+  rsMeterPerWattPluralName = '%smeters per %swatts';
+
 const
-  MeterPerWattId = 106;
+  MeterPerWattID = 106;
   MeterPerWattUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerWattId;
-    FSymbol            : '%sm/%sW';
-    FName              : '%smeter per %swatt';
-    FPluralName        : '%smeters per %swatts';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MeterPerWattID;
+    FSymbol     : rsMeterPerWattSymbol;
+    FName       : rsMeterPerWattName;
+    FPluralName : rsMeterPerWattPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TMeterKelvinPerWatt }
 
+resourcestring
+  rsMeterKelvinPerWattSymbol = '%sK.%sm/%sW';
+  rsMeterKelvinPerWattName = '%skelvin %smeter per %swatt';
+  rsMeterKelvinPerWattPluralName = '%skelvin %smeters per %swatt';
+
 const
-  MeterKelvinPerWattId = 107;
+  MeterKelvinPerWattID = 107;
   MeterKelvinPerWattUnit : TUnit = (
-    FUnitOfMeasurement : MeterKelvinPerWattId;
-    FSymbol            : '%sK.%sm/%sW';
-    FName              : '%skelvin %smeter per %swatt';
-    FPluralName        : '%skelvin %smeters per %swatt';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 1, -1));
+    FID         : MeterKelvinPerWattID;
+    FSymbol     : rsMeterKelvinPerWattSymbol;
+    FName       : rsMeterKelvinPerWattName;
+    FPluralName : rsMeterKelvinPerWattPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 1, -1));
 
 { TSquareMeterKelvin }
 
+resourcestring
+  rsSquareMeterKelvinSymbol = '%sm2.%sK';
+  rsSquareMeterKelvinName = 'square %smeter %skelvin';
+  rsSquareMeterKelvinPluralName = 'square %smeter %skelvins';
+
 const
-  SquareMeterKelvinId = 108;
+  SquareMeterKelvinID = 108;
   SquareMeterKelvinUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterKelvinId;
-    FSymbol            : '%sm2.%sK';
-    FName              : 'square %smeter %skelvin';
-    FPluralName        : 'square %smeter %skelvins';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, 1));
+    FID         : SquareMeterKelvinID;
+    FSymbol     : rsSquareMeterKelvinSymbol;
+    FName       : rsSquareMeterKelvinName;
+    FPluralName : rsSquareMeterKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, 1));
 
 { TWattPerSquareMeterPerKelvin }
 
+resourcestring
+  rsWattPerSquareMeterPerKelvinSymbol = '%sW/%sm2/%sK';
+  rsWattPerSquareMeterPerKelvinName = '%swatt per square %smeter per %skelvin';
+  rsWattPerSquareMeterPerKelvinPluralName = '%swatts per square %smeter per %skelvin';
+
 const
-  WattPerSquareMeterPerKelvinId = 109;
+  WattPerSquareMeterPerKelvinID = 109;
   WattPerSquareMeterPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : WattPerSquareMeterPerKelvinId;
-    FSymbol            : '%sW/%sm2/%sK';
-    FName              : '%swatt per square %smeter per %skelvin';
-    FPluralName        : '%swatts per square %smeter per %skelvin';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -2, -1));
+    FID         : WattPerSquareMeterPerKelvinID;
+    FSymbol     : rsWattPerSquareMeterPerKelvinSymbol;
+    FName       : rsWattPerSquareMeterPerKelvinName;
+    FPluralName : rsWattPerSquareMeterPerKelvinPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -2, -1));
 
 { TKilogramPerCubicSecondPerKelvin }
 
+resourcestring
+  rsKilogramPerCubicSecondPerKelvinSymbol = '%sg/%ss3/%sK';
+  rsKilogramPerCubicSecondPerKelvinName = '%sgram per cubic %ssecond per %skelvin';
+  rsKilogramPerCubicSecondPerKelvinPluralName = '%sgrams per cubic %ssecond per %skelvin';
+
 const
   KilogramPerCubicSecondPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : WattPerSquareMeterPerKelvinId;
-    FSymbol            : '%sg/%ss3/%sK';
-    FName              : '%sgram per cubic %ssecond per %skelvin';
-    FPluralName        : '%sgrams per cubic %ssecond per %skelvin';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, -3, -1));
+    FID         : WattPerSquareMeterPerKelvinID;
+    FSymbol     : rsKilogramPerCubicSecondPerKelvinSymbol;
+    FName       : rsKilogramPerCubicSecondPerKelvinName;
+    FPluralName : rsKilogramPerCubicSecondPerKelvinPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, -3, -1));
 
 { TSquareMeterQuarticKelvin }
 
+resourcestring
+  rsSquareMeterQuarticKelvinSymbol = '%sm2.%sK4';
+  rsSquareMeterQuarticKelvinName = 'square %smeter quartic %skelvin';
+  rsSquareMeterQuarticKelvinPluralName = 'square %smeter quartic %skelvins';
+
 const
-  SquareMeterQuarticKelvinId = 110;
+  SquareMeterQuarticKelvinID = 110;
   SquareMeterQuarticKelvinUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterQuarticKelvinId;
-    FSymbol            : '%sm2.%sK4';
-    FName              : 'square %smeter quartic %skelvin';
-    FPluralName        : 'square %smeter quartic %skelvins';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, 4));
+    FID         : SquareMeterQuarticKelvinID;
+    FSymbol     : rsSquareMeterQuarticKelvinSymbol;
+    FName       : rsSquareMeterQuarticKelvinName;
+    FPluralName : rsSquareMeterQuarticKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, 4));
 
 { TWattPerQuarticKelvin }
 
+resourcestring
+  rsWattPerQuarticKelvinSymbol = '%sW/%sK4';
+  rsWattPerQuarticKelvinName = '%swatt per quartic %skelvin';
+  rsWattPerQuarticKelvinPluralName = '%swatts per quartic %skelvin';
+
 const
-  WattPerQuarticKelvinId = 111;
+  WattPerQuarticKelvinID = 111;
   WattPerQuarticKelvinUnit : TUnit = (
-    FUnitOfMeasurement : WattPerQuarticKelvinId;
-    FSymbol            : '%sW/%sK4';
-    FName              : '%swatt per quartic %skelvin';
-    FPluralName        : '%swatts per quartic %skelvin';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -4));
+    FID         : WattPerQuarticKelvinID;
+    FSymbol     : rsWattPerQuarticKelvinSymbol;
+    FName       : rsWattPerQuarticKelvinName;
+    FPluralName : rsWattPerQuarticKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -4));
 
 { TWattPerSquareMeterPerQuarticKelvin }
 
+resourcestring
+  rsWattPerSquareMeterPerQuarticKelvinSymbol = '%sW/%sm2/%sK4';
+  rsWattPerSquareMeterPerQuarticKelvinName = '%swatt per square %smeter per quartic %skelvin';
+  rsWattPerSquareMeterPerQuarticKelvinPluralName = '%swatts per square %smeter per quartic %skelvin';
+
 const
-  WattPerSquareMeterPerQuarticKelvinId = 112;
+  WattPerSquareMeterPerQuarticKelvinID = 112;
   WattPerSquareMeterPerQuarticKelvinUnit : TUnit = (
-    FUnitOfMeasurement : WattPerSquareMeterPerQuarticKelvinId;
-    FSymbol            : '%sW/%sm2/%sK4';
-    FName              : '%swatt per square %smeter per quartic %skelvin';
-    FPluralName        : '%swatts per square %smeter per quartic %skelvin';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -2, -4));
+    FID         : WattPerSquareMeterPerQuarticKelvinID;
+    FSymbol     : rsWattPerSquareMeterPerQuarticKelvinSymbol;
+    FName       : rsWattPerSquareMeterPerQuarticKelvinName;
+    FPluralName : rsWattPerSquareMeterPerQuarticKelvinPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -2, -4));
 
 { TJoulePerMole }
 
+resourcestring
+  rsJoulePerMoleSymbol = '%sJ/%smol';
+  rsJoulePerMoleName = '%sjoule per %smole';
+  rsJoulePerMolePluralName = '%sjoules per %smole';
+
 const
-  JoulePerMoleId = 113;
+  JoulePerMoleID = 113;
   JoulePerMoleUnit : TUnit = (
-    FUnitOfMeasurement : JoulePerMoleId;
-    FSymbol            : '%sJ/%smol';
-    FName              : '%sjoule per %smole';
-    FPluralName        : '%sjoules per %smole';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : JoulePerMoleID;
+    FSymbol     : rsJoulePerMoleSymbol;
+    FName       : rsJoulePerMoleName;
+    FPluralName : rsJoulePerMolePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TMoleKelvin }
 
+resourcestring
+  rsMoleKelvinSymbol = '%smol.%sK';
+  rsMoleKelvinName = '%smole %skelvin';
+  rsMoleKelvinPluralName = '%smole %skelvins';
+
 const
-  MoleKelvinId = 114;
+  MoleKelvinID = 114;
   MoleKelvinUnit : TUnit = (
-    FUnitOfMeasurement : MoleKelvinId;
-    FSymbol            : '%smol.%sK';
-    FName              : '%smole %skelvin';
-    FPluralName        : '%smole %skelvins';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : MoleKelvinID;
+    FSymbol     : rsMoleKelvinSymbol;
+    FName       : rsMoleKelvinName;
+    FPluralName : rsMoleKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TJoulePerMolePerKelvin }
 
+resourcestring
+  rsJoulePerMolePerKelvinSymbol = '%sJ/%smol/%sK';
+  rsJoulePerMolePerKelvinName = '%sjoule per %smole per %skelvin';
+  rsJoulePerMolePerKelvinPluralName = '%sjoules per %smole per %skelvin';
+
 const
-  JoulePerMolePerKelvinId = 115;
+  JoulePerMolePerKelvinID = 115;
   JoulePerMolePerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : JoulePerMolePerKelvinId;
-    FSymbol            : '%sJ/%smol/%sK';
-    FName              : '%sjoule per %smole per %skelvin';
-    FPluralName        : '%sjoules per %smole per %skelvin';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -1, -1));
+    FID         : JoulePerMolePerKelvinID;
+    FSymbol     : rsJoulePerMolePerKelvinSymbol;
+    FName       : rsJoulePerMolePerKelvinName;
+    FPluralName : rsJoulePerMolePerKelvinPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -1, -1));
 
 { TOhmMeter }
 
+resourcestring
+  rsOhmMeterSymbol = '%sΩ.%sm';
+  rsOhmMeterName = '%sohm %smeter';
+  rsOhmMeterPluralName = '%sohm %smeters';
+
 const
-  OhmMeterId = 116;
+  OhmMeterID = 116;
   OhmMeterUnit : TUnit = (
-    FUnitOfMeasurement : OhmMeterId;
-    FSymbol            : '%sΩ.%sm';
-    FName              : '%sohm %smeter';
-    FPluralName        : '%sohm %smeters';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : OhmMeterID;
+    FSymbol     : rsOhmMeterSymbol;
+    FName       : rsOhmMeterName;
+    FPluralName : rsOhmMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TVoltPerMeter }
 
+resourcestring
+  rsVoltPerMeterSymbol = '%sV/%sm';
+  rsVoltPerMeterName = '%svolt per %smeter';
+  rsVoltPerMeterPluralName = '%svolts per %smeter';
+
 const
-  VoltPerMeterId = 117;
+  VoltPerMeterID = 117;
   VoltPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : VoltPerMeterId;
-    FSymbol            : '%sV/%sm';
-    FName              : '%svolt per %smeter';
-    FPluralName        : '%svolts per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : VoltPerMeterID;
+    FSymbol     : rsVoltPerMeterSymbol;
+    FName       : rsVoltPerMeterName;
+    FPluralName : rsVoltPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TNewtonPerCoulomb }
 
+resourcestring
+  rsNewtonPerCoulombSymbol = '%sN/%sC';
+  rsNewtonPerCoulombName = '%snewton per %scoulomb';
+  rsNewtonPerCoulombPluralName = '%snewtons per %scoulomb';
+
 const
   NewtonPerCoulombUnit : TUnit = (
-    FUnitOfMeasurement : VoltPerMeterId;
-    FSymbol            : '%sN/%sC';
-    FName              : '%snewton per %scoulomb';
-    FPluralName        : '%snewtons per %scoulomb';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : VoltPerMeterID;
+    FSymbol     : rsNewtonPerCoulombSymbol;
+    FName       : rsNewtonPerCoulombName;
+    FPluralName : rsNewtonPerCoulombPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TCoulombPerMeter }
 
+resourcestring
+  rsCoulombPerMeterSymbol = '%sC/%sm';
+  rsCoulombPerMeterName = '%scoulomb per %smeter';
+  rsCoulombPerMeterPluralName = '%scoulombs per %smeter';
+
 const
-  CoulombPerMeterId = 118;
+  CoulombPerMeterID = 118;
   CoulombPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : CoulombPerMeterId;
-    FSymbol            : '%sC/%sm';
-    FName              : '%scoulomb per %smeter';
-    FPluralName        : '%scoulombs per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : CoulombPerMeterID;
+    FSymbol     : rsCoulombPerMeterSymbol;
+    FName       : rsCoulombPerMeterName;
+    FPluralName : rsCoulombPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TSquareCoulombPerMeter }
 
+resourcestring
+  rsSquareCoulombPerMeterSymbol = '%sC2/%sm';
+  rsSquareCoulombPerMeterName = 'square %scoulomb per %smeter';
+  rsSquareCoulombPerMeterPluralName = 'square %scoulombs per %smeter';
+
 const
-  SquareCoulombPerMeterId = 119;
+  SquareCoulombPerMeterID = 119;
   SquareCoulombPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareCoulombPerMeterId;
-    FSymbol            : '%sC2/%sm';
-    FName              : 'square %scoulomb per %smeter';
-    FPluralName        : 'square %scoulombs per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareCoulombPerMeterID;
+    FSymbol     : rsSquareCoulombPerMeterSymbol;
+    FName       : rsSquareCoulombPerMeterName;
+    FPluralName : rsSquareCoulombPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -1));
 
 { TCoulombPerSquareMeter }
 
+resourcestring
+  rsCoulombPerSquareMeterSymbol = '%sC/%sm2';
+  rsCoulombPerSquareMeterName = '%scoulomb per square %smeter';
+  rsCoulombPerSquareMeterPluralName = '%scoulombs per square %smeter';
+
 const
-  CoulombPerSquareMeterId = 120;
+  CoulombPerSquareMeterID = 120;
   CoulombPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : CoulombPerSquareMeterId;
-    FSymbol            : '%sC/%sm2';
-    FName              : '%scoulomb per square %smeter';
-    FPluralName        : '%scoulombs per square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : CoulombPerSquareMeterID;
+    FSymbol     : rsCoulombPerSquareMeterSymbol;
+    FName       : rsCoulombPerSquareMeterName;
+    FPluralName : rsCoulombPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TSquareMeterPerSquareCoulomb }
 
+resourcestring
+  rsSquareMeterPerSquareCoulombSymbol = '%sm2/%sC2';
+  rsSquareMeterPerSquareCoulombName = 'square %smeter per square %scoulomb';
+  rsSquareMeterPerSquareCoulombPluralName = 'square %smeters per square %scoulomb';
+
 const
-  SquareMeterPerSquareCoulombId = 121;
+  SquareMeterPerSquareCoulombID = 121;
   SquareMeterPerSquareCoulombUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerSquareCoulombId;
-    FSymbol            : '%sm2/%sC2';
-    FName              : 'square %smeter per square %scoulomb';
-    FPluralName        : 'square %smeters per square %scoulomb';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -2));
+    FID         : SquareMeterPerSquareCoulombID;
+    FSymbol     : rsSquareMeterPerSquareCoulombSymbol;
+    FName       : rsSquareMeterPerSquareCoulombName;
+    FPluralName : rsSquareMeterPerSquareCoulombPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -2));
 
 { TNewtonPerSquareCoulomb }
 
+resourcestring
+  rsNewtonPerSquareCoulombSymbol = '%sN/%sC2';
+  rsNewtonPerSquareCoulombName = '%snewton per square %scoulomb';
+  rsNewtonPerSquareCoulombPluralName = '%snewtons per square %scoulomb';
+
 const
-  NewtonPerSquareCoulombId = 122;
+  NewtonPerSquareCoulombID = 122;
   NewtonPerSquareCoulombUnit : TUnit = (
-    FUnitOfMeasurement : NewtonPerSquareCoulombId;
-    FSymbol            : '%sN/%sC2';
-    FName              : '%snewton per square %scoulomb';
-    FPluralName        : '%snewtons per square %scoulomb';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : NewtonPerSquareCoulombID;
+    FSymbol     : rsNewtonPerSquareCoulombSymbol;
+    FName       : rsNewtonPerSquareCoulombName;
+    FPluralName : rsNewtonPerSquareCoulombPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TNewtonSquareMeterPerSquareCoulomb }
 
+resourcestring
+  rsNewtonSquareMeterPerSquareCoulombSymbol = '%sN.%sm2/%sC2';
+  rsNewtonSquareMeterPerSquareCoulombName = '%snewton square %smeter per square %scoulomb';
+  rsNewtonSquareMeterPerSquareCoulombPluralName = '%snewton square %smeters per square %scoulomb';
+
 const
-  NewtonSquareMeterPerSquareCoulombId = 123;
+  NewtonSquareMeterPerSquareCoulombID = 123;
   NewtonSquareMeterPerSquareCoulombUnit : TUnit = (
-    FUnitOfMeasurement : NewtonSquareMeterPerSquareCoulombId;
-    FSymbol            : '%sN.%sm2/%sC2';
-    FName              : '%snewton square %smeter per square %scoulomb';
-    FPluralName        : '%snewton square %smeters per square %scoulomb';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 2, -2));
+    FID         : NewtonSquareMeterPerSquareCoulombID;
+    FSymbol     : rsNewtonSquareMeterPerSquareCoulombSymbol;
+    FName       : rsNewtonSquareMeterPerSquareCoulombName;
+    FPluralName : rsNewtonSquareMeterPerSquareCoulombPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 2, -2));
 
 { TVoltMeter }
 
+resourcestring
+  rsVoltMeterSymbol = '%sV.%sm';
+  rsVoltMeterName = '%svolt %smeter';
+  rsVoltMeterPluralName = '%svolt %smeters';
+
 const
-  VoltMeterId = 124;
+  VoltMeterID = 124;
   VoltMeterUnit : TUnit = (
-    FUnitOfMeasurement : VoltMeterId;
-    FSymbol            : '%sV.%sm';
-    FName              : '%svolt %smeter';
-    FPluralName        : '%svolt %smeters';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : VoltMeterID;
+    FSymbol     : rsVoltMeterSymbol;
+    FName       : rsVoltMeterName;
+    FPluralName : rsVoltMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TNewtonSquareMeterPerCoulomb }
 
+resourcestring
+  rsNewtonSquareMeterPerCoulombSymbol = '%sN.%sm2/%sC';
+  rsNewtonSquareMeterPerCoulombName = '%snewton square %smeter per %scoulomb';
+  rsNewtonSquareMeterPerCoulombPluralName = '%snewton square %smeters per %scoulomb';
+
 const
   NewtonSquareMeterPerCoulombUnit : TUnit = (
-    FUnitOfMeasurement : VoltMeterId;
-    FSymbol            : '%sN.%sm2/%sC';
-    FName              : '%snewton square %smeter per %scoulomb';
-    FPluralName        : '%snewton square %smeters per %scoulomb';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 2, -1));
+    FID         : VoltMeterID;
+    FSymbol     : rsNewtonSquareMeterPerCoulombSymbol;
+    FName       : rsNewtonSquareMeterPerCoulombName;
+    FPluralName : rsNewtonSquareMeterPerCoulombPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 2, -1));
 
 { TVoltMeterPerSecond }
 
+resourcestring
+  rsVoltMeterPerSecondSymbol = '%sV.%sm/%ss';
+  rsVoltMeterPerSecondName = '%svolt %smeter per %ssecond';
+  rsVoltMeterPerSecondPluralName = '%svolt %smeters per %ssecond';
+
 const
-  VoltMeterPerSecondId = 125;
+  VoltMeterPerSecondID = 125;
   VoltMeterPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : VoltMeterPerSecondId;
-    FSymbol            : '%sV.%sm/%ss';
-    FName              : '%svolt %smeter per %ssecond';
-    FPluralName        : '%svolt %smeters per %ssecond';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 1, -1));
+    FID         : VoltMeterPerSecondID;
+    FSymbol     : rsVoltMeterPerSecondSymbol;
+    FName       : rsVoltMeterPerSecondName;
+    FPluralName : rsVoltMeterPerSecondPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 1, -1));
 
 { TFaradPerMeter }
 
+resourcestring
+  rsFaradPerMeterSymbol = '%sF/%sm';
+  rsFaradPerMeterName = '%sfarad per %smeter';
+  rsFaradPerMeterPluralName = '%sfarads per %smeter';
+
 const
-  FaradPerMeterId = 126;
+  FaradPerMeterID = 126;
   FaradPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : FaradPerMeterId;
-    FSymbol            : '%sF/%sm';
-    FName              : '%sfarad per %smeter';
-    FPluralName        : '%sfarads per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : FaradPerMeterID;
+    FSymbol     : rsFaradPerMeterSymbol;
+    FName       : rsFaradPerMeterName;
+    FPluralName : rsFaradPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TAmperePerMeter }
 
+resourcestring
+  rsAmperePerMeterSymbol = '%sA/%sm';
+  rsAmperePerMeterName = '%sampere per %smeter';
+  rsAmperePerMeterPluralName = '%samperes per %smeter';
+
 const
-  AmperePerMeterId = 127;
+  AmperePerMeterID = 127;
   AmperePerMeterUnit : TUnit = (
-    FUnitOfMeasurement : AmperePerMeterId;
-    FSymbol            : '%sA/%sm';
-    FName              : '%sampere per %smeter';
-    FPluralName        : '%samperes per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : AmperePerMeterID;
+    FSymbol     : rsAmperePerMeterSymbol;
+    FName       : rsAmperePerMeterName;
+    FPluralName : rsAmperePerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TMeterPerAmpere }
 
+resourcestring
+  rsMeterPerAmpereSymbol = '%sm/%sA';
+  rsMeterPerAmpereName = '%smeter per %sampere';
+  rsMeterPerAmperePluralName = '%smeters per %sampere';
+
 const
-  MeterPerAmpereId = 128;
+  MeterPerAmpereID = 128;
   MeterPerAmpereUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerAmpereId;
-    FSymbol            : '%sm/%sA';
-    FName              : '%smeter per %sampere';
-    FPluralName        : '%smeters per %sampere';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MeterPerAmpereID;
+    FSymbol     : rsMeterPerAmpereSymbol;
+    FName       : rsMeterPerAmpereName;
+    FPluralName : rsMeterPerAmperePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TTeslaMeter }
 
+resourcestring
+  rsTeslaMeterSymbol = '%sT.%sm';
+  rsTeslaMeterName = '%stesla %smeter';
+  rsTeslaMeterPluralName = '%stesla %smeters';
+
 const
-  TeslaMeterId = 129;
+  TeslaMeterID = 129;
   TeslaMeterUnit : TUnit = (
-    FUnitOfMeasurement : TeslaMeterId;
-    FSymbol            : '%sT.%sm';
-    FName              : '%stesla %smeter';
-    FPluralName        : '%stesla %smeters';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : TeslaMeterID;
+    FSymbol     : rsTeslaMeterSymbol;
+    FName       : rsTeslaMeterName;
+    FPluralName : rsTeslaMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TNewtonPerAmpere }
 
+resourcestring
+  rsNewtonPerAmpereSymbol = '%sN/%sA';
+  rsNewtonPerAmpereName = '%snewton per %sampere';
+  rsNewtonPerAmperePluralName = '%snewtons per %sampere';
+
 const
   NewtonPerAmpereUnit : TUnit = (
-    FUnitOfMeasurement : TeslaMeterId;
-    FSymbol            : '%sN/%sA';
-    FName              : '%snewton per %sampere';
-    FPluralName        : '%snewtons per %sampere';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : TeslaMeterID;
+    FSymbol     : rsNewtonPerAmpereSymbol;
+    FName       : rsNewtonPerAmpereName;
+    FPluralName : rsNewtonPerAmperePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TTeslaPerAmpere }
 
+resourcestring
+  rsTeslaPerAmpereSymbol = '%sT/%sA';
+  rsTeslaPerAmpereName = '%stesla per %sampere';
+  rsTeslaPerAmperePluralName = '%steslas per %sampere';
+
 const
-  TeslaPerAmpereId = 130;
+  TeslaPerAmpereID = 130;
   TeslaPerAmpereUnit : TUnit = (
-    FUnitOfMeasurement : TeslaPerAmpereId;
-    FSymbol            : '%sT/%sA';
-    FName              : '%stesla per %sampere';
-    FPluralName        : '%steslas per %sampere';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : TeslaPerAmpereID;
+    FSymbol     : rsTeslaPerAmpereSymbol;
+    FName       : rsTeslaPerAmpereName;
+    FPluralName : rsTeslaPerAmperePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { THenryPerMeter }
 
+resourcestring
+  rsHenryPerMeterSymbol = '%sH/%sm';
+  rsHenryPerMeterName = '%shenry per %smeter';
+  rsHenryPerMeterPluralName = '%shenries per %smeter';
+
 const
-  HenryPerMeterId = 131;
+  HenryPerMeterID = 131;
   HenryPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : HenryPerMeterId;
-    FSymbol            : '%sH/%sm';
-    FName              : '%shenry per %smeter';
-    FPluralName        : '%shenries per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : HenryPerMeterID;
+    FSymbol     : rsHenryPerMeterSymbol;
+    FName       : rsHenryPerMeterName;
+    FPluralName : rsHenryPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TTeslaMeterPerAmpere }
 
+resourcestring
+  rsTeslaMeterPerAmpereSymbol = '%sT.%sm/%sA';
+  rsTeslaMeterPerAmpereName = '%stesla %smeter per %sampere';
+  rsTeslaMeterPerAmperePluralName = '%stesla %smeters per %sampere';
+
 const
   TeslaMeterPerAmpereUnit : TUnit = (
-    FUnitOfMeasurement : HenryPerMeterId;
-    FSymbol            : '%sT.%sm/%sA';
-    FName              : '%stesla %smeter per %sampere';
-    FPluralName        : '%stesla %smeters per %sampere';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 1, -1));
+    FID         : HenryPerMeterID;
+    FSymbol     : rsTeslaMeterPerAmpereSymbol;
+    FName       : rsTeslaMeterPerAmpereName;
+    FPluralName : rsTeslaMeterPerAmperePluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 1, -1));
 
 { TNewtonPerSquareAmpere }
 
+resourcestring
+  rsNewtonPerSquareAmpereSymbol = '%sN/%sA2';
+  rsNewtonPerSquareAmpereName = '%snewton per square %sampere';
+  rsNewtonPerSquareAmperePluralName = '%snewtons per square %sampere';
+
 const
   NewtonPerSquareAmpereUnit : TUnit = (
-    FUnitOfMeasurement : HenryPerMeterId;
-    FSymbol            : '%sN/%sA2';
-    FName              : '%snewton per square %sampere';
-    FPluralName        : '%snewtons per square %sampere';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : HenryPerMeterID;
+    FSymbol     : rsNewtonPerSquareAmpereSymbol;
+    FName       : rsNewtonPerSquareAmpereName;
+    FPluralName : rsNewtonPerSquareAmperePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TRadianPerMeter }
 
+resourcestring
+  rsRadianPerMeterSymbol = 'rad/%sm';
+  rsRadianPerMeterName = 'radian per %smeter';
+  rsRadianPerMeterPluralName = 'radians per %smeter';
+
 const
   RadianPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalMeterId;
-    FSymbol            : 'rad/%sm';
-    FName              : 'radian per %smeter';
-    FPluralName        : 'radians per %smeter';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalMeterID;
+    FSymbol     : rsRadianPerMeterSymbol;
+    FName       : rsRadianPerMeterName;
+    FPluralName : rsRadianPerMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TSquareKilogramPerSquareSecond }
 
+resourcestring
+  rsSquareKilogramPerSquareSecondSymbol = '%sg2/%ss2';
+  rsSquareKilogramPerSquareSecondName = 'square %sgram per square %ssecond';
+  rsSquareKilogramPerSquareSecondPluralName = 'square %sgrams per square %ssecond';
+
 const
-  SquareKilogramPerSquareSecondId = 132;
+  SquareKilogramPerSquareSecondID = 132;
   SquareKilogramPerSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareKilogramPerSquareSecondId;
-    FSymbol            : '%sg2/%ss2';
-    FName              : 'square %sgram per square %ssecond';
-    FPluralName        : 'square %sgrams per square %ssecond';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (2, -2));
+    FID         : SquareKilogramPerSquareSecondID;
+    FSymbol     : rsSquareKilogramPerSquareSecondSymbol;
+    FName       : rsSquareKilogramPerSquareSecondName;
+    FPluralName : rsSquareKilogramPerSquareSecondPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (2, -2));
 
 { TSquareSecondPerSquareMeter }
 
+resourcestring
+  rsSquareSecondPerSquareMeterSymbol = '%ss2/%sm2';
+  rsSquareSecondPerSquareMeterName = 'square %ssecond per square %smeter';
+  rsSquareSecondPerSquareMeterPluralName = 'square %sseconds per square %smeter';
+
 const
-  SquareSecondPerSquareMeterId = 133;
+  SquareSecondPerSquareMeterID = 133;
   SquareSecondPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareSecondPerSquareMeterId;
-    FSymbol            : '%ss2/%sm2';
-    FName              : 'square %ssecond per square %smeter';
-    FPluralName        : 'square %sseconds per square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -2));
+    FID         : SquareSecondPerSquareMeterID;
+    FSymbol     : rsSquareSecondPerSquareMeterSymbol;
+    FName       : rsSquareSecondPerSquareMeterName;
+    FPluralName : rsSquareSecondPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -2));
 
 { TSquareJoule }
 
+resourcestring
+  rsSquareJouleSymbol = '%sJ2';
+  rsSquareJouleName = 'square %sjoule';
+  rsSquareJoulePluralName = 'square %sjoules';
+
 const
-  SquareJouleId = 134;
+  SquareJouleID = 134;
   SquareJouleUnit : TUnit = (
-    FUnitOfMeasurement : SquareJouleId;
-    FSymbol            : '%sJ2';
-    FName              : 'square %sjoule';
-    FPluralName        : 'square %sjoules';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareJouleID;
+    FSymbol     : rsSquareJouleSymbol;
+    FName       : rsSquareJouleName;
+    FPluralName : rsSquareJoulePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 var
   J2 : TUnit absolute SquareJouleUnit;
 
 const
-  TJ2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 134; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
-  GJ2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 134; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MJ2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 134; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kJ2        : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: 134; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  TJ2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 134; FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
+  GJ2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 134; FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MJ2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 134; FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kJ2        : TQuantity = {$IFDEF ADIMDEBUG} (FID: 134; FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
 
 { TJouleSecond }
 
+resourcestring
+  rsJouleSecondSymbol = '%sJ.%ss';
+  rsJouleSecondName = '%sjoule %ssecond';
+  rsJouleSecondPluralName = '%sjoule %sseconds';
+
 const
   JouleSecondUnit : TUnit = (
-    FUnitOfMeasurement : KilogramSquareMeterPerSecondId;
-    FSymbol            : '%sJ.%ss';
-    FName              : '%sjoule %ssecond';
-    FPluralName        : '%sjoule %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1));
+    FID         : KilogramSquareMeterPerSecondID;
+    FSymbol     : rsJouleSecondSymbol;
+    FName       : rsJouleSecondName;
+    FPluralName : rsJouleSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1));
 
 { TJoulePerHertz }
 
+resourcestring
+  rsJoulePerHertzSymbol = '%sJ/%sHz';
+  rsJoulePerHertzName = '%sjoule per %shertz';
+  rsJoulePerHertzPluralName = '%sjoules per %shertz';
+
 const
   JoulePerHertzUnit : TUnit = (
-    FUnitOfMeasurement : KilogramSquareMeterPerSecondId;
-    FSymbol            : '%sJ/%sHz';
-    FName              : '%sjoule per %shertz';
-    FPluralName        : '%sjoules per %shertz';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : KilogramSquareMeterPerSecondID;
+    FSymbol     : rsJoulePerHertzSymbol;
+    FName       : rsJoulePerHertzName;
+    FPluralName : rsJoulePerHertzPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TElectronvoltSecond }
 
+resourcestring
+  rsElectronvoltSecondSymbol = '%seV.%ss';
+  rsElectronvoltSecondName = '%selectronvolt %ssecond';
+  rsElectronvoltSecondPluralName = '%selectronvolt %sseconds';
+
 const
   ElectronvoltSecondUnit : TFactoredUnit = (
-    FUnitOfMeasurement : KilogramSquareMeterPerSecondId;
-    FSymbol            : '%seV.%ss';
-    FName              : '%selectronvolt %ssecond';
-    FPluralName        : '%selectronvolt %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1);
-    FFactor            : (1.60217742320523E-019));
+    FID         : KilogramSquareMeterPerSecondID;
+    FSymbol     : rsElectronvoltSecondSymbol;
+    FName       : rsElectronvoltSecondName;
+    FPluralName : rsElectronvoltSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1);
+    FFactor     : (1.60217742320523E-019));
 
 { TElectronvoltMeterPerSpeedOfLight }
 
+resourcestring
+  rsElectronvoltMeterPerSpeedOfLightSymbol = '%seV.%sm/c';
+  rsElectronvoltMeterPerSpeedOfLightName = '%selectronvolt %smeter per speed of  light';
+  rsElectronvoltMeterPerSpeedOfLightPluralName = '%selectronvolt %smeters per speed of  light';
+
 const
   ElectronvoltMeterPerSpeedOfLightUnit : TFactoredUnit = (
-    FUnitOfMeasurement : KilogramSquareMeterPerSecondId;
-    FSymbol            : '%seV.%sm/c';
-    FName              : '%selectronvolt %smeter per speed of  light';
-    FPluralName        : '%selectronvolt %smeters per speed of  light';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, 1);
-    FFactor            : (1.7826619216279E-36));
+    FID         : KilogramSquareMeterPerSecondID;
+    FSymbol     : rsElectronvoltMeterPerSpeedOfLightSymbol;
+    FName       : rsElectronvoltMeterPerSpeedOfLightName;
+    FPluralName : rsElectronvoltMeterPerSpeedOfLightPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, 1);
+    FFactor     : (1.7826619216279E-36));
 
 { TSquareJouleSquareSecond }
 
+resourcestring
+  rsSquareJouleSquareSecondSymbol = '%sJ2.%ss2';
+  rsSquareJouleSquareSecondName = 'square %sjoule square %ssecond';
+  rsSquareJouleSquareSecondPluralName = 'square %sjoule square %sseconds';
+
 const
-  SquareJouleSquareSecondId = 135;
+  SquareJouleSquareSecondID = 135;
   SquareJouleSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : SquareJouleSquareSecondId;
-    FSymbol            : '%sJ2.%ss2';
-    FName              : 'square %sjoule square %ssecond';
-    FPluralName        : 'square %sjoule square %sseconds';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, 2));
+    FID         : SquareJouleSquareSecondID;
+    FSymbol     : rsSquareJouleSquareSecondSymbol;
+    FName       : rsSquareJouleSquareSecondName;
+    FPluralName : rsSquareJouleSquareSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, 2));
 
 { TCoulombPerKilogram }
 
+resourcestring
+  rsCoulombPerKilogramSymbol = '%sC/%sg';
+  rsCoulombPerKilogramName = '%scoulomb per %sgram';
+  rsCoulombPerKilogramPluralName = '%scoulombs per %sgram';
+
 const
-  CoulombPerKilogramId = 136;
+  CoulombPerKilogramID = 136;
   CoulombPerKilogramUnit : TUnit = (
-    FUnitOfMeasurement : CoulombPerKilogramId;
-    FSymbol            : '%sC/%sg';
-    FName              : '%scoulomb per %sgram';
-    FPluralName        : '%scoulombs per %sgram';
-    FPrefixes          : (pNone, pKilo);
-    FExponents         : (1, -1));
+    FID         : CoulombPerKilogramID;
+    FSymbol     : rsCoulombPerKilogramSymbol;
+    FName       : rsCoulombPerKilogramName;
+    FPluralName : rsCoulombPerKilogramPluralName;
+    FPrefixes   : (pNone, pKilo);
+    FExponents  : (1, -1));
 
 { TSquareMeterAmpere }
 
+resourcestring
+  rsSquareMeterAmpereSymbol = '%sm2.%sA';
+  rsSquareMeterAmpereName = 'square %smeter %sampere';
+  rsSquareMeterAmperePluralName = 'square %smeter %samperes';
+
 const
-  SquareMeterAmpereId = 137;
+  SquareMeterAmpereID = 137;
   SquareMeterAmpereUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterAmpereId;
-    FSymbol            : '%sm2.%sA';
-    FName              : 'square %smeter %sampere';
-    FPluralName        : 'square %smeter %samperes';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, 1));
+    FID         : SquareMeterAmpereID;
+    FSymbol     : rsSquareMeterAmpereSymbol;
+    FName       : rsSquareMeterAmpereName;
+    FPluralName : rsSquareMeterAmperePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, 1));
 
 { TJoulePerTesla }
 
+resourcestring
+  rsJoulePerTeslaSymbol = '%sJ/%sT';
+  rsJoulePerTeslaName = '%sjoule per %stesla';
+  rsJoulePerTeslaPluralName = '%sjoules per %stesla';
+
 const
   JoulePerTeslaUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterAmpereId;
-    FSymbol            : '%sJ/%sT';
-    FName              : '%sjoule per %stesla';
-    FPluralName        : '%sjoules per %stesla';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : SquareMeterAmpereID;
+    FSymbol     : rsJoulePerTeslaSymbol;
+    FName       : rsJoulePerTeslaName;
+    FPluralName : rsJoulePerTeslaPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TLumenPerWatt }
 
+resourcestring
+  rsLumenPerWattSymbol = '%slm/%sW';
+  rsLumenPerWattName = '%slumen per %swatt';
+  rsLumenPerWattPluralName = '%slumens per %swatt';
+
 const
-  LumenPerWattId = 138;
+  LumenPerWattID = 138;
   LumenPerWattUnit : TUnit = (
-    FUnitOfMeasurement : LumenPerWattId;
-    FSymbol            : '%slm/%sW';
-    FName              : '%slumen per %swatt';
-    FPluralName        : '%slumens per %swatt';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : LumenPerWattID;
+    FSymbol     : rsLumenPerWattSymbol;
+    FName       : rsLumenPerWattName;
+    FPluralName : rsLumenPerWattPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TReciprocalMole }
 
+resourcestring
+  rsReciprocalMoleSymbol = '1/%smol';
+  rsReciprocalMoleName = 'reciprocal %smole';
+  rsReciprocalMolePluralName = 'reciprocal %smoles';
+
 const
-  ReciprocalMoleId = 139;
+  ReciprocalMoleID = 139;
   ReciprocalMoleUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalMoleId;
-    FSymbol            : '1/%smol';
-    FName              : 'reciprocal %smole';
-    FPluralName        : 'reciprocal %smoles';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalMoleID;
+    FSymbol     : rsReciprocalMoleSymbol;
+    FName       : rsReciprocalMoleName;
+    FPluralName : rsReciprocalMolePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TAmperePerSquareMeter }
 
+resourcestring
+  rsAmperePerSquareMeterSymbol = '%sA/%sm2';
+  rsAmperePerSquareMeterName = '%sampere per square %smeter';
+  rsAmperePerSquareMeterPluralName = '%samperes per square %smeter';
+
 const
-  AmperePerSquareMeterId = 140;
+  AmperePerSquareMeterID = 140;
   AmperePerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : AmperePerSquareMeterId;
-    FSymbol            : '%sA/%sm2';
-    FName              : '%sampere per square %smeter';
-    FPluralName        : '%samperes per square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : AmperePerSquareMeterID;
+    FSymbol     : rsAmperePerSquareMeterSymbol;
+    FName       : rsAmperePerSquareMeterName;
+    FPluralName : rsAmperePerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TMolePerCubicMeter }
 
+resourcestring
+  rsMolePerCubicMeterSymbol = '%smol/%sm3';
+  rsMolePerCubicMeterName = '%smole per cubic %smeter';
+  rsMolePerCubicMeterPluralName = '%smoles per cubic %smeter';
+
 const
-  MolePerCubicMeterId = 141;
+  MolePerCubicMeterID = 141;
   MolePerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : MolePerCubicMeterId;
-    FSymbol            : '%smol/%sm3';
-    FName              : '%smole per cubic %smeter';
-    FPluralName        : '%smoles per cubic %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -3));
+    FID         : MolePerCubicMeterID;
+    FSymbol     : rsMolePerCubicMeterSymbol;
+    FName       : rsMolePerCubicMeterName;
+    FPluralName : rsMolePerCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -3));
 
 { TCandelaPerSquareMeter }
 
+resourcestring
+  rsCandelaPerSquareMeterSymbol = '%scd/%sm2';
+  rsCandelaPerSquareMeterName = '%scandela per square %smeter';
+  rsCandelaPerSquareMeterPluralName = '%scandelas per square %smeter';
+
 const
-  CandelaPerSquareMeterId = 142;
+  CandelaPerSquareMeterID = 142;
   CandelaPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : CandelaPerSquareMeterId;
-    FSymbol            : '%scd/%sm2';
-    FName              : '%scandela per square %smeter';
-    FPluralName        : '%scandelas per square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : CandelaPerSquareMeterID;
+    FSymbol     : rsCandelaPerSquareMeterSymbol;
+    FName       : rsCandelaPerSquareMeterName;
+    FPluralName : rsCandelaPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TCoulombPerCubicMeter }
 
+resourcestring
+  rsCoulombPerCubicMeterSymbol = '%sC/%sm3';
+  rsCoulombPerCubicMeterName = '%scoulomb per cubic %smeter';
+  rsCoulombPerCubicMeterPluralName = '%scoulombs per cubic %smeter';
+
 const
-  CoulombPerCubicMeterId = 143;
+  CoulombPerCubicMeterID = 143;
   CoulombPerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : CoulombPerCubicMeterId;
-    FSymbol            : '%sC/%sm3';
-    FName              : '%scoulomb per cubic %smeter';
-    FPluralName        : '%scoulombs per cubic %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -3));
+    FID         : CoulombPerCubicMeterID;
+    FSymbol     : rsCoulombPerCubicMeterSymbol;
+    FName       : rsCoulombPerCubicMeterName;
+    FPluralName : rsCoulombPerCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -3));
 
 { TGrayPerSecond }
 
+resourcestring
+  rsGrayPerSecondSymbol = '%sGy/%ss';
+  rsGrayPerSecondName = '%sgray per %ssecond';
+  rsGrayPerSecondPluralName = '%sgrays per %ssecond';
+
 const
-  GrayPerSecondId = 144;
+  GrayPerSecondID = 144;
   GrayPerSecondUnit : TUnit = (
-    FUnitOfMeasurement : GrayPerSecondId;
-    FSymbol            : '%sGy/%ss';
-    FName              : '%sgray per %ssecond';
-    FPluralName        : '%sgrays per %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : GrayPerSecondID;
+    FSymbol     : rsGrayPerSecondSymbol;
+    FName       : rsGrayPerSecondName;
+    FPluralName : rsGrayPerSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TSteradianHertz }
 
+resourcestring
+  rsSteradianHertzSymbol = 'sr.%sHz';
+  rsSteradianHertzName = 'steradian %shertz';
+  rsSteradianHertzPluralName = 'steradian %shertz';
+
 const
-  SteradianHertzId = 145;
+  SteradianHertzID = 145;
   SteradianHertzUnit : TUnit = (
-    FUnitOfMeasurement : SteradianHertzId;
-    FSymbol            : 'sr.%sHz';
-    FName              : 'steradian %shertz';
-    FPluralName        : 'steradian %shertz';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : SteradianHertzID;
+    FSymbol     : rsSteradianHertzSymbol;
+    FName       : rsSteradianHertzName;
+    FPluralName : rsSteradianHertzPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 { TMeterSteradian }
 
+resourcestring
+  rsMeterSteradianSymbol = '%sm.sr';
+  rsMeterSteradianName = '%smeter steradian';
+  rsMeterSteradianPluralName = '%smeter steradians';
+
 const
-  MeterSteradianId = 146;
+  MeterSteradianID = 146;
   MeterSteradianUnit : TUnit = (
-    FUnitOfMeasurement : MeterSteradianId;
-    FSymbol            : '%sm.sr';
-    FName              : '%smeter steradian';
-    FPluralName        : '%smeter steradians';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : MeterSteradianID;
+    FSymbol     : rsMeterSteradianSymbol;
+    FName       : rsMeterSteradianName;
+    FPluralName : rsMeterSteradianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 { TSquareMeterSteradian }
 
+resourcestring
+  rsSquareMeterSteradianSymbol = '%sm2.sr';
+  rsSquareMeterSteradianName = 'square %smeter steradian';
+  rsSquareMeterSteradianPluralName = 'square %smeter steradians';
+
 const
-  SquareMeterSteradianId = 147;
+  SquareMeterSteradianID = 147;
   SquareMeterSteradianUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterSteradianId;
-    FSymbol            : '%sm2.sr';
-    FName              : 'square %smeter steradian';
-    FPluralName        : 'square %smeter steradians';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareMeterSteradianID;
+    FSymbol     : rsSquareMeterSteradianSymbol;
+    FName       : rsSquareMeterSteradianName;
+    FPluralName : rsSquareMeterSteradianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 { TCubicMeterSteradian }
 
+resourcestring
+  rsCubicMeterSteradianSymbol = '%sm3.sr';
+  rsCubicMeterSteradianName = 'cubic %smeter steradian';
+  rsCubicMeterSteradianPluralName = 'cubic %smeter steradians';
+
 const
-  CubicMeterSteradianId = 148;
+  CubicMeterSteradianID = 148;
   CubicMeterSteradianUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterSteradianId;
-    FSymbol            : '%sm3.sr';
-    FName              : 'cubic %smeter steradian';
-    FPluralName        : 'cubic %smeter steradians';
-    FPrefixes          : (pNone);
-    FExponents         : (3));
+    FID         : CubicMeterSteradianID;
+    FSymbol     : rsCubicMeterSteradianSymbol;
+    FName       : rsCubicMeterSteradianName;
+    FPluralName : rsCubicMeterSteradianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (3));
 
 { TSquareMeterSteradianHertz }
 
+resourcestring
+  rsSquareMeterSteradianHertzSymbol = '%sm2.sr.%shertz';
+  rsSquareMeterSteradianHertzName = 'square %smeter steradian %shertz';
+  rsSquareMeterSteradianHertzPluralName = 'square %smeter steradian %shertz';
+
 const
-  SquareMeterSteradianHertzId = 149;
+  SquareMeterSteradianHertzID = 149;
   SquareMeterSteradianHertzUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterSteradianHertzId;
-    FSymbol            : '%sm2.sr.%shertz';
-    FName              : 'square %smeter steradian %shertz';
-    FPluralName        : 'square %smeter steradian %shertz';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, 1));
+    FID         : SquareMeterSteradianHertzID;
+    FSymbol     : rsSquareMeterSteradianHertzSymbol;
+    FName       : rsSquareMeterSteradianHertzName;
+    FPluralName : rsSquareMeterSteradianHertzPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, 1));
 
 { TWattPerSteradian }
 
+resourcestring
+  rsWattPerSteradianSymbol = '%sW/sr';
+  rsWattPerSteradianName = '%swatt per steradian';
+  rsWattPerSteradianPluralName = '%swatts per steradian';
+
 const
-  WattPerSteradianId = 150;
+  WattPerSteradianID = 150;
   WattPerSteradianUnit : TUnit = (
-    FUnitOfMeasurement : WattPerSteradianId;
-    FSymbol            : '%sW/sr';
-    FName              : '%swatt per steradian';
-    FPluralName        : '%swatts per steradian';
-    FPrefixes          : (pNone);
-    FExponents         : (1));
+    FID         : WattPerSteradianID;
+    FSymbol     : rsWattPerSteradianSymbol;
+    FName       : rsWattPerSteradianName;
+    FPluralName : rsWattPerSteradianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1));
 
 { TWattPerSteradianPerHertz }
 
+resourcestring
+  rsWattPerSteradianPerHertzSymbol = '%sW/sr/%sHz';
+  rsWattPerSteradianPerHertzName = '%swatt per steradian per %shertz';
+  rsWattPerSteradianPerHertzPluralName = '%swatts per steradian per %shertz';
+
 const
-  WattPerSteradianPerHertzId = 151;
+  WattPerSteradianPerHertzID = 151;
   WattPerSteradianPerHertzUnit : TUnit = (
-    FUnitOfMeasurement : WattPerSteradianPerHertzId;
-    FSymbol            : '%sW/sr/%sHz';
-    FName              : '%swatt per steradian per %shertz';
-    FPluralName        : '%swatts per steradian per %shertz';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : WattPerSteradianPerHertzID;
+    FSymbol     : rsWattPerSteradianPerHertzSymbol;
+    FName       : rsWattPerSteradianPerHertzName;
+    FPluralName : rsWattPerSteradianPerHertzPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TWattPerMeterPerSteradian }
 
+resourcestring
+  rsWattPerMeterPerSteradianSymbol = '%sW/sr/%sm';
+  rsWattPerMeterPerSteradianName = '%swatt per steradian per %smeter';
+  rsWattPerMeterPerSteradianPluralName = '%swatts per steradian per %smeter';
+
 const
-  WattPerMeterPerSteradianId = 152;
+  WattPerMeterPerSteradianID = 152;
   WattPerMeterPerSteradianUnit : TUnit = (
-    FUnitOfMeasurement : WattPerMeterPerSteradianId;
-    FSymbol            : '%sW/sr/%sm';
-    FName              : '%swatt per steradian per %smeter';
-    FPluralName        : '%swatts per steradian per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : WattPerMeterPerSteradianID;
+    FSymbol     : rsWattPerMeterPerSteradianSymbol;
+    FName       : rsWattPerMeterPerSteradianName;
+    FPluralName : rsWattPerMeterPerSteradianPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TWattPerSquareMeterPerSteradian }
 
+resourcestring
+  rsWattPerSquareMeterPerSteradianSymbol = '%sW/%sm2/sr';
+  rsWattPerSquareMeterPerSteradianName = '%swatt per square %smeter per steradian';
+  rsWattPerSquareMeterPerSteradianPluralName = '%swatts per square %smeter per steradian';
+
 const
-  WattPerSquareMeterPerSteradianId = 153;
+  WattPerSquareMeterPerSteradianID = 153;
   WattPerSquareMeterPerSteradianUnit : TUnit = (
-    FUnitOfMeasurement : WattPerSquareMeterPerSteradianId;
-    FSymbol            : '%sW/%sm2/sr';
-    FName              : '%swatt per square %smeter per steradian';
-    FPluralName        : '%swatts per square %smeter per steradian';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : WattPerSquareMeterPerSteradianID;
+    FSymbol     : rsWattPerSquareMeterPerSteradianSymbol;
+    FName       : rsWattPerSquareMeterPerSteradianName;
+    FPluralName : rsWattPerSquareMeterPerSteradianPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TWattPerCubicMeterPerSteradian }
 
+resourcestring
+  rsWattPerCubicMeterPerSteradianSymbol = '%sW/%sm3/sr';
+  rsWattPerCubicMeterPerSteradianName = '%swatt per cubic %smeter per steradian';
+  rsWattPerCubicMeterPerSteradianPluralName = '%swatts per cubic %smeter per steradian';
+
 const
-  WattPerCubicMeterPerSteradianId = 154;
+  WattPerCubicMeterPerSteradianID = 154;
   WattPerCubicMeterPerSteradianUnit : TUnit = (
-    FUnitOfMeasurement : WattPerCubicMeterPerSteradianId;
-    FSymbol            : '%sW/%sm3/sr';
-    FName              : '%swatt per cubic %smeter per steradian';
-    FPluralName        : '%swatts per cubic %smeter per steradian';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -3));
+    FID         : WattPerCubicMeterPerSteradianID;
+    FSymbol     : rsWattPerCubicMeterPerSteradianSymbol;
+    FName       : rsWattPerCubicMeterPerSteradianName;
+    FPluralName : rsWattPerCubicMeterPerSteradianPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -3));
 
 { TWattPerSquareMeterPerSteradianPerHertz }
 
+resourcestring
+  rsWattPerSquareMeterPerSteradianPerHertzSymbol = '%sW/%sm2/sr/%sHz';
+  rsWattPerSquareMeterPerSteradianPerHertzName = '%swatt per square %smeter per steradian per %shertz';
+  rsWattPerSquareMeterPerSteradianPerHertzPluralName = '%swatts per square %smeter per steradian per %shertz';
+
 const
-  WattPerSquareMeterPerSteradianPerHertzId = 155;
+  WattPerSquareMeterPerSteradianPerHertzID = 155;
   WattPerSquareMeterPerSteradianPerHertzUnit : TUnit = (
-    FUnitOfMeasurement : WattPerSquareMeterPerSteradianPerHertzId;
-    FSymbol            : '%sW/%sm2/sr/%sHz';
-    FName              : '%swatt per square %smeter per steradian per %shertz';
-    FPluralName        : '%swatts per square %smeter per steradian per %shertz';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -2, -1));
+    FID         : WattPerSquareMeterPerSteradianPerHertzID;
+    FSymbol     : rsWattPerSquareMeterPerSteradianPerHertzSymbol;
+    FName       : rsWattPerSquareMeterPerSteradianPerHertzName;
+    FPluralName : rsWattPerSquareMeterPerSteradianPerHertzPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -2, -1));
 
 { TKatalPerCubicMeter }
 
+resourcestring
+  rsKatalPerCubicMeterSymbol = '%skat/%sm3';
+  rsKatalPerCubicMeterName = '%skatal per cubic %smeter';
+  rsKatalPerCubicMeterPluralName = '%skatals per cubic %smeter';
+
 const
-  KatalPerCubicMeterId = 156;
+  KatalPerCubicMeterID = 156;
   KatalPerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : KatalPerCubicMeterId;
-    FSymbol            : '%skat/%sm3';
-    FName              : '%skatal per cubic %smeter';
-    FPluralName        : '%skatals per cubic %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -3));
+    FID         : KatalPerCubicMeterID;
+    FSymbol     : rsKatalPerCubicMeterSymbol;
+    FName       : rsKatalPerCubicMeterName;
+    FPluralName : rsKatalPerCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -3));
 
 { TCoulombPerMole }
 
+resourcestring
+  rsCoulombPerMoleSymbol = '%sC/%smol';
+  rsCoulombPerMoleName = '%scoulomb per %smole';
+  rsCoulombPerMolePluralName = '%scoulombs per %smole';
+
 const
-  CoulombPerMoleId = 157;
+  CoulombPerMoleID = 157;
   CoulombPerMoleUnit : TUnit = (
-    FUnitOfMeasurement : CoulombPerMoleId;
-    FSymbol            : '%sC/%smol';
-    FName              : '%scoulomb per %smole';
-    FPluralName        : '%scoulombs per %smole';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : CoulombPerMoleID;
+    FSymbol     : rsCoulombPerMoleSymbol;
+    FName       : rsCoulombPerMoleName;
+    FPluralName : rsCoulombPerMolePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TReciprocalNewton }
 
+resourcestring
+  rsReciprocalNewtonSymbol = '1/%sN';
+  rsReciprocalNewtonName = 'reciprocal %snewton';
+  rsReciprocalNewtonPluralName = 'reciprocal %snewtons';
+
 const
-  ReciprocalNewtonId = 158;
+  ReciprocalNewtonID = 158;
   ReciprocalNewtonUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalNewtonId;
-    FSymbol            : '1/%sN';
-    FName              : 'reciprocal %snewton';
-    FPluralName        : 'reciprocal %snewtons';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalNewtonID;
+    FSymbol     : rsReciprocalNewtonSymbol;
+    FName       : rsReciprocalNewtonName;
+    FPluralName : rsReciprocalNewtonPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalTesla }
 
+resourcestring
+  rsReciprocalTeslaSymbol = '1/%sT';
+  rsReciprocalTeslaName = 'reciprocal %stesla';
+  rsReciprocalTeslaPluralName = 'reciprocal %steslas';
+
 const
-  ReciprocalTeslaId = 159;
+  ReciprocalTeslaID = 159;
   ReciprocalTeslaUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalTeslaId;
-    FSymbol            : '1/%sT';
-    FName              : 'reciprocal %stesla';
-    FPluralName        : 'reciprocal %steslas';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalTeslaID;
+    FSymbol     : rsReciprocalTeslaSymbol;
+    FName       : rsReciprocalTeslaName;
+    FPluralName : rsReciprocalTeslaPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalPascal }
 
+resourcestring
+  rsReciprocalPascalSymbol = '1/%sPa';
+  rsReciprocalPascalName = 'reciprocal %spascal';
+  rsReciprocalPascalPluralName = 'reciprocal %spascals';
+
 const
-  ReciprocalPascalId = 160;
+  ReciprocalPascalID = 160;
   ReciprocalPascalUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalPascalId;
-    FSymbol            : '1/%sPa';
-    FName              : 'reciprocal %spascal';
-    FPluralName        : 'reciprocal %spascals';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalPascalID;
+    FSymbol     : rsReciprocalPascalSymbol;
+    FName       : rsReciprocalPascalName;
+    FPluralName : rsReciprocalPascalPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalWeber }
 
+resourcestring
+  rsReciprocalWeberSymbol = '1/%sWb';
+  rsReciprocalWeberName = 'reciprocal %sweber';
+  rsReciprocalWeberPluralName = 'reciprocal %swebers';
+
 const
-  ReciprocalWeberId = 161;
+  ReciprocalWeberID = 161;
   ReciprocalWeberUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalWeberId;
-    FSymbol            : '1/%sWb';
-    FName              : 'reciprocal %sweber';
-    FPluralName        : 'reciprocal %swebers';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalWeberID;
+    FSymbol     : rsReciprocalWeberSymbol;
+    FName       : rsReciprocalWeberName;
+    FPluralName : rsReciprocalWeberPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalWatt }
 
+resourcestring
+  rsReciprocalWattSymbol = '1/%sW';
+  rsReciprocalWattName = 'reciprocal %swatt';
+  rsReciprocalWattPluralName = 'reciprocal %swatts';
+
 const
-  ReciprocalWattId = 162;
+  ReciprocalWattID = 162;
   ReciprocalWattUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalWattId;
-    FSymbol            : '1/%sW';
-    FName              : 'reciprocal %swatt';
-    FPluralName        : 'reciprocal %swatts';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalWattID;
+    FSymbol     : rsReciprocalWattSymbol;
+    FName       : rsReciprocalWattName;
+    FPluralName : rsReciprocalWattPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalRadian }
 
+resourcestring
+  rsReciprocalRadianSymbol = '1/%srad';
+  rsReciprocalRadianName = 'reciprocal %sradian';
+  rsReciprocalRadianPluralName = 'reciprocal %sradians';
+
 const
   ReciprocalRadianUnit : TUnit = (
-    FUnitOfMeasurement : ScalarId;
-    FSymbol            : '1/%srad';
-    FName              : 'reciprocal %sradian';
-    FPluralName        : 'reciprocal %sradians';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ScalarID;
+    FSymbol     : rsReciprocalRadianSymbol;
+    FName       : rsReciprocalRadianName;
+    FPluralName : rsReciprocalRadianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TMeterPerVolt }
 
+resourcestring
+  rsMeterPerVoltSymbol = '%sm/%sV';
+  rsMeterPerVoltName = '%smeter per %svolt';
+  rsMeterPerVoltPluralName = '%smeters per %svolt';
+
 const
-  MeterPerVoltId = 163;
+  MeterPerVoltID = 163;
   MeterPerVoltUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerVoltId;
-    FSymbol            : '%sm/%sV';
-    FName              : '%smeter per %svolt';
-    FPluralName        : '%smeters per %svolt';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MeterPerVoltID;
+    FSymbol     : rsMeterPerVoltSymbol;
+    FName       : rsMeterPerVoltName;
+    FPluralName : rsMeterPerVoltPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TReciprocalSteradian }
 
+resourcestring
+  rsReciprocalSteradianSymbol = '1/sr';
+  rsReciprocalSteradianName = 'reciprocal steradian';
+  rsReciprocalSteradianPluralName = 'reciprocal steradian';
+
 const
-  ReciprocalSteradianId = 164;
+  ReciprocalSteradianID = 164;
   ReciprocalSteradianUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSteradianId;
-    FSymbol            : '1/sr';
-    FName              : 'reciprocal steradian';
-    FPluralName        : 'reciprocal steradian';
-    FPrefixes          : ();
-    FExponents         : ());
+    FID         : ReciprocalSteradianID;
+    FSymbol     : rsReciprocalSteradianSymbol;
+    FName       : rsReciprocalSteradianName;
+    FPluralName : rsReciprocalSteradianPluralName;
+    FPrefixes   : ();
+    FExponents  : ());
 
 { TReciprocalCubicSecond }
 
+resourcestring
+  rsReciprocalCubicSecondSymbol = '1/%ss3';
+  rsReciprocalCubicSecondName = 'reciprocal cubic %ssecond';
+  rsReciprocalCubicSecondPluralName = 'reciprocal cubic %ssecond';
+
 const
-  ReciprocalCubicSecondId = 165;
+  ReciprocalCubicSecondID = 165;
   ReciprocalCubicSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalCubicSecondId;
-    FSymbol            : '1/%ss3';
-    FName              : 'reciprocal cubic %ssecond';
-    FPluralName        : 'reciprocal cubic %ssecond';
-    FPrefixes          : (pNone);
-    FExponents         : (-3));
+    FID         : ReciprocalCubicSecondID;
+    FSymbol     : rsReciprocalCubicSecondSymbol;
+    FName       : rsReciprocalCubicSecondName;
+    FPluralName : rsReciprocalCubicSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-3));
 
 { TReciprocalQuarticSecond }
 
+resourcestring
+  rsReciprocalQuarticSecondSymbol = '1/%ss4';
+  rsReciprocalQuarticSecondName = 'reciprocal quartic %ssecond';
+  rsReciprocalQuarticSecondPluralName = 'reciprocal quartic %ssecond';
+
 const
-  ReciprocalQuarticSecondId = 166;
+  ReciprocalQuarticSecondID = 166;
   ReciprocalQuarticSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalQuarticSecondId;
-    FSymbol            : '1/%ss4';
-    FName              : 'reciprocal quartic %ssecond';
-    FPluralName        : 'reciprocal quartic %ssecond';
-    FPrefixes          : (pNone);
-    FExponents         : (-4));
+    FID         : ReciprocalQuarticSecondID;
+    FSymbol     : rsReciprocalQuarticSecondSymbol;
+    FName       : rsReciprocalQuarticSecondName;
+    FPluralName : rsReciprocalQuarticSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-4));
 
 { TReciprocalQuinticSecond }
 
+resourcestring
+  rsReciprocalQuinticSecondSymbol = '1/%ss5';
+  rsReciprocalQuinticSecondName = 'reciprocal quintic %ssecond';
+  rsReciprocalQuinticSecondPluralName = 'reciprocal quintic %ssecond';
+
 const
-  ReciprocalQuinticSecondId = 167;
+  ReciprocalQuinticSecondID = 167;
   ReciprocalQuinticSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalQuinticSecondId;
-    FSymbol            : '1/%ss5';
-    FName              : 'reciprocal quintic %ssecond';
-    FPluralName        : 'reciprocal quintic %ssecond';
-    FPrefixes          : (pNone);
-    FExponents         : (-5));
+    FID         : ReciprocalQuinticSecondID;
+    FSymbol     : rsReciprocalQuinticSecondSymbol;
+    FName       : rsReciprocalQuinticSecondName;
+    FPluralName : rsReciprocalQuinticSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-5));
 
 { TReciprocalSexticSecond }
 
+resourcestring
+  rsReciprocalSexticSecondSymbol = '1/%ss6';
+  rsReciprocalSexticSecondName = 'reciprocal sextic %ssecond';
+  rsReciprocalSexticSecondPluralName = 'reciprocal sextic %ssecond';
+
 const
-  ReciprocalSexticSecondId = 168;
+  ReciprocalSexticSecondID = 168;
   ReciprocalSexticSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSexticSecondId;
-    FSymbol            : '1/%ss6';
-    FName              : 'reciprocal sextic %ssecond';
-    FPluralName        : 'reciprocal sextic %ssecond';
-    FPrefixes          : (pNone);
-    FExponents         : (-6));
+    FID         : ReciprocalSexticSecondID;
+    FSymbol     : rsReciprocalSexticSecondSymbol;
+    FName       : rsReciprocalSexticSecondName;
+    FPluralName : rsReciprocalSexticSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-6));
 
 { TReciprocalQuinticMeter }
 
+resourcestring
+  rsReciprocalQuinticMeterSymbol = '1/%sm5';
+  rsReciprocalQuinticMeterName = 'reciprocal quintic %smeter';
+  rsReciprocalQuinticMeterPluralName = 'reciprocal quintic %smeter';
+
 const
-  ReciprocalQuinticMeterId = 169;
+  ReciprocalQuinticMeterID = 169;
   ReciprocalQuinticMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalQuinticMeterId;
-    FSymbol            : '1/%sm5';
-    FName              : 'reciprocal quintic %smeter';
-    FPluralName        : 'reciprocal quintic %smeter';
-    FPrefixes          : (pNone);
-    FExponents         : (-5));
+    FID         : ReciprocalQuinticMeterID;
+    FSymbol     : rsReciprocalQuinticMeterSymbol;
+    FName       : rsReciprocalQuinticMeterName;
+    FPluralName : rsReciprocalQuinticMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-5));
 
 { TReciprocalSexticMeter }
 
+resourcestring
+  rsReciprocalSexticMeterSymbol = '1/%sm6';
+  rsReciprocalSexticMeterName = 'reciprocal sextic %smeter';
+  rsReciprocalSexticMeterPluralName = 'reciprocal sextic %smeter';
+
 const
-  ReciprocalSexticMeterId = 170;
+  ReciprocalSexticMeterID = 170;
   ReciprocalSexticMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSexticMeterId;
-    FSymbol            : '1/%sm6';
-    FName              : 'reciprocal sextic %smeter';
-    FPluralName        : 'reciprocal sextic %smeter';
-    FPrefixes          : (pNone);
-    FExponents         : (-6));
+    FID         : ReciprocalSexticMeterID;
+    FSymbol     : rsReciprocalSexticMeterSymbol;
+    FName       : rsReciprocalSexticMeterName;
+    FPluralName : rsReciprocalSexticMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-6));
 
 { TReciprocalKilogram }
 
+resourcestring
+  rsReciprocalKilogramSymbol = '1/%skg';
+  rsReciprocalKilogramName = 'reciprocal %skilogram';
+  rsReciprocalKilogramPluralName = 'reciprocal %skilogram';
+
 const
-  ReciprocalKilogramId = 171;
+  ReciprocalKilogramID = 171;
   ReciprocalKilogramUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalKilogramId;
-    FSymbol            : '1/%skg';
-    FName              : 'reciprocal %skilogram';
-    FPluralName        : 'reciprocal %skilogram';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalKilogramID;
+    FSymbol     : rsReciprocalKilogramSymbol;
+    FName       : rsReciprocalKilogramName;
+    FPluralName : rsReciprocalKilogramPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalSquareKilogram }
 
+resourcestring
+  rsReciprocalSquareKilogramSymbol = '1/%skg2';
+  rsReciprocalSquareKilogramName = 'reciprocal square %skilogram';
+  rsReciprocalSquareKilogramPluralName = 'reciprocal square %skilogram';
+
 const
-  ReciprocalSquareKilogramId = 172;
+  ReciprocalSquareKilogramID = 172;
   ReciprocalSquareKilogramUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareKilogramId;
-    FSymbol            : '1/%skg2';
-    FName              : 'reciprocal square %skilogram';
-    FPluralName        : 'reciprocal square %skilogram';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : ReciprocalSquareKilogramID;
+    FSymbol     : rsReciprocalSquareKilogramSymbol;
+    FName       : rsReciprocalSquareKilogramName;
+    FPluralName : rsReciprocalSquareKilogramPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TReciprocalAmpere }
 
+resourcestring
+  rsReciprocalAmpereSymbol = '1/%sA';
+  rsReciprocalAmpereName = 'reciprocal %sampere';
+  rsReciprocalAmperePluralName = 'reciprocal %sampere';
+
 const
-  ReciprocalAmpereId = 173;
+  ReciprocalAmpereID = 173;
   ReciprocalAmpereUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalAmpereId;
-    FSymbol            : '1/%sA';
-    FName              : 'reciprocal %sampere';
-    FPluralName        : 'reciprocal %sampere';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalAmpereID;
+    FSymbol     : rsReciprocalAmpereSymbol;
+    FName       : rsReciprocalAmpereName;
+    FPluralName : rsReciprocalAmperePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalSquareAmpere }
 
+resourcestring
+  rsReciprocalSquareAmpereSymbol = '1/%sA2';
+  rsReciprocalSquareAmpereName = 'reciprocal square %sampere';
+  rsReciprocalSquareAmperePluralName = 'reciprocal square %sampere';
+
 const
-  ReciprocalSquareAmpereId = 174;
+  ReciprocalSquareAmpereID = 174;
   ReciprocalSquareAmpereUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareAmpereId;
-    FSymbol            : '1/%sA2';
-    FName              : 'reciprocal square %sampere';
-    FPluralName        : 'reciprocal square %sampere';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : ReciprocalSquareAmpereID;
+    FSymbol     : rsReciprocalSquareAmpereSymbol;
+    FName       : rsReciprocalSquareAmpereName;
+    FPluralName : rsReciprocalSquareAmperePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TReciprocalSquareKelvin }
 
+resourcestring
+  rsReciprocalSquareKelvinSymbol = '1/%sK2';
+  rsReciprocalSquareKelvinName = 'reciprocal square %skelvin';
+  rsReciprocalSquareKelvinPluralName = 'reciprocal square %skelvin';
+
 const
-  ReciprocalSquareKelvinId = 175;
+  ReciprocalSquareKelvinID = 175;
   ReciprocalSquareKelvinUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareKelvinId;
-    FSymbol            : '1/%sK2';
-    FName              : 'reciprocal square %skelvin';
-    FPluralName        : 'reciprocal square %skelvin';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : ReciprocalSquareKelvinID;
+    FSymbol     : rsReciprocalSquareKelvinSymbol;
+    FName       : rsReciprocalSquareKelvinName;
+    FPluralName : rsReciprocalSquareKelvinPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TReciprocalCubicKelvin }
 
+resourcestring
+  rsReciprocalCubicKelvinSymbol = '1/%sK3';
+  rsReciprocalCubicKelvinName = 'reciprocal cubic %skelvin';
+  rsReciprocalCubicKelvinPluralName = 'reciprocal cubic %skelvin';
+
 const
-  ReciprocalCubicKelvinId = 176;
+  ReciprocalCubicKelvinID = 176;
   ReciprocalCubicKelvinUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalCubicKelvinId;
-    FSymbol            : '1/%sK3';
-    FName              : 'reciprocal cubic %skelvin';
-    FPluralName        : 'reciprocal cubic %skelvin';
-    FPrefixes          : (pNone);
-    FExponents         : (-3));
+    FID         : ReciprocalCubicKelvinID;
+    FSymbol     : rsReciprocalCubicKelvinSymbol;
+    FName       : rsReciprocalCubicKelvinName;
+    FPluralName : rsReciprocalCubicKelvinPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-3));
 
 { TReciprocalQuarticKelvin }
 
+resourcestring
+  rsReciprocalQuarticKelvinSymbol = '1/%sK4';
+  rsReciprocalQuarticKelvinName = 'reciprocal quartic %skelvin';
+  rsReciprocalQuarticKelvinPluralName = 'reciprocal quartic %skelvin';
+
 const
-  ReciprocalQuarticKelvinId = 177;
+  ReciprocalQuarticKelvinID = 177;
   ReciprocalQuarticKelvinUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalQuarticKelvinId;
-    FSymbol            : '1/%sK4';
-    FName              : 'reciprocal quartic %skelvin';
-    FPluralName        : 'reciprocal quartic %skelvin';
-    FPrefixes          : (pNone);
-    FExponents         : (-4));
+    FID         : ReciprocalQuarticKelvinID;
+    FSymbol     : rsReciprocalQuarticKelvinSymbol;
+    FName       : rsReciprocalQuarticKelvinName;
+    FPluralName : rsReciprocalQuarticKelvinPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-4));
 
 { TReciprocalCandela }
 
+resourcestring
+  rsReciprocalCandelaSymbol = '1/%scd';
+  rsReciprocalCandelaName = 'reciprocal %scandela';
+  rsReciprocalCandelaPluralName = 'reciprocal %scandela';
+
 const
-  ReciprocalCandelaId = 178;
+  ReciprocalCandelaID = 178;
   ReciprocalCandelaUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalCandelaId;
-    FSymbol            : '1/%scd';
-    FName              : 'reciprocal %scandela';
-    FPluralName        : 'reciprocal %scandela';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalCandelaID;
+    FSymbol     : rsReciprocalCandelaSymbol;
+    FName       : rsReciprocalCandelaName;
+    FPluralName : rsReciprocalCandelaPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TSquareSecondPerSteradian }
 
+resourcestring
+  rsSquareSecondPerSteradianSymbol = '%ss2/sr';
+  rsSquareSecondPerSteradianName = 'square %ssecond  per steradian';
+  rsSquareSecondPerSteradianPluralName = 'square %sseconds  per steradian';
+
 const
-  SquareSecondPerSteradianId = 179;
+  SquareSecondPerSteradianID = 179;
   SquareSecondPerSteradianUnit : TUnit = (
-    FUnitOfMeasurement : SquareSecondPerSteradianId;
-    FSymbol            : '%ss2/sr';
-    FName              : 'square %ssecond  per steradian';
-    FPluralName        : 'square %sseconds  per steradian';
-    FPrefixes          : (pNone);
-    FExponents         : (2));
+    FID         : SquareSecondPerSteradianID;
+    FSymbol     : rsSquareSecondPerSteradianSymbol;
+    FName       : rsSquareSecondPerSteradianName;
+    FPluralName : rsSquareSecondPerSteradianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (2));
 
 { TSquareSecondPerMeter }
 
+resourcestring
+  rsSquareSecondPerMeterSymbol = '%ss2/%sm';
+  rsSquareSecondPerMeterName = 'square %ssecond per %smeter';
+  rsSquareSecondPerMeterPluralName = 'square %sseconds per %smeter';
+
 const
-  SquareSecondPerMeterId = 180;
+  SquareSecondPerMeterID = 180;
   SquareSecondPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareSecondPerMeterId;
-    FSymbol            : '%ss2/%sm';
-    FName              : 'square %ssecond per %smeter';
-    FPluralName        : 'square %sseconds per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareSecondPerMeterID;
+    FSymbol     : rsSquareSecondPerMeterSymbol;
+    FName       : rsSquareSecondPerMeterName;
+    FPluralName : rsSquareSecondPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -1));
 
 { TCubicSecondPerMeter }
 
+resourcestring
+  rsCubicSecondPerMeterSymbol = '%ss3/%sm';
+  rsCubicSecondPerMeterName = 'cubic %ssecond per %smeter';
+  rsCubicSecondPerMeterPluralName = 'cubic %sseconds per %smeter';
+
 const
-  CubicSecondPerMeterId = 181;
+  CubicSecondPerMeterID = 181;
   CubicSecondPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : CubicSecondPerMeterId;
-    FSymbol            : '%ss3/%sm';
-    FName              : 'cubic %ssecond per %smeter';
-    FPluralName        : 'cubic %sseconds per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (3, -1));
+    FID         : CubicSecondPerMeterID;
+    FSymbol     : rsCubicSecondPerMeterSymbol;
+    FName       : rsCubicSecondPerMeterName;
+    FPluralName : rsCubicSecondPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (3, -1));
 
 { TQuarticSecondPerMeter }
 
+resourcestring
+  rsQuarticSecondPerMeterSymbol = '%ss4/%sm';
+  rsQuarticSecondPerMeterName = 'quartic %ssecond per %smeter';
+  rsQuarticSecondPerMeterPluralName = 'quartic %sseconds per %smeter';
+
 const
-  QuarticSecondPerMeterId = 182;
+  QuarticSecondPerMeterID = 182;
   QuarticSecondPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : QuarticSecondPerMeterId;
-    FSymbol            : '%ss4/%sm';
-    FName              : 'quartic %ssecond per %smeter';
-    FPluralName        : 'quartic %sseconds per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (4, -1));
+    FID         : QuarticSecondPerMeterID;
+    FSymbol     : rsQuarticSecondPerMeterSymbol;
+    FName       : rsQuarticSecondPerMeterName;
+    FPluralName : rsQuarticSecondPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (4, -1));
 
 { TQuinticSecondPerMeter }
 
+resourcestring
+  rsQuinticSecondPerMeterSymbol = '%ss5/%sm';
+  rsQuinticSecondPerMeterName = 'quintic %ssecond per %smeter';
+  rsQuinticSecondPerMeterPluralName = 'quintic %sseconds per %smeter';
+
 const
-  QuinticSecondPerMeterId = 183;
+  QuinticSecondPerMeterID = 183;
   QuinticSecondPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : QuinticSecondPerMeterId;
-    FSymbol            : '%ss5/%sm';
-    FName              : 'quintic %ssecond per %smeter';
-    FPluralName        : 'quintic %sseconds per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (5, -1));
+    FID         : QuinticSecondPerMeterID;
+    FSymbol     : rsQuinticSecondPerMeterSymbol;
+    FName       : rsQuinticSecondPerMeterName;
+    FPluralName : rsQuinticSecondPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (5, -1));
 
 { TSexticSecondPerMeter }
 
+resourcestring
+  rsSexticSecondPerMeterSymbol = '%ss6/%sm';
+  rsSexticSecondPerMeterName = 'sextic %ssecond per %smeter';
+  rsSexticSecondPerMeterPluralName = 'sextic %sseconds per %smeter';
+
 const
-  SexticSecondPerMeterId = 184;
+  SexticSecondPerMeterID = 184;
   SexticSecondPerMeterUnit : TUnit = (
-    FUnitOfMeasurement : SexticSecondPerMeterId;
-    FSymbol            : '%ss6/%sm';
-    FName              : 'sextic %ssecond per %smeter';
-    FPluralName        : 'sextic %sseconds per %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (6, -1));
+    FID         : SexticSecondPerMeterID;
+    FSymbol     : rsSexticSecondPerMeterSymbol;
+    FName       : rsSexticSecondPerMeterName;
+    FPluralName : rsSexticSecondPerMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (6, -1));
 
 { TReciprocalMeterSecond }
 
+resourcestring
+  rsReciprocalMeterSecondSymbol = '1/%sm/%ss';
+  rsReciprocalMeterSecondName = 'reciprocal %smeter %ssecond';
+  rsReciprocalMeterSecondPluralName = 'reciprocal %smeter %ssecond';
+
 const
-  ReciprocalMeterSecondId = 185;
+  ReciprocalMeterSecondID = 185;
   ReciprocalMeterSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalMeterSecondId;
-    FSymbol            : '1/%sm/%ss';
-    FName              : 'reciprocal %smeter %ssecond';
-    FPluralName        : 'reciprocal %smeter %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalMeterSecondID;
+    FSymbol     : rsReciprocalMeterSecondSymbol;
+    FName       : rsReciprocalMeterSecondName;
+    FPluralName : rsReciprocalMeterSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -1));
 
 { TReciprocalKilogramMeter }
 
+resourcestring
+  rsReciprocalKilogramMeterSymbol = '1/%skg/%sm';
+  rsReciprocalKilogramMeterName = 'reciprocal %skilogram %smeter';
+  rsReciprocalKilogramMeterPluralName = 'reciprocal %skilogram %smeter';
+
 const
-  ReciprocalKilogramMeterId = 186;
+  ReciprocalKilogramMeterID = 186;
   ReciprocalKilogramMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalKilogramMeterId;
-    FSymbol            : '1/%skg/%sm';
-    FName              : 'reciprocal %skilogram %smeter';
-    FPluralName        : 'reciprocal %skilogram %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalKilogramMeterID;
+    FSymbol     : rsReciprocalKilogramMeterSymbol;
+    FName       : rsReciprocalKilogramMeterName;
+    FPluralName : rsReciprocalKilogramMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -1));
 
 { TSecondPerKilogram }
 
+resourcestring
+  rsSecondPerKilogramSymbol = '%ss/%skg';
+  rsSecondPerKilogramName = '%ssecond per %skilogram';
+  rsSecondPerKilogramPluralName = '%sseconds per %skilogram';
+
 const
-  SecondPerKilogramId = 187;
+  SecondPerKilogramID = 187;
   SecondPerKilogramUnit : TUnit = (
-    FUnitOfMeasurement : SecondPerKilogramId;
-    FSymbol            : '%ss/%skg';
-    FName              : '%ssecond per %skilogram';
-    FPluralName        : '%sseconds per %skilogram';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : SecondPerKilogramID;
+    FSymbol     : rsSecondPerKilogramSymbol;
+    FName       : rsSecondPerKilogramName;
+    FPluralName : rsSecondPerKilogramPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TSecondPerKilogramMeter }
 
+resourcestring
+  rsSecondPerKilogramMeterSymbol = '%ss/%skg/%sm';
+  rsSecondPerKilogramMeterName = '%ssecond per %skilogram per %smeter';
+  rsSecondPerKilogramMeterPluralName = '%sseconds per %skilogram per %smeter';
+
 const
-  SecondPerKilogramMeterId = 188;
+  SecondPerKilogramMeterID = 188;
   SecondPerKilogramMeterUnit : TUnit = (
-    FUnitOfMeasurement : SecondPerKilogramMeterId;
-    FSymbol            : '%ss/%skg/%sm';
-    FName              : '%ssecond per %skilogram per %smeter';
-    FPluralName        : '%sseconds per %skilogram per %smeter';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -1, -1));
+    FID         : SecondPerKilogramMeterID;
+    FSymbol     : rsSecondPerKilogramMeterSymbol;
+    FName       : rsSecondPerKilogramMeterName;
+    FPluralName : rsSecondPerKilogramMeterPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -1, -1));
 
 { TSquareSecondPerSquareKilogramPerSquareMeter }
 
+resourcestring
+  rsSquareSecondPerSquareKilogramPerSquareMeterSymbol = '%ss2/%skg2/%sm2';
+  rsSquareSecondPerSquareKilogramPerSquareMeterName = 'square %ssecond per square %skilogram per square %smeter';
+  rsSquareSecondPerSquareKilogramPerSquareMeterPluralName = 'square %sseconds per square %skilogram per square %smeter';
+
 const
-  SquareSecondPerSquareKilogramPerSquareMeterId = 189;
+  SquareSecondPerSquareKilogramPerSquareMeterID = 189;
   SquareSecondPerSquareKilogramPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareSecondPerSquareKilogramPerSquareMeterId;
-    FSymbol            : '%ss2/%skg2/%sm2';
-    FName              : 'square %ssecond per square %skilogram per square %smeter';
-    FPluralName        : 'square %sseconds per square %skilogram per square %smeter';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (2, -2, -2));
+    FID         : SquareSecondPerSquareKilogramPerSquareMeterID;
+    FSymbol     : rsSquareSecondPerSquareKilogramPerSquareMeterSymbol;
+    FName       : rsSquareSecondPerSquareKilogramPerSquareMeterName;
+    FPluralName : rsSquareSecondPerSquareKilogramPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (2, -2, -2));
 
 { TSquareRootCubicMeter }
 
+resourcestring
+  rsSquareRootCubicMeterSymbol = '√%sm3';
+  rsSquareRootCubicMeterName = 'square root cubic %smeter';
+  rsSquareRootCubicMeterPluralName = 'square root cubic %smeters';
+
 const
-  SquareRootCubicMeterId = 190;
+  SquareRootCubicMeterID = 190;
   SquareRootCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareRootCubicMeterId;
-    FSymbol            : '√%sm3';
-    FName              : 'square root cubic %smeter';
-    FPluralName        : 'square root cubic %smeters';
-    FPrefixes          : (pNone);
-    FExponents         : (3));
+    FID         : SquareRootCubicMeterID;
+    FSymbol     : rsSquareRootCubicMeterSymbol;
+    FName       : rsSquareRootCubicMeterName;
+    FPluralName : rsSquareRootCubicMeterPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (3));
 
 { TReciprocalKilogramSquareMeter }
 
+resourcestring
+  rsReciprocalKilogramSquareMeterSymbol = '1/%skg/%sm2';
+  rsReciprocalKilogramSquareMeterName = 'reciprocal %skilogram square %smeter';
+  rsReciprocalKilogramSquareMeterPluralName = 'reciprocal %skilogram square %smeter';
+
 const
-  ReciprocalKilogramSquareMeterId = 191;
+  ReciprocalKilogramSquareMeterID = 191;
   ReciprocalKilogramSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalKilogramSquareMeterId;
-    FSymbol            : '1/%skg/%sm2';
-    FName              : 'reciprocal %skilogram square %smeter';
-    FPluralName        : 'reciprocal %skilogram square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -2));
+    FID         : ReciprocalKilogramSquareMeterID;
+    FSymbol     : rsReciprocalKilogramSquareMeterSymbol;
+    FName       : rsReciprocalKilogramSquareMeterName;
+    FPluralName : rsReciprocalKilogramSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -2));
 
 { TSecondPerKilogramSquareMeter }
 
+resourcestring
+  rsSecondPerKilogramSquareMeterSymbol = '%ss/%skg/%sm2';
+  rsSecondPerKilogramSquareMeterName = '%ssecond per %skilogram per square %smeter';
+  rsSecondPerKilogramSquareMeterPluralName = '%sseconds per %skilogram per square %smeter';
+
 const
-  SecondPerKilogramSquareMeterId = 192;
+  SecondPerKilogramSquareMeterID = 192;
   SecondPerKilogramSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : SecondPerKilogramSquareMeterId;
-    FSymbol            : '%ss/%skg/%sm2';
-    FName              : '%ssecond per %skilogram per square %smeter';
-    FPluralName        : '%sseconds per %skilogram per square %smeter';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -1, -2));
+    FID         : SecondPerKilogramSquareMeterID;
+    FSymbol     : rsSecondPerKilogramSquareMeterSymbol;
+    FName       : rsSecondPerKilogramSquareMeterName;
+    FPluralName : rsSecondPerKilogramSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -1, -2));
 
 { TMeterPerKilogram }
 
+resourcestring
+  rsMeterPerKilogramSymbol = '%sm/%skg';
+  rsMeterPerKilogramName = '%smeter per %skilogram';
+  rsMeterPerKilogramPluralName = '%smeters per %skilogram';
+
 const
-  MeterPerKilogramId = 193;
+  MeterPerKilogramID = 193;
   MeterPerKilogramUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerKilogramId;
-    FSymbol            : '%sm/%skg';
-    FName              : '%smeter per %skilogram';
-    FPluralName        : '%smeters per %skilogram';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MeterPerKilogramID;
+    FSymbol     : rsMeterPerKilogramSymbol;
+    FName       : rsMeterPerKilogramName;
+    FPluralName : rsMeterPerKilogramPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TSquareMeterPerKilogram }
 
+resourcestring
+  rsSquareMeterPerKilogramSymbol = '%sm2/%skg';
+  rsSquareMeterPerKilogramName = 'square %smeter per %skilogram';
+  rsSquareMeterPerKilogramPluralName = 'square %smeters per %skilogram';
+
 const
-  SquareMeterPerKilogramId = 194;
+  SquareMeterPerKilogramID = 194;
   SquareMeterPerKilogramUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerKilogramId;
-    FSymbol            : '%sm2/%skg';
-    FName              : 'square %smeter per %skilogram';
-    FPluralName        : 'square %smeters per %skilogram';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareMeterPerKilogramID;
+    FSymbol     : rsSquareMeterPerKilogramSymbol;
+    FName       : rsSquareMeterPerKilogramName;
+    FPluralName : rsSquareMeterPerKilogramPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -1));
 
 { TReciprocalSquareNewton }
 
+resourcestring
+  rsReciprocalSquareNewtonSymbol = '1/%sN2';
+  rsReciprocalSquareNewtonName = 'reciprocal square %snewton';
+  rsReciprocalSquareNewtonPluralName = 'reciprocal square %snewton';
+
 const
-  ReciprocalSquareNewtonId = 195;
+  ReciprocalSquareNewtonID = 195;
   ReciprocalSquareNewtonUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareNewtonId;
-    FSymbol            : '1/%sN2';
-    FName              : 'reciprocal square %snewton';
-    FPluralName        : 'reciprocal square %snewton';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : ReciprocalSquareNewtonID;
+    FSymbol     : rsReciprocalSquareNewtonSymbol;
+    FName       : rsReciprocalSquareNewtonName;
+    FPluralName : rsReciprocalSquareNewtonPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TReciprocalJoule }
 
+resourcestring
+  rsReciprocalJouleSymbol = '1/%sJ';
+  rsReciprocalJouleName = 'reciprocal %sjoule';
+  rsReciprocalJoulePluralName = 'reciprocal %sjoule';
+
 const
-  ReciprocalJouleId = 196;
+  ReciprocalJouleID = 196;
   ReciprocalJouleUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalJouleId;
-    FSymbol            : '1/%sJ';
-    FName              : 'reciprocal %sjoule';
-    FPluralName        : 'reciprocal %sjoule';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalJouleID;
+    FSymbol     : rsReciprocalJouleSymbol;
+    FName       : rsReciprocalJouleName;
+    FPluralName : rsReciprocalJoulePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalCoulomb }
 
+resourcestring
+  rsReciprocalCoulombSymbol = '1/%sC';
+  rsReciprocalCoulombName = 'reciprocal %scoulomb';
+  rsReciprocalCoulombPluralName = 'reciprocal %scoulomb';
+
 const
-  ReciprocalCoulombId = 197;
+  ReciprocalCoulombID = 197;
   ReciprocalCoulombUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalCoulombId;
-    FSymbol            : '1/%sC';
-    FName              : 'reciprocal %scoulomb';
-    FPluralName        : 'reciprocal %scoulomb';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalCoulombID;
+    FSymbol     : rsReciprocalCoulombSymbol;
+    FName       : rsReciprocalCoulombName;
+    FPluralName : rsReciprocalCoulombPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalSquareCoulomb }
 
+resourcestring
+  rsReciprocalSquareCoulombSymbol = '1/%sC2';
+  rsReciprocalSquareCoulombName = 'reciprocal square %scoulomb';
+  rsReciprocalSquareCoulombPluralName = 'reciprocal square %scoulomb';
+
 const
-  ReciprocalSquareCoulombId = 198;
+  ReciprocalSquareCoulombID = 198;
   ReciprocalSquareCoulombUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareCoulombId;
-    FSymbol            : '1/%sC2';
-    FName              : 'reciprocal square %scoulomb';
-    FPluralName        : 'reciprocal square %scoulomb';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : ReciprocalSquareCoulombID;
+    FSymbol     : rsReciprocalSquareCoulombSymbol;
+    FName       : rsReciprocalSquareCoulombName;
+    FPluralName : rsReciprocalSquareCoulombPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TReciprocalCoulombMeter }
 
+resourcestring
+  rsReciprocalCoulombMeterSymbol = '1/%sC/%sm';
+  rsReciprocalCoulombMeterName = 'reciprocal %scoulomb %smeter';
+  rsReciprocalCoulombMeterPluralName = 'reciprocal %scoulomb %smeter';
+
 const
-  ReciprocalCoulombMeterId = 199;
+  ReciprocalCoulombMeterID = 199;
   ReciprocalCoulombMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalCoulombMeterId;
-    FSymbol            : '1/%sC/%sm';
-    FName              : 'reciprocal %scoulomb %smeter';
-    FPluralName        : 'reciprocal %scoulomb %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalCoulombMeterID;
+    FSymbol     : rsReciprocalCoulombMeterSymbol;
+    FName       : rsReciprocalCoulombMeterName;
+    FPluralName : rsReciprocalCoulombMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -1));
 
 { TReciprovalVolt }
 
+resourcestring
+  rsReciprovalVoltSymbol = '1/%sV';
+  rsReciprovalVoltName = 'reciproval %svolt';
+  rsReciprovalVoltPluralName = 'reciproval %svolt';
+
 const
-  ReciprovalVoltId = 200;
+  ReciprovalVoltID = 200;
   ReciprovalVoltUnit : TUnit = (
-    FUnitOfMeasurement : ReciprovalVoltId;
-    FSymbol            : '1/%sV';
-    FName              : 'reciproval %svolt';
-    FPluralName        : 'reciproval %svolt';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprovalVoltID;
+    FSymbol     : rsReciprovalVoltSymbol;
+    FName       : rsReciprovalVoltName;
+    FPluralName : rsReciprovalVoltPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalSquareVolt }
 
+resourcestring
+  rsReciprocalSquareVoltSymbol = '1/%sV2';
+  rsReciprocalSquareVoltName = 'reciprocal square %svolt';
+  rsReciprocalSquareVoltPluralName = 'reciprocal square %svolt';
+
 const
-  ReciprocalSquareVoltId = 201;
+  ReciprocalSquareVoltID = 201;
   ReciprocalSquareVoltUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareVoltId;
-    FSymbol            : '1/%sV2';
-    FName              : 'reciprocal square %svolt';
-    FPluralName        : 'reciprocal square %svolt';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : ReciprocalSquareVoltID;
+    FSymbol     : rsReciprocalSquareVoltSymbol;
+    FName       : rsReciprocalSquareVoltName;
+    FPluralName : rsReciprocalSquareVoltPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TReciprocalFarad }
 
+resourcestring
+  rsReciprocalFaradSymbol = '1/%sF';
+  rsReciprocalFaradName = 'reciprocal %sfarad';
+  rsReciprocalFaradPluralName = 'reciprocal %sfarad';
+
 const
-  ReciprocalFaradId = 202;
+  ReciprocalFaradID = 202;
   ReciprocalFaradUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalFaradId;
-    FSymbol            : '1/%sF';
-    FName              : 'reciprocal %sfarad';
-    FPluralName        : 'reciprocal %sfarad';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalFaradID;
+    FSymbol     : rsReciprocalFaradSymbol;
+    FName       : rsReciprocalFaradName;
+    FPluralName : rsReciprocalFaradPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalLumen }
 
+resourcestring
+  rsReciprocalLumenSymbol = '1/%slm';
+  rsReciprocalLumenName = 'reciprocal %slumen';
+  rsReciprocalLumenPluralName = 'reciprocal %slumen';
+
 const
-  ReciprocalLumenId = 203;
+  ReciprocalLumenID = 203;
   ReciprocalLumenUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalLumenId;
-    FSymbol            : '1/%slm';
-    FName              : 'reciprocal %slumen';
-    FPluralName        : 'reciprocal %slumen';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalLumenID;
+    FSymbol     : rsReciprocalLumenSymbol;
+    FName       : rsReciprocalLumenName;
+    FPluralName : rsReciprocalLumenPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalLumenSecond }
 
+resourcestring
+  rsReciprocalLumenSecondSymbol = '1/%slm/%ss';
+  rsReciprocalLumenSecondName = 'reciprocal %slumen %ssecond';
+  rsReciprocalLumenSecondPluralName = 'reciprocal %slumen %ssecond';
+
 const
-  ReciprocalLumenSecondId = 204;
+  ReciprocalLumenSecondID = 204;
   ReciprocalLumenSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalLumenSecondId;
-    FSymbol            : '1/%slm/%ss';
-    FName              : 'reciprocal %slumen %ssecond';
-    FPluralName        : 'reciprocal %slumen %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalLumenSecondID;
+    FSymbol     : rsReciprocalLumenSecondSymbol;
+    FName       : rsReciprocalLumenSecondName;
+    FPluralName : rsReciprocalLumenSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -1));
 
 { TCubicMeterPerLumenSecond }
 
+resourcestring
+  rsCubicMeterPerLumenSecondSymbol = '%sm3/%slm/%ss';
+  rsCubicMeterPerLumenSecondName = 'cubic %smeter per %lumen per %ssecond';
+  rsCubicMeterPerLumenSecondPluralName = 'cubic %smeters per %lumen per %ssecond';
+
 const
-  CubicMeterPerLumenSecondId = 205;
+  CubicMeterPerLumenSecondID = 205;
   CubicMeterPerLumenSecondUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterPerLumenSecondId;
-    FSymbol            : '%sm3/%slm/%ss';
-    FName              : 'cubic %smeter per %lumen per %ssecond';
-    FPluralName        : 'cubic %smeters per %lumen per %ssecond';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (3, -1, -1));
+    FID         : CubicMeterPerLumenSecondID;
+    FSymbol     : rsCubicMeterPerLumenSecondSymbol;
+    FName       : rsCubicMeterPerLumenSecondName;
+    FPluralName : rsCubicMeterPerLumenSecondPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (3, -1, -1));
 
 { TReciprocalLux }
 
+resourcestring
+  rsReciprocalLuxSymbol = '1/%slx';
+  rsReciprocalLuxName = 'reciprocal %slux';
+  rsReciprocalLuxPluralName = 'reciprocal %slux';
+
 const
-  ReciprocalLuxId = 206;
+  ReciprocalLuxID = 206;
   ReciprocalLuxUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalLuxId;
-    FSymbol            : '1/%slx';
-    FName              : 'reciprocal %slux';
-    FPluralName        : 'reciprocal %slux';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalLuxID;
+    FSymbol     : rsReciprocalLuxSymbol;
+    FName       : rsReciprocalLuxName;
+    FPluralName : rsReciprocalLuxPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalLuxSecond }
 
+resourcestring
+  rsReciprocalLuxSecondSymbol = '1/%slx%ss';
+  rsReciprocalLuxSecondName = 'reciprocal %slux %ssecond';
+  rsReciprocalLuxSecondPluralName = 'reciprocal %slux %ssecond';
+
 const
-  ReciprocalLuxSecondId = 207;
+  ReciprocalLuxSecondID = 207;
   ReciprocalLuxSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalLuxSecondId;
-    FSymbol            : '1/%slx%ss';
-    FName              : 'reciprocal %slux %ssecond';
-    FPluralName        : 'reciprocal %slux %ssecond';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalLuxSecondID;
+    FSymbol     : rsReciprocalLuxSecondSymbol;
+    FName       : rsReciprocalLuxSecondName;
+    FPluralName : rsReciprocalLuxSecondPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalKatal }
 
+resourcestring
+  rsReciprocalKatalSymbol = '1/%skat';
+  rsReciprocalKatalName = 'reciprocal %skatal';
+  rsReciprocalKatalPluralName = 'reciprocal %skatal';
+
 const
-  ReciprocalKatalId = 208;
+  ReciprocalKatalID = 208;
   ReciprocalKatalUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalKatalId;
-    FSymbol            : '1/%skat';
-    FName              : 'reciprocal %skatal';
-    FPluralName        : 'reciprocal %skatal';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalKatalID;
+    FSymbol     : rsReciprocalKatalSymbol;
+    FName       : rsReciprocalKatalName;
+    FPluralName : rsReciprocalKatalPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TCubicMeterPerNewton }
 
+resourcestring
+  rsCubicMeterPerNewtonSymbol = '%sm3/%sN';
+  rsCubicMeterPerNewtonName = 'cubic %smeter per %snewton';
+  rsCubicMeterPerNewtonPluralName = 'cubic %smeters per %snewton';
+
 const
-  CubicMeterPerNewtonId = 209;
+  CubicMeterPerNewtonID = 209;
   CubicMeterPerNewtonUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterPerNewtonId;
-    FSymbol            : '%sm3/%sN';
-    FName              : 'cubic %smeter per %snewton';
-    FPluralName        : 'cubic %smeters per %snewton';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (3, -1));
+    FID         : CubicMeterPerNewtonID;
+    FSymbol     : rsCubicMeterPerNewtonSymbol;
+    FName       : rsCubicMeterPerNewtonName;
+    FPluralName : rsCubicMeterPerNewtonPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (3, -1));
 
 { TMeterPerNewton }
 
+resourcestring
+  rsMeterPerNewtonSymbol = '%sm/%sN';
+  rsMeterPerNewtonName = '%smeter per %snewton';
+  rsMeterPerNewtonPluralName = '%smeters per %snewton';
+
 const
-  MeterPerNewtonId = 210;
+  MeterPerNewtonID = 210;
   MeterPerNewtonUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerNewtonId;
-    FSymbol            : '%sm/%sN';
-    FName              : '%smeter per %snewton';
-    FPluralName        : '%smeters per %snewton';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MeterPerNewtonID;
+    FSymbol     : rsMeterPerNewtonSymbol;
+    FName       : rsMeterPerNewtonName;
+    FPluralName : rsMeterPerNewtonPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TSecondPerCubicMeter }
 
+resourcestring
+  rsSecondPerCubicMeterSymbol = '%ss/%sm3';
+  rsSecondPerCubicMeterName = '%ssecond per cubic %smeter';
+  rsSecondPerCubicMeterPluralName = '%sseconds per cubic %smeter';
+
 const
-  SecondPerCubicMeterId = 211;
+  SecondPerCubicMeterID = 211;
   SecondPerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : SecondPerCubicMeterId;
-    FSymbol            : '%ss/%sm3';
-    FName              : '%ssecond per cubic %smeter';
-    FPluralName        : '%sseconds per cubic %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -3));
+    FID         : SecondPerCubicMeterID;
+    FSymbol     : rsSecondPerCubicMeterSymbol;
+    FName       : rsSecondPerCubicMeterName;
+    FPluralName : rsSecondPerCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -3));
 
 { TReciprocalPoiseuille }
 
+resourcestring
+  rsReciprocalPoiseuilleSymbol = '1/%sPl';
+  rsReciprocalPoiseuilleName = 'reciprocal %spoiseuille';
+  rsReciprocalPoiseuillePluralName = 'reciprocal %spoiseuille';
+
 const
-  ReciprocalPoiseuilleId = 212;
+  ReciprocalPoiseuilleID = 212;
   ReciprocalPoiseuilleUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalPoiseuilleId;
-    FSymbol            : '1/%sPl';
-    FName              : 'reciprocal %spoiseuille';
-    FPluralName        : 'reciprocal %spoiseuille';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalPoiseuilleID;
+    FSymbol     : rsReciprocalPoiseuilleSymbol;
+    FName       : rsReciprocalPoiseuilleName;
+    FPluralName : rsReciprocalPoiseuillePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TSecondPerSquareMeter }
 
+resourcestring
+  rsSecondPerSquareMeterSymbol = '%ss/%sm2';
+  rsSecondPerSquareMeterName = '%ssecond per square %smeter';
+  rsSecondPerSquareMeterPluralName = '%sseconds per square %smeter';
+
 const
-  SecondPerSquareMeterId = 213;
+  SecondPerSquareMeterID = 213;
   SecondPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : SecondPerSquareMeterId;
-    FSymbol            : '%ss/%sm2';
-    FName              : '%ssecond per square %smeter';
-    FPluralName        : '%sseconds per square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : SecondPerSquareMeterID;
+    FSymbol     : rsSecondPerSquareMeterSymbol;
+    FName       : rsSecondPerSquareMeterName;
+    FPluralName : rsSecondPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TQuarticMeterPerKilogram }
 
+resourcestring
+  rsQuarticMeterPerKilogramSymbol = '%sm4/%skg';
+  rsQuarticMeterPerKilogramName = 'quartic %smeter per %skilogram';
+  rsQuarticMeterPerKilogramPluralName = 'quartic %smeters per %skilogram';
+
 const
-  QuarticMeterPerKilogramId = 214;
+  QuarticMeterPerKilogramID = 214;
   QuarticMeterPerKilogramUnit : TUnit = (
-    FUnitOfMeasurement : QuarticMeterPerKilogramId;
-    FSymbol            : '%sm4/%skg';
-    FName              : 'quartic %smeter per %skilogram';
-    FPluralName        : 'quartic %smeters per %skilogram';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (4, -1));
+    FID         : QuarticMeterPerKilogramID;
+    FSymbol     : rsQuarticMeterPerKilogramSymbol;
+    FName       : rsQuarticMeterPerKilogramName;
+    FPluralName : rsQuarticMeterPerKilogramPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (4, -1));
 
 { TReciprocalQuarticMeterSecond }
 
+resourcestring
+  rsReciprocalQuarticMeterSecondSymbol = '1/%sm4/%ss';
+  rsReciprocalQuarticMeterSecondName = 'reciprocal quartic %smeter %ssecond';
+  rsReciprocalQuarticMeterSecondPluralName = 'reciprocal quartic %smeter %ssecond';
+
 const
-  ReciprocalQuarticMeterSecondId = 215;
+  ReciprocalQuarticMeterSecondID = 215;
   ReciprocalQuarticMeterSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalQuarticMeterSecondId;
-    FSymbol            : '1/%sm4/%ss';
-    FName              : 'reciprocal quartic %smeter %ssecond';
-    FPluralName        : 'reciprocal quartic %smeter %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-4, -1));
+    FID         : ReciprocalQuarticMeterSecondID;
+    FSymbol     : rsReciprocalQuarticMeterSecondSymbol;
+    FName       : rsReciprocalQuarticMeterSecondName;
+    FPluralName : rsReciprocalQuarticMeterSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-4, -1));
 
 { TQuarticMeterSecondPerKilogram }
 
+resourcestring
+  rsQuarticMeterSecondPerKilogramSymbol = '%sm4.%ss/%skg';
+  rsQuarticMeterSecondPerKilogramName = 'quartic %smeter %ssecond per %skilogram';
+  rsQuarticMeterSecondPerKilogramPluralName = 'quartic %smeter %sseconds per %skilogram';
+
 const
-  QuarticMeterSecondPerKilogramId = 216;
+  QuarticMeterSecondPerKilogramID = 216;
   QuarticMeterSecondPerKilogramUnit : TUnit = (
-    FUnitOfMeasurement : QuarticMeterSecondPerKilogramId;
-    FSymbol            : '%sm4.%ss/%skg';
-    FName              : 'quartic %smeter %ssecond per %skilogram';
-    FPluralName        : 'quartic %smeter %sseconds per %skilogram';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (4, 1, -1));
+    FID         : QuarticMeterSecondPerKilogramID;
+    FSymbol     : rsQuarticMeterSecondPerKilogramSymbol;
+    FName       : rsQuarticMeterSecondPerKilogramName;
+    FPluralName : rsQuarticMeterSecondPerKilogramPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (4, 1, -1));
 
 { TReciprocalKilogramSquareSecond }
 
+resourcestring
+  rsReciprocalKilogramSquareSecondSymbol = '1/%skg/%ss2';
+  rsReciprocalKilogramSquareSecondName = 'reciprocal %skilogram square %ssecond';
+  rsReciprocalKilogramSquareSecondPluralName = 'reciprocal %skilogram square %ssecond';
+
 const
-  ReciprocalKilogramSquareSecondId = 217;
+  ReciprocalKilogramSquareSecondID = 217;
   ReciprocalKilogramSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalKilogramSquareSecondId;
-    FSymbol            : '1/%skg/%ss2';
-    FName              : 'reciprocal %skilogram square %ssecond';
-    FPluralName        : 'reciprocal %skilogram square %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -2));
+    FID         : ReciprocalKilogramSquareSecondID;
+    FSymbol     : rsReciprocalKilogramSquareSecondSymbol;
+    FName       : rsReciprocalKilogramSquareSecondName;
+    FPluralName : rsReciprocalKilogramSquareSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -2));
 
 { TSquareSecondPerCubicMeter }
 
+resourcestring
+  rsSquareSecondPerCubicMeterSymbol = '%ss2/%sm3';
+  rsSquareSecondPerCubicMeterName = 'square %ssecond per cubic %smeter';
+  rsSquareSecondPerCubicMeterPluralName = 'square %sseconds per cubic %smeter';
+
 const
-  SquareSecondPerCubicMeterId = 218;
+  SquareSecondPerCubicMeterID = 218;
   SquareSecondPerCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareSecondPerCubicMeterId;
-    FSymbol            : '%ss2/%sm3';
-    FName              : 'square %ssecond per cubic %smeter';
-    FPluralName        : 'square %sseconds per cubic %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -3));
+    FID         : SquareSecondPerCubicMeterID;
+    FSymbol     : rsSquareSecondPerCubicMeterSymbol;
+    FName       : rsSquareSecondPerCubicMeterName;
+    FPluralName : rsSquareSecondPerCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -3));
 
 { TReciprocalNewtonSquareMeter }
 
+resourcestring
+  rsReciprocalNewtonSquareMeterSymbol = '1/%sN/%sm2';
+  rsReciprocalNewtonSquareMeterName = 'reciprocal %snewton square %smeter';
+  rsReciprocalNewtonSquareMeterPluralName = 'reciprocal %snewton square %smeter';
+
 const
-  ReciprocalNewtonSquareMeterId = 219;
+  ReciprocalNewtonSquareMeterID = 219;
   ReciprocalNewtonSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalNewtonSquareMeterId;
-    FSymbol            : '1/%sN/%sm2';
-    FName              : 'reciprocal %snewton square %smeter';
-    FPluralName        : 'reciprocal %snewton square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -2));
+    FID         : ReciprocalNewtonSquareMeterID;
+    FSymbol     : rsReciprocalNewtonSquareMeterSymbol;
+    FName       : rsReciprocalNewtonSquareMeterName;
+    FPluralName : rsReciprocalNewtonSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -2));
 
 { TReciprocalNewtonCubicMeter }
 
+resourcestring
+  rsReciprocalNewtonCubicMeterSymbol = '1/%sN/%sm3';
+  rsReciprocalNewtonCubicMeterName = 'reciprocal %snewton cubic %smeter';
+  rsReciprocalNewtonCubicMeterPluralName = 'reciprocal %snewton cubic %smeter';
+
 const
-  ReciprocalNewtonCubicMeterId = 220;
+  ReciprocalNewtonCubicMeterID = 220;
   ReciprocalNewtonCubicMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalNewtonCubicMeterId;
-    FSymbol            : '1/%sN/%sm3';
-    FName              : 'reciprocal %snewton cubic %smeter';
-    FPluralName        : 'reciprocal %snewton cubic %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -3));
+    FID         : ReciprocalNewtonCubicMeterID;
+    FSymbol     : rsReciprocalNewtonCubicMeterSymbol;
+    FName       : rsReciprocalNewtonCubicMeterName;
+    FPluralName : rsReciprocalNewtonCubicMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -3));
 
 { TSquareKilogramPerNewton }
 
+resourcestring
+  rsSquareKilogramPerNewtonSymbol = '%sg.%s2/%sm';
+  rsSquareKilogramPerNewtonName = 'square %sgram per %snewton';
+  rsSquareKilogramPerNewtonPluralName = 'square %sgram per %snewton';
+
 const
-  SquareKilogramPerNewtonId = 221;
+  SquareKilogramPerNewtonID = 221;
   SquareKilogramPerNewtonUnit : TUnit = (
-    FUnitOfMeasurement : SquareKilogramPerNewtonId;
-    FSymbol            : '%sg.%s2/%sm';
-    FName              : 'square %sgram per %snewton';
-    FPluralName        : 'square %sgram per %snewton';
-    FPrefixes          : (pKilo, pNone, pNone);
-    FExponents         : (1, 2, -1));
+    FID         : SquareKilogramPerNewtonID;
+    FSymbol     : rsSquareKilogramPerNewtonSymbol;
+    FName       : rsSquareKilogramPerNewtonName;
+    FPluralName : rsSquareKilogramPerNewtonPluralName;
+    FPrefixes   : (pKilo, pNone, pNone);
+    FExponents  : (1, 2, -1));
 
 { TMeterPerSquareKilogram }
 
+resourcestring
+  rsMeterPerSquareKilogramSymbol = '%sm/%skg2';
+  rsMeterPerSquareKilogramName = '%smeter per square %skilogram';
+  rsMeterPerSquareKilogramPluralName = '%smeters per square %skilogram';
+
 const
-  MeterPerSquareKilogramId = 222;
+  MeterPerSquareKilogramID = 222;
   MeterPerSquareKilogramUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerSquareKilogramId;
-    FSymbol            : '%sm/%skg2';
-    FName              : '%smeter per square %skilogram';
-    FPluralName        : '%smeters per square %skilogram';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : MeterPerSquareKilogramID;
+    FSymbol     : rsMeterPerSquareKilogramSymbol;
+    FName       : rsMeterPerSquareKilogramName;
+    FPluralName : rsMeterPerSquareKilogramPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TSquareKilogramPerNewtonPerSquareMeter }
 
+resourcestring
+  rsSquareKilogramPerNewtonPerSquareMeterSymbol = '%sg.%ss2/%m3';
+  rsSquareKilogramPerNewtonPerSquareMeterName = '%sgram square %ssecond per cubic %smeter';
+  rsSquareKilogramPerNewtonPerSquareMeterPluralName = '%sgram square %sseconds per cubic %smeter';
+
 const
-  SquareKilogramPerNewtonPerSquareMeterId = 223;
+  SquareKilogramPerNewtonPerSquareMeterID = 223;
   SquareKilogramPerNewtonPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareKilogramPerNewtonPerSquareMeterId;
-    FSymbol            : '%sg.%ss2/%m3';
-    FName              : '%sgram square %ssecond per cubic %smeter';
-    FPluralName        : '%sgram square %sseconds per cubic %smeter';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, 2));
+    FID         : SquareKilogramPerNewtonPerSquareMeterID;
+    FSymbol     : rsSquareKilogramPerNewtonPerSquareMeterSymbol;
+    FName       : rsSquareKilogramPerNewtonPerSquareMeterName;
+    FPluralName : rsSquareKilogramPerNewtonPerSquareMeterPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, 2));
 
 { TReciprocalKilogramKelvin }
 
+resourcestring
+  rsReciprocalKilogramKelvinSymbol = '1/%sg/%sK';
+  rsReciprocalKilogramKelvinName = 'reciprocal %sgram %skelvin';
+  rsReciprocalKilogramKelvinPluralName = 'reciprocal %sgram %skelvin';
+
 const
-  ReciprocalKilogramKelvinId = 224;
+  ReciprocalKilogramKelvinID = 224;
   ReciprocalKilogramKelvinUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalKilogramKelvinId;
-    FSymbol            : '1/%sg/%sK';
-    FName              : 'reciprocal %sgram %skelvin';
-    FPluralName        : 'reciprocal %sgram %skelvin';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalKilogramKelvinID;
+    FSymbol     : rsReciprocalKilogramKelvinSymbol;
+    FName       : rsReciprocalKilogramKelvinName;
+    FPluralName : rsReciprocalKilogramKelvinPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (-1, -1));
 
 { TKelvinPerJoule }
 
+resourcestring
+  rsKelvinPerJouleSymbol = '%sK/%sJ';
+  rsKelvinPerJouleName = '%skelvin per %sjoule';
+  rsKelvinPerJoulePluralName = '%skelvins per %sjoule';
+
 const
-  KelvinPerJouleId = 225;
+  KelvinPerJouleID = 225;
   KelvinPerJouleUnit : TUnit = (
-    FUnitOfMeasurement : KelvinPerJouleId;
-    FSymbol            : '%sK/%sJ';
-    FName              : '%skelvin per %sjoule';
-    FPluralName        : '%skelvins per %sjoule';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : KelvinPerJouleID;
+    FSymbol     : rsKelvinPerJouleSymbol;
+    FName       : rsKelvinPerJouleName;
+    FPluralName : rsKelvinPerJoulePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TKilogramKelvinPerJoule }
 
+resourcestring
+  rsKilogramKelvinPerJouleSymbol = '%sg.%ss2/%m2';
+  rsKilogramKelvinPerJouleName = '%sgram square %ssecond per square %smeter';
+  rsKilogramKelvinPerJoulePluralName = '%sgram square %sseconds per square %smeter';
+
 const
-  KilogramKelvinPerJouleId = 226;
+  KilogramKelvinPerJouleID = 226;
   KilogramKelvinPerJouleUnit : TUnit = (
-    FUnitOfMeasurement : KilogramKelvinPerJouleId;
-    FSymbol            : '%sg.%ss2/%m2';
-    FName              : '%sgram square %ssecond per square %smeter';
-    FPluralName        : '%sgram square %sseconds per square %smeter';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, 2));
+    FID         : KilogramKelvinPerJouleID;
+    FSymbol     : rsKilogramKelvinPerJouleSymbol;
+    FName       : rsKilogramKelvinPerJouleName;
+    FPluralName : rsKilogramKelvinPerJoulePluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, 2));
 
 { TReciprocalMeterKelvin }
 
+resourcestring
+  rsReciprocalMeterKelvinSymbol = '1/%sm/%sK';
+  rsReciprocalMeterKelvinName = 'reciprocal %smeter %skelvin';
+  rsReciprocalMeterKelvinPluralName = 'reciprocal %smeter %skelvin';
+
 const
-  ReciprocalMeterKelvinId = 227;
+  ReciprocalMeterKelvinID = 227;
   ReciprocalMeterKelvinUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalMeterKelvinId;
-    FSymbol            : '1/%sm/%sK';
-    FName              : 'reciprocal %smeter %skelvin';
-    FPluralName        : 'reciprocal %smeter %skelvin';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalMeterKelvinID;
+    FSymbol     : rsReciprocalMeterKelvinSymbol;
+    FName       : rsReciprocalMeterKelvinName;
+    FPluralName : rsReciprocalMeterKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -1));
 
 { TMeterPerKelvin }
 
+resourcestring
+  rsMeterPerKelvinSymbol = '%sm/%sK';
+  rsMeterPerKelvinName = '%smeter per %skelvin';
+  rsMeterPerKelvinPluralName = '%smeters per %skelvin';
+
 const
-  MeterPerKelvinId = 228;
+  MeterPerKelvinID = 228;
   MeterPerKelvinUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerKelvinId;
-    FSymbol            : '%sm/%sK';
-    FName              : '%smeter per %skelvin';
-    FPluralName        : '%smeters per %skelvin';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MeterPerKelvinID;
+    FSymbol     : rsMeterPerKelvinSymbol;
+    FName       : rsMeterPerKelvinName;
+    FPluralName : rsMeterPerKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TSquareMeterPerWatt }
 
+resourcestring
+  rsSquareMeterPerWattSymbol = '%sm2/%sW';
+  rsSquareMeterPerWattName = 'square %smeter per %swatt';
+  rsSquareMeterPerWattPluralName = 'square %smeters per %swatt';
+
 const
-  SquareMeterPerWattId = 229;
+  SquareMeterPerWattID = 229;
   SquareMeterPerWattUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerWattId;
-    FSymbol            : '%sm2/%sW';
-    FName              : 'square %smeter per %swatt';
-    FPluralName        : 'square %smeters per %swatt';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareMeterPerWattID;
+    FSymbol     : rsSquareMeterPerWattSymbol;
+    FName       : rsSquareMeterPerWattName;
+    FPluralName : rsSquareMeterPerWattPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -1));
 
 { TCubicMeterPerWatt }
 
+resourcestring
+  rsCubicMeterPerWattSymbol = '%sm3/%sW';
+  rsCubicMeterPerWattName = 'cubic %smeter per %swatt';
+  rsCubicMeterPerWattPluralName = 'cubic %smeters per %swatt';
+
 const
-  CubicMeterPerWattId = 230;
+  CubicMeterPerWattID = 230;
   CubicMeterPerWattUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterPerWattId;
-    FSymbol            : '%sm3/%sW';
-    FName              : 'cubic %smeter per %swatt';
-    FPluralName        : 'cubic %smeters per %swatt';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (3, -1));
+    FID         : CubicMeterPerWattID;
+    FSymbol     : rsCubicMeterPerWattSymbol;
+    FName       : rsCubicMeterPerWattName;
+    FPluralName : rsCubicMeterPerWattPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (3, -1));
 
 { TReciprocalSquareMeterKelvin }
 
+resourcestring
+  rsReciprocalSquareMeterKelvinSymbol = '1/%sm2/%sK';
+  rsReciprocalSquareMeterKelvinName = 'reciprocal square %smeter %skelvin';
+  rsReciprocalSquareMeterKelvinPluralName = 'reciprocal square %smeter %skelvin';
+
 const
-  ReciprocalSquareMeterKelvinId = 231;
+  ReciprocalSquareMeterKelvinID = 231;
   ReciprocalSquareMeterKelvinUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareMeterKelvinId;
-    FSymbol            : '1/%sm2/%sK';
-    FName              : 'reciprocal square %smeter %skelvin';
-    FPluralName        : 'reciprocal square %smeter %skelvin';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-2, -1));
+    FID         : ReciprocalSquareMeterKelvinID;
+    FSymbol     : rsReciprocalSquareMeterKelvinSymbol;
+    FName       : rsReciprocalSquareMeterKelvinName;
+    FPluralName : rsReciprocalSquareMeterKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-2, -1));
 
 { TSquareMeterKelvinPerWatt }
 
+resourcestring
+  rsSquareMeterKelvinPerWattSymbol = '%ss3.%sK/%skg';
+  rsSquareMeterKelvinPerWattName = 'cubic %ssecond %skelvin per %skilogram';
+  rsSquareMeterKelvinPerWattPluralName = 'cubic %sseconds %skelvins per %skilogram';
+
 const
-  SquareMeterKelvinPerWattId = 232;
+  SquareMeterKelvinPerWattID = 232;
   SquareMeterKelvinPerWattUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterKelvinPerWattId;
-    FSymbol            : '%ss3.%sK/%skg';
-    FName              : 'cubic %ssecond %skelvin per %skilogram';
-    FPluralName        : 'cubic %sseconds %skelvins per %skilogram';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (3, 1, -1));
+    FID         : SquareMeterKelvinPerWattID;
+    FSymbol     : rsSquareMeterKelvinPerWattSymbol;
+    FName       : rsSquareMeterKelvinPerWattName;
+    FPluralName : rsSquareMeterKelvinPerWattPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (3, 1, -1));
 
 { TReciprocalSquareMeterQuarticKelvin }
 
+resourcestring
+  rsReciprocalSquareMeterQuarticKelvinSymbol = '1/%sm2/%sK4';
+  rsReciprocalSquareMeterQuarticKelvinName = 'reciprocal square %smeter quartic %skelvin';
+  rsReciprocalSquareMeterQuarticKelvinPluralName = 'reciprocal square %smeter quartic %skelvin';
+
 const
-  ReciprocalSquareMeterQuarticKelvinId = 233;
+  ReciprocalSquareMeterQuarticKelvinID = 233;
   ReciprocalSquareMeterQuarticKelvinUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareMeterQuarticKelvinId;
-    FSymbol            : '1/%sm2/%sK4';
-    FName              : 'reciprocal square %smeter quartic %skelvin';
-    FPluralName        : 'reciprocal square %smeter quartic %skelvin';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-2, -4));
+    FID         : ReciprocalSquareMeterQuarticKelvinID;
+    FSymbol     : rsReciprocalSquareMeterQuarticKelvinSymbol;
+    FName       : rsReciprocalSquareMeterQuarticKelvinName;
+    FPluralName : rsReciprocalSquareMeterQuarticKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-2, -4));
 
 { TQuarticKelvinPerWatt }
 
+resourcestring
+  rsQuarticKelvinPerWattSymbol = '%sK4/%sW';
+  rsQuarticKelvinPerWattName = 'quartic %skelvin per %swatt';
+  rsQuarticKelvinPerWattPluralName = 'quartic %skelvins per %swatt';
+
 const
-  QuarticKelvinPerWattId = 234;
+  QuarticKelvinPerWattID = 234;
   QuarticKelvinPerWattUnit : TUnit = (
-    FUnitOfMeasurement : QuarticKelvinPerWattId;
-    FSymbol            : '%sK4/%sW';
-    FName              : 'quartic %skelvin per %swatt';
-    FPluralName        : 'quartic %skelvins per %swatt';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (4, -1));
+    FID         : QuarticKelvinPerWattID;
+    FSymbol     : rsQuarticKelvinPerWattSymbol;
+    FName       : rsQuarticKelvinPerWattName;
+    FPluralName : rsQuarticKelvinPerWattPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (4, -1));
 
 { TSquareMeterQuarticKelvinPerWatt }
 
+resourcestring
+  rsSquareMeterQuarticKelvinPerWattSymbol = '%sm2.%sK4/%sW';
+  rsSquareMeterQuarticKelvinPerWattName = 'square %smeter quartic %skelvin per %swatt';
+  rsSquareMeterQuarticKelvinPerWattPluralName = 'square %smeter quartic %skelvins per %swatt';
+
 const
-  SquareMeterQuarticKelvinPerWattId = 235;
+  SquareMeterQuarticKelvinPerWattID = 235;
   SquareMeterQuarticKelvinPerWattUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterQuarticKelvinPerWattId;
-    FSymbol            : '%sm2.%sK4/%sW';
-    FName              : 'square %smeter quartic %skelvin per %swatt';
-    FPluralName        : 'square %smeter quartic %skelvins per %swatt';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (2, 4, -1));
+    FID         : SquareMeterQuarticKelvinPerWattID;
+    FSymbol     : rsSquareMeterQuarticKelvinPerWattSymbol;
+    FName       : rsSquareMeterQuarticKelvinPerWattName;
+    FPluralName : rsSquareMeterQuarticKelvinPerWattPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (2, 4, -1));
 
 { TMolePerJoule }
 
+resourcestring
+  rsMolePerJouleSymbol = '%smol/%sJ';
+  rsMolePerJouleName = '%smole per %sjoule';
+  rsMolePerJoulePluralName = '%smoles per %sjoule';
+
 const
-  MolePerJouleId = 236;
+  MolePerJouleID = 236;
   MolePerJouleUnit : TUnit = (
-    FUnitOfMeasurement : MolePerJouleId;
-    FSymbol            : '%smol/%sJ';
-    FName              : '%smole per %sjoule';
-    FPluralName        : '%smoles per %sjoule';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MolePerJouleID;
+    FSymbol     : rsMolePerJouleSymbol;
+    FName       : rsMolePerJouleName;
+    FPluralName : rsMolePerJoulePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TReciprocalMoleKelvin }
 
+resourcestring
+  rsReciprocalMoleKelvinSymbol = '1/%sK/%smol';
+  rsReciprocalMoleKelvinName = 'reciprocal %skelvin %smole';
+  rsReciprocalMoleKelvinPluralName = 'reciprocal %skelvin %smole';
+
 const
-  ReciprocalMoleKelvinId = 237;
+  ReciprocalMoleKelvinID = 237;
   ReciprocalMoleKelvinUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalMoleKelvinId;
-    FSymbol            : '1/%sK/%smol';
-    FName              : 'reciprocal %skelvin %smole';
-    FPluralName        : 'reciprocal %skelvin %smole';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalMoleKelvinID;
+    FSymbol     : rsReciprocalMoleKelvinSymbol;
+    FName       : rsReciprocalMoleKelvinName;
+    FPluralName : rsReciprocalMoleKelvinPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -1));
 
 { TMoleKelvinPerJoule }
 
+resourcestring
+  rsMoleKelvinPerJouleSymbol = '%smol.%sK/%sg/%sm2';
+  rsMoleKelvinPerJouleName = '%smole %skelvin per joule';
+  rsMoleKelvinPerJoulePluralName = '%smole %skelvins per joule';
+
 const
-  MoleKelvinPerJouleId = 238;
+  MoleKelvinPerJouleID = 238;
   MoleKelvinPerJouleUnit : TUnit = (
-    FUnitOfMeasurement : MoleKelvinPerJouleId;
-    FSymbol            : '%smol.%sK/%sg/%sm2';
-    FName              : '%smole %skelvin per joule';
-    FPluralName        : '%smole %skelvins per joule';
-    FPrefixes          : (pNone, pNone, pKilo, pNone);
-    FExponents         : (1, 1, -1, -2));
+    FID         : MoleKelvinPerJouleID;
+    FSymbol     : rsMoleKelvinPerJouleSymbol;
+    FName       : rsMoleKelvinPerJouleName;
+    FPluralName : rsMoleKelvinPerJoulePluralName;
+    FPrefixes   : (pNone, pNone, pKilo, pNone);
+    FExponents  : (1, 1, -1, -2));
 
 { TMeterPerCoulomb }
 
+resourcestring
+  rsMeterPerCoulombSymbol = '%sm/%sC';
+  rsMeterPerCoulombName = '%smeter per %scoulomb';
+  rsMeterPerCoulombPluralName = '%smeters per %scoulomb';
+
 const
-  MeterPerCoulombId = 239;
+  MeterPerCoulombID = 239;
   MeterPerCoulombUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerCoulombId;
-    FSymbol            : '%sm/%sC';
-    FName              : '%smeter per %scoulomb';
-    FPluralName        : '%smeters per %scoulomb';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MeterPerCoulombID;
+    FSymbol     : rsMeterPerCoulombSymbol;
+    FName       : rsMeterPerCoulombName;
+    FPluralName : rsMeterPerCoulombPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TMeterPerSquareCoulomb }
 
+resourcestring
+  rsMeterPerSquareCoulombSymbol = '%sm/%sC2';
+  rsMeterPerSquareCoulombName = '%smeter per square %scoulomb';
+  rsMeterPerSquareCoulombPluralName = '%smeters per square %scoulomb';
+
 const
-  MeterPerSquareCoulombId = 240;
+  MeterPerSquareCoulombID = 240;
   MeterPerSquareCoulombUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerSquareCoulombId;
-    FSymbol            : '%sm/%sC2';
-    FName              : '%smeter per square %scoulomb';
-    FPluralName        : '%smeters per square %scoulomb';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -2));
+    FID         : MeterPerSquareCoulombID;
+    FSymbol     : rsMeterPerSquareCoulombSymbol;
+    FName       : rsMeterPerSquareCoulombName;
+    FPluralName : rsMeterPerSquareCoulombPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -2));
 
 { TSquareMeterPerCoulomb }
 
+resourcestring
+  rsSquareMeterPerCoulombSymbol = '%sm2/%sC';
+  rsSquareMeterPerCoulombName = 'square %smeter per %scoulomb';
+  rsSquareMeterPerCoulombPluralName = 'square %smeter per %scoulomb';
+
 const
-  SquareMeterPerCoulombId = 241;
+  SquareMeterPerCoulombID = 241;
   SquareMeterPerCoulombUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerCoulombId;
-    FSymbol            : '%sm2/%sC';
-    FName              : 'square %smeter per %scoulomb';
-    FPluralName        : 'square %smeter per %scoulomb';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareMeterPerCoulombID;
+    FSymbol     : rsSquareMeterPerCoulombSymbol;
+    FName       : rsSquareMeterPerCoulombName;
+    FPluralName : rsSquareMeterPerCoulombPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -1));
 
 { TSquareCoulombPerSquareMeter }
 
+resourcestring
+  rsSquareCoulombPerSquareMeterSymbol = '%sC2/%sm2';
+  rsSquareCoulombPerSquareMeterName = 'square %scoulomb per square %smeter';
+  rsSquareCoulombPerSquareMeterPluralName = 'square %scoulombs per square %smeter';
+
 const
-  SquareCoulombPerSquareMeterId = 242;
+  SquareCoulombPerSquareMeterID = 242;
   SquareCoulombPerSquareMeterUnit : TUnit = (
-    FUnitOfMeasurement : SquareCoulombPerSquareMeterId;
-    FSymbol            : '%sC2/%sm2';
-    FName              : 'square %scoulomb per square %smeter';
-    FPluralName        : 'square %scoulombs per square %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -2));
+    FID         : SquareCoulombPerSquareMeterID;
+    FSymbol     : rsSquareCoulombPerSquareMeterSymbol;
+    FName       : rsSquareCoulombPerSquareMeterName;
+    FPluralName : rsSquareCoulombPerSquareMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -2));
 
 { TSquareCoulombPerNewton }
 
+resourcestring
+  rsSquareCoulombPerNewtonSymbol = '%sC2/%sN';
+  rsSquareCoulombPerNewtonName = 'square %scoulomb per %snewton';
+  rsSquareCoulombPerNewtonPluralName = 'square %scoulombs per %snewton';
+
 const
-  SquareCoulombPerNewtonId = 243;
+  SquareCoulombPerNewtonID = 243;
   SquareCoulombPerNewtonUnit : TUnit = (
-    FUnitOfMeasurement : SquareCoulombPerNewtonId;
-    FSymbol            : '%sC2/%sN';
-    FName              : 'square %scoulomb per %snewton';
-    FPluralName        : 'square %scoulombs per %snewton';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareCoulombPerNewtonID;
+    FSymbol     : rsSquareCoulombPerNewtonSymbol;
+    FName       : rsSquareCoulombPerNewtonName;
+    FPluralName : rsSquareCoulombPerNewtonPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -1));
 
 { TReciprocalVoltMeter }
 
+resourcestring
+  rsReciprocalVoltMeterSymbol = '1/%sV/%sm';
+  rsReciprocalVoltMeterName = 'reciprocal %svolt %smeter';
+  rsReciprocalVoltMeterPluralName = 'reciprocal %svolt %smeter';
+
 const
-  ReciprocalVoltMeterId = 244;
+  ReciprocalVoltMeterID = 244;
   ReciprocalVoltMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalVoltMeterId;
-    FSymbol            : '1/%sV/%sm';
-    FName              : 'reciprocal %svolt %smeter';
-    FPluralName        : 'reciprocal %svolt %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalVoltMeterID;
+    FSymbol     : rsReciprocalVoltMeterSymbol;
+    FName       : rsReciprocalVoltMeterName;
+    FPluralName : rsReciprocalVoltMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -1));
 
 { TSecondPerVoltMeter }
 
+resourcestring
+  rsSecondPerVoltMeterSymbol = '%ss/%sV/%sm';
+  rsSecondPerVoltMeterName = '%ssecond per %svolt per %smeter';
+  rsSecondPerVoltMeterPluralName = '%sseconds per %svolt per %smeter';
+
 const
-  SecondPerVoltMeterId = 245;
+  SecondPerVoltMeterID = 245;
   SecondPerVoltMeterUnit : TUnit = (
-    FUnitOfMeasurement : SecondPerVoltMeterId;
-    FSymbol            : '%ss/%sV/%sm';
-    FName              : '%ssecond per %svolt per %smeter';
-    FPluralName        : '%sseconds per %svolt per %smeter';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, -1, -1));
+    FID         : SecondPerVoltMeterID;
+    FSymbol     : rsSecondPerVoltMeterSymbol;
+    FName       : rsSecondPerVoltMeterName;
+    FPluralName : rsSecondPerVoltMeterPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -1, -1));
 
 { TReciprocalTeslaMeter }
 
+resourcestring
+  rsReciprocalTeslaMeterSymbol = '1/%sT/%sm';
+  rsReciprocalTeslaMeterName = 'reciprocal %stesla %smeter';
+  rsReciprocalTeslaMeterPluralName = 'reciprocal %stesla %smeter';
+
 const
-  ReciprocalTeslaMeterId = 246;
+  ReciprocalTeslaMeterID = 246;
   ReciprocalTeslaMeterUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalTeslaMeterId;
-    FSymbol            : '1/%sT/%sm';
-    FName              : 'reciprocal %stesla %smeter';
-    FPluralName        : 'reciprocal %stesla %smeter';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalTeslaMeterID;
+    FSymbol     : rsReciprocalTeslaMeterSymbol;
+    FName       : rsReciprocalTeslaMeterName;
+    FPluralName : rsReciprocalTeslaMeterPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -1));
 
 { TAmperePerTesla }
 
+resourcestring
+  rsAmperePerTeslaSymbol = '%sA/%sT';
+  rsAmperePerTeslaName = '%sampere per %stesla';
+  rsAmperePerTeslaPluralName = '%samperes per %stesla';
+
 const
-  AmperePerTeslaId = 247;
+  AmperePerTeslaID = 247;
   AmperePerTeslaUnit : TUnit = (
-    FUnitOfMeasurement : AmperePerTeslaId;
-    FSymbol            : '%sA/%sT';
-    FName              : '%sampere per %stesla';
-    FPluralName        : '%samperes per %stesla';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : AmperePerTeslaID;
+    FSymbol     : rsAmperePerTeslaSymbol;
+    FName       : rsAmperePerTeslaName;
+    FPluralName : rsAmperePerTeslaPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TMeterPerHenry }
 
+resourcestring
+  rsMeterPerHenrySymbol = '%m/%sH';
+  rsMeterPerHenryName = '%smeter per %shenry';
+  rsMeterPerHenryPluralName = '%smeters per %shenry';
+
 const
-  MeterPerHenryId = 248;
+  MeterPerHenryID = 248;
   MeterPerHenryUnit : TUnit = (
-    FUnitOfMeasurement : MeterPerHenryId;
-    FSymbol            : '%m/%sH';
-    FName              : '%smeter per %shenry';
-    FPluralName        : '%smeters per %shenry';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : MeterPerHenryID;
+    FSymbol     : rsMeterPerHenrySymbol;
+    FName       : rsMeterPerHenryName;
+    FPluralName : rsMeterPerHenryPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TSquareSecondPerSquareKilogram }
 
+resourcestring
+  rsSquareSecondPerSquareKilogramSymbol = '%ss2/%skg2';
+  rsSquareSecondPerSquareKilogramName = 'square %ssecond per square %skilogram';
+  rsSquareSecondPerSquareKilogramPluralName = 'square %sseconds per square %skilogram';
+
 const
-  SquareSecondPerSquareKilogramId = 249;
+  SquareSecondPerSquareKilogramID = 249;
   SquareSecondPerSquareKilogramUnit : TUnit = (
-    FUnitOfMeasurement : SquareSecondPerSquareKilogramId;
-    FSymbol            : '%ss2/%skg2';
-    FName              : 'square %ssecond per square %skilogram';
-    FPluralName        : 'square %sseconds per square %skilogram';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -2));
+    FID         : SquareSecondPerSquareKilogramID;
+    FSymbol     : rsSquareSecondPerSquareKilogramSymbol;
+    FName       : rsSquareSecondPerSquareKilogramName;
+    FPluralName : rsSquareSecondPerSquareKilogramPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -2));
 
 { TReciprocalSquareJoule }
 
+resourcestring
+  rsReciprocalSquareJouleSymbol = '1/%sJ2';
+  rsReciprocalSquareJouleName = 'reciprocal square %sjoule';
+  rsReciprocalSquareJoulePluralName = 'reciprocal square %sjoule';
+
 const
-  ReciprocalSquareJouleId = 250;
+  ReciprocalSquareJouleID = 250;
   ReciprocalSquareJouleUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareJouleId;
-    FSymbol            : '1/%sJ2';
-    FName              : 'reciprocal square %sjoule';
-    FPluralName        : 'reciprocal square %sjoule';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : ReciprocalSquareJouleID;
+    FSymbol     : rsReciprocalSquareJouleSymbol;
+    FName       : rsReciprocalSquareJouleName;
+    FPluralName : rsReciprocalSquareJoulePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TReciprocalSquareJouleSquareSecond }
 
+resourcestring
+  rsReciprocalSquareJouleSquareSecondSymbol = '1/%sJ2/%ss2';
+  rsReciprocalSquareJouleSquareSecondName = 'reciprocal square %sjoule square %ssecond';
+  rsReciprocalSquareJouleSquareSecondPluralName = 'reciprocal square %sjoule square %ssecond';
+
 const
-  ReciprocalSquareJouleSquareSecondId = 251;
+  ReciprocalSquareJouleSquareSecondID = 251;
   ReciprocalSquareJouleSquareSecondUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareJouleSquareSecondId;
-    FSymbol            : '1/%sJ2/%ss2';
-    FName              : 'reciprocal square %sjoule square %ssecond';
-    FPluralName        : 'reciprocal square %sjoule square %ssecond';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-2, -2));
+    FID         : ReciprocalSquareJouleSquareSecondID;
+    FSymbol     : rsReciprocalSquareJouleSquareSecondSymbol;
+    FName       : rsReciprocalSquareJouleSquareSecondName;
+    FPluralName : rsReciprocalSquareJouleSquareSecondPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-2, -2));
 
 { TKilogramPerCoulomb }
 
+resourcestring
+  rsKilogramPerCoulombSymbol = '%sg/%sC';
+  rsKilogramPerCoulombName = '%sgram per %scoulomb';
+  rsKilogramPerCoulombPluralName = '%sgrams per %scoulomb';
+
 const
-  KilogramPerCoulombId = 252;
+  KilogramPerCoulombID = 252;
   KilogramPerCoulombUnit : TUnit = (
-    FUnitOfMeasurement : KilogramPerCoulombId;
-    FSymbol            : '%sg/%sC';
-    FName              : '%sgram per %scoulomb';
-    FPluralName        : '%sgrams per %scoulomb';
-    FPrefixes          : (pKilo, pNone);
-    FExponents         : (1, -1));
+    FID         : KilogramPerCoulombID;
+    FSymbol     : rsKilogramPerCoulombSymbol;
+    FName       : rsKilogramPerCoulombName;
+    FPluralName : rsKilogramPerCoulombPluralName;
+    FPrefixes   : (pKilo, pNone);
+    FExponents  : (1, -1));
 
 { TReciprocalSquareMeterAmpere }
 
+resourcestring
+  rsReciprocalSquareMeterAmpereSymbol = '1/%sm2/%sA';
+  rsReciprocalSquareMeterAmpereName = 'reciprocal square %smeter %sampere';
+  rsReciprocalSquareMeterAmperePluralName = 'reciprocal square %smeter %sampere';
+
 const
-  ReciprocalSquareMeterAmpereId = 253;
+  ReciprocalSquareMeterAmpereID = 253;
   ReciprocalSquareMeterAmpereUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareMeterAmpereId;
-    FSymbol            : '1/%sm2/%sA';
-    FName              : 'reciprocal square %smeter %sampere';
-    FPluralName        : 'reciprocal square %smeter %sampere';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-2, -1));
+    FID         : ReciprocalSquareMeterAmpereID;
+    FSymbol     : rsReciprocalSquareMeterAmpereSymbol;
+    FName       : rsReciprocalSquareMeterAmpereName;
+    FPluralName : rsReciprocalSquareMeterAmperePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-2, -1));
 
 { TWattPerLumen }
 
+resourcestring
+  rsWattPerLumenSymbol = '%sW/%slm';
+  rsWattPerLumenName = '%swatt per %slumen';
+  rsWattPerLumenPluralName = '%swatts per %slumen';
+
 const
-  WattPerLumenId = 254;
+  WattPerLumenID = 254;
   WattPerLumenUnit : TUnit = (
-    FUnitOfMeasurement : WattPerLumenId;
-    FSymbol            : '%sW/%slm';
-    FName              : '%swatt per %slumen';
-    FPluralName        : '%swatts per %slumen';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : WattPerLumenID;
+    FSymbol     : rsWattPerLumenSymbol;
+    FName       : rsWattPerLumenName;
+    FPluralName : rsWattPerLumenPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TSquareMeterPerAmpere }
 
+resourcestring
+  rsSquareMeterPerAmpereSymbol = '%sm2/%sA';
+  rsSquareMeterPerAmpereName = 'square %smeter per %sampere';
+  rsSquareMeterPerAmperePluralName = 'square %smeters per %sampere';
+
 const
-  SquareMeterPerAmpereId = 255;
+  SquareMeterPerAmpereID = 255;
   SquareMeterPerAmpereUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerAmpereId;
-    FSymbol            : '%sm2/%sA';
-    FName              : 'square %smeter per %sampere';
-    FPluralName        : 'square %smeters per %sampere';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareMeterPerAmpereID;
+    FSymbol     : rsSquareMeterPerAmpereSymbol;
+    FName       : rsSquareMeterPerAmpereName;
+    FPluralName : rsSquareMeterPerAmperePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -1));
 
 { TCubicMeterPerMole }
 
+resourcestring
+  rsCubicMeterPerMoleSymbol = '%sm3/%smol';
+  rsCubicMeterPerMoleName = 'cubic %smeter per %smole';
+  rsCubicMeterPerMolePluralName = 'cubic %smeters per %smole';
+
 const
-  CubicMeterPerMoleId = 256;
+  CubicMeterPerMoleID = 256;
   CubicMeterPerMoleUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterPerMoleId;
-    FSymbol            : '%sm3/%smol';
-    FName              : 'cubic %smeter per %smole';
-    FPluralName        : 'cubic %smeters per %smole';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (3, -1));
+    FID         : CubicMeterPerMoleID;
+    FSymbol     : rsCubicMeterPerMoleSymbol;
+    FName       : rsCubicMeterPerMoleName;
+    FPluralName : rsCubicMeterPerMolePluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (3, -1));
 
 { TSquareMeterPerCandela }
 
+resourcestring
+  rsSquareMeterPerCandelaSymbol = '%sm2/%scd';
+  rsSquareMeterPerCandelaName = 'square %smeter per %scandela';
+  rsSquareMeterPerCandelaPluralName = 'square %smeters per %scandela';
+
 const
-  SquareMeterPerCandelaId = 257;
+  SquareMeterPerCandelaID = 257;
   SquareMeterPerCandelaUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterPerCandelaId;
-    FSymbol            : '%sm2/%scd';
-    FName              : 'square %smeter per %scandela';
-    FPluralName        : 'square %smeters per %scandela';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (2, -1));
+    FID         : SquareMeterPerCandelaID;
+    FSymbol     : rsSquareMeterPerCandelaSymbol;
+    FName       : rsSquareMeterPerCandelaName;
+    FPluralName : rsSquareMeterPerCandelaPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (2, -1));
 
 { TCubicMeterPerCoulomb }
 
+resourcestring
+  rsCubicMeterPerCoulombSymbol = '%sm3/%ss/%sA';
+  rsCubicMeterPerCoulombName = 'cubic %smeter per %ssecond per %sampere';
+  rsCubicMeterPerCoulombPluralName = 'cubic %smeters per %ssecond per %sampere';
+
 const
-  CubicMeterPerCoulombId = 258;
+  CubicMeterPerCoulombID = 258;
   CubicMeterPerCoulombUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterPerCoulombId;
-    FSymbol            : '%sm3/%ss/%sA';
-    FName              : 'cubic %smeter per %ssecond per %sampere';
-    FPluralName        : 'cubic %smeters per %ssecond per %sampere';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (3, -1, -1));
+    FID         : CubicMeterPerCoulombID;
+    FSymbol     : rsCubicMeterPerCoulombSymbol;
+    FName       : rsCubicMeterPerCoulombName;
+    FPluralName : rsCubicMeterPerCoulombPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (3, -1, -1));
 
 { TSecondPerGray }
 
+resourcestring
+  rsSecondPerGraySymbol = '%ss/%sGy';
+  rsSecondPerGrayName = '%ssecond per %sgray';
+  rsSecondPerGrayPluralName = '%sseconds per %sgray';
+
 const
-  SecondPerGrayId = 259;
+  SecondPerGrayID = 259;
   SecondPerGrayUnit : TUnit = (
-    FUnitOfMeasurement : SecondPerGrayId;
-    FSymbol            : '%ss/%sGy';
-    FName              : '%ssecond per %sgray';
-    FPluralName        : '%sseconds per %sgray';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : SecondPerGrayID;
+    FSymbol     : rsSecondPerGraySymbol;
+    FName       : rsSecondPerGrayName;
+    FPluralName : rsSecondPerGrayPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TReciprocalSteradianHertz }
 
+resourcestring
+  rsReciprocalSteradianHertzSymbol = '1/%ssr/%sHz';
+  rsReciprocalSteradianHertzName = 'reciprocal %ssteradian %shertz';
+  rsReciprocalSteradianHertzPluralName = 'reciprocal %ssteradian %shertz';
+
 const
-  ReciprocalSteradianHertzId = 260;
+  ReciprocalSteradianHertzID = 260;
   ReciprocalSteradianHertzUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSteradianHertzId;
-    FSymbol            : '1/%ssr/%sHz';
-    FName              : 'reciprocal %ssteradian %shertz';
-    FPluralName        : 'reciprocal %ssteradian %shertz';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (-1, -1));
+    FID         : ReciprocalSteradianHertzID;
+    FSymbol     : rsReciprocalSteradianHertzSymbol;
+    FName       : rsReciprocalSteradianHertzName;
+    FPluralName : rsReciprocalSteradianHertzPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (-1, -1));
 
 { TReciprocalMeterSteradian }
 
+resourcestring
+  rsReciprocalMeterSteradianSymbol = '1/%sm/sr';
+  rsReciprocalMeterSteradianName = 'reciprocal %smeter steradian';
+  rsReciprocalMeterSteradianPluralName = 'reciprocal %smeter steradian';
+
 const
-  ReciprocalMeterSteradianId = 261;
+  ReciprocalMeterSteradianID = 261;
   ReciprocalMeterSteradianUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalMeterSteradianId;
-    FSymbol            : '1/%sm/sr';
-    FName              : 'reciprocal %smeter steradian';
-    FPluralName        : 'reciprocal %smeter steradian';
-    FPrefixes          : (pNone);
-    FExponents         : (-1));
+    FID         : ReciprocalMeterSteradianID;
+    FSymbol     : rsReciprocalMeterSteradianSymbol;
+    FName       : rsReciprocalMeterSteradianName;
+    FPluralName : rsReciprocalMeterSteradianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-1));
 
 { TReciprocalSquareMeterSteradian }
 
+resourcestring
+  rsReciprocalSquareMeterSteradianSymbol = '1/%sm2/sr';
+  rsReciprocalSquareMeterSteradianName = 'reciprocal square %smeter steradian';
+  rsReciprocalSquareMeterSteradianPluralName = 'reciprocal square %smeter steradian';
+
 const
-  ReciprocalSquareMeterSteradianId = 262;
+  ReciprocalSquareMeterSteradianID = 262;
   ReciprocalSquareMeterSteradianUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareMeterSteradianId;
-    FSymbol            : '1/%sm2/sr';
-    FName              : 'reciprocal square %smeter steradian';
-    FPluralName        : 'reciprocal square %smeter steradian';
-    FPrefixes          : (pNone);
-    FExponents         : (-2));
+    FID         : ReciprocalSquareMeterSteradianID;
+    FSymbol     : rsReciprocalSquareMeterSteradianSymbol;
+    FName       : rsReciprocalSquareMeterSteradianName;
+    FPluralName : rsReciprocalSquareMeterSteradianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-2));
 
 { TReciprocalCubicMeterSteradian }
 
+resourcestring
+  rsReciprocalCubicMeterSteradianSymbol = '1/%sm3/sr';
+  rsReciprocalCubicMeterSteradianName = 'reciprocal cubic %smeter steradian';
+  rsReciprocalCubicMeterSteradianPluralName = 'reciprocal cubic %smeter steradian';
+
 const
-  ReciprocalCubicMeterSteradianId = 263;
+  ReciprocalCubicMeterSteradianID = 263;
   ReciprocalCubicMeterSteradianUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalCubicMeterSteradianId;
-    FSymbol            : '1/%sm3/sr';
-    FName              : 'reciprocal cubic %smeter steradian';
-    FPluralName        : 'reciprocal cubic %smeter steradian';
-    FPrefixes          : (pNone);
-    FExponents         : (-3));
+    FID         : ReciprocalCubicMeterSteradianID;
+    FSymbol     : rsReciprocalCubicMeterSteradianSymbol;
+    FName       : rsReciprocalCubicMeterSteradianName;
+    FPluralName : rsReciprocalCubicMeterSteradianPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (-3));
 
 { TReciprocalSquareMeterSteradianHertz }
 
+resourcestring
+  rsReciprocalSquareMeterSteradianHertzSymbol = '1/%sm2/%ssr/%sHz';
+  rsReciprocalSquareMeterSteradianHertzName = 'reciprocal square %smeter %ssteradian %shertz';
+  rsReciprocalSquareMeterSteradianHertzPluralName = 'reciprocal square %smeter %ssteradian %shertz';
+
 const
-  ReciprocalSquareMeterSteradianHertzId = 264;
+  ReciprocalSquareMeterSteradianHertzID = 264;
   ReciprocalSquareMeterSteradianHertzUnit : TUnit = (
-    FUnitOfMeasurement : ReciprocalSquareMeterSteradianHertzId;
-    FSymbol            : '1/%sm2/%ssr/%sHz';
-    FName              : 'reciprocal square %smeter %ssteradian %shertz';
-    FPluralName        : 'reciprocal square %smeter %ssteradian %shertz';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (-2, -1, -1));
+    FID         : ReciprocalSquareMeterSteradianHertzID;
+    FSymbol     : rsReciprocalSquareMeterSteradianHertzSymbol;
+    FName       : rsReciprocalSquareMeterSteradianHertzName;
+    FPluralName : rsReciprocalSquareMeterSteradianHertzPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (-2, -1, -1));
 
 { TSteradianPerWatt }
 
+resourcestring
+  rsSteradianPerWattSymbol = '%ssr/%sW';
+  rsSteradianPerWattName = '%ssteradian per %swatt';
+  rsSteradianPerWattPluralName = '%ssteradian per %swatt';
+
 const
-  SteradianPerWattId = 265;
+  SteradianPerWattID = 265;
   SteradianPerWattUnit : TUnit = (
-    FUnitOfMeasurement : SteradianPerWattId;
-    FSymbol            : '%ssr/%sW';
-    FName              : '%ssteradian per %swatt';
-    FPluralName        : '%ssteradian per %swatt';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : SteradianPerWattID;
+    FSymbol     : rsSteradianPerWattSymbol;
+    FName       : rsSteradianPerWattName;
+    FPluralName : rsSteradianPerWattPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 { TSteradianHertzPerWatt }
 
+resourcestring
+  rsSteradianHertzPerWattSymbol = '%ssr.%sHz/%sW';
+  rsSteradianHertzPerWattName = '%ssteradian %shertz per %swatt';
+  rsSteradianHertzPerWattPluralName = '%ssteradian %shertz! per %swatt';
+
 const
-  SteradianHertzPerWattId = 266;
+  SteradianHertzPerWattID = 266;
   SteradianHertzPerWattUnit : TUnit = (
-    FUnitOfMeasurement : SteradianHertzPerWattId;
-    FSymbol            : '%ssr.%sHz/%sW';
-    FName              : '%ssteradian %shertz per %swatt';
-    FPluralName        : '%ssteradian %shertz! per %swatt';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 1, -1));
+    FID         : SteradianHertzPerWattID;
+    FSymbol     : rsSteradianHertzPerWattSymbol;
+    FName       : rsSteradianHertzPerWattName;
+    FPluralName : rsSteradianHertzPerWattPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 1, -1));
 
 { TMeterSteradianPerWatt }
 
+resourcestring
+  rsMeterSteradianPerWattSymbol = '%sm.%ssr/%sW';
+  rsMeterSteradianPerWattName = '%smeter %ssteradian per %swatt';
+  rsMeterSteradianPerWattPluralName = '%smeter %ssteradians per %swatt';
+
 const
-  MeterSteradianPerWattId = 267;
+  MeterSteradianPerWattID = 267;
   MeterSteradianPerWattUnit : TUnit = (
-    FUnitOfMeasurement : MeterSteradianPerWattId;
-    FSymbol            : '%sm.%ssr/%sW';
-    FName              : '%smeter %ssteradian per %swatt';
-    FPluralName        : '%smeter %ssteradians per %swatt';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (1, 1, -1));
+    FID         : MeterSteradianPerWattID;
+    FSymbol     : rsMeterSteradianPerWattSymbol;
+    FName       : rsMeterSteradianPerWattName;
+    FPluralName : rsMeterSteradianPerWattPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, 1, -1));
 
 { TSquareMeterSteradianPerWatt }
 
+resourcestring
+  rsSquareMeterSteradianPerWattSymbol = '%sm2.%ssr/%sW';
+  rsSquareMeterSteradianPerWattName = 'square %smeter %ssteradian per %swatt';
+  rsSquareMeterSteradianPerWattPluralName = 'square %smeter %ssteradian per %swatt';
+
 const
-  SquareMeterSteradianPerWattId = 268;
+  SquareMeterSteradianPerWattID = 268;
   SquareMeterSteradianPerWattUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterSteradianPerWattId;
-    FSymbol            : '%sm2.%ssr/%sW';
-    FName              : 'square %smeter %ssteradian per %swatt';
-    FPluralName        : 'square %smeter %ssteradian per %swatt';
-    FPrefixes          : (pNone, pNone, pNone);
-    FExponents         : (2, 1, -1));
+    FID         : SquareMeterSteradianPerWattID;
+    FSymbol     : rsSquareMeterSteradianPerWattSymbol;
+    FName       : rsSquareMeterSteradianPerWattName;
+    FPluralName : rsSquareMeterSteradianPerWattPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (2, 1, -1));
 
 { TCubicMeterSteradianPerWatt }
 
+resourcestring
+  rsCubicMeterSteradianPerWattSymbol = '%sm.%ss3.%ssr/%sg';
+  rsCubicMeterSteradianPerWattName = '%smeter cubic %ssecond %ssteradian per %sgram';
+  rsCubicMeterSteradianPerWattPluralName = '%smeter cubic %ssecond %ssteradians per %sgram';
+
 const
-  CubicMeterSteradianPerWattId = 269;
+  CubicMeterSteradianPerWattID = 269;
   CubicMeterSteradianPerWattUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterSteradianPerWattId;
-    FSymbol            : '%sm.%ss3.%ssr/%sg';
-    FName              : '%smeter cubic %ssecond %ssteradian per %sgram';
-    FPluralName        : '%smeter cubic %ssecond %ssteradians per %sgram';
-    FPrefixes          : (pNone, pNone, pNone, pKilo);
-    FExponents         : (1, 3, 1, -1));
+    FID         : CubicMeterSteradianPerWattID;
+    FSymbol     : rsCubicMeterSteradianPerWattSymbol;
+    FName       : rsCubicMeterSteradianPerWattName;
+    FPluralName : rsCubicMeterSteradianPerWattPluralName;
+    FPrefixes   : (pNone, pNone, pNone, pKilo);
+    FExponents  : (1, 3, 1, -1));
 
 { TSquareMeterSteradianHertzPerWatt }
 
+resourcestring
+  rsSquareMeterSteradianHertzPerWattSymbol = '%sm2.%ssr.%sHz/%sW';
+  rsSquareMeterSteradianHertzPerWattName = 'square %smeter %ssteradian %shertz per %swatt';
+  rsSquareMeterSteradianHertzPerWattPluralName = 'square %smeter %ssteradian %shertz! per %swatt';
+
 const
-  SquareMeterSteradianHertzPerWattId = 270;
+  SquareMeterSteradianHertzPerWattID = 270;
   SquareMeterSteradianHertzPerWattUnit : TUnit = (
-    FUnitOfMeasurement : SquareMeterSteradianHertzPerWattId;
-    FSymbol            : '%sm2.%ssr.%sHz/%sW';
-    FName              : 'square %smeter %ssteradian %shertz per %swatt';
-    FPluralName        : 'square %smeter %ssteradian %shertz! per %swatt';
-    FPrefixes          : (pNone, pNone, pNone, pNone);
-    FExponents         : (2, 1, 1, -1));
+    FID         : SquareMeterSteradianHertzPerWattID;
+    FSymbol     : rsSquareMeterSteradianHertzPerWattSymbol;
+    FName       : rsSquareMeterSteradianHertzPerWattName;
+    FPluralName : rsSquareMeterSteradianHertzPerWattPluralName;
+    FPrefixes   : (pNone, pNone, pNone, pNone);
+    FExponents  : (2, 1, 1, -1));
 
 { TCubicMeterPerKatal }
 
+resourcestring
+  rsCubicMeterPerKatalSymbol = '%sm3/%skat';
+  rsCubicMeterPerKatalName = 'cubic %smeter per %skatal';
+  rsCubicMeterPerKatalPluralName = 'cubic %smeters per %skatal';
+
 const
-  CubicMeterPerKatalId = 271;
+  CubicMeterPerKatalID = 271;
   CubicMeterPerKatalUnit : TUnit = (
-    FUnitOfMeasurement : CubicMeterPerKatalId;
-    FSymbol            : '%sm3/%skat';
-    FName              : 'cubic %smeter per %skatal';
-    FPluralName        : 'cubic %smeters per %skatal';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (3, -1));
+    FID         : CubicMeterPerKatalID;
+    FSymbol     : rsCubicMeterPerKatalSymbol;
+    FName       : rsCubicMeterPerKatalName;
+    FPluralName : rsCubicMeterPerKatalPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (3, -1));
 
 { TMolePerCoulomb }
 
+resourcestring
+  rsMolePerCoulombSymbol = '%smol/%sC';
+  rsMolePerCoulombName = '%smole per %scoulomb';
+  rsMolePerCoulombPluralName = '%smoles per %scoulomb';
+
 const
-  MolePerCoulombId = 272;
+  MolePerCoulombID = 272;
   MolePerCoulombUnit : TUnit = (
-    FUnitOfMeasurement : MolePerCoulombId;
-    FSymbol            : '%smol/%sC';
-    FName              : '%smole per %scoulomb';
-    FPluralName        : '%smoles per %scoulomb';
-    FPrefixes          : (pNone, pNone);
-    FExponents         : (1, -1));
+    FID         : MolePerCoulombID;
+    FSymbol     : rsMolePerCoulombSymbol;
+    FName       : rsMolePerCoulombName;
+    FPluralName : rsMolePerCoulombPluralName;
+    FPrefixes   : (pNone, pNone);
+    FExponents  : (1, -1));
 
 const
 
@@ -7124,28 +9104,28 @@ function SameValue(const ALeft, ARight: TQuantity): boolean;
 { Constants }
 
 const
-  AvogadroConstant               : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: ReciprocalMoleId;                     FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
-  BohrMagneton                   : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: SquareMeterAmpereId;                  FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
-  BohrRadius                     : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: MeterId;                              FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
-  BoltzmannConstant              : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: JoulePerKelvinId;                     FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
-  ComptonWaveLength              : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: MeterId;                              FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
-  CoulombConstant                : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: NewtonSquareMeterPerSquareCoulombId;  FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
-  DeuteronMass                   : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: KilogramId;                           FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
-  ElectricPermittivity           : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: FaradPerMeterId;                      FValue:     8.8541878128E-12); {$ELSE} (    8.8541878128E-12); {$ENDIF}
-  ElectronMass                   : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: KilogramId;                           FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
-  ElectronCharge                 : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: CoulombId;                            FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
-  MagneticPermeability           : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: HenryPerMeterId;                      FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
-  MolarGasConstant               : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: JoulePerMolePerKelvinId;              FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
-  NeutronMass                    : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: KilogramId;                           FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
-  NewtonianConstantOfGravitation : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: NewtonSquareMeterPerSquareKilogramId; FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
-  PlanckConstant                 : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: KilogramSquareMeterPerSecondId;       FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
-  ProtonMass                     : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: KilogramId;                           FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
-  RydbergConstant                : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: ReciprocalMeterId;                    FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
-  SpeedOfLight                   : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: MeterPerSecondId;                     FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
-  SquaredSpeedOfLight            : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: SquareMeterPerSquareSecondId;         FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
-  StandardAccelerationOfGravity  : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: MeterPerSquareSecondId;               FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
-  ReducedPlanckConstant          : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: KilogramSquareMeterPerSecondId;       FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
-  UnifiedAtomicMassUnit          : TQuantity = {$IFDEF ADIMDEBUG} (FUnitOfMeasurement: KilogramId;                           FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
+  AvogadroConstant               : TQuantity = {$IFDEF ADIMDEBUG} (FID: ReciprocalMoleId;                     FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
+  BohrMagneton                   : TQuantity = {$IFDEF ADIMDEBUG} (FID: SquareMeterAmpereId;                  FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
+  BohrRadius                     : TQuantity = {$IFDEF ADIMDEBUG} (FID: MeterId;                              FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
+  BoltzmannConstant              : TQuantity = {$IFDEF ADIMDEBUG} (FID: JoulePerKelvinId;                     FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
+  ComptonWaveLength              : TQuantity = {$IFDEF ADIMDEBUG} (FID: MeterId;                              FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
+  CoulombConstant                : TQuantity = {$IFDEF ADIMDEBUG} (FID: NewtonSquareMeterPerSquareCoulombId;  FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
+  DeuteronMass                   : TQuantity = {$IFDEF ADIMDEBUG} (FID: KilogramId;                           FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
+  ElectricPermittivity           : TQuantity = {$IFDEF ADIMDEBUG} (FID: FaradPerMeterId;                      FValue:     8.8541878128E-12); {$ELSE} (    8.8541878128E-12); {$ENDIF}
+  ElectronMass                   : TQuantity = {$IFDEF ADIMDEBUG} (FID: KilogramId;                           FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
+  ElectronCharge                 : TQuantity = {$IFDEF ADIMDEBUG} (FID: CoulombId;                            FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
+  MagneticPermeability           : TQuantity = {$IFDEF ADIMDEBUG} (FID: HenryPerMeterId;                      FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
+  MolarGasConstant               : TQuantity = {$IFDEF ADIMDEBUG} (FID: JoulePerMolePerKelvinId;              FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
+  NeutronMass                    : TQuantity = {$IFDEF ADIMDEBUG} (FID: KilogramId;                           FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+  NewtonianConstantOfGravitation : TQuantity = {$IFDEF ADIMDEBUG} (FID: NewtonSquareMeterPerSquareKilogramId; FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
+  PlanckConstant                 : TQuantity = {$IFDEF ADIMDEBUG} (FID: KilogramSquareMeterPerSecondId;       FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
+  ProtonMass                     : TQuantity = {$IFDEF ADIMDEBUG} (FID: KilogramId;                           FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+  RydbergConstant                : TQuantity = {$IFDEF ADIMDEBUG} (FID: ReciprocalMeterId;                    FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
+  SpeedOfLight                   : TQuantity = {$IFDEF ADIMDEBUG} (FID: MeterPerSecondId;                     FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
+  SquaredSpeedOfLight            : TQuantity = {$IFDEF ADIMDEBUG} (FID: SquareMeterPerSquareSecondId;         FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
+  StandardAccelerationOfGravity  : TQuantity = {$IFDEF ADIMDEBUG} (FID: MeterPerSquareSecondId;               FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
+  ReducedPlanckConstant          : TQuantity = {$IFDEF ADIMDEBUG} (FID: KilogramSquareMeterPerSecondId;       FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
+  UnifiedAtomicMassUnit          : TQuantity = {$IFDEF ADIMDEBUG} (FID: KilogramId;                           FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
 
 { Prefix Table }
 
@@ -7188,79 +9168,79 @@ uses Math;
 {$IFDEF ADIMDEBUG}
 class operator TQuantity.:=(const AValue: double): TQuantity;
 begin
-  result.FUnitOfMeasurement := ScalarId;
+  result.FID := ScalarId;
   result.FValue := AValue;
 end;
 
 class operator TQuantity.+(const ASelf: TQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := ASelf.FValue;
 end;
 
 class operator TQuantity.-(const ASelf: TQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
 class operator TQuantity.+(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TQuantity.-(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TQuantity.*(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TQuantity./(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TQuantity.*(const ALeft: double; const ARight: TQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;
+  result.FID := ARight.FID;
   result.FValue:= ALeft * ARight.FValue;
 end;
 
 class operator TQuantity./(const ALeft: double; const ARight: TQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ScalarId, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ARight.FID];
   result.FValue:= ALeft / ARight.FValue;
 end;
 
 class operator TQuantity.*(const ALeft: TQuantity; const ARight: double): TQuantity;
 begin
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue:= ALeft.FValue * ARight;
 end;
 
 class operator TQuantity./(const ALeft: TQuantity; const ARight: double): TQuantity;
 begin
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue:= ALeft.FValue / ARight;
 end;
 
 class operator TQuantity.=(const ALeft, ARight: TQuantity): boolean; inline;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7268,7 +9248,7 @@ end;
 
 class operator TQuantity.<(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('LessThan operator (<) has detected wrong unit of measurements.');
 
   result := ALeft.FValue < ARight.FValue;
@@ -7276,7 +9256,7 @@ end;
 
 class operator TQuantity.>(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('GreaterThan operator (>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue > ARight.FValue;
@@ -7284,7 +9264,7 @@ end;
 
 class operator TQuantity.<=(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('LessThanOrEqual operator (<=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <= ARight.FValue;
@@ -7292,7 +9272,7 @@ end;
 
 class operator TQuantity.>=(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('GreaterThanOrEqual operator (>=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue >= ARight.FValue;
@@ -7300,7 +9280,7 @@ end;
 
 class operator TQuantity.<>(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7312,13 +9292,13 @@ end;
 {$IFDEF ADIMDEBUG}
 class operator TMultivecQuantity.:=(const AValue: TQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
 class operator TMultivecQuantity.<>(const ALeft, ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7326,7 +9306,7 @@ end;
 
 class operator TMultivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7334,7 +9314,7 @@ end;
 
 class operator TMultivecQuantity.<>(const ALeft: TQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7342,7 +9322,7 @@ end;
 
 class operator TMultivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7350,7 +9330,7 @@ end;
 
 class operator TMultivecQuantity.=(const ALeft: TQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7358,7 +9338,7 @@ end;
 
 class operator TMultivecQuantity.=(const ALeft, ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7366,97 +9346,97 @@ end;
 
 class operator TMultivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 end;
 
 class operator TMultivecQuantity.+(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 end;
 
 class operator TMultivecQuantity.+(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 end;
 
 class operator TMultivecQuantity.-(const ASelf: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
 class operator TMultivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TMultivecQuantity.-(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TMultivecQuantity.-(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TMultivecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TMultivecQuantity.*(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TMultivecQuantity.*(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TMultivecQuantity./(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TMultivecQuantity./(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TMultivecQuantity./(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 {$ENDIF}
@@ -7467,13 +9447,13 @@ end;
 
 class operator TTrivecQuantity.:=(const AValue: TTrivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
 class operator TTrivecQuantity.<>(const ALeft, ARight: TTrivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7481,7 +9461,7 @@ end;
 
 class operator TTrivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7489,7 +9469,7 @@ end;
 
 class operator TTrivecQuantity.<>(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7497,7 +9477,7 @@ end;
 
 class operator TTrivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7505,7 +9485,7 @@ end;
 
 class operator TTrivecQuantity.=(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7513,7 +9493,7 @@ end;
 
 class operator TTrivecQuantity.=(const ALeft, ARight: TTrivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7521,157 +9501,157 @@ end;
 
 class operator TTrivecQuantity.+(const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TTrivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TTrivecQuantity.+(const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TTrivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TTrivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ASelf: TTrivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TTrivecQuantity.*(const ALeft: TQuantity; const ARight: TTrivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TTrivecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TTrivecQuantity.*(const ALeft, ARight: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TTrivecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TTrivecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TTrivecQuantity./(const ALeft, ARight: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TTrivecQuantity./(const ALeft: TTrivecQuantity; const ARight: TQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TTrivecQuantity./(const ALeft: TQuantity; const ARight: TTrivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TTrivecQuantity./(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TTrivecQuantity./(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 {$ENDIF}
@@ -7681,13 +9661,13 @@ end;
 {$IFDEF ADIMDEBUG}
 class operator TBivecQuantity.:=(const AValue: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
 class operator TBivecQuantity.<>(const ALeft, ARight: TBivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7695,7 +9675,7 @@ end;
 
 class operator TBivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7703,7 +9683,7 @@ end;
 
 class operator TBivecQuantity.<>(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7711,7 +9691,7 @@ end;
 
 class operator TBivecQuantity.=(const ALeft, ARight: TBivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7719,7 +9699,7 @@ end;
 
 class operator TBivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7727,7 +9707,7 @@ end;
 
 class operator TBivecQuantity.=(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -7735,217 +9715,217 @@ end;
 
 class operator TBivecQuantity.+(const ALeft, ARight: TBivecQuantity): TBivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ASelf: TBivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft, ARight: TBivecQuantity): TBivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.*(const ALeft: TQuantity; const ARight: TBivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TBivecQuantity.*(const ALeft: TBivecQuantity; const ARight: TQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TBivecQuantity.*(const ALeft, ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TBivecQuantity.*(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TBivecQuantity.*(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TBivecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TBivecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TBivecQuantity./(const ALeft, ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TBivecQuantity./(const ALeft: TBivecQuantity; const ARight: TQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TBivecQuantity./(const ALeft: TQuantity; const ARight: TBivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TBivecQuantity./(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TBivecQuantity./(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TBivecQuantity./(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TBivecQuantity./(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 {$ENDIF}
@@ -7955,13 +9935,13 @@ end;
 {$IFDEF ADIMDEBUG}
 class operator TVecQuantity.:=(const AValue: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := AValue.FUnitOfMeasurement;
+  result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
 class operator TVecQuantity.<>(const ALeft, ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7969,7 +9949,7 @@ end;
 
 class operator TVecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7977,7 +9957,7 @@ end;
 
 class operator TVecQuantity.<>(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7985,7 +9965,7 @@ end;
 
 class operator TVecQuantity.=(const ALeft, ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
 
   result := ALeft.FValue <> ARight.FValue;
@@ -7993,7 +9973,7 @@ end;
 
 class operator TVecQuantity.=(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -8001,7 +9981,7 @@ end;
 
 class operator TVecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
 
   result := ALeft.FValue = ARight.FValue;
@@ -8009,277 +9989,277 @@ end;
 
 class operator TVecQuantity.+(const ALeft, ARight: TVecQuantity): TVecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ASelf: TVecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft, ARight: TVecQuantity): TVecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
 
-  result.FUnitOfMeasurement := ALeft.FUnitOfMeasurement;
+  result.FID := ALeft.FID;
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft, ARight: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity./(const ALeft, ARight: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TVecQuantity./ (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TVecQuantity./(const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TVecQuantity./(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TVecQuantity./(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TVecQuantity./(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TVecQuantity./(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TVecQuantity./(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TVecQuantity./(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ALeft.FUnitOfMeasurement, ARight.FUnitOfMeasurement];
+  result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 {$ENDIF}
@@ -8289,199 +10269,199 @@ end;
 {$IFDEF ADIMDEBUG}
 function TMultivecQuantityHelper.Dual: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Dual;
 end;
 
 function TMultivecQuantityHelper.Inverse: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Inverse;
 end;
 
 function TMultivecQuantityHelper.Reverse: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reverse;
 end;
 
 function TMultivecQuantityHelper.Conjugate: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Conjugate;
 end;
 
 function TMultivecQuantityHelper.Reciprocal: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ScalarId, FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, FID];
   result.FValue := FValue.Reciprocal;
 end;
 
 function TMultivecQuantityHelper.LeftReciprocal: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ScalarId, FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, FID];
   result.FValue := FValue.LeftReciprocal;
 end;
 
 function TMultivecQuantityHelper.Normalized: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Normalized;
 end;
 
 function TMultivecQuantityHelper.Norm: TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Norm;
 end;
 
 function TMultivecQuantityHelper.SquaredNorm: TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FID := MulTable[FID, FID];
   result.FValue := FValue.SquaredNorm;
 end;
 
 function TMultivecQuantityHelper.Dot(const AVector: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Dot(const AVector: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Dot(const AVector: TTrivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Wedge(const AVector: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Wedge(const AVector: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Projection(const AVector: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Projection(const AVector: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Projection(const AVector: TTrivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Projection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Rejection(const AVector: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Rejection(const AVector: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Reflection(const AVector: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Reflection(const AVector: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
@@ -8512,43 +10492,43 @@ end;
 
 function TMultivecQuantityHelper.ExtractMultivector(AComponents: TMultivectorComponents): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ExtractMultivector(AComponents);
 end;
 
 function TMultivecQuantityHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ExtractBivector(AComponents);
 end;
 
 function TMultivecQuantityHelper.ExtractVector(AComponents: TMultivectorComponents): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ExtractVector(AComponents);
 end;
 
 function TMultivecQuantityHelper.ExtractTrivector: TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ExtractTrivector;
 end;
 
 function TMultivecQuantityHelper.ExtractBivector: TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ExtractBivector;
 end;
 
 function TMultivecQuantityHelper.ExtractVector: TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ExtractVector;
 end;
 
 function TMultivecQuantityHelper.ExtractScalar: TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ExtractScalar;
 end;
 
@@ -8588,193 +10568,193 @@ end;
 {$IFDEF ADIMDEBUG}
 function TTrivecQuantityHelper.Dual: TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Dual;
 end;
 
 function TTrivecQuantityHelper.Inverse: TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Inverse;
 end;
 
 function TTrivecQuantityHelper.Reverse: TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reverse;
 end;
 
 function TTrivecQuantityHelper.Conjugate: TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Conjugate;
 end;
 
 function TTrivecQuantityHelper.Reciprocal: TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ScalarId, FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, FID];
   result.FValue := FValue.Reciprocal;
 end;
 
 function TTrivecQuantityHelper.Normalized: TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Normalized;
 end;
 
 function TTrivecQuantityHelper.Norm: TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Norm;
 end;
 
 function TTrivecQuantityHelper.SquaredNorm: TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FID := MulTable[FID, FID];
   result.FValue := FValue.SquaredNorm;
 end;
 
 function TTrivecQuantityHelper.Dot(const AVector: TVecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Dot(const AVector: TBivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Dot(const AVector: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Wedge(const AVector: TVecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := 0.0;
 end;
 
 function TTrivecQuantityHelper.Wedge(const AVector: TBivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := 0.0;
 end;
 
 function TTrivecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := 0.0;
 end;
 
 function TTrivecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Projection(const AVector: TVecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Projection(const AVector: TBivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Projection(const AVector: TTrivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Projection(const AVector: TMultivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Rejection(const AVector: TVecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := 0.0;
 end;
 
 function TTrivecQuantityHelper.Rejection(const AVector: TBivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := 0.0;
 end;
 
 function TTrivecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := 0.0;
 end;
 
 function TTrivecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Reflection(const AVector: TVecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Reflection(const AVector: TBivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
@@ -8790,7 +10770,7 @@ end;
 
 function TTrivecQuantityHelper.ToMultivector: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ToMultivector;
 end;
 {$ENDIF}
@@ -8800,193 +10780,193 @@ end;
 {$IFDEF ADIMDEBUG}
 function TBivecQuantityHelper.Dual: TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Dual;
 end;
 
 function TBivecQuantityHelper.Inverse: TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Inverse;
 end;
 
 function TBivecQuantityHelper.Conjugate: TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Conjugate;
 end;
 
 function TBivecQuantityHelper.Reverse: TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reverse;
 end;
 
 function TBivecQuantityHelper.Reciprocal: TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ScalarId, FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, FID];
   result.FValue := FValue.Reciprocal;
 end;
 
 function TBivecQuantityHelper.Normalized: TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Normalized;
 end;
 
 function TBivecQuantityHelper.Norm: TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Norm;
 end;
 
 function TBivecQuantityHelper.SquaredNorm: TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FID := MulTable[FID, FID];
   result.FValue := FValue.SquaredNorm;
 end;
 
 function TBivecQuantityHelper.Dot(const AVector: TVecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Dot(const AVector: TBivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Dot(const AVector: TTrivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Wedge(const AVector: TVecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Wedge(const AVector: TBivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := 0.0;
 end;
 
 function TBivecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := 0.0;
 end;
 
 function TBivecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Projection(const AVector: TVecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Projection(const AVector: TBivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Projection(const AVector: TTrivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Projection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Rejection(const AVector: TVecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Rejection(const AVector: TBivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := 0.0;
 end;
 
 function TBivecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := 0.0;
 end;
 
 function TBivecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Reflection(const AVector: TVecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Reflection(const AVector: TBivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
@@ -9002,13 +10982,13 @@ end;
 
 function TBivecQuantityHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ExtractBivector(AComponents);
 end;
 
 function TBivecQuantityHelper.ToMultivector: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ToMultivector;
 end;
 {$ENDIF}
@@ -9018,199 +10998,199 @@ end;
 {$IFDEF ADIMDEBUG}
 function TVecQuantityHelper.Dual: TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Dual;
 end;
 
 function TVecQuantityHelper.Inverse: TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Inverse;
 end;
 
 function TVecQuantityHelper.Reverse: TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reverse;
 end;
 
 function TVecQuantityHelper.Conjugate: TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Conjugate;
 end;
 
 function TVecQuantityHelper.Reciprocal: TVecQuantity;
 begin
-  result.FUnitOfMeasurement := DivTable[ScalarId, FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, FID];
   result.FValue := FValue.Reciprocal;
 end;
 
 function TVecQuantityHelper.Normalized: TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Normalized;
 end;
 
 function TVecQuantityHelper.Norm: TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Norm;
 end;
 
 function TVecQuantityHelper.SquaredNorm: TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FID := MulTable[FID, FID];
   result.FValue := FValue.SquaredNorm;
 end;
 
 function TVecQuantityHelper.Dot(const AVector: TVecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Dot(const AVector: TBivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Dot(const AVector: TTrivecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Wedge(const AVector: TVecQuantity): TBivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Wedge(const AVector: TBivecQuantity): TTrivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, FUnitOfMeasurement];
+  result.FID := MulTable[FID, FID];
   result.FValue := 0.0;
 end;
 
 function TVecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Projection(const AVector: TVecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Projection(const AVector: TBivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Projection(const AVector: TTrivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Projection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Rejection(const AVector: TVecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function  TVecQuantityHelper.Rejection(const AVector: TBivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := 0.0;
 end;
 
 function TVecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Reflection(const AVector: TVecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Reflection(const AVector: TBivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
 function TVecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TVecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TVecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TVecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
 function TVecQuantityHelper.Cross(const AVector: TVecQuantity): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := MulTable[FUnitOfMeasurement, AVector.FUnitOfMeasurement];
+  result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Cross(AVector.FValue);
 end;
 
@@ -9226,13 +11206,13 @@ end;
 
 function TVecQuantityHelper.ExtractVector(AComponents: TMultivectorComponents): TVecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ExtractVector(AComponents);
 end;
 
 function TVecQuantityHelper.ToMultivector: TMultivecQuantity;
 begin
-  result.FUnitOfMeasurement := FUnitOfMeasurement;
+  result.FID := FID;
   result.FValue := FValue.ToMultivector;
 end;
 {$ENDIF}
@@ -9242,7 +11222,7 @@ end;
 class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9252,7 +11232,7 @@ end;
 class operator TUnit./(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9262,7 +11242,7 @@ end;
 class operator TUnit.*(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9272,7 +11252,7 @@ end;
 class operator TUnit./(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9282,7 +11262,7 @@ end;
 class operator TUnit.*(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9292,7 +11272,7 @@ end;
 class operator TUnit./(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9302,7 +11282,7 @@ end;
 class operator TUnit.*(const AQuantity: TTrivector; const ASelf: TUnit): TTrivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9312,7 +11292,7 @@ end;
 class operator TUnit./(const AQuantity: TTrivector; const ASelf: TUnit): TTrivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9322,7 +11302,7 @@ end;
 class operator TUnit.*(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9332,7 +11312,7 @@ end;
 class operator TUnit./(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
@@ -9342,61 +11322,61 @@ end;
 {$IFDEF ADIMDEBUG}
 class operator TUnit.*(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TBivecQuantity; const ASelf: TUnit): TBivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TBivecQuantity; const ASelf: TUnit): TBivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TTrivecQuantity; const ASelf: TUnit): TTrivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TTrivecQuantity; const ASelf: TUnit): TTrivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TMultivecQuantity; const ASelf: TUnit): TMultivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TMultivecQuantity; const ASelf: TUnit): TMultivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue;
 end;
 
@@ -9407,7 +11387,7 @@ end;
 class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
   result := AQuantity * ASelf.FFactor;
@@ -9417,7 +11397,7 @@ end;
 class operator TFactoredUnit./(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
@@ -9427,7 +11407,7 @@ end;
 class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TFactoredUnit): TVecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
   result := AQuantity * ASelf.FFactor;
@@ -9437,7 +11417,7 @@ end;
 class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TFactoredUnit): TVecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
@@ -9447,7 +11427,7 @@ end;
 class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TFactoredUnit): TBivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
   result := AQuantity * ASelf.FFactor;
@@ -9457,7 +11437,7 @@ end;
 class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TFactoredUnit): TBivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
@@ -9467,7 +11447,7 @@ end;
 class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
   result := AQuantity * ASelf.FFactor;
@@ -9477,7 +11457,7 @@ end;
 class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
@@ -9487,7 +11467,7 @@ end;
 class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
   result := AQuantity * ASelf.FFactor;
@@ -9497,7 +11477,7 @@ end;
 class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := DivTable[ScalarId, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[ScalarId, ASelf.FID];
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
@@ -9507,61 +11487,61 @@ end;
 {$IFDEF ADIMDEBUG}
 class operator TFactoredUnit.*(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TVecQuantity; const ASelf: TFactoredUnit): TVecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TVecQuantity; const ASelf: TFactoredUnit): TVecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TBivecQuantity; const ASelf: TFactoredUnit): TBivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TBivecQuantity; const ASelf: TFactoredUnit): TBivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TTrivecQuantity; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TTrivecQuantity; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TMultivecQuantity; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := MulTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := MulTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TMultivecQuantity; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
 begin
-  result.FUnitOfMeasurement := DivTable[AQuantity.FUnitOfMeasurement, ASelf.FUnitOfMeasurement];
+  result.FID := DivTable[AQuantity.FID, ASelf.FID];
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 {$ENDIF}
@@ -9571,7 +11551,7 @@ end;
 class operator TDegreeCelsiusUnit.*(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := AQuantity + 273.15;
 {$ELSE}
   result := AQuantity + 273.15;
@@ -9583,7 +11563,7 @@ end;
 class operator TDegreeFahrenheitUnit.*(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ASelf.FUnitOfMeasurement;
+  result.FID := ASelf.FID;
   result.FValue := 5/9 * (AQuantity - 32) + 273.15;
 {$ELSE}
   result := 5/9 * (AQuantity - 32) + 273.15;
@@ -9683,7 +11663,7 @@ end;
 procedure TUnitHelper.Check(var AQuantity: TQuantity);
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
 end;
@@ -9691,7 +11671,7 @@ end;
 function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue;
@@ -9703,7 +11683,7 @@ end;
 function TUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
   result := GetValue(AQuantity.FValue, APrefixes);
@@ -9715,7 +11695,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(FPrefixes);
@@ -9729,7 +11709,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
@@ -9748,7 +11728,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
@@ -9768,7 +11748,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
+  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
@@ -9792,7 +11772,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
@@ -9812,7 +11792,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
@@ -9840,7 +11820,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
@@ -9869,7 +11849,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
+  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
@@ -9893,7 +11873,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TVecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
@@ -9905,7 +11885,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TBivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
@@ -9917,7 +11897,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TTrivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
@@ -9929,7 +11909,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TMultivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
@@ -9941,7 +11921,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TVecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
@@ -9953,7 +11933,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TBivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
@@ -9965,7 +11945,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TTrivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
@@ -9977,7 +11957,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TMultivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
@@ -10079,7 +12059,7 @@ end;
 procedure TFactoredUnitHelper.Check(var AQuantity: TQuantity);
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
 end;
@@ -10087,7 +12067,7 @@ end;
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue / FFactor;
@@ -10099,7 +12079,7 @@ end;
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
@@ -10111,7 +12091,7 @@ end;
 function TFactoredUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := FloatToStr(AQuantity.FValue / FFactor) + ' ' + GetSymbol(FPrefixes);
@@ -10125,7 +12105,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
@@ -10144,7 +12124,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
     FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
@@ -10164,7 +12144,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
+  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
@@ -10190,7 +12170,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
@@ -10209,7 +12189,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
@@ -10237,7 +12217,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
@@ -10266,7 +12246,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
+  if (AQuantity.FID <> FID) or (ATolerance.FID <> FID) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
@@ -10292,7 +12272,7 @@ var
   FactoredValue: TVector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
@@ -10307,7 +12287,7 @@ var
   FactoredValue: TBivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
@@ -10322,7 +12302,7 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
@@ -10337,7 +12317,7 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
@@ -10352,7 +12332,7 @@ var
   FactoredValue: TVector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
@@ -10367,7 +12347,7 @@ var
   FactoredValue: TBivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
@@ -10382,7 +12362,7 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
@@ -10397,7 +12377,7 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue / FFactor;
@@ -10500,7 +12480,7 @@ end;
 procedure TDegreeCelsiusUnitHelper.Check(var AQuantity: TQuantity);
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
 end;
@@ -10508,7 +12488,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
   result := AQuantity.FValue - 273.15;
@@ -10520,7 +12500,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
   result := GetValue(AQuantity.FValue - 273.15, APrefixes);
@@ -10532,7 +12512,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := FloatToStr(AQuantity.FValue - 273.15) + ' ' + GetSymbol(FPrefixes);
@@ -10546,7 +12526,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
@@ -10565,7 +12545,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
     FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
@@ -10585,7 +12565,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
+  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
@@ -10611,7 +12591,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := AQuantity.FValue - 273.15;
@@ -10630,7 +12610,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
@@ -10658,7 +12638,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
@@ -10687,7 +12667,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
+  if (AQuantity.FID <> FID) or (ATolerance.FID <> FID) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
@@ -10801,7 +12781,7 @@ end;
 procedure TDegreeFahrenheitUnitHelper.Check(var AQuantity: TQuantity);
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('Check routine has detected wrong units of measurements.');
 {$ENDIF}
 end;
@@ -10809,7 +12789,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
   result := 9/5 * AQuantity.FValue - 459.67;
@@ -10821,7 +12801,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
 
   result := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
@@ -10833,7 +12813,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   result := FloatToStr(9/5 * AQuantity.FValue - 459.67) + ' ' + GetSymbol(FPrefixes);
@@ -10847,7 +12827,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
@@ -10866,7 +12846,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
     FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
@@ -10886,7 +12866,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FUnitOfMeasurement  <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
+  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
@@ -10912,7 +12892,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := 9/5 * AQuantity.FValue - 459.67;
@@ -10931,7 +12911,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
@@ -10959,7 +12939,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement then
+  if AQuantity.FID <> FID then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
@@ -10988,7 +12968,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FUnitOfMeasurement <> FUnitOfMeasurement) or (ATolerance.FUnitOfMeasurement <> FUnitOfMeasurement) then
+  if (AQuantity.FID <> FID) or (ATolerance.FID <> FID) then
     raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
 
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
@@ -11014,8 +12994,8 @@ end;
 function SquarePower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Square;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := PowerTable[AQuantity.FID].Square;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
   result.FValue := IntPower(AQuantity.FValue, 2);
 {$ELSE}
@@ -11026,8 +13006,8 @@ end;
 function CubicPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Cubic;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := PowerTable[AQuantity.FID].Cubic;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
   result.FValue := IntPower(AQuantity.FValue, 3);
 {$ELSE}
@@ -11038,8 +13018,8 @@ end;
 function QuarticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quartic;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := PowerTable[AQuantity.FID].Quartic;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
   result.FValue := IntPower(AQuantity.FValue, 4);
 {$ELSE}
@@ -11050,8 +13030,8 @@ end;
 function QuinticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Quintic;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := PowerTable[AQuantity.FID].Quintic;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
   result.FValue := IntPower(AQuantity.FValue, 5);
 {$ELSE}
@@ -11062,8 +13042,8 @@ end;
 function SexticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := PowerTable[AQuantity.FUnitOfMeasurement].Sextic;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := PowerTable[AQuantity.FID].Sextic;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
    result.FValue := IntPower(AQuantity.FValue, 6);
 {$ELSE}
@@ -11074,8 +13054,8 @@ end;
 function SquareRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Square;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := RootTable[AQuantity.FID].Square;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AQuantity.FValue, 1/2);
 {$ELSE};
@@ -11086,8 +13066,8 @@ end;
 function CubicRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Cubic;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := RootTable[AQuantity.FID].Cubic;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AQuantity.FValue, 1/3);
 {$ELSE}
@@ -11098,8 +13078,8 @@ end;
 function QuarticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quartic;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := RootTable[AQuantity.FID].Quartic;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AQuantity.FValue, 1/4);
 {$ELSE}
@@ -11110,8 +13090,8 @@ end;
 function QuinticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Quintic;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := RootTable[AQuantity.FID].Quintic;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AQuantity.FValue, 1/5);
 {$ELSE}
@@ -11122,8 +13102,8 @@ end;
 function SexticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := RootTable[AQuantity.FUnitOfMeasurement].Sextic;
-  if result.FUnitOfMeasurement = -1 then
+  result.FID := RootTable[AQuantity.FID].Sextic;
+  if result.FID = -1 then
     raise Exception.Create('Wrong units of measurements');
   result.FValue := Power(AQuantity.FValue, 1/6);
 {$ELSE}
@@ -11136,7 +13116,7 @@ end;
 function Cos(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('Cos routine has detected wrong units of measurements.');
 
   result := System.Cos(AQuantity.FValue);
@@ -11148,7 +13128,7 @@ end;
 function Sin(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('Sin routine has detected wrong units of measurements.');
 
   result := System.Sin(AQuantity.FValue);
@@ -11160,7 +13140,7 @@ end;
 function Tan(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('Tan routine has detected wrong units of measurements.');
 
   result := Math.Tan(AQuantity.FValue);
@@ -11172,7 +13152,7 @@ end;
 function Cotan(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('Cotan routine has detected wrong units of measurements.');
 
   result := Math.Cotan(AQuantity.FValue);
@@ -11184,7 +13164,7 @@ end;
 function Secant(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('Setan routine has detected wrong units of measurements.');
 
   result := Math.Secant(AQuantity.FValue);
@@ -11196,7 +13176,7 @@ end;
 function Cosecant(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('Cosecant routine has detected wrong units of measurements.');
 
   result := Math.Cosecant(AQuantity.FValue);
@@ -11208,7 +13188,7 @@ end;
 function ArcCos(const AValue: double): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ScalarId;
+  result.FID := ScalarId;
   result.FValue := Math.ArcCos(AValue);
 {$ELSE}
   result := Math.ArcCos(AValue);
@@ -11218,7 +13198,7 @@ end;
 function ArcSin(const AValue: double): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ScalarId;
+  result.FID := ScalarId;
   result.FValue := Math.ArcSin(AValue);
 {$ELSE}
   result := Math.ArcSin(AValue);
@@ -11228,7 +13208,7 @@ end;
 function ArcTan(const AValue: double): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ScalarId;
+  result.FID := ScalarId;
   result.FValue := System.ArcTan(AValue);
 {$ELSE}
   result := System.ArcTan(AValue);
@@ -11238,7 +13218,7 @@ end;
 function ArcTan2(const x, y: double): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FUnitOfMeasurement := ScalarId;
+  result.FID := ScalarId;
   result.FValue := Math.ArcTan2(x, y);
 {$ELSE}
   result := Math.ArcTan2(x, y);
@@ -11250,10 +13230,10 @@ end;
 function Min(const ALeft, ARight: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Min routine has detected wrong units of measurements.');
 
-  result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;
+  result.FID := ARight.FID;
   result.FValue := Math.Min(ALeft.FValue, ARight.FValue);
 {$ELSE}
   result := Math.Min(ALeft, ARight);
@@ -11263,10 +13243,10 @@ end;
 function Max(const ALeft, ARight: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('Max routine has detected wrong units of measurements.');
 
-  result.FUnitOfMeasurement := ARight.FUnitOfMeasurement;
+  result.FID := ARight.FID;
   result.FValue := Math.Max(ALeft.FValue, ARight.FValue);
 {$ELSE}
   result := Math.Max(ALeft, ARight);
@@ -11276,10 +13256,10 @@ end;
 function Exp(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('Exp routine has detected wrong units of measurements.');
 
-  result.FUnitOfMeasurement := ScalarId;
+  result.FID := ScalarId;
   result.FValue := System.Exp(AQuantity.FValue);
 {$ELSE}
   result := System.Exp(AQuantity);
@@ -11289,7 +13269,7 @@ end;
 function Log10(const AQuantity : TQuantity) : double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('Log10 routine has detected wrong units of measurements.');
 
   result := Math.Log10(AQuantity.FValue);
@@ -11301,7 +13281,7 @@ end;
 function Log2(const AQuantity : TQuantity) : double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('Log2 routine has detected wrong units of measurements.');
 
   result := Math.Log2(AQuantity.FValue);
@@ -11313,7 +13293,7 @@ end;
 function LogN(ABase: longint; const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('LogN routine has detected wrong units of measurements.');
 
   result := Math.LogN(ABase, AQuantity.FValue);
@@ -11325,10 +13305,10 @@ end;
 function LogN(const ABase, AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if ABase.FUnitOfMeasurement <> ScalarId then
+  if ABase.FID <> ScalarId then
     raise Exception.Create('LogN routine has detected wrong units of measurements.');
 
-  if AQuantity.FUnitOfMeasurement <> ScalarId then
+  if AQuantity.FID <> ScalarId then
     raise Exception.Create('LogN routine has detected wrong units of measurements.');
 
   result := Math.LogN(ABase.FValue, AQuantity.FValue);
@@ -11340,7 +13320,7 @@ end;
 function Power(const ABase: TQuantity; AExponent: double): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if ABase.FUnitOfMeasurement <> ScalarId then
+  if ABase.FID <> ScalarId then
     raise Exception.Create('Power routine has detected wrong units of measurements.');
 
    result := Math.Power(ABase.FValue, AExponent);
@@ -11408,7 +13388,7 @@ end;
 function SameValue(const ALeft, ARight: TQuantity): boolean;
 begin
 {$IFDEF ADIMDEBUG}
-  if ALeft.FUnitOfMeasurement <> ARight.FUnitOfMeasurement then
+  if ALeft.FID <> ARight.FID then
     raise Exception.Create('SameValue routine has detected wrong units of measurements.');
 
   result := Math.SameValue(ALeft.FValue, ARight.FValue);

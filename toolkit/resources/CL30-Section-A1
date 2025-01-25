@@ -19,7 +19,7 @@ type
   {$IFDEF ADIMDEBUG}
   TQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: double;
   public
     class operator + (const ASelf: TQuantity): TQuantity;
@@ -50,7 +50,7 @@ type
   {$IFDEF ADIMDEBUG}
   TMultivecQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: TMultivector;
   public
     class operator :=(const AValue: TQuantity): TMultivecQuantity;
@@ -88,7 +88,7 @@ type
   {$IFDEF ADIMDEBUG}
   TTrivecQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: TTrivector;
   public
     class operator :=(const AValue: TTrivecQuantity): TMultivecQuantity;
@@ -134,7 +134,7 @@ type
   {$IFDEF ADIMDEBUG}
   TBivecQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: TBivector;
   public
     class operator :=(const AValue: TBivecQuantity): TMultivecQuantity;
@@ -188,7 +188,7 @@ type
   {$IFDEF ADIMDEBUG}
   TVecQuantity = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FValue: TVector;
   public
     class operator :=(const AValue: TVecQuantity): TMultivecQuantity;
@@ -473,7 +473,7 @@ type
 
   TUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -508,7 +508,7 @@ type
 
   TFactoredUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -544,7 +544,7 @@ type
 
   TDegreeCelsiusUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -558,7 +558,7 @@ type
 
   TDegreeFahrenheitUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;

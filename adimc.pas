@@ -1,4 +1,4 @@
-unit ADimBase;
+unit ADimC;
 
 {
   Description: ADimBase unit.
@@ -62,40 +62,31 @@ type
   end;
 
 
-type
-  TVector = record
-  private
-    Fm1,
-    Fm2,
-    Fm3: double;
-  public
-
-  end;
-
-  TVersor1 = record
-  public
-    class operator *(const ALeft: double; const ARight: TVersor1): TVector;
-  end;
-
-  TVersor2 = record
-  public
-    class operator *(const ALeft: double; const ARight: TVersor2): TVector;
-  end;
-
-  TVersor3 = record
-  public
-    class operator *(const ALeft: double; const ARight: TVersor3): TVector;
-  end;
-
-
 var
   Img: TImaginaryUnit;
-
 
 implementation
 
 uses
   Math, SysUtils;
+
+function Fmt(const AValue: double): string;
+begin
+  if AValue < 0.0 then
+    result := FloatToStr(AValue)
+  else
+    result := '+' + FloatToStr(AValue);
+end;
+
+function Fmt(const AValue: double; APrecision, ADigits: longint): string;
+begin
+  if AValue < 0.0 then
+    result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits)
+  else
+    result := '+' + FloatToStrF(AValue, ffGeneral, APrecision, ADigits);
+end;
+
+// TComplex
 
 function TComplex.Re: double;
 begin
@@ -114,8 +105,12 @@ begin
 end;
 
 function TComplex.Reciprocal: TComplex;
+var
+  sn: double;
 begin
-  result := Self / SquaredNorm;
+  sn := SquaredNorm;
+  result.FRe := FRe / sn;
+  result.FIm := FIm / sn;
 end;
 
 function TComplex.Norm: double;
@@ -224,31 +219,12 @@ begin
             (not SameValue(ALeft.FIm, ARight.FIm));
 end;
 
+// TImaginayUnit
+
 class operator TImaginaryUnit.*(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
 begin
   result.FRe := 0;
   result.FIm := ALeft;
-end;
-
-class operator TVersor1.*(const ALeft: double; const ARight: TVersor1): TVector;
-begin
-  result.Fm1 := ALeft;
-  result.Fm2 := 0;
-  result.Fm3 := 0;
-end;
-
-class operator TVersor2.*(const ALeft: double; const ARight: TVersor2): TVector;
-begin
-  result.Fm1 := 0;
-  result.Fm2 := ALeft;
-  result.Fm3 := 0;
-end;
-
-class operator TVersor3.*(const ALeft: double; const ARight: TVersor3): TVector;
-begin
-  result.Fm1 := 0;
-  result.Fm2 := 0;
-  result.Fm3 := ALeft;
 end;
 
 end.

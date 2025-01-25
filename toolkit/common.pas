@@ -136,7 +136,7 @@ end;
 function GetSymbol(const AShortSymbol: string): string;
 begin
   result := AShortSymbol;
-  result := StringReplace(result, '.', '·', [rfReplaceAll]);
+  result := StringReplace(result, '.', '.', [rfReplaceAll]);
 end;
 
 function GetSingularName(const ALongSymbol: string): string;
