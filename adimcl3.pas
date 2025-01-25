@@ -1,8 +1,8 @@
 unit ADimCL3;
 
-{ Geometric Algebra Cl(3) for FreePascal.
+{ Geometric Algebra CL(3) for FreePascal.
 
-  Copyright (c) 2024 Melchiorre Caruso
+  Copyright (c) 2024-2025 Melchiorre Caruso
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to
