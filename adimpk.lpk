@@ -41,6 +41,38 @@
         <Filename Value="adimvec.pas"/>
         <UnitName Value="ADimVEC"/>
       </Item>
+      <Item>
+        <Filename Value="cl3.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="cl3impl.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="complex.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="compleximpl.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="scalar.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="scalarimpl.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="vector.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="vectorimpl.inc"/>
+        <Type Value="Include"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>
