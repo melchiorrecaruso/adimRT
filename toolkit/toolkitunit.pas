@@ -185,7 +185,7 @@ begin
   ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
   ASection.Add('');
   ASection.Add('const');
-  ASection.Add('  %sID = $%s;', [GetUnitID(AItem.FQuantity), IntToHex(AItem.FIndex, 8)]);
+  ASection.Add('  %sID = %s;', [GetUnitID(AItem.FQuantity), IntToStr(AItem.FIndex)]);
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -554,7 +554,7 @@ begin
   begin
     Indexes.Clear;
     for i := Low(ExpWeight) to High(ExpWeight) do
-      ExpWeight[i] := Random(MaxWord);
+      ExpWeight[i] := Random(255);
 
     for i := 0 to FList.Count -1 do
       if FList[i].FBase = '' then
