@@ -50,25 +50,25 @@ end;
 
 class operator TVecQuantity.*(const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
 begin
-  result.FID := MulTable[ALeft.FID, ARight.FID];
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
 begin
-  result.FID := MulTable[ALeft.FID, ARight.FID];
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TVecQuantity./ (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
 begin
-  result.FID := DivTable[ALeft.FID, ARight.FID];
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TVecQuantity./(const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
 begin
-  result.FID := DivTable[ALeft.FID, ARight.FID];
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 {$ENDIF}

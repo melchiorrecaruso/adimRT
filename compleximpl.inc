@@ -22,7 +22,7 @@ end;
 
 function TComplexQuantity.SquaredNorm: TQuantity;
 begin
-  result.FID := MulTable[FID, FID];
+  result.FID := CheckMul(FID, FID);
   result.FValue := FValue.SquaredNorm;
 end;
 
