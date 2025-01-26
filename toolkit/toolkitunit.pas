@@ -106,11 +106,9 @@ type
     procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
 
-    procedure AddPowerTable(const Section: TStringList);
-    procedure AddRootTable(const Section: TStringList);
-
     procedure Add(const AItem: TToolkitItem);
     procedure CreateIndexes;
+    function  CheckIndexes: boolean;
     procedure Check;
     procedure Run;
   public
@@ -145,13 +143,12 @@ procedure TToolKitBuilder.AddUnits(const SectionA, SectionB: TStringList);
 var
   i: longint;
 begin
+  CreateIndexes;
   for i := 0 to FList.Count -1 do
   begin
     if (FList[i].FBase = '') then
     begin
-      FList[i].FExponents := StringToDimensions(FList[i].FDimension);
       Inc(BaseUnitCount);
-
       AddUnit(FList[i], SectionA);
       AddSymbols(FList[i], SectionA);
     end else
@@ -159,26 +156,22 @@ begin
       if (FList[i].FFactor = '') then
       begin
         Inc(FactoredUnitCount);
-
         AddClonedUnit(FList[i], SectionA);
         AddSymbols(FList[i], SectionA);
       end else
         if Pos('%s', FList[i].FFactor) = 0 then
         begin
           Inc(FactoredUnitCount);
-
           AddFactoredUnit(FList[i], SectionA);
           AddSymbols(FList[i], SectionA);
         end else
         begin
           Inc(FactoredUnitCount);
-
           AddFactoredUnit(FList[i], SectionA);
           AddSymbols(FList[i], SectionA);
         end;
     end;
   end;
-  CreateIndexes;
   Check;
 end;
 
@@ -192,7 +185,7 @@ begin
   ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
   ASection.Add('');
   ASection.Add('const');
-  ASection.Add('  %sID = %d;', [GetUnitID(AItem.FQuantity), AItem.FIndex]);
+  ASection.Add('  %sID = $%s;', [GetUnitID(AItem.FQuantity), IntToHex(AItem.FIndex, 8)]);
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -353,8 +346,9 @@ var
   LocList: TStringList;
   Str: string;
   Factor: string;
+  FIndex: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFDEF ADIMDEBUG} (FID: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TQuantity = {$IFDEF ADIMDEBUG} (FID: %sID; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AItem.FFactor <> '' then
@@ -376,84 +370,89 @@ begin
   if Pos('8', AItem.FIdentifier) > 0 then Power := 8;
   if Pos('9', AItem.FIdentifier) > 0 then Power := 9;
 
+  if AItem.FBase = '' then
+    FIndex := GetUnitID(AItem.FQuantity)
+  else
+    FIndex := GetUnitID(AItem.FBase);
+
   LocList := TStringList.Create;
   if (LowerCase(AItem.FIdentifier) <> 'kg' ) and
      (LowerCase(AItem.FIdentifier) <> 'kg2') then
   begin
-    if Params[ 1] = 'L' then LocList.Append(Format(Str, ['quetta' + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +30*Power)), Factor + FormatFloat('0E+00', IntPower(10, +30*Power))]));
-    if Params[ 1] = 'S' then LocList.Append(Format(Str, ['Q'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +30*Power)), Factor + FormatFloat('0E+00', IntPower(10, +30*Power))]));
-    if Params[ 2] = 'L' then LocList.Append(Format(Str, ['ronna'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +27*Power)), Factor + FormatFloat('0E+00', IntPower(10, +27*Power))]));
-    if Params[ 2] = 'S' then LocList.Append(Format(Str, ['R'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +27*Power)), Factor + FormatFloat('0E+00', IntPower(10, +27*Power))]));
-    if Params[ 3] = 'L' then LocList.Append(Format(Str, ['yotta'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +24*Power)), Factor + FormatFloat('0E+00', IntPower(10, +24*Power))]));
-    if Params[ 3] = 'S' then LocList.Append(Format(Str, ['Y'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +24*Power)), Factor + FormatFloat('0E+00', IntPower(10, +24*Power))]));
-    if Params[ 4] = 'L' then LocList.Append(Format(Str, ['zetta'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +21*Power)), Factor + FormatFloat('0E+00', IntPower(10, +21*Power))]));
-    if Params[ 4] = 'S' then LocList.Append(Format(Str, ['Z'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +21*Power)), Factor + FormatFloat('0E+00', IntPower(10, +21*Power))]));
-    if Params[ 5] = 'L' then LocList.Append(Format(Str, ['exa'    + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +18*Power)), Factor + FormatFloat('0E+00', IntPower(10, +18*Power))]));
-    if Params[ 5] = 'S' then LocList.Append(Format(Str, ['E'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +18*Power)), Factor + FormatFloat('0E+00', IntPower(10, +18*Power))]));
-    if Params[ 6] = 'L' then LocList.Append(Format(Str, ['peta'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +15*Power)), Factor + FormatFloat('0E+00', IntPower(10, +15*Power))]));
-    if Params[ 6] = 'S' then LocList.Append(Format(Str, ['P'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +15*Power)), Factor + FormatFloat('0E+00', IntPower(10, +15*Power))]));
+    if Params[ 1] = 'L' then LocList.Append(Format(Str, ['quetta' + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +30*Power)), Factor + FormatFloat('0E+00', IntPower(10, +30*Power))]));
+    if Params[ 1] = 'S' then LocList.Append(Format(Str, ['Q'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +30*Power)), Factor + FormatFloat('0E+00', IntPower(10, +30*Power))]));
+    if Params[ 2] = 'L' then LocList.Append(Format(Str, ['ronna'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +27*Power)), Factor + FormatFloat('0E+00', IntPower(10, +27*Power))]));
+    if Params[ 2] = 'S' then LocList.Append(Format(Str, ['R'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +27*Power)), Factor + FormatFloat('0E+00', IntPower(10, +27*Power))]));
+    if Params[ 3] = 'L' then LocList.Append(Format(Str, ['yotta'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +24*Power)), Factor + FormatFloat('0E+00', IntPower(10, +24*Power))]));
+    if Params[ 3] = 'S' then LocList.Append(Format(Str, ['Y'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +24*Power)), Factor + FormatFloat('0E+00', IntPower(10, +24*Power))]));
+    if Params[ 4] = 'L' then LocList.Append(Format(Str, ['zetta'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +21*Power)), Factor + FormatFloat('0E+00', IntPower(10, +21*Power))]));
+    if Params[ 4] = 'S' then LocList.Append(Format(Str, ['Z'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +21*Power)), Factor + FormatFloat('0E+00', IntPower(10, +21*Power))]));
+    if Params[ 5] = 'L' then LocList.Append(Format(Str, ['exa'    + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +18*Power)), Factor + FormatFloat('0E+00', IntPower(10, +18*Power))]));
+    if Params[ 5] = 'S' then LocList.Append(Format(Str, ['E'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +18*Power)), Factor + FormatFloat('0E+00', IntPower(10, +18*Power))]));
+    if Params[ 6] = 'L' then LocList.Append(Format(Str, ['peta'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +15*Power)), Factor + FormatFloat('0E+00', IntPower(10, +15*Power))]));
+    if Params[ 6] = 'S' then LocList.Append(Format(Str, ['P'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +15*Power)), Factor + FormatFloat('0E+00', IntPower(10, +15*Power))]));
 
-    if Params[ 7] = 'L' then LocList.Append(Format(Str, ['tera'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +12*Power)), Factor + FormatFloat('0E+00', IntPower(10, +12*Power))]));
-    if Params[ 7] = 'S' then LocList.Append(Format(Str, ['T'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, +12*Power)), Factor + FormatFloat('0E+00', IntPower(10, +12*Power))]));
-    if Params[ 8] = 'L' then LocList.Append(Format(Str, ['giga'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power))]));
-    if Params[ 8] = 'S' then LocList.Append(Format(Str, ['G'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power))]));
-    if Params[ 9] = 'L' then LocList.Append(Format(Str, ['mega'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power))]));
-    if Params[ 9] = 'S' then LocList.Append(Format(Str, ['M'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power))]));
-    if Params[10] = 'L' then LocList.Append(Format(Str, ['kilo'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power))]));
-    if Params[10] = 'S' then LocList.Append(Format(Str, ['k'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power))]));
-    if Params[11] = 'L' then LocList.Append(Format(Str, ['hecto'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power))]));
-    if Params[11] = 'S' then LocList.Append(Format(Str, ['h'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power))]));
-    if Params[12] = 'L' then LocList.Append(Format(Str, ['deca'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power))]));
-    if Params[12] = 'S' then LocList.Append(Format(Str, ['da'     + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power))]));
-    if Params[13] = 'L' then LocList.Append(Format(Str, ['deci'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power))]));
-    if Params[13] = 'S' then LocList.Append(Format(Str, ['d'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power))]));
-    if Params[14] = 'L' then LocList.Append(Format(Str, ['centi'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power))]));
-    if Params[14] = 'S' then LocList.Append(Format(Str, ['c'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power))]));
-    if Params[15] = 'L' then LocList.Append(Format(Str, ['milli'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power))]));
-    if Params[15] = 'S' then LocList.Append(Format(Str, ['m'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power))]));
-    if Params[16] = 'L' then LocList.Append(Format(Str, ['micro'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power))]));
-    if Params[16] = 'S' then LocList.Append(Format(Str, ['mi'     + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power))]));
-    if Params[17] = 'L' then LocList.Append(Format(Str, ['nano'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power))]));
-    if Params[17] = 'S' then LocList.Append(Format(Str, ['n'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power))]));
-    if Params[18] = 'L' then LocList.Append(Format(Str, ['pico'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -12*Power)), Factor + FormatFloat('0E+00', IntPower(10, -12*Power))]));
-    if Params[18] = 'S' then LocList.Append(Format(Str, ['p'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -12*Power)), Factor + FormatFloat('0E+00', IntPower(10, -12*Power))]));
+    if Params[ 7] = 'L' then LocList.Append(Format(Str, ['tera'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +12*Power)), Factor + FormatFloat('0E+00', IntPower(10, +12*Power))]));
+    if Params[ 7] = 'S' then LocList.Append(Format(Str, ['T'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, +12*Power)), Factor + FormatFloat('0E+00', IntPower(10, +12*Power))]));
+    if Params[ 8] = 'L' then LocList.Append(Format(Str, ['giga'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power))]));
+    if Params[ 8] = 'S' then LocList.Append(Format(Str, ['G'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 9*Power))]));
+    if Params[ 9] = 'L' then LocList.Append(Format(Str, ['mega'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power))]));
+    if Params[ 9] = 'S' then LocList.Append(Format(Str, ['M'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 6*Power))]));
+    if Params[10] = 'L' then LocList.Append(Format(Str, ['kilo'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power))]));
+    if Params[10] = 'S' then LocList.Append(Format(Str, ['k'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 3*Power))]));
+    if Params[11] = 'L' then LocList.Append(Format(Str, ['hecto'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power))]));
+    if Params[11] = 'S' then LocList.Append(Format(Str, ['h'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 2*Power))]));
+    if Params[12] = 'L' then LocList.Append(Format(Str, ['deca'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power))]));
+    if Params[12] = 'S' then LocList.Append(Format(Str, ['da'     + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, + 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, + 1*Power))]));
+    if Params[13] = 'L' then LocList.Append(Format(Str, ['deci'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power))]));
+    if Params[13] = 'S' then LocList.Append(Format(Str, ['d'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 1*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 1*Power))]));
+    if Params[14] = 'L' then LocList.Append(Format(Str, ['centi'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power))]));
+    if Params[14] = 'S' then LocList.Append(Format(Str, ['c'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 2*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 2*Power))]));
+    if Params[15] = 'L' then LocList.Append(Format(Str, ['milli'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power))]));
+    if Params[15] = 'S' then LocList.Append(Format(Str, ['m'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 3*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 3*Power))]));
+    if Params[16] = 'L' then LocList.Append(Format(Str, ['micro'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power))]));
+    if Params[16] = 'S' then LocList.Append(Format(Str, ['mi'     + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 6*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 6*Power))]));
+    if Params[17] = 'L' then LocList.Append(Format(Str, ['nano'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power))]));
+    if Params[17] = 'S' then LocList.Append(Format(Str, ['n'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, - 9*Power)), Factor + FormatFloat('0E+00', IntPower(10, - 9*Power))]));
+    if Params[18] = 'L' then LocList.Append(Format(Str, ['pico'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -12*Power)), Factor + FormatFloat('0E+00', IntPower(10, -12*Power))]));
+    if Params[18] = 'S' then LocList.Append(Format(Str, ['p'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -12*Power)), Factor + FormatFloat('0E+00', IntPower(10, -12*Power))]));
 
-    if Params[19] = 'L' then LocList.Append(Format(Str, ['femto'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -15*Power)), Factor + FormatFloat('0E+00', IntPower(10, -15*Power))]));
-    if Params[19] = 'S' then LocList.Append(Format(Str, ['f'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -15*Power)), Factor + FormatFloat('0E+00', IntPower(10, -15*Power))]));
-    if Params[20] = 'L' then LocList.Append(Format(Str, ['atto'   + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -18*Power)), Factor + FormatFloat('0E+00', IntPower(10, -18*Power))]));
-    if Params[20] = 'S' then LocList.Append(Format(Str, ['a'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -18*Power)), Factor + FormatFloat('0E+00', IntPower(10, -18*Power))]));
-    if Params[21] = 'L' then LocList.Append(Format(Str, ['zepto'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -21*Power)), Factor + FormatFloat('0E+00', IntPower(10, -21*Power))]));
-    if Params[21] = 'S' then LocList.Append(Format(Str, ['z'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -21*Power)), Factor + FormatFloat('0E+00', IntPower(10, -21*Power))]));
-    if Params[22] = 'L' then LocList.Append(Format(Str, ['yocto'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -24*Power)), Factor + FormatFloat('0E+00', IntPower(10, -24*Power))]));
-    if Params[22] = 'S' then LocList.Append(Format(Str, ['y'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -24*Power)), Factor + FormatFloat('0E+00', IntPower(10, -24*Power))]));
-    if Params[23] = 'L' then LocList.Append(Format(Str, ['ronto'  + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -27*Power)), Factor + FormatFloat('0E+00', IntPower(10, -27*Power))]));
-    if Params[23] = 'S' then LocList.Append(Format(Str, ['r'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -27*Power)), Factor + FormatFloat('0E+00', IntPower(10, -27*Power))]));
-    if Params[24] = 'L' then LocList.Append(Format(Str, ['quecto' + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -30*Power)), Factor + FormatFloat('0E+00', IntPower(10, -30*Power))]));
-    if Params[24] = 'S' then LocList.Append(Format(Str, ['q'      + AItem.FIdentifier, AItem.FIndex, Factor + FormatFloat('0E+00', IntPower(10, -30*Power)), Factor + FormatFloat('0E+00', IntPower(10, -30*Power))]));
+    if Params[19] = 'L' then LocList.Append(Format(Str, ['femto'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -15*Power)), Factor + FormatFloat('0E+00', IntPower(10, -15*Power))]));
+    if Params[19] = 'S' then LocList.Append(Format(Str, ['f'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -15*Power)), Factor + FormatFloat('0E+00', IntPower(10, -15*Power))]));
+    if Params[20] = 'L' then LocList.Append(Format(Str, ['atto'   + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -18*Power)), Factor + FormatFloat('0E+00', IntPower(10, -18*Power))]));
+    if Params[20] = 'S' then LocList.Append(Format(Str, ['a'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -18*Power)), Factor + FormatFloat('0E+00', IntPower(10, -18*Power))]));
+    if Params[21] = 'L' then LocList.Append(Format(Str, ['zepto'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -21*Power)), Factor + FormatFloat('0E+00', IntPower(10, -21*Power))]));
+    if Params[21] = 'S' then LocList.Append(Format(Str, ['z'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -21*Power)), Factor + FormatFloat('0E+00', IntPower(10, -21*Power))]));
+    if Params[22] = 'L' then LocList.Append(Format(Str, ['yocto'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -24*Power)), Factor + FormatFloat('0E+00', IntPower(10, -24*Power))]));
+    if Params[22] = 'S' then LocList.Append(Format(Str, ['y'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -24*Power)), Factor + FormatFloat('0E+00', IntPower(10, -24*Power))]));
+    if Params[23] = 'L' then LocList.Append(Format(Str, ['ronto'  + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -27*Power)), Factor + FormatFloat('0E+00', IntPower(10, -27*Power))]));
+    if Params[23] = 'S' then LocList.Append(Format(Str, ['r'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -27*Power)), Factor + FormatFloat('0E+00', IntPower(10, -27*Power))]));
+    if Params[24] = 'L' then LocList.Append(Format(Str, ['quecto' + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -30*Power)), Factor + FormatFloat('0E+00', IntPower(10, -30*Power))]));
+    if Params[24] = 'S' then LocList.Append(Format(Str, ['q'      + AItem.FIdentifier, FIndex, Factor + FormatFloat('0E+00', IntPower(10, -30*Power)), Factor + FormatFloat('0E+00', IntPower(10, -30*Power))]));
   end else
     if (LowerCase(AItem.FIdentifier) = 'kg') then
     begin
-      LocList.Append(Format(Str, ['hg'  , AItem.FIndex, '1E-01', '1E-01']));
-      LocList.Append(Format(Str, ['dag' , AItem.FIndex, '1E-02', '1E-02']));
-      LocList.Append(Format(Str, ['g'   , AItem.FIndex, '1E-03', '1E-03']));
-      LocList.Append(Format(Str, ['dg'  , AItem.FIndex, '1E-04', '1E-04']));
-      LocList.Append(Format(Str, ['cg'  , AItem.FIndex, '1E-05', '1E-05']));
-      LocList.Append(Format(Str, ['mg'  , AItem.FIndex, '1E-06', '1E-06']));
-      LocList.Append(Format(Str, ['mig' , AItem.FIndex, '1E-09', '1E-09']));
-      LocList.Append(Format(Str, ['ng'  , AItem.FIndex, '1E-12', '1E-12']));
-      LocList.Append(Format(Str, ['pg'  , AItem.FIndex, '1E-15', '1E-15']));
+      LocList.Append(Format(Str, ['hg'  , FIndex, '1E-01', '1E-01']));
+      LocList.Append(Format(Str, ['dag' , FIndex, '1E-02', '1E-02']));
+      LocList.Append(Format(Str, ['g'   , FIndex, '1E-03', '1E-03']));
+      LocList.Append(Format(Str, ['dg'  , FIndex, '1E-04', '1E-04']));
+      LocList.Append(Format(Str, ['cg'  , FIndex, '1E-05', '1E-05']));
+      LocList.Append(Format(Str, ['mg'  , FIndex, '1E-06', '1E-06']));
+      LocList.Append(Format(Str, ['mig' , FIndex, '1E-09', '1E-09']));
+      LocList.Append(Format(Str, ['ng'  , FIndex, '1E-12', '1E-12']));
+      LocList.Append(Format(Str, ['pg'  , FIndex, '1E-15', '1E-15']));
     end else
       if (LowerCase(AItem.FIdentifier) = 'kg2') then
       begin
-        LocList.Append(Format(Str, ['hg2'  , AItem.FIndex, '1E-02', '1E-02']));
-        LocList.Append(Format(Str, ['dag2' , AItem.FIndex, '1E-04', '1E-04']));
-        LocList.Append(Format(Str, ['g2'   , AItem.FIndex, '1E-06', '1E-06']));
-        LocList.Append(Format(Str, ['dg2'  , AItem.FIndex, '1E-08', '1E-08']));
-        LocList.Append(Format(Str, ['cg2'  , AItem.FIndex, '1E-10', '1E-10']));
-        LocList.Append(Format(Str, ['mg2'  , AItem.FIndex, '1E-12', '1E-12']));
-        LocList.Append(Format(Str, ['mig2' , AItem.FIndex, '1E-18', '1E-18']));
-        LocList.Append(Format(Str, ['ng2'  , AItem.FIndex, '1E-24', '1E-24']));
-        LocList.Append(Format(Str, ['pg2'  , AItem.FIndex, '1E-30', '1E-30']));
+        LocList.Append(Format(Str, ['hg2'  , FIndex, '1E-02', '1E-02']));
+        LocList.Append(Format(Str, ['dag2' , FIndex, '1E-04', '1E-04']));
+        LocList.Append(Format(Str, ['g2'   , FIndex, '1E-06', '1E-06']));
+        LocList.Append(Format(Str, ['dg2'  , FIndex, '1E-08', '1E-08']));
+        LocList.Append(Format(Str, ['cg2'  , FIndex, '1E-10', '1E-10']));
+        LocList.Append(Format(Str, ['mg2'  , FIndex, '1E-12', '1E-12']));
+        LocList.Append(Format(Str, ['mig2' , FIndex, '1E-18', '1E-18']));
+        LocList.Append(Format(Str, ['ng2'  , FIndex, '1E-24', '1E-24']));
+        LocList.Append(Format(Str, ['pg2'  , FIndex, '1E-30', '1E-30']));
       end;
 
   j := 0;
@@ -474,97 +473,6 @@ begin
   LocList.Destroy;
 end;
 
-procedure TToolKitBuilder.AddPowerTable(const Section: TStringList);
-var
-  i, j: longint;
-  D1, D2, D3, D4, D5, D6: TExponents;
-  J1, J2, J3, J4, J5, J6: longint;
-  S: string;
-begin
-  Section.Add(Format('const', []));
-  Section.Add(Format('  PowerTable : array[0..%d] of', [BaseUnitCount -1]));
-  Section.Add(Format('    record  Square, Cubic, Quartic, Quintic, Sextic: longint; end = (', []));
-
-  for i := 0 to FList.Count -1 do
-  begin
-    if FList[i].FBase = '' then
-    begin
-      D1 := StringToDimensions(FList[i].FDimension);
-
-      for j := Low(D1) to High(D1) do D2[j] := D1[j] *2;
-      for j := Low(D1) to High(D1) do D3[j] := D1[j] *3;
-      for j := Low(D1) to High(D1) do D4[j] := D1[j] *4;
-      for j := Low(D1) to High(D1) do D5[j] := D1[j] *5;
-      for j := Low(D1) to High(D1) do D6[j] := D1[j] *6;
-
-      j2 := FList.Search(D2); if j2 <> -1 then j2 := FList[j2].FIndex;
-      j3 := FList.Search(D3); if j3 <> -1 then j3 := FList[j3].FIndex;
-      j4 := FList.Search(D4); if j4 <> -1 then j4 := FList[j4].FIndex;
-      j5 := FList.Search(D5); if j5 <> -1 then j5 := FList[j5].FIndex;
-      j6 := FList.Search(D6); if j6 <> -1 then j6 := FList[j6].FIndex;
-
-      S := Format('    (Square: %3s; Cubic: %3s; Quartic: %3s; Quintic: %3s; Sextic: %3s),',
-        [j2.ToString, j3.ToString, j4.ToString, j5.ToString, j6.ToString]);
-
-      Section.Add(S);
-    end;
-  end;
-  if BaseUnitCount > 0 then
-  begin
-    Section[Section.Count -1] :=
-      Copy(Section[Section.Count -1], 1,
-      Length(Section[Section.Count -1]) -1);
-  end;
-  Section.Add(Format('  );', []));
-  Section.Add(Format('', []));
-end;
-
-procedure TToolKitBuilder.AddRootTable(const Section: TStringList);
-var
-  i, j: longint;
-  D1, D2, D3, D4, D5, D6: TExponents;
-  J1, J2, J3, J4, J5, J6: longint;
-  S: string;
-begin
-  Section.Add(Format('const', []));
-  Section.Add(Format('  RootTable : array[0..%d] of', [BaseUnitCount -1]));
-  Section.Add(Format('    record  Square, Cubic, Quartic, Quintic, Sextic: longint; end = (', []));
-
-  for i := 0 to FList.Count -1 do
-  begin
-    if FList[i].FBase = '' then
-    begin
-      D1 := StringToDimensions(FList[i].FDimension);
-
-      for j := Low(D1) to High(D1) do D2[j] := D1[j] /2;
-      for j := Low(D1) to High(D1) do D3[j] := D1[j] /3;
-      for j := Low(D1) to High(D1) do D4[j] := D1[j] /4;
-      for j := Low(D1) to High(D1) do D5[j] := D1[j] /5;
-      for j := Low(D1) to High(D1) do D6[j] := D1[j] /6;
-
-      j2 := FList.Search(D2); if j2 <> -1 then j2 := FList[j2].FIndex;
-      j3 := FList.Search(D3); if j3 <> -1 then j3 := FList[j3].FIndex;
-      j4 := FList.Search(D4); if j4 <> -1 then j4 := FList[j4].FIndex;
-      j5 := FList.Search(D5); if j5 <> -1 then j5 := FList[j5].FIndex;
-      j6 := FList.Search(D6); if j6 <> -1 then j6 := FList[j6].FIndex;
-
-      S := Format('    (Square: %3s; Cubic: %3s; Quartic: %3s; Quintic: %3s; Sextic: %3s),',
-        [j2.ToString, j3.ToString, j4.ToString, j5.ToString, j6.ToString]);
-
-      Section.Add(S);
-    end;
-  end;
-
-  if BaseUnitCount > 0 then
-  begin
-    Section[Section.Count -1] :=
-      Copy(Section[Section.Count -1], 1,
-      Length(Section[Section.Count -1]) -1);
-  end;
-  Section.Add(Format('  );', []));
-  Section.Add(Format('', []));
-end;
-
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
 begin
   FList.Add(AItem);
@@ -581,11 +489,47 @@ begin
         if FList[j].FBase = '' then
         begin
           if FList.SameValue(FList[i].FExponents, FList[j].FExponents) and (i <> j) then
-            Messages.Add('Warning: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
+            FMessages.Add('FATAL ERROR: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
+
+          if (FList[i].FIndex = FList[j].FIndex) and (i <> j) then
+            FMessages.Add('FATAL ERROR: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
         end;
 
       if FList.Search(GetReciprocal(FList[i].FExponents)) = -1 then
-        Messages.Add('Warning: %s unit hasn''t a reciprocal.', [FList[i].FQuantity]);
+        FMessages.Add('WARNING: %s unit hasn''t a reciprocal.', [FList[i].FQuantity]);
+    end;
+end;
+
+function TToolKitBuilder.CheckIndexes: boolean;
+var
+  i, j, k: longint;
+  kExponents: TExponents;
+  kIndex: longint;
+begin
+  result := True;
+  for i := 0 to FList.Count -1 do
+    if FList[i].FBase = '' then
+    begin
+      for j := 0 to FList.Count -1 do
+        if FList[j].FBase = '' then
+        begin
+          // Multiply
+          kExponents := SumDim(FList[i].FExponents, FList[j].FExponents);
+          kIndex     := FList[i].FIndex + FList[j].FIndex;
+
+          for k := 0 to FList.Count -1 do
+          begin
+            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then result := False;
+          end;
+          // Divide
+          kExponents := SubDim(FList[i].FExponents, FList[j].FExponents);
+          kIndex     := FList[i].FIndex - FList[j].FIndex;
+
+          for k := 0 to FList.Count -1 do
+          begin
+            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then result := False;
+          end;
+        end;
     end;
 end;
 
@@ -594,19 +538,23 @@ type
   TIntegerList = specialize TFPGList<Integer>;
 var
  i, j: longint;
- Match: boolean;
+ IsNeededRunAgain: boolean;
  ExpWeight: TExponents;
  Indexes: TIntegerList;
 begin
-  Randomize;
-  Match := true;
-
   Indexes := TIntegerList.Create;
-  while Match do
+  for i := 0 to FList.Count -1 do
+  begin
+    if (FList[i].FBase = '') then
+      FList[i].FExponents := StringToDimensions(FList[i].FDimension);
+  end;
+
+  IsNeededRunAgain := True;
+  while IsNeededRunAgain do
   begin
     Indexes.Clear;
     for i := Low(ExpWeight) to High(ExpWeight) do
-      ExpWeight[i] := Random(maxword);
+      ExpWeight[i] := Random(MaxWord);
 
     for i := 0 to FList.Count -1 do
       if FList[i].FBase = '' then
@@ -621,12 +569,15 @@ begin
           Trunc(FList[i].FExponents[7]*ExpWeight[7]) +
           Trunc(FList[i].FExponents[8]*ExpWeight[8]);
 
-        Match := (Indexes.IndexOf(FList[i].FIndex) <> -1);
-        if Match then
-          Break
+        IsNeededRunAgain := (Indexes.IndexOf(FList[i].FIndex) <> -1);
+        if IsNeededRunAgain = False then
+          Indexes.Add(FList[i].FIndex)
         else
-          Indexes.Add(FList[i].FIndex);
+          Break;
       end;
+
+    if IsNeededRunAgain = False then
+      IsNeededRunAgain := not CheckIndexes;
   end;
 
   for i := 0 to FList.Count -1 do
@@ -639,7 +590,7 @@ begin
         FList[i].FExponents := FList[j].FExponents;
         FList[i].FIndex := FList[j].FIndex;
       end else
-         FMessages.Add(Format('Base unit for %s not found', [FList[i].FQuantity]));
+         FMessages.Add(Format('%s base unit not found', [FList[i].FQuantity]));
     end;
   end;
   Indexes.Destroy;
@@ -689,8 +640,6 @@ begin
   Stream.Destroy;
 
   AddUnits(SectionA3, SectionB3);
-  AddPowerTable(SectionA3);
-  AddRootTable(SectionA3);
 
   Stream := TResourceStream.Create(HInstance, 'Section-A4', RT_RCDATA);
   SectionA4.LoadFromStream(Stream);

@@ -313,13 +313,14 @@ end;
 
 procedure TMainForm.UpdateButton(Value: boolean);
 begin
-  LoadBtn.Enabled     := Value;
-  ExportBtn.Enabled   := Value;
-  RunBtn.Enabled      := Value;
-  case Value of
-    True:  PageControl.TabIndex := 1;
-    False: PageControl.TabIndex := 2;
-  end;
+  LoadBtn.Enabled   := Value;
+  ExportBtn.Enabled := Value;
+  RunBtn.Enabled    := Value;
+
+  if Memo.Lines.Count = 0 then
+    PageControl.TabIndex := 1
+  else
+    PageControl.TabIndex := 2;
 end;
 
 end.

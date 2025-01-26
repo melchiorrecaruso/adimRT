@@ -21,11 +21,11 @@ object MainForm: TMainForm
     Height = 523
     Top = 54
     Width = 989
-    ActivePage = TabSheet1
+    ActivePage = TabSheet3
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 10
     ParentFont = False
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Unit of measurement'
@@ -70,11 +70,11 @@ object MainForm: TMainForm
           end        
           item
             Title.Caption = 'Identifier'
-            Width = 98
+            Width = 97
           end        
           item
             Title.Caption = 'Base quantity'
-            Width = 98
+            Width = 97
           end        
           item
             Title.Caption = 'Factor'
@@ -100,8 +100,8 @@ object MainForm: TMainForm
           98
           98
           98
-          98
-          98
+          97
+          97
           97
           97
           97
