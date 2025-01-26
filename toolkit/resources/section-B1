@@ -2,7 +2,7 @@
   {$I scalarimpl.inc}
   {$I compleximpl.inc}
   {$IFDEF CLIFFORD}
-    {$I multivectorimpl.inc}
+    {$I cl3impl.inc}
   {$ELSE}
     {$I vectorimpl.inc}
   {$ENDIF}   

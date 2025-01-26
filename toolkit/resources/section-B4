@@ -4,9 +4,7 @@
 function SquarePower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := PowerTable[AQuantity.FID].Square;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
+  result.FID := AQuantity.FID * 2;
   result.FValue := IntPower(AQuantity.FValue, 2);
 {$ELSE}
   result := IntPower(AQuantity, 2);
@@ -16,9 +14,7 @@ end;
 function CubicPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := PowerTable[AQuantity.FID].Cubic;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
+  result.FID := AQuantity.FID * 3;
   result.FValue := IntPower(AQuantity.FValue, 3);
 {$ELSE}
   result := IntPower(AQuantity, 3);
@@ -28,9 +24,7 @@ end;
 function QuarticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := PowerTable[AQuantity.FID].Quartic;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
+  result.FID := AQuantity.FID * 4;
   result.FValue := IntPower(AQuantity.FValue, 4);
 {$ELSE}
   result := IntPower(AQuantity, 4);
@@ -40,9 +34,7 @@ end;
 function QuinticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := PowerTable[AQuantity.FID].Quintic;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
+  result.FID := AQuantity.FID * 5;
   result.FValue := IntPower(AQuantity.FValue, 5);
 {$ELSE}
   result := IntPower(AQuantity, 5);
@@ -52,10 +44,8 @@ end;
 function SexticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := PowerTable[AQuantity.FID].Sextic;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
-   result.FValue := IntPower(AQuantity.FValue, 6);
+  result.FID := AQuantity.FID * 6;
+  result.FValue := IntPower(AQuantity.FValue, 6);
 {$ELSE}
   result := IntPower(AQuantity, 6);
 {$ENDIF}
@@ -64,9 +54,7 @@ end;
 function SquareRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := RootTable[AQuantity.FID].Square;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
+  result.FID := AQuantity.FID div 2;
   result.FValue := Power(AQuantity.FValue, 1/2);
 {$ELSE};
   result := Power(AQuantity, 1/2);
@@ -76,9 +64,7 @@ end;
 function CubicRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := RootTable[AQuantity.FID].Cubic;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
+  result.FID := AQuantity.FID div 3;
   result.FValue := Power(AQuantity.FValue, 1/3);
 {$ELSE}
   result := Power(AQuantity, 1/3);
@@ -88,9 +74,7 @@ end;
 function QuarticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := RootTable[AQuantity.FID].Quartic;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
+  result.FID := AQuantity.FID div 4;
   result.FValue := Power(AQuantity.FValue, 1/4);
 {$ELSE}
   result := Power(AQuantity, 1/4);
@@ -100,9 +84,7 @@ end;
 function QuinticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := RootTable[AQuantity.FID].Quintic;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
+  result.FID := AQuantity.FID div 5;
   result.FValue := Power(AQuantity.FValue, 1/5);
 {$ELSE}
   result := Power(AQuantity, 1/5);
@@ -112,9 +94,7 @@ end;
 function SexticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  result.FID := RootTable[AQuantity.FID].Sextic;
-  if result.FID = -1 then
-    raise Exception.Create('Wrong units of measurements');
+  result.FID := AQuantity.FID div 6;
   result.FValue := Power(AQuantity.FValue, 1/6);
 {$ELSE}
   result := Power(AQuantity, 1/6);

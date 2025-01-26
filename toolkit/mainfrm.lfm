@@ -1,15 +1,15 @@
 object MainForm: TMainForm
-  Left = 174
+  Left = 442
   Height = 577
-  Top = 86
+  Top = 383
   Width = 989
   Caption = 'ADimPas Toolkit-v2'
   ClientHeight = 577
   ClientWidth = 989
+  Position = poMainFormCenter
+  LCLVersion = '4.0.0.2'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  Position = poMainFormCenter
-  LCLVersion = '3.6.0.0'
   object PageControl: TPageControl
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Side = asrBottom
@@ -29,8 +29,8 @@ object MainForm: TMainForm
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Unit of measurement'
-      ClientHeight = 495
-      ClientWidth = 981
+      ClientHeight = 490
+      ClientWidth = 979
       object StringGrid: TStringGrid
         AnchorSideLeft.Control = TabSheet1
         AnchorSideTop.Control = AddBtn
@@ -40,9 +40,9 @@ object MainForm: TMainForm
         AnchorSideBottom.Control = TabSheet1
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 447
+        Height = 442
         Top = 48
-        Width = 981
+        Width = 979
         Anchors = [akTop, akLeft, akRight, akBottom]
         AutoFillColumns = True
         BorderSpacing.Top = 6
@@ -118,8 +118,8 @@ object MainForm: TMainForm
         BorderSpacing.Left = 6
         BorderSpacing.Top = 6
         Caption = 'Add'
-        OnClick = AddBtnClick
         TabOrder = 1
+        OnClick = AddBtnClick
       end
       object DeleteBtn: TBitBtn
         AnchorSideLeft.Control = AddBtn
@@ -136,8 +136,8 @@ object MainForm: TMainForm
         BorderSpacing.Left = 4
         BorderSpacing.Right = 6
         Caption = 'Delete'
-        OnClick = DeleteBtnClick
         TabOrder = 2
+        OnClick = DeleteBtnClick
       end
       object EditBtn: TBitBtn
         AnchorSideLeft.Control = DeleteBtn
@@ -152,8 +152,8 @@ object MainForm: TMainForm
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Left = 4
         Caption = 'Edit'
-        OnClick = EditBtnClick
         TabOrder = 3
+        OnClick = EditBtnClick
       end
       object MoveUtBtn: TBitBtn
         AnchorSideLeft.Control = EditBtn
@@ -168,8 +168,8 @@ object MainForm: TMainForm
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Left = 20
         Caption = 'Move Up'
-        OnClick = MoveUtBtnClick
         TabOrder = 4
+        OnClick = MoveUtBtnClick
       end
       object MoveDownBtn: TBitBtn
         AnchorSideLeft.Control = MoveUtBtn
@@ -184,19 +184,19 @@ object MainForm: TMainForm
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Left = 4
         Caption = 'Move Down'
-        OnClick = MoveDownBtnClick
         TabOrder = 5
+        OnClick = MoveDownBtnClick
       end
     end
     object TabSheet2: TTabSheet
       Caption = 'Unit Source Code'
-      ClientHeight = 495
-      ClientWidth = 981
+      ClientHeight = 490
+      ClientWidth = 979
       inline SynEdit: TSynEdit
         Left = 0
-        Height = 495
+        Height = 490
         Top = 0
-        Width = 981
+        Width = 979
         Align = alClient
         Anchors = []
         Font.Height = -13
@@ -661,15 +661,15 @@ object MainForm: TMainForm
     end
     object TabSheet3: TTabSheet
       Caption = 'Messages'
-      ClientHeight = 495
-      ClientWidth = 981
+      ClientHeight = 490
+      ClientWidth = 979
       object Memo: TMemo
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 495
+        Height = 490
         Top = 0
-        Width = 981
+        Width = 979
         Align = alClient
         Anchors = []
         Font.Height = -13
@@ -771,8 +771,8 @@ object MainForm: TMainForm
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
     }
-    OnClick = LoadBtnClick
     TabOrder = 1
+    OnClick = LoadBtnClick
   end
   object RunBtn: TBitBtn
     AnchorSideRight.Control = Owner
@@ -861,8 +861,8 @@ object MainForm: TMainForm
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
     }
-    OnClick = RunBtnClick
     TabOrder = 2
+    OnClick = RunBtnClick
   end
   object ExportBtn: TBitBtn
     AnchorSideTop.Control = RunBtn
@@ -876,8 +876,8 @@ object MainForm: TMainForm
     Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Right = 4
     Caption = 'Export ...'
-    OnClick = ExportBtnClick
     TabOrder = 3
+    OnClick = ExportBtnClick
   end
   object SaveBtn: TBitBtn
     AnchorSideLeft.Control = LoadBtn
@@ -892,8 +892,8 @@ object MainForm: TMainForm
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Left = 4
     Caption = 'Save'
-    OnClick = SaveBtnClick
     TabOrder = 4
+    OnClick = SaveBtnClick
   end
   object SaveDialog: TSaveDialog
     Left = 120

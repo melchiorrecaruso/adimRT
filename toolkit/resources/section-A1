@@ -1,7 +1,14 @@
 
 interface
 
-uses ADimC, AdimCL3, SysUtils;
+uses
+  ADimC,
+  {$IFDEF CLIFFORD}
+  ADimCL3,
+  {$ELSE}
+  ADimVEC,
+  {$ENDIF}
+  SysUtils;
 
 type
   { Prefix }
@@ -19,7 +26,7 @@ type
   {$I scalar.inc}
   {$I complex.inc}
   {$IFDEF CLIFFORD}
-    {$I multivector.inc}
+    {$I cl3.inc}
   {$ELSE}
     {$I vector.inc}
   {$ENDIF}    
