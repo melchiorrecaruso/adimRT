@@ -759,6 +759,30 @@ begin
 end;
 {$ENDIF}
 
+function TUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
+begin
+{$IFDEF ADIMDEBUG}
+  if AQuantity.FID <> FID then
+    raise Exception.Create('ToString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity): string;
+begin
+{$IFDEF ADIMDEBUG}
+  if AQuantity.FID <> FID then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
 { TFactoredUnitHelper }
 
 function TFactoredUnitHelper.GetName(const Prefixes: TPrefixes): string;
@@ -1175,6 +1199,36 @@ begin
   result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
 {$ENDIF}
+
+function TFactoredUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
+var
+  FactoredValue: TComplex;
+begin
+{$IFDEF ADIMDEBUG}
+  if AQuantity.FID <> FID then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity): string;
+var
+  FactoredValue: TComplex;
+begin
+{$IFDEF ADIMDEBUG}
+  if AQuantity.FID <> FID then
+    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
+
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
+end;
 
 { TDegreeCelsiusUnitHelper }
 
