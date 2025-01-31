@@ -152,17 +152,17 @@ begin
 end;
 {$ENDIF}
 
-// TTrivecQuantity
+// TCL3TrivecQuantity
 
 {$IFDEF ADIMDEBUG}
 
-class operator TTrivecQuantity.:=(const AValue: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.:=(const AValue: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
-class operator TTrivecQuantity.<>(const ALeft, ARight: TTrivecQuantity): boolean;
+class operator TCL3TrivecQuantity.<>(const ALeft, ARight: TCL3TrivecQuantity): boolean;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
@@ -170,7 +170,7 @@ begin
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TTrivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
+class operator TCL3TrivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
@@ -178,7 +178,7 @@ begin
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TTrivecQuantity.<>(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3TrivecQuantity.<>(const ALeft: TCL3TrivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
@@ -186,7 +186,7 @@ begin
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TTrivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
+class operator TCL3TrivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
@@ -194,7 +194,7 @@ begin
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TTrivecQuantity.=(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3TrivecQuantity.=(const ALeft: TCL3TrivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
@@ -202,7 +202,7 @@ begin
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TTrivecQuantity.=(const ALeft, ARight: TTrivecQuantity): boolean;
+class operator TCL3TrivecQuantity.=(const ALeft, ARight: TCL3TrivecQuantity): boolean;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
@@ -210,7 +210,7 @@ begin
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -219,7 +219,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -228,7 +228,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -237,7 +237,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -246,7 +246,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -255,13 +255,13 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ASelf: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.-(const ASelf: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -270,7 +270,7 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -279,7 +279,7 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -288,7 +288,7 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -297,7 +297,7 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -306,61 +306,61 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft: TQuantity; const ARight: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
 begin
   result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft, ARight: TTrivecQuantity): TQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
   result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity./(const ALeft, ARight: TTrivecQuantity): TQuantity;
+class operator TCL3TrivecQuantity./(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TTrivecQuantity./(const ALeft: TTrivecQuantity; const ARight: TQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
 begin
   result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TTrivecQuantity./(const ALeft: TQuantity; const ARight: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TTrivecQuantity./(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TMultivecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TTrivecQuantity./(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
   result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
@@ -451,7 +451,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -460,7 +460,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TBivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TBivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -520,7 +520,7 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -529,7 +529,7 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TBivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TBivecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -580,13 +580,13 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TBivecQuantity.*(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TBivecQuantity.*(const ALeft: TBivecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TBivecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TBivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
   result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
@@ -616,13 +616,13 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TBivecQuantity./(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TBivecQuantity./(const ALeft: TBivecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TBivecQuantity./(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TBivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
   result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
@@ -743,7 +743,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -752,7 +752,7 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TVecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
@@ -830,7 +830,7 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -839,7 +839,7 @@ begin
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TVecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
   if ALeft.FID <> ARight.FID then
     raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
@@ -896,13 +896,13 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TBivecQuantity;
+class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TCL3TrivecQuantity): TBivecQuantity;
 begin
   result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
+class operator TVecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
 begin
   result.FID := MulTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue;
@@ -950,13 +950,13 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TVecQuantity./(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TBivecQuantity;
+class operator TVecQuantity./(const ALeft: TVecQuantity; const ARight: TCL3TrivecQuantity): TBivecQuantity;
 begin
   result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TVecQuantity./(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
+class operator TVecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
 begin
   result.FID := DivTable[ALeft.FID, ARight.FID];
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
@@ -1044,7 +1044,7 @@ begin
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Dot(const AVector: TTrivecQuantity): TMultivecQuantity;
+function TMultivecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
@@ -1068,7 +1068,7 @@ begin
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TTrivecQuantity;
+function TMultivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
@@ -1092,7 +1092,7 @@ begin
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Projection(const AVector: TTrivecQuantity): TMultivecQuantity;
+function TMultivecQuantityHelper.Projection(const AVector: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
@@ -1116,7 +1116,7 @@ begin
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
+function TMultivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
@@ -1140,7 +1140,7 @@ begin
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TMultivecQuantity;
+function TMultivecQuantityHelper.Reflection(const AVector: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
@@ -1164,7 +1164,7 @@ begin
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TMultivecQuantity;
+function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TMultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
@@ -1181,7 +1181,7 @@ begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.SameValue(const AVector: TTrivecQuantity): boolean;
+function TMultivecQuantityHelper.SameValue(const AVector: TCL3TrivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
@@ -1219,7 +1219,7 @@ begin
   result.FValue := FValue.ExtractVector(AComponents);
 end;
 
-function TMultivecQuantityHelper.ExtractTrivector: TTrivecQuantity;
+function TMultivecQuantityHelper.ExtractTrivector: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractTrivector;
@@ -1274,212 +1274,212 @@ begin
 end;
 {$ENDIF}
 
-// TTrivecQuantityHelper
+// TCL3TrivecQuantityHelper
 
 {$IFDEF ADIMDEBUG}
-function TTrivecQuantityHelper.Dual: TQuantity;
+function TCL3TrivecQuantityHelper.Dual: TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Dual;
 end;
 
-function TTrivecQuantityHelper.Inverse: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Inverse: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Inverse;
 end;
 
-function TTrivecQuantityHelper.Reverse: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reverse: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reverse;
 end;
 
-function TTrivecQuantityHelper.Conjugate: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Conjugate: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Conjugate;
 end;
 
-function TTrivecQuantityHelper.Reciprocal: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reciprocal: TCL3TrivecQuantity;
 begin
   result.FID := DivTable[ScalarId, FID];
   result.FValue := FValue.Reciprocal;
 end;
 
-function TTrivecQuantityHelper.Normalized: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Normalized: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Normalized;
 end;
 
-function TTrivecQuantityHelper.Norm: TQuantity;
+function TCL3TrivecQuantityHelper.Norm: TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Norm;
 end;
 
-function TTrivecQuantityHelper.SquaredNorm: TQuantity;
+function TCL3TrivecQuantityHelper.SquaredNorm: TQuantity;
 begin
   result.FID := MulTable[FID, FID];
   result.FValue := FValue.SquaredNorm;
 end;
 
-function TTrivecQuantityHelper.Dot(const AVector: TVecQuantity): TBivecQuantity;
+function TCL3TrivecQuantityHelper.Dot(const AVector: TVecQuantity): TBivecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Dot(const AVector: TBivecQuantity): TVecQuantity;
+function TCL3TrivecQuantityHelper.Dot(const AVector: TBivecQuantity): TVecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Dot(const AVector: TTrivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3TrivecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Wedge(const AVector: TVecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TVecQuantity): TQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Wedge(const AVector: TBivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TBivecQuantity): TQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Projection(const AVector: TVecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Projection(const AVector: TVecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Projection(const AVector: TBivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Projection(const AVector: TBivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Projection(const AVector: TTrivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Projection(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Projection(const AVector: TMultivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Projection(const AVector: TMultivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Rejection(const AVector: TVecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TVecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Rejection(const AVector: TBivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TBivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Reflection(const AVector: TVecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reflection(const AVector: TVecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Reflection(const AVector: TBivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reflection(const AVector: TBivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reflection(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TTrivecQuantityHelper.SameValue(const AVector: TMultivecQuantity): boolean;
+function TCL3TrivecQuantityHelper.SameValue(const AVector: TMultivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.SameValue(const AVector: TTrivecQuantity): boolean;
+function TCL3TrivecQuantityHelper.SameValue(const AVector: TCL3TrivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.ToMultivector: TMultivecQuantity;
+function TCL3TrivecQuantityHelper.ToMultivector: TMultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ToMultivector;
@@ -1549,7 +1549,7 @@ begin
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Dot(const AVector: TTrivecQuantity): TVecQuantity;
+function TBivecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TVecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
@@ -1561,7 +1561,7 @@ begin
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Wedge(const AVector: TVecQuantity): TTrivecQuantity;
+function TBivecQuantityHelper.Wedge(const AVector: TVecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
@@ -1573,7 +1573,7 @@ begin
   result.FValue := 0.0;
 end;
 
-function TBivecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TQuantity;
+function TBivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := 0.0;
@@ -1597,7 +1597,7 @@ begin
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Projection(const AVector: TTrivecQuantity): TBivecQuantity;
+function TBivecQuantityHelper.Projection(const AVector: TCL3TrivecQuantity): TBivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
@@ -1621,7 +1621,7 @@ begin
   result.FValue := 0.0;
 end;
 
-function TBivecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
+function TBivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
@@ -1645,7 +1645,7 @@ begin
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TBivecQuantity;
+function TBivecQuantityHelper.Reflection(const AVector: TCL3TrivecQuantity): TBivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
@@ -1669,7 +1669,7 @@ begin
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TBivecQuantity;
+function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TBivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
@@ -1767,7 +1767,7 @@ begin
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Dot(const AVector: TTrivecQuantity): TBivecQuantity;
+function TVecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TBivecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Dot(AVector.FValue);
@@ -1785,13 +1785,13 @@ begin
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Wedge(const AVector: TBivecQuantity): TTrivecQuantity;
+function TVecQuantityHelper.Wedge(const AVector: TBivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := MulTable[FID, AVector.FID];
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TQuantity;
+function TVecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := MulTable[FID, FID];
   result.FValue := 0.0;
@@ -1815,7 +1815,7 @@ begin
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Projection(const AVector: TTrivecQuantity): TVecQuantity;
+function TVecQuantityHelper.Projection(const AVector: TCL3TrivecQuantity): TVecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
@@ -1839,7 +1839,7 @@ begin
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
+function TVecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
@@ -1863,7 +1863,7 @@ begin
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TVecQuantity;
+function TVecQuantityHelper.Reflection(const AVector: TCL3TrivecQuantity): TVecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
@@ -1887,7 +1887,7 @@ begin
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TVecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TVecQuantity;
+function TVecQuantityHelper.Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TVecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);

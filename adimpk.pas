@@ -8,7 +8,7 @@ unit adimpk;
 interface
 
 uses
-  ADim, ADimC, ADimCL3, ADimVEC, LazarusPackageIntf;
+  ADim, LazarusPackageIntf;
 
 implementation
 

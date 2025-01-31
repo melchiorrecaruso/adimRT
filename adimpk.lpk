@@ -30,23 +30,7 @@
         <UnitName Value="ADim"/>
       </Item>
       <Item>
-        <Filename Value="adimc.pas"/>
-        <UnitName Value="ADimC"/>
-      </Item>
-      <Item>
-        <Filename Value="adimcl3.pas"/>
-        <UnitName Value="ADimCL3"/>
-      </Item>
-      <Item>
-        <Filename Value="adimvec.pas"/>
-        <UnitName Value="ADimVEC"/>
-      </Item>
-      <Item>
         <Filename Value="cl3.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="cl3impl.inc"/>
         <Type Value="Include"/>
       </Item>
       <Item>
@@ -54,23 +38,51 @@
         <Type Value="Include"/>
       </Item>
       <Item>
-        <Filename Value="compleximpl.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="scalar.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="scalarimpl.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
         <Filename Value="vector.inc"/>
         <Type Value="Include"/>
       </Item>
       <Item>
-        <Filename Value="vectorimpl.inc"/>
+        <Filename Value="cl3procs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="cl3quantity.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="cl3quantityprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="complexprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="complexquantity.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="complexquantityprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="scalarquantity.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="scalarquantityprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="vectorprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="vectorquantity.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="vectorquantityprocs.inc"/>
         <Type Value="Include"/>
       </Item>
     </Files>

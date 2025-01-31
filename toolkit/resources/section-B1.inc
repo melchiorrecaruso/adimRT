@@ -1,11 +1,13 @@
 
-  {$I scalarimpl.inc}
-  {$I compleximpl.inc}
-  {$IFDEF CLIFFORD}
-    {$I cl3impl.inc}
-  {$ELSE}
-    {$I vectorimpl.inc}
-  {$ENDIF}   
+{$I complexprocs.inc}
+{$I scalarquantityprocs.inc}
+{$I complexquantityprocs.inc}
+{$I vectorprocs.inc}
+{$I vectorquantityprocs.inc}
+{$IFDEF CLIFFORD}
+  {$I cl3procs.inc}
+  {$I cl3quantityprocs.inc}
+{$ENDIF}
 
 { TUnit }
 
@@ -46,6 +48,46 @@ begin
   result.FValue := AQuantity;
 {$ELSE}
   result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+begin
+{$IFDEF ADIMDEBUG}
+  result.FID := CheckMul(ScalarID, ASelf.FID);
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+begin
+{$IFDEF ADIMDEBUG}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
+begin
+{$IFDEF ADIMDEBUG}
+  result.FID := CheckMul(ASelf.FID, ScalarID);
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
+begin
+{$IFDEF ADIMDEBUG}
+  result.FID := CheckDiv(ASelf.FID, ScalarID);
+  result.FValue := AQuantity.Reciprocal;
+{$ELSE}
+  result := AQuantity.Reciprocal;
 {$ENDIF}
 end;
 
@@ -134,6 +176,30 @@ class operator TUnit./(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQ
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckMul(ASelf.FID, AQuantity.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckDiv(ASelf.FID, AQuantity.FID);
+  result.FValue := AQuantity.FValue.Reciprocal;
 end;
 
 {$IFDEF CLIFFORD}

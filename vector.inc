@@ -1,48 +1,66 @@
 type
-  { TVecQuantity }
+  
+  // TVectorComponents
+  
+  TVectorComponent  = (vc1, vc2, vc3);
+  TVectorComponents = set of TVectorComponent;
 
-  {$IFDEF ADIMDEBUG}
-  TVecQuantity = record
+  // TVector
+  
+  TVector = record
   private
-    FID: longint;
-    FValue: TVector;
+    fm1: double;
+    fm2: double;
+    fm3: double;
   public
-    class operator <>(const ALeft, ARight: TVecQuantity): boolean;
-    class operator = (const ALeft, ARight: TVecQuantity): boolean;
-    class operator + (const AValue: TVecQuantity): TVecQuantity;
-    class operator + (const ALeft, ARight: TVecQuantity): TVecQuantity;
-    class operator - (const AValue: TVecQuantity): TVecQuantity;
-    class operator - (const ALeft, ARight: TVecQuantity): TVecQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
-    class operator * (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
-    class operator / (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
+    class operator <>(const ALeft, ARight: TVector): boolean;
+    class operator = (const ALeft, ARight: TVector): boolean;
+    class operator + (const AVaLue: TVector): TVector;
+    class operator + (const ALeft, ARight: TVector): TVector;
+    class operator - (const AVaLue: TVector): TVector;
+    class operator - (const ALeft, ARight: TVector): TVector;
+    class operator * (const ALeft: double; const ARight: TVector): TVector;
+    class operator * (const ALeft: TVector; const ARight: double): TVector;
+    class operator / (const ALeft: double; const ARight: TVector): TVector;
+    class operator / (const ALeft: TVector; const ARight: double): TVector;
   end;
-  {$ELSE}
-  TVecQuantity = TVector;
-  {$ENDIF}
 
-  { TVecQuantityHelper }
+  // TVectorHelper
+  
+  TVectorHelper = record helper for TVector
+    function Reciprocal: TVector;
+    function Normalized: TVector;
+    function Norm: double;
+    function SquaredNorm: double;
 
-  {$IFDEF ADIMDEBUG}
-  TVecQuantityHelper = record helper for TVecQuantity
-    function Reciprocal: TVecQuantity;
-    function Normalized: TVecQuantity;
-    function Norm: TQuantity;
-    function SquaredNorm: TQuantity;
+    function Dot(const AVector: TVector): double;
+    function Cross(const AVector: TVector): TVector;
+    function Projection(const AVector: TVector): TVector; overload;
+    function Rejection(const AVector: TVector): TVector; overload;
+    function Reflection(const AVector: TVector): TVector; overload;
 
-    function Dot(const AVector: TVecQuantity): TQuantity;
-    function Cross(const AVector: TVecQuantity): TVecQuantity;
-    function Projection(const AVersor: TVector): TVecQuantity;
-    function Rejection(const AVersor: TVector): TVecQuantity; overload;
-    function Reflection(const AVersor: TVector): TVecQuantity; overload;
+    function SameValue(const AValue: TVector): boolean;
+    function ExtractVector(AComponents: TVectorComponents): TVector;
 
-    function ExtractVector(AComponents: TVectorComponents): TVecQuantity;
-    function SameValue(const AVector: TVecQuantity): boolean;
+    function ToString(APrecision, ADigits: longint): string;
+    function ToString: string;
   end;
-  {$ENDIF}
 
+  // TVersor
+  TVersor1 = record class operator *(const AValue: double; const ASelf: TVersor1): TVector; end;
+  TVersor2 = record class operator *(const AValue: double; const ASelf: TVersor2): TVector; end;
+  TVersor3 = record class operator *(const AValue: double; const ASelf: TVersor3): TVector; end;
 
+const
+  e1 : TVersor1 = ();
+  e2 : TVersor2 = ();
+  e3 : TVersor3 = ();
 
+  u1 : TVector = (fm1:1.0; fm2:0.0; fm3:0.0);
+  u2 : TVector = (fm1:0.0; fm2:1.0; fm3:0.0);
+  u3 : TVector = (fm1:0.0; fm2:0.0; fm3:1.0);
 
-
+  NullVector : TVector = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
+  NullScalar : double  = (0.0);    
+  
+ 

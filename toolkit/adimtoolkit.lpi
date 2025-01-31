@@ -19,12 +19,12 @@
       </XPManifest>
       <Icon Value="0"/>
       <Resources Count="6">
-        <Resource_0 FileName="resources/section-A0" Type="RCDATA" ResourceName="SECTION-A0"/>
-        <Resource_1 FileName="resources/section-A1" Type="RCDATA" ResourceName="SECTION-A1"/>
-        <Resource_2 FileName="resources/section-A4" Type="RCDATA" ResourceName="SECTION-A4"/>
-        <Resource_3 FileName="resources/section-B0" Type="RCDATA" ResourceName="SECTION-B0"/>
-        <Resource_4 FileName="resources/section-B1" Type="RCDATA" ResourceName="SECTION-B1"/>
-        <Resource_5 FileName="resources/section-B4" Type="RCDATA" ResourceName="SECTION-B4"/>
+        <Resource_0 FileName="resources/section-A0.inc" Type="RCDATA" ResourceName="SECTION-A0"/>
+        <Resource_1 FileName="resources/section-A1.inc" Type="RCDATA" ResourceName="SECTION-A1"/>
+        <Resource_2 FileName="resources/section-A4.inc" Type="RCDATA" ResourceName="SECTION-A4"/>
+        <Resource_3 FileName="resources/section-B0.inc" Type="RCDATA" ResourceName="SECTION-B0"/>
+        <Resource_4 FileName="resources/section-B1.inc" Type="RCDATA" ResourceName="SECTION-B1"/>
+        <Resource_5 FileName="resources/section-B4.inc" Type="RCDATA" ResourceName="SECTION-B4"/>
       </Resources>
     </General>
     <BuildModes>
@@ -108,6 +108,7 @@
     <Linking>
       <Debugging>
         <DebugInfoType Value="dsDwarf3"/>
+        <UseHeaptrc Value="True"/>
       </Debugging>
       <Options>
         <Win32>
@@ -132,6 +133,9 @@
       </Item>
       <Item>
         <Name Value="EConvertError"/>
+      </Item>
+      <Item>
+        <Name Value="EResNotFound"/>
       </Item>
     </Exceptions>
   </Debugging>

@@ -2,12 +2,6 @@
 interface
 
 uses
-  ADimC,
-  {$IFDEF CLIFFORD}
-  ADimCL3,
-  {$ELSE}
-  ADimVEC,
-  {$ENDIF}
   SysUtils;
 
 type
@@ -23,13 +17,15 @@ type
 
   { TQuantities } 
 
-  {$I scalar.inc}
   {$I complex.inc}
+  {$I scalarquantity.inc}
+  {$I complexquantity.inc}
+  {$I vector.inc}
+  {$I vectorquantity.inc}
   {$IFDEF CLIFFORD}
     {$I cl3.inc}
-  {$ELSE}
-    {$I vector.inc}
-  {$ENDIF}    
+    {$I cl3quantity.inc}
+  {$ENDIF}
   
   { TUnit }
 
@@ -46,6 +42,11 @@ type
     class operator /(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
     class operator *(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
     class operator /(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
+
+    class operator *(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator /(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator *(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
+    class operator /(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
   {$IFDEF CLIFFORD}
     class operator *(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
     class operator /(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
@@ -59,6 +60,11 @@ type
     class operator /(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
     class operator *(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQuantity; inline;
     class operator /(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQuantity; inline;
+
+    class operator *(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator /(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator *(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
+    class operator /(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
   {$IFDEF CLIFFORD}
     class operator *(const AQuantity: TBivecQuantity; const ASelf: TUnit): TBivecQuantity; inline;
     class operator /(const AQuantity: TBivecQuantity; const ASelf: TUnit): TBivecQuantity; inline;
