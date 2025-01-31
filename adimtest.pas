@@ -19,8 +19,6 @@
 
 program adimtest;
 
-//{$DEFINE CLIFFORD}
-
 uses
   ADim, Math, SysUtils;
 
@@ -199,16 +197,16 @@ var
   torque_: TBivecQuantity;
 
   magneticfield_: TBivecQuantity;
-  magneticflux_: TCLTrivecQuantity;
-  current_: TCLMultivecQuantity;
-  pressure_: TCLTrivecQuantity;
+  magneticflux_: TTrivecQuantity;
+  current_: TMultivecQuantity;
+  pressure_: TTrivecQuantity;
 
   torquestifness_: TBivecQuantity;
   electricfield_: TVecQuantity;
   omega_: TBivecQuantity;
   potential_: TVecQuantity;
-  impedance_: TCLMultivecQuantity;
-  power_: TCLMultivecQuantity;
+  impedance_: TMultivecQuantity;
+  power_: TMultivecQuantity;
   {$ELSE}
   acc_ : TVecQuantity;
   radius_: TVecQuantity;
