@@ -30,8 +30,60 @@
         <UnitName Value="ADim"/>
       </Item>
       <Item>
-        <Filename Value="cl3.pas"/>
-        <UnitName Value="cl3"/>
+        <Filename Value="cl3.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="complex.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="vector.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="cl3procs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="cl3quantity.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="cl3quantityprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="complexprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="complexquantity.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="complexquantityprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="scalarquantity.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="scalarquantityprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="vectorprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="vectorquantity.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="vectorquantityprocs.inc"/>
+        <Type Value="Include"/>
       </Item>
     </Files>
     <RequiredPkgs>

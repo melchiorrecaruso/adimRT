@@ -394,3 +394,4 @@ RECIPROCAL;TReciprocalSquareMeterSteradianHertz;s m-2 sr-1;reciprocal square %sm
 ;TSquareMeterSteradianHertz!PerWatt;s2 sr kg-1;square %smeter %ssteradian %shertz! per %swatt;%sm2.%ssr.%sHz/%sW;;;;;;clFuchsia
 ;TCubicMeter?PerKatal;m3 s mol-1;cubic %smeter? per %skatal;%sm3/%skat;;;;;;clFuchsia
 ;TMole?PerCoulomb;mol s-1 A-1;%smole? per %scoulomb;%smol/%sC;;;;;;clFuchsia
+;TSecond?PerRadian;;%ssecond? per radian;%ss/rad;;TSecond?;;;;clFuchsia

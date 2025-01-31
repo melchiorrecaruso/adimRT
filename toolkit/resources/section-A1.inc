@@ -1,7 +1,8 @@
 
 interface
 
-uses CL3, SysUtils;
+uses
+  SysUtils;
 
 type
   { Prefix }
@@ -14,57 +15,24 @@ type
   { Exponents } 
   TExponents = array of longint;
 
-  { TQuantity }
+  { TQuantities } 
 
-  {$IFDEF ADIMDEBUG}
-  TQuantity = record
-  private
-    FUnitOfMeasurement: longint;
-    FValue: double;
-  public
-    class operator + (const ASelf: TQuantity): TQuantity;
-    class operator - (const ASelf: TQuantity): TQuantity;
-    class operator + (const ALeft, ARight: TQuantity): TQuantity;
-    class operator - (const ALeft, ARight: TQuantity): TQuantity;
-    class operator * (const ALeft, ARight: TQuantity): TQuantity;
-    class operator / (const ALeft, ARight: TQuantity): TQuantity;
-    class operator * (const ALeft: double; const ARight: TQuantity): TQuantity;
-    class operator / (const ALeft: double; const ARight: TQuantity): TQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: double): TQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: double): TQuantity;
-
-    class operator = (const ALeft, ARight: TQuantity): boolean;
-    class operator < (const ALeft, ARight: TQuantity): boolean;
-    class operator > (const ALeft, ARight: TQuantity): boolean;
-    class operator <=(const ALeft, ARight: TQuantity): boolean;
-    class operator >=(const ALeft, ARight: TQuantity): boolean;
-    class operator <>(const ALeft, ARight: TQuantity): boolean;
-    class operator :=(const AValue: double): TQuantity;
-  end;
+  {$I complex.inc}
+  {$I scalarquantity.inc}
+  {$I complexquantity.inc}
+  {$IFDEF CLIFFORD}
+    {$I cl3.inc}
+    {$I cl3quantity.inc}
   {$ELSE}
-  TQuantity = double;
+    {$I vector.inc}
+    {$I vectorquantity.inc}
   {$ENDIF}
-
   
-  
-
-  
-
- 
-
-  
-
- 
-
- 
-
-  
-
   { TUnit }
 
   TUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -73,9 +41,39 @@ type
   public
     class operator *(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
     class operator /(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
+
+    class operator *(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator /(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator *(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
+    class operator /(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
+  {$IFDEF CLIFFORD}
+    class operator *(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TUnit): TTrivecQuantity; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TUnit): TTrivecQuantity; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
+  {$ENDIF}
   {$IFDEF ADIMDEBUG}
     class operator *(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
     class operator /(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
+    class operator *(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQuantity; inline;
+    class operator /(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQuantity; inline;
+
+    class operator *(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator /(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator *(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
+    class operator /(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
+  {$IFDEF CLIFFORD}
+    class operator *(const AQuantity: TBivecQuantity; const ASelf: TUnit): TBivecQuantity; inline;
+    class operator /(const AQuantity: TBivecQuantity; const ASelf: TUnit): TBivecQuantity; inline;
+    class operator *(const AQuantity: TTrivecQuantity; const ASelf: TUnit): TTrivecQuantity; inline;
+    class operator /(const AQuantity: TTrivecQuantity; const ASelf: TUnit): TTrivecQuantity; inline;
+    class operator *(const AQuantity: TMultivecQuantity; const ASelf: TUnit): TMultivecQuantity; inline;
+    class operator /(const AQuantity: TMultivecQuantity; const ASelf: TUnit): TMultivecQuantity; inline;
+  {$ENDIF}
   {$ENDIF}
   end;
 
@@ -83,7 +81,7 @@ type
 
   TFactoredUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -93,9 +91,29 @@ type
   public
     class operator *(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
     class operator /(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
+    class operator *(const AQuantity: TVector; const ASelf: TFactoredUnit): TVecQuantity; inline;
+    class operator /(const AQuantity: TVector; const ASelf: TFactoredUnit): TVecQuantity; inline;
+  {$IFDEF CLIFFORD}
+    class operator *(const AQuantity: TBivector; const ASelf: TFactoredUnit): TBivecQuantity; inline;
+    class operator /(const AQuantity: TBivector; const ASelf: TFactoredUnit): TBivecQuantity; inline;
+    class operator *(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
+    class operator /(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
+    class operator *(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
+    class operator /(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
+  {$ENDIF}
   {$IFDEF ADIMDEBUG}
     class operator *(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
     class operator /(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+    class operator *(const AQuantity: TVecQuantity; const ASelf: TFactoredUnit): TVecQuantity; inline;
+    class operator /(const AQuantity: TVecQuantity; const ASelf: TFactoredUnit): TVecQuantity; inline;
+  {$IFDEF CLIFFORD}
+    class operator *(const AQuantity: TBivecQuantity; const ASelf: TFactoredUnit): TBivecQuantity; inline;
+    class operator /(const AQuantity: TBivecQuantity; const ASelf: TFactoredUnit): TBivecQuantity; inline;
+    class operator *(const AQuantity: TTrivecQuantity; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
+    class operator /(const AQuantity: TTrivecQuantity; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
+    class operator *(const AQuantity: TMultivecQuantity; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
+    class operator /(const AQuantity: TMultivecQuantity; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
+  {$ENDIF}
   {$ENDIF}
   end;
 
@@ -103,7 +121,7 @@ type
 
   TDegreeCelsiusUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -117,7 +135,7 @@ type
 
   TDegreeFahrenheitUnit = record
   private
-    FUnitOfMeasurement: longint;
+    FID: longint;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -136,7 +154,6 @@ type
     function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
-    procedure Check(var AQuantity: TQuantity);
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
     function ToString(const AQuantity: TQuantity): string;
@@ -147,6 +164,22 @@ type
     function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    function ToString(const AQuantity: TVecQuantity): string;     
+  {$IFDEF CLIFFORD}
+    function ToString(const AQuantity: TBivecQuantity): string;
+    function ToString(const AQuantity: TTrivecQuantity): string;
+    function ToString(const AQuantity: TMultivecQuantity): string;
+  {$ENDIF}
+    function ToVerboseString(const AQuantity: TVecQuantity): string;
+  {$IFDEF CLIFFORD}
+    function ToVerboseString(const AQuantity: TBivecQuantity): string;
+    function ToVerboseString(const AQuantity: TTrivecQuantity): string;
+    function ToVerboseString(const AQuantity: TMultivecQuantity): string;
+  {$ENDIF}
+
+    function ToString(const AQuantity: TComplexQuantity): string;
+    function ToVerboseString(const AQuantity: TComplexQuantity): string;
   end;
 
  { TFactoredUnitHelper }
@@ -158,7 +191,6 @@ type
     function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
   public
-    procedure Check(var AQuantity: TQuantity);
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
     function ToString(const AQuantity: TQuantity): string;
@@ -169,6 +201,22 @@ type
     function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+  
+    function ToString(const AQuantity: TVecQuantity): string;
+  {$IFDEF CLIFFORD}
+    function ToString(const AQuantity: TBivecQuantity): string;
+    function ToString(const AQuantity: TTrivecQuantity): string;
+    function ToString(const AQuantity: TMultivecQuantity): string;
+  {$ENDIF}
+    function ToVerboseString(const AQuantity: TVecQuantity): string;
+  {$IFDEF CLIFFORD}
+    function ToVerboseString(const AQuantity: TBivecQuantity): string;
+    function ToVerboseString(const AQuantity: TTrivecQuantity): string;
+    function ToVerboseString(const AQuantity: TMultivecQuantity): string;
+  {$ENDIF}
+
+    function ToString(const AQuantity: TComplexQuantity): string;
+    function ToVerboseString(const AQuantity: TComplexQuantity): string;
   end;
 
  { TDegreeCelsiusUnitHelper }
@@ -180,7 +228,6 @@ type
     function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
   public
-    procedure Check(var AQuantity: TQuantity);
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
     function ToString(const AQuantity: TQuantity): string;
@@ -202,7 +249,6 @@ type
     function GetSymbol(const Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
   public
-    procedure Check(var AQuantity: TQuantity);
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
     function ToString(const AQuantity: TQuantity): string;
@@ -214,5 +260,4 @@ type
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
-  
-  
+

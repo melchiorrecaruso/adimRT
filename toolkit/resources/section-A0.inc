@@ -1,5 +1,5 @@
 {
-  Description: ADim (CL3) Run-time library.
+  Description: ADim Run-time library.
 
   Copyright (C) 2024-2025 Melchiorre Caruso <melchiorrecaruso@gmail.com>
     
@@ -16,3 +16,4 @@
   You should have received a copy of the GNU Lesser General Public License
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 }
+

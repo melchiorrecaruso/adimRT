@@ -54,9 +54,6 @@
     </RunParams>
     <RequiredPackages>
       <Item>
-        <PackageName Value="adimpack"/>
-      </Item>
-      <Item>
         <PackageName Value="adimpk"/>
       </Item>
     </RequiredPackages>
@@ -64,8 +61,8 @@
       <Unit>
         <Filename Value="benchmark.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos Y="9"/>
-        <UsageCount Value="38"/>
+        <CursorPos X="33" Y="16"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -116,10 +113,10 @@
         <Filename Value="../adim.pas"/>
         <UnitName Value="ADim"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="46"/>
-        <CursorPos X="21" Y="52"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="18"/>
+        <CursorPos X="8" Y="37"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -133,22 +130,22 @@
       <Unit>
         <Filename Value="../../lazarus/packager/registration/lazaruspackageintf.pas"/>
         <UnitName Value="LazarusPackageIntf"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="104"/>
         <CursorPos X="10" Y="118"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="adimpas.pas"/>
+        <UnitName Value="ADim"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="13" Y="28"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="25">
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="10" Column="5"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="11" Column="3"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="benchmark.lpr"/>
         <Caret Line="46" Column="15" TopLine="8"/>
@@ -244,6 +241,30 @@
       <Position>
         <Filename Value="../../lazarus/packager/registration/lazaruspackageintf.pas"/>
         <Caret Line="118" Column="10" TopLine="104"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="52" Column="21" TopLine="46"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="11" Column="3"/>
+      </Position>
+      <Position>
+        <Filename Value="adimpas.pas"/>
+        <Caret Line="28" Column="13"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="52" Column="21" TopLine="46"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="37" Column="6" TopLine="4"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="87" Column="13" TopLine="54"/>
       </Position>
     </JumpHistory>
   </ProjectOptions>

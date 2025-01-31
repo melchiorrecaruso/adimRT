@@ -15,9 +15,9 @@ var
   B1: double;
   C1: double;
 
-  A2: TAScalar;
-  B2: TAScalar;
-  C2: TAScalar;
+  A2: TQuantity;
+  B2: TQuantity;
+  C2: TQuantity;
 
   A3: TNewtons;
   B3: TSquareMeters;

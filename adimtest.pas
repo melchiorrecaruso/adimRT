@@ -1,7 +1,7 @@
 {
   Description: ADim Test program.
 
-  Copyright (C) 2024 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2024-2025 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -19,10 +19,8 @@
 
 program adimtest;
 
-{$DEFINE ADIMCL3}
-
 uses
-  ADim, {$IFDEF ADIMCL3} CL3, {$ENDIF} Math, SysUtils;
+  ADim, Math, SysUtils;
 
 var
   side1: TQuantity;
@@ -181,7 +179,7 @@ var
   U0: TQuantity;
   TunnelingProbability: TQuantity;
 
-  {$IFDEF ADIMCL3}
+  {$IFDEF CLIFFORD}
   side1_: TVecQuantity;
   side2_: TVecQuantity;
   area_: TBivecQuantity;
@@ -209,6 +207,23 @@ var
   potential_: TVecQuantity;
   impedance_: TMultivecQuantity;
   power_: TMultivecQuantity;
+  {$ELSE}
+  acc_ : TVecQuantity;
+  radius_: TVecQuantity;
+  force_ : TVecQuantity;
+  momentum_: TVecQuantity;
+  angle_: TVecQuantity;
+  angularspeed_: TVecQuantity;
+  angularacc_: TVecQuantity;
+  angularmomentum_: TVecQuantity;
+  torque_: TVecQuantity;
+  magneticfield_: TVecQuantity;
+  area_: TVecQuantity;
+  omega_ : TVecQuantity;
+  potential_ : TComplexQuantity;
+  impedance_ : TComplexQuantity;
+  current_ : TComplexQuantity;
+  power_ : TComplexQuantity;
   {$ENDIF}
 
 begin
@@ -1086,7 +1101,7 @@ begin
   {$ENDIF}
   writeln('* TEST-108: PASSED');
 
-  {$IFDEF ADIMCL3}
+  {$IFDEF CLIFFORD}
   // TEST-501 : Surface
   side1_ := 5*e1*m;
   side2_ := 10*e2*m;
@@ -1235,6 +1250,95 @@ begin
   if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
   if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-515: PASSED');
+  {$ELSE}
+  // TEST-601: Angular speed
+  angle_ := (10*e3)*rad;
+  time   := 2.5*s;
+  angularspeed_ := angle_/time;
+  time := angle_.dot(1/angularspeed_);
+  freq := angularspeed_.dot(1/angle_);
+  if SecondUnit.ToVerboseString(time) <> '2.5 seconds'             then halt(1);
+  if RadianPerSecondUnit.ToString(angularspeed_) <> '(+4e3) rad/s' then halt(2);
+  writeln('* TEST-601: PASSED');
+
+  // TEST-602: Angular acceleration
+  angularspeed_ := 5*e3*rad/s;
+  angularacc_   := angularspeed_/(2*s);
+  if RadianPerSquareSecondUnit.ToString(angularacc_) <> '(+2.5e3) rad/s2' then halt(1);
+  writeln('* TEST-602: PASSED');
+
+  // TEST-603: Angular momentum
+  radius_          := 2*e1*m;
+  momentum_        := 5*e2*kg*m/s;
+  angularmomentum_ := radius_.cross(momentum_);
+  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e3) kg.m2/s' then halt(1);
+  writeln('* TEST-603: PASSED');
+
+  // TEST-604: Force
+  mass   := 10*kg;
+  acc_   := (2*e1 + 2*e2)*m/s2;
+  force_ := mass*acc_;
+  if NewtonUnit.ToString(force_) <> '(+20e1 +20e2) N' then halt(1);
+
+  momentum_ := 10*e1*kg*m/s;
+  time      := 10*s;
+  force_    := momentum_/time;
+  if NewtonUnit.ToString(force_) <> '(+1e1) N' then halt(2);
+  writeln('* TEST-604: PASSED');
+
+  // TEST-605: Torque
+  radius_ :=  2*e1*m;
+  force_  := 10*e2*N;
+  torque_ := radius_.cross(force_);
+  radius_ := (1/force_).cross(torque_);
+  force_  := (1/radius_).cross(torque_);
+  if NewtonMeterUnit.ToString(torque_) <> '(+20e3) N.m' then halt(1);
+  if MeterUnit.ToString(radius_) <> '(+2e1) m'           then halt(2);
+  if NewtonUnit.ToString(force_) <> '(+10e2) N'          then halt(3);
+  writeln('* TEST-605: PASSED');
+
+  // TEST-606: Weber
+  magneticfield_ := (10*e1)*T;
+  area_          := (5*e1)*m2;
+  magneticflux   := magneticfield_.dot(area_);
+  magneticfield_ := magneticflux/area_;
+  area_          := magneticflux/magneticfield_;
+  if WeberUnit.ToString(magneticflux)   <> '50 Wb'     then halt(1);
+  if TeslaUnit.ToString(magneticfield_) <> '(+10e1) T' then halt(2);
+  if SquareMeterUnit.ToString(area_)    <> '(+5e1) m2' then halt(3);
+  writeln('* TEST-606: PASSED');
+
+  // TEST-607: Henry
+  magneticflux := 50*Wb;
+  current      := 5*A;
+  inductance   := magneticflux/current;
+  if HenryUnit.ToVerboseString(inductance) <> '10 henries' then halt(1);
+  writeln('* TEST-607: PASSED');
+
+  // TEST-608: Voltages
+  time        := 0*s;
+  omega       := 1*rad/s;
+  potential_  := 50*(cos(omega*time) - img*sin(omega*time))*V;
+  resistance  := 2*Ohm;
+  capacitance := 1*F;
+  inductance  := 2*H;
+
+  impedance_  := resistance - img/(omega*capacitance) + img*(omega*inductance);
+  current_    := potential_/impedance_;
+  power_      := current_*potential_;
+  {$IFDEF WINDOWS}
+  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance_)])) <> Utf8ToAnsi('Z = (2 +1i) Ω') then halt(1);
+  {$ELSE}
+  if            Format('Z = %s', [ohm.ToString(impedance_)]) <> 'Z = (2 +1i) Ω'              then halt(1);
+  {$ENDIF}
+  if            Format('I = %s', [A.ToString(current_)]) <> 'I = (20 -10i) A'                then halt(2);
+  if            Format('P = %s', [W.ToString(power_)]) <> 'P = (1000 -500i) W'               then halt(3);
+  if            Format('Y = %s', [siemens.ToString(1/impedance_)]) <> 'Y = (0.4 -0.2i) S'    then halt(4);
+
+  if V.ToString(potential_.Norm) <> '50 V'             then halt(5);
+  if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
+  if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
+  writeln('* TEST-608: PASSED');
   {$ENDIF}
 
   writeln;
