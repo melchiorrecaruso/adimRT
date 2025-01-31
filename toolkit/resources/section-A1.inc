@@ -20,11 +20,12 @@ type
   {$I complex.inc}
   {$I scalarquantity.inc}
   {$I complexquantity.inc}
-  {$I vector.inc}
-  {$I vectorquantity.inc}
   {$IFDEF CLIFFORD}
     {$I cl3.inc}
     {$I cl3quantity.inc}
+  {$ELSE}
+    {$I vector.inc}
+    {$I vectorquantity.inc}
   {$ENDIF}
   
   { TUnit }
@@ -259,3 +260,4 @@ type
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
+

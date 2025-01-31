@@ -1,3 +1,4 @@
+
 implementation
 
 uses Math;
@@ -57,5 +58,4 @@ function CheckDiv(ALeft, ARight: longint): longint; inline;
 begin
   result := ALeft - ARight;
 end;
-
 

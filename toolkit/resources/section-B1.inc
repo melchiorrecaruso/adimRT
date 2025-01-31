@@ -2,11 +2,12 @@
 {$I complexprocs.inc}
 {$I scalarquantityprocs.inc}
 {$I complexquantityprocs.inc}
-{$I vectorprocs.inc}
-{$I vectorquantityprocs.inc}
 {$IFDEF CLIFFORD}
   {$I cl3procs.inc}
   {$I cl3quantityprocs.inc}
+{$ELSE}
+  {$I vectorprocs.inc}
+  {$I vectorquantityprocs.inc}
 {$ENDIF}
 
 { TUnit }
@@ -1881,3 +1882,4 @@ begin
               FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
 end;
+

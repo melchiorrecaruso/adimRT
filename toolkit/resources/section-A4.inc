@@ -1,3 +1,4 @@
+
 { Power functions }
 
 function SquarePower(const AQuantity: TQuantity): TQuantity;
