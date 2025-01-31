@@ -83,19 +83,19 @@ end;
 class operator TComplexQuantity./(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
-  result := ALeft.FValue * ARight.Reciprocal;
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TComplexQuantity./(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity;
 begin
   result.FID := CheckDiv(ScalarID, ARight.FID);
-  result := ALeft * ARight.Reciprocal;
+  result.FValue := ALeft * ARight.FValue.Reciprocal;
 end;
 
 class operator TComplexQuantity./(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ScalarID);
-  result := ALeft / ARight;
+  result.FValue := ALeft.FValue / ARight;
 end;
 
 class operator TComplexQuantity.=(const ALeft, ARight: TComplexQuantity): boolean;

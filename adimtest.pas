@@ -1329,22 +1329,13 @@ begin
   current_    := potential_/impedance_;
   power_      := current_*potential_;
   {$IFDEF WINDOWS}
-  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance_)])) <> Utf8ToAnsi('Z = (+2 -1e12) Ω') then halt(1);
+  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance_)])) <> Utf8ToAnsi('Z = (2 +1i) Ω') then halt(1);
   {$ELSE}
-  if            Format('Z = %s', [ohm.ToString(impedance_)]) <> 'Z = (2 +1i) Ω'                 then halt(1);
+  if            Format('Z = %s', [ohm.ToString(impedance_)]) <> 'Z = (2 +1i) Ω'              then halt(1);
   {$ENDIF}
-
-  writeln('pippo');
-  writeln(V.ToString(potential_));
-  writeln(ohm.ToString(impedance_));
-  writeln('pippo3');
-  writeln(A.ToString(current_.));
-  writeln('pippo2');
-
-
-  if            Format('I = %s', [A.ToString(current_)]) <> 'I = (+20e1 -10e2) A'               then halt(2);
-  if            Format('P = %s', [W.ToString(power_)]) <> 'P = (+1000 +500e12) W'               then halt(3);
-  if            Format('Y = %s', [siemens.ToString(1/impedance_)]) <> 'Y = (+0.4 +0.2e12) S'    then halt(4);
+  if            Format('I = %s', [A.ToString(current_)]) <> 'I = (20 -10i) A'                then halt(2);
+  if            Format('P = %s', [W.ToString(power_)]) <> 'P = (1000 -500i) W'               then halt(3);
+  if            Format('Y = %s', [siemens.ToString(1/impedance_)]) <> 'Y = (0.4 -0.2i) S'    then halt(4);
 
   if V.ToString(potential_.Norm) <> '50 V'             then halt(5);
   if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);

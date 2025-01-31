@@ -8533,9 +8533,6 @@ end;
 function TUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-
-  writeln(AQuantity.FID, ' = ', FID);
-
   if AQuantity.FID <> FID then
     raise Exception.Create('ToString routine has detected wrong units of measurements.');
 
