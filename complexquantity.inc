@@ -1,3 +1,5 @@
+{ Complex quantity interface }
+
 type
 
   // TComplexQuantity

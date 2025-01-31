@@ -1,3 +1,5 @@
+{ Quantity interface }
+
 type
 
   // TQuantity

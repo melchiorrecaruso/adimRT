@@ -1,4 +1,4 @@
-{ TQuantity }
+{ TQuantity implementation }
 
 {$IFDEF ADIMDEBUG}
 class operator TQuantity.:=(const AValue: double): TQuantity;

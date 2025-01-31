@@ -1,9 +1,10 @@
+{ CL3 interface }
 
 type
 
   // TMultivectorComponents
   
-  TMultivectorComponent  = (mc0, mc1, mc2, mc3, mc12, mc13, mc23, mc123);
+  TMultivectorComponent  = (clc0, clc1, clc2, clc3, clc12, clc13, clc23, clc123);
   TMultivectorComponents = set of TMultivectorComponent;
 
   // TMultivector

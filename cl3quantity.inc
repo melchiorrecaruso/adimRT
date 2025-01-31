@@ -1,3 +1,6 @@
+{ CL3 quantity interface }
+
+
 type
 
   { TMultivecQuantity }

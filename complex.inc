@@ -1,3 +1,5 @@
+{ Complex number interface }
+
 type
 
   // TComplex

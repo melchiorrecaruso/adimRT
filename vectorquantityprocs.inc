@@ -1,3 +1,5 @@
+{ Vector quantity implementation }
+
 
 // TVecQuantity
 

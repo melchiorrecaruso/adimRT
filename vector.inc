@@ -1,3 +1,5 @@
+{ Vector interface }
+
 type
   
   // TVectorComponents

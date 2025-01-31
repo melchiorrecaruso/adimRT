@@ -1,23 +1,4 @@
-
-
-  
-  
- 
-function Fmt(const AValue: double): string;
-begin
-  if AValue < 0.0 then
-    result := FloatToStr(AValue)
-  else
-    result := '+' + FloatToStr(AValue);
-end;
-
-function Fmt(const AValue: double; APrecision, ADigits: longint): string;
-begin
-  if AValue < 0.0 then
-    result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits)
-  else
-    result := '+' + FloatToStrF(AValue, ffGeneral, APrecision, ADigits);
-end;
+{ CL3 implementation }
 
 // TMultivector
 
@@ -1963,30 +1944,30 @@ end;
 function TMultivectorHelper.ExtractMultivector(AComponents: TMultivectorComponents): TMultivector;
 begin
   Result := NullMultivector;
-  if mc0   in AComponents then result.fm0   := fm0;
-  if mc1   in AComponents then result.fm1   := fm1;
-  if mc2   in AComponents then result.fm2   := fm2;
-  if mc3   in AComponents then result.fm3   := fm3;
-  if mc12  in AComponents then result.fm12  := fm12;
-  if mc13  in AComponents then result.fm13  := fm13;
-  if mc23  in AComponents then result.fm23  := fm23;
-  if mc123 in AComponents then result.fm123 := fm123;
+  if clc0   in AComponents then result.fm0   := fm0;
+  if clc1   in AComponents then result.fm1   := fm1;
+  if clc2   in AComponents then result.fm2   := fm2;
+  if clc3   in AComponents then result.fm3   := fm3;
+  if clc12  in AComponents then result.fm12  := fm12;
+  if clc13  in AComponents then result.fm13  := fm13;
+  if clc23  in AComponents then result.fm23  := fm23;
+  if clc123 in AComponents then result.fm123 := fm123;
 end;
 
 function TMultivectorHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivector;
 begin
   Result := NullBivector;
-  if mc12 in AComponents then result.fm12 := fm12;
-  if mc13 in AComponents then result.fm13 := fm13;
-  if mc23 in AComponents then result.fm23 := fm23;
+  if clc12 in AComponents then result.fm12 := fm12;
+  if clc13 in AComponents then result.fm13 := fm13;
+  if clc23 in AComponents then result.fm23 := fm23;
 end;
 
 function TMultivectorHelper.ExtractVector(AComponents: TMultivectorComponents): TVector;
 begin
   Result := NullVector;
-  if mc1 in AComponents then result.fm1 := fm1;
-  if mc2 in AComponents then result.fm2 := fm2;
-  if mc3 in AComponents then result.fm3 := fm3;
+  if clc1 in AComponents then result.fm1 := fm1;
+  if clc2 in AComponents then result.fm2 := fm2;
+  if clc3 in AComponents then result.fm3 := fm3;
 end;
 
 function TMultivectorHelper.ExtractTrivector: TTrivector;
@@ -2546,9 +2527,9 @@ end;
 function TBivectorHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivector;
 begin
   Result := NullBivector;
-  if mc12 in AComponents then result.fm12 := fm12;
-  if mc13 in AComponents then result.fm13 := fm13;
-  if mc23 in AComponents then result.fm23 := fm23;
+  if clc12 in AComponents then result.fm12 := fm12;
+  if clc13 in AComponents then result.fm13 := fm13;
+  if clc23 in AComponents then result.fm23 := fm23;
 end;
 
 function TBivectorHelper.ToString(APrecision, ADigits: longint): string;
@@ -2858,9 +2839,9 @@ end;
 function TVectorHelper.ExtractVector(AComponents: TMultivectorComponents): TVector;
 begin
   Result := NullVector;
-  if mc1 in AComponents then result.fm1 := fm1;
-  if mc2 in AComponents then result.fm2 := fm2;
-  if mc3 in AComponents then result.fm3 := fm3;
+  if clc1 in AComponents then result.fm1 := fm1;
+  if clc2 in AComponents then result.fm2 := fm2;
+  if clc3 in AComponents then result.fm3 := fm3;
 end;
 
 
