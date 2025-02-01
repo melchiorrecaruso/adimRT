@@ -97,8 +97,8 @@
         </CompilerOptions>
       </Item>
       <SharedMatrixOptions Count="2">
-        <Item1 ID="316359826742" Modes="Debug" Value="-dADIMDEBUG"/>
-        <Item2 ID="384953317954" Modes="Debug" Value="-dCLIFFORD"/>
+        <Item1 ID="316359826742" Modes="Debug,DebugCL" Value="-dADIMDEBUG"/>
+        <Item2 ID="384953317954" Modes="DebugCL,ReleaseCL" Value="-dCLIFFORD"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
