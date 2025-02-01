@@ -1,37 +1,29 @@
 { Vector quantity implementation }
 
-
 // TVecQuantity
 
 {$IFDEF ADIMDEBUG}
 class operator TVecQuantity.<>(const ALeft, ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TVecQuantity.=(const ALeft, ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const AValue: TVecQuantity): TVecQuantity;
 begin
   result.FID := AValue.FID;
-  result.FValue := +AValue.FValue;
+  result.FValue := AValue.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft, ARight: TVecQuantity): TVecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
@@ -43,10 +35,7 @@ end;
 
 class operator TVecQuantity.-(const ALeft, ARight: TVecQuantity): TVecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
@@ -62,7 +51,7 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity./ (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
+class operator TVecQuantity./(const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue / ARight.FValue;
