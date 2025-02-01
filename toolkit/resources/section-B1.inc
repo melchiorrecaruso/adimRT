@@ -548,6 +548,18 @@ begin
 {$ENDIF}  
 end;
 
+function TUnitHelper.ToVector(const AQuantity: TVecQuantity): TVector;
+begin
+{$IFDEF ADIMDEBUG}
+  if AQuantity.FID <> FID then
+    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
+
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
 function TUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
