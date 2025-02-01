@@ -1323,9 +1323,12 @@ begin
   capacitance := 1*F;
   inductance  := 2*H;
 
-  impedance_  := resistance - img/(omega*capacitance) + img*(omega*inductance);
+  impedance_  := resistance + 1/(img*omega*capacitance) + img*omega*inductance;
   current_    := potential_/impedance_;
   power_      := current_*potential_;
+
+  ohm.ToString(impedance_);
+
   {$IFDEF WINDOWS}
   if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance_)])) <> Utf8ToAnsi('Z = (2 +1i) Ω') then halt(1);
   {$ELSE}

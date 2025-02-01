@@ -39,6 +39,18 @@ begin
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
+class operator TComplexQuantity.+(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TComplexQuantity.+(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
 class operator TComplexQuantity.-(const AValue: TComplexQuantity): TComplexQuantity;
 begin
   result.FID := AValue.FID;
@@ -81,6 +93,18 @@ begin
   result.FValue := ALeft.FValue * ARight;
 end;
 
+class operator TComplexQuantity.*(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TComplexQuantity.*(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
 class operator TComplexQuantity./(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
@@ -99,15 +123,27 @@ begin
   result.FValue := ALeft.FValue / ARight;
 end;
 
+class operator TComplexQuantity./(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TComplexQuantity./(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
 class operator TComplexQuantity.=(const ALeft, ARight: TComplexQuantity): boolean;
 begin
-  CheckEqual(ALeft.FID, ARight.FID);
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TComplexQuantity.<>(const ALeft, ARight: TComplexQuantity): boolean;
 begin
-  CheckNotEqual(ALeft.FID, ARight.FID);
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 

@@ -4,7 +4,7 @@ type
 
   // TMultivectorComponents
   
-  TMultivectorComponent  = (clc0, clc1, clc2, clc3, clc12, clc13, clc23, clc123);
+  TMultivectorComponent  = (mcm0, mcm1, mcm2, mcm3, mcm12, mcm13, mcm23, mcm123);
   TMultivectorComponents = set of TMultivectorComponent;
 
   // TMultivector

@@ -4,7 +4,7 @@ type
   
   // TVectorComponents
   
-  TVectorComponent  = (vc1, vc2, vc3);
+  TVectorComponent  = (vcm1, vcm2, vcm3);
   TVectorComponents = set of TVectorComponent;
 
   // TVector
@@ -64,5 +64,4 @@ const
 
   NullVector : TVector = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
   NullScalar : double  = (0.0);    
-  
- 
+

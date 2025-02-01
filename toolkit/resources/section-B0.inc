@@ -23,30 +23,31 @@ end;
 
 // Check routines
 
-procedure CheckEqual(ALeft, ARight: longint); inline;
+procedure Check(ALeft, ARight: longint); inline;
 begin
   if ALeft <> ARight then
-    raise Exception.Create('Fatal error: ''='' operator has detected wrong units of measurements.');
+    raise Exception.Create('FATAL ERROR: Check routine has detected wrong units of measurements.');
 end;
 
-procedure CheckNotEqual(ALeft, ARight: longint); inline;
+function CheckEqual(ALeft, ARight: longint): longint; inline;
 begin
+  result := ALeft;
   if ALeft <> ARight then
-    raise Exception.Create('Fatal error: ''<>'' operator has detected wrong units of measurements.');
+    raise Exception.Create('FATAL ERROR: Check routine has detected wrong units of measurements.');
 end;
 
 function CheckSum(ALeft, ARight: longint): longint; inline;
 begin
   result := ALeft;
   if ALeft <> ARight then
-    raise Exception.Create('Fatal error: ''+'' operator has detected wrong units of measurements.');
+    raise Exception.Create('FATAL ERROR: Check routine has detected wrong units of measurements.');
 end;
 
 function CheckSub(ALeft, ARight: longint): longint; inline;
 begin
   result := ALeft;
   if ALeft <> ARight then
-    raise Exception.Create('Fatal error: ''-'' operator has detected wrong units of measurements.');
+    raise Exception.Create('FATAL ERROR: Check routine has detected wrong units of measurements.');
 end;
 
 function CheckMul(ALeft, ARight: longint): longint; inline;

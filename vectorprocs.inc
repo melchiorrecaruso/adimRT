@@ -128,10 +128,10 @@ end;
 
 function TVectorHelper.ExtractVector(AComponents: TVectorComponents): TVector;
 begin
-  Result := NullVector;
-  if vc1 in AComponents then result.fm1 := fm1;
-  if vc2 in AComponents then result.fm2 := fm2;
-  if vc3 in AComponents then result.fm3 := fm3;
+  result := NullVector;
+  if vcm1 in AComponents then result.fm1 := fm1;
+  if vcm2 in AComponents then result.fm2 := fm2;
+  if vcm3 in AComponents then result.fm3 := fm3;
 end;
 
 

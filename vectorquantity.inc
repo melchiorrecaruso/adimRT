@@ -1,6 +1,5 @@
 { Vector quantity interface }
 
-
 type
 
   { TVecQuantity }

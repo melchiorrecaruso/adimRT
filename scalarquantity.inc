@@ -33,5 +33,3 @@ type
   TQuantity = double;
   {$ENDIF}
 
-
-

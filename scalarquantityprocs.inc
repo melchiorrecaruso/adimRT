@@ -21,19 +21,13 @@ end;
 
 class operator TQuantity.+(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TQuantity.-(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
@@ -55,16 +49,16 @@ begin
   result.FValue:= ALeft * ARight.FValue;
 end;
 
-class operator TQuantity./(const ALeft: double; const ARight: TQuantity): TQuantity;
-begin
-  result.FID := CheckDiv(ScalarId, ARight.FID);
-  result.FValue:= ALeft / ARight.FValue;
-end;
-
 class operator TQuantity.*(const ALeft: TQuantity; const ARight: double): TQuantity;
 begin
   result.FID := ALeft.FID;
   result.FValue:= ALeft.FValue * ARight;
+end;
+
+class operator TQuantity./(const ALeft: double; const ARight: TQuantity): TQuantity;
+begin
+  result.FID := CheckDiv(ScalarId, ARight.FID);
+  result.FValue:= ALeft / ARight.FValue;
 end;
 
 class operator TQuantity./(const ALeft: TQuantity; const ARight: double): TQuantity;
@@ -75,49 +69,37 @@ end;
 
 class operator TQuantity.=(const ALeft, ARight: TQuantity): boolean; inline;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TQuantity.<(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('LessThan operator (<) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue < ARight.FValue;
 end;
 
 class operator TQuantity.>(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('GreaterThan operator (>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue > ARight.FValue;
 end;
 
 class operator TQuantity.<=(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('LessThanOrEqual operator (<=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <= ARight.FValue;
 end;
 
 class operator TQuantity.>=(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('GreaterThanOrEqual operator (>=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue >= ARight.FValue;
 end;
 
 class operator TQuantity.<>(const ALeft, ARight: TQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 {$ENDIF}
