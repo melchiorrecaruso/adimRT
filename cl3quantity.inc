@@ -1,6 +1,5 @@
 { CL3 quantity interface }
 
-
 type
 
   { TMultivecQuantity }
@@ -426,8 +425,4 @@ type
     function ToMultivector: TMultivecQuantity;
   end;
   {$ENDIF}
-
-
-
-
 

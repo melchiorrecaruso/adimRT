@@ -11,77 +11,56 @@ end;
 
 class operator TMultivecQuantity.<>(const ALeft, ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TMultivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TMultivecQuantity.<>(const ALeft: TQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TMultivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TMultivecQuantity.=(const ALeft: TQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TMultivecQuantity.=(const ALeft, ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TMultivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
-
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 end;
 
 class operator TMultivecQuantity.+(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
-
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 end;
 
 class operator TMultivecQuantity.+(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
-
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
 end;
 
 class operator TMultivecQuantity.-(const ASelf: TMultivecQuantity): TMultivecQuantity;
@@ -92,28 +71,19 @@ end;
 
 class operator TMultivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TMultivecQuantity.-(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TMultivecQuantity.-(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
@@ -166,94 +136,67 @@ end;
 
 class operator TTrivecQuantity.<>(const ALeft, ARight: TTrivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TTrivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TTrivecQuantity.<>(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TTrivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TTrivecQuantity.=(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TTrivecQuantity.=(const ALeft, ARight: TTrivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TTrivecQuantity.+(const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TTrivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TTrivecQuantity.+(const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TTrivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TTrivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
@@ -265,46 +208,31 @@ end;
 
 class operator TTrivecQuantity.-(const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TTrivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
@@ -380,112 +308,79 @@ end;
 
 class operator TBivecQuantity.<>(const ALeft, ARight: TBivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TBivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TBivecQuantity.<>(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TBivecQuantity.=(const ALeft, ARight: TBivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TBivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TBivecQuantity.=(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft, ARight: TBivecQuantity): TBivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TBivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
@@ -497,64 +392,43 @@ end;
 
 class operator TBivecQuantity.-(const ALeft, ARight: TBivecQuantity): TBivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TBivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
@@ -654,130 +528,91 @@ end;
 
 class operator TVecQuantity.<>(const ALeft, ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TVecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TVecQuantity.<>(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TVecQuantity.=(const ALeft, ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('NotEqual operator (<>) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TVecQuantity.=(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TVecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Equal operator (=) has detected wrong unit of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft, ARight: TVecQuantity): TVecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TVecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Summing operator (+) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
@@ -789,82 +624,55 @@ end;
 
 class operator TVecQuantity.-(const ALeft, ARight: TVecQuantity): TVecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TVecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
 begin
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Subtracting operator (-) has detected wrong unit of measurements.');
-
-  result.FID := ALeft.FID;
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 

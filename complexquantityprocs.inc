@@ -101,13 +101,13 @@ end;
 
 class operator TComplexQuantity.=(const ALeft, ARight: TComplexQuantity): boolean;
 begin
-  CheckEqual(ALeft.FID, ARight.FID);
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TComplexQuantity.<>(const ALeft, ARight: TComplexQuantity): boolean;
 begin
-  CheckNotEqual(ALeft.FID, ARight.FID);
+  Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
