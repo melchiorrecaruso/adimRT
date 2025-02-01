@@ -20,6 +20,8 @@ type
 
     class operator +(const AValue: TComplexQuantity): TComplexQuantity; inline;
     class operator +(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator +(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator +(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
 
     class operator -(const AValue: TComplexQuantity): TComplexQuantity; inline;
     class operator -(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
@@ -29,9 +31,14 @@ type
     class operator *(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
     class operator *(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity; inline;
     class operator *(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity; inline;
+    class operator *(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator *(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+
     class operator /(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
     class operator /(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity; inline;
     class operator /(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity; inline;
+    class operator /(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator /(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
   end;
   {$ELSE}
   TComplexQuantity = TComplex;
@@ -39,7 +46,7 @@ type
 
 {$IFDEF ADIMDEBUG}
   operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
-  operator /(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
   operator *(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
   operator /(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
+  operator /(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
 {$ENDIF}
