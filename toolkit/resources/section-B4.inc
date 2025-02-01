@@ -106,9 +106,7 @@ end;
 function Cos(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('Cos routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, ScalarId);
   result := System.Cos(AQuantity.FValue);
 {$ELSE}
   result := System.Cos(AQuantity);
@@ -118,9 +116,7 @@ end;
 function Sin(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('Sin routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, ScalarId);
   result := System.Sin(AQuantity.FValue);
 {$ELSE}
   result := System.Sin(AQuantity);
@@ -130,9 +126,7 @@ end;
 function Tan(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('Tan routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, ScalarId);
   result := Math.Tan(AQuantity.FValue);
 {$ELSE}
   result := Math.Tan(AQuantity);
@@ -142,9 +136,7 @@ end;
 function Cotan(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('Cotan routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, ScalarId);
   result := Math.Cotan(AQuantity.FValue);
 {$ELSE}
   result := Math.Cotan(AQuantity);
@@ -154,9 +146,7 @@ end;
 function Secant(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('Setan routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, ScalarId);
   result := Math.Secant(AQuantity.FValue);
 {$ELSE}
   result := Math.Secant(AQuantity);
@@ -166,9 +156,7 @@ end;
 function Cosecant(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('Cosecant routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, ScalarId);
   result := Math.Cosecant(AQuantity.FValue);
 {$ELSE}
   result := Math.Cosecant(AQuantity);
@@ -221,10 +209,7 @@ end;
 function Min(const ALeft, ARight: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Min routine has detected wrong units of measurements.');
-
-  result.FID := ARight.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := Math.Min(ALeft.FValue, ARight.FValue);
 {$ELSE}
   result := Math.Min(ALeft, ARight);
@@ -234,10 +219,7 @@ end;
 function Max(const ALeft, ARight: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('Max routine has detected wrong units of measurements.');
-
-  result.FID := ARight.FID;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := Math.Max(ALeft.FValue, ARight.FValue);
 {$ELSE}
   result := Math.Max(ALeft, ARight);
@@ -247,10 +229,7 @@ end;
 function Exp(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('Exp routine has detected wrong units of measurements.');
-
-  result.FID := ScalarId;
+  result.FID := CheckSum(AQuantity.FID, ScalarId);
   result.FValue := System.Exp(AQuantity.FValue);
 {$ELSE}
   result := System.Exp(AQuantity);
@@ -260,9 +239,7 @@ end;
 function Log10(const AQuantity : TQuantity) : double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('Log10 routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, ScalarId);
   result := Math.Log10(AQuantity.FValue);
 {$ELSE}  
   result := Math.Log10(AQuantity);
@@ -272,9 +249,7 @@ end;
 function Log2(const AQuantity : TQuantity) : double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('Log2 routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, ScalarId);
   result := Math.Log2(AQuantity.FValue);
 {$ELSE} 
   result := Math.Log2(AQuantity);
@@ -284,9 +259,7 @@ end;
 function LogN(ABase: longint; const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('LogN routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, ScalarId);
   result := Math.LogN(ABase, AQuantity.FValue);
 {$ELSE} 
   result := Math.LogN(ABase, AQuantity);
@@ -296,12 +269,8 @@ end;
 function LogN(const ABase, AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if ABase.FID <> ScalarId then
-    raise Exception.Create('LogN routine has detected wrong units of measurements.');
-
-  if AQuantity.FID <> ScalarId then
-    raise Exception.Create('LogN routine has detected wrong units of measurements.');
-
+  Check(ABase.FID, ScalarId);
+  Check(AQuantity.FID, ScalarId);
   result := Math.LogN(ABase.FValue, AQuantity.FValue);
 {$ELSE} 
   result := Math.LogN(ABase, AQuantity);
@@ -311,10 +280,8 @@ end;
 function Power(const ABase: TQuantity; AExponent: double): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if ABase.FID <> ScalarId then
-    raise Exception.Create('Power routine has detected wrong units of measurements.');
-
-   result := Math.Power(ABase.FValue, AExponent);
+  Check(ABase.FID, ScalarId);
+  result := Math.Power(ABase.FValue, AExponent);
 {$ELSE}
   result := Math.Power(ABase, AExponent);
 {$ENDIF}
@@ -379,9 +346,7 @@ end;
 function SameValue(const ALeft, ARight: TQuantity): boolean;
 begin
 {$IFDEF ADIMDEBUG}
-  if ALeft.FID <> ARight.FID then
-    raise Exception.Create('SameValue routine has detected wrong units of measurements.');
-
+  Check(ALeft.FID, ARight.FID);
   result := Math.SameValue(ALeft.FValue, ARight.FValue);
 {$ELSE}
   result := Math.SameValue(ALeft, ARight);

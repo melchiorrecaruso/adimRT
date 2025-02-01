@@ -156,6 +156,10 @@ type
   public
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+
+    function ToComplex(const AQuantity: TComplexQuantity): TComplex;
+    function ToVector(const AQuantity: TVecQuantity): TVector;
+
     function ToString(const AQuantity: TQuantity): string;
     function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
     function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -165,19 +169,19 @@ type
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
-    function ToString(const AQuantity: TVecQuantity): string;     
+    function ToString(const AQuantity: TVecQuantity): string;
+    function ToVerboseString(const AQuantity: TVecQuantity): string;
   {$IFDEF CLIFFORD}
     function ToString(const AQuantity: TBivecQuantity): string;
     function ToString(const AQuantity: TTrivecQuantity): string;
     function ToString(const AQuantity: TMultivecQuantity): string;
   {$ENDIF}
-    function ToVerboseString(const AQuantity: TVecQuantity): string;
+
   {$IFDEF CLIFFORD}
     function ToVerboseString(const AQuantity: TBivecQuantity): string;
     function ToVerboseString(const AQuantity: TTrivecQuantity): string;
     function ToVerboseString(const AQuantity: TMultivecQuantity): string;
   {$ENDIF}
-
     function ToString(const AQuantity: TComplexQuantity): string;
     function ToVerboseString(const AQuantity: TComplexQuantity): string;
   end;

@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 442
+  Left = 359
   Height = 577
-  Top = 383
+  Top = 318
   Width = 989
   Caption = 'ADimPas Toolkit-v2'
   ClientHeight = 577

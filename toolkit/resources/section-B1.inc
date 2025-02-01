@@ -527,9 +527,7 @@ end;
 function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -539,21 +537,27 @@ end;
 function TUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);
 {$ENDIF}  
 end;
 
+function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
+begin
+  {$IFDEF ADIMDEBUG}
+  Check(AQuantity.FID, FID);
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
 function TUnitHelper.ToVector(const AQuantity: TVecQuantity): TVector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -563,9 +567,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(AQuantity) + ' ' + GetSymbol(FPrefixes);
@@ -577,9 +579,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes); 
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -596,9 +596,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -616,9 +614,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');  
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -640,9 +636,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
     result := FloatToStr(AQuantity.FValue) + ' ' + GetName(FPrefixes)
   else
@@ -660,9 +654,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -688,9 +680,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -717,9 +707,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');  
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);    
 {$ELSE}
@@ -741,9 +729,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TVecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -754,9 +740,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TBivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -766,9 +750,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TTrivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -778,9 +760,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TMultivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -791,9 +771,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TVecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -804,9 +782,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TBivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -816,9 +792,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TTrivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -828,9 +802,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TMultivecQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -841,24 +813,20 @@ end;
 function TUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+  Check(AQuantity.FID, FID);
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetSymbol(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetSymbol(FPrefixes)
 {$ENDIF}
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+  Check(AQuantity.FID, FID);
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetName(FPrefixes)
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetName(FPrefixes)
 {$ENDIF}
 end;
 
@@ -955,9 +923,7 @@ end;
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -967,9 +933,7 @@ end;
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -979,9 +943,7 @@ end;
 function TFactoredUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := FloatToStr(AQuantity.FValue / FFactor) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(AQuantity / FFactor) + ' ' + GetSymbol(FPrefixes);
@@ -993,9 +955,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -1012,12 +972,10 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
-    FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
+   Check(AQuantity.FID, FID);
+   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
-    FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
+   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -1032,9 +990,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.'); 
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -1058,9 +1014,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1077,9 +1031,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -1105,9 +1057,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -1134,9 +1084,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FID <> FID) or (ATolerance.FID <> FID) then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -1160,9 +1108,7 @@ var
   FactoredValue: TVector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1176,9 +1122,7 @@ var
   FactoredValue: TBivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1191,9 +1135,7 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1206,9 +1148,7 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1222,9 +1162,7 @@ var
   FactoredValue: TVector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1238,9 +1176,7 @@ var
   FactoredValue: TBivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1253,9 +1189,7 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1268,9 +1202,7 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1284,14 +1216,12 @@ var
   FactoredValue: TComplex;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity): string;
@@ -1299,14 +1229,12 @@ var
   FactoredValue: TComplex;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
+  result := '(' + FactoredValue.ToString + ') ' + GetName(FPrefixes)
 end;
 
 { TDegreeCelsiusUnitHelper }
@@ -1402,9 +1330,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := AQuantity.FValue - 273.15;
 {$ELSE}
   result := AQuantity - 273.15;
@@ -1414,9 +1340,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity - 273.15, APrefixes);
@@ -1426,9 +1350,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := FloatToStr(AQuantity.FValue - 273.15) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(AQuantity - 273.15) + ' ' + GetSymbol(FPrefixes);
@@ -1440,9 +1362,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -1459,12 +1379,10 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
-    FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
+  Check(AQuantity.FID, FID);
+  FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
-    FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
+  FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -1479,9 +1397,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.'); 
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -1505,9 +1421,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue - 273.15;
 {$ELSE}
   FactoredValue := AQuantity - 273.15;
@@ -1524,9 +1438,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -1552,9 +1464,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -1581,9 +1491,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FID <> FID) or (ATolerance.FID <> FID) then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -1695,9 +1603,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := 9/5 * AQuantity.FValue - 459.67;
 {$ELSE}
   result := 9/5 * AQuantity - 459.67;
@@ -1707,9 +1613,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToFloat routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   result := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -1719,9 +1623,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   result := FloatToStr(9/5 * AQuantity.FValue - 459.67) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(9/5 * AQuantity - 459.67) + ' ' + GetSymbol(FPrefixes);
@@ -1733,9 +1635,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -1752,12 +1652,10 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.');
-
-    FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
+  Check(AQuantity.FID, FID);
+  FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
-    FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
+  FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -1772,9 +1670,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FID  <> FID) or (ATolerance.FID <> FID) then
-    raise Exception.Create('ToString routine has detected wrong units of measurements.'); 
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -1798,9 +1694,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := 9/5 * AQuantity.FValue - 459.67;
 {$ELSE}
   FactoredValue := 9/5 * AQuantity - 459.67;
@@ -1817,9 +1711,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -1845,9 +1737,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if AQuantity.FID <> FID then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -1874,9 +1764,7 @@ var
   FactoredValue: double;
 begin
 {$IFDEF ADIMDEBUG}
-  if (AQuantity.FID <> FID) or (ATolerance.FID <> FID) then
-    raise Exception.Create('ToVerboseString routine has detected wrong units of measurements.');
-
+  Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
 {$ELSE}
