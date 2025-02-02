@@ -1,4 +1,85 @@
 
+// Format routines
+
+function Fmt(const AValue: double): string;
+begin
+  if AValue < 0.0 then
+    result := FloatToStr(AValue)
+  else
+    result := '+' + FloatToStr(AValue);
+end;
+
+function Fmt(const AValue: double; APrecision, ADigits: longint): string;
+begin
+  if AValue < 0.0 then
+    result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits)
+  else
+    result := '+' + FloatToStrF(AValue, ffGeneral, APrecision, ADigits);
+end;
+
+// Check routines
+
+{$IFDEF ADIMDEBUG}
+  {$ASSERTIONS ON}
+{$ENDIF}
+
+function GetStr(AIndex: longint): string;
+var
+  i: longint;
+begin
+  for i := Low(Table) to High(Table) do
+  begin
+    if Table[i].FID = AIndex then
+      Exit(Table[i].FStr);
+  end;
+  result := 'a unknown unit of measurement';
+end;
+
+procedure Check(ALeft, ARight: longint); inline;
+begin
+  if ALeft <> ARight then
+  begin
+    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', [GetStr(ALeft), GetStr(ARight)]));
+  end;
+end;
+
+function CheckEqual(ALeft, ARight: longint): longint; inline;
+begin
+  if ALeft <> ARight then
+  begin
+    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', [GetStr(ALeft), GetStr(ARight)]));
+  end;
+  result := ALeft;
+end;
+
+function CheckSum(ALeft, ARight: longint): longint; inline;
+begin
+  if ALeft <> ARight then
+  begin
+    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', [GetStr(ALeft), GetStr(ARight)]));
+  end;
+  result := ALeft;
+end;
+
+function CheckSub(ALeft, ARight: longint): longint; inline;
+begin
+  if ALeft <> ARight then
+  begin
+    Assert(FALSE, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [GetStr(ALeft), GetStr(ARight)]));
+  end;
+  result := ALeft;
+end;
+
+function CheckMul(ALeft, ARight: longint): longint; inline;
+begin
+  result := ALeft + ARight;
+end;
+
+function CheckDiv(ALeft, ARight: longint): longint; inline;
+begin
+  result := ALeft - ARight;
+end;
+
 {$I complexprocs.inc}
 {$I scalarquantityprocs.inc}
 {$I complexquantityprocs.inc}
