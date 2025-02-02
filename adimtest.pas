@@ -204,7 +204,6 @@ var
   torquestifness_: TBivecQuantity;
   electricfield_: TVecQuantity;
   omega_: TBivecQuantity;
-  potential_: TVecQuantity;
   impedance_: TMultivecQuantity;
   power_: TMultivecQuantity;
   {$ELSE}
@@ -1230,23 +1229,23 @@ begin
 
   // TEST-515: Voltages
   omega_      := 1*e12*rad/s;
-  potential_  := 50*e1*V;
+  potential   := 50*V;
   resistance  := 2*Ohm;
   capacitance := 1*F;
   inductance  := 2*H;
-  impedance_  := resistance - (1/(omega_*capacitance) + omega_*inductance);
-  current_    := (1/impedance_) * potential_;
-  power_      := current_ * potential_;
+  impedance_  := resistance + (1/(omega_*capacitance) + omega_*inductance);
+  current_    := (1/impedance_) * potential;
+  power_      := current_ * potential;
   {$IFDEF WINDOWS}
-  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance_)])) <> Utf8ToAnsi('Z = (+2 -1e12) Ω') then halt(1);
+  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance_)])) <> Utf8ToAnsi('Z = (+2 +1e12) Ω') then halt(1);
   {$ELSE}
-  if            Format('Z = %s', [ohm.ToString(impedance_)]) <> 'Z = (+2 -1e12) Ω'              then halt(1);
+  if            Format('Z = %s', [ohm.ToString(impedance_)]) <> 'Z = (+2 +1e12) Ω'              then halt(1);
   {$ENDIF}
-  if            Format('I = %s', [A.ToString(current_)]) <> 'I = (+20e1 -10e2) A'               then halt(2);
-  if            Format('P = %s', [W.ToString(power_)]) <> 'P = (+1000 +500e12) W'               then halt(3);
-  if            Format('Y = %s', [siemens.ToString(1/impedance_)]) <> 'Y = (+0.4 +0.2e12) S'    then halt(4);
+  if            Format('I = %s', [A.ToString(current_)]) <> 'I = (+20 -10e12) A'                then halt(2);
+  if            Format('P = %s', [W.ToString(power_)]) <> 'P = (+1000 -500e12) W'               then halt(3);
+  if            Format('Y = %s', [siemens.ToString(1/impedance_)]) <> 'Y = (+0.4 -0.2e12) S'    then halt(4);
 
-  if V.ToString(potential_.Norm) <> '50 V'             then halt(5);
+  if V.ToString(potential) <> '50 V'                   then halt(5);
   if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
   if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-515: PASSED');

@@ -105,6 +105,7 @@ type
 
     procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
+    procedure AddTable(ASection: TStringList);
 
     procedure Add(const AItem: TToolkitItem);
     procedure CreateIndexes;
@@ -473,6 +474,27 @@ begin
   LocList.Destroy;
 end;
 
+procedure TToolKitBuilder.AddTable(ASection: TStringList);
+var
+  i: longint;
+  Line: string;
+begin
+  ASection.Add('const');
+  ASection.Add('  Table : array[0..%s-1] of', [BaseUnitCount.toString]);
+  ASection.Add('    record FID: longint; FStr: string; end = (', []);
+
+  for i := 0 to FList.Count -1 do
+    if FList[i].FBase = '' then
+    begin
+      ASection.Add('    (FID: %5s; FStr: ''T%s''),', [FList[i].FIndex.ToString, GetUnitID(FList[i].FQuantity)]);
+    end;
+
+  Line := ASection[ASection.Count-1];
+  SetLength(Line, Length(Line)-1);
+  ASection[ASection.Count-1] := Line;
+  ASection.Add('  );');
+end;
+
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
 begin
   FList.Add(AItem);
@@ -640,6 +662,7 @@ begin
   Stream.Destroy;
 
   AddUnits(SectionA3, SectionB3);
+  AddTable(SectionB0);
 
   Stream := TResourceStream.Create(HInstance, 'Section-A4', RT_RCDATA);
   SectionA4.LoadFromStream(Stream);

@@ -40,6 +40,32 @@ type
     class operator <>(const ALeft, ARight: TComplex): boolean; inline;
   end;
 
+  // TKet for vector space 3
+
+  TKet3 = record
+  private
+    fm1,
+    fm2,
+    fm3: TComplex;
+  public
+
+
+
+  end;
+
+  // TKet for vector space 3
+
+  TBra3 = record
+  private
+    fm1,
+    fm2,
+    fm3: TComplex;
+  public
+
+
+
+  end;
+
   // TImaginaryUnit
 
   TImaginaryUnit = record
