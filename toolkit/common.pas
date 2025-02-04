@@ -45,14 +45,11 @@ function GetExponents(const AShortSymbol: string): string;
 function GetReciprocal(const AExponents: TExponents): TExponents;
 
 function GetQuantity(const S: string): string;
-
 function GetUnitID(const S: string): string;
-
-function GetUnitRec(const S: string): string;
 
 function StringToDimensions(const S: string): TExponents;
 function DimensionToString(const ADim: TExponents): string;
-function DimensionToQuantityType(const ADim: TExponents): string;
+function DimensionToQuantity(const ADim: TExponents): string;
 function DimensionToLongString(const ADim: TExponents): string;
 function DimensionToShortString(const ADim: TExponents): string;
 
@@ -152,73 +149,22 @@ begin
   result := StringReplace(StringReplace(result, 'y!',    'ies',    [rfReplaceAll]), '?',     's',    [rfReplaceAll]);
 end;
 
-function GetQuantityTypeHelper(const S: string): string;
-begin
-  Result := S;
-  if Result <> '' then
-  begin
-    Result := StringReplace(Result, 'Foot!', 'Foot', [rfReplaceAll]);
-    Result := StringReplace(Result, 'Inch!', 'Inch', [rfReplaceAll]);
-    Result := StringReplace(Result, 'y!',    'y',    [rfReplaceAll]);
-    Result := StringReplace(Result, '?',     '',     [rfReplaceAll]);
-    Result := StringReplace(Result, ' ',     '',     [rfReplaceAll]);
-
-    Result := Result + 'Helper';
-  end;
-end;
-
 function GetQuantity(const S: string): string;
 begin
   Result := S;
   if Result <> '' then
   begin
-    Result := StringReplace(Result, 'Foot!', 'Feet',   [rfReplaceAll]);
-    Result := StringReplace(Result, 'Inch!', 'Inches', [rfReplaceAll]);
-    Result := StringReplace(Result, 'y!',    'ies',    [rfReplaceAll]);
-    Result := StringReplace(Result, '?',     's',      [rfReplaceAll]);
-    Result := StringReplace(Result, ' ',     '',       [rfReplaceAll]);
+    Result := StringReplace(Result, '!',  '', [rfReplaceAll]);
+    Result := StringReplace(Result, '?',  '', [rfReplaceAll]);
+    Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
   end;
-end;
-
-function GetUnitComment(S: string): string;
-var
-  I: longint;
-begin
-  S := StringReplace(S, '!',  '', [rfReplaceAll]);
-  S := StringReplace(S, '?',  '', [rfReplaceAll]);
-  S := StringReplace(S, ' ',  '', [rfReplaceAll]);
-  if Pos('T', S) = 1 then
-    Delete(S, 1, 1);
-
-  result := '';
-  for I := low(S) to high(S) do
-  begin
-    if S[I] = UpCase(S[I]) then
-      result := result + ' ';
-     result := result + LowerCase(S[I]);
-  end;
-
-  if Pos(' ', result) = 1 then
-    Delete(result, 1, 1);
 end;
 
 function GetUnitID(const S: string): string;
 begin
-  Result := S;
-  Result := StringReplace(Result, '!',  '', [rfReplaceAll]);
-  Result := StringReplace(Result, '?',  '', [rfReplaceAll]);
-  Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
+  Result := GetQuantity(S);
   if Pos('T', Result) = 1 then
     Delete(Result, 1, 1);
-end;
-
-function GetUnitRec(const S: string): string;
-begin
-  Result := S;
-  Result := StringReplace(Result, '!',  '', [rfReplaceAll]);
-  Result := StringReplace(Result, '?',  '', [rfReplaceAll]);
-  Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
-  Result := Result + 'Rec';
 end;
 
 function StringToDimensions(const S: string): TExponents;
@@ -298,45 +244,6 @@ begin
   end;
 end;
 
-function DimensionToQuantityType(const ADim: TExponents): string;
-var
-  Num, Denom: string;
-begin
-  Num := '';
-  if ADim[1] > 0 then Num := Num + Format('Kilogram',  [ADim[1]]);
-  if ADim[2] > 0 then Num := Num + Format('Meter',     [ADim[2]]);
-  if ADim[3] > 0 then Num := Num + Format('Second',    [ADim[3]]);
-  if ADim[4] > 0 then Num := Num + Format('Ampere',    [ADim[4]]);
-  if ADim[5] > 0 then Num := Num + Format('Kelvin',    [ADim[5]]);
-  if ADim[6] > 0 then Num := Num + Format('Mole',      [ADim[6]]);
-  if ADim[7] > 0 then Num := Num + Format('Candela',   [ADim[7]]);
-  if ADim[8] > 0 then Num := Num + Format('Steradian', [ADim[8]]);
-
-  Denom := '';
-  if ADim[1] < 0 then Denom := Denom + Format('Kilogram',  [ADim[1]]);
-  if ADim[2] < 0 then Denom := Denom + Format('Meter',     [ADim[2]]);
-  if ADim[3] < 0 then Denom := Denom + Format('Second',    [ADim[3]]);
-  if ADim[4] < 0 then Denom := Denom + Format('Ampere',    [ADim[4]]);
-  if ADim[5] < 0 then Denom := Denom + Format('Kelvin',    [ADim[5]]);
-  if ADim[6] < 0 then Denom := Denom + Format('Mole',      [ADim[6]]);
-  if ADim[7] < 0 then Denom := Denom + Format('Candela',   [ADim[7]]);
-  if ADim[8] < 0 then Denom := Denom + Format('Steradian', [ADim[8]]);
-
-  if Num = '' then
-  begin
-    if Denom = '' then
-      result := ''
-    else
-      result := 'TReciprocal' + Denom;
-  end else
-  begin
-    if Denom = '' then
-      result := 'T' + Num + 's'
-    else
-      result := 'T' + Num + 'sPer' + Denom
-  end;
-end;
-
 function DimensionToShortString(const ADim: double; const ASymbol: string): string;
 var
   Value: double;
@@ -360,51 +267,51 @@ var
   Value: double;
 begin
   value := abs(adim);
-  if samevalue(value, 1/6) then result := format('sextic root %s'      , [AName]) else
-  if samevalue(value, 1/5) then result := format('quintic root %s'     , [AName]) else
-  if samevalue(value, 1/4) then result := format('quartic root %s'     , [AName]) else
-  if samevalue(value, 1/3) then result := format('cubic root %s'       , [AName]) else
-  if samevalue(value, 1/2) then result := format('square root %s'      , [AName]) else
+  if samevalue(value, 1/6) then result := format('Sextic Root %s'      , [AName]) else
+  if samevalue(value, 1/5) then result := format('Quintic Root %s'     , [AName]) else
+  if samevalue(value, 1/4) then result := format('Quartic Root %s'     , [AName]) else
+  if samevalue(value, 1/3) then result := format('Cubic Root %s'       , [AName]) else
+  if samevalue(value, 1/2) then result := format('Square Root %s'      , [AName]) else
   if samevalue(value, 1.0) then result := format('%s'                  , [AName]) else
-  if samevalue(value, 3/2) then result := format('square root cubic %s', [AName]) else
-  if samevalue(value, 2.0) then result := format('square %s'           , [AName]) else
-  if samevalue(value, 3.0) then result := format('cubic %s'            , [AName]) else
-  if samevalue(value, 4.0) then result := format('quartic %s'          , [AName]) else
-  if samevalue(value, 5.0) then result := format('quintic %s'          , [AName]) else
-  if samevalue(value, 6.0) then result := format('sextic %s'           , [AName]) else
+  if samevalue(value, 3/2) then result := format('Square Root Cubic %s', [AName]) else
+  if samevalue(value, 2.0) then result := format('Square %s'           , [AName]) else
+  if samevalue(value, 3.0) then result := format('Cubic %s'            , [AName]) else
+  if samevalue(value, 4.0) then result := format('Quartic %s'          , [AName]) else
+  if samevalue(value, 5.0) then result := format('Quintic %s'          , [AName]) else
+  if samevalue(value, 6.0) then result := format('Sextic %s'           , [AName]) else
     raise Exception.Create('ERROR: DimensionToLongString');
 end;
 
-function DimensionToLongString(const ADim: TExponents): string;
+function DimensionToLongStringEx(const ADim: TExponents): string;
 var
   Num, Denom: string;
 begin
   Num := '';
-  if ADim[1] > 0 then Num := Num + DimensionToLongString(ADim[1], '%skilogram? ');
-  if ADim[2] > 0 then Num := Num + DimensionToLongString(ADim[2], '%smeter? '   );
-  if ADim[3] > 0 then Num := Num + DimensionToLongString(ADim[3], '%ssecond? '  );
-  if ADim[4] > 0 then Num := Num + DimensionToLongString(ADim[4], '%sampere? '  );
-  if ADim[5] > 0 then Num := Num + DimensionToLongString(ADim[5], '%skelvin? '  );
-  if ADim[6] > 0 then Num := Num + DimensionToLongString(ADim[6], '%smole? '    );
-  if ADim[7] > 0 then Num := Num + DimensionToLongString(ADim[7], '%scandela? ' );
-  if ADim[8] > 0 then Num := Num + DimensionToLongString(ADim[8], 'steradian '  );
+  if ADim[1] > 0 then Num := Num + DimensionToLongString(ADim[1], '%sKilogram? ');
+  if ADim[2] > 0 then Num := Num + DimensionToLongString(ADim[2], '%sMeter? '   );
+  if ADim[3] > 0 then Num := Num + DimensionToLongString(ADim[3], '%sSecond? '  );
+  if ADim[4] > 0 then Num := Num + DimensionToLongString(ADim[4], '%sAmpere? '  );
+  if ADim[5] > 0 then Num := Num + DimensionToLongString(ADim[5], '%sKelvin? '  );
+  if ADim[6] > 0 then Num := Num + DimensionToLongString(ADim[6], '%sMole? '    );
+  if ADim[7] > 0 then Num := Num + DimensionToLongString(ADim[7], '%sCandela? ' );
+  if ADim[8] > 0 then Num := Num + DimensionToLongString(ADim[8], 'Steradian '  );
 
   Denom := '';
-  if ADim[1] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[1], '%skilogram ');
-  if ADim[2] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[2], '%smeter '   );
-  if ADim[3] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[3], '%ssecond '  );
-  if ADim[4] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[4], '%sampere '  );
-  if ADim[5] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[5], '%skelvin '  );
-  if ADim[6] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[6], '%smole '    );
-  if ADim[7] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[7], '%scandela ' );
-  if ADim[8] < 0 then Denom := Denom + 'per ' + DimensionToLongString(ADim[8], 'steradian ' );
+  if ADim[1] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[1], '%sKilogram ');
+  if ADim[2] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[2], '%sMeter '   );
+  if ADim[3] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[3], '%sSecond '  );
+  if ADim[4] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[4], '%sAmpere '  );
+  if ADim[5] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[5], '%sKelvin '  );
+  if ADim[6] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[6], '%sMole '    );
+  if ADim[7] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[7], '%sCandela ' );
+  if ADim[8] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[8], 'Steradian ' );
 
   if Num = '' then
   begin
     if Denom = '' then
       result := ''
     else
-      result := 'reciprocal ' + StringReplace(Denom, 'per ', '', [rfReplaceAll]);
+      result := 'Reciprocal ' + StringReplace(Denom, 'Per ', '', [rfReplaceAll]);
   end else
   begin
     if Denom = '' then
@@ -417,6 +324,21 @@ begin
   while (Length(result) > 0) and (result[High(result)] = ' ') do Delete(result, High(result), 1);
   result := StringReplace(result, '//', '/', [rfReplaceAll]);
   result := StringReplace(result, '  ', ' ', [rfReplaceAll]);
+end;
+
+function DimensionToQuantity(const ADim: TExponents): string;
+begin
+  result := 'T' + DimensionToLongStringEx(ADim);
+  result := StringReplace(result, '%s', '', [rfReplaceAll]);
+  result := StringReplace(result, '  ', '', [rfReplaceAll]);
+  result := StringReplace(result, ' ' , '', [rfReplaceAll]);
+  result := StringReplace(result, '?' , '', [rfReplaceAll]);
+  result := StringReplace(result, '!' , '', [rfReplaceAll]);
+end;
+
+function DimensionToLongString(const ADim: TExponents): string;
+begin
+  result := LowerCase(DimensionToLongStringEx(ADim));
 end;
 
 function DimensionToShortString(const ADim: TExponents): string;

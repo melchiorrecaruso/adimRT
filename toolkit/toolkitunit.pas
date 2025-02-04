@@ -108,6 +108,7 @@ type
     procedure AddTable(ASection: TStringList);
 
     procedure Add(const AItem: TToolkitItem);
+    procedure ExpandUnits;
     procedure CreateIndexes;
     function  CheckIndexes: boolean;
     procedure Check;
@@ -528,7 +529,6 @@ var
   kExponents: TExponents;
   kIndex: longint;
 begin
-  result := True;
   for i := 0 to FList.Count -1 do
     if FList[i].FBase = '' then
     begin
@@ -541,7 +541,7 @@ begin
 
           for k := 0 to FList.Count -1 do
           begin
-            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then result := False;
+            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then Exit(False);
           end;
           // Divide
           kExponents := SubDim(FList[i].FExponents, FList[j].FExponents);
@@ -549,10 +549,11 @@ begin
 
           for k := 0 to FList.Count -1 do
           begin
-            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then result := False;
+            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then Exit(False);
           end;
         end;
     end;
+  result := True;
 end;
 
 procedure TToolKitBuilder.CreateIndexes;
@@ -570,6 +571,7 @@ begin
     if (FList[i].FBase = '') then
       FList[i].FExponents := StringToDimensions(FList[i].FDimension);
   end;
+  ExpandUnits;
 
   IsNeededRunAgain := True;
   while IsNeededRunAgain do
@@ -616,6 +618,48 @@ begin
     end;
   end;
   Indexes.Destroy;
+end;
+
+procedure TToolKitBuilder.ExpandUnits;
+var
+ i, j, k: longint;
+ NewDim: TExponents;
+ NewItem: TToolKitItem;
+ Count: longint = 0;
+begin
+  i := 0;
+  while i < FList.Count do
+  begin
+    if FList[i].FBase = '' then
+    begin
+      for j := Low(NewDim) to High(NewDim) do
+      begin
+         NewDim := FList[i].FExponents;
+         NewDim[j] := 0;
+
+         k := FList.Search(NewDim);
+         if k = -1 then
+         begin
+           NewItem := TToolKitItem.Create;
+           NewItem.FField       := '';
+           NewItem.FQuantity    := DimensionToQuantity(NewDim);
+           NewItem.FDimension   := DimensionToString(NewDim);
+           NewItem.FLongString  := DimensionToLongString(NewDim);
+           NewItem.FShortString := DimensionToShortString(NewDim);
+           NewItem.FIdentifier  := '';
+           NewItem.FBase        := '';
+           NewItem.FFactor      := '';
+           NewItem.FPrefixes    := '';
+           NewItem.FExponents   := NewDim;
+           NewItem.FType        := '';
+           NewItem.FColor       := '';
+           NewItem.FIndex       := 0;
+           FList.Add(NewItem);
+         end;
+       end;
+    end;
+    Inc(i);
+  end;
 end;
 
 procedure TToolKitBuilder.Run;
