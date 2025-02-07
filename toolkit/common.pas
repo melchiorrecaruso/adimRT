@@ -59,8 +59,6 @@ function SubDim(const ADim1, ADim2: TExponents): TExponents;
 function GetUnitTypeHelper(const S: string): string;
 function GetUnitIdentifier(const S: string): string;
 
-function GetBaseClass(const S: string): string;
-
 function  CleanSingleSpaces(const S: string): string;
 function  CleanDoubleSpaces(const S: string): string;
 procedure CleanDocument(S: TStringList);
@@ -255,6 +253,7 @@ begin
   if SameValue(Value, 1.0) then result := Format('%s'  , [ASymbol]) else
   if SameValue(Value, 3/2) then result := Format('√%s3', [ASymbol]) else
   if SameValue(Value, 2.0) then result := Format('%s2' , [ASymbol]) else
+  if SameValue(Value, 5/2) then result := Format('√%s5', [ASymbol]) else
   if SameValue(Value, 3.0) then result := Format('%s3' , [ASymbol]) else
   if SameValue(Value, 4.0) then result := Format('%s4' , [ASymbol]) else
   if SameValue(Value, 5.0) then result := Format('%s5' , [ASymbol]) else
@@ -267,18 +266,19 @@ var
   Value: double;
 begin
   value := abs(adim);
-  if samevalue(value, 1/6) then result := format('Sextic Root %s'      , [AName]) else
-  if samevalue(value, 1/5) then result := format('Quintic Root %s'     , [AName]) else
-  if samevalue(value, 1/4) then result := format('Quartic Root %s'     , [AName]) else
-  if samevalue(value, 1/3) then result := format('Cubic Root %s'       , [AName]) else
-  if samevalue(value, 1/2) then result := format('Square Root %s'      , [AName]) else
-  if samevalue(value, 1.0) then result := format('%s'                  , [AName]) else
-  if samevalue(value, 3/2) then result := format('Square Root Cubic %s', [AName]) else
-  if samevalue(value, 2.0) then result := format('Square %s'           , [AName]) else
-  if samevalue(value, 3.0) then result := format('Cubic %s'            , [AName]) else
-  if samevalue(value, 4.0) then result := format('Quartic %s'          , [AName]) else
-  if samevalue(value, 5.0) then result := format('Quintic %s'          , [AName]) else
-  if samevalue(value, 6.0) then result := format('Sextic %s'           , [AName]) else
+  if samevalue(value, 1/6) then result := format('Sextic Root %s'        , [AName]) else
+  if samevalue(value, 1/5) then result := format('Quintic Root %s'       , [AName]) else
+  if samevalue(value, 1/4) then result := format('Quartic Root %s'       , [AName]) else
+  if samevalue(value, 1/3) then result := format('Cubic Root %s'         , [AName]) else
+  if samevalue(value, 1/2) then result := format('Square Root %s'        , [AName]) else
+  if samevalue(value, 1.0) then result := format('%s'                    , [AName]) else
+  if samevalue(value, 3/2) then result := format('Square Root Cubic %s'  , [AName]) else
+  if samevalue(value, 2.0) then result := format('Square %s'             , [AName]) else
+  if samevalue(value, 5/2) then result := format('Square Root Quintic %s', [AName]) else
+  if samevalue(value, 3.0) then result := format('Cubic %s'              , [AName]) else
+  if samevalue(value, 4.0) then result := format('Quartic %s'            , [AName]) else
+  if samevalue(value, 5.0) then result := format('Quintic %s'            , [AName]) else
+  if samevalue(value, 6.0) then result := format('Sextic %s'             , [AName]) else
     raise Exception.Create('ERROR: DimensionToLongString');
 end;
 
@@ -437,24 +437,6 @@ begin
   Result := StringReplace(Result, '?',  '', [rfReplaceAll]);
   Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
   Result := Result + 'Unit';
-end;
-
-function GetBaseClass(const S: string): string;
-begin
-  Result := S;
-  Result := StringReplace(Result, 'Unit',   '',      [rfReplaceAll]);
-  Result := StringReplace(Result, 'Qty',    '',      [rfReplaceAll]);
-
-  Result := StringReplace(Result, 'Feet',   'Foot!', [rfReplaceAll]);
-  Result := StringReplace(Result, 'Inches', 'Inch!', [rfReplaceAll]);
-  Result := StringReplace(Result, 'ies',    'y!',    [rfReplaceAll]);
-  Result := StringReplace(Result, ' ',      '',      [rfReplaceAll]);
-
-
-  if Result = 'TSiemens' then Exit;
-
-  if Result[Length(Result)] = 's' then
-    Result[Length(Result)] := '?';
 end;
 
 
