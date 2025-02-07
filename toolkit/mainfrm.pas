@@ -55,6 +55,7 @@ type
     procedure AddBtnClick(Sender: TObject);
     procedure DeleteBtnClick(Sender: TObject);
     procedure EditBtnClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure MoveDownBtnClick(Sender: TObject);
     procedure MoveUtBtnClick(Sender: TObject);
     procedure SaveBtnClick(Sender: TObject);
@@ -66,6 +67,9 @@ type
     procedure StringGridDblClick(Sender: TObject);
     procedure StringGridPrepareCanvas(Sender: TObject; aCol, aRow: Integer; aState: TGridDrawState);
     procedure UpdateButton(Value: boolean);
+    procedure OnMessage;
+    procedure OnStart;
+    procedure OnStop;
   public
     FList: TToolKitList;
     procedure UpdateGrid;
@@ -75,6 +79,7 @@ type
 
 var
   MainForm: TMainForm;
+  Builder: TToolKitBuilder;
 
 implementation
 
@@ -209,6 +214,11 @@ begin
   UpdateGrid;
 end;
 
+procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := not Assigned(Builder)
+end;
+
 procedure TMainForm.MoveDownBtnClick(Sender: TObject);
 begin
   if StringGrid.Row > 0 then
@@ -269,27 +279,13 @@ begin
 end;
 
 procedure TMainForm.RunBtnClick(Sender: TObject);
-var
-  i: longint;
-  Builder: TToolKitBuilder;
 begin
   UpdateButton(False);
-  Application.ProcessMessages;
   Builder := TToolKitBuilder.Create(FList);
-  Builder.Run;
-
-  SynEdit.BeginUpdate(True);
-  SynEdit.Clear;
-  for i := 0 to Builder.Document.Count - 1 do
-    SynEdit.Append(Builder.Document[i]);
-  SynEdit.EndUpdate;
-
-  Memo.Clear;
-  for i := 0 to Builder.Messages.Count - 1 do
-    Memo.Lines.Add(Builder.Messages[i]);
-
-  Builder.Destroy;
-  UpdateButton(True);
+  Builder.OnMessage := @OnMessage;
+  Builder.OnStart := @OnStart;
+  Builder.OnStop := @OnStop;
+  Builder.Start;
 end;
 
 procedure TMainForm.StringGridDblClick(Sender: TObject);
@@ -321,6 +317,30 @@ begin
     PageControl.TabIndex := 1
   else
     PageControl.TabIndex := 2;
+end;
+
+procedure TMainForm.OnMessage;
+begin
+  Memo.Lines.Add(Builder.Message);
+end;
+
+procedure TMainForm.OnStart;
+begin
+  UpdateButton(False);
+  SynEdit.Clear;
+  Memo.Clear;
+end;
+
+procedure TMainForm.OnStop;
+var
+  i: longint;
+begin
+  SynEdit.BeginUpdate(True);
+  for i := 0 to Builder.Document.Count -1 do
+    SynEdit.Append(Builder.Document[i]);
+  SynEdit.EndUpdate;
+  UpdateButton(True);
+  Builder := nil;
 end;
 
 end.

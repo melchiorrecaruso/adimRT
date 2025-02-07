@@ -7,7 +7,8 @@ object MainForm: TMainForm
   ClientHeight = 577
   ClientWidth = 989
   Position = poMainFormCenter
-  LCLVersion = '4.0.0.2'
+  LCLVersion = '4.99.0.0'
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   object PageControl: TPageControl
