@@ -247,21 +247,23 @@ begin
 end;
 
 function DimensionToShortString(const ADim: longint; const ASymbol: string): string;
+const
+  SpecialChar : array[0..2] of string = ('√','√','√');
 var
   Value: longint;
 begin
   Value := Abs(ADim);
-  if (Value = 15 ) then result := Format('∜%s' , [ASymbol]) else
-  if (Value = 20 ) then result := Format('∛%s' , [ASymbol]) else
-  if (Value = 30 ) then result := Format('√%s' , [ASymbol]) else
-  if (Value = 60 ) then result := Format('%s'  , [ASymbol]) else
-  if (Value = 90 ) then result := Format('√%s3', [ASymbol]) else
-  if (Value = 120) then result := Format('%s2' , [ASymbol]) else
-  if (Value = 150) then result := Format('√%s5', [ASymbol]) else
-  if (Value = 180) then result := Format('%s3' , [ASymbol]) else
-  if (Value = 240) then result := Format('%s4' , [ASymbol]) else
-  if (Value = 300) then result := Format('%s5' , [ASymbol]) else
-  if (Value = 360) then result := Format('%s6' , [ASymbol]) else
+  if (Value = 15 ) then result := SpecialChar[2] + Format('%s' , [ASymbol]) else
+  if (Value = 20 ) then result := SpecialChar[1] + Format('%s' , [ASymbol]) else
+  if (Value = 30 ) then result := SpecialChar[0] + Format('%s' , [ASymbol]) else
+  if (Value = 60 ) then result :=                  Format('%s' , [ASymbol]) else
+  if (Value = 90 ) then result := SpecialChar[0] + Format('%s3', [ASymbol]) else
+  if (Value = 120) then result :=                  Format('%s2', [ASymbol]) else
+  if (Value = 150) then result := SpecialChar[0] + Format('%s5', [ASymbol]) else
+  if (Value = 180) then result :=                  Format('%s3', [ASymbol]) else
+  if (Value = 240) then result :=                  Format('%s4', [ASymbol]) else
+  if (Value = 300) then result :=                  Format('%s5', [ASymbol]) else
+  if (Value = 360) then result :=                  Format('%s6', [ASymbol]) else
     raise Exception.CreateFmt('ERROR: DimensionToShortString (%s)', [Value.ToString]);
 end;
 
@@ -270,19 +272,19 @@ var
   Value: longint;
 begin
   Value := Abs(ADim);
-  if (Value = 10 ) then result := format('Sextic Root %s'        , [AName]) else
-  if (Value = 12 ) then result := format('Quintic Root %s'       , [AName]) else
-  if (Value = 15 ) then result := format('Quartic Root %s'       , [AName]) else
-  if (Value = 20 ) then result := format('Cubic Root %s'         , [AName]) else
-  if (Value = 30 ) then result := format('Square Root %s'        , [AName]) else
-  if (Value = 60 ) then result := format('%s'                    , [AName]) else
-  if (Value = 90 ) then result := format('Square Root Cubic %s'  , [AName]) else
-  if (Value = 120) then result := format('Square %s'             , [AName]) else
-  if (Value = 150) then result := format('Square Root Quintic %s', [AName]) else
-  if (Value = 180) then result := format('Cubic %s'              , [AName]) else
-  if (Value = 240) then result := format('Quartic %s'            , [AName]) else
-  if (Value = 300) then result := format('Quintic %s'            , [AName]) else
-  if (Value = 360) then result := format('Sextic %s'             , [AName]) else
+  if (Value = 10 ) then result := Format('Sextic Root %s'        , [AName]) else
+  if (Value = 12 ) then result := Format('Quintic Root %s'       , [AName]) else
+  if (Value = 15 ) then result := Format('Quartic Root %s'       , [AName]) else
+  if (Value = 20 ) then result := Format('Cubic Root %s'         , [AName]) else
+  if (Value = 30 ) then result := Format('Square Root %s'        , [AName]) else
+  if (Value = 60 ) then result := Format('%s'                    , [AName]) else
+  if (Value = 90 ) then result := Format('Square Root Cubic %s'  , [AName]) else
+  if (Value = 120) then result := Format('Square %s'             , [AName]) else
+  if (Value = 150) then result := Format('Square Root Quintic %s', [AName]) else
+  if (Value = 180) then result := Format('Cubic %s'              , [AName]) else
+  if (Value = 240) then result := Format('Quartic %s'            , [AName]) else
+  if (Value = 300) then result := Format('Quintic %s'            , [AName]) else
+  if (Value = 360) then result := Format('Sextic %s'             , [AName]) else
     raise Exception.CreateFmt('ERROR: DimensionToLongString (%s)', [Value.ToString]);
 end;
 
@@ -362,14 +364,14 @@ begin
   if (Length(Num) > 0) then Delete(Num, 1, 1);
 
   Denom := '';
-  if ADim[1] < 0 then Denom := Denom + DimensionToShortString(ADim[1], '/%skg' );
-  if ADim[2] < 0 then Denom := Denom + DimensionToShortString(ADim[2], '/%sm'  );
-  if ADim[3] < 0 then Denom := Denom + DimensionToShortString(ADim[3], '/%ss'  );
-  if ADim[4] < 0 then Denom := Denom + DimensionToShortString(ADim[4], '/%sA'  );
-  if ADim[5] < 0 then Denom := Denom + DimensionToShortString(ADim[5], '/%sK'  );
-  if ADim[6] < 0 then Denom := Denom + DimensionToShortString(ADim[6], '/%smol');
-  if ADim[7] < 0 then Denom := Denom + DimensionToShortString(ADim[7], '/%scd' );
-  if ADim[8] < 0 then Denom := Denom + DimensionToShortString(ADim[8], '/sr'   );
+  if ADim[1] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[1], '%skg' );
+  if ADim[2] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[2], '%sm'  );
+  if ADim[3] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[3], '%ss'  );
+  if ADim[4] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[4], '%sA'  );
+  if ADim[5] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[5], '%sK'  );
+  if ADim[6] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[6], '%smol');
+  if ADim[7] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[7], '%scd' );
+  if ADim[8] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[8], 'sr'   );
 
   if Num = '' then
   begin

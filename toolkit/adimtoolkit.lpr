@@ -20,6 +20,7 @@
 program adimtoolkit;
 
 {$mode objfpc}{$H+}
+{$codepage utf8}
 
 uses
   {$IFDEF UNIX}
