@@ -28,6 +28,7 @@ uses
 
 type
   TToolKitItem = class
+  public
     FField: string;
     FQuantity: string;
     FDimension: string;
@@ -41,6 +42,8 @@ type
     FColor: string;
     FExponents: TExponents;
     FIndex: longint;
+  public
+    function NewItem: TToolKitItem;
   end;
 
   TToolKitList = class
@@ -52,7 +55,8 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure Add(const Item: TToolKitItem);
+    procedure Add(const AItem: TToolKitItem);
+    procedure Add(const ADim: TExponents);
     procedure Delete(Index: longint);
     procedure Clear;
 
@@ -114,7 +118,7 @@ type
     procedure ExpandUnits;
     procedure CreateIndexes;
     procedure Check;
-    function ReCheck: boolean;
+    function AreThereCollisions: boolean;
     procedure Execute; override;
   public
     property Document: TStringList read FDocument;
@@ -130,25 +134,50 @@ type
 implementation
 
 uses
-  CSVDocument, DateUtils,  LCLType, Math, Process;
+  CSVDocument, DateUtils,  LCLType, Math;
 
 function CompareInteger(const Item1, Item2: longint): integer;
 begin
   result := Item2 - Item1;
 end;
 
+// TToolKitItem
+
+function TToolKitItem.NewItem: TToolKitItem;
+begin
+  result := TToolKitItem.Create;
+  result.FField       := FField;
+  result.FQuantity    := FQuantity;
+  result.FDimension   := FDimension;
+  result.FLongString  := FLongString;
+  result.FShortString := FShortString;
+  result.FIdentifier  := FIdentifier;
+  result.FBase        := FBase;
+  result.FFactor      := FFactor;
+  result.FPrefixes    := FPrefixes;
+  result.FType        := FType;
+  result.FColor       := FColor;
+  result.FExponents   := FExponents;
+  result.FIndex       := FIndex;
+end;
+
 // TToolKitBuilder
 
 constructor TToolKitBuilder.Create(const AList: TToolKitList);
+var
+  i: longint;
 begin
   inherited Create(True);
   FreeOnTerminate := True;
   FDocument := TStringList.Create;
-  FList := AList;
+  FList := TToolKitList.Create;
+  for i := 0 to AList.Count -1 do
+    FList.Add(AList[i].NewItem);
 end;
 
 destructor TToolKitBuilder.Destroy;
 begin
+  FList.Destroy;
   FDocument.Destroy;
   inherited Destroy;
 end;
@@ -544,7 +573,7 @@ begin
     end;
 end;
 
-function TToolKitBuilder.ReCheck: boolean;
+function TToolKitBuilder.AreThereCollisions: boolean;
 var
   i, j, k: longint;
   kExponents: TExponents;
@@ -561,17 +590,17 @@ begin
           kIndex     := FList[i].FIndex + FList[j].FIndex;
 
           for k := 0 to FList.Count -1 do
-            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then Exit(False);
+            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then Exit(True);
 
           // Divide
           kExponents := SubDim(FList[i].FExponents, FList[j].FExponents);
           kIndex     := FList[i].FIndex - FList[j].FIndex;
 
           for k := 0 to FList.Count -1 do
-            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then Exit(False);
+            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then Exit(True);
         end;
     end;
-  result := True;
+  result := False;
 end;
 
 procedure TToolKitBuilder.CreateIndexes;
@@ -580,6 +609,7 @@ var
  Weights: TExponents;
  IsNeededRecalculate: boolean;
  Indexes: TIntegerList;
+ Range: longint;
 begin
   Indexes := TIntegerList.Create;
   Indexes.Sort(@CompareInteger);
@@ -590,25 +620,32 @@ begin
   end;
   ExpandUnits;
 
+  Range := 1;
   IsNeededRecalculate := True;
   while IsNeededRecalculate do
   begin
+    FMessage := '';
     for i := Low(Weights) to High(Weights) do
-      Weights[i] := random(255);
+    begin
+      Weights[i] := random(Range div 10);
+      FMessage := FMessage + ' ' + Weights[i].ToString;
+    end;
+    if Assigned(FOnMessage) then
+      Synchronize(FOnMessage);
 
     Indexes.Clear;
     for i := 0 to FList.Count -1 do
       if FList[i].FBase = '' then
       begin
         FList[i].FIndex :=
-          Trunc(FList[i].FExponents[1]*Weights[1]) +
-          Trunc(FList[i].FExponents[2]*Weights[2]) +
-          Trunc(FList[i].FExponents[3]*Weights[3]) +
-          Trunc(FList[i].FExponents[4]*Weights[4]) +
-          Trunc(FList[i].FExponents[5]*Weights[5]) +
-          Trunc(FList[i].FExponents[6]*Weights[6]) +
-          Trunc(FList[i].FExponents[7]*Weights[7]) +
-          Trunc(FList[i].FExponents[8]*Weights[8]);
+          (FList[i].FExponents[1]*Weights[1]) +
+          (FList[i].FExponents[2]*Weights[2]) +
+          (FList[i].FExponents[3]*Weights[3]) +
+          (FList[i].FExponents[4]*Weights[4]) +
+          (FList[i].FExponents[5]*Weights[5]) +
+          (FList[i].FExponents[6]*Weights[6]) +
+          (FList[i].FExponents[7]*Weights[7]) +
+          (FList[i].FExponents[8]*Weights[8]);
 
         IsNeededRecalculate := Indexes.IndexOf(FList[i].FIndex) <> -1;
         if IsNeededRecalculate = False then
@@ -618,7 +655,8 @@ begin
       end;
 
     if IsNeededRecalculate = False then
-      IsNeededRecalculate := ReCheck = False;
+      IsNeededRecalculate := AreThereCollisions = True;
+    Inc(Range);
   end;
   Indexes.Destroy;
 
@@ -638,14 +676,40 @@ begin
       end;
     end;
   end;
+
+  j := 0;
+  for i := 0 to FList.Count -1 do
+    j := Min(j, FList[i].FIndex);
+  FMessage := 'MinIndex = ' + J.ToString;
+  if Assigned(FOnMessage) then
+    Synchronize(FOnMessage);
+
+  j := 0;
+  for i := 0 to FList.Count -1 do
+    j := Max(j, FList[i].FIndex);
+  FMessage := 'MaxIndex = ' + J.ToString;
+  if Assigned(FOnMessage) then
+    Synchronize(FOnMessage);
 end;
 
 procedure TToolKitBuilder.ExpandUnits;
+const
+  NullDim : TExponents = (0, 0, 0, 0, 0, 0, 0, 0);
+  Powers : array[0..10] of integer = (15, 20, 30, 60, 90, 120, 150, 180, 240, 300, 360);
 var
  i, j: longint;
  NewDim: TExponents;
- NewItem: TToolKitItem;
 begin
+  // Add powers
+  for i := Low(NewDim) to High(NewDim) do
+    for j := Low(Powers) to High(Powers) do
+    begin
+      NewDim := NullDim;
+      NewDim[i] := Powers[j];
+      if FList.Search(NewDim) = -1 then
+        FList.Add(NewDim);
+    end;
+
   // Expand base unit
   i := 0;
   while i < FList.Count do
@@ -658,23 +722,7 @@ begin
          NewDim[j] := 0;
 
          if FList.Search(NewDim) = -1 then
-         begin
-           NewItem := TToolKitItem.Create;
-           NewItem.FField       := '';
-           NewItem.FQuantity    := DimensionToQuantity(NewDim);
-           NewItem.FDimension   := DimensionToString(NewDim);
-           NewItem.FLongString  := DimensionToLongString(NewDim);
-           NewItem.FShortString := DimensionToShortString(NewDim);
-           NewItem.FIdentifier  := '';
-           NewItem.FBase        := '';
-           NewItem.FFactor      := '';
-           NewItem.FPrefixes    := '';
-           NewItem.FExponents   := NewDim;
-           NewItem.FType        := '';
-           NewItem.FColor       := '';
-           NewItem.FIndex       := 0;
-           FList.Add(NewItem);
-         end;
+           FList.Add(NewDim);
        end;
     end;
     Inc(i);
@@ -690,23 +738,7 @@ begin
         NewDim[j] := -FList[i].FExponents[j];
 
       if FList.Search(NewDim) = -1 then
-      begin
-        NewItem := TToolKitItem.Create;
-        NewItem.FField       := '';
-        NewItem.FQuantity    := DimensionToQuantity(NewDim);
-        NewItem.FDimension   := DimensionToString(NewDim);
-        NewItem.FLongString  := DimensionToLongString(NewDim);
-        NewItem.FShortString := DimensionToShortString(NewDim);
-        NewItem.FIdentifier  := '';
-        NewItem.FBase        := '';
-        NewItem.FFactor      := '';
-        NewItem.FPrefixes    := '';
-        NewItem.FExponents   := NewDim;
-        NewItem.FType        := '';
-        NewItem.FColor       := '';
-        NewItem.FIndex       := 0;
-        FList.Add(NewItem);
-      end;
+        FList.Add(NewDim);
     end;
     Inc(i);
   end;
@@ -848,9 +880,33 @@ begin
   inherited Destroy;
 end;
 
-procedure TToolKitList.Add(const Item: TToolKitItem);
+procedure TToolKitList.Add(const AItem: TToolKitItem);
 begin
-  FList.Add(Item);
+  if Search(AItem.FQuantity, 1) = -1 then
+    FList.Add(AItem)
+  else
+    AItem.Destroy;
+end;
+
+procedure TToolKitList.Add(const ADim: TExponents);
+var
+  NewItem: TToolKitItem;
+begin
+  NewItem := TToolKitItem.Create;
+  NewItem.FField       := 'AUTO';
+  NewItem.FQuantity    := DimensionToQuantity(ADim);
+  NewItem.FDimension   := DimensionToString(ADim);
+  NewItem.FLongString  := DimensionToLongString(ADim);
+  NewItem.FShortString := DimensionToShortString(ADim);
+  NewItem.FIdentifier  := '';
+  NewItem.FBase        := '';
+  NewItem.FFactor      := '';
+  NewItem.FPrefixes    := '';
+  NewItem.FExponents   := ADim;
+  NewItem.FType        := '';
+  NewItem.FColor       := '';
+  NewItem.FIndex       := 0;
+  FList.Add(NewItem);
 end;
 
 procedure TToolKitList.Delete(Index: longint);
@@ -932,14 +988,14 @@ begin
     Item := TToolKitItem(FList[i]);
     if Item.FBase = '' then
     begin
-      if Math.SameValue(Item.FExponents[1], ADim[1]) and
-         Math.SameValue(Item.FExponents[2], ADim[2]) and
-         Math.SameValue(Item.FExponents[3], ADim[3]) and
-         Math.SameValue(Item.FExponents[4], ADim[4]) and
-         Math.SameValue(Item.FExponents[5], ADim[5]) and
-         Math.SameValue(Item.FExponents[6], ADim[6]) and
-         Math.SameValue(Item.FExponents[7], ADim[7]) and
-         Math.SameValue(Item.FExponents[8], ADim[8]) then Exit(i);
+      if (Item.FExponents[1] = ADim[1]) and
+         (Item.FExponents[2] = ADim[2]) and
+         (Item.FExponents[3] = ADim[3]) and
+         (Item.FExponents[4] = ADim[4]) and
+         (Item.FExponents[5] = ADim[5]) and
+         (Item.FExponents[6] = ADim[6]) and
+         (Item.FExponents[7] = ADim[7]) and
+         (Item.FExponents[8] = ADim[8]) then Exit(i);
     end;
   end;
   result := -1;
@@ -955,14 +1011,14 @@ begin
     Item := TToolKitItem(FList[i]);
     if Item.FBase = '' then
     begin
-      if Math.SameValue(Item.FExponents[1], ADim[1]) and
-         Math.SameValue(Item.FExponents[2], ADim[2]) and
-         Math.SameValue(Item.FExponents[3], ADim[3]) and
-         Math.SameValue(Item.FExponents[4], ADim[4]) and
-         Math.SameValue(Item.FExponents[5], ADim[5]) and
-         Math.SameValue(Item.FExponents[6], ADim[6]) and
-         Math.SameValue(Item.FExponents[7], ADim[7]) and
-         Math.SameValue(Item.FExponents[8], ADim[8]) then Exit(i);
+      if (Item.FExponents[1] = ADim[1]) and
+         (Item.FExponents[2] = ADim[2]) and
+         (Item.FExponents[3] = ADim[3]) and
+         (Item.FExponents[4] = ADim[4]) and
+         (Item.FExponents[5] = ADim[5]) and
+         (Item.FExponents[6] = ADim[6]) and
+         (Item.FExponents[7] = ADim[7]) and
+         (Item.FExponents[8] = ADim[8]) then Exit(i);
     end;
   end;
   result := -1;
@@ -970,14 +1026,14 @@ end;
 
 function TToolKitList.SameValue(const ADim1, ADim2: TExponents): boolean;
 begin
-  result := Math.SameValue(ADim1[1], ADim2[1]) and
-            Math.SameValue(ADim1[2], ADim2[2]) and
-            Math.SameValue(ADim1[3], ADim2[3]) and
-            Math.SameValue(ADim1[4], ADim2[4]) and
-            Math.SameValue(ADim1[5], ADim2[5]) and
-            Math.SameValue(ADim1[6], ADim2[6]) and
-            Math.SameValue(ADim1[7], ADim2[7]) and
-            Math.SameValue(ADim1[8], ADim2[8]);
+  result := (ADim1[1] = ADim2[1]) and
+            (ADim1[2] = ADim2[2]) and
+            (ADim1[3] = ADim2[3]) and
+            (ADim1[4] = ADim2[4]) and
+            (ADim1[5] = ADim2[5]) and
+            (ADim1[6] = ADim2[6]) and
+            (ADim1[7] = ADim2[7]) and
+            (ADim1[8] = ADim2[8]);
 end;
 
 procedure TToolKitList.SaveToFile(const AFileName: string);

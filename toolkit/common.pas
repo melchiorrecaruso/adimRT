@@ -27,7 +27,11 @@ uses
   Classes, SysUtils;
 
 type
-  TExponents = array [1..8] of double;
+  TExponents = array [1..8] of longint;
+
+const
+  TExponentBase = 60;
+  TExponentValue : array[0..12] of integer = (10, 15, 20, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360);
 
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
@@ -67,7 +71,7 @@ procedure CleanDocument(S: TStringList);
 implementation
 
 uses
-  Math, StrUtils, Types;
+  StrUtils, Types;
 
 function Split(const AStr: string): TStringArray;
 var
@@ -78,7 +82,6 @@ begin
   SetLength(result, Index + 10);
   for I := Low(AStr) to High(AStr) do
   begin
-
     if AStr[I] in ['/', '.'] then
     begin
       Inc(Index);
@@ -172,9 +175,10 @@ var
   List2: TStringDynArray;
   R: string;
 
-  function GetExponent(const AKey: string): double;
+  function GetExponent(const AKey: string): longint;
   var
     i: longint;
+    D: double;
   begin
     i := 0;
     while i < List1.Count do
@@ -187,12 +191,12 @@ var
         if Length(R) = 0 then
         begin
           List1.Delete(i);
-          Exit(1.0)
+          Exit(TExponentBase)
         end else
-          if TryStrToFloat(R, result) then
+          if TryStrToFloat(R, D) then
           begin
             List1.Delete(i);
-            Exit(result);
+            Exit(Trunc(D*TExponentBase));
           end;
       end;
       Inc(i);
@@ -226,14 +230,14 @@ var
 begin
   result := '';
 
-  if not Math.SameValue(ADim[1], 0) then result := result + Format('kg%0.1f ',  [ADim[1]]);
-  if not Math.SameValue(ADim[2], 0) then result := result + Format('m%0.1f ',   [ADim[2]]);
-  if not Math.SameValue(ADim[3], 0) then result := result + Format('s%0.1f ',   [ADim[3]]);
-  if not Math.SameValue(ADim[4], 0) then result := result + Format('A%0.1f ',   [ADim[4]]);
-  if not Math.SameValue(ADim[5], 0) then result := result + Format('K%0.1f ',   [ADim[5]]);
-  if not Math.SameValue(ADim[6], 0) then result := result + Format('mol%0.1f ', [ADim[6]]);
-  if not Math.SameValue(ADim[7], 0) then result := result + Format('cd%0.1f ',  [ADim[7]]);
-  if not Math.SameValue(ADim[8], 0) then result := result + Format('sr%0.1f ',  [ADim[8]]);
+  if (ADim[1] <> 0) then result := result + Format('kg%0.1f ',  [ADim[1]/TExponentBase]);
+  if (ADim[2] <> 0) then result := result + Format('m%0.1f ',   [ADim[2]/TExponentBase]);
+  if (ADim[3] <> 0) then result := result + Format('s%0.1f ',   [ADim[3]/TExponentBase]);
+  if (ADim[4] <> 0) then result := result + Format('A%0.1f ',   [ADim[4]/TExponentBase]);
+  if (ADim[5] <> 0) then result := result + Format('K%0.1f ',   [ADim[5]/TExponentBase]);
+  if (ADim[6] <> 0) then result := result + Format('mol%0.1f ', [ADim[6]/TExponentBase]);
+  if (ADim[7] <> 0) then result := result + Format('cd%0.1f ',  [ADim[7]/TExponentBase]);
+  if (ADim[8] <> 0) then result := result + Format('sr%0.1f ',  [ADim[8]/TExponentBase]);
 
   i := Length(result);
   if i > 0 then
@@ -242,44 +246,44 @@ begin
   end;
 end;
 
-function DimensionToShortString(const ADim: double; const ASymbol: string): string;
+function DimensionToShortString(const ADim: longint; const ASymbol: string): string;
 var
-  Value: double;
+  Value: longint;
 begin
   Value := Abs(ADim);
-  if SameValue(Value, 1/4) then result := Format('∜%s' , [ASymbol]) else
-  if SameValue(Value, 1/3) then result := Format('∛%s' , [ASymbol]) else
-  if SameValue(Value, 1/2) then result := Format('√%s' , [ASymbol]) else
-  if SameValue(Value, 1.0) then result := Format('%s'  , [ASymbol]) else
-  if SameValue(Value, 3/2) then result := Format('√%s3', [ASymbol]) else
-  if SameValue(Value, 2.0) then result := Format('%s2' , [ASymbol]) else
-  if SameValue(Value, 5/2) then result := Format('√%s5', [ASymbol]) else
-  if SameValue(Value, 3.0) then result := Format('%s3' , [ASymbol]) else
-  if SameValue(Value, 4.0) then result := Format('%s4' , [ASymbol]) else
-  if SameValue(Value, 5.0) then result := Format('%s5' , [ASymbol]) else
-  if SameValue(Value, 6.0) then result := Format('%s6' , [ASymbol]) else
-    raise Exception.Create('ERROR: DimensionToShortString');
+  if (Value = 15 ) then result := Format('∜%s' , [ASymbol]) else
+  if (Value = 20 ) then result := Format('∛%s' , [ASymbol]) else
+  if (Value = 30 ) then result := Format('√%s' , [ASymbol]) else
+  if (Value = 60 ) then result := Format('%s'  , [ASymbol]) else
+  if (Value = 90 ) then result := Format('√%s3', [ASymbol]) else
+  if (Value = 120) then result := Format('%s2' , [ASymbol]) else
+  if (Value = 150) then result := Format('√%s5', [ASymbol]) else
+  if (Value = 180) then result := Format('%s3' , [ASymbol]) else
+  if (Value = 240) then result := Format('%s4' , [ASymbol]) else
+  if (Value = 300) then result := Format('%s5' , [ASymbol]) else
+  if (Value = 360) then result := Format('%s6' , [ASymbol]) else
+    raise Exception.CreateFmt('ERROR: DimensionToShortString (%s)', [Value.ToString]);
 end;
 
-function DimensionToLongString(const ADim: double; AName: string): string;
+function DimensionToLongString(const ADim: longint; AName: string): string;
 var
-  Value: double;
+  Value: longint;
 begin
-  value := abs(adim);
-  if samevalue(value, 1/6) then result := format('Sextic Root %s'        , [AName]) else
-  if samevalue(value, 1/5) then result := format('Quintic Root %s'       , [AName]) else
-  if samevalue(value, 1/4) then result := format('Quartic Root %s'       , [AName]) else
-  if samevalue(value, 1/3) then result := format('Cubic Root %s'         , [AName]) else
-  if samevalue(value, 1/2) then result := format('Square Root %s'        , [AName]) else
-  if samevalue(value, 1.0) then result := format('%s'                    , [AName]) else
-  if samevalue(value, 3/2) then result := format('Square Root Cubic %s'  , [AName]) else
-  if samevalue(value, 2.0) then result := format('Square %s'             , [AName]) else
-  if samevalue(value, 5/2) then result := format('Square Root Quintic %s', [AName]) else
-  if samevalue(value, 3.0) then result := format('Cubic %s'              , [AName]) else
-  if samevalue(value, 4.0) then result := format('Quartic %s'            , [AName]) else
-  if samevalue(value, 5.0) then result := format('Quintic %s'            , [AName]) else
-  if samevalue(value, 6.0) then result := format('Sextic %s'             , [AName]) else
-    raise Exception.Create('ERROR: DimensionToLongString');
+  Value := Abs(ADim);
+  if (Value = 10 ) then result := format('Sextic Root %s'        , [AName]) else
+  if (Value = 12 ) then result := format('Quintic Root %s'       , [AName]) else
+  if (Value = 15 ) then result := format('Quartic Root %s'       , [AName]) else
+  if (Value = 20 ) then result := format('Cubic Root %s'         , [AName]) else
+  if (Value = 30 ) then result := format('Square Root %s'        , [AName]) else
+  if (Value = 60 ) then result := format('%s'                    , [AName]) else
+  if (Value = 90 ) then result := format('Square Root Cubic %s'  , [AName]) else
+  if (Value = 120) then result := format('Square %s'             , [AName]) else
+  if (Value = 150) then result := format('Square Root Quintic %s', [AName]) else
+  if (Value = 180) then result := format('Cubic %s'              , [AName]) else
+  if (Value = 240) then result := format('Quartic %s'            , [AName]) else
+  if (Value = 300) then result := format('Quintic %s'            , [AName]) else
+  if (Value = 360) then result := format('Sextic %s'             , [AName]) else
+    raise Exception.CreateFmt('ERROR: DimensionToLongString (%s)', [Value.ToString]);
 end;
 
 function DimensionToLongStringEx(const ADim: TExponents): string;
@@ -438,7 +442,6 @@ begin
   Result := StringReplace(Result, ' ',  '', [rfReplaceAll]);
   Result := Result + 'Unit';
 end;
-
 
 function GetPrefixes(const AShortSymbol: string): string;
 var
