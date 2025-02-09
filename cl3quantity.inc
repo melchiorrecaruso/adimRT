@@ -4,7 +4,7 @@ type
 
   { TMultivecQuantity }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TMultivecQuantity = record
   private
     FID: longint;
@@ -42,7 +42,7 @@ type
 
   { TTrivecQuantity }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TTrivecQuantity = record
   private
     FID: longint;
@@ -88,7 +88,7 @@ type
 
   { TBivecQuantity }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TBivecQuantity = record
   private
     FID: longint;
@@ -142,7 +142,7 @@ type
 
   { TVecQuantity }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TVecQuantity = record
   private
     FID: longint;
@@ -204,7 +204,7 @@ type
 
   { TMultivecQuantityHelper }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TMultivecQuantityHelper = record helper for TMultivecQuantity
     function Dual: TMultivecQuantity;
     function Inverse: TMultivecQuantity;
@@ -272,7 +272,7 @@ type
 
   { TTrivecQuantityHelper }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TTrivecQuantityHelper = record helper for TTrivecQuantity
     function Dual: TQuantity;
     function Inverse: TTrivecQuantity;
@@ -322,7 +322,7 @@ type
 
   { TBivecQuantityHelper }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TBivecQuantityHelper = record helper for TBivecQuantity
     function Dual: TVecQuantity;
     function Inverse: TBivecQuantity;
@@ -374,7 +374,7 @@ type
 
   { TVecQuantityHelper }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TVecQuantityHelper = record helper for TVecQuantity
     function Dual: TBivecQuantity;
     function Inverse: TVecQuantity;

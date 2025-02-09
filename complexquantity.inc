@@ -4,7 +4,7 @@ type
 
   // TComplexQuantity
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TComplexQuantity = record
   private
     FID: longint;
@@ -44,7 +44,7 @@ type
   TComplexQuantity = TComplex;
   {$ENDIF}
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
   operator *(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
   operator /(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;

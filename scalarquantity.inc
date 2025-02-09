@@ -4,7 +4,7 @@ type
 
   // TQuantity
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TQuantity = record
   private
     FID: longint;

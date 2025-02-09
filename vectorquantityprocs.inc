@@ -2,7 +2,7 @@
 
 // TVecQuantity
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 class operator TVecQuantity.<>(const ALeft, ARight: TVecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
@@ -66,7 +66,7 @@ end;
 
 // TVecQuantityHelper
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 
 function TVecQuantityHelper.Reciprocal: TVecQuantity;
 begin

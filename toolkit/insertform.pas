@@ -41,13 +41,13 @@ type
     Prefixes: TComboBox;
     Quantity: TComboBox;
     ShortSymbol: TComboBox;
-    TypeQuantityLB: TLabel;
+    CommentB: TLabel;
     OkBtn: TBitBtn;
     CancelBtn: TBitBtn;
     PrefixesLB: TLabel;
     Field: TComboBox;
     BaseQuantity: TComboBox;
-    TypeQuantity: TComboBox;
+    Comment: TComboBox;
     DimensionLB: TLabel;
     IdentifierLB: TLabel;
     BaseQuantityLB: TLabel;

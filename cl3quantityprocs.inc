@@ -2,7 +2,7 @@
 
 // TMultivecQuantity
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 class operator TMultivecQuantity.:=(const AValue: TQuantity): TMultivecQuantity;
 begin
   result.FID := AValue.FID;
@@ -126,7 +126,7 @@ end;
 
 // TTrivecQuantity
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 
 class operator TTrivecQuantity.:=(const AValue: TTrivecQuantity): TMultivecQuantity;
 begin
@@ -299,7 +299,7 @@ end;
 
 // TBivecQuantity
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 class operator TBivecQuantity.:=(const AValue: TBivecQuantity): TMultivecQuantity;
 begin
   result.FID := AValue.FID;
@@ -519,7 +519,7 @@ end;
 
 // TVecQuantity
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 class operator TVecQuantity.:=(const AValue: TVecQuantity): TMultivecQuantity;
 begin
   result.FID := AValue.FID;
@@ -787,7 +787,7 @@ end;
 
 // TMultivecQuantityHelper
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 function TMultivecQuantityHelper.Dual: TMultivecQuantity;
 begin
   result.FID := FID;
@@ -1086,7 +1086,7 @@ end;
 
 // TTrivecQuantityHelper
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 function TTrivecQuantityHelper.Dual: TQuantity;
 begin
   result.FID := FID;
@@ -1298,7 +1298,7 @@ end;
 
 // TBivecQuantityHelper
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 function TBivecQuantityHelper.Dual: TVecQuantity;
 begin
   result.FID := FID;
@@ -1516,7 +1516,7 @@ end;
 
 // TVecQuantityHelper
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 function TVecQuantityHelper.Dual: TBivecQuantity;
 begin
   result.FID := FID;

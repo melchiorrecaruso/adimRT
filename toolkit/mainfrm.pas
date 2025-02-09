@@ -33,6 +33,7 @@ type
 
   TMainForm = class(TForm)
     AddBtn: TBitBtn;
+    Details: TMemo;
     MoveDownBtn: TBitBtn;
     MoveUtBtn: TBitBtn;
     DeleteBtn: TBitBtn;
@@ -55,6 +56,7 @@ type
     procedure AddBtnClick(Sender: TObject);
     procedure DeleteBtnClick(Sender: TObject);
     procedure EditBtnClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure MoveDownBtnClick(Sender: TObject);
     procedure MoveUtBtnClick(Sender: TObject);
     procedure SaveBtnClick(Sender: TObject);
@@ -66,6 +68,9 @@ type
     procedure StringGridDblClick(Sender: TObject);
     procedure StringGridPrepareCanvas(Sender: TObject; aCol, aRow: Integer; aState: TGridDrawState);
     procedure UpdateButton(Value: boolean);
+    procedure OnMessage;
+    procedure OnStart;
+    procedure OnStop;
   public
     FList: TToolKitList;
     procedure UpdateGrid;
@@ -75,6 +80,7 @@ type
 
 var
   MainForm: TMainForm;
+  Builder: TToolKitBuilder;
 
 implementation
 
@@ -136,7 +142,7 @@ begin
   InsertFrm.BaseQuantity.Text := '';
   InsertFrm.Factor      .Text := '';
   InsertFrm.Prefixes    .Text := '';
-  InsertFrm.TypeQuantity.Text := '';
+  InsertFrm.Comment     .Text := '';
   InsertFrm.ColorBtn    .ButtonColor := clWhite;
 
   UpdateInsertFrmField;
@@ -152,7 +158,7 @@ begin
     Item.FBase         := InsertFrm.BaseQuantity.Text;
     Item.FFactor       := InsertFrm.Factor      .Text;
     Item.FPrefixes     := InsertFrm.Prefixes    .Text;
-    Item.FType         := InsertFrm.TypeQuantity.Text;
+    Item.FComment      := InsertFrm.Comment     .Text;
     Item.FColor        := ColorToString(InsertFrm.ColorBtn.ButtonColor);
     FList.Add(Item);
   end;
@@ -187,7 +193,7 @@ begin
     InsertFrm.BaseQuantity.Text := Item.FBase;
     InsertFrm.Factor      .Text := Item.FFactor;
     InsertFrm.Prefixes    .Text := Item.FPrefixes;
-    InsertFrm.TypeQuantity.Text := Item.FType;
+    InsertFrm.Comment     .Text := Item.FComment;
     InsertFrm.ColorBtn.ButtonColor := StringToColor(Item.FColor);
 
     UpdateInsertFrmField;
@@ -202,11 +208,16 @@ begin
       Item.FBase         := InsertFrm.BaseQuantity.Text;
       Item.FFactor       := InsertFrm.Factor      .Text;
       Item.FPrefixes     := InsertFrm.Prefixes    .Text;
-      Item.FType         := InsertFrm.TypeQuantity.Text;
+      Item.FComment      := InsertFrm.Comment     .Text;
       Item.FColor        := ColorToString(InsertFrm.ColorBtn.ButtonColor);
     end;
   end;
   UpdateGrid;
+end;
+
+procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose := not Assigned(Builder)
 end;
 
 procedure TMainForm.MoveDownBtnClick(Sender: TObject);
@@ -239,7 +250,7 @@ begin
     StringGrid.Cells[6, i + 1] := FList[i].FBase;
     StringGrid.Cells[7, i + 1] := FList[i].FFactor;
     StringGrid.Cells[8, i + 1] := FList[i].FPrefixes;
-    StringGrid.Cells[9, i + 1] := FList[i].FType;
+    StringGrid.Cells[9, i + 1] := FList[i].FComment;
   end;
 end;
 
@@ -269,27 +280,13 @@ begin
 end;
 
 procedure TMainForm.RunBtnClick(Sender: TObject);
-var
-  i: longint;
-  Builder: TToolKitBuilder;
 begin
   UpdateButton(False);
-  Application.ProcessMessages;
   Builder := TToolKitBuilder.Create(FList);
-  Builder.Run;
-
-  SynEdit.BeginUpdate(True);
-  SynEdit.Clear;
-  for i := 0 to Builder.Document.Count - 1 do
-    SynEdit.Append(Builder.Document[i]);
-  SynEdit.EndUpdate;
-
-  Memo.Clear;
-  for i := 0 to Builder.Messages.Count - 1 do
-    Memo.Lines.Add(Builder.Messages[i]);
-
-  Builder.Destroy;
-  UpdateButton(True);
+  Builder.OnMessage := @OnMessage;
+  Builder.OnStart := @OnStart;
+  Builder.OnStop := @OnStop;
+  Builder.Start;
 end;
 
 procedure TMainForm.StringGridDblClick(Sender: TObject);
@@ -321,6 +318,52 @@ begin
     PageControl.TabIndex := 1
   else
     PageControl.TabIndex := 2;
+end;
+
+procedure TMainForm.OnMessage;
+begin
+  Memo.Lines.Add(Builder.Message);
+end;
+
+procedure TMainForm.OnStart;
+begin
+  UpdateButton(False);
+  SynEdit.Clear;
+  Details.Clear;
+  Memo.Clear;
+end;
+
+procedure TMainForm.OnStop;
+var
+  i: longint;
+  UnitList: TSTringList;
+begin
+  SynEdit.BeginUpdate(True);
+  for i := 0 to Builder.Document.Count -1 do
+    SynEdit.Append(Builder.Document[i]);
+  SynEdit.EndUpdate;
+  UpdateButton(True);
+
+  UnitList := TStringList.Create;
+  for i := 0 to Builder.BaseUnits.Count -1 do
+    UnitList.Add(Builder.BaseUnits[i]);
+  for i := 0 to Builder.FactoredUnits.Count -1 do
+    UnitList.Add(Builder.FactoredUnits[i]);
+  Details.Lines.Add('Unit:');
+  Details.Lines.Add('');
+  UnitList.Sort;
+  for i := 0 to UnitList.Count -1 do
+    Details.Lines.Add(UnitList[i]);
+  UnitList.Destroy;
+
+  Details.Lines.Add('');
+  Details.Lines.Add('Identifiers:');
+  Details.Lines.Add('');
+  Builder.Identifiers.Sort;
+  for i := 0 to Builder.Identifiers.Count -1 do
+    Details.Lines.Add(Builder.Identifiers[i]);
+
+  Builder := nil;
 end;
 
 end.
