@@ -19,7 +19,7 @@ end;
 
 // Check routines
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   {$ASSERTIONS ON}
 {$ENDIF}
 
@@ -95,7 +95,7 @@ end;
 
 class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
@@ -105,7 +105,7 @@ end;
 
 class operator TUnit./(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity;
 {$ELSE}
@@ -115,7 +115,7 @@ end;
 
 class operator TUnit.*(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
@@ -125,7 +125,7 @@ end;
 
 class operator TUnit./(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity;
 {$ELSE}
@@ -135,7 +135,7 @@ end;
 
 class operator TUnit.*(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckMul(ScalarID, ASelf.FID);
   result.FValue := AQuantity;
 {$ELSE}
@@ -145,7 +145,7 @@ end;
 
 class operator TUnit./(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarID, ASelf.FID);
   result.FValue := AQuantity;
 {$ELSE}
@@ -155,7 +155,7 @@ end;
 
 class operator TUnit.*(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckMul(ASelf.FID, ScalarID);
   result.FValue := AQuantity;
 {$ELSE}
@@ -165,7 +165,7 @@ end;
 
 class operator TUnit./(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ASelf.FID, ScalarID);
   result.FValue := AQuantity.Reciprocal;
 {$ELSE}
@@ -176,7 +176,7 @@ end;
 {$IFDEF CLIFFORD}
 class operator TUnit.*(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
@@ -186,7 +186,7 @@ end;
 
 class operator TUnit./(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity;
 {$ELSE}
@@ -196,7 +196,7 @@ end;
 
 class operator TUnit.*(const AQuantity: TTrivector; const ASelf: TUnit): TTrivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
@@ -206,7 +206,7 @@ end;
 
 class operator TUnit./(const AQuantity: TTrivector; const ASelf: TUnit): TTrivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity;
 {$ELSE}
@@ -216,7 +216,7 @@ end;
 
 class operator TUnit.*(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity;
 {$ELSE}
@@ -226,7 +226,7 @@ end;
 
 class operator TUnit./(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity;
 {$ELSE}
@@ -235,7 +235,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 class operator TUnit.*(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
@@ -327,7 +327,7 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -337,7 +337,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -347,7 +347,7 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TFactoredUnit): TVecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -357,7 +357,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TFactoredUnit): TVecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -368,7 +368,7 @@ end;
 {$IFDEF CLIFFORD}
 class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TFactoredUnit): TBivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -378,7 +378,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TFactoredUnit): TBivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -388,7 +388,7 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -398,7 +398,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -408,7 +408,7 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
@@ -418,7 +418,7 @@ end;
 
 class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
@@ -427,7 +427,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 class operator TFactoredUnit.*(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
@@ -495,7 +495,7 @@ end;
 
 class operator TDegreeCelsiusUnit.*(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := AQuantity + 273.15;
 {$ELSE}
@@ -507,7 +507,7 @@ end;
 
 class operator TDegreeFahrenheitUnit.*(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
   result.FValue := 5/9 * (AQuantity - 32) + 273.15;
 {$ELSE}
@@ -607,7 +607,7 @@ end;
 
 function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue;
 {$ELSE}
@@ -617,7 +617,7 @@ end;
 
 function TUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
@@ -627,7 +627,7 @@ end;
 
 function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
 begin
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue;
 {$ELSE}
@@ -637,7 +637,7 @@ end;
 
 function TUnitHelper.ToVector(const AQuantity: TVecQuantity): TVector;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue;
 {$ELSE}
@@ -647,7 +647,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
@@ -659,7 +659,7 @@ function TUnitHelper.ToString(const AQuantity: TQuantity; const APrefixes: TPref
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes); 
 {$ELSE}
@@ -676,7 +676,7 @@ function TUnitHelper.ToString(const AQuantity: TQuantity; APrecision, ADigits: l
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
@@ -694,7 +694,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
@@ -716,7 +716,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
     result := FloatToStr(AQuantity.FValue) + ' ' + GetName(FPrefixes)
@@ -734,7 +734,7 @@ function TUnitHelper.ToVerboseString(const AQuantity: TQuantity; const APrefixes
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
@@ -760,7 +760,7 @@ function TUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecision, ADi
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
@@ -787,7 +787,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);    
@@ -809,7 +809,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TVecQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
@@ -820,7 +820,7 @@ end;
 {$IFDEF CLIFFORD}
 function TUnitHelper.ToVerboseString(const AQuantity: TBivecQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
@@ -830,7 +830,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TTrivecQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
@@ -840,7 +840,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TMultivecQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
@@ -851,7 +851,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TVecQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
@@ -862,7 +862,7 @@ end;
 {$IFDEF CLIFFORD}
 function TUnitHelper.ToString(const AQuantity: TBivecQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
@@ -872,7 +872,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TTrivecQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
@@ -882,7 +882,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TMultivecQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
@@ -893,7 +893,7 @@ end;
 
 function TUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := '(' + AQuantity.FValue.ToString + ') ' + GetSymbol(FPrefixes)
 {$ELSE}
@@ -903,7 +903,7 @@ end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := '(' + AQuantity.FValue.ToString + ') ' + GetName(FPrefixes)
 {$ELSE}
@@ -1003,7 +1003,7 @@ end;
 
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1013,7 +1013,7 @@ end;
 
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -1023,7 +1023,7 @@ end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := FloatToStr(AQuantity.FValue / FFactor) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
@@ -1035,7 +1035,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TQuantity; const APrefixe
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -1052,7 +1052,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TQuantity; APrecision, AD
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
    Check(AQuantity.FID, FID);
    FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -1070,7 +1070,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
@@ -1094,7 +1094,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TQuantity): string
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1111,7 +1111,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TQuantity; const A
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -1137,7 +1137,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecis
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -1164,7 +1164,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
@@ -1188,7 +1188,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TVecQuantity): string;
 var
   FactoredValue: TVector;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1202,7 +1202,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TBivecQuantity): string;
 var
   FactoredValue: TBivector;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1215,7 +1215,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TTrivecQuantity): string;
 var
   FactoredValue: TTrivector;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1228,7 +1228,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TMultivecQuantity): strin
 var
   FactoredValue: TMultivector;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1242,7 +1242,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TVecQuantity): str
 var
   FactoredValue: TVector;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1256,7 +1256,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TBivecQuantity): s
 var
   FactoredValue: TBivector;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1269,7 +1269,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TTrivecQuantity): 
 var
   FactoredValue: TTrivector;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1282,7 +1282,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TMultivecQuantity)
 var
   FactoredValue: TMultivector;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1296,7 +1296,7 @@ function TFactoredUnitHelper.ToString(const AQuantity: TComplexQuantity): string
 var
   FactoredValue: TComplex;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1309,7 +1309,7 @@ function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity):
 var
   FactoredValue: TComplex;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
@@ -1410,7 +1410,7 @@ end;
 
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := AQuantity.FValue - 273.15;
 {$ELSE}
@@ -1420,7 +1420,7 @@ end;
 
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
@@ -1430,7 +1430,7 @@ end;
 
 function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := FloatToStr(AQuantity.FValue - 273.15) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
@@ -1442,7 +1442,7 @@ function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity; const APr
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
@@ -1459,7 +1459,7 @@ function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity; APrecisio
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
@@ -1477,7 +1477,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
@@ -1501,7 +1501,7 @@ function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TQuantity): s
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := AQuantity.FValue - 273.15;
 {$ELSE}
@@ -1518,7 +1518,7 @@ function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TQuantity; co
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
@@ -1544,7 +1544,7 @@ function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TQuantity; AP
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
@@ -1571,7 +1571,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
@@ -1683,7 +1683,7 @@ end;
 
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := 9/5 * AQuantity.FValue - 459.67;
 {$ELSE}
@@ -1693,7 +1693,7 @@ end;
 
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
@@ -1703,7 +1703,7 @@ end;
 
 function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   result := FloatToStr(9/5 * AQuantity.FValue - 459.67) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
@@ -1715,7 +1715,7 @@ function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity; const 
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
@@ -1732,7 +1732,7 @@ function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity; APreci
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
@@ -1750,7 +1750,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
@@ -1774,7 +1774,7 @@ function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TQuantity)
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := 9/5 * AQuantity.FValue - 459.67;
 {$ELSE}
@@ -1791,7 +1791,7 @@ function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TQuantity;
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
@@ -1817,7 +1817,7 @@ function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TQuantity;
 var
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
@@ -1844,7 +1844,7 @@ var
   FactoredTol: double;
   FactoredValue: double;
 begin
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
   Check(AQuantity.FID, FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);

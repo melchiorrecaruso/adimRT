@@ -442,7 +442,7 @@ var
   Factor: string;
   FIndex: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFDEF ADIMDEBUG} (FID: %sID; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TQuantity = {$IFNDEF ADIMOFF} (FID: %sID; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AItem.FFactor <> '' then

@@ -1,6 +1,6 @@
 { TQuantity implementation }
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 class operator TQuantity.:=(const AValue: double): TQuantity;
 begin
   result.FID := ScalarId;

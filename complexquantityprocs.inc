@@ -2,7 +2,7 @@
 
 // TComplexQuantity
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 function TComplexQuantity.Dual: TComplexQuantity;
 begin
   result.FID := FID;
@@ -154,7 +154,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF ADIMDEBUG}
+{$IFNDEF ADIMOFF}
 operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ScalarID);

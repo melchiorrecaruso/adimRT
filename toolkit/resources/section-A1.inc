@@ -56,7 +56,7 @@ type
     class operator *(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
     class operator /(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
   {$ENDIF}
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
     class operator *(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
     class operator /(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
     class operator *(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQuantity; inline;
@@ -101,7 +101,7 @@ type
     class operator *(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
     class operator /(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
   {$ENDIF}
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
     class operator *(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
     class operator /(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
     class operator *(const AQuantity: TVecQuantity; const ASelf: TFactoredUnit): TVecQuantity; inline;

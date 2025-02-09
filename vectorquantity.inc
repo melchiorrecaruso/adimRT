@@ -4,7 +4,7 @@ type
 
   { TVecQuantity }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TVecQuantity = record
   private
     FID: longint;
@@ -27,7 +27,7 @@ type
 
   { TVecQuantityHelper }
 
-  {$IFDEF ADIMDEBUG}
+  {$IFNDEF ADIMOFF}
   TVecQuantityHelper = record helper for TVecQuantity
     function Reciprocal: TVecQuantity;
     function Normalized: TVecQuantity;
