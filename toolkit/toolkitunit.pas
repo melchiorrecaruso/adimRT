@@ -38,7 +38,7 @@ type
     FBase: string;
     FFactor: string;
     FPrefixes: string;
-    FType: string;
+    FComment: string;
     FColor: string;
     FExponents: TExponents;
     FIndex: longint;
@@ -77,10 +77,12 @@ type
 
   TToolKitBuilder = class(TThread)
   private
-    BaseUnitCount: longint;
-    FactoredUnitCount: longint;
     FList: TToolKitList;
+    FBaseUnits: TStringList;
+    FFactoredUnits: TStringList;
+    FIdentifiers: TStringList;
     FDocument: TStringList;
+
     FMessage: string;
     FOnMessage: TThreadMethod;
     FOnStart: TThreadMethod;
@@ -122,6 +124,10 @@ type
     procedure Execute; override;
   public
     property Document: TStringList read FDocument;
+    property BaseUnits: TStringList read FBaseUnits;
+    property FactoredUnits: TStringList read FFactoredUnits;
+    property Identifiers: TStringList read FIdentifiers;
+
     property Message: string read FMessage;
     property OnMessage: TThreadMethod read FOnMessage write FOnMessage;
     property OnStart: TThreadMethod read FOnStart write FOnStart;
@@ -155,7 +161,7 @@ begin
   result.FBase        := FBase;
   result.FFactor      := FFactor;
   result.FPrefixes    := FPrefixes;
-  result.FType        := FType;
+  result.FComment     := FComment;
   result.FColor       := FColor;
   result.FExponents   := FExponents;
   result.FIndex       := FIndex;
@@ -169,16 +175,23 @@ var
 begin
   inherited Create(True);
   FreeOnTerminate := True;
-  FDocument := TStringList.Create;
   FList := TToolKitList.Create;
   for i := 0 to AList.Count -1 do
     FList.Add(AList[i].NewItem);
+
+  FBaseUnits     := TStringList.Create;
+  FFactoredUnits := TStringList.Create;
+  FIdentifiers   := TStringList.Create;
+  FDocument      := TStringList.Create;
 end;
 
 destructor TToolKitBuilder.Destroy;
 begin
-  FList.Destroy;
+  FBaseUnits.Destroy;
+  FFactoredUnits.Destroy;
+  FIdentifiers.Destroy;
   FDocument.Destroy;
+  FList.Destroy;
   inherited Destroy;
 end;
 
@@ -191,25 +204,21 @@ begin
   begin
     if (FList[i].FBase = '') then
     begin
-      Inc(BaseUnitCount);
       AddUnit(FList[i], SectionA);
       AddSymbols(FList[i], SectionA);
     end else
     begin
       if (FList[i].FFactor = '') then
       begin
-        Inc(FactoredUnitCount);
         AddClonedUnit(FList[i], SectionA);
         AddSymbols(FList[i], SectionA);
       end else
         if Pos('%s', FList[i].FFactor) = 0 then
         begin
-          Inc(FactoredUnitCount);
           AddFactoredUnit(FList[i], SectionA);
           AddSymbols(FList[i], SectionA);
         end else
         begin
-          Inc(FactoredUnitCount);
           AddFactoredUnit(FList[i], SectionA);
           AddSymbols(FList[i], SectionA);
         end;
@@ -220,7 +229,13 @@ end;
 
 procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+  FBaseUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+
+  if AItem.FComment <> '' then
+    ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+  else
+    ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+
   ASection.Add('');
   ASection.Add('resourcestring');
   ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
@@ -241,7 +256,13 @@ end;
 
 procedure TToolKitBuilder.AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+  FFactoredUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+
+  if AItem.FComment <> '' then
+    ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+  else
+    ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+
   ASection.Add('');
   ASection.Add('resourcestring');
   ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
@@ -271,7 +292,13 @@ begin
       AddDegreeFahrenheitUnit(AItem, ASection)
     end else
     begin
-      ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+      FFactoredUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+
+      if AItem.FComment <> '' then
+        ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+      else
+        ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+
       ASection.Add('');
       ASection.Add('resourcestring');
       ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
@@ -294,7 +321,13 @@ end;
 
 procedure TToolKitBuilder.AddDegreeCelsiusUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+  FFactoredUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+
+  if AItem.FComment <> '' then
+    ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+  else
+    ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+
   ASection.Add('');
   ASection.Add('resourcestring');
   ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
@@ -314,7 +347,13 @@ end;
 
 procedure TToolKitBuilder.AddDegreeFahrenheitUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+  FFactoredUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+
+  if AItem.FComment <> '' then
+    ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+  else
+    ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+
   ASection.Add('');
   ASection.Add('resourcestring');
   ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
@@ -333,14 +372,14 @@ begin
 end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
-const
-  S = '  %-10s : TQuantity = {$IFDEF ADIMDEBUG} (FID: %d; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 begin
   if (AItem.FBase = '') then
   begin
     // Base unit symbols
     if AItem.FIdentifier <> '' then
     begin
+      FIdentifiers.Add(' - ' + AItem.FIdentifier);
+
       ASection.Add('var');
       ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
       ASection.Add('');
@@ -354,6 +393,8 @@ begin
       // Cloned unit symbols
       if AItem.FIdentifier <> '' then
       begin
+        FIdentifiers.Add(' - ' + AItem.FIdentifier);
+
         ASection.Add('var');
         ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
         ASection.Add('');
@@ -365,6 +406,8 @@ begin
       // Factored unit symbol
       if AItem.FIdentifier <> '' then
       begin
+        FIdentifiers.Add(' - ' + AItem.FIdentifier);
+
         ASection.Add('var');
         if LowerCase(AItem.FFactor) = 'celsius' then
           ASection.Add('  %s : TDegreeCelsiusUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)])
@@ -379,6 +422,14 @@ begin
         AddFactoredSymbols(AItem, ASection);
     end;
   end;
+end;
+
+function GetIdentifier(const S: string): string;
+begin
+  result := S;
+  if Pos(' :', result) > 0 then
+    SetLength(result, Pos(' :', result));
+  result := CleanSingleSpaces(result);
 end;
 
 procedure TToolKitBuilder.AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
@@ -502,6 +553,7 @@ begin
   if LocList.Count > 0 then
   begin
     SectionA.Append('const');
+    FIdentifiers.Add(' - ' + GetIdentifier(LocList[0]));
     for i := 0 to LocList.Count -1 do
       j := Max(j, Length(LocList[i]));
 
@@ -522,7 +574,7 @@ var
   Line: string;
 begin
   ASection.Add('const');
-  ASection.Add('  Table : array[0..%s-1] of', [BaseUnitCount.toString]);
+  ASection.Add('  Table : array[0..%s-1] of', [FBaseUnits.Count.toString]);
   ASection.Add('    record FID: longint; FStr: string; end = (', []);
 
   for i := 0 to FList.Count -1 do
@@ -762,9 +814,6 @@ begin
   SectionB3 := TStringList.Create;
   SectionB4 := TStringList.Create;
 
-  BaseUnitCount     := 0;
-  FactoredUnitCount := 0;
-
   Stream := TResourceStream.Create(HInstance, 'Section-A0', RT_RCDATA);
   SectionA0.LoadFromStream(Stream);
   SectionA0.Insert(0, '');
@@ -789,6 +838,10 @@ begin
   SectionB1.Append('');
   Stream.Destroy;
 
+  FBaseUnits.Clear;
+  FFactoredUnits.Clear;
+  FIdentifiers.Clear;
+  FDocument.Clear;
   AddUnits(SectionA3, SectionB3);
   AddTable(SectionB0);
 
@@ -817,8 +870,8 @@ begin
   SectionA0.Append(Format('  ADim Run-time library built on %s.', [FormatDateTime('DD/MM/YYYY', Now)]));
   SectionA0.Append('');
 
-  SectionA0.Append(Format('  Number of base units: %d', [BaseUnitCount]));
-  SectionA0.Append(Format('  Number of factored units: %d', [FactoredUnitCount]));
+  SectionA0.Append(Format('  Number of base units: %d', [FBaseUnits.Count]));
+  SectionA0.Append(Format('  Number of factored units: %d', [FFactoredUnits.Count]));
   SectionA0.Append('}');
   SectionA0.Append('');
 
@@ -893,7 +946,7 @@ var
   NewItem: TToolKitItem;
 begin
   NewItem := TToolKitItem.Create;
-  NewItem.FField       := 'AUTO';
+  NewItem.FField       := '';
   NewItem.FQuantity    := DimensionToQuantity(ADim);
   NewItem.FDimension   := DimensionToString(ADim);
   NewItem.FLongString  := DimensionToLongString(ADim);
@@ -903,7 +956,7 @@ begin
   NewItem.FFactor      := '';
   NewItem.FPrefixes    := '';
   NewItem.FExponents   := ADim;
-  NewItem.FType        := '';
+  NewItem.FComment     := '';
   NewItem.FColor       := '';
   NewItem.FIndex       := 0;
   FList.Add(NewItem);
@@ -972,7 +1025,7 @@ begin
       6: if CompareText(Item.FBase,        AValue) = 0 then Exit(i);
       7: if CompareText(Item.FFactor,      AValue) = 0 then Exit(i);
       8: if CompareText(Item.FPrefixes,    AValue) = 0 then Exit(i);
-      9: if CompareText(Item.FType,        AValue) = 0 then Exit(i);
+      9: if CompareText(Item.FComment,     AValue) = 0 then Exit(i);
     end;
   end;
   result := -1;
@@ -1059,7 +1112,7 @@ begin
     CSVDoc.AddCell(i, Item.FBase);
     CSVDoc.AddCell(i, Item.FFactor);
     CSVDoc.AddCell(i, Item.FPrefixes);
-    CSVDoc.AddCell(i, Item.FType);
+    CSVDoc.AddCell(i, Item.FComment);
     CSVDoc.AddCell(i, Item.FColor);
   end;
   CSVDoc.SaveToFile(AFileName);
@@ -1087,7 +1140,7 @@ begin
     Item.FBase        := CSVDoc.Cells[ 6, i];
     Item.FFactor      := CSVDoc.Cells[ 7, i];
     Item.FPrefixes    := CSVDoc.Cells[ 8, i];
-    Item.FType        := CSVDoc.Cells[ 9, i];
+    Item.FComment     := CSVDoc.Cells[ 9, i];
     Item.FColor       := CSVDoc.Cells[10, i];
 
     if Item.FColor = '' then

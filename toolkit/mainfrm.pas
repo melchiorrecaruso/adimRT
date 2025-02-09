@@ -33,6 +33,7 @@ type
 
   TMainForm = class(TForm)
     AddBtn: TBitBtn;
+    Details: TMemo;
     MoveDownBtn: TBitBtn;
     MoveUtBtn: TBitBtn;
     DeleteBtn: TBitBtn;
@@ -141,7 +142,7 @@ begin
   InsertFrm.BaseQuantity.Text := '';
   InsertFrm.Factor      .Text := '';
   InsertFrm.Prefixes    .Text := '';
-  InsertFrm.TypeQuantity.Text := '';
+  InsertFrm.Comment     .Text := '';
   InsertFrm.ColorBtn    .ButtonColor := clWhite;
 
   UpdateInsertFrmField;
@@ -157,7 +158,7 @@ begin
     Item.FBase         := InsertFrm.BaseQuantity.Text;
     Item.FFactor       := InsertFrm.Factor      .Text;
     Item.FPrefixes     := InsertFrm.Prefixes    .Text;
-    Item.FType         := InsertFrm.TypeQuantity.Text;
+    Item.FComment      := InsertFrm.Comment     .Text;
     Item.FColor        := ColorToString(InsertFrm.ColorBtn.ButtonColor);
     FList.Add(Item);
   end;
@@ -192,7 +193,7 @@ begin
     InsertFrm.BaseQuantity.Text := Item.FBase;
     InsertFrm.Factor      .Text := Item.FFactor;
     InsertFrm.Prefixes    .Text := Item.FPrefixes;
-    InsertFrm.TypeQuantity.Text := Item.FType;
+    InsertFrm.Comment     .Text := Item.FComment;
     InsertFrm.ColorBtn.ButtonColor := StringToColor(Item.FColor);
 
     UpdateInsertFrmField;
@@ -207,7 +208,7 @@ begin
       Item.FBase         := InsertFrm.BaseQuantity.Text;
       Item.FFactor       := InsertFrm.Factor      .Text;
       Item.FPrefixes     := InsertFrm.Prefixes    .Text;
-      Item.FType         := InsertFrm.TypeQuantity.Text;
+      Item.FComment      := InsertFrm.Comment     .Text;
       Item.FColor        := ColorToString(InsertFrm.ColorBtn.ButtonColor);
     end;
   end;
@@ -249,7 +250,7 @@ begin
     StringGrid.Cells[6, i + 1] := FList[i].FBase;
     StringGrid.Cells[7, i + 1] := FList[i].FFactor;
     StringGrid.Cells[8, i + 1] := FList[i].FPrefixes;
-    StringGrid.Cells[9, i + 1] := FList[i].FType;
+    StringGrid.Cells[9, i + 1] := FList[i].FComment;
   end;
 end;
 
@@ -328,18 +329,40 @@ procedure TMainForm.OnStart;
 begin
   UpdateButton(False);
   SynEdit.Clear;
+  Details.Clear;
   Memo.Clear;
 end;
 
 procedure TMainForm.OnStop;
 var
   i: longint;
+  UnitList: TSTringList;
 begin
   SynEdit.BeginUpdate(True);
   for i := 0 to Builder.Document.Count -1 do
     SynEdit.Append(Builder.Document[i]);
   SynEdit.EndUpdate;
   UpdateButton(True);
+
+  UnitList := TStringList.Create;
+  for i := 0 to Builder.BaseUnits.Count -1 do
+    UnitList.Add(Builder.BaseUnits[i]);
+  for i := 0 to Builder.FactoredUnits.Count -1 do
+    UnitList.Add(Builder.FactoredUnits[i]);
+  Details.Lines.Add('Unit:');
+  Details.Lines.Add('');
+  UnitList.Sort;
+  for i := 0 to UnitList.Count -1 do
+    Details.Lines.Add(UnitList[i]);
+  UnitList.Destroy;
+
+  Details.Lines.Add('');
+  Details.Lines.Add('Identifiers:');
+  Details.Lines.Add('');
+  Builder.Identifiers.Sort;
+  for i := 0 to Builder.Identifiers.Count -1 do
+    Details.Lines.Add(Builder.Identifiers[i]);
+
   Builder := nil;
 end;
 

@@ -71,7 +71,7 @@ object InsertFrm: TInsertFrm
     ItemHeight = 0
     TabOrder = 3
   end
-  object TypeQuantity: TComboBox
+  object Comment: TComboBox
     AnchorSideLeft.Control = BaseQuantity
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
@@ -238,12 +238,12 @@ object InsertFrm: TInsertFrm
     Caption = 'Prefixes'
     Layout = tlCenter
   end
-  object TypeQuantityLB: TLabel
+  object CommentB: TLabel
     AnchorSideLeft.Control = Owner
-    AnchorSideTop.Control = TypeQuantity
+    AnchorSideTop.Control = Comment
     AnchorSideRight.Control = BaseQuantityLB
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = TypeQuantity
+    AnchorSideBottom.Control = Comment
     AnchorSideBottom.Side = asrBottom
     Left = 0
     Height = 36
@@ -251,7 +251,7 @@ object InsertFrm: TInsertFrm
     Width = 94
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight, akBottom]
-    Caption = 'Type quantity'
+    Caption = 'Comment'
     Layout = tlCenter
   end
   object Quantity: TComboBox
@@ -364,7 +364,7 @@ object InsertFrm: TInsertFrm
   end
   object ColorBtn: TColorButton
     AnchorSideLeft.Control = BaseQuantity
-    AnchorSideTop.Control = TypeQuantity
+    AnchorSideTop.Control = Comment
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
