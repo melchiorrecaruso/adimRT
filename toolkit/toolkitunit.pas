@@ -227,9 +227,16 @@ begin
   Check;
 end;
 
+function GetDescription(const S: string): string;
+begin
+  result := S;
+  result := StringReplace(result, '%sgram', 'kilogram', [rfReplaceAll]);
+  result := StringReplace(result, '%s', '', [rfReplaceAll]);
+end;
+
 procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  FBaseUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+  FBaseUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
   if AItem.FComment <> '' then
     ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
@@ -256,7 +263,7 @@ end;
 
 procedure TToolKitBuilder.AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  FFactoredUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+  FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
   if AItem.FComment <> '' then
     ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
@@ -292,7 +299,7 @@ begin
       AddDegreeFahrenheitUnit(AItem, ASection)
     end else
     begin
-      FFactoredUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+      FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
       if AItem.FComment <> '' then
         ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
@@ -321,7 +328,7 @@ end;
 
 procedure TToolKitBuilder.AddDegreeCelsiusUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  FFactoredUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+  FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
   if AItem.FComment <> '' then
     ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
@@ -347,7 +354,7 @@ end;
 
 procedure TToolKitBuilder.AddDegreeFahrenheitUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  FFactoredUnits.Add(Format(' - %s [%sUnit]', [StringReplace(GetPluralName(AItem.FLongString), '%s', '', [rfReplaceAll]), GetUnitID(AItem.FQuantity)]));
+  FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
   if AItem.FComment <> '' then
     ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
