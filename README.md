@@ -15,7 +15,7 @@ The adimRT library allows defining variables and constants in terms of quantity 
 #### Example 1: Calculate speed
 ``` pas
 uses
-  adimRT;
+  adim;
 var 
   distance: TQuantity;
   time:     TQuantity;
@@ -35,7 +35,7 @@ The value of speed is 2.5 km/h
 #### Example 2: Calculate Borh radius
 ``` pas
 uses
-  adimRT;
+  adim;
 var 
   plank:  TQuantity;
   e0:     TQuantity;
