@@ -57,7 +57,7 @@ Output:
 The value of the Bohr radius is 5.291772109E-11 m
 ``` 
 
-Refer to the [adimRT test](adimrttest.pas) source code for additional examples.
+Refer to the [adimRT test](adimtest.pas) source code for additional examples.
 
 ## <u>Requirements</u>
 
