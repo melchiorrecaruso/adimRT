@@ -247,23 +247,21 @@ begin
 end;
 
 function DimensionToShortString(const ADim: longint; const ASymbol: string): string;
-const
-  SpecialChar : array[0..2] of string = ('√','√','√');
 var
   Value: longint;
 begin
   Value := Abs(ADim);
-  if (Value = 15 ) then result := SpecialChar[2] + Format('%s' , [ASymbol]) else
-  if (Value = 20 ) then result := SpecialChar[1] + Format('%s' , [ASymbol]) else
-  if (Value = 30 ) then result := SpecialChar[0] + Format('%s' , [ASymbol]) else
-  if (Value = 60 ) then result :=                  Format('%s' , [ASymbol]) else
-  if (Value = 90 ) then result := SpecialChar[0] + Format('%s3', [ASymbol]) else
-  if (Value = 120) then result :=                  Format('%s2', [ASymbol]) else
-  if (Value = 150) then result := SpecialChar[0] + Format('%s5', [ASymbol]) else
-  if (Value = 180) then result :=                  Format('%s3', [ASymbol]) else
-  if (Value = 240) then result :=                  Format('%s4', [ASymbol]) else
-  if (Value = 300) then result :=                  Format('%s5', [ASymbol]) else
-  if (Value = 360) then result :=                  Format('%s6', [ASymbol]) else
+  if (Value = 15 ) then result := '∜' + Format('%s' , [ASymbol]) else
+  if (Value = 20 ) then result := '∛' + Format('%s' , [ASymbol]) else
+  if (Value = 30 ) then result := '√' + Format('%s' , [ASymbol]) else
+  if (Value = 60 ) then result :=       Format('%s' , [ASymbol]) else
+  if (Value = 90 ) then result := '√' + Format('%s3', [ASymbol]) else
+  if (Value = 120) then result :=       Format('%s2', [ASymbol]) else
+  if (Value = 150) then result := '√' + Format('%s5', [ASymbol]) else
+  if (Value = 180) then result :=       Format('%s3', [ASymbol]) else
+  if (Value = 240) then result :=       Format('%s4', [ASymbol]) else
+  if (Value = 300) then result :=       Format('%s5', [ASymbol]) else
+  if (Value = 360) then result :=       Format('%s6', [ASymbol]) else
     raise Exception.CreateFmt('ERROR: DimensionToShortString (%s)', [Value.ToString]);
 end;
 
@@ -352,14 +350,14 @@ var
   Num, Denom: string;
 begin
   Num := '';
-  if ADim[1] > 0 then Num := Num + DimensionToShortString(ADim[1], '.%skg' );
-  if ADim[2] > 0 then Num := Num + DimensionToShortString(ADim[2], '.%sm'  );
-  if ADim[3] > 0 then Num := Num + DimensionToShortString(ADim[3], '.%ss'  );
-  if ADim[4] > 0 then Num := Num + DimensionToShortString(ADim[4], '.%sA'  );
-  if ADim[5] > 0 then Num := Num + DimensionToShortString(ADim[5], '.%sK'  );
-  if ADim[6] > 0 then Num := Num + DimensionToShortString(ADim[6], '.%smol');
-  if ADim[7] > 0 then Num := Num + DimensionToShortString(ADim[7], '.%scd' );
-  if ADim[8] > 0 then Num := Num + DimensionToShortString(ADim[8], '.sr'   );
+  if ADim[1] > 0 then Num := Num + '.' + DimensionToShortString(ADim[1], '%skg' );
+  if ADim[2] > 0 then Num := Num + '.' + DimensionToShortString(ADim[2], '%sm'  );
+  if ADim[3] > 0 then Num := Num + '.' + DimensionToShortString(ADim[3], '%ss'  );
+  if ADim[4] > 0 then Num := Num + '.' + DimensionToShortString(ADim[4], '%sA'  );
+  if ADim[5] > 0 then Num := Num + '.' + DimensionToShortString(ADim[5], '%sK'  );
+  if ADim[6] > 0 then Num := Num + '.' + DimensionToShortString(ADim[6], '%smol');
+  if ADim[7] > 0 then Num := Num + '.' + DimensionToShortString(ADim[7], '%scd' );
+  if ADim[8] > 0 then Num := Num + '.' + DimensionToShortString(ADim[8], 'sr'   );
 
   if (Length(Num) > 0) then Delete(Num, 1, 1);
 
