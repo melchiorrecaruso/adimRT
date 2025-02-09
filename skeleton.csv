@@ -63,11 +63,11 @@
 ;TReciprocalSquareSecond?;;reciprocal square %ssecond?;1/%ss2;;TSquareHertz;;;;clWhite
 ;TRadian?PerSquareSecond;;radian? per square %ssecond;rad/%ss2;;TSquareHertz;;;;clYellow
 ;TSteradian?PerSquareSecond;sr s-2;steradian? per square %ssecond;sr/%ss2;;;;;;clYellow
-;TMeter?PerSecond;m s-1;%smeter? per %ssecond;%sm/%ss;;;;;;clLime
+Mechanics;TMeter?PerSecond;m s-1;%smeter? per %ssecond;%sm/%ss;;;;;unit of measurement for speed.;clLime
 ;TMeter?PerHour;;%smeter? per hour;%sm/h;;TMeter?PerSecond;1/3600;;;clWhite
 ;TMile?PerHour;;mile? per hour;mi/h;;TMeter?PerSecond;0.44704;;;clWhite
 ;TNauticalMile?PerHour;;nautical mile? per hour;nmi/h;;TMeter?PerSecond;463/900;;;clWhite
-;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;;;;clLime
+Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;;;unit of measurement for acceleration.;clLime
 ;TMeter?PerSecondPerSecond;;%smeter? per %ssecond per %ssecond;%sm/%ss/%ss;;TMeter?PerSquareSecond;;;;clWhite
 ;TMeter?PerHourPerSecond;;%smeter? per hour per %ssecond;%sm/h/%ss;;TMeter?PerSquareSecond;1/3600;;;clWhite
 ;TMeter?PerCubicSecond;m s-3;%smeter? per cubic %ssecond;%sm/%ss3;;;;;;clLime
