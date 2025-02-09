@@ -1,5 +1,5 @@
 
-[Go To Home](https://github.com/melchiorrecaruso/ADimPas)
+[Go To Home](https://github.com/melchiorrecaruso/ADimRT)
 
 # Electricity and Magnetism
 
@@ -284,4 +284,4 @@ where
 - $L$ is the circuit inductance, $[H]$.
 
 #
-[Go To Home](https://github.com/melchiorrecaruso/ADimPas)
+[Go To Home](https://github.com/melchiorrecaruso/ADimRT)

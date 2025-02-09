@@ -1,4 +1,4 @@
-[Go To Home](https://github.com/melchiorrecaruso/ADimPas)
+[Go To Home](https://github.com/melchiorrecaruso/ADimRT)
 
 # Waves and Hearing
 
@@ -90,4 +90,4 @@ where
 - $v_s$ is the speed of the source relative to the medium, added to $c$ if the source is moving away from the receiver, subtracted if the source is moving towards the receiver, $[m/s]$.
 
 #
-[Go To Home](https://github.com/melchiorrecaruso/ADimPas)
+[Go To Home](https://github.com/melchiorrecaruso/ADimRT)
