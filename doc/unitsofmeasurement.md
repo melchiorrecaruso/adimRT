@@ -2,8 +2,6 @@
 
 # Supported units of measurement
 
-Unit:
-
  - ampere hours [AmpereHourUnit]
  - amperes [AmpereUnit]
  - ampere seconds [AmpereSecondUnit]
@@ -768,7 +766,7 @@ Unit:
  - webers [WeberUnit]
  - yards [YardUnit]
 
-## Supported Identifiers
+# Supported identifiers
 
  - A
  - A2
