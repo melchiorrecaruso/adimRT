@@ -517,52 +517,64 @@ end;
 
 { TUnitHelper }
 
-function TUnitHelper.GetName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TUnitHelper.GetName(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FName;
-    1:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(FPrefixes) of
+    0: result := FName;
+    1: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name]);
+    2: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name]);
+    3: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
 end;
 
-function TUnitHelper.GetPluralName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TUnitHelper.GetPluralName(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FPluralName;
-    1:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
+    0: result := FPluralName;
+    1: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name]);
+    2: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name]);
+    3: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
 end;
 
-function TUnitHelper.GetSymbol(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TUnitHelper.GetSymbol(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
     0:  result := FSymbol;
     1:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol]);
@@ -913,12 +925,16 @@ end;
 
 { TFactoredUnitHelper }
 
-function TFactoredUnitHelper.GetName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TFactoredUnitHelper.GetName(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
     0:  result := FName;
     1:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name]);
@@ -929,16 +945,20 @@ begin
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name,
           PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
 end;
 
-function TFactoredUnitHelper.GetPluralName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TFactoredUnitHelper.GetPluralName(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
     0:  result := FPluralName;
     1:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name]);
@@ -949,16 +969,20 @@ begin
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name,
           PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
 end;
 
-function TFactoredUnitHelper.GetSymbol(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TFactoredUnitHelper.GetSymbol(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
     0:  result := FSymbol;
     1:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol]);
