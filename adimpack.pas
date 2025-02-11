@@ -2,20 +2,14 @@
   This source is only used to compile and install the package.
  }
 
-unit adimpk;
+unit ADimPack;
 
 {$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  ADim, LazarusPackageIntf;
+  ADim;
 
 implementation
 
-procedure Register;
-begin
-end;
-
-initialization
-  RegisterPackage('adimpk', @Register);
 end.
