@@ -110,7 +110,7 @@
     </RunParams>
     <RequiredPackages>
       <Item>
-        <PackageName Value="adimpk"/>
+        <PackageName Value="ADimPack"/>
       </Item>
     </RequiredPackages>
     <Units>
