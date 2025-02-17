@@ -126,6 +126,8 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;TJoule?PerDegree;;%sjoule? per degree;%sJ/deg;;TJoule?;180/Pi;;;clYellow
 ;TNewtonMeter?PerRadian;;%snewton %smeter? per radian;%sN.%sm/rad;;TJoule?;;;;clYellow
 ;TNewtonMeter?PerDegree;;%snewton %smeter? per degree;%sN.%sm/deg;;TJoule?;180/Pi;;;clYellow
+;TPoundForceInch!PerRadian;;pound-force inch! per radian;lbf.in/rad;;TJoule?;0.112984829027617;;;clYellow
+;TPoundForceInch!PerDegree;;pound-force inch! per degree;lbf.in/deg;;TJoule?;6.47355385228963;;;clYellow
 ;TKilogramSquareMeter?PerSquareSecondPerRadian;;%sgram square %smeter? per square %ssecond per radian;%sg.%sm2/%ss2/rad;;TJoule?;;;;clYellow
 ;TWatt?;kg m2 s-3;%swatt?;%sW;W;;;------SSSS----L---------;;clLime
 ;TKilogramSquareMeter?PerCubicSecond;;%sgram square %smeter? per cubic %ssecond;%sg.%sm2/%ss3;;TWatt?;;;;clWhite
