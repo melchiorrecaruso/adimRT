@@ -304,7 +304,7 @@ begin
   mass  := force/acc;
   acc   := force/mass;
   if kg.ToVerboseString(mass,  5, 0, [])              <> '5 kilograms' then halt(1);
-  if MeterPerSquareSecondUnit.ToString(acc, 5, 0, []) <> '10 m/s2'     then halt(2);
+  if MeterPerSquareSecondUnit.ToString(acc, 5, 0, []) <> '10 m/s²'     then halt(2);
   if N.ToVerboseString(force, 5, 0, [])               <> '50 newtons'  then halt(3);
   writeln('* TEST-05: PASSED');
 
@@ -327,7 +327,7 @@ begin
   acc          := (angularspeed*angularspeed)*radius;
   force        := mass*acc;
   if MeterPerSecondUnit.ToString(speed, 5, 0, [])     <> '20 m/s'  then halt(1);
-  if MeterPerSquareSecondUnit.ToString(acc, 5, 0, []) <> '40 m/s2' then halt(2);
+  if MeterPerSquareSecondUnit.ToString(acc, 5, 0, []) <> '40 m/s²' then halt(2);
   if N.ToString(force, 5, 0, [])                      <> '40 N'    then halt(3);
   writeln('* TEST-07: PASSED');
 
@@ -350,7 +350,7 @@ begin
   area     := force/pressure;
   if Pa.ToString(pressure)  <> '2 Pa' then halt(1);
   if N.ToString(force)      <> '10 N' then halt(2);
-  if m2.ToString(area)      <> '5 m2' then halt(3);
+  if m2.ToString(area)      <> '5 m²' then halt(3);
   writeln('* TEST-09: PASSED');
 
   // TEST-10 - WORK
@@ -473,8 +473,8 @@ begin
   dose2 := 5 *m2/s2;
   dose1 := 10*j/kg;
   dose2 := 5 *j/kg;
-  if SquareMeterPerSquareSecondUnit.ToString(dose1) <> '10 m2/s2' then halt(1);
-  if SquareMeterPerSquareSecondUnit.ToString(dose2) <> '5 m2/s2'  then halt(2);
+  if SquareMeterPerSquareSecondUnit.ToString(dose1) <> '10 m²/s²' then halt(1);
+  if SquareMeterPerSquareSecondUnit.ToString(dose2) <> '5 m²/s²'  then halt(2);
   if Sv.ToString(dose1)                             <> '10 Sv'    then halt(3);
   if Gy.ToString(dose2)                             <> '5 Gy'     then halt(4);
   writeln('* TEST-25: PASSED');
@@ -492,9 +492,9 @@ begin
   density := mass/volume;
   mass    := density*volume;
   volume  := mass/density;
-  if KilogramPerCubicMeterUnit.ToString(density) <> '2 kg/m3' then halt(1);
+  if KilogramPerCubicMeterUnit.ToString(density) <> '2 kg/m³' then halt(1);
   if Kg.ToString(mass)                           <> '10 kg'   then halt(2);
-  if m3.ToString(volume)                         <> '5 m3'    then halt(3);
+  if m3.ToString(volume)                         <> '5 m³'    then halt(3);
   writeln('* TEST-27: PASSED');
 
   // TEST-28 - SPECIFIC WEIGHT
@@ -503,9 +503,9 @@ begin
   specificw := force/volume;
   force     := specificw*volume;
   volume    := force/specificw;
-  if NewtonPerCubicMeterUnit.ToString(specificw) <> '10 N/m3' then halt(1);
+  if NewtonPerCubicMeterUnit.ToString(specificw) <> '10 N/m³' then halt(1);
   if N.ToString(force)                           <> '100 N'   then halt(2);
-  if m3.ToString(volume)                         <> '10 m3'   then halt(3);
+  if m3.ToString(volume)                         <> '10 m³'   then halt(3);
   writeln('* TEST-28: PASSED');
 
   // TEST-29 - SLIDING FRICTION
@@ -541,7 +541,7 @@ begin
   density := 1.225*kg/m3;
   force   := 0.5*cCd*(density*SquarePower(Speed))*area;
   if N.ToString(force, 4, 2, [])                           <> '0.007197 N'  then halt(1);
-  if KilogramPerCubicMeterUnit.ToString(density, 4, 2, []) <> '1.225 kg/m3' then halt(2);
+  if KilogramPerCubicMeterUnit.ToString(density, 4, 2, []) <> '1.225 kg/m³' then halt(2);
   writeln('* TEST-32: PASSED');
 
   // TEST-33 - UNIVERSAL GRAVITATION LAW
@@ -581,7 +581,7 @@ begin
   p2    := p*p;
   Uc    := 0.5*p2/mass;
   if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [])                    <> '50 kg∙m/s'      then halt(1);
-  if SquareKilogramSquareMeterPerSquareSecondUnit.ToString(p2, 4, 2, []) <> '2500 kg2∙m2/s2' then halt(2);
+  if SquareKilogramSquareMeterPerSquareSecondUnit.ToString(p2, 4, 2, []) <> '2500 kg²∙m²/s²' then halt(2);
   writeln('* TEST-37: PASSED');
 
   // TEST-38 - IMPULSE
@@ -610,7 +610,7 @@ begin
   volume   := 50*m3;
   time     := 10*s;
   flowrate := volume/time;
-  if CubicMeterPerSecondUnit.ToString(flowrate, 4, 2, []) <> '5 m3/s' then halt(1);
+  if CubicMeterPerSecondUnit.ToString(flowrate, 4, 2, []) <> '5 m³/s' then halt(1);
   writeln('* TEST-41: PASSED');
 
   // TEST-42 - BERNOULLI'S LAW
@@ -786,7 +786,7 @@ begin
   power   := (1.0*g/m)*SquarePower(omega*Ampl)*(5*mm/s);
   if m.ToString(wavelen, 4, 2, [pMilli])               <> '-1648 mm'   then halt(1);
   if MeterPerSecondUnit.ToString(yspeed, 4, 2, [])     <> '-90.69 m/s' then halt(2);
-  if MeterPerSquareSecondUnit.ToString(yacc, 4, 2, []) <> '-7255 m/s2' then halt(3);
+  if MeterPerSquareSecondUnit.ToString(yacc, 4, 2, []) <> '-7255 m/s²' then halt(3);
   if W.ToString(power, 4, 2, [pMilli])                 <> '128 mW'     then halt(4);
   writeln('* TEST-61: PASSED');
 
@@ -830,7 +830,7 @@ begin
   mass     := 5.972E24*kg;
   distance := 6.373E6*m;
   acc      := NewtonianConstantOfGravitation*mass/SquarePower(distance);
-  if MeterPerSquareSecondUnit.ToString(acc, 3, 2, []) <> '9.81 m/s2' then halt(1);
+  if MeterPerSquareSecondUnit.ToString(acc, 3, 2, []) <> '9.81 m/s²' then halt(1);
   writeln('* TEST-66: PASSED');
 
   // TEST-67 - SIMPLE HARMONIC OSCILLATOR
@@ -859,15 +859,15 @@ begin
 
   // TESTS FROM 70 TO 93
   if kg.ToString(1.0*mg, 10, 10, [pKilo])         <> '1E-6 kg'                   then halt(01);  writeln('* TEST-70: PASSED');
-  if kg2.ToString(1.0*mg2, 10, 0,  [pKilo])       <> '1E-12 kg2'                 then halt(02);  writeln('* TEST-71: PASSED');
+  if kg2.ToString(1.0*mg2, 10, 0,  [pKilo])       <> '1E-12 kg²'                 then halt(02);  writeln('* TEST-71: PASSED');
   if kg.ToString(1.0*mg, 10, 10, [pMega])         <> '1E-9 Mg'                   then halt(03);  writeln('* TEST-72: PASSED');
-  if kg2.ToString(1.0*mg2, 10, 0,  [pMega])       <> '1E-18 Mg2'                 then halt(04);  writeln('* TEST-73: PASSED');
+  if kg2.ToString(1.0*mg2, 10, 0,  [pMega])       <> '1E-18 Mg²'                 then halt(04);  writeln('* TEST-73: PASSED');
   if kg.ToString(1.0*kg, 10, 0, [pNone])          <> '1000 g'                    then halt(05);  writeln('* TEST-74: PASSED');
   if kg.ToString(1.0*kg, 10, 0, [pKilo])          <> '1 kg'                      then halt(06);  writeln('* TEST-75: PASSED');
-  if kg2.ToString(1.0*kg2, 10, 0, [pNone])        <> '1000000 g2'                then halt(07);  writeln('* TEST-76: PASSED');
-  if kg2.ToString(1.0*kg2, 10, 0, [pKilo])        <> '1 kg2'                     then halt(08);  writeln('* TEST-77: PASSED');
+  if kg2.ToString(1.0*kg2, 10, 0, [pNone])        <> '1000000 g²'                then halt(07);  writeln('* TEST-76: PASSED');
+  if kg2.ToString(1.0*kg2, 10, 0, [pKilo])        <> '1 kg²'                     then halt(08);  writeln('* TEST-77: PASSED');
   if m.ToString(1.0*km, 10, 0, [])                <> '1000 m'                    then halt(09);  writeln('* TEST-78: PASSED');
-  if m2.ToString(1.0*km2, 10, 0, [])              <> '1000000 m2'                then halt(10);  writeln('* TEST-79: PASSED');
+  if m2.ToString(1.0*km2, 10, 0, [])              <> '1000000 m²'                then halt(10);  writeln('* TEST-79: PASSED');
   if kg.ToVerboseString(1.0*kg, 10, 0, [pNone])   <> '1000 grams'                then halt(11);  writeln('* TEST-80: PASSED');
   if kg2.ToVerboseString(1.0*kg2, 10, 0, [pNone]) <> '1000000 square grams'      then halt(12);  writeln('* TEST-81: PASSED');
   if m.ToVerboseString (1.0*km, 10, 0, [])        <> '1000 meters'               then halt(13);  writeln('* TEST-82: PASSED');
@@ -880,8 +880,8 @@ begin
   if s.ToString(1.0*hr, 10, 0, [])                <> '3600 s'                    then halt(19);  writeln('* TEST-89: PASSED');
   if s2.ToVerboseString(1.0*day2, 10, 0, [])      <> '7464960000 square seconds' then halt(20);  writeln('* TEST-90: PASSED');
   if s2.ToVerboseString(1.0*hr2, 10, 0, [])       <> '12960000 square seconds'   then halt(21);  writeln('* TEST-91: PASSED');
-  if s2.ToString(1.0*day2, 10, 0, [])             <> '7464960000 s2'             then halt(22);  writeln('* TEST-92: PASSED');
-  if s2.ToString(1.0*hr2, 10, 0, [])              <> '12960000 s2'               then halt(23);  writeln('* TEST-93: PASSED');
+  if s2.ToString(1.0*day2, 10, 0, [])             <> '7464960000 s²'             then halt(22);  writeln('* TEST-92: PASSED');
+  if s2.ToString(1.0*hr2, 10, 0, [])              <> '12960000 s²'               then halt(23);  writeln('* TEST-93: PASSED');
 
   // TEST-94
   if WattHourUnit.ToString(1.0*J, 4, 0, [pMilli])   <> '0.2778 mW∙h' then halt(1);
@@ -1108,7 +1108,7 @@ begin
   area_  := side1_.wedge(side2_);
   side1_ := area_.dot(1/side2_);
   side2_ := (1/side1_).dot(area_);
-  if m2.ToString(area_) <> '(+50e12) m2' then halt(1);
+  if m2.ToString(area_) <> '(+50e12) m²' then halt(1);
   if m.ToString(side1_) <> '(+5e1) m'    then halt(2);
   if m.ToString(side2_) <> '(+10e2) m'   then halt(3);
   writeln('* TEST-501: PASSED');
@@ -1124,7 +1124,7 @@ begin
   speed_ := (5*e1 + 5*e2)*m/s;
   time   := 2*s;
   acc_   := speed_/time;
-  if MeterPerSquareSecondUnit.ToString(acc_) <> '(+2.5e1 +2.5e2) m/s2' then halt(1);
+  if MeterPerSquareSecondUnit.ToString(acc_) <> '(+2.5e1 +2.5e2) m/s²' then halt(1);
   writeln('* TEST-503: PASSED');
 
   // TEST-504: Momentum
@@ -1148,14 +1148,14 @@ begin
   // TEST-506: Angular acceleration
   angularspeed_ := 5*e13*rad/s;
   angularacc_   := angularspeed_/(2*s);
-  if RadianPerSquareSecondUnit.ToString(angularacc_) <> '(+2.5e13) rad/s2' then halt(1);
+  if RadianPerSquareSecondUnit.ToString(angularacc_) <> '(+2.5e13) rad/s²' then halt(1);
   writeln('* TEST-506: PASSED');
 
   // TEST-507: Angular momentum
   radius_          := 2*e1*m;
   momentum_        := 5*e2*kg*m/s;
   angularmomentum_ := radius_.wedge(momentum_);
-  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e12) kg∙m2/s' then halt(1);
+  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e12) kg∙m²/s' then halt(1);
   writeln('* TEST-507: PASSED');
 
   // TEST-508: Force
@@ -1189,7 +1189,7 @@ begin
   area_          := -(1/magneticfield_.dual).dot(magneticflux_);
   if WeberUnit.ToString(magneticflux_) <> '(+50e123) Wb' then halt(1);
   if TeslaUnit.ToString(magneticfield_) <> '(+10e12) T'  then halt(2);
-  if SquareMeterUnit.ToString(area_) <> '(+5e12) m2'     then halt(3);
+  if SquareMeterUnit.ToString(area_) <> '(+5e12) m²'     then halt(3);
   writeln('* TEST-510: PASSED');
 
   // TEST-511: Henry
@@ -1207,7 +1207,7 @@ begin
   area_     := -force_.dot(1/pressure_);
   if PascalUnit.ToString(pressure_) <> '(+5e123) Pa' then halt(1);
   if NewtonUnit.ToString(force_) <> '(+10e1) N'      then halt(2);
-  if SquareMeterUnit.ToString(area_) <> '(+2e23) m2' then halt(3);
+  if SquareMeterUnit.ToString(area_) <> '(+2e23) m²' then halt(3);
   writeln('* TEST-512: PASSED');
 
   // TEST-513: Torque stiffness
@@ -1263,14 +1263,14 @@ begin
   // TEST-602: Angular acceleration
   angularspeed_ := 5*e3*rad/s;
   angularacc_   := angularspeed_/(2*s);
-  if RadianPerSquareSecondUnit.ToString(angularacc_) <> '(+2.5e3) rad/s2' then halt(1);
+  if RadianPerSquareSecondUnit.ToString(angularacc_) <> '(+2.5e3) rad/s²' then halt(1);
   writeln('* TEST-602: PASSED');
 
   // TEST-603: Angular momentum
   radius_          := 2*e1*m;
   momentum_        := 5*e2*kg*m/s;
   angularmomentum_ := radius_.cross(momentum_);
-  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e3) kg∙m2/s' then halt(1);
+  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e3) kg∙m²/s' then halt(1);
   writeln('* TEST-603: PASSED');
 
   // TEST-604: Force
@@ -1304,7 +1304,7 @@ begin
   area_          := magneticflux/magneticfield_;
   if WeberUnit.ToString(magneticflux)   <> '50 Wb'     then halt(1);
   if TeslaUnit.ToString(magneticfield_) <> '(+10e1) T' then halt(2);
-  if SquareMeterUnit.ToString(area_)    <> '(+5e1) m2' then halt(3);
+  if SquareMeterUnit.ToString(area_)    <> '(+5e1) m²' then halt(3);
   writeln('* TEST-606: PASSED');
 
   // TEST-607: Henry
