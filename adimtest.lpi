@@ -108,11 +108,6 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages>
-      <Item>
-        <PackageName Value="ADimPack"/>
-      </Item>
-    </RequiredPackages>
     <Units>
       <Unit>
         <Filename Value="adimtest.pas"/>
