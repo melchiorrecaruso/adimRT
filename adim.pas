@@ -25,7 +25,7 @@ unit ADim;
 {$WARN 5033 OFF} // Suppress warning for unassigned function's return value.
 
 {
-  ADim Run-time library built on 17-02-2025.
+  ADim Run-time library built on 23-02-2025.
 
   Number of base units: 639
   Number of factored units: 126
@@ -361,7 +361,7 @@ resourcestring
   rsSteradianPluralName = 'steradians';
 
 const
-  SteradianID = 29640;
+  SteradianID = 32220;
   SteradianUnit : TUnit = (
     FID         : SteradianID;
     FSymbol     : rsSteradianSymbol;
@@ -401,7 +401,7 @@ resourcestring
   rsSecondPluralName = '%sseconds';
 
 const
-  SecondID = 23340;
+  SecondID = 29220;
   SecondUnit : TUnit = (
     FID         : SecondID;
     FSymbol     : rsSecondSymbol;
@@ -489,7 +489,7 @@ resourcestring
   rsSquareSecondPluralName = 'square %sseconds';
 
 const
-  SquareSecondID = 46680;
+  SquareSecondID = 58440;
   SquareSecondUnit : TUnit = (
     FID         : SquareSecondID;
     FSymbol     : rsSquareSecondSymbol;
@@ -577,7 +577,7 @@ resourcestring
   rsCubicSecondPluralName = 'cubic %sseconds';
 
 const
-  CubicSecondID = 70020;
+  CubicSecondID = 87660;
   CubicSecondUnit : TUnit = (
     FID         : CubicSecondID;
     FSymbol     : rsCubicSecondSymbol;
@@ -605,7 +605,7 @@ resourcestring
   rsQuarticSecondPluralName = 'quartic %sseconds';
 
 const
-  QuarticSecondID = 93360;
+  QuarticSecondID = 116880;
   QuarticSecondUnit : TUnit = (
     FID         : QuarticSecondID;
     FSymbol     : rsQuarticSecondSymbol;
@@ -633,7 +633,7 @@ resourcestring
   rsQuinticSecondPluralName = 'quintic %sseconds';
 
 const
-  QuinticSecondID = 116700;
+  QuinticSecondID = 146100;
   QuinticSecondUnit : TUnit = (
     FID         : QuinticSecondID;
     FSymbol     : rsQuinticSecondSymbol;
@@ -661,7 +661,7 @@ resourcestring
   rsSexticSecondPluralName = 'sextic %sseconds';
 
 const
-  SexticSecondID = 140040;
+  SexticSecondID = 175320;
   SexticSecondUnit : TUnit = (
     FID         : SexticSecondID;
     FSymbol     : rsSexticSecondSymbol;
@@ -689,7 +689,7 @@ resourcestring
   rsMeterPluralName = '%smeters';
 
 const
-  MeterID = 36420;
+  MeterID = 1380;
   MeterUnit : TUnit = (
     FID         : MeterID;
     FSymbol     : rsMeterSymbol;
@@ -858,7 +858,7 @@ resourcestring
   rsSquareRootMeterPluralName = 'square root %smeters';
 
 const
-  SquareRootMeterID = 18210;
+  SquareRootMeterID = 690;
   SquareRootMeterUnit : TUnit = (
     FID         : SquareRootMeterID;
     FSymbol     : rsSquareRootMeterSymbol;
@@ -875,7 +875,7 @@ resourcestring
   rsSquareMeterPluralName = 'square %smeters';
 
 const
-  SquareMeterID = 72840;
+  SquareMeterID = 2760;
   SquareMeterUnit : TUnit = (
     FID         : SquareMeterID;
     FSymbol     : rsSquareMeterSymbol;
@@ -984,7 +984,7 @@ resourcestring
   rsCubicMeterPluralName = 'cubic %smeters';
 
 const
-  CubicMeterID = 109260;
+  CubicMeterID = 4140;
   CubicMeterUnit : TUnit = (
     FID         : CubicMeterID;
     FSymbol     : rsCubicMeterSymbol;
@@ -1118,7 +1118,7 @@ resourcestring
   rsQuarticMeterPluralName = 'quartic %smeters';
 
 const
-  QuarticMeterID = 145680;
+  QuarticMeterID = 5520;
   QuarticMeterUnit : TUnit = (
     FID         : QuarticMeterID;
     FSymbol     : rsQuarticMeterSymbol;
@@ -1147,7 +1147,7 @@ resourcestring
   rsQuinticMeterPluralName = 'quintic %smeters';
 
 const
-  QuinticMeterID = 182100;
+  QuinticMeterID = 6900;
   QuinticMeterUnit : TUnit = (
     FID         : QuinticMeterID;
     FSymbol     : rsQuinticMeterSymbol;
@@ -1176,7 +1176,7 @@ resourcestring
   rsSexticMeterPluralName = 'sextic %smeters';
 
 const
-  SexticMeterID = 218520;
+  SexticMeterID = 8280;
   SexticMeterUnit : TUnit = (
     FID         : SexticMeterID;
     FSymbol     : rsSexticMeterSymbol;
@@ -1205,7 +1205,7 @@ resourcestring
   rsKilogramPluralName = '%sgrams';
 
 const
-  KilogramID = 25800;
+  KilogramID = 9840;
   KilogramUnit : TUnit = (
     FID         : KilogramID;
     FSymbol     : rsKilogramSymbol;
@@ -1358,7 +1358,7 @@ resourcestring
   rsSquareKilogramPluralName = 'square %sgrams';
 
 const
-  SquareKilogramID = 51600;
+  SquareKilogramID = 19680;
   SquareKilogramUnit : TUnit = (
     FID         : SquareKilogramID;
     FSymbol     : rsSquareKilogramSymbol;
@@ -1389,7 +1389,7 @@ resourcestring
   rsAmperePluralName = '%samperes';
 
 const
-  AmpereID = 26100;
+  AmpereID = 4620;
   AmpereUnit : TUnit = (
     FID         : AmpereID;
     FSymbol     : rsAmpereSymbol;
@@ -1420,7 +1420,7 @@ resourcestring
   rsSquareAmperePluralName = 'square %samperes';
 
 const
-  SquareAmpereID = 52200;
+  SquareAmpereID = 9240;
   SquareAmpereUnit : TUnit = (
     FID         : SquareAmpereID;
     FSymbol     : rsSquareAmpereSymbol;
@@ -1451,7 +1451,7 @@ resourcestring
   rsKelvinPluralName = '%skelvins';
 
 const
-  KelvinID = 36960;
+  KelvinID = 32760;
   KelvinUnit : TUnit = (
     FID         : KelvinID;
     FSymbol     : rsKelvinSymbol;
@@ -1509,7 +1509,7 @@ resourcestring
   rsSquareKelvinPluralName = 'square %skelvins';
 
 const
-  SquareKelvinID = 73920;
+  SquareKelvinID = 65520;
   SquareKelvinUnit : TUnit = (
     FID         : SquareKelvinID;
     FSymbol     : rsSquareKelvinSymbol;
@@ -1529,7 +1529,7 @@ resourcestring
   rsCubicKelvinPluralName = 'cubic %skelvins';
 
 const
-  CubicKelvinID = 110880;
+  CubicKelvinID = 98280;
   CubicKelvinUnit : TUnit = (
     FID         : CubicKelvinID;
     FSymbol     : rsCubicKelvinSymbol;
@@ -1549,7 +1549,7 @@ resourcestring
   rsQuarticKelvinPluralName = 'quartic %skelvins';
 
 const
-  QuarticKelvinID = 147840;
+  QuarticKelvinID = 131040;
   QuarticKelvinUnit : TUnit = (
     FID         : QuarticKelvinID;
     FSymbol     : rsQuarticKelvinSymbol;
@@ -1569,7 +1569,7 @@ resourcestring
   rsMolePluralName = '%smoles';
 
 const
-  MoleID = 35100;
+  MoleID = 36660;
   MoleUnit : TUnit = (
     FID         : MoleID;
     FSymbol     : rsMoleSymbol;
@@ -1594,7 +1594,7 @@ resourcestring
   rsCandelaPluralName = '%scandelas';
 
 const
-  CandelaID = 24120;
+  CandelaID = 15780;
   CandelaUnit : TUnit = (
     FID         : CandelaID;
     FSymbol     : rsCandelaSymbol;
@@ -1614,7 +1614,7 @@ resourcestring
   rsHertzPluralName = '%shertz';
 
 const
-  HertzID = -23340;
+  HertzID = -29220;
   HertzUnit : TUnit = (
     FID         : HertzID;
     FSymbol     : rsHertzSymbol;
@@ -1672,7 +1672,7 @@ resourcestring
   rsSquareHertzPluralName = 'square %shertz';
 
 const
-  SquareHertzID = -46680;
+  SquareHertzID = -58440;
   SquareHertzUnit : TUnit = (
     FID         : SquareHertzID;
     FSymbol     : rsSquareHertzSymbol;
@@ -1730,7 +1730,7 @@ resourcestring
   rsSteradianPerSquareSecondPluralName = 'steradians per square %ssecond';
 
 const
-  SteradianPerSquareSecondID = -17040;
+  SteradianPerSquareSecondID = -26220;
   SteradianPerSquareSecondUnit : TUnit = (
     FID         : SteradianPerSquareSecondID;
     FSymbol     : rsSteradianPerSquareSecondSymbol;
@@ -1747,7 +1747,7 @@ resourcestring
   rsMeterPerSecondPluralName = '%smeters per %ssecond';
 
 const
-  MeterPerSecondID = 13080;
+  MeterPerSecondID = -27840;
   MeterPerSecondUnit : TUnit = (
     FID         : MeterPerSecondID;
     FSymbol     : rsMeterPerSecondSymbol;
@@ -1815,7 +1815,7 @@ resourcestring
   rsMeterPerSquareSecondPluralName = '%smeters per %ssecond squared';
 
 const
-  MeterPerSquareSecondID = -10260;
+  MeterPerSquareSecondID = -57060;
   MeterPerSquareSecondUnit : TUnit = (
     FID         : MeterPerSquareSecondID;
     FSymbol     : rsMeterPerSquareSecondSymbol;
@@ -1865,7 +1865,7 @@ resourcestring
   rsMeterPerCubicSecondPluralName = '%smeters per cubic %ssecond';
 
 const
-  MeterPerCubicSecondID = -33600;
+  MeterPerCubicSecondID = -86280;
   MeterPerCubicSecondUnit : TUnit = (
     FID         : MeterPerCubicSecondID;
     FSymbol     : rsMeterPerCubicSecondSymbol;
@@ -1882,7 +1882,7 @@ resourcestring
   rsMeterPerQuarticSecondPluralName = '%smeters per quartic %ssecond';
 
 const
-  MeterPerQuarticSecondID = -56940;
+  MeterPerQuarticSecondID = -115500;
   MeterPerQuarticSecondUnit : TUnit = (
     FID         : MeterPerQuarticSecondID;
     FSymbol     : rsMeterPerQuarticSecondSymbol;
@@ -1899,7 +1899,7 @@ resourcestring
   rsMeterPerQuinticSecondPluralName = '%smeters per quintic %ssecond';
 
 const
-  MeterPerQuinticSecondID = -80280;
+  MeterPerQuinticSecondID = -144720;
   MeterPerQuinticSecondUnit : TUnit = (
     FID         : MeterPerQuinticSecondID;
     FSymbol     : rsMeterPerQuinticSecondSymbol;
@@ -1916,7 +1916,7 @@ resourcestring
   rsMeterPerSexticSecondPluralName = '%smeters per sextic %ssecond';
 
 const
-  MeterPerSexticSecondID = -103620;
+  MeterPerSexticSecondID = -173940;
   MeterPerSexticSecondUnit : TUnit = (
     FID         : MeterPerSexticSecondID;
     FSymbol     : rsMeterPerSexticSecondSymbol;
@@ -1933,7 +1933,7 @@ resourcestring
   rsSquareMeterPerSquareSecondPluralName = 'square %smeters per square %ssecond';
 
 const
-  SquareMeterPerSquareSecondID = 26160;
+  SquareMeterPerSquareSecondID = -55680;
   SquareMeterPerSquareSecondUnit : TUnit = (
     FID         : SquareMeterPerSquareSecondID;
     FSymbol     : rsSquareMeterPerSquareSecondSymbol;
@@ -2011,12 +2011,12 @@ const
 { TMeterSecond }
 
 resourcestring
-  rsMeterSecondSymbol = '%sm.%ss';
+  rsMeterSecondSymbol = '%sm∙%ss';
   rsMeterSecondName = '%smeter %ssecond';
   rsMeterSecondPluralName = '%smeter %sseconds';
 
 const
-  MeterSecondID = 59760;
+  MeterSecondID = 30600;
   MeterSecondUnit : TUnit = (
     FID         : MeterSecondID;
     FSymbol     : rsMeterSecondSymbol;
@@ -2028,12 +2028,12 @@ const
 { TKilogramMeter }
 
 resourcestring
-  rsKilogramMeterSymbol = '%sg.%sm';
+  rsKilogramMeterSymbol = '%sg∙%sm';
   rsKilogramMeterName = '%sgram %smeter';
   rsKilogramMeterPluralName = '%sgram %smeters';
 
 const
-  KilogramMeterID = 62220;
+  KilogramMeterID = 11220;
   KilogramMeterUnit : TUnit = (
     FID         : KilogramMeterID;
     FSymbol     : rsKilogramMeterSymbol;
@@ -2050,7 +2050,7 @@ resourcestring
   rsKilogramPerSecondPluralName = '%sgrams per %ssecond';
 
 const
-  KilogramPerSecondID = 2460;
+  KilogramPerSecondID = -19380;
   KilogramPerSecondUnit : TUnit = (
     FID         : KilogramPerSecondID;
     FSymbol     : rsKilogramPerSecondSymbol;
@@ -2078,12 +2078,12 @@ const
 { TKilogramMeterPerSecond }
 
 resourcestring
-  rsKilogramMeterPerSecondSymbol = '%sg.%sm/%ss';
+  rsKilogramMeterPerSecondSymbol = '%sg∙%sm/%ss';
   rsKilogramMeterPerSecondName = '%sgram %smeter per %ssecond';
   rsKilogramMeterPerSecondPluralName = '%sgram %smeters per %ssecond';
 
 const
-  KilogramMeterPerSecondID = 38880;
+  KilogramMeterPerSecondID = -18000;
   KilogramMeterPerSecondUnit : TUnit = (
     FID         : KilogramMeterPerSecondID;
     FSymbol     : rsKilogramMeterPerSecondSymbol;
@@ -2095,7 +2095,7 @@ const
 { TNewtonSecond }
 
 resourcestring
-  rsNewtonSecondSymbol = '%sN.%ss';
+  rsNewtonSecondSymbol = '%sN∙%ss';
   rsNewtonSecondName = '%snewton %ssecond';
   rsNewtonSecondPluralName = '%snewton %sseconds';
 
@@ -2111,12 +2111,12 @@ const
 { TSquareKilogramSquareMeterPerSquareSecond }
 
 resourcestring
-  rsSquareKilogramSquareMeterPerSquareSecondSymbol = '%sg2.%sm2/%ss2';
+  rsSquareKilogramSquareMeterPerSquareSecondSymbol = '%sg2∙%sm2/%ss2';
   rsSquareKilogramSquareMeterPerSquareSecondName = 'square%sgram square%smeter per square%ssecond';
   rsSquareKilogramSquareMeterPerSquareSecondPluralName = 'square%sgram square%smeters per square%ssecond';
 
 const
-  SquareKilogramSquareMeterPerSquareSecondID = 77760;
+  SquareKilogramSquareMeterPerSquareSecondID = -36000;
   SquareKilogramSquareMeterPerSquareSecondUnit : TUnit = (
     FID         : SquareKilogramSquareMeterPerSquareSecondID;
     FSymbol     : rsSquareKilogramSquareMeterPerSquareSecondSymbol;
@@ -2133,7 +2133,7 @@ resourcestring
   rsReciprocalSquareRootMeterPluralName = 'reciprocal square root %smeters';
 
 const
-  ReciprocalSquareRootMeterID = -18210;
+  ReciprocalSquareRootMeterID = -690;
   ReciprocalSquareRootMeterUnit : TUnit = (
     FID         : ReciprocalSquareRootMeterID;
     FSymbol     : rsReciprocalSquareRootMeterSymbol;
@@ -2150,7 +2150,7 @@ resourcestring
   rsReciprocalMeterPluralName = 'reciprocal %smeters';
 
 const
-  ReciprocalMeterID = -36420;
+  ReciprocalMeterID = -1380;
   ReciprocalMeterUnit : TUnit = (
     FID         : ReciprocalMeterID;
     FSymbol     : rsReciprocalMeterSymbol;
@@ -2183,7 +2183,7 @@ resourcestring
   rsReciprocalSquareRootCubicMeterPluralName = 'reciprocal square root cubic %smeters';
 
 const
-  ReciprocalSquareRootCubicMeterID = -54630;
+  ReciprocalSquareRootCubicMeterID = -2070;
   ReciprocalSquareRootCubicMeterUnit : TUnit = (
     FID         : ReciprocalSquareRootCubicMeterID;
     FSymbol     : rsReciprocalSquareRootCubicMeterSymbol;
@@ -2200,7 +2200,7 @@ resourcestring
   rsReciprocalSquareMeterPluralName = 'reciprocal square %smeters';
 
 const
-  ReciprocalSquareMeterID = -72840;
+  ReciprocalSquareMeterID = -2760;
   ReciprocalSquareMeterUnit : TUnit = (
     FID         : ReciprocalSquareMeterID;
     FSymbol     : rsReciprocalSquareMeterSymbol;
@@ -2217,7 +2217,7 @@ resourcestring
   rsReciprocalCubicMeterPluralName = 'reciprocal cubic %smeters';
 
 const
-  ReciprocalCubicMeterID = -109260;
+  ReciprocalCubicMeterID = -4140;
   ReciprocalCubicMeterUnit : TUnit = (
     FID         : ReciprocalCubicMeterID;
     FSymbol     : rsReciprocalCubicMeterSymbol;
@@ -2234,7 +2234,7 @@ resourcestring
   rsReciprocalQuarticMeterPluralName = 'reciprocal quartic %smeters';
 
 const
-  ReciprocalQuarticMeterID = -145680;
+  ReciprocalQuarticMeterID = -5520;
   ReciprocalQuarticMeterUnit : TUnit = (
     FID         : ReciprocalQuarticMeterID;
     FSymbol     : rsReciprocalQuarticMeterSymbol;
@@ -2246,12 +2246,12 @@ const
 { TKilogramSquareMeter }
 
 resourcestring
-  rsKilogramSquareMeterSymbol = '%sg.%sm2';
+  rsKilogramSquareMeterSymbol = '%sg∙%sm2';
   rsKilogramSquareMeterName = '%sgram square %smeter';
   rsKilogramSquareMeterPluralName = '%sgram square %smeters';
 
 const
-  KilogramSquareMeterID = 98640;
+  KilogramSquareMeterID = 12600;
   KilogramSquareMeterUnit : TUnit = (
     FID         : KilogramSquareMeterID;
     FSymbol     : rsKilogramSquareMeterSymbol;
@@ -2263,12 +2263,12 @@ const
 { TKilogramSquareMeterPerSecond }
 
 resourcestring
-  rsKilogramSquareMeterPerSecondSymbol = '%sg.%sm2/%ss';
+  rsKilogramSquareMeterPerSecondSymbol = '%sg∙%sm2/%ss';
   rsKilogramSquareMeterPerSecondName = '%sgram square %smeter per %ssecond';
   rsKilogramSquareMeterPerSecondPluralName = '%sgram square %smeters per %ssecond';
 
 const
-  KilogramSquareMeterPerSecondID = 75300;
+  KilogramSquareMeterPerSecondID = -16620;
   KilogramSquareMeterPerSecondUnit : TUnit = (
     FID         : KilogramSquareMeterPerSecondID;
     FSymbol     : rsKilogramSquareMeterPerSecondSymbol;
@@ -2280,7 +2280,7 @@ const
 { TNewtonMeterSecond }
 
 resourcestring
-  rsNewtonMeterSecondSymbol = '%sN.%sm.%ss';
+  rsNewtonMeterSecondSymbol = '%sN∙%sm∙%ss';
   rsNewtonMeterSecondName = '%snewton %smeter %ssecond';
   rsNewtonMeterSecondPluralName = '%snewton %smeter %sseconds';
 
@@ -2301,7 +2301,7 @@ resourcestring
   rsSecondPerMeterPluralName = '%sseconds per %smeter';
 
 const
-  SecondPerMeterID = -13080;
+  SecondPerMeterID = 27840;
   SecondPerMeterUnit : TUnit = (
     FID         : SecondPerMeterID;
     FSymbol     : rsSecondPerMeterSymbol;
@@ -2318,7 +2318,7 @@ resourcestring
   rsKilogramPerMeterPluralName = '%sgrams per %smeter';
 
 const
-  KilogramPerMeterID = -10620;
+  KilogramPerMeterID = 8460;
   KilogramPerMeterUnit : TUnit = (
     FID         : KilogramPerMeterID;
     FSymbol     : rsKilogramPerMeterSymbol;
@@ -2335,7 +2335,7 @@ resourcestring
   rsKilogramPerSquareMeterPluralName = '%sgrams per square %smeter';
 
 const
-  KilogramPerSquareMeterID = -47040;
+  KilogramPerSquareMeterID = 7080;
   KilogramPerSquareMeterUnit : TUnit = (
     FID         : KilogramPerSquareMeterID;
     FSymbol     : rsKilogramPerSquareMeterSymbol;
@@ -2352,7 +2352,7 @@ resourcestring
   rsKilogramPerCubicMeterPluralName = '%sgrams per cubic %smeter';
 
 const
-  KilogramPerCubicMeterID = -83460;
+  KilogramPerCubicMeterID = 5700;
   KilogramPerCubicMeterUnit : TUnit = (
     FID         : KilogramPerCubicMeterID;
     FSymbol     : rsKilogramPerCubicMeterSymbol;
@@ -2386,7 +2386,7 @@ resourcestring
   rsNewtonPluralName = '%snewtons';
 
 const
-  NewtonID = 15540;
+  NewtonID = -47220;
   NewtonUnit : TUnit = (
     FID         : NewtonID;
     FSymbol     : rsNewtonSymbol;
@@ -2428,7 +2428,7 @@ var
 { TKilogramMeterPerSquareSecond }
 
 resourcestring
-  rsKilogramMeterPerSquareSecondSymbol = '%sg.%sm/%ss2';
+  rsKilogramMeterPerSquareSecondSymbol = '%sg∙%sm/%ss2';
   rsKilogramMeterPerSquareSecondName = '%sgram %smeter per square %ssecond';
   rsKilogramMeterPerSquareSecondPluralName = '%sgram %smeters per square %ssecond';
 
@@ -2444,7 +2444,7 @@ const
 { TNewtonRadian }
 
 resourcestring
-  rsNewtonRadianSymbol = '%sN.%srad';
+  rsNewtonRadianSymbol = '%sN∙%srad';
   rsNewtonRadianName = '%snewton %sradian';
   rsNewtonRadianPluralName = '%snewton %sradians';
 
@@ -2465,7 +2465,7 @@ resourcestring
   rsSquareNewtonPluralName = 'square %snewtons';
 
 const
-  SquareNewtonID = 31080;
+  SquareNewtonID = -94440;
   SquareNewtonUnit : TUnit = (
     FID         : SquareNewtonID;
     FSymbol     : rsSquareNewtonSymbol;
@@ -2487,7 +2487,7 @@ const
 { TSquareKilogramSquareMeterPerQuarticSecond }
 
 resourcestring
-  rsSquareKilogramSquareMeterPerQuarticSecondSymbol = '%sg2.%sm2/%ss4';
+  rsSquareKilogramSquareMeterPerQuarticSecondSymbol = '%sg2∙%sm2/%ss4';
   rsSquareKilogramSquareMeterPerQuarticSecondName = 'square %sgram square %smeter per quartic %ssecond';
   rsSquareKilogramSquareMeterPerQuarticSecondPluralName = 'square %sgram square %smeters per quartic %ssecond';
 
@@ -2508,7 +2508,7 @@ resourcestring
   rsPascalPluralName = '%spascals';
 
 const
-  PascalID = -57300;
+  PascalID = -49980;
   PascalUnit : TUnit = (
     FID         : PascalID;
     FSymbol     : rsPascalSymbol;
@@ -2629,7 +2629,7 @@ resourcestring
   rsJoulePluralName = '%sjoules';
 
 const
-  JouleID = 51960;
+  JouleID = -45840;
   JouleUnit : TUnit = (
     FID         : JouleID;
     FSymbol     : rsJouleSymbol;
@@ -2650,7 +2650,7 @@ const
 { TWattHour }
 
 resourcestring
-  rsWattHourSymbol = '%sW.h';
+  rsWattHourSymbol = '%sW∙h';
   rsWattHourName = '%swatt hour';
   rsWattHourPluralName = '%swatt hours';
 
@@ -2667,7 +2667,7 @@ const
 { TWattSecond }
 
 resourcestring
-  rsWattSecondSymbol = '%sW.%ss';
+  rsWattSecondSymbol = '%sW∙%ss';
   rsWattSecondName = '%swatt %ssecond';
   rsWattSecondPluralName = '%swatt %sseconds';
 
@@ -2725,7 +2725,7 @@ const
 { TNewtonMeter }
 
 resourcestring
-  rsNewtonMeterSymbol = '%sN.%sm';
+  rsNewtonMeterSymbol = '%sN∙%sm';
   rsNewtonMeterName = '%snewton %smeter';
   rsNewtonMeterPluralName = '%snewton %smeters';
 
@@ -2741,7 +2741,7 @@ const
 { TPoundForceInch }
 
 resourcestring
-  rsPoundForceInchSymbol = 'lbf.in';
+  rsPoundForceInchSymbol = 'lbf∙in';
   rsPoundForceInchName = 'pound-force inch';
   rsPoundForceInchPluralName = 'pound-force inches';
 
@@ -2802,7 +2802,7 @@ const
 { TKilogramSquareMeterPerSquareSecond }
 
 resourcestring
-  rsKilogramSquareMeterPerSquareSecondSymbol = '%sg.%sm2/%ss2';
+  rsKilogramSquareMeterPerSquareSecondSymbol = '%sg∙%sm2/%ss2';
   rsKilogramSquareMeterPerSquareSecondName = '%sgram square %smeter per square %ssecond';
   rsKilogramSquareMeterPerSquareSecondPluralName = '%sgram square %smeters per square %ssecond';
 
@@ -2851,7 +2851,7 @@ const
 { TNewtonMeterPerRadian }
 
 resourcestring
-  rsNewtonMeterPerRadianSymbol = '%sN.%sm/rad';
+  rsNewtonMeterPerRadianSymbol = '%sN∙%sm/rad';
   rsNewtonMeterPerRadianName = '%snewton %smeter per radian';
   rsNewtonMeterPerRadianPluralName = '%snewton %smeters per radian';
 
@@ -2867,7 +2867,7 @@ const
 { TNewtonMeterPerDegree }
 
 resourcestring
-  rsNewtonMeterPerDegreeSymbol = '%sN.%sm/deg';
+  rsNewtonMeterPerDegreeSymbol = '%sN∙%sm/deg';
   rsNewtonMeterPerDegreeName = '%snewton %smeter per degree';
   rsNewtonMeterPerDegreePluralName = '%snewton %smeters per degree';
 
@@ -2884,7 +2884,7 @@ const
 { TPoundForceInchPerRadian }
 
 resourcestring
-  rsPoundForceInchPerRadianSymbol = 'lbf.in/rad';
+  rsPoundForceInchPerRadianSymbol = 'lbf∙in/rad';
   rsPoundForceInchPerRadianName = 'pound-force inch per radian';
   rsPoundForceInchPerRadianPluralName = 'pound-force inches per radian';
 
@@ -2901,7 +2901,7 @@ const
 { TPoundForceInchPerDegree }
 
 resourcestring
-  rsPoundForceInchPerDegreeSymbol = 'lbf.in/deg';
+  rsPoundForceInchPerDegreeSymbol = 'lbf∙in/deg';
   rsPoundForceInchPerDegreeName = 'pound-force inch per degree';
   rsPoundForceInchPerDegreePluralName = 'pound-force inches per degree';
 
@@ -2918,7 +2918,7 @@ const
 { TKilogramSquareMeterPerSquareSecondPerRadian }
 
 resourcestring
-  rsKilogramSquareMeterPerSquareSecondPerRadianSymbol = '%sg.%sm2/%ss2/rad';
+  rsKilogramSquareMeterPerSquareSecondPerRadianSymbol = '%sg∙%sm2/%ss2/rad';
   rsKilogramSquareMeterPerSquareSecondPerRadianName = '%sgram square %smeter per square %ssecond per radian';
   rsKilogramSquareMeterPerSquareSecondPerRadianPluralName = '%sgram square %smeters per square %ssecond per radian';
 
@@ -2939,7 +2939,7 @@ resourcestring
   rsWattPluralName = '%swatts';
 
 const
-  WattID = 28620;
+  WattID = -75060;
   WattUnit : TUnit = (
     FID         : WattID;
     FSymbol     : rsWattSymbol;
@@ -2961,7 +2961,7 @@ const
 { TKilogramSquareMeterPerCubicSecond }
 
 resourcestring
-  rsKilogramSquareMeterPerCubicSecondSymbol = '%sg.%sm2/%ss3';
+  rsKilogramSquareMeterPerCubicSecondSymbol = '%sg∙%sm2/%ss3';
   rsKilogramSquareMeterPerCubicSecondName = '%sgram square %smeter per cubic %ssecond';
   rsKilogramSquareMeterPerCubicSecondPluralName = '%sgram square %smeters per cubic %ssecond';
 
@@ -2982,7 +2982,7 @@ resourcestring
   rsCoulombPluralName = '%scoulombs';
 
 const
-  CoulombID = 49440;
+  CoulombID = 33840;
   CoulombUnit : TUnit = (
     FID         : CoulombID;
     FSymbol     : rsCoulombSymbol;
@@ -3008,7 +3008,7 @@ const
 { TAmpereHour }
 
 resourcestring
-  rsAmpereHourSymbol = '%sA.h';
+  rsAmpereHourSymbol = '%sA∙h';
   rsAmpereHourName = '%sampere hour';
   rsAmpereHourPluralName = '%sampere hours';
 
@@ -3025,7 +3025,7 @@ const
 { TAmpereSecond }
 
 resourcestring
-  rsAmpereSecondSymbol = '%sA.%ss';
+  rsAmpereSecondSymbol = '%sA∙%ss';
   rsAmpereSecondName = '%sampere %ssecond';
   rsAmpereSecondPluralName = '%sampere %sseconds';
 
@@ -3046,7 +3046,7 @@ resourcestring
   rsSquareCoulombPluralName = 'square %scoulombs';
 
 const
-  SquareCoulombID = 98880;
+  SquareCoulombID = 67680;
   SquareCoulombUnit : TUnit = (
     FID         : SquareCoulombID;
     FSymbol     : rsSquareCoulombSymbol;
@@ -3072,7 +3072,7 @@ const
 { TSquareAmpereSquareSecond }
 
 resourcestring
-  rsSquareAmpereSquareSecondSymbol = '%sA2.%ss2';
+  rsSquareAmpereSquareSecondSymbol = '%sA2∙%ss2';
   rsSquareAmpereSquareSecondName = 'square %sampere square %ssecond';
   rsSquareAmpereSquareSecondPluralName = 'square %sampere square %sseconds';
 
@@ -3088,12 +3088,12 @@ const
 { TCoulombMeter }
 
 resourcestring
-  rsCoulombMeterSymbol = '%sC.%sm';
+  rsCoulombMeterSymbol = '%sC∙%sm';
   rsCoulombMeterName = '%scoulomb %smeter';
   rsCoulombMeterPluralName = '%scoulomb %smeters';
 
 const
-  CoulombMeterID = 85860;
+  CoulombMeterID = 35220;
   CoulombMeterUnit : TUnit = (
     FID         : CoulombMeterID;
     FSymbol     : rsCoulombMeterSymbol;
@@ -3110,7 +3110,7 @@ resourcestring
   rsVoltPluralName = '%svolts';
 
 const
-  VoltID = 2520;
+  VoltID = -79680;
   VoltUnit : TUnit = (
     FID         : VoltID;
     FSymbol     : rsVoltSymbol;
@@ -3145,7 +3145,7 @@ const
 { TKilogramSquareMeterPerAmperePerCubicSecond }
 
 resourcestring
-  rsKilogramSquareMeterPerAmperePerCubicSecondSymbol = '%sg.%sm2/%sA/%ss3';
+  rsKilogramSquareMeterPerAmperePerCubicSecondSymbol = '%sg∙%sm2/%sA/%ss3';
   rsKilogramSquareMeterPerAmperePerCubicSecondName = '%sgram square %smeter per %sampere per cubic %ssecond';
   rsKilogramSquareMeterPerAmperePerCubicSecondPluralName = '%sgram square %smeters per %sampere per cubic %ssecond';
 
@@ -3166,7 +3166,7 @@ resourcestring
   rsSquareVoltPluralName = 'square %svolts';
 
 const
-  SquareVoltID = 5040;
+  SquareVoltID = -159360;
   SquareVoltUnit : TUnit = (
     FID         : SquareVoltID;
     FSymbol     : rsSquareVoltSymbol;
@@ -3185,7 +3185,7 @@ const
 { TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond }
 
 resourcestring
-  rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondSymbol = '%sg2.%sm3/%sA2/%ss6';
+  rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondSymbol = '%sg2∙%sm3/%sA2/%ss6';
   rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondName = 'square %sgram quartic %smeter per square %sampere per sextic %ssecond';
   rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondPluralName = 'square %sgram quartic %smeters per square %sampere per sextic %ssecond';
 
@@ -3206,7 +3206,7 @@ resourcestring
   rsFaradPluralName = '%sfarads';
 
 const
-  FaradID = 46920;
+  FaradID = 113520;
   FaradUnit : TUnit = (
     FID         : FaradID;
     FSymbol     : rsFaradSymbol;
@@ -3243,7 +3243,7 @@ const
 { TSquareAmpereQuarticSecondPerKilogramPerSquareMeter }
 
 resourcestring
-  rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterSymbol = '%sA2.%ss4/%sg/%sm2';
+  rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterSymbol = '%sA2∙%ss4/%sg/%sm2';
   rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterName = 'square %sampere quartic %ssecond per %sgram per square %smeter';
   rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterPluralName = 'square %sampere quartic %sseconds per %sgram per square %smeter';
 
@@ -3264,7 +3264,7 @@ resourcestring
   rsOhmPluralName = '%sohms';
 
 const
-  OhmID = -23580;
+  OhmID = -84300;
   OhmUnit : TUnit = (
     FID         : OhmID;
     FSymbol     : rsOhmSymbol;
@@ -3287,7 +3287,7 @@ const
 { TKilogramSquareMeterPerSquareAmperePerCubicSecond }
 
 resourcestring
-  rsKilogramSquareMeterPerSquareAmperePerCubicSecondSymbol = '%sg.%sm2/%sA/%ss3';
+  rsKilogramSquareMeterPerSquareAmperePerCubicSecondSymbol = '%sg∙%sm2/%sA/%ss3';
   rsKilogramSquareMeterPerSquareAmperePerCubicSecondName = '%sgram square %smeter per square %sampere per cubic %ssecond';
   rsKilogramSquareMeterPerSquareAmperePerCubicSecondPluralName = '%sgram square %smeters per square %sampere per cubic %ssecond';
 
@@ -3308,7 +3308,7 @@ resourcestring
   rsSiemensPluralName = '%ssiemens';
 
 const
-  SiemensID = 23580;
+  SiemensID = 84300;
   SiemensUnit : TUnit = (
     FID         : SiemensID;
     FSymbol     : rsSiemensSymbol;
@@ -3328,7 +3328,7 @@ const
 { TSquareAmpereCubicSecondPerKilogramPerSquareMeter }
 
 resourcestring
-  rsSquareAmpereCubicSecondPerKilogramPerSquareMeterSymbol = '%sA2.%ss3/%sg/%sm2';
+  rsSquareAmpereCubicSecondPerKilogramPerSquareMeterSymbol = '%sA2∙%ss3/%sg/%sm2';
   rsSquareAmpereCubicSecondPerKilogramPerSquareMeterName = 'square %sampere cubic %ssecond per %sgram per square %smeter';
   rsSquareAmpereCubicSecondPerKilogramPerSquareMeterPluralName = 'square %sampere cubic %sseconds per %sgram per square %smeter';
 
@@ -3349,7 +3349,7 @@ resourcestring
   rsSiemensPerMeterPluralName = '%ssiemens per %smeter';
 
 const
-  SiemensPerMeterID = -12840;
+  SiemensPerMeterID = 82920;
   SiemensPerMeterUnit : TUnit = (
     FID         : SiemensPerMeterID;
     FSymbol     : rsSiemensPerMeterSymbol;
@@ -3366,7 +3366,7 @@ resourcestring
   rsTeslaPluralName = '%steslas';
 
 const
-  TeslaID = -46980;
+  TeslaID = -53220;
   TeslaUnit : TUnit = (
     FID         : TeslaID;
     FSymbol     : rsTeslaSymbol;
@@ -3423,7 +3423,7 @@ resourcestring
   rsWeberPluralName = '%swebers';
 
 const
-  WeberID = 25860;
+  WeberID = -50460;
   WeberUnit : TUnit = (
     FID         : WeberID;
     FSymbol     : rsWeberSymbol;
@@ -3438,7 +3438,7 @@ var
 { TKilogramSquareMeterPerAmperePerSquareSecond }
 
 resourcestring
-  rsKilogramSquareMeterPerAmperePerSquareSecondSymbol = '%sg.%sm2/%sA/%ss2';
+  rsKilogramSquareMeterPerAmperePerSquareSecondSymbol = '%sg∙%sm2/%sA/%ss2';
   rsKilogramSquareMeterPerAmperePerSquareSecondName = '%sgram square %smeter per %sampere per square %ssecond';
   rsKilogramSquareMeterPerAmperePerSquareSecondPluralName = '%sgram square %smeters per %sampere per square %ssecond';
 
@@ -3459,7 +3459,7 @@ resourcestring
   rsHenryPluralName = '%shenries';
 
 const
-  HenryID = -240;
+  HenryID = -55080;
   HenryUnit : TUnit = (
     FID         : HenryID;
     FSymbol     : rsHenrySymbol;
@@ -3479,7 +3479,7 @@ const
 { TKilogramSquareMeterPerSquareAmperePerSquareSecond }
 
 resourcestring
-  rsKilogramSquareMeterPerSquareAmperePerSquareSecondSymbol = '%sg.%sm2/%sA2/%ss2';
+  rsKilogramSquareMeterPerSquareAmperePerSquareSecondSymbol = '%sg∙%sm2/%sA2/%ss2';
   rsKilogramSquareMeterPerSquareAmperePerSquareSecondName = '%sgram square %smeter per square %sampere per square %ssecond';
   rsKilogramSquareMeterPerSquareAmperePerSquareSecondPluralName = '%sgram square %smeters per square %sampere per square %ssecond';
 
@@ -3500,7 +3500,7 @@ resourcestring
   rsReciprocalHenryPluralName = 'reciprocal %shenries';
 
 const
-  ReciprocalHenryID = 240;
+  ReciprocalHenryID = 55080;
   ReciprocalHenryUnit : TUnit = (
     FID         : ReciprocalHenryID;
     FSymbol     : rsReciprocalHenrySymbol;
@@ -3517,7 +3517,7 @@ resourcestring
   rsLumenPluralName = '%slumens';
 
 const
-  LumenID = 53760;
+  LumenID = 48000;
   LumenUnit : TUnit = (
     FID         : LumenID;
     FSymbol     : rsLumenSymbol;
@@ -3532,7 +3532,7 @@ var
 { TCandelaSteradian }
 
 resourcestring
-  rsCandelaSteradianSymbol = '%scd.%ssr';
+  rsCandelaSteradianSymbol = '%scd∙%ssr';
   rsCandelaSteradianName = '%scandela %ssteradian';
   rsCandelaSteradianPluralName = '%scandela %ssteradians';
 
@@ -3548,12 +3548,12 @@ const
 { TLumenSecond }
 
 resourcestring
-  rsLumenSecondSymbol = '%slm.%ss';
+  rsLumenSecondSymbol = '%slm∙%ss';
   rsLumenSecondName = '%slumen %ssecond';
   rsLumenSecondPluralName = '%slumen %sseconds';
 
 const
-  LumenSecondID = 77100;
+  LumenSecondID = 77220;
   LumenSecondUnit : TUnit = (
     FID         : LumenSecondID;
     FSymbol     : rsLumenSecondSymbol;
@@ -3565,12 +3565,12 @@ const
 { TLumenSecondPerCubicMeter }
 
 resourcestring
-  rsLumenSecondPerCubicMeterSymbol = '%slm.%ss/%sm3';
+  rsLumenSecondPerCubicMeterSymbol = '%slm∙%ss/%sm3';
   rsLumenSecondPerCubicMeterName = '%slumen %ssecond per cubic meter';
   rsLumenSecondPerCubicMeterPluralName = '%slumen %sseconds per cubic meter';
 
 const
-  LumenSecondPerCubicMeterID = -32160;
+  LumenSecondPerCubicMeterID = 73080;
   LumenSecondPerCubicMeterUnit : TUnit = (
     FID         : LumenSecondPerCubicMeterID;
     FSymbol     : rsLumenSecondPerCubicMeterSymbol;
@@ -3587,7 +3587,7 @@ resourcestring
   rsLuxPluralName = '%slux';
 
 const
-  LuxID = -19080;
+  LuxID = 45240;
   LuxUnit : TUnit = (
     FID         : LuxID;
     FSymbol     : rsLuxSymbol;
@@ -3602,7 +3602,7 @@ var
 { TCandelaSteradianPerSquareMeter }
 
 resourcestring
-  rsCandelaSteradianPerSquareMeterSymbol = '%scd.%ssr/%sm2';
+  rsCandelaSteradianPerSquareMeterSymbol = '%scd∙%ssr/%sm2';
   rsCandelaSteradianPerSquareMeterName = '%scandela %ssteradian per square %smeter';
   rsCandelaSteradianPerSquareMeterPluralName = '%scandela %ssteradians per square %smeter';
 
@@ -3618,12 +3618,12 @@ const
 { TLuxSecond }
 
 resourcestring
-  rsLuxSecondSymbol = '%slx.%ss';
+  rsLuxSecondSymbol = '%slx∙%ss';
   rsLuxSecondName = '%slux %ssecond';
   rsLuxSecondPluralName = '%slux %sseconds';
 
 const
-  LuxSecondID = 4260;
+  LuxSecondID = 74460;
   LuxSecondUnit : TUnit = (
     FID         : LuxSecondID;
     FSymbol     : rsLuxSecondSymbol;
@@ -3666,7 +3666,7 @@ resourcestring
   rsKatalPluralName = '%skatals';
 
 const
-  KatalID = 11760;
+  KatalID = 7440;
   KatalUnit : TUnit = (
     FID         : KatalID;
     FSymbol     : rsKatalSymbol;
@@ -3702,7 +3702,7 @@ resourcestring
   rsNewtonPerCubicMeterPluralName = '%snewtons per cubic %smeter';
 
 const
-  NewtonPerCubicMeterID = -93720;
+  NewtonPerCubicMeterID = -51360;
   NewtonPerCubicMeterUnit : TUnit = (
     FID         : NewtonPerCubicMeterID;
     FSymbol     : rsNewtonPerCubicMeterSymbol;
@@ -3751,7 +3751,7 @@ resourcestring
   rsNewtonPerMeterPluralName = '%snewtons per %smeter';
 
 const
-  NewtonPerMeterID = -20880;
+  NewtonPerMeterID = -48600;
   NewtonPerMeterUnit : TUnit = (
     FID         : NewtonPerMeterID;
     FSymbol     : rsNewtonPerMeterSymbol;
@@ -3833,7 +3833,7 @@ resourcestring
   rsCubicMeterPerSecondPluralName = 'cubic %smeters per %ssecond';
 
 const
-  CubicMeterPerSecondID = 85920;
+  CubicMeterPerSecondID = -25080;
   CubicMeterPerSecondUnit : TUnit = (
     FID         : CubicMeterPerSecondID;
     FSymbol     : rsCubicMeterPerSecondSymbol;
@@ -3850,7 +3850,7 @@ resourcestring
   rsPoiseuillePluralName = '%spoiseuilles';
 
 const
-  PoiseuilleID = -33960;
+  PoiseuilleID = -20760;
   PoiseuilleUnit : TUnit = (
     FID         : PoiseuilleID;
     FSymbol     : rsPoiseuilleSymbol;
@@ -3870,7 +3870,7 @@ const
 { TPascalSecond }
 
 resourcestring
-  rsPascalSecondSymbol = '%sPa.%ss';
+  rsPascalSecondSymbol = '%sPa∙%ss';
   rsPascalSecondName = '%spascal %ssecond';
   rsPascalSecondPluralName = '%spascal %sseconds';
 
@@ -3907,7 +3907,7 @@ resourcestring
   rsSquareMeterPerSecondPluralName = 'square %smeters per %ssecond';
 
 const
-  SquareMeterPerSecondID = 49500;
+  SquareMeterPerSecondID = -26460;
   SquareMeterPerSecondUnit : TUnit = (
     FID         : SquareMeterPerSecondID;
     FSymbol     : rsSquareMeterPerSecondSymbol;
@@ -3924,7 +3924,7 @@ resourcestring
   rsKilogramPerQuarticMeterPluralName = '%sgrams per quartic %smeter';
 
 const
-  KilogramPerQuarticMeterID = -119880;
+  KilogramPerQuarticMeterID = 4320;
   KilogramPerQuarticMeterUnit : TUnit = (
     FID         : KilogramPerQuarticMeterID;
     FSymbol     : rsKilogramPerQuarticMeterSymbol;
@@ -3936,12 +3936,12 @@ const
 { TQuarticMeterSecond }
 
 resourcestring
-  rsQuarticMeterSecondSymbol = '%sm4.%ss';
+  rsQuarticMeterSecondSymbol = '%sm4∙%ss';
   rsQuarticMeterSecondName = 'quartic %smeter %ssecond';
   rsQuarticMeterSecondPluralName = 'quartic %smeter %sseconds';
 
 const
-  QuarticMeterSecondID = 169020;
+  QuarticMeterSecondID = 34740;
   QuarticMeterSecondUnit : TUnit = (
     FID         : QuarticMeterSecondID;
     FSymbol     : rsQuarticMeterSecondSymbol;
@@ -3958,7 +3958,7 @@ resourcestring
   rsKilogramPerQuarticMeterPerSecondPluralName = '%sgrams per quartic %smeter per %ssecond';
 
 const
-  KilogramPerQuarticMeterPerSecondID = -143220;
+  KilogramPerQuarticMeterPerSecondID = -24900;
   KilogramPerQuarticMeterPerSecondUnit : TUnit = (
     FID         : KilogramPerQuarticMeterPerSecondID;
     FSymbol     : rsKilogramPerQuarticMeterPerSecondSymbol;
@@ -3975,7 +3975,7 @@ resourcestring
   rsCubicMeterPerKilogramPluralName = 'cubic %smeters per %sgram';
 
 const
-  CubicMeterPerKilogramID = 83460;
+  CubicMeterPerKilogramID = -5700;
   CubicMeterPerKilogramUnit : TUnit = (
     FID         : CubicMeterPerKilogramID;
     FSymbol     : rsCubicMeterPerKilogramSymbol;
@@ -3987,12 +3987,12 @@ const
 { TKilogramSquareSecond }
 
 resourcestring
-  rsKilogramSquareSecondSymbol = '%sg.%ss2';
+  rsKilogramSquareSecondSymbol = '%sg∙%ss2';
   rsKilogramSquareSecondName = '%sgram square %ssecond';
   rsKilogramSquareSecondPluralName = '%sgram square %sseconds';
 
 const
-  KilogramSquareSecondID = 72480;
+  KilogramSquareSecondID = 68280;
   KilogramSquareSecondUnit : TUnit = (
     FID         : KilogramSquareSecondID;
     FSymbol     : rsKilogramSquareSecondSymbol;
@@ -4009,7 +4009,7 @@ resourcestring
   rsCubicMeterPerSquareSecondPluralName = 'cubic %smeters per square %ssecond';
 
 const
-  CubicMeterPerSquareSecondID = 62580;
+  CubicMeterPerSquareSecondID = -54300;
   CubicMeterPerSquareSecondUnit : TUnit = (
     FID         : CubicMeterPerSquareSecondID;
     FSymbol     : rsCubicMeterPerSquareSecondSymbol;
@@ -4021,12 +4021,12 @@ const
 { TNewtonSquareMeter }
 
 resourcestring
-  rsNewtonSquareMeterSymbol = '%sN.%sm2';
+  rsNewtonSquareMeterSymbol = '%sN∙%sm2';
   rsNewtonSquareMeterName = '%snewton square %smeter';
   rsNewtonSquareMeterPluralName = '%snewton square %smeters';
 
 const
-  NewtonSquareMeterID = 88380;
+  NewtonSquareMeterID = -44460;
   NewtonSquareMeterUnit : TUnit = (
     FID         : NewtonSquareMeterID;
     FSymbol     : rsNewtonSquareMeterSymbol;
@@ -4038,7 +4038,7 @@ const
 { TKilogramCubicMeterPerSquareSecond }
 
 resourcestring
-  rsKilogramCubicMeterPerSquareSecondSymbol = '%sg.%sm3/%ss2';
+  rsKilogramCubicMeterPerSquareSecondSymbol = '%sg∙%sm3/%ss2';
   rsKilogramCubicMeterPerSquareSecondName = '%sgram cubic %smeter per square %ssecond';
   rsKilogramCubicMeterPerSquareSecondPluralName = '%sgram cubic %smeters per square %ssecond';
 
@@ -4054,12 +4054,12 @@ const
 { TNewtonCubicMeter }
 
 resourcestring
-  rsNewtonCubicMeterSymbol = '%sN.%sm3';
+  rsNewtonCubicMeterSymbol = '%sN∙%sm3';
   rsNewtonCubicMeterName = '%snewton cubic %smeter';
   rsNewtonCubicMeterPluralName = '%snewton cubic %smeters';
 
 const
-  NewtonCubicMeterID = 124800;
+  NewtonCubicMeterID = -43080;
   NewtonCubicMeterUnit : TUnit = (
     FID         : NewtonCubicMeterID;
     FSymbol     : rsNewtonCubicMeterSymbol;
@@ -4071,7 +4071,7 @@ const
 { TKilogramQuarticMeterPerSquareSecond }
 
 resourcestring
-  rsKilogramQuarticMeterPerSquareSecondSymbol = '%sg.%sm4/%ss2';
+  rsKilogramQuarticMeterPerSquareSecondSymbol = '%sg∙%sm4/%ss2';
   rsKilogramQuarticMeterPerSquareSecondName = '%sgram quartic %smeter per square %ssecond';
   rsKilogramQuarticMeterPerSquareSecondPluralName = '%sgram quartic %smeters per square %ssecond';
 
@@ -4092,7 +4092,7 @@ resourcestring
   rsNewtonPerSquareKilogramPluralName = '%snewtons per square %sgram';
 
 const
-  NewtonPerSquareKilogramID = -36060;
+  NewtonPerSquareKilogramID = -66900;
   NewtonPerSquareKilogramUnit : TUnit = (
     FID         : NewtonPerSquareKilogramID;
     FSymbol     : rsNewtonPerSquareKilogramSymbol;
@@ -4125,7 +4125,7 @@ resourcestring
   rsSquareKilogramPerMeterPluralName = 'square %sgrams per %smeter';
 
 const
-  SquareKilogramPerMeterID = 15180;
+  SquareKilogramPerMeterID = 18300;
   SquareKilogramPerMeterUnit : TUnit = (
     FID         : SquareKilogramPerMeterID;
     FSymbol     : rsSquareKilogramPerMeterSymbol;
@@ -4142,7 +4142,7 @@ resourcestring
   rsSquareKilogramPerSquareMeterPluralName = 'square %sgrams per square %smeter';
 
 const
-  SquareKilogramPerSquareMeterID = -21240;
+  SquareKilogramPerSquareMeterID = 16920;
   SquareKilogramPerSquareMeterUnit : TUnit = (
     FID         : SquareKilogramPerSquareMeterID;
     FSymbol     : rsSquareKilogramPerSquareMeterSymbol;
@@ -4159,7 +4159,7 @@ resourcestring
   rsSquareMeterPerSquareKilogramPluralName = 'square %smeters per square %sgram';
 
 const
-  SquareMeterPerSquareKilogramID = 21240;
+  SquareMeterPerSquareKilogramID = -16920;
   SquareMeterPerSquareKilogramUnit : TUnit = (
     FID         : SquareMeterPerSquareKilogramID;
     FSymbol     : rsSquareMeterPerSquareKilogramSymbol;
@@ -4171,12 +4171,12 @@ const
 { TNewtonSquareMeterPerSquareKilogram }
 
 resourcestring
-  rsNewtonSquareMeterPerSquareKilogramSymbol = '%sN.%sm2/%sg2';
+  rsNewtonSquareMeterPerSquareKilogramSymbol = '%sN∙%sm2/%sg2';
   rsNewtonSquareMeterPerSquareKilogramName = '%snewton square %smeter per square %sgram';
   rsNewtonSquareMeterPerSquareKilogramPluralName = '%snewton square %smeters per square %sgram';
 
 const
-  NewtonSquareMeterPerSquareKilogramID = 36780;
+  NewtonSquareMeterPerSquareKilogramID = -64140;
   NewtonSquareMeterPerSquareKilogramUnit : TUnit = (
     FID         : NewtonSquareMeterPerSquareKilogramID;
     FSymbol     : rsNewtonSquareMeterPerSquareKilogramSymbol;
@@ -4209,7 +4209,7 @@ resourcestring
   rsReciprocalKelvinPluralName = 'reciprocal %skelvin';
 
 const
-  ReciprocalKelvinID = -36960;
+  ReciprocalKelvinID = -32760;
   ReciprocalKelvinUnit : TUnit = (
     FID         : ReciprocalKelvinID;
     FSymbol     : rsReciprocalKelvinSymbol;
@@ -4221,12 +4221,12 @@ const
 { TKilogramKelvin }
 
 resourcestring
-  rsKilogramKelvinSymbol = '%sg.%sK';
+  rsKilogramKelvinSymbol = '%sg∙%sK';
   rsKilogramKelvinName = '%sgram %skelvin';
   rsKilogramKelvinPluralName = '%sgram %skelvins';
 
 const
-  KilogramKelvinID = 62760;
+  KilogramKelvinID = 42600;
   KilogramKelvinUnit : TUnit = (
     FID         : KilogramKelvinID;
     FSymbol     : rsKilogramKelvinSymbol;
@@ -4243,7 +4243,7 @@ resourcestring
   rsJoulePerKelvinPluralName = '%sjoules per %skelvin';
 
 const
-  JoulePerKelvinID = 15000;
+  JoulePerKelvinID = -78600;
   JoulePerKelvinUnit : TUnit = (
     FID         : JoulePerKelvinID;
     FSymbol     : rsJoulePerKelvinSymbol;
@@ -4255,7 +4255,7 @@ const
 { TKilogramSquareMeterPerSquareSecondPerKelvin }
 
 resourcestring
-  rsKilogramSquareMeterPerSquareSecondPerKelvinSymbol = '%sg.%sm2/%ss2/%sK';
+  rsKilogramSquareMeterPerSquareSecondPerKelvinSymbol = '%sg∙%sm2/%ss2/%sK';
   rsKilogramSquareMeterPerSquareSecondPerKelvinName = '%sgram square %smeter per square %ssecond per %skelvin';
   rsKilogramSquareMeterPerSquareSecondPerKelvinPluralName = '%sgram square %smeters per square %ssecond per %skelvin';
 
@@ -4276,7 +4276,7 @@ resourcestring
   rsJoulePerKilogramPerKelvinPluralName = '%sjoules per %sgram per %skelvin';
 
 const
-  JoulePerKilogramPerKelvinID = -10800;
+  JoulePerKilogramPerKelvinID = -88440;
   JoulePerKilogramPerKelvinUnit : TUnit = (
     FID         : JoulePerKilogramPerKelvinID;
     FSymbol     : rsJoulePerKilogramPerKelvinSymbol;
@@ -4304,12 +4304,12 @@ const
 { TMeterKelvin }
 
 resourcestring
-  rsMeterKelvinSymbol = '%sm.%sK';
+  rsMeterKelvinSymbol = '%sm∙%sK';
   rsMeterKelvinName = '%smeter %skelvin';
   rsMeterKelvinPluralName = '%smeter %skelvins';
 
 const
-  MeterKelvinID = 73380;
+  MeterKelvinID = 34140;
   MeterKelvinUnit : TUnit = (
     FID         : MeterKelvinID;
     FSymbol     : rsMeterKelvinSymbol;
@@ -4326,7 +4326,7 @@ resourcestring
   rsKelvinPerMeterPluralName = '%skelvins per %smeter';
 
 const
-  KelvinPerMeterID = 540;
+  KelvinPerMeterID = 31380;
   KelvinPerMeterUnit : TUnit = (
     FID         : KelvinPerMeterID;
     FSymbol     : rsKelvinPerMeterSymbol;
@@ -4343,7 +4343,7 @@ resourcestring
   rsWattPerMeterPluralName = '%swatts per %smeter';
 
 const
-  WattPerMeterID = -7800;
+  WattPerMeterID = -76440;
   WattPerMeterUnit : TUnit = (
     FID         : WattPerMeterID;
     FSymbol     : rsWattPerMeterSymbol;
@@ -4355,7 +4355,7 @@ const
 { TKilogramMeterPerCubicSecond }
 
 resourcestring
-  rsKilogramMeterPerCubicSecondSymbol = '%sg.%sm/%ss3';
+  rsKilogramMeterPerCubicSecondSymbol = '%sg∙%sm/%ss3';
   rsKilogramMeterPerCubicSecondName = '%sgram %smeter per cubic %ssecond';
   rsKilogramMeterPerCubicSecondPluralName = '%sgram %smeters per cubic %ssecond';
 
@@ -4376,7 +4376,7 @@ resourcestring
   rsWattPerSquareMeterPluralName = '%swatts per square %smeter';
 
 const
-  WattPerSquareMeterID = -44220;
+  WattPerSquareMeterID = -77820;
   WattPerSquareMeterUnit : TUnit = (
     FID         : WattPerSquareMeterID;
     FSymbol     : rsWattPerSquareMeterSymbol;
@@ -4409,7 +4409,7 @@ resourcestring
   rsWattPerCubicMeterPluralName = '%swatts per cubic %smeter';
 
 const
-  WattPerCubicMeterID = -80640;
+  WattPerCubicMeterID = -79200;
   WattPerCubicMeterUnit : TUnit = (
     FID         : WattPerCubicMeterID;
     FSymbol     : rsWattPerCubicMeterSymbol;
@@ -4426,7 +4426,7 @@ resourcestring
   rsWattPerKelvinPluralName = '%swatts per %skelvin';
 
 const
-  WattPerKelvinID = -8340;
+  WattPerKelvinID = -107820;
   WattPerKelvinUnit : TUnit = (
     FID         : WattPerKelvinID;
     FSymbol     : rsWattPerKelvinSymbol;
@@ -4438,7 +4438,7 @@ const
 { TKilogramSquareMeterPerCubicSecondPerKelvin }
 
 resourcestring
-  rsKilogramSquareMeterPerCubicSecondPerKelvinSymbol = '%sg.%sm2/%ss3/%sK';
+  rsKilogramSquareMeterPerCubicSecondPerKelvinSymbol = '%sg∙%sm2/%ss3/%sK';
   rsKilogramSquareMeterPerCubicSecondPerKelvinName = '%sgram square %smeter per cubic %ssecond per %skelvin';
   rsKilogramSquareMeterPerCubicSecondPerKelvinPluralName = '%sgram square %smeters per cubic %ssecond per %skelvin';
 
@@ -4459,7 +4459,7 @@ resourcestring
   rsWattPerMeterPerKelvinPluralName = '%swatts per %smeter per %skelvin';
 
 const
-  WattPerMeterPerKelvinID = -44760;
+  WattPerMeterPerKelvinID = -109200;
   WattPerMeterPerKelvinUnit : TUnit = (
     FID         : WattPerMeterPerKelvinID;
     FSymbol     : rsWattPerMeterPerKelvinSymbol;
@@ -4471,7 +4471,7 @@ const
 { TKilogramMeterPerCubicSecondPerKelvin }
 
 resourcestring
-  rsKilogramMeterPerCubicSecondPerKelvinSymbol = '%sg.%sm/%ss3/%sK';
+  rsKilogramMeterPerCubicSecondPerKelvinSymbol = '%sg∙%sm/%ss3/%sK';
   rsKilogramMeterPerCubicSecondPerKelvinName = '%sgram %smeter per cubic %ssecond per %skelvin';
   rsKilogramMeterPerCubicSecondPerKelvinPluralName = '%sgram %smeters per cubic %ssecond per %skelvin';
 
@@ -4492,7 +4492,7 @@ resourcestring
   rsKelvinPerWattPluralName = '%skelvins per %swatt';
 
 const
-  KelvinPerWattID = 8340;
+  KelvinPerWattID = 107820;
   KelvinPerWattUnit : TUnit = (
     FID         : KelvinPerWattID;
     FSymbol     : rsKelvinPerWattSymbol;
@@ -4509,7 +4509,7 @@ resourcestring
   rsMeterPerWattPluralName = '%smeters per %swatts';
 
 const
-  MeterPerWattID = 7800;
+  MeterPerWattID = 76440;
   MeterPerWattUnit : TUnit = (
     FID         : MeterPerWattID;
     FSymbol     : rsMeterPerWattSymbol;
@@ -4521,12 +4521,12 @@ const
 { TMeterKelvinPerWatt }
 
 resourcestring
-  rsMeterKelvinPerWattSymbol = '%sK.%sm/%sW';
+  rsMeterKelvinPerWattSymbol = '%sK∙%sm/%sW';
   rsMeterKelvinPerWattName = '%skelvin %smeter per %swatt';
   rsMeterKelvinPerWattPluralName = '%skelvin %smeters per %swatt';
 
 const
-  MeterKelvinPerWattID = 44760;
+  MeterKelvinPerWattID = 109200;
   MeterKelvinPerWattUnit : TUnit = (
     FID         : MeterKelvinPerWattID;
     FSymbol     : rsMeterKelvinPerWattSymbol;
@@ -4538,12 +4538,12 @@ const
 { TSquareMeterKelvin }
 
 resourcestring
-  rsSquareMeterKelvinSymbol = '%sm2.%sK';
+  rsSquareMeterKelvinSymbol = '%sm2∙%sK';
   rsSquareMeterKelvinName = 'square %smeter %skelvin';
   rsSquareMeterKelvinPluralName = 'square %smeter %skelvins';
 
 const
-  SquareMeterKelvinID = 109800;
+  SquareMeterKelvinID = 35520;
   SquareMeterKelvinUnit : TUnit = (
     FID         : SquareMeterKelvinID;
     FSymbol     : rsSquareMeterKelvinSymbol;
@@ -4560,7 +4560,7 @@ resourcestring
   rsWattPerSquareMeterPerKelvinPluralName = '%swatts per square %smeter per %skelvin';
 
 const
-  WattPerSquareMeterPerKelvinID = -81180;
+  WattPerSquareMeterPerKelvinID = -110580;
   WattPerSquareMeterPerKelvinUnit : TUnit = (
     FID         : WattPerSquareMeterPerKelvinID;
     FSymbol     : rsWattPerSquareMeterPerKelvinSymbol;
@@ -4588,12 +4588,12 @@ const
 { TSquareMeterQuarticKelvin }
 
 resourcestring
-  rsSquareMeterQuarticKelvinSymbol = '%sm2.%sK4';
+  rsSquareMeterQuarticKelvinSymbol = '%sm2∙%sK4';
   rsSquareMeterQuarticKelvinName = 'square %smeter quartic %skelvin';
   rsSquareMeterQuarticKelvinPluralName = 'square %smeter quartic %skelvins';
 
 const
-  SquareMeterQuarticKelvinID = 220680;
+  SquareMeterQuarticKelvinID = 133800;
   SquareMeterQuarticKelvinUnit : TUnit = (
     FID         : SquareMeterQuarticKelvinID;
     FSymbol     : rsSquareMeterQuarticKelvinSymbol;
@@ -4610,7 +4610,7 @@ resourcestring
   rsWattPerQuarticKelvinPluralName = '%swatts per quartic %skelvin';
 
 const
-  WattPerQuarticKelvinID = -119220;
+  WattPerQuarticKelvinID = -206100;
   WattPerQuarticKelvinUnit : TUnit = (
     FID         : WattPerQuarticKelvinID;
     FSymbol     : rsWattPerQuarticKelvinSymbol;
@@ -4627,7 +4627,7 @@ resourcestring
   rsWattPerSquareMeterPerQuarticKelvinPluralName = '%swatts per square %smeter per quartic %skelvin';
 
 const
-  WattPerSquareMeterPerQuarticKelvinID = -192060;
+  WattPerSquareMeterPerQuarticKelvinID = -208860;
   WattPerSquareMeterPerQuarticKelvinUnit : TUnit = (
     FID         : WattPerSquareMeterPerQuarticKelvinID;
     FSymbol     : rsWattPerSquareMeterPerQuarticKelvinSymbol;
@@ -4644,7 +4644,7 @@ resourcestring
   rsJoulePerMolePluralName = '%sjoules per %smole';
 
 const
-  JoulePerMoleID = 16860;
+  JoulePerMoleID = -82500;
   JoulePerMoleUnit : TUnit = (
     FID         : JoulePerMoleID;
     FSymbol     : rsJoulePerMoleSymbol;
@@ -4656,12 +4656,12 @@ const
 { TMoleKelvin }
 
 resourcestring
-  rsMoleKelvinSymbol = '%smol.%sK';
+  rsMoleKelvinSymbol = '%smol∙%sK';
   rsMoleKelvinName = '%smole %skelvin';
   rsMoleKelvinPluralName = '%smole %skelvins';
 
 const
-  MoleKelvinID = 72060;
+  MoleKelvinID = 69420;
   MoleKelvinUnit : TUnit = (
     FID         : MoleKelvinID;
     FSymbol     : rsMoleKelvinSymbol;
@@ -4678,7 +4678,7 @@ resourcestring
   rsJoulePerMolePerKelvinPluralName = '%sjoules per %smole per %skelvin';
 
 const
-  JoulePerMolePerKelvinID = -20100;
+  JoulePerMolePerKelvinID = -115260;
   JoulePerMolePerKelvinUnit : TUnit = (
     FID         : JoulePerMolePerKelvinID;
     FSymbol     : rsJoulePerMolePerKelvinSymbol;
@@ -4690,12 +4690,12 @@ const
 { TOhmMeter }
 
 resourcestring
-  rsOhmMeterSymbol = '%sΩ.%sm';
+  rsOhmMeterSymbol = '%sΩ∙%sm';
   rsOhmMeterName = '%sohm %smeter';
   rsOhmMeterPluralName = '%sohm %smeters';
 
 const
-  OhmMeterID = 12840;
+  OhmMeterID = -82920;
   OhmMeterUnit : TUnit = (
     FID         : OhmMeterID;
     FSymbol     : rsOhmMeterSymbol;
@@ -4712,7 +4712,7 @@ resourcestring
   rsVoltPerMeterPluralName = '%svolts per %smeter';
 
 const
-  VoltPerMeterID = -33900;
+  VoltPerMeterID = -81060;
   VoltPerMeterUnit : TUnit = (
     FID         : VoltPerMeterID;
     FSymbol     : rsVoltPerMeterSymbol;
@@ -4745,7 +4745,7 @@ resourcestring
   rsCoulombPerMeterPluralName = '%scoulombs per %smeter';
 
 const
-  CoulombPerMeterID = 13020;
+  CoulombPerMeterID = 32460;
   CoulombPerMeterUnit : TUnit = (
     FID         : CoulombPerMeterID;
     FSymbol     : rsCoulombPerMeterSymbol;
@@ -4762,7 +4762,7 @@ resourcestring
   rsSquareCoulombPerMeterPluralName = 'square %scoulombs per %smeter';
 
 const
-  SquareCoulombPerMeterID = 62460;
+  SquareCoulombPerMeterID = 66300;
   SquareCoulombPerMeterUnit : TUnit = (
     FID         : SquareCoulombPerMeterID;
     FSymbol     : rsSquareCoulombPerMeterSymbol;
@@ -4779,7 +4779,7 @@ resourcestring
   rsCoulombPerSquareMeterPluralName = '%scoulombs per square %smeter';
 
 const
-  CoulombPerSquareMeterID = -23400;
+  CoulombPerSquareMeterID = 31080;
   CoulombPerSquareMeterUnit : TUnit = (
     FID         : CoulombPerSquareMeterID;
     FSymbol     : rsCoulombPerSquareMeterSymbol;
@@ -4796,7 +4796,7 @@ resourcestring
   rsSquareMeterPerSquareCoulombPluralName = 'square %smeters per square %scoulomb';
 
 const
-  SquareMeterPerSquareCoulombID = -26040;
+  SquareMeterPerSquareCoulombID = -64920;
   SquareMeterPerSquareCoulombUnit : TUnit = (
     FID         : SquareMeterPerSquareCoulombID;
     FSymbol     : rsSquareMeterPerSquareCoulombSymbol;
@@ -4813,7 +4813,7 @@ resourcestring
   rsNewtonPerSquareCoulombPluralName = '%snewtons per square %scoulomb';
 
 const
-  NewtonPerSquareCoulombID = -83340;
+  NewtonPerSquareCoulombID = -114900;
   NewtonPerSquareCoulombUnit : TUnit = (
     FID         : NewtonPerSquareCoulombID;
     FSymbol     : rsNewtonPerSquareCoulombSymbol;
@@ -4825,12 +4825,12 @@ const
 { TNewtonSquareMeterPerSquareCoulomb }
 
 resourcestring
-  rsNewtonSquareMeterPerSquareCoulombSymbol = '%sN.%sm2/%sC2';
+  rsNewtonSquareMeterPerSquareCoulombSymbol = '%sN∙%sm2/%sC2';
   rsNewtonSquareMeterPerSquareCoulombName = '%snewton square %smeter per square %scoulomb';
   rsNewtonSquareMeterPerSquareCoulombPluralName = '%snewton square %smeters per square %scoulomb';
 
 const
-  NewtonSquareMeterPerSquareCoulombID = -10500;
+  NewtonSquareMeterPerSquareCoulombID = -112140;
   NewtonSquareMeterPerSquareCoulombUnit : TUnit = (
     FID         : NewtonSquareMeterPerSquareCoulombID;
     FSymbol     : rsNewtonSquareMeterPerSquareCoulombSymbol;
@@ -4842,12 +4842,12 @@ const
 { TVoltMeter }
 
 resourcestring
-  rsVoltMeterSymbol = '%sV.%sm';
+  rsVoltMeterSymbol = '%sV∙%sm';
   rsVoltMeterName = '%svolt %smeter';
   rsVoltMeterPluralName = '%svolt %smeters';
 
 const
-  VoltMeterID = 38940;
+  VoltMeterID = -78300;
   VoltMeterUnit : TUnit = (
     FID         : VoltMeterID;
     FSymbol     : rsVoltMeterSymbol;
@@ -4859,7 +4859,7 @@ const
 { TNewtonSquareMeterPerCoulomb }
 
 resourcestring
-  rsNewtonSquareMeterPerCoulombSymbol = '%sN.%sm2/%sC';
+  rsNewtonSquareMeterPerCoulombSymbol = '%sN∙%sm2/%sC';
   rsNewtonSquareMeterPerCoulombName = '%snewton square %smeter per %scoulomb';
   rsNewtonSquareMeterPerCoulombPluralName = '%snewton square %smeters per %scoulomb';
 
@@ -4875,12 +4875,12 @@ const
 { TVoltMeterPerSecond }
 
 resourcestring
-  rsVoltMeterPerSecondSymbol = '%sV.%sm/%ss';
+  rsVoltMeterPerSecondSymbol = '%sV∙%sm/%ss';
   rsVoltMeterPerSecondName = '%svolt %smeter per %ssecond';
   rsVoltMeterPerSecondPluralName = '%svolt %smeters per %ssecond';
 
 const
-  VoltMeterPerSecondID = 15600;
+  VoltMeterPerSecondID = -107520;
   VoltMeterPerSecondUnit : TUnit = (
     FID         : VoltMeterPerSecondID;
     FSymbol     : rsVoltMeterPerSecondSymbol;
@@ -4897,7 +4897,7 @@ resourcestring
   rsFaradPerMeterPluralName = '%sfarads per %smeter';
 
 const
-  FaradPerMeterID = 10500;
+  FaradPerMeterID = 112140;
   FaradPerMeterUnit : TUnit = (
     FID         : FaradPerMeterID;
     FSymbol     : rsFaradPerMeterSymbol;
@@ -4914,7 +4914,7 @@ resourcestring
   rsAmperePerMeterPluralName = '%samperes per %smeter';
 
 const
-  AmperePerMeterID = -10320;
+  AmperePerMeterID = 3240;
   AmperePerMeterUnit : TUnit = (
     FID         : AmperePerMeterID;
     FSymbol     : rsAmperePerMeterSymbol;
@@ -4931,7 +4931,7 @@ resourcestring
   rsMeterPerAmperePluralName = '%smeters per %sampere';
 
 const
-  MeterPerAmpereID = 10320;
+  MeterPerAmpereID = -3240;
   MeterPerAmpereUnit : TUnit = (
     FID         : MeterPerAmpereID;
     FSymbol     : rsMeterPerAmpereSymbol;
@@ -4943,12 +4943,12 @@ const
 { TTeslaMeter }
 
 resourcestring
-  rsTeslaMeterSymbol = '%sT.%sm';
+  rsTeslaMeterSymbol = '%sT∙%sm';
   rsTeslaMeterName = '%stesla %smeter';
   rsTeslaMeterPluralName = '%stesla %smeters';
 
 const
-  TeslaMeterID = -10560;
+  TeslaMeterID = -51840;
   TeslaMeterUnit : TUnit = (
     FID         : TeslaMeterID;
     FSymbol     : rsTeslaMeterSymbol;
@@ -4981,7 +4981,7 @@ resourcestring
   rsTeslaPerAmperePluralName = '%steslas per %sampere';
 
 const
-  TeslaPerAmpereID = -73080;
+  TeslaPerAmpereID = -57840;
   TeslaPerAmpereUnit : TUnit = (
     FID         : TeslaPerAmpereID;
     FSymbol     : rsTeslaPerAmpereSymbol;
@@ -4998,7 +4998,7 @@ resourcestring
   rsHenryPerMeterPluralName = '%shenries per %smeter';
 
 const
-  HenryPerMeterID = -36660;
+  HenryPerMeterID = -56460;
   HenryPerMeterUnit : TUnit = (
     FID         : HenryPerMeterID;
     FSymbol     : rsHenryPerMeterSymbol;
@@ -5010,7 +5010,7 @@ const
 { TTeslaMeterPerAmpere }
 
 resourcestring
-  rsTeslaMeterPerAmpereSymbol = '%sT.%sm/%sA';
+  rsTeslaMeterPerAmpereSymbol = '%sT∙%sm/%sA';
   rsTeslaMeterPerAmpereName = '%stesla %smeter per %sampere';
   rsTeslaMeterPerAmperePluralName = '%stesla %smeters per %sampere';
 
@@ -5063,7 +5063,7 @@ resourcestring
   rsSquareKilogramPerSquareSecondPluralName = 'square %sgrams per square %ssecond';
 
 const
-  SquareKilogramPerSquareSecondID = 4920;
+  SquareKilogramPerSquareSecondID = -38760;
   SquareKilogramPerSquareSecondUnit : TUnit = (
     FID         : SquareKilogramPerSquareSecondID;
     FSymbol     : rsSquareKilogramPerSquareSecondSymbol;
@@ -5080,7 +5080,7 @@ resourcestring
   rsSquareSecondPerSquareMeterPluralName = 'square %sseconds per square %smeter';
 
 const
-  SquareSecondPerSquareMeterID = -26160;
+  SquareSecondPerSquareMeterID = 55680;
   SquareSecondPerSquareMeterUnit : TUnit = (
     FID         : SquareSecondPerSquareMeterID;
     FSymbol     : rsSquareSecondPerSquareMeterSymbol;
@@ -5097,7 +5097,7 @@ resourcestring
   rsSquareJoulePluralName = 'square %sjoules';
 
 const
-  SquareJouleID = 103920;
+  SquareJouleID = -91680;
   SquareJouleUnit : TUnit = (
     FID         : SquareJouleID;
     FSymbol     : rsSquareJouleSymbol;
@@ -5118,7 +5118,7 @@ const
 { TJouleSecond }
 
 resourcestring
-  rsJouleSecondSymbol = '%sJ.%ss';
+  rsJouleSecondSymbol = '%sJ∙%ss';
   rsJouleSecondName = '%sjoule %ssecond';
   rsJouleSecondPluralName = '%sjoule %sseconds';
 
@@ -5150,7 +5150,7 @@ const
 { TElectronvoltSecond }
 
 resourcestring
-  rsElectronvoltSecondSymbol = '%seV.%ss';
+  rsElectronvoltSecondSymbol = '%seV∙%ss';
   rsElectronvoltSecondName = '%selectronvolt %ssecond';
   rsElectronvoltSecondPluralName = '%selectronvolt %sseconds';
 
@@ -5167,7 +5167,7 @@ const
 { TElectronvoltMeterPerSpeedOfLight }
 
 resourcestring
-  rsElectronvoltMeterPerSpeedOfLightSymbol = '%seV.%sm/c';
+  rsElectronvoltMeterPerSpeedOfLightSymbol = '%seV∙%sm/c';
   rsElectronvoltMeterPerSpeedOfLightName = '%selectronvolt %smeter per speed of  light';
   rsElectronvoltMeterPerSpeedOfLightPluralName = '%selectronvolt %smeters per speed of  light';
 
@@ -5184,12 +5184,12 @@ const
 { TSquareJouleSquareSecond }
 
 resourcestring
-  rsSquareJouleSquareSecondSymbol = '%sJ2.%ss2';
+  rsSquareJouleSquareSecondSymbol = '%sJ2∙%ss2';
   rsSquareJouleSquareSecondName = 'square %sjoule square %ssecond';
   rsSquareJouleSquareSecondPluralName = 'square %sjoule square %sseconds';
 
 const
-  SquareJouleSquareSecondID = 150600;
+  SquareJouleSquareSecondID = -33240;
   SquareJouleSquareSecondUnit : TUnit = (
     FID         : SquareJouleSquareSecondID;
     FSymbol     : rsSquareJouleSquareSecondSymbol;
@@ -5206,7 +5206,7 @@ resourcestring
   rsCoulombPerKilogramPluralName = '%scoulombs per %sgram';
 
 const
-  CoulombPerKilogramID = 23640;
+  CoulombPerKilogramID = 24000;
   CoulombPerKilogramUnit : TUnit = (
     FID         : CoulombPerKilogramID;
     FSymbol     : rsCoulombPerKilogramSymbol;
@@ -5218,12 +5218,12 @@ const
 { TSquareMeterAmpere }
 
 resourcestring
-  rsSquareMeterAmpereSymbol = '%sm2.%sA';
+  rsSquareMeterAmpereSymbol = '%sm2∙%sA';
   rsSquareMeterAmpereName = 'square %smeter %sampere';
   rsSquareMeterAmperePluralName = 'square %smeter %samperes';
 
 const
-  SquareMeterAmpereID = 98940;
+  SquareMeterAmpereID = 7380;
   SquareMeterAmpereUnit : TUnit = (
     FID         : SquareMeterAmpereID;
     FSymbol     : rsSquareMeterAmpereSymbol;
@@ -5256,7 +5256,7 @@ resourcestring
   rsLumenPerWattPluralName = '%slumens per %swatt';
 
 const
-  LumenPerWattID = 25140;
+  LumenPerWattID = 123060;
   LumenPerWattUnit : TUnit = (
     FID         : LumenPerWattID;
     FSymbol     : rsLumenPerWattSymbol;
@@ -5273,7 +5273,7 @@ resourcestring
   rsReciprocalMolePluralName = 'reciprocal %smoles';
 
 const
-  ReciprocalMoleID = -35100;
+  ReciprocalMoleID = -36660;
   ReciprocalMoleUnit : TUnit = (
     FID         : ReciprocalMoleID;
     FSymbol     : rsReciprocalMoleSymbol;
@@ -5290,7 +5290,7 @@ resourcestring
   rsAmperePerSquareMeterPluralName = '%samperes per square %smeter';
 
 const
-  AmperePerSquareMeterID = -46740;
+  AmperePerSquareMeterID = 1860;
   AmperePerSquareMeterUnit : TUnit = (
     FID         : AmperePerSquareMeterID;
     FSymbol     : rsAmperePerSquareMeterSymbol;
@@ -5307,7 +5307,7 @@ resourcestring
   rsMolePerCubicMeterPluralName = '%smoles per cubic %smeter';
 
 const
-  MolePerCubicMeterID = -74160;
+  MolePerCubicMeterID = 32520;
   MolePerCubicMeterUnit : TUnit = (
     FID         : MolePerCubicMeterID;
     FSymbol     : rsMolePerCubicMeterSymbol;
@@ -5324,7 +5324,7 @@ resourcestring
   rsCandelaPerSquareMeterPluralName = '%scandelas per square %smeter';
 
 const
-  CandelaPerSquareMeterID = -48720;
+  CandelaPerSquareMeterID = 13020;
   CandelaPerSquareMeterUnit : TUnit = (
     FID         : CandelaPerSquareMeterID;
     FSymbol     : rsCandelaPerSquareMeterSymbol;
@@ -5341,7 +5341,7 @@ resourcestring
   rsCoulombPerCubicMeterPluralName = '%scoulombs per cubic %smeter';
 
 const
-  CoulombPerCubicMeterID = -59820;
+  CoulombPerCubicMeterID = 29700;
   CoulombPerCubicMeterUnit : TUnit = (
     FID         : CoulombPerCubicMeterID;
     FSymbol     : rsCoulombPerCubicMeterSymbol;
@@ -5358,7 +5358,7 @@ resourcestring
   rsGrayPerSecondPluralName = '%sgrays per %ssecond';
 
 const
-  GrayPerSecondID = 2820;
+  GrayPerSecondID = -84900;
   GrayPerSecondUnit : TUnit = (
     FID         : GrayPerSecondID;
     FSymbol     : rsGrayPerSecondSymbol;
@@ -5370,12 +5370,12 @@ const
 { TSteradianHertz }
 
 resourcestring
-  rsSteradianHertzSymbol = 'sr.%sHz';
+  rsSteradianHertzSymbol = 'sr∙%sHz';
   rsSteradianHertzName = 'steradian %shertz';
   rsSteradianHertzPluralName = 'steradian %shertz';
 
 const
-  SteradianHertzID = 6300;
+  SteradianHertzID = 3000;
   SteradianHertzUnit : TUnit = (
     FID         : SteradianHertzID;
     FSymbol     : rsSteradianHertzSymbol;
@@ -5387,12 +5387,12 @@ const
 { TMeterSteradian }
 
 resourcestring
-  rsMeterSteradianSymbol = '%sm.sr';
+  rsMeterSteradianSymbol = '%sm∙sr';
   rsMeterSteradianName = '%smeter steradian';
   rsMeterSteradianPluralName = '%smeter steradians';
 
 const
-  MeterSteradianID = 66060;
+  MeterSteradianID = 33600;
   MeterSteradianUnit : TUnit = (
     FID         : MeterSteradianID;
     FSymbol     : rsMeterSteradianSymbol;
@@ -5404,12 +5404,12 @@ const
 { TSquareMeterSteradian }
 
 resourcestring
-  rsSquareMeterSteradianSymbol = '%sm2.sr';
+  rsSquareMeterSteradianSymbol = '%sm2∙sr';
   rsSquareMeterSteradianName = 'square %smeter steradian';
   rsSquareMeterSteradianPluralName = 'square %smeter steradians';
 
 const
-  SquareMeterSteradianID = 102480;
+  SquareMeterSteradianID = 34980;
   SquareMeterSteradianUnit : TUnit = (
     FID         : SquareMeterSteradianID;
     FSymbol     : rsSquareMeterSteradianSymbol;
@@ -5421,12 +5421,12 @@ const
 { TCubicMeterSteradian }
 
 resourcestring
-  rsCubicMeterSteradianSymbol = '%sm3.sr';
+  rsCubicMeterSteradianSymbol = '%sm3∙sr';
   rsCubicMeterSteradianName = 'cubic %smeter steradian';
   rsCubicMeterSteradianPluralName = 'cubic %smeter steradians';
 
 const
-  CubicMeterSteradianID = 138900;
+  CubicMeterSteradianID = 36360;
   CubicMeterSteradianUnit : TUnit = (
     FID         : CubicMeterSteradianID;
     FSymbol     : rsCubicMeterSteradianSymbol;
@@ -5438,12 +5438,12 @@ const
 { TSquareMeterSteradianHertz }
 
 resourcestring
-  rsSquareMeterSteradianHertzSymbol = '%sm2.sr.%shertz';
+  rsSquareMeterSteradianHertzSymbol = '%sm2∙sr∙%shertz';
   rsSquareMeterSteradianHertzName = 'square %smeter steradian %shertz';
   rsSquareMeterSteradianHertzPluralName = 'square %smeter steradian %shertz';
 
 const
-  SquareMeterSteradianHertzID = 79140;
+  SquareMeterSteradianHertzID = 5760;
   SquareMeterSteradianHertzUnit : TUnit = (
     FID         : SquareMeterSteradianHertzID;
     FSymbol     : rsSquareMeterSteradianHertzSymbol;
@@ -5460,7 +5460,7 @@ resourcestring
   rsWattPerSteradianPluralName = '%swatts per steradian';
 
 const
-  WattPerSteradianID = -1020;
+  WattPerSteradianID = -107280;
   WattPerSteradianUnit : TUnit = (
     FID         : WattPerSteradianID;
     FSymbol     : rsWattPerSteradianSymbol;
@@ -5477,7 +5477,7 @@ resourcestring
   rsWattPerSteradianPerHertzPluralName = '%swatts per steradian per %shertz';
 
 const
-  WattPerSteradianPerHertzID = 22320;
+  WattPerSteradianPerHertzID = -78060;
   WattPerSteradianPerHertzUnit : TUnit = (
     FID         : WattPerSteradianPerHertzID;
     FSymbol     : rsWattPerSteradianPerHertzSymbol;
@@ -5494,7 +5494,7 @@ resourcestring
   rsWattPerMeterPerSteradianPluralName = '%swatts per steradian per %smeter';
 
 const
-  WattPerMeterPerSteradianID = -37440;
+  WattPerMeterPerSteradianID = -108660;
   WattPerMeterPerSteradianUnit : TUnit = (
     FID         : WattPerMeterPerSteradianID;
     FSymbol     : rsWattPerMeterPerSteradianSymbol;
@@ -5511,7 +5511,7 @@ resourcestring
   rsWattPerSquareMeterPerSteradianPluralName = '%swatts per square %smeter per steradian';
 
 const
-  WattPerSquareMeterPerSteradianID = -73860;
+  WattPerSquareMeterPerSteradianID = -110040;
   WattPerSquareMeterPerSteradianUnit : TUnit = (
     FID         : WattPerSquareMeterPerSteradianID;
     FSymbol     : rsWattPerSquareMeterPerSteradianSymbol;
@@ -5528,7 +5528,7 @@ resourcestring
   rsWattPerCubicMeterPerSteradianPluralName = '%swatts per cubic %smeter per steradian';
 
 const
-  WattPerCubicMeterPerSteradianID = -110280;
+  WattPerCubicMeterPerSteradianID = -111420;
   WattPerCubicMeterPerSteradianUnit : TUnit = (
     FID         : WattPerCubicMeterPerSteradianID;
     FSymbol     : rsWattPerCubicMeterPerSteradianSymbol;
@@ -5545,7 +5545,7 @@ resourcestring
   rsWattPerSquareMeterPerSteradianPerHertzPluralName = '%swatts per square %smeter per steradian per %shertz';
 
 const
-  WattPerSquareMeterPerSteradianPerHertzID = -50520;
+  WattPerSquareMeterPerSteradianPerHertzID = -80820;
   WattPerSquareMeterPerSteradianPerHertzUnit : TUnit = (
     FID         : WattPerSquareMeterPerSteradianPerHertzID;
     FSymbol     : rsWattPerSquareMeterPerSteradianPerHertzSymbol;
@@ -5562,7 +5562,7 @@ resourcestring
   rsKatalPerCubicMeterPluralName = '%skatals per cubic %smeter';
 
 const
-  KatalPerCubicMeterID = -97500;
+  KatalPerCubicMeterID = 3300;
   KatalPerCubicMeterUnit : TUnit = (
     FID         : KatalPerCubicMeterID;
     FSymbol     : rsKatalPerCubicMeterSymbol;
@@ -5579,7 +5579,7 @@ resourcestring
   rsCoulombPerMolePluralName = '%scoulombs per %smole';
 
 const
-  CoulombPerMoleID = 14340;
+  CoulombPerMoleID = -2820;
   CoulombPerMoleUnit : TUnit = (
     FID         : CoulombPerMoleID;
     FSymbol     : rsCoulombPerMoleSymbol;
@@ -5596,7 +5596,7 @@ resourcestring
   rsReciprocalNewtonPluralName = 'reciprocal %snewtons';
 
 const
-  ReciprocalNewtonID = -15540;
+  ReciprocalNewtonID = 47220;
   ReciprocalNewtonUnit : TUnit = (
     FID         : ReciprocalNewtonID;
     FSymbol     : rsReciprocalNewtonSymbol;
@@ -5613,7 +5613,7 @@ resourcestring
   rsReciprocalTeslaPluralName = 'reciprocal %steslas';
 
 const
-  ReciprocalTeslaID = 46980;
+  ReciprocalTeslaID = 53220;
   ReciprocalTeslaUnit : TUnit = (
     FID         : ReciprocalTeslaID;
     FSymbol     : rsReciprocalTeslaSymbol;
@@ -5630,7 +5630,7 @@ resourcestring
   rsReciprocalPascalPluralName = 'reciprocal %spascals';
 
 const
-  ReciprocalPascalID = 57300;
+  ReciprocalPascalID = 49980;
   ReciprocalPascalUnit : TUnit = (
     FID         : ReciprocalPascalID;
     FSymbol     : rsReciprocalPascalSymbol;
@@ -5647,7 +5647,7 @@ resourcestring
   rsReciprocalWeberPluralName = 'reciprocal %swebers';
 
 const
-  ReciprocalWeberID = -25860;
+  ReciprocalWeberID = 50460;
   ReciprocalWeberUnit : TUnit = (
     FID         : ReciprocalWeberID;
     FSymbol     : rsReciprocalWeberSymbol;
@@ -5664,7 +5664,7 @@ resourcestring
   rsReciprocalWattPluralName = 'reciprocal %swatts';
 
 const
-  ReciprocalWattID = -28620;
+  ReciprocalWattID = 75060;
   ReciprocalWattUnit : TUnit = (
     FID         : ReciprocalWattID;
     FSymbol     : rsReciprocalWattSymbol;
@@ -5697,7 +5697,7 @@ resourcestring
   rsMeterPerVoltPluralName = '%smeters per %svolt';
 
 const
-  MeterPerVoltID = 33900;
+  MeterPerVoltID = 81060;
   MeterPerVoltUnit : TUnit = (
     FID         : MeterPerVoltID;
     FSymbol     : rsMeterPerVoltSymbol;
@@ -5730,7 +5730,7 @@ resourcestring
   rsQuarticRootKilogramPluralName = 'quartic root %skilograms';
 
 const
-  QuarticRootKilogramID = 6450;
+  QuarticRootKilogramID = 2460;
   QuarticRootKilogramUnit : TUnit = (
     FID         : QuarticRootKilogramID;
     FSymbol     : rsQuarticRootKilogramSymbol;
@@ -5747,7 +5747,7 @@ resourcestring
   rsCubicRootKilogramPluralName = 'cubic root %skilograms';
 
 const
-  CubicRootKilogramID = 8600;
+  CubicRootKilogramID = 3280;
   CubicRootKilogramUnit : TUnit = (
     FID         : CubicRootKilogramID;
     FSymbol     : rsCubicRootKilogramSymbol;
@@ -5764,7 +5764,7 @@ resourcestring
   rsSquareRootKilogramPluralName = 'square root %skilograms';
 
 const
-  SquareRootKilogramID = 12900;
+  SquareRootKilogramID = 4920;
   SquareRootKilogramUnit : TUnit = (
     FID         : SquareRootKilogramID;
     FSymbol     : rsSquareRootKilogramSymbol;
@@ -5781,7 +5781,7 @@ resourcestring
   rsSquareRootCubicKilogramPluralName = 'square root cubic %skilograms';
 
 const
-  SquareRootCubicKilogramID = 38700;
+  SquareRootCubicKilogramID = 14760;
   SquareRootCubicKilogramUnit : TUnit = (
     FID         : SquareRootCubicKilogramID;
     FSymbol     : rsSquareRootCubicKilogramSymbol;
@@ -5798,7 +5798,7 @@ resourcestring
   rsSquareRootQuinticKilogramPluralName = 'square root quintic %skilograms';
 
 const
-  SquareRootQuinticKilogramID = 64500;
+  SquareRootQuinticKilogramID = 24600;
   SquareRootQuinticKilogramUnit : TUnit = (
     FID         : SquareRootQuinticKilogramID;
     FSymbol     : rsSquareRootQuinticKilogramSymbol;
@@ -5815,7 +5815,7 @@ resourcestring
   rsCubicKilogramPluralName = 'cubic %skilograms';
 
 const
-  CubicKilogramID = 77400;
+  CubicKilogramID = 29520;
   CubicKilogramUnit : TUnit = (
     FID         : CubicKilogramID;
     FSymbol     : rsCubicKilogramSymbol;
@@ -5832,7 +5832,7 @@ resourcestring
   rsQuarticKilogramPluralName = 'quartic %skilograms';
 
 const
-  QuarticKilogramID = 103200;
+  QuarticKilogramID = 39360;
   QuarticKilogramUnit : TUnit = (
     FID         : QuarticKilogramID;
     FSymbol     : rsQuarticKilogramSymbol;
@@ -5849,7 +5849,7 @@ resourcestring
   rsQuinticKilogramPluralName = 'quintic %skilograms';
 
 const
-  QuinticKilogramID = 129000;
+  QuinticKilogramID = 49200;
   QuinticKilogramUnit : TUnit = (
     FID         : QuinticKilogramID;
     FSymbol     : rsQuinticKilogramSymbol;
@@ -5866,7 +5866,7 @@ resourcestring
   rsSexticKilogramPluralName = 'sextic %skilograms';
 
 const
-  SexticKilogramID = 154800;
+  SexticKilogramID = 59040;
   SexticKilogramUnit : TUnit = (
     FID         : SexticKilogramID;
     FSymbol     : rsSexticKilogramSymbol;
@@ -5883,7 +5883,7 @@ resourcestring
   rsQuarticRootMeterPluralName = 'quartic root %smeters';
 
 const
-  QuarticRootMeterID = 9105;
+  QuarticRootMeterID = 345;
   QuarticRootMeterUnit : TUnit = (
     FID         : QuarticRootMeterID;
     FSymbol     : rsQuarticRootMeterSymbol;
@@ -5900,7 +5900,7 @@ resourcestring
   rsCubicRootMeterPluralName = 'cubic root %smeters';
 
 const
-  CubicRootMeterID = 12140;
+  CubicRootMeterID = 460;
   CubicRootMeterUnit : TUnit = (
     FID         : CubicRootMeterID;
     FSymbol     : rsCubicRootMeterSymbol;
@@ -5917,7 +5917,7 @@ resourcestring
   rsSquareRootCubicMeterPluralName = 'square root cubic %smeters';
 
 const
-  SquareRootCubicMeterID = 54630;
+  SquareRootCubicMeterID = 2070;
   SquareRootCubicMeterUnit : TUnit = (
     FID         : SquareRootCubicMeterID;
     FSymbol     : rsSquareRootCubicMeterSymbol;
@@ -5934,7 +5934,7 @@ resourcestring
   rsSquareRootQuinticMeterPluralName = 'square root quintic %smeters';
 
 const
-  SquareRootQuinticMeterID = 91050;
+  SquareRootQuinticMeterID = 3450;
   SquareRootQuinticMeterUnit : TUnit = (
     FID         : SquareRootQuinticMeterID;
     FSymbol     : rsSquareRootQuinticMeterSymbol;
@@ -5951,7 +5951,7 @@ resourcestring
   rsQuarticRootSecondPluralName = 'quartic root %sseconds';
 
 const
-  QuarticRootSecondID = 5835;
+  QuarticRootSecondID = 7305;
   QuarticRootSecondUnit : TUnit = (
     FID         : QuarticRootSecondID;
     FSymbol     : rsQuarticRootSecondSymbol;
@@ -5968,7 +5968,7 @@ resourcestring
   rsCubicRootSecondPluralName = 'cubic root %sseconds';
 
 const
-  CubicRootSecondID = 7780;
+  CubicRootSecondID = 9740;
   CubicRootSecondUnit : TUnit = (
     FID         : CubicRootSecondID;
     FSymbol     : rsCubicRootSecondSymbol;
@@ -5985,7 +5985,7 @@ resourcestring
   rsSquareRootSecondPluralName = 'square root %sseconds';
 
 const
-  SquareRootSecondID = 11670;
+  SquareRootSecondID = 14610;
   SquareRootSecondUnit : TUnit = (
     FID         : SquareRootSecondID;
     FSymbol     : rsSquareRootSecondSymbol;
@@ -6002,7 +6002,7 @@ resourcestring
   rsSquareRootCubicSecondPluralName = 'square root cubic %sseconds';
 
 const
-  SquareRootCubicSecondID = 35010;
+  SquareRootCubicSecondID = 43830;
   SquareRootCubicSecondUnit : TUnit = (
     FID         : SquareRootCubicSecondID;
     FSymbol     : rsSquareRootCubicSecondSymbol;
@@ -6019,7 +6019,7 @@ resourcestring
   rsSquareRootQuinticSecondPluralName = 'square root quintic %sseconds';
 
 const
-  SquareRootQuinticSecondID = 58350;
+  SquareRootQuinticSecondID = 73050;
   SquareRootQuinticSecondUnit : TUnit = (
     FID         : SquareRootQuinticSecondID;
     FSymbol     : rsSquareRootQuinticSecondSymbol;
@@ -6036,7 +6036,7 @@ resourcestring
   rsQuarticRootAmperePluralName = 'quartic root %samperes';
 
 const
-  QuarticRootAmpereID = 6525;
+  QuarticRootAmpereID = 1155;
   QuarticRootAmpereUnit : TUnit = (
     FID         : QuarticRootAmpereID;
     FSymbol     : rsQuarticRootAmpereSymbol;
@@ -6053,7 +6053,7 @@ resourcestring
   rsCubicRootAmperePluralName = 'cubic root %samperes';
 
 const
-  CubicRootAmpereID = 8700;
+  CubicRootAmpereID = 1540;
   CubicRootAmpereUnit : TUnit = (
     FID         : CubicRootAmpereID;
     FSymbol     : rsCubicRootAmpereSymbol;
@@ -6070,7 +6070,7 @@ resourcestring
   rsSquareRootAmperePluralName = 'square root %samperes';
 
 const
-  SquareRootAmpereID = 13050;
+  SquareRootAmpereID = 2310;
   SquareRootAmpereUnit : TUnit = (
     FID         : SquareRootAmpereID;
     FSymbol     : rsSquareRootAmpereSymbol;
@@ -6087,7 +6087,7 @@ resourcestring
   rsSquareRootCubicAmperePluralName = 'square root cubic %samperes';
 
 const
-  SquareRootCubicAmpereID = 39150;
+  SquareRootCubicAmpereID = 6930;
   SquareRootCubicAmpereUnit : TUnit = (
     FID         : SquareRootCubicAmpereID;
     FSymbol     : rsSquareRootCubicAmpereSymbol;
@@ -6104,7 +6104,7 @@ resourcestring
   rsSquareRootQuinticAmperePluralName = 'square root quintic %samperes';
 
 const
-  SquareRootQuinticAmpereID = 65250;
+  SquareRootQuinticAmpereID = 11550;
   SquareRootQuinticAmpereUnit : TUnit = (
     FID         : SquareRootQuinticAmpereID;
     FSymbol     : rsSquareRootQuinticAmpereSymbol;
@@ -6121,7 +6121,7 @@ resourcestring
   rsCubicAmperePluralName = 'cubic %samperes';
 
 const
-  CubicAmpereID = 78300;
+  CubicAmpereID = 13860;
   CubicAmpereUnit : TUnit = (
     FID         : CubicAmpereID;
     FSymbol     : rsCubicAmpereSymbol;
@@ -6138,7 +6138,7 @@ resourcestring
   rsQuarticAmperePluralName = 'quartic %samperes';
 
 const
-  QuarticAmpereID = 104400;
+  QuarticAmpereID = 18480;
   QuarticAmpereUnit : TUnit = (
     FID         : QuarticAmpereID;
     FSymbol     : rsQuarticAmpereSymbol;
@@ -6155,7 +6155,7 @@ resourcestring
   rsQuinticAmperePluralName = 'quintic %samperes';
 
 const
-  QuinticAmpereID = 130500;
+  QuinticAmpereID = 23100;
   QuinticAmpereUnit : TUnit = (
     FID         : QuinticAmpereID;
     FSymbol     : rsQuinticAmpereSymbol;
@@ -6172,7 +6172,7 @@ resourcestring
   rsSexticAmperePluralName = 'sextic %samperes';
 
 const
-  SexticAmpereID = 156600;
+  SexticAmpereID = 27720;
   SexticAmpereUnit : TUnit = (
     FID         : SexticAmpereID;
     FSymbol     : rsSexticAmpereSymbol;
@@ -6189,7 +6189,7 @@ resourcestring
   rsQuarticRootKelvinPluralName = 'quartic root %skelvins';
 
 const
-  QuarticRootKelvinID = 9240;
+  QuarticRootKelvinID = 8190;
   QuarticRootKelvinUnit : TUnit = (
     FID         : QuarticRootKelvinID;
     FSymbol     : rsQuarticRootKelvinSymbol;
@@ -6206,7 +6206,7 @@ resourcestring
   rsCubicRootKelvinPluralName = 'cubic root %skelvins';
 
 const
-  CubicRootKelvinID = 12320;
+  CubicRootKelvinID = 10920;
   CubicRootKelvinUnit : TUnit = (
     FID         : CubicRootKelvinID;
     FSymbol     : rsCubicRootKelvinSymbol;
@@ -6223,7 +6223,7 @@ resourcestring
   rsSquareRootKelvinPluralName = 'square root %skelvins';
 
 const
-  SquareRootKelvinID = 18480;
+  SquareRootKelvinID = 16380;
   SquareRootKelvinUnit : TUnit = (
     FID         : SquareRootKelvinID;
     FSymbol     : rsSquareRootKelvinSymbol;
@@ -6240,7 +6240,7 @@ resourcestring
   rsSquareRootCubicKelvinPluralName = 'square root cubic %skelvins';
 
 const
-  SquareRootCubicKelvinID = 55440;
+  SquareRootCubicKelvinID = 49140;
   SquareRootCubicKelvinUnit : TUnit = (
     FID         : SquareRootCubicKelvinID;
     FSymbol     : rsSquareRootCubicKelvinSymbol;
@@ -6257,7 +6257,7 @@ resourcestring
   rsSquareRootQuinticKelvinPluralName = 'square root quintic %skelvins';
 
 const
-  SquareRootQuinticKelvinID = 92400;
+  SquareRootQuinticKelvinID = 81900;
   SquareRootQuinticKelvinUnit : TUnit = (
     FID         : SquareRootQuinticKelvinID;
     FSymbol     : rsSquareRootQuinticKelvinSymbol;
@@ -6274,7 +6274,7 @@ resourcestring
   rsQuinticKelvinPluralName = 'quintic %skelvins';
 
 const
-  QuinticKelvinID = 184800;
+  QuinticKelvinID = 163800;
   QuinticKelvinUnit : TUnit = (
     FID         : QuinticKelvinID;
     FSymbol     : rsQuinticKelvinSymbol;
@@ -6291,7 +6291,7 @@ resourcestring
   rsSexticKelvinPluralName = 'sextic %skelvins';
 
 const
-  SexticKelvinID = 221760;
+  SexticKelvinID = 196560;
   SexticKelvinUnit : TUnit = (
     FID         : SexticKelvinID;
     FSymbol     : rsSexticKelvinSymbol;
@@ -6308,7 +6308,7 @@ resourcestring
   rsQuarticRootMolePluralName = 'quartic root %smoles';
 
 const
-  QuarticRootMoleID = 8775;
+  QuarticRootMoleID = 9165;
   QuarticRootMoleUnit : TUnit = (
     FID         : QuarticRootMoleID;
     FSymbol     : rsQuarticRootMoleSymbol;
@@ -6325,7 +6325,7 @@ resourcestring
   rsCubicRootMolePluralName = 'cubic root %smoles';
 
 const
-  CubicRootMoleID = 11700;
+  CubicRootMoleID = 12220;
   CubicRootMoleUnit : TUnit = (
     FID         : CubicRootMoleID;
     FSymbol     : rsCubicRootMoleSymbol;
@@ -6342,7 +6342,7 @@ resourcestring
   rsSquareRootMolePluralName = 'square root %smoles';
 
 const
-  SquareRootMoleID = 17550;
+  SquareRootMoleID = 18330;
   SquareRootMoleUnit : TUnit = (
     FID         : SquareRootMoleID;
     FSymbol     : rsSquareRootMoleSymbol;
@@ -6359,7 +6359,7 @@ resourcestring
   rsSquareRootCubicMolePluralName = 'square root cubic %smoles';
 
 const
-  SquareRootCubicMoleID = 52650;
+  SquareRootCubicMoleID = 54990;
   SquareRootCubicMoleUnit : TUnit = (
     FID         : SquareRootCubicMoleID;
     FSymbol     : rsSquareRootCubicMoleSymbol;
@@ -6376,7 +6376,7 @@ resourcestring
   rsSquareMolePluralName = 'square %smoles';
 
 const
-  SquareMoleID = 70200;
+  SquareMoleID = 73320;
   SquareMoleUnit : TUnit = (
     FID         : SquareMoleID;
     FSymbol     : rsSquareMoleSymbol;
@@ -6393,7 +6393,7 @@ resourcestring
   rsSquareRootQuinticMolePluralName = 'square root quintic %smoles';
 
 const
-  SquareRootQuinticMoleID = 87750;
+  SquareRootQuinticMoleID = 91650;
   SquareRootQuinticMoleUnit : TUnit = (
     FID         : SquareRootQuinticMoleID;
     FSymbol     : rsSquareRootQuinticMoleSymbol;
@@ -6410,7 +6410,7 @@ resourcestring
   rsCubicMolePluralName = 'cubic %smoles';
 
 const
-  CubicMoleID = 105300;
+  CubicMoleID = 109980;
   CubicMoleUnit : TUnit = (
     FID         : CubicMoleID;
     FSymbol     : rsCubicMoleSymbol;
@@ -6427,7 +6427,7 @@ resourcestring
   rsQuarticMolePluralName = 'quartic %smoles';
 
 const
-  QuarticMoleID = 140400;
+  QuarticMoleID = 146640;
   QuarticMoleUnit : TUnit = (
     FID         : QuarticMoleID;
     FSymbol     : rsQuarticMoleSymbol;
@@ -6444,7 +6444,7 @@ resourcestring
   rsQuinticMolePluralName = 'quintic %smoles';
 
 const
-  QuinticMoleID = 175500;
+  QuinticMoleID = 183300;
   QuinticMoleUnit : TUnit = (
     FID         : QuinticMoleID;
     FSymbol     : rsQuinticMoleSymbol;
@@ -6461,7 +6461,7 @@ resourcestring
   rsSexticMolePluralName = 'sextic %smoles';
 
 const
-  SexticMoleID = 210600;
+  SexticMoleID = 219960;
   SexticMoleUnit : TUnit = (
     FID         : SexticMoleID;
     FSymbol     : rsSexticMoleSymbol;
@@ -6478,7 +6478,7 @@ resourcestring
   rsQuarticRootCandelaPluralName = 'quartic root %scandelas';
 
 const
-  QuarticRootCandelaID = 6030;
+  QuarticRootCandelaID = 3945;
   QuarticRootCandelaUnit : TUnit = (
     FID         : QuarticRootCandelaID;
     FSymbol     : rsQuarticRootCandelaSymbol;
@@ -6495,7 +6495,7 @@ resourcestring
   rsCubicRootCandelaPluralName = 'cubic root %scandelas';
 
 const
-  CubicRootCandelaID = 8040;
+  CubicRootCandelaID = 5260;
   CubicRootCandelaUnit : TUnit = (
     FID         : CubicRootCandelaID;
     FSymbol     : rsCubicRootCandelaSymbol;
@@ -6512,7 +6512,7 @@ resourcestring
   rsSquareRootCandelaPluralName = 'square root %scandelas';
 
 const
-  SquareRootCandelaID = 12060;
+  SquareRootCandelaID = 7890;
   SquareRootCandelaUnit : TUnit = (
     FID         : SquareRootCandelaID;
     FSymbol     : rsSquareRootCandelaSymbol;
@@ -6529,7 +6529,7 @@ resourcestring
   rsSquareRootCubicCandelaPluralName = 'square root cubic %scandelas';
 
 const
-  SquareRootCubicCandelaID = 36180;
+  SquareRootCubicCandelaID = 23670;
   SquareRootCubicCandelaUnit : TUnit = (
     FID         : SquareRootCubicCandelaID;
     FSymbol     : rsSquareRootCubicCandelaSymbol;
@@ -6546,7 +6546,7 @@ resourcestring
   rsSquareCandelaPluralName = 'square %scandelas';
 
 const
-  SquareCandelaID = 48240;
+  SquareCandelaID = 31560;
   SquareCandelaUnit : TUnit = (
     FID         : SquareCandelaID;
     FSymbol     : rsSquareCandelaSymbol;
@@ -6563,7 +6563,7 @@ resourcestring
   rsSquareRootQuinticCandelaPluralName = 'square root quintic %scandelas';
 
 const
-  SquareRootQuinticCandelaID = 60300;
+  SquareRootQuinticCandelaID = 39450;
   SquareRootQuinticCandelaUnit : TUnit = (
     FID         : SquareRootQuinticCandelaID;
     FSymbol     : rsSquareRootQuinticCandelaSymbol;
@@ -6580,7 +6580,7 @@ resourcestring
   rsCubicCandelaPluralName = 'cubic %scandelas';
 
 const
-  CubicCandelaID = 72360;
+  CubicCandelaID = 47340;
   CubicCandelaUnit : TUnit = (
     FID         : CubicCandelaID;
     FSymbol     : rsCubicCandelaSymbol;
@@ -6597,7 +6597,7 @@ resourcestring
   rsQuarticCandelaPluralName = 'quartic %scandelas';
 
 const
-  QuarticCandelaID = 96480;
+  QuarticCandelaID = 63120;
   QuarticCandelaUnit : TUnit = (
     FID         : QuarticCandelaID;
     FSymbol     : rsQuarticCandelaSymbol;
@@ -6614,7 +6614,7 @@ resourcestring
   rsQuinticCandelaPluralName = 'quintic %scandelas';
 
 const
-  QuinticCandelaID = 120600;
+  QuinticCandelaID = 78900;
   QuinticCandelaUnit : TUnit = (
     FID         : QuinticCandelaID;
     FSymbol     : rsQuinticCandelaSymbol;
@@ -6631,7 +6631,7 @@ resourcestring
   rsSexticCandelaPluralName = 'sextic %scandelas';
 
 const
-  SexticCandelaID = 144720;
+  SexticCandelaID = 94680;
   SexticCandelaUnit : TUnit = (
     FID         : SexticCandelaID;
     FSymbol     : rsSexticCandelaSymbol;
@@ -6648,7 +6648,7 @@ resourcestring
   rsQuarticRootSteradianPluralName = 'quartic root steradian';
 
 const
-  QuarticRootSteradianID = 7410;
+  QuarticRootSteradianID = 8055;
   QuarticRootSteradianUnit : TUnit = (
     FID         : QuarticRootSteradianID;
     FSymbol     : rsQuarticRootSteradianSymbol;
@@ -6665,7 +6665,7 @@ resourcestring
   rsCubicRootSteradianPluralName = 'cubic root steradian';
 
 const
-  CubicRootSteradianID = 9880;
+  CubicRootSteradianID = 10740;
   CubicRootSteradianUnit : TUnit = (
     FID         : CubicRootSteradianID;
     FSymbol     : rsCubicRootSteradianSymbol;
@@ -6682,7 +6682,7 @@ resourcestring
   rsSquareRootSteradianPluralName = 'square root steradian';
 
 const
-  SquareRootSteradianID = 14820;
+  SquareRootSteradianID = 16110;
   SquareRootSteradianUnit : TUnit = (
     FID         : SquareRootSteradianID;
     FSymbol     : rsSquareRootSteradianSymbol;
@@ -6699,7 +6699,7 @@ resourcestring
   rsSquareRootCubicSteradianPluralName = 'square root cubic steradian';
 
 const
-  SquareRootCubicSteradianID = 44460;
+  SquareRootCubicSteradianID = 48330;
   SquareRootCubicSteradianUnit : TUnit = (
     FID         : SquareRootCubicSteradianID;
     FSymbol     : rsSquareRootCubicSteradianSymbol;
@@ -6716,7 +6716,7 @@ resourcestring
   rsSquareSteradianPluralName = 'square steradian';
 
 const
-  SquareSteradianID = 59280;
+  SquareSteradianID = 64440;
   SquareSteradianUnit : TUnit = (
     FID         : SquareSteradianID;
     FSymbol     : rsSquareSteradianSymbol;
@@ -6733,7 +6733,7 @@ resourcestring
   rsSquareRootQuinticSteradianPluralName = 'square root quintic steradian';
 
 const
-  SquareRootQuinticSteradianID = 74100;
+  SquareRootQuinticSteradianID = 80550;
   SquareRootQuinticSteradianUnit : TUnit = (
     FID         : SquareRootQuinticSteradianID;
     FSymbol     : rsSquareRootQuinticSteradianSymbol;
@@ -6750,7 +6750,7 @@ resourcestring
   rsCubicSteradianPluralName = 'cubic steradian';
 
 const
-  CubicSteradianID = 88920;
+  CubicSteradianID = 96660;
   CubicSteradianUnit : TUnit = (
     FID         : CubicSteradianID;
     FSymbol     : rsCubicSteradianSymbol;
@@ -6767,7 +6767,7 @@ resourcestring
   rsQuarticSteradianPluralName = 'quartic steradian';
 
 const
-  QuarticSteradianID = 118560;
+  QuarticSteradianID = 128880;
   QuarticSteradianUnit : TUnit = (
     FID         : QuarticSteradianID;
     FSymbol     : rsQuarticSteradianSymbol;
@@ -6784,7 +6784,7 @@ resourcestring
   rsQuinticSteradianPluralName = 'quintic steradian';
 
 const
-  QuinticSteradianID = 148200;
+  QuinticSteradianID = 161100;
   QuinticSteradianUnit : TUnit = (
     FID         : QuinticSteradianID;
     FSymbol     : rsQuinticSteradianSymbol;
@@ -6801,7 +6801,7 @@ resourcestring
   rsSexticSteradianPluralName = 'sextic steradian';
 
 const
-  SexticSteradianID = 177840;
+  SexticSteradianID = 193320;
   SexticSteradianUnit : TUnit = (
     FID         : SexticSteradianID;
     FSymbol     : rsSexticSteradianSymbol;
@@ -6818,7 +6818,7 @@ resourcestring
   rsReciprocalCubicSecondPluralName = 'reciprocal cubic %ssecond';
 
 const
-  ReciprocalCubicSecondID = -70020;
+  ReciprocalCubicSecondID = -87660;
   ReciprocalCubicSecondUnit : TUnit = (
     FID         : ReciprocalCubicSecondID;
     FSymbol     : rsReciprocalCubicSecondSymbol;
@@ -6835,7 +6835,7 @@ resourcestring
   rsReciprocalQuarticSecondPluralName = 'reciprocal quartic %ssecond';
 
 const
-  ReciprocalQuarticSecondID = -93360;
+  ReciprocalQuarticSecondID = -116880;
   ReciprocalQuarticSecondUnit : TUnit = (
     FID         : ReciprocalQuarticSecondID;
     FSymbol     : rsReciprocalQuarticSecondSymbol;
@@ -6852,7 +6852,7 @@ resourcestring
   rsReciprocalQuinticSecondPluralName = 'reciprocal quintic %ssecond';
 
 const
-  ReciprocalQuinticSecondID = -116700;
+  ReciprocalQuinticSecondID = -146100;
   ReciprocalQuinticSecondUnit : TUnit = (
     FID         : ReciprocalQuinticSecondID;
     FSymbol     : rsReciprocalQuinticSecondSymbol;
@@ -6869,7 +6869,7 @@ resourcestring
   rsReciprocalSexticSecondPluralName = 'reciprocal sextic %ssecond';
 
 const
-  ReciprocalSexticSecondID = -140040;
+  ReciprocalSexticSecondID = -175320;
   ReciprocalSexticSecondUnit : TUnit = (
     FID         : ReciprocalSexticSecondID;
     FSymbol     : rsReciprocalSexticSecondSymbol;
@@ -6881,12 +6881,12 @@ const
 { TSquareKilogramSquareMeter }
 
 resourcestring
-  rsSquareKilogramSquareMeterSymbol = '%skg2.%sm2';
+  rsSquareKilogramSquareMeterSymbol = '%skg2∙%sm2';
   rsSquareKilogramSquareMeterName = 'square %skilogram square %smeter';
   rsSquareKilogramSquareMeterPluralName = 'square %skilograms square %smeters';
 
 const
-  SquareKilogramSquareMeterID = 124440;
+  SquareKilogramSquareMeterID = 22440;
   SquareKilogramSquareMeterUnit : TUnit = (
     FID         : SquareKilogramSquareMeterID;
     FSymbol     : rsSquareKilogramSquareMeterSymbol;
@@ -6903,7 +6903,7 @@ resourcestring
   rsSquareMeterPerQuarticSecondPluralName = 'square %smeters per quartic %ssecond';
 
 const
-  SquareMeterPerQuarticSecondID = -20520;
+  SquareMeterPerQuarticSecondID = -114120;
   SquareMeterPerQuarticSecondUnit : TUnit = (
     FID         : SquareMeterPerQuarticSecondID;
     FSymbol     : rsSquareMeterPerQuarticSecondSymbol;
@@ -6920,7 +6920,7 @@ resourcestring
   rsSquareKilogramPerQuarticSecondPluralName = 'square %skilograms per quartic %ssecond';
 
 const
-  SquareKilogramPerQuarticSecondID = -41760;
+  SquareKilogramPerQuarticSecondID = -97200;
   SquareKilogramPerQuarticSecondUnit : TUnit = (
     FID         : SquareKilogramPerQuarticSecondID;
     FSymbol     : rsSquareKilogramPerQuarticSecondSymbol;
@@ -6937,7 +6937,7 @@ resourcestring
   rsReciprocalMeterSquareSecondPluralName = 'reciprocal %smeter square %ssecond';
 
 const
-  ReciprocalMeterSquareSecondID = -83100;
+  ReciprocalMeterSquareSecondID = -59820;
   ReciprocalMeterSquareSecondUnit : TUnit = (
     FID         : ReciprocalMeterSquareSecondID;
     FSymbol     : rsReciprocalMeterSquareSecondSymbol;
@@ -6949,12 +6949,12 @@ const
 { TMeterAmpere }
 
 resourcestring
-  rsMeterAmpereSymbol = '%sm.%sA';
+  rsMeterAmpereSymbol = '%sm∙%sA';
   rsMeterAmpereName = '%smeter %sampere';
   rsMeterAmperePluralName = '%smeters %samperes';
 
 const
-  MeterAmpereID = 62520;
+  MeterAmpereID = 6000;
   MeterAmpereUnit : TUnit = (
     FID         : MeterAmpereID;
     FSymbol     : rsMeterAmpereSymbol;
@@ -6971,7 +6971,7 @@ resourcestring
   rsSquareMeterPerCubicSecondPerAmperePluralName = 'square %smeters per cubic %ssecond per %sampere';
 
 const
-  SquareMeterPerCubicSecondPerAmpereID = -23280;
+  SquareMeterPerCubicSecondPerAmpereID = -89520;
   SquareMeterPerCubicSecondPerAmpereUnit : TUnit = (
     FID         : SquareMeterPerCubicSecondPerAmpereID;
     FSymbol     : rsSquareMeterPerCubicSecondPerAmpereSymbol;
@@ -6988,7 +6988,7 @@ resourcestring
   rsKilogramPerCubicSecondPerAmperePluralName = '%skilograms per cubic %ssecond per %sampere';
 
 const
-  KilogramPerCubicSecondPerAmpereID = -70320;
+  KilogramPerCubicSecondPerAmpereID = -82440;
   KilogramPerCubicSecondPerAmpereUnit : TUnit = (
     FID         : KilogramPerCubicSecondPerAmpereID;
     FSymbol     : rsKilogramPerCubicSecondPerAmpereSymbol;
@@ -7000,12 +7000,12 @@ const
 { TKilogramSquareMeterPerAmpere }
 
 resourcestring
-  rsKilogramSquareMeterPerAmpereSymbol = '%skg.%sm2/%sA';
+  rsKilogramSquareMeterPerAmpereSymbol = '%skg∙%sm2/%sA';
   rsKilogramSquareMeterPerAmpereName = '%skilogram square %smeter per %sampere';
   rsKilogramSquareMeterPerAmperePluralName = '%skilograms square %smeters per %sampere';
 
 const
-  KilogramSquareMeterPerAmpereID = 72540;
+  KilogramSquareMeterPerAmpereID = 7980;
   KilogramSquareMeterPerAmpereUnit : TUnit = (
     FID         : KilogramSquareMeterPerAmpereID;
     FSymbol     : rsKilogramSquareMeterPerAmpereSymbol;
@@ -7022,7 +7022,7 @@ resourcestring
   rsQuarticMeterPerSexticSecondPerSquareAmperePluralName = 'quartic %smeters per sextic %ssecond per square %sampere';
 
 const
-  QuarticMeterPerSexticSecondPerSquareAmpereID = -46560;
+  QuarticMeterPerSexticSecondPerSquareAmpereID = -179040;
   QuarticMeterPerSexticSecondPerSquareAmpereUnit : TUnit = (
     FID         : QuarticMeterPerSexticSecondPerSquareAmpereID;
     FSymbol     : rsQuarticMeterPerSexticSecondPerSquareAmpereSymbol;
@@ -7039,7 +7039,7 @@ resourcestring
   rsSquareKilogramPerSexticSecondPerSquareAmperePluralName = 'square %skilograms per sextic %ssecond per square %sampere';
 
 const
-  SquareKilogramPerSexticSecondPerSquareAmpereID = -140640;
+  SquareKilogramPerSexticSecondPerSquareAmpereID = -164880;
   SquareKilogramPerSexticSecondPerSquareAmpereUnit : TUnit = (
     FID         : SquareKilogramPerSexticSecondPerSquareAmpereID;
     FSymbol     : rsSquareKilogramPerSexticSecondPerSquareAmpereSymbol;
@@ -7051,12 +7051,12 @@ const
 { TSquareKilogramQuarticMeterPerSquareAmpere }
 
 resourcestring
-  rsSquareKilogramQuarticMeterPerSquareAmpereSymbol = '%skg2.%sm4/%sA2';
+  rsSquareKilogramQuarticMeterPerSquareAmpereSymbol = '%skg2∙%sm4/%sA2';
   rsSquareKilogramQuarticMeterPerSquareAmpereName = 'square %skilogram quartic %smeter per square %sampere';
   rsSquareKilogramQuarticMeterPerSquareAmperePluralName = 'square %skilograms quartic %smeters per square %sampere';
 
 const
-  SquareKilogramQuarticMeterPerSquareAmpereID = 145080;
+  SquareKilogramQuarticMeterPerSquareAmpereID = 15960;
   SquareKilogramQuarticMeterPerSquareAmpereUnit : TUnit = (
     FID         : SquareKilogramQuarticMeterPerSquareAmpereID;
     FSymbol     : rsSquareKilogramQuarticMeterPerSquareAmpereSymbol;
@@ -7068,12 +7068,12 @@ const
 { TSquareKilogramQuarticMeterPerSexticSecond }
 
 resourcestring
-  rsSquareKilogramQuarticMeterPerSexticSecondSymbol = '%skg2.%sm4/%ss6';
+  rsSquareKilogramQuarticMeterPerSexticSecondSymbol = '%skg2∙%sm4/%ss6';
   rsSquareKilogramQuarticMeterPerSexticSecondName = 'square %skilogram quartic %smeter per sextic %ssecond';
   rsSquareKilogramQuarticMeterPerSexticSecondPluralName = 'square %skilograms quartic %smeters per sextic %ssecond';
 
 const
-  SquareKilogramQuarticMeterPerSexticSecondID = 57240;
+  SquareKilogramQuarticMeterPerSexticSecondID = -150120;
   SquareKilogramQuarticMeterPerSexticSecondUnit : TUnit = (
     FID         : SquareKilogramQuarticMeterPerSexticSecondID;
     FSymbol     : rsSquareKilogramQuarticMeterPerSexticSecondSymbol;
@@ -7085,12 +7085,12 @@ const
 { TQuarticSecondSquareAmperePerSquareMeter }
 
 resourcestring
-  rsQuarticSecondSquareAmperePerSquareMeterSymbol = '%ss4.%sA2/%sm2';
+  rsQuarticSecondSquareAmperePerSquareMeterSymbol = '%ss4∙%sA2/%sm2';
   rsQuarticSecondSquareAmperePerSquareMeterName = 'quartic %ssecond square %sampere per square %smeter';
   rsQuarticSecondSquareAmperePerSquareMeterPluralName = 'quartic %sseconds square %samperes per square %smeter';
 
 const
-  QuarticSecondSquareAmperePerSquareMeterID = 72720;
+  QuarticSecondSquareAmperePerSquareMeterID = 123360;
   QuarticSecondSquareAmperePerSquareMeterUnit : TUnit = (
     FID         : QuarticSecondSquareAmperePerSquareMeterID;
     FSymbol     : rsQuarticSecondSquareAmperePerSquareMeterSymbol;
@@ -7102,12 +7102,12 @@ const
 { TQuarticSecondSquareAmperePerKilogram }
 
 resourcestring
-  rsQuarticSecondSquareAmperePerKilogramSymbol = '%ss4.%sA2/%skg';
+  rsQuarticSecondSquareAmperePerKilogramSymbol = '%ss4∙%sA2/%skg';
   rsQuarticSecondSquareAmperePerKilogramName = 'quartic %ssecond square %sampere per %skilogram';
   rsQuarticSecondSquareAmperePerKilogramPluralName = 'quartic %sseconds square %samperes per %skilogram';
 
 const
-  QuarticSecondSquareAmperePerKilogramID = 119760;
+  QuarticSecondSquareAmperePerKilogramID = 116280;
   QuarticSecondSquareAmperePerKilogramUnit : TUnit = (
     FID         : QuarticSecondSquareAmperePerKilogramID;
     FSymbol     : rsQuarticSecondSquareAmperePerKilogramSymbol;
@@ -7124,7 +7124,7 @@ resourcestring
   rsSquareAmperePerKilogramPerSquareMeterPluralName = 'square %samperes per %skilogram per square %smeter';
 
 const
-  SquareAmperePerKilogramPerSquareMeterID = -46440;
+  SquareAmperePerKilogramPerSquareMeterID = -3360;
   SquareAmperePerKilogramPerSquareMeterUnit : TUnit = (
     FID         : SquareAmperePerKilogramPerSquareMeterID;
     FSymbol     : rsSquareAmperePerKilogramPerSquareMeterSymbol;
@@ -7141,7 +7141,7 @@ resourcestring
   rsQuarticSecondPerKilogramPerSquareMeterPluralName = 'quartic %sseconds per %skilogram per square %smeter';
 
 const
-  QuarticSecondPerKilogramPerSquareMeterID = -5280;
+  QuarticSecondPerKilogramPerSquareMeterID = 104280;
   QuarticSecondPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : QuarticSecondPerKilogramPerSquareMeterID;
     FSymbol     : rsQuarticSecondPerKilogramPerSquareMeterSymbol;
@@ -7158,7 +7158,7 @@ resourcestring
   rsSquareMeterPerCubicSecondPerSquareAmperePluralName = 'square %smeters per cubic %ssecond per square %sampere';
 
 const
-  SquareMeterPerCubicSecondPerSquareAmpereID = -49380;
+  SquareMeterPerCubicSecondPerSquareAmpereID = -94140;
   SquareMeterPerCubicSecondPerSquareAmpereUnit : TUnit = (
     FID         : SquareMeterPerCubicSecondPerSquareAmpereID;
     FSymbol     : rsSquareMeterPerCubicSecondPerSquareAmpereSymbol;
@@ -7175,7 +7175,7 @@ resourcestring
   rsKilogramPerCubicSecondPerSquareAmperePluralName = '%skilograms per cubic %ssecond per square %sampere';
 
 const
-  KilogramPerCubicSecondPerSquareAmpereID = -96420;
+  KilogramPerCubicSecondPerSquareAmpereID = -87060;
   KilogramPerCubicSecondPerSquareAmpereUnit : TUnit = (
     FID         : KilogramPerCubicSecondPerSquareAmpereID;
     FSymbol     : rsKilogramPerCubicSecondPerSquareAmpereSymbol;
@@ -7187,12 +7187,12 @@ const
 { TKilogramSquareMeterPerSquareAmpere }
 
 resourcestring
-  rsKilogramSquareMeterPerSquareAmpereSymbol = '%skg.%sm2/%sA2';
+  rsKilogramSquareMeterPerSquareAmpereSymbol = '%skg∙%sm2/%sA2';
   rsKilogramSquareMeterPerSquareAmpereName = '%skilogram square %smeter per square %sampere';
   rsKilogramSquareMeterPerSquareAmperePluralName = '%skilograms square %smeters per square %sampere';
 
 const
-  KilogramSquareMeterPerSquareAmpereID = 46440;
+  KilogramSquareMeterPerSquareAmpereID = 3360;
   KilogramSquareMeterPerSquareAmpereUnit : TUnit = (
     FID         : KilogramSquareMeterPerSquareAmpereID;
     FSymbol     : rsKilogramSquareMeterPerSquareAmpereSymbol;
@@ -7204,12 +7204,12 @@ const
 { TCubicSecondSquareAmperePerSquareMeter }
 
 resourcestring
-  rsCubicSecondSquareAmperePerSquareMeterSymbol = '%ss3.%sA2/%sm2';
+  rsCubicSecondSquareAmperePerSquareMeterSymbol = '%ss3∙%sA2/%sm2';
   rsCubicSecondSquareAmperePerSquareMeterName = 'cubic %ssecond square %sampere per square %smeter';
   rsCubicSecondSquareAmperePerSquareMeterPluralName = 'cubic %sseconds square %samperes per square %smeter';
 
 const
-  CubicSecondSquareAmperePerSquareMeterID = 49380;
+  CubicSecondSquareAmperePerSquareMeterID = 94140;
   CubicSecondSquareAmperePerSquareMeterUnit : TUnit = (
     FID         : CubicSecondSquareAmperePerSquareMeterID;
     FSymbol     : rsCubicSecondSquareAmperePerSquareMeterSymbol;
@@ -7221,12 +7221,12 @@ const
 { TCubicSecondSquareAmperePerKilogram }
 
 resourcestring
-  rsCubicSecondSquareAmperePerKilogramSymbol = '%ss3.%sA2/%skg';
+  rsCubicSecondSquareAmperePerKilogramSymbol = '%ss3∙%sA2/%skg';
   rsCubicSecondSquareAmperePerKilogramName = 'cubic %ssecond square %sampere per %skilogram';
   rsCubicSecondSquareAmperePerKilogramPluralName = 'cubic %sseconds square %samperes per %skilogram';
 
 const
-  CubicSecondSquareAmperePerKilogramID = 96420;
+  CubicSecondSquareAmperePerKilogramID = 87060;
   CubicSecondSquareAmperePerKilogramUnit : TUnit = (
     FID         : CubicSecondSquareAmperePerKilogramID;
     FSymbol     : rsCubicSecondSquareAmperePerKilogramSymbol;
@@ -7238,12 +7238,12 @@ const
 { TCubicSecondSquareAmperePerCubicMeter }
 
 resourcestring
-  rsCubicSecondSquareAmperePerCubicMeterSymbol = '%ss3.%sA2/%sm3';
+  rsCubicSecondSquareAmperePerCubicMeterSymbol = '%ss3∙%sA2/%sm3';
   rsCubicSecondSquareAmperePerCubicMeterName = 'cubic %ssecond square %sampere per cubic %smeter';
   rsCubicSecondSquareAmperePerCubicMeterPluralName = 'cubic %sseconds square %samperes per cubic %smeter';
 
 const
-  CubicSecondSquareAmperePerCubicMeterID = 12960;
+  CubicSecondSquareAmperePerCubicMeterID = 92760;
   CubicSecondSquareAmperePerCubicMeterUnit : TUnit = (
     FID         : CubicSecondSquareAmperePerCubicMeterID;
     FSymbol     : rsCubicSecondSquareAmperePerCubicMeterSymbol;
@@ -7260,7 +7260,7 @@ resourcestring
   rsSquareAmperePerKilogramPerCubicMeterPluralName = 'square %samperes per %skilogram per cubic %smeter';
 
 const
-  SquareAmperePerKilogramPerCubicMeterID = -82860;
+  SquareAmperePerKilogramPerCubicMeterID = -4740;
   SquareAmperePerKilogramPerCubicMeterUnit : TUnit = (
     FID         : SquareAmperePerKilogramPerCubicMeterID;
     FSymbol     : rsSquareAmperePerKilogramPerCubicMeterSymbol;
@@ -7277,7 +7277,7 @@ resourcestring
   rsCubicSecondPerKilogramPerCubicMeterPluralName = 'cubic %sseconds per %skilogram per cubic %smeter';
 
 const
-  CubicSecondPerKilogramPerCubicMeterID = -65040;
+  CubicSecondPerKilogramPerCubicMeterID = 73680;
   CubicSecondPerKilogramPerCubicMeterUnit : TUnit = (
     FID         : CubicSecondPerKilogramPerCubicMeterID;
     FSymbol     : rsCubicSecondPerKilogramPerCubicMeterSymbol;
@@ -7294,7 +7294,7 @@ resourcestring
   rsReciprocalSquareSecondAmperePluralName = 'reciprocal square %ssecond %sampere';
 
 const
-  ReciprocalSquareSecondAmpereID = -72780;
+  ReciprocalSquareSecondAmpereID = -63060;
   ReciprocalSquareSecondAmpereUnit : TUnit = (
     FID         : ReciprocalSquareSecondAmpereID;
     FSymbol     : rsReciprocalSquareSecondAmpereSymbol;
@@ -7311,7 +7311,7 @@ resourcestring
   rsKilogramPerAmperePluralName = '%skilograms per %sampere';
 
 const
-  KilogramPerAmpereID = -300;
+  KilogramPerAmpereID = 5220;
   KilogramPerAmpereUnit : TUnit = (
     FID         : KilogramPerAmpereID;
     FSymbol     : rsKilogramPerAmpereSymbol;
@@ -7328,7 +7328,7 @@ resourcestring
   rsSquareMeterPerSquareSecondPerAmperePluralName = 'square %smeters per square %ssecond per %sampere';
 
 const
-  SquareMeterPerSquareSecondPerAmpereID = 60;
+  SquareMeterPerSquareSecondPerAmpereID = -60300;
   SquareMeterPerSquareSecondPerAmpereUnit : TUnit = (
     FID         : SquareMeterPerSquareSecondPerAmpereID;
     FSymbol     : rsSquareMeterPerSquareSecondPerAmpereSymbol;
@@ -7340,12 +7340,12 @@ const
 { TSquareSecondSquareAmperePerSquareMeter }
 
 resourcestring
-  rsSquareSecondSquareAmperePerSquareMeterSymbol = '%ss2.%sA2/%sm2';
+  rsSquareSecondSquareAmperePerSquareMeterSymbol = '%ss2∙%sA2/%sm2';
   rsSquareSecondSquareAmperePerSquareMeterName = 'square %ssecond square %sampere per square %smeter';
   rsSquareSecondSquareAmperePerSquareMeterPluralName = 'square %sseconds square %samperes per square %smeter';
 
 const
-  SquareSecondSquareAmperePerSquareMeterID = 26040;
+  SquareSecondSquareAmperePerSquareMeterID = 64920;
   SquareSecondSquareAmperePerSquareMeterUnit : TUnit = (
     FID         : SquareSecondSquareAmperePerSquareMeterID;
     FSymbol     : rsSquareSecondSquareAmperePerSquareMeterSymbol;
@@ -7357,12 +7357,12 @@ const
 { TSquareSecondSquareAmperePerKilogram }
 
 resourcestring
-  rsSquareSecondSquareAmperePerKilogramSymbol = '%ss2.%sA2/%skg';
+  rsSquareSecondSquareAmperePerKilogramSymbol = '%ss2∙%sA2/%skg';
   rsSquareSecondSquareAmperePerKilogramName = 'square %ssecond square %sampere per %skilogram';
   rsSquareSecondSquareAmperePerKilogramPluralName = 'square %sseconds square %samperes per %skilogram';
 
 const
-  SquareSecondSquareAmperePerKilogramID = 73080;
+  SquareSecondSquareAmperePerKilogramID = 57840;
   SquareSecondSquareAmperePerKilogramUnit : TUnit = (
     FID         : SquareSecondSquareAmperePerKilogramID;
     FSymbol     : rsSquareSecondSquareAmperePerKilogramSymbol;
@@ -7379,7 +7379,7 @@ resourcestring
   rsSquareSecondPerKilogramPerSquareMeterPluralName = 'square %sseconds per %skilogram per square %smeter';
 
 const
-  SquareSecondPerKilogramPerSquareMeterID = -51960;
+  SquareSecondPerKilogramPerSquareMeterID = 45840;
   SquareSecondPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : SquareSecondPerKilogramPerSquareMeterID;
     FSymbol     : rsSquareSecondPerKilogramPerSquareMeterSymbol;
@@ -7391,12 +7391,12 @@ const
 { TSecondSteradian }
 
 resourcestring
-  rsSecondSteradianSymbol = '%ss.sr';
+  rsSecondSteradianSymbol = '%ss∙sr';
   rsSecondSteradianName = '%ssecond steradian';
   rsSecondSteradianPluralName = '%sseconds steradian';
 
 const
-  SecondSteradianID = 52980;
+  SecondSteradianID = 61440;
   SecondSteradianUnit : TUnit = (
     FID         : SecondSteradianID;
     FSymbol     : rsSecondSteradianSymbol;
@@ -7408,12 +7408,12 @@ const
 { TSecondCandela }
 
 resourcestring
-  rsSecondCandelaSymbol = '%ss.%scd';
+  rsSecondCandelaSymbol = '%ss∙%scd';
   rsSecondCandelaName = '%ssecond %scandela';
   rsSecondCandelaPluralName = '%sseconds %scandelas';
 
 const
-  SecondCandelaID = 47460;
+  SecondCandelaID = 45000;
   SecondCandelaUnit : TUnit = (
     FID         : SecondCandelaID;
     FSymbol     : rsSecondCandelaSymbol;
@@ -7425,12 +7425,12 @@ const
 { TCandelaSteradianPerCubicMeter }
 
 resourcestring
-  rsCandelaSteradianPerCubicMeterSymbol = '%scd.sr/%sm3';
+  rsCandelaSteradianPerCubicMeterSymbol = '%scd∙sr/%sm3';
   rsCandelaSteradianPerCubicMeterName = '%scandela steradian per cubic %smeter';
   rsCandelaSteradianPerCubicMeterPluralName = '%scandelas steradian per cubic %smeter';
 
 const
-  CandelaSteradianPerCubicMeterID = -55500;
+  CandelaSteradianPerCubicMeterID = 43860;
   CandelaSteradianPerCubicMeterUnit : TUnit = (
     FID         : CandelaSteradianPerCubicMeterID;
     FSymbol     : rsCandelaSteradianPerCubicMeterSymbol;
@@ -7442,12 +7442,12 @@ const
 { TSecondSteradianPerCubicMeter }
 
 resourcestring
-  rsSecondSteradianPerCubicMeterSymbol = '%ss.sr/%sm3';
+  rsSecondSteradianPerCubicMeterSymbol = '%ss∙sr/%sm3';
   rsSecondSteradianPerCubicMeterName = '%ssecond steradian per cubic %smeter';
   rsSecondSteradianPerCubicMeterPluralName = '%sseconds steradian per cubic %smeter';
 
 const
-  SecondSteradianPerCubicMeterID = -56280;
+  SecondSteradianPerCubicMeterID = 57300;
   SecondSteradianPerCubicMeterUnit : TUnit = (
     FID         : SecondSteradianPerCubicMeterID;
     FSymbol     : rsSecondSteradianPerCubicMeterSymbol;
@@ -7459,12 +7459,12 @@ const
 { TSecondCandelaPerCubicMeter }
 
 resourcestring
-  rsSecondCandelaPerCubicMeterSymbol = '%ss.%scd/%sm3';
+  rsSecondCandelaPerCubicMeterSymbol = '%ss∙%scd/%sm3';
   rsSecondCandelaPerCubicMeterName = '%ssecond %scandela per cubic %smeter';
   rsSecondCandelaPerCubicMeterPluralName = '%sseconds %scandelas per cubic %smeter';
 
 const
-  SecondCandelaPerCubicMeterID = -61800;
+  SecondCandelaPerCubicMeterID = 40860;
   SecondCandelaPerCubicMeterUnit : TUnit = (
     FID         : SecondCandelaPerCubicMeterID;
     FSymbol     : rsSecondCandelaPerCubicMeterSymbol;
@@ -7481,7 +7481,7 @@ resourcestring
   rsSteradianPerSquareMeterPluralName = 'steradian per square %smeter';
 
 const
-  SteradianPerSquareMeterID = -43200;
+  SteradianPerSquareMeterID = 29460;
   SteradianPerSquareMeterUnit : TUnit = (
     FID         : SteradianPerSquareMeterID;
     FSymbol     : rsSteradianPerSquareMeterSymbol;
@@ -7493,12 +7493,12 @@ const
 { TSecondSteradianPerSquareMeter }
 
 resourcestring
-  rsSecondSteradianPerSquareMeterSymbol = '%ss.sr/%sm2';
+  rsSecondSteradianPerSquareMeterSymbol = '%ss∙sr/%sm2';
   rsSecondSteradianPerSquareMeterName = '%ssecond steradian per square %smeter';
   rsSecondSteradianPerSquareMeterPluralName = '%sseconds steradian per square %smeter';
 
 const
-  SecondSteradianPerSquareMeterID = -19860;
+  SecondSteradianPerSquareMeterID = 58680;
   SecondSteradianPerSquareMeterUnit : TUnit = (
     FID         : SecondSteradianPerSquareMeterID;
     FSymbol     : rsSecondSteradianPerSquareMeterSymbol;
@@ -7510,12 +7510,12 @@ const
 { TSecondCandelaPerSquareMeter }
 
 resourcestring
-  rsSecondCandelaPerSquareMeterSymbol = '%ss.%scd/%sm2';
+  rsSecondCandelaPerSquareMeterSymbol = '%ss∙%scd/%sm2';
   rsSecondCandelaPerSquareMeterName = '%ssecond %scandela per square %smeter';
   rsSecondCandelaPerSquareMeterPluralName = '%sseconds %scandelas per square %smeter';
 
 const
-  SecondCandelaPerSquareMeterID = -25380;
+  SecondCandelaPerSquareMeterID = 42240;
   SecondCandelaPerSquareMeterUnit : TUnit = (
     FID         : SecondCandelaPerSquareMeterID;
     FSymbol     : rsSecondCandelaPerSquareMeterSymbol;
@@ -7532,7 +7532,7 @@ resourcestring
   rsReciprocalSquareMeterSquareSecondPluralName = 'reciprocal square %smeter square %ssecond';
 
 const
-  ReciprocalSquareMeterSquareSecondID = -119520;
+  ReciprocalSquareMeterSquareSecondID = -61200;
   ReciprocalSquareMeterSquareSecondUnit : TUnit = (
     FID         : ReciprocalSquareMeterSquareSecondID;
     FSymbol     : rsReciprocalSquareMeterSquareSecondSymbol;
@@ -7549,7 +7549,7 @@ resourcestring
   rsReciprocalMeterSecondPluralName = 'reciprocal %smeter %ssecond';
 
 const
-  ReciprocalMeterSecondID = -59760;
+  ReciprocalMeterSecondID = -30600;
   ReciprocalMeterSecondUnit : TUnit = (
     FID         : ReciprocalMeterSecondID;
     FSymbol     : rsReciprocalMeterSecondSymbol;
@@ -7566,7 +7566,7 @@ resourcestring
   rsReciprocalQuarticMeterSecondPluralName = 'reciprocal quartic %smeter %ssecond';
 
 const
-  ReciprocalQuarticMeterSecondID = -169020;
+  ReciprocalQuarticMeterSecondID = -34740;
   ReciprocalQuarticMeterSecondUnit : TUnit = (
     FID         : ReciprocalQuarticMeterSecondID;
     FSymbol     : rsReciprocalQuarticMeterSecondSymbol;
@@ -7583,7 +7583,7 @@ resourcestring
   rsReciprocalKilogramPluralName = 'reciprocal %skilogram';
 
 const
-  ReciprocalKilogramID = -25800;
+  ReciprocalKilogramID = -9840;
   ReciprocalKilogramUnit : TUnit = (
     FID         : ReciprocalKilogramID;
     FSymbol     : rsReciprocalKilogramSymbol;
@@ -7595,12 +7595,12 @@ const
 { TKilogramCubicMeter }
 
 resourcestring
-  rsKilogramCubicMeterSymbol = '%skg.%sm3';
+  rsKilogramCubicMeterSymbol = '%skg∙%sm3';
   rsKilogramCubicMeterName = '%skilogram cubic %smeter';
   rsKilogramCubicMeterPluralName = '%skilograms cubic %smeters';
 
 const
-  KilogramCubicMeterID = 135060;
+  KilogramCubicMeterID = 13980;
   KilogramCubicMeterUnit : TUnit = (
     FID         : KilogramCubicMeterID;
     FSymbol     : rsKilogramCubicMeterSymbol;
@@ -7617,7 +7617,7 @@ resourcestring
   rsQuarticMeterPerSquareSecondPluralName = 'quartic %smeters per square %ssecond';
 
 const
-  QuarticMeterPerSquareSecondID = 99000;
+  QuarticMeterPerSquareSecondID = -52920;
   QuarticMeterPerSquareSecondUnit : TUnit = (
     FID         : QuarticMeterPerSquareSecondID;
     FSymbol     : rsQuarticMeterPerSquareSecondSymbol;
@@ -7629,12 +7629,12 @@ const
 { TKilogramQuarticMeter }
 
 resourcestring
-  rsKilogramQuarticMeterSymbol = '%skg.%sm4';
+  rsKilogramQuarticMeterSymbol = '%skg∙%sm4';
   rsKilogramQuarticMeterName = '%skilogram quartic %smeter';
   rsKilogramQuarticMeterPluralName = '%skilograms quartic %smeters';
 
 const
-  KilogramQuarticMeterID = 171480;
+  KilogramQuarticMeterID = 15360;
   KilogramQuarticMeterUnit : TUnit = (
     FID         : KilogramQuarticMeterID;
     FSymbol     : rsKilogramQuarticMeterSymbol;
@@ -7651,7 +7651,7 @@ resourcestring
   rsReciprocalKilogramSquareSecondPluralName = 'reciprocal %skilogram square %ssecond';
 
 const
-  ReciprocalKilogramSquareSecondID = -72480;
+  ReciprocalKilogramSquareSecondID = -68280;
   ReciprocalKilogramSquareSecondUnit : TUnit = (
     FID         : ReciprocalKilogramSquareSecondID;
     FSymbol     : rsReciprocalKilogramSquareSecondSymbol;
@@ -7668,7 +7668,7 @@ resourcestring
   rsMeterPerKilogramPluralName = '%smeters per %skilogram';
 
 const
-  MeterPerKilogramID = 10620;
+  MeterPerKilogramID = -8460;
   MeterPerKilogramUnit : TUnit = (
     FID         : MeterPerKilogramID;
     FSymbol     : rsMeterPerKilogramSymbol;
@@ -7685,7 +7685,7 @@ resourcestring
   rsReciprocalSquareKilogramPluralName = 'reciprocal square %skilogram';
 
 const
-  ReciprocalSquareKilogramID = -51600;
+  ReciprocalSquareKilogramID = -19680;
   ReciprocalSquareKilogramUnit : TUnit = (
     FID         : ReciprocalSquareKilogramID;
     FSymbol     : rsReciprocalSquareKilogramSymbol;
@@ -7702,7 +7702,7 @@ resourcestring
   rsKilogramPerSquareSecondPerKelvinPluralName = '%skilograms per square %ssecond per %skelvin';
 
 const
-  KilogramPerSquareSecondPerKelvinID = -57840;
+  KilogramPerSquareSecondPerKelvinID = -81360;
   KilogramPerSquareSecondPerKelvinUnit : TUnit = (
     FID         : KilogramPerSquareSecondPerKelvinID;
     FSymbol     : rsKilogramPerSquareSecondPerKelvinSymbol;
@@ -7714,12 +7714,12 @@ const
 { TKilogramSquareMeterPerKelvin }
 
 resourcestring
-  rsKilogramSquareMeterPerKelvinSymbol = '%skg.%sm2/%sK';
+  rsKilogramSquareMeterPerKelvinSymbol = '%skg∙%sm2/%sK';
   rsKilogramSquareMeterPerKelvinName = '%skilogram square %smeter per %skelvin';
   rsKilogramSquareMeterPerKelvinPluralName = '%skilograms square %smeters per %skelvin';
 
 const
-  KilogramSquareMeterPerKelvinID = 61680;
+  KilogramSquareMeterPerKelvinID = -20160;
   KilogramSquareMeterPerKelvinUnit : TUnit = (
     FID         : KilogramSquareMeterPerKelvinID;
     FSymbol     : rsKilogramSquareMeterPerKelvinSymbol;
@@ -7736,7 +7736,7 @@ resourcestring
   rsReciprocalSquareSecondKelvinPluralName = 'reciprocal square %ssecond %skelvin';
 
 const
-  ReciprocalSquareSecondKelvinID = -83640;
+  ReciprocalSquareSecondKelvinID = -91200;
   ReciprocalSquareSecondKelvinUnit : TUnit = (
     FID         : ReciprocalSquareSecondKelvinID;
     FSymbol     : rsReciprocalSquareSecondKelvinSymbol;
@@ -7753,7 +7753,7 @@ resourcestring
   rsSquareMeterPerKelvinPluralName = 'square %smeters per %skelvin';
 
 const
-  SquareMeterPerKelvinID = 35880;
+  SquareMeterPerKelvinID = -30000;
   SquareMeterPerKelvinUnit : TUnit = (
     FID         : SquareMeterPerKelvinID;
     FSymbol     : rsSquareMeterPerKelvinSymbol;
@@ -7770,7 +7770,7 @@ resourcestring
   rsReciprocalMeterCubicSecondPluralName = 'reciprocal %smeter cubic %ssecond';
 
 const
-  ReciprocalMeterCubicSecondID = -106440;
+  ReciprocalMeterCubicSecondID = -89040;
   ReciprocalMeterCubicSecondUnit : TUnit = (
     FID         : ReciprocalMeterCubicSecondID;
     FSymbol     : rsReciprocalMeterCubicSecondSymbol;
@@ -7787,7 +7787,7 @@ resourcestring
   rsSquareMeterPerCubicSecondPerKelvinPluralName = 'square %smeters per cubic %ssecond per %skelvin';
 
 const
-  SquareMeterPerCubicSecondPerKelvinID = -34140;
+  SquareMeterPerCubicSecondPerKelvinID = -117660;
   SquareMeterPerCubicSecondPerKelvinUnit : TUnit = (
     FID         : SquareMeterPerCubicSecondPerKelvinID;
     FSymbol     : rsSquareMeterPerCubicSecondPerKelvinSymbol;
@@ -7804,7 +7804,7 @@ resourcestring
   rsMeterPerCubicSecondPerKelvinPluralName = '%smeters per cubic %ssecond per %skelvin';
 
 const
-  MeterPerCubicSecondPerKelvinID = -70560;
+  MeterPerCubicSecondPerKelvinID = -119040;
   MeterPerCubicSecondPerKelvinUnit : TUnit = (
     FID         : MeterPerCubicSecondPerKelvinID;
     FSymbol     : rsMeterPerCubicSecondPerKelvinSymbol;
@@ -7816,12 +7816,12 @@ const
 { TKilogramMeterPerKelvin }
 
 resourcestring
-  rsKilogramMeterPerKelvinSymbol = '%skg.%sm/%sK';
+  rsKilogramMeterPerKelvinSymbol = '%skg∙%sm/%sK';
   rsKilogramMeterPerKelvinName = '%skilogram %smeter per %skelvin';
   rsKilogramMeterPerKelvinPluralName = '%skilograms %smeters per %skelvin';
 
 const
-  KilogramMeterPerKelvinID = 25260;
+  KilogramMeterPerKelvinID = -21540;
   KilogramMeterPerKelvinUnit : TUnit = (
     FID         : KilogramMeterPerKelvinID;
     FSymbol     : rsKilogramMeterPerKelvinSymbol;
@@ -7833,12 +7833,12 @@ const
 { TCubicSecondKelvinPerSquareMeter }
 
 resourcestring
-  rsCubicSecondKelvinPerSquareMeterSymbol = '%ss3.%sK/%sm2';
+  rsCubicSecondKelvinPerSquareMeterSymbol = '%ss3∙%sK/%sm2';
   rsCubicSecondKelvinPerSquareMeterName = 'cubic %ssecond %skelvin per square %smeter';
   rsCubicSecondKelvinPerSquareMeterPluralName = 'cubic %sseconds %skelvins per square %smeter';
 
 const
-  CubicSecondKelvinPerSquareMeterID = 34140;
+  CubicSecondKelvinPerSquareMeterID = 117660;
   CubicSecondKelvinPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondKelvinPerSquareMeterID;
     FSymbol     : rsCubicSecondKelvinPerSquareMeterSymbol;
@@ -7850,12 +7850,12 @@ const
 { TCubicSecondKelvinPerKilogram }
 
 resourcestring
-  rsCubicSecondKelvinPerKilogramSymbol = '%ss3.%sK/%skg';
+  rsCubicSecondKelvinPerKilogramSymbol = '%ss3∙%sK/%skg';
   rsCubicSecondKelvinPerKilogramName = 'cubic %ssecond %skelvin per %skilogram';
   rsCubicSecondKelvinPerKilogramPluralName = 'cubic %sseconds %skelvins per %skilogram';
 
 const
-  CubicSecondKelvinPerKilogramID = 81180;
+  CubicSecondKelvinPerKilogramID = 110580;
   CubicSecondKelvinPerKilogramUnit : TUnit = (
     FID         : CubicSecondKelvinPerKilogramID;
     FSymbol     : rsCubicSecondKelvinPerKilogramSymbol;
@@ -7872,7 +7872,7 @@ resourcestring
   rsKelvinPerKilogramPerSquareMeterPluralName = '%skelvins per %skilogram per square %smeter';
 
 const
-  KelvinPerKilogramPerSquareMeterID = -61680;
+  KelvinPerKilogramPerSquareMeterID = 20160;
   KelvinPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : KelvinPerKilogramPerSquareMeterID;
     FSymbol     : rsKelvinPerKilogramPerSquareMeterSymbol;
@@ -7889,7 +7889,7 @@ resourcestring
   rsCubicSecondPerMeterPluralName = 'cubic %sseconds per %smeter';
 
 const
-  CubicSecondPerMeterID = 33600;
+  CubicSecondPerMeterID = 86280;
   CubicSecondPerMeterUnit : TUnit = (
     FID         : CubicSecondPerMeterID;
     FSymbol     : rsCubicSecondPerMeterSymbol;
@@ -7906,7 +7906,7 @@ resourcestring
   rsCubicSecondPerKilogramPluralName = 'cubic %sseconds per %skilogram';
 
 const
-  CubicSecondPerKilogramID = 44220;
+  CubicSecondPerKilogramID = 77820;
   CubicSecondPerKilogramUnit : TUnit = (
     FID         : CubicSecondPerKilogramID;
     FSymbol     : rsCubicSecondPerKilogramSymbol;
@@ -7923,7 +7923,7 @@ resourcestring
   rsReciprocalKilogramMeterPluralName = 'reciprocal %skilogram %smeter';
 
 const
-  ReciprocalKilogramMeterID = -62220;
+  ReciprocalKilogramMeterID = -11220;
   ReciprocalKilogramMeterUnit : TUnit = (
     FID         : ReciprocalKilogramMeterID;
     FSymbol     : rsReciprocalKilogramMeterSymbol;
@@ -7935,12 +7935,12 @@ const
 { TCubicSecondKelvinPerMeter }
 
 resourcestring
-  rsCubicSecondKelvinPerMeterSymbol = '%ss3.%sK/%sm';
+  rsCubicSecondKelvinPerMeterSymbol = '%ss3∙%sK/%sm';
   rsCubicSecondKelvinPerMeterName = 'cubic %ssecond %skelvin per %smeter';
   rsCubicSecondKelvinPerMeterPluralName = 'cubic %sseconds %skelvins per %smeter';
 
 const
-  CubicSecondKelvinPerMeterID = 70560;
+  CubicSecondKelvinPerMeterID = 119040;
   CubicSecondKelvinPerMeterUnit : TUnit = (
     FID         : CubicSecondKelvinPerMeterID;
     FSymbol     : rsCubicSecondKelvinPerMeterSymbol;
@@ -7957,7 +7957,7 @@ resourcestring
   rsKelvinPerKilogramPerMeterPluralName = '%skelvins per %skilogram per %smeter';
 
 const
-  KelvinPerKilogramPerMeterID = -25260;
+  KelvinPerKilogramPerMeterID = 21540;
   KelvinPerKilogramPerMeterUnit : TUnit = (
     FID         : KelvinPerKilogramPerMeterID;
     FSymbol     : rsKelvinPerKilogramPerMeterSymbol;
@@ -7974,7 +7974,7 @@ resourcestring
   rsReciprocalCubicSecondKelvinPluralName = 'reciprocal cubic %ssecond %skelvin';
 
 const
-  ReciprocalCubicSecondKelvinID = -106980;
+  ReciprocalCubicSecondKelvinID = -120420;
   ReciprocalCubicSecondKelvinUnit : TUnit = (
     FID         : ReciprocalCubicSecondKelvinID;
     FSymbol     : rsReciprocalCubicSecondKelvinSymbol;
@@ -7991,7 +7991,7 @@ resourcestring
   rsKilogramPerKelvinPluralName = '%skilograms per %skelvin';
 
 const
-  KilogramPerKelvinID = -11160;
+  KilogramPerKelvinID = -22920;
   KilogramPerKelvinUnit : TUnit = (
     FID         : KilogramPerKelvinID;
     FSymbol     : rsKilogramPerKelvinSymbol;
@@ -8008,7 +8008,7 @@ resourcestring
   rsSquareMeterPerCubicSecondPerQuarticKelvinPluralName = 'square %smeters per cubic %ssecond per quartic %skelvin';
 
 const
-  SquareMeterPerCubicSecondPerQuarticKelvinID = -145020;
+  SquareMeterPerCubicSecondPerQuarticKelvinID = -215940;
   SquareMeterPerCubicSecondPerQuarticKelvinUnit : TUnit = (
     FID         : SquareMeterPerCubicSecondPerQuarticKelvinID;
     FSymbol     : rsSquareMeterPerCubicSecondPerQuarticKelvinSymbol;
@@ -8020,12 +8020,12 @@ const
 { TKilogramSquareMeterPerQuarticKelvin }
 
 resourcestring
-  rsKilogramSquareMeterPerQuarticKelvinSymbol = '%skg.%sm2/%sK4';
+  rsKilogramSquareMeterPerQuarticKelvinSymbol = '%skg∙%sm2/%sK4';
   rsKilogramSquareMeterPerQuarticKelvinName = '%skilogram square %smeter per quartic %skelvin';
   rsKilogramSquareMeterPerQuarticKelvinPluralName = '%skilograms square %smeters per quartic %skelvin';
 
 const
-  KilogramSquareMeterPerQuarticKelvinID = -49200;
+  KilogramSquareMeterPerQuarticKelvinID = -118440;
   KilogramSquareMeterPerQuarticKelvinUnit : TUnit = (
     FID         : KilogramSquareMeterPerQuarticKelvinID;
     FSymbol     : rsKilogramSquareMeterPerQuarticKelvinSymbol;
@@ -8042,7 +8042,7 @@ resourcestring
   rsReciprocalCubicSecondQuarticKelvinPluralName = 'reciprocal cubic %ssecond quartic %skelvin';
 
 const
-  ReciprocalCubicSecondQuarticKelvinID = -217860;
+  ReciprocalCubicSecondQuarticKelvinID = -218700;
   ReciprocalCubicSecondQuarticKelvinUnit : TUnit = (
     FID         : ReciprocalCubicSecondQuarticKelvinID;
     FSymbol     : rsReciprocalCubicSecondQuarticKelvinSymbol;
@@ -8059,7 +8059,7 @@ resourcestring
   rsKilogramPerQuarticKelvinPluralName = '%skilograms per quartic %skelvin';
 
 const
-  KilogramPerQuarticKelvinID = -122040;
+  KilogramPerQuarticKelvinID = -121200;
   KilogramPerQuarticKelvinUnit : TUnit = (
     FID         : KilogramPerQuarticKelvinID;
     FSymbol     : rsKilogramPerQuarticKelvinSymbol;
@@ -8076,7 +8076,7 @@ resourcestring
   rsSquareMeterPerSquareSecondPerMolePluralName = 'square %smeters per square %ssecond per %smole';
 
 const
-  SquareMeterPerSquareSecondPerMoleID = -8940;
+  SquareMeterPerSquareSecondPerMoleID = -92340;
   SquareMeterPerSquareSecondPerMoleUnit : TUnit = (
     FID         : SquareMeterPerSquareSecondPerMoleID;
     FSymbol     : rsSquareMeterPerSquareSecondPerMoleSymbol;
@@ -8093,7 +8093,7 @@ resourcestring
   rsKilogramPerSquareSecondPerMolePluralName = '%skilograms per square %ssecond per %smole';
 
 const
-  KilogramPerSquareSecondPerMoleID = -55980;
+  KilogramPerSquareSecondPerMoleID = -85260;
   KilogramPerSquareSecondPerMoleUnit : TUnit = (
     FID         : KilogramPerSquareSecondPerMoleID;
     FSymbol     : rsKilogramPerSquareSecondPerMoleSymbol;
@@ -8105,12 +8105,12 @@ const
 { TKilogramSquareMeterPerMole }
 
 resourcestring
-  rsKilogramSquareMeterPerMoleSymbol = '%skg.%sm2/%smol';
+  rsKilogramSquareMeterPerMoleSymbol = '%skg∙%sm2/%smol';
   rsKilogramSquareMeterPerMoleName = '%skilogram square %smeter per %smole';
   rsKilogramSquareMeterPerMolePluralName = '%skilograms square %smeters per %smole';
 
 const
-  KilogramSquareMeterPerMoleID = 63540;
+  KilogramSquareMeterPerMoleID = -24060;
   KilogramSquareMeterPerMoleUnit : TUnit = (
     FID         : KilogramSquareMeterPerMoleID;
     FSymbol     : rsKilogramSquareMeterPerMoleSymbol;
@@ -8127,7 +8127,7 @@ resourcestring
   rsSquareMeterPerSquareSecondPerKelvinPerMolePluralName = 'square %smeters per square %ssecond per %skelvin per %smole';
 
 const
-  SquareMeterPerSquareSecondPerKelvinPerMoleID = -45900;
+  SquareMeterPerSquareSecondPerKelvinPerMoleID = -125100;
   SquareMeterPerSquareSecondPerKelvinPerMoleUnit : TUnit = (
     FID         : SquareMeterPerSquareSecondPerKelvinPerMoleID;
     FSymbol     : rsSquareMeterPerSquareSecondPerKelvinPerMoleSymbol;
@@ -8144,7 +8144,7 @@ resourcestring
   rsKilogramPerSquareSecondPerKelvinPerMolePluralName = '%skilograms per square %ssecond per %skelvin per %smole';
 
 const
-  KilogramPerSquareSecondPerKelvinPerMoleID = -92940;
+  KilogramPerSquareSecondPerKelvinPerMoleID = -118020;
   KilogramPerSquareSecondPerKelvinPerMoleUnit : TUnit = (
     FID         : KilogramPerSquareSecondPerKelvinPerMoleID;
     FSymbol     : rsKilogramPerSquareSecondPerKelvinPerMoleSymbol;
@@ -8156,12 +8156,12 @@ const
 { TKilogramSquareMeterPerKelvinPerMole }
 
 resourcestring
-  rsKilogramSquareMeterPerKelvinPerMoleSymbol = '%skg.%sm2/%sK/%smol';
+  rsKilogramSquareMeterPerKelvinPerMoleSymbol = '%skg∙%sm2/%sK/%smol';
   rsKilogramSquareMeterPerKelvinPerMoleName = '%skilogram square %smeter per %skelvin per %smole';
   rsKilogramSquareMeterPerKelvinPerMolePluralName = '%skilograms square %smeters per %skelvin per %smole';
 
 const
-  KilogramSquareMeterPerKelvinPerMoleID = 26580;
+  KilogramSquareMeterPerKelvinPerMoleID = -56820;
   KilogramSquareMeterPerKelvinPerMoleUnit : TUnit = (
     FID         : KilogramSquareMeterPerKelvinPerMoleID;
     FSymbol     : rsKilogramSquareMeterPerKelvinPerMoleSymbol;
@@ -8178,7 +8178,7 @@ resourcestring
   rsCubicMeterPerCubicSecondPerSquareAmperePluralName = 'cubic %smeters per cubic %ssecond per square %sampere';
 
 const
-  CubicMeterPerCubicSecondPerSquareAmpereID = -12960;
+  CubicMeterPerCubicSecondPerSquareAmpereID = -92760;
   CubicMeterPerCubicSecondPerSquareAmpereUnit : TUnit = (
     FID         : CubicMeterPerCubicSecondPerSquareAmpereID;
     FSymbol     : rsCubicMeterPerCubicSecondPerSquareAmpereSymbol;
@@ -8190,12 +8190,12 @@ const
 { TKilogramCubicMeterPerSquareAmpere }
 
 resourcestring
-  rsKilogramCubicMeterPerSquareAmpereSymbol = '%skg.%sm3/%sA2';
+  rsKilogramCubicMeterPerSquareAmpereSymbol = '%skg∙%sm3/%sA2';
   rsKilogramCubicMeterPerSquareAmpereName = '%skilogram cubic %smeter per square %sampere';
   rsKilogramCubicMeterPerSquareAmperePluralName = '%skilograms cubic %smeters per square %sampere';
 
 const
-  KilogramCubicMeterPerSquareAmpereID = 82860;
+  KilogramCubicMeterPerSquareAmpereID = 4740;
   KilogramCubicMeterPerSquareAmpereUnit : TUnit = (
     FID         : KilogramCubicMeterPerSquareAmpereID;
     FSymbol     : rsKilogramCubicMeterPerSquareAmpereSymbol;
@@ -8207,12 +8207,12 @@ const
 { TKilogramCubicMeterPerCubicSecond }
 
 resourcestring
-  rsKilogramCubicMeterPerCubicSecondSymbol = '%skg.%sm3/%ss3';
+  rsKilogramCubicMeterPerCubicSecondSymbol = '%skg∙%sm3/%ss3';
   rsKilogramCubicMeterPerCubicSecondName = '%skilogram cubic %smeter per cubic %ssecond';
   rsKilogramCubicMeterPerCubicSecondPluralName = '%skilograms cubic %smeters per cubic %ssecond';
 
 const
-  KilogramCubicMeterPerCubicSecondID = 65040;
+  KilogramCubicMeterPerCubicSecondID = -73680;
   KilogramCubicMeterPerCubicSecondUnit : TUnit = (
     FID         : KilogramCubicMeterPerCubicSecondID;
     FSymbol     : rsKilogramCubicMeterPerCubicSecondSymbol;
@@ -8229,7 +8229,7 @@ resourcestring
   rsMeterPerCubicSecondPerAmperePluralName = '%smeters per cubic %ssecond per %sampere';
 
 const
-  MeterPerCubicSecondPerAmpereID = -59700;
+  MeterPerCubicSecondPerAmpereID = -90900;
   MeterPerCubicSecondPerAmpereUnit : TUnit = (
     FID         : MeterPerCubicSecondPerAmpereID;
     FSymbol     : rsMeterPerCubicSecondPerAmpereSymbol;
@@ -8241,12 +8241,12 @@ const
 { TKilogramMeterPerAmpere }
 
 resourcestring
-  rsKilogramMeterPerAmpereSymbol = '%skg.%sm/%sA';
+  rsKilogramMeterPerAmpereSymbol = '%skg∙%sm/%sA';
   rsKilogramMeterPerAmpereName = '%skilogram %smeter per %sampere';
   rsKilogramMeterPerAmperePluralName = '%skilograms %smeters per %sampere';
 
 const
-  KilogramMeterPerAmpereID = 36120;
+  KilogramMeterPerAmpereID = 6600;
   KilogramMeterPerAmpereUnit : TUnit = (
     FID         : KilogramMeterPerAmpereID;
     FSymbol     : rsKilogramMeterPerAmpereSymbol;
@@ -8263,7 +8263,7 @@ resourcestring
   rsSquareAmperePerMeterPluralName = 'square %samperes per %smeter';
 
 const
-  SquareAmperePerMeterID = 15780;
+  SquareAmperePerMeterID = 7860;
   SquareAmperePerMeterUnit : TUnit = (
     FID         : SquareAmperePerMeterID;
     FSymbol     : rsSquareAmperePerMeterSymbol;
@@ -8280,7 +8280,7 @@ resourcestring
   rsSquareSecondPerMeterPluralName = 'square %sseconds per %smeter';
 
 const
-  SquareSecondPerMeterID = 10260;
+  SquareSecondPerMeterID = 57060;
   SquareSecondPerMeterUnit : TUnit = (
     FID         : SquareSecondPerMeterID;
     FSymbol     : rsSquareSecondPerMeterSymbol;
@@ -8297,7 +8297,7 @@ resourcestring
   rsSecondPerSquareMeterPluralName = '%sseconds per square %smeter';
 
 const
-  SecondPerSquareMeterID = -49500;
+  SecondPerSquareMeterID = 26460;
   SecondPerSquareMeterUnit : TUnit = (
     FID         : SecondPerSquareMeterID;
     FSymbol     : rsSecondPerSquareMeterSymbol;
@@ -8314,7 +8314,7 @@ resourcestring
   rsReciprocalSquareSecondSquareAmperePluralName = 'reciprocal square %ssecond square %sampere';
 
 const
-  ReciprocalSquareSecondSquareAmpereID = -98880;
+  ReciprocalSquareSecondSquareAmpereID = -67680;
   ReciprocalSquareSecondSquareAmpereUnit : TUnit = (
     FID         : ReciprocalSquareSecondSquareAmpereID;
     FSymbol     : rsReciprocalSquareSecondSquareAmpereSymbol;
@@ -8331,7 +8331,7 @@ resourcestring
   rsSquareMeterPerSquareAmperePluralName = 'square %smeters per square %sampere';
 
 const
-  SquareMeterPerSquareAmpereID = 20640;
+  SquareMeterPerSquareAmpereID = -6480;
   SquareMeterPerSquareAmpereUnit : TUnit = (
     FID         : SquareMeterPerSquareAmpereID;
     FSymbol     : rsSquareMeterPerSquareAmpereSymbol;
@@ -8348,7 +8348,7 @@ resourcestring
   rsMeterPerQuarticSecondPerSquareAmperePluralName = '%smeters per quartic %ssecond per square %sampere';
 
 const
-  MeterPerQuarticSecondPerSquareAmpereID = -109140;
+  MeterPerQuarticSecondPerSquareAmpereID = -124740;
   MeterPerQuarticSecondPerSquareAmpereUnit : TUnit = (
     FID         : MeterPerQuarticSecondPerSquareAmpereID;
     FSymbol     : rsMeterPerQuarticSecondPerSquareAmpereSymbol;
@@ -8365,7 +8365,7 @@ resourcestring
   rsKilogramPerQuarticSecondPerSquareAmperePluralName = '%skilograms per quartic %ssecond per square %sampere';
 
 const
-  KilogramPerQuarticSecondPerSquareAmpereID = -119760;
+  KilogramPerQuarticSecondPerSquareAmpereID = -116280;
   KilogramPerQuarticSecondPerSquareAmpereUnit : TUnit = (
     FID         : KilogramPerQuarticSecondPerSquareAmpereID;
     FSymbol     : rsKilogramPerQuarticSecondPerSquareAmpereSymbol;
@@ -8377,12 +8377,12 @@ const
 { TKilogramMeterPerSquareAmpere }
 
 resourcestring
-  rsKilogramMeterPerSquareAmpereSymbol = '%skg.%sm/%sA2';
+  rsKilogramMeterPerSquareAmpereSymbol = '%skg∙%sm/%sA2';
   rsKilogramMeterPerSquareAmpereName = '%skilogram %smeter per square %sampere';
   rsKilogramMeterPerSquareAmperePluralName = '%skilograms %smeters per square %sampere';
 
 const
-  KilogramMeterPerSquareAmpereID = 10020;
+  KilogramMeterPerSquareAmpereID = 1980;
   KilogramMeterPerSquareAmpereUnit : TUnit = (
     FID         : KilogramMeterPerSquareAmpereID;
     FSymbol     : rsKilogramMeterPerSquareAmpereSymbol;
@@ -8394,12 +8394,12 @@ const
 { TKilogramMeterPerQuarticSecond }
 
 resourcestring
-  rsKilogramMeterPerQuarticSecondSymbol = '%skg.%sm/%ss4';
+  rsKilogramMeterPerQuarticSecondSymbol = '%skg∙%sm/%ss4';
   rsKilogramMeterPerQuarticSecondName = '%skilogram %smeter per quartic %ssecond';
   rsKilogramMeterPerQuarticSecondPluralName = '%skilograms %smeters per quartic %ssecond';
 
 const
-  KilogramMeterPerQuarticSecondID = -31140;
+  KilogramMeterPerQuarticSecondID = -105660;
   KilogramMeterPerQuarticSecondUnit : TUnit = (
     FID         : KilogramMeterPerQuarticSecondID;
     FSymbol     : rsKilogramMeterPerQuarticSecondSymbol;
@@ -8416,7 +8416,7 @@ resourcestring
   rsCubicMeterPerQuarticSecondPerSquareAmperePluralName = 'cubic %smeters per quartic %ssecond per square %sampere';
 
 const
-  CubicMeterPerQuarticSecondPerSquareAmpereID = -36300;
+  CubicMeterPerQuarticSecondPerSquareAmpereID = -121980;
   CubicMeterPerQuarticSecondPerSquareAmpereUnit : TUnit = (
     FID         : CubicMeterPerQuarticSecondPerSquareAmpereID;
     FSymbol     : rsCubicMeterPerQuarticSecondPerSquareAmpereSymbol;
@@ -8428,12 +8428,12 @@ const
 { TKilogramCubicMeterPerQuarticSecond }
 
 resourcestring
-  rsKilogramCubicMeterPerQuarticSecondSymbol = '%skg.%sm3/%ss4';
+  rsKilogramCubicMeterPerQuarticSecondSymbol = '%skg∙%sm3/%ss4';
   rsKilogramCubicMeterPerQuarticSecondName = '%skilogram cubic %smeter per quartic %ssecond';
   rsKilogramCubicMeterPerQuarticSecondPluralName = '%skilograms cubic %smeters per quartic %ssecond';
 
 const
-  KilogramCubicMeterPerQuarticSecondID = 41700;
+  KilogramCubicMeterPerQuarticSecondID = -102900;
   KilogramCubicMeterPerQuarticSecondUnit : TUnit = (
     FID         : KilogramCubicMeterPerQuarticSecondID;
     FSymbol     : rsKilogramCubicMeterPerQuarticSecondSymbol;
@@ -8450,7 +8450,7 @@ resourcestring
   rsCubicMeterPerCubicSecondPerAmperePluralName = 'cubic %smeters per cubic %ssecond per %sampere';
 
 const
-  CubicMeterPerCubicSecondPerAmpereID = 13140;
+  CubicMeterPerCubicSecondPerAmpereID = -88140;
   CubicMeterPerCubicSecondPerAmpereUnit : TUnit = (
     FID         : CubicMeterPerCubicSecondPerAmpereID;
     FSymbol     : rsCubicMeterPerCubicSecondPerAmpereSymbol;
@@ -8462,12 +8462,12 @@ const
 { TKilogramCubicMeterPerAmpere }
 
 resourcestring
-  rsKilogramCubicMeterPerAmpereSymbol = '%skg.%sm3/%sA';
+  rsKilogramCubicMeterPerAmpereSymbol = '%skg∙%sm3/%sA';
   rsKilogramCubicMeterPerAmpereName = '%skilogram cubic %smeter per %sampere';
   rsKilogramCubicMeterPerAmperePluralName = '%skilograms cubic %smeters per %sampere';
 
 const
-  KilogramCubicMeterPerAmpereID = 108960;
+  KilogramCubicMeterPerAmpereID = 9360;
   KilogramCubicMeterPerAmpereUnit : TUnit = (
     FID         : KilogramCubicMeterPerAmpereID;
     FSymbol     : rsKilogramCubicMeterPerAmpereSymbol;
@@ -8484,7 +8484,7 @@ resourcestring
   rsCubicMeterPerQuarticSecondPerAmperePluralName = 'cubic %smeters per quartic %ssecond per %sampere';
 
 const
-  CubicMeterPerQuarticSecondPerAmpereID = -10200;
+  CubicMeterPerQuarticSecondPerAmpereID = -117360;
   CubicMeterPerQuarticSecondPerAmpereUnit : TUnit = (
     FID         : CubicMeterPerQuarticSecondPerAmpereID;
     FSymbol     : rsCubicMeterPerQuarticSecondPerAmpereSymbol;
@@ -8501,7 +8501,7 @@ resourcestring
   rsKilogramPerQuarticSecondPerAmperePluralName = '%skilograms per quartic %ssecond per %sampere';
 
 const
-  KilogramPerQuarticSecondPerAmpereID = -93660;
+  KilogramPerQuarticSecondPerAmpereID = -111660;
   KilogramPerQuarticSecondPerAmpereUnit : TUnit = (
     FID         : KilogramPerQuarticSecondPerAmpereID;
     FSymbol     : rsKilogramPerQuarticSecondPerAmpereSymbol;
@@ -8513,12 +8513,12 @@ const
 { TQuarticSecondSquareAmperePerCubicMeter }
 
 resourcestring
-  rsQuarticSecondSquareAmperePerCubicMeterSymbol = '%ss4.%sA2/%sm3';
+  rsQuarticSecondSquareAmperePerCubicMeterSymbol = '%ss4∙%sA2/%sm3';
   rsQuarticSecondSquareAmperePerCubicMeterName = 'quartic %ssecond square %sampere per cubic %smeter';
   rsQuarticSecondSquareAmperePerCubicMeterPluralName = 'quartic %sseconds square %samperes per cubic %smeter';
 
 const
-  QuarticSecondSquareAmperePerCubicMeterID = 36300;
+  QuarticSecondSquareAmperePerCubicMeterID = 121980;
   QuarticSecondSquareAmperePerCubicMeterUnit : TUnit = (
     FID         : QuarticSecondSquareAmperePerCubicMeterID;
     FSymbol     : rsQuarticSecondSquareAmperePerCubicMeterSymbol;
@@ -8535,7 +8535,7 @@ resourcestring
   rsQuarticSecondPerKilogramPerCubicMeterPluralName = 'quartic %sseconds per %skilogram per cubic %smeter';
 
 const
-  QuarticSecondPerKilogramPerCubicMeterID = -41700;
+  QuarticSecondPerKilogramPerCubicMeterID = 102900;
   QuarticSecondPerKilogramPerCubicMeterUnit : TUnit = (
     FID         : QuarticSecondPerKilogramPerCubicMeterID;
     FSymbol     : rsQuarticSecondPerKilogramPerCubicMeterSymbol;
@@ -8552,7 +8552,7 @@ resourcestring
   rsReciprocalAmperePluralName = 'reciprocal %sampere';
 
 const
-  ReciprocalAmpereID = -26100;
+  ReciprocalAmpereID = -4620;
   ReciprocalAmpereUnit : TUnit = (
     FID         : ReciprocalAmpereID;
     FSymbol     : rsReciprocalAmpereSymbol;
@@ -8569,7 +8569,7 @@ resourcestring
   rsMeterPerSquareSecondPerAmperePluralName = '%smeters per square %ssecond per %sampere';
 
 const
-  MeterPerSquareSecondPerAmpereID = -36360;
+  MeterPerSquareSecondPerAmpereID = -61680;
   MeterPerSquareSecondPerAmpereUnit : TUnit = (
     FID         : MeterPerSquareSecondPerAmpereID;
     FSymbol     : rsMeterPerSquareSecondPerAmpereSymbol;
@@ -8586,7 +8586,7 @@ resourcestring
   rsKilogramPerSquareAmperePluralName = '%skilograms per square %sampere';
 
 const
-  KilogramPerSquareAmpereID = -26400;
+  KilogramPerSquareAmpereID = 600;
   KilogramPerSquareAmpereUnit : TUnit = (
     FID         : KilogramPerSquareAmpereID;
     FSymbol     : rsKilogramPerSquareAmpereSymbol;
@@ -8603,7 +8603,7 @@ resourcestring
   rsMeterPerSquareSecondPerSquareAmperePluralName = '%smeters per square %ssecond per square %sampere';
 
 const
-  MeterPerSquareSecondPerSquareAmpereID = -62460;
+  MeterPerSquareSecondPerSquareAmpereID = -66300;
   MeterPerSquareSecondPerSquareAmpereUnit : TUnit = (
     FID         : MeterPerSquareSecondPerSquareAmpereID;
     FSymbol     : rsMeterPerSquareSecondPerSquareAmpereSymbol;
@@ -8620,7 +8620,7 @@ resourcestring
   rsQuarticMeterPerQuarticSecondPluralName = 'quartic %smeters per quartic %ssecond';
 
 const
-  QuarticMeterPerQuarticSecondID = 52320;
+  QuarticMeterPerQuarticSecondID = -111360;
   QuarticMeterPerQuarticSecondUnit : TUnit = (
     FID         : QuarticMeterPerQuarticSecondID;
     FSymbol     : rsQuarticMeterPerQuarticSecondSymbol;
@@ -8632,12 +8632,12 @@ const
 { TSquareKilogramQuarticMeter }
 
 resourcestring
-  rsSquareKilogramQuarticMeterSymbol = '%skg2.%sm4';
+  rsSquareKilogramQuarticMeterSymbol = '%skg2∙%sm4';
   rsSquareKilogramQuarticMeterName = 'square %skilogram quartic %smeter';
   rsSquareKilogramQuarticMeterPluralName = 'square %skilograms quartic %smeters';
 
 const
-  SquareKilogramQuarticMeterID = 197280;
+  SquareKilogramQuarticMeterID = 25200;
   SquareKilogramQuarticMeterUnit : TUnit = (
     FID         : SquareKilogramQuarticMeterID;
     FSymbol     : rsSquareKilogramQuarticMeterSymbol;
@@ -8654,7 +8654,7 @@ resourcestring
   rsAmperePerKilogramPluralName = '%samperes per %skilogram';
 
 const
-  AmperePerKilogramID = 300;
+  AmperePerKilogramID = -5220;
   AmperePerKilogramUnit : TUnit = (
     FID         : AmperePerKilogramID;
     FSymbol     : rsAmperePerKilogramSymbol;
@@ -8671,7 +8671,7 @@ resourcestring
   rsSecondPerKilogramPluralName = '%sseconds per %skilogram';
 
 const
-  SecondPerKilogramID = -2460;
+  SecondPerKilogramID = 19380;
   SecondPerKilogramUnit : TUnit = (
     FID         : SecondPerKilogramID;
     FSymbol     : rsSecondPerKilogramSymbol;
@@ -8683,12 +8683,12 @@ const
 { TCubicSecondCandelaSteradianPerSquareMeter }
 
 resourcestring
-  rsCubicSecondCandelaSteradianPerSquareMeterSymbol = '%ss3.%scd.sr/%sm2';
+  rsCubicSecondCandelaSteradianPerSquareMeterSymbol = '%ss3∙%scd∙sr/%sm2';
   rsCubicSecondCandelaSteradianPerSquareMeterName = 'cubic %ssecond %scandela steradian per square %smeter';
   rsCubicSecondCandelaSteradianPerSquareMeterPluralName = 'cubic %sseconds %scandelas steradian per square %smeter';
 
 const
-  CubicSecondCandelaSteradianPerSquareMeterID = 50940;
+  CubicSecondCandelaSteradianPerSquareMeterID = 132900;
   CubicSecondCandelaSteradianPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondCandelaSteradianPerSquareMeterID;
     FSymbol     : rsCubicSecondCandelaSteradianPerSquareMeterSymbol;
@@ -8700,12 +8700,12 @@ const
 { TCubicSecondCandelaSteradianPerKilogram }
 
 resourcestring
-  rsCubicSecondCandelaSteradianPerKilogramSymbol = '%ss3.%scd.sr/%skg';
+  rsCubicSecondCandelaSteradianPerKilogramSymbol = '%ss3∙%scd∙sr/%skg';
   rsCubicSecondCandelaSteradianPerKilogramName = 'cubic %ssecond %scandela steradian per %skilogram';
   rsCubicSecondCandelaSteradianPerKilogramPluralName = 'cubic %sseconds %scandelas steradian per %skilogram';
 
 const
-  CubicSecondCandelaSteradianPerKilogramID = 97980;
+  CubicSecondCandelaSteradianPerKilogramID = 125820;
   CubicSecondCandelaSteradianPerKilogramUnit : TUnit = (
     FID         : CubicSecondCandelaSteradianPerKilogramID;
     FSymbol     : rsCubicSecondCandelaSteradianPerKilogramSymbol;
@@ -8717,12 +8717,12 @@ const
 { TCandelaSteradianPerKilogramPerSquareMeter }
 
 resourcestring
-  rsCandelaSteradianPerKilogramPerSquareMeterSymbol = '%scd.sr/%skg/%sm2';
+  rsCandelaSteradianPerKilogramPerSquareMeterSymbol = '%scd∙sr/%skg/%sm2';
   rsCandelaSteradianPerKilogramPerSquareMeterName = '%scandela steradian per %skilogram per square %smeter';
   rsCandelaSteradianPerKilogramPerSquareMeterPluralName = '%scandelas steradian per %skilogram per square %smeter';
 
 const
-  CandelaSteradianPerKilogramPerSquareMeterID = -44880;
+  CandelaSteradianPerKilogramPerSquareMeterID = 35400;
   CandelaSteradianPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : CandelaSteradianPerKilogramPerSquareMeterID;
     FSymbol     : rsCandelaSteradianPerKilogramPerSquareMeterSymbol;
@@ -8734,12 +8734,12 @@ const
 { TCubicSecondSteradianPerKilogramPerSquareMeter }
 
 resourcestring
-  rsCubicSecondSteradianPerKilogramPerSquareMeterSymbol = '%ss3.sr/%skg/%sm2';
+  rsCubicSecondSteradianPerKilogramPerSquareMeterSymbol = '%ss3∙sr/%skg/%sm2';
   rsCubicSecondSteradianPerKilogramPerSquareMeterName = 'cubic %ssecond steradian per %skilogram per square %smeter';
   rsCubicSecondSteradianPerKilogramPerSquareMeterPluralName = 'cubic %sseconds steradian per %skilogram per square %smeter';
 
 const
-  CubicSecondSteradianPerKilogramPerSquareMeterID = 1020;
+  CubicSecondSteradianPerKilogramPerSquareMeterID = 107280;
   CubicSecondSteradianPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondSteradianPerKilogramPerSquareMeterID;
     FSymbol     : rsCubicSecondSteradianPerKilogramPerSquareMeterSymbol;
@@ -8751,12 +8751,12 @@ const
 { TCubicSecondCandelaPerKilogramPerSquareMeter }
 
 resourcestring
-  rsCubicSecondCandelaPerKilogramPerSquareMeterSymbol = '%ss3.%scd/%skg/%sm2';
+  rsCubicSecondCandelaPerKilogramPerSquareMeterSymbol = '%ss3∙%scd/%skg/%sm2';
   rsCubicSecondCandelaPerKilogramPerSquareMeterName = 'cubic %ssecond %scandela per %skilogram per square %smeter';
   rsCubicSecondCandelaPerKilogramPerSquareMeterPluralName = 'cubic %sseconds %scandelas per %skilogram per square %smeter';
 
 const
-  CubicSecondCandelaPerKilogramPerSquareMeterID = -4500;
+  CubicSecondCandelaPerKilogramPerSquareMeterID = 90840;
   CubicSecondCandelaPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondCandelaPerKilogramPerSquareMeterID;
     FSymbol     : rsCubicSecondCandelaPerKilogramPerSquareMeterSymbol;
@@ -8773,7 +8773,7 @@ resourcestring
   rsAmperePerCubicMeterPluralName = '%samperes per cubic %smeter';
 
 const
-  AmperePerCubicMeterID = -83160;
+  AmperePerCubicMeterID = 480;
   AmperePerCubicMeterUnit : TUnit = (
     FID         : AmperePerCubicMeterID;
     FSymbol     : rsAmperePerCubicMeterSymbol;
@@ -8790,7 +8790,7 @@ resourcestring
   rsSecondPerCubicMeterPluralName = '%sseconds per cubic %smeter';
 
 const
-  SecondPerCubicMeterID = -85920;
+  SecondPerCubicMeterID = 25080;
   SecondPerCubicMeterUnit : TUnit = (
     FID         : SecondPerCubicMeterID;
     FSymbol     : rsSecondPerCubicMeterSymbol;
@@ -8807,7 +8807,7 @@ resourcestring
   rsSquareMeterPerCubicSecondPerSteradianPluralName = 'square %smeters per cubic %ssecond per steradian';
 
 const
-  SquareMeterPerCubicSecondPerSteradianID = -26820;
+  SquareMeterPerCubicSecondPerSteradianID = -117120;
   SquareMeterPerCubicSecondPerSteradianUnit : TUnit = (
     FID         : SquareMeterPerCubicSecondPerSteradianID;
     FSymbol     : rsSquareMeterPerCubicSecondPerSteradianSymbol;
@@ -8819,12 +8819,12 @@ const
 { TKilogramSquareMeterPerSteradian }
 
 resourcestring
-  rsKilogramSquareMeterPerSteradianSymbol = '%skg.%sm2/sr';
+  rsKilogramSquareMeterPerSteradianSymbol = '%skg∙%sm2/sr';
   rsKilogramSquareMeterPerSteradianName = '%skilogram square %smeter per steradian';
   rsKilogramSquareMeterPerSteradianPluralName = '%skilograms square %smeters per steradian';
 
 const
-  KilogramSquareMeterPerSteradianID = 69000;
+  KilogramSquareMeterPerSteradianID = -19620;
   KilogramSquareMeterPerSteradianUnit : TUnit = (
     FID         : KilogramSquareMeterPerSteradianID;
     FSymbol     : rsKilogramSquareMeterPerSteradianSymbol;
@@ -8841,7 +8841,7 @@ resourcestring
   rsSquareMeterPerSquareSecondPerSteradianPluralName = 'square %smeters per square %ssecond per steradian';
 
 const
-  SquareMeterPerSquareSecondPerSteradianID = -3480;
+  SquareMeterPerSquareSecondPerSteradianID = -87900;
   SquareMeterPerSquareSecondPerSteradianUnit : TUnit = (
     FID         : SquareMeterPerSquareSecondPerSteradianID;
     FSymbol     : rsSquareMeterPerSquareSecondPerSteradianSymbol;
@@ -8858,7 +8858,7 @@ resourcestring
   rsMeterPerCubicSecondPerSteradianPluralName = '%smeters per cubic %ssecond per steradian';
 
 const
-  MeterPerCubicSecondPerSteradianID = -63240;
+  MeterPerCubicSecondPerSteradianID = -118500;
   MeterPerCubicSecondPerSteradianUnit : TUnit = (
     FID         : MeterPerCubicSecondPerSteradianID;
     FSymbol     : rsMeterPerCubicSecondPerSteradianSymbol;
@@ -8870,12 +8870,12 @@ const
 { TKilogramMeterPerSteradian }
 
 resourcestring
-  rsKilogramMeterPerSteradianSymbol = '%skg.%sm/sr';
+  rsKilogramMeterPerSteradianSymbol = '%skg∙%sm/sr';
   rsKilogramMeterPerSteradianName = '%skilogram %smeter per steradian';
   rsKilogramMeterPerSteradianPluralName = '%skilograms %smeters per steradian';
 
 const
-  KilogramMeterPerSteradianID = 32580;
+  KilogramMeterPerSteradianID = -21000;
   KilogramMeterPerSteradianUnit : TUnit = (
     FID         : KilogramMeterPerSteradianID;
     FSymbol     : rsKilogramMeterPerSteradianSymbol;
@@ -8892,7 +8892,7 @@ resourcestring
   rsReciprocalCubicSecondSteradianPluralName = 'reciprocal cubic %ssecond steradian';
 
 const
-  ReciprocalCubicSecondSteradianID = -99660;
+  ReciprocalCubicSecondSteradianID = -119880;
   ReciprocalCubicSecondSteradianUnit : TUnit = (
     FID         : ReciprocalCubicSecondSteradianID;
     FSymbol     : rsReciprocalCubicSecondSteradianSymbol;
@@ -8909,7 +8909,7 @@ resourcestring
   rsKilogramPerSteradianPluralName = '%skilograms per steradian';
 
 const
-  KilogramPerSteradianID = -3840;
+  KilogramPerSteradianID = -22380;
   KilogramPerSteradianUnit : TUnit = (
     FID         : KilogramPerSteradianID;
     FSymbol     : rsKilogramPerSteradianSymbol;
@@ -8926,7 +8926,7 @@ resourcestring
   rsReciprocalMeterCubicSecondSteradianPluralName = 'reciprocal %smeter cubic %ssecond steradian';
 
 const
-  ReciprocalMeterCubicSecondSteradianID = -136080;
+  ReciprocalMeterCubicSecondSteradianID = -121260;
   ReciprocalMeterCubicSecondSteradianUnit : TUnit = (
     FID         : ReciprocalMeterCubicSecondSteradianID;
     FSymbol     : rsReciprocalMeterCubicSecondSteradianSymbol;
@@ -8943,7 +8943,7 @@ resourcestring
   rsKilogramPerMeterPerSteradianPluralName = '%skilograms per %smeter per steradian';
 
 const
-  KilogramPerMeterPerSteradianID = -40260;
+  KilogramPerMeterPerSteradianID = -23760;
   KilogramPerMeterPerSteradianUnit : TUnit = (
     FID         : KilogramPerMeterPerSteradianID;
     FSymbol     : rsKilogramPerMeterPerSteradianSymbol;
@@ -8960,7 +8960,7 @@ resourcestring
   rsReciprocalSquareSecondSteradianPluralName = 'reciprocal square %ssecond steradian';
 
 const
-  ReciprocalSquareSecondSteradianID = -76320;
+  ReciprocalSquareSecondSteradianID = -90660;
   ReciprocalSquareSecondSteradianUnit : TUnit = (
     FID         : ReciprocalSquareSecondSteradianID;
     FSymbol     : rsReciprocalSquareSecondSteradianSymbol;
@@ -8977,7 +8977,7 @@ resourcestring
   rsReciprocalCubicMeterSecondPluralName = 'reciprocal cubic %smeter %ssecond';
 
 const
-  ReciprocalCubicMeterSecondID = -132600;
+  ReciprocalCubicMeterSecondID = -33360;
   ReciprocalCubicMeterSecondUnit : TUnit = (
     FID         : ReciprocalCubicMeterSecondID;
     FSymbol     : rsReciprocalCubicMeterSecondSymbol;
@@ -8994,7 +8994,7 @@ resourcestring
   rsAmperePerMolePluralName = '%samperes per %smole';
 
 const
-  AmperePerMoleID = -9000;
+  AmperePerMoleID = -32040;
   AmperePerMoleUnit : TUnit = (
     FID         : AmperePerMoleID;
     FSymbol     : rsAmperePerMoleSymbol;
@@ -9011,7 +9011,7 @@ resourcestring
   rsSecondPerMolePluralName = '%sseconds per %smole';
 
 const
-  SecondPerMoleID = -11760;
+  SecondPerMoleID = -7440;
   SecondPerMoleUnit : TUnit = (
     FID         : SecondPerMoleID;
     FSymbol     : rsSecondPerMoleSymbol;
@@ -9028,7 +9028,7 @@ resourcestring
   rsSquareSecondPerKilogramPluralName = 'square %sseconds per %skilogram';
 
 const
-  SquareSecondPerKilogramID = 20880;
+  SquareSecondPerKilogramID = 48600;
   SquareSecondPerKilogramUnit : TUnit = (
     FID         : SquareSecondPerKilogramID;
     FSymbol     : rsSquareSecondPerKilogramSymbol;
@@ -9040,12 +9040,12 @@ const
 { TSquareSecondAmpere }
 
 resourcestring
-  rsSquareSecondAmpereSymbol = '%ss2.%sA';
+  rsSquareSecondAmpereSymbol = '%ss2∙%sA';
   rsSquareSecondAmpereName = 'square %ssecond %sampere';
   rsSquareSecondAmperePluralName = 'square %sseconds %samperes';
 
 const
-  SquareSecondAmpereID = 72780;
+  SquareSecondAmpereID = 63060;
   SquareSecondAmpereUnit : TUnit = (
     FID         : SquareSecondAmpereID;
     FSymbol     : rsSquareSecondAmpereSymbol;
@@ -9057,12 +9057,12 @@ const
 { TMeterSquareSecond }
 
 resourcestring
-  rsMeterSquareSecondSymbol = '%sm.%ss2';
+  rsMeterSquareSecondSymbol = '%sm∙%ss2';
   rsMeterSquareSecondName = '%smeter square %ssecond';
   rsMeterSquareSecondPluralName = '%smeters square %sseconds';
 
 const
-  MeterSquareSecondID = 83100;
+  MeterSquareSecondID = 59820;
   MeterSquareSecondUnit : TUnit = (
     FID         : MeterSquareSecondID;
     FSymbol     : rsMeterSquareSecondSymbol;
@@ -9074,12 +9074,12 @@ const
 { TSquareSecondAmperePerSquareMeter }
 
 resourcestring
-  rsSquareSecondAmperePerSquareMeterSymbol = '%ss2.%sA/%sm2';
+  rsSquareSecondAmperePerSquareMeterSymbol = '%ss2∙%sA/%sm2';
   rsSquareSecondAmperePerSquareMeterName = 'square %ssecond %sampere per square %smeter';
   rsSquareSecondAmperePerSquareMeterPluralName = 'square %sseconds %samperes per square %smeter';
 
 const
-  SquareSecondAmperePerSquareMeterID = -60;
+  SquareSecondAmperePerSquareMeterID = 60300;
   SquareSecondAmperePerSquareMeterUnit : TUnit = (
     FID         : SquareSecondAmperePerSquareMeterID;
     FSymbol     : rsSquareSecondAmperePerSquareMeterSymbol;
@@ -9096,7 +9096,7 @@ resourcestring
   rsAmperePerKilogramPerSquareMeterPluralName = '%samperes per %skilogram per square %smeter';
 
 const
-  AmperePerKilogramPerSquareMeterID = -72540;
+  AmperePerKilogramPerSquareMeterID = -7980;
   AmperePerKilogramPerSquareMeterUnit : TUnit = (
     FID         : AmperePerKilogramPerSquareMeterID;
     FSymbol     : rsAmperePerKilogramPerSquareMeterSymbol;
@@ -9113,7 +9113,7 @@ resourcestring
   rsCubicSecondPerSquareMeterPluralName = 'cubic %sseconds per square %smeter';
 
 const
-  CubicSecondPerSquareMeterID = -2820;
+  CubicSecondPerSquareMeterID = 84900;
   CubicSecondPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondPerSquareMeterID;
     FSymbol     : rsCubicSecondPerSquareMeterSymbol;
@@ -9130,7 +9130,7 @@ resourcestring
   rsReciprocalKilogramSquareMeterPluralName = 'reciprocal %skilogram square %smeter';
 
 const
-  ReciprocalKilogramSquareMeterID = -98640;
+  ReciprocalKilogramSquareMeterID = -12600;
   ReciprocalKilogramSquareMeterUnit : TUnit = (
     FID         : ReciprocalKilogramSquareMeterID;
     FSymbol     : rsReciprocalKilogramSquareMeterSymbol;
@@ -9142,12 +9142,12 @@ const
 { TCubicSecondAmperePerMeter }
 
 resourcestring
-  rsCubicSecondAmperePerMeterSymbol = '%ss3.%sA/%sm';
+  rsCubicSecondAmperePerMeterSymbol = '%ss3∙%sA/%sm';
   rsCubicSecondAmperePerMeterName = 'cubic %ssecond %sampere per %smeter';
   rsCubicSecondAmperePerMeterPluralName = 'cubic %sseconds %samperes per %smeter';
 
 const
-  CubicSecondAmperePerMeterID = 59700;
+  CubicSecondAmperePerMeterID = 90900;
   CubicSecondAmperePerMeterUnit : TUnit = (
     FID         : CubicSecondAmperePerMeterID;
     FSymbol     : rsCubicSecondAmperePerMeterSymbol;
@@ -9159,12 +9159,12 @@ const
 { TCubicSecondAmperePerKilogram }
 
 resourcestring
-  rsCubicSecondAmperePerKilogramSymbol = '%ss3.%sA/%skg';
+  rsCubicSecondAmperePerKilogramSymbol = '%ss3∙%sA/%skg';
   rsCubicSecondAmperePerKilogramName = 'cubic %ssecond %sampere per %skilogram';
   rsCubicSecondAmperePerKilogramPluralName = 'cubic %sseconds %samperes per %skilogram';
 
 const
-  CubicSecondAmperePerKilogramID = 70320;
+  CubicSecondAmperePerKilogramID = 82440;
   CubicSecondAmperePerKilogramUnit : TUnit = (
     FID         : CubicSecondAmperePerKilogramID;
     FSymbol     : rsCubicSecondAmperePerKilogramSymbol;
@@ -9181,7 +9181,7 @@ resourcestring
   rsAmperePerKilogramPerMeterPluralName = '%samperes per %skilogram per %smeter';
 
 const
-  AmperePerKilogramPerMeterID = -36120;
+  AmperePerKilogramPerMeterID = -6600;
   AmperePerKilogramPerMeterUnit : TUnit = (
     FID         : AmperePerKilogramPerMeterID;
     FSymbol     : rsAmperePerKilogramPerMeterSymbol;
@@ -9198,7 +9198,7 @@ resourcestring
   rsReciprocalCubicSecondAmperePluralName = 'reciprocal cubic %ssecond %sampere';
 
 const
-  ReciprocalCubicSecondAmpereID = -96120;
+  ReciprocalCubicSecondAmpereID = -92280;
   ReciprocalCubicSecondAmpereUnit : TUnit = (
     FID         : ReciprocalCubicSecondAmpereID;
     FSymbol     : rsReciprocalCubicSecondAmpereSymbol;
@@ -9215,7 +9215,7 @@ resourcestring
   rsSquareMeterPerAmperePluralName = 'square %smeters per %sampere';
 
 const
-  SquareMeterPerAmpereID = 46740;
+  SquareMeterPerAmpereID = -1860;
   SquareMeterPerAmpereUnit : TUnit = (
     FID         : SquareMeterPerAmpereID;
     FSymbol     : rsSquareMeterPerAmpereSymbol;
@@ -9232,7 +9232,7 @@ resourcestring
   rsReciprocalSexticSecondSquareAmperePluralName = 'reciprocal sextic %ssecond square %sampere';
 
 const
-  ReciprocalSexticSecondSquareAmpereID = -192240;
+  ReciprocalSexticSecondSquareAmpereID = -184560;
   ReciprocalSexticSecondSquareAmpereUnit : TUnit = (
     FID         : ReciprocalSexticSecondSquareAmpereID;
     FSymbol     : rsReciprocalSexticSecondSquareAmpereSymbol;
@@ -9249,7 +9249,7 @@ resourcestring
   rsQuarticMeterPerSquareAmperePluralName = 'quartic %smeters per square %sampere';
 
 const
-  QuarticMeterPerSquareAmpereID = 93480;
+  QuarticMeterPerSquareAmpereID = -3720;
   QuarticMeterPerSquareAmpereUnit : TUnit = (
     FID         : QuarticMeterPerSquareAmpereID;
     FSymbol     : rsQuarticMeterPerSquareAmpereSymbol;
@@ -9266,7 +9266,7 @@ resourcestring
   rsQuarticMeterPerSexticSecondPluralName = 'quartic %smeters per sextic %ssecond';
 
 const
-  QuarticMeterPerSexticSecondID = 5640;
+  QuarticMeterPerSexticSecondID = -169800;
   QuarticMeterPerSexticSecondUnit : TUnit = (
     FID         : QuarticMeterPerSexticSecondID;
     FSymbol     : rsQuarticMeterPerSexticSecondSymbol;
@@ -9283,7 +9283,7 @@ resourcestring
   rsSquareKilogramPerSquareAmperePluralName = 'square %skilograms per square %sampere';
 
 const
-  SquareKilogramPerSquareAmpereID = -600;
+  SquareKilogramPerSquareAmpereID = 10440;
   SquareKilogramPerSquareAmpereUnit : TUnit = (
     FID         : SquareKilogramPerSquareAmpereID;
     FSymbol     : rsSquareKilogramPerSquareAmpereSymbol;
@@ -9300,7 +9300,7 @@ resourcestring
   rsSquareKilogramPerSexticSecondPluralName = 'square %skilograms per sextic %ssecond';
 
 const
-  SquareKilogramPerSexticSecondID = -88440;
+  SquareKilogramPerSexticSecondID = -155640;
   SquareKilogramPerSexticSecondUnit : TUnit = (
     FID         : SquareKilogramPerSexticSecondID;
     FSymbol     : rsSquareKilogramPerSexticSecondSymbol;
@@ -9312,12 +9312,12 @@ const
 { TQuarticSecondSquareAmpere }
 
 resourcestring
-  rsQuarticSecondSquareAmpereSymbol = '%ss4.%sA2';
+  rsQuarticSecondSquareAmpereSymbol = '%ss4∙%sA2';
   rsQuarticSecondSquareAmpereName = 'quartic %ssecond square %sampere';
   rsQuarticSecondSquareAmperePluralName = 'quartic %sseconds square %samperes';
 
 const
-  QuarticSecondSquareAmpereID = 145560;
+  QuarticSecondSquareAmpereID = 126120;
   QuarticSecondSquareAmpereUnit : TUnit = (
     FID         : QuarticSecondSquareAmpereID;
     FSymbol     : rsQuarticSecondSquareAmpereSymbol;
@@ -9334,7 +9334,7 @@ resourcestring
   rsSquareAmperePerSquareMeterPluralName = 'square %samperes per square %smeter';
 
 const
-  SquareAmperePerSquareMeterID = -20640;
+  SquareAmperePerSquareMeterID = 6480;
   SquareAmperePerSquareMeterUnit : TUnit = (
     FID         : SquareAmperePerSquareMeterID;
     FSymbol     : rsSquareAmperePerSquareMeterSymbol;
@@ -9351,7 +9351,7 @@ resourcestring
   rsQuarticSecondPerSquareMeterPluralName = 'quartic %sseconds per square %smeter';
 
 const
-  QuarticSecondPerSquareMeterID = 20520;
+  QuarticSecondPerSquareMeterID = 114120;
   QuarticSecondPerSquareMeterUnit : TUnit = (
     FID         : QuarticSecondPerSquareMeterID;
     FSymbol     : rsQuarticSecondPerSquareMeterSymbol;
@@ -9368,7 +9368,7 @@ resourcestring
   rsSquareAmperePerKilogramPluralName = 'square %samperes per %skilogram';
 
 const
-  SquareAmperePerKilogramID = 26400;
+  SquareAmperePerKilogramID = -600;
   SquareAmperePerKilogramUnit : TUnit = (
     FID         : SquareAmperePerKilogramID;
     FSymbol     : rsSquareAmperePerKilogramSymbol;
@@ -9385,7 +9385,7 @@ resourcestring
   rsQuarticSecondPerKilogramPluralName = 'quartic %sseconds per %skilogram';
 
 const
-  QuarticSecondPerKilogramID = 67560;
+  QuarticSecondPerKilogramID = 107040;
   QuarticSecondPerKilogramUnit : TUnit = (
     FID         : QuarticSecondPerKilogramID;
     FSymbol     : rsQuarticSecondPerKilogramSymbol;
@@ -9402,7 +9402,7 @@ resourcestring
   rsReciprocalCubicSecondSquareAmperePluralName = 'reciprocal cubic %ssecond square %sampere';
 
 const
-  ReciprocalCubicSecondSquareAmpereID = -122220;
+  ReciprocalCubicSecondSquareAmpereID = -96900;
   ReciprocalCubicSecondSquareAmpereUnit : TUnit = (
     FID         : ReciprocalCubicSecondSquareAmpereID;
     FSymbol     : rsReciprocalCubicSecondSquareAmpereSymbol;
@@ -9414,12 +9414,12 @@ const
 { TCubicSecondSquareAmpere }
 
 resourcestring
-  rsCubicSecondSquareAmpereSymbol = '%ss3.%sA2';
+  rsCubicSecondSquareAmpereSymbol = '%ss3∙%sA2';
   rsCubicSecondSquareAmpereName = 'cubic %ssecond square %sampere';
   rsCubicSecondSquareAmperePluralName = 'cubic %sseconds square %samperes';
 
 const
-  CubicSecondSquareAmpereID = 122220;
+  CubicSecondSquareAmpereID = 96900;
   CubicSecondSquareAmpereUnit : TUnit = (
     FID         : CubicSecondSquareAmpereID;
     FSymbol     : rsCubicSecondSquareAmpereSymbol;
@@ -9436,7 +9436,7 @@ resourcestring
   rsSquareAmperePerCubicMeterPluralName = 'square %samperes per cubic %smeter';
 
 const
-  SquareAmperePerCubicMeterID = -57060;
+  SquareAmperePerCubicMeterID = 5100;
   SquareAmperePerCubicMeterUnit : TUnit = (
     FID         : SquareAmperePerCubicMeterID;
     FSymbol     : rsSquareAmperePerCubicMeterSymbol;
@@ -9453,7 +9453,7 @@ resourcestring
   rsCubicSecondPerCubicMeterPluralName = 'cubic %sseconds per cubic %smeter';
 
 const
-  CubicSecondPerCubicMeterID = -39240;
+  CubicSecondPerCubicMeterID = 83520;
   CubicSecondPerCubicMeterUnit : TUnit = (
     FID         : CubicSecondPerCubicMeterID;
     FSymbol     : rsCubicSecondPerCubicMeterSymbol;
@@ -9470,7 +9470,7 @@ resourcestring
   rsReciprocalKilogramCubicMeterPluralName = 'reciprocal %skilogram cubic %smeter';
 
 const
-  ReciprocalKilogramCubicMeterID = -135060;
+  ReciprocalKilogramCubicMeterID = -13980;
   ReciprocalKilogramCubicMeterUnit : TUnit = (
     FID         : ReciprocalKilogramCubicMeterID;
     FSymbol     : rsReciprocalKilogramCubicMeterSymbol;
@@ -9487,7 +9487,7 @@ resourcestring
   rsSteradianPerCubicMeterPluralName = 'steradian per cubic %smeter';
 
 const
-  SteradianPerCubicMeterID = -79620;
+  SteradianPerCubicMeterID = 28080;
   SteradianPerCubicMeterUnit : TUnit = (
     FID         : SteradianPerCubicMeterID;
     FSymbol     : rsSteradianPerCubicMeterSymbol;
@@ -9504,7 +9504,7 @@ resourcestring
   rsCandelaPerCubicMeterPluralName = '%scandelas per cubic %smeter';
 
 const
-  CandelaPerCubicMeterID = -85140;
+  CandelaPerCubicMeterID = 11640;
   CandelaPerCubicMeterUnit : TUnit = (
     FID         : CandelaPerCubicMeterID;
     FSymbol     : rsCandelaPerCubicMeterSymbol;
@@ -9521,7 +9521,7 @@ resourcestring
   rsMeterPerKelvinPluralName = '%smeters per %skelvin';
 
 const
-  MeterPerKelvinID = -540;
+  MeterPerKelvinID = -31380;
   MeterPerKelvinUnit : TUnit = (
     FID         : MeterPerKelvinID;
     FSymbol     : rsMeterPerKelvinSymbol;
@@ -9533,12 +9533,12 @@ const
 { TCubicSecondKelvin }
 
 resourcestring
-  rsCubicSecondKelvinSymbol = '%ss3.%sK';
+  rsCubicSecondKelvinSymbol = '%ss3∙%sK';
   rsCubicSecondKelvinName = 'cubic %ssecond %skelvin';
   rsCubicSecondKelvinPluralName = 'cubic %sseconds %skelvins';
 
 const
-  CubicSecondKelvinID = 106980;
+  CubicSecondKelvinID = 120420;
   CubicSecondKelvinUnit : TUnit = (
     FID         : CubicSecondKelvinID;
     FSymbol     : rsCubicSecondKelvinSymbol;
@@ -9555,7 +9555,7 @@ resourcestring
   rsKelvinPerSquareMeterPluralName = '%skelvins per square %smeter';
 
 const
-  KelvinPerSquareMeterID = -35880;
+  KelvinPerSquareMeterID = 30000;
   KelvinPerSquareMeterUnit : TUnit = (
     FID         : KelvinPerSquareMeterID;
     FSymbol     : rsKelvinPerSquareMeterSymbol;
@@ -9572,7 +9572,7 @@ resourcestring
   rsKelvinPerKilogramPluralName = '%skelvins per %skilogram';
 
 const
-  KelvinPerKilogramID = 11160;
+  KelvinPerKilogramID = 22920;
   KelvinPerKilogramUnit : TUnit = (
     FID         : KelvinPerKilogramID;
     FSymbol     : rsKelvinPerKilogramSymbol;
@@ -9589,7 +9589,7 @@ resourcestring
   rsSquareMeterPerQuarticKelvinPluralName = 'square %smeters per quartic %skelvin';
 
 const
-  SquareMeterPerQuarticKelvinID = -75000;
+  SquareMeterPerQuarticKelvinID = -128280;
   SquareMeterPerQuarticKelvinUnit : TUnit = (
     FID         : SquareMeterPerQuarticKelvinID;
     FSymbol     : rsSquareMeterPerQuarticKelvinSymbol;
@@ -9606,7 +9606,7 @@ resourcestring
   rsReciprocalQuarticKelvinPluralName = 'reciprocal quartic %skelvin';
 
 const
-  ReciprocalQuarticKelvinID = -147840;
+  ReciprocalQuarticKelvinID = -131040;
   ReciprocalQuarticKelvinUnit : TUnit = (
     FID         : ReciprocalQuarticKelvinID;
     FSymbol     : rsReciprocalQuarticKelvinSymbol;
@@ -9623,7 +9623,7 @@ resourcestring
   rsReciprocalSquareSecondMolePluralName = 'reciprocal square %ssecond %smole';
 
 const
-  ReciprocalSquareSecondMoleID = -81780;
+  ReciprocalSquareSecondMoleID = -95100;
   ReciprocalSquareSecondMoleUnit : TUnit = (
     FID         : ReciprocalSquareSecondMoleID;
     FSymbol     : rsReciprocalSquareSecondMoleSymbol;
@@ -9640,7 +9640,7 @@ resourcestring
   rsSquareMeterPerMolePluralName = 'square %smeters per %smole';
 
 const
-  SquareMeterPerMoleID = 37740;
+  SquareMeterPerMoleID = -33900;
   SquareMeterPerMoleUnit : TUnit = (
     FID         : SquareMeterPerMoleID;
     FSymbol     : rsSquareMeterPerMoleSymbol;
@@ -9657,7 +9657,7 @@ resourcestring
   rsKilogramPerMolePluralName = '%skilograms per %smole';
 
 const
-  KilogramPerMoleID = -9300;
+  KilogramPerMoleID = -26820;
   KilogramPerMoleUnit : TUnit = (
     FID         : KilogramPerMoleID;
     FSymbol     : rsKilogramPerMoleSymbol;
@@ -9674,7 +9674,7 @@ resourcestring
   rsReciprocalSquareSecondKelvinMolePluralName = 'reciprocal square %ssecond %skelvin %smole';
 
 const
-  ReciprocalSquareSecondKelvinMoleID = -118740;
+  ReciprocalSquareSecondKelvinMoleID = -127860;
   ReciprocalSquareSecondKelvinMoleUnit : TUnit = (
     FID         : ReciprocalSquareSecondKelvinMoleID;
     FSymbol     : rsReciprocalSquareSecondKelvinMoleSymbol;
@@ -9691,7 +9691,7 @@ resourcestring
   rsSquareMeterPerKelvinPerMolePluralName = 'square %smeters per %skelvin per %smole';
 
 const
-  SquareMeterPerKelvinPerMoleID = 780;
+  SquareMeterPerKelvinPerMoleID = -66660;
   SquareMeterPerKelvinPerMoleUnit : TUnit = (
     FID         : SquareMeterPerKelvinPerMoleID;
     FSymbol     : rsSquareMeterPerKelvinPerMoleSymbol;
@@ -9708,7 +9708,7 @@ resourcestring
   rsKilogramPerKelvinPerMolePluralName = '%skilograms per %skelvin per %smole';
 
 const
-  KilogramPerKelvinPerMoleID = -46260;
+  KilogramPerKelvinPerMoleID = -59580;
   KilogramPerKelvinPerMoleUnit : TUnit = (
     FID         : KilogramPerKelvinPerMoleID;
     FSymbol     : rsKilogramPerKelvinPerMoleSymbol;
@@ -9725,7 +9725,7 @@ resourcestring
   rsCubicMeterPerSquareAmperePluralName = 'cubic %smeters per square %sampere';
 
 const
-  CubicMeterPerSquareAmpereID = 57060;
+  CubicMeterPerSquareAmpereID = -5100;
   CubicMeterPerSquareAmpereUnit : TUnit = (
     FID         : CubicMeterPerSquareAmpereID;
     FSymbol     : rsCubicMeterPerSquareAmpereSymbol;
@@ -9742,7 +9742,7 @@ resourcestring
   rsCubicMeterPerCubicSecondPluralName = 'cubic %smeters per cubic %ssecond';
 
 const
-  CubicMeterPerCubicSecondID = 39240;
+  CubicMeterPerCubicSecondID = -83520;
   CubicMeterPerCubicSecondUnit : TUnit = (
     FID         : CubicMeterPerCubicSecondID;
     FSymbol     : rsCubicMeterPerCubicSecondSymbol;
@@ -9759,7 +9759,7 @@ resourcestring
   rsReciprocalSquareAmperePluralName = 'reciprocal square %sampere';
 
 const
-  ReciprocalSquareAmpereID = -52200;
+  ReciprocalSquareAmpereID = -9240;
   ReciprocalSquareAmpereUnit : TUnit = (
     FID         : ReciprocalSquareAmpereID;
     FSymbol     : rsReciprocalSquareAmpereSymbol;
@@ -9776,7 +9776,7 @@ resourcestring
   rsReciprocalQuarticSecondSquareAmperePluralName = 'reciprocal quartic %ssecond square %sampere';
 
 const
-  ReciprocalQuarticSecondSquareAmpereID = -145560;
+  ReciprocalQuarticSecondSquareAmpereID = -126120;
   ReciprocalQuarticSecondSquareAmpereUnit : TUnit = (
     FID         : ReciprocalQuarticSecondSquareAmpereID;
     FSymbol     : rsReciprocalQuarticSecondSquareAmpereSymbol;
@@ -9793,7 +9793,7 @@ resourcestring
   rsMeterPerSquareAmperePluralName = '%smeters per square %sampere';
 
 const
-  MeterPerSquareAmpereID = -15780;
+  MeterPerSquareAmpereID = -7860;
   MeterPerSquareAmpereUnit : TUnit = (
     FID         : MeterPerSquareAmpereID;
     FSymbol     : rsMeterPerSquareAmpereSymbol;
@@ -9810,7 +9810,7 @@ resourcestring
   rsKilogramPerQuarticSecondPluralName = '%skilograms per quartic %ssecond';
 
 const
-  KilogramPerQuarticSecondID = -67560;
+  KilogramPerQuarticSecondID = -107040;
   KilogramPerQuarticSecondUnit : TUnit = (
     FID         : KilogramPerQuarticSecondID;
     FSymbol     : rsKilogramPerQuarticSecondSymbol;
@@ -9827,7 +9827,7 @@ resourcestring
   rsCubicMeterPerQuarticSecondPluralName = 'cubic %smeters per quartic %ssecond';
 
 const
-  CubicMeterPerQuarticSecondID = 15900;
+  CubicMeterPerQuarticSecondID = -112740;
   CubicMeterPerQuarticSecondUnit : TUnit = (
     FID         : CubicMeterPerQuarticSecondID;
     FSymbol     : rsCubicMeterPerQuarticSecondSymbol;
@@ -9844,7 +9844,7 @@ resourcestring
   rsCubicMeterPerAmperePluralName = 'cubic %smeters per %sampere';
 
 const
-  CubicMeterPerAmpereID = 83160;
+  CubicMeterPerAmpereID = -480;
   CubicMeterPerAmpereUnit : TUnit = (
     FID         : CubicMeterPerAmpereID;
     FSymbol     : rsCubicMeterPerAmpereSymbol;
@@ -9861,7 +9861,7 @@ resourcestring
   rsReciprocalQuarticSecondAmperePluralName = 'reciprocal quartic %ssecond %sampere';
 
 const
-  ReciprocalQuarticSecondAmpereID = -119460;
+  ReciprocalQuarticSecondAmpereID = -121500;
   ReciprocalQuarticSecondAmpereUnit : TUnit = (
     FID         : ReciprocalQuarticSecondAmpereID;
     FSymbol     : rsReciprocalQuarticSecondAmpereSymbol;
@@ -9878,7 +9878,7 @@ resourcestring
   rsQuarticSecondPerCubicMeterPluralName = 'quartic %sseconds per cubic %smeter';
 
 const
-  QuarticSecondPerCubicMeterID = -15900;
+  QuarticSecondPerCubicMeterID = 112740;
   QuarticSecondPerCubicMeterUnit : TUnit = (
     FID         : QuarticSecondPerCubicMeterID;
     FSymbol     : rsQuarticSecondPerCubicMeterSymbol;
@@ -9890,12 +9890,12 @@ const
 { TCubicSecondCandelaSteradian }
 
 resourcestring
-  rsCubicSecondCandelaSteradianSymbol = '%ss3.%scd.sr';
+  rsCubicSecondCandelaSteradianSymbol = '%ss3∙%scd∙sr';
   rsCubicSecondCandelaSteradianName = 'cubic %ssecond %scandela steradian';
   rsCubicSecondCandelaSteradianPluralName = 'cubic %sseconds %scandelas steradian';
 
 const
-  CubicSecondCandelaSteradianID = 123780;
+  CubicSecondCandelaSteradianID = 135660;
   CubicSecondCandelaSteradianUnit : TUnit = (
     FID         : CubicSecondCandelaSteradianID;
     FSymbol     : rsCubicSecondCandelaSteradianSymbol;
@@ -9907,12 +9907,12 @@ const
 { TCubicSecondSteradianPerSquareMeter }
 
 resourcestring
-  rsCubicSecondSteradianPerSquareMeterSymbol = '%ss3.sr/%sm2';
+  rsCubicSecondSteradianPerSquareMeterSymbol = '%ss3∙sr/%sm2';
   rsCubicSecondSteradianPerSquareMeterName = 'cubic %ssecond steradian per square %smeter';
   rsCubicSecondSteradianPerSquareMeterPluralName = 'cubic %sseconds steradian per square %smeter';
 
 const
-  CubicSecondSteradianPerSquareMeterID = 26820;
+  CubicSecondSteradianPerSquareMeterID = 117120;
   CubicSecondSteradianPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondSteradianPerSquareMeterID;
     FSymbol     : rsCubicSecondSteradianPerSquareMeterSymbol;
@@ -9924,12 +9924,12 @@ const
 { TCubicSecondCandelaPerSquareMeter }
 
 resourcestring
-  rsCubicSecondCandelaPerSquareMeterSymbol = '%ss3.%scd/%sm2';
+  rsCubicSecondCandelaPerSquareMeterSymbol = '%ss3∙%scd/%sm2';
   rsCubicSecondCandelaPerSquareMeterName = 'cubic %ssecond %scandela per square %smeter';
   rsCubicSecondCandelaPerSquareMeterPluralName = 'cubic %sseconds %scandelas per square %smeter';
 
 const
-  CubicSecondCandelaPerSquareMeterID = 21300;
+  CubicSecondCandelaPerSquareMeterID = 100680;
   CubicSecondCandelaPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondCandelaPerSquareMeterID;
     FSymbol     : rsCubicSecondCandelaPerSquareMeterSymbol;
@@ -9941,12 +9941,12 @@ const
 { TCandelaSteradianPerKilogram }
 
 resourcestring
-  rsCandelaSteradianPerKilogramSymbol = '%scd.sr/%skg';
+  rsCandelaSteradianPerKilogramSymbol = '%scd∙sr/%skg';
   rsCandelaSteradianPerKilogramName = '%scandela steradian per %skilogram';
   rsCandelaSteradianPerKilogramPluralName = '%scandelas steradian per %skilogram';
 
 const
-  CandelaSteradianPerKilogramID = 27960;
+  CandelaSteradianPerKilogramID = 38160;
   CandelaSteradianPerKilogramUnit : TUnit = (
     FID         : CandelaSteradianPerKilogramID;
     FSymbol     : rsCandelaSteradianPerKilogramSymbol;
@@ -9958,12 +9958,12 @@ const
 { TCubicSecondSteradianPerKilogram }
 
 resourcestring
-  rsCubicSecondSteradianPerKilogramSymbol = '%ss3.sr/%skg';
+  rsCubicSecondSteradianPerKilogramSymbol = '%ss3∙sr/%skg';
   rsCubicSecondSteradianPerKilogramName = 'cubic %ssecond steradian per %skilogram';
   rsCubicSecondSteradianPerKilogramPluralName = 'cubic %sseconds steradian per %skilogram';
 
 const
-  CubicSecondSteradianPerKilogramID = 73860;
+  CubicSecondSteradianPerKilogramID = 110040;
   CubicSecondSteradianPerKilogramUnit : TUnit = (
     FID         : CubicSecondSteradianPerKilogramID;
     FSymbol     : rsCubicSecondSteradianPerKilogramSymbol;
@@ -9975,12 +9975,12 @@ const
 { TCubicSecondCandelaPerKilogram }
 
 resourcestring
-  rsCubicSecondCandelaPerKilogramSymbol = '%ss3.%scd/%skg';
+  rsCubicSecondCandelaPerKilogramSymbol = '%ss3∙%scd/%skg';
   rsCubicSecondCandelaPerKilogramName = 'cubic %ssecond %scandela per %skilogram';
   rsCubicSecondCandelaPerKilogramPluralName = 'cubic %sseconds %scandelas per %skilogram';
 
 const
-  CubicSecondCandelaPerKilogramID = 68340;
+  CubicSecondCandelaPerKilogramID = 93600;
   CubicSecondCandelaPerKilogramUnit : TUnit = (
     FID         : CubicSecondCandelaPerKilogramID;
     FSymbol     : rsCubicSecondCandelaPerKilogramSymbol;
@@ -9997,7 +9997,7 @@ resourcestring
   rsSteradianPerKilogramPerSquareMeterPluralName = 'steradian per %skilogram per square %smeter';
 
 const
-  SteradianPerKilogramPerSquareMeterID = -69000;
+  SteradianPerKilogramPerSquareMeterID = 19620;
   SteradianPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : SteradianPerKilogramPerSquareMeterID;
     FSymbol     : rsSteradianPerKilogramPerSquareMeterSymbol;
@@ -10014,7 +10014,7 @@ resourcestring
   rsCandelaPerKilogramPerSquareMeterPluralName = '%scandelas per %skilogram per square %smeter';
 
 const
-  CandelaPerKilogramPerSquareMeterID = -74520;
+  CandelaPerKilogramPerSquareMeterID = 3180;
   CandelaPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : CandelaPerKilogramPerSquareMeterID;
     FSymbol     : rsCandelaPerKilogramPerSquareMeterSymbol;
@@ -10031,7 +10031,7 @@ resourcestring
   rsSquareMeterPerSteradianPluralName = 'square %smeters per steradian';
 
 const
-  SquareMeterPerSteradianID = 43200;
+  SquareMeterPerSteradianID = -29460;
   SquareMeterPerSteradianUnit : TUnit = (
     FID         : SquareMeterPerSteradianID;
     FSymbol     : rsSquareMeterPerSteradianSymbol;
@@ -10048,7 +10048,7 @@ resourcestring
   rsMeterPerSteradianPluralName = '%smeters per steradian';
 
 const
-  MeterPerSteradianID = 6780;
+  MeterPerSteradianID = -30840;
   MeterPerSteradianUnit : TUnit = (
     FID         : MeterPerSteradianID;
     FSymbol     : rsMeterPerSteradianSymbol;
@@ -10065,7 +10065,7 @@ resourcestring
   rsReciprocalSteradianPluralName = 'reciprocal steradian';
 
 const
-  ReciprocalSteradianID = -29640;
+  ReciprocalSteradianID = -32220;
   ReciprocalSteradianUnit : TUnit = (
     FID         : ReciprocalSteradianID;
     FSymbol     : rsReciprocalSteradianSymbol;
@@ -10082,7 +10082,7 @@ resourcestring
   rsReciprocalMeterSteradianPluralName = 'reciprocal %smeter steradian';
 
 const
-  ReciprocalMeterSteradianID = -66060;
+  ReciprocalMeterSteradianID = -33600;
   ReciprocalMeterSteradianUnit : TUnit = (
     FID         : ReciprocalMeterSteradianID;
     FSymbol     : rsReciprocalMeterSteradianSymbol;
@@ -10094,12 +10094,12 @@ const
 { TCubicSecondAmpere }
 
 resourcestring
-  rsCubicSecondAmpereSymbol = '%ss3.%sA';
+  rsCubicSecondAmpereSymbol = '%ss3∙%sA';
   rsCubicSecondAmpereName = 'cubic %ssecond %sampere';
   rsCubicSecondAmperePluralName = 'cubic %sseconds %samperes';
 
 const
-  CubicSecondAmpereID = 96120;
+  CubicSecondAmpereID = 92280;
   CubicSecondAmpereUnit : TUnit = (
     FID         : CubicSecondAmpereID;
     FSymbol     : rsCubicSecondAmpereSymbol;
@@ -10116,7 +10116,7 @@ resourcestring
   rsReciprocalKelvinMolePluralName = 'reciprocal %skelvin %smole';
 
 const
-  ReciprocalKelvinMoleID = -72060;
+  ReciprocalKelvinMoleID = -69420;
   ReciprocalKelvinMoleUnit : TUnit = (
     FID         : ReciprocalKelvinMoleID;
     FSymbol     : rsReciprocalKelvinMoleSymbol;
@@ -10128,12 +10128,12 @@ const
 { TCubicSecondSteradian }
 
 resourcestring
-  rsCubicSecondSteradianSymbol = '%ss3.sr';
+  rsCubicSecondSteradianSymbol = '%ss3∙sr';
   rsCubicSecondSteradianName = 'cubic %ssecond steradian';
   rsCubicSecondSteradianPluralName = 'cubic %sseconds steradian';
 
 const
-  CubicSecondSteradianID = 99660;
+  CubicSecondSteradianID = 119880;
   CubicSecondSteradianUnit : TUnit = (
     FID         : CubicSecondSteradianID;
     FSymbol     : rsCubicSecondSteradianSymbol;
@@ -10145,12 +10145,12 @@ const
 { TCubicSecondCandela }
 
 resourcestring
-  rsCubicSecondCandelaSymbol = '%ss3.%scd';
+  rsCubicSecondCandelaSymbol = '%ss3∙%scd';
   rsCubicSecondCandelaName = 'cubic %ssecond %scandela';
   rsCubicSecondCandelaPluralName = 'cubic %sseconds %scandelas';
 
 const
-  CubicSecondCandelaID = 94140;
+  CubicSecondCandelaID = 103440;
   CubicSecondCandelaUnit : TUnit = (
     FID         : CubicSecondCandelaID;
     FSymbol     : rsCubicSecondCandelaSymbol;
@@ -10167,7 +10167,7 @@ resourcestring
   rsSteradianPerKilogramPluralName = 'steradian per %skilogram';
 
 const
-  SteradianPerKilogramID = 3840;
+  SteradianPerKilogramID = 22380;
   SteradianPerKilogramUnit : TUnit = (
     FID         : SteradianPerKilogramID;
     FSymbol     : rsSteradianPerKilogramSymbol;
@@ -10184,7 +10184,7 @@ resourcestring
   rsCandelaPerKilogramPluralName = '%scandelas per %skilogram';
 
 const
-  CandelaPerKilogramID = -1680;
+  CandelaPerKilogramID = 5940;
   CandelaPerKilogramUnit : TUnit = (
     FID         : CandelaPerKilogramID;
     FSymbol     : rsCandelaPerKilogramSymbol;
@@ -10201,7 +10201,7 @@ resourcestring
   rsReciprocalQuinticMeterPluralName = 'reciprocal quintic %smeter';
 
 const
-  ReciprocalQuinticMeterID = -182100;
+  ReciprocalQuinticMeterID = -6900;
   ReciprocalQuinticMeterUnit : TUnit = (
     FID         : ReciprocalQuinticMeterID;
     FSymbol     : rsReciprocalQuinticMeterSymbol;
@@ -10218,7 +10218,7 @@ resourcestring
   rsReciprocalSexticMeterPluralName = 'reciprocal sextic %smeter';
 
 const
-  ReciprocalSexticMeterID = -218520;
+  ReciprocalSexticMeterID = -8280;
   ReciprocalSexticMeterUnit : TUnit = (
     FID         : ReciprocalSexticMeterID;
     FSymbol     : rsReciprocalSexticMeterSymbol;
@@ -10235,7 +10235,7 @@ resourcestring
   rsReciprocalSquareKelvinPluralName = 'reciprocal square %skelvin';
 
 const
-  ReciprocalSquareKelvinID = -73920;
+  ReciprocalSquareKelvinID = -65520;
   ReciprocalSquareKelvinUnit : TUnit = (
     FID         : ReciprocalSquareKelvinID;
     FSymbol     : rsReciprocalSquareKelvinSymbol;
@@ -10252,7 +10252,7 @@ resourcestring
   rsReciprocalCubicKelvinPluralName = 'reciprocal cubic %skelvin';
 
 const
-  ReciprocalCubicKelvinID = -110880;
+  ReciprocalCubicKelvinID = -98280;
   ReciprocalCubicKelvinUnit : TUnit = (
     FID         : ReciprocalCubicKelvinID;
     FSymbol     : rsReciprocalCubicKelvinSymbol;
@@ -10269,7 +10269,7 @@ resourcestring
   rsReciprocalCandelaPluralName = 'reciprocal %scandela';
 
 const
-  ReciprocalCandelaID = -24120;
+  ReciprocalCandelaID = -15780;
   ReciprocalCandelaUnit : TUnit = (
     FID         : ReciprocalCandelaID;
     FSymbol     : rsReciprocalCandelaSymbol;
@@ -10286,7 +10286,7 @@ resourcestring
   rsSquareSecondPerSteradianPluralName = 'square %sseconds per steradian';
 
 const
-  SquareSecondPerSteradianID = 17040;
+  SquareSecondPerSteradianID = 26220;
   SquareSecondPerSteradianUnit : TUnit = (
     FID         : SquareSecondPerSteradianID;
     FSymbol     : rsSquareSecondPerSteradianSymbol;
@@ -10303,7 +10303,7 @@ resourcestring
   rsQuarticSecondPerMeterPluralName = 'quartic %sseconds per %smeter';
 
 const
-  QuarticSecondPerMeterID = 56940;
+  QuarticSecondPerMeterID = 115500;
   QuarticSecondPerMeterUnit : TUnit = (
     FID         : QuarticSecondPerMeterID;
     FSymbol     : rsQuarticSecondPerMeterSymbol;
@@ -10320,7 +10320,7 @@ resourcestring
   rsQuinticSecondPerMeterPluralName = 'quintic %sseconds per %smeter';
 
 const
-  QuinticSecondPerMeterID = 80280;
+  QuinticSecondPerMeterID = 144720;
   QuinticSecondPerMeterUnit : TUnit = (
     FID         : QuinticSecondPerMeterID;
     FSymbol     : rsQuinticSecondPerMeterSymbol;
@@ -10337,7 +10337,7 @@ resourcestring
   rsSexticSecondPerMeterPluralName = 'sextic %sseconds per %smeter';
 
 const
-  SexticSecondPerMeterID = 103620;
+  SexticSecondPerMeterID = 173940;
   SexticSecondPerMeterUnit : TUnit = (
     FID         : SexticSecondPerMeterID;
     FSymbol     : rsSexticSecondPerMeterSymbol;
@@ -10354,7 +10354,7 @@ resourcestring
   rsSecondPerKilogramPerMeterPluralName = '%sseconds per %skilogram per %smeter';
 
 const
-  SecondPerKilogramPerMeterID = -38880;
+  SecondPerKilogramPerMeterID = 18000;
   SecondPerKilogramPerMeterUnit : TUnit = (
     FID         : SecondPerKilogramPerMeterID;
     FSymbol     : rsSecondPerKilogramPerMeterSymbol;
@@ -10371,7 +10371,7 @@ resourcestring
   rsSquareSecondPerSquareKilogramPerSquareMeterPluralName = 'square %sseconds per square %skilogram per square %smeter';
 
 const
-  SquareSecondPerSquareKilogramPerSquareMeterID = -77760;
+  SquareSecondPerSquareKilogramPerSquareMeterID = 36000;
   SquareSecondPerSquareKilogramPerSquareMeterUnit : TUnit = (
     FID         : SquareSecondPerSquareKilogramPerSquareMeterID;
     FSymbol     : rsSquareSecondPerSquareKilogramPerSquareMeterSymbol;
@@ -10388,7 +10388,7 @@ resourcestring
   rsSecondPerKilogramPerSquareMeterPluralName = '%sseconds per %skilogram per square %smeter';
 
 const
-  SecondPerKilogramPerSquareMeterID = -75300;
+  SecondPerKilogramPerSquareMeterID = 16620;
   SecondPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : SecondPerKilogramPerSquareMeterID;
     FSymbol     : rsSecondPerKilogramPerSquareMeterSymbol;
@@ -10405,7 +10405,7 @@ resourcestring
   rsSquareMeterPerKilogramPluralName = 'square %smeters per %skilogram';
 
 const
-  SquareMeterPerKilogramID = 47040;
+  SquareMeterPerKilogramID = -7080;
   SquareMeterPerKilogramUnit : TUnit = (
     FID         : SquareMeterPerKilogramID;
     FSymbol     : rsSquareMeterPerKilogramSymbol;
@@ -10422,7 +10422,7 @@ resourcestring
   rsQuarticSecondPerSquareKilogramPerSquareMeterPluralName = 'quartic %sseconds per square %skilogram per square %smeter';
 
 const
-  QuarticSecondPerSquareKilogramPerSquareMeterID = -31080;
+  QuarticSecondPerSquareKilogramPerSquareMeterID = 94440;
   QuarticSecondPerSquareKilogramPerSquareMeterUnit : TUnit = (
     FID         : QuarticSecondPerSquareKilogramPerSquareMeterID;
     FSymbol     : rsQuarticSecondPerSquareKilogramPerSquareMeterSymbol;
@@ -10439,7 +10439,7 @@ resourcestring
   rsReciprocalSecondAmperePluralName = 'reciprocal %ssecond %sampere';
 
 const
-  ReciprocalSecondAmpereID = -49440;
+  ReciprocalSecondAmpereID = -33840;
   ReciprocalSecondAmpereUnit : TUnit = (
     FID         : ReciprocalSecondAmpereID;
     FSymbol     : rsReciprocalSecondAmpereSymbol;
@@ -10456,7 +10456,7 @@ resourcestring
   rsReciprocalMeterSecondAmperePluralName = 'reciprocal %smeter %ssecond %sampere';
 
 const
-  ReciprocalMeterSecondAmpereID = -85860;
+  ReciprocalMeterSecondAmpereID = -35220;
   ReciprocalMeterSecondAmpereUnit : TUnit = (
     FID         : ReciprocalMeterSecondAmpereID;
     FSymbol     : rsReciprocalMeterSecondAmpereSymbol;
@@ -10468,12 +10468,12 @@ const
 { TCubicSecondAmperePerKilogramPerSquareMeter }
 
 resourcestring
-  rsCubicSecondAmperePerKilogramPerSquareMeterSymbol = '%ss3.%sA/%skg/%sm2';
+  rsCubicSecondAmperePerKilogramPerSquareMeterSymbol = '%ss3∙%sA/%skg/%sm2';
   rsCubicSecondAmperePerKilogramPerSquareMeterName = 'cubic %ssecond %sampere per %skilogram per square %smeter';
   rsCubicSecondAmperePerKilogramPerSquareMeterPluralName = 'cubic %sseconds %samperes per %skilogram per square %smeter';
 
 const
-  CubicSecondAmperePerKilogramPerSquareMeterID = -2520;
+  CubicSecondAmperePerKilogramPerSquareMeterID = 79680;
   CubicSecondAmperePerKilogramPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondAmperePerKilogramPerSquareMeterID;
     FSymbol     : rsCubicSecondAmperePerKilogramPerSquareMeterSymbol;
@@ -10485,12 +10485,12 @@ const
 { TSexticSecondSquareAmperePerSquareKilogramPerQuarticMeter }
 
 resourcestring
-  rsSexticSecondSquareAmperePerSquareKilogramPerQuarticMeterSymbol = '%ss6.%sA2/%skg2/%sm4';
+  rsSexticSecondSquareAmperePerSquareKilogramPerQuarticMeterSymbol = '%ss6∙%sA2/%skg2/%sm4';
   rsSexticSecondSquareAmperePerSquareKilogramPerQuarticMeterName = 'sextic %ssecond square %sampere per square %skilogram per quartic %smeter';
   rsSexticSecondSquareAmperePerSquareKilogramPerQuarticMeterPluralName = 'sextic %sseconds square %samperes per square %skilogram per quartic %smeter';
 
 const
-  SexticSecondSquareAmperePerSquareKilogramPerQuarticMeterID = -5040;
+  SexticSecondSquareAmperePerSquareKilogramPerQuarticMeterID = 159360;
   SexticSecondSquareAmperePerSquareKilogramPerQuarticMeterUnit : TUnit = (
     FID         : SexticSecondSquareAmperePerSquareKilogramPerQuarticMeterID;
     FSymbol     : rsSexticSecondSquareAmperePerSquareKilogramPerQuarticMeterSymbol;
@@ -10502,12 +10502,12 @@ const
 { TKilogramSquareMeterPerQuarticSecondPerSquareAmpere }
 
 resourcestring
-  rsKilogramSquareMeterPerQuarticSecondPerSquareAmpereSymbol = '%skg.%sm2/%ss4/%sA2';
+  rsKilogramSquareMeterPerQuarticSecondPerSquareAmpereSymbol = '%skg∙%sm2/%ss4/%sA2';
   rsKilogramSquareMeterPerQuarticSecondPerSquareAmpereName = '%skilogram square %smeter per quartic %ssecond per square %sampere';
   rsKilogramSquareMeterPerQuarticSecondPerSquareAmperePluralName = '%skilograms square %smeters per quartic %ssecond per square %sampere';
 
 const
-  KilogramSquareMeterPerQuarticSecondPerSquareAmpereID = -46920;
+  KilogramSquareMeterPerQuarticSecondPerSquareAmpereID = -113520;
   KilogramSquareMeterPerQuarticSecondPerSquareAmpereUnit : TUnit = (
     FID         : KilogramSquareMeterPerQuarticSecondPerSquareAmpereID;
     FSymbol     : rsKilogramSquareMeterPerQuarticSecondPerSquareAmpereSymbol;
@@ -10524,7 +10524,7 @@ resourcestring
   rsReciprocalCandelaSteradianPluralName = 'reciprocal %scandela steradian';
 
 const
-  ReciprocalCandelaSteradianID = -53760;
+  ReciprocalCandelaSteradianID = -48000;
   ReciprocalCandelaSteradianUnit : TUnit = (
     FID         : ReciprocalCandelaSteradianID;
     FSymbol     : rsReciprocalCandelaSteradianSymbol;
@@ -10541,7 +10541,7 @@ resourcestring
   rsReciprocalSecondCandelaSteradianPluralName = 'reciprocal %ssecond %scandela steradian';
 
 const
-  ReciprocalSecondCandelaSteradianID = -77100;
+  ReciprocalSecondCandelaSteradianID = -77220;
   ReciprocalSecondCandelaSteradianUnit : TUnit = (
     FID         : ReciprocalSecondCandelaSteradianID;
     FSymbol     : rsReciprocalSecondCandelaSteradianSymbol;
@@ -10558,7 +10558,7 @@ resourcestring
   rsCubicMeterPerSecondPerCandelaPerSteradianPluralName = 'cubic %smeters per %ssecond per %scandela per steradian';
 
 const
-  CubicMeterPerSecondPerCandelaPerSteradianID = 32160;
+  CubicMeterPerSecondPerCandelaPerSteradianID = -73080;
   CubicMeterPerSecondPerCandelaPerSteradianUnit : TUnit = (
     FID         : CubicMeterPerSecondPerCandelaPerSteradianID;
     FSymbol     : rsCubicMeterPerSecondPerCandelaPerSteradianSymbol;
@@ -10575,7 +10575,7 @@ resourcestring
   rsSquareMeterPerCandelaPerSteradianPluralName = 'square %smeters per %scandela per steradian';
 
 const
-  SquareMeterPerCandelaPerSteradianID = 19080;
+  SquareMeterPerCandelaPerSteradianID = -45240;
   SquareMeterPerCandelaPerSteradianUnit : TUnit = (
     FID         : SquareMeterPerCandelaPerSteradianID;
     FSymbol     : rsSquareMeterPerCandelaPerSteradianSymbol;
@@ -10592,7 +10592,7 @@ resourcestring
   rsSquareMeterPerSecondPerCandelaPerSteradianPluralName = 'square %smeters per %ssecond per %scandela per steradian';
 
 const
-  SquareMeterPerSecondPerCandelaPerSteradianID = -4260;
+  SquareMeterPerSecondPerCandelaPerSteradianID = -74460;
   SquareMeterPerSecondPerCandelaPerSteradianUnit : TUnit = (
     FID         : SquareMeterPerSecondPerCandelaPerSteradianID;
     FSymbol     : rsSquareMeterPerSecondPerCandelaPerSteradianSymbol;
@@ -10604,12 +10604,12 @@ const
 { TSquareMeterSquareSecondPerKilogram }
 
 resourcestring
-  rsSquareMeterSquareSecondPerKilogramSymbol = '%sm2.%ss2/%skg';
+  rsSquareMeterSquareSecondPerKilogramSymbol = '%sm2∙%ss2/%skg';
   rsSquareMeterSquareSecondPerKilogramName = 'square %smeter square %ssecond per %skilogram';
   rsSquareMeterSquareSecondPerKilogramPluralName = 'square %smeters square %sseconds per %skilogram';
 
 const
-  SquareMeterSquareSecondPerKilogramID = 93720;
+  SquareMeterSquareSecondPerKilogramID = 51360;
   SquareMeterSquareSecondPerKilogramUnit : TUnit = (
     FID         : SquareMeterSquareSecondPerKilogramID;
     FSymbol     : rsSquareMeterSquareSecondPerKilogramSymbol;
@@ -10621,12 +10621,12 @@ const
 { TMeterSecondPerKilogram }
 
 resourcestring
-  rsMeterSecondPerKilogramSymbol = '%sm.%ss/%skg';
+  rsMeterSecondPerKilogramSymbol = '%sm∙%ss/%skg';
   rsMeterSecondPerKilogramName = '%smeter %ssecond per %skilogram';
   rsMeterSecondPerKilogramPluralName = '%smeters %sseconds per %skilogram';
 
 const
-  MeterSecondPerKilogramID = 33960;
+  MeterSecondPerKilogramID = 20760;
   MeterSecondPerKilogramUnit : TUnit = (
     FID         : MeterSecondPerKilogramID;
     FSymbol     : rsMeterSecondPerKilogramSymbol;
@@ -10643,7 +10643,7 @@ resourcestring
   rsQuarticMeterPerKilogramPluralName = 'quartic %smeters per %skilogram';
 
 const
-  QuarticMeterPerKilogramID = 119880;
+  QuarticMeterPerKilogramID = -4320;
   QuarticMeterPerKilogramUnit : TUnit = (
     FID         : QuarticMeterPerKilogramID;
     FSymbol     : rsQuarticMeterPerKilogramSymbol;
@@ -10655,12 +10655,12 @@ const
 { TQuarticMeterSecondPerKilogram }
 
 resourcestring
-  rsQuarticMeterSecondPerKilogramSymbol = '%sm4.%ss/%skg';
+  rsQuarticMeterSecondPerKilogramSymbol = '%sm4∙%ss/%skg';
   rsQuarticMeterSecondPerKilogramName = 'quartic %smeter %ssecond per %skilogram';
   rsQuarticMeterSecondPerKilogramPluralName = 'quartic %smeters %sseconds per %skilogram';
 
 const
-  QuarticMeterSecondPerKilogramID = 143220;
+  QuarticMeterSecondPerKilogramID = 24900;
   QuarticMeterSecondPerKilogramUnit : TUnit = (
     FID         : QuarticMeterSecondPerKilogramID;
     FSymbol     : rsQuarticMeterSecondPerKilogramSymbol;
@@ -10677,7 +10677,7 @@ resourcestring
   rsSquareSecondPerCubicMeterPluralName = 'square %sseconds per cubic %smeter';
 
 const
-  SquareSecondPerCubicMeterID = -62580;
+  SquareSecondPerCubicMeterID = 54300;
   SquareSecondPerCubicMeterUnit : TUnit = (
     FID         : SquareSecondPerCubicMeterID;
     FSymbol     : rsSquareSecondPerCubicMeterSymbol;
@@ -10694,7 +10694,7 @@ resourcestring
   rsSquareSecondPerKilogramPerCubicMeterPluralName = 'square %sseconds per %skilogram per cubic %smeter';
 
 const
-  SquareSecondPerKilogramPerCubicMeterID = -88380;
+  SquareSecondPerKilogramPerCubicMeterID = 44460;
   SquareSecondPerKilogramPerCubicMeterUnit : TUnit = (
     FID         : SquareSecondPerKilogramPerCubicMeterID;
     FSymbol     : rsSquareSecondPerKilogramPerCubicMeterSymbol;
@@ -10711,7 +10711,7 @@ resourcestring
   rsSquareSecondPerKilogramPerQuarticMeterPluralName = 'square %sseconds per %skilogram per quartic %smeter';
 
 const
-  SquareSecondPerKilogramPerQuarticMeterID = -124800;
+  SquareSecondPerKilogramPerQuarticMeterID = 43080;
   SquareSecondPerKilogramPerQuarticMeterUnit : TUnit = (
     FID         : SquareSecondPerKilogramPerQuarticMeterID;
     FSymbol     : rsSquareSecondPerKilogramPerQuarticMeterSymbol;
@@ -10723,12 +10723,12 @@ const
 { TKilogramSquareSecondPerMeter }
 
 resourcestring
-  rsKilogramSquareSecondPerMeterSymbol = '%skg.%ss2/%sm';
+  rsKilogramSquareSecondPerMeterSymbol = '%skg∙%ss2/%sm';
   rsKilogramSquareSecondPerMeterName = '%skilogram square %ssecond per %smeter';
   rsKilogramSquareSecondPerMeterPluralName = '%skilograms square %sseconds per %smeter';
 
 const
-  KilogramSquareSecondPerMeterID = 36060;
+  KilogramSquareSecondPerMeterID = 66900;
   KilogramSquareSecondPerMeterUnit : TUnit = (
     FID         : KilogramSquareSecondPerMeterID;
     FSymbol     : rsKilogramSquareSecondPerMeterSymbol;
@@ -10745,7 +10745,7 @@ resourcestring
   rsMeterPerSquareKilogramPluralName = '%smeters per square %skilogram';
 
 const
-  MeterPerSquareKilogramID = -15180;
+  MeterPerSquareKilogramID = -18300;
   MeterPerSquareKilogramUnit : TUnit = (
     FID         : MeterPerSquareKilogramID;
     FSymbol     : rsMeterPerSquareKilogramSymbol;
@@ -10757,12 +10757,12 @@ const
 { TKilogramSquareSecondPerCubicMeter }
 
 resourcestring
-  rsKilogramSquareSecondPerCubicMeterSymbol = '%skg.%ss2/%sm3';
+  rsKilogramSquareSecondPerCubicMeterSymbol = '%skg∙%ss2/%sm3';
   rsKilogramSquareSecondPerCubicMeterName = '%skilogram square %ssecond per cubic %smeter';
   rsKilogramSquareSecondPerCubicMeterPluralName = '%skilograms square %sseconds per cubic %smeter';
 
 const
-  KilogramSquareSecondPerCubicMeterID = -36780;
+  KilogramSquareSecondPerCubicMeterID = 64140;
   KilogramSquareSecondPerCubicMeterUnit : TUnit = (
     FID         : KilogramSquareSecondPerCubicMeterID;
     FSymbol     : rsKilogramSquareSecondPerCubicMeterSymbol;
@@ -10779,7 +10779,7 @@ resourcestring
   rsReciprocalKilogramKelvinPluralName = 'reciprocal %skilogram %skelvin';
 
 const
-  ReciprocalKilogramKelvinID = -62760;
+  ReciprocalKilogramKelvinID = -42600;
   ReciprocalKilogramKelvinUnit : TUnit = (
     FID         : ReciprocalKilogramKelvinID;
     FSymbol     : rsReciprocalKilogramKelvinSymbol;
@@ -10791,12 +10791,12 @@ const
 { TSquareSecondKelvinPerKilogramPerSquareMeter }
 
 resourcestring
-  rsSquareSecondKelvinPerKilogramPerSquareMeterSymbol = '%ss2.%sK/%skg/%sm2';
+  rsSquareSecondKelvinPerKilogramPerSquareMeterSymbol = '%ss2∙%sK/%skg/%sm2';
   rsSquareSecondKelvinPerKilogramPerSquareMeterName = 'square %ssecond %skelvin per %skilogram per square %smeter';
   rsSquareSecondKelvinPerKilogramPerSquareMeterPluralName = 'square %sseconds %skelvins per %skilogram per square %smeter';
 
 const
-  SquareSecondKelvinPerKilogramPerSquareMeterID = -15000;
+  SquareSecondKelvinPerKilogramPerSquareMeterID = 78600;
   SquareSecondKelvinPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : SquareSecondKelvinPerKilogramPerSquareMeterID;
     FSymbol     : rsSquareSecondKelvinPerKilogramPerSquareMeterSymbol;
@@ -10808,12 +10808,12 @@ const
 { TSquareSecondKelvinPerSquareMeter }
 
 resourcestring
-  rsSquareSecondKelvinPerSquareMeterSymbol = '%ss2.%sK/%sm2';
+  rsSquareSecondKelvinPerSquareMeterSymbol = '%ss2∙%sK/%sm2';
   rsSquareSecondKelvinPerSquareMeterName = 'square %ssecond %skelvin per square %smeter';
   rsSquareSecondKelvinPerSquareMeterPluralName = 'square %sseconds %skelvins per square %smeter';
 
 const
-  SquareSecondKelvinPerSquareMeterID = 10800;
+  SquareSecondKelvinPerSquareMeterID = 88440;
   SquareSecondKelvinPerSquareMeterUnit : TUnit = (
     FID         : SquareSecondKelvinPerSquareMeterID;
     FSymbol     : rsSquareSecondKelvinPerSquareMeterSymbol;
@@ -10830,7 +10830,7 @@ resourcestring
   rsReciprocalMeterKelvinPluralName = 'reciprocal %smeter %skelvin';
 
 const
-  ReciprocalMeterKelvinID = -73380;
+  ReciprocalMeterKelvinID = -34140;
   ReciprocalMeterKelvinUnit : TUnit = (
     FID         : ReciprocalMeterKelvinID;
     FSymbol     : rsReciprocalMeterKelvinSymbol;
@@ -10842,12 +10842,12 @@ const
 { TMeterCubicSecondPerKilogram }
 
 resourcestring
-  rsMeterCubicSecondPerKilogramSymbol = '%sm.%ss3/%skg';
+  rsMeterCubicSecondPerKilogramSymbol = '%sm∙%ss3/%skg';
   rsMeterCubicSecondPerKilogramName = '%smeter cubic %ssecond per %skilogram';
   rsMeterCubicSecondPerKilogramPluralName = '%smeters cubic %sseconds per %skilogram';
 
 const
-  MeterCubicSecondPerKilogramID = 80640;
+  MeterCubicSecondPerKilogramID = 79200;
   MeterCubicSecondPerKilogramUnit : TUnit = (
     FID         : MeterCubicSecondPerKilogramID;
     FSymbol     : rsMeterCubicSecondPerKilogramSymbol;
@@ -10864,7 +10864,7 @@ resourcestring
   rsReciprocalSquareMeterKelvinPluralName = 'reciprocal square %smeter %skelvin';
 
 const
-  ReciprocalSquareMeterKelvinID = -109800;
+  ReciprocalSquareMeterKelvinID = -35520;
   ReciprocalSquareMeterKelvinUnit : TUnit = (
     FID         : ReciprocalSquareMeterKelvinID;
     FSymbol     : rsReciprocalSquareMeterKelvinSymbol;
@@ -10881,7 +10881,7 @@ resourcestring
   rsReciprocalSquareMeterQuarticKelvinPluralName = 'reciprocal square %smeter quartic %skelvin';
 
 const
-  ReciprocalSquareMeterQuarticKelvinID = -220680;
+  ReciprocalSquareMeterQuarticKelvinID = -133800;
   ReciprocalSquareMeterQuarticKelvinUnit : TUnit = (
     FID         : ReciprocalSquareMeterQuarticKelvinID;
     FSymbol     : rsReciprocalSquareMeterQuarticKelvinSymbol;
@@ -10893,12 +10893,12 @@ const
 { TCubicSecondQuarticKelvinPerKilogramPerSquareMeter }
 
 resourcestring
-  rsCubicSecondQuarticKelvinPerKilogramPerSquareMeterSymbol = '%ss3.%sK4/%skg/%sm2';
+  rsCubicSecondQuarticKelvinPerKilogramPerSquareMeterSymbol = '%ss3∙%sK4/%skg/%sm2';
   rsCubicSecondQuarticKelvinPerKilogramPerSquareMeterName = 'cubic %ssecond quartic %skelvin per %skilogram per square %smeter';
   rsCubicSecondQuarticKelvinPerKilogramPerSquareMeterPluralName = 'cubic %sseconds quartic %skelvins per %skilogram per square %smeter';
 
 const
-  CubicSecondQuarticKelvinPerKilogramPerSquareMeterID = 119220;
+  CubicSecondQuarticKelvinPerKilogramPerSquareMeterID = 206100;
   CubicSecondQuarticKelvinPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondQuarticKelvinPerKilogramPerSquareMeterID;
     FSymbol     : rsCubicSecondQuarticKelvinPerKilogramPerSquareMeterSymbol;
@@ -10910,12 +10910,12 @@ const
 { TCubicSecondQuarticKelvinPerKilogram }
 
 resourcestring
-  rsCubicSecondQuarticKelvinPerKilogramSymbol = '%ss3.%sK4/%skg';
+  rsCubicSecondQuarticKelvinPerKilogramSymbol = '%ss3∙%sK4/%skg';
   rsCubicSecondQuarticKelvinPerKilogramName = 'cubic %ssecond quartic %skelvin per %skilogram';
   rsCubicSecondQuarticKelvinPerKilogramPluralName = 'cubic %sseconds quartic %skelvins per %skilogram';
 
 const
-  CubicSecondQuarticKelvinPerKilogramID = 192060;
+  CubicSecondQuarticKelvinPerKilogramID = 208860;
   CubicSecondQuarticKelvinPerKilogramUnit : TUnit = (
     FID         : CubicSecondQuarticKelvinPerKilogramID;
     FSymbol     : rsCubicSecondQuarticKelvinPerKilogramSymbol;
@@ -10927,12 +10927,12 @@ const
 { TSquareSecondMolePerKilogramPerSquareMeter }
 
 resourcestring
-  rsSquareSecondMolePerKilogramPerSquareMeterSymbol = '%ss2.%smol/%skg/%sm2';
+  rsSquareSecondMolePerKilogramPerSquareMeterSymbol = '%ss2∙%smol/%skg/%sm2';
   rsSquareSecondMolePerKilogramPerSquareMeterName = 'square %ssecond %smole per %skilogram per square %smeter';
   rsSquareSecondMolePerKilogramPerSquareMeterPluralName = 'square %sseconds %smoles per %skilogram per square %smeter';
 
 const
-  SquareSecondMolePerKilogramPerSquareMeterID = -16860;
+  SquareSecondMolePerKilogramPerSquareMeterID = 82500;
   SquareSecondMolePerKilogramPerSquareMeterUnit : TUnit = (
     FID         : SquareSecondMolePerKilogramPerSquareMeterID;
     FSymbol     : rsSquareSecondMolePerKilogramPerSquareMeterSymbol;
@@ -10944,12 +10944,12 @@ const
 { TSquareSecondKelvinMolePerKilogramPerSquareMeter }
 
 resourcestring
-  rsSquareSecondKelvinMolePerKilogramPerSquareMeterSymbol = '%ss2.%sK.%smol/%skg/%sm2';
+  rsSquareSecondKelvinMolePerKilogramPerSquareMeterSymbol = '%ss2∙%sK∙%smol/%skg/%sm2';
   rsSquareSecondKelvinMolePerKilogramPerSquareMeterName = 'square %ssecond %skelvin %smole per %skilogram per square %smeter';
   rsSquareSecondKelvinMolePerKilogramPerSquareMeterPluralName = 'square %sseconds %skelvins %smoles per %skilogram per square %smeter';
 
 const
-  SquareSecondKelvinMolePerKilogramPerSquareMeterID = 20100;
+  SquareSecondKelvinMolePerKilogramPerSquareMeterID = 115260;
   SquareSecondKelvinMolePerKilogramPerSquareMeterUnit : TUnit = (
     FID         : SquareSecondKelvinMolePerKilogramPerSquareMeterID;
     FSymbol     : rsSquareSecondKelvinMolePerKilogramPerSquareMeterSymbol;
@@ -10966,7 +10966,7 @@ resourcestring
   rsMeterPerSecondPerAmperePluralName = '%smeters per %ssecond per %sampere';
 
 const
-  MeterPerSecondPerAmpereID = -13020;
+  MeterPerSecondPerAmpereID = -32460;
   MeterPerSecondPerAmpereUnit : TUnit = (
     FID         : MeterPerSecondPerAmpereID;
     FSymbol     : rsMeterPerSecondPerAmpereSymbol;
@@ -10983,7 +10983,7 @@ resourcestring
   rsSquareMeterPerSecondPerAmperePluralName = 'square %smeters per %ssecond per %sampere';
 
 const
-  SquareMeterPerSecondPerAmpereID = 23400;
+  SquareMeterPerSecondPerAmpereID = -31080;
   SquareMeterPerSecondPerAmpereUnit : TUnit = (
     FID         : SquareMeterPerSecondPerAmpereID;
     FSymbol     : rsSquareMeterPerSecondPerAmpereSymbol;
@@ -10995,12 +10995,12 @@ const
 { TQuarticSecondSquareAmperePerKilogramPerMeter }
 
 resourcestring
-  rsQuarticSecondSquareAmperePerKilogramPerMeterSymbol = '%ss4.%sA2/%skg/%sm';
+  rsQuarticSecondSquareAmperePerKilogramPerMeterSymbol = '%ss4∙%sA2/%skg/%sm';
   rsQuarticSecondSquareAmperePerKilogramPerMeterName = 'quartic %ssecond square %sampere per %skilogram per %smeter';
   rsQuarticSecondSquareAmperePerKilogramPerMeterPluralName = 'quartic %sseconds square %samperes per %skilogram per %smeter';
 
 const
-  QuarticSecondSquareAmperePerKilogramPerMeterID = 83340;
+  QuarticSecondSquareAmperePerKilogramPerMeterID = 114900;
   QuarticSecondSquareAmperePerKilogramPerMeterUnit : TUnit = (
     FID         : QuarticSecondSquareAmperePerKilogramPerMeterID;
     FSymbol     : rsQuarticSecondSquareAmperePerKilogramPerMeterSymbol;
@@ -11012,12 +11012,12 @@ const
 { TCubicSecondAmperePerKilogramPerCubicMeter }
 
 resourcestring
-  rsCubicSecondAmperePerKilogramPerCubicMeterSymbol = '%ss3.%sA/%skg/%sm3';
+  rsCubicSecondAmperePerKilogramPerCubicMeterSymbol = '%ss3∙%sA/%skg/%sm3';
   rsCubicSecondAmperePerKilogramPerCubicMeterName = 'cubic %ssecond %sampere per %skilogram per cubic %smeter';
   rsCubicSecondAmperePerKilogramPerCubicMeterPluralName = 'cubic %sseconds %samperes per %skilogram per cubic %smeter';
 
 const
-  CubicSecondAmperePerKilogramPerCubicMeterID = -38940;
+  CubicSecondAmperePerKilogramPerCubicMeterID = 78300;
   CubicSecondAmperePerKilogramPerCubicMeterUnit : TUnit = (
     FID         : CubicSecondAmperePerKilogramPerCubicMeterID;
     FSymbol     : rsCubicSecondAmperePerKilogramPerCubicMeterSymbol;
@@ -11029,12 +11029,12 @@ const
 { TQuarticSecondAmperePerKilogramPerCubicMeter }
 
 resourcestring
-  rsQuarticSecondAmperePerKilogramPerCubicMeterSymbol = '%ss4.%sA/%skg/%sm3';
+  rsQuarticSecondAmperePerKilogramPerCubicMeterSymbol = '%ss4∙%sA/%skg/%sm3';
   rsQuarticSecondAmperePerKilogramPerCubicMeterName = 'quartic %ssecond %sampere per %skilogram per cubic %smeter';
   rsQuarticSecondAmperePerKilogramPerCubicMeterPluralName = 'quartic %sseconds %samperes per %skilogram per cubic %smeter';
 
 const
-  QuarticSecondAmperePerKilogramPerCubicMeterID = -15600;
+  QuarticSecondAmperePerKilogramPerCubicMeterID = 107520;
   QuarticSecondAmperePerKilogramPerCubicMeterUnit : TUnit = (
     FID         : QuarticSecondAmperePerKilogramPerCubicMeterID;
     FSymbol     : rsQuarticSecondAmperePerKilogramPerCubicMeterSymbol;
@@ -11046,12 +11046,12 @@ const
 { TSquareSecondAmperePerKilogramPerMeter }
 
 resourcestring
-  rsSquareSecondAmperePerKilogramPerMeterSymbol = '%ss2.%sA/%skg/%sm';
+  rsSquareSecondAmperePerKilogramPerMeterSymbol = '%ss2∙%sA/%skg/%sm';
   rsSquareSecondAmperePerKilogramPerMeterName = 'square %ssecond %sampere per %skilogram per %smeter';
   rsSquareSecondAmperePerKilogramPerMeterPluralName = 'square %sseconds %samperes per %skilogram per %smeter';
 
 const
-  SquareSecondAmperePerKilogramPerMeterID = 10560;
+  SquareSecondAmperePerKilogramPerMeterID = 51840;
   SquareSecondAmperePerKilogramPerMeterUnit : TUnit = (
     FID         : SquareSecondAmperePerKilogramPerMeterID;
     FSymbol     : rsSquareSecondAmperePerKilogramPerMeterSymbol;
@@ -11063,12 +11063,12 @@ const
 { TSquareSecondSquareAmperePerKilogramPerMeter }
 
 resourcestring
-  rsSquareSecondSquareAmperePerKilogramPerMeterSymbol = '%ss2.%sA2/%skg/%sm';
+  rsSquareSecondSquareAmperePerKilogramPerMeterSymbol = '%ss2∙%sA2/%skg/%sm';
   rsSquareSecondSquareAmperePerKilogramPerMeterName = 'square %ssecond square %sampere per %skilogram per %smeter';
   rsSquareSecondSquareAmperePerKilogramPerMeterPluralName = 'square %sseconds square %samperes per %skilogram per %smeter';
 
 const
-  SquareSecondSquareAmperePerKilogramPerMeterID = 36660;
+  SquareSecondSquareAmperePerKilogramPerMeterID = 56460;
   SquareSecondSquareAmperePerKilogramPerMeterUnit : TUnit = (
     FID         : SquareSecondSquareAmperePerKilogramPerMeterID;
     FSymbol     : rsSquareSecondSquareAmperePerKilogramPerMeterSymbol;
@@ -11085,7 +11085,7 @@ resourcestring
   rsSquareSecondPerSquareKilogramPluralName = 'square %sseconds per square %skilogram';
 
 const
-  SquareSecondPerSquareKilogramID = -4920;
+  SquareSecondPerSquareKilogramID = 38760;
   SquareSecondPerSquareKilogramUnit : TUnit = (
     FID         : SquareSecondPerSquareKilogramID;
     FSymbol     : rsSquareSecondPerSquareKilogramSymbol;
@@ -11102,7 +11102,7 @@ resourcestring
   rsQuarticSecondPerSquareKilogramPerQuarticMeterPluralName = 'quartic %sseconds per square %skilogram per quartic %smeter';
 
 const
-  QuarticSecondPerSquareKilogramPerQuarticMeterID = -103920;
+  QuarticSecondPerSquareKilogramPerQuarticMeterID = 91680;
   QuarticSecondPerSquareKilogramPerQuarticMeterUnit : TUnit = (
     FID         : QuarticSecondPerSquareKilogramPerQuarticMeterID;
     FSymbol     : rsQuarticSecondPerSquareKilogramPerQuarticMeterSymbol;
@@ -11119,7 +11119,7 @@ resourcestring
   rsSquareSecondPerSquareKilogramPerQuarticMeterPluralName = 'square %sseconds per square %skilogram per quartic %smeter';
 
 const
-  SquareSecondPerSquareKilogramPerQuarticMeterID = -150600;
+  SquareSecondPerSquareKilogramPerQuarticMeterID = 33240;
   SquareSecondPerSquareKilogramPerQuarticMeterUnit : TUnit = (
     FID         : SquareSecondPerSquareKilogramPerQuarticMeterID;
     FSymbol     : rsSquareSecondPerSquareKilogramPerQuarticMeterSymbol;
@@ -11136,7 +11136,7 @@ resourcestring
   rsKilogramPerSecondPerAmperePluralName = '%skilograms per %ssecond per %sampere';
 
 const
-  KilogramPerSecondPerAmpereID = -23640;
+  KilogramPerSecondPerAmpereID = -24000;
   KilogramPerSecondPerAmpereUnit : TUnit = (
     FID         : KilogramPerSecondPerAmpereID;
     FSymbol     : rsKilogramPerSecondPerAmpereSymbol;
@@ -11153,7 +11153,7 @@ resourcestring
   rsReciprocalSquareMeterAmperePluralName = 'reciprocal square %smeter %sampere';
 
 const
-  ReciprocalSquareMeterAmpereID = -98940;
+  ReciprocalSquareMeterAmpereID = -7380;
   ReciprocalSquareMeterAmpereUnit : TUnit = (
     FID         : ReciprocalSquareMeterAmpereID;
     FSymbol     : rsReciprocalSquareMeterAmpereSymbol;
@@ -11165,12 +11165,12 @@ const
 { TKilogramSquareMeterPerCubicSecondPerCandelaPerSteradian }
 
 resourcestring
-  rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianSymbol = '%skg.%sm2/%ss3/%scd/sr';
+  rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianSymbol = '%skg∙%sm2/%ss3/%scd/sr';
   rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianName = '%skilogram square %smeter per cubic %ssecond per %scandela per steradian';
   rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianPluralName = '%skilograms square %smeters per cubic %ssecond per %scandela per steradian';
 
 const
-  KilogramSquareMeterPerCubicSecondPerCandelaPerSteradianID = -25140;
+  KilogramSquareMeterPerCubicSecondPerCandelaPerSteradianID = -123060;
   KilogramSquareMeterPerCubicSecondPerCandelaPerSteradianUnit : TUnit = (
     FID         : KilogramSquareMeterPerCubicSecondPerCandelaPerSteradianID;
     FSymbol     : rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianSymbol;
@@ -11187,7 +11187,7 @@ resourcestring
   rsCubicMeterPerMolePluralName = 'cubic %smeters per %smole';
 
 const
-  CubicMeterPerMoleID = 74160;
+  CubicMeterPerMoleID = -32520;
   CubicMeterPerMoleUnit : TUnit = (
     FID         : CubicMeterPerMoleID;
     FSymbol     : rsCubicMeterPerMoleSymbol;
@@ -11204,7 +11204,7 @@ resourcestring
   rsSquareMeterPerCandelaPluralName = 'square %smeters per %scandela';
 
 const
-  SquareMeterPerCandelaID = 48720;
+  SquareMeterPerCandelaID = -13020;
   SquareMeterPerCandelaUnit : TUnit = (
     FID         : SquareMeterPerCandelaID;
     FSymbol     : rsSquareMeterPerCandelaSymbol;
@@ -11221,7 +11221,7 @@ resourcestring
   rsCubicMeterPerSecondPerAmperePluralName = 'cubic %smeters per %ssecond per %sampere';
 
 const
-  CubicMeterPerSecondPerAmpereID = 59820;
+  CubicMeterPerSecondPerAmpereID = -29700;
   CubicMeterPerSecondPerAmpereUnit : TUnit = (
     FID         : CubicMeterPerSecondPerAmpereID;
     FSymbol     : rsCubicMeterPerSecondPerAmpereSymbol;
@@ -11238,7 +11238,7 @@ resourcestring
   rsSecondPerSteradianPluralName = '%sseconds per steradian';
 
 const
-  SecondPerSteradianID = -6300;
+  SecondPerSteradianID = -3000;
   SecondPerSteradianUnit : TUnit = (
     FID         : SecondPerSteradianID;
     FSymbol     : rsSecondPerSteradianSymbol;
@@ -11255,7 +11255,7 @@ resourcestring
   rsReciprocalSquareMeterSteradianPluralName = 'reciprocal square %smeter steradian';
 
 const
-  ReciprocalSquareMeterSteradianID = -102480;
+  ReciprocalSquareMeterSteradianID = -34980;
   ReciprocalSquareMeterSteradianUnit : TUnit = (
     FID         : ReciprocalSquareMeterSteradianID;
     FSymbol     : rsReciprocalSquareMeterSteradianSymbol;
@@ -11272,7 +11272,7 @@ resourcestring
   rsReciprocalCubicMeterSteradianPluralName = 'reciprocal cubic %smeter steradian';
 
 const
-  ReciprocalCubicMeterSteradianID = -138900;
+  ReciprocalCubicMeterSteradianID = -36360;
   ReciprocalCubicMeterSteradianUnit : TUnit = (
     FID         : ReciprocalCubicMeterSteradianID;
     FSymbol     : rsReciprocalCubicMeterSteradianSymbol;
@@ -11289,7 +11289,7 @@ resourcestring
   rsSecondPerSquareMeterPerSteradianPluralName = '%sseconds per square %smeter per steradian';
 
 const
-  SecondPerSquareMeterPerSteradianID = -79140;
+  SecondPerSquareMeterPerSteradianID = -5760;
   SecondPerSquareMeterPerSteradianUnit : TUnit = (
     FID         : SecondPerSquareMeterPerSteradianID;
     FSymbol     : rsSecondPerSquareMeterPerSteradianSymbol;
@@ -11301,12 +11301,12 @@ const
 { TSquareSecondSteradianPerKilogramPerSquareMeter }
 
 resourcestring
-  rsSquareSecondSteradianPerKilogramPerSquareMeterSymbol = '%ss2.sr/%skg/%sm2';
+  rsSquareSecondSteradianPerKilogramPerSquareMeterSymbol = '%ss2∙sr/%skg/%sm2';
   rsSquareSecondSteradianPerKilogramPerSquareMeterName = 'square %ssecond steradian per %skilogram per square %smeter';
   rsSquareSecondSteradianPerKilogramPerSquareMeterPluralName = 'square %sseconds steradian per %skilogram per square %smeter';
 
 const
-  SquareSecondSteradianPerKilogramPerSquareMeterID = -22320;
+  SquareSecondSteradianPerKilogramPerSquareMeterID = 78060;
   SquareSecondSteradianPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : SquareSecondSteradianPerKilogramPerSquareMeterID;
     FSymbol     : rsSquareSecondSteradianPerKilogramPerSquareMeterSymbol;
@@ -11318,12 +11318,12 @@ const
 { TCubicSecondSteradianPerKilogramPerMeter }
 
 resourcestring
-  rsCubicSecondSteradianPerKilogramPerMeterSymbol = '%ss3.sr/%skg/%sm';
+  rsCubicSecondSteradianPerKilogramPerMeterSymbol = '%ss3∙sr/%skg/%sm';
   rsCubicSecondSteradianPerKilogramPerMeterName = 'cubic %ssecond steradian per %skilogram per %smeter';
   rsCubicSecondSteradianPerKilogramPerMeterPluralName = 'cubic %sseconds steradian per %skilogram per %smeter';
 
 const
-  CubicSecondSteradianPerKilogramPerMeterID = 37440;
+  CubicSecondSteradianPerKilogramPerMeterID = 108660;
   CubicSecondSteradianPerKilogramPerMeterUnit : TUnit = (
     FID         : CubicSecondSteradianPerKilogramPerMeterID;
     FSymbol     : rsCubicSecondSteradianPerKilogramPerMeterSymbol;
@@ -11335,12 +11335,12 @@ const
 { TMeterCubicSecondSteradianPerKilogram }
 
 resourcestring
-  rsMeterCubicSecondSteradianPerKilogramSymbol = '%sm.%ss3.sr/%skg';
+  rsMeterCubicSecondSteradianPerKilogramSymbol = '%sm∙%ss3∙sr/%skg';
   rsMeterCubicSecondSteradianPerKilogramName = '%smeter cubic %ssecond steradian per %skilogram';
   rsMeterCubicSecondSteradianPerKilogramPluralName = '%smeters cubic %sseconds steradian per %skilogram';
 
 const
-  MeterCubicSecondSteradianPerKilogramID = 110280;
+  MeterCubicSecondSteradianPerKilogramID = 111420;
   MeterCubicSecondSteradianPerKilogramUnit : TUnit = (
     FID         : MeterCubicSecondSteradianPerKilogramID;
     FSymbol     : rsMeterCubicSecondSteradianPerKilogramSymbol;
@@ -11352,12 +11352,12 @@ const
 { TSquareSecondSteradianPerKilogram }
 
 resourcestring
-  rsSquareSecondSteradianPerKilogramSymbol = '%ss2.sr/%skg';
+  rsSquareSecondSteradianPerKilogramSymbol = '%ss2∙sr/%skg';
   rsSquareSecondSteradianPerKilogramName = 'square %ssecond steradian per %skilogram';
   rsSquareSecondSteradianPerKilogramPluralName = 'square %sseconds steradian per %skilogram';
 
 const
-  SquareSecondSteradianPerKilogramID = 50520;
+  SquareSecondSteradianPerKilogramID = 80820;
   SquareSecondSteradianPerKilogramUnit : TUnit = (
     FID         : SquareSecondSteradianPerKilogramID;
     FSymbol     : rsSquareSecondSteradianPerKilogramSymbol;
@@ -11369,12 +11369,12 @@ const
 { TCubicMeterSecondPerMole }
 
 resourcestring
-  rsCubicMeterSecondPerMoleSymbol = '%sm3.%ss/%smol';
+  rsCubicMeterSecondPerMoleSymbol = '%sm3∙%ss/%smol';
   rsCubicMeterSecondPerMoleName = 'cubic %smeter %ssecond per %smole';
   rsCubicMeterSecondPerMolePluralName = 'cubic %smeters %sseconds per %smole';
 
 const
-  CubicMeterSecondPerMoleID = 97500;
+  CubicMeterSecondPerMoleID = -3300;
   CubicMeterSecondPerMoleUnit : TUnit = (
     FID         : CubicMeterSecondPerMoleID;
     FSymbol     : rsCubicMeterSecondPerMoleSymbol;
@@ -11391,7 +11391,7 @@ resourcestring
   rsMolePerSecondPerAmperePluralName = '%smoles per %ssecond per %sampere';
 
 const
-  MolePerSecondPerAmpereID = -14340;
+  MolePerSecondPerAmpereID = 2820;
   MolePerSecondPerAmpereUnit : TUnit = (
     FID         : MolePerSecondPerAmpereID;
     FSymbol     : rsMolePerSecondPerAmpereSymbol;
@@ -11408,7 +11408,7 @@ resourcestring
   rsReciprocalQuarticRootKilogramPluralName = 'reciprocal quartic root %skilogram';
 
 const
-  ReciprocalQuarticRootKilogramID = -6450;
+  ReciprocalQuarticRootKilogramID = -2460;
   ReciprocalQuarticRootKilogramUnit : TUnit = (
     FID         : ReciprocalQuarticRootKilogramID;
     FSymbol     : rsReciprocalQuarticRootKilogramSymbol;
@@ -11425,7 +11425,7 @@ resourcestring
   rsReciprocalCubicRootKilogramPluralName = 'reciprocal cubic root %skilogram';
 
 const
-  ReciprocalCubicRootKilogramID = -8600;
+  ReciprocalCubicRootKilogramID = -3280;
   ReciprocalCubicRootKilogramUnit : TUnit = (
     FID         : ReciprocalCubicRootKilogramID;
     FSymbol     : rsReciprocalCubicRootKilogramSymbol;
@@ -11442,7 +11442,7 @@ resourcestring
   rsReciprocalSquareRootKilogramPluralName = 'reciprocal square root %skilogram';
 
 const
-  ReciprocalSquareRootKilogramID = -12900;
+  ReciprocalSquareRootKilogramID = -4920;
   ReciprocalSquareRootKilogramUnit : TUnit = (
     FID         : ReciprocalSquareRootKilogramID;
     FSymbol     : rsReciprocalSquareRootKilogramSymbol;
@@ -11459,7 +11459,7 @@ resourcestring
   rsReciprocalSquareRootCubicKilogramPluralName = 'reciprocal square root cubic %skilogram';
 
 const
-  ReciprocalSquareRootCubicKilogramID = -38700;
+  ReciprocalSquareRootCubicKilogramID = -14760;
   ReciprocalSquareRootCubicKilogramUnit : TUnit = (
     FID         : ReciprocalSquareRootCubicKilogramID;
     FSymbol     : rsReciprocalSquareRootCubicKilogramSymbol;
@@ -11476,7 +11476,7 @@ resourcestring
   rsReciprocalSquareRootQuinticKilogramPluralName = 'reciprocal square root quintic %skilogram';
 
 const
-  ReciprocalSquareRootQuinticKilogramID = -64500;
+  ReciprocalSquareRootQuinticKilogramID = -24600;
   ReciprocalSquareRootQuinticKilogramUnit : TUnit = (
     FID         : ReciprocalSquareRootQuinticKilogramID;
     FSymbol     : rsReciprocalSquareRootQuinticKilogramSymbol;
@@ -11493,7 +11493,7 @@ resourcestring
   rsReciprocalCubicKilogramPluralName = 'reciprocal cubic %skilogram';
 
 const
-  ReciprocalCubicKilogramID = -77400;
+  ReciprocalCubicKilogramID = -29520;
   ReciprocalCubicKilogramUnit : TUnit = (
     FID         : ReciprocalCubicKilogramID;
     FSymbol     : rsReciprocalCubicKilogramSymbol;
@@ -11510,7 +11510,7 @@ resourcestring
   rsReciprocalQuarticKilogramPluralName = 'reciprocal quartic %skilogram';
 
 const
-  ReciprocalQuarticKilogramID = -103200;
+  ReciprocalQuarticKilogramID = -39360;
   ReciprocalQuarticKilogramUnit : TUnit = (
     FID         : ReciprocalQuarticKilogramID;
     FSymbol     : rsReciprocalQuarticKilogramSymbol;
@@ -11527,7 +11527,7 @@ resourcestring
   rsReciprocalQuinticKilogramPluralName = 'reciprocal quintic %skilogram';
 
 const
-  ReciprocalQuinticKilogramID = -129000;
+  ReciprocalQuinticKilogramID = -49200;
   ReciprocalQuinticKilogramUnit : TUnit = (
     FID         : ReciprocalQuinticKilogramID;
     FSymbol     : rsReciprocalQuinticKilogramSymbol;
@@ -11544,7 +11544,7 @@ resourcestring
   rsReciprocalSexticKilogramPluralName = 'reciprocal sextic %skilogram';
 
 const
-  ReciprocalSexticKilogramID = -154800;
+  ReciprocalSexticKilogramID = -59040;
   ReciprocalSexticKilogramUnit : TUnit = (
     FID         : ReciprocalSexticKilogramID;
     FSymbol     : rsReciprocalSexticKilogramSymbol;
@@ -11561,7 +11561,7 @@ resourcestring
   rsReciprocalQuarticRootMeterPluralName = 'reciprocal quartic root %smeter';
 
 const
-  ReciprocalQuarticRootMeterID = -9105;
+  ReciprocalQuarticRootMeterID = -345;
   ReciprocalQuarticRootMeterUnit : TUnit = (
     FID         : ReciprocalQuarticRootMeterID;
     FSymbol     : rsReciprocalQuarticRootMeterSymbol;
@@ -11578,7 +11578,7 @@ resourcestring
   rsReciprocalCubicRootMeterPluralName = 'reciprocal cubic root %smeter';
 
 const
-  ReciprocalCubicRootMeterID = -12140;
+  ReciprocalCubicRootMeterID = -460;
   ReciprocalCubicRootMeterUnit : TUnit = (
     FID         : ReciprocalCubicRootMeterID;
     FSymbol     : rsReciprocalCubicRootMeterSymbol;
@@ -11595,7 +11595,7 @@ resourcestring
   rsReciprocalSquareRootQuinticMeterPluralName = 'reciprocal square root quintic %smeter';
 
 const
-  ReciprocalSquareRootQuinticMeterID = -91050;
+  ReciprocalSquareRootQuinticMeterID = -3450;
   ReciprocalSquareRootQuinticMeterUnit : TUnit = (
     FID         : ReciprocalSquareRootQuinticMeterID;
     FSymbol     : rsReciprocalSquareRootQuinticMeterSymbol;
@@ -11612,7 +11612,7 @@ resourcestring
   rsReciprocalQuarticRootSecondPluralName = 'reciprocal quartic root %ssecond';
 
 const
-  ReciprocalQuarticRootSecondID = -5835;
+  ReciprocalQuarticRootSecondID = -7305;
   ReciprocalQuarticRootSecondUnit : TUnit = (
     FID         : ReciprocalQuarticRootSecondID;
     FSymbol     : rsReciprocalQuarticRootSecondSymbol;
@@ -11629,7 +11629,7 @@ resourcestring
   rsReciprocalCubicRootSecondPluralName = 'reciprocal cubic root %ssecond';
 
 const
-  ReciprocalCubicRootSecondID = -7780;
+  ReciprocalCubicRootSecondID = -9740;
   ReciprocalCubicRootSecondUnit : TUnit = (
     FID         : ReciprocalCubicRootSecondID;
     FSymbol     : rsReciprocalCubicRootSecondSymbol;
@@ -11646,7 +11646,7 @@ resourcestring
   rsReciprocalSquareRootSecondPluralName = 'reciprocal square root %ssecond';
 
 const
-  ReciprocalSquareRootSecondID = -11670;
+  ReciprocalSquareRootSecondID = -14610;
   ReciprocalSquareRootSecondUnit : TUnit = (
     FID         : ReciprocalSquareRootSecondID;
     FSymbol     : rsReciprocalSquareRootSecondSymbol;
@@ -11663,7 +11663,7 @@ resourcestring
   rsReciprocalSquareRootCubicSecondPluralName = 'reciprocal square root cubic %ssecond';
 
 const
-  ReciprocalSquareRootCubicSecondID = -35010;
+  ReciprocalSquareRootCubicSecondID = -43830;
   ReciprocalSquareRootCubicSecondUnit : TUnit = (
     FID         : ReciprocalSquareRootCubicSecondID;
     FSymbol     : rsReciprocalSquareRootCubicSecondSymbol;
@@ -11680,7 +11680,7 @@ resourcestring
   rsReciprocalSquareRootQuinticSecondPluralName = 'reciprocal square root quintic %ssecond';
 
 const
-  ReciprocalSquareRootQuinticSecondID = -58350;
+  ReciprocalSquareRootQuinticSecondID = -73050;
   ReciprocalSquareRootQuinticSecondUnit : TUnit = (
     FID         : ReciprocalSquareRootQuinticSecondID;
     FSymbol     : rsReciprocalSquareRootQuinticSecondSymbol;
@@ -11697,7 +11697,7 @@ resourcestring
   rsReciprocalQuarticRootAmperePluralName = 'reciprocal quartic root %sampere';
 
 const
-  ReciprocalQuarticRootAmpereID = -6525;
+  ReciprocalQuarticRootAmpereID = -1155;
   ReciprocalQuarticRootAmpereUnit : TUnit = (
     FID         : ReciprocalQuarticRootAmpereID;
     FSymbol     : rsReciprocalQuarticRootAmpereSymbol;
@@ -11714,7 +11714,7 @@ resourcestring
   rsReciprocalCubicRootAmperePluralName = 'reciprocal cubic root %sampere';
 
 const
-  ReciprocalCubicRootAmpereID = -8700;
+  ReciprocalCubicRootAmpereID = -1540;
   ReciprocalCubicRootAmpereUnit : TUnit = (
     FID         : ReciprocalCubicRootAmpereID;
     FSymbol     : rsReciprocalCubicRootAmpereSymbol;
@@ -11731,7 +11731,7 @@ resourcestring
   rsReciprocalSquareRootAmperePluralName = 'reciprocal square root %sampere';
 
 const
-  ReciprocalSquareRootAmpereID = -13050;
+  ReciprocalSquareRootAmpereID = -2310;
   ReciprocalSquareRootAmpereUnit : TUnit = (
     FID         : ReciprocalSquareRootAmpereID;
     FSymbol     : rsReciprocalSquareRootAmpereSymbol;
@@ -11748,7 +11748,7 @@ resourcestring
   rsReciprocalSquareRootCubicAmperePluralName = 'reciprocal square root cubic %sampere';
 
 const
-  ReciprocalSquareRootCubicAmpereID = -39150;
+  ReciprocalSquareRootCubicAmpereID = -6930;
   ReciprocalSquareRootCubicAmpereUnit : TUnit = (
     FID         : ReciprocalSquareRootCubicAmpereID;
     FSymbol     : rsReciprocalSquareRootCubicAmpereSymbol;
@@ -11765,7 +11765,7 @@ resourcestring
   rsReciprocalSquareRootQuinticAmperePluralName = 'reciprocal square root quintic %sampere';
 
 const
-  ReciprocalSquareRootQuinticAmpereID = -65250;
+  ReciprocalSquareRootQuinticAmpereID = -11550;
   ReciprocalSquareRootQuinticAmpereUnit : TUnit = (
     FID         : ReciprocalSquareRootQuinticAmpereID;
     FSymbol     : rsReciprocalSquareRootQuinticAmpereSymbol;
@@ -11782,7 +11782,7 @@ resourcestring
   rsReciprocalCubicAmperePluralName = 'reciprocal cubic %sampere';
 
 const
-  ReciprocalCubicAmpereID = -78300;
+  ReciprocalCubicAmpereID = -13860;
   ReciprocalCubicAmpereUnit : TUnit = (
     FID         : ReciprocalCubicAmpereID;
     FSymbol     : rsReciprocalCubicAmpereSymbol;
@@ -11799,7 +11799,7 @@ resourcestring
   rsReciprocalQuarticAmperePluralName = 'reciprocal quartic %sampere';
 
 const
-  ReciprocalQuarticAmpereID = -104400;
+  ReciprocalQuarticAmpereID = -18480;
   ReciprocalQuarticAmpereUnit : TUnit = (
     FID         : ReciprocalQuarticAmpereID;
     FSymbol     : rsReciprocalQuarticAmpereSymbol;
@@ -11816,7 +11816,7 @@ resourcestring
   rsReciprocalQuinticAmperePluralName = 'reciprocal quintic %sampere';
 
 const
-  ReciprocalQuinticAmpereID = -130500;
+  ReciprocalQuinticAmpereID = -23100;
   ReciprocalQuinticAmpereUnit : TUnit = (
     FID         : ReciprocalQuinticAmpereID;
     FSymbol     : rsReciprocalQuinticAmpereSymbol;
@@ -11833,7 +11833,7 @@ resourcestring
   rsReciprocalSexticAmperePluralName = 'reciprocal sextic %sampere';
 
 const
-  ReciprocalSexticAmpereID = -156600;
+  ReciprocalSexticAmpereID = -27720;
   ReciprocalSexticAmpereUnit : TUnit = (
     FID         : ReciprocalSexticAmpereID;
     FSymbol     : rsReciprocalSexticAmpereSymbol;
@@ -11850,7 +11850,7 @@ resourcestring
   rsReciprocalQuarticRootKelvinPluralName = 'reciprocal quartic root %skelvin';
 
 const
-  ReciprocalQuarticRootKelvinID = -9240;
+  ReciprocalQuarticRootKelvinID = -8190;
   ReciprocalQuarticRootKelvinUnit : TUnit = (
     FID         : ReciprocalQuarticRootKelvinID;
     FSymbol     : rsReciprocalQuarticRootKelvinSymbol;
@@ -11867,7 +11867,7 @@ resourcestring
   rsReciprocalCubicRootKelvinPluralName = 'reciprocal cubic root %skelvin';
 
 const
-  ReciprocalCubicRootKelvinID = -12320;
+  ReciprocalCubicRootKelvinID = -10920;
   ReciprocalCubicRootKelvinUnit : TUnit = (
     FID         : ReciprocalCubicRootKelvinID;
     FSymbol     : rsReciprocalCubicRootKelvinSymbol;
@@ -11884,7 +11884,7 @@ resourcestring
   rsReciprocalSquareRootKelvinPluralName = 'reciprocal square root %skelvin';
 
 const
-  ReciprocalSquareRootKelvinID = -18480;
+  ReciprocalSquareRootKelvinID = -16380;
   ReciprocalSquareRootKelvinUnit : TUnit = (
     FID         : ReciprocalSquareRootKelvinID;
     FSymbol     : rsReciprocalSquareRootKelvinSymbol;
@@ -11901,7 +11901,7 @@ resourcestring
   rsReciprocalSquareRootCubicKelvinPluralName = 'reciprocal square root cubic %skelvin';
 
 const
-  ReciprocalSquareRootCubicKelvinID = -55440;
+  ReciprocalSquareRootCubicKelvinID = -49140;
   ReciprocalSquareRootCubicKelvinUnit : TUnit = (
     FID         : ReciprocalSquareRootCubicKelvinID;
     FSymbol     : rsReciprocalSquareRootCubicKelvinSymbol;
@@ -11918,7 +11918,7 @@ resourcestring
   rsReciprocalSquareRootQuinticKelvinPluralName = 'reciprocal square root quintic %skelvin';
 
 const
-  ReciprocalSquareRootQuinticKelvinID = -92400;
+  ReciprocalSquareRootQuinticKelvinID = -81900;
   ReciprocalSquareRootQuinticKelvinUnit : TUnit = (
     FID         : ReciprocalSquareRootQuinticKelvinID;
     FSymbol     : rsReciprocalSquareRootQuinticKelvinSymbol;
@@ -11935,7 +11935,7 @@ resourcestring
   rsReciprocalQuinticKelvinPluralName = 'reciprocal quintic %skelvin';
 
 const
-  ReciprocalQuinticKelvinID = -184800;
+  ReciprocalQuinticKelvinID = -163800;
   ReciprocalQuinticKelvinUnit : TUnit = (
     FID         : ReciprocalQuinticKelvinID;
     FSymbol     : rsReciprocalQuinticKelvinSymbol;
@@ -11952,7 +11952,7 @@ resourcestring
   rsReciprocalSexticKelvinPluralName = 'reciprocal sextic %skelvin';
 
 const
-  ReciprocalSexticKelvinID = -221760;
+  ReciprocalSexticKelvinID = -196560;
   ReciprocalSexticKelvinUnit : TUnit = (
     FID         : ReciprocalSexticKelvinID;
     FSymbol     : rsReciprocalSexticKelvinSymbol;
@@ -11969,7 +11969,7 @@ resourcestring
   rsReciprocalQuarticRootMolePluralName = 'reciprocal quartic root %smole';
 
 const
-  ReciprocalQuarticRootMoleID = -8775;
+  ReciprocalQuarticRootMoleID = -9165;
   ReciprocalQuarticRootMoleUnit : TUnit = (
     FID         : ReciprocalQuarticRootMoleID;
     FSymbol     : rsReciprocalQuarticRootMoleSymbol;
@@ -11986,7 +11986,7 @@ resourcestring
   rsReciprocalCubicRootMolePluralName = 'reciprocal cubic root %smole';
 
 const
-  ReciprocalCubicRootMoleID = -11700;
+  ReciprocalCubicRootMoleID = -12220;
   ReciprocalCubicRootMoleUnit : TUnit = (
     FID         : ReciprocalCubicRootMoleID;
     FSymbol     : rsReciprocalCubicRootMoleSymbol;
@@ -12003,7 +12003,7 @@ resourcestring
   rsReciprocalSquareRootMolePluralName = 'reciprocal square root %smole';
 
 const
-  ReciprocalSquareRootMoleID = -17550;
+  ReciprocalSquareRootMoleID = -18330;
   ReciprocalSquareRootMoleUnit : TUnit = (
     FID         : ReciprocalSquareRootMoleID;
     FSymbol     : rsReciprocalSquareRootMoleSymbol;
@@ -12020,7 +12020,7 @@ resourcestring
   rsReciprocalSquareRootCubicMolePluralName = 'reciprocal square root cubic %smole';
 
 const
-  ReciprocalSquareRootCubicMoleID = -52650;
+  ReciprocalSquareRootCubicMoleID = -54990;
   ReciprocalSquareRootCubicMoleUnit : TUnit = (
     FID         : ReciprocalSquareRootCubicMoleID;
     FSymbol     : rsReciprocalSquareRootCubicMoleSymbol;
@@ -12037,7 +12037,7 @@ resourcestring
   rsReciprocalSquareMolePluralName = 'reciprocal square %smole';
 
 const
-  ReciprocalSquareMoleID = -70200;
+  ReciprocalSquareMoleID = -73320;
   ReciprocalSquareMoleUnit : TUnit = (
     FID         : ReciprocalSquareMoleID;
     FSymbol     : rsReciprocalSquareMoleSymbol;
@@ -12054,7 +12054,7 @@ resourcestring
   rsReciprocalSquareRootQuinticMolePluralName = 'reciprocal square root quintic %smole';
 
 const
-  ReciprocalSquareRootQuinticMoleID = -87750;
+  ReciprocalSquareRootQuinticMoleID = -91650;
   ReciprocalSquareRootQuinticMoleUnit : TUnit = (
     FID         : ReciprocalSquareRootQuinticMoleID;
     FSymbol     : rsReciprocalSquareRootQuinticMoleSymbol;
@@ -12071,7 +12071,7 @@ resourcestring
   rsReciprocalCubicMolePluralName = 'reciprocal cubic %smole';
 
 const
-  ReciprocalCubicMoleID = -105300;
+  ReciprocalCubicMoleID = -109980;
   ReciprocalCubicMoleUnit : TUnit = (
     FID         : ReciprocalCubicMoleID;
     FSymbol     : rsReciprocalCubicMoleSymbol;
@@ -12088,7 +12088,7 @@ resourcestring
   rsReciprocalQuarticMolePluralName = 'reciprocal quartic %smole';
 
 const
-  ReciprocalQuarticMoleID = -140400;
+  ReciprocalQuarticMoleID = -146640;
   ReciprocalQuarticMoleUnit : TUnit = (
     FID         : ReciprocalQuarticMoleID;
     FSymbol     : rsReciprocalQuarticMoleSymbol;
@@ -12105,7 +12105,7 @@ resourcestring
   rsReciprocalQuinticMolePluralName = 'reciprocal quintic %smole';
 
 const
-  ReciprocalQuinticMoleID = -175500;
+  ReciprocalQuinticMoleID = -183300;
   ReciprocalQuinticMoleUnit : TUnit = (
     FID         : ReciprocalQuinticMoleID;
     FSymbol     : rsReciprocalQuinticMoleSymbol;
@@ -12122,7 +12122,7 @@ resourcestring
   rsReciprocalSexticMolePluralName = 'reciprocal sextic %smole';
 
 const
-  ReciprocalSexticMoleID = -210600;
+  ReciprocalSexticMoleID = -219960;
   ReciprocalSexticMoleUnit : TUnit = (
     FID         : ReciprocalSexticMoleID;
     FSymbol     : rsReciprocalSexticMoleSymbol;
@@ -12139,7 +12139,7 @@ resourcestring
   rsReciprocalQuarticRootCandelaPluralName = 'reciprocal quartic root %scandela';
 
 const
-  ReciprocalQuarticRootCandelaID = -6030;
+  ReciprocalQuarticRootCandelaID = -3945;
   ReciprocalQuarticRootCandelaUnit : TUnit = (
     FID         : ReciprocalQuarticRootCandelaID;
     FSymbol     : rsReciprocalQuarticRootCandelaSymbol;
@@ -12156,7 +12156,7 @@ resourcestring
   rsReciprocalCubicRootCandelaPluralName = 'reciprocal cubic root %scandela';
 
 const
-  ReciprocalCubicRootCandelaID = -8040;
+  ReciprocalCubicRootCandelaID = -5260;
   ReciprocalCubicRootCandelaUnit : TUnit = (
     FID         : ReciprocalCubicRootCandelaID;
     FSymbol     : rsReciprocalCubicRootCandelaSymbol;
@@ -12173,7 +12173,7 @@ resourcestring
   rsReciprocalSquareRootCandelaPluralName = 'reciprocal square root %scandela';
 
 const
-  ReciprocalSquareRootCandelaID = -12060;
+  ReciprocalSquareRootCandelaID = -7890;
   ReciprocalSquareRootCandelaUnit : TUnit = (
     FID         : ReciprocalSquareRootCandelaID;
     FSymbol     : rsReciprocalSquareRootCandelaSymbol;
@@ -12190,7 +12190,7 @@ resourcestring
   rsReciprocalSquareRootCubicCandelaPluralName = 'reciprocal square root cubic %scandela';
 
 const
-  ReciprocalSquareRootCubicCandelaID = -36180;
+  ReciprocalSquareRootCubicCandelaID = -23670;
   ReciprocalSquareRootCubicCandelaUnit : TUnit = (
     FID         : ReciprocalSquareRootCubicCandelaID;
     FSymbol     : rsReciprocalSquareRootCubicCandelaSymbol;
@@ -12207,7 +12207,7 @@ resourcestring
   rsReciprocalSquareCandelaPluralName = 'reciprocal square %scandela';
 
 const
-  ReciprocalSquareCandelaID = -48240;
+  ReciprocalSquareCandelaID = -31560;
   ReciprocalSquareCandelaUnit : TUnit = (
     FID         : ReciprocalSquareCandelaID;
     FSymbol     : rsReciprocalSquareCandelaSymbol;
@@ -12224,7 +12224,7 @@ resourcestring
   rsReciprocalSquareRootQuinticCandelaPluralName = 'reciprocal square root quintic %scandela';
 
 const
-  ReciprocalSquareRootQuinticCandelaID = -60300;
+  ReciprocalSquareRootQuinticCandelaID = -39450;
   ReciprocalSquareRootQuinticCandelaUnit : TUnit = (
     FID         : ReciprocalSquareRootQuinticCandelaID;
     FSymbol     : rsReciprocalSquareRootQuinticCandelaSymbol;
@@ -12241,7 +12241,7 @@ resourcestring
   rsReciprocalCubicCandelaPluralName = 'reciprocal cubic %scandela';
 
 const
-  ReciprocalCubicCandelaID = -72360;
+  ReciprocalCubicCandelaID = -47340;
   ReciprocalCubicCandelaUnit : TUnit = (
     FID         : ReciprocalCubicCandelaID;
     FSymbol     : rsReciprocalCubicCandelaSymbol;
@@ -12258,7 +12258,7 @@ resourcestring
   rsReciprocalQuarticCandelaPluralName = 'reciprocal quartic %scandela';
 
 const
-  ReciprocalQuarticCandelaID = -96480;
+  ReciprocalQuarticCandelaID = -63120;
   ReciprocalQuarticCandelaUnit : TUnit = (
     FID         : ReciprocalQuarticCandelaID;
     FSymbol     : rsReciprocalQuarticCandelaSymbol;
@@ -12275,7 +12275,7 @@ resourcestring
   rsReciprocalQuinticCandelaPluralName = 'reciprocal quintic %scandela';
 
 const
-  ReciprocalQuinticCandelaID = -120600;
+  ReciprocalQuinticCandelaID = -78900;
   ReciprocalQuinticCandelaUnit : TUnit = (
     FID         : ReciprocalQuinticCandelaID;
     FSymbol     : rsReciprocalQuinticCandelaSymbol;
@@ -12292,7 +12292,7 @@ resourcestring
   rsReciprocalSexticCandelaPluralName = 'reciprocal sextic %scandela';
 
 const
-  ReciprocalSexticCandelaID = -144720;
+  ReciprocalSexticCandelaID = -94680;
   ReciprocalSexticCandelaUnit : TUnit = (
     FID         : ReciprocalSexticCandelaID;
     FSymbol     : rsReciprocalSexticCandelaSymbol;
@@ -12309,7 +12309,7 @@ resourcestring
   rsReciprocalQuarticRootSteradianPluralName = 'reciprocal quartic root steradian';
 
 const
-  ReciprocalQuarticRootSteradianID = -7410;
+  ReciprocalQuarticRootSteradianID = -8055;
   ReciprocalQuarticRootSteradianUnit : TUnit = (
     FID         : ReciprocalQuarticRootSteradianID;
     FSymbol     : rsReciprocalQuarticRootSteradianSymbol;
@@ -12326,7 +12326,7 @@ resourcestring
   rsReciprocalCubicRootSteradianPluralName = 'reciprocal cubic root steradian';
 
 const
-  ReciprocalCubicRootSteradianID = -9880;
+  ReciprocalCubicRootSteradianID = -10740;
   ReciprocalCubicRootSteradianUnit : TUnit = (
     FID         : ReciprocalCubicRootSteradianID;
     FSymbol     : rsReciprocalCubicRootSteradianSymbol;
@@ -12343,7 +12343,7 @@ resourcestring
   rsReciprocalSquareRootSteradianPluralName = 'reciprocal square root steradian';
 
 const
-  ReciprocalSquareRootSteradianID = -14820;
+  ReciprocalSquareRootSteradianID = -16110;
   ReciprocalSquareRootSteradianUnit : TUnit = (
     FID         : ReciprocalSquareRootSteradianID;
     FSymbol     : rsReciprocalSquareRootSteradianSymbol;
@@ -12360,7 +12360,7 @@ resourcestring
   rsReciprocalSquareRootCubicSteradianPluralName = 'reciprocal square root cubic steradian';
 
 const
-  ReciprocalSquareRootCubicSteradianID = -44460;
+  ReciprocalSquareRootCubicSteradianID = -48330;
   ReciprocalSquareRootCubicSteradianUnit : TUnit = (
     FID         : ReciprocalSquareRootCubicSteradianID;
     FSymbol     : rsReciprocalSquareRootCubicSteradianSymbol;
@@ -12377,7 +12377,7 @@ resourcestring
   rsReciprocalSquareSteradianPluralName = 'reciprocal square steradian';
 
 const
-  ReciprocalSquareSteradianID = -59280;
+  ReciprocalSquareSteradianID = -64440;
   ReciprocalSquareSteradianUnit : TUnit = (
     FID         : ReciprocalSquareSteradianID;
     FSymbol     : rsReciprocalSquareSteradianSymbol;
@@ -12394,7 +12394,7 @@ resourcestring
   rsReciprocalSquareRootQuinticSteradianPluralName = 'reciprocal square root quintic steradian';
 
 const
-  ReciprocalSquareRootQuinticSteradianID = -74100;
+  ReciprocalSquareRootQuinticSteradianID = -80550;
   ReciprocalSquareRootQuinticSteradianUnit : TUnit = (
     FID         : ReciprocalSquareRootQuinticSteradianID;
     FSymbol     : rsReciprocalSquareRootQuinticSteradianSymbol;
@@ -12411,7 +12411,7 @@ resourcestring
   rsReciprocalCubicSteradianPluralName = 'reciprocal cubic steradian';
 
 const
-  ReciprocalCubicSteradianID = -88920;
+  ReciprocalCubicSteradianID = -96660;
   ReciprocalCubicSteradianUnit : TUnit = (
     FID         : ReciprocalCubicSteradianID;
     FSymbol     : rsReciprocalCubicSteradianSymbol;
@@ -12428,7 +12428,7 @@ resourcestring
   rsReciprocalQuarticSteradianPluralName = 'reciprocal quartic steradian';
 
 const
-  ReciprocalQuarticSteradianID = -118560;
+  ReciprocalQuarticSteradianID = -128880;
   ReciprocalQuarticSteradianUnit : TUnit = (
     FID         : ReciprocalQuarticSteradianID;
     FSymbol     : rsReciprocalQuarticSteradianSymbol;
@@ -12445,7 +12445,7 @@ resourcestring
   rsReciprocalQuinticSteradianPluralName = 'reciprocal quintic steradian';
 
 const
-  ReciprocalQuinticSteradianID = -148200;
+  ReciprocalQuinticSteradianID = -161100;
   ReciprocalQuinticSteradianUnit : TUnit = (
     FID         : ReciprocalQuinticSteradianID;
     FSymbol     : rsReciprocalQuinticSteradianSymbol;
@@ -12462,7 +12462,7 @@ resourcestring
   rsReciprocalSexticSteradianPluralName = 'reciprocal sextic steradian';
 
 const
-  ReciprocalSexticSteradianID = -177840;
+  ReciprocalSexticSteradianID = -193320;
   ReciprocalSexticSteradianUnit : TUnit = (
     FID         : ReciprocalSexticSteradianID;
     FSymbol     : rsReciprocalSexticSteradianSymbol;
@@ -12479,7 +12479,7 @@ resourcestring
   rsReciprocalSquareKilogramSquareMeterPluralName = 'reciprocal square %skilogram square %smeter';
 
 const
-  ReciprocalSquareKilogramSquareMeterID = -124440;
+  ReciprocalSquareKilogramSquareMeterID = -22440;
   ReciprocalSquareKilogramSquareMeterUnit : TUnit = (
     FID         : ReciprocalSquareKilogramSquareMeterID;
     FSymbol     : rsReciprocalSquareKilogramSquareMeterSymbol;
@@ -12496,7 +12496,7 @@ resourcestring
   rsQuarticSecondPerSquareKilogramPluralName = 'quartic %sseconds per square %skilogram';
 
 const
-  QuarticSecondPerSquareKilogramID = 41760;
+  QuarticSecondPerSquareKilogramID = 97200;
   QuarticSecondPerSquareKilogramUnit : TUnit = (
     FID         : QuarticSecondPerSquareKilogramID;
     FSymbol     : rsQuarticSecondPerSquareKilogramSymbol;
@@ -12513,7 +12513,7 @@ resourcestring
   rsReciprocalMeterAmperePluralName = 'reciprocal %smeter %sampere';
 
 const
-  ReciprocalMeterAmpereID = -62520;
+  ReciprocalMeterAmpereID = -6000;
   ReciprocalMeterAmpereUnit : TUnit = (
     FID         : ReciprocalMeterAmpereID;
     FSymbol     : rsReciprocalMeterAmpereSymbol;
@@ -12525,12 +12525,12 @@ const
 { TCubicSecondAmperePerSquareMeter }
 
 resourcestring
-  rsCubicSecondAmperePerSquareMeterSymbol = '%ss3.%sA/%sm2';
+  rsCubicSecondAmperePerSquareMeterSymbol = '%ss3∙%sA/%sm2';
   rsCubicSecondAmperePerSquareMeterName = 'cubic %ssecond %sampere per square %smeter';
   rsCubicSecondAmperePerSquareMeterPluralName = 'cubic %sseconds %samperes per square %smeter';
 
 const
-  CubicSecondAmperePerSquareMeterID = 23280;
+  CubicSecondAmperePerSquareMeterID = 89520;
   CubicSecondAmperePerSquareMeterUnit : TUnit = (
     FID         : CubicSecondAmperePerSquareMeterID;
     FSymbol     : rsCubicSecondAmperePerSquareMeterSymbol;
@@ -12542,12 +12542,12 @@ const
 { TSexticSecondSquareAmperePerQuarticMeter }
 
 resourcestring
-  rsSexticSecondSquareAmperePerQuarticMeterSymbol = '%ss6.%sA2/%sm4';
+  rsSexticSecondSquareAmperePerQuarticMeterSymbol = '%ss6∙%sA2/%sm4';
   rsSexticSecondSquareAmperePerQuarticMeterName = 'sextic %ssecond square %sampere per quartic %smeter';
   rsSexticSecondSquareAmperePerQuarticMeterPluralName = 'sextic %sseconds square %samperes per quartic %smeter';
 
 const
-  SexticSecondSquareAmperePerQuarticMeterID = 46560;
+  SexticSecondSquareAmperePerQuarticMeterID = 179040;
   SexticSecondSquareAmperePerQuarticMeterUnit : TUnit = (
     FID         : SexticSecondSquareAmperePerQuarticMeterID;
     FSymbol     : rsSexticSecondSquareAmperePerQuarticMeterSymbol;
@@ -12559,12 +12559,12 @@ const
 { TSexticSecondSquareAmperePerSquareKilogram }
 
 resourcestring
-  rsSexticSecondSquareAmperePerSquareKilogramSymbol = '%ss6.%sA2/%skg2';
+  rsSexticSecondSquareAmperePerSquareKilogramSymbol = '%ss6∙%sA2/%skg2';
   rsSexticSecondSquareAmperePerSquareKilogramName = 'sextic %ssecond square %sampere per square %skilogram';
   rsSexticSecondSquareAmperePerSquareKilogramPluralName = 'sextic %sseconds square %samperes per square %skilogram';
 
 const
-  SexticSecondSquareAmperePerSquareKilogramID = 140640;
+  SexticSecondSquareAmperePerSquareKilogramID = 164880;
   SexticSecondSquareAmperePerSquareKilogramUnit : TUnit = (
     FID         : SexticSecondSquareAmperePerSquareKilogramID;
     FSymbol     : rsSexticSecondSquareAmperePerSquareKilogramSymbol;
@@ -12581,7 +12581,7 @@ resourcestring
   rsSquareAmperePerSquareKilogramPerQuarticMeterPluralName = 'square %samperes per square %skilogram per quartic %smeter';
 
 const
-  SquareAmperePerSquareKilogramPerQuarticMeterID = -145080;
+  SquareAmperePerSquareKilogramPerQuarticMeterID = -15960;
   SquareAmperePerSquareKilogramPerQuarticMeterUnit : TUnit = (
     FID         : SquareAmperePerSquareKilogramPerQuarticMeterID;
     FSymbol     : rsSquareAmperePerSquareKilogramPerQuarticMeterSymbol;
@@ -12598,7 +12598,7 @@ resourcestring
   rsSexticSecondPerSquareKilogramPerQuarticMeterPluralName = 'sextic %sseconds per square %skilogram per quartic %smeter';
 
 const
-  SexticSecondPerSquareKilogramPerQuarticMeterID = -57240;
+  SexticSecondPerSquareKilogramPerQuarticMeterID = 150120;
   SexticSecondPerSquareKilogramPerQuarticMeterUnit : TUnit = (
     FID         : SexticSecondPerSquareKilogramPerQuarticMeterID;
     FSymbol     : rsSexticSecondPerSquareKilogramPerQuarticMeterSymbol;
@@ -12615,7 +12615,7 @@ resourcestring
   rsSquareMeterPerQuarticSecondPerSquareAmperePluralName = 'square %smeters per quartic %ssecond per square %sampere';
 
 const
-  SquareMeterPerQuarticSecondPerSquareAmpereID = -72720;
+  SquareMeterPerQuarticSecondPerSquareAmpereID = -123360;
   SquareMeterPerQuarticSecondPerSquareAmpereUnit : TUnit = (
     FID         : SquareMeterPerQuarticSecondPerSquareAmpereID;
     FSymbol     : rsSquareMeterPerQuarticSecondPerSquareAmpereSymbol;
@@ -12627,12 +12627,12 @@ const
 { TKilogramSquareMeterPerQuarticSecond }
 
 resourcestring
-  rsKilogramSquareMeterPerQuarticSecondSymbol = '%skg.%sm2/%ss4';
+  rsKilogramSquareMeterPerQuarticSecondSymbol = '%skg∙%sm2/%ss4';
   rsKilogramSquareMeterPerQuarticSecondName = '%skilogram square %smeter per quartic %ssecond';
   rsKilogramSquareMeterPerQuarticSecondPluralName = '%skilograms square %smeters per quartic %ssecond';
 
 const
-  KilogramSquareMeterPerQuarticSecondID = 5280;
+  KilogramSquareMeterPerQuarticSecondID = -104280;
   KilogramSquareMeterPerQuarticSecondUnit : TUnit = (
     FID         : KilogramSquareMeterPerQuarticSecondID;
     FSymbol     : rsKilogramSquareMeterPerQuarticSecondSymbol;
@@ -12649,7 +12649,7 @@ resourcestring
   rsReciprocalSecondSteradianPluralName = 'reciprocal %ssecond steradian';
 
 const
-  ReciprocalSecondSteradianID = -52980;
+  ReciprocalSecondSteradianID = -61440;
   ReciprocalSecondSteradianUnit : TUnit = (
     FID         : ReciprocalSecondSteradianID;
     FSymbol     : rsReciprocalSecondSteradianSymbol;
@@ -12666,7 +12666,7 @@ resourcestring
   rsReciprocalSecondCandelaPluralName = 'reciprocal %ssecond %scandela';
 
 const
-  ReciprocalSecondCandelaID = -47460;
+  ReciprocalSecondCandelaID = -45000;
   ReciprocalSecondCandelaUnit : TUnit = (
     FID         : ReciprocalSecondCandelaID;
     FSymbol     : rsReciprocalSecondCandelaSymbol;
@@ -12683,7 +12683,7 @@ resourcestring
   rsCubicMeterPerCandelaPerSteradianPluralName = 'cubic %smeters per %scandela per steradian';
 
 const
-  CubicMeterPerCandelaPerSteradianID = 55500;
+  CubicMeterPerCandelaPerSteradianID = -43860;
   CubicMeterPerCandelaPerSteradianUnit : TUnit = (
     FID         : CubicMeterPerCandelaPerSteradianID;
     FSymbol     : rsCubicMeterPerCandelaPerSteradianSymbol;
@@ -12700,7 +12700,7 @@ resourcestring
   rsCubicMeterPerSecondPerSteradianPluralName = 'cubic %smeters per %ssecond per steradian';
 
 const
-  CubicMeterPerSecondPerSteradianID = 56280;
+  CubicMeterPerSecondPerSteradianID = -57300;
   CubicMeterPerSecondPerSteradianUnit : TUnit = (
     FID         : CubicMeterPerSecondPerSteradianID;
     FSymbol     : rsCubicMeterPerSecondPerSteradianSymbol;
@@ -12717,7 +12717,7 @@ resourcestring
   rsCubicMeterPerSecondPerCandelaPluralName = 'cubic %smeters per %ssecond per %scandela';
 
 const
-  CubicMeterPerSecondPerCandelaID = 61800;
+  CubicMeterPerSecondPerCandelaID = -40860;
   CubicMeterPerSecondPerCandelaUnit : TUnit = (
     FID         : CubicMeterPerSecondPerCandelaID;
     FSymbol     : rsCubicMeterPerSecondPerCandelaSymbol;
@@ -12734,7 +12734,7 @@ resourcestring
   rsSquareMeterPerSecondPerSteradianPluralName = 'square %smeters per %ssecond per steradian';
 
 const
-  SquareMeterPerSecondPerSteradianID = 19860;
+  SquareMeterPerSecondPerSteradianID = -58680;
   SquareMeterPerSecondPerSteradianUnit : TUnit = (
     FID         : SquareMeterPerSecondPerSteradianID;
     FSymbol     : rsSquareMeterPerSecondPerSteradianSymbol;
@@ -12751,7 +12751,7 @@ resourcestring
   rsSquareMeterPerSecondPerCandelaPluralName = 'square %smeters per %ssecond per %scandela';
 
 const
-  SquareMeterPerSecondPerCandelaID = 25380;
+  SquareMeterPerSecondPerCandelaID = -42240;
   SquareMeterPerSecondPerCandelaUnit : TUnit = (
     FID         : SquareMeterPerSecondPerCandelaID;
     FSymbol     : rsSquareMeterPerSecondPerCandelaSymbol;
@@ -12763,12 +12763,12 @@ const
 { TSquareMeterSquareSecond }
 
 resourcestring
-  rsSquareMeterSquareSecondSymbol = '%sm2.%ss2';
+  rsSquareMeterSquareSecondSymbol = '%sm2∙%ss2';
   rsSquareMeterSquareSecondName = 'square %smeter square %ssecond';
   rsSquareMeterSquareSecondPluralName = 'square %smeters square %sseconds';
 
 const
-  SquareMeterSquareSecondID = 119520;
+  SquareMeterSquareSecondID = 61200;
   SquareMeterSquareSecondUnit : TUnit = (
     FID         : SquareMeterSquareSecondID;
     FSymbol     : rsSquareMeterSquareSecondSymbol;
@@ -12785,7 +12785,7 @@ resourcestring
   rsSquareSecondPerQuarticMeterPluralName = 'square %sseconds per quartic %smeter';
 
 const
-  SquareSecondPerQuarticMeterID = -99000;
+  SquareSecondPerQuarticMeterID = 52920;
   SquareSecondPerQuarticMeterUnit : TUnit = (
     FID         : SquareSecondPerQuarticMeterID;
     FSymbol     : rsSquareSecondPerQuarticMeterSymbol;
@@ -12802,7 +12802,7 @@ resourcestring
   rsReciprocalKilogramQuarticMeterPluralName = 'reciprocal %skilogram quartic %smeter';
 
 const
-  ReciprocalKilogramQuarticMeterID = -171480;
+  ReciprocalKilogramQuarticMeterID = -15360;
   ReciprocalKilogramQuarticMeterUnit : TUnit = (
     FID         : ReciprocalKilogramQuarticMeterID;
     FSymbol     : rsReciprocalKilogramQuarticMeterSymbol;
@@ -12814,12 +12814,12 @@ const
 { TSquareSecondKelvinPerKilogram }
 
 resourcestring
-  rsSquareSecondKelvinPerKilogramSymbol = '%ss2.%sK/%skg';
+  rsSquareSecondKelvinPerKilogramSymbol = '%ss2∙%sK/%skg';
   rsSquareSecondKelvinPerKilogramName = 'square %ssecond %skelvin per %skilogram';
   rsSquareSecondKelvinPerKilogramPluralName = 'square %sseconds %skelvins per %skilogram';
 
 const
-  SquareSecondKelvinPerKilogramID = 57840;
+  SquareSecondKelvinPerKilogramID = 81360;
   SquareSecondKelvinPerKilogramUnit : TUnit = (
     FID         : SquareSecondKelvinPerKilogramID;
     FSymbol     : rsSquareSecondKelvinPerKilogramSymbol;
@@ -12831,12 +12831,12 @@ const
 { TSquareSecondKelvin }
 
 resourcestring
-  rsSquareSecondKelvinSymbol = '%ss2.%sK';
+  rsSquareSecondKelvinSymbol = '%ss2∙%sK';
   rsSquareSecondKelvinName = 'square %ssecond %skelvin';
   rsSquareSecondKelvinPluralName = 'square %sseconds %skelvins';
 
 const
-  SquareSecondKelvinID = 83640;
+  SquareSecondKelvinID = 91200;
   SquareSecondKelvinUnit : TUnit = (
     FID         : SquareSecondKelvinID;
     FSymbol     : rsSquareSecondKelvinSymbol;
@@ -12848,12 +12848,12 @@ const
 { TMeterCubicSecond }
 
 resourcestring
-  rsMeterCubicSecondSymbol = '%sm.%ss3';
+  rsMeterCubicSecondSymbol = '%sm∙%ss3';
   rsMeterCubicSecondName = '%smeter cubic %ssecond';
   rsMeterCubicSecondPluralName = '%smeters cubic %sseconds';
 
 const
-  MeterCubicSecondID = 106440;
+  MeterCubicSecondID = 89040;
   MeterCubicSecondUnit : TUnit = (
     FID         : MeterCubicSecondID;
     FSymbol     : rsMeterCubicSecondSymbol;
@@ -12865,12 +12865,12 @@ const
 { TCubicSecondQuarticKelvinPerSquareMeter }
 
 resourcestring
-  rsCubicSecondQuarticKelvinPerSquareMeterSymbol = '%ss3.%sK4/%sm2';
+  rsCubicSecondQuarticKelvinPerSquareMeterSymbol = '%ss3∙%sK4/%sm2';
   rsCubicSecondQuarticKelvinPerSquareMeterName = 'cubic %ssecond quartic %skelvin per square %smeter';
   rsCubicSecondQuarticKelvinPerSquareMeterPluralName = 'cubic %sseconds quartic %skelvins per square %smeter';
 
 const
-  CubicSecondQuarticKelvinPerSquareMeterID = 145020;
+  CubicSecondQuarticKelvinPerSquareMeterID = 215940;
   CubicSecondQuarticKelvinPerSquareMeterUnit : TUnit = (
     FID         : CubicSecondQuarticKelvinPerSquareMeterID;
     FSymbol     : rsCubicSecondQuarticKelvinPerSquareMeterSymbol;
@@ -12887,7 +12887,7 @@ resourcestring
   rsQuarticKelvinPerKilogramPerSquareMeterPluralName = 'quartic %skelvins per %skilogram per square %smeter';
 
 const
-  QuarticKelvinPerKilogramPerSquareMeterID = 49200;
+  QuarticKelvinPerKilogramPerSquareMeterID = 118440;
   QuarticKelvinPerKilogramPerSquareMeterUnit : TUnit = (
     FID         : QuarticKelvinPerKilogramPerSquareMeterID;
     FSymbol     : rsQuarticKelvinPerKilogramPerSquareMeterSymbol;
@@ -12899,12 +12899,12 @@ const
 { TCubicSecondQuarticKelvin }
 
 resourcestring
-  rsCubicSecondQuarticKelvinSymbol = '%ss3.%sK4';
+  rsCubicSecondQuarticKelvinSymbol = '%ss3∙%sK4';
   rsCubicSecondQuarticKelvinName = 'cubic %ssecond quartic %skelvin';
   rsCubicSecondQuarticKelvinPluralName = 'cubic %sseconds quartic %skelvins';
 
 const
-  CubicSecondQuarticKelvinID = 217860;
+  CubicSecondQuarticKelvinID = 218700;
   CubicSecondQuarticKelvinUnit : TUnit = (
     FID         : CubicSecondQuarticKelvinID;
     FSymbol     : rsCubicSecondQuarticKelvinSymbol;
@@ -12921,7 +12921,7 @@ resourcestring
   rsQuarticKelvinPerKilogramPluralName = 'quartic %skelvins per %skilogram';
 
 const
-  QuarticKelvinPerKilogramID = 122040;
+  QuarticKelvinPerKilogramID = 121200;
   QuarticKelvinPerKilogramUnit : TUnit = (
     FID         : QuarticKelvinPerKilogramID;
     FSymbol     : rsQuarticKelvinPerKilogramSymbol;
@@ -12933,12 +12933,12 @@ const
 { TSquareSecondMolePerSquareMeter }
 
 resourcestring
-  rsSquareSecondMolePerSquareMeterSymbol = '%ss2.%smol/%sm2';
+  rsSquareSecondMolePerSquareMeterSymbol = '%ss2∙%smol/%sm2';
   rsSquareSecondMolePerSquareMeterName = 'square %ssecond %smole per square %smeter';
   rsSquareSecondMolePerSquareMeterPluralName = 'square %sseconds %smoles per square %smeter';
 
 const
-  SquareSecondMolePerSquareMeterID = 8940;
+  SquareSecondMolePerSquareMeterID = 92340;
   SquareSecondMolePerSquareMeterUnit : TUnit = (
     FID         : SquareSecondMolePerSquareMeterID;
     FSymbol     : rsSquareSecondMolePerSquareMeterSymbol;
@@ -12950,12 +12950,12 @@ const
 { TSquareSecondMolePerKilogram }
 
 resourcestring
-  rsSquareSecondMolePerKilogramSymbol = '%ss2.%smol/%skg';
+  rsSquareSecondMolePerKilogramSymbol = '%ss2∙%smol/%skg';
   rsSquareSecondMolePerKilogramName = 'square %ssecond %smole per %skilogram';
   rsSquareSecondMolePerKilogramPluralName = 'square %sseconds %smoles per %skilogram';
 
 const
-  SquareSecondMolePerKilogramID = 55980;
+  SquareSecondMolePerKilogramID = 85260;
   SquareSecondMolePerKilogramUnit : TUnit = (
     FID         : SquareSecondMolePerKilogramID;
     FSymbol     : rsSquareSecondMolePerKilogramSymbol;
@@ -12972,7 +12972,7 @@ resourcestring
   rsMolePerKilogramPerSquareMeterPluralName = '%smoles per %skilogram per square %smeter';
 
 const
-  MolePerKilogramPerSquareMeterID = -63540;
+  MolePerKilogramPerSquareMeterID = 24060;
   MolePerKilogramPerSquareMeterUnit : TUnit = (
     FID         : MolePerKilogramPerSquareMeterID;
     FSymbol     : rsMolePerKilogramPerSquareMeterSymbol;
@@ -12984,12 +12984,12 @@ const
 { TSquareSecondKelvinMolePerSquareMeter }
 
 resourcestring
-  rsSquareSecondKelvinMolePerSquareMeterSymbol = '%ss2.%sK.%smol/%sm2';
+  rsSquareSecondKelvinMolePerSquareMeterSymbol = '%ss2∙%sK∙%smol/%sm2';
   rsSquareSecondKelvinMolePerSquareMeterName = 'square %ssecond %skelvin %smole per square %smeter';
   rsSquareSecondKelvinMolePerSquareMeterPluralName = 'square %sseconds %skelvins %smoles per square %smeter';
 
 const
-  SquareSecondKelvinMolePerSquareMeterID = 45900;
+  SquareSecondKelvinMolePerSquareMeterID = 125100;
   SquareSecondKelvinMolePerSquareMeterUnit : TUnit = (
     FID         : SquareSecondKelvinMolePerSquareMeterID;
     FSymbol     : rsSquareSecondKelvinMolePerSquareMeterSymbol;
@@ -13001,12 +13001,12 @@ const
 { TSquareSecondKelvinMolePerKilogram }
 
 resourcestring
-  rsSquareSecondKelvinMolePerKilogramSymbol = '%ss2.%sK.%smol/%skg';
+  rsSquareSecondKelvinMolePerKilogramSymbol = '%ss2∙%sK∙%smol/%skg';
   rsSquareSecondKelvinMolePerKilogramName = 'square %ssecond %skelvin %smole per %skilogram';
   rsSquareSecondKelvinMolePerKilogramPluralName = 'square %sseconds %skelvins %smoles per %skilogram';
 
 const
-  SquareSecondKelvinMolePerKilogramID = 92940;
+  SquareSecondKelvinMolePerKilogramID = 118020;
   SquareSecondKelvinMolePerKilogramUnit : TUnit = (
     FID         : SquareSecondKelvinMolePerKilogramID;
     FSymbol     : rsSquareSecondKelvinMolePerKilogramSymbol;
@@ -13018,12 +13018,12 @@ const
 { TKelvinMolePerKilogramPerSquareMeter }
 
 resourcestring
-  rsKelvinMolePerKilogramPerSquareMeterSymbol = '%sK.%smol/%skg/%sm2';
+  rsKelvinMolePerKilogramPerSquareMeterSymbol = '%sK∙%smol/%skg/%sm2';
   rsKelvinMolePerKilogramPerSquareMeterName = '%skelvin %smole per %skilogram per square %smeter';
   rsKelvinMolePerKilogramPerSquareMeterPluralName = '%skelvins %smoles per %skilogram per square %smeter';
 
 const
-  KelvinMolePerKilogramPerSquareMeterID = -26580;
+  KelvinMolePerKilogramPerSquareMeterID = 56820;
   KelvinMolePerKilogramPerSquareMeterUnit : TUnit = (
     FID         : KelvinMolePerKilogramPerSquareMeterID;
     FSymbol     : rsKelvinMolePerKilogramPerSquareMeterSymbol;
@@ -13035,12 +13035,12 @@ const
 { TQuarticSecondSquareAmperePerMeter }
 
 resourcestring
-  rsQuarticSecondSquareAmperePerMeterSymbol = '%ss4.%sA2/%sm';
+  rsQuarticSecondSquareAmperePerMeterSymbol = '%ss4∙%sA2/%sm';
   rsQuarticSecondSquareAmperePerMeterName = 'quartic %ssecond square %sampere per %smeter';
   rsQuarticSecondSquareAmperePerMeterPluralName = 'quartic %sseconds square %samperes per %smeter';
 
 const
-  QuarticSecondSquareAmperePerMeterID = 109140;
+  QuarticSecondSquareAmperePerMeterID = 124740;
   QuarticSecondSquareAmperePerMeterUnit : TUnit = (
     FID         : QuarticSecondSquareAmperePerMeterID;
     FSymbol     : rsQuarticSecondSquareAmperePerMeterSymbol;
@@ -13057,7 +13057,7 @@ resourcestring
   rsSquareAmperePerKilogramPerMeterPluralName = 'square %samperes per %skilogram per %smeter';
 
 const
-  SquareAmperePerKilogramPerMeterID = -10020;
+  SquareAmperePerKilogramPerMeterID = -1980;
   SquareAmperePerKilogramPerMeterUnit : TUnit = (
     FID         : SquareAmperePerKilogramPerMeterID;
     FSymbol     : rsSquareAmperePerKilogramPerMeterSymbol;
@@ -13074,7 +13074,7 @@ resourcestring
   rsQuarticSecondPerKilogramPerMeterPluralName = 'quartic %sseconds per %skilogram per %smeter';
 
 const
-  QuarticSecondPerKilogramPerMeterID = 31140;
+  QuarticSecondPerKilogramPerMeterID = 105660;
   QuarticSecondPerKilogramPerMeterUnit : TUnit = (
     FID         : QuarticSecondPerKilogramPerMeterID;
     FSymbol     : rsQuarticSecondPerKilogramPerMeterSymbol;
@@ -13086,12 +13086,12 @@ const
 { TCubicSecondAmperePerCubicMeter }
 
 resourcestring
-  rsCubicSecondAmperePerCubicMeterSymbol = '%ss3.%sA/%sm3';
+  rsCubicSecondAmperePerCubicMeterSymbol = '%ss3∙%sA/%sm3';
   rsCubicSecondAmperePerCubicMeterName = 'cubic %ssecond %sampere per cubic %smeter';
   rsCubicSecondAmperePerCubicMeterPluralName = 'cubic %sseconds %samperes per cubic %smeter';
 
 const
-  CubicSecondAmperePerCubicMeterID = -13140;
+  CubicSecondAmperePerCubicMeterID = 88140;
   CubicSecondAmperePerCubicMeterUnit : TUnit = (
     FID         : CubicSecondAmperePerCubicMeterID;
     FSymbol     : rsCubicSecondAmperePerCubicMeterSymbol;
@@ -13108,7 +13108,7 @@ resourcestring
   rsAmperePerKilogramPerCubicMeterPluralName = '%samperes per %skilogram per cubic %smeter';
 
 const
-  AmperePerKilogramPerCubicMeterID = -108960;
+  AmperePerKilogramPerCubicMeterID = -9360;
   AmperePerKilogramPerCubicMeterUnit : TUnit = (
     FID         : AmperePerKilogramPerCubicMeterID;
     FSymbol     : rsAmperePerKilogramPerCubicMeterSymbol;
@@ -13120,12 +13120,12 @@ const
 { TQuarticSecondAmperePerCubicMeter }
 
 resourcestring
-  rsQuarticSecondAmperePerCubicMeterSymbol = '%ss4.%sA/%sm3';
+  rsQuarticSecondAmperePerCubicMeterSymbol = '%ss4∙%sA/%sm3';
   rsQuarticSecondAmperePerCubicMeterName = 'quartic %ssecond %sampere per cubic %smeter';
   rsQuarticSecondAmperePerCubicMeterPluralName = 'quartic %sseconds %samperes per cubic %smeter';
 
 const
-  QuarticSecondAmperePerCubicMeterID = 10200;
+  QuarticSecondAmperePerCubicMeterID = 117360;
   QuarticSecondAmperePerCubicMeterUnit : TUnit = (
     FID         : QuarticSecondAmperePerCubicMeterID;
     FSymbol     : rsQuarticSecondAmperePerCubicMeterSymbol;
@@ -13137,12 +13137,12 @@ const
 { TQuarticSecondAmperePerKilogram }
 
 resourcestring
-  rsQuarticSecondAmperePerKilogramSymbol = '%ss4.%sA/%skg';
+  rsQuarticSecondAmperePerKilogramSymbol = '%ss4∙%sA/%skg';
   rsQuarticSecondAmperePerKilogramName = 'quartic %ssecond %sampere per %skilogram';
   rsQuarticSecondAmperePerKilogramPluralName = 'quartic %sseconds %samperes per %skilogram';
 
 const
-  QuarticSecondAmperePerKilogramID = 93660;
+  QuarticSecondAmperePerKilogramID = 111660;
   QuarticSecondAmperePerKilogramUnit : TUnit = (
     FID         : QuarticSecondAmperePerKilogramID;
     FSymbol     : rsQuarticSecondAmperePerKilogramSymbol;
@@ -13154,12 +13154,12 @@ const
 { TSquareSecondAmperePerMeter }
 
 resourcestring
-  rsSquareSecondAmperePerMeterSymbol = '%ss2.%sA/%sm';
+  rsSquareSecondAmperePerMeterSymbol = '%ss2∙%sA/%sm';
   rsSquareSecondAmperePerMeterName = 'square %ssecond %sampere per %smeter';
   rsSquareSecondAmperePerMeterPluralName = 'square %sseconds %samperes per %smeter';
 
 const
-  SquareSecondAmperePerMeterID = 36360;
+  SquareSecondAmperePerMeterID = 61680;
   SquareSecondAmperePerMeterUnit : TUnit = (
     FID         : SquareSecondAmperePerMeterID;
     FSymbol     : rsSquareSecondAmperePerMeterSymbol;
@@ -13176,7 +13176,7 @@ resourcestring
   rsQuarticSecondPerQuarticMeterPluralName = 'quartic %sseconds per quartic %smeter';
 
 const
-  QuarticSecondPerQuarticMeterID = -52320;
+  QuarticSecondPerQuarticMeterID = 111360;
   QuarticSecondPerQuarticMeterUnit : TUnit = (
     FID         : QuarticSecondPerQuarticMeterID;
     FSymbol     : rsQuarticSecondPerQuarticMeterSymbol;
@@ -13193,7 +13193,7 @@ resourcestring
   rsReciprocalSquareKilogramQuarticMeterPluralName = 'reciprocal square %skilogram quartic %smeter';
 
 const
-  ReciprocalSquareKilogramQuarticMeterID = -197280;
+  ReciprocalSquareKilogramQuarticMeterID = -25200;
   ReciprocalSquareKilogramQuarticMeterUnit : TUnit = (
     FID         : ReciprocalSquareKilogramQuarticMeterID;
     FSymbol     : rsReciprocalSquareKilogramQuarticMeterSymbol;
@@ -13210,7 +13210,7 @@ resourcestring
   rsSquareMeterPerCubicSecondPerCandelaPerSteradianPluralName = 'square %smeters per cubic %ssecond per %scandela per steradian';
 
 const
-  SquareMeterPerCubicSecondPerCandelaPerSteradianID = -50940;
+  SquareMeterPerCubicSecondPerCandelaPerSteradianID = -132900;
   SquareMeterPerCubicSecondPerCandelaPerSteradianUnit : TUnit = (
     FID         : SquareMeterPerCubicSecondPerCandelaPerSteradianID;
     FSymbol     : rsSquareMeterPerCubicSecondPerCandelaPerSteradianSymbol;
@@ -13227,7 +13227,7 @@ resourcestring
   rsKilogramPerCubicSecondPerCandelaPerSteradianPluralName = '%skilograms per cubic %ssecond per %scandela per steradian';
 
 const
-  KilogramPerCubicSecondPerCandelaPerSteradianID = -97980;
+  KilogramPerCubicSecondPerCandelaPerSteradianID = -125820;
   KilogramPerCubicSecondPerCandelaPerSteradianUnit : TUnit = (
     FID         : KilogramPerCubicSecondPerCandelaPerSteradianID;
     FSymbol     : rsKilogramPerCubicSecondPerCandelaPerSteradianSymbol;
@@ -13239,12 +13239,12 @@ const
 { TKilogramSquareMeterPerCandelaPerSteradian }
 
 resourcestring
-  rsKilogramSquareMeterPerCandelaPerSteradianSymbol = '%skg.%sm2/%scd/sr';
+  rsKilogramSquareMeterPerCandelaPerSteradianSymbol = '%skg∙%sm2/%scd/sr';
   rsKilogramSquareMeterPerCandelaPerSteradianName = '%skilogram square %smeter per %scandela per steradian';
   rsKilogramSquareMeterPerCandelaPerSteradianPluralName = '%skilograms square %smeters per %scandela per steradian';
 
 const
-  KilogramSquareMeterPerCandelaPerSteradianID = 44880;
+  KilogramSquareMeterPerCandelaPerSteradianID = -35400;
   KilogramSquareMeterPerCandelaPerSteradianUnit : TUnit = (
     FID         : KilogramSquareMeterPerCandelaPerSteradianID;
     FSymbol     : rsKilogramSquareMeterPerCandelaPerSteradianSymbol;
@@ -13256,12 +13256,12 @@ const
 { TKilogramSquareMeterPerCubicSecondPerCandela }
 
 resourcestring
-  rsKilogramSquareMeterPerCubicSecondPerCandelaSymbol = '%skg.%sm2/%ss3/%scd';
+  rsKilogramSquareMeterPerCubicSecondPerCandelaSymbol = '%skg∙%sm2/%ss3/%scd';
   rsKilogramSquareMeterPerCubicSecondPerCandelaName = '%skilogram square %smeter per cubic %ssecond per %scandela';
   rsKilogramSquareMeterPerCubicSecondPerCandelaPluralName = '%skilograms square %smeters per cubic %ssecond per %scandela';
 
 const
-  KilogramSquareMeterPerCubicSecondPerCandelaID = 4500;
+  KilogramSquareMeterPerCubicSecondPerCandelaID = -90840;
   KilogramSquareMeterPerCubicSecondPerCandelaUnit : TUnit = (
     FID         : KilogramSquareMeterPerCubicSecondPerCandelaID;
     FSymbol     : rsKilogramSquareMeterPerCubicSecondPerCandelaSymbol;
@@ -13273,12 +13273,12 @@ const
 { TSquareSecondSteradianPerSquareMeter }
 
 resourcestring
-  rsSquareSecondSteradianPerSquareMeterSymbol = '%ss2.sr/%sm2';
+  rsSquareSecondSteradianPerSquareMeterSymbol = '%ss2∙sr/%sm2';
   rsSquareSecondSteradianPerSquareMeterName = 'square %ssecond steradian per square %smeter';
   rsSquareSecondSteradianPerSquareMeterPluralName = 'square %sseconds steradian per square %smeter';
 
 const
-  SquareSecondSteradianPerSquareMeterID = 3480;
+  SquareSecondSteradianPerSquareMeterID = 87900;
   SquareSecondSteradianPerSquareMeterUnit : TUnit = (
     FID         : SquareSecondSteradianPerSquareMeterID;
     FSymbol     : rsSquareSecondSteradianPerSquareMeterSymbol;
@@ -13290,12 +13290,12 @@ const
 { TCubicSecondSteradianPerMeter }
 
 resourcestring
-  rsCubicSecondSteradianPerMeterSymbol = '%ss3.sr/%sm';
+  rsCubicSecondSteradianPerMeterSymbol = '%ss3∙sr/%sm';
   rsCubicSecondSteradianPerMeterName = 'cubic %ssecond steradian per %smeter';
   rsCubicSecondSteradianPerMeterPluralName = 'cubic %sseconds steradian per %smeter';
 
 const
-  CubicSecondSteradianPerMeterID = 63240;
+  CubicSecondSteradianPerMeterID = 118500;
   CubicSecondSteradianPerMeterUnit : TUnit = (
     FID         : CubicSecondSteradianPerMeterID;
     FSymbol     : rsCubicSecondSteradianPerMeterSymbol;
@@ -13312,7 +13312,7 @@ resourcestring
   rsSteradianPerKilogramPerMeterPluralName = 'steradian per %skilogram per %smeter';
 
 const
-  SteradianPerKilogramPerMeterID = -32580;
+  SteradianPerKilogramPerMeterID = 21000;
   SteradianPerKilogramPerMeterUnit : TUnit = (
     FID         : SteradianPerKilogramPerMeterID;
     FSymbol     : rsSteradianPerKilogramPerMeterSymbol;
@@ -13324,12 +13324,12 @@ const
 { TMeterCubicSecondSteradian }
 
 resourcestring
-  rsMeterCubicSecondSteradianSymbol = '%sm.%ss3.sr';
+  rsMeterCubicSecondSteradianSymbol = '%sm∙%ss3∙sr';
   rsMeterCubicSecondSteradianName = '%smeter cubic %ssecond steradian';
   rsMeterCubicSecondSteradianPluralName = '%smeters cubic %sseconds steradian';
 
 const
-  MeterCubicSecondSteradianID = 136080;
+  MeterCubicSecondSteradianID = 121260;
   MeterCubicSecondSteradianUnit : TUnit = (
     FID         : MeterCubicSecondSteradianID;
     FSymbol     : rsMeterCubicSecondSteradianSymbol;
@@ -13341,12 +13341,12 @@ const
 { TMeterSteradianPerKilogram }
 
 resourcestring
-  rsMeterSteradianPerKilogramSymbol = '%sm.sr/%skg';
+  rsMeterSteradianPerKilogramSymbol = '%sm∙sr/%skg';
   rsMeterSteradianPerKilogramName = '%smeter steradian per %skilogram';
   rsMeterSteradianPerKilogramPluralName = '%smeters steradian per %skilogram';
 
 const
-  MeterSteradianPerKilogramID = 40260;
+  MeterSteradianPerKilogramID = 23760;
   MeterSteradianPerKilogramUnit : TUnit = (
     FID         : MeterSteradianPerKilogramID;
     FSymbol     : rsMeterSteradianPerKilogramSymbol;
@@ -13358,12 +13358,12 @@ const
 { TSquareSecondSteradian }
 
 resourcestring
-  rsSquareSecondSteradianSymbol = '%ss2.sr';
+  rsSquareSecondSteradianSymbol = '%ss2∙sr';
   rsSquareSecondSteradianName = 'square %ssecond steradian';
   rsSquareSecondSteradianPluralName = 'square %sseconds steradian';
 
 const
-  SquareSecondSteradianID = 76320;
+  SquareSecondSteradianID = 90660;
   SquareSecondSteradianUnit : TUnit = (
     FID         : SquareSecondSteradianID;
     FSymbol     : rsSquareSecondSteradianSymbol;
@@ -13375,12 +13375,12 @@ const
 { TCubicMeterSecond }
 
 resourcestring
-  rsCubicMeterSecondSymbol = '%sm3.%ss';
+  rsCubicMeterSecondSymbol = '%sm3∙%ss';
   rsCubicMeterSecondName = 'cubic %smeter %ssecond';
   rsCubicMeterSecondPluralName = 'cubic %smeters %sseconds';
 
 const
-  CubicMeterSecondID = 132600;
+  CubicMeterSecondID = 33360;
   CubicMeterSecondUnit : TUnit = (
     FID         : CubicMeterSecondID;
     FSymbol     : rsCubicMeterSecondSymbol;
@@ -13397,7 +13397,7 @@ resourcestring
   rsMolePerAmperePluralName = '%smoles per %sampere';
 
 const
-  MolePerAmpereID = 9000;
+  MolePerAmpereID = 32040;
   MolePerAmpereUnit : TUnit = (
     FID         : MolePerAmpereID;
     FSymbol     : rsMolePerAmpereSymbol;
@@ -13409,12 +13409,12 @@ const
 { TSexticSecondSquareAmpere }
 
 resourcestring
-  rsSexticSecondSquareAmpereSymbol = '%ss6.%sA2';
+  rsSexticSecondSquareAmpereSymbol = '%ss6∙%sA2';
   rsSexticSecondSquareAmpereName = 'sextic %ssecond square %sampere';
   rsSexticSecondSquareAmperePluralName = 'sextic %sseconds square %samperes';
 
 const
-  SexticSecondSquareAmpereID = 192240;
+  SexticSecondSquareAmpereID = 184560;
   SexticSecondSquareAmpereUnit : TUnit = (
     FID         : SexticSecondSquareAmpereID;
     FSymbol     : rsSexticSecondSquareAmpereSymbol;
@@ -13431,7 +13431,7 @@ resourcestring
   rsSquareAmperePerQuarticMeterPluralName = 'square %samperes per quartic %smeter';
 
 const
-  SquareAmperePerQuarticMeterID = -93480;
+  SquareAmperePerQuarticMeterID = 3720;
   SquareAmperePerQuarticMeterUnit : TUnit = (
     FID         : SquareAmperePerQuarticMeterID;
     FSymbol     : rsSquareAmperePerQuarticMeterSymbol;
@@ -13448,7 +13448,7 @@ resourcestring
   rsSexticSecondPerQuarticMeterPluralName = 'sextic %sseconds per quartic %smeter';
 
 const
-  SexticSecondPerQuarticMeterID = -5640;
+  SexticSecondPerQuarticMeterID = 169800;
   SexticSecondPerQuarticMeterUnit : TUnit = (
     FID         : SexticSecondPerQuarticMeterID;
     FSymbol     : rsSexticSecondPerQuarticMeterSymbol;
@@ -13465,7 +13465,7 @@ resourcestring
   rsSquareAmperePerSquareKilogramPluralName = 'square %samperes per square %skilogram';
 
 const
-  SquareAmperePerSquareKilogramID = 600;
+  SquareAmperePerSquareKilogramID = -10440;
   SquareAmperePerSquareKilogramUnit : TUnit = (
     FID         : SquareAmperePerSquareKilogramID;
     FSymbol     : rsSquareAmperePerSquareKilogramSymbol;
@@ -13482,7 +13482,7 @@ resourcestring
   rsSexticSecondPerSquareKilogramPluralName = 'sextic %sseconds per square %skilogram';
 
 const
-  SexticSecondPerSquareKilogramID = 88440;
+  SexticSecondPerSquareKilogramID = 155640;
   SexticSecondPerSquareKilogramUnit : TUnit = (
     FID         : SexticSecondPerSquareKilogramID;
     FSymbol     : rsSexticSecondPerSquareKilogramSymbol;
@@ -13499,7 +13499,7 @@ resourcestring
   rsCubicMeterPerSteradianPluralName = 'cubic %smeters per steradian';
 
 const
-  CubicMeterPerSteradianID = 79620;
+  CubicMeterPerSteradianID = -28080;
   CubicMeterPerSteradianUnit : TUnit = (
     FID         : CubicMeterPerSteradianID;
     FSymbol     : rsCubicMeterPerSteradianSymbol;
@@ -13516,7 +13516,7 @@ resourcestring
   rsCubicMeterPerCandelaPluralName = 'cubic %smeters per %scandela';
 
 const
-  CubicMeterPerCandelaID = 85140;
+  CubicMeterPerCandelaID = -11640;
   CubicMeterPerCandelaUnit : TUnit = (
     FID         : CubicMeterPerCandelaID;
     FSymbol     : rsCubicMeterPerCandelaSymbol;
@@ -13533,7 +13533,7 @@ resourcestring
   rsQuarticKelvinPerSquareMeterPluralName = 'quartic %skelvins per square %smeter';
 
 const
-  QuarticKelvinPerSquareMeterID = 75000;
+  QuarticKelvinPerSquareMeterID = 128280;
   QuarticKelvinPerSquareMeterUnit : TUnit = (
     FID         : QuarticKelvinPerSquareMeterID;
     FSymbol     : rsQuarticKelvinPerSquareMeterSymbol;
@@ -13545,12 +13545,12 @@ const
 { TSquareSecondMole }
 
 resourcestring
-  rsSquareSecondMoleSymbol = '%ss2.%smol';
+  rsSquareSecondMoleSymbol = '%ss2∙%smol';
   rsSquareSecondMoleName = 'square %ssecond %smole';
   rsSquareSecondMolePluralName = 'square %sseconds %smoles';
 
 const
-  SquareSecondMoleID = 81780;
+  SquareSecondMoleID = 95100;
   SquareSecondMoleUnit : TUnit = (
     FID         : SquareSecondMoleID;
     FSymbol     : rsSquareSecondMoleSymbol;
@@ -13567,7 +13567,7 @@ resourcestring
   rsMolePerSquareMeterPluralName = '%smoles per square %smeter';
 
 const
-  MolePerSquareMeterID = -37740;
+  MolePerSquareMeterID = 33900;
   MolePerSquareMeterUnit : TUnit = (
     FID         : MolePerSquareMeterID;
     FSymbol     : rsMolePerSquareMeterSymbol;
@@ -13584,7 +13584,7 @@ resourcestring
   rsMolePerKilogramPluralName = '%smoles per %skilogram';
 
 const
-  MolePerKilogramID = 9300;
+  MolePerKilogramID = 26820;
   MolePerKilogramUnit : TUnit = (
     FID         : MolePerKilogramID;
     FSymbol     : rsMolePerKilogramSymbol;
@@ -13596,12 +13596,12 @@ const
 { TSquareSecondKelvinMole }
 
 resourcestring
-  rsSquareSecondKelvinMoleSymbol = '%ss2.%sK.%smol';
+  rsSquareSecondKelvinMoleSymbol = '%ss2∙%sK∙%smol';
   rsSquareSecondKelvinMoleName = 'square %ssecond %skelvin %smole';
   rsSquareSecondKelvinMolePluralName = 'square %sseconds %skelvins %smoles';
 
 const
-  SquareSecondKelvinMoleID = 118740;
+  SquareSecondKelvinMoleID = 127860;
   SquareSecondKelvinMoleUnit : TUnit = (
     FID         : SquareSecondKelvinMoleID;
     FSymbol     : rsSquareSecondKelvinMoleSymbol;
@@ -13613,12 +13613,12 @@ const
 { TKelvinMolePerSquareMeter }
 
 resourcestring
-  rsKelvinMolePerSquareMeterSymbol = '%sK.%smol/%sm2';
+  rsKelvinMolePerSquareMeterSymbol = '%sK∙%smol/%sm2';
   rsKelvinMolePerSquareMeterName = '%skelvin %smole per square %smeter';
   rsKelvinMolePerSquareMeterPluralName = '%skelvins %smoles per square %smeter';
 
 const
-  KelvinMolePerSquareMeterID = -780;
+  KelvinMolePerSquareMeterID = 66660;
   KelvinMolePerSquareMeterUnit : TUnit = (
     FID         : KelvinMolePerSquareMeterID;
     FSymbol     : rsKelvinMolePerSquareMeterSymbol;
@@ -13630,12 +13630,12 @@ const
 { TKelvinMolePerKilogram }
 
 resourcestring
-  rsKelvinMolePerKilogramSymbol = '%sK.%smol/%skg';
+  rsKelvinMolePerKilogramSymbol = '%sK∙%smol/%skg';
   rsKelvinMolePerKilogramName = '%skelvin %smole per %skilogram';
   rsKelvinMolePerKilogramPluralName = '%skelvins %smoles per %skilogram';
 
 const
-  KelvinMolePerKilogramID = 46260;
+  KelvinMolePerKilogramID = 59580;
   KelvinMolePerKilogramUnit : TUnit = (
     FID         : KelvinMolePerKilogramID;
     FSymbol     : rsKelvinMolePerKilogramSymbol;
@@ -13647,12 +13647,12 @@ const
 { TQuarticSecondAmpere }
 
 resourcestring
-  rsQuarticSecondAmpereSymbol = '%ss4.%sA';
+  rsQuarticSecondAmpereSymbol = '%ss4∙%sA';
   rsQuarticSecondAmpereName = 'quartic %ssecond %sampere';
   rsQuarticSecondAmperePluralName = 'quartic %sseconds %samperes';
 
 const
-  QuarticSecondAmpereID = 119460;
+  QuarticSecondAmpereID = 121500;
   QuarticSecondAmpereUnit : TUnit = (
     FID         : QuarticSecondAmpereID;
     FSymbol     : rsQuarticSecondAmpereSymbol;
@@ -13669,7 +13669,7 @@ resourcestring
   rsReciprocalCubicSecondCandelaSteradianPluralName = 'reciprocal cubic %ssecond %scandela steradian';
 
 const
-  ReciprocalCubicSecondCandelaSteradianID = -123780;
+  ReciprocalCubicSecondCandelaSteradianID = -135660;
   ReciprocalCubicSecondCandelaSteradianUnit : TUnit = (
     FID         : ReciprocalCubicSecondCandelaSteradianID;
     FSymbol     : rsReciprocalCubicSecondCandelaSteradianSymbol;
@@ -13686,7 +13686,7 @@ resourcestring
   rsSquareMeterPerCubicSecondPerCandelaPluralName = 'square %smeters per cubic %ssecond per %scandela';
 
 const
-  SquareMeterPerCubicSecondPerCandelaID = -21300;
+  SquareMeterPerCubicSecondPerCandelaID = -100680;
   SquareMeterPerCubicSecondPerCandelaUnit : TUnit = (
     FID         : SquareMeterPerCubicSecondPerCandelaID;
     FSymbol     : rsSquareMeterPerCubicSecondPerCandelaSymbol;
@@ -13703,7 +13703,7 @@ resourcestring
   rsKilogramPerCandelaPerSteradianPluralName = '%skilograms per %scandela per steradian';
 
 const
-  KilogramPerCandelaPerSteradianID = -27960;
+  KilogramPerCandelaPerSteradianID = -38160;
   KilogramPerCandelaPerSteradianUnit : TUnit = (
     FID         : KilogramPerCandelaPerSteradianID;
     FSymbol     : rsKilogramPerCandelaPerSteradianSymbol;
@@ -13720,7 +13720,7 @@ resourcestring
   rsKilogramPerCubicSecondPerCandelaPluralName = '%skilograms per cubic %ssecond per %scandela';
 
 const
-  KilogramPerCubicSecondPerCandelaID = -68340;
+  KilogramPerCubicSecondPerCandelaID = -93600;
   KilogramPerCubicSecondPerCandelaUnit : TUnit = (
     FID         : KilogramPerCubicSecondPerCandelaID;
     FSymbol     : rsKilogramPerCubicSecondPerCandelaSymbol;
@@ -13732,12 +13732,12 @@ const
 { TKilogramSquareMeterPerCandela }
 
 resourcestring
-  rsKilogramSquareMeterPerCandelaSymbol = '%skg.%sm2/%scd';
+  rsKilogramSquareMeterPerCandelaSymbol = '%skg∙%sm2/%scd';
   rsKilogramSquareMeterPerCandelaName = '%skilogram square %smeter per %scandela';
   rsKilogramSquareMeterPerCandelaPluralName = '%skilograms square %smeters per %scandela';
 
 const
-  KilogramSquareMeterPerCandelaID = 74520;
+  KilogramSquareMeterPerCandelaID = -3180;
   KilogramSquareMeterPerCandelaUnit : TUnit = (
     FID         : KilogramSquareMeterPerCandelaID;
     FSymbol     : rsKilogramSquareMeterPerCandelaSymbol;
@@ -13754,7 +13754,7 @@ resourcestring
   rsSteradianPerMeterPluralName = 'steradian per %smeter';
 
 const
-  SteradianPerMeterID = -6780;
+  SteradianPerMeterID = 30840;
   SteradianPerMeterUnit : TUnit = (
     FID         : SteradianPerMeterID;
     FSymbol     : rsSteradianPerMeterSymbol;
@@ -13771,7 +13771,7 @@ resourcestring
   rsReciprocalCubicSecondCandelaPluralName = 'reciprocal cubic %ssecond %scandela';
 
 const
-  ReciprocalCubicSecondCandelaID = -94140;
+  ReciprocalCubicSecondCandelaID = -103440;
   ReciprocalCubicSecondCandelaUnit : TUnit = (
     FID         : ReciprocalCubicSecondCandelaID;
     FSymbol     : rsReciprocalCubicSecondCandelaSymbol;
@@ -13788,7 +13788,7 @@ resourcestring
   rsKilogramPerCandelaPluralName = '%skilograms per %scandela';
 
 const
-  KilogramPerCandelaID = 1680;
+  KilogramPerCandelaID = -5940;
   KilogramPerCandelaUnit : TUnit = (
     FID         : KilogramPerCandelaID;
     FSymbol     : rsKilogramPerCandelaSymbol;
@@ -13913,644 +13913,644 @@ const
   Table : array[0..639-1] of
     record FID: longint; FStr: string; end = (
     (FID:     0; FStr: 'TScalar'),
-    (FID: 29640; FStr: 'TSteradian'),
-    (FID: 23340; FStr: 'TSecond'),
-    (FID: 46680; FStr: 'TSquareSecond'),
-    (FID: 70020; FStr: 'TCubicSecond'),
-    (FID: 93360; FStr: 'TQuarticSecond'),
-    (FID: 116700; FStr: 'TQuinticSecond'),
-    (FID: 140040; FStr: 'TSexticSecond'),
-    (FID: 36420; FStr: 'TMeter'),
-    (FID: 18210; FStr: 'TSquareRootMeter'),
-    (FID: 72840; FStr: 'TSquareMeter'),
-    (FID: 109260; FStr: 'TCubicMeter'),
-    (FID: 145680; FStr: 'TQuarticMeter'),
-    (FID: 182100; FStr: 'TQuinticMeter'),
-    (FID: 218520; FStr: 'TSexticMeter'),
-    (FID: 25800; FStr: 'TKilogram'),
-    (FID: 51600; FStr: 'TSquareKilogram'),
-    (FID: 26100; FStr: 'TAmpere'),
-    (FID: 52200; FStr: 'TSquareAmpere'),
-    (FID: 36960; FStr: 'TKelvin'),
-    (FID: 73920; FStr: 'TSquareKelvin'),
-    (FID: 110880; FStr: 'TCubicKelvin'),
-    (FID: 147840; FStr: 'TQuarticKelvin'),
-    (FID: 35100; FStr: 'TMole'),
-    (FID: 24120; FStr: 'TCandela'),
-    (FID: -23340; FStr: 'THertz'),
-    (FID: -46680; FStr: 'TSquareHertz'),
-    (FID: -17040; FStr: 'TSteradianPerSquareSecond'),
-    (FID: 13080; FStr: 'TMeterPerSecond'),
-    (FID: -10260; FStr: 'TMeterPerSquareSecond'),
-    (FID: -33600; FStr: 'TMeterPerCubicSecond'),
-    (FID: -56940; FStr: 'TMeterPerQuarticSecond'),
-    (FID: -80280; FStr: 'TMeterPerQuinticSecond'),
-    (FID: -103620; FStr: 'TMeterPerSexticSecond'),
-    (FID: 26160; FStr: 'TSquareMeterPerSquareSecond'),
-    (FID: 59760; FStr: 'TMeterSecond'),
-    (FID: 62220; FStr: 'TKilogramMeter'),
-    (FID:  2460; FStr: 'TKilogramPerSecond'),
-    (FID: 38880; FStr: 'TKilogramMeterPerSecond'),
-    (FID: 77760; FStr: 'TSquareKilogramSquareMeterPerSquareSecond'),
-    (FID: -18210; FStr: 'TReciprocalSquareRootMeter'),
-    (FID: -36420; FStr: 'TReciprocalMeter'),
-    (FID: -54630; FStr: 'TReciprocalSquareRootCubicMeter'),
-    (FID: -72840; FStr: 'TReciprocalSquareMeter'),
-    (FID: -109260; FStr: 'TReciprocalCubicMeter'),
-    (FID: -145680; FStr: 'TReciprocalQuarticMeter'),
-    (FID: 98640; FStr: 'TKilogramSquareMeter'),
-    (FID: 75300; FStr: 'TKilogramSquareMeterPerSecond'),
-    (FID: -13080; FStr: 'TSecondPerMeter'),
-    (FID: -10620; FStr: 'TKilogramPerMeter'),
-    (FID: -47040; FStr: 'TKilogramPerSquareMeter'),
-    (FID: -83460; FStr: 'TKilogramPerCubicMeter'),
-    (FID: 15540; FStr: 'TNewton'),
-    (FID: 31080; FStr: 'TSquareNewton'),
-    (FID: -57300; FStr: 'TPascal'),
-    (FID: 51960; FStr: 'TJoule'),
-    (FID: 28620; FStr: 'TWatt'),
-    (FID: 49440; FStr: 'TCoulomb'),
-    (FID: 98880; FStr: 'TSquareCoulomb'),
-    (FID: 85860; FStr: 'TCoulombMeter'),
-    (FID:  2520; FStr: 'TVolt'),
-    (FID:  5040; FStr: 'TSquareVolt'),
-    (FID: 46920; FStr: 'TFarad'),
-    (FID: -23580; FStr: 'TOhm'),
-    (FID: 23580; FStr: 'TSiemens'),
-    (FID: -12840; FStr: 'TSiemensPerMeter'),
-    (FID: -46980; FStr: 'TTesla'),
-    (FID: 25860; FStr: 'TWeber'),
-    (FID:  -240; FStr: 'THenry'),
-    (FID:   240; FStr: 'TReciprocalHenry'),
-    (FID: 53760; FStr: 'TLumen'),
-    (FID: 77100; FStr: 'TLumenSecond'),
-    (FID: -32160; FStr: 'TLumenSecondPerCubicMeter'),
-    (FID: -19080; FStr: 'TLux'),
-    (FID:  4260; FStr: 'TLuxSecond'),
-    (FID: 11760; FStr: 'TKatal'),
-    (FID: -93720; FStr: 'TNewtonPerCubicMeter'),
-    (FID: -20880; FStr: 'TNewtonPerMeter'),
-    (FID: 85920; FStr: 'TCubicMeterPerSecond'),
-    (FID: -33960; FStr: 'TPoiseuille'),
-    (FID: 49500; FStr: 'TSquareMeterPerSecond'),
-    (FID: -119880; FStr: 'TKilogramPerQuarticMeter'),
-    (FID: 169020; FStr: 'TQuarticMeterSecond'),
-    (FID: -143220; FStr: 'TKilogramPerQuarticMeterPerSecond'),
-    (FID: 83460; FStr: 'TCubicMeterPerKilogram'),
-    (FID: 72480; FStr: 'TKilogramSquareSecond'),
-    (FID: 62580; FStr: 'TCubicMeterPerSquareSecond'),
-    (FID: 88380; FStr: 'TNewtonSquareMeter'),
-    (FID: 124800; FStr: 'TNewtonCubicMeter'),
-    (FID: -36060; FStr: 'TNewtonPerSquareKilogram'),
-    (FID: 15180; FStr: 'TSquareKilogramPerMeter'),
-    (FID: -21240; FStr: 'TSquareKilogramPerSquareMeter'),
-    (FID: 21240; FStr: 'TSquareMeterPerSquareKilogram'),
-    (FID: 36780; FStr: 'TNewtonSquareMeterPerSquareKilogram'),
-    (FID: -36960; FStr: 'TReciprocalKelvin'),
-    (FID: 62760; FStr: 'TKilogramKelvin'),
-    (FID: 15000; FStr: 'TJoulePerKelvin'),
-    (FID: -10800; FStr: 'TJoulePerKilogramPerKelvin'),
-    (FID: 73380; FStr: 'TMeterKelvin'),
-    (FID:   540; FStr: 'TKelvinPerMeter'),
-    (FID: -7800; FStr: 'TWattPerMeter'),
-    (FID: -44220; FStr: 'TWattPerSquareMeter'),
-    (FID: -80640; FStr: 'TWattPerCubicMeter'),
-    (FID: -8340; FStr: 'TWattPerKelvin'),
-    (FID: -44760; FStr: 'TWattPerMeterPerKelvin'),
-    (FID:  8340; FStr: 'TKelvinPerWatt'),
-    (FID:  7800; FStr: 'TMeterPerWatt'),
-    (FID: 44760; FStr: 'TMeterKelvinPerWatt'),
-    (FID: 109800; FStr: 'TSquareMeterKelvin'),
-    (FID: -81180; FStr: 'TWattPerSquareMeterPerKelvin'),
-    (FID: 220680; FStr: 'TSquareMeterQuarticKelvin'),
-    (FID: -119220; FStr: 'TWattPerQuarticKelvin'),
-    (FID: -192060; FStr: 'TWattPerSquareMeterPerQuarticKelvin'),
-    (FID: 16860; FStr: 'TJoulePerMole'),
-    (FID: 72060; FStr: 'TMoleKelvin'),
-    (FID: -20100; FStr: 'TJoulePerMolePerKelvin'),
-    (FID: 12840; FStr: 'TOhmMeter'),
-    (FID: -33900; FStr: 'TVoltPerMeter'),
-    (FID: 13020; FStr: 'TCoulombPerMeter'),
-    (FID: 62460; FStr: 'TSquareCoulombPerMeter'),
-    (FID: -23400; FStr: 'TCoulombPerSquareMeter'),
-    (FID: -26040; FStr: 'TSquareMeterPerSquareCoulomb'),
-    (FID: -83340; FStr: 'TNewtonPerSquareCoulomb'),
-    (FID: -10500; FStr: 'TNewtonSquareMeterPerSquareCoulomb'),
-    (FID: 38940; FStr: 'TVoltMeter'),
-    (FID: 15600; FStr: 'TVoltMeterPerSecond'),
-    (FID: 10500; FStr: 'TFaradPerMeter'),
-    (FID: -10320; FStr: 'TAmperePerMeter'),
-    (FID: 10320; FStr: 'TMeterPerAmpere'),
-    (FID: -10560; FStr: 'TTeslaMeter'),
-    (FID: -73080; FStr: 'TTeslaPerAmpere'),
-    (FID: -36660; FStr: 'THenryPerMeter'),
-    (FID:  4920; FStr: 'TSquareKilogramPerSquareSecond'),
-    (FID: -26160; FStr: 'TSquareSecondPerSquareMeter'),
-    (FID: 103920; FStr: 'TSquareJoule'),
-    (FID: 150600; FStr: 'TSquareJouleSquareSecond'),
-    (FID: 23640; FStr: 'TCoulombPerKilogram'),
-    (FID: 98940; FStr: 'TSquareMeterAmpere'),
-    (FID: 25140; FStr: 'TLumenPerWatt'),
-    (FID: -35100; FStr: 'TReciprocalMole'),
-    (FID: -46740; FStr: 'TAmperePerSquareMeter'),
-    (FID: -74160; FStr: 'TMolePerCubicMeter'),
-    (FID: -48720; FStr: 'TCandelaPerSquareMeter'),
-    (FID: -59820; FStr: 'TCoulombPerCubicMeter'),
-    (FID:  2820; FStr: 'TGrayPerSecond'),
-    (FID:  6300; FStr: 'TSteradianHertz'),
-    (FID: 66060; FStr: 'TMeterSteradian'),
-    (FID: 102480; FStr: 'TSquareMeterSteradian'),
-    (FID: 138900; FStr: 'TCubicMeterSteradian'),
-    (FID: 79140; FStr: 'TSquareMeterSteradianHertz'),
-    (FID: -1020; FStr: 'TWattPerSteradian'),
-    (FID: 22320; FStr: 'TWattPerSteradianPerHertz'),
-    (FID: -37440; FStr: 'TWattPerMeterPerSteradian'),
-    (FID: -73860; FStr: 'TWattPerSquareMeterPerSteradian'),
-    (FID: -110280; FStr: 'TWattPerCubicMeterPerSteradian'),
-    (FID: -50520; FStr: 'TWattPerSquareMeterPerSteradianPerHertz'),
-    (FID: -97500; FStr: 'TKatalPerCubicMeter'),
-    (FID: 14340; FStr: 'TCoulombPerMole'),
-    (FID: -15540; FStr: 'TReciprocalNewton'),
-    (FID: 46980; FStr: 'TReciprocalTesla'),
-    (FID: 57300; FStr: 'TReciprocalPascal'),
-    (FID: -25860; FStr: 'TReciprocalWeber'),
-    (FID: -28620; FStr: 'TReciprocalWatt'),
-    (FID: 33900; FStr: 'TMeterPerVolt'),
-    (FID:  6450; FStr: 'TQuarticRootKilogram'),
-    (FID:  8600; FStr: 'TCubicRootKilogram'),
-    (FID: 12900; FStr: 'TSquareRootKilogram'),
-    (FID: 38700; FStr: 'TSquareRootCubicKilogram'),
-    (FID: 64500; FStr: 'TSquareRootQuinticKilogram'),
-    (FID: 77400; FStr: 'TCubicKilogram'),
-    (FID: 103200; FStr: 'TQuarticKilogram'),
-    (FID: 129000; FStr: 'TQuinticKilogram'),
-    (FID: 154800; FStr: 'TSexticKilogram'),
-    (FID:  9105; FStr: 'TQuarticRootMeter'),
-    (FID: 12140; FStr: 'TCubicRootMeter'),
-    (FID: 54630; FStr: 'TSquareRootCubicMeter'),
-    (FID: 91050; FStr: 'TSquareRootQuinticMeter'),
-    (FID:  5835; FStr: 'TQuarticRootSecond'),
-    (FID:  7780; FStr: 'TCubicRootSecond'),
-    (FID: 11670; FStr: 'TSquareRootSecond'),
-    (FID: 35010; FStr: 'TSquareRootCubicSecond'),
-    (FID: 58350; FStr: 'TSquareRootQuinticSecond'),
-    (FID:  6525; FStr: 'TQuarticRootAmpere'),
-    (FID:  8700; FStr: 'TCubicRootAmpere'),
-    (FID: 13050; FStr: 'TSquareRootAmpere'),
-    (FID: 39150; FStr: 'TSquareRootCubicAmpere'),
-    (FID: 65250; FStr: 'TSquareRootQuinticAmpere'),
-    (FID: 78300; FStr: 'TCubicAmpere'),
-    (FID: 104400; FStr: 'TQuarticAmpere'),
-    (FID: 130500; FStr: 'TQuinticAmpere'),
-    (FID: 156600; FStr: 'TSexticAmpere'),
-    (FID:  9240; FStr: 'TQuarticRootKelvin'),
-    (FID: 12320; FStr: 'TCubicRootKelvin'),
-    (FID: 18480; FStr: 'TSquareRootKelvin'),
-    (FID: 55440; FStr: 'TSquareRootCubicKelvin'),
-    (FID: 92400; FStr: 'TSquareRootQuinticKelvin'),
-    (FID: 184800; FStr: 'TQuinticKelvin'),
-    (FID: 221760; FStr: 'TSexticKelvin'),
-    (FID:  8775; FStr: 'TQuarticRootMole'),
-    (FID: 11700; FStr: 'TCubicRootMole'),
-    (FID: 17550; FStr: 'TSquareRootMole'),
-    (FID: 52650; FStr: 'TSquareRootCubicMole'),
-    (FID: 70200; FStr: 'TSquareMole'),
-    (FID: 87750; FStr: 'TSquareRootQuinticMole'),
-    (FID: 105300; FStr: 'TCubicMole'),
-    (FID: 140400; FStr: 'TQuarticMole'),
-    (FID: 175500; FStr: 'TQuinticMole'),
-    (FID: 210600; FStr: 'TSexticMole'),
-    (FID:  6030; FStr: 'TQuarticRootCandela'),
-    (FID:  8040; FStr: 'TCubicRootCandela'),
-    (FID: 12060; FStr: 'TSquareRootCandela'),
-    (FID: 36180; FStr: 'TSquareRootCubicCandela'),
-    (FID: 48240; FStr: 'TSquareCandela'),
-    (FID: 60300; FStr: 'TSquareRootQuinticCandela'),
-    (FID: 72360; FStr: 'TCubicCandela'),
-    (FID: 96480; FStr: 'TQuarticCandela'),
-    (FID: 120600; FStr: 'TQuinticCandela'),
-    (FID: 144720; FStr: 'TSexticCandela'),
-    (FID:  7410; FStr: 'TQuarticRootSteradian'),
-    (FID:  9880; FStr: 'TCubicRootSteradian'),
-    (FID: 14820; FStr: 'TSquareRootSteradian'),
-    (FID: 44460; FStr: 'TSquareRootCubicSteradian'),
-    (FID: 59280; FStr: 'TSquareSteradian'),
-    (FID: 74100; FStr: 'TSquareRootQuinticSteradian'),
-    (FID: 88920; FStr: 'TCubicSteradian'),
-    (FID: 118560; FStr: 'TQuarticSteradian'),
-    (FID: 148200; FStr: 'TQuinticSteradian'),
-    (FID: 177840; FStr: 'TSexticSteradian'),
-    (FID: -70020; FStr: 'TReciprocalCubicSecond'),
-    (FID: -93360; FStr: 'TReciprocalQuarticSecond'),
-    (FID: -116700; FStr: 'TReciprocalQuinticSecond'),
-    (FID: -140040; FStr: 'TReciprocalSexticSecond'),
-    (FID: 124440; FStr: 'TSquareKilogramSquareMeter'),
-    (FID: -20520; FStr: 'TSquareMeterPerQuarticSecond'),
-    (FID: -41760; FStr: 'TSquareKilogramPerQuarticSecond'),
-    (FID: -83100; FStr: 'TReciprocalMeterSquareSecond'),
-    (FID: 62520; FStr: 'TMeterAmpere'),
-    (FID: -23280; FStr: 'TSquareMeterPerCubicSecondPerAmpere'),
-    (FID: -70320; FStr: 'TKilogramPerCubicSecondPerAmpere'),
-    (FID: 72540; FStr: 'TKilogramSquareMeterPerAmpere'),
-    (FID: -46560; FStr: 'TQuarticMeterPerSexticSecondPerSquareAmpere'),
-    (FID: -140640; FStr: 'TSquareKilogramPerSexticSecondPerSquareAmpere'),
-    (FID: 145080; FStr: 'TSquareKilogramQuarticMeterPerSquareAmpere'),
-    (FID: 57240; FStr: 'TSquareKilogramQuarticMeterPerSexticSecond'),
-    (FID: 72720; FStr: 'TQuarticSecondSquareAmperePerSquareMeter'),
-    (FID: 119760; FStr: 'TQuarticSecondSquareAmperePerKilogram'),
-    (FID: -46440; FStr: 'TSquareAmperePerKilogramPerSquareMeter'),
-    (FID: -5280; FStr: 'TQuarticSecondPerKilogramPerSquareMeter'),
-    (FID: -49380; FStr: 'TSquareMeterPerCubicSecondPerSquareAmpere'),
-    (FID: -96420; FStr: 'TKilogramPerCubicSecondPerSquareAmpere'),
-    (FID: 46440; FStr: 'TKilogramSquareMeterPerSquareAmpere'),
-    (FID: 49380; FStr: 'TCubicSecondSquareAmperePerSquareMeter'),
-    (FID: 96420; FStr: 'TCubicSecondSquareAmperePerKilogram'),
-    (FID: 12960; FStr: 'TCubicSecondSquareAmperePerCubicMeter'),
-    (FID: -82860; FStr: 'TSquareAmperePerKilogramPerCubicMeter'),
-    (FID: -65040; FStr: 'TCubicSecondPerKilogramPerCubicMeter'),
-    (FID: -72780; FStr: 'TReciprocalSquareSecondAmpere'),
-    (FID:  -300; FStr: 'TKilogramPerAmpere'),
-    (FID:    60; FStr: 'TSquareMeterPerSquareSecondPerAmpere'),
-    (FID: 26040; FStr: 'TSquareSecondSquareAmperePerSquareMeter'),
-    (FID: 73080; FStr: 'TSquareSecondSquareAmperePerKilogram'),
-    (FID: -51960; FStr: 'TSquareSecondPerKilogramPerSquareMeter'),
-    (FID: 52980; FStr: 'TSecondSteradian'),
-    (FID: 47460; FStr: 'TSecondCandela'),
-    (FID: -55500; FStr: 'TCandelaSteradianPerCubicMeter'),
-    (FID: -56280; FStr: 'TSecondSteradianPerCubicMeter'),
-    (FID: -61800; FStr: 'TSecondCandelaPerCubicMeter'),
-    (FID: -43200; FStr: 'TSteradianPerSquareMeter'),
-    (FID: -19860; FStr: 'TSecondSteradianPerSquareMeter'),
-    (FID: -25380; FStr: 'TSecondCandelaPerSquareMeter'),
-    (FID: -119520; FStr: 'TReciprocalSquareMeterSquareSecond'),
-    (FID: -59760; FStr: 'TReciprocalMeterSecond'),
-    (FID: -169020; FStr: 'TReciprocalQuarticMeterSecond'),
-    (FID: -25800; FStr: 'TReciprocalKilogram'),
-    (FID: 135060; FStr: 'TKilogramCubicMeter'),
-    (FID: 99000; FStr: 'TQuarticMeterPerSquareSecond'),
-    (FID: 171480; FStr: 'TKilogramQuarticMeter'),
-    (FID: -72480; FStr: 'TReciprocalKilogramSquareSecond'),
-    (FID: 10620; FStr: 'TMeterPerKilogram'),
-    (FID: -51600; FStr: 'TReciprocalSquareKilogram'),
-    (FID: -57840; FStr: 'TKilogramPerSquareSecondPerKelvin'),
-    (FID: 61680; FStr: 'TKilogramSquareMeterPerKelvin'),
-    (FID: -83640; FStr: 'TReciprocalSquareSecondKelvin'),
-    (FID: 35880; FStr: 'TSquareMeterPerKelvin'),
-    (FID: -106440; FStr: 'TReciprocalMeterCubicSecond'),
-    (FID: -34140; FStr: 'TSquareMeterPerCubicSecondPerKelvin'),
-    (FID: -70560; FStr: 'TMeterPerCubicSecondPerKelvin'),
-    (FID: 25260; FStr: 'TKilogramMeterPerKelvin'),
-    (FID: 34140; FStr: 'TCubicSecondKelvinPerSquareMeter'),
-    (FID: 81180; FStr: 'TCubicSecondKelvinPerKilogram'),
-    (FID: -61680; FStr: 'TKelvinPerKilogramPerSquareMeter'),
-    (FID: 33600; FStr: 'TCubicSecondPerMeter'),
-    (FID: 44220; FStr: 'TCubicSecondPerKilogram'),
-    (FID: -62220; FStr: 'TReciprocalKilogramMeter'),
-    (FID: 70560; FStr: 'TCubicSecondKelvinPerMeter'),
-    (FID: -25260; FStr: 'TKelvinPerKilogramPerMeter'),
-    (FID: -106980; FStr: 'TReciprocalCubicSecondKelvin'),
-    (FID: -11160; FStr: 'TKilogramPerKelvin'),
-    (FID: -145020; FStr: 'TSquareMeterPerCubicSecondPerQuarticKelvin'),
-    (FID: -49200; FStr: 'TKilogramSquareMeterPerQuarticKelvin'),
-    (FID: -217860; FStr: 'TReciprocalCubicSecondQuarticKelvin'),
-    (FID: -122040; FStr: 'TKilogramPerQuarticKelvin'),
-    (FID: -8940; FStr: 'TSquareMeterPerSquareSecondPerMole'),
-    (FID: -55980; FStr: 'TKilogramPerSquareSecondPerMole'),
-    (FID: 63540; FStr: 'TKilogramSquareMeterPerMole'),
-    (FID: -45900; FStr: 'TSquareMeterPerSquareSecondPerKelvinPerMole'),
-    (FID: -92940; FStr: 'TKilogramPerSquareSecondPerKelvinPerMole'),
-    (FID: 26580; FStr: 'TKilogramSquareMeterPerKelvinPerMole'),
-    (FID: -12960; FStr: 'TCubicMeterPerCubicSecondPerSquareAmpere'),
-    (FID: 82860; FStr: 'TKilogramCubicMeterPerSquareAmpere'),
-    (FID: 65040; FStr: 'TKilogramCubicMeterPerCubicSecond'),
-    (FID: -59700; FStr: 'TMeterPerCubicSecondPerAmpere'),
-    (FID: 36120; FStr: 'TKilogramMeterPerAmpere'),
-    (FID: 15780; FStr: 'TSquareAmperePerMeter'),
-    (FID: 10260; FStr: 'TSquareSecondPerMeter'),
-    (FID: -49500; FStr: 'TSecondPerSquareMeter'),
-    (FID: -98880; FStr: 'TReciprocalSquareSecondSquareAmpere'),
-    (FID: 20640; FStr: 'TSquareMeterPerSquareAmpere'),
-    (FID: -109140; FStr: 'TMeterPerQuarticSecondPerSquareAmpere'),
-    (FID: -119760; FStr: 'TKilogramPerQuarticSecondPerSquareAmpere'),
-    (FID: 10020; FStr: 'TKilogramMeterPerSquareAmpere'),
-    (FID: -31140; FStr: 'TKilogramMeterPerQuarticSecond'),
-    (FID: -36300; FStr: 'TCubicMeterPerQuarticSecondPerSquareAmpere'),
-    (FID: 41700; FStr: 'TKilogramCubicMeterPerQuarticSecond'),
-    (FID: 13140; FStr: 'TCubicMeterPerCubicSecondPerAmpere'),
-    (FID: 108960; FStr: 'TKilogramCubicMeterPerAmpere'),
-    (FID: -10200; FStr: 'TCubicMeterPerQuarticSecondPerAmpere'),
-    (FID: -93660; FStr: 'TKilogramPerQuarticSecondPerAmpere'),
-    (FID: 36300; FStr: 'TQuarticSecondSquareAmperePerCubicMeter'),
-    (FID: -41700; FStr: 'TQuarticSecondPerKilogramPerCubicMeter'),
-    (FID: -26100; FStr: 'TReciprocalAmpere'),
-    (FID: -36360; FStr: 'TMeterPerSquareSecondPerAmpere'),
-    (FID: -26400; FStr: 'TKilogramPerSquareAmpere'),
-    (FID: -62460; FStr: 'TMeterPerSquareSecondPerSquareAmpere'),
-    (FID: 52320; FStr: 'TQuarticMeterPerQuarticSecond'),
-    (FID: 197280; FStr: 'TSquareKilogramQuarticMeter'),
-    (FID:   300; FStr: 'TAmperePerKilogram'),
-    (FID: -2460; FStr: 'TSecondPerKilogram'),
-    (FID: 50940; FStr: 'TCubicSecondCandelaSteradianPerSquareMeter'),
-    (FID: 97980; FStr: 'TCubicSecondCandelaSteradianPerKilogram'),
-    (FID: -44880; FStr: 'TCandelaSteradianPerKilogramPerSquareMeter'),
-    (FID:  1020; FStr: 'TCubicSecondSteradianPerKilogramPerSquareMeter'),
-    (FID: -4500; FStr: 'TCubicSecondCandelaPerKilogramPerSquareMeter'),
-    (FID: -83160; FStr: 'TAmperePerCubicMeter'),
-    (FID: -85920; FStr: 'TSecondPerCubicMeter'),
-    (FID: -26820; FStr: 'TSquareMeterPerCubicSecondPerSteradian'),
-    (FID: 69000; FStr: 'TKilogramSquareMeterPerSteradian'),
-    (FID: -3480; FStr: 'TSquareMeterPerSquareSecondPerSteradian'),
-    (FID: -63240; FStr: 'TMeterPerCubicSecondPerSteradian'),
-    (FID: 32580; FStr: 'TKilogramMeterPerSteradian'),
-    (FID: -99660; FStr: 'TReciprocalCubicSecondSteradian'),
-    (FID: -3840; FStr: 'TKilogramPerSteradian'),
-    (FID: -136080; FStr: 'TReciprocalMeterCubicSecondSteradian'),
-    (FID: -40260; FStr: 'TKilogramPerMeterPerSteradian'),
-    (FID: -76320; FStr: 'TReciprocalSquareSecondSteradian'),
-    (FID: -132600; FStr: 'TReciprocalCubicMeterSecond'),
-    (FID: -9000; FStr: 'TAmperePerMole'),
-    (FID: -11760; FStr: 'TSecondPerMole'),
-    (FID: 20880; FStr: 'TSquareSecondPerKilogram'),
-    (FID: 72780; FStr: 'TSquareSecondAmpere'),
-    (FID: 83100; FStr: 'TMeterSquareSecond'),
-    (FID:   -60; FStr: 'TSquareSecondAmperePerSquareMeter'),
-    (FID: -72540; FStr: 'TAmperePerKilogramPerSquareMeter'),
-    (FID: -2820; FStr: 'TCubicSecondPerSquareMeter'),
-    (FID: -98640; FStr: 'TReciprocalKilogramSquareMeter'),
-    (FID: 59700; FStr: 'TCubicSecondAmperePerMeter'),
-    (FID: 70320; FStr: 'TCubicSecondAmperePerKilogram'),
-    (FID: -36120; FStr: 'TAmperePerKilogramPerMeter'),
-    (FID: -96120; FStr: 'TReciprocalCubicSecondAmpere'),
-    (FID: 46740; FStr: 'TSquareMeterPerAmpere'),
-    (FID: -192240; FStr: 'TReciprocalSexticSecondSquareAmpere'),
-    (FID: 93480; FStr: 'TQuarticMeterPerSquareAmpere'),
-    (FID:  5640; FStr: 'TQuarticMeterPerSexticSecond'),
-    (FID:  -600; FStr: 'TSquareKilogramPerSquareAmpere'),
-    (FID: -88440; FStr: 'TSquareKilogramPerSexticSecond'),
-    (FID: 145560; FStr: 'TQuarticSecondSquareAmpere'),
-    (FID: -20640; FStr: 'TSquareAmperePerSquareMeter'),
-    (FID: 20520; FStr: 'TQuarticSecondPerSquareMeter'),
-    (FID: 26400; FStr: 'TSquareAmperePerKilogram'),
-    (FID: 67560; FStr: 'TQuarticSecondPerKilogram'),
-    (FID: -122220; FStr: 'TReciprocalCubicSecondSquareAmpere'),
-    (FID: 122220; FStr: 'TCubicSecondSquareAmpere'),
-    (FID: -57060; FStr: 'TSquareAmperePerCubicMeter'),
-    (FID: -39240; FStr: 'TCubicSecondPerCubicMeter'),
-    (FID: -135060; FStr: 'TReciprocalKilogramCubicMeter'),
-    (FID: -79620; FStr: 'TSteradianPerCubicMeter'),
-    (FID: -85140; FStr: 'TCandelaPerCubicMeter'),
-    (FID:  -540; FStr: 'TMeterPerKelvin'),
-    (FID: 106980; FStr: 'TCubicSecondKelvin'),
-    (FID: -35880; FStr: 'TKelvinPerSquareMeter'),
-    (FID: 11160; FStr: 'TKelvinPerKilogram'),
-    (FID: -75000; FStr: 'TSquareMeterPerQuarticKelvin'),
-    (FID: -147840; FStr: 'TReciprocalQuarticKelvin'),
-    (FID: -81780; FStr: 'TReciprocalSquareSecondMole'),
-    (FID: 37740; FStr: 'TSquareMeterPerMole'),
-    (FID: -9300; FStr: 'TKilogramPerMole'),
-    (FID: -118740; FStr: 'TReciprocalSquareSecondKelvinMole'),
-    (FID:   780; FStr: 'TSquareMeterPerKelvinPerMole'),
-    (FID: -46260; FStr: 'TKilogramPerKelvinPerMole'),
-    (FID: 57060; FStr: 'TCubicMeterPerSquareAmpere'),
-    (FID: 39240; FStr: 'TCubicMeterPerCubicSecond'),
-    (FID: -52200; FStr: 'TReciprocalSquareAmpere'),
-    (FID: -145560; FStr: 'TReciprocalQuarticSecondSquareAmpere'),
-    (FID: -15780; FStr: 'TMeterPerSquareAmpere'),
-    (FID: -67560; FStr: 'TKilogramPerQuarticSecond'),
-    (FID: 15900; FStr: 'TCubicMeterPerQuarticSecond'),
-    (FID: 83160; FStr: 'TCubicMeterPerAmpere'),
-    (FID: -119460; FStr: 'TReciprocalQuarticSecondAmpere'),
-    (FID: -15900; FStr: 'TQuarticSecondPerCubicMeter'),
-    (FID: 123780; FStr: 'TCubicSecondCandelaSteradian'),
-    (FID: 26820; FStr: 'TCubicSecondSteradianPerSquareMeter'),
-    (FID: 21300; FStr: 'TCubicSecondCandelaPerSquareMeter'),
-    (FID: 27960; FStr: 'TCandelaSteradianPerKilogram'),
-    (FID: 73860; FStr: 'TCubicSecondSteradianPerKilogram'),
-    (FID: 68340; FStr: 'TCubicSecondCandelaPerKilogram'),
-    (FID: -69000; FStr: 'TSteradianPerKilogramPerSquareMeter'),
-    (FID: -74520; FStr: 'TCandelaPerKilogramPerSquareMeter'),
-    (FID: 43200; FStr: 'TSquareMeterPerSteradian'),
-    (FID:  6780; FStr: 'TMeterPerSteradian'),
-    (FID: -29640; FStr: 'TReciprocalSteradian'),
-    (FID: -66060; FStr: 'TReciprocalMeterSteradian'),
-    (FID: 96120; FStr: 'TCubicSecondAmpere'),
-    (FID: -72060; FStr: 'TReciprocalKelvinMole'),
-    (FID: 99660; FStr: 'TCubicSecondSteradian'),
-    (FID: 94140; FStr: 'TCubicSecondCandela'),
-    (FID:  3840; FStr: 'TSteradianPerKilogram'),
-    (FID: -1680; FStr: 'TCandelaPerKilogram'),
-    (FID: -182100; FStr: 'TReciprocalQuinticMeter'),
-    (FID: -218520; FStr: 'TReciprocalSexticMeter'),
-    (FID: -73920; FStr: 'TReciprocalSquareKelvin'),
-    (FID: -110880; FStr: 'TReciprocalCubicKelvin'),
-    (FID: -24120; FStr: 'TReciprocalCandela'),
-    (FID: 17040; FStr: 'TSquareSecondPerSteradian'),
-    (FID: 56940; FStr: 'TQuarticSecondPerMeter'),
-    (FID: 80280; FStr: 'TQuinticSecondPerMeter'),
-    (FID: 103620; FStr: 'TSexticSecondPerMeter'),
-    (FID: -38880; FStr: 'TSecondPerKilogramPerMeter'),
-    (FID: -77760; FStr: 'TSquareSecondPerSquareKilogramPerSquareMeter'),
-    (FID: -75300; FStr: 'TSecondPerKilogramPerSquareMeter'),
-    (FID: 47040; FStr: 'TSquareMeterPerKilogram'),
-    (FID: -31080; FStr: 'TQuarticSecondPerSquareKilogramPerSquareMeter'),
-    (FID: -49440; FStr: 'TReciprocalSecondAmpere'),
-    (FID: -85860; FStr: 'TReciprocalMeterSecondAmpere'),
-    (FID: -2520; FStr: 'TCubicSecondAmperePerKilogramPerSquareMeter'),
-    (FID: -5040; FStr: 'TSexticSecondSquareAmperePerSquareKilogramPerQuarticMeter'),
-    (FID: -46920; FStr: 'TKilogramSquareMeterPerQuarticSecondPerSquareAmpere'),
-    (FID: -53760; FStr: 'TReciprocalCandelaSteradian'),
-    (FID: -77100; FStr: 'TReciprocalSecondCandelaSteradian'),
-    (FID: 32160; FStr: 'TCubicMeterPerSecondPerCandelaPerSteradian'),
-    (FID: 19080; FStr: 'TSquareMeterPerCandelaPerSteradian'),
-    (FID: -4260; FStr: 'TSquareMeterPerSecondPerCandelaPerSteradian'),
-    (FID: 93720; FStr: 'TSquareMeterSquareSecondPerKilogram'),
-    (FID: 33960; FStr: 'TMeterSecondPerKilogram'),
-    (FID: 119880; FStr: 'TQuarticMeterPerKilogram'),
-    (FID: 143220; FStr: 'TQuarticMeterSecondPerKilogram'),
-    (FID: -62580; FStr: 'TSquareSecondPerCubicMeter'),
-    (FID: -88380; FStr: 'TSquareSecondPerKilogramPerCubicMeter'),
-    (FID: -124800; FStr: 'TSquareSecondPerKilogramPerQuarticMeter'),
-    (FID: 36060; FStr: 'TKilogramSquareSecondPerMeter'),
-    (FID: -15180; FStr: 'TMeterPerSquareKilogram'),
-    (FID: -36780; FStr: 'TKilogramSquareSecondPerCubicMeter'),
-    (FID: -62760; FStr: 'TReciprocalKilogramKelvin'),
-    (FID: -15000; FStr: 'TSquareSecondKelvinPerKilogramPerSquareMeter'),
-    (FID: 10800; FStr: 'TSquareSecondKelvinPerSquareMeter'),
-    (FID: -73380; FStr: 'TReciprocalMeterKelvin'),
-    (FID: 80640; FStr: 'TMeterCubicSecondPerKilogram'),
-    (FID: -109800; FStr: 'TReciprocalSquareMeterKelvin'),
-    (FID: -220680; FStr: 'TReciprocalSquareMeterQuarticKelvin'),
-    (FID: 119220; FStr: 'TCubicSecondQuarticKelvinPerKilogramPerSquareMeter'),
-    (FID: 192060; FStr: 'TCubicSecondQuarticKelvinPerKilogram'),
-    (FID: -16860; FStr: 'TSquareSecondMolePerKilogramPerSquareMeter'),
-    (FID: 20100; FStr: 'TSquareSecondKelvinMolePerKilogramPerSquareMeter'),
-    (FID: -13020; FStr: 'TMeterPerSecondPerAmpere'),
-    (FID: 23400; FStr: 'TSquareMeterPerSecondPerAmpere'),
-    (FID: 83340; FStr: 'TQuarticSecondSquareAmperePerKilogramPerMeter'),
-    (FID: -38940; FStr: 'TCubicSecondAmperePerKilogramPerCubicMeter'),
-    (FID: -15600; FStr: 'TQuarticSecondAmperePerKilogramPerCubicMeter'),
-    (FID: 10560; FStr: 'TSquareSecondAmperePerKilogramPerMeter'),
-    (FID: 36660; FStr: 'TSquareSecondSquareAmperePerKilogramPerMeter'),
-    (FID: -4920; FStr: 'TSquareSecondPerSquareKilogram'),
-    (FID: -103920; FStr: 'TQuarticSecondPerSquareKilogramPerQuarticMeter'),
-    (FID: -150600; FStr: 'TSquareSecondPerSquareKilogramPerQuarticMeter'),
-    (FID: -23640; FStr: 'TKilogramPerSecondPerAmpere'),
-    (FID: -98940; FStr: 'TReciprocalSquareMeterAmpere'),
-    (FID: -25140; FStr: 'TKilogramSquareMeterPerCubicSecondPerCandelaPerSteradian'),
-    (FID: 74160; FStr: 'TCubicMeterPerMole'),
-    (FID: 48720; FStr: 'TSquareMeterPerCandela'),
-    (FID: 59820; FStr: 'TCubicMeterPerSecondPerAmpere'),
-    (FID: -6300; FStr: 'TSecondPerSteradian'),
-    (FID: -102480; FStr: 'TReciprocalSquareMeterSteradian'),
-    (FID: -138900; FStr: 'TReciprocalCubicMeterSteradian'),
-    (FID: -79140; FStr: 'TSecondPerSquareMeterPerSteradian'),
-    (FID: -22320; FStr: 'TSquareSecondSteradianPerKilogramPerSquareMeter'),
-    (FID: 37440; FStr: 'TCubicSecondSteradianPerKilogramPerMeter'),
-    (FID: 110280; FStr: 'TMeterCubicSecondSteradianPerKilogram'),
-    (FID: 50520; FStr: 'TSquareSecondSteradianPerKilogram'),
-    (FID: 97500; FStr: 'TCubicMeterSecondPerMole'),
-    (FID: -14340; FStr: 'TMolePerSecondPerAmpere'),
-    (FID: -6450; FStr: 'TReciprocalQuarticRootKilogram'),
-    (FID: -8600; FStr: 'TReciprocalCubicRootKilogram'),
-    (FID: -12900; FStr: 'TReciprocalSquareRootKilogram'),
-    (FID: -38700; FStr: 'TReciprocalSquareRootCubicKilogram'),
-    (FID: -64500; FStr: 'TReciprocalSquareRootQuinticKilogram'),
-    (FID: -77400; FStr: 'TReciprocalCubicKilogram'),
-    (FID: -103200; FStr: 'TReciprocalQuarticKilogram'),
-    (FID: -129000; FStr: 'TReciprocalQuinticKilogram'),
-    (FID: -154800; FStr: 'TReciprocalSexticKilogram'),
-    (FID: -9105; FStr: 'TReciprocalQuarticRootMeter'),
-    (FID: -12140; FStr: 'TReciprocalCubicRootMeter'),
-    (FID: -91050; FStr: 'TReciprocalSquareRootQuinticMeter'),
-    (FID: -5835; FStr: 'TReciprocalQuarticRootSecond'),
-    (FID: -7780; FStr: 'TReciprocalCubicRootSecond'),
-    (FID: -11670; FStr: 'TReciprocalSquareRootSecond'),
-    (FID: -35010; FStr: 'TReciprocalSquareRootCubicSecond'),
-    (FID: -58350; FStr: 'TReciprocalSquareRootQuinticSecond'),
-    (FID: -6525; FStr: 'TReciprocalQuarticRootAmpere'),
-    (FID: -8700; FStr: 'TReciprocalCubicRootAmpere'),
-    (FID: -13050; FStr: 'TReciprocalSquareRootAmpere'),
-    (FID: -39150; FStr: 'TReciprocalSquareRootCubicAmpere'),
-    (FID: -65250; FStr: 'TReciprocalSquareRootQuinticAmpere'),
-    (FID: -78300; FStr: 'TReciprocalCubicAmpere'),
-    (FID: -104400; FStr: 'TReciprocalQuarticAmpere'),
-    (FID: -130500; FStr: 'TReciprocalQuinticAmpere'),
-    (FID: -156600; FStr: 'TReciprocalSexticAmpere'),
-    (FID: -9240; FStr: 'TReciprocalQuarticRootKelvin'),
-    (FID: -12320; FStr: 'TReciprocalCubicRootKelvin'),
-    (FID: -18480; FStr: 'TReciprocalSquareRootKelvin'),
-    (FID: -55440; FStr: 'TReciprocalSquareRootCubicKelvin'),
-    (FID: -92400; FStr: 'TReciprocalSquareRootQuinticKelvin'),
-    (FID: -184800; FStr: 'TReciprocalQuinticKelvin'),
-    (FID: -221760; FStr: 'TReciprocalSexticKelvin'),
-    (FID: -8775; FStr: 'TReciprocalQuarticRootMole'),
-    (FID: -11700; FStr: 'TReciprocalCubicRootMole'),
-    (FID: -17550; FStr: 'TReciprocalSquareRootMole'),
-    (FID: -52650; FStr: 'TReciprocalSquareRootCubicMole'),
-    (FID: -70200; FStr: 'TReciprocalSquareMole'),
-    (FID: -87750; FStr: 'TReciprocalSquareRootQuinticMole'),
-    (FID: -105300; FStr: 'TReciprocalCubicMole'),
-    (FID: -140400; FStr: 'TReciprocalQuarticMole'),
-    (FID: -175500; FStr: 'TReciprocalQuinticMole'),
-    (FID: -210600; FStr: 'TReciprocalSexticMole'),
-    (FID: -6030; FStr: 'TReciprocalQuarticRootCandela'),
-    (FID: -8040; FStr: 'TReciprocalCubicRootCandela'),
-    (FID: -12060; FStr: 'TReciprocalSquareRootCandela'),
-    (FID: -36180; FStr: 'TReciprocalSquareRootCubicCandela'),
-    (FID: -48240; FStr: 'TReciprocalSquareCandela'),
-    (FID: -60300; FStr: 'TReciprocalSquareRootQuinticCandela'),
-    (FID: -72360; FStr: 'TReciprocalCubicCandela'),
-    (FID: -96480; FStr: 'TReciprocalQuarticCandela'),
-    (FID: -120600; FStr: 'TReciprocalQuinticCandela'),
-    (FID: -144720; FStr: 'TReciprocalSexticCandela'),
-    (FID: -7410; FStr: 'TReciprocalQuarticRootSteradian'),
-    (FID: -9880; FStr: 'TReciprocalCubicRootSteradian'),
-    (FID: -14820; FStr: 'TReciprocalSquareRootSteradian'),
-    (FID: -44460; FStr: 'TReciprocalSquareRootCubicSteradian'),
-    (FID: -59280; FStr: 'TReciprocalSquareSteradian'),
-    (FID: -74100; FStr: 'TReciprocalSquareRootQuinticSteradian'),
-    (FID: -88920; FStr: 'TReciprocalCubicSteradian'),
-    (FID: -118560; FStr: 'TReciprocalQuarticSteradian'),
-    (FID: -148200; FStr: 'TReciprocalQuinticSteradian'),
-    (FID: -177840; FStr: 'TReciprocalSexticSteradian'),
-    (FID: -124440; FStr: 'TReciprocalSquareKilogramSquareMeter'),
-    (FID: 41760; FStr: 'TQuarticSecondPerSquareKilogram'),
-    (FID: -62520; FStr: 'TReciprocalMeterAmpere'),
-    (FID: 23280; FStr: 'TCubicSecondAmperePerSquareMeter'),
-    (FID: 46560; FStr: 'TSexticSecondSquareAmperePerQuarticMeter'),
-    (FID: 140640; FStr: 'TSexticSecondSquareAmperePerSquareKilogram'),
-    (FID: -145080; FStr: 'TSquareAmperePerSquareKilogramPerQuarticMeter'),
-    (FID: -57240; FStr: 'TSexticSecondPerSquareKilogramPerQuarticMeter'),
-    (FID: -72720; FStr: 'TSquareMeterPerQuarticSecondPerSquareAmpere'),
-    (FID:  5280; FStr: 'TKilogramSquareMeterPerQuarticSecond'),
-    (FID: -52980; FStr: 'TReciprocalSecondSteradian'),
-    (FID: -47460; FStr: 'TReciprocalSecondCandela'),
-    (FID: 55500; FStr: 'TCubicMeterPerCandelaPerSteradian'),
-    (FID: 56280; FStr: 'TCubicMeterPerSecondPerSteradian'),
-    (FID: 61800; FStr: 'TCubicMeterPerSecondPerCandela'),
-    (FID: 19860; FStr: 'TSquareMeterPerSecondPerSteradian'),
-    (FID: 25380; FStr: 'TSquareMeterPerSecondPerCandela'),
-    (FID: 119520; FStr: 'TSquareMeterSquareSecond'),
-    (FID: -99000; FStr: 'TSquareSecondPerQuarticMeter'),
-    (FID: -171480; FStr: 'TReciprocalKilogramQuarticMeter'),
-    (FID: 57840; FStr: 'TSquareSecondKelvinPerKilogram'),
-    (FID: 83640; FStr: 'TSquareSecondKelvin'),
-    (FID: 106440; FStr: 'TMeterCubicSecond'),
-    (FID: 145020; FStr: 'TCubicSecondQuarticKelvinPerSquareMeter'),
-    (FID: 49200; FStr: 'TQuarticKelvinPerKilogramPerSquareMeter'),
-    (FID: 217860; FStr: 'TCubicSecondQuarticKelvin'),
-    (FID: 122040; FStr: 'TQuarticKelvinPerKilogram'),
-    (FID:  8940; FStr: 'TSquareSecondMolePerSquareMeter'),
-    (FID: 55980; FStr: 'TSquareSecondMolePerKilogram'),
-    (FID: -63540; FStr: 'TMolePerKilogramPerSquareMeter'),
-    (FID: 45900; FStr: 'TSquareSecondKelvinMolePerSquareMeter'),
-    (FID: 92940; FStr: 'TSquareSecondKelvinMolePerKilogram'),
-    (FID: -26580; FStr: 'TKelvinMolePerKilogramPerSquareMeter'),
-    (FID: 109140; FStr: 'TQuarticSecondSquareAmperePerMeter'),
-    (FID: -10020; FStr: 'TSquareAmperePerKilogramPerMeter'),
-    (FID: 31140; FStr: 'TQuarticSecondPerKilogramPerMeter'),
-    (FID: -13140; FStr: 'TCubicSecondAmperePerCubicMeter'),
-    (FID: -108960; FStr: 'TAmperePerKilogramPerCubicMeter'),
-    (FID: 10200; FStr: 'TQuarticSecondAmperePerCubicMeter'),
-    (FID: 93660; FStr: 'TQuarticSecondAmperePerKilogram'),
-    (FID: 36360; FStr: 'TSquareSecondAmperePerMeter'),
-    (FID: -52320; FStr: 'TQuarticSecondPerQuarticMeter'),
-    (FID: -197280; FStr: 'TReciprocalSquareKilogramQuarticMeter'),
-    (FID: -50940; FStr: 'TSquareMeterPerCubicSecondPerCandelaPerSteradian'),
-    (FID: -97980; FStr: 'TKilogramPerCubicSecondPerCandelaPerSteradian'),
-    (FID: 44880; FStr: 'TKilogramSquareMeterPerCandelaPerSteradian'),
-    (FID:  4500; FStr: 'TKilogramSquareMeterPerCubicSecondPerCandela'),
-    (FID:  3480; FStr: 'TSquareSecondSteradianPerSquareMeter'),
-    (FID: 63240; FStr: 'TCubicSecondSteradianPerMeter'),
-    (FID: -32580; FStr: 'TSteradianPerKilogramPerMeter'),
-    (FID: 136080; FStr: 'TMeterCubicSecondSteradian'),
-    (FID: 40260; FStr: 'TMeterSteradianPerKilogram'),
-    (FID: 76320; FStr: 'TSquareSecondSteradian'),
-    (FID: 132600; FStr: 'TCubicMeterSecond'),
-    (FID:  9000; FStr: 'TMolePerAmpere'),
-    (FID: 192240; FStr: 'TSexticSecondSquareAmpere'),
-    (FID: -93480; FStr: 'TSquareAmperePerQuarticMeter'),
-    (FID: -5640; FStr: 'TSexticSecondPerQuarticMeter'),
-    (FID:   600; FStr: 'TSquareAmperePerSquareKilogram'),
-    (FID: 88440; FStr: 'TSexticSecondPerSquareKilogram'),
-    (FID: 79620; FStr: 'TCubicMeterPerSteradian'),
-    (FID: 85140; FStr: 'TCubicMeterPerCandela'),
-    (FID: 75000; FStr: 'TQuarticKelvinPerSquareMeter'),
-    (FID: 81780; FStr: 'TSquareSecondMole'),
-    (FID: -37740; FStr: 'TMolePerSquareMeter'),
-    (FID:  9300; FStr: 'TMolePerKilogram'),
-    (FID: 118740; FStr: 'TSquareSecondKelvinMole'),
-    (FID:  -780; FStr: 'TKelvinMolePerSquareMeter'),
-    (FID: 46260; FStr: 'TKelvinMolePerKilogram'),
-    (FID: 119460; FStr: 'TQuarticSecondAmpere'),
-    (FID: -123780; FStr: 'TReciprocalCubicSecondCandelaSteradian'),
-    (FID: -21300; FStr: 'TSquareMeterPerCubicSecondPerCandela'),
-    (FID: -27960; FStr: 'TKilogramPerCandelaPerSteradian'),
-    (FID: -68340; FStr: 'TKilogramPerCubicSecondPerCandela'),
-    (FID: 74520; FStr: 'TKilogramSquareMeterPerCandela'),
-    (FID: -6780; FStr: 'TSteradianPerMeter'),
-    (FID: -94140; FStr: 'TReciprocalCubicSecondCandela'),
-    (FID:  1680; FStr: 'TKilogramPerCandela')
+    (FID: 32220; FStr: 'TSteradian'),
+    (FID: 29220; FStr: 'TSecond'),
+    (FID: 58440; FStr: 'TSquareSecond'),
+    (FID: 87660; FStr: 'TCubicSecond'),
+    (FID: 116880; FStr: 'TQuarticSecond'),
+    (FID: 146100; FStr: 'TQuinticSecond'),
+    (FID: 175320; FStr: 'TSexticSecond'),
+    (FID:  1380; FStr: 'TMeter'),
+    (FID:   690; FStr: 'TSquareRootMeter'),
+    (FID:  2760; FStr: 'TSquareMeter'),
+    (FID:  4140; FStr: 'TCubicMeter'),
+    (FID:  5520; FStr: 'TQuarticMeter'),
+    (FID:  6900; FStr: 'TQuinticMeter'),
+    (FID:  8280; FStr: 'TSexticMeter'),
+    (FID:  9840; FStr: 'TKilogram'),
+    (FID: 19680; FStr: 'TSquareKilogram'),
+    (FID:  4620; FStr: 'TAmpere'),
+    (FID:  9240; FStr: 'TSquareAmpere'),
+    (FID: 32760; FStr: 'TKelvin'),
+    (FID: 65520; FStr: 'TSquareKelvin'),
+    (FID: 98280; FStr: 'TCubicKelvin'),
+    (FID: 131040; FStr: 'TQuarticKelvin'),
+    (FID: 36660; FStr: 'TMole'),
+    (FID: 15780; FStr: 'TCandela'),
+    (FID: -29220; FStr: 'THertz'),
+    (FID: -58440; FStr: 'TSquareHertz'),
+    (FID: -26220; FStr: 'TSteradianPerSquareSecond'),
+    (FID: -27840; FStr: 'TMeterPerSecond'),
+    (FID: -57060; FStr: 'TMeterPerSquareSecond'),
+    (FID: -86280; FStr: 'TMeterPerCubicSecond'),
+    (FID: -115500; FStr: 'TMeterPerQuarticSecond'),
+    (FID: -144720; FStr: 'TMeterPerQuinticSecond'),
+    (FID: -173940; FStr: 'TMeterPerSexticSecond'),
+    (FID: -55680; FStr: 'TSquareMeterPerSquareSecond'),
+    (FID: 30600; FStr: 'TMeterSecond'),
+    (FID: 11220; FStr: 'TKilogramMeter'),
+    (FID: -19380; FStr: 'TKilogramPerSecond'),
+    (FID: -18000; FStr: 'TKilogramMeterPerSecond'),
+    (FID: -36000; FStr: 'TSquareKilogramSquareMeterPerSquareSecond'),
+    (FID:  -690; FStr: 'TReciprocalSquareRootMeter'),
+    (FID: -1380; FStr: 'TReciprocalMeter'),
+    (FID: -2070; FStr: 'TReciprocalSquareRootCubicMeter'),
+    (FID: -2760; FStr: 'TReciprocalSquareMeter'),
+    (FID: -4140; FStr: 'TReciprocalCubicMeter'),
+    (FID: -5520; FStr: 'TReciprocalQuarticMeter'),
+    (FID: 12600; FStr: 'TKilogramSquareMeter'),
+    (FID: -16620; FStr: 'TKilogramSquareMeterPerSecond'),
+    (FID: 27840; FStr: 'TSecondPerMeter'),
+    (FID:  8460; FStr: 'TKilogramPerMeter'),
+    (FID:  7080; FStr: 'TKilogramPerSquareMeter'),
+    (FID:  5700; FStr: 'TKilogramPerCubicMeter'),
+    (FID: -47220; FStr: 'TNewton'),
+    (FID: -94440; FStr: 'TSquareNewton'),
+    (FID: -49980; FStr: 'TPascal'),
+    (FID: -45840; FStr: 'TJoule'),
+    (FID: -75060; FStr: 'TWatt'),
+    (FID: 33840; FStr: 'TCoulomb'),
+    (FID: 67680; FStr: 'TSquareCoulomb'),
+    (FID: 35220; FStr: 'TCoulombMeter'),
+    (FID: -79680; FStr: 'TVolt'),
+    (FID: -159360; FStr: 'TSquareVolt'),
+    (FID: 113520; FStr: 'TFarad'),
+    (FID: -84300; FStr: 'TOhm'),
+    (FID: 84300; FStr: 'TSiemens'),
+    (FID: 82920; FStr: 'TSiemensPerMeter'),
+    (FID: -53220; FStr: 'TTesla'),
+    (FID: -50460; FStr: 'TWeber'),
+    (FID: -55080; FStr: 'THenry'),
+    (FID: 55080; FStr: 'TReciprocalHenry'),
+    (FID: 48000; FStr: 'TLumen'),
+    (FID: 77220; FStr: 'TLumenSecond'),
+    (FID: 73080; FStr: 'TLumenSecondPerCubicMeter'),
+    (FID: 45240; FStr: 'TLux'),
+    (FID: 74460; FStr: 'TLuxSecond'),
+    (FID:  7440; FStr: 'TKatal'),
+    (FID: -51360; FStr: 'TNewtonPerCubicMeter'),
+    (FID: -48600; FStr: 'TNewtonPerMeter'),
+    (FID: -25080; FStr: 'TCubicMeterPerSecond'),
+    (FID: -20760; FStr: 'TPoiseuille'),
+    (FID: -26460; FStr: 'TSquareMeterPerSecond'),
+    (FID:  4320; FStr: 'TKilogramPerQuarticMeter'),
+    (FID: 34740; FStr: 'TQuarticMeterSecond'),
+    (FID: -24900; FStr: 'TKilogramPerQuarticMeterPerSecond'),
+    (FID: -5700; FStr: 'TCubicMeterPerKilogram'),
+    (FID: 68280; FStr: 'TKilogramSquareSecond'),
+    (FID: -54300; FStr: 'TCubicMeterPerSquareSecond'),
+    (FID: -44460; FStr: 'TNewtonSquareMeter'),
+    (FID: -43080; FStr: 'TNewtonCubicMeter'),
+    (FID: -66900; FStr: 'TNewtonPerSquareKilogram'),
+    (FID: 18300; FStr: 'TSquareKilogramPerMeter'),
+    (FID: 16920; FStr: 'TSquareKilogramPerSquareMeter'),
+    (FID: -16920; FStr: 'TSquareMeterPerSquareKilogram'),
+    (FID: -64140; FStr: 'TNewtonSquareMeterPerSquareKilogram'),
+    (FID: -32760; FStr: 'TReciprocalKelvin'),
+    (FID: 42600; FStr: 'TKilogramKelvin'),
+    (FID: -78600; FStr: 'TJoulePerKelvin'),
+    (FID: -88440; FStr: 'TJoulePerKilogramPerKelvin'),
+    (FID: 34140; FStr: 'TMeterKelvin'),
+    (FID: 31380; FStr: 'TKelvinPerMeter'),
+    (FID: -76440; FStr: 'TWattPerMeter'),
+    (FID: -77820; FStr: 'TWattPerSquareMeter'),
+    (FID: -79200; FStr: 'TWattPerCubicMeter'),
+    (FID: -107820; FStr: 'TWattPerKelvin'),
+    (FID: -109200; FStr: 'TWattPerMeterPerKelvin'),
+    (FID: 107820; FStr: 'TKelvinPerWatt'),
+    (FID: 76440; FStr: 'TMeterPerWatt'),
+    (FID: 109200; FStr: 'TMeterKelvinPerWatt'),
+    (FID: 35520; FStr: 'TSquareMeterKelvin'),
+    (FID: -110580; FStr: 'TWattPerSquareMeterPerKelvin'),
+    (FID: 133800; FStr: 'TSquareMeterQuarticKelvin'),
+    (FID: -206100; FStr: 'TWattPerQuarticKelvin'),
+    (FID: -208860; FStr: 'TWattPerSquareMeterPerQuarticKelvin'),
+    (FID: -82500; FStr: 'TJoulePerMole'),
+    (FID: 69420; FStr: 'TMoleKelvin'),
+    (FID: -115260; FStr: 'TJoulePerMolePerKelvin'),
+    (FID: -82920; FStr: 'TOhmMeter'),
+    (FID: -81060; FStr: 'TVoltPerMeter'),
+    (FID: 32460; FStr: 'TCoulombPerMeter'),
+    (FID: 66300; FStr: 'TSquareCoulombPerMeter'),
+    (FID: 31080; FStr: 'TCoulombPerSquareMeter'),
+    (FID: -64920; FStr: 'TSquareMeterPerSquareCoulomb'),
+    (FID: -114900; FStr: 'TNewtonPerSquareCoulomb'),
+    (FID: -112140; FStr: 'TNewtonSquareMeterPerSquareCoulomb'),
+    (FID: -78300; FStr: 'TVoltMeter'),
+    (FID: -107520; FStr: 'TVoltMeterPerSecond'),
+    (FID: 112140; FStr: 'TFaradPerMeter'),
+    (FID:  3240; FStr: 'TAmperePerMeter'),
+    (FID: -3240; FStr: 'TMeterPerAmpere'),
+    (FID: -51840; FStr: 'TTeslaMeter'),
+    (FID: -57840; FStr: 'TTeslaPerAmpere'),
+    (FID: -56460; FStr: 'THenryPerMeter'),
+    (FID: -38760; FStr: 'TSquareKilogramPerSquareSecond'),
+    (FID: 55680; FStr: 'TSquareSecondPerSquareMeter'),
+    (FID: -91680; FStr: 'TSquareJoule'),
+    (FID: -33240; FStr: 'TSquareJouleSquareSecond'),
+    (FID: 24000; FStr: 'TCoulombPerKilogram'),
+    (FID:  7380; FStr: 'TSquareMeterAmpere'),
+    (FID: 123060; FStr: 'TLumenPerWatt'),
+    (FID: -36660; FStr: 'TReciprocalMole'),
+    (FID:  1860; FStr: 'TAmperePerSquareMeter'),
+    (FID: 32520; FStr: 'TMolePerCubicMeter'),
+    (FID: 13020; FStr: 'TCandelaPerSquareMeter'),
+    (FID: 29700; FStr: 'TCoulombPerCubicMeter'),
+    (FID: -84900; FStr: 'TGrayPerSecond'),
+    (FID:  3000; FStr: 'TSteradianHertz'),
+    (FID: 33600; FStr: 'TMeterSteradian'),
+    (FID: 34980; FStr: 'TSquareMeterSteradian'),
+    (FID: 36360; FStr: 'TCubicMeterSteradian'),
+    (FID:  5760; FStr: 'TSquareMeterSteradianHertz'),
+    (FID: -107280; FStr: 'TWattPerSteradian'),
+    (FID: -78060; FStr: 'TWattPerSteradianPerHertz'),
+    (FID: -108660; FStr: 'TWattPerMeterPerSteradian'),
+    (FID: -110040; FStr: 'TWattPerSquareMeterPerSteradian'),
+    (FID: -111420; FStr: 'TWattPerCubicMeterPerSteradian'),
+    (FID: -80820; FStr: 'TWattPerSquareMeterPerSteradianPerHertz'),
+    (FID:  3300; FStr: 'TKatalPerCubicMeter'),
+    (FID: -2820; FStr: 'TCoulombPerMole'),
+    (FID: 47220; FStr: 'TReciprocalNewton'),
+    (FID: 53220; FStr: 'TReciprocalTesla'),
+    (FID: 49980; FStr: 'TReciprocalPascal'),
+    (FID: 50460; FStr: 'TReciprocalWeber'),
+    (FID: 75060; FStr: 'TReciprocalWatt'),
+    (FID: 81060; FStr: 'TMeterPerVolt'),
+    (FID:  2460; FStr: 'TQuarticRootKilogram'),
+    (FID:  3280; FStr: 'TCubicRootKilogram'),
+    (FID:  4920; FStr: 'TSquareRootKilogram'),
+    (FID: 14760; FStr: 'TSquareRootCubicKilogram'),
+    (FID: 24600; FStr: 'TSquareRootQuinticKilogram'),
+    (FID: 29520; FStr: 'TCubicKilogram'),
+    (FID: 39360; FStr: 'TQuarticKilogram'),
+    (FID: 49200; FStr: 'TQuinticKilogram'),
+    (FID: 59040; FStr: 'TSexticKilogram'),
+    (FID:   345; FStr: 'TQuarticRootMeter'),
+    (FID:   460; FStr: 'TCubicRootMeter'),
+    (FID:  2070; FStr: 'TSquareRootCubicMeter'),
+    (FID:  3450; FStr: 'TSquareRootQuinticMeter'),
+    (FID:  7305; FStr: 'TQuarticRootSecond'),
+    (FID:  9740; FStr: 'TCubicRootSecond'),
+    (FID: 14610; FStr: 'TSquareRootSecond'),
+    (FID: 43830; FStr: 'TSquareRootCubicSecond'),
+    (FID: 73050; FStr: 'TSquareRootQuinticSecond'),
+    (FID:  1155; FStr: 'TQuarticRootAmpere'),
+    (FID:  1540; FStr: 'TCubicRootAmpere'),
+    (FID:  2310; FStr: 'TSquareRootAmpere'),
+    (FID:  6930; FStr: 'TSquareRootCubicAmpere'),
+    (FID: 11550; FStr: 'TSquareRootQuinticAmpere'),
+    (FID: 13860; FStr: 'TCubicAmpere'),
+    (FID: 18480; FStr: 'TQuarticAmpere'),
+    (FID: 23100; FStr: 'TQuinticAmpere'),
+    (FID: 27720; FStr: 'TSexticAmpere'),
+    (FID:  8190; FStr: 'TQuarticRootKelvin'),
+    (FID: 10920; FStr: 'TCubicRootKelvin'),
+    (FID: 16380; FStr: 'TSquareRootKelvin'),
+    (FID: 49140; FStr: 'TSquareRootCubicKelvin'),
+    (FID: 81900; FStr: 'TSquareRootQuinticKelvin'),
+    (FID: 163800; FStr: 'TQuinticKelvin'),
+    (FID: 196560; FStr: 'TSexticKelvin'),
+    (FID:  9165; FStr: 'TQuarticRootMole'),
+    (FID: 12220; FStr: 'TCubicRootMole'),
+    (FID: 18330; FStr: 'TSquareRootMole'),
+    (FID: 54990; FStr: 'TSquareRootCubicMole'),
+    (FID: 73320; FStr: 'TSquareMole'),
+    (FID: 91650; FStr: 'TSquareRootQuinticMole'),
+    (FID: 109980; FStr: 'TCubicMole'),
+    (FID: 146640; FStr: 'TQuarticMole'),
+    (FID: 183300; FStr: 'TQuinticMole'),
+    (FID: 219960; FStr: 'TSexticMole'),
+    (FID:  3945; FStr: 'TQuarticRootCandela'),
+    (FID:  5260; FStr: 'TCubicRootCandela'),
+    (FID:  7890; FStr: 'TSquareRootCandela'),
+    (FID: 23670; FStr: 'TSquareRootCubicCandela'),
+    (FID: 31560; FStr: 'TSquareCandela'),
+    (FID: 39450; FStr: 'TSquareRootQuinticCandela'),
+    (FID: 47340; FStr: 'TCubicCandela'),
+    (FID: 63120; FStr: 'TQuarticCandela'),
+    (FID: 78900; FStr: 'TQuinticCandela'),
+    (FID: 94680; FStr: 'TSexticCandela'),
+    (FID:  8055; FStr: 'TQuarticRootSteradian'),
+    (FID: 10740; FStr: 'TCubicRootSteradian'),
+    (FID: 16110; FStr: 'TSquareRootSteradian'),
+    (FID: 48330; FStr: 'TSquareRootCubicSteradian'),
+    (FID: 64440; FStr: 'TSquareSteradian'),
+    (FID: 80550; FStr: 'TSquareRootQuinticSteradian'),
+    (FID: 96660; FStr: 'TCubicSteradian'),
+    (FID: 128880; FStr: 'TQuarticSteradian'),
+    (FID: 161100; FStr: 'TQuinticSteradian'),
+    (FID: 193320; FStr: 'TSexticSteradian'),
+    (FID: -87660; FStr: 'TReciprocalCubicSecond'),
+    (FID: -116880; FStr: 'TReciprocalQuarticSecond'),
+    (FID: -146100; FStr: 'TReciprocalQuinticSecond'),
+    (FID: -175320; FStr: 'TReciprocalSexticSecond'),
+    (FID: 22440; FStr: 'TSquareKilogramSquareMeter'),
+    (FID: -114120; FStr: 'TSquareMeterPerQuarticSecond'),
+    (FID: -97200; FStr: 'TSquareKilogramPerQuarticSecond'),
+    (FID: -59820; FStr: 'TReciprocalMeterSquareSecond'),
+    (FID:  6000; FStr: 'TMeterAmpere'),
+    (FID: -89520; FStr: 'TSquareMeterPerCubicSecondPerAmpere'),
+    (FID: -82440; FStr: 'TKilogramPerCubicSecondPerAmpere'),
+    (FID:  7980; FStr: 'TKilogramSquareMeterPerAmpere'),
+    (FID: -179040; FStr: 'TQuarticMeterPerSexticSecondPerSquareAmpere'),
+    (FID: -164880; FStr: 'TSquareKilogramPerSexticSecondPerSquareAmpere'),
+    (FID: 15960; FStr: 'TSquareKilogramQuarticMeterPerSquareAmpere'),
+    (FID: -150120; FStr: 'TSquareKilogramQuarticMeterPerSexticSecond'),
+    (FID: 123360; FStr: 'TQuarticSecondSquareAmperePerSquareMeter'),
+    (FID: 116280; FStr: 'TQuarticSecondSquareAmperePerKilogram'),
+    (FID: -3360; FStr: 'TSquareAmperePerKilogramPerSquareMeter'),
+    (FID: 104280; FStr: 'TQuarticSecondPerKilogramPerSquareMeter'),
+    (FID: -94140; FStr: 'TSquareMeterPerCubicSecondPerSquareAmpere'),
+    (FID: -87060; FStr: 'TKilogramPerCubicSecondPerSquareAmpere'),
+    (FID:  3360; FStr: 'TKilogramSquareMeterPerSquareAmpere'),
+    (FID: 94140; FStr: 'TCubicSecondSquareAmperePerSquareMeter'),
+    (FID: 87060; FStr: 'TCubicSecondSquareAmperePerKilogram'),
+    (FID: 92760; FStr: 'TCubicSecondSquareAmperePerCubicMeter'),
+    (FID: -4740; FStr: 'TSquareAmperePerKilogramPerCubicMeter'),
+    (FID: 73680; FStr: 'TCubicSecondPerKilogramPerCubicMeter'),
+    (FID: -63060; FStr: 'TReciprocalSquareSecondAmpere'),
+    (FID:  5220; FStr: 'TKilogramPerAmpere'),
+    (FID: -60300; FStr: 'TSquareMeterPerSquareSecondPerAmpere'),
+    (FID: 64920; FStr: 'TSquareSecondSquareAmperePerSquareMeter'),
+    (FID: 57840; FStr: 'TSquareSecondSquareAmperePerKilogram'),
+    (FID: 45840; FStr: 'TSquareSecondPerKilogramPerSquareMeter'),
+    (FID: 61440; FStr: 'TSecondSteradian'),
+    (FID: 45000; FStr: 'TSecondCandela'),
+    (FID: 43860; FStr: 'TCandelaSteradianPerCubicMeter'),
+    (FID: 57300; FStr: 'TSecondSteradianPerCubicMeter'),
+    (FID: 40860; FStr: 'TSecondCandelaPerCubicMeter'),
+    (FID: 29460; FStr: 'TSteradianPerSquareMeter'),
+    (FID: 58680; FStr: 'TSecondSteradianPerSquareMeter'),
+    (FID: 42240; FStr: 'TSecondCandelaPerSquareMeter'),
+    (FID: -61200; FStr: 'TReciprocalSquareMeterSquareSecond'),
+    (FID: -30600; FStr: 'TReciprocalMeterSecond'),
+    (FID: -34740; FStr: 'TReciprocalQuarticMeterSecond'),
+    (FID: -9840; FStr: 'TReciprocalKilogram'),
+    (FID: 13980; FStr: 'TKilogramCubicMeter'),
+    (FID: -52920; FStr: 'TQuarticMeterPerSquareSecond'),
+    (FID: 15360; FStr: 'TKilogramQuarticMeter'),
+    (FID: -68280; FStr: 'TReciprocalKilogramSquareSecond'),
+    (FID: -8460; FStr: 'TMeterPerKilogram'),
+    (FID: -19680; FStr: 'TReciprocalSquareKilogram'),
+    (FID: -81360; FStr: 'TKilogramPerSquareSecondPerKelvin'),
+    (FID: -20160; FStr: 'TKilogramSquareMeterPerKelvin'),
+    (FID: -91200; FStr: 'TReciprocalSquareSecondKelvin'),
+    (FID: -30000; FStr: 'TSquareMeterPerKelvin'),
+    (FID: -89040; FStr: 'TReciprocalMeterCubicSecond'),
+    (FID: -117660; FStr: 'TSquareMeterPerCubicSecondPerKelvin'),
+    (FID: -119040; FStr: 'TMeterPerCubicSecondPerKelvin'),
+    (FID: -21540; FStr: 'TKilogramMeterPerKelvin'),
+    (FID: 117660; FStr: 'TCubicSecondKelvinPerSquareMeter'),
+    (FID: 110580; FStr: 'TCubicSecondKelvinPerKilogram'),
+    (FID: 20160; FStr: 'TKelvinPerKilogramPerSquareMeter'),
+    (FID: 86280; FStr: 'TCubicSecondPerMeter'),
+    (FID: 77820; FStr: 'TCubicSecondPerKilogram'),
+    (FID: -11220; FStr: 'TReciprocalKilogramMeter'),
+    (FID: 119040; FStr: 'TCubicSecondKelvinPerMeter'),
+    (FID: 21540; FStr: 'TKelvinPerKilogramPerMeter'),
+    (FID: -120420; FStr: 'TReciprocalCubicSecondKelvin'),
+    (FID: -22920; FStr: 'TKilogramPerKelvin'),
+    (FID: -215940; FStr: 'TSquareMeterPerCubicSecondPerQuarticKelvin'),
+    (FID: -118440; FStr: 'TKilogramSquareMeterPerQuarticKelvin'),
+    (FID: -218700; FStr: 'TReciprocalCubicSecondQuarticKelvin'),
+    (FID: -121200; FStr: 'TKilogramPerQuarticKelvin'),
+    (FID: -92340; FStr: 'TSquareMeterPerSquareSecondPerMole'),
+    (FID: -85260; FStr: 'TKilogramPerSquareSecondPerMole'),
+    (FID: -24060; FStr: 'TKilogramSquareMeterPerMole'),
+    (FID: -125100; FStr: 'TSquareMeterPerSquareSecondPerKelvinPerMole'),
+    (FID: -118020; FStr: 'TKilogramPerSquareSecondPerKelvinPerMole'),
+    (FID: -56820; FStr: 'TKilogramSquareMeterPerKelvinPerMole'),
+    (FID: -92760; FStr: 'TCubicMeterPerCubicSecondPerSquareAmpere'),
+    (FID:  4740; FStr: 'TKilogramCubicMeterPerSquareAmpere'),
+    (FID: -73680; FStr: 'TKilogramCubicMeterPerCubicSecond'),
+    (FID: -90900; FStr: 'TMeterPerCubicSecondPerAmpere'),
+    (FID:  6600; FStr: 'TKilogramMeterPerAmpere'),
+    (FID:  7860; FStr: 'TSquareAmperePerMeter'),
+    (FID: 57060; FStr: 'TSquareSecondPerMeter'),
+    (FID: 26460; FStr: 'TSecondPerSquareMeter'),
+    (FID: -67680; FStr: 'TReciprocalSquareSecondSquareAmpere'),
+    (FID: -6480; FStr: 'TSquareMeterPerSquareAmpere'),
+    (FID: -124740; FStr: 'TMeterPerQuarticSecondPerSquareAmpere'),
+    (FID: -116280; FStr: 'TKilogramPerQuarticSecondPerSquareAmpere'),
+    (FID:  1980; FStr: 'TKilogramMeterPerSquareAmpere'),
+    (FID: -105660; FStr: 'TKilogramMeterPerQuarticSecond'),
+    (FID: -121980; FStr: 'TCubicMeterPerQuarticSecondPerSquareAmpere'),
+    (FID: -102900; FStr: 'TKilogramCubicMeterPerQuarticSecond'),
+    (FID: -88140; FStr: 'TCubicMeterPerCubicSecondPerAmpere'),
+    (FID:  9360; FStr: 'TKilogramCubicMeterPerAmpere'),
+    (FID: -117360; FStr: 'TCubicMeterPerQuarticSecondPerAmpere'),
+    (FID: -111660; FStr: 'TKilogramPerQuarticSecondPerAmpere'),
+    (FID: 121980; FStr: 'TQuarticSecondSquareAmperePerCubicMeter'),
+    (FID: 102900; FStr: 'TQuarticSecondPerKilogramPerCubicMeter'),
+    (FID: -4620; FStr: 'TReciprocalAmpere'),
+    (FID: -61680; FStr: 'TMeterPerSquareSecondPerAmpere'),
+    (FID:   600; FStr: 'TKilogramPerSquareAmpere'),
+    (FID: -66300; FStr: 'TMeterPerSquareSecondPerSquareAmpere'),
+    (FID: -111360; FStr: 'TQuarticMeterPerQuarticSecond'),
+    (FID: 25200; FStr: 'TSquareKilogramQuarticMeter'),
+    (FID: -5220; FStr: 'TAmperePerKilogram'),
+    (FID: 19380; FStr: 'TSecondPerKilogram'),
+    (FID: 132900; FStr: 'TCubicSecondCandelaSteradianPerSquareMeter'),
+    (FID: 125820; FStr: 'TCubicSecondCandelaSteradianPerKilogram'),
+    (FID: 35400; FStr: 'TCandelaSteradianPerKilogramPerSquareMeter'),
+    (FID: 107280; FStr: 'TCubicSecondSteradianPerKilogramPerSquareMeter'),
+    (FID: 90840; FStr: 'TCubicSecondCandelaPerKilogramPerSquareMeter'),
+    (FID:   480; FStr: 'TAmperePerCubicMeter'),
+    (FID: 25080; FStr: 'TSecondPerCubicMeter'),
+    (FID: -117120; FStr: 'TSquareMeterPerCubicSecondPerSteradian'),
+    (FID: -19620; FStr: 'TKilogramSquareMeterPerSteradian'),
+    (FID: -87900; FStr: 'TSquareMeterPerSquareSecondPerSteradian'),
+    (FID: -118500; FStr: 'TMeterPerCubicSecondPerSteradian'),
+    (FID: -21000; FStr: 'TKilogramMeterPerSteradian'),
+    (FID: -119880; FStr: 'TReciprocalCubicSecondSteradian'),
+    (FID: -22380; FStr: 'TKilogramPerSteradian'),
+    (FID: -121260; FStr: 'TReciprocalMeterCubicSecondSteradian'),
+    (FID: -23760; FStr: 'TKilogramPerMeterPerSteradian'),
+    (FID: -90660; FStr: 'TReciprocalSquareSecondSteradian'),
+    (FID: -33360; FStr: 'TReciprocalCubicMeterSecond'),
+    (FID: -32040; FStr: 'TAmperePerMole'),
+    (FID: -7440; FStr: 'TSecondPerMole'),
+    (FID: 48600; FStr: 'TSquareSecondPerKilogram'),
+    (FID: 63060; FStr: 'TSquareSecondAmpere'),
+    (FID: 59820; FStr: 'TMeterSquareSecond'),
+    (FID: 60300; FStr: 'TSquareSecondAmperePerSquareMeter'),
+    (FID: -7980; FStr: 'TAmperePerKilogramPerSquareMeter'),
+    (FID: 84900; FStr: 'TCubicSecondPerSquareMeter'),
+    (FID: -12600; FStr: 'TReciprocalKilogramSquareMeter'),
+    (FID: 90900; FStr: 'TCubicSecondAmperePerMeter'),
+    (FID: 82440; FStr: 'TCubicSecondAmperePerKilogram'),
+    (FID: -6600; FStr: 'TAmperePerKilogramPerMeter'),
+    (FID: -92280; FStr: 'TReciprocalCubicSecondAmpere'),
+    (FID: -1860; FStr: 'TSquareMeterPerAmpere'),
+    (FID: -184560; FStr: 'TReciprocalSexticSecondSquareAmpere'),
+    (FID: -3720; FStr: 'TQuarticMeterPerSquareAmpere'),
+    (FID: -169800; FStr: 'TQuarticMeterPerSexticSecond'),
+    (FID: 10440; FStr: 'TSquareKilogramPerSquareAmpere'),
+    (FID: -155640; FStr: 'TSquareKilogramPerSexticSecond'),
+    (FID: 126120; FStr: 'TQuarticSecondSquareAmpere'),
+    (FID:  6480; FStr: 'TSquareAmperePerSquareMeter'),
+    (FID: 114120; FStr: 'TQuarticSecondPerSquareMeter'),
+    (FID:  -600; FStr: 'TSquareAmperePerKilogram'),
+    (FID: 107040; FStr: 'TQuarticSecondPerKilogram'),
+    (FID: -96900; FStr: 'TReciprocalCubicSecondSquareAmpere'),
+    (FID: 96900; FStr: 'TCubicSecondSquareAmpere'),
+    (FID:  5100; FStr: 'TSquareAmperePerCubicMeter'),
+    (FID: 83520; FStr: 'TCubicSecondPerCubicMeter'),
+    (FID: -13980; FStr: 'TReciprocalKilogramCubicMeter'),
+    (FID: 28080; FStr: 'TSteradianPerCubicMeter'),
+    (FID: 11640; FStr: 'TCandelaPerCubicMeter'),
+    (FID: -31380; FStr: 'TMeterPerKelvin'),
+    (FID: 120420; FStr: 'TCubicSecondKelvin'),
+    (FID: 30000; FStr: 'TKelvinPerSquareMeter'),
+    (FID: 22920; FStr: 'TKelvinPerKilogram'),
+    (FID: -128280; FStr: 'TSquareMeterPerQuarticKelvin'),
+    (FID: -131040; FStr: 'TReciprocalQuarticKelvin'),
+    (FID: -95100; FStr: 'TReciprocalSquareSecondMole'),
+    (FID: -33900; FStr: 'TSquareMeterPerMole'),
+    (FID: -26820; FStr: 'TKilogramPerMole'),
+    (FID: -127860; FStr: 'TReciprocalSquareSecondKelvinMole'),
+    (FID: -66660; FStr: 'TSquareMeterPerKelvinPerMole'),
+    (FID: -59580; FStr: 'TKilogramPerKelvinPerMole'),
+    (FID: -5100; FStr: 'TCubicMeterPerSquareAmpere'),
+    (FID: -83520; FStr: 'TCubicMeterPerCubicSecond'),
+    (FID: -9240; FStr: 'TReciprocalSquareAmpere'),
+    (FID: -126120; FStr: 'TReciprocalQuarticSecondSquareAmpere'),
+    (FID: -7860; FStr: 'TMeterPerSquareAmpere'),
+    (FID: -107040; FStr: 'TKilogramPerQuarticSecond'),
+    (FID: -112740; FStr: 'TCubicMeterPerQuarticSecond'),
+    (FID:  -480; FStr: 'TCubicMeterPerAmpere'),
+    (FID: -121500; FStr: 'TReciprocalQuarticSecondAmpere'),
+    (FID: 112740; FStr: 'TQuarticSecondPerCubicMeter'),
+    (FID: 135660; FStr: 'TCubicSecondCandelaSteradian'),
+    (FID: 117120; FStr: 'TCubicSecondSteradianPerSquareMeter'),
+    (FID: 100680; FStr: 'TCubicSecondCandelaPerSquareMeter'),
+    (FID: 38160; FStr: 'TCandelaSteradianPerKilogram'),
+    (FID: 110040; FStr: 'TCubicSecondSteradianPerKilogram'),
+    (FID: 93600; FStr: 'TCubicSecondCandelaPerKilogram'),
+    (FID: 19620; FStr: 'TSteradianPerKilogramPerSquareMeter'),
+    (FID:  3180; FStr: 'TCandelaPerKilogramPerSquareMeter'),
+    (FID: -29460; FStr: 'TSquareMeterPerSteradian'),
+    (FID: -30840; FStr: 'TMeterPerSteradian'),
+    (FID: -32220; FStr: 'TReciprocalSteradian'),
+    (FID: -33600; FStr: 'TReciprocalMeterSteradian'),
+    (FID: 92280; FStr: 'TCubicSecondAmpere'),
+    (FID: -69420; FStr: 'TReciprocalKelvinMole'),
+    (FID: 119880; FStr: 'TCubicSecondSteradian'),
+    (FID: 103440; FStr: 'TCubicSecondCandela'),
+    (FID: 22380; FStr: 'TSteradianPerKilogram'),
+    (FID:  5940; FStr: 'TCandelaPerKilogram'),
+    (FID: -6900; FStr: 'TReciprocalQuinticMeter'),
+    (FID: -8280; FStr: 'TReciprocalSexticMeter'),
+    (FID: -65520; FStr: 'TReciprocalSquareKelvin'),
+    (FID: -98280; FStr: 'TReciprocalCubicKelvin'),
+    (FID: -15780; FStr: 'TReciprocalCandela'),
+    (FID: 26220; FStr: 'TSquareSecondPerSteradian'),
+    (FID: 115500; FStr: 'TQuarticSecondPerMeter'),
+    (FID: 144720; FStr: 'TQuinticSecondPerMeter'),
+    (FID: 173940; FStr: 'TSexticSecondPerMeter'),
+    (FID: 18000; FStr: 'TSecondPerKilogramPerMeter'),
+    (FID: 36000; FStr: 'TSquareSecondPerSquareKilogramPerSquareMeter'),
+    (FID: 16620; FStr: 'TSecondPerKilogramPerSquareMeter'),
+    (FID: -7080; FStr: 'TSquareMeterPerKilogram'),
+    (FID: 94440; FStr: 'TQuarticSecondPerSquareKilogramPerSquareMeter'),
+    (FID: -33840; FStr: 'TReciprocalSecondAmpere'),
+    (FID: -35220; FStr: 'TReciprocalMeterSecondAmpere'),
+    (FID: 79680; FStr: 'TCubicSecondAmperePerKilogramPerSquareMeter'),
+    (FID: 159360; FStr: 'TSexticSecondSquareAmperePerSquareKilogramPerQuarticMeter'),
+    (FID: -113520; FStr: 'TKilogramSquareMeterPerQuarticSecondPerSquareAmpere'),
+    (FID: -48000; FStr: 'TReciprocalCandelaSteradian'),
+    (FID: -77220; FStr: 'TReciprocalSecondCandelaSteradian'),
+    (FID: -73080; FStr: 'TCubicMeterPerSecondPerCandelaPerSteradian'),
+    (FID: -45240; FStr: 'TSquareMeterPerCandelaPerSteradian'),
+    (FID: -74460; FStr: 'TSquareMeterPerSecondPerCandelaPerSteradian'),
+    (FID: 51360; FStr: 'TSquareMeterSquareSecondPerKilogram'),
+    (FID: 20760; FStr: 'TMeterSecondPerKilogram'),
+    (FID: -4320; FStr: 'TQuarticMeterPerKilogram'),
+    (FID: 24900; FStr: 'TQuarticMeterSecondPerKilogram'),
+    (FID: 54300; FStr: 'TSquareSecondPerCubicMeter'),
+    (FID: 44460; FStr: 'TSquareSecondPerKilogramPerCubicMeter'),
+    (FID: 43080; FStr: 'TSquareSecondPerKilogramPerQuarticMeter'),
+    (FID: 66900; FStr: 'TKilogramSquareSecondPerMeter'),
+    (FID: -18300; FStr: 'TMeterPerSquareKilogram'),
+    (FID: 64140; FStr: 'TKilogramSquareSecondPerCubicMeter'),
+    (FID: -42600; FStr: 'TReciprocalKilogramKelvin'),
+    (FID: 78600; FStr: 'TSquareSecondKelvinPerKilogramPerSquareMeter'),
+    (FID: 88440; FStr: 'TSquareSecondKelvinPerSquareMeter'),
+    (FID: -34140; FStr: 'TReciprocalMeterKelvin'),
+    (FID: 79200; FStr: 'TMeterCubicSecondPerKilogram'),
+    (FID: -35520; FStr: 'TReciprocalSquareMeterKelvin'),
+    (FID: -133800; FStr: 'TReciprocalSquareMeterQuarticKelvin'),
+    (FID: 206100; FStr: 'TCubicSecondQuarticKelvinPerKilogramPerSquareMeter'),
+    (FID: 208860; FStr: 'TCubicSecondQuarticKelvinPerKilogram'),
+    (FID: 82500; FStr: 'TSquareSecondMolePerKilogramPerSquareMeter'),
+    (FID: 115260; FStr: 'TSquareSecondKelvinMolePerKilogramPerSquareMeter'),
+    (FID: -32460; FStr: 'TMeterPerSecondPerAmpere'),
+    (FID: -31080; FStr: 'TSquareMeterPerSecondPerAmpere'),
+    (FID: 114900; FStr: 'TQuarticSecondSquareAmperePerKilogramPerMeter'),
+    (FID: 78300; FStr: 'TCubicSecondAmperePerKilogramPerCubicMeter'),
+    (FID: 107520; FStr: 'TQuarticSecondAmperePerKilogramPerCubicMeter'),
+    (FID: 51840; FStr: 'TSquareSecondAmperePerKilogramPerMeter'),
+    (FID: 56460; FStr: 'TSquareSecondSquareAmperePerKilogramPerMeter'),
+    (FID: 38760; FStr: 'TSquareSecondPerSquareKilogram'),
+    (FID: 91680; FStr: 'TQuarticSecondPerSquareKilogramPerQuarticMeter'),
+    (FID: 33240; FStr: 'TSquareSecondPerSquareKilogramPerQuarticMeter'),
+    (FID: -24000; FStr: 'TKilogramPerSecondPerAmpere'),
+    (FID: -7380; FStr: 'TReciprocalSquareMeterAmpere'),
+    (FID: -123060; FStr: 'TKilogramSquareMeterPerCubicSecondPerCandelaPerSteradian'),
+    (FID: -32520; FStr: 'TCubicMeterPerMole'),
+    (FID: -13020; FStr: 'TSquareMeterPerCandela'),
+    (FID: -29700; FStr: 'TCubicMeterPerSecondPerAmpere'),
+    (FID: -3000; FStr: 'TSecondPerSteradian'),
+    (FID: -34980; FStr: 'TReciprocalSquareMeterSteradian'),
+    (FID: -36360; FStr: 'TReciprocalCubicMeterSteradian'),
+    (FID: -5760; FStr: 'TSecondPerSquareMeterPerSteradian'),
+    (FID: 78060; FStr: 'TSquareSecondSteradianPerKilogramPerSquareMeter'),
+    (FID: 108660; FStr: 'TCubicSecondSteradianPerKilogramPerMeter'),
+    (FID: 111420; FStr: 'TMeterCubicSecondSteradianPerKilogram'),
+    (FID: 80820; FStr: 'TSquareSecondSteradianPerKilogram'),
+    (FID: -3300; FStr: 'TCubicMeterSecondPerMole'),
+    (FID:  2820; FStr: 'TMolePerSecondPerAmpere'),
+    (FID: -2460; FStr: 'TReciprocalQuarticRootKilogram'),
+    (FID: -3280; FStr: 'TReciprocalCubicRootKilogram'),
+    (FID: -4920; FStr: 'TReciprocalSquareRootKilogram'),
+    (FID: -14760; FStr: 'TReciprocalSquareRootCubicKilogram'),
+    (FID: -24600; FStr: 'TReciprocalSquareRootQuinticKilogram'),
+    (FID: -29520; FStr: 'TReciprocalCubicKilogram'),
+    (FID: -39360; FStr: 'TReciprocalQuarticKilogram'),
+    (FID: -49200; FStr: 'TReciprocalQuinticKilogram'),
+    (FID: -59040; FStr: 'TReciprocalSexticKilogram'),
+    (FID:  -345; FStr: 'TReciprocalQuarticRootMeter'),
+    (FID:  -460; FStr: 'TReciprocalCubicRootMeter'),
+    (FID: -3450; FStr: 'TReciprocalSquareRootQuinticMeter'),
+    (FID: -7305; FStr: 'TReciprocalQuarticRootSecond'),
+    (FID: -9740; FStr: 'TReciprocalCubicRootSecond'),
+    (FID: -14610; FStr: 'TReciprocalSquareRootSecond'),
+    (FID: -43830; FStr: 'TReciprocalSquareRootCubicSecond'),
+    (FID: -73050; FStr: 'TReciprocalSquareRootQuinticSecond'),
+    (FID: -1155; FStr: 'TReciprocalQuarticRootAmpere'),
+    (FID: -1540; FStr: 'TReciprocalCubicRootAmpere'),
+    (FID: -2310; FStr: 'TReciprocalSquareRootAmpere'),
+    (FID: -6930; FStr: 'TReciprocalSquareRootCubicAmpere'),
+    (FID: -11550; FStr: 'TReciprocalSquareRootQuinticAmpere'),
+    (FID: -13860; FStr: 'TReciprocalCubicAmpere'),
+    (FID: -18480; FStr: 'TReciprocalQuarticAmpere'),
+    (FID: -23100; FStr: 'TReciprocalQuinticAmpere'),
+    (FID: -27720; FStr: 'TReciprocalSexticAmpere'),
+    (FID: -8190; FStr: 'TReciprocalQuarticRootKelvin'),
+    (FID: -10920; FStr: 'TReciprocalCubicRootKelvin'),
+    (FID: -16380; FStr: 'TReciprocalSquareRootKelvin'),
+    (FID: -49140; FStr: 'TReciprocalSquareRootCubicKelvin'),
+    (FID: -81900; FStr: 'TReciprocalSquareRootQuinticKelvin'),
+    (FID: -163800; FStr: 'TReciprocalQuinticKelvin'),
+    (FID: -196560; FStr: 'TReciprocalSexticKelvin'),
+    (FID: -9165; FStr: 'TReciprocalQuarticRootMole'),
+    (FID: -12220; FStr: 'TReciprocalCubicRootMole'),
+    (FID: -18330; FStr: 'TReciprocalSquareRootMole'),
+    (FID: -54990; FStr: 'TReciprocalSquareRootCubicMole'),
+    (FID: -73320; FStr: 'TReciprocalSquareMole'),
+    (FID: -91650; FStr: 'TReciprocalSquareRootQuinticMole'),
+    (FID: -109980; FStr: 'TReciprocalCubicMole'),
+    (FID: -146640; FStr: 'TReciprocalQuarticMole'),
+    (FID: -183300; FStr: 'TReciprocalQuinticMole'),
+    (FID: -219960; FStr: 'TReciprocalSexticMole'),
+    (FID: -3945; FStr: 'TReciprocalQuarticRootCandela'),
+    (FID: -5260; FStr: 'TReciprocalCubicRootCandela'),
+    (FID: -7890; FStr: 'TReciprocalSquareRootCandela'),
+    (FID: -23670; FStr: 'TReciprocalSquareRootCubicCandela'),
+    (FID: -31560; FStr: 'TReciprocalSquareCandela'),
+    (FID: -39450; FStr: 'TReciprocalSquareRootQuinticCandela'),
+    (FID: -47340; FStr: 'TReciprocalCubicCandela'),
+    (FID: -63120; FStr: 'TReciprocalQuarticCandela'),
+    (FID: -78900; FStr: 'TReciprocalQuinticCandela'),
+    (FID: -94680; FStr: 'TReciprocalSexticCandela'),
+    (FID: -8055; FStr: 'TReciprocalQuarticRootSteradian'),
+    (FID: -10740; FStr: 'TReciprocalCubicRootSteradian'),
+    (FID: -16110; FStr: 'TReciprocalSquareRootSteradian'),
+    (FID: -48330; FStr: 'TReciprocalSquareRootCubicSteradian'),
+    (FID: -64440; FStr: 'TReciprocalSquareSteradian'),
+    (FID: -80550; FStr: 'TReciprocalSquareRootQuinticSteradian'),
+    (FID: -96660; FStr: 'TReciprocalCubicSteradian'),
+    (FID: -128880; FStr: 'TReciprocalQuarticSteradian'),
+    (FID: -161100; FStr: 'TReciprocalQuinticSteradian'),
+    (FID: -193320; FStr: 'TReciprocalSexticSteradian'),
+    (FID: -22440; FStr: 'TReciprocalSquareKilogramSquareMeter'),
+    (FID: 97200; FStr: 'TQuarticSecondPerSquareKilogram'),
+    (FID: -6000; FStr: 'TReciprocalMeterAmpere'),
+    (FID: 89520; FStr: 'TCubicSecondAmperePerSquareMeter'),
+    (FID: 179040; FStr: 'TSexticSecondSquareAmperePerQuarticMeter'),
+    (FID: 164880; FStr: 'TSexticSecondSquareAmperePerSquareKilogram'),
+    (FID: -15960; FStr: 'TSquareAmperePerSquareKilogramPerQuarticMeter'),
+    (FID: 150120; FStr: 'TSexticSecondPerSquareKilogramPerQuarticMeter'),
+    (FID: -123360; FStr: 'TSquareMeterPerQuarticSecondPerSquareAmpere'),
+    (FID: -104280; FStr: 'TKilogramSquareMeterPerQuarticSecond'),
+    (FID: -61440; FStr: 'TReciprocalSecondSteradian'),
+    (FID: -45000; FStr: 'TReciprocalSecondCandela'),
+    (FID: -43860; FStr: 'TCubicMeterPerCandelaPerSteradian'),
+    (FID: -57300; FStr: 'TCubicMeterPerSecondPerSteradian'),
+    (FID: -40860; FStr: 'TCubicMeterPerSecondPerCandela'),
+    (FID: -58680; FStr: 'TSquareMeterPerSecondPerSteradian'),
+    (FID: -42240; FStr: 'TSquareMeterPerSecondPerCandela'),
+    (FID: 61200; FStr: 'TSquareMeterSquareSecond'),
+    (FID: 52920; FStr: 'TSquareSecondPerQuarticMeter'),
+    (FID: -15360; FStr: 'TReciprocalKilogramQuarticMeter'),
+    (FID: 81360; FStr: 'TSquareSecondKelvinPerKilogram'),
+    (FID: 91200; FStr: 'TSquareSecondKelvin'),
+    (FID: 89040; FStr: 'TMeterCubicSecond'),
+    (FID: 215940; FStr: 'TCubicSecondQuarticKelvinPerSquareMeter'),
+    (FID: 118440; FStr: 'TQuarticKelvinPerKilogramPerSquareMeter'),
+    (FID: 218700; FStr: 'TCubicSecondQuarticKelvin'),
+    (FID: 121200; FStr: 'TQuarticKelvinPerKilogram'),
+    (FID: 92340; FStr: 'TSquareSecondMolePerSquareMeter'),
+    (FID: 85260; FStr: 'TSquareSecondMolePerKilogram'),
+    (FID: 24060; FStr: 'TMolePerKilogramPerSquareMeter'),
+    (FID: 125100; FStr: 'TSquareSecondKelvinMolePerSquareMeter'),
+    (FID: 118020; FStr: 'TSquareSecondKelvinMolePerKilogram'),
+    (FID: 56820; FStr: 'TKelvinMolePerKilogramPerSquareMeter'),
+    (FID: 124740; FStr: 'TQuarticSecondSquareAmperePerMeter'),
+    (FID: -1980; FStr: 'TSquareAmperePerKilogramPerMeter'),
+    (FID: 105660; FStr: 'TQuarticSecondPerKilogramPerMeter'),
+    (FID: 88140; FStr: 'TCubicSecondAmperePerCubicMeter'),
+    (FID: -9360; FStr: 'TAmperePerKilogramPerCubicMeter'),
+    (FID: 117360; FStr: 'TQuarticSecondAmperePerCubicMeter'),
+    (FID: 111660; FStr: 'TQuarticSecondAmperePerKilogram'),
+    (FID: 61680; FStr: 'TSquareSecondAmperePerMeter'),
+    (FID: 111360; FStr: 'TQuarticSecondPerQuarticMeter'),
+    (FID: -25200; FStr: 'TReciprocalSquareKilogramQuarticMeter'),
+    (FID: -132900; FStr: 'TSquareMeterPerCubicSecondPerCandelaPerSteradian'),
+    (FID: -125820; FStr: 'TKilogramPerCubicSecondPerCandelaPerSteradian'),
+    (FID: -35400; FStr: 'TKilogramSquareMeterPerCandelaPerSteradian'),
+    (FID: -90840; FStr: 'TKilogramSquareMeterPerCubicSecondPerCandela'),
+    (FID: 87900; FStr: 'TSquareSecondSteradianPerSquareMeter'),
+    (FID: 118500; FStr: 'TCubicSecondSteradianPerMeter'),
+    (FID: 21000; FStr: 'TSteradianPerKilogramPerMeter'),
+    (FID: 121260; FStr: 'TMeterCubicSecondSteradian'),
+    (FID: 23760; FStr: 'TMeterSteradianPerKilogram'),
+    (FID: 90660; FStr: 'TSquareSecondSteradian'),
+    (FID: 33360; FStr: 'TCubicMeterSecond'),
+    (FID: 32040; FStr: 'TMolePerAmpere'),
+    (FID: 184560; FStr: 'TSexticSecondSquareAmpere'),
+    (FID:  3720; FStr: 'TSquareAmperePerQuarticMeter'),
+    (FID: 169800; FStr: 'TSexticSecondPerQuarticMeter'),
+    (FID: -10440; FStr: 'TSquareAmperePerSquareKilogram'),
+    (FID: 155640; FStr: 'TSexticSecondPerSquareKilogram'),
+    (FID: -28080; FStr: 'TCubicMeterPerSteradian'),
+    (FID: -11640; FStr: 'TCubicMeterPerCandela'),
+    (FID: 128280; FStr: 'TQuarticKelvinPerSquareMeter'),
+    (FID: 95100; FStr: 'TSquareSecondMole'),
+    (FID: 33900; FStr: 'TMolePerSquareMeter'),
+    (FID: 26820; FStr: 'TMolePerKilogram'),
+    (FID: 127860; FStr: 'TSquareSecondKelvinMole'),
+    (FID: 66660; FStr: 'TKelvinMolePerSquareMeter'),
+    (FID: 59580; FStr: 'TKelvinMolePerKilogram'),
+    (FID: 121500; FStr: 'TQuarticSecondAmpere'),
+    (FID: -135660; FStr: 'TReciprocalCubicSecondCandelaSteradian'),
+    (FID: -100680; FStr: 'TSquareMeterPerCubicSecondPerCandela'),
+    (FID: -38160; FStr: 'TKilogramPerCandelaPerSteradian'),
+    (FID: -93600; FStr: 'TKilogramPerCubicSecondPerCandela'),
+    (FID: -3180; FStr: 'TKilogramSquareMeterPerCandela'),
+    (FID: 30840; FStr: 'TSteradianPerMeter'),
+    (FID: -103440; FStr: 'TReciprocalCubicSecondCandela'),
+    (FID: -5940; FStr: 'TKilogramPerCandela')
   );
 
 // Format routines
