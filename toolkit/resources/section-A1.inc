@@ -149,9 +149,9 @@ type
 
   TUnitHelper = record helper for TUnit
   public
-    function GetName(const Prefixes: TPrefixes): string;
-    function GetPluralName(const Prefixes: TPrefixes): string;
-    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetName(Prefixes: TPrefixes): string;
+    function GetPluralName(Prefixes: TPrefixes): string;
+    function GetSymbol(Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
     function ToFloat(const AQuantity: TQuantity): double;
@@ -190,9 +190,9 @@ type
 
   TFactoredUnitHelper = record helper for TFactoredUnit
   public
-    function GetName(const Prefixes: TPrefixes): string;
-    function GetPluralName(const Prefixes: TPrefixes): string;
-    function GetSymbol(const Prefixes: TPrefixes): string;
+    function GetName(Prefixes: TPrefixes): string;
+    function GetPluralName(Prefixes: TPrefixes): string;
+    function GetSymbol(Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
   public
     function ToFloat(const AQuantity: TQuantity): double;

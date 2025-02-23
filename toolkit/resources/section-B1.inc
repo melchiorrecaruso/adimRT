@@ -517,52 +517,64 @@ end;
 
 { TUnitHelper }
 
-function TUnitHelper.GetName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TUnitHelper.GetName(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FName;
-    1:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(FPrefixes) of
+    0: result := FName;
+    1: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name]);
+    2: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name]);
+    3: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
 end;
 
-function TUnitHelper.GetPluralName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TUnitHelper.GetPluralName(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FPluralName;
-    1:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
+    0: result := FPluralName;
+    1: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name]);
+    2: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name]);
+    3: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name]);
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
 end;
 
-function TUnitHelper.GetSymbol(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TUnitHelper.GetSymbol(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
     0:  result := FSymbol;
     1:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol]);
@@ -608,7 +620,7 @@ end;
 function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -618,7 +630,7 @@ end;
 function TUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);
@@ -628,7 +640,7 @@ end;
 function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
 begin
   {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -638,7 +650,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TVecQuantity): TVector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -648,7 +660,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(AQuantity) + ' ' + GetSymbol(FPrefixes);
@@ -660,7 +672,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes); 
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -677,7 +689,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -695,7 +707,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -717,7 +729,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
     result := FloatToStr(AQuantity.FValue) + ' ' + GetName(FPrefixes)
   else
@@ -735,7 +747,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -761,7 +773,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -788,7 +800,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);    
 {$ELSE}
@@ -810,7 +822,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TVecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -821,7 +833,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TBivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -831,7 +843,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TTrivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -841,7 +853,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TMultivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -852,7 +864,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TVecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -863,7 +875,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TBivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -873,7 +885,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TTrivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -883,7 +895,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TMultivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -894,7 +906,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := '(' + AQuantity.FValue.ToString + ') ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := '(' + AQuantity.ToString + ') ' + GetSymbol(FPrefixes)
@@ -904,7 +916,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := '(' + AQuantity.FValue.ToString + ') ' + GetName(FPrefixes)
 {$ELSE}
   result := '(' + AQuantity.ToString + ') ' + GetName(FPrefixes)
@@ -913,12 +925,16 @@ end;
 
 { TFactoredUnitHelper }
 
-function TFactoredUnitHelper.GetName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TFactoredUnitHelper.GetName(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
     0:  result := FName;
     1:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name]);
@@ -929,16 +945,20 @@ begin
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name,
           PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
 end;
 
-function TFactoredUnitHelper.GetPluralName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TFactoredUnitHelper.GetPluralName(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
     0:  result := FPluralName;
     1:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name]);
@@ -949,16 +969,20 @@ begin
           PrefixTable[Prefixes[0]].Name,
           PrefixTable[Prefixes[1]].Name,
           PrefixTable[Prefixes[2]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  else raise Exception.Create('Wrong number of prefixes.');
+  end;
 end;
 
-function TFactoredUnitHelper.GetSymbol(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
+function TFactoredUnitHelper.GetSymbol(Prefixes: TPrefixes): string;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
+  if Length(Prefixes) = 0 then
+  begin
+    Prefixes := FPrefixes;
+  end else
+    if Length(Prefixes) <> Length(FPrefixes) then
+      raise Exception.Create('Wrong number of prefixes.');
+
+  case Length(Prefixes) of
     0:  result := FSymbol;
     1:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol]);
@@ -1004,7 +1028,7 @@ end;
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -1014,7 +1038,7 @@ end;
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -1024,7 +1048,7 @@ end;
 function TFactoredUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := FloatToStr(AQuantity.FValue / FFactor) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(AQuantity / FFactor) + ' ' + GetSymbol(FPrefixes);
@@ -1036,7 +1060,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -1053,7 +1077,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-   Check(AQuantity.FID, FID);
+   Check(FID, AQuantity.FID);
    FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
    FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -1071,7 +1095,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -1095,7 +1119,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1112,7 +1136,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -1138,7 +1162,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -1165,7 +1189,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -1189,7 +1213,7 @@ var
   FactoredValue: TVector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1203,7 +1227,7 @@ var
   FactoredValue: TBivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1216,7 +1240,7 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1229,7 +1253,7 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1243,7 +1267,7 @@ var
   FactoredValue: TVector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1257,7 +1281,7 @@ var
   FactoredValue: TBivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1270,7 +1294,7 @@ var
   FactoredValue: TTrivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1283,7 +1307,7 @@ var
   FactoredValue: TMultivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1297,7 +1321,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1310,7 +1334,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -1411,7 +1435,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := AQuantity.FValue - 273.15;
 {$ELSE}
   result := AQuantity - 273.15;
@@ -1421,7 +1445,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity - 273.15, APrefixes);
@@ -1431,7 +1455,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := FloatToStr(AQuantity.FValue - 273.15) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(AQuantity - 273.15) + ' ' + GetSymbol(FPrefixes);
@@ -1443,7 +1467,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -1460,7 +1484,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -1478,7 +1502,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -1502,7 +1526,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := AQuantity.FValue - 273.15;
 {$ELSE}
   FactoredValue := AQuantity - 273.15;
@@ -1519,7 +1543,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -1545,7 +1569,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -1572,7 +1596,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -1684,7 +1708,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := 9/5 * AQuantity.FValue - 459.67;
 {$ELSE}
   result := 9/5 * AQuantity - 459.67;
@@ -1694,7 +1718,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   result := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -1704,7 +1728,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   result := FloatToStr(9/5 * AQuantity.FValue - 459.67) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(9/5 * AQuantity - 459.67) + ' ' + GetSymbol(FPrefixes);
@@ -1716,7 +1740,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -1733,7 +1757,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -1751,7 +1775,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -1775,7 +1799,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := 9/5 * AQuantity.FValue - 459.67;
 {$ELSE}
   FactoredValue := 9/5 * AQuantity - 459.67;
@@ -1792,7 +1816,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -1818,7 +1842,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -1845,7 +1869,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, FID);
+  Check(FID, AQuantity.FID);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
 {$ELSE}

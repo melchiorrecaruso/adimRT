@@ -580,8 +580,8 @@ begin
   p     := 50*kg*m/s;
   p2    := p*p;
   Uc    := 0.5*p2/mass;
-  if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [])                    <> '50 kg.m/s'      then halt(1);
-  if SquareKilogramSquareMeterPerSquareSecondUnit.ToString(p2, 4, 2, []) <> '2500 kg2.m2/s2' then halt(2);
+  if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [])                    <> '50 kg∙m/s'      then halt(1);
+  if SquareKilogramSquareMeterPerSquareSecondUnit.ToString(p2, 4, 2, []) <> '2500 kg2∙m2/s2' then halt(2);
   writeln('* TEST-37: PASSED');
 
   // TEST-38 - IMPULSE
@@ -589,7 +589,7 @@ begin
   time    := 5*ms;
   impulse := p;
   impulse := force*time;
-  if NewtonSecondUnit.ToString(impulse, 4, 2, [pNone, pMilli]) <> '50 N.ms' then halt(1);
+  if NewtonSecondUnit.ToString(impulse, 4, 2, [pNone, pMilli]) <> '50 N∙ms' then halt(1);
   writeln('* TEST-38: PASSED');
 
   // TEST-39 - STEVINO'S LAW
@@ -802,7 +802,7 @@ begin
   speed      := 10800000*km/hr;
   p          := mass*speed;
   energy     := SquareRoot(SquarePower(p*SpeedOfLight)+ SquarePower(mass*SquarePower(SpeedOfLight)));
-  if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '2733 pg.pm/s' then halt(1);
+  if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '2733 pg∙pm/s' then halt(1);
   if ElectronVoltUnit.ToString(energy, 4, 2, [pKilo])                    <> '511 keV'      then halt(2);
   writeln('* TEST-63: PASSED');
 
@@ -814,7 +814,7 @@ begin
   p      := PlanckConstant/len;
   speed  := len*freq;
   if ElectronVoltUnit.ToString(energy, 4, 2, [])                         <> '1.24 eV'        then halt(1);
-  if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '0.6626 pg.pm/s' then halt(2);
+  if KilogramMeterPerSecondUnit.ToString(p, 4, 2, [pPico, pPico, pNone]) <> '0.6626 pg∙pm/s' then halt(2);
   if MeterPerSecondUnit.ToString(speed, 9, 2, [pPico, pNone])            <> '1000000 pm/s'   then halt(3);
   writeln('* TEST-64: PASSED');
 
@@ -884,8 +884,8 @@ begin
   if s2.ToString(1.0*hr2, 10, 0, [])              <> '12960000 s2'               then halt(23);  writeln('* TEST-93: PASSED');
 
   // TEST-94
-  if WattHourUnit.ToString(1.0*J, 4, 0, [pMilli])   <> '0.2778 mW.h' then halt(1);
-  if AmpereHourUnit.ToString(1.0*C, 4, 0, [pMilli]) <> '0.2778 mA.h' then halt(2);
+  if WattHourUnit.ToString(1.0*J, 4, 0, [pMilli])   <> '0.2778 mW∙h' then halt(1);
+  if AmpereHourUnit.ToString(1.0*C, 4, 0, [pMilli]) <> '0.2778 mA∙h' then halt(2);
   writeln('* TEST-94: PASSED');
 
   // TEST-95
@@ -1131,7 +1131,7 @@ begin
   mass      := 10*kg;
   speed_    := (5*e1 + 5*e2)*m/s;
   momentum_ := mass*speed_;
-  if KilogramMeterPerSecondUnit.ToString(momentum_) <> '(+50e1 +50e2) kg.m/s' then halt(1);
+  if KilogramMeterPerSecondUnit.ToString(momentum_) <> '(+50e1 +50e2) kg∙m/s' then halt(1);
   writeln('* TEST-504: PASSED');
 
   // TEST-505: Angular speed
@@ -1155,7 +1155,7 @@ begin
   radius_          := 2*e1*m;
   momentum_        := 5*e2*kg*m/s;
   angularmomentum_ := radius_.wedge(momentum_);
-  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e12) kg.m2/s' then halt(1);
+  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e12) kg∙m2/s' then halt(1);
   writeln('* TEST-507: PASSED');
 
   // TEST-508: Force
@@ -1176,7 +1176,7 @@ begin
   torque_ := radius_.wedge(force_);
   radius_ := torque_.dot(1/force_);
   force_  := (1/radius_).dot(torque_);
-  if NewtonMeterUnit.ToString(torque_) <> '(+20e12) N.m' then halt(1);
+  if NewtonMeterUnit.ToString(torque_) <> '(+20e12) N∙m' then halt(1);
   if MeterUnit.ToString(radius_) <> '(+2e1) m'           then halt(2);
   if NewtonUnit.ToString(force_) <> '(+10e2) N'          then halt(3);
   writeln('* TEST-509: PASSED');
@@ -1213,8 +1213,8 @@ begin
   // TEST-513: Torque stiffness
   torquestifness_ := 10*e12*N*m/rad;
   torque_         := torquestifness_ * (5*rad);
-  if NewtonMeterPerRadianUnit.ToString(torquestifness_) <> '(+10e12) N.m/rad' then halt(1);
-  if NewtonMeterUnit.ToString(torque_) <> '(+50e12) N.m' then halt(2);
+  if NewtonMeterPerRadianUnit.ToString(torquestifness_) <> '(+10e12) N∙m/rad' then halt(1);
+  if NewtonMeterUnit.ToString(torque_) <> '(+50e12) N∙m' then halt(2);
   writeln('* TEST-513: PASSED');
 
   // TEST-514: Loretz force
@@ -1270,7 +1270,7 @@ begin
   radius_          := 2*e1*m;
   momentum_        := 5*e2*kg*m/s;
   angularmomentum_ := radius_.cross(momentum_);
-  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e3) kg.m2/s' then halt(1);
+  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e3) kg∙m2/s' then halt(1);
   writeln('* TEST-603: PASSED');
 
   // TEST-604: Force
@@ -1291,7 +1291,7 @@ begin
   torque_ := radius_.cross(force_);
   radius_ := (1/force_).cross(torque_);
   force_  := (1/radius_).cross(torque_);
-  if NewtonMeterUnit.ToString(torque_) <> '(+20e3) N.m' then halt(1);
+  if NewtonMeterUnit.ToString(torque_) <> '(+20e3) N∙m' then halt(1);
   if MeterUnit.ToString(radius_) <> '(+2e1) m'           then halt(2);
   if NewtonUnit.ToString(force_) <> '(+10e2) N'          then halt(3);
   writeln('* TEST-605: PASSED');
