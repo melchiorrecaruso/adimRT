@@ -106,7 +106,7 @@ end;
 function Cos(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := System.Cos(AQuantity.FValue);
 {$ELSE}
   result := System.Cos(AQuantity);
@@ -116,7 +116,7 @@ end;
 function Sin(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := System.Sin(AQuantity.FValue);
 {$ELSE}
   result := System.Sin(AQuantity);
@@ -126,7 +126,7 @@ end;
 function Tan(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := Math.Tan(AQuantity.FValue);
 {$ELSE}
   result := Math.Tan(AQuantity);
@@ -136,7 +136,7 @@ end;
 function Cotan(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := Math.Cotan(AQuantity.FValue);
 {$ELSE}
   result := Math.Cotan(AQuantity);
@@ -146,7 +146,7 @@ end;
 function Secant(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := Math.Secant(AQuantity.FValue);
 {$ELSE}
   result := Math.Secant(AQuantity);
@@ -156,7 +156,7 @@ end;
 function Cosecant(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := Math.Cosecant(AQuantity.FValue);
 {$ELSE}
   result := Math.Cosecant(AQuantity);
@@ -239,7 +239,7 @@ end;
 function Log10(const AQuantity : TQuantity) : double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := Math.Log10(AQuantity.FValue);
 {$ELSE}  
   result := Math.Log10(AQuantity);
@@ -249,7 +249,7 @@ end;
 function Log2(const AQuantity : TQuantity) : double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := Math.Log2(AQuantity.FValue);
 {$ELSE} 
   result := Math.Log2(AQuantity);
@@ -259,7 +259,7 @@ end;
 function LogN(ABase: longint; const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := Math.LogN(ABase, AQuantity.FValue);
 {$ELSE} 
   result := Math.LogN(ABase, AQuantity);
@@ -270,7 +270,7 @@ function LogN(const ABase, AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
   Check(ABase.FID, ScalarId);
-  Check(AQuantity.FID, ScalarId);
+  Check(ScalarId, AQuantity.FID);
   result := Math.LogN(ABase.FValue, AQuantity.FValue);
 {$ELSE} 
   result := Math.LogN(ABase, AQuantity);
