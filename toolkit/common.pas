@@ -31,7 +31,7 @@ type
 
 const
   TExponentBase = 60;
-  TExponentValue : array[0..12] of integer = (10, 15, 20, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360);
+  TExponentValue : array[0..13] of integer = (10, 12, 15, 20, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360);
 
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
@@ -256,17 +256,17 @@ var
   Value: longint;
 begin
   Value := Abs(ADim);
-  if (Value = 15 ) then result := '∜' + Format('%s' , [ASymbol]) else
-  if (Value = 20 ) then result := '∛' + Format('%s' , [ASymbol]) else
-  if (Value = 30 ) then result := '√' + Format('%s' , [ASymbol]) else
-  if (Value = 60 ) then result :=       Format('%s' , [ASymbol]) else
-  if (Value = 90 ) then result := '√' + Format('%s3', [ASymbol]) else
-  if (Value = 120) then result :=       Format('%s2', [ASymbol]) else
-  if (Value = 150) then result := '√' + Format('%s5', [ASymbol]) else
-  if (Value = 180) then result :=       Format('%s3', [ASymbol]) else
-  if (Value = 240) then result :=       Format('%s4', [ASymbol]) else
-  if (Value = 300) then result :=       Format('%s5', [ASymbol]) else
-  if (Value = 360) then result :=       Format('%s6', [ASymbol]) else
+  if (Value = 15 ) then result := '∜'  + Format('%s' , [ASymbol]) else
+  if (Value = 20 ) then result := '∛'  + Format('%s' , [ASymbol]) else
+  if (Value = 30 ) then result := '√'  + Format('%s' , [ASymbol]) else
+  if (Value = 60 ) then result :=        Format('%s' , [ASymbol]) else
+  if (Value = 90 ) then result := '√'  + Format('%s3', [ASymbol]) else
+  if (Value = 120) then result :=        Format('%s2', [ASymbol]) else
+  if (Value = 150) then result := '√'  + Format('%s5', [ASymbol]) else
+  if (Value = 180) then result :=        Format('%s3', [ASymbol]) else
+  if (Value = 240) then result :=        Format('%s4', [ASymbol]) else
+  if (Value = 300) then result :=        Format('%s5', [ASymbol]) else
+  if (Value = 360) then result :=        Format('%s6', [ASymbol]) else
     raise Exception.CreateFmt('ERROR: DimensionToShortString (%s)', [Value.ToString]);
 end;
 
