@@ -183,6 +183,137 @@ begin
             (not SameValue(ALeft.FIm, ARight.FIm));
 end;
 
+// TKet3
+
+class operator TKet3.+(const ALeft, ARight: TKet3): TKet3;
+begin
+  result.fm1 := ALeft.fm1 + ARight.fm1;
+  result.fm2 := ALeft.fm2 + ARight.fm2;
+  result.fm3 := ALeft.fm3 + ARight.fm3;
+end;
+
+class operator TKet3.-(const ALeft, ARight: TKet3): TKet3;
+begin
+  result.fm1 := ALeft.fm1 - ARight.fm1;
+  result.fm2 := ALeft.fm2 - ARight.fm2;
+  result.fm3 := ALeft.fm3 - ARight.fm3;
+end;
+
+class operator TKet3.*(const ALeft: double; const ARight: TKet3): TKet3;
+begin
+  result.fm1 := ALeft * ARight.fm1;
+  result.fm2 := ALeft * ARight.fm2;
+  result.fm3 := ALeft * ARight.fm3;
+end;
+
+class operator TKet3.*(const ALeft: TKet3; const ARight: double): TKet3;
+begin
+  result.fm1 := ALeft.fm1 * ARight;
+  result.fm2 := ALeft.fm2 * ARight;
+  result.fm3 := ALeft.fm3 * ARight;
+end;
+
+class operator TKet3./(const ALeft: TKet3; const ARight: double): TKet3;
+begin
+  result.fm1 := ALeft.fm1 / ARight;
+  result.fm2 := ALeft.fm2 / ARight;
+  result.fm3 := ALeft.fm3 / ARight;
+end;
+
+// TBra3
+
+class operator TBra3.+(const ALeft, ARight: TBra3): TBra3;
+begin
+  result.fm1 := ALeft.fm1 + ARight.fm1;
+  result.fm2 := ALeft.fm2 + ARight.fm2;
+  result.fm3 := ALeft.fm3 + ARight.fm3;
+end;
+
+class operator TBra3.-(const ALeft, ARight: TBra3): TBra3;
+begin
+  result.fm1 := ALeft.fm1 - ARight.fm1;
+  result.fm2 := ALeft.fm2 - ARight.fm2;
+  result.fm3 := ALeft.fm3 - ARight.fm3;
+end;
+
+class operator TBra3.*(const ALeft: double; const ARight: TBra3): TBra3;
+begin
+  result.fm1 := ALeft * ARight.fm1;
+  result.fm2 := ALeft * ARight.fm2;
+  result.fm3 := ALeft * ARight.fm3;
+end;
+
+class operator TBra3.*(const ALeft: TBra3; const ARight: double): TBra3;
+begin
+  result.fm1 := ALeft.fm1 * ARight;
+  result.fm2 := ALeft.fm2 * ARight;
+  result.fm3 := ALeft.fm3 * ARight;
+end;
+
+class operator TBra3.*(const ALeft: TBra3; const ARight: TKet3): TComplex;
+begin
+  result := ALeft.fm1*ARight.fm1 + ALeft.fm2*ARight.fm2 + ALeft.fm3*ARight.fm3;
+end;
+
+class operator TBra3./(const ALeft: TBra3; const ARight: double): TBra3;
+begin
+  result.fm1 := ALeft.fm1 / ARight;
+  result.fm2 := ALeft.fm2 / ARight;
+  result.fm3 := ALeft.fm3 / ARight;
+end;
+
+// TKet3Helper
+
+function TKet3Helper.Bra: TBra3;
+begin
+  result.fm1 := fm1.Dual;
+  result.fm2 := fm2.Dual;
+  result.fm3 := fm3.Dual;
+end;
+
+function TKet3Helper.SquareNorm: double;
+begin
+  result :=   fm1.SquaredNorm
+            + fm2.SquaredNorm
+            + fm3.SquaredNorm;
+end;
+
+function TKet3Helper.Norm: double;
+begin
+  result := sqrt(SquareNorm);
+end;
+
+// TBra3Helper
+
+function TBra3Helper.Ket: TKet3;
+begin
+  result.fm1 := fm1.Dual;
+  result.fm2 := fm2.Dual;
+  result.fm3 := fm3.Dual;
+end;
+
+// T3x3Complex
+
+class operator T3x3Complex.*(const ALeft: T3x3Complex; const ARight: TKet3): TKet3;
+begin
+  result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2 + ALeft.fm13*ARight.fm3;
+  result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2 + ALeft.fm23*ARight.fm3;
+  result.fm3 := ALeft.fm31*ARight.fm1 + ALeft.fm32*ARight.fm2 + ALeft.fm33*ARight.fm3;
+end;
+
+function T3x3Complex.DualTranspost: T3x3Complex;
+begin
+  result.fm11 := fm11.Dual;
+  result.fm12 := fm21.Dual;
+  result.fm13 := fm31.Dual;
+  result.fm21 := fm12.Dual;
+  result.fm22 := fm22.Dual;
+  result.fm23 := fm32.Dual;
+  result.fm31 := fm13.Dual;
+  result.fm32 := fm23.Dual;
+  result.fm33 := fm33.Dual;
+end;
+
 // TImaginayUnit
 
 class operator TImaginaryUnit.*(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
