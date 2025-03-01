@@ -213,6 +213,20 @@ begin
   result.fm3 := ALeft.fm3 * ARight;
 end;
 
+class operator TKet3.*(const ALeft: TComplex; const ARight: TKet3): TKet3;
+begin
+  result.fm1 := ALeft * ARight.fm1;
+  result.fm2 := ALeft * ARight.fm2;
+  result.fm3 := ALeft * ARight.fm3;
+end;
+
+class operator TKet3.*(const ALeft: TKet3; const ARight: TComplex): TKet3;
+begin
+  result.fm1 := ALeft.fm1 * ARight;
+  result.fm2 := ALeft.fm2 * ARight;
+  result.fm3 := ALeft.fm3 * ARight;
+end;
+
 class operator TKet3./(const ALeft: TKet3; const ARight: double): TKet3;
 begin
   result.fm1 := ALeft.fm1 / ARight;
@@ -244,6 +258,20 @@ begin
 end;
 
 class operator TBra3.*(const ALeft: TBra3; const ARight: double): TBra3;
+begin
+  result.fm1 := ALeft.fm1 * ARight;
+  result.fm2 := ALeft.fm2 * ARight;
+  result.fm3 := ALeft.fm3 * ARight;
+end;
+
+class operator TBra3.*(const ALeft: TComplex; const ARight: TBra3): TBra3;
+begin
+  result.fm1 := ALeft * ARight.fm1;
+  result.fm2 := ALeft * ARight.fm2;
+  result.fm3 := ALeft * ARight.fm3;
+end;
+
+class operator TBra3.*(const ALeft: TBra3; const ARight: TComplex): TBra3;
 begin
   result.fm1 := ALeft.fm1 * ARight;
   result.fm2 := ALeft.fm2 * ARight;

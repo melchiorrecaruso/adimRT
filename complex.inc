@@ -52,6 +52,8 @@ type
     class operator -(const ALeft, ARight: TKet3): TKet3;
     class operator *(const ALeft: double; const ARight: TKet3): TKet3;
     class operator *(const ALeft: TKet3; const ARight: double): TKet3;
+    class operator *(const ALeft: TComplex; const ARight: TKet3): TKet3;
+    class operator *(const ALeft: TKet3; const ARight: TComplex): TKet3;
     class operator /(const ALeft: TKet3; const ARight: double): TKet3;
   public
     property a1: TComplex read fm1 write fm1;
@@ -71,6 +73,8 @@ type
     class operator -(const ALeft, ARight: TBra3): TBra3;
     class operator *(const ALeft: double; const ARight: TBra3): TBra3;
     class operator *(const ALeft: TBra3; const ARight: double): TBra3;
+    class operator *(const ALeft: TComplex; const ARight: TBra3): TBra3;
+    class operator *(const ALeft: TBra3; const ARight: TComplex): TBra3;
     class operator *(const ALeft: TBra3; const ARight: TKet3): TComplex;
     class operator /(const ALeft: TBra3; const ARight: double): TBra3;
   public
