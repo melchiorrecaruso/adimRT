@@ -52,10 +52,8 @@ type
     function Transpose: T3x3ComplexMatrix;
     function TransposeDual: T3x3ComplexMatrix;
     function SameValue(const AMatrix: T3x3ComplexMatrix): boolean;
-
     class operator +(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
     class operator -(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
-
     class operator *(const ALeft: double; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
     class operator *(const ALeft: T3x3ComplexMatrix; const ARight: double): T3x3ComplexMatrix;
     class operator *(const ALeft: TComplex; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
@@ -73,39 +71,67 @@ type
     property a33: TComplex read fm33 write fm33;
   end;
 
-  // TComplexVector for Hilbert space 3
+  // TKet for Hilbert space 3
 
-  TComplexVector = record
+  TKet = record
   private
     fm1, fm2, fm3: TComplex;
   public
-    function Dual: TComplexVector;
-    function Transpose: TComplexVector;
-    function TransposeDual: TComplexVector;
-    function Norm: double;
-    function SquareNorm: double;
-    function SameValue(const AVector: TComplexVector): boolean;
-    function Inner(const AVector: TComplexVector): TComplex;
-    function IsNull: boolean;
+    class operator +(const ALeft, ARight: TKet): TKet;
+    class operator -(const ALeft, ARight: TKet): TKet;
+    class operator *(const ALeft: double; const ARight: TKet): TKet;
+    class operator *(const ALeft: TKet; const ARight: double): TKet;
+    class operator *(const ALeft: TComplex; const ARight: TKet): TKet;
+    class operator *(const ALeft: TKet; const ARight: TComplex): TKet;
+    class operator /(const ALeft: TKet; const ARight: double): TKet;
 
-    class operator +(const ALeft, ARight: TComplexVector): TComplexVector;
-    class operator -(const ALeft, ARight: TComplexVector): TComplexVector;
-    class operator *(const ALeft: double; const ARight: TComplexVector): TComplexVector;
-    class operator *(const ALeft: TComplexVector; const ARight: double): TComplexVector;
-    class operator *(const ALeft: TComplex; const ARight: TComplexVector): TComplexVector;
-    class operator *(const ALeft: TComplexVector; const ARight: TComplex): TComplexVector;
-    class operator /(const ALeft: TComplexVector; const ARight: double): TComplexVector;
-    // Inner product
-    class operator *(const ALeft, ARight: TComplexVector): TComplex;
-    // External product
-    class operator **(const ALeft, ARight: TComplexVector): T3x3ComplexMatrix;
-    // Matrix product
-    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: TComplexVector): TComplexVector;
-    class operator *(const ALeft: TComplexVector; const ARight: T3x3ComplexMatrix): TComplexVector;
+    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: TKet): TKet;
+    class operator *(const ALeft: TKet; const ARight: T3x3ComplexMatrix): TKet;
   public
     property a1: TComplex read fm1 write fm1;
     property a2: TComplex read fm2 write fm2;
     property a3: TComplex read fm3 write fm3;
+  end;
+
+  // TBra for Hilbert space 3
+
+  TBra = record
+  private
+    fm1, fm2, fm3: TComplex;
+  public
+    class operator +(const ALeft, ARight: TBra): TBra;
+    class operator -(const ALeft, ARight: TBra): TBra;
+    class operator *(const ALeft: double; const ARight: TBra): TBra;
+    class operator *(const ALeft: TBra; const ARight: double): TBra;
+    class operator *(const ALeft: TComplex; const ARight: TBra): TBra;
+    class operator *(const ALeft: TBra; const ARight: TComplex): TBra;
+    class operator /(const ALeft: TBra; const ARight: double): TBra;
+
+    class operator *(const ALeft: TBra; const ARight: TKet): TComplex;
+    class operator *(const ALeft: TKet; const ARight: TBra): T3x3ComplexMatrix;
+
+    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: TBra): TBra;
+    class operator *(const ALeft: TBra; const ARight: T3x3ComplexMatrix): TBra;
+  public
+    property a1: TComplex read fm1 write fm1;
+    property a2: TComplex read fm2 write fm2;
+    property a3: TComplex read fm3 write fm3;
+  end;
+
+  TKetHelper = record helper for TKet
+    function SquareNorm: double;
+    function Norm: double;
+    function TransposeDual: TBra;
+    function IsNull: boolean;
+    function SameValue(const AVector: TKet): boolean;
+  end;
+
+  TBraHelper = record helper for TBra
+    function SquareNorm: double;
+    function Norm: double;
+    function TransposeDual: TKet;
+    function IsNull: boolean;
+    function SameValue(const AVector: TBra): boolean;
   end;
 
   // TImaginaryUnit
@@ -122,7 +148,8 @@ type
     class operator /(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
   end;
 
-  function ComplexVector(const a1, a2, a3: TComplex): TComplexVector;
+  function Ket(const a1, a2, a3: TComplex): TKet;
+  function Bra(const a1, a2, a3: TComplex): TBra;
   function ComplexMatrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): T3x3ComplexMatrix;
   function Commutator(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
 
