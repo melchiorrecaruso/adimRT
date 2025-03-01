@@ -370,6 +370,32 @@ end;
 
 // T3x3Complex
 
+class operator T3x3Complex.+(const ALeft, ARight: T3x3Complex): T3x3Complex;
+begin
+  result.fm11 := ALeft.fm11 + ARight.fm11;
+  result.fm12 := ALeft.fm12 + ARight.fm12;
+  result.fm13 := ALeft.fm13 + ARight.fm13;
+  result.fm21 := ALeft.fm21 + ARight.fm21;
+  result.fm22 := ALeft.fm22 + ARight.fm22;
+  result.fm23 := ALeft.fm23 + ARight.fm23;
+  result.fm31 := ALeft.fm31 + ARight.fm31;
+  result.fm32 := ALeft.fm32 + ARight.fm32;
+  result.fm33 := ALeft.fm33 + ARight.fm33;
+end;
+
+class operator T3x3Complex.-(const ALeft, ARight: T3x3Complex): T3x3Complex;
+begin
+  result.fm11 := ALeft.fm11 - ARight.fm11;
+  result.fm12 := ALeft.fm12 - ARight.fm12;
+  result.fm13 := ALeft.fm13 - ARight.fm13;
+  result.fm21 := ALeft.fm21 - ARight.fm21;
+  result.fm22 := ALeft.fm22 - ARight.fm22;
+  result.fm23 := ALeft.fm23 - ARight.fm23;
+  result.fm31 := ALeft.fm31 - ARight.fm31;
+  result.fm32 := ALeft.fm32 - ARight.fm32;
+  result.fm33 := ALeft.fm33 - ARight.fm33;
+end;
+
 class operator T3x3Complex.*(const ALeft: T3x3Complex; const ARight: TKet3): TKet3;
 begin
   result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2 + ALeft.fm13*ARight.fm3;

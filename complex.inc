@@ -112,6 +112,9 @@ type
     function Dual: T3x3Complex;
     function Transpose: T3x3Complex;
     function TransposeDual: T3x3Complex;
+    class operator +(const ALeft, ARight: T3x3Complex): T3x3Complex;
+    class operator -(const ALeft, ARight: T3x3Complex): T3x3Complex;
+
     class operator *(const ALeft: T3x3Complex; const ARight: TKet3): TKet3;
   end;
 
