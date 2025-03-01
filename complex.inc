@@ -42,36 +42,6 @@ type
     class operator <>(const ALeft, ARight: TComplex): boolean; inline;
   end;
 
-  // TComplexVector for Hilbert space 3
-
-  TComplexVector = record
-  private
-    fm1, fm2, fm3: TComplex;
-  public
-    function Dual: TComplexVector;
-    function Transpose: TComplexVector;
-    function TransposeDual: TComplexVector;
-    function Norm: double;
-    function SquareNorm: double;
-    function SameValue(const AVector: TComplexVector): boolean;
-    function Dot(const AVector: TComplexVector): TComplex;
-    function IsNull: boolean;
-
-    class operator +(const ALeft, ARight: TComplexVector): TComplexVector;
-    class operator -(const ALeft, ARight: TComplexVector): TComplexVector;
-    class operator *(const ALeft: double; const ARight: TComplexVector): TComplexVector;
-    class operator *(const ALeft: TComplexVector; const ARight: double): TComplexVector;
-    class operator *(const ALeft: TComplex; const ARight: TComplexVector): TComplexVector;
-    class operator *(const ALeft: TComplexVector; const ARight: TComplex): TComplexVector;
-    class operator /(const ALeft: TComplexVector; const ARight: double): TComplexVector;
-    // Dot product
-    class operator *(const ALeft, ARight: TComplexVector): TComplex;
-  public
-    property a1: TComplex read fm1 write fm1;
-    property a2: TComplex read fm2 write fm2;
-    property a3: TComplex read fm3 write fm3;
-  end;
-
   T3x3ComplexMatrix = record
   private
     fm11, fm12, fm13,
@@ -86,8 +56,10 @@ type
     class operator +(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
     class operator -(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
 
-    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: TComplexVector): TComplexVector;
-    class operator *(const ALeft: TComplexVector; const ARight: T3x3ComplexMatrix): TComplexVector;
+    class operator *(const ALeft: double; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: double): T3x3ComplexMatrix;
+    class operator *(const ALeft: TComplex; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: TComplex): T3x3ComplexMatrix;
     class operator *(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
   public
     property a11: TComplex read fm11 write fm11;
@@ -99,6 +71,41 @@ type
     property a31: TComplex read fm31 write fm31;
     property a32: TComplex read fm32 write fm32;
     property a33: TComplex read fm33 write fm33;
+  end;
+
+  // TComplexVector for Hilbert space 3
+
+  TComplexVector = record
+  private
+    fm1, fm2, fm3: TComplex;
+  public
+    function Dual: TComplexVector;
+    function Transpose: TComplexVector;
+    function TransposeDual: TComplexVector;
+    function Norm: double;
+    function SquareNorm: double;
+    function SameValue(const AVector: TComplexVector): boolean;
+    function Inner(const AVector: TComplexVector): TComplex;
+    function IsNull: boolean;
+
+    class operator +(const ALeft, ARight: TComplexVector): TComplexVector;
+    class operator -(const ALeft, ARight: TComplexVector): TComplexVector;
+    class operator *(const ALeft: double; const ARight: TComplexVector): TComplexVector;
+    class operator *(const ALeft: TComplexVector; const ARight: double): TComplexVector;
+    class operator *(const ALeft: TComplex; const ARight: TComplexVector): TComplexVector;
+    class operator *(const ALeft: TComplexVector; const ARight: TComplex): TComplexVector;
+    class operator /(const ALeft: TComplexVector; const ARight: double): TComplexVector;
+    // Inner product
+    class operator *(const ALeft, ARight: TComplexVector): TComplex;
+    // External product
+    class operator **(const ALeft, ARight: TComplexVector): T3x3ComplexMatrix;
+    // Matrix product
+    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: TComplexVector): TComplexVector;
+    class operator *(const ALeft: TComplexVector; const ARight: T3x3ComplexMatrix): TComplexVector;
+  public
+    property a1: TComplex read fm1 write fm1;
+    property a2: TComplex read fm2 write fm2;
+    property a3: TComplex read fm3 write fm3;
   end;
 
   // TImaginaryUnit
