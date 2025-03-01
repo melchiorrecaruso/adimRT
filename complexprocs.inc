@@ -242,7 +242,7 @@ begin
             fm3.SameValue(AVector.fm3);
 end;
 
-function TComplexVector.Dot(const AVector: TComplexVector): TComplex;
+function TComplexVector.Inner(const AVector: TComplexVector): TComplex;
 begin
   result := fm1*AVector.fm1 + fm2*AVector.fm2 + fm3*AVector.fm3;
 end;
@@ -301,6 +301,33 @@ begin
   result := ALeft.fm1*ARight.fm1 + ALeft.fm2*ARight.fm2 + ALeft.fm3*ARight.fm3;
 end;
 
+class operator TComplexVector.**(const ALeft, ARight: TComplexVector): T3x3ComplexMatrix;
+begin
+  result.fm11 := ALeft.fm1*ARight.fm1;
+  result.fm12 := ALeft.fm1*ARight.fm2;
+  result.fm13 := ALeft.fm1*ARight.fm3;
+  result.fm21 := ALeft.fm2*ARight.fm1;
+  result.fm22 := ALeft.fm2*ARight.fm2;
+  result.fm23 := ALeft.fm2*ARight.fm3;
+  result.fm31 := ALeft.fm3*ARight.fm1;
+  result.fm32 := ALeft.fm3*ARight.fm2;
+  result.fm33 := ALeft.fm3*ARight.fm3;
+end;
+
+class operator TComplexVector.*(const ALeft: T3x3ComplexMatrix; const ARight: TComplexVector): TComplexVector;
+begin
+  result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2 + ALeft.fm13*ARight.fm3;
+  result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2 + ALeft.fm23*ARight.fm3;
+  result.fm3 := ALeft.fm31*ARight.fm1 + ALeft.fm32*ARight.fm2 + ALeft.fm33*ARight.fm3;
+end;
+
+class operator TComplexVector.*(const ALeft: TComplexVector; const ARight: T3x3ComplexMatrix): TComplexVector;
+begin
+  result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm1*ARight.fm12 + ALeft.fm1*ARight.fm13;
+  result.fm2 := ALeft.fm2*ARight.fm21 + ALeft.fm2*ARight.fm22 + ALeft.fm2*ARight.fm23;
+  result.fm3 := ALeft.fm3*ARight.fm31 + ALeft.fm3*ARight.fm32 + ALeft.fm3*ARight.fm33;
+end;
+
 // T3x3ComplexMatrix
 
 class operator T3x3ComplexMatrix.+(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
@@ -329,18 +356,57 @@ begin
   result.fm33 := ALeft.fm33 - ARight.fm33;
 end;
 
-class operator T3x3ComplexMatrix.*(const ALeft: T3x3ComplexMatrix; const ARight: TComplexVector): TComplexVector;
+
+class operator T3x3ComplexMatrix.*(const ALeft: double; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
 begin
-  result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2 + ALeft.fm13*ARight.fm3;
-  result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2 + ALeft.fm23*ARight.fm3;
-  result.fm3 := ALeft.fm31*ARight.fm1 + ALeft.fm32*ARight.fm2 + ALeft.fm33*ARight.fm3;
+  result.fm11 := ALeft*ARight.fm11;
+  result.fm12 := ALeft*ARight.fm12;
+  result.fm13 := ALeft*ARight.fm13;
+  result.fm21 := ALeft*ARight.fm21;
+  result.fm22 := ALeft*ARight.fm22;
+  result.fm23 := ALeft*ARight.fm23;
+  result.fm31 := ALeft*ARight.fm31;
+  result.fm32 := ALeft*ARight.fm32;
+  result.fm33 := ALeft*ARight.fm33;
 end;
 
-class operator T3x3ComplexMatrix.*(const ALeft: TComplexVector; const ARight: T3x3ComplexMatrix): TComplexVector;
+class operator T3x3ComplexMatrix.*(const ALeft: T3x3ComplexMatrix; const ARight: double): T3x3ComplexMatrix;
 begin
-  result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm1*ARight.fm12 + ALeft.fm1*ARight.fm13;
-  result.fm2 := ALeft.fm2*ARight.fm21 + ALeft.fm2*ARight.fm22 + ALeft.fm2*ARight.fm23;
-  result.fm3 := ALeft.fm3*ARight.fm31 + ALeft.fm3*ARight.fm32 + ALeft.fm3*ARight.fm33;
+  result.fm11 := ALeft.fm11*ARight;
+  result.fm12 := ALeft.fm12*ARight;
+  result.fm13 := ALeft.fm13*ARight;
+  result.fm21 := ALeft.fm21*ARight;
+  result.fm22 := ALeft.fm22*ARight;
+  result.fm23 := ALeft.fm23*ARight;
+  result.fm31 := ALeft.fm31*ARight;
+  result.fm32 := ALeft.fm32*ARight;
+  result.fm33 := ALeft.fm33*ARight;
+end;
+
+class operator T3x3ComplexMatrix.*(const ALeft: TComplex; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+begin
+  result.fm11 := ALeft*ARight.fm11;
+  result.fm12 := ALeft*ARight.fm12;
+  result.fm13 := ALeft*ARight.fm13;
+  result.fm21 := ALeft*ARight.fm21;
+  result.fm22 := ALeft*ARight.fm22;
+  result.fm23 := ALeft*ARight.fm23;
+  result.fm31 := ALeft*ARight.fm31;
+  result.fm32 := ALeft*ARight.fm32;
+  result.fm33 := ALeft*ARight.fm33;
+end;
+
+class operator T3x3ComplexMatrix.*(const ALeft: T3x3ComplexMatrix; const ARight: TComplex): T3x3ComplexMatrix;
+begin
+  result.fm11 := ALeft.fm11*ARight;
+  result.fm12 := ALeft.fm12*ARight;
+  result.fm13 := ALeft.fm13*ARight;
+  result.fm21 := ALeft.fm21*ARight;
+  result.fm22 := ALeft.fm22*ARight;
+  result.fm23 := ALeft.fm23*ARight;
+  result.fm31 := ALeft.fm31*ARight;
+  result.fm32 := ALeft.fm32*ARight;
+  result.fm33 := ALeft.fm33*ARight;
 end;
 
 class operator T3x3ComplexMatrix.*(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
