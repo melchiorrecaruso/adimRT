@@ -301,7 +301,33 @@ begin
   result.fm3 := ALeft.fm31*ARight.fm1 + ALeft.fm32*ARight.fm2 + ALeft.fm33*ARight.fm3;
 end;
 
-function T3x3Complex.DualTranspost: T3x3Complex;
+function T3x3Complex.Dual: T3x3Complex;
+begin
+  result.fm11 := fm11.Dual;
+  result.fm12 := fm12.Dual;
+  result.fm13 := fm13.Dual;
+  result.fm21 := fm21.Dual;
+  result.fm22 := fm22.Dual;
+  result.fm23 := fm23.Dual;
+  result.fm31 := fm31.Dual;
+  result.fm32 := fm32.Dual;
+  result.fm33 := fm33.Dual;
+end;
+
+function T3x3Complex.Transpose: T3x3Complex;
+begin
+  result.fm11 := fm11;
+  result.fm12 := fm21;
+  result.fm13 := fm31;
+  result.fm21 := fm12;
+  result.fm22 := fm22;
+  result.fm23 := fm32;
+  result.fm31 := fm13;
+  result.fm32 := fm23;
+  result.fm33 := fm33;
+end;
+
+function T3x3Complex.TransposeDual: T3x3Complex;
 begin
   result.fm11 := fm11.Dual;
   result.fm12 := fm21.Dual;

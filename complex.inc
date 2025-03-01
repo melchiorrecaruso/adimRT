@@ -95,7 +95,9 @@ type
     fm21, fm22, fm23,
     fm31, fm32, fm33: TComplex;
   public
-    function DualTranspost: T3x3Complex;
+    function Dual: T3x3Complex;
+    function Transpose: T3x3Complex;
+    function TransposeDual: T3x3Complex;
     class operator *(const ALeft: T3x3Complex; const ARight: TKet3): TKet3;
   end;
 
