@@ -297,7 +297,21 @@ end;
 
 // TKet3Helper
 
-function TKet3Helper.Bra: TBra3;
+function TKet3Helper.Dual: TKet3;
+begin
+  result.fm1 := fm1.Dual;
+  result.fm2 := fm2.Dual;
+  result.fm3 := fm3.Dual;
+end;
+
+function TKet3Helper.Transpose: TBra3;
+begin
+  result.fm1 := fm1;
+  result.fm2 := fm2;
+  result.fm3 := fm3;
+end;
+
+function TKet3Helper.TransposeDual: TBra3;
 begin
   result.fm1 := fm1.Dual;
   result.fm2 := fm2.Dual;
@@ -323,7 +337,21 @@ end;
 
 // TBra3Helper
 
-function TBra3Helper.Ket: TKet3;
+function TBra3Helper.Dual: TBra3;
+begin
+  result.fm1 := fm1.Dual;
+  result.fm2 := fm2.Dual;
+  result.fm3 := fm3.Dual;
+end;
+
+function TBra3Helper.Transpose: TKet3;
+begin
+  result.fm1 := fm1;
+  result.fm2 := fm2;
+  result.fm3 := fm3;
+end;
+
+function TBra3Helper.TransposeDual: TKet3;
 begin
   result.fm1 := fm1.Dual;
   result.fm2 := fm2.Dual;
@@ -333,6 +361,11 @@ end;
 function TBra3Helper.IsNull: boolean;
 begin
   result := fm1.IsNull and fm2.IsNull and fm3.IsNull;
+end;
+
+function TBra3Helper.Dot(const AKet: TKet3): TComplex;
+begin
+  result := fm1*AKet.fm1 + fm2*AKet.fm2 + fm3*AKet.fm3;
 end;
 
 // T3x3Complex

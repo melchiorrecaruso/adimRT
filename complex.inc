@@ -76,8 +76,9 @@ type
     class operator *(const ALeft: TBra3; const ARight: double): TBra3;
     class operator *(const ALeft: TComplex; const ARight: TBra3): TBra3;
     class operator *(const ALeft: TBra3; const ARight: TComplex): TBra3;
-    class operator *(const ALeft: TBra3; const ARight: TKet3): TComplex;
     class operator /(const ALeft: TBra3; const ARight: double): TBra3;
+    // Dot product
+    class operator *(const ALeft: TBra3; const ARight: TKet3): TComplex;
   public
     property a1: TComplex read fm1 write fm1;
     property a2: TComplex read fm2 write fm2;
@@ -85,15 +86,21 @@ type
   end;
 
   TKet3Helper = record helper for TKet3
-     function Bra: TBra3;
+     function Dual: TKet3;
+     function Transpose: TBra3;
+     function TransposeDual: TBra3;
      function Norm: double;
      function SquareNorm: double;
      function IsNull: boolean;
    end;
 
   TBra3Helper = record helper for TBra3
-    function Ket: TKet3;
-    function IsNull: boolean;
+     function Dual: TBra3;
+     function Transpose: TKet3;
+     function TransposeDual: TKet3;
+     function IsNull: boolean;
+     // Dot product
+     function Dot(const AKet: TKet3): TComplex;
   end;
 
   T3x3Complex = record
