@@ -14,6 +14,7 @@ type
     function Reciprocal: TComplex;
     function Norm: double;
     function SquaredNorm: double;
+    function IsNull: boolean;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
 
@@ -87,10 +88,12 @@ type
      function Bra: TBra3;
      function Norm: double;
      function SquareNorm: double;
+     function IsNull: boolean;
    end;
 
   TBra3Helper = record helper for TBra3
     function Ket: TKet3;
+    function IsNull: boolean;
   end;
 
   T3x3Complex = record

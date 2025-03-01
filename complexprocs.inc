@@ -33,6 +33,11 @@ begin
   result := sqr(FRe) + sqr(FIm);
 end;
 
+function TComplex.IsNull: boolean;
+begin
+  result := SameValue(fRe, 0) and SameValue(FIm, 0);
+end;
+
 function TComplex.ToString: string;
 begin
   result := '';
@@ -311,6 +316,11 @@ begin
   result := sqrt(SquareNorm);
 end;
 
+function TKet3Helper.IsNull: boolean;
+begin
+  result := fm1.IsNull and fm2.IsNull and fm3.IsNull;
+end;
+
 // TBra3Helper
 
 function TBra3Helper.Ket: TKet3;
@@ -318,6 +328,11 @@ begin
   result.fm1 := fm1.Dual;
   result.fm2 := fm2.Dual;
   result.fm3 := fm3.Dual;
+end;
+
+function TBra3Helper.IsNull: boolean;
+begin
+  result := fm1.IsNull and fm2.IsNull and fm3.IsNull;
 end;
 
 // T3x3Complex
