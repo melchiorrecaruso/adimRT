@@ -6,10 +6,8 @@ type
 
   TComplex = record
   private
-    FRe, FIm: double;
+    fRe, fIm: double;
   public
-    function Re: double;
-    function Im: double;
     function Dual: TComplex;
     function Reciprocal: TComplex;
     function Norm: double;
@@ -40,25 +38,30 @@ type
 
     class operator =(const ALeft, ARight: TComplex): boolean; inline;
     class operator <>(const ALeft, ARight: TComplex): boolean; inline;
+  public
+    property Re: double read fRe write fRe;
+    property Im: double read fIm write fIm;
   end;
 
-  T3x3ComplexMatrix = record
+  TComplexMatrix = record
   private
     fm11, fm12, fm13,
     fm21, fm22, fm23,
     fm31, fm32, fm33: TComplex;
   public
-    function Dual: T3x3ComplexMatrix;
-    function Transpose: T3x3ComplexMatrix;
-    function TransposeDual: T3x3ComplexMatrix;
-    function SameValue(const AMatrix: T3x3ComplexMatrix): boolean;
-    class operator +(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
-    class operator -(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
-    class operator *(const ALeft: double; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
-    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: double): T3x3ComplexMatrix;
-    class operator *(const ALeft: TComplex; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
-    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: TComplex): T3x3ComplexMatrix;
-    class operator *(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+    function Dual: TComplexMatrix;
+    function Transpose: TComplexMatrix;
+    function TransposeDual: TComplexMatrix;
+    function SameValue(const AMatrix: TComplexMatrix): boolean;
+    class operator +(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
+    class operator -(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
+    class operator *(const ALeft: double; const ARight: TComplexMatrix): TComplexMatrix;
+    class operator *(const ALeft: TComplexMatrix; const ARight: double): TComplexMatrix;
+    class operator *(const ALeft: TComplex; const ARight: TComplexMatrix): TComplexMatrix;
+    class operator *(const ALeft: TComplexMatrix; const ARight: TComplex): TComplexMatrix;
+    class operator *(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
+    class operator /(const ALeft: TComplexMatrix; const ARight: double): TComplexMatrix;
+    class operator /(const ALeft: TComplexMatrix; const ARight: TComplex): TComplexMatrix;
   public
     property a11: TComplex read fm11 write fm11;
     property a12: TComplex read fm12 write fm12;
@@ -83,10 +86,9 @@ type
     class operator *(const ALeft: TKet; const ARight: double): TKet;
     class operator *(const ALeft: TComplex; const ARight: TKet): TKet;
     class operator *(const ALeft: TKet; const ARight: TComplex): TKet;
+    class operator *(const ALeft: TComplexMatrix; const ARight: TKet): TKet;
     class operator /(const ALeft: TKet; const ARight: double): TKet;
-
-    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: TKet): TKet;
-    class operator *(const ALeft: TKet; const ARight: T3x3ComplexMatrix): TKet;
+    class operator /(const ALeft: TKet; const ARight: TComplex): TKet;
   public
     property a1: TComplex read fm1 write fm1;
     property a2: TComplex read fm2 write fm2;
@@ -105,13 +107,11 @@ type
     class operator *(const ALeft: TBra; const ARight: double): TBra;
     class operator *(const ALeft: TComplex; const ARight: TBra): TBra;
     class operator *(const ALeft: TBra; const ARight: TComplex): TBra;
-    class operator /(const ALeft: TBra; const ARight: double): TBra;
-
     class operator *(const ALeft: TBra; const ARight: TKet): TComplex;
-    class operator *(const ALeft: TKet; const ARight: TBra): T3x3ComplexMatrix;
-
-    class operator *(const ALeft: T3x3ComplexMatrix; const ARight: TBra): TBra;
-    class operator *(const ALeft: TBra; const ARight: T3x3ComplexMatrix): TBra;
+    class operator *(const ALeft: TKet; const ARight: TBra): TComplexMatrix;
+    class operator *(const ALeft: TBra; const ARight: TComplexMatrix): TBra;
+    class operator /(const ALeft: TBra; const ARight: double): TBra;
+    class operator /(const ALeft: TBra; const ARight: TComplex): TBra;
   public
     property a1: TComplex read fm1 write fm1;
     property a2: TComplex read fm2 write fm2;
@@ -141,7 +141,6 @@ type
     class operator *(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
     class operator *(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
     class operator *(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
-
     class operator /(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
     class operator /(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
     class operator /(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
@@ -150,8 +149,17 @@ type
 
   function Ket(const a1, a2, a3: TComplex): TKet;
   function Bra(const a1, a2, a3: TComplex): TBra;
-  function ComplexMatrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): T3x3ComplexMatrix;
-  function Commutator(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+  function ComplexMatrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TComplexMatrix;
+  function Commutator(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
+
+const
+  NullComplex: TComplex = (FRe: 0; fIm: 0);
+  NullMatrix : TComplexMatrix =
+    (fm11: (fRe: 0; fIm:0); fm12: (fRe: 0; fIm:0); fm13: (fRe: 0; fIm:0);
+     fm21: (fRe: 0; fIm:0); fm22: (fRe: 0; fIm:0); fm23: (fRe: 0; fIm:0);
+     fm31: (fRe: 0; fIm:0); fm32: (fRe: 0; fIm:0); fm33: (fRe: 0; fIm:00)
+    );
 
 var
-  img: TImaginaryUnit; 
+  img: TImaginaryUnit;
+

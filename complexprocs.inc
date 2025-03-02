@@ -2,20 +2,10 @@
 
 // TComplex
 
-function TComplex.Re: double;
-begin
-  result := FRe;
-end;
-
-function TComplex.Im: double;
-begin
-  result := FIm;
-end;
-
 function TComplex.Dual: TComplex;
 begin
-  result.FRe :=  FRe;
-  result.FIm := -FIm;
+  result.fRe :=  fRe;
+  result.fIm := -fIm;
 end;
 
 function TComplex.Reciprocal: TComplex;
@@ -30,27 +20,27 @@ end;
 
 function TComplex.SquaredNorm: double;
 begin
-  result := sqr(FRe) + sqr(FIm);
+  result := sqr(fRe) + sqr(fIm);
 end;
 
 function TComplex.IsNull: boolean;
 begin
   result := Math.SameValue(fRe, 0) and
-            Math.SameValue(FIm, 0);
+            Math.SameValue(fIm, 0);
 end;
 
 function TComplex.ToString: string;
 begin
   result := '';
-  if Math.SameValue(FRe, 0) = False then
-    result := FloatToStr(FRe);
+  if Math.SameValue(fRe, 0) = False then
+    result := FloatToStr(fRe);
 
-  if Math.SameValue(FIm, 0) = False then
+  if Math.SameValue(fIm, 0) = False then
   begin
-    if FIm < 0.0 then
-      result := result + Format(' %si', [FloatToStr(FIm)])
+    if fIm < 0.0 then
+      result := result + Format(' %si', [FloatToStr(fIm)])
     else
-      result := result + Format(' +%si', [FloatToStr(FIm)]);
+      result := result + Format(' +%si', [FloatToStr(fIm)]);
   end;
 
   if Length(result) = 0 then
@@ -67,15 +57,15 @@ end;
 function TComplex.ToString(APrecision, ADigits: integer): string;
 begin
   result := '';
-  if Math.SameValue(FRe, 0) = False then
-    result := FloatToStrF(FRe, ffGeneral, APrecision, ADigits);
+  if Math.SameValue(fRe, 0) = False then
+    result := FloatToStrF(fRe, ffGeneral, APrecision, ADigits);
 
-  if Math.SameValue(FIm, 0) = False then
+  if Math.SameValue(fIm, 0) = False then
   begin
-    if FIm < 0.0 then
-      result := result + Format(' %si', [FloatToStrF(FIm, ffGeneral, APrecision, ADigits)])
+    if fIm < 0.0 then
+      result := result + Format(' %si', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
     else
-      result := result + Format(' +%si', [FloatToStrF(FIm, ffGeneral, APrecision, ADigits)]);
+      result := result + Format(' +%si', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)]);
   end;
 
   if Length(result) = 0 then
@@ -91,80 +81,80 @@ end;
 
 function TComplex.SameValue(const AComplex: TComplex): boolean;
 begin
-  result := Math.SameValue(FRe, AComplex.FRe) and
-            Math.SameValue(FIm, AComplex.FIm);
+  result := Math.SameValue(fRe, AComplex.fRe) and
+            Math.SameValue(fIm, AComplex.fIm);
 end;
 
 class operator TComplex.:= (const AValue: double): TComplex;
 begin
-  result.FRe := AValue;
-  result.FIm := 0;
+  result.fRe := AValue;
+  result.fIm := 0;
 end;
 
 class operator TComplex.+(const AValue: TComplex): TComplex;
 begin
-  result.FRe := AValue.FRe;
-  result.FIm := AValue.FIm;
+  result.fRe := AValue.fRe;
+  result.fIm := AValue.fIm;
 end;
 
 class operator TComplex.+(const ALeft, ARight: TComplex): TComplex;
 begin
-  result.FRe := ALeft.FRe + ARight.FRe;
-  result.FIm := ALeft.FIm + ARight.FIm;
+  result.fRe := ALeft.fRe + ARight.fRe;
+  result.fIm := ALeft.fIm + ARight.fIm;
 end;
 
 class operator TComplex.+(const ALeft: double; const ARight: TComplex): TComplex;
 begin
-  result.FRe := ALeft + ARight.FRe;
-  result.FIm :=         ARight.FIm;
+  result.fRe := ALeft + ARight.fRe;
+  result.fIm :=         ARight.fIm;
 end;
 
 class operator TComplex.+(const ALeft: TComplex; const ARight: double): TComplex;
 begin
-  result.FRe := ALeft.FRe + ARight;
-  result.FIm := ALeft.FIm;
+  result.fRe := ALeft.fRe + ARight;
+  result.fIm := ALeft.fIm;
 end;
 
 class operator TComplex.-(const AValue: TComplex): TComplex;
 begin
-  result.FRe := -AValue.FRe;
-  result.FIm := -AValue.FIm;
+  result.fRe := -AValue.fRe;
+  result.fIm := -AValue.fIm;
 end;
 
 class operator TComplex.-(const ALeft, ARight: TComplex): TComplex;
 begin
-  result.FRe := ALeft.FRe - ARight.FRe;
-  result.FIm := ALeft.FIm - ARight.FIm;
+  result.fRe := ALeft.fRe - ARight.fRe;
+  result.fIm := ALeft.fIm - ARight.fIm;
 end;
 
 class operator TComplex.-(const ALeft: double; const ARight: TComplex): TComplex; inline;
 begin
-  result.FRe := ALeft - ARight.FRe;
-  result.FIm :=       - ARight.FIm;;
+  result.fRe := ALeft - ARight.fRe;
+  result.fIm :=       - ARight.fIm;;
 end;
 
 class operator TComplex.-(const ALeft: TComplex; const ARight: double): TComplex; inline;
 begin
-  result.FRe := ALeft.FRe - ARight;
-  result.FIm := ALeft.FIm;
+  result.fRe := ALeft.fRe - ARight;
+  result.fIm := ALeft.fIm;
 end;
 
 class operator TComplex.*(const ALeft, ARight: TComplex): TComplex;
 begin
-  result.FRe := ALeft.FRe * ARight.FRe - ALeft.FIm * ARight.FIm;
-  result.FIm := ALeft.FRe * ARight.FIm + ALeft.FIm * ARight.FRe;
+  result.fRe := ALeft.fRe * ARight.fRe - ALeft.fIm * ARight.fIm;
+  result.fIm := ALeft.fRe * ARight.fIm + ALeft.fIm * ARight.fRe;
 end;
 
 class operator TComplex.*(const ALeft: double; const ARight: TComplex): TComplex; inline;
 begin
-  result.FRe := ALeft * ARight.FRe;
-  result.FIm := ALeft * ARight.FIm;
+  result.fRe := ALeft * ARight.fRe;
+  result.fIm := ALeft * ARight.fIm;
 end;
 
 class operator TComplex.*(const ALeft: TComplex; const ARight: double): TComplex; inline;
 begin
-  result.FRe := ALeft.FRe * ARight;
-  result.FIm := ALeft.FIm * ARight;
+  result.fRe := ALeft.fRe * ARight;
+  result.fIm := ALeft.fIm * ARight;
 end;
 
 class operator TComplex./(const ALeft, ARight: TComplex): TComplex;
@@ -179,20 +169,20 @@ end;
 
 class operator TComplex./(const ALeft: TComplex; const ARight: double): TComplex; inline;
 begin
-  result.FRe := ALeft.FRe / ARight;
-  result.FIm := ALeft.FIm / ARight;
+  result.fRe := ALeft.fRe / ARight;
+  result.fIm := ALeft.fIm / ARight;
 end;
 
 class operator TComplex.=(const ALeft, ARight: TComplex): boolean;
 begin
-  result := Math.SameValue(ALeft.FRe, ARight.FRe) and 
-            Math.SameValue(ALeft.FIm, ARight.FIm);
+  result := Math.SameValue(ALeft.fRe, ARight.fRe) and
+            Math.SameValue(ALeft.fIm, ARight.fIm);
 end;
 
 class operator TComplex.<>(const ALeft, ARight: TComplex): boolean;
 begin
-  result := (not Math.SameValue(ALeft.FRe, ARight.FRe)) or 
-            (not Math.SameValue(ALeft.FIm, ARight.FIm));
+  result := (not Math.SameValue(ALeft.fRe, ARight.fRe)) or
+            (not Math.SameValue(ALeft.fIm, ARight.fIm));
 end;
 
 // TKet
@@ -275,18 +265,16 @@ begin
   result.fm3 := ALeft.fm3 / ARight;
 end;
 
-class operator TKet.*(const ALeft: T3x3ComplexMatrix; const ARight: TKet): TKet;
+class operator TKet./(const ALeft: TKet; const ARight: TComplex): TKet;
+begin
+  result := ALeft * ARight.Reciprocal;
+end;
+
+class operator TKet.*(const ALeft: TComplexMatrix; const ARight: TKet): TKet;
 begin
   result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2 + ALeft.fm13*ARight.fm3;
   result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2 + ALeft.fm23*ARight.fm3;
   result.fm3 := ALeft.fm31*ARight.fm1 + ALeft.fm32*ARight.fm2 + ALeft.fm33*ARight.fm3;
-end;
-
-class operator TKet.*(const ALeft: TKet; const ARight: T3x3ComplexMatrix): TKet;
-begin
-  result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm1*ARight.fm12 + ALeft.fm1*ARight.fm13;
-  result.fm2 := ALeft.fm2*ARight.fm21 + ALeft.fm2*ARight.fm22 + ALeft.fm2*ARight.fm23;
-  result.fm3 := ALeft.fm3*ARight.fm31 + ALeft.fm3*ARight.fm32 + ALeft.fm3*ARight.fm33;
 end;
 
 // TBra
@@ -369,12 +357,17 @@ begin
   result.fm3 := ALeft.fm3 / ARight;
 end;
 
+class operator TBra./(const ALeft: TBra; const ARight: TComplex): TBra;
+begin
+  result := ALeft * ARight.Reciprocal;
+end;
+
 class operator TBra.*(const ALeft: TBra; const ARight: TKet): TComplex;
 begin
   result := ALeft.fm1*ARight.fm1 + ALeft.fm2*ARight.fm2 + ALeft.fm3*ARight.fm3;
 end;
 
-class operator TBra.*(const ALeft: TKet; const ARight: TBra): T3x3ComplexMatrix;
+class operator TBra.*(const ALeft: TKet; const ARight: TBra): TComplexMatrix;
 begin
   result.fm11 := ALeft.fm1*ARight.fm1;
   result.fm12 := ALeft.fm1*ARight.fm2;
@@ -387,23 +380,16 @@ begin
   result.fm33 := ALeft.fm3*ARight.fm3;
 end;
 
-class operator TBra.*(const ALeft: T3x3ComplexMatrix; const ARight: TBra): TBra;
-begin
-  result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2 + ALeft.fm13*ARight.fm3;
-  result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2 + ALeft.fm23*ARight.fm3;
-  result.fm3 := ALeft.fm31*ARight.fm1 + ALeft.fm32*ARight.fm2 + ALeft.fm33*ARight.fm3;
-end;
-
-class operator TBra.*(const ALeft: TBra; const ARight: T3x3ComplexMatrix): TBra;
+class operator TBra.*(const ALeft: TBra; const ARight: TComplexMatrix): TBra;
 begin
   result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm1*ARight.fm12 + ALeft.fm1*ARight.fm13;
   result.fm2 := ALeft.fm2*ARight.fm21 + ALeft.fm2*ARight.fm22 + ALeft.fm2*ARight.fm23;
   result.fm3 := ALeft.fm3*ARight.fm31 + ALeft.fm3*ARight.fm32 + ALeft.fm3*ARight.fm33;
 end;
 
-// T3x3ComplexMatrix
+// TComplexMatrix
 
-class operator T3x3ComplexMatrix.+(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+class operator TComplexMatrix.+(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
 begin
   result.fm11 := ALeft.fm11 + ARight.fm11;
   result.fm12 := ALeft.fm12 + ARight.fm12;
@@ -416,7 +402,7 @@ begin
   result.fm33 := ALeft.fm33 + ARight.fm33;
 end;
 
-class operator T3x3ComplexMatrix.-(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+class operator TComplexMatrix.-(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
 begin
   result.fm11 := ALeft.fm11 - ARight.fm11;
   result.fm12 := ALeft.fm12 - ARight.fm12;
@@ -430,7 +416,7 @@ begin
 end;
 
 
-class operator T3x3ComplexMatrix.*(const ALeft: double; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+class operator TComplexMatrix.*(const ALeft: double; const ARight: TComplexMatrix): TComplexMatrix;
 begin
   result.fm11 := ALeft*ARight.fm11;
   result.fm12 := ALeft*ARight.fm12;
@@ -443,7 +429,7 @@ begin
   result.fm33 := ALeft*ARight.fm33;
 end;
 
-class operator T3x3ComplexMatrix.*(const ALeft: T3x3ComplexMatrix; const ARight: double): T3x3ComplexMatrix;
+class operator TComplexMatrix.*(const ALeft: TComplexMatrix; const ARight: double): TComplexMatrix;
 begin
   result.fm11 := ALeft.fm11*ARight;
   result.fm12 := ALeft.fm12*ARight;
@@ -456,7 +442,7 @@ begin
   result.fm33 := ALeft.fm33*ARight;
 end;
 
-class operator T3x3ComplexMatrix.*(const ALeft: TComplex; const ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+class operator TComplexMatrix.*(const ALeft: TComplex; const ARight: TComplexMatrix): TComplexMatrix;
 begin
   result.fm11 := ALeft*ARight.fm11;
   result.fm12 := ALeft*ARight.fm12;
@@ -469,7 +455,7 @@ begin
   result.fm33 := ALeft*ARight.fm33;
 end;
 
-class operator T3x3ComplexMatrix.*(const ALeft: T3x3ComplexMatrix; const ARight: TComplex): T3x3ComplexMatrix;
+class operator TComplexMatrix.*(const ALeft: TComplexMatrix; const ARight: TComplex): TComplexMatrix;
 begin
   result.fm11 := ALeft.fm11*ARight;
   result.fm12 := ALeft.fm12*ARight;
@@ -482,7 +468,7 @@ begin
   result.fm33 := ALeft.fm33*ARight;
 end;
 
-class operator T3x3ComplexMatrix.*(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+class operator TComplexMatrix.*(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
 begin
   result.fm11 := ALeft.fm11*ARight.fm11 + ALeft.fm12*ARight.fm21 + ALeft.fm13*ARight.fm31;
   result.fm12 := ALeft.fm11*ARight.fm12 + ALeft.fm12*ARight.fm22 + ALeft.fm13*ARight.fm32;
@@ -497,7 +483,25 @@ begin
   result.fm33 := ALeft.fm31*ARight.fm13 + ALeft.fm32*ARight.fm23 + ALeft.fm33*ARight.fm33;
 end;
 
-function T3x3ComplexMatrix.Dual: T3x3ComplexMatrix;
+class operator TComplexMatrix./(const ALeft: TComplexMatrix; const ARight: double): TComplexMatrix;
+begin
+  result.fm11 := ALeft.fm11/ARight;
+  result.fm12 := ALeft.fm12/ARight;
+  result.fm13 := ALeft.fm13/ARight;
+  result.fm21 := ALeft.fm21/ARight;
+  result.fm22 := ALeft.fm22/ARight;
+  result.fm23 := ALeft.fm23/ARight;
+  result.fm31 := ALeft.fm31/ARight;
+  result.fm32 := ALeft.fm32/ARight;
+  result.fm33 := ALeft.fm33/ARight;
+end;
+
+class operator TComplexMatrix./(const ALeft: TComplexMatrix; const ARight: TComplex): TComplexMatrix;
+begin
+  result := ALeft * ARight.Reciprocal
+end;
+
+function TComplexMatrix.Dual: TComplexMatrix;
 begin
   result.fm11 := fm11.Dual;
   result.fm12 := fm12.Dual;
@@ -510,7 +514,7 @@ begin
   result.fm33 := fm33.Dual;
 end;
 
-function T3x3ComplexMatrix.Transpose: T3x3ComplexMatrix;
+function TComplexMatrix.Transpose: TComplexMatrix;
 begin
   result.fm11 := fm11;
   result.fm12 := fm21;
@@ -523,7 +527,7 @@ begin
   result.fm33 := fm33;
 end;
 
-function T3x3ComplexMatrix.TransposeDual: T3x3ComplexMatrix;
+function TComplexMatrix.TransposeDual: TComplexMatrix;
 begin
   result.fm11 := fm11.Dual;
   result.fm12 := fm21.Dual;
@@ -536,7 +540,7 @@ begin
   result.fm33 := fm33.Dual;
 end;
 
-function T3x3ComplexMatrix.SameValue(const AMatrix: T3x3ComplexMatrix): boolean;
+function TComplexMatrix.SameValue(const AMatrix: TComplexMatrix): boolean;
 begin
   result := fm11.SameValue(AMatrix.fm11) and
             fm12.SameValue(AMatrix.fm12) and
@@ -563,7 +567,7 @@ begin
   result.fm3 := a3;
 end;
 
-function ComplexMatrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): T3x3ComplexMatrix;
+function ComplexMatrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TComplexMatrix;
 begin
   result.fm11 := a11;
   result.fm12 := a12;
@@ -576,7 +580,7 @@ begin
   result.fm33 := a33;
 end;
 
-function Commutator(const ALeft, ARight: T3x3ComplexMatrix): T3x3ComplexMatrix;
+function Commutator(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
 begin
   result := ALeft*ARight - ARight*ALeft;
 end;
@@ -585,49 +589,49 @@ end;
 
 class operator TImaginaryUnit.*(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
 begin
-  result.FRe := 0;
-  result.FIm := ALeft;
+  result.fRe := 0;
+  result.fIm := ALeft;
 end;
 
 class operator TImaginaryUnit.*(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
 begin
-  result.FRe := 0;
-  result.FIm := ARight;
+  result.fRe := 0;
+  result.fIm := ARight;
 end;
 
 class operator TImaginaryUnit.*(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
 begin
-  result.FRe := -ALeft.FIm;
-  result.FIm :=  ALeft.FRe;
+  result.fRe := -ALeft.fIm;
+  result.fIm :=  ALeft.fRe;
 end;
 
 class operator TImaginaryUnit.*(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
 begin
-  result.FRe := -ARight.FIm;
-  result.FIm :=  ARight.FRe;
+  result.fRe := -ARight.fIm;
+  result.fIm :=  ARight.fRe;
 end;
 
 class operator TImaginaryUnit./(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
 begin
-  result.FRe :=  0;
-  result.FIm := -ALeft;
+  result.fRe :=  0;
+  result.fIm := -ALeft;
 end;
 
 class operator TImaginaryUnit./(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
 begin
-  result.FRe := 0;
-  result.FIm := 1/ARight;
+  result.fRe := 0;
+  result.fIm := 1/ARight;
 end;
 
 class operator TImaginaryUnit./(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
 begin
-  result.FRe :=  ALeft.FIm;
-  result.FIm := -ALeft.FRe;
+  result.fRe :=  ALeft.fIm;
+  result.fIm := -ALeft.fRe;
 end;
 
 class operator TImaginaryUnit./(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
 begin
-  result.FRe := -ARight.FIm;
-  result.FIm :=  ARight.FRe;
+  result.fRe := -ARight.fIm;
+  result.fIm :=  ARight.fRe;
 end;
 
