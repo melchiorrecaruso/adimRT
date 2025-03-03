@@ -38,9 +38,9 @@ begin
   if Math.SameValue(fIm, 0) = False then
   begin
     if fIm < 0.0 then
-      result := result + Format(' %si', [FloatToStr(fIm)])
+      result := result + Format(' %s∙i', [FloatToStr(fIm)])
     else
-      result := result + Format(' +%si', [FloatToStr(fIm)]);
+      result := result + Format(' +%s∙i', [FloatToStr(fIm)]);
   end;
 
   if Length(result) = 0 then
@@ -63,9 +63,9 @@ begin
   if Math.SameValue(fIm, 0) = False then
   begin
     if fIm < 0.0 then
-      result := result + Format(' %si', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
+      result := result + Format(' %s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
     else
-      result := result + Format(' +%si', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)]);
+      result := result + Format(' +%s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)]);
   end;
 
   if Length(result) = 0 then
@@ -566,6 +566,31 @@ end;
 
 // TC2Matrix
 
+function TC2MatrixHelper.EigenValues: TC2Ket;
+var
+  detA, TrA, TrA2: TComplex;
+begin
+  detA := Determinant;
+  TrA  := fm11 + fm22;
+  TrA2 := SquarePower(TrA);
+
+  result.fm1 := 0.5*(TrA+SquareRoot(TrA2-4*detA));
+  result.fm2 := 0.5*(TrA-SquareRoot(TrA2-4*detA));
+end;
+
+function TC2MatrixHelper.Eigenvector(const AEigenValue: TComplex): TC2Ket;
+begin
+  if not fm12.SameValue(NullComplex) then
+  begin
+    result.fm1 := 1;
+    result.fm2 := -(fm11-AEigenValue)/fm12;
+  end else
+  begin
+    result.fm1 := 0;
+    result.fm2 := 1;
+  end;
+end;
+
 class operator TC2Matrix.+(const ALeft, ARight: TC2Matrix): TC2Matrix;
 begin
   result.fm11 := ALeft.fm11 + ARight.fm11;
@@ -870,6 +895,23 @@ end;
 
 // Useful routines
 
+function SquarePower(const AValue: TComplex): TComplex;
+begin
+  result := AValue*AValue;
+end;
+
+function SquareRoot(const AValue: TComplex): TComplex;
+var
+  module: double;
+begin
+  module := hypot(AValue.fRe, AValue.fIm);
+  result.fRe := sqrt(0.5*(module + AValue.fRe));
+  if AValue.fIm >= 0 then
+    result.fIm := sqrt(0.5*(module - AValue.fRe))
+  else
+    result.fIm := -sqrt(0.5*(module - AValue.fRe));
+end;
+
 function Ket(const a1, a2: TComplex): TC2Ket;
 begin
   result.fm1 := a1;
@@ -896,7 +938,7 @@ begin
   result.fm3 := a3;
 end;
 
-function Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
+function C2Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
 begin
   result.fm11 := a11;
   result.fm12 := a12;
@@ -904,7 +946,7 @@ begin
   result.fm22 := a22;
 end;
 
-function Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
+function C3Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
 begin
   result.fm11 := a11;
   result.fm12 := a12;

@@ -16,7 +16,6 @@ type
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
     function SameValue(const AComplex: TComplex): boolean;
-
     class operator :=(const AValue: double): TComplex; inline;
     class operator +(const AValue: TComplex): TComplex; inline;
     class operator +(const ALeft, ARight: TComplex): TComplex; inline;
@@ -217,6 +216,11 @@ type
     function SameValue(const AVector: TC3Bra): boolean;
   end;
 
+  TC2MatrixHelper = record helper for TC2Matrix
+    function Eigenvalues: TC2Ket;
+    function Eigenvector(const AEigenValue: TComplex): TC2Ket;
+  end;
+
   // TImaginaryUnit
 
   TImaginaryUnit = record
@@ -230,14 +234,17 @@ type
     class operator /(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
   end;
 
+  function SquarePower(const AValue: TComplex): TComplex;
+  function SquareRoot(const AValue: TComplex): TComplex;
+
   function Ket(const a1, a2: TComplex): TC2Ket;
   function Ket(const a1, a2, a3: TComplex): TC3Ket;
 
   function Bra(const a1, a2: TComplex): TC2Bra;
   function Bra(const a1, a2, a3: TComplex): TC3Bra;
 
-  function Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
-  function Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
+  function C2Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
+  function C3Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
 
   function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
   function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
