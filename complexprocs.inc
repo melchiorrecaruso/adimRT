@@ -185,189 +185,366 @@ begin
             (not Math.SameValue(ALeft.fIm, ARight.fIm));
 end;
 
-// TKet
+// TC2Ket
 
-function TKetHelper.SquareNorm: double;
+function TC2KetHelper.SquareNorm: double;
 begin
-  result :=  fm1.SquaredNorm + fm2.SquaredNorm + fm3.SquaredNorm;
+  result :=  fm1.SquaredNorm + fm2.SquaredNorm;
 end;
 
-function TKetHelper.Norm: double;
+function TC2KetHelper.Norm: double;
 begin
   result := sqrt(SquareNorm);
 end;
 
-function TKetHelper.TransposeDual: TBra;
+function TC2KetHelper.TransposeDual: TC2Bra;
+begin
+  result.fm1 := fm1.Dual;
+  result.fm2 := fm2.Dual;
+end;
+
+function TC2KetHelper.IsNull: boolean;
+begin
+  result := fm1.IsNull and fm2.IsNull;
+end;
+
+function TC2KetHelper.SameValue(const AVector: TC2Ket): boolean;
+begin
+  result := fm1.SameValue(AVector.fm1) and
+            fm2.SameValue(AVector.fm2);
+end;
+
+class operator TC2Ket.+(const ALeft, ARight: TC2Ket): TC2Ket;
+begin
+  result.fm1 := ALeft.fm1 + ARight.fm1;
+  result.fm2 := ALeft.fm2 + ARight.fm2;
+end;
+
+class operator TC2Ket.-(const ALeft, ARight: TC2Ket): TC2Ket;
+begin
+  result.fm1 := ALeft.fm1 - ARight.fm1;
+  result.fm2 := ALeft.fm2 - ARight.fm2;
+end;
+
+class operator TC2Ket.*(const ALeft: double; const ARight: TC2Ket): TC2Ket;
+begin
+  result.fm1 := ALeft * ARight.fm1;
+  result.fm2 := ALeft * ARight.fm2;
+end;
+
+class operator TC2Ket.*(const ALeft: TC2Ket; const ARight: double): TC2Ket;
+begin
+  result.fm1 := ALeft.fm1 * ARight;
+  result.fm2 := ALeft.fm2 * ARight;
+end;
+
+class operator TC2Ket.*(const ALeft: TComplex; const ARight: TC2Ket): TC2Ket;
+begin
+  result.fm1 := ALeft * ARight.fm1;
+  result.fm2 := ALeft * ARight.fm2;
+end;
+
+class operator TC2Ket.*(const ALeft: TC2Ket; const ARight: TComplex): TC2Ket;
+begin
+  result.fm1 := ALeft.fm1 * ARight;
+  result.fm2 := ALeft.fm2 * ARight;
+end;
+
+class operator TC2Ket./(const ALeft: TC2Ket; const ARight: double): TC2Ket;
+begin
+  result.fm1 := ALeft.fm1 / ARight;
+  result.fm2 := ALeft.fm2 / ARight;
+end;
+
+class operator TC2Ket./(const ALeft: TC2Ket; const ARight: TComplex): TC2Ket;
+begin
+  result := ALeft * ARight.Reciprocal;
+end;
+
+class operator TC2Ket.*(const ALeft: TC3Matrix; const ARight: TC2Ket): TC2Ket;
+begin
+  result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2;
+  result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2;
+end;
+
+// TC3Ket
+
+function TC3KetHelper.SquareNorm: double;
+begin
+  result :=  fm1.SquaredNorm + fm2.SquaredNorm + fm3.SquaredNorm;
+end;
+
+function TC3KetHelper.Norm: double;
+begin
+  result := sqrt(SquareNorm);
+end;
+
+function TC3KetHelper.TransposeDual: TC3Bra;
 begin
   result.fm1 := fm1.Dual;
   result.fm2 := fm2.Dual;
   result.fm3 := fm3.Dual;
 end;
 
-function TKetHelper.IsNull: boolean;
+function TC3KetHelper.IsNull: boolean;
 begin
   result := fm1.IsNull and fm2.IsNull and fm3.IsNull;
 end;
 
-function TKetHelper.SameValue(const AVector: TKet): boolean;
+function TC3KetHelper.SameValue(const AVector: TC3Ket): boolean;
 begin
   result := fm1.SameValue(AVector.fm1) and
             fm2.SameValue(AVector.fm2) and
             fm3.SameValue(AVector.fm3);
 end;
 
-class operator TKet.+(const ALeft, ARight: TKet): TKet;
+class operator TC3Ket.+(const ALeft, ARight: TC3Ket): TC3Ket;
 begin
   result.fm1 := ALeft.fm1 + ARight.fm1;
   result.fm2 := ALeft.fm2 + ARight.fm2;
   result.fm3 := ALeft.fm3 + ARight.fm3;
 end;
 
-class operator TKet.-(const ALeft, ARight: TKet): TKet;
+class operator TC3Ket.-(const ALeft, ARight: TC3Ket): TC3Ket;
 begin
   result.fm1 := ALeft.fm1 - ARight.fm1;
   result.fm2 := ALeft.fm2 - ARight.fm2;
   result.fm3 := ALeft.fm3 - ARight.fm3;
 end;
 
-class operator TKet.*(const ALeft: double; const ARight: TKet): TKet;
+class operator TC3Ket.*(const ALeft: double; const ARight: TC3Ket): TC3Ket;
 begin
   result.fm1 := ALeft * ARight.fm1;
   result.fm2 := ALeft * ARight.fm2;
   result.fm3 := ALeft * ARight.fm3;
 end;
 
-class operator TKet.*(const ALeft: TKet; const ARight: double): TKet;
+class operator TC3Ket.*(const ALeft: TC3Ket; const ARight: double): TC3Ket;
 begin
   result.fm1 := ALeft.fm1 * ARight;
   result.fm2 := ALeft.fm2 * ARight;
   result.fm3 := ALeft.fm3 * ARight;
 end;
 
-class operator TKet.*(const ALeft: TComplex; const ARight: TKet): TKet;
+class operator TC3Ket.*(const ALeft: TComplex; const ARight: TC3Ket): TC3Ket;
 begin
   result.fm1 := ALeft * ARight.fm1;
   result.fm2 := ALeft * ARight.fm2;
   result.fm3 := ALeft * ARight.fm3;
 end;
 
-class operator TKet.*(const ALeft: TKet; const ARight: TComplex): TKet;
+class operator TC3Ket.*(const ALeft: TC3Ket; const ARight: TComplex): TC3Ket;
 begin
   result.fm1 := ALeft.fm1 * ARight;
   result.fm2 := ALeft.fm2 * ARight;
   result.fm3 := ALeft.fm3 * ARight;
 end;
 
-class operator TKet./(const ALeft: TKet; const ARight: double): TKet;
+class operator TC3Ket./(const ALeft: TC3Ket; const ARight: double): TC3Ket;
 begin
   result.fm1 := ALeft.fm1 / ARight;
   result.fm2 := ALeft.fm2 / ARight;
   result.fm3 := ALeft.fm3 / ARight;
 end;
 
-class operator TKet./(const ALeft: TKet; const ARight: TComplex): TKet;
+class operator TC3Ket./(const ALeft: TC3Ket; const ARight: TComplex): TC3Ket;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TKet.*(const ALeft: TComplexMatrix; const ARight: TKet): TKet;
+class operator TC3Ket.*(const ALeft: TC3Matrix; const ARight: TC3Ket): TC3Ket;
 begin
   result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2 + ALeft.fm13*ARight.fm3;
   result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2 + ALeft.fm23*ARight.fm3;
   result.fm3 := ALeft.fm31*ARight.fm1 + ALeft.fm32*ARight.fm2 + ALeft.fm33*ARight.fm3;
 end;
 
-// TBra
+// TC2Bra
 
-function TBraHelper.SquareNorm: double;
+function TC2BraHelper.SquareNorm: double;
 begin
-  result :=  fm1.SquaredNorm + fm2.SquaredNorm + fm3.SquaredNorm;
+  result :=  fm1.SquaredNorm + fm2.SquaredNorm;
 end;
 
-function TBraHelper.Norm: double;
+function TC2BraHelper.Norm: double;
 begin
   result := sqrt(SquareNorm);
 end;
 
-function TBraHelper.TransposeDual: TKet;
+function TC2BraHelper.TransposeDual: TC2Ket;
+begin
+  result.fm1 := fm1.Dual;
+  result.fm2 := fm2.Dual;
+end;
+
+function TC2BraHelper.IsNull: boolean;
+begin
+  result := fm1.IsNull and fm2.IsNull;
+end;
+
+function TC2BraHelper.SameValue(const AVector: TC2Bra): boolean;
+begin
+  result := fm1.SameValue(AVector.fm1) and
+            fm2.SameValue(AVector.fm2);
+end;
+
+class operator TC2Bra.+(const ALeft, ARight: TC2Bra): TC2Bra;
+begin
+  result.fm1 := ALeft.fm1 + ARight.fm1;
+  result.fm2 := ALeft.fm2 + ARight.fm2;
+end;
+
+class operator TC2Bra.-(const ALeft, ARight: TC2Bra): TC2Bra;
+begin
+  result.fm1 := ALeft.fm1 - ARight.fm1;
+  result.fm2 := ALeft.fm2 - ARight.fm2;
+end;
+
+class operator TC2Bra.*(const ALeft: double; const ARight: TC2Bra): TC2Bra;
+begin
+  result.fm1 := ALeft * ARight.fm1;
+  result.fm2 := ALeft * ARight.fm2;
+end;
+
+class operator TC2Bra.*(const ALeft: TC2Bra; const ARight: double): TC2Bra;
+begin
+  result.fm1 := ALeft.fm1 * ARight;
+  result.fm2 := ALeft.fm2 * ARight;
+end;
+
+class operator TC2Bra.*(const ALeft: TComplex; const ARight: TC2Bra): TC2Bra;
+begin
+  result.fm1 := ALeft * ARight.fm1;
+  result.fm2 := ALeft * ARight.fm2;
+end;
+
+class operator TC2Bra.*(const ALeft: TC2Bra; const ARight: TComplex): TC2Bra;
+begin
+  result.fm1 := ALeft.fm1 * ARight;
+  result.fm2 := ALeft.fm2 * ARight;
+end;
+
+class operator TC2Bra./(const ALeft: TC2Bra; const ARight: double): TC2Bra;
+begin
+  result.fm1 := ALeft.fm1 / ARight;
+  result.fm2 := ALeft.fm2 / ARight;
+end;
+
+class operator TC2Bra./(const ALeft: TC2Bra; const ARight: TComplex): TC2Bra;
+begin
+  result := ALeft * ARight.Reciprocal;
+end;
+
+class operator TC2Bra.*(const ALeft: TC2Bra; const ARight: TC2Ket): TComplex;
+begin
+  result := ALeft.fm1*ARight.fm1 + ALeft.fm2*ARight.fm2;
+end;
+
+class operator TC2Bra.*(const ALeft: TC2Ket; const ARight: TC2Bra): TC2Matrix;
+begin
+  result.fm11 := ALeft.fm1*ARight.fm1;
+  result.fm12 := ALeft.fm1*ARight.fm2;
+  result.fm21 := ALeft.fm2*ARight.fm1;
+  result.fm22 := ALeft.fm2*ARight.fm2;
+end;
+
+class operator TC2Bra.*(const ALeft: TC2Bra; const ARight: TC2Matrix): TC2Bra;
+begin
+  result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm1*ARight.fm12;
+  result.fm2 := ALeft.fm2*ARight.fm21 + ALeft.fm2*ARight.fm22;
+end;
+
+// TC3Bra
+
+function TC3BraHelper.SquareNorm: double;
+begin
+  result :=  fm1.SquaredNorm + fm2.SquaredNorm + fm3.SquaredNorm;
+end;
+
+function TC3BraHelper.Norm: double;
+begin
+  result := sqrt(SquareNorm);
+end;
+
+function TC3BraHelper.TransposeDual: TC3Ket;
 begin
   result.fm1 := fm1.Dual;
   result.fm2 := fm2.Dual;
   result.fm3 := fm3.Dual;
 end;
 
-function TBraHelper.IsNull: boolean;
+function TC3BraHelper.IsNull: boolean;
 begin
   result := fm1.IsNull and fm2.IsNull and fm3.IsNull;
 end;
 
-function TBraHelper.SameValue(const AVector: TBra): boolean;
+function TC3BraHelper.SameValue(const AVector: TC3Bra): boolean;
 begin
   result := fm1.SameValue(AVector.fm1) and
             fm2.SameValue(AVector.fm2) and
             fm3.SameValue(AVector.fm3);
 end;
 
-class operator TBra.+(const ALeft, ARight: TBra): TBra;
+class operator TC3Bra.+(const ALeft, ARight: TC3Bra): TC3Bra;
 begin
   result.fm1 := ALeft.fm1 + ARight.fm1;
   result.fm2 := ALeft.fm2 + ARight.fm2;
   result.fm3 := ALeft.fm3 + ARight.fm3;
 end;
 
-class operator TBra.-(const ALeft, ARight: TBra): TBra;
+class operator TC3Bra.-(const ALeft, ARight: TC3Bra): TC3Bra;
 begin
   result.fm1 := ALeft.fm1 - ARight.fm1;
   result.fm2 := ALeft.fm2 - ARight.fm2;
   result.fm3 := ALeft.fm3 - ARight.fm3;
 end;
 
-class operator TBra.*(const ALeft: double; const ARight: TBra): TBra;
+class operator TC3Bra.*(const ALeft: double; const ARight: TC3Bra): TC3Bra;
 begin
   result.fm1 := ALeft * ARight.fm1;
   result.fm2 := ALeft * ARight.fm2;
   result.fm3 := ALeft * ARight.fm3;
 end;
 
-class operator TBra.*(const ALeft: TBra; const ARight: double): TBra;
+class operator TC3Bra.*(const ALeft: TC3Bra; const ARight: double): TC3Bra;
 begin
   result.fm1 := ALeft.fm1 * ARight;
   result.fm2 := ALeft.fm2 * ARight;
   result.fm3 := ALeft.fm3 * ARight;
 end;
 
-class operator TBra.*(const ALeft: TComplex; const ARight: TBra): TBra;
+class operator TC3Bra.*(const ALeft: TComplex; const ARight: TC3Bra): TC3Bra;
 begin
   result.fm1 := ALeft * ARight.fm1;
   result.fm2 := ALeft * ARight.fm2;
   result.fm3 := ALeft * ARight.fm3;
 end;
 
-class operator TBra.*(const ALeft: TBra; const ARight: TComplex): TBra;
+class operator TC3Bra.*(const ALeft: TC3Bra; const ARight: TComplex): TC3Bra;
 begin
   result.fm1 := ALeft.fm1 * ARight;
   result.fm2 := ALeft.fm2 * ARight;
   result.fm3 := ALeft.fm3 * ARight;
 end;
 
-class operator TBra./(const ALeft: TBra; const ARight: double): TBra;
+class operator TC3Bra./(const ALeft: TC3Bra; const ARight: double): TC3Bra;
 begin
   result.fm1 := ALeft.fm1 / ARight;
   result.fm2 := ALeft.fm2 / ARight;
   result.fm3 := ALeft.fm3 / ARight;
 end;
 
-class operator TBra./(const ALeft: TBra; const ARight: TComplex): TBra;
+class operator TC3Bra./(const ALeft: TC3Bra; const ARight: TComplex): TC3Bra;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TBra.*(const ALeft: TBra; const ARight: TKet): TComplex;
+class operator TC3Bra.*(const ALeft: TC3Bra; const ARight: TC3Ket): TComplex;
 begin
   result := ALeft.fm1*ARight.fm1 + ALeft.fm2*ARight.fm2 + ALeft.fm3*ARight.fm3;
 end;
 
-class operator TBra.*(const ALeft: TKet; const ARight: TBra): TComplexMatrix;
+class operator TC3Bra.*(const ALeft: TC3Ket; const ARight: TC3Bra): TC3Matrix;
 begin
   result.fm11 := ALeft.fm1*ARight.fm1;
   result.fm12 := ALeft.fm1*ARight.fm2;
@@ -380,16 +557,134 @@ begin
   result.fm33 := ALeft.fm3*ARight.fm3;
 end;
 
-class operator TBra.*(const ALeft: TBra; const ARight: TComplexMatrix): TBra;
+class operator TC3Bra.*(const ALeft: TC3Bra; const ARight: TC3Matrix): TC3Bra;
 begin
   result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm1*ARight.fm12 + ALeft.fm1*ARight.fm13;
   result.fm2 := ALeft.fm2*ARight.fm21 + ALeft.fm2*ARight.fm22 + ALeft.fm2*ARight.fm23;
   result.fm3 := ALeft.fm3*ARight.fm31 + ALeft.fm3*ARight.fm32 + ALeft.fm3*ARight.fm33;
 end;
 
-// TComplexMatrix
+// TC2Matrix
 
-class operator TComplexMatrix.+(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
+class operator TC2Matrix.+(const ALeft, ARight: TC2Matrix): TC2Matrix;
+begin
+  result.fm11 := ALeft.fm11 + ARight.fm11;
+  result.fm12 := ALeft.fm12 + ARight.fm12;
+  result.fm21 := ALeft.fm21 + ARight.fm21;
+  result.fm22 := ALeft.fm22 + ARight.fm22;
+end;
+
+class operator TC2Matrix.-(const ALeft, ARight: TC2Matrix): TC2Matrix;
+begin
+  result.fm11 := ALeft.fm11 - ARight.fm11;
+  result.fm12 := ALeft.fm12 - ARight.fm12;
+  result.fm21 := ALeft.fm21 - ARight.fm21;
+  result.fm22 := ALeft.fm22 - ARight.fm22;
+end;
+
+
+class operator TC2Matrix.*(const ALeft: double; const ARight: TC2Matrix): TC2Matrix;
+begin
+  result.fm11 := ALeft*ARight.fm11;
+  result.fm12 := ALeft*ARight.fm12;
+  result.fm21 := ALeft*ARight.fm21;
+  result.fm22 := ALeft*ARight.fm22;
+end;
+
+class operator TC2Matrix.*(const ALeft: TC2Matrix; const ARight: double): TC2Matrix;
+begin
+  result.fm11 := ALeft.fm11*ARight;
+  result.fm12 := ALeft.fm12*ARight;
+  result.fm21 := ALeft.fm21*ARight;
+  result.fm22 := ALeft.fm22*ARight;
+end;
+
+class operator TC2Matrix.*(const ALeft: TComplex; const ARight: TC2Matrix): TC2Matrix;
+begin
+  result.fm11 := ALeft*ARight.fm11;
+  result.fm12 := ALeft*ARight.fm12;
+  result.fm21 := ALeft*ARight.fm21;
+  result.fm22 := ALeft*ARight.fm22;
+end;
+
+class operator TC2Matrix.*(const ALeft: TC2Matrix; const ARight: TComplex): TC2Matrix;
+begin
+  result.fm11 := ALeft.fm11*ARight;
+  result.fm12 := ALeft.fm12*ARight;
+  result.fm21 := ALeft.fm21*ARight;
+  result.fm22 := ALeft.fm22*ARight;
+end;
+
+class operator TC2Matrix.*(const ALeft, ARight: TC2Matrix): TC2Matrix;
+begin
+  result.fm11 := ALeft.fm11*ARight.fm11 + ALeft.fm12*ARight.fm21;
+  result.fm12 := ALeft.fm11*ARight.fm12 + ALeft.fm12*ARight.fm22;
+
+  result.fm21 := ALeft.fm21*ARight.fm11 + ALeft.fm22*ARight.fm21;
+  result.fm22 := ALeft.fm21*ARight.fm12 + ALeft.fm22*ARight.fm22;
+end;
+
+class operator TC2Matrix./(const ALeft: TC2Matrix; const ARight: double): TC2Matrix;
+begin
+  result.fm11 := ALeft.fm11/ARight;
+  result.fm12 := ALeft.fm12/ARight;
+  result.fm21 := ALeft.fm21/ARight;
+  result.fm22 := ALeft.fm22/ARight;
+end;
+
+class operator TC2Matrix./(const ALeft: TC2Matrix; const ARight: TComplex): TC2Matrix;
+begin
+  result := ALeft * ARight.Reciprocal
+end;
+
+function TC2Matrix.Dual: TC2Matrix;
+begin
+  result.fm11 := fm11.Dual;
+  result.fm12 := fm12.Dual;
+  result.fm21 := fm21.Dual;
+  result.fm22 := fm22.Dual;
+end;
+
+function TC2Matrix.Transpose: TC2Matrix;
+begin
+  result.fm11 := fm11;
+  result.fm12 := fm21;
+  result.fm21 := fm12;
+  result.fm22 := fm22;
+end;
+
+function TC2Matrix.TransposeDual: TC2Matrix;
+begin
+  result.fm11 := fm11.Dual;
+  result.fm12 := fm21.Dual;
+  result.fm21 := fm12.Dual;
+  result.fm22 := fm22.Dual;
+end;
+
+function TC2Matrix.SameValue(const AMatrix: TC2Matrix): boolean;
+begin
+  result := fm11.SameValue(AMatrix.fm11) and
+            fm12.SameValue(AMatrix.fm12) and
+            fm21.SameValue(AMatrix.fm21) and
+            fm22.SameValue(AMatrix.fm22);
+end;
+
+function TC2Matrix.Determinant: TComplex;
+begin
+  result := fm11*fm22 - fm12*fm21;
+end;
+
+function TC2Matrix.Reciprocal(const ADeterminant: TComplex): TC2Matrix;
+begin
+  result.fm11 :=  fm22/ADeterminant;
+  result.fm12 := -fm12/ADeterminant;
+  result.fm21 := -fm21/ADeterminant;
+  result.fm22 :=  fm11/ADeterminant;
+end;
+
+// TC3Matrix
+
+class operator TC3Matrix.+(const ALeft, ARight: TC3Matrix): TC3Matrix;
 begin
   result.fm11 := ALeft.fm11 + ARight.fm11;
   result.fm12 := ALeft.fm12 + ARight.fm12;
@@ -402,7 +697,7 @@ begin
   result.fm33 := ALeft.fm33 + ARight.fm33;
 end;
 
-class operator TComplexMatrix.-(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
+class operator TC3Matrix.-(const ALeft, ARight: TC3Matrix): TC3Matrix;
 begin
   result.fm11 := ALeft.fm11 - ARight.fm11;
   result.fm12 := ALeft.fm12 - ARight.fm12;
@@ -416,7 +711,7 @@ begin
 end;
 
 
-class operator TComplexMatrix.*(const ALeft: double; const ARight: TComplexMatrix): TComplexMatrix;
+class operator TC3Matrix.*(const ALeft: double; const ARight: TC3Matrix): TC3Matrix;
 begin
   result.fm11 := ALeft*ARight.fm11;
   result.fm12 := ALeft*ARight.fm12;
@@ -429,7 +724,7 @@ begin
   result.fm33 := ALeft*ARight.fm33;
 end;
 
-class operator TComplexMatrix.*(const ALeft: TComplexMatrix; const ARight: double): TComplexMatrix;
+class operator TC3Matrix.*(const ALeft: TC3Matrix; const ARight: double): TC3Matrix;
 begin
   result.fm11 := ALeft.fm11*ARight;
   result.fm12 := ALeft.fm12*ARight;
@@ -442,7 +737,7 @@ begin
   result.fm33 := ALeft.fm33*ARight;
 end;
 
-class operator TComplexMatrix.*(const ALeft: TComplex; const ARight: TComplexMatrix): TComplexMatrix;
+class operator TC3Matrix.*(const ALeft: TComplex; const ARight: TC3Matrix): TC3Matrix;
 begin
   result.fm11 := ALeft*ARight.fm11;
   result.fm12 := ALeft*ARight.fm12;
@@ -455,7 +750,7 @@ begin
   result.fm33 := ALeft*ARight.fm33;
 end;
 
-class operator TComplexMatrix.*(const ALeft: TComplexMatrix; const ARight: TComplex): TComplexMatrix;
+class operator TC3Matrix.*(const ALeft: TC3Matrix; const ARight: TComplex): TC3Matrix;
 begin
   result.fm11 := ALeft.fm11*ARight;
   result.fm12 := ALeft.fm12*ARight;
@@ -468,7 +763,7 @@ begin
   result.fm33 := ALeft.fm33*ARight;
 end;
 
-class operator TComplexMatrix.*(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
+class operator TC3Matrix.*(const ALeft, ARight: TC3Matrix): TC3Matrix;
 begin
   result.fm11 := ALeft.fm11*ARight.fm11 + ALeft.fm12*ARight.fm21 + ALeft.fm13*ARight.fm31;
   result.fm12 := ALeft.fm11*ARight.fm12 + ALeft.fm12*ARight.fm22 + ALeft.fm13*ARight.fm32;
@@ -483,7 +778,7 @@ begin
   result.fm33 := ALeft.fm31*ARight.fm13 + ALeft.fm32*ARight.fm23 + ALeft.fm33*ARight.fm33;
 end;
 
-class operator TComplexMatrix./(const ALeft: TComplexMatrix; const ARight: double): TComplexMatrix;
+class operator TC3Matrix./(const ALeft: TC3Matrix; const ARight: double): TC3Matrix;
 begin
   result.fm11 := ALeft.fm11/ARight;
   result.fm12 := ALeft.fm12/ARight;
@@ -496,12 +791,12 @@ begin
   result.fm33 := ALeft.fm33/ARight;
 end;
 
-class operator TComplexMatrix./(const ALeft: TComplexMatrix; const ARight: TComplex): TComplexMatrix;
+class operator TC3Matrix./(const ALeft: TC3Matrix; const ARight: TComplex): TC3Matrix;
 begin
   result := ALeft * ARight.Reciprocal
 end;
 
-function TComplexMatrix.Dual: TComplexMatrix;
+function TC3Matrix.Dual: TC3Matrix;
 begin
   result.fm11 := fm11.Dual;
   result.fm12 := fm12.Dual;
@@ -514,7 +809,7 @@ begin
   result.fm33 := fm33.Dual;
 end;
 
-function TComplexMatrix.Transpose: TComplexMatrix;
+function TC3Matrix.Transpose: TC3Matrix;
 begin
   result.fm11 := fm11;
   result.fm12 := fm21;
@@ -527,7 +822,7 @@ begin
   result.fm33 := fm33;
 end;
 
-function TComplexMatrix.TransposeDual: TComplexMatrix;
+function TC3Matrix.TransposeDual: TC3Matrix;
 begin
   result.fm11 := fm11.Dual;
   result.fm12 := fm21.Dual;
@@ -540,7 +835,7 @@ begin
   result.fm33 := fm33.Dual;
 end;
 
-function TComplexMatrix.SameValue(const AMatrix: TComplexMatrix): boolean;
+function TC3Matrix.SameValue(const AMatrix: TC3Matrix): boolean;
 begin
   result := fm11.SameValue(AMatrix.fm11) and
             fm12.SameValue(AMatrix.fm12) and
@@ -553,21 +848,63 @@ begin
             fm33.SameValue(AMatrix.fm33);
 end;
 
-function Ket(const a1, a2, a3: TComplex): TKet;
+function TC3Matrix.Determinant: TComplex;
+begin
+  result :=  fm11*(fm22*fm33 -fm23*fm32)
+            +fm12*(fm23*fm31 -fm21*fm33)
+            +fm13*(fm21*fm32 -fm22*fm31);
+end;
+
+function TC3Matrix.Reciprocal(const ADeterminant: Tcomplex): TC3Matrix;
+begin
+  result.fm11 :=  (fm22*fm33 -fm23*fm32) / ADeterminant;
+  result.fm12 := -(fm12*fm33 -fm13*fm32) / ADeterminant;
+  result.fm13 :=  (fm12*fm23 -fm13*fm22) / ADeterminant;
+  result.fm21 := -(fm21*fm33 -fm23*fm31) / ADeterminant;
+  result.fm22 :=  (fm11*fm33 -fm13*fm31) / ADeterminant;
+  result.fm23 := -(fm11*fm23 -fm13*fm21) / ADeterminant;
+  result.fm31 :=  (fm21*fm32 -fm22*fm31) / ADeterminant;
+  result.fm32 := -(fm11*fm32 -fm12*fm31) / ADeterminant;
+  result.fm33 :=  (fm11*fm22 -fm12*fm21) / ADeterminant;
+end;
+
+// Useful routines
+
+function Ket(const a1, a2: TComplex): TC2Ket;
+begin
+  result.fm1 := a1;
+  result.fm2 := a2;
+end;
+
+function Ket(const a1, a2, a3: TComplex): TC3Ket;
 begin
   result.fm1 := a1;
   result.fm2 := a2;
   result.fm3 := a3;
 end;
 
-function Bra(const a1, a2, a3: TComplex): TBra;
+function Bra(const a1, a2: TComplex): TC2Bra;
+begin
+  result.fm1 := a1;
+  result.fm2 := a2;
+end;
+
+function Bra(const a1, a2, a3: TComplex): TC3Bra;
 begin
   result.fm1 := a1;
   result.fm2 := a2;
   result.fm3 := a3;
 end;
 
-function ComplexMatrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TComplexMatrix;
+function Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
+begin
+  result.fm11 := a11;
+  result.fm12 := a12;
+  result.fm21 := a21;
+  result.fm22 := a22;
+end;
+
+function Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
 begin
   result.fm11 := a11;
   result.fm12 := a12;
@@ -580,7 +917,12 @@ begin
   result.fm33 := a33;
 end;
 
-function Commutator(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
+function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
+begin
+  result := ALeft*ARight - ARight*ALeft;
+end;
+
+function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
 begin
   result := ALeft*ARight - ARight*ALeft;
 end;
