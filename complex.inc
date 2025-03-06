@@ -217,8 +217,15 @@ type
   end;
 
   TC2MatrixHelper = record helper for TC2Matrix
+    function Trace: TComplex;
     function Eigenvalues: TC2Ket;
     function Eigenvector(const AEigenValue: TComplex): TC2Ket;
+  end;
+
+  TC3MatrixHelper = record helper for TC3Matrix
+    function Trace: TComplex;
+    function Eigenvalues: TC3Ket;
+    function Eigenvector(const AEigenValue: TComplex): TC3Ket;
   end;
 
   // TImaginaryUnit
@@ -235,7 +242,10 @@ type
   end;
 
   function SquarePower(const AValue: TComplex): TComplex;
-  function SquareRoot(const AValue: TComplex): TComplex;
+  function SquareRoot(const AValue: TComplex): TC2Ket;
+  function CubicPower(const AValue: TComplex): TComplex;
+  function CubicRoot(const AValue: TComplex): TC3Ket;
+
 
   function Ket(const a1, a2: TComplex): TC2Ket;
   function Ket(const a1, a2, a3: TComplex): TC3Ket;

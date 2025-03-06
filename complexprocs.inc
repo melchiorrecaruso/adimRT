@@ -566,6 +566,11 @@ end;
 
 // TC2Matrix
 
+function TC2MatrixHelper.Trace: TComplex;
+begin
+  result := fm11 + fm22;
+end;
+
 function TC2MatrixHelper.EigenValues: TC2Ket;
 var
   detA, TrA, TrA2: TComplex;
@@ -574,20 +579,20 @@ begin
   TrA  := fm11 + fm22;
   TrA2 := SquarePower(TrA);
 
-  result.fm1 := 0.5*(TrA+SquareRoot(TrA2-4*detA));
-  result.fm2 := 0.5*(TrA-SquareRoot(TrA2-4*detA));
+  result.fm1 := 0.5*(TrA+SquareRoot(TrA2-4*detA).fm1);
+  result.fm2 := 0.5*(TrA+SquareRoot(TrA2-4*detA).fm2);
 end;
 
 function TC2MatrixHelper.Eigenvector(const AEigenValue: TComplex): TC2Ket;
 begin
-  if not fm12.SameValue(NullComplex) then
+  result.fm1 := AEigenValue - fm22;
+  result.fm2 := fm21;
+
+  if (result.fm1.SameValue(NullComplex)) and
+     (result.fm2.SameValue(NullComplex)) then
   begin
-    result.fm1 := 1;
-    result.fm2 := -(fm11-AEigenValue)/fm12;
-  end else
-  begin
-    result.fm1 := 0;
-    result.fm2 := 1;
+    result.fm1 := fm12;
+    result.fm2 := AEigenValue - fm11;
   end;
 end;
 
@@ -709,6 +714,40 @@ end;
 
 // TC3Matrix
 
+function TC3MatrixHelper.Trace: TComplex;
+begin
+  result := fm11 + fm22 + fm33;
+end;
+
+function TC3MatrixHelper.Eigenvalues: TC3Ket;
+var
+  C1, C2, C3, p, q: TComplex;
+  t1, t2, t3: TComplex;
+begin
+  t1 := Trace;
+  t2 := (Self*Self).Trace;
+  t3 := (Self*Self*Self).Trace;
+
+  C1 := -t1;
+  C2 := -0.5*(C1*t1+t2);
+  C3 := -(C2*t1+C1*t2+t3)/3;
+
+  p := -SquarePower(C1)/3 + C2;
+  q :=  2*CubicPower(C1)/27 - C1*C2/3 + C3;
+
+  result := CubicRoot(-q/2 + SquareRoot(q*q/4 + p*p*p/27).fm1) +
+            CubicRoot(-q/2 - SquareRoot(q*q/4 + p*p*p/27).fm1);
+
+  result.fm1 := result.fm1 - C1/3;
+  result.fm2 := result.fm2 - C1/3;
+  result.fm3 := result.fm3 - C1/3;
+end;
+
+function TC3MatrixHelper.Eigenvector(const AEigenValue: TComplex): TC3Ket;
+begin
+
+end;
+
 class operator TC3Matrix.+(const ALeft, ARight: TC3Matrix): TC3Matrix;
 begin
   result.fm11 := ALeft.fm11 + ARight.fm11;
@@ -734,7 +773,6 @@ begin
   result.fm32 := ALeft.fm32 - ARight.fm32;
   result.fm33 := ALeft.fm33 - ARight.fm33;
 end;
-
 
 class operator TC3Matrix.*(const ALeft: double; const ARight: TC3Matrix): TC3Matrix;
 begin
@@ -900,16 +938,39 @@ begin
   result := AValue*AValue;
 end;
 
-function SquareRoot(const AValue: TComplex): TComplex;
+function SquareRoot(const AValue: TComplex): TC2Ket;
 var
-  module: double;
+  norm: double;
 begin
-  module := hypot(AValue.fRe, AValue.fIm);
-  result.fRe := sqrt(0.5*(module + AValue.fRe));
+  norm := hypot(AValue.fRe, AValue.fIm);
+  result.fm1.fRe := sqrt(0.5*(norm + AValue.fRe));
   if AValue.fIm >= 0 then
-    result.fIm := sqrt(0.5*(module - AValue.fRe))
+    result.fm1.fIm := sqrt(0.5*(norm - AValue.fRe))
   else
-    result.fIm := -sqrt(0.5*(module - AValue.fRe));
+    result.fm1.fIm := -sqrt(0.5*(norm - AValue.fRe));
+  result.fm2 := -result.fm1;
+end;
+
+function CubicPower(const AValue: TComplex): TComplex;
+begin
+  result := AValue*AValue*AValue;
+end;
+
+function CubicRoot(const AValue: TComplex): TC3Ket;
+var
+  theta, rootModulus, rootArgument: double;
+begin
+  rootModulus := Power(AValue.Norm, 1/3);
+  theta := Math.ArcTan2(AValue.fIm, AValue.fRe);
+
+  rootArgument := (theta)/3;
+  result.fm1 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
+
+  rootArgument := (theta+2*Pi)/3;
+  result.fm2 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
+
+  rootArgument := (theta+4*Pi)/3;
+  result.fm3 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
 end;
 
 function Ket(const a1, a2: TComplex): TC2Ket;
