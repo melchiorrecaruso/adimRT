@@ -197,6 +197,11 @@ begin
   result := sqrt(SquareNorm);
 end;
 
+function TC2KetHelper.Normalize: TC2Ket;
+begin
+  result := Self / Norm;
+end;
+
 function TC2KetHelper.TransposeDual: TC2Bra;
 begin
   result.fm1 := fm1.Dual;
@@ -369,6 +374,11 @@ end;
 function TC2BraHelper.Norm: double;
 begin
   result := sqrt(SquareNorm);
+end;
+
+function TC2BraHelper.Normalize: TC2Bra;
+begin
+  result := Self / Norm;
 end;
 
 function TC2BraHelper.TransposeDual: TC2Ket;

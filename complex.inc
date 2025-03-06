@@ -187,6 +187,7 @@ type
   TC2KetHelper = record helper for TC2Ket
     function SquareNorm: double;
     function Norm: double;
+    function Normalize: TC2Ket;
     function TransposeDual: TC2Bra;
     function IsNull: boolean;
     function SameValue(const AVector: TC2Ket): boolean;
@@ -203,6 +204,7 @@ type
   TC2BraHelper = record helper for TC2Bra
     function SquareNorm: double;
     function Norm: double;
+    function Normalize: TC2Bra;
     function TransposeDual: TC2Ket;
     function IsNull: boolean;
     function SameValue(const AVector: TC2Bra): boolean;
