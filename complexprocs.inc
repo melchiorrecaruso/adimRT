@@ -30,53 +30,39 @@ begin
 end;
 
 function TComplex.ToString: string;
+var
+  sign: array[boolean] of string = ('+', '-');
 begin
-  result := '';
-  if Math.SameValue(fRe, 0) = False then
-    result := FloatToStr(fRe);
-
-  if Math.SameValue(fIm, 0) = False then
-  begin
-    if fIm < 0.0 then
-      result := result + Format(' %s∙i', [FloatToStr(fIm)])
-    else
-      result := result + Format(' +%s∙i', [FloatToStr(fIm)]);
-  end;
-
-  if Length(result) = 0 then
-    result := '0'
+  if (not Math.SameValue(fRe, 0)) and
+     (not Math.SameValue(fIm, 0)) then
+    result := Format('%s %s%s∙i', [FloatToStr(fRe), sign[fIm < 0], FloatToStr(Abs(fIm))])
   else
-    if result[1] = ' ' then
-    begin
-      Delete(result, 1, 1);
-      if result[1] = '+' then
-        Delete(result, 1, 1);
-    end;
+    if (not Math.SameValue(fRe, 0)) then
+      result := Format('%s', [FloatToStr(fRe)])
+    else
+      if (not Math.SameValue(fIm, 0)) then
+        result := Format('%s∙i', [FloatToStr(fIm)])
+      else
+        result := '0';
 end;
 
 function TComplex.ToString(APrecision, ADigits: integer): string;
+var
+  sign: array[boolean] of string = ('+', '-');
 begin
-  result := '';
-  if Math.SameValue(fRe, 0) = False then
-    result := FloatToStrF(fRe, ffGeneral, APrecision, ADigits);
-
-  if Math.SameValue(fIm, 0) = False then
-  begin
-    if fIm < 0.0 then
-      result := result + Format(' %s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
-    else
-      result := result + Format(' +%s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)]);
-  end;
-
-  if Length(result) = 0 then
-    result := '0'
+  if (not Math.SameValue(fRe, 0)) and
+     (not Math.SameValue(fIm, 0)) then
+    result := Format('%s %s%s∙i', [
+      FloatToStrF(fRe, ffGeneral, APrecision, ADigits), sign[fIm < 0],
+      FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
   else
-    if result[1] = ' ' then
-    begin
-      Delete(result, 1, 1);
-      if result[1] = '+' then
-        Delete(result, 1, 1);
-    end;
+    if (not Math.SameValue(fRe, 0)) then
+      result := Format('%s', [FloatToStrF(fRe, ffGeneral, APrecision, ADigits)])
+    else
+      if (not Math.SameValue(fIm, 0)) then
+        result := Format('%s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
+      else
+        result := '0';
 end;
 
 function TComplex.SameValue(const AComplex: TComplex): boolean;
@@ -219,6 +205,18 @@ begin
             fm2.SameValue(AVector.fm2);
 end;
 
+function TC2KetHelper.ToString: string;
+begin
+  result := Format('(%s, %s)', [fm1.ToString, fm2.ToString]);
+end;
+
+function TC2KetHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s)', [
+    fm1.ToString(APrecision, ADigits),
+    fm2.ToString(APrecision, ADigits)]);
+end;
+
 class operator TC2Ket.+(const ALeft, ARight: TC2Ket): TC2Ket;
 begin
   result.fm1 := ALeft.fm1 + ARight.fm1;
@@ -301,6 +299,22 @@ begin
   result := fm1.SameValue(AVector.fm1) and
             fm2.SameValue(AVector.fm2) and
             fm3.SameValue(AVector.fm3);
+end;
+
+function TC3KetHelper.ToString: string;
+begin
+  result := Format('(%s, %s, %s)', [
+    fm1.ToString,
+    fm2.ToString,
+    fm3.ToString]);
+end;
+
+function TC3KetHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s, %s)', [
+    fm1.ToString(APrecision, ADigits),
+    fm2.ToString(APrecision, ADigits),
+    fm3.ToString(APrecision, ADigits)]);
 end;
 
 class operator TC3Ket.+(const ALeft, ARight: TC3Ket): TC3Ket;
@@ -398,6 +412,18 @@ begin
             fm2.SameValue(AVector.fm2);
 end;
 
+function TC2BraHelper.ToString: string;
+begin
+  result := Format('(%s, %s)', [fm1.ToString, fm2.ToString]);
+end;
+
+function TC2BraHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s)', [
+    fm1.ToString(APrecision, ADigits),
+    fm2.ToString(APrecision, ADigits)]);
+end;
+
 class operator TC2Bra.+(const ALeft, ARight: TC2Bra): TC2Bra;
 begin
   result.fm1 := ALeft.fm1 + ARight.fm1;
@@ -493,6 +519,19 @@ begin
   result := fm1.SameValue(AVector.fm1) and
             fm2.SameValue(AVector.fm2) and
             fm3.SameValue(AVector.fm3);
+end;
+
+function TC3BraHelper.ToString: string;
+begin
+  result := Format('(%s, %s, %s)', [fm1.ToString, fm2.ToString, fm3.ToString]);
+end;
+
+function TC3BraHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s, %s)', [
+    fm1.ToString(APrecision, ADigits),
+    fm2.ToString(APrecision, ADigits),
+    fm3.ToString(APrecision, ADigits)]);
 end;
 
 class operator TC3Bra.+(const ALeft, ARight: TC3Bra): TC3Bra;

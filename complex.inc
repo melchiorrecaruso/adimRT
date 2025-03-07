@@ -191,6 +191,8 @@ type
     function TransposeDual: TC2Bra;
     function IsNull: boolean;
     function SameValue(const AVector: TC2Ket): boolean;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC3KetHelper = record helper for TC3Ket
@@ -199,6 +201,8 @@ type
     function TransposeDual: TC3Bra;
     function IsNull: boolean;
     function SameValue(const AVector: TC3Ket): boolean;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC2BraHelper = record helper for TC2Bra
@@ -208,6 +212,8 @@ type
     function TransposeDual: TC2Ket;
     function IsNull: boolean;
     function SameValue(const AVector: TC2Bra): boolean;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC3BraHelper = record helper for TC3Bra
@@ -216,6 +222,8 @@ type
     function TransposeDual: TC3Ket;
     function IsNull: boolean;
     function SameValue(const AVector: TC3Bra): boolean;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC2MatrixHelper = record helper for TC2Matrix
