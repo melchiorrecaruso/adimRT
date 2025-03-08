@@ -63,6 +63,7 @@ type
     function Determinant: double;
     function Reciprocal(const ADeterminant: double): T2x2Matrix;
     function ToString: string;
+    class operator:=(const ASelf: T2x2Matrix): TC2Matrix;
     class operator +(const ALeft, ARight: T2x2Matrix): T2x2Matrix;
     class operator -(const ALeft, ARight: T2x2Matrix): T2x2Matrix;
     class operator *(const ALeft: double; const ARight: T2x2Matrix): T2x2Matrix;
@@ -91,6 +92,7 @@ type
     function Determinant: double;
     function Reciprocal(const ADeterminant: double): T3x3Matrix;
     function ToString: string;
+    class operator:=(const ASelf: T3x3Matrix): TC3Matrix;
     class operator +(const ALeft, ARight: T3x3Matrix): T3x3Matrix;
     class operator -(const ALeft, ARight: T3x3Matrix): T3x3Matrix;
     class operator *(const ALeft: double; const ARight: T3x3Matrix): T3x3Matrix;

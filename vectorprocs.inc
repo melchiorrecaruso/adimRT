@@ -225,6 +225,14 @@ begin
      FloatToStr(fm21), FloatToStr(fm22)]);
 end;
 
+class operator T2x2Matrix.:=(const ASelf: T2x2Matrix): TC2Matrix;
+begin
+  result.fm11 := ASelf.fm11;
+  result.fm12 := ASelf.fm12;
+  result.fm21 := ASelf.fm21;
+  result.fm22 := ASelf.fm22;
+end;
+
 class operator T2x2Matrix.+(const ALeft, ARight: T2x2Matrix): T2x2Matrix;
 begin
   result.fm11 := ALeft.fm11 + ARight.fm11;
@@ -332,6 +340,19 @@ begin
     [FloatToStr(fm11), FloatToStr(fm12), FloatToStr(fm13),
      FloatToStr(fm21), FloatToStr(fm22), FloatToStr(fm23),
      FloatToStr(fm31), FloatToStr(fm32), FloatToStr(fm33)]);
+end;
+
+class operator T3x3Matrix.:=(const ASelf: T3x3Matrix): TC3Matrix;
+begin
+  result.fm11 := ASelf.fm11;
+  result.fm12 := ASelf.fm12;
+  result.fm13 := ASelf.fm13;
+  result.fm21 := ASelf.fm21;
+  result.fm22 := ASelf.fm22;
+  result.fm23 := ASelf.fm23;
+  result.fm31 := ASelf.fm31;
+  result.fm32 := ASelf.fm32;
+  result.fm33 := ASelf.fm33;
 end;
 
 class operator T3x3Matrix.+(const ALeft, ARight: T3x3Matrix): T3x3Matrix;
