@@ -114,7 +114,7 @@ type
     class operator *(const ALeft: TC2Ket; const ARight: double): TC2Ket;
     class operator *(const ALeft: TComplex; const ARight: TC2Ket): TC2Ket;
     class operator *(const ALeft: TC2Ket; const ARight: TComplex): TC2Ket;
-    class operator *(const ALeft: TC3Matrix; const ARight: TC2Ket): TC2Ket;
+    class operator *(const ALeft: TC2Matrix; const ARight: TC2Ket): TC2Ket;
     class operator /(const ALeft: TC2Ket; const ARight: double): TC2Ket;
     class operator /(const ALeft: TC2Ket; const ARight: TComplex): TC2Ket;
   public
@@ -230,17 +230,33 @@ type
     function Trace: TComplex;
     function Eigenvalues: TC2Ket;
     function Eigenvector(const AEigenValue: TComplex): TC2Ket;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC3MatrixHelper = record helper for TC3Matrix
     function Trace: TComplex;
     function Eigenvalues: TC3Ket;
     function Eigenvector(const AEigenValue: TComplex): TC3Ket;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
   end;
 
   // TImaginaryUnit
 
   TImaginaryUnit = record
+    class operator:=(const ASelf: TImaginaryUnit): TComplex;
+    class operator +(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+    class operator +(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+    class operator -(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+    class operator -(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+
+    class operator +(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+    class operator +(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+    class operator -(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+    class operator -(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+
+
     class operator *(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
     class operator *(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
     class operator *(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;

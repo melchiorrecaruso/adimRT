@@ -264,7 +264,7 @@ begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TC2Ket.*(const ALeft: TC3Matrix; const ARight: TC2Ket): TC2Ket;
+class operator TC2Ket.*(const ALeft: TC2Matrix; const ARight: TC2Ket): TC2Ket;
 begin
   result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2;
   result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2;
@@ -486,8 +486,8 @@ end;
 
 class operator TC2Bra.*(const ALeft: TC2Bra; const ARight: TC2Matrix): TC2Bra;
 begin
-  result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm1*ARight.fm12;
-  result.fm2 := ALeft.fm2*ARight.fm21 + ALeft.fm2*ARight.fm22;
+  result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm2*ARight.fm21;
+  result.fm2 := ALeft.fm1*ARight.fm12 + ALeft.fm2*ARight.fm22;
 end;
 
 // TC3Bra
@@ -645,6 +645,24 @@ begin
   end;
 end;
 
+function TC2MatrixHelper.ToString: string;
+begin
+  result := Format('(%s, %s, %s, %s)', [
+    fm11.ToString,
+    fm12.ToString,
+    fm21.ToString,
+    fm22.ToString]);
+end;
+
+function TC2MatrixHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s, %s, %s)', [
+    fm11.ToString(APrecision, ADigits),
+    fm12.ToString(APrecision, ADigits),
+    fm21.ToString(APrecision, ADigits),
+    fm22.ToString(APrecision, ADigits)]);
+end;
+
 class operator TC2Matrix.+(const ALeft, ARight: TC2Matrix): TC2Matrix;
 begin
   result.fm11 := ALeft.fm11 + ARight.fm11;
@@ -795,6 +813,34 @@ end;
 function TC3MatrixHelper.Eigenvector(const AEigenValue: TComplex): TC3Ket;
 begin
 
+end;
+
+function TC3MatrixHelper.ToString: string;
+begin
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+    fm11.ToString,
+    fm12.ToString,
+    fm13.ToString,
+    fm21.ToString,
+    fm22.ToString,
+    fm23.ToString,
+    fm31.ToString,
+    fm32.ToString,
+    fm33.ToString]);
+end;
+
+function TC3MatrixHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+    fm11.ToString(APrecision, ADigits),
+    fm12.ToString(APrecision, ADigits),
+    fm13.ToString(APrecision, ADigits),
+    fm21.ToString(APrecision, ADigits),
+    fm22.ToString(APrecision, ADigits),
+    fm23.ToString(APrecision, ADigits),
+    fm31.ToString(APrecision, ADigits),
+    fm32.ToString(APrecision, ADigits),
+    fm33.ToString(APrecision, ADigits)]);
 end;
 
 class operator TC3Matrix.+(const ALeft, ARight: TC3Matrix): TC3Matrix;
@@ -1080,6 +1126,60 @@ begin
 end;
 
 // TImaginayUnit
+
+class operator TImaginaryUnit.:=(const ASelf: TImaginaryUnit): TComplex;
+begin
+  result.fRe := 0;
+  result.fIm := 1;
+end;
+
+class operator TImaginaryUnit.+(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+begin
+  result.fRe := ALeft;
+  result.fIm := 1;
+end;
+
+class operator TImaginaryUnit.+(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+begin
+  result.fRe := ARight;
+  result.fIm := 1;
+end;
+
+class operator TImaginaryUnit.-(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+begin
+  result.fRe := ALeft;
+  result.fIm := -1;
+end;
+
+class operator TImaginaryUnit.-(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+begin
+  result.fRe := -ARight;
+  result.fIm := 1;
+end;
+
+class operator TImaginaryUnit.+(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+begin
+  result.fRe := ALeft.fRe;
+  result.fIm := ALeft.fIm+1;
+end;
+
+class operator TImaginaryUnit.+(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+begin
+  result.fRe :=   ARight.fRe;
+  result.fIm := 1+ARight.fIm;
+end;
+
+class operator TImaginaryUnit.-(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+begin
+  result.fRe := ALeft.fRe;
+  result.fIm := ALeft.fIm-1;
+end;
+
+class operator TImaginaryUnit.-(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+begin
+  result.fRe :=  -ARight.fRe;
+  result.fIm := 1-ARight.fIm;
+end;
 
 class operator TImaginaryUnit.*(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
 begin
