@@ -26,12 +26,6 @@ const
 
   u123 : TCL3Trivector = (fm123:1.0);
 
-  NullMultivector : TCL3Multivector = (fm0:0.0; fm1:0.0; fm2:0.0; fm3:0.0; fm12:0.0; fm13:0.0; fm23:0.0; fm123:0.0);
-  NullTrivector   : TCL3Trivector   = (fm123:0.0);
-  NullBivector    : TCL3Bivector    = (fm12:0.0; fm13:0.0; fm23:0.0);
-  NullVector      : TCL3Vector      = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
-  NullScalar      : double          = (0.0);
-
 implementation
 
 end.

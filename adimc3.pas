@@ -1,4 +1,4 @@
-unit adimc3;
+unit ADimC3;
 
 {$mode ObjFPC}{$H+}
 
@@ -8,8 +8,6 @@ uses
   ADim;
 
 const
-  NullComplex: TComplex = (FRe: 0; fIm: 0);
-
   NullC2Matrix : TC2Matrix =
     (fm11: (fRe: 0; fIm:0); fm12: (fRe: 0; fIm:0);
      fm21: (fRe: 0; fIm:0); fm22: (fRe: 0; fIm:0));
@@ -19,7 +17,7 @@ const
      fm31: (fRe: 0; fIm:0); fm32: (fRe: 0; fIm:0); fm33: (fRe: 0; fIm:0));
 
 var
-  img: TImaginaryUnit;
+  img: TImaginaryNumber;
 
 implementation
 
