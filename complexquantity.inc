@@ -44,9 +44,46 @@ type
   TComplexQuantity = TComplex;
   {$ENDIF}
 
+  {$IFNDEF ADIMOFF}
+  TC2MatrixQuantity = record
+  private
+    FID: longint;
+    FValue: TC2Matrix;
+  public
+  end;
+  {$ELSE}
+  TC2MatrixQuantity = TC2Matrix;
+  {$ENDIF}
+
+  // TKet for Hilbert space
+
+  {$IFNDEF ADIMOFF}
+  TC2KetQuantity = record
+  private
+    FID: longint;
+    FValue: TC2Ket;
+  public
+  end;
+  {$ELSE}
+  TC2KetQuantity = TC2Ket;
+  {$ENDIF}
+
+  // TBra for Hilbert space
+
+  {$IFNDEF ADIMOFF}
+  TC2BraQuantity = record
+  private
+    FID: longint;
+    FValue: TC2Bra;
+  public
+  end;
+  {$ELSE}
+  TC2BraQuantity = TC2Bra;
+  {$ENDIF}
+
 {$IFNDEF ADIMOFF}
-  operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
-  operator *(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
-  operator /(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
-  operator /(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+operator *(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
+operator /(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
+operator /(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
 {$ENDIF}

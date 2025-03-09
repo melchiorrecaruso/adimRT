@@ -113,6 +113,15 @@
         <Filename Value="adimtest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="adimr3.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ADimR3"/>
+      </Unit>
+      <Unit>
+        <Filename Value="adimc3.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
