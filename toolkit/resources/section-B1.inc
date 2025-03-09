@@ -83,13 +83,10 @@ end;
 {$I complexprocs.inc}
 {$I scalarquantityprocs.inc}
 {$I complexquantityprocs.inc}
-{$IFDEF CLIFFORD}
-  {$I cl3procs.inc}
-  {$I cl3quantityprocs.inc}
-{$ELSE}
-  {$I vectorprocs.inc}
-  {$I vectorquantityprocs.inc}
-{$ENDIF}
+{$I cl3procs.inc}
+{$I cl3quantityprocs.inc}
+{$I vectorprocs.inc}
+{$I vectorquantityprocs.inc}
 
 { TUnit }
 
