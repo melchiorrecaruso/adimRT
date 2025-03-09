@@ -40,12 +40,8 @@ type
     function Rejection(const AVersor: TR3Vector): TR3VecQuantity; overload;
     function Reflection(const AVersor: TR3Vector): TR3VecQuantity; overload;
 
-    function ExtractVector(AComponents: TVectorComponents): TR3VecQuantity;
+    function ExtractVector(AComponents: TR3VectorComponents): TR3VecQuantity;
     function SameValue(const AVector: TR3VecQuantity): boolean;
   end;
   {$ENDIF}
-
-
-
-
 

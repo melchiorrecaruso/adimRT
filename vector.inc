@@ -1,13 +1,13 @@
-{ Vector interface }
+{ R3 vector interface }
 
 type
   
-  // TVectorComponents
+  // TR3VectorComponents
   
-  TVectorComponent  = (vcm1, vcm2, vcm3);
-  TVectorComponents = set of TVectorComponent;
+  TR3VectorComponent  = (vcm1, vcm2, vcm3);
+  TR3VectorComponents = set of TR3VectorComponent;
 
-  // TR3Vector
+  // Vector into space R3
   
   TR3Vector = record
   private
@@ -24,9 +24,9 @@ type
     class operator / (const ALeft: double; const ARight: TR3Vector): TR3Vector;
     class operator / (const ALeft: TR3Vector; const ARight: double): TR3Vector;
   public
-    property m1: double read fm1 write fm1;
-    property m2: double read fm2 write fm2;
-    property m3: double read fm3 write fm3;
+    property a1: double read fm1 write fm1;
+    property a2: double read fm2 write fm2;
+    property a3: double read fm3 write fm3;
   end;
 
   // TR3VectorHelper
@@ -42,17 +42,17 @@ type
     function Rejection(const AVector: TR3Vector): TR3Vector; overload;
     function Reflection(const AVector: TR3Vector): TR3Vector; overload;
     function SameValue(const AValue: TR3Vector): boolean;
-    function ExtractVector(AComponents: TVectorComponents): TR3Vector;
+    function ExtractVector(AComponents: TR3VectorComponents): TR3Vector;
     function ToString(APrecision, ADigits: longint): string;
     function ToString: string;
   end;
 
-  // TR3Versor
+  // Versors
   TR3Versor1 = record class operator *(const AValue: double; const ASelf: TR3Versor1): TR3Vector; end;
   TR3Versor2 = record class operator *(const AValue: double; const ASelf: TR3Versor2): TR3Vector; end;
   TR3Versor3 = record class operator *(const AValue: double; const ASelf: TR3Versor3): TR3Vector; end;
 
-  // TR2Matrix into vectorial space R2
+  // Matrix into vectorial space R2
 
   TR2Matrix = record
   private
@@ -80,7 +80,7 @@ type
     property a22: double read fm22 write fm22;
   end;
 
-  // TR3Matrix into vectorial space R3
+  // Matrix into vectorial space R3
 
   TR3Matrix = record
   private
@@ -115,7 +115,7 @@ type
     property a33: double read fm33 write fm33;
   end;
 
-  // TR4Matrix into vectorial space R4
+  // Matrix into vectorial space R4
 
   TR4Matrix = record
   private
@@ -160,9 +160,4 @@ type
 
 const
   R3NullVector : TR3Vector = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
-
-function Vector(const m1, m2, m3: double): TR3Vector;
-function Matrix(const m11, m12, m21, m22: double): TR2Matrix;
-function Matrix(const m11, m12, m13, m21, m22, m23, m31, m32, m33: double): TR3Matrix;
-function Matrix(const m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44: double): TR4Matrix;
 

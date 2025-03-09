@@ -126,7 +126,7 @@ begin
             Math.SameValue(fm3, AValue.fm3);
 end;
 
-function TR3VectorHelper.ExtractVector(AComponents: TVectorComponents): TR3Vector;
+function TR3VectorHelper.ExtractVector(AComponents: TR3VectorComponents): TR3Vector;
 begin
   result := R3NullVector;
   if vcm1 in AComponents then result.fm1 := fm1;
@@ -663,60 +663,5 @@ end;
 class operator TR4Matrix./(const ALeft, ARight: TR4Matrix): TR4Matrix;
 begin
   result := ALeft * ARight.Reciprocal(ARight.Determinant);
-end;
-
-//
-
-function Vector(const m1, m2, m3: double): TR3Vector;
-begin
-  result.fm1 := m1;
-  result.fm2 := m2;
-  result.fm3 := m3;
-end;
-
-function Matrix(const m11, m12, m21, m22: double): TR2Matrix;
-begin
-  result.fm11 := m11;
-  result.fm12 := m12;
-  result.fm21 := m21;
-  result.fm22 := m22;
-end;
-
-function Matrix(const m11, m12, m13, m21, m22, m23, m31, m32, m33: double): TR3Matrix;
-begin
-  result.fm11 := m11;
-  result.fm12 := m12;
-  result.fm13 := m13;
-
-  result.fm21 := m21;
-  result.fm22 := m22;
-  result.fm23 := m23;
-
-  result.fm31 := m31;
-  result.fm32 := m32;
-  result.fm33 := m33;
-end;
-
-function Matrix(const m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44: double): TR4Matrix;
-begin
-  result.fm11 := m11;
-  result.fm12 := m12;
-  result.fm13 := m13;
-  result.fm14 := m14;
-
-  result.fm21 := m21;
-  result.fm22 := m22;
-  result.fm23 := m23;
-  result.fm24 := m24;
-
-  result.fm31 := m31;
-  result.fm32 := m32;
-  result.fm33 := m33;
-  result.fm34 := m34;
-
-  result.fm41 := m41;
-  result.fm42 := m42;
-  result.fm43 := m43;
-  result.fm44 := m44;
 end;
 
