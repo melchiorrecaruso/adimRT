@@ -1028,46 +1028,6 @@ end;
 
 // Useful routines
 
-function SquarePower(const AValue: TComplex): TComplex;
-begin
-  result := AValue*AValue;
-end;
-
-function SquareRoot(const AValue: TComplex): TC2Ket;
-var
-  norm: double;
-begin
-  norm := hypot(AValue.fRe, AValue.fIm);
-  result.fm1.fRe := sqrt(0.5*(norm + AValue.fRe));
-  if AValue.fIm >= 0 then
-    result.fm1.fIm := sqrt(0.5*(norm - AValue.fRe))
-  else
-    result.fm1.fIm := -sqrt(0.5*(norm - AValue.fRe));
-  result.fm2 := -result.fm1;
-end;
-
-function CubicPower(const AValue: TComplex): TComplex;
-begin
-  result := AValue*AValue*AValue;
-end;
-
-function CubicRoot(const AValue: TComplex): TC3Ket;
-var
-  theta, rootModulus, rootArgument: double;
-begin
-  rootModulus := Power(AValue.Norm, 1/3);
-  theta := Math.ArcTan2(AValue.fIm, AValue.fRe);
-
-  rootArgument := (theta)/3;
-  result.fm1 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
-
-  rootArgument := (theta+2*Pi)/3;
-  result.fm2 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
-
-  rootArgument := (theta+4*Pi)/3;
-  result.fm3 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
-end;
-
 function Ket(const a1, a2: TComplex): TC2Ket;
 begin
   result.fm1 := a1;
@@ -1123,6 +1083,46 @@ end;
 function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
 begin
   result := ALeft*ARight - ARight*ALeft;
+end;
+
+function SquarePower(const AValue: TComplex): TComplex;
+begin
+  result := AValue*AValue;
+end;
+
+function SquareRoot(const AValue: TComplex): TC2Ket;
+var
+  norm: double;
+begin
+  norm := hypot(AValue.fRe, AValue.fIm);
+  result.fm1.fRe := sqrt(0.5*(norm + AValue.fRe));
+  if AValue.fIm >= 0 then
+    result.fm1.fIm := sqrt(0.5*(norm - AValue.fRe))
+  else
+    result.fm1.fIm := -sqrt(0.5*(norm - AValue.fRe));
+  result.fm2 := -result.fm1;
+end;
+
+function CubicPower(const AValue: TComplex): TComplex;
+begin
+  result := AValue*AValue*AValue;
+end;
+
+function CubicRoot(const AValue: TComplex): TC3Ket;
+var
+  theta, rootModulus, rootArgument: double;
+begin
+  rootModulus := Power(AValue.Norm, 1/3);
+  theta := Math.ArcTan2(AValue.fIm, AValue.fRe);
+
+  rootArgument := (theta)/3;
+  result.fm1 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
+
+  rootArgument := (theta+2*Pi)/3;
+  result.fm2 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
+
+  rootArgument := (theta+4*Pi)/3;
+  result.fm3 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
 end;
 
 // TImaginayUnit

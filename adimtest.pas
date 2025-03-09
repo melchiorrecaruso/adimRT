@@ -20,7 +20,7 @@
 program adimtest;
 
 uses
-  ADim, Math, SysUtils;
+  ADim, Math, SysUtils, Unit1;
 
 var
   side1: TQuantity;
@@ -224,6 +224,13 @@ var
   current_ : TComplexQuantity;
   power_ : TComplexQuantity;
   {$ENDIF}
+
+
+  t1, t2, State: TC2Ket;
+
+  H2: TC2Matrix;
+  StateL : TC2Ket;
+  StateR : TC2Ket;
 
 begin
   ExitCode := 0;
@@ -1326,8 +1333,6 @@ begin
   current_    := potential_/impedance_;
   power_      := current_*potential_;
 
-  ohm.ToString(impedance_);
-
   {$IFDEF WINDOWS}
   if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance_)])) <> Utf8ToAnsi('Z = (2 +1∙i) Ω') then halt(1);
   {$ELSE}
@@ -1342,7 +1347,37 @@ begin
   if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-608: PASSED');
   {$ENDIF}
-  
+
+
+
+  t1 := Ket(1, 0);
+  t2 := Ket(0, 1);
+
+  State  := 2/Sqrt(5)*t1 + 1/Sqrt(5)*t2;
+  Writeln('State 1 probability: ', (SquarePower(t1.TransposeDual*State)).ToString);
+  Writeln('State 2 probability: ', (SquarePower(t2.TransposeDual*State)).ToString);
+
+  StateL := Ket(1,0);
+  StateR := Ket(0,1);
+
+  E0 := 5*J;
+  A0 := 1*J;
+
+  //H2 := E0*Matrix(1,0,0,1) + A0*Matrix(0,1,1,0);
+
+  //StateL.TransposeDual*H2*StateL = E0;
+  //StateR.TransposeDual*H2*StateR = E0;
+
+  //StateL.TransposeDual*H2*StateR = -A0;
+  //StateR.TransposeDual*H2*StateL = -A0;
+
+
+  writeln((C2Matrix(3, img,2*img,7+img)*Ket(4,img)).ToString);
+  writeln((C2Matrix(3, img,2*img,7+img)*Ket(4,img)).TransposeDual.ToString);
+  writeln((Ket(4,img).TransposeDual*C2Matrix(3, img,2*img,7+img).TransposeDual).ToString);
+
+
+
   writeln;
   writeln('ADIM-TEST DONE.');
 end.
