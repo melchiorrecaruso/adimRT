@@ -158,6 +158,9 @@ type
     property a44: double read fm44 write fm44;
   end;
 
+const
+  R3NullVector : TR3Vector = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
+
 function Vector(const m1, m2, m3: double): TR3Vector;
 function Matrix(const m11, m12, m21, m22: double): TR2Matrix;
 function Matrix(const m11, m12, m13, m21, m22, m23, m31, m32, m33: double): TR3Matrix;
