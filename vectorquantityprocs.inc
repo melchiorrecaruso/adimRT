@@ -104,19 +104,19 @@ begin
   result.FValue := FValue.Cross(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Projection(const AVersor: TVector): TVecQuantity;
+function TVecQuantityHelper.Projection(const AVersor: TR3Vector): TVecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVersor);
 end;
 
-function TVecQuantityHelper.Rejection(const AVersor: TVector): TVecQuantity;
+function TVecQuantityHelper.Rejection(const AVersor: TR3Vector): TVecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVersor);
 end;
 
-function TVecQuantityHelper.Reflection(const AVersor: TVector): TVecQuantity;
+function TVecQuantityHelper.Reflection(const AVersor: TR3Vector): TVecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVersor);

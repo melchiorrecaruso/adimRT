@@ -7,70 +7,71 @@ type
   TVectorComponent  = (vcm1, vcm2, vcm3);
   TVectorComponents = set of TVectorComponent;
 
-  // TVector
+  // TR3Vector
   
-  TVector = record
+  TR3Vector = record
   private
     fm1, fm2, fm3: double;
   public
-    class operator <>(const ALeft, ARight: TVector): boolean;
-    class operator = (const ALeft, ARight: TVector): boolean;
-    class operator + (const AVaLue: TVector): TVector;
-    class operator + (const ALeft, ARight: TVector): TVector;
-    class operator - (const AVaLue: TVector): TVector;
-    class operator - (const ALeft, ARight: TVector): TVector;
-    class operator * (const ALeft: double; const ARight: TVector): TVector;
-    class operator * (const ALeft: TVector; const ARight: double): TVector;
-    class operator / (const ALeft: double; const ARight: TVector): TVector;
-    class operator / (const ALeft: TVector; const ARight: double): TVector;
+    class operator <>(const ALeft, ARight: TR3Vector): boolean;
+    class operator = (const ALeft, ARight: TR3Vector): boolean;
+    class operator + (const AVaLue: TR3Vector): TR3Vector;
+    class operator + (const ALeft, ARight: TR3Vector): TR3Vector;
+    class operator - (const AVaLue: TR3Vector): TR3Vector;
+    class operator - (const ALeft, ARight: TR3Vector): TR3Vector;
+    class operator * (const ALeft: double; const ARight: TR3Vector): TR3Vector;
+    class operator * (const ALeft: TR3Vector; const ARight: double): TR3Vector;
+    class operator / (const ALeft: double; const ARight: TR3Vector): TR3Vector;
+    class operator / (const ALeft: TR3Vector; const ARight: double): TR3Vector;
   public
     property m1: double read fm1 write fm1;
     property m2: double read fm2 write fm2;
     property m3: double read fm3 write fm3;
   end;
 
-  // TVectorHelper
+  // TR3VectorHelper
 
-  TVectorHelper = record helper for TVector
-    function Reciprocal: TVector;
-    function Normalized: TVector;
+  TR3VectorHelper = record helper for TR3Vector
+    function Reciprocal: TR3Vector;
+    function Normalized: TR3Vector;
     function Norm: double;
     function SquaredNorm: double;
-    function Dot(const AVector: TVector): double;
-    function Cross(const AVector: TVector): TVector;
-    function Projection(const AVector: TVector): TVector; overload;
-    function Rejection(const AVector: TVector): TVector; overload;
-    function Reflection(const AVector: TVector): TVector; overload;
-    function SameValue(const AValue: TVector): boolean;
-    function ExtractVector(AComponents: TVectorComponents): TVector;
+    function Dot(const AVector: TR3Vector): double;
+    function Cross(const AVector: TR3Vector): TR3Vector;
+    function Projection(const AVector: TR3Vector): TR3Vector; overload;
+    function Rejection(const AVector: TR3Vector): TR3Vector; overload;
+    function Reflection(const AVector: TR3Vector): TR3Vector; overload;
+    function SameValue(const AValue: TR3Vector): boolean;
+    function ExtractVector(AComponents: TVectorComponents): TR3Vector;
     function ToString(APrecision, ADigits: longint): string;
     function ToString: string;
   end;
 
-  // TVersor
-  TVersor1 = record class operator *(const AValue: double; const ASelf: TVersor1): TVector; end;
-  TVersor2 = record class operator *(const AValue: double; const ASelf: TVersor2): TVector; end;
-  TVersor3 = record class operator *(const AValue: double; const ASelf: TVersor3): TVector; end;
+  // TR3Versor
+  TR3Versor1 = record class operator *(const AValue: double; const ASelf: TR3Versor1): TR3Vector; end;
+  TR3Versor2 = record class operator *(const AValue: double; const ASelf: TR3Versor2): TR3Vector; end;
+  TR3Versor3 = record class operator *(const AValue: double; const ASelf: TR3Versor3): TR3Vector; end;
 
-  // T2x2Matrix
+  // TR2Matrix into vectorial space R2
 
-  T2x2Matrix = record
+  TR2Matrix = record
   private
     fm11, fm12,
     fm21, fm22: double;
   public
-    function Transpose: T2x2Matrix;
+    function Transpose: TR2Matrix;
     function Determinant: double;
-    function Reciprocal(const ADeterminant: double): T2x2Matrix;
+    function Reciprocal(const ADeterminant: double): TR2Matrix;
     function ToString: string;
-    class operator +(const ALeft, ARight: T2x2Matrix): T2x2Matrix;
-    class operator -(const ALeft, ARight: T2x2Matrix): T2x2Matrix;
-    class operator *(const ALeft: double; const ARight: T2x2Matrix): T2x2Matrix;
-    class operator *(const ALeft: T2x2Matrix; const ARight: double): T2x2Matrix;
-    class operator *(const ALeft, ARight: T2x2Matrix): T2x2Matrix;
-    class operator /(const ALeft: T2x2Matrix; const ARight: double): T2x2Matrix;
-    class operator /(const ALeft: double; const ARight: T2x2Matrix): T2x2Matrix;
-    class operator /(const ALeft, ARight: T2x2Matrix): T2x2Matrix;
+    class operator:=(const ASelf: TR2Matrix): TC2Matrix;
+    class operator +(const ALeft, ARight: TR2Matrix): TR2Matrix;
+    class operator -(const ALeft, ARight: TR2Matrix): TR2Matrix;
+    class operator *(const ALeft: double; const ARight: TR2Matrix): TR2Matrix;
+    class operator *(const ALeft: TR2Matrix; const ARight: double): TR2Matrix;
+    class operator *(const ALeft, ARight: TR2Matrix): TR2Matrix;
+    class operator /(const ALeft: TR2Matrix; const ARight: double): TR2Matrix;
+    class operator /(const ALeft: double; const ARight: TR2Matrix): TR2Matrix;
+    class operator /(const ALeft, ARight: TR2Matrix): TR2Matrix;
   public
     property a11: double read fm11 write fm11;
     property a12: double read fm12 write fm12;
@@ -79,26 +80,27 @@ type
     property a22: double read fm22 write fm22;
   end;
 
-  // T3x3Matrix
+  // TR3Matrix into vectorial space R3
 
-  T3x3Matrix = record
+  TR3Matrix = record
   private
     fm11, fm12, fm13,
     fm21, fm22, fm23,
     fm31, fm32, fm33: double;
   public
-    function Transpose: T3x3Matrix;
+    function Transpose: TR3Matrix;
     function Determinant: double;
-    function Reciprocal(const ADeterminant: double): T3x3Matrix;
+    function Reciprocal(const ADeterminant: double): TR3Matrix;
     function ToString: string;
-    class operator +(const ALeft, ARight: T3x3Matrix): T3x3Matrix;
-    class operator -(const ALeft, ARight: T3x3Matrix): T3x3Matrix;
-    class operator *(const ALeft: double; const ARight: T3x3Matrix): T3x3Matrix;
-    class operator *(const ALeft: T3x3Matrix; const ARight: double): T3x3Matrix;
-    class operator *(const ALeft, ARight: T3x3Matrix): T3x3Matrix;
-    class operator /(const ALeft: T3x3Matrix; const ARight: double): T3x3Matrix;
-    class operator /(const ALeft: double; const ARight: T3x3Matrix): T3x3Matrix;
-    class operator /(const ALeft, ARight: T3x3Matrix): T3x3Matrix;
+    class operator:=(const ASelf: TR3Matrix): TC3Matrix;
+    class operator +(const ALeft, ARight: TR3Matrix): TR3Matrix;
+    class operator -(const ALeft, ARight: TR3Matrix): TR3Matrix;
+    class operator *(const ALeft: double; const ARight: TR3Matrix): TR3Matrix;
+    class operator *(const ALeft: TR3Matrix; const ARight: double): TR3Matrix;
+    class operator *(const ALeft, ARight: TR3Matrix): TR3Matrix;
+    class operator /(const ALeft: TR3Matrix; const ARight: double): TR3Matrix;
+    class operator /(const ALeft: double; const ARight: TR3Matrix): TR3Matrix;
+    class operator /(const ALeft, ARight: TR3Matrix): TR3Matrix;
   public
     property a11: double read fm11 write fm11;
     property a12: double read fm12 write fm12;
@@ -113,27 +115,27 @@ type
     property a33: double read fm33 write fm33;
   end;
 
-  // T4x4Matrix
+  // TR4Matrix into vectorial space R4
 
-  T4x4Matrix = record
+  TR4Matrix = record
   private
     fm11, fm12, fm13, fm14,
     fm21, fm22, fm23, fm24,
     fm31, fm32, fm33, fm34,
     fm41, fm42, fm43, fm44: double;
   public
-    function Transpose: T4x4Matrix;
+    function Transpose: TR4Matrix;
     function Determinant: double;
-    function Reciprocal(const ADeterminant: double): T4x4Matrix;
+    function Reciprocal(const ADeterminant: double): TR4Matrix;
     function ToString: string;
-    class operator +(const ALeft, ARight: T4x4Matrix): T4x4Matrix;
-    class operator -(const ALeft, ARight: T4x4Matrix): T4x4Matrix;
-    class operator *(const ALeft: double; const ARight: T4x4Matrix): T4x4Matrix;
-    class operator *(const ALeft: T4x4Matrix; const ARight: double): T4x4Matrix;
-    class operator *(const ALeft, ARight: T4x4Matrix): T4x4Matrix;
-    class operator /(const ALeft: T4x4Matrix; const ARight: double): T4x4Matrix;
-    class operator /(const ALeft: double; const ARight: T4x4Matrix): T4x4Matrix;
-    class operator /(const ALeft, ARight: T4x4Matrix): T4x4Matrix;
+    class operator +(const ALeft, ARight: TR4Matrix): TR4Matrix;
+    class operator -(const ALeft, ARight: TR4Matrix): TR4Matrix;
+    class operator *(const ALeft: double; const ARight: TR4Matrix): TR4Matrix;
+    class operator *(const ALeft: TR4Matrix; const ARight: double): TR4Matrix;
+    class operator *(const ALeft, ARight: TR4Matrix): TR4Matrix;
+    class operator /(const ALeft: TR4Matrix; const ARight: double): TR4Matrix;
+    class operator /(const ALeft: double; const ARight: TR4Matrix): TR4Matrix;
+    class operator /(const ALeft, ARight: TR4Matrix): TR4Matrix;
   public
     property a11: double read fm11 write fm11;
     property a12: double read fm12 write fm12;
@@ -158,19 +160,19 @@ type
 
 
 const
-  e1 : TVersor1 = ();
-  e2 : TVersor2 = ();
-  e3 : TVersor3 = ();
+  e1 : TR3Versor1 = ();
+  e2 : TR3Versor2 = ();
+  e3 : TR3Versor3 = ();
 
-  u1 : TVector = (fm1:1.0; fm2:0.0; fm3:0.0);
-  u2 : TVector = (fm1:0.0; fm2:1.0; fm3:0.0);
-  u3 : TVector = (fm1:0.0; fm2:0.0; fm3:1.0);
+  u1 : TR3Vector = (fm1:1.0; fm2:0.0; fm3:0.0);
+  u2 : TR3Vector = (fm1:0.0; fm2:1.0; fm3:0.0);
+  u3 : TR3Vector = (fm1:0.0; fm2:0.0; fm3:1.0);
 
-  NullVector : TVector = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
+  NullVector : TR3Vector = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
   NullScalar : double  = (0.0);
 
-function Vector(const m1, m2, m3: double): TVector;
-function Matrix(const m11, m12, m21, m22: double): T2x2Matrix;
-function Matrix(const m11, m12, m13, m21, m22, m23, m31, m32, m33: double): T3x3Matrix;
-function Matrix(const m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44: double): T4x4Matrix;
+function Vector(const m1, m2, m3: double): TR3Vector;
+function Matrix(const m11, m12, m21, m22: double): TR2Matrix;
+function Matrix(const m11, m12, m13, m21, m22, m23, m31, m32, m33: double): TR3Matrix;
+function Matrix(const m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44: double): TR4Matrix;
 

@@ -6,17 +6,16 @@ type
 
   TComplex = record
   private
-    FRe, FIm: double;
+    fRe, fIm: double;
   public
-    function Re: double;
-    function Im: double;
     function Dual: TComplex;
     function Reciprocal: TComplex;
     function Norm: double;
     function SquaredNorm: double;
+    function IsNull: boolean;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
-
+    function SameValue(const AComplex: TComplex): boolean;
     class operator :=(const AValue: double): TComplex; inline;
     class operator +(const AValue: TComplex): TComplex; inline;
     class operator +(const ALeft, ARight: TComplex): TComplex; inline;
@@ -38,47 +37,265 @@ type
 
     class operator =(const ALeft, ARight: TComplex): boolean; inline;
     class operator <>(const ALeft, ARight: TComplex): boolean; inline;
+  public
+    property Re: double read fRe write fRe;
+    property Im: double read fIm write fIm;
   end;
 
-  // TKet for vector space 3
-
-  TKet3 = record
+  TC2Matrix = record
   private
-    fm1,
-    fm2,
-    fm3: TComplex;
+    fm11, fm12,
+    fm21, fm22: TComplex;
   public
-
-
-
+    function Dual: TC2Matrix;
+    function Transpose: TC2Matrix;
+    function TransposeDual: TC2Matrix;
+    function SameValue(const AMatrix: TC2Matrix): boolean;
+    function Determinant: TComplex;
+    function Reciprocal(const ADeterminant: TComplex): TC2Matrix;
+    class operator +(const ALeft, ARight: TC2Matrix): TC2Matrix;
+    class operator -(const ALeft, ARight: TC2Matrix): TC2Matrix;
+    class operator *(const ALeft: double; const ARight: TC2Matrix): TC2Matrix;
+    class operator *(const ALeft: TC2Matrix; const ARight: double): TC2Matrix;
+    class operator *(const ALeft: TComplex; const ARight: TC2Matrix): TC2Matrix;
+    class operator *(const ALeft: TC2Matrix; const ARight: TComplex): TC2Matrix;
+    class operator *(const ALeft, ARight: TC2Matrix): TC2Matrix;
+    class operator /(const ALeft: TC2Matrix; const ARight: double): TC2Matrix;
+    class operator /(const ALeft: TC2Matrix; const ARight: TComplex): TC2Matrix;
+  public
+    property a11: TComplex read fm11 write fm11;
+    property a12: TComplex read fm12 write fm12;
+    property a21: TComplex read fm21 write fm21;
+    property a22: TComplex read fm22 write fm22;
   end;
 
-  // TKet for vector space 3
-
-  TBra3 = record
+  TC3Matrix = record
   private
-    fm1,
-    fm2,
-    fm3: TComplex;
+    fm11, fm12, fm13,
+    fm21, fm22, fm23,
+    fm31, fm32, fm33: TComplex;
   public
+    function Dual: TC3Matrix;
+    function Transpose: TC3Matrix;
+    function TransposeDual: TC3Matrix;
+    function SameValue(const AMatrix: TC3Matrix): boolean;
+    function Determinant: TComplex;
+    function Reciprocal(const ADeterminant: TComplex): TC3Matrix;
+    class operator +(const ALeft, ARight: TC3Matrix): TC3Matrix;
+    class operator -(const ALeft, ARight: TC3Matrix): TC3Matrix;
+    class operator *(const ALeft: double; const ARight: TC3Matrix): TC3Matrix;
+    class operator *(const ALeft: TC3Matrix; const ARight: double): TC3Matrix;
+    class operator *(const ALeft: TComplex; const ARight: TC3Matrix): TC3Matrix;
+    class operator *(const ALeft: TC3Matrix; const ARight: TComplex): TC3Matrix;
+    class operator *(const ALeft, ARight: TC3Matrix): TC3Matrix;
+    class operator /(const ALeft: TC3Matrix; const ARight: double): TC3Matrix;
+    class operator /(const ALeft: TC3Matrix; const ARight: TComplex): TC3Matrix;
+  public
+    property a11: TComplex read fm11 write fm11;
+    property a12: TComplex read fm12 write fm12;
+    property a13: TComplex read fm13 write fm13;
+    property a21: TComplex read fm21 write fm21;
+    property a22: TComplex read fm22 write fm22;
+    property a23: TComplex read fm23 write fm23;
+    property a31: TComplex read fm31 write fm31;
+    property a32: TComplex read fm32 write fm32;
+    property a33: TComplex read fm33 write fm33;
+  end;
 
+  // TKet for Hilbert space
 
+  TC2Ket = record
+  private
+    fm1, fm2: TComplex;
+  public
+    class operator +(const ALeft, ARight: TC2Ket): TC2Ket;
+    class operator -(const ALeft, ARight: TC2Ket): TC2Ket;
+    class operator *(const ALeft: double; const ARight: TC2Ket): TC2Ket;
+    class operator *(const ALeft: TC2Ket; const ARight: double): TC2Ket;
+    class operator *(const ALeft: TComplex; const ARight: TC2Ket): TC2Ket;
+    class operator *(const ALeft: TC2Ket; const ARight: TComplex): TC2Ket;
+    class operator *(const ALeft: TC2Matrix; const ARight: TC2Ket): TC2Ket;
+    class operator /(const ALeft: TC2Ket; const ARight: double): TC2Ket;
+    class operator /(const ALeft: TC2Ket; const ARight: TComplex): TC2Ket;
+  public
+    property a1: TComplex read fm1 write fm1;
+    property a2: TComplex read fm2 write fm2;
+  end;
 
+  TC3Ket = record
+  private
+    fm1, fm2, fm3: TComplex;
+  public
+    class operator +(const ALeft, ARight: TC3Ket): TC3Ket;
+    class operator -(const ALeft, ARight: TC3Ket): TC3Ket;
+    class operator *(const ALeft: double; const ARight: TC3Ket): TC3Ket;
+    class operator *(const ALeft: TC3Ket; const ARight: double): TC3Ket;
+    class operator *(const ALeft: TComplex; const ARight: TC3Ket): TC3Ket;
+    class operator *(const ALeft: TC3Ket; const ARight: TComplex): TC3Ket;
+    class operator *(const ALeft: TC3Matrix; const ARight: TC3Ket): TC3Ket;
+    class operator /(const ALeft: TC3Ket; const ARight: double): TC3Ket;
+    class operator /(const ALeft: TC3Ket; const ARight: TComplex): TC3Ket;
+  public
+    property a1: TComplex read fm1 write fm1;
+    property a2: TComplex read fm2 write fm2;
+    property a3: TComplex read fm3 write fm3;
+  end;
+
+  // TBra for Hilbert space
+
+  TC2Bra = record
+  private
+    fm1, fm2: TComplex;
+  public
+    class operator +(const ALeft, ARight: TC2Bra): TC2Bra;
+    class operator -(const ALeft, ARight: TC2Bra): TC2Bra;
+    class operator *(const ALeft: double; const ARight: TC2Bra): TC2Bra;
+    class operator *(const ALeft: TC2Bra; const ARight: double): TC2Bra;
+    class operator *(const ALeft: TComplex; const ARight: TC2Bra): TC2Bra;
+    class operator *(const ALeft: TC2Bra; const ARight: TComplex): TC2Bra;
+    class operator *(const ALeft: TC2Bra; const ARight: TC2Ket): TComplex;
+    class operator *(const ALeft: TC2Ket; const ARight: TC2Bra): TC2Matrix;
+    class operator *(const ALeft: TC2Bra; const ARight: TC2Matrix): TC2Bra;
+    class operator /(const ALeft: TC2Bra; const ARight: double): TC2Bra;
+    class operator /(const ALeft: TC2Bra; const ARight: TComplex): TC2Bra;
+  public
+    property a1: TComplex read fm1 write fm1;
+    property a2: TComplex read fm2 write fm2;
+  end;
+
+  TC3Bra = record
+  private
+    fm1, fm2, fm3: TComplex;
+  public
+    class operator +(const ALeft, ARight: TC3Bra): TC3Bra;
+    class operator -(const ALeft, ARight: TC3Bra): TC3Bra;
+    class operator *(const ALeft: double; const ARight: TC3Bra): TC3Bra;
+    class operator *(const ALeft: TC3Bra; const ARight: double): TC3Bra;
+    class operator *(const ALeft: TComplex; const ARight: TC3Bra): TC3Bra;
+    class operator *(const ALeft: TC3Bra; const ARight: TComplex): TC3Bra;
+    class operator *(const ALeft: TC3Bra; const ARight: TC3Ket): TComplex;
+    class operator *(const ALeft: TC3Ket; const ARight: TC3Bra): TC3Matrix;
+    class operator *(const ALeft: TC3Bra; const ARight: TC3Matrix): TC3Bra;
+    class operator /(const ALeft: TC3Bra; const ARight: double): TC3Bra;
+    class operator /(const ALeft: TC3Bra; const ARight: TComplex): TC3Bra;
+  public
+    property a1: TComplex read fm1 write fm1;
+    property a2: TComplex read fm2 write fm2;
+    property a3: TComplex read fm3 write fm3;
+  end;
+
+  TC2KetHelper = record helper for TC2Ket
+    function SquareNorm: double;
+    function Norm: double;
+    function Normalize: TC2Ket;
+    function TransposeDual: TC2Bra;
+    function IsNull: boolean;
+    function SameValue(const AVector: TC2Ket): boolean;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
+  TC3KetHelper = record helper for TC3Ket
+    function SquareNorm: double;
+    function Norm: double;
+    function TransposeDual: TC3Bra;
+    function IsNull: boolean;
+    function SameValue(const AVector: TC3Ket): boolean;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
+  TC2BraHelper = record helper for TC2Bra
+    function SquareNorm: double;
+    function Norm: double;
+    function Normalize: TC2Bra;
+    function TransposeDual: TC2Ket;
+    function IsNull: boolean;
+    function SameValue(const AVector: TC2Bra): boolean;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
+  TC3BraHelper = record helper for TC3Bra
+    function SquareNorm: double;
+    function Norm: double;
+    function TransposeDual: TC3Ket;
+    function IsNull: boolean;
+    function SameValue(const AVector: TC3Bra): boolean;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
+  TC2MatrixHelper = record helper for TC2Matrix
+    function Trace: TComplex;
+    function Eigenvalues: TC2Ket;
+    function Eigenvector(const AEigenValue: TComplex): TC2Ket;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
+  TC3MatrixHelper = record helper for TC3Matrix
+    function Trace: TComplex;
+    function Eigenvalues: TC3Ket;
+    function Eigenvector(const AEigenValue: TComplex): TC3Ket;
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
   end;
 
   // TImaginaryUnit
 
   TImaginaryUnit = record
+    class operator:=(const ASelf: TImaginaryUnit): TComplex;
+    class operator +(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+    class operator +(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+    class operator -(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+    class operator -(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+
+    class operator +(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+    class operator +(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+    class operator -(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+    class operator -(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+
+
     class operator *(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
     class operator *(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
     class operator *(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
     class operator *(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
-
     class operator /(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
     class operator /(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
     class operator /(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
     class operator /(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
   end;
 
+  function SquarePower(const AValue: TComplex): TComplex;
+  function SquareRoot(const AValue: TComplex): TC2Ket;
+  function CubicPower(const AValue: TComplex): TComplex;
+  function CubicRoot(const AValue: TComplex): TC3Ket;
+
+
+  function Ket(const a1, a2: TComplex): TC2Ket;
+  function Ket(const a1, a2, a3: TComplex): TC3Ket;
+
+  function Bra(const a1, a2: TComplex): TC2Bra;
+  function Bra(const a1, a2, a3: TComplex): TC3Bra;
+
+  function C2Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
+  function C3Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
+
+  function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
+  function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
+
+const
+  NullComplex: TComplex = (FRe: 0; fIm: 0);
+
+  NullC2Matrix : TC2Matrix =
+    (fm11: (fRe: 0; fIm:0); fm12: (fRe: 0; fIm:0);
+     fm21: (fRe: 0; fIm:0); fm22: (fRe: 0; fIm:0));
+  NullC3Matrix : TC3Matrix =
+    (fm11: (fRe: 0; fIm:0); fm12: (fRe: 0; fIm:0); fm13: (fRe: 0; fIm:0);
+     fm21: (fRe: 0; fIm:0); fm22: (fRe: 0; fIm:0); fm23: (fRe: 0; fIm:0);
+     fm31: (fRe: 0; fIm:0); fm32: (fRe: 0; fIm:0); fm33: (fRe: 0; fIm:0));
+
 var
-  img: TImaginaryUnit; 
+  img: TImaginaryUnit;
+

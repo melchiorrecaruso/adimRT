@@ -8,7 +8,7 @@ type
   TVecQuantity = record
   private
     FID: longint;
-    FValue: TVector;
+    FValue: TR3Vector;
   public
     class operator <>(const ALeft, ARight: TVecQuantity): boolean;
     class operator = (const ALeft, ARight: TVecQuantity): boolean;
@@ -36,9 +36,9 @@ type
 
     function Dot(const AVector: TVecQuantity): TQuantity;
     function Cross(const AVector: TVecQuantity): TVecQuantity;
-    function Projection(const AVersor: TVector): TVecQuantity;
-    function Rejection(const AVersor: TVector): TVecQuantity; overload;
-    function Reflection(const AVersor: TVector): TVecQuantity; overload;
+    function Projection(const AVersor: TR3Vector): TVecQuantity;
+    function Rejection(const AVersor: TR3Vector): TVecQuantity; overload;
+    function Reflection(const AVersor: TR3Vector): TVecQuantity; overload;
 
     function ExtractVector(AComponents: TVectorComponents): TVecQuantity;
     function SameValue(const AVector: TVecQuantity): boolean;
