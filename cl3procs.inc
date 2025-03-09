@@ -1,8 +1,8 @@
 { CL3 implementation }
 
-// TMultivector
+// TCL3Multivector
 
-class operator TMultivector.:=(const AValue: double): TMultivector;
+class operator TCL3Multivector.:=(const AValue: double): TCL3Multivector;
 begin
   result.fm0   := AValue;
   result.fm1   := 0.0;
@@ -14,12 +14,12 @@ begin
   result.fm123 := 0.0;
 end;
 
-class operator TMultivector.:=(const AValue: TMultivector): double;
+class operator TCL3Multivector.:=(const AValue: TCL3Multivector): double;
 begin
   result := AValue;
 end;
 
-class operator TMultivector.<>(const ALeft, ARight: TMultivector): boolean;
+class operator TCL3Multivector.<>(const ALeft, ARight: TCL3Multivector): boolean;
 begin
   result := (ALeft.fm0   <> ARight.fm0  ) or
             (ALeft.fm1   <> ARight.fm1  ) or
@@ -31,7 +31,7 @@ begin
             (ALeft.fm123 <> ARight.fm123);
 end;
 
-class operator TMultivector.<>(const ALeft: TMultivector; const ARight: double): boolean;
+class operator TCL3Multivector.<>(const ALeft: TCL3Multivector; const ARight: double): boolean;
 begin
   result := (ALeft.fm0   <> ARight) or
             (ALeft.fm1   <>    0.0) or
@@ -43,7 +43,7 @@ begin
             (ALeft.fm123 <>    0.0);
 end;
 
-class operator TMultivector.<>(const ALeft: double; const ARight: TMultivector): boolean;
+class operator TCL3Multivector.<>(const ALeft: double; const ARight: TCL3Multivector): boolean;
 begin
   result := (ALeft <> ARight.fm0  ) or
             (0.0   <> ARight.fm1  ) or
@@ -55,7 +55,7 @@ begin
             (0.0   <> ARight.fm123);
 end;
 
-class operator TMultivector.=(const ALeft: TMultivector; const ARight: double): boolean;
+class operator TCL3Multivector.=(const ALeft: TCL3Multivector; const ARight: double): boolean;
 begin
   result := (ARight <> ALeft.fm0  ) or
             (0.0    <> ALeft.fm1  ) or
@@ -67,7 +67,7 @@ begin
             (0.0    <> ALeft.fm123);
 end;
 
-class operator TMultivector.=(const ALeft: double; const ARight: TMultivector): boolean;
+class operator TCL3Multivector.=(const ALeft: double; const ARight: TCL3Multivector): boolean;
 begin
   result := (ALeft = ARight.fm0  ) or
             (0.0   = ARight.fm1  ) or
@@ -79,7 +79,7 @@ begin
             (0.0   = ARight.fm123);
 end;
 
-class operator TMultivector.=(const ALeft, ARight: TMultivector): boolean;
+class operator TCL3Multivector.=(const ALeft, ARight: TCL3Multivector): boolean;
 begin
   result := (ALeft.fm0   = ARight.fm0  ) or
             (ALeft.fm1   = ARight.fm1  ) or
@@ -91,7 +91,7 @@ begin
             (ALeft.fm123 = ARight.fm123);
 end;
 
-class operator TMultivector.+(const ALeft: TMultivector; const ARight: double): TMultivector;
+class operator TCL3Multivector.+(const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0 + ARight;
   result.fm1   := ALeft.fm1;
@@ -103,7 +103,7 @@ begin
   result.fm123 := ALeft.fm123;
 end;
 
-class operator TMultivector.+(const ALeft: double; const ARight: TMultivector): TMultivector;
+class operator TCL3Multivector.+(const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := ARight.fm0 + ALeft;
   result.fm1   := ARight.fm1;
@@ -115,7 +115,7 @@ begin
   result.fm123 := ARight.fm123;
 end;
 
-class operator TMultivector.+(const ALeft, ARight: TMultivector): TMultivector;
+class operator TCL3Multivector.+(const ALeft, ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0   + ARight.fm0;
   result.fm1   := ALeft.fm1   + ARight.fm1;
@@ -127,7 +127,7 @@ begin
   result.fm123 := ALeft.fm123 + ARight.fm123;
 end;
 
-class operator TMultivector.-(const ASelf: TMultivector): TMultivector;
+class operator TCL3Multivector.-(const ASelf: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := -ASelf.fm0;
   result.fm1   := -ASelf.fm1;
@@ -139,7 +139,7 @@ begin
   result.fm123 := -ASelf.fm123;
 end;
 
-class operator TMultivector.-(const ALeft: TMultivector; const ARight: double): TMultivector;
+class operator TCL3Multivector.-(const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0 - ARight;
   result.fm1   := ALeft.fm1;
@@ -151,7 +151,7 @@ begin
   result.fm123 := ALeft.fm123;
 end;
 
-class operator TMultivector.-(const ALeft: double; const ARight: TMultivector): TMultivector;
+class operator TCL3Multivector.-(const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := ALeft - ARight.fm0;
   result.fm1   :=       - ARight.fm1;
@@ -163,7 +163,7 @@ begin
   result.fm123 :=       - ARight.fm123;
 end;
 
-class operator TMultivector.-(const ALeft, ARight: TMultivector): TMultivector;
+class operator TCL3Multivector.-(const ALeft, ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0   - ARight.fm0;
   result.fm1   := ALeft.fm1   - ARight.fm1;
@@ -175,7 +175,7 @@ begin
   result.fm123 := ALeft.fm123 - ARight.fm123;
 end;
 
-class operator TMultivector.*(const ALeft: TMultivector; const ARight: double): TMultivector;
+class operator TCL3Multivector.*(const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0   * ARight;
   result.fm1   := ALeft.fm1   * ARight;
@@ -187,7 +187,7 @@ begin
   result.fm123 := ALeft.fm123 * ARight;
 end;
 
-class operator TMultivector.*(const ALeft: double; const ARight: TMultivector): TMultivector;
+class operator TCL3Multivector.*(const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := ALeft * ARight.fm0;
   result.fm1   := ALeft * ARight.fm1;
@@ -199,7 +199,7 @@ begin
   result.fm123 := ALeft * ARight.fm123;
 end;
 
-class operator TMultivector.*(const ALeft, ARight: TMultivector): TMultivector;
+class operator TCL3Multivector.*(const ALeft, ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0 :=     ALeft.fm0   * ARight.fm0
                   + ALeft.fm1   * ARight.fm1
@@ -274,7 +274,7 @@ begin
                   + ALeft.fm123 * ARight.fm0;
 end;
 
-class operator TMultivector./(const ALeft: TMultivector; const ARight: double): TMultivector;
+class operator TCL3Multivector./(const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0   / ARight;
   result.fm1   := ALeft.fm1   / ARight;
@@ -286,19 +286,19 @@ begin
   result.fm123 := ALeft.fm123 / ARight;
 end;
 
-class operator TMultivector./(const ALeft: double; const ARight: TMultivector): TMultivector;
+class operator TCL3Multivector./(const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TMultivector./(const ALeft, ARight: TMultivector): TMultivector;
+class operator TCL3Multivector./(const ALeft, ARight: TCL3Multivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-// TTrivector
+// TCL3Trivector
 
-class operator TTrivector.:=(const AValue: TTrivector): TMultivector;
+class operator TCL3Trivector.:=(const AValue: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := 0.0;
@@ -310,17 +310,17 @@ begin
   result.fm123 := AValue.fm123;
 end;
 
-class operator TTrivector.:=(const AValue: TMultivector): TTrivector;
+class operator TCL3Trivector.:=(const AValue: TCL3Multivector): TCL3Trivector;
 begin
   result.fm123 := AValue.fm123;
 end;
 
-class operator TTrivector.<>(const ALeft, ARight: TTrivector): boolean;
+class operator TCL3Trivector.<>(const ALeft, ARight: TCL3Trivector): boolean;
 begin
   result := ALeft.fm123 <> ARight.fm123;
 end;
 
-class operator TTrivector.<>(const ALeft: TMultivector; const ARight: TTrivector): boolean;
+class operator TCL3Trivector.<>(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): boolean;
 begin
   result := (ALeft.fm0   <>          0.0) or
             (ALeft.fm1   <>          0.0) or
@@ -332,7 +332,7 @@ begin
             (ALeft.fm123 <> ARight.fm123);
 end;
 
-class operator TTrivector.<>(const ALeft: TTrivector; const ARight: TMultivector): boolean;
+class operator TCL3Trivector.<>(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): boolean;
 begin
   result := (0.0         <> ARight.fm0  ) or
             (0.0         <> ARight.fm1  ) or
@@ -344,7 +344,7 @@ begin
             (ALeft.fm123 <> ARight.fm123);
 end;
 
-class operator TTrivector.=(const ALeft: TMultivector; const ARight: TTrivector): boolean;
+class operator TCL3Trivector.=(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): boolean;
 begin
   result := (ALeft.fm0   =          0.0) or
             (ALeft.fm1   =          0.0) or
@@ -356,7 +356,7 @@ begin
             (ALeft.fm123 = ARight.fm123);
 end;
 
-class operator TTrivector.=(const ALeft: TTrivector; const ARight: TMultivector): boolean;
+class operator TCL3Trivector.=(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): boolean;
 begin
   result := (0.0         = ARight.fm0  ) or
             (0.0         = ARight.fm1  ) or
@@ -368,17 +368,17 @@ begin
             (ALeft.fm123 = ARight.fm123);
 end;
 
-class operator TTrivector.=(const ALeft, ARight: TTrivector): boolean;
+class operator TCL3Trivector.=(const ALeft, ARight: TCL3Trivector): boolean;
 begin
   result := ALeft.fm123 = ARight.fm123;
 end;
 
-class operator TTrivector.+(const ALeft, ARight: TTrivector): TTrivector;
+class operator TCL3Trivector.+(const ALeft, ARight: TCL3Trivector): TCL3Trivector;
 begin
   result.fm123 := ALeft.fm123 + ARight.fm123;
 end;
 
-class operator TTrivector.+(const ALeft: TTrivector; const ARight: double): TMultivector;
+class operator TCL3Trivector.+(const ALeft: TCL3Trivector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := ARight;
   result.fm1   := 0.0;
@@ -390,7 +390,7 @@ begin
   result.fm123 := ALeft.fm123;
 end;
 
-class operator TTrivector.+(const ALeft: double; const ARight: TTrivector): TMultivector;
+class operator TCL3Trivector.+(const ALeft: double; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   := ALeft;
   result.fm1   := 0.0;
@@ -402,7 +402,7 @@ begin
   result.fm123 := ARight.fm123;
 end;
 
-class operator TTrivector.+(const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+class operator TCL3Trivector.+(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0;
   result.fm1   := ALeft.fm1;
@@ -414,7 +414,7 @@ begin
   result.fm123 := ALeft.fm123 + ARight.fm123;
 end;
 
-class operator TTrivector.+(const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
+class operator TCL3Trivector.+(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := ARight.fm0;
   result.fm1   := ARight.fm1;
@@ -426,17 +426,17 @@ begin
   result.fm123 := ARight.fm123 + ALeft.fm123;
 end;
 
-class operator TTrivector.-(const ASelf: TTrivector): TTrivector;
+class operator TCL3Trivector.-(const ASelf: TCL3Trivector): TCL3Trivector;
 begin
   result.fm123 := -ASelf.fm123;
 end;
 
-class operator TTrivector.-(const ALeft, ARight: TTrivector): TTrivector;
+class operator TCL3Trivector.-(const ALeft, ARight: TCL3Trivector): TCL3Trivector;
 begin
   result.fm123 := ALeft.fm123 - ARight.fm123;
 end;
 
-class operator TTrivector.-(const ALeft: TTrivector; const ARight: double): TMultivector;
+class operator TCL3Trivector.-(const ALeft: TCL3Trivector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := -ARight;
   result.fm1   :=  0.0;
@@ -448,7 +448,7 @@ begin
   result.fm123 :=  ALeft.fm123;
 end;
 
-class operator TTrivector.-(const ALeft: double; const ARight: TTrivector): TMultivector;
+class operator TCL3Trivector.-(const ALeft: double; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   :=  ALeft;
   result.fm1   :=  0.0;
@@ -460,7 +460,7 @@ begin
   result.fm123 := -ARight.fm123;
 end;
 
-class operator TTrivector.-(const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+class operator TCL3Trivector.-(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0;
   result.fm1   := ALeft.fm1;
@@ -472,7 +472,7 @@ begin
   result.fm123 := ALeft.fm123 - ARight.fm123;
 end;
 
-class operator TTrivector.-(const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
+class operator TCL3Trivector.-(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   :=             - ARight.fm0;
   result.fm1   :=             - ARight.fm1;
@@ -484,22 +484,22 @@ begin
   result.fm123 := ALeft.fm123 - ARight.fm123;
 end;
 
-class operator TTrivector.*(const ALeft: double; const ARight: TTrivector): TTrivector;
+class operator TCL3Trivector.*(const ALeft: double; const ARight: TCL3Trivector): TCL3Trivector;
 begin
   result.fm123 := ALeft * ARight.fm123;
 end;
 
-class operator TTrivector.*(const ALeft: TTrivector; const ARight: double): TTrivector;
+class operator TCL3Trivector.*(const ALeft: TCL3Trivector; const ARight: double): TCL3Trivector;
 begin
   result.fm123 := ALeft.fm123 * ARight;
 end;
 
-class operator TTrivector.*(const ALeft, ARight: TTrivector): double;
+class operator TCL3Trivector.*(const ALeft, ARight: TCL3Trivector): double;
 begin
   result := -ALeft.fm123 * ARight.fm123;
 end;
 
-class operator TTrivector.*(const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+class operator TCL3Trivector.*(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   := -ALeft.fm123 * ARight.fm123;
   result.fm1   := -ALeft.fm23  * ARight.fm123;
@@ -511,7 +511,7 @@ begin
   result.fm123 :=  ALeft.fm0   * ARight.fm123;
 end;
 
-class operator TTrivector.*(const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
+class operator TCL3Trivector.*(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := -ALeft.fm123 * ARight.fm123;
   result.fm1   := -ALeft.fm123 * ARight.fm23;
@@ -523,34 +523,34 @@ begin
   result.fm123 :=  ALeft.fm123 * ARight.fm0;
 end;
 
-class operator TTrivector./(const ALeft, ARight: TTrivector): double;
+class operator TCL3Trivector./(const ALeft, ARight: TCL3Trivector): double;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TTrivector./(const ALeft: TTrivector; const ARight: double): TTrivector;
+class operator TCL3Trivector./(const ALeft: TCL3Trivector; const ARight: double): TCL3Trivector;
 begin
   result.fm123 := ALeft.fm123 / ARight;
 end;
 
-class operator TTrivector./(const ALeft: double; const ARight: TTrivector): TTrivector;
+class operator TCL3Trivector./(const ALeft: double; const ARight: TCL3Trivector): TCL3Trivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TTrivector./(const ALeft: TMultivector; const ARight: TTrivector): TMultivector;
+class operator TCL3Trivector./(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TTrivector./(const ALeft: TTrivector; const ARight: TMultivector): TMultivector;
+class operator TCL3Trivector./(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-// TBivector
+// TCL3Bivector
 
-class operator TBivector.:=(const AValue: TBivector): TMultivector;
+class operator TCL3Bivector.:=(const AValue: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := 0.0;
@@ -562,21 +562,21 @@ begin
   result.fm123 := 0.0;
 end;
 
-class operator TBivector.:=(const AValue: TMultivector): TBivector;
+class operator TCL3Bivector.:=(const AValue: TCL3Multivector): TCL3Bivector;
 begin
   result.fm12 := AValue.fm12;
   result.fm13 := AValue.fm13;
   result.fm23 := AValue.fm23;
 end;
 
-class operator TBivector.<>(const ALeft, ARight: TBivector): boolean;
+class operator TCL3Bivector.<>(const ALeft, ARight: TCL3Bivector): boolean;
 begin
   result := (ALeft.fm12 <> ARight.fm12) or
             (ALeft.fm13 <> ARight.fm13) or
             (ALeft.fm23 <> ARight.fm23);
 end;
 
-class operator TBivector.<>(const ALeft: TMultivector; const ARight: TBivector): boolean;
+class operator TCL3Bivector.<>(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): boolean;
 begin
   result := (ALeft.fm0   <>         0.0) or
             (ALeft.fm1   <>         0.0) or
@@ -588,7 +588,7 @@ begin
             (ALeft.fm123 <>         0.0);
 end;
 
-class operator TBivector.<>(const ALeft: TBivector; const ARight: TMultivector): boolean;
+class operator TCL3Bivector.<>(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): boolean;
 begin
   result := (ARight.fm0   <>        0.0) or
             (ARight.fm1   <>        0.0) or
@@ -600,14 +600,14 @@ begin
             (ARight.fm123 <>        0.0);
 end;
 
-class operator TBivector.=(const ALeft, ARight: TBivector): boolean;
+class operator TCL3Bivector.=(const ALeft, ARight: TCL3Bivector): boolean;
 begin
   result := (ALeft.fm12 = ARight.fm12) or
             (ALeft.fm13 = ARight.fm13) or
             (ALeft.fm23 = ARight.fm23);
 end;
 
-class operator TBivector.=(const ALeft: TMultivector; const ARight: TBivector): boolean;
+class operator TCL3Bivector.=(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): boolean;
 begin
   result := (ALeft.fm0   =         0.0) or
             (ALeft.fm1   =         0.0) or
@@ -619,7 +619,7 @@ begin
             (ALeft.fm123 =         0.0);
 end;
 
-class operator TBivector.=(const ALeft: TBivector; const ARight: TMultivector): boolean;
+class operator TCL3Bivector.=(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): boolean;
 begin
   result := (ARight.fm0   =        0.0) or
             (ARight.fm1   =        0.0) or
@@ -631,14 +631,14 @@ begin
             (ARight.fm123 =        0.0);
 end;
 
-class operator TBivector.+(const ALeft, ARight: TBivector): TBivector;
+class operator TCL3Bivector.+(const ALeft, ARight: TCL3Bivector): TCL3Bivector;
 begin
   result.fm12 := ALeft.fm12 + ARight.fm12;
   result.fm13 := ALeft.fm13 + ARight.fm13;
   result.fm23 := ALeft.fm23 + ARight.fm23;
 end;
 
-class operator TBivector.+(const ALeft: TBivector; const ARight: double): TMultivector;
+class operator TCL3Bivector.+(const ALeft: TCL3Bivector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := ARight;
   result.fm1   := 0.0;
@@ -650,7 +650,7 @@ begin
   result.fm123 := 0.0;
 end;
 
-class operator TBivector.+(const ALeft: double; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector.+(const ALeft: double; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   := ALeft;
   result.fm1   := 0.0;
@@ -662,7 +662,7 @@ begin
   result.fm123 := 0.0;
 end;
 
-class operator TBivector.+(const ALeft: TBivector; const ARight: TTrivector): TMultivector;
+class operator TCL3Bivector.+(const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := 0.0;
@@ -674,7 +674,7 @@ begin
   result.fm123 := ARight.fm123;
 end;
 
-class operator TBivector.+(const ALeft: TTrivector; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector.+(const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := 0.0;
@@ -686,7 +686,7 @@ begin
   result.fm123 := ALeft.fm123;
 end;
 
-class operator TBivector.+(const ALeft: TBivector; const ARight: TMultivector): TMultivector;
+class operator TCL3Bivector.+(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := ARight.fm0;
   result.fm1   := ARight.fm1;
@@ -698,7 +698,7 @@ begin
   result.fm123 := ARight.fm123;
 end;
 
-class operator TBivector.+(const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector.+(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0;
   result.fm1   := ALeft.fm1;
@@ -710,21 +710,21 @@ begin
   result.fm123 := ALeft.fm123;
 end;
 
-class operator TBivector.-(const ASelf: TBivector): TBivector;
+class operator TCL3Bivector.-(const ASelf: TCL3Bivector): TCL3Bivector;
 begin
   result.fm12 := -ASelf.fm12;
   result.fm13 := -ASelf.fm13;
   result.fm23 := -ASelf.fm23;
 end;
 
-class operator TBivector.-(const ALeft, ARight: TBivector): TBivector;
+class operator TCL3Bivector.-(const ALeft, ARight: TCL3Bivector): TCL3Bivector;
 begin
   result.fm12  := ALeft.fm12 - ARight.fm12;
   result.fm13  := ALeft.fm13 - ARight.fm13;
   result.fm23  := ALeft.fm23 - ARight.fm23;
 end;
 
-class operator TBivector.-(const ALeft: TBivector; const ARight: double): TMultivector;
+class operator TCL3Bivector.-(const ALeft: TCL3Bivector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := -ARight;
   result.fm1   :=  0.0;
@@ -736,7 +736,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TBivector.-(const ALeft: double; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector.-(const ALeft: double; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   :=  ALeft;
   result.fm1   :=  0.0;
@@ -748,7 +748,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TBivector.-(const ALeft: TBivector; const ARight: TTrivector): TMultivector;
+class operator TCL3Bivector.-(const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   :=  0.0;
@@ -760,7 +760,7 @@ begin
   result.fm123 := -ARight.fm123;
 end;
 
-class operator TBivector.-(const ALeft: TTrivector; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector.-(const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   :=  0.0;
@@ -772,7 +772,7 @@ begin
   result.fm123 :=  ALeft.fm123;
 end;
 
-class operator TBivector.-(const ALeft: TBivector; const ARight: TMultivector): TMultivector;
+class operator TCL3Bivector.-(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   :=             - ARight.fm0;
   result.fm1   :=             - ARight.fm1;
@@ -784,7 +784,7 @@ begin
   result.fm123 :=             - ARight.fm123;
 end;
 
-class operator TBivector.-(const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector.-(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0;
   result.fm1   := ALeft.fm1;
@@ -796,21 +796,21 @@ begin
   result.fm123 := ALeft.fm123;
 end;
 
-class operator TBivector.*(const ALeft: double; const ARight: TBivector): TBivector;
+class operator TCL3Bivector.*(const ALeft: double; const ARight: TCL3Bivector): TCL3Bivector;
 begin
   result.fm12 := ALeft * ARight.fm12;
   result.fm13 := ALeft * ARight.fm13;
   result.fm23 := ALeft * ARight.fm23;
 end;
 
-class operator TBivector.*(const ALeft: TBivector; const ARight: double): TBivector;
+class operator TCL3Bivector.*(const ALeft: TCL3Bivector; const ARight: double): TCL3Bivector;
 begin
   result.fm12 := ARight * ALeft.fm12;
   result.fm13 := ARight * ALeft.fm13;
   result.fm23 := ARight * ALeft.fm23;
 end;
 
-class operator TBivector.*(const ALeft, ARight: TBivector): TMultivector;
+class operator TCL3Bivector.*(const ALeft, ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   := -ALeft.fm12 * ARight.fm12
                   -ALeft.fm13 * ARight.fm13
@@ -832,7 +832,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TBivector.*(const ALeft: TBivector; const ARight: TMultivector): TMultivector;
+class operator TCL3Bivector.*(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0 :=   -ALeft.fm12 * ARight.fm12
                   -ALeft.fm13 * ARight.fm13
@@ -867,7 +867,7 @@ begin
                   +ALeft.fm23 * ARight.fm1;
 end;
 
-class operator TBivector.*(const ALeft: TBivector; const ARight: TTrivector): TMultivector;
+class operator TCL3Bivector.*(const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   := -ALeft.fm23 * ARight.fm123;
@@ -879,7 +879,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TBivector.*(const ALeft: TTrivector; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector.*(const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   := -ARight.fm23 * ALeft.fm123;
@@ -891,7 +891,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TBivector.*(const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector.*(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0 :=   -ALeft.fm12  * ARight.fm12
                   -ALeft.fm13  * ARight.fm13
@@ -926,46 +926,46 @@ begin
                   +ALeft.fm3   * ARight.fm12;
 end;
 
-class operator TBivector./(const ALeft, ARight: TBivector): TMultivector;
+class operator TCL3Bivector./(const ALeft, ARight: TCL3Bivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TBivector./(const ALeft: TBivector; const ARight: double): TBivector;
+class operator TCL3Bivector./(const ALeft: TCL3Bivector; const ARight: double): TCL3Bivector;
 begin
   result.fm12 := ALeft.fm12 / ARight;
   result.fm13 := ALeft.fm13 / ARight;
   result.fm23 := ALeft.fm23 / ARight;
 end;
 
-class operator TBivector./(const ALeft: double; const ARight: TBivector): TBivector;
+class operator TCL3Bivector./(const ALeft: double; const ARight: TCL3Bivector): TCL3Bivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TBivector./(const ALeft: TBivector; const ARight: TTrivector): TMultivector;
+class operator TCL3Bivector./(const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TBivector./(const ALeft: TTrivector; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector./(const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TBivector./(const ALeft: TMultivector; const ARight: TBivector): TMultivector;
+class operator TCL3Bivector./(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TBivector./(const ALeft: TBivector; const ARight: TMultivector): TMultivector;
+class operator TCL3Bivector./(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
 // TVector
 
-class operator TVector.:=(const AValue: TVector): TMultivector;
+class operator TVector.:=(const AValue: TVector): TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := AValue.fm1;
@@ -977,7 +977,7 @@ begin
   result.fm123 := 0.0;
 end;
 
-class operator TVector.:=(const AValue: TMultivector): TVector;
+class operator TVector.:=(const AValue: TCL3Multivector): TVector;
 begin
   result.fm1 := AValue.fm1;
   result.fm2 := AValue.fm2;
@@ -991,7 +991,7 @@ begin
             (ALeft.fm3 <> ARight.fm3);
 end;
 
-class operator TVector.<>(const ALeft: TMultivector; const ARight: TVector): boolean;
+class operator TVector.<>(const ALeft: TCL3Multivector; const ARight: TVector): boolean;
 begin
   result := (ALeft.fm0   <>        0.0) or
             (ALeft.fm1   <> ARight.fm1) or
@@ -1003,7 +1003,7 @@ begin
             (ALeft.fm123 <>        0.0);
 end;
 
-class operator TVector.<>(const ALeft: TVector; const ARight: TMultivector): boolean;
+class operator TVector.<>(const ALeft: TVector; const ARight: TCL3Multivector): boolean;
 begin
   result := (ARight.fm0   <>       0.0) or
             (ARight.fm1   <> ALeft.fm1) or
@@ -1022,7 +1022,7 @@ begin
             (ALeft.fm3 = ARight.fm3);
 end;
 
-class operator TVector.=(const ALeft: TVector; const ARight: TMultivector): boolean;
+class operator TVector.=(const ALeft: TVector; const ARight: TCL3Multivector): boolean;
 begin
   result := (ARight.fm0   =       0.0) or
             (ARight.fm1   = ALeft.fm1) or
@@ -1034,7 +1034,7 @@ begin
             (ARight.fm123 =       0.0);
 end;
 
-class operator TVector.=(const ALeft: TMultivector; const ARight: TVector): boolean;
+class operator TVector.=(const ALeft: TCL3Multivector; const ARight: TVector): boolean;
 begin
   result := (ALeft.fm0   =        0.0) or
             (ALeft.fm1   = ARight.fm1) or
@@ -1053,7 +1053,7 @@ begin
   result.fm3 := ALeft.fm3 + ARight.fm3;
 end;
 
-class operator TVector.+(const ALeft: TVector; const ARight: double): TMultivector;
+class operator TVector.+(const ALeft: TVector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := ARight;
   result.fm1   := ALeft.fm1;
@@ -1065,7 +1065,7 @@ begin
   result.fm123 := 0.0;
 end;
 
-class operator TVector.+(const ALeft: double; const ARight: TVector): TMultivector;
+class operator TVector.+(const ALeft: double; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   := ALeft;
   result.fm1   := ARight.fm1;
@@ -1077,7 +1077,7 @@ begin
   result.fm123 := 0.0;
 end;
 
-class operator TVector.+(const ALeft: TVector; const ARight: TBivector): TMultivector;
+class operator TVector.+(const ALeft: TVector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := ALeft.fm1;
@@ -1089,7 +1089,7 @@ begin
   result.fm123 := 0.0;
 end;
 
-class operator TVector.+(const ALeft: TBivector; const ARight: TVector): TMultivector;
+class operator TVector.+(const ALeft: TCL3Bivector; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := ARight.fm1;
@@ -1101,7 +1101,7 @@ begin
   result.fm123 := 0.0;
 end;
 
-class operator TVector.+(const ALeft: TVector; const ARight: TTrivector): TMultivector;
+class operator TVector.+(const ALeft: TVector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := ALeft.fm1;
@@ -1113,7 +1113,7 @@ begin
   result.fm123 := ARight.fm123;
 end;
 
-class operator TVector.+(const ALeft: TTrivector; const ARight: TVector): TMultivector;
+class operator TVector.+(const ALeft: TCL3Trivector; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := ARight.fm1;
@@ -1126,7 +1126,7 @@ begin
 end;
 
 
-class operator TVector.+(const ALeft: TVector; const ARight: TMultivector): TMultivector;
+class operator TVector.+(const ALeft: TVector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := ARight.fm0;
   result.fm1   := ARight.fm1 + ALeft.fm1;
@@ -1138,7 +1138,7 @@ begin
   result.fm123 := ARight.fm123;
 end;
 
-class operator TVector.+(const ALeft: TMultivector; const ARight: TVector): TMultivector;
+class operator TVector.+(const ALeft: TCL3Multivector; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0;
   result.fm1   := ALeft.fm1 + ARight.fm1;
@@ -1164,7 +1164,7 @@ begin
   result.fm3 := ALeft.fm3 - ARight.fm3;
 end;
 
-class operator TVector.-(const ALeft: TVector; const ARight: double): TMultivector;
+class operator TVector.-(const ALeft: TVector; const ARight: double): TCL3Multivector;
 begin
   result.fm0   := -ARight;
   result.fm1   :=  ALeft.fm1;
@@ -1176,7 +1176,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TVector.-(const ALeft: double; const ARight: TVector): TMultivector;
+class operator TVector.-(const ALeft: double; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   :=  ALeft;
   result.fm1   := -ARight.fm1;
@@ -1188,7 +1188,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TVector.-(const ALeft: TVector; const ARight: TBivector): TMultivector;
+class operator TVector.-(const ALeft: TVector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   :=  ALeft.fm1;
@@ -1200,7 +1200,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TVector.-(const ALeft: TBivector; const ARight: TVector): TMultivector;
+class operator TVector.-(const ALeft: TCL3Bivector; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   := -ARight.fm1;
@@ -1212,7 +1212,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TVector.-(const ALeft: TVector; const ARight: TTrivector): TMultivector;
+class operator TVector.-(const ALeft: TVector; const ARight: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   :=  ALeft.fm1;
@@ -1224,7 +1224,7 @@ begin
   result.fm123 := -ARight.fm123;
 end;
 
-class operator TVector.-(const ALeft: TTrivector; const ARight: TVector): TMultivector;
+class operator TVector.-(const ALeft: TCL3Trivector; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   := -ARight.fm1;
@@ -1236,7 +1236,7 @@ begin
   result.fm123 :=  ALeft.fm123;
 end;
 
-class operator TVector.-(const ALeft: TVector; const ARight: TMultivector): TMultivector;
+class operator TVector.-(const ALeft: TVector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   :=            - ARight.fm0;
   result.fm1   :=  ALeft.fm1 - ARight.fm1;
@@ -1248,7 +1248,7 @@ begin
   result.fm123 :=            - ARight.fm123;
 end;
 
-class operator TVector.-(const ALeft: TMultivector; const ARight: TVector): TMultivector;
+class operator TVector.-(const ALeft: TCL3Multivector; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   := ALeft.fm0;
   result.fm1   := ALeft.fm1 - ARight.fm1;
@@ -1274,7 +1274,7 @@ begin
   result.fm3 := ALeft.fm3 * ARight;
 end;
 
-class operator TVector.*(const ALeft, ARight: TVector): TMultivector;
+class operator TVector.*(const ALeft, ARight: TVector): TCL3Multivector;
 begin
   result.fm0   :=  ALeft.fm1 * ARight.fm1
                   +ALeft.fm2 * ARight.fm2
@@ -1296,7 +1296,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-class operator TVector.*(const ALeft: TVector; const ARight: TBivector): TMultivector;
+class operator TVector.*(const ALeft: TVector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
 
@@ -1318,7 +1318,7 @@ begin
                   +ALeft.fm3 * ARight.fm12;
 end;
 
-class operator TVector.*(const ALeft: TBivector; const ARight: TVector): TMultivector;
+class operator TVector.*(const ALeft: TCL3Bivector; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   :=  ALeft.fm12 * ARight.fm2
@@ -1339,21 +1339,21 @@ begin
                   +ALeft.fm23 * ARight.fm1;
 end;
 
-class operator TVector.*(const ALeft: TVector; const ARight: TTrivector): TBivector;
+class operator TVector.*(const ALeft: TVector; const ARight: TCL3Trivector): TCL3Bivector;
 begin
   result.fm12 :=  ALeft.fm3 * ARight.fm123;
   result.fm13 := -ALeft.fm2 * ARight.fm123;
   result.fm23 :=  ALeft.fm1 * ARight.fm123;
 end;
 
-class operator TVector.*(const ALeft: TTrivector; const ARight: TVector): TBivector;
+class operator TVector.*(const ALeft: TCL3Trivector; const ARight: TVector): TCL3Bivector;
 begin
   result.fm12 :=  ALeft.fm123 * ARight.fm3;
   result.fm13 := -ALeft.fm123 * ARight.fm2;
   result.fm23 :=  ALeft.fm123 * ARight.fm1;
 end;
 
-class operator TVector.*(const ALeft: TVector; const ARight: TMultivector): TMultivector;
+class operator TVector.*(const ALeft: TVector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   :=  ALeft.fm1 * ARight.fm1
                   +ALeft.fm2 * ARight.fm2
@@ -1388,7 +1388,7 @@ begin
                   +ALeft.fm3 * ARight.fm12;
 end;
 
-class operator TVector.*(const ALeft: TMultivector; const ARight: TVector): TMultivector;
+class operator TVector.*(const ALeft: TCL3Multivector; const ARight: TVector): TCL3Multivector;
 begin
   result.fm0   :=  ALeft.fm1   * ARight.fm1
                   +ALeft.fm2   * ARight.fm2
@@ -1424,7 +1424,7 @@ begin
 end;
 
 
-class operator TVector./(const ALeft, ARight: TVector): TMultivector;
+class operator TVector./(const ALeft, ARight: TVector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
@@ -1441,39 +1441,39 @@ begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TVector./(const ALeft: TVector; const ARight: TBivector): TMultivector;
+class operator TVector./(const ALeft: TVector; const ARight: TCL3Bivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TVector./(const ALeft: TBivector; const ARight: TVector): TMultivector;
+class operator TVector./(const ALeft: TCL3Bivector; const ARight: TVector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TVector./(const ALeft: TVector; const ARight: TTrivector): TBivector;
+class operator TVector./(const ALeft: TVector; const ARight: TCL3Trivector): TCL3Bivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TVector./(const ALeft: TTrivector; const ARight: TVector): TBivector;
+class operator TVector./(const ALeft: TCL3Trivector; const ARight: TVector): TCL3Bivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TVector./(const ALeft: TMultivector; const ARight: TVector): TMultivector;
+class operator TVector./(const ALeft: TCL3Multivector; const ARight: TVector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TVector./(const ALeft: TVector; const ARight: TMultivector): TMultivector;
+class operator TVector./(const ALeft: TVector; const ARight: TCL3Multivector): TCL3Multivector;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-// TMultivectorHelper
+// TCL3MultivectorHelper
 
-function TMultivectorHelper.Dual: TMultivector;
+function TCL3MultivectorHelper.Dual: TCL3Multivector;
 begin
   result.fm0   := -fm123;
   result.fm1   := -fm23;
@@ -1485,7 +1485,7 @@ begin
   result.fm123 :=  fm0;
 end;
 
-function TMultivectorHelper.Inverse: TMultivector;
+function TCL3MultivectorHelper.Inverse: TCL3Multivector;
 begin
   result.fm0   :=  fm0;
   result.fm1   := -fm1;
@@ -1497,7 +1497,7 @@ begin
   result.fm123 := -fm123;
 end;
 
-function TMultivectorHelper.Reverse: TMultivector;
+function TCL3MultivectorHelper.Reverse: TCL3Multivector;
 begin
   result.fm0   :=  fm0;
   result.fm1   :=  fm1;
@@ -1509,7 +1509,7 @@ begin
   result.fm123 := -fm123;
 end;
 
-function TMultivectorHelper.Conjugate: TMultivector;
+function TCL3MultivectorHelper.Conjugate: TCL3Multivector;
 begin
   result.fm0   :=  fm0;
   result.fm1   := -fm1;
@@ -1521,9 +1521,9 @@ begin
   result.fm123 :=  fm123;
 end;
 
-function TMultivectorHelper.Reciprocal: TMultivector;
+function TCL3MultivectorHelper.Reciprocal: TCL3Multivector;
 var
-  Numerator: TMultivector;
+  Numerator: TCL3Multivector;
 begin
   if ((fm0  <>0) and ((fm1 <>0) or (fm2 <>0) or (fm3 <>0))) or
      ((fm123<>0) and ((fm12<>0) or (fm23<>0) or (fm13<>0))) then
@@ -1534,7 +1534,7 @@ begin
     result := Reverse / SquaredNorm;
 end;
 
-function TMultivectorHelper.LeftReciprocal: TMultivector;
+function TCL3MultivectorHelper.LeftReciprocal: TCL3Multivector;
 begin
   if ((fm0  <>0) and ((fm1 <>0) or (fm2 <>0) or (fm3 <>0))) or
      ((fm123<>0) and ((fm12<>0) or (fm23<>0) or (fm13<>0))) then
@@ -1544,22 +1544,22 @@ begin
     result := Reverse / SquaredNorm;
 end;
 
-function TMultivectorHelper.Normalized: TMultivector;
+function TCL3MultivectorHelper.Normalized: TCL3Multivector;
 begin
   result := Self / Norm;
 end;
 
-function TMultivectorHelper.Norm: double;
+function TCL3MultivectorHelper.Norm: double;
 begin
   result := sqrt(SquaredNorm);
 end;
 
-function TMultivectorHelper.SquaredNorm: double;
+function TCL3MultivectorHelper.SquaredNorm: double;
 begin
   result := fm0*fm0 +fm1*fm1 +fm2*fm2 +fm3*fm3 +fm12*fm12 +fm23*fm23 +fm13*fm13 +fm123*fm123;
 end;
 
-function TMultivectorHelper.Dot(const AVector: TVector): TMultivector;
+function TCL3MultivectorHelper.Dot(const AVector: TVector): TCL3Multivector;
 begin
   result.fm0   :=  fm1   * AVector.fm1
                   +fm2   * AVector.fm2
@@ -1583,7 +1583,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-function TMultivectorHelper.Dot(const AVector: TBivector): TMultivector;
+function TCL3MultivectorHelper.Dot(const AVector: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   := -fm12  * AVector.fm12
                   -fm13  * AVector.fm13
@@ -1607,7 +1607,7 @@ begin
   result.fm123 :=  0;
 end;
 
-function TMultivectorHelper.Dot(const AVector: TTrivector): TMultivector;
+function TCL3MultivectorHelper.Dot(const AVector: TCL3Trivector): TCL3Multivector;
 begin
   result.fm0   := -fm123 * AVector.fm123;
   result.fm1   := -fm23  * AVector.fm123;
@@ -1619,7 +1619,7 @@ begin
   result.fm123 :=  fm0   * AVector.fm123;
 end;
 
-function TMultivectorHelper.Dot(const AVector: TMultivector): TMultivector;
+function TCL3MultivectorHelper.Dot(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0 :=    fm0   * AVector.fm0
                   +fm1   * AVector.fm1
@@ -1676,7 +1676,7 @@ begin
                   +fm123 * AVector.fm0;
 end;
 
-function TMultivectorHelper.Wedge(const AVector: TVector): TMultivector;
+function TCL3MultivectorHelper.Wedge(const AVector: TVector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   :=  fm0  * AVector.fm1;
@@ -1697,7 +1697,7 @@ begin
                   +fm23 * AVector.fm1;
 end;
 
-function TMultivectorHelper.Wedge(const AVector: TBivector): TMultivector;
+function TCL3MultivectorHelper.Wedge(const AVector: TCL3Bivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   :=  0.0;
@@ -1712,12 +1712,12 @@ begin
                   +fm3 * AVector.fm12
 end;
 
-function TMultivectorHelper.Wedge(const AVector: TTrivector): TTrivector;
+function TCL3MultivectorHelper.Wedge(const AVector: TCL3Trivector): TCL3Trivector;
 begin
   result.fm123 := fm0 * AVector.fm123;
 end;
 
-function TMultivectorHelper.Wedge(const AVector: TMultivector): TMultivector;
+function TCL3MultivectorHelper.Wedge(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   :=  fm0   * AVector.fm0;
 
@@ -1755,87 +1755,87 @@ begin
                   +fm123 * AVector.fm0;
 end;
 
-function TMultivectorHelper.Projection(const AVector: TVector): TMultivector;
+function TCL3MultivectorHelper.Projection(const AVector: TVector): TCL3Multivector;
 begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Projection(const AVector: TBivector): TMultivector;
+function TCL3MultivectorHelper.Projection(const AVector: TCL3Bivector): TCL3Multivector;
 begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Projection(const AVector: TTrivector): TMultivector;
+function TCL3MultivectorHelper.Projection(const AVector: TCL3Trivector): TCL3Multivector;
 begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Projection(const AVector: TMultivector): TMultivector;
+function TCL3MultivectorHelper.Projection(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Rejection(const AVector: TVector): TMultivector;
+function TCL3MultivectorHelper.Rejection(const AVector: TVector): TCL3Multivector;
 begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Rejection(const AVector: TBivector): TMultivector;
+function TCL3MultivectorHelper.Rejection(const AVector: TCL3Bivector): TCL3Multivector;
 begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Rejection(const AVector: TTrivector): double;
+function TCL3MultivectorHelper.Rejection(const AVector: TCL3Trivector): double;
 begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Rejection(const AVector: TMultivector): TMultivector;
+function TCL3MultivectorHelper.Rejection(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Reflection(const AVector: TVector): TMultivector;
+function TCL3MultivectorHelper.Reflection(const AVector: TVector): TCL3Multivector;
 begin
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Reflection(const AVector: TBivector): TMultivector;
+function TCL3MultivectorHelper.Reflection(const AVector: TCL3Bivector): TCL3Multivector;
 begin
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Reflection(const AVector: TTrivector): TMultivector;
+function TCL3MultivectorHelper.Reflection(const AVector: TCL3Trivector): TCL3Multivector;
 begin
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Reflection(const AVector: TMultivector): TMultivector;
+function TCL3MultivectorHelper.Reflection(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TMultivectorHelper.Rotation(const AVector1, AVector2: TVector): TMultivector;
+function TCL3MultivectorHelper.Rotation(const AVector1, AVector2: TVector): TCL3Multivector;
 begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TMultivectorHelper.Rotation(const AVector1, AVector2: TBivector): TMultivector;
+function TCL3MultivectorHelper.Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Multivector;
 begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TMultivectorHelper.Rotation(const AVector1, AVector2: TTrivector): TMultivector;
+function TCL3MultivectorHelper.Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Multivector;
 begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TMultivectorHelper.Rotation(const AVector1, AVector2: TMultivector): TMultivector;
+function TCL3MultivectorHelper.Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector;
 begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TMultivectorHelper.SameValue(const AValue: TMultivector): boolean;
+function TCL3MultivectorHelper.SameValue(const AValue: TCL3Multivector): boolean;
 begin
   result := Math.SameValue(fm0,   AValue.fm0  ) and
             Math.SameValue(fm1,   AValue.fm1  ) and
@@ -1847,7 +1847,7 @@ begin
             Math.SameValue(fm123, AValue.fm123);
 end;
 
-function TMultivectorHelper.SameValue(const AValue: TTrivector): boolean;
+function TCL3MultivectorHelper.SameValue(const AValue: TCL3Trivector): boolean;
 begin
   result := Math.SameValue(fm0,            0.0) and
             Math.SameValue(fm1,            0.0) and
@@ -1859,7 +1859,7 @@ begin
             Math.SameValue(fm123, AValue.fm123);
 end;
 
-function TMultivectorHelper.SameValue(const AValue: TBivector): boolean;
+function TCL3MultivectorHelper.SameValue(const AValue: TCL3Bivector): boolean;
 begin
   result := Math.SameValue(fm0,           0.0) and
             Math.SameValue(fm1,           0.0) and
@@ -1871,7 +1871,7 @@ begin
             Math.SameValue(fm123,         0.0);
 end;
 
-function TMultivectorHelper.SameValue(const AValue: TVector): boolean;
+function TCL3MultivectorHelper.SameValue(const AValue: TVector): boolean;
 begin
   result := Math.SameValue(fm0,          0.0) and
             Math.SameValue(fm1,   AValue.fm1) and
@@ -1883,7 +1883,7 @@ begin
             Math.SameValue(fm123,        0.0);
 end;
 
-function TMultivectorHelper.SameValue(const AValue: double): boolean;
+function TCL3MultivectorHelper.SameValue(const AValue: double): boolean;
 begin
   result := Math.SameValue(fm0,   AValue) and
             Math.SameValue(fm1,      0.0) and
@@ -1895,7 +1895,7 @@ begin
             Math.SameValue(fm123,    0.0);
 end;
 
-function TMultivectorHelper.ToString(APrecision, ADigits: longint): string;
+function TCL3MultivectorHelper.ToString(APrecision, ADigits: longint): string;
 var
   i: longint;
 begin
@@ -1918,7 +1918,7 @@ begin
   result := '(' + result + ')';
 end;
 
-function TMultivectorHelper.ToString: string;
+function TCL3MultivectorHelper.ToString: string;
 var
   i: longint;
 begin
@@ -1941,7 +1941,7 @@ begin
   result := '(' + result + ')';
 end;
 
-function TMultivectorHelper.ExtractMultivector(AComponents: TMultivectorComponents): TMultivector;
+function TCL3MultivectorHelper.ExtracTCL3Multivector(AComponents: TCL3MultivectorComponents): TCL3Multivector;
 begin
   Result := NullMultivector;
   if mcm0   in AComponents then result.fm0   := fm0;
@@ -1954,7 +1954,7 @@ begin
   if mcm123 in AComponents then result.fm123 := fm123;
 end;
 
-function TMultivectorHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivector;
+function TCL3MultivectorHelper.ExtracTCL3Bivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
 begin
   Result := NullBivector;
   if mcm12 in AComponents then result.fm12 := fm12;
@@ -1962,7 +1962,7 @@ begin
   if mcm23 in AComponents then result.fm23 := fm23;
 end;
 
-function TMultivectorHelper.ExtractVector(AComponents: TMultivectorComponents): TVector;
+function TCL3MultivectorHelper.ExtractVector(AComponents: TCL3MultivectorComponents): TVector;
 begin
   Result := NullVector;
   if mcm1 in AComponents then result.fm1 := fm1;
@@ -1970,36 +1970,36 @@ begin
   if mcm3 in AComponents then result.fm3 := fm3;
 end;
 
-function TMultivectorHelper.ExtractTrivector: TTrivector;
+function TCL3MultivectorHelper.ExtracTCL3Trivector: TCL3Trivector;
 begin
   result.fm123 := fm123;
 end;
 
-function TMultivectorHelper.ExtractBivector: TBivector;
+function TCL3MultivectorHelper.ExtracTCL3Bivector: TCL3Bivector;
 begin
   result.fm12 := fm12;
   result.fm13 := fm13;
   result.fm23 := fm23;
 end;
 
-function TMultivectorHelper.ExtractVector: TVector;
+function TCL3MultivectorHelper.ExtractVector: TVector;
 begin
   result.fm1 := fm1;
   result.fm2 := fm2;
   result.fm3 := fm3;
 end;
 
-function TMultivectorHelper.ExtractScalar: double;
+function TCL3MultivectorHelper.ExtractScalar: double;
 begin
   result := fm0;
 end;
 
-function TMultivectorHelper.IsNull: boolean;
+function TCL3MultivectorHelper.IsNull: boolean;
 begin
   result := SameValue(NullMultivector);
 end;
 
-function TMultivectorHelper.IsScalar: boolean;
+function TCL3MultivectorHelper.IsScalar: boolean;
 begin
   result := (not Math.SameValue(fm0,   0.0)) and
             (    Math.SameValue(fm1,   0.0)) and
@@ -2011,7 +2011,7 @@ begin
             (    Math.SameValue(fm123, 0.0));
 end;
 
-function TMultivectorHelper.IsVector: boolean;
+function TCL3MultivectorHelper.IsVector: boolean;
 begin
   result :=  (    Math.SameValue(fm0,   0.0))  and
             ((not Math.SameValue(fm1,   0.0))  or
@@ -2023,7 +2023,7 @@ begin
              (    Math.SameValue(fm123, 0.0));
 end;
 
-function TMultivectorHelper.IsBiVector: boolean;
+function TCL3MultivectorHelper.IsBiVector: boolean;
 begin
   result :=  (    Math.SameValue(fm0,   0.0))  and
              (    Math.SameValue(fm1,   0.0))  and
@@ -2035,7 +2035,7 @@ begin
              (    Math.SameValue(fm123, 0.0));
 end;
 
-function TMultivectorHelper.IsTrivector: boolean;
+function TCL3MultivectorHelper.IsTrivector: boolean;
 begin
   result := (    Math.SameValue(fm0,   0.0)) and
             (    Math.SameValue(fm1,   0.0)) and
@@ -2047,78 +2047,78 @@ begin
             (not Math.SameValue(fm123, 0.0));
 end;
 
-function TMultivectorHelper.IsA: string;
+function TCL3MultivectorHelper.IsA: string;
 begin
   if IsNull      then Result := 'Null'       else
-  if IsTrivector then Result := 'TTrivector' else
-  if IsBivector  then Result := 'TBivector'  else
+  if IsTrivector then Result := 'TCL3Trivector' else
+  if IsBivector  then Result := 'TCL3Bivector'  else
   if IsVector    then Result := 'TVector'    else
-  if IsScalar    then Result := 'TScalar'    else Result := 'TMultivector';
+  if IsScalar    then Result := 'TScalar'    else Result := 'TCL3Multivector';
 end;
 
-// TTrivectorHelper
+// TCL3TrivectorHelper
 
-function TTrivectorHelper.Dual: double;
+function TCL3TrivectorHelper.Dual: double;
 begin
   // Self * e123
   result := -fm123;
 end;
 
-function TTrivectorHelper.Inverse: TTrivector;
+function TCL3TrivectorHelper.Inverse: TCL3Trivector;
 begin
   result.fm123 := -fm123;
 end;
 
-function TTrivectorHelper.Reverse: TTrivector;
+function TCL3TrivectorHelper.Reverse: TCL3Trivector;
 begin
   result.fm123 := -fm123;
 end;
 
-function TTrivectorHelper.Conjugate: TTrivector;
+function TCL3TrivectorHelper.Conjugate: TCL3Trivector;
 begin
   result.fm123 := fm123;
 end;
 
-function TTrivectorHelper.Reciprocal: TTrivector;
+function TCL3TrivectorHelper.Reciprocal: TCL3Trivector;
 begin
   result := Reverse / SquaredNorm;
 end;
 
-function TTrivectorHelper.Normalized: TTrivector;
+function TCL3TrivectorHelper.Normalized: TCL3Trivector;
 begin
   result := Self / Norm;
 end;
 
-function TTrivectorHelper.Norm: double;
+function TCL3TrivectorHelper.Norm: double;
 begin
   result := abs(fm123);
 end;
 
-function TTrivectorHelper.SquaredNorm: double;
+function TCL3TrivectorHelper.SquaredNorm: double;
 begin
   result := fm123 * fm123;
 end;
 
-function TTrivectorHelper.Dot(const AVector: TVector): TBivector;
+function TCL3TrivectorHelper.Dot(const AVector: TVector): TCL3Bivector;
 begin
   result.fm12 :=  fm123 * AVector.fm3;
   result.fm13 := -fm123 * AVector.fm2;
   result.fm23 :=  fm123 * AVector.fm1;
 end;
 
-function TTrivectorHelper.Dot(const AVector: TBivector): TVector;
+function TCL3TrivectorHelper.Dot(const AVector: TCL3Bivector): TVector;
 begin
   result.fm1 := -fm123 * AVector.fm23;
   result.fm2 :=  fm123 * AVector.fm13;
   result.fm3 := -fm123 * AVector.fm12;
 end;
 
-function TTrivectorHelper.Dot(const AVector: TTrivector): double;
+function TCL3TrivectorHelper.Dot(const AVector: TCL3Trivector): double;
 begin
   result := -fm123 * AVector.fm123;
 end;
 
-function TTrivectorHelper.Dot(const AVector: TMultivector): TMultivector;
+function TCL3TrivectorHelper.Dot(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := -fm123 * AVector.fm123;
   result.fm1   := -fm123 * AVector.fm23;
@@ -2130,114 +2130,114 @@ begin
   result.fm123 :=  fm123 * AVector.fm0;
 end;
 
-function TTrivectorHelper.Wedge(const AVector: TVector): double;
+function TCL3TrivectorHelper.Wedge(const AVector: TVector): double;
 begin
   result := 0.0;
 end;
 
-function TTrivectorHelper.Wedge(const AVector: TBivector): double;
+function TCL3TrivectorHelper.Wedge(const AVector: TCL3Bivector): double;
 begin
   result := 0.0;
 end;
 
-function TTrivectorHelper.Wedge(const AVector: TTrivector): double;
+function TCL3TrivectorHelper.Wedge(const AVector: TCL3Trivector): double;
 begin
   result := 0.0;
 end;
 
-function TTrivectorHelper.Wedge(const AVector: TMultivector): TTrivector;
+function TCL3TrivectorHelper.Wedge(const AVector: TCL3Multivector): TCL3Trivector;
 begin
   result.fm123 := fm123 * AVector.fm0;
 end;
 
-function TTrivectorHelper.Projection(const AVector: TVector): TTrivector;
+function TCL3TrivectorHelper.Projection(const AVector: TVector): TCL3Trivector;
 begin
   result.fm123 := fm123 * AVector.Norm;
 end;
 
-function TTrivectorHelper.Projection(const AVector: TBivector): TTrivector;
+function TCL3TrivectorHelper.Projection(const AVector: TCL3Bivector): TCL3Trivector;
 begin
   result.fm123 := fm123 * AVector.Norm;
 end;
 
-function TTrivectorHelper.Projection(const AVector: TTrivector): TTrivector;
+function TCL3TrivectorHelper.Projection(const AVector: TCL3Trivector): TCL3Trivector;
 begin
   result.fm123 := fm123 * AVector.Norm;
 end;
 
-function TTrivectorHelper.Projection(const AVector: TMultivector): TTrivector;
+function TCL3TrivectorHelper.Projection(const AVector: TCL3Multivector): TCL3Trivector;
 begin
-  // inplicit ExtractTrivector
+  // inplicit ExtracTCL3Trivector
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TTrivectorHelper.Rejection(const AVector: TVector): double;
+function TCL3TrivectorHelper.Rejection(const AVector: TVector): double;
 begin
   result := 0.0;
 end;
 
-function TTrivectorHelper.Rejection(const AVector: TBivector): double;
+function TCL3TrivectorHelper.Rejection(const AVector: TCL3Bivector): double;
 begin
   result := 0.0;
 end;
 
-function TTrivectorHelper.Rejection(const AVector: TTrivector): double;
+function TCL3TrivectorHelper.Rejection(const AVector: TCL3Trivector): double;
 begin
   result := 0.0;
 end;
 
-function TTrivectorHelper.Rejection(const AVector: TMultivector): TMultivector;
+function TCL3TrivectorHelper.Rejection(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
 
-function TTrivectorHelper.Reflection(const AVector: TVector): TTrivector;
+function TCL3TrivectorHelper.Reflection(const AVector: TVector): TCL3Trivector;
 begin
-  // implicit ExtractTrivector
+  // implicit ExtracTCL3Trivector
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TTrivectorHelper.Reflection(const AVector: TBivector): TTrivector;
+function TCL3TrivectorHelper.Reflection(const AVector: TCL3Bivector): TCL3Trivector;
 begin
-  // implicit ExtractTrivector
+  // implicit ExtracTCL3Trivector
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TTrivectorHelper.Reflection(const AVector: TTrivector): TTrivector;
+function TCL3TrivectorHelper.Reflection(const AVector: TCL3Trivector): TCL3Trivector;
 begin
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TTrivectorHelper.Reflection(const AVector: TMultivector): TTrivector;
+function TCL3TrivectorHelper.Reflection(const AVector: TCL3Multivector): TCL3Trivector;
 begin
-  // implicit ExtractTrivector
+  // implicit ExtracTCL3Trivector
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TTrivectorHelper.Rotation(const AVector1, AVector2: TVector): TTrivector;
+function TCL3TrivectorHelper.Rotation(const AVector1, AVector2: TVector): TCL3Trivector;
 begin
-  // implicit ExtractTrivector
+  // implicit ExtracTCL3Trivector
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TTrivectorHelper.Rotation(const AVector1, AVector2: TBivector): TTrivector;
+function TCL3TrivectorHelper.Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Trivector;
 begin
-  // implicit ExtractTrivector
+  // implicit ExtracTCL3Trivector
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TTrivectorHelper.Rotation(const AVector1, AVector2: TTrivector): TTrivector;
+function TCL3TrivectorHelper.Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Trivector;
 begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TTrivectorHelper.Rotation(const AVector1, AVector2: TMultivector): TTrivector;
+function TCL3TrivectorHelper.Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Trivector;
 begin
-  // implicit ExtractTrivector
+  // implicit ExtracTCL3Trivector
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TTrivectorHelper.SameValue(const AValue: TMultivector): boolean;
+function TCL3TrivectorHelper.SameValue(const AValue: TCL3Multivector): boolean;
 begin
   result := Math.SameValue(0.0,   AValue.fm0  ) and
             Math.SameValue(0.0,   AValue.fm1  ) and
@@ -2249,12 +2249,12 @@ begin
             Math.SameValue(fm123, AValue.fm123);
 end;
 
-function TTrivectorHelper.SameValue(const AValue: TTrivector): boolean;
+function TCL3TrivectorHelper.SameValue(const AValue: TCL3Trivector): boolean;
 begin
   result := Math.SameValue(fm123, AValue.fm123);
 end;
 
-function TTrivectorHelper.ToString(APrecision, ADigits: longint): string;
+function TCL3TrivectorHelper.ToString(APrecision, ADigits: longint): string;
 begin
   if not Math.SameValue(fm123, 0.0) then
     result := Fmt(fm123, APrecision, ADigits) + 'e123'
@@ -2264,7 +2264,7 @@ begin
   result := '(' + result + ')';
 end;
 
-function TTrivectorHelper.ToString: string;
+function TCL3TrivectorHelper.ToString: string;
 begin
   if not Math.SameValue(fm123, 0.0) then
     result := Fmt(fm123) + 'e123'
@@ -2274,7 +2274,7 @@ begin
   result := '(' + result + ')';
 end;
 
-function TTrivectorHelper.ToMultivector: TMultivector;
+function TCL3TrivectorHelper.ToMultivector: TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := 0.0;
@@ -2286,57 +2286,57 @@ begin
   result.fm123 := fm123;
 end;
 
-// TBivectorHelper
+// TCL3BivectorHelper
 
-function TBivectorHelper.Dual: TVector;
+function TCL3BivectorHelper.Dual: TVector;
 begin
   result.fm1 := -fm23;
   result.fm2 :=  fm13;
   result.fm3 := -fm12;
 end;
 
-function TBivectorHelper.Inverse: TBivector;
+function TCL3BivectorHelper.Inverse: TCL3Bivector;
 begin
   result.fm12 := fm12;
   result.fm13 := fm13;
   result.fm23 := fm23;
 end;
 
-function TBivectorHelper.Conjugate: TBivector;
+function TCL3BivectorHelper.Conjugate: TCL3Bivector;
 begin
   result.fm12 := -fm12;
   result.fm13 := -fm13;
   result.fm23 := -fm23;
 end;
 
-function TBivectorHelper.Reverse: TBivector;
+function TCL3BivectorHelper.Reverse: TCL3Bivector;
 begin
   result.fm12 := -fm12;
   result.fm13 := -fm13;
   result.fm23 := -fm23;
 end;
 
-function TBivectorHelper.Reciprocal: TBivector;
+function TCL3BivectorHelper.Reciprocal: TCL3Bivector;
 begin
   result := Reverse / SquaredNorm;
 end;
 
-function TBivectorHelper.Normalized: TBivector;
+function TCL3BivectorHelper.Normalized: TCL3Bivector;
 begin
   result := Self / Norm;
 end;
 
-function TBivectorHelper.Norm: double;
+function TCL3BivectorHelper.Norm: double;
 begin
   result := sqrt(SquaredNorm);
 end;
 
-function TBivectorHelper.SquaredNorm: double;
+function TCL3BivectorHelper.SquaredNorm: double;
 begin
   result := fm12*fm12 + fm13*fm13 + fm23*fm23;
 end;
 
-function TBivectorHelper.Dot(const AVector: TVector): TVector;
+function TCL3BivectorHelper.Dot(const AVector: TVector): TVector;
 begin
   result.fm1 :=  fm12 * AVector.fm2
                 +fm13 * AVector.fm3;
@@ -2348,21 +2348,21 @@ begin
                 -fm23 * AVector.fm2;
 end;
 
-function TBivectorHelper.Dot(const AVector: TBivector): double;
+function TCL3BivectorHelper.Dot(const AVector: TCL3Bivector): double;
 begin
   result := -fm12 * AVector.fm12
             -fm13 * AVector.fm13
             -fm23 * AVector.fm23;
 end;
 
-function TBivectorHelper.Dot(const AVector: TTrivector): TVector;
+function TCL3BivectorHelper.Dot(const AVector: TCL3Trivector): TVector;
 begin
   result.fm1 := -fm23 * AVector.fm123;
   result.fm2 :=  fm13 * AVector.fm123;
   result.fm3 := -fm12 * AVector.fm123;
 end;
 
-function TBivectorHelper.Dot(const AVector: TMultivector): TMultivector;
+function TCL3BivectorHelper.Dot(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   := -fm12 * AVector.fm12
                   -fm13 * AVector.fm13
@@ -2386,24 +2386,24 @@ begin
   result.fm123 :=  0.0;
 end;
 
-function TBivectorHelper.Wedge(const AVector: TVector): TTrivector;
+function TCL3BivectorHelper.Wedge(const AVector: TVector): TCL3Trivector;
 begin
   result.fm123 :=  fm12 * AVector.fm3
                   -fm13 * AVector.fm2
                   +fm23 * AVector.fm1;
 end;
 
-function TBivectorHelper.Wedge(const AVector: TBivector): double;
+function TCL3BivectorHelper.Wedge(const AVector: TCL3Bivector): double;
 begin
   result := 0.0;
 end;
 
-function TBivectorHelper.Wedge(const AVector: TTrivector): double;
+function TCL3BivectorHelper.Wedge(const AVector: TCL3Trivector): double;
 begin
   result := 0.0;
 end;
 
-function TBivectorHelper.Wedge (const AVector: TMultivector): TMultivector;
+function TCL3BivectorHelper.Wedge (const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   :=  0.0;
@@ -2418,94 +2418,94 @@ begin
                   -fm13 * AVector.fm2;
 end;
 
-function TBivectorHelper.Projection(const AVector: TVector): TBivector;
+function TCL3BivectorHelper.Projection(const AVector: TVector): TCL3Bivector;
 begin
-  // implicit ExtractBivector
+  // implicit ExtracTCL3Bivector
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TBivectorHelper.Projection(const AVector: TBivector): TBivector;
-begin
-  result := Dot(AVector) * AVector.Reciprocal;
-end;
-
-function TBivectorHelper.Projection(const AVector: TTrivector): TBivector;
+function TCL3BivectorHelper.Projection(const AVector: TCL3Bivector): TCL3Bivector;
 begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TBivectorHelper.Projection(const AVector: TMultivector): TMultivector;
+function TCL3BivectorHelper.Projection(const AVector: TCL3Trivector): TCL3Bivector;
 begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TBivectorHelper.Rejection(const AVector: TVector): TBivector;
+function TCL3BivectorHelper.Projection(const AVector: TCL3Multivector): TCL3Multivector;
+begin
+  result := Dot(AVector) * AVector.Reciprocal;
+end;
+
+function TCL3BivectorHelper.Rejection(const AVector: TVector): TCL3Bivector;
 begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
 
-function TBivectorHelper.Rejection (const AVector: TBivector): double;
+function TCL3BivectorHelper.Rejection (const AVector: TCL3Bivector): double;
 begin
   result := 0.0;
 end;
 
-function TBivectorHelper.Rejection (const AVector: TTrivector): double;
+function TCL3BivectorHelper.Rejection (const AVector: TCL3Trivector): double;
 begin
   result := 0.0;
 end;
 
-function TBivectorHelper.Rejection (const AVector: TMultivector): TMultivector;
+function TCL3BivectorHelper.Rejection (const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
 
-function TBivectorHelper.Reflection(const AVector: TVector): TBivector;
+function TCL3BivectorHelper.Reflection(const AVector: TVector): TCL3Bivector;
 begin
-  // implicit ExtractBivector
+  // implicit ExtracTCL3Bivector
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TBivectorHelper.Reflection(const AVector: TBivector): TBivector;
+function TCL3BivectorHelper.Reflection(const AVector: TCL3Bivector): TCL3Bivector;
 begin
-  // implicit ExtractBivector
+  // implicit ExtracTCL3Bivector
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TBivectorHelper.Reflection(const AVector: TTrivector): TBivector;
+function TCL3BivectorHelper.Reflection(const AVector: TCL3Trivector): TCL3Bivector;
 begin
-  // implicit ExtractBivector
+  // implicit ExtracTCL3Bivector
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TBivectorHelper.Reflection(const AVector: TMultivector): TMultivector;
+function TCL3BivectorHelper.Reflection(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TBivectorHelper.Rotation(const AVector1, AVector2: TVector): TBivector;
+function TCL3BivectorHelper.Rotation(const AVector1, AVector2: TVector): TCL3Bivector;
 begin
-  // implicit ExtractBivector
+  // implicit ExtracTCL3Bivector
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TBivectorHelper.Rotation(const AVector1, AVector2: TBivector): TBivector;
+function TCL3BivectorHelper.Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Bivector;
 begin
-  // implicit ExtractBivector
+  // implicit ExtracTCL3Bivector
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TBivectorHelper.Rotation(const AVector1, AVector2: Ttrivector): TBivector;
+function TCL3BivectorHelper.Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Bivector;
 begin
-  // implicit ExtractBivector
+  // implicit ExtracTCL3Bivector
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TBivectorHelper.Rotation(const AVector1, AVector2: TMultivector): TMultivector;
+function TCL3BivectorHelper.Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector;
 begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TBivectorHelper.SameValue(const AValue: TMultivector): boolean;
+function TCL3BivectorHelper.SameValue(const AValue: TCL3Multivector): boolean;
 begin
   result := Math.SameValue(0.0,  AValue.fm0  ) and
             Math.SameValue(0.0,  AValue.fm1  ) and
@@ -2517,14 +2517,14 @@ begin
             Math.SameValue(0.0,  AValue.fm123);
 end;
 
-function TBivectorHelper.SameValue(const AValue: TBivector): boolean;
+function TCL3BivectorHelper.SameValue(const AValue: TCL3Bivector): boolean;
 begin
   result := Math.SameValue(fm12, AValue.fm12) and
             Math.SameValue(fm13, AValue.fm13) and
             Math.SameValue(fm23, AValue.fm23);
 end;
 
-function TBivectorHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivector;
+function TCL3BivectorHelper.ExtracTCL3Bivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
 begin
   Result := NullBivector;
   if mcm12 in AComponents then result.fm12 := fm12;
@@ -2532,7 +2532,7 @@ begin
   if mcm23 in AComponents then result.fm23 := fm23;
 end;
 
-function TBivectorHelper.ToString(APrecision, ADigits: longint): string;
+function TCL3BivectorHelper.ToString(APrecision, ADigits: longint): string;
 var
   i: longint;
 begin
@@ -2550,7 +2550,7 @@ begin
   result := '(' + result + ')';
 end;
 
-function TBivectorHelper.ToString: string;
+function TCL3BivectorHelper.ToString: string;
 var
   i: longint;
 begin
@@ -2568,7 +2568,7 @@ begin
   result := '(' + result + ')';
 end;
 
-function TBivectorHelper.ToMultivector: TMultivector;
+function TCL3BivectorHelper.ToMultivector: TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := 0.0;
@@ -2582,7 +2582,7 @@ end;
 
 // TVectorHelper
 
-function TVectorHelper.Dual: TBivector;
+function TVectorHelper.Dual: TCL3Bivector;
 begin
   result.fm12 :=  fm3;
   result.fm13 := -fm2;
@@ -2637,7 +2637,7 @@ begin
            +fm3 * AVector.fm3;
 end;
 
-function TVectorHelper.Dot(const AVector: TBivector): TVector;
+function TVectorHelper.Dot(const AVector: TCL3Bivector): TVector;
 begin
   result.fm1 := -fm3 * AVector.fm13
                 -fm2 * AVector.fm12;
@@ -2649,14 +2649,14 @@ begin
                 +fm1 * AVector.fm13;
 end;
 
-function TVectorHelper.Dot(const AVector: TTrivector): TBivector;
+function TVectorHelper.Dot(const AVector: TCL3Trivector): TCL3Bivector;
 begin
   result.fm12 :=  fm3 * AVector.fm123;
   result.fm13 := -fm2 * AVector.fm123;
   result.fm23 :=  fm1 * Avector.fm123;
 end;
 
-function TVectorHelper.Dot(const AVector: TMultivector): TMultivector;
+function TVectorHelper.Dot(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   :=  fm1 * AVector.fm1
                   +fm2 * AVector.fm2
@@ -2680,7 +2680,7 @@ begin
   result.fm123 :=  0.0;
 end;
 
-function TVectorHelper.Wedge(const AVector: TVector): TBivector;
+function TVectorHelper.Wedge(const AVector: TVector): TCL3Bivector;
 begin
   result.fm12 :=  fm1 * AVector.fm2
                  -fm2 * AVector.fm1;
@@ -2692,19 +2692,19 @@ begin
                  -fm3 * AVector.fm2;
 end;
 
-function TVectorHelper.Wedge(const AVector: TBivector): TTrivector;
+function TVectorHelper.Wedge(const AVector: TCL3Bivector): TCL3Trivector;
 begin
   result.fm123 :=  fm1 * AVector.fm23
                   -fm2 * AVector.fm13
                   +fm3 * AVector.fm12;
 end;
 
-function TVectorHelper.Wedge(const AVector: TTrivector): double;
+function TVectorHelper.Wedge(const AVector: TCL3Trivector): double;
 begin
   result := 0.0;
 end;
 
-function TVectorHelper.Wedge(const AVector: TMultivector): TMultivector;
+function TVectorHelper.Wedge(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result.fm0   :=  0.0;
   result.fm1   :=  fm1 * AVector.fm0;
@@ -2730,17 +2730,17 @@ begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TVectorHelper.Projection(const AVector: TBivector): TVector;
+function TVectorHelper.Projection(const AVector: TCL3Bivector): TVector;
 begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TVectorHelper.Projection(const AVector: TTrivector): TVector;
+function TVectorHelper.Projection(const AVector: TCL3Trivector): TVector;
 begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
 
-function TVectorHelper.Projection(const AVector: TMultivector): TMultivector;
+function TVectorHelper.Projection(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result := Dot(AVector) * AVector.Reciprocal;
 end;
@@ -2750,17 +2750,17 @@ begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
 
-function  TVectorHelper.Rejection(const AVector: TBivector): TVector;
+function  TVectorHelper.Rejection(const AVector: TCL3Bivector): TVector;
 begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
 
-function TVectorHelper.Rejection(const AVector: TTrivector): double;
+function TVectorHelper.Rejection(const AVector: TCL3Trivector): double;
 begin
   result := 0.0;
 end;
 
-function TVectorHelper.Rejection (const AVector: TMultivector): TMultivector;
+function TVectorHelper.Rejection (const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result := Wedge(AVector) * AVector.Reciprocal;
 end;
@@ -2770,17 +2770,17 @@ begin
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TVectorHelper.Reflection(const AVector: TBivector): TVector;
+function TVectorHelper.Reflection(const AVector: TCL3Bivector): TVector;
 begin
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TVectorHelper.Reflection(const AVector: TTrivector): TVector;
+function TVectorHelper.Reflection(const AVector: TCL3Trivector): TVector;
 begin
   result := AVector * Self * AVector.Reciprocal;
 end;
 
-function TVectorHelper.Reflection(const AVector: TMultivector): TMultivector;
+function TVectorHelper.Reflection(const AVector: TCL3Multivector): TCL3Multivector;
 begin
   result := AVector * Self * AVector.Reciprocal;
 end;
@@ -2790,17 +2790,17 @@ begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal * AVector2.Reciprocal;
 end;
 
-function TVectorHelper.Rotation(const AVector1, AVector2: TBivector): TVector;
+function TVectorHelper.Rotation(const AVector1, AVector2: TCL3Bivector): TVector;
 begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal  * AVector2.Reciprocal;
 end;
 
-function TVectorHelper.Rotation(const AVector1, AVector2: TTrivector): TVector;
+function TVectorHelper.Rotation(const AVector1, AVector2: TCL3Trivector): TVector;
 begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal  * AVector2.Reciprocal;
 end;
 
-function TVectorHelper.Rotation(const AVector1, AVector2: TMultivector): TMultivector;
+function TVectorHelper.Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector;
 begin
   result := AVector2 * AVector1 * Self * AVector1.Reciprocal  * AVector2.Reciprocal;
 end;
@@ -2817,7 +2817,7 @@ begin
                 -fm2*AVector.fm1;
 end;
 
-function TVectorHelper.SameValue(const AValue: TMultivector): boolean;
+function TVectorHelper.SameValue(const AValue: TCL3Multivector): boolean;
 begin
   result := Math.SameValue(0.0, AValue.fm0  ) and
             Math.SameValue(fm1, AValue.fm1  ) and
@@ -2836,7 +2836,7 @@ begin
             Math.SameValue(fm3, AValue.fm3);
 end;
 
-function TVectorHelper.ExtractVector(AComponents: TMultivectorComponents): TVector;
+function TVectorHelper.ExtractVector(AComponents: TCL3MultivectorComponents): TVector;
 begin
   Result := NullVector;
   if mcm1 in AComponents then result.fm1 := fm1;
@@ -2881,7 +2881,7 @@ begin
   result := '(' + result + ')';
 end;
 
-function TVectorHelper.ToMultivector: TMultivector;
+function TVectorHelper.ToMultivector: TCL3Multivector;
 begin
   result.fm0   := 0.0;
   result.fm1   := fm1;
@@ -2893,55 +2893,55 @@ begin
   result.fm123 := 0.0;
 end;
 
-// TVersors
+// TCL3Versors
 
-class operator TVersor1.*(const AValue: double; const ASelf: TVersor1): TVector;
+class operator TCL3Versor1.*(const AValue: double; const ASelf: TCL3Versor1): TVector;
 begin
   result.fm1 := AValue;
   result.fm2 := 0.0;
   result.fm3 := 0.0;
 end;
 
-class operator TVersor2.*(const AValue: double; const ASelf: TVersor2): TVector;
+class operator TCL3Versor2.*(const AValue: double; const ASelf: TCL3Versor2): TVector;
 begin
   result.fm1 := 0.0;
   result.fm2 := AValue;
   result.fm3 := 0.0;
 end;
 
-class operator TVersor3.*(const AValue: double; const ASelf: TVersor3): TVector;
+class operator TCL3Versor3.*(const AValue: double; const ASelf: TCL3Versor3): TVector;
 begin
   result.fm1 := 0.0;
   result.fm2 := 0.0;
   result.fm3 := AValue;
 end;
 
-// TBiversors
+// TCL3Biversors
 
-class operator TBiversor12.*(const AValue: double; const ASelf: TBiversor12): TBivector;
+class operator TCL3Biversor12.*(const AValue: double; const ASelf: TCL3Biversor12): TCL3Bivector;
 begin
   result.fm12 := AValue;
   result.fm13 := 0.0;
   result.fm23 := 0.0;
 end;
 
-class operator TBiversor13.*(const AValue: double; const ASelf: TBiversor13): TBivector;
+class operator TCL3Biversor13.*(const AValue: double; const ASelf: TCL3Biversor13): TCL3Bivector;
 begin
   result.fm12 := 0.0;
   result.fm13 := AValue;
   result.fm23 := 0.0;
 end;
 
-class operator TBiversor23.*(const AValue: double; const ASelf: TBiversor23): TBivector;
+class operator TCL3Biversor23.*(const AValue: double; const ASelf: TCL3Biversor23): TCL3Bivector;
 begin
   result.fm12 := 0.0;
   result.fm13 := 0.0;
   result.fm23 := AValue;
 end;
 
-// TTriversor
+// TCL3Triversor
 
-class operator TTriversor123.*(const AValue: double; const ASelf: TTriversor123): TTrivector;
+class operator TCL3Triversor123.*(const AValue: double; const ASelf: TCL3Triversor123): TCL3Trivector;
 begin
   result.fm123 := AValue;
 end;
