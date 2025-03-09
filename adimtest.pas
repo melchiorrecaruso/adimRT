@@ -20,7 +20,7 @@
 program adimtest;
 
 uses
-  ADim, Math, SysUtils, Unit1;
+  ADim, ADimR3, ADimC3, ADimCL3, Math, SysUtils;
 
 var
   side1: TQuantity;
@@ -179,58 +179,60 @@ var
   U0: TQuantity;
   TunnelingProbability: TQuantity;
 
-  {$IFDEF CLIFFORD}
-  side1_: TVecQuantity;
-  side2_: TVecQuantity;
-  area_: TBivecQuantity;
-  displacement_: TVecQuantity;
-  speed_: TVecQuantity;
-  acc_: TVecQuantity;
-  momentum_: TVecQuantity;
+  side1_: TCL3VecQuantity;
+  side2_: TCL3VecQuantity;
+  area_: TCL3BivecQuantity;
+  displacement_: TCL3VecQuantity;
+  speed_: TCL3VecQuantity;
+  acc_: TCL3VecQuantity;
+  momentum_: TCL3VecQuantity;
 
-  angle_: TBivecQuantity;
-  angularspeed_: TBivecQuantity;
-  angularacc_: TBivecQuantity;
-  radius_: TVecQuantity;
-  angularmomentum_: TBivecQuantity;
-  force_: TVecQuantity;
-  torque_: TBivecQuantity;
+  angle_: TCL3BivecQuantity;
+  angularspeed_: TCL3BivecQuantity;
+  angularacc_: TCL3BivecQuantity;
+  radius_: TCL3VecQuantity;
+  angularmomentum_: TCL3BivecQuantity;
+  force_: TCL3VecQuantity;
+  torque_: TCL3BivecQuantity;
 
-  magneticfield_: TBivecQuantity;
-  magneticflux_: TTrivecQuantity;
-  current_: TMultivecQuantity;
-  pressure_: TTrivecQuantity;
+  magneticfield_: TCL3BivecQuantity;
+  magneticflux_: TCL3TrivecQuantity;
+  current_: TCL3MultivecQuantity;
+  pressure_: TCL3TrivecQuantity;
 
-  torquestifness_: TBivecQuantity;
-  electricfield_: TVecQuantity;
-  omega_: TBivecQuantity;
-  impedance_: TMultivecQuantity;
-  power_: TMultivecQuantity;
-  {$ELSE}
-  acc_ : TVecQuantity;
-  radius_: TVecQuantity;
-  force_ : TVecQuantity;
-  momentum_: TVecQuantity;
-  angle_: TVecQuantity;
-  angularspeed_: TVecQuantity;
-  angularacc_: TVecQuantity;
-  angularmomentum_: TVecQuantity;
-  torque_: TVecQuantity;
-  magneticfield_: TVecQuantity;
-  area_: TVecQuantity;
-  omega_ : TVecQuantity;
-  potential_ : TComplexQuantity;
-  impedance_ : TComplexQuantity;
-  current_ : TComplexQuantity;
-  power_ : TComplexQuantity;
-  {$ENDIF}
+  torquestifness_: TCL3BivecQuantity;
+  electricfield_: TCL3VecQuantity;
+  omega_: TCL3BivecQuantity;
+  impedance_: TCL3MultivecQuantity;
+  power_: TCL3MultivecQuantity;
 
+  acc__: TR3VecQuantity;
+  radius__: TR3VecQuantity;
+  force__: TR3VecQuantity;
+  momentum__: TR3VecQuantity;
+  angle__: TR3VecQuantity;
+  angularspeed__: TR3VecQuantity;
+  angularacc__: TR3VecQuantity;
+  angularmomentum__: TR3VecQuantity;
+  torque__: TR3VecQuantity;
+  magneticfield__: TR3VecQuantity;
+  area__: TR3VecQuantity;
+  omega__: TR3VecQuantity;
+  potential__: TComplexQuantity;
+  impedance__: TComplexQuantity;
+  current__: TComplexQuantity;
+  power__: TComplexQuantity;
 
   t1, t2, State: TC2Ket;
 
   H2: TC2Matrix;
   StateL : TC2Ket;
   StateR : TC2Ket;
+
+const
+  x1 : TR3Versor1 = ();
+  x2 : TR3Versor2 = ();
+  x3 : TR3Versor3 = ();
 
 begin
   ExitCode := 0;
@@ -1107,7 +1109,7 @@ begin
   {$ENDIF}
   writeln('* TEST-108: PASSED');
 
-  {$IFDEF CLIFFORD}
+  // CL3 vector space, Clifford algebra
   // TEST-501 : Surface
   side1_ := 5*e1*m;
   side2_ := 10*e2*m;
@@ -1256,62 +1258,63 @@ begin
   if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
   if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-515: PASSED');
-  {$ELSE}
+
+  // R3 VECTOR SPACE
   // TEST-601: Angular speed
-  angle_ := (10*e3)*rad;
+  angle__ := (10*x3)*rad;
   time   := 2.5*s;
-  angularspeed_ := angle_/time;
-  time := angle_.dot(1/angularspeed_);
-  freq := angularspeed_.dot(1/angle_);
+  angularspeed__ := angle__/time;
+  time := angle__.dot(1/angularspeed__);
+  freq := angularspeed__.dot(1/angle__);
   if SecondUnit.ToVerboseString(time) <> '2.5 seconds'             then halt(1);
-  if RadianPerSecondUnit.ToString(angularspeed_) <> '(+4e3) rad/s' then halt(2);
+  if RadianPerSecondUnit.ToString(angularspeed__) <> '(+4e3) rad/s' then halt(2);
   writeln('* TEST-601: PASSED');
 
   // TEST-602: Angular acceleration
-  angularspeed_ := 5*e3*rad/s;
-  angularacc_   := angularspeed_/(2*s);
-  if RadianPerSquareSecondUnit.ToString(angularacc_) <> '(+2.5e3) rad/s²' then halt(1);
+  angularspeed__ := 5*x3*rad/s;
+  angularacc__   := angularspeed__/(2*s);
+  if RadianPerSquareSecondUnit.ToString(angularacc__) <> '(+2.5e3) rad/s²' then halt(1);
   writeln('* TEST-602: PASSED');
 
   // TEST-603: Angular momentum
-  radius_          := 2*e1*m;
-  momentum_        := 5*e2*kg*m/s;
-  angularmomentum_ := radius_.cross(momentum_);
-  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum_) <> '(+10e3) kg∙m²/s' then halt(1);
+  radius__          := 2*x1*m;
+  momentum__        := 5*x2*kg*m/s;
+  angularmomentum__ := radius__.cross(momentum__);
+  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum__) <> '(+10e3) kg∙m²/s' then halt(1);
   writeln('* TEST-603: PASSED');
 
   // TEST-604: Force
-  mass   := 10*kg;
-  acc_   := (2*e1 + 2*e2)*m/s2;
-  force_ := mass*acc_;
-  if NewtonUnit.ToString(force_) <> '(+20e1 +20e2) N' then halt(1);
+  mass    := 10*kg;
+  acc__   := (2*x1 + 2*x2)*m/s2;
+  force__ := mass*acc__;
+  if NewtonUnit.ToString(force__) <> '(+20e1 +20e2) N' then halt(1);
 
-  momentum_ := 10*e1*kg*m/s;
-  time      := 10*s;
-  force_    := momentum_/time;
-  if NewtonUnit.ToString(force_) <> '(+1e1) N' then halt(2);
+  momentum__ := 10*x1*kg*m/s;
+  time       := 10*s;
+  force__    := momentum__/time;
+  if NewtonUnit.ToString(force__) <> '(+1e1) N' then halt(2);
   writeln('* TEST-604: PASSED');
 
   // TEST-605: Torque
-  radius_ :=  2*e1*m;
-  force_  := 10*e2*N;
-  torque_ := radius_.cross(force_);
-  radius_ := (1/force_).cross(torque_);
-  force_  := (1/radius_).cross(torque_);
-  if NewtonMeterUnit.ToString(torque_) <> '(+20e3) N∙m' then halt(1);
-  if MeterUnit.ToString(radius_) <> '(+2e1) m'           then halt(2);
-  if NewtonUnit.ToString(force_) <> '(+10e2) N'          then halt(3);
+  radius__ :=  2*x1*m;
+  force__  := 10*x2*N;
+  torque__ := radius__.cross(force__);
+  radius__ := (1/force__).cross(torque__);
+  force__  := (1/radius__).cross(torque__);
+  if NewtonMeterUnit.ToString(torque__) <> '(+20e3) N∙m' then halt(1);
+  if MeterUnit.ToString(radius__) <> '(+2e1) m'           then halt(2);
+  if NewtonUnit.ToString(force__) <> '(+10e2) N'          then halt(3);
   writeln('* TEST-605: PASSED');
 
   // TEST-606: Weber
-  magneticfield_ := (10*e1)*T;
-  area_          := (5*e1)*m2;
-  magneticflux   := magneticfield_.dot(area_);
-  magneticfield_ := magneticflux/area_;
-  area_          := magneticflux/magneticfield_;
+  magneticfield__ := (10*x1)*T;
+  area__          := (5*x1)*m2;
+  magneticflux    := magneticfield__.dot(area__);
+  magneticfield__ := magneticflux/area__;
+  area__          := magneticflux/magneticfield__;
   if WeberUnit.ToString(magneticflux)   <> '50 Wb'     then halt(1);
-  if TeslaUnit.ToString(magneticfield_) <> '(+10e1) T' then halt(2);
-  if SquareMeterUnit.ToString(area_)    <> '(+5e1) m²' then halt(3);
+  if TeslaUnit.ToString(magneticfield__) <> '(+10e1) T' then halt(2);
+  if SquareMeterUnit.ToString(area__)    <> '(+5e1) m²' then halt(3);
   writeln('* TEST-606: PASSED');
 
   // TEST-607: Henry
@@ -1322,61 +1325,30 @@ begin
   writeln('* TEST-607: PASSED');
 
   // TEST-608: Voltages
-  time        := 0*s;
-  omega       := 1*rad/s;
-  potential_  := 50*(cos(omega*time) - img*sin(omega*time))*V;
-  resistance  := 2*Ohm;
-  capacitance := 1*F;
-  inductance  := 2*H;
+  time         := 0*s;
+  omega        := 1*rad/s;
+  potential__  := 50*(cos(omega*time) - img*sin(omega*time))*V;
+  resistance   := 2*Ohm;
+  capacitance  := 1*F;
+  inductance   := 2*H;
 
-  impedance_  := resistance + 1/(img*omega*capacitance) + img*omega*inductance;
-  current_    := potential_/impedance_;
-  power_      := current_*potential_;
+  impedance__  := resistance + 1/(img*omega*capacitance) + img*omega*inductance;
+  current__    := potential__/impedance__;
+  power__      := current__*potential__;
 
   {$IFDEF WINDOWS}
-  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance_)])) <> Utf8ToAnsi('Z = (2 +1∙i) Ω') then halt(1);
+  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance__)])) <> Utf8ToAnsi('Z = (2 +1∙i) Ω') then halt(1);
   {$ELSE}
-  if            Format('Z = %s', [ohm.ToString(impedance_)]) <> 'Z = (2 +1∙i) Ω'              then halt(1);
+  if            Format('Z = %s', [ohm.ToString(impedance__)]) <> 'Z = (2 +1∙i) Ω'              then halt(1);
   {$ENDIF}
-  if            Format('I = %s', [A.ToString(current_)]) <> 'I = (20 -10∙i) A'                then halt(2);
-  if            Format('P = %s', [W.ToString(power_)]) <> 'P = (1000 -500∙i) W'               then halt(3);
-  if            Format('Y = %s', [siemens.ToString(1/impedance_)]) <> 'Y = (0.4 -0.2∙i) S'    then halt(4);
+  if            Format('I = %s', [A.ToString(current__)]) <> 'I = (20 -10∙i) A'                then halt(2);
+  if            Format('P = %s', [W.ToString(power__)]) <> 'P = (1000 -500∙i) W'               then halt(3);
+  if            Format('Y = %s', [siemens.ToString(1/impedance__)]) <> 'Y = (0.4 -0.2∙i) S'    then halt(4);
 
-  if V.ToString(potential_.Norm) <> '50 V'             then halt(5);
-  if A.ToString(current_.Norm) <> '22.3606797749979 A' then halt(6);
-  if W.ToString(power_.Norm) <> '1118.03398874989 W'   then halt(7);
+  if V.ToString(potential__.Norm) <> '50 V'             then halt(5);
+  if A.ToString(current__.Norm) <> '22.3606797749979 A' then halt(6);
+  if W.ToString(power__.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-608: PASSED');
-  {$ENDIF}
-
-
-
-  t1 := Ket(1, 0);
-  t2 := Ket(0, 1);
-
-  State  := 2/Sqrt(5)*t1 + 1/Sqrt(5)*t2;
-  Writeln('State 1 probability: ', (SquarePower(t1.TransposeDual*State)).ToString);
-  Writeln('State 2 probability: ', (SquarePower(t2.TransposeDual*State)).ToString);
-
-  StateL := Ket(1,0);
-  StateR := Ket(0,1);
-
-  E0 := 5*J;
-  A0 := 1*J;
-
-  //H2 := E0*Matrix(1,0,0,1) + A0*Matrix(0,1,1,0);
-
-  //StateL.TransposeDual*H2*StateL = E0;
-  //StateR.TransposeDual*H2*StateR = E0;
-
-  //StateL.TransposeDual*H2*StateR = -A0;
-  //StateR.TransposeDual*H2*StateL = -A0;
-
-
-  writeln((C2Matrix(3, img,2*img,7+img)*Ket(4,img)).ToString);
-  writeln((C2Matrix(3, img,2*img,7+img)*Ket(4,img)).TransposeDual.ToString);
-  writeln((Ket(4,img).TransposeDual*C2Matrix(3, img,2*img,7+img).TransposeDual).ToString);
-
-
 
   writeln;
   writeln('ADIM-TEST DONE.');
