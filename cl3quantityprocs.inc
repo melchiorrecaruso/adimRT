@@ -1,1737 +1,1737 @@
 { CL3 quantity implementation }
 
-// TMultivecQuantity
+// TCL3MultivecQuantity
 
 {$IFNDEF ADIMOFF}
-class operator TMultivecQuantity.:=(const AValue: TQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.:=(const AValue: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
-class operator TMultivecQuantity.<>(const ALeft, ARight: TMultivecQuantity): boolean;
+class operator TCL3MultivecQuantity.<>(const ALeft, ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TMultivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TQuantity): boolean;
+class operator TCL3MultivecQuantity.<>(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TMultivecQuantity.<>(const ALeft: TQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3MultivecQuantity.<>(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TMultivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TQuantity): boolean;
+class operator TCL3MultivecQuantity.=(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TMultivecQuantity.=(const ALeft: TQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3MultivecQuantity.=(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TMultivecQuantity.=(const ALeft, ARight: TMultivecQuantity): boolean;
+class operator TCL3MultivecQuantity.=(const ALeft, ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TMultivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.+(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TMultivecQuantity.+(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TMultivecQuantity.+(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.+(const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TMultivecQuantity.-(const ASelf: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.-(const ASelf: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
-class operator TMultivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.-(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TMultivecQuantity.-(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TMultivecQuantity.-(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.-(const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TMultivecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.*(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TMultivecQuantity.*(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TMultivecQuantity.*(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity.*(const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TMultivecQuantity./(const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TMultivecQuantity./(const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity./(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TMultivecQuantity./(const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3MultivecQuantity./(const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 {$ENDIF}
 
-// TTrivecQuantity
+// TCL3TrivecQuantity
 
 {$IFNDEF ADIMOFF}
 
-class operator TTrivecQuantity.:=(const AValue: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.:=(const AValue: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
-class operator TTrivecQuantity.<>(const ALeft, ARight: TTrivecQuantity): boolean;
+class operator TCL3TrivecQuantity.<>(const ALeft, ARight: TCL3TrivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TTrivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
+class operator TCL3TrivecQuantity.<>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TTrivecQuantity.<>(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3TrivecQuantity.<>(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TTrivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
+class operator TCL3TrivecQuantity.=(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TTrivecQuantity.=(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3TrivecQuantity.=(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TTrivecQuantity.=(const ALeft, ARight: TTrivecQuantity): boolean;
+class operator TCL3TrivecQuantity.=(const ALeft, ARight: TCL3TrivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ASelf: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.-(const ASelf: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft: TQuantity; const ARight: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft, ARight: TTrivecQuantity): TQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TTrivecQuantity./(const ALeft, ARight: TTrivecQuantity): TQuantity;
+class operator TCL3TrivecQuantity./(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TTrivecQuantity./(const ALeft: TTrivecQuantity; const ARight: TQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TTrivecQuantity./(const ALeft: TQuantity; const ARight: TTrivecQuantity): TTrivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TTrivecQuantity./(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TTrivecQuantity./(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 {$ENDIF}
 
-// TBivecQuantity
+// TCL3BivecQuantity
 
 {$IFNDEF ADIMOFF}
-class operator TBivecQuantity.:=(const AValue: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.:=(const AValue: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
-class operator TBivecQuantity.<>(const ALeft, ARight: TBivecQuantity): boolean;
+class operator TCL3BivecQuantity.<>(const ALeft, ARight: TCL3BivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TBivecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): boolean;
+class operator TCL3BivecQuantity.<>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TBivecQuantity.<>(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3BivecQuantity.<>(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TBivecQuantity.=(const ALeft, ARight: TBivecQuantity): boolean;
+class operator TCL3BivecQuantity.=(const ALeft, ARight: TCL3BivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TBivecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): boolean;
+class operator TCL3BivecQuantity.=(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TBivecQuantity.=(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3BivecQuantity.=(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TBivecQuantity.+(const ALeft, ARight: TBivecQuantity): TBivecQuantity;
+class operator TCL3BivecQuantity.+(const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.+(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TBivecQuantity.+(const ALeft: TQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.+(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TBivecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TBivecQuantity.+(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.+(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TBivecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.+(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TBivecQuantity.-(const ASelf: TBivecQuantity): TBivecQuantity;
+class operator TCL3BivecQuantity.-(const ASelf: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
-class operator TBivecQuantity.-(const ALeft, ARight: TBivecQuantity): TBivecQuantity;
+class operator TCL3BivecQuantity.-(const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.-(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TBivecQuantity.-(const ALeft: TQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.-(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TBivecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TBivecQuantity.-(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.-(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TBivecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.-(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TBivecQuantity.*(const ALeft: TQuantity; const ARight: TBivecQuantity): TBivecQuantity;
+class operator TCL3BivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TBivecQuantity.*(const ALeft: TBivecQuantity; const ARight: TQuantity): TBivecQuantity;
+class operator TCL3BivecQuantity.*(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TBivecQuantity.*(const ALeft, ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.*(const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TBivecQuantity.*(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.*(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TBivecQuantity.*(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.*(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TBivecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TBivecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity.*(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TBivecQuantity./(const ALeft, ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TBivecQuantity./(const ALeft: TBivecQuantity; const ARight: TQuantity): TBivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TBivecQuantity./(const ALeft: TQuantity; const ARight: TBivecQuantity): TBivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TBivecQuantity./(const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TBivecQuantity./(const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TBivecQuantity./(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TBivecQuantity./(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 {$ENDIF}
 
-// TVecQuantity
+// TCL3VecQuantity
 
 {$IFNDEF ADIMOFF}
-class operator TVecQuantity.:=(const AValue: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.:=(const AValue: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
-class operator TVecQuantity.<>(const ALeft, ARight: TVecQuantity): boolean;
+class operator TCL3VecQuantity.<>(const ALeft, ARight: TCL3VecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TVecQuantity.<>(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): boolean;
+class operator TCL3VecQuantity.<>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TVecQuantity.<>(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3VecQuantity.<>(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TVecQuantity.=(const ALeft, ARight: TVecQuantity): boolean;
+class operator TCL3VecQuantity.=(const ALeft, ARight: TCL3VecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TVecQuantity.=(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): boolean;
+class operator TCL3VecQuantity.=(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TVecQuantity.=(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): boolean;
+class operator TCL3VecQuantity.=(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft, ARight: TVecQuantity): TVecQuantity;
+class operator TCL3VecQuantity.+(const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.+(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ASelf: TVecQuantity): TVecQuantity;
+class operator TCL3VecQuantity.-(const ASelf: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := ASelf.FID;
   result.FValue := -ASelf.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft, ARight: TVecQuantity): TVecQuantity;
+class operator TCL3VecQuantity.-(const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.-(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft, ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.*(const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TBivecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity.*(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TVecQuantity./(const ALeft, ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity./(const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TVecQuantity./ (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
+class operator TCL3VecQuantity./ (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TVecQuantity./(const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TVecQuantity./(const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TVecQuantity./(const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TVecQuantity./(const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TBivecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TVecQuantity./(const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TVecQuantity./(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TVecQuantity./(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 {$ENDIF}
 
-// TMultivecQuantityHelper
+// TCL3MultivecQuantityHelper
 
 {$IFNDEF ADIMOFF}
-function TMultivecQuantityHelper.Dual: TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Dual: TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Dual;
 end;
 
-function TMultivecQuantityHelper.Inverse: TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Inverse: TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Inverse;
 end;
 
-function TMultivecQuantityHelper.Reverse: TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Reverse: TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reverse;
 end;
 
-function TMultivecQuantityHelper.Conjugate: TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Conjugate: TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Conjugate;
 end;
 
-function TMultivecQuantityHelper.Reciprocal: TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Reciprocal: TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ScalarId, FID);
   result.FValue := FValue.Reciprocal;
 end;
 
-function TMultivecQuantityHelper.LeftReciprocal: TMultivecQuantity;
+function TCL3MultivecQuantityHelper.LeftReciprocal: TCL3MultivecQuantity;
 begin
   result.FID := CheckDiv(ScalarId, FID);
   result.FValue := FValue.LeftReciprocal;
 end;
 
-function TMultivecQuantityHelper.Normalized: TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Normalized: TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Normalized;
 end;
 
-function TMultivecQuantityHelper.Norm: TQuantity;
+function TCL3MultivecQuantityHelper.Norm: TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Norm;
 end;
 
-function TMultivecQuantityHelper.SquaredNorm: TQuantity;
+function TCL3MultivecQuantityHelper.SquaredNorm: TQuantity;
 begin
   result.FID := CheckMul(FID, FID);
   result.FValue := FValue.SquaredNorm;
 end;
 
-function TMultivecQuantityHelper.Dot(const AVector: TVecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Dot(const AVector: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Dot(const AVector: TBivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Dot(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Dot(const AVector: TTrivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Wedge(const AVector: TVecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Wedge(const AVector: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Wedge(const AVector: TBivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Wedge(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TTrivecQuantity;
+function TCL3MultivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Wedge(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Projection(const AVector: TVecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Projection(const AVector: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Projection(const AVector: TBivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Projection(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Projection(const AVector: TTrivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Projection(const AVector: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Projection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Projection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Rejection(const AVector: TVecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Rejection(const AVector: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Rejection(const AVector: TBivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Rejection(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
+function TCL3MultivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Reflection(const AVector: TVecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Reflection(const AVector: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Reflection(const AVector: TBivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Reflection(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Reflection(const AVector: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Reflection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TMultivecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TMultivecQuantityHelper.SameValue(const AVector: TMultivecQuantity): boolean;
+function TCL3MultivecQuantityHelper.SameValue(const AVector: TCL3MultivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.SameValue(const AVector: TTrivecQuantity): boolean;
+function TCL3MultivecQuantityHelper.SameValue(const AVector: TCL3TrivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.SameValue(const AVector: TBivecQuantity): boolean;
+function TCL3MultivecQuantityHelper.SameValue(const AVector: TCL3BivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.SameValue(const AVector: TVecQuantity): boolean;
+function TCL3MultivecQuantityHelper.SameValue(const AVector: TCL3VecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.SameValue(const AVector: TQuantity): boolean;
+function TCL3MultivecQuantityHelper.SameValue(const AVector: TQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TMultivecQuantityHelper.ExtractMultivector(AComponents: TMultivectorComponents): TMultivecQuantity;
+function TCL3MultivecQuantityHelper.ExtractMultivector(AComponents: TCL3MultivectorComponents): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractMultivector(AComponents);
 end;
 
-function TMultivecQuantityHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivecQuantity;
+function TCL3MultivecQuantityHelper.ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractBivector(AComponents);
 end;
 
-function TMultivecQuantityHelper.ExtractVector(AComponents: TMultivectorComponents): TVecQuantity;
+function TCL3MultivecQuantityHelper.ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractVector(AComponents);
 end;
 
-function TMultivecQuantityHelper.ExtractTrivector: TTrivecQuantity;
+function TCL3MultivecQuantityHelper.ExtractTrivector: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractTrivector;
 end;
 
-function TMultivecQuantityHelper.ExtractBivector: TBivecQuantity;
+function TCL3MultivecQuantityHelper.ExtractBivector: TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractBivector;
 end;
 
-function TMultivecQuantityHelper.ExtractVector: TVecQuantity;
+function TCL3MultivecQuantityHelper.ExtractVector: TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractVector;
 end;
 
-function TMultivecQuantityHelper.ExtractScalar: TQuantity;
+function TCL3MultivecQuantityHelper.ExtractScalar: TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractScalar;
 end;
 
-function TMultivecQuantityHelper.IsNull: boolean;
+function TCL3MultivecQuantityHelper.IsNull: boolean;
 begin
-  result := FValue.SameValue(NullMultivector);
+  result := FValue.SameValue(CL3NullMultivector);
 end;
 
-function TMultivecQuantityHelper.IsScalar: boolean;
+function TCL3MultivecQuantityHelper.IsScalar: boolean;
 begin
   result := FValue.IsScalar;
 end;
 
-function TMultivecQuantityHelper.IsVector: boolean;
+function TCL3MultivecQuantityHelper.IsVector: boolean;
 begin
   result := FValue.IsVector;
 end;
 
-function TMultivecQuantityHelper.IsBiVector: boolean;
+function TCL3MultivecQuantityHelper.IsBiVector: boolean;
 begin
   result := FValue.IsBiVector;
 end;
 
-function TMultivecQuantityHelper.IsTrivector: boolean;
+function TCL3MultivecQuantityHelper.IsTrivector: boolean;
 begin
   result := FValue.IsTrivector;
 end;
 
-function TMultivecQuantityHelper.IsA: string;
+function TCL3MultivecQuantityHelper.IsA: string;
 begin
   result := FValue.IsA;
 end;
 {$ENDIF}
 
-// TTrivecQuantityHelper
+// TCL3TrivecQuantityHelper
 
 {$IFNDEF ADIMOFF}
-function TTrivecQuantityHelper.Dual: TQuantity;
+function TCL3TrivecQuantityHelper.Dual: TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Dual;
 end;
 
-function TTrivecQuantityHelper.Inverse: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Inverse: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Inverse;
 end;
 
-function TTrivecQuantityHelper.Reverse: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reverse: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reverse;
 end;
 
-function TTrivecQuantityHelper.Conjugate: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Conjugate: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Conjugate;
 end;
 
-function TTrivecQuantityHelper.Reciprocal: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reciprocal: TCL3TrivecQuantity;
 begin
   result.FID := CheckDiv(ScalarId, FID);
   result.FValue := FValue.Reciprocal;
 end;
 
-function TTrivecQuantityHelper.Normalized: TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Normalized: TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Normalized;
 end;
 
-function TTrivecQuantityHelper.Norm: TQuantity;
+function TCL3TrivecQuantityHelper.Norm: TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Norm;
 end;
 
-function TTrivecQuantityHelper.SquaredNorm: TQuantity;
+function TCL3TrivecQuantityHelper.SquaredNorm: TQuantity;
 begin
   result.FID := CheckMul(FID, FID);
   result.FValue := FValue.SquaredNorm;
 end;
 
-function TTrivecQuantityHelper.Dot(const AVector: TVecQuantity): TBivecQuantity;
+function TCL3TrivecQuantityHelper.Dot(const AVector: TCL3VecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Dot(const AVector: TBivecQuantity): TVecQuantity;
+function TCL3TrivecQuantityHelper.Dot(const AVector: TCL3BivecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Dot(const AVector: TTrivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3TrivecQuantityHelper.Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Wedge(const AVector: TVecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3VecQuantity): TQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Wedge(const AVector: TBivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3BivecQuantity): TQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3MultivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Projection(const AVector: TVecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Projection(const AVector: TCL3VecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Projection(const AVector: TBivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Projection(const AVector: TCL3BivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Projection(const AVector: TTrivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Projection(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Projection(const AVector: TMultivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Projection(const AVector: TCL3MultivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Rejection(const AVector: TVecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3VecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Rejection(const AVector: TBivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3BivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
 end;
 
-function TTrivecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Reflection(const AVector: TVecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reflection(const AVector: TCL3VecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Reflection(const AVector: TBivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reflection(const AVector: TCL3BivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reflection(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Reflection(const AVector: TCL3MultivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TTrivecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TTrivecQuantity;
+function TCL3TrivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TTrivecQuantityHelper.SameValue(const AVector: TMultivecQuantity): boolean;
+function TCL3TrivecQuantityHelper.SameValue(const AVector: TCL3MultivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.SameValue(const AVector: TTrivecQuantity): boolean;
+function TCL3TrivecQuantityHelper.SameValue(const AVector: TCL3TrivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TTrivecQuantityHelper.ToMultivector: TMultivecQuantity;
+function TCL3TrivecQuantityHelper.ToMultivector: TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ToMultivector;
 end;
 {$ENDIF}
 
-// TBivecQuantityHelper
+// TCL3BivecQuantityHelper
 
 {$IFNDEF ADIMOFF}
-function TBivecQuantityHelper.Dual: TVecQuantity;
+function TCL3BivecQuantityHelper.Dual: TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Dual;
 end;
 
-function TBivecQuantityHelper.Inverse: TBivecQuantity;
+function TCL3BivecQuantityHelper.Inverse: TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Inverse;
 end;
 
-function TBivecQuantityHelper.Conjugate: TBivecQuantity;
+function TCL3BivecQuantityHelper.Conjugate: TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Conjugate;
 end;
 
-function TBivecQuantityHelper.Reverse: TBivecQuantity;
+function TCL3BivecQuantityHelper.Reverse: TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reverse;
 end;
 
-function TBivecQuantityHelper.Reciprocal: TBivecQuantity;
+function TCL3BivecQuantityHelper.Reciprocal: TCL3BivecQuantity;
 begin
   result.FID := CheckDiv(ScalarId, FID);
   result.FValue := FValue.Reciprocal;
 end;
 
-function TBivecQuantityHelper.Normalized: TBivecQuantity;
+function TCL3BivecQuantityHelper.Normalized: TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Normalized;
 end;
 
-function TBivecQuantityHelper.Norm: TQuantity;
+function TCL3BivecQuantityHelper.Norm: TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Norm;
 end;
 
-function TBivecQuantityHelper.SquaredNorm: TQuantity;
+function TCL3BivecQuantityHelper.SquaredNorm: TQuantity;
 begin
   result.FID := CheckMul(FID, FID);
   result.FValue := FValue.SquaredNorm;
 end;
 
-function TBivecQuantityHelper.Dot(const AVector: TVecQuantity): TVecQuantity;
+function TCL3BivecQuantityHelper.Dot(const AVector: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Dot(const AVector: TBivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Dot(const AVector: TCL3BivecQuantity): TQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Dot(const AVector: TTrivecQuantity): TVecQuantity;
+function TCL3BivecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3BivecQuantityHelper.Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Wedge(const AVector: TVecQuantity): TTrivecQuantity;
+function TCL3BivecQuantityHelper.Wedge(const AVector: TCL3VecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Wedge(const AVector: TBivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Wedge(const AVector: TCL3BivecQuantity): TQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := 0.0;
 end;
 
-function TBivecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := 0.0;
 end;
 
-function TBivecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3BivecQuantityHelper.Wedge(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Projection(const AVector: TVecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Projection(const AVector: TCL3VecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Projection(const AVector: TBivecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Projection(const AVector: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Projection(const AVector: TTrivecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Projection(const AVector: TCL3TrivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Projection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3BivecQuantityHelper.Projection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Rejection(const AVector: TVecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Rejection(const AVector: TCL3VecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Rejection(const AVector: TBivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Rejection(const AVector: TCL3BivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
 end;
 
-function TBivecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
 end;
 
-function TBivecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3BivecQuantityHelper.Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Reflection(const AVector: TVecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Reflection(const AVector: TCL3VecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Reflection(const AVector: TBivecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Reflection(const AVector: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Reflection(const AVector: TCL3TrivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3BivecQuantityHelper.Reflection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TBivecQuantity;
+function TCL3BivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TBivecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TMultivecQuantity;
+function TCL3BivecQuantityHelper.Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TBivecQuantityHelper.SameValue(const AVector: TMultivecQuantity): boolean;
+function TCL3BivecQuantityHelper.SameValue(const AVector: TCL3MultivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.SameValue(const AVector: TBivecQuantity): boolean;
+function TCL3BivecQuantityHelper.SameValue(const AVector: TCL3BivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TBivecQuantityHelper.ExtractBivector(AComponents: TMultivectorComponents): TBivecQuantity;
+function TCL3BivecQuantityHelper.ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractBivector(AComponents);
 end;
 
-function TBivecQuantityHelper.ToMultivector: TMultivecQuantity;
+function TCL3BivecQuantityHelper.ToMultivector: TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ToMultivector;
 end;
 {$ENDIF}
 
-// TVecQuantityHelper
+// TCL3VecQuantityHelper
 
 {$IFNDEF ADIMOFF}
-function TVecQuantityHelper.Dual: TBivecQuantity;
+function TCL3VecQuantityHelper.Dual: TCL3BivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Dual;
 end;
 
-function TVecQuantityHelper.Inverse: TVecQuantity;
+function TCL3VecQuantityHelper.Inverse: TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Inverse;
 end;
 
-function TVecQuantityHelper.Reverse: TVecQuantity;
+function TCL3VecQuantityHelper.Reverse: TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reverse;
 end;
 
-function TVecQuantityHelper.Conjugate: TVecQuantity;
+function TCL3VecQuantityHelper.Conjugate: TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Conjugate;
 end;
 
-function TVecQuantityHelper.Reciprocal: TVecQuantity;
+function TCL3VecQuantityHelper.Reciprocal: TCL3VecQuantity;
 begin
   result.FID := CheckDiv(ScalarId, FID);
   result.FValue := FValue.Reciprocal;
 end;
 
-function TVecQuantityHelper.Normalized: TVecQuantity;
+function TCL3VecQuantityHelper.Normalized: TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Normalized;
 end;
 
-function TVecQuantityHelper.Norm: TQuantity;
+function TCL3VecQuantityHelper.Norm: TQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Norm;
 end;
 
-function TVecQuantityHelper.SquaredNorm: TQuantity;
+function TCL3VecQuantityHelper.SquaredNorm: TQuantity;
 begin
   result.FID := CheckMul(FID, FID);
   result.FValue := FValue.SquaredNorm;
 end;
 
-function TVecQuantityHelper.Dot(const AVector: TVecQuantity): TQuantity;
+function TCL3VecQuantityHelper.Dot(const AVector: TCL3VecQuantity): TQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Dot(const AVector: TBivecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Dot(const AVector: TCL3BivecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Dot(const AVector: TTrivecQuantity): TBivecQuantity;
+function TCL3VecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Dot(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3VecQuantityHelper.Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Wedge(const AVector: TVecQuantity): TBivecQuantity;
+function TCL3VecQuantityHelper.Wedge(const AVector: TCL3VecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Wedge(const AVector: TBivecQuantity): TTrivecQuantity;
+function TCL3VecQuantityHelper.Wedge(const AVector: TCL3BivecQuantity): TCL3TrivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Wedge(const AVector: TTrivecQuantity): TQuantity;
+function TCL3VecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := CheckMul(FID, FID);
   result.FValue := 0.0;
 end;
 
-function TVecQuantityHelper.Wedge(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3VecQuantityHelper.Wedge(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Projection(const AVector: TVecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Projection(const AVector: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Projection(const AVector: TBivecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Projection(const AVector: TCL3BivecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Projection(const AVector: TTrivecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Projection(const AVector: TCL3TrivecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Projection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3VecQuantityHelper.Projection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Rejection(const AVector: TVecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Rejection(const AVector: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function  TVecQuantityHelper.Rejection(const AVector: TBivecQuantity): TVecQuantity;
+function  TCL3VecQuantityHelper.Rejection(const AVector: TCL3BivecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Rejection(const AVector: TTrivecQuantity): TQuantity;
+function TCL3VecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
 begin
   result.FID := FID;
   result.FValue := 0.0;
 end;
 
-function TVecQuantityHelper.Rejection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3VecQuantityHelper.Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Reflection(const AVector: TVecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Reflection(const AVector: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Reflection(const AVector: TBivecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Reflection(const AVector: TCL3BivecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Reflection(const AVector: TTrivecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Reflection(const AVector: TCL3TrivecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Reflection(const AVector: TMultivecQuantity): TMultivecQuantity;
+function TCL3VecQuantityHelper.Reflection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Reflection(AVector.FValue);
 end;
 
-function TVecQuantityHelper.Rotation(const AVector1, AVector2: TVecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TVecQuantityHelper.Rotation(const AVector1, AVector2: TBivecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TVecQuantityHelper.Rotation(const AVector1, AVector2: TTrivecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TVecQuantityHelper.Rotation(const AVector1, AVector2: TMultivecQuantity): TMultivecQuantity;
+function TCL3VecQuantityHelper.Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.Rotation(AVector1.FValue, AVector2.FValue);
 end;
 
-function TVecQuantityHelper.Cross(const AVector: TVecQuantity): TVecQuantity;
+function TCL3VecQuantityHelper.Cross(const AVector: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Cross(AVector.FValue);
 end;
 
-function TVecQuantityHelper.SameValue(const AVector: TMultivecQuantity): boolean;
+function TCL3VecQuantityHelper.SameValue(const AVector: TCL3MultivecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TVecQuantityHelper.SameValue(const AVector: TVecQuantity): boolean;
+function TCL3VecQuantityHelper.SameValue(const AVector: TCL3VecQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TVecQuantityHelper.ExtractVector(AComponents: TMultivectorComponents): TVecQuantity;
+function TCL3VecQuantityHelper.ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractVector(AComponents);
 end;
 
-function TVecQuantityHelper.ToMultivector: TMultivecQuantity;
+function TCL3VecQuantityHelper.ToMultivector: TCL3MultivecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ToMultivector;

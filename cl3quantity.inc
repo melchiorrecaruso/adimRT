@@ -2,263 +2,263 @@
 
 type
 
-  { TMultivecQuantity }
+  { TCL3MultivecQuantity }
 
   {$IFNDEF ADIMOFF}
-  TMultivecQuantity = record
+  TCL3MultivecQuantity = record
   private
     FID: longint;
-    FValue: TMultivector;
+    FValue: TCL3Multivector;
   public
-    class operator :=(const AValue: TQuantity): TMultivecQuantity;
-    class operator <>(const ALeft, ARight: TMultivecQuantity): boolean;
-    class operator <>(const ALeft: TMultivecQuantity; const ARight: TQuantity): boolean;
-    class operator <>(const ALeft: TQuantity; const ARight: TMultivecQuantity): boolean;
+    class operator :=(const AValue: TQuantity): TCL3MultivecQuantity;
+    class operator <>(const ALeft, ARight: TCL3MultivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+    class operator <>(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
 
-    class operator = (const ALeft, ARight: TMultivecQuantity): boolean;
-    class operator = (const ALeft: TMultivecQuantity; const ARight: TQuantity): boolean;
-    class operator = (const ALeft: TQuantity; const ARight: TMultivecQuantity): boolean;
+    class operator = (const ALeft, ARight: TCL3MultivecQuantity): boolean;
+    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+    class operator = (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
 
-    class operator + (const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+    class operator + (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
-    class operator - (const ASelf: TMultivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+    class operator - (const ASelf: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
-    class operator * (const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+    class operator * (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft, ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TMultivecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
+    class operator / (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
-  TMultivecQuantity = TMultivector;
+  TCL3MultivecQuantity = TCL3Multivector;
   {$ENDIF}
 
-  { TTrivecQuantity }
+  { TCL3TrivecQuantity }
 
   {$IFNDEF ADIMOFF}
-  TTrivecQuantity = record
+  TCL3TrivecQuantity = record
   private
     FID: longint;
-    FValue: TTrivector;
+    FValue: TCL3Trivector;
   public
-    class operator :=(const AValue: TTrivecQuantity): TMultivecQuantity;
-    class operator <>(const ALeft, ARight: TTrivecQuantity): boolean;
-    class operator <>(const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
-    class operator <>(const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
+    class operator :=(const AValue: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator <>(const ALeft, ARight: TCL3TrivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
 
-    class operator = (const ALeft, ARight: TTrivecQuantity): boolean;
-    class operator = (const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): boolean;
-    class operator = (const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): boolean;
+    class operator = (const ALeft, ARight: TCL3TrivecQuantity): boolean;
+    class operator = (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
 
-    class operator + (const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
-    class operator + (const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+    class operator + (const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 
-    class operator - (const ASelf: TTrivecQuantity): TTrivecQuantity;
-    class operator - (const ALeft, ARight: TTrivecQuantity): TTrivecQuantity;
-    class operator - (const ALeft: TTrivecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+    class operator - (const ASelf: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator - (const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 
-    class operator * (const ALeft, ARight: TTrivecQuantity): TQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TTrivecQuantity): TTrivecQuantity;
-    class operator * (const ALeft: TTrivecQuantity; const ARight: TQuantity): TTrivecQuantity;
-    class operator * (const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+    class operator * (const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+    class operator * (const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft, ARight: TTrivecQuantity): TQuantity;
-    class operator / (const ALeft: TTrivecQuantity; const ARight: TQuantity): TTrivecQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: TTrivecQuantity): TTrivecQuantity;
-    class operator / (const ALeft: TTrivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TMultivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
+    class operator / (const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+    class operator / (const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
-  TTrivecQuantity = TTrivector;
+  TCL3TrivecQuantity = TCL3Trivector;
   {$ENDIF}
 
-  { TBivecQuantity }
+  { TCL3BivecQuantity }
 
   {$IFNDEF ADIMOFF}
-  TBivecQuantity = record
+  TCL3BivecQuantity = record
   private
     FID: longint;
-    FValue: TBivector;
+    FValue: TCL3Bivector;
   public
-    class operator :=(const AValue: TBivecQuantity): TMultivecQuantity;
-    class operator <>(const ALeft, ARight: TBivecQuantity): boolean;
-    class operator <>(const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): boolean;
-    class operator <>(const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): boolean;
+    class operator :=(const AValue: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator <>(const ALeft, ARight: TCL3BivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): boolean;
 
-    class operator = (const ALeft, ARight: TBivecQuantity): boolean;
-    class operator = (const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): boolean;
-    class operator = (const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): boolean;
+    class operator = (const ALeft, ARight: TCL3BivecQuantity): boolean;
+    class operator = (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): boolean;
 
-    class operator + (const ALeft, ARight: TBivecQuantity): TBivecQuantity;
-    class operator + (const ALeft: TBivecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+    class operator + (const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 
-    class operator - (const ASelf: TBivecQuantity): TBivecQuantity;
-    class operator - (const ALeft, ARight: TBivecQuantity): TBivecQuantity;
-    class operator - (const ALeft: TBivecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+    class operator - (const ASelf: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator - (const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 
-    class operator * (const ALeft, ARight: TBivecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TBivecQuantity): TBivecQuantity;
-    class operator * (const ALeft: TBivecQuantity; const ARight: TQuantity): TBivecQuantity;
-    class operator * (const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+    class operator * (const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft, ARight: TBivecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TBivecQuantity; const ARight: TQuantity): TBivecQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: TBivecQuantity): TBivecQuantity;
-    class operator / (const ALeft: TBivecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TTrivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TBivecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TMultivecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
+    class operator / (const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+    class operator / (const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
-  TBivecQuantity = TBivector;
+  TCL3BivecQuantity = TCL3Bivector;
   {$ENDIF}
 
-  { TVecQuantity }
+  { TCL3VecQuantity }
 
   {$IFNDEF ADIMOFF}
-  TVecQuantity = record
+  TCL3VecQuantity = record
   private
     FID: longint;
-    FValue: TVector;
+    FValue: TCL3Vector;
   public
-    class operator :=(const AValue: TVecQuantity): TMultivecQuantity;
-    class operator <>(const ALeft, ARight: TVecQuantity): boolean;
-    class operator <>(const ALeft: TVecQuantity; const ARight: TMultivecQuantity): boolean;
-    class operator <>(const ALeft: TMultivecQuantity; const ARight: TVecQuantity): boolean;
+    class operator :=(const AValue: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator <>(const ALeft, ARight: TCL3VecQuantity): boolean;
+    class operator <>(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): boolean;
 
-    class operator = (const ALeft, ARight: TVecQuantity): boolean;
-    class operator = (const ALeft: TVecQuantity; const ARight: TMultivecQuantity): boolean;
-    class operator = (const ALeft: TMultivecQuantity; const ARight: TVecQuantity): boolean;
+    class operator = (const ALeft, ARight: TCL3VecQuantity): boolean;
+    class operator = (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): boolean;
 
-    class operator + (const ALeft, ARight: TVecQuantity): TVecQuantity;
-    class operator + (const ALeft: TVecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TQuantity; const ARight: TVecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator + (const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+    class operator + (const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
+    class operator + (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 
-    class operator - (const ASelf: TVecQuantity): TVecQuantity;
-    class operator - (const ALeft, ARight: TVecQuantity): TVecQuantity;
-    class operator - (const ALeft: TVecQuantity; const ARight: TQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TQuantity; const ARight: TVecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator - (const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+    class operator - (const ASelf: TCL3VecQuantity): TCL3VecQuantity;
+    class operator - (const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
+    class operator - (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 
-    class operator * (const ALeft, ARight: TVecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
-    class operator * (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
-    class operator * (const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TBivecQuantity;
-    class operator * (const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
-    class operator * (const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
-    class operator * (const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+    class operator * (const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+    class operator * (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+    class operator * (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
+    class operator * (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
+    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
-    class operator / (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
-    class operator / (const ALeft, ARight: TVecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TVecQuantity; const ARight: TBivecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TVecQuantity; const ARight: TTrivecQuantity): TBivecQuantity;
-    class operator / (const ALeft: TVecQuantity; const ARight: TMultivecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TBivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
-    class operator / (const ALeft: TTrivecQuantity; const ARight: TVecQuantity): TBivecQuantity;
-    class operator / (const ALeft: TMultivecQuantity; const ARight: TVecQuantity): TMultivecQuantity;
+    class operator / (const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+    class operator / (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+    class operator / (const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
+    class operator / (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
+    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
-  TVecQuantity = TVector;
+  TCL3VecQuantity = TCL3Vector;
   {$ENDIF}
 
-  { TMultivecQuantityHelper }
+  { TCL3MultivecQuantityHelper }
 
   {$IFNDEF ADIMOFF}
-  TMultivecQuantityHelper = record helper for TMultivecQuantity
-    function Dual: TMultivecQuantity;
-    function Inverse: TMultivecQuantity;
-    function Reverse: TMultivecQuantity;
-    function Conjugate: TMultivecQuantity;
-    function Reciprocal: TMultivecQuantity;
-    function LeftReciprocal: TMultivecQuantity;
-    function Normalized: TMultivecQuantity;
+  TCL3MultivecQuantityHelper = record helper for TCL3MultivecQuantity
+    function Dual: TCL3MultivecQuantity;
+    function Inverse: TCL3MultivecQuantity;
+    function Reverse: TCL3MultivecQuantity;
+    function Conjugate: TCL3MultivecQuantity;
+    function Reciprocal: TCL3MultivecQuantity;
+    function LeftReciprocal: TCL3MultivecQuantity;
+    function Normalized: TCL3MultivecQuantity;
     function Norm: TQuantity;
     function SquaredNorm: TQuantity;
 
-    function Dot(const AVector: TVecQuantity): TMultivecQuantity; overload;
-    function Dot(const AVector: TBivecQuantity): TMultivecQuantity; overload;
-    function Dot(const AVector: TTrivecQuantity): TMultivecQuantity; overload;
-    function Dot(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Dot(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+    function Dot(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+    function Dot(const AVector: TCL3TrivecQuantity): TCL3MultivecQuantity; overload;
+    function Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Wedge(const AVector: TVecQuantity): TMultivecQuantity; overload;
-    function Wedge(const AVector: TBivecQuantity): TMultivecQuantity; overload;
-    function Wedge(const AVector: TTrivecQuantity): TTrivecQuantity; overload;
-    function Wedge(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Wedge(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+    function Wedge(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+    function Wedge(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity; overload;
+    function Wedge(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Projection(const AVector: TVecQuantity): TMultivecQuantity; overload;
-    function Projection(const AVector: TBivecQuantity): TMultivecQuantity; overload;
-    function Projection(const AVector: TTrivecQuantity): TMultivecQuantity; overload;
-    function Projection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Projection(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+    function Projection(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+    function Projection(const AVector: TCL3TrivecQuantity): TCL3MultivecQuantity; overload;
+    function Projection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Rejection(const AVector: TVecQuantity): TMultivecQuantity; overload;
-    function Rejection(const AVector: TBivecQuantity): TMultivecQuantity; overload;
-    function Rejection(const AVector: TTrivecQuantity): TQuantity; overload;
-    function Rejection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Rejection(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+    function Rejection(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+    function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Reflection(const AVector: TVecQuantity): TMultivecQuantity; overload;
-    function Reflection(const AVector: TBivecQuantity): TMultivecQuantity; overload;
-    function Reflection(const AVector: TTrivecQuantity): TMultivecQuantity; overload;
-    function Reflection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Reflection(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+    function Reflection(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+    function Reflection(const AVector: TCL3TrivecQuantity): TCL3MultivecQuantity; overload;
+    function Reflection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Rotation(const AVector1, AVector2: TVecQuantity): TMultivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TBivecQuantity): TMultivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TTrivecQuantity): TMultivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TMultivecQuantity): TMultivecQuantity;overload;
+    function Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3MultivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity;overload;
 
-    function SameValue(const AVector: TMultivecQuantity): boolean;
-    function SameValue(const AVector: TTrivecQuantity): boolean;
-    function SameValue(const AVector: TBivecQuantity): boolean;
-    function SameValue(const AVector: TVecQuantity): boolean;
+    function SameValue(const AVector: TCL3MultivecQuantity): boolean;
+    function SameValue(const AVector: TCL3TrivecQuantity): boolean;
+    function SameValue(const AVector: TCL3BivecQuantity): boolean;
+    function SameValue(const AVector: TCL3VecQuantity): boolean;
     function SameValue(const AVector: TQuantity): boolean;
 
-    function ExtractMultivector(AComponents: TMultivectorComponents): TMultivecQuantity;
-    function ExtractBivector(AComponents: TMultivectorComponents): TBivecQuantity;
-    function ExtractVector(AComponents: TMultivectorComponents): TVecQuantity;
+    function ExtractMultivector(AComponents: TCL3MultivectorComponents): TCL3MultivecQuantity;
+    function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
+    function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
 
-    function ExtractTrivector: TTrivecQuantity;
-    function ExtractBivector: TBivecQuantity;
-    function ExtractVector: TVecQuantity;
+    function ExtractTrivector: TCL3TrivecQuantity;
+    function ExtractBivector: TCL3BivecQuantity;
+    function ExtractVector: TCL3VecQuantity;
     function ExtractScalar: TQuantity;
 
     function IsNull: boolean;
@@ -270,159 +270,159 @@ type
   end;
   {$ENDIF}
 
-  { TTrivecQuantityHelper }
+  { TCL3TrivecQuantityHelper }
 
   {$IFNDEF ADIMOFF}
-  TTrivecQuantityHelper = record helper for TTrivecQuantity
+  TCL3TrivecQuantityHelper = record helper for TCL3TrivecQuantity
     function Dual: TQuantity;
-    function Inverse: TTrivecQuantity;
-    function Reverse: TTrivecQuantity;
-    function Conjugate: TTrivecQuantity;
-    function Reciprocal: TTrivecQuantity;
-    function Normalized: TTrivecQuantity;
+    function Inverse: TCL3TrivecQuantity;
+    function Reverse: TCL3TrivecQuantity;
+    function Conjugate: TCL3TrivecQuantity;
+    function Reciprocal: TCL3TrivecQuantity;
+    function Normalized: TCL3TrivecQuantity;
     function Norm: TQuantity;
     function SquaredNorm: TQuantity;
 
-    function Dot(const AVector: TVecQuantity): TBivecQuantity; overload;
-    function Dot(const AVector: TBivecQuantity): TVecQuantity; overload;
-    function Dot(const AVector: TTrivecQuantity): TQuantity; overload;
-    function Dot(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Dot(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+    function Dot(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+    function Dot(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Wedge(const AVector: TVecQuantity): TQuantity; overload;
-    function Wedge(const AVector: TBivecQuantity): TQuantity; overload;
-    function Wedge(const AVector: TTrivecQuantity): TQuantity; overload;
-    function Wedge(const AVector: TMultivecQuantity): TTrivecQuantity; overload;
+    function Wedge(const AVector: TCL3VecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3MultivecQuantity): TCL3TrivecQuantity; overload;
 
-    function Projection(const AVector: TVecQuantity): TTrivecQuantity; overload;
-    function Projection(const AVector: TBivecQuantity): TTrivecQuantity; overload;
-    function Projection(const AVector: TTrivecQuantity): TTrivecQuantity; overload;
-    function Projection(const AVector: TMultivecQuantity): TTrivecQuantity; overload;
+    function Projection(const AVector: TCL3VecQuantity): TCL3TrivecQuantity; overload;
+    function Projection(const AVector: TCL3BivecQuantity): TCL3TrivecQuantity; overload;
+    function Projection(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity; overload;
+    function Projection(const AVector: TCL3MultivecQuantity): TCL3TrivecQuantity; overload;
 
-    function Rejection(const AVector: TVecQuantity): TQuantity; overload;
-    function Rejection(const AVector: TBivecQuantity): TQuantity; overload;
-    function Rejection(const AVector: TTrivecQuantity): TQuantity; overload;
-    function Rejection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Rejection(const AVector: TCL3VecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Reflection(const AVector: TVecQuantity): TTrivecQuantity; overload;
-    function Reflection(const AVector: TBivecQuantity): TTrivecQuantity; overload;
-    function Reflection(const AVector: TTrivecQuantity): TTrivecQuantity; overload;
-    function Reflection(const AVector: TMultivecQuantity): TTrivecQuantity; overload;
+    function Reflection(const AVector: TCL3VecQuantity): TCL3TrivecQuantity; overload;
+    function Reflection(const AVector: TCL3BivecQuantity): TCL3TrivecQuantity; overload;
+    function Reflection(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity; overload;
+    function Reflection(const AVector: TCL3MultivecQuantity): TCL3TrivecQuantity; overload;
 
-    function Rotation(const AVector1, AVector2: TVecQuantity): TTrivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TBivecQuantity): TTrivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TTrivecQuantity): TTrivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TMultivecQuantity): TTrivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3TrivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3TrivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3TrivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3TrivecQuantity; overload;
 
-    function SameValue(const AVector: TMultivecQuantity): boolean;
-    function SameValue(const AVector: TTrivecQuantity): boolean;
+    function SameValue(const AVector: TCL3MultivecQuantity): boolean;
+    function SameValue(const AVector: TCL3TrivecQuantity): boolean;
 
-    function ToMultivector: TMultivecQuantity;
+    function ToMultivector: TCL3MultivecQuantity;
   end;
   {$ENDIF}
 
-  { TBivecQuantityHelper }
+  { TCL3BivecQuantityHelper }
 
   {$IFNDEF ADIMOFF}
-  TBivecQuantityHelper = record helper for TBivecQuantity
-    function Dual: TVecQuantity;
-    function Inverse: TBivecQuantity;
-    function Reverse: TBivecQuantity;
-    function Conjugate: TBivecQuantity;
-    function Reciprocal: TBivecQuantity;
-    function Normalized: TBivecQuantity;
+  TCL3BivecQuantityHelper = record helper for TCL3BivecQuantity
+    function Dual: TCL3VecQuantity;
+    function Inverse: TCL3BivecQuantity;
+    function Reverse: TCL3BivecQuantity;
+    function Conjugate: TCL3BivecQuantity;
+    function Reciprocal: TCL3BivecQuantity;
+    function Normalized: TCL3BivecQuantity;
     function Norm: TQuantity;
     function SquaredNorm: TQuantity;
 
-    function Dot(const AVector: TVecQuantity): TVecQuantity; overload;
-    function Dot(const AVector: TBivecQuantity): TQuantity; overload;
-    function Dot(const AVector: TTrivecQuantity): TVecQuantity; overload;
-    function Dot(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Dot(const AVector: TCL3VecQuantity): TCL3VecQuantity; overload;
+    function Dot(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Dot(const AVector: TCL3TrivecQuantity): TCL3VecQuantity; overload;
+    function Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Wedge(const AVector: TVecQuantity): TTrivecQuantity; overload;
-    function Wedge(const AVector: TBivecQuantity): TQuantity; overload;
-    function Wedge(const AVector: TTrivecQuantity): TQuantity; overload;
-    function Wedge(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Wedge(const AVector: TCL3VecQuantity): TCL3TrivecQuantity; overload;
+    function Wedge(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Projection(const AVector: TVecQuantity): TBivecQuantity; overload;
-    function Projection(const AVector: TBivecQuantity): TBivecQuantity; overload;
-    function Projection(const AVector: TTrivecQuantity): TBivecQuantity; overload;
-    function Projection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Projection(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+    function Projection(const AVector: TCL3BivecQuantity): TCL3BivecQuantity; overload;
+    function Projection(const AVector: TCL3TrivecQuantity): TCL3BivecQuantity; overload;
+    function Projection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Rejection(const AVector: TVecQuantity): TBivecQuantity; overload;
-    function Rejection(const AVector: TBivecQuantity): TQuantity; overload;
-    function Rejection(const AVector: TTrivecQuantity): TQuantity; overload;
-    function Rejection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Rejection(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+    function Rejection(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Reflection(const AVector: TVecQuantity): TBivecQuantity; overload;
-    function Reflection(const AVector: TBivecQuantity): TBivecQuantity; overload;
-    function Reflection(const AVector: TTrivecQuantity): TBivecQuantity; overload;
-    function Reflection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Reflection(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+    function Reflection(const AVector: TCL3BivecQuantity): TCL3BivecQuantity; overload;
+    function Reflection(const AVector: TCL3TrivecQuantity): TCL3BivecQuantity; overload;
+    function Reflection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Rotation(const AVector1, AVector2: TVecQuantity): TBivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TBivecQuantity): TBivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TTrivecQuantity): TBivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TMultivecQuantity): TMultivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3BivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3BivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3BivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function SameValue(const AVector: TMultivecQuantity): boolean;
-    function SameValue(const AVector: TBivecQuantity): boolean;
+    function SameValue(const AVector: TCL3MultivecQuantity): boolean;
+    function SameValue(const AVector: TCL3BivecQuantity): boolean;
 
-    function ExtractBivector(AComponents: TMultivectorComponents): TBivecQuantity;
+    function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
 
-    function ToMultivector: TMultivecQuantity;
+    function ToMultivector: TCL3MultivecQuantity;
   end;
   {$ENDIF}
 
-  { TVecQuantityHelper }
+  { TCL3VecQuantityHelper }
 
   {$IFNDEF ADIMOFF}
-  TVecQuantityHelper = record helper for TVecQuantity
-    function Dual: TBivecQuantity;
-    function Inverse: TVecQuantity;
-    function Reverse: TVecQuantity;
-    function Conjugate: TVecQuantity;
-    function Reciprocal: TVecQuantity;
-    function Normalized: TVecQuantity;
+  TCL3VecQuantityHelper = record helper for TCL3VecQuantity
+    function Dual: TCL3BivecQuantity;
+    function Inverse: TCL3VecQuantity;
+    function Reverse: TCL3VecQuantity;
+    function Conjugate: TCL3VecQuantity;
+    function Reciprocal: TCL3VecQuantity;
+    function Normalized: TCL3VecQuantity;
     function Norm: TQuantity;
     function SquaredNorm: TQuantity;
 
-    function Dot(const AVector: TVecQuantity): TQuantity; overload;
-    function Dot(const AVector: TBivecQuantity): TVecQuantity; overload;
-    function Dot(const AVector: TTrivecQuantity): TBivecQuantity; overload;
-    function Dot(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Dot(const AVector: TCL3VecQuantity): TQuantity; overload;
+    function Dot(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+    function Dot(const AVector: TCL3TrivecQuantity): TCL3BivecQuantity; overload;
+    function Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Wedge(const AVector: TVecQuantity): TBivecQuantity; overload;
-    function Wedge(const AVector: TBivecQuantity): TTrivecQuantity; overload;
-    function Wedge(const AVector: TTrivecQuantity): TQuantity; overload;
-    function Wedge(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Wedge(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+    function Wedge(const AVector: TCL3BivecQuantity): TCL3TrivecQuantity; overload;
+    function Wedge(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Cross(const AVector: TVecQuantity): TVecQuantity;
+    function Cross(const AVector: TCL3VecQuantity): TCL3VecQuantity;
 
-    function Projection(const AVector: TVecQuantity): TVecQuantity; overload;
-    function Projection(const AVector: TBivecQuantity): TVecQuantity; overload;
-    function Projection(const AVector: TTrivecQuantity): TVecQuantity; overload;
-    function Projection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Projection(const AVector: TCL3VecQuantity): TCL3VecQuantity; overload;
+    function Projection(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+    function Projection(const AVector: TCL3TrivecQuantity): TCL3VecQuantity; overload;
+    function Projection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Rejection(const AVector: TVecQuantity): TVecQuantity; overload;
-    function Rejection(const AVector: TBivecQuantity): TVecQuantity; overload;
-    function Rejection(const AVector: TTrivecQuantity): TQuantity; overload;
-    function Rejection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Rejection(const AVector: TCL3VecQuantity): TCL3VecQuantity; overload;
+    function Rejection(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+    function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Reflection(const AVector: TVecQuantity): TVecQuantity; overload;
-    function Reflection(const AVector: TBivecQuantity): TVecQuantity; overload;
-    function Reflection(const AVector: TTrivecQuantity): TVecQuantity; overload;
-    function Reflection(const AVector: TMultivecQuantity): TMultivecQuantity; overload;
+    function Reflection(const AVector: TCL3VecQuantity): TCL3VecQuantity; overload;
+    function Reflection(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+    function Reflection(const AVector: TCL3TrivecQuantity): TCL3VecQuantity; overload;
+    function Reflection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function Rotation(const AVector1, AVector2: TVecQuantity): TVecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TBivecQuantity): TVecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TTrivecQuantity): TVecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TMultivecQuantity): TMultivecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3VecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3VecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3VecQuantity; overload;
+    function Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
-    function SameValue(const AVector: TMultivecQuantity): boolean;
-    function SameValue(const AVector: TVecQuantity): boolean;
+    function SameValue(const AVector: TCL3MultivecQuantity): boolean;
+    function SameValue(const AVector: TCL3VecQuantity): boolean;
 
-    function ExtractVector(AComponents: TMultivectorComponents): TVecQuantity;
+    function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
 
-    function ToMultivector: TMultivecQuantity;
+    function ToMultivector: TCL3MultivecQuantity;
   end;
   {$ENDIF}
 

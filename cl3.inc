@@ -4,8 +4,8 @@ type
 
   // TMultivectorComponents
   
-  TMultivectorComponent  = (mcm0, mcm1, mcm2, mcm3, mcm12, mcm13, mcm23, mcm123);
-  TMultivectorComponents = set of TMultivectorComponent;
+  TCL3MultivectorComponent  = (mcm0, mcm1, mcm2, mcm3, mcm12, mcm13, mcm23, mcm123);
+  TCL3MultivectorComponents = set of TCL3MultivectorComponent;
 
   // TCL3Multivector
   
@@ -251,13 +251,13 @@ type
     function SameValue(const AValue: TCL3Vector): boolean;
     function SameValue(const AValue: double): boolean;
 
-    function ExtracTCL3Multivector(AComponents: TCL3MultivectorComponents): TCL3Multivector;
-    function ExtracTCL3Bivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
-    function ExtracTCL3Vector(AComponents: TCL3MultivectorComponents): TCL3Vector;
+    function ExtractMultivector(AComponents: TCL3MultivectorComponents): TCL3Multivector;
+    function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
+    function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3Vector;
 
-    function ExtracTCL3Trivector: TCL3Trivector;
-    function ExtracTCL3Bivector: TCL3Bivector;
-    function ExtracTCL3Vector: TCL3Vector;
+    function ExtractTrivector: TCL3Trivector;
+    function ExtractBivector: TCL3Bivector;
+    function ExtractVector: TCL3Vector;
     function ExtractScalar: double;
 
     function IsNull: boolean;
@@ -366,7 +366,7 @@ type
     function SameValue(const AValue: TCL3Multivector): boolean;
     function SameValue(const AValue: TCL3Bivector): boolean;
 
-    function ExtracTCL3Bivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
+    function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
 
     function ToMultivector: TCL3Multivector;
     function ToString(APrecision, ADigits: longint): string;
@@ -420,7 +420,7 @@ type
     function SameValue(const AValue: TCL3Multivector): boolean;
     function SameValue(const AValue: TCL3Vector): boolean;
 
-    function ExtracTCL3Vector(AComponents: TCL3MultivectorComponents): TCL3Vector;
+    function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3Vector;
 
     function ToMultivector: TCL3Multivector;
     function ToString(APrecision, ADigits: longint): string;
@@ -444,27 +444,9 @@ type
   TCL3Triversor123 = record class operator *(const AValue: double; const ASelf: TCL3Triversor123): TCL3Trivector; end;
 
 const
-  e1   : TCL3Versor1 = ();
-  e2   : TCL3Versor2 = ();
-  e3   : TCL3Versor3 = ();
-  e12  : TCL3Biversor12 = ();
-  e13  : TCL3Biversor13 = ();
-  e23  : TCL3Biversor23 = ();
-  e123 : TCL3Triversor123 = ();
-
-  u1   : TCL3Vector = (fm1:1.0; fm2:0.0; fm3:0.0);
-  u2   : TCL3Vector = (fm1:0.0; fm2:1.0; fm3:0.0);
-  u3   : TCL3Vector = (fm1:0.0; fm2:0.0; fm3:1.0);
-
-  u12  : TCL3Bivector = (fm12:1.0; fm13:0.0; fm23:0.0);
-  u13  : TCL3Bivector = (fm12:0.0; fm13:1.0; fm23:0.0);
-  u23  : TCL3Bivector = (fm12:0.0; fm13:0.0; fm23:1.0);
-
-  u123 : TCL3Trivector = (fm123:1.0);
-
-  NullMultivector : TCL3Multivector = (fm0:0.0; fm1:0.0; fm2:0.0; fm3:0.0; fm12:0.0; fm13:0.0; fm23:0.0; fm123:0.0);
-  NullTrivector   : TCL3Trivector   = (fm123:0.0);
-  NullBivector    : TCL3Bivector    = (fm12:0.0; fm13:0.0; fm23:0.0);
-  NullVector      : TCL3Vector      = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
-  NullScalar      : double       = (0.0);
+  CL3NullMultivector : TCL3Multivector = (fm0:0.0; fm1:0.0; fm2:0.0; fm3:0.0; fm12:0.0; fm13:0.0; fm23:0.0; fm123:0.0);
+  CL3NullTrivector   : TCL3Trivector   = (fm123:0.0);
+  CL3NullBivector    : TCL3Bivector    = (fm12:0.0; fm13:0.0; fm23:0.0);
+  CL3NullVector      : TCL3Vector      = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
+  CL3NullScalar      : double       = (0.0);
   
