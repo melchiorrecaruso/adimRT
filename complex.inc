@@ -242,30 +242,33 @@ type
     function ToString(APrecision, ADigits: integer): string;
   end;
 
-  // TImaginaryUnit
+  // TImaginaryNumber
 
-  TImaginaryUnit = record
-    class operator:=(const ASelf: TImaginaryUnit): TComplex;
-    class operator +(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
-    class operator +(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
-    class operator -(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
-    class operator -(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+  TImaginaryNumber = record
+    class operator:=(const ASelf: TImaginaryNumber): TComplex;
+    class operator +(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
+    class operator +(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
+    class operator -(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
+    class operator -(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
 
-    class operator +(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
-    class operator +(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
-    class operator -(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
-    class operator -(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+    class operator +(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
+    class operator +(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
+    class operator -(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
+    class operator -(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
 
 
-    class operator *(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
-    class operator *(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
-    class operator *(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
-    class operator *(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
-    class operator /(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
-    class operator /(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
-    class operator /(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
-    class operator /(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+    class operator *(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
+    class operator *(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
+    class operator *(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
+    class operator *(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
+    class operator /(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
+    class operator /(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
+    class operator /(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
+    class operator /(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
   end;
+
+const
+  NullComplex: TComplex = (FRe: 0; fIm: 0);
 
 function Ket(const a1, a2: TComplex): TC2Ket;
 function Ket(const a1, a2, a3: TComplex): TC3Ket;
@@ -273,8 +276,8 @@ function Ket(const a1, a2, a3: TComplex): TC3Ket;
 function Bra(const a1, a2: TComplex): TC2Bra;
 function Bra(const a1, a2, a3: TComplex): TC3Bra;
 
-function Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
-function Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
+function C2Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
+function C3Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
 
 function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
 function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
@@ -283,4 +286,7 @@ function SquarePower(const AValue: TComplex): TComplex;
 function SquareRoot(const AValue: TComplex): TC2Ket;
 function CubicPower(const AValue: TComplex): TComplex;
 function CubicRoot(const AValue: TComplex): TC3Ket;
+
+
+
 

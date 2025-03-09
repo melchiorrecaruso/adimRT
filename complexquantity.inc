@@ -82,8 +82,8 @@ type
   {$ENDIF}
 
 {$IFNDEF ADIMOFF}
-operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
-operator *(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
-operator /(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
-operator /(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+operator *(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
+operator *(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
+operator /(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
+operator /(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
 {$ENDIF}
