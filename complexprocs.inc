@@ -1028,63 +1028,6 @@ end;
 
 // Useful routines
 
-function Ket(const a1, a2: TComplex): TC2Ket;
-begin
-  result.fm1 := a1;
-  result.fm2 := a2;
-end;
-
-function Ket(const a1, a2, a3: TComplex): TC3Ket;
-begin
-  result.fm1 := a1;
-  result.fm2 := a2;
-  result.fm3 := a3;
-end;
-
-function Bra(const a1, a2: TComplex): TC2Bra;
-begin
-  result.fm1 := a1;
-  result.fm2 := a2;
-end;
-
-function Bra(const a1, a2, a3: TComplex): TC3Bra;
-begin
-  result.fm1 := a1;
-  result.fm2 := a2;
-  result.fm3 := a3;
-end;
-
-function C2Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
-begin
-  result.fm11 := a11;
-  result.fm12 := a12;
-  result.fm21 := a21;
-  result.fm22 := a22;
-end;
-
-function C3Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
-begin
-  result.fm11 := a11;
-  result.fm12 := a12;
-  result.fm13 := a13;
-  result.fm21 := a21;
-  result.fm22 := a22;
-  result.fm23 := a23;
-  result.fm31 := a31;
-  result.fm32 := a32;
-  result.fm33 := a33;
-end;
-
-function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
-begin
-  result := ALeft*ARight - ARight*ALeft;
-end;
-
-function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
-begin
-  result := ALeft*ARight - ARight*ALeft;
-end;
-
 function SquarePower(const AValue: TComplex): TComplex;
 begin
   result := AValue*AValue;
@@ -1109,9 +1052,10 @@ begin
 end;
 
 function CubicRoot(const AValue: TComplex): TC3Ket;
+const
+  i: TImaginaryNumber = ();
 var
   theta, rootModulus, rootArgument: double;
-  i: TImaginaryNumber;
 begin
   rootModulus := Power(AValue.Norm, 1/3);
   theta := Math.ArcTan2(AValue.fIm, AValue.fRe);
@@ -1124,6 +1068,16 @@ begin
 
   rootArgument := (theta+4*Pi)/3;
   result.fm3 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
+end;
+
+function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
+begin
+  result := ALeft*ARight - ARight*ALeft;
+end;
+
+function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
+begin
+  result := ALeft*ARight - ARight*ALeft;
 end;
 
 // TImaginayUnit

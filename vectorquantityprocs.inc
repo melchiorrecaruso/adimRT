@@ -3,6 +3,7 @@
 // TR3VecQuantity
 
 {$IFNDEF ADIMOFF}
+
 class operator TR3VecQuantity.<>(const ALeft, ARight: TR3VecQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
@@ -127,9 +128,10 @@ begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TR3VecQuantityHelper.ExtractVector(AComponents: TVectorComponents): TR3VecQuantity;
+function TR3VecQuantityHelper.ExtractVector(AComponents: TR3VectorComponents): TR3VecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue.ExtractVector(AComponents);
 end;
 {$ENDIF}
+

@@ -20,7 +20,7 @@
 program adimtest;
 
 uses
-  ADim, ADimR3, ADimC3, ADimCL3, Math, SysUtils;
+  ADim, ADimR3, adimc, ADimCL3, Math, SysUtils;
 
 var
   side1: TQuantity;
@@ -1349,6 +1349,31 @@ begin
   if A.ToString(current__.Norm) <> '22.3606797749979 A' then halt(6);
   if W.ToString(power__.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-608: PASSED');
+
+  // Quantum mechanics
+  t1 := Ket(1, 0);
+  t2 := Ket(0, 1);
+
+  State  := 2/Sqrt(5)*t1 + 1/Sqrt(5)*t2;
+  Writeln('State 1 probability: ', (SquarePower(t1.TransposeDual*State)).ToString);
+  Writeln('State 2 probability: ', (SquarePower(t2.TransposeDual*State)).ToString);
+
+  StateL := Ket(1,0);
+  StateR := Ket(0,1);
+
+  E0 := 5*J;
+  A0 := 1*J;
+
+  //H2 := E0*Matrix(1,0,0,1) + A0*Matrix(0,1,1,0);
+  //StateL.TransposeDual*H2*StateL = E0;
+  //StateR.TransposeDual*H2*StateR = E0;
+
+  //StateL.TransposeDual*H2*StateR = -A0;
+  //StateR.TransposeDual*H2*StateL = -A0;
+
+  writeln((Matrix(3, img,2*img,7+img)*Ket(4,img)).ToString);
+  writeln((Matrix(3, img,2*img,7+img)*Ket(4,img)).TransposeDual.ToString);
+  writeln((Ket(4,img).TransposeDual*Matrix(3, img,2*img,7+img).TransposeDual).ToString);
 
   writeln;
   writeln('ADIM-TEST DONE.');

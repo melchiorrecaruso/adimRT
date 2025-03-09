@@ -184,6 +184,8 @@ type
     property a3: TComplex read fm3 write fm3;
   end;
 
+  // Helpers
+
   TC2KetHelper = record helper for TC2Ket
     function SquareNorm: double;
     function Norm: double;
@@ -250,13 +252,10 @@ type
     class operator +(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
     class operator -(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
     class operator -(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
-
     class operator +(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
     class operator +(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
     class operator -(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
     class operator -(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
-
-
     class operator *(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
     class operator *(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
     class operator *(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
@@ -270,23 +269,20 @@ type
 const
   NullComplex: TComplex = (FRe: 0; fIm: 0);
 
-function Ket(const a1, a2: TComplex): TC2Ket;
-function Ket(const a1, a2, a3: TComplex): TC3Ket;
+  C2NullMatrix : TC2Matrix =
+    (fm11: (fRe: 0; fIm:0); fm12: (fRe: 0; fIm:0);
+     fm21: (fRe: 0; fIm:0); fm22: (fRe: 0; fIm:0));
 
-function Bra(const a1, a2: TComplex): TC2Bra;
-function Bra(const a1, a2, a3: TComplex): TC3Bra;
-
-function C2Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
-function C3Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
-
-function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
-function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
+  C3NullMatrix : TC3Matrix =
+    (fm11: (fRe: 0; fIm:0); fm12: (fRe: 0; fIm:0); fm13: (fRe: 0; fIm:0);
+     fm21: (fRe: 0; fIm:0); fm22: (fRe: 0; fIm:0); fm23: (fRe: 0; fIm:0);
+     fm31: (fRe: 0; fIm:0); fm32: (fRe: 0; fIm:0); fm33: (fRe: 0; fIm:0));
 
 function SquarePower(const AValue: TComplex): TComplex;
 function SquareRoot(const AValue: TComplex): TC2Ket;
 function CubicPower(const AValue: TComplex): TComplex;
 function CubicRoot(const AValue: TComplex): TC3Ket;
 
-
-
+function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
+function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
 
