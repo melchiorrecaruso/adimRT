@@ -1111,119 +1111,120 @@ end;
 function CubicRoot(const AValue: TComplex): TC3Ket;
 var
   theta, rootModulus, rootArgument: double;
+  i: TImaginaryNumber;
 begin
   rootModulus := Power(AValue.Norm, 1/3);
   theta := Math.ArcTan2(AValue.fIm, AValue.fRe);
 
   rootArgument := (theta)/3;
-  result.fm1 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
+  result.fm1 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 
   rootArgument := (theta+2*Pi)/3;
-  result.fm2 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
+  result.fm2 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 
   rootArgument := (theta+4*Pi)/3;
-  result.fm3 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*img);
+  result.fm3 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 end;
 
 // TImaginayUnit
 
-class operator TImaginaryUnit.:=(const ASelf: TImaginaryUnit): TComplex;
+class operator TImaginaryNumber.:=(const ASelf: TImaginaryNumber): TComplex;
 begin
   result.fRe := 0;
   result.fIm := 1;
 end;
 
-class operator TImaginaryUnit.+(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryNumber.+(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
 begin
   result.fRe := ALeft;
   result.fIm := 1;
 end;
 
-class operator TImaginaryUnit.+(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+class operator TImaginaryNumber.+(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
 begin
   result.fRe := ARight;
   result.fIm := 1;
 end;
 
-class operator TImaginaryUnit.-(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryNumber.-(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
 begin
   result.fRe := ALeft;
   result.fIm := -1;
 end;
 
-class operator TImaginaryUnit.-(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+class operator TImaginaryNumber.-(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
 begin
   result.fRe := -ARight;
   result.fIm := 1;
 end;
 
-class operator TImaginaryUnit.+(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryNumber.+(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
 begin
   result.fRe := ALeft.fRe;
   result.fIm := ALeft.fIm+1;
 end;
 
-class operator TImaginaryUnit.+(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+class operator TImaginaryNumber.+(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
 begin
   result.fRe :=   ARight.fRe;
   result.fIm := 1+ARight.fIm;
 end;
 
-class operator TImaginaryUnit.-(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryNumber.-(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
 begin
   result.fRe := ALeft.fRe;
   result.fIm := ALeft.fIm-1;
 end;
 
-class operator TImaginaryUnit.-(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+class operator TImaginaryNumber.-(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
 begin
   result.fRe :=  -ARight.fRe;
   result.fIm := 1-ARight.fIm;
 end;
 
-class operator TImaginaryUnit.*(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryNumber.*(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
 begin
   result.fRe := 0;
   result.fIm := ALeft;
 end;
 
-class operator TImaginaryUnit.*(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+class operator TImaginaryNumber.*(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
 begin
   result.fRe := 0;
   result.fIm := ARight;
 end;
 
-class operator TImaginaryUnit.*(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryNumber.*(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
 begin
   result.fRe := -ALeft.fIm;
   result.fIm :=  ALeft.fRe;
 end;
 
-class operator TImaginaryUnit.*(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+class operator TImaginaryNumber.*(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
 begin
   result.fRe := -ARight.fIm;
   result.fIm :=  ARight.fRe;
 end;
 
-class operator TImaginaryUnit./(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryNumber./(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
 begin
   result.fRe :=  0;
   result.fIm := -ALeft;
 end;
 
-class operator TImaginaryUnit./(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+class operator TImaginaryNumber./(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
 begin
   result.fRe := 0;
   result.fIm := 1/ARight;
 end;
 
-class operator TImaginaryUnit./(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryNumber./(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
 begin
   result.fRe :=  ALeft.fIm;
   result.fIm := -ALeft.fRe;
 end;
 
-class operator TImaginaryUnit./(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+class operator TImaginaryNumber./(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
 begin
   result.fRe := -ARight.fIm;
   result.fIm :=  ARight.fRe;

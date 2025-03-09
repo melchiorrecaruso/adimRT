@@ -155,28 +155,36 @@ end;
 {$ENDIF}
 
 {$IFNDEF ADIMOFF}
-operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+operator *(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
+var
+  i: TImaginaryNumber;
 begin
   result.FID := CheckMul(ALeft.FID, ScalarID);
-  result.FValue := ALeft.FValue * img;
+  result.FValue := ALeft.FValue * i;
 end;
 
-operator *(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
+operator *(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
+var
+  i: TImaginaryNumber;
 begin
   result.FID := CheckMul(ScalarID, ARight.FID);
-  result.FValue := ARight.FValue * img;
+  result.FValue := ARight.FValue * i;
 end;
 
-operator /(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+operator /(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
+var
+  i: TImaginaryNumber;
 begin
   result.FID := CheckDiv(ALeft.FID, ScalarID);
-  result.FValue := -ALeft.FValue * img;
+  result.FValue := -ALeft.FValue * i;
 end;
 
-operator /(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
+operator /(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
+var
+  i: TImaginaryNumber;
 begin
   result.FID := CheckDiv(ScalarID, ARight.FID);
-  result.FValue := img / ARight.FValue;
+  result.FValue := i / ARight.FValue;
 end;
 
 {$ENDIF}

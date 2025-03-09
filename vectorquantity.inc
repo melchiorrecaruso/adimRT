@@ -2,46 +2,46 @@
 
 type
 
-  { TVecQuantity }
+  { TR3VecQuantity }
 
   {$IFNDEF ADIMOFF}
-  TVecQuantity = record
+  TR3VecQuantity = record
   private
     FID: longint;
     FValue: TR3Vector;
   public
-    class operator <>(const ALeft, ARight: TVecQuantity): boolean;
-    class operator = (const ALeft, ARight: TVecQuantity): boolean;
-    class operator + (const AValue: TVecQuantity): TVecQuantity;
-    class operator + (const ALeft, ARight: TVecQuantity): TVecQuantity;
-    class operator - (const AValue: TVecQuantity): TVecQuantity;
-    class operator - (const ALeft, ARight: TVecQuantity): TVecQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
-    class operator * (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: TVecQuantity): TVecQuantity;
-    class operator / (const ALeft: TVecQuantity; const ARight: TQuantity): TVecQuantity;
+    class operator <>(const ALeft, ARight: TR3VecQuantity): boolean;
+    class operator = (const ALeft, ARight: TR3VecQuantity): boolean;
+    class operator + (const AValue: TR3VecQuantity): TR3VecQuantity;
+    class operator + (const ALeft, ARight: TR3VecQuantity): TR3VecQuantity;
+    class operator - (const AValue: TR3VecQuantity): TR3VecQuantity;
+    class operator - (const ALeft, ARight: TR3VecQuantity): TR3VecQuantity;
+    class operator * (const ALeft: TQuantity; const ARight: TR3VecQuantity): TR3VecQuantity;
+    class operator * (const ALeft: TR3VecQuantity; const ARight: TQuantity): TR3VecQuantity;
+    class operator / (const ALeft: TQuantity; const ARight: TR3VecQuantity): TR3VecQuantity;
+    class operator / (const ALeft: TR3VecQuantity; const ARight: TQuantity): TR3VecQuantity;
   end;
   {$ELSE}
-  TVecQuantity = TVector;
+  TR3VecQuantity = TR3Vector;
   {$ENDIF}
 
-  { TVecQuantityHelper }
+  { TR3VecQuantityHelper }
 
   {$IFNDEF ADIMOFF}
-  TVecQuantityHelper = record helper for TVecQuantity
-    function Reciprocal: TVecQuantity;
-    function Normalized: TVecQuantity;
+  TR3VecQuantityHelper = record helper for TR3VecQuantity
+    function Reciprocal: TR3VecQuantity;
+    function Normalized: TR3VecQuantity;
     function Norm: TQuantity;
     function SquaredNorm: TQuantity;
 
-    function Dot(const AVector: TVecQuantity): TQuantity;
-    function Cross(const AVector: TVecQuantity): TVecQuantity;
-    function Projection(const AVersor: TR3Vector): TVecQuantity;
-    function Rejection(const AVersor: TR3Vector): TVecQuantity; overload;
-    function Reflection(const AVersor: TR3Vector): TVecQuantity; overload;
+    function Dot(const AVector: TR3VecQuantity): TQuantity;
+    function Cross(const AVector: TR3VecQuantity): TR3VecQuantity;
+    function Projection(const AVersor: TR3Vector): TR3VecQuantity;
+    function Rejection(const AVersor: TR3Vector): TR3VecQuantity; overload;
+    function Reflection(const AVersor: TR3Vector): TR3VecQuantity; overload;
 
-    function ExtractVector(AComponents: TVectorComponents): TVecQuantity;
-    function SameValue(const AVector: TVecQuantity): boolean;
+    function ExtractVector(AComponents: TVectorComponents): TR3VecQuantity;
+    function SameValue(const AVector: TR3VecQuantity): boolean;
   end;
   {$ENDIF}
 

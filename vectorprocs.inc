@@ -128,7 +128,7 @@ end;
 
 function TR3VectorHelper.ExtractVector(AComponents: TVectorComponents): TR3Vector;
 begin
-  result := NullVector;
+  result := R3NullVector;
   if vcm1 in AComponents then result.fm1 := fm1;
   if vcm2 in AComponents then result.fm2 := fm2;
   if vcm3 in AComponents then result.fm3 := fm3;
