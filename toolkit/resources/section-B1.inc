@@ -90,6 +90,8 @@ end;
 
 { TUnit }
 
+// Real numbers
+
 class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
@@ -110,25 +112,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
-  result.FValue := AQuantity;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AQuantity: TVector; const ASelf: TUnit): TVecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarId, ASelf.FID);
-  result.FValue := AQuantity;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
+// Complex numbers
 
 class operator TUnit.*(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 begin
@@ -170,8 +154,9 @@ begin
 {$ENDIF}
 end;
 
-{$IFDEF CLIFFORD}
-class operator TUnit.*(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
+// R3 vector space
+
+class operator TUnit.*(const AQuantity: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
@@ -181,7 +166,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: TBivector; const ASelf: TUnit): TBivecQuantity; inline;
+class operator TUnit./(const AQuantity: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
@@ -191,7 +176,9 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AQuantity: TTrivector; const ASelf: TUnit): TTrivecQuantity; inline;
+// CL3 vector space, Clifford algebra
+
+class operator TUnit.*(const AQuantity: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
@@ -201,7 +188,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: TTrivector; const ASelf: TUnit): TTrivecQuantity; inline;
+class operator TUnit./(const AQuantity: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
@@ -211,7 +198,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
+class operator TUnit.*(const AQuantity: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
@@ -221,7 +208,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: TMultivector; const ASelf: TUnit): TMultivecQuantity; inline;
+class operator TUnit./(const AQuantity: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
@@ -230,9 +217,51 @@ begin
   result := AQuantity;
 {$ENDIF}
 end;
+
+class operator TUnit.*(const AQuantity: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
 {$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarId, ASelf.FID);
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AQuantity: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AQuantity: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarId, ASelf.FID);
+  result.FValue := AQuantity;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
 
 {$IFNDEF ADIMOFF}
+
+// Real numbers
+
 class operator TUnit.*(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
@@ -245,17 +274,7 @@ begin
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQuantity; inline;
-begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TVecQuantity; const ASelf: TUnit): TVecQuantity; inline;
-begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
-  result.FValue := AQuantity.FValue;
-end;
+// Complex numbers
 
 class operator TUnit.*(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
 begin
@@ -281,46 +300,75 @@ begin
   result.FValue := AQuantity.FValue.Reciprocal;
 end;
 
-{$IFDEF CLIFFORD}
-class operator TUnit.*(const AQuantity: TBivecQuantity; const ASelf: TUnit): TBivecQuantity; inline;
+// R3 vector space
+
+class operator TUnit.*(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TBivecQuantity; const ASelf: TUnit): TBivecQuantity; inline;
+class operator TUnit./(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TTrivecQuantity; const ASelf: TUnit): TTrivecQuantity; inline;
+// CL3 vector space, Clifford algebra
+
+class operator TUnit.*(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TTrivecQuantity; const ASelf: TUnit): TTrivecQuantity; inline;
+class operator TUnit./(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TMultivecQuantity; const ASelf: TUnit): TMultivecQuantity; inline;
+class operator TUnit.*(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TMultivecQuantity; const ASelf: TUnit): TMultivecQuantity; inline;
+class operator TUnit./(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
 end;
-{$ENDIF}
+
+class operator TUnit.*(const AQuantity: TCL3TrivecQuantity; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TCL3TrivecQuantity; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TCL3MultivecQuantity; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TCL3MultivecQuantity; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
 {$ENDIF}
 
 { TFactoredUnit }
+
+// Real numbers
 
 class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
@@ -342,7 +390,9 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TVector; const ASelf: TFactoredUnit): TVecQuantity; inline;
+// R3 vector space
+
+class operator TFactoredUnit.*(const AQuantity: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
@@ -352,7 +402,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TVector; const ASelf: TFactoredUnit): TVecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
@@ -362,8 +412,9 @@ begin
 {$ENDIF}
 end;
 
-{$IFDEF CLIFFORD}
-class operator TFactoredUnit.*(const AQuantity: TBivector; const ASelf: TFactoredUnit): TBivecQuantity; inline;
+// CL3 vector space, Clifford algebra
+
+class operator TFactoredUnit.*(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
@@ -373,7 +424,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TBivector; const ASelf: TFactoredUnit): TBivecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
@@ -383,7 +434,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
@@ -393,7 +444,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TTrivector; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
@@ -403,7 +454,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
@@ -413,7 +464,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TMultivector; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
@@ -422,9 +473,31 @@ begin
   result := AQuantity / ASelf.FFactor;
 {$ENDIF}
 end;
+
+class operator TFactoredUnit.*(const AQuantity: TCL3Multivector; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AQuantity * ASelf.FFactor;
+{$ELSE}
+  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AQuantity: TCL3Multivector; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarId, ASelf.FID);
+  result.FValue := AQuantity / ASelf.FFactor;
+{$ELSE}
+  result := AQuantity / ASelf.FFactor;
+{$ENDIF}
+end;
 
 {$IFNDEF ADIMOFF}
+
+// Real numbers
+
 class operator TFactoredUnit.*(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
@@ -437,55 +510,70 @@ begin
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TVecQuantity; const ASelf: TFactoredUnit): TVecQuantity; inline;
+// R3 vector space
+
+class operator TFactoredUnit.*(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TVecQuantity; const ASelf: TFactoredUnit): TVecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-{$IFDEF CLIFFORD}
-class operator TFactoredUnit.*(const AQuantity: TBivecQuantity; const ASelf: TFactoredUnit): TBivecQuantity; inline;
+// CL3 vector space, Clifford algebra
+
+class operator TFactoredUnit.*(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TBivecQuantity; const ASelf: TFactoredUnit): TBivecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TTrivecQuantity; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TTrivecQuantity; const ASelf: TFactoredUnit): TTrivecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TMultivecQuantity; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TMultivecQuantity; const ASelf: TFactoredUnit): TMultivecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
-{$ENDIF}
+
+class operator TFactoredUnit.*(const AQuantity: TCL3MultivecQuantity; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TCL3MultivecQuantity; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
 {$ENDIF}
 
 { TDegreeCelsiusUnit }
@@ -614,6 +702,8 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
+// Real numbers
+
 function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
@@ -634,26 +724,6 @@ begin
 {$ENDIF}  
 end;
 
-function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
-begin
-  {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVector(const AQuantity: TVecQuantity): TVector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
 function TUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
@@ -670,11 +740,11 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes); 
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
- 
+
   if Length(APrefixes) = 0 then
      result := FloatToStr(FactoredValue) + ' ' + GetSymbol(FPrefixes)
   else
@@ -690,7 +760,7 @@ begin
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}  
+{$ENDIF}
 
   if Length(APrefixes) = 0 then
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
@@ -710,7 +780,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
   FactoredTol   := GetValue(ATolerance, APrefixes);
-{$ENDIF}  
+{$ENDIF}
 
   if Length(APrefixes) = 0 then
   begin
@@ -721,7 +791,7 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
               FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
   end;
-end;    
+end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 begin
@@ -748,7 +818,7 @@ begin
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}  
+{$ENDIF}
 
   if Length(APrefixes) = 0 then
   begin
@@ -774,7 +844,7 @@ begin
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}  
+{$ENDIF}
 
   if Length(APrefixes) = 0 then
   begin
@@ -799,7 +869,7 @@ begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-  FactoredTol   := GetValue(ATolerance.FValue, APrefixes);    
+  FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
   FactoredTol   := GetValue(ATolerance, APrefixes);
@@ -816,89 +886,17 @@ begin
   end;
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TVecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
+// Complex numbers
 
-{$IFDEF CLIFFORD}
-function TUnitHelper.ToVerboseString(const AQuantity: TBivecQuantity): string;
+function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+  result := AQuantity.FValue;
 {$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+  result := AQuantity;
 {$ENDIF}
 end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TTrivecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TMultivecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-{$ENDIF}
-
-function TUnitHelper.ToString(const AQuantity: TVecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-{$IFDEF CLIFFORD}
-function TUnitHelper.ToString(const AQuantity: TBivecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TTrivecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TMultivecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-{$ENDIF}
 
 function TUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
 begin
@@ -917,6 +915,120 @@ begin
   result := '(' + AQuantity.FValue.ToString + ') ' + GetName(FPrefixes)
 {$ELSE}
   result := '(' + AQuantity.ToString + ') ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+// R3 vector space
+
+function TUnitHelper.ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToString(const AQuantity: TR3VecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR3VecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+// CL3 vector space, Clifford algebra
+
+function TUnitHelper.ToString(const AQuantity: TCL3VecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToString(const AQuantity: TCL3BivecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToString(const AQuantity: TCL3TrivecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToString(const AQuantity: TCL3MultivecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TCL3VecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
 {$ENDIF}
 end;
 
@@ -1021,6 +1133,8 @@ begin
     else
       raise Exception.Create('Wrong number of prefixes.');
 end;
+
+// Real numbers
 
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
@@ -1205,113 +1319,7 @@ begin
   end;
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TVecQuantity): string;
-var
-  FactoredValue: TVector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-{$IFDEF CLIFFORD}
-function TFactoredUnitHelper.ToString(const AQuantity: TBivecQuantity): string;
-var
-  FactoredValue: TBivector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TTrivecQuantity): string;
-var
-  FactoredValue: TTrivector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TMultivecQuantity): string;
-var
-  FactoredValue: TMultivector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-{$ENDIF}
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TVecQuantity): string;
-var
-  FactoredValue: TVector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
-end;
-
-{$IFDEF CLIFFORD}
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TBivecQuantity): string;
-var
-  FactoredValue: TBivector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TTrivecQuantity): string;
-var
-  FactoredValue: TTrivector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TMultivecQuantity): string;
-var
-  FactoredValue: TMultivector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
-end;
-{$ENDIF}
+// Complex numbers
 
 function TFactoredUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
 var
@@ -1338,6 +1346,141 @@ begin
 {$ENDIF}
   result := '(' + FactoredValue.ToString + ') ' + GetName(FPrefixes)
 end;
+
+// R3 vector space
+
+function TFactoredUnitHelper.ToString(const AQuantity: TR3VecQuantity): string;
+var
+  FactoredValue: TR3Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR3VecQuantity): string;
+var
+  FactoredValue: TR3Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
+end;
+
+// CL3 vector space, Cliffor algebra
+
+function TFactoredUnitHelper.ToString(const AQuantity: TCL3VecQuantity): string;
+var
+  FactoredValue: TCL3Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToString(const AQuantity: TCL3BivecQuantity): string;
+var
+  FactoredValue: TCL3Bivector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToString(const AQuantity: TCL3TrivecQuantity): string;
+var
+  FactoredValue: TCL3Trivector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToString(const AQuantity: TCL3MultivecQuantity): string;
+var
+  FactoredValue: TCL3Multivector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3VecQuantity): string;
+var
+  FactoredValue: TCL3Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
+var
+  FactoredValue: TCL3Bivector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
+var
+  FactoredValue: TCL3Trivector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
+var
+  FactoredValue: TCL3Multivector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := AQuantity.FValue / FFactor;
+{$ELSE}
+  FactoredValue := AQuantity / FFactor;
+{$ENDIF}
+  result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
+end;
+
 
 { TDegreeCelsiusUnitHelper }
 

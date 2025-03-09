@@ -69,6 +69,8 @@ type
     class operator *(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
     class operator /(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
     // CL3 vector space, Clifford algebra
+    class operator *(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
+    class operator /(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
     class operator *(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
     class operator /(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
     class operator *(const AQuantity: TCL3TrivecQuantity; const ASelf: TUnit): TCL3TrivecQuantity; inline;
@@ -97,6 +99,8 @@ type
     class operator *(const AQuantity: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
     class operator /(const AQuantity: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
     // CL3 vector space, Clifford algebra
+    class operator *(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
+    class operator /(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
     class operator *(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
     class operator /(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
     class operator *(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
@@ -111,6 +115,8 @@ type
     class operator *(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
     class operator /(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
     // CL3 vector space, Clifford algebra
+    class operator *(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
+    class operator /(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
     class operator *(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
     class operator /(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
     class operator *(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
@@ -157,12 +163,9 @@ type
     function GetSymbol(Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
   public
+    // Real numbers
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
-
-    function ToComplex(const AQuantity: TComplexQuantity): TComplex;
-    function ToVector(const AQuantity: TVecQuantity): TR3Vector;
-
     function ToString(const AQuantity: TQuantity): string;
     function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
     function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -171,22 +174,23 @@ type
     function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-
-    function ToString(const AQuantity: TVecQuantity): string;
-    function ToVerboseString(const AQuantity: TVecQuantity): string;
-  {$IFDEF CLIFFORD}
-    function ToString(const AQuantity: TBivecQuantity): string;
-    function ToString(const AQuantity: TTrivecQuantity): string;
-    function ToString(const AQuantity: TMultivecQuantity): string;
-  {$ENDIF}
-
-  {$IFDEF CLIFFORD}
-    function ToVerboseString(const AQuantity: TBivecQuantity): string;
-    function ToVerboseString(const AQuantity: TTrivecQuantity): string;
-    function ToVerboseString(const AQuantity: TMultivecQuantity): string;
-  {$ENDIF}
+    // Complex numbers
+    function ToComplex(const AQuantity: TComplexQuantity): TComplex;
     function ToString(const AQuantity: TComplexQuantity): string;
     function ToVerboseString(const AQuantity: TComplexQuantity): string;
+    // R3 vector space
+    function ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
+    function ToString(const AQuantity: TR3VecQuantity): string;
+    function ToVerboseString(const AQuantity: TR3VecQuantity): string;
+    // CL3 vector space, Clifford algebra
+    function ToString(const AQuantity: TCL3VecQuantity): string;
+    function ToString(const AQuantity: TCL3BivecQuantity): string;
+    function ToString(const AQuantity: TCL3TrivecQuantity): string;
+    function ToString(const AQuantity: TCL3MultivecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3VecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
   end;
 
  { TFactoredUnitHelper }
@@ -198,6 +202,7 @@ type
     function GetSymbol(Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
   public
+    // Real numbers
     function ToFloat(const AQuantity: TQuantity): double;
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
     function ToString(const AQuantity: TQuantity): string;
@@ -208,22 +213,21 @@ type
     function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-  
-    function ToString(const AQuantity: TVecQuantity): string;
-  {$IFDEF CLIFFORD}
-    function ToString(const AQuantity: TBivecQuantity): string;
-    function ToString(const AQuantity: TTrivecQuantity): string;
-    function ToString(const AQuantity: TMultivecQuantity): string;
-  {$ENDIF}
-    function ToVerboseString(const AQuantity: TVecQuantity): string;
-  {$IFDEF CLIFFORD}
-    function ToVerboseString(const AQuantity: TBivecQuantity): string;
-    function ToVerboseString(const AQuantity: TTrivecQuantity): string;
-    function ToVerboseString(const AQuantity: TMultivecQuantity): string;
-  {$ENDIF}
-
+    // Complex numbers
     function ToString(const AQuantity: TComplexQuantity): string;
     function ToVerboseString(const AQuantity: TComplexQuantity): string;
+    // R3 vector space
+    function ToString(const AQuantity: TR3VecQuantity): string;
+    function ToVerboseString(const AQuantity: TR3VecQuantity): string;
+    // CL3 vector space, Clifford algebra
+    function ToString(const AQuantity: TCL3VecQuantity): string;
+    function ToString(const AQuantity: TCL3BivecQuantity): string;
+    function ToString(const AQuantity: TCL3TrivecQuantity): string;
+    function ToString(const AQuantity: TCL3MultivecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3VecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
   end;
 
  { TDegreeCelsiusUnitHelper }
