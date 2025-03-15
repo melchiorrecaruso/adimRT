@@ -226,6 +226,7 @@ var
   t1, t2, State: TC2Ket;
 
   H2: TC2Matrix;
+  H3: TC3Matrix;
   StateL : TC2Ket;
   StateR : TC2Ket;
 
@@ -1374,6 +1375,15 @@ begin
   writeln((Matrix(3, img,2*img,7+img)*Ket(4,img)).ToString);
   writeln((Matrix(3, img,2*img,7+img)*Ket(4,img)).TransposeDual.ToString);
   writeln((Ket(4,img).TransposeDual*Matrix(3, img,2*img,7+img).TransposeDual).ToString);
+
+  H3 := Matrix(4+img, 0, 2, 1, 3, 2, 1, 0, 5);
+  writeln('l1 = ', H3.Eigenvalues.a1.ToString);
+  writeln('l2 = ', H3.Eigenvalues.a2.ToString);
+  writeln('l3 = ', H3.Eigenvalues.a3.ToString);
+
+  writeln('v1 = ', H3.Eigenvector(H3.Eigenvalues.a1).ToString);
+  writeln('v2 = ', H3.Eigenvector(H3.Eigenvalues.a2).ToString);
+  writeln('v3 = ', H3.Eigenvector(H3.Eigenvalues.a3).ToString);
 
   writeln;
   writeln('ADIM-TEST DONE.');

@@ -781,6 +781,48 @@ end;
 
 // TC3Matrix
 
+function TC3MatrixHelper.SwapRow(ASwap: TSwapValue): TC3Matrix;
+begin
+  case ASwap of
+    sw12:
+    begin
+      result.fm11 := fm21;
+      result.fm12 := fm22;
+      result.fm13 := fm23;
+      result.fm21 := fm11;
+      result.fm22 := fm12;
+      result.fm23 := fm13;
+      result.fm31 := fm31;
+      result.fm32 := fm32;
+      result.fm33 := fm33;
+    end;
+    sw13:
+    begin
+      result.fm11 := fm31;
+      result.fm12 := fm32;
+      result.fm13 := fm33;
+      result.fm21 := fm21;
+      result.fm22 := fm22;
+      result.fm23 := fm23;
+      result.fm31 := fm11;
+      result.fm32 := fm12;
+      result.fm33 := fm13;
+    end;
+    sw23:
+    begin
+      result.fm11 := fm11;
+      result.fm12 := fm12;
+      result.fm13 := fm13;
+      result.fm21 := fm31;
+      result.fm22 := fm32;
+      result.fm23 := fm33;
+      result.fm31 := fm21;
+      result.fm32 := fm22;
+      result.fm33 := fm23;
+    end;
+  end;
+end;
+
 function TC3MatrixHelper.Trace: TComplex;
 begin
   result := fm11 + fm22 + fm33;
@@ -796,7 +838,7 @@ begin
   t3 := (Self*Self*Self).Trace;
 
   C1 := -t1;
-  C2 := -0.5*(C1*t1+t2);
+  C2 := -(C1*t1+t2)/2;
   C3 := -(C2*t1+C1*t2+t3)/3;
 
   p := -SquarePower(C1)/3 + C2;
@@ -811,8 +853,56 @@ begin
 end;
 
 function TC3MatrixHelper.Eigenvector(const AEigenValue: TComplex): TC3Ket;
+var
+  ratio: TComplex;
+  A: TC3Matrix;
 begin
+  // Apply the Gauss-Jordan method to solve the system
+  A.a11 := Self.a11 - AEigenValue;
+  A.a12 := Self.a12;
+  A.a13 := Self.a13;
+  A.a21 := Self.a21;
+  A.a22 := Self.a22 - AEigenValue;
+  A.a23 := Self.a23;
+  A.a31 := Self.a31;
+  A.a32 := Self.a32;
+  A.a33 := Self.a33 - AEigenValue;
 
+  if A.a11.Norm < a21.Norm then A := A.SwapRow(sw12);
+  if A.a11.Norm < a31.Norm then A := A.SwapRow(sw13);
+  if A.a11.SameValue(0) then Exit(C3NullKet);
+
+  // Eliminate the elements below the pivot in the first column
+  if A.a21.SameValue(0) then
+  begin
+    ratio := A.a21/A.a11;
+    A.a21 := 0;
+    A.a22 := A.a22 - ratio * A.a12;
+    A.a23 := A.a23 - ratio * A.a13;
+  end;
+
+  if A.a31.SameValue(0) = False then
+  begin
+    ratio := A.a31/A.a11;
+    A.a31 := 0;
+    A.a32 := A.a32 - ratio * A.a12;
+    A.a33 := A.a33 - ratio * A.a13;
+  end;
+
+  if A.a22.Norm < a32.Norm then A := A.SwapRow(sw23);
+  if A.a22.SameValue(0) then Exit(C3NullKet);
+  // Eliminate the elements below the pivot in the second column
+  if A.a32.SameValue(0) = False then
+  begin
+    ratio := A.a32/A.a22;
+    A.a31 := 0;
+    A.a32 := 0;
+    A.a33 := A.a33 - ratio * A.a23;
+  end;
+
+  result.a3 := 1;
+  result.a2 := -(A.a23/A.a22);
+  result.a1 := -(A.a13+A.a12*result.a2)/A.a11;
 end;
 
 function TC3MatrixHelper.ToString: string;
@@ -1052,6 +1142,7 @@ begin
 end;
 
 function CubicRoot(const AValue: TComplex): TC3Ket;
+
 const
   i: TImaginaryNumber = ();
 var

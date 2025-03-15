@@ -228,6 +228,8 @@ type
     function ToString(APrecision, ADigits: integer): string;
   end;
 
+  TSwapValue = (swNone, sw12, sw13, sw14, sw23, sw24, sw34);
+
   TC2MatrixHelper = record helper for TC2Matrix
     function Trace: TComplex;
     function Eigenvalues: TC2Ket;
@@ -237,6 +239,7 @@ type
   end;
 
   TC3MatrixHelper = record helper for TC3Matrix
+    function SwapRow(ASwap: TSwapValue): TC3Matrix;
     function Trace: TComplex;
     function Eigenvalues: TC3Ket;
     function Eigenvector(const AEigenValue: TComplex): TC3Ket;
@@ -269,14 +272,18 @@ type
 const
   NullComplex: TComplex = (FRe: 0; fIm: 0);
 
+  C2NullBra : TC2Bra = (fm1:(fRe:0; fIm:0); fm2:(fRe:0; fIm:0));
+  C2NullKet : TC2Ket = (fm1:(fRe:0; fIm:0); fm2:(fRe:0; fIm:0));
   C2NullMatrix : TC2Matrix =
-    (fm11: (fRe: 0; fIm:0); fm12: (fRe: 0; fIm:0);
-     fm21: (fRe: 0; fIm:0); fm22: (fRe: 0; fIm:0));
+    (fm11: (fRe: 0; fIm:0); fm12:(fRe: 0; fIm:0);
+     fm21: (fRe: 0; fIm:0); fm22:(fRe: 0; fIm:0));
 
+  C3NullBra : TC3Bra = (fm1:(fRe:0; fIm:0); fm2:(fRe:0; fIm:0); fm3:(fRe:0; fIm:0));
+  C3NullKet : TC3Ket = (fm1:(fRe:0; fIm:0); fm2:(fRe:0; fIm:0); fm3:(fRe:0; fIm:0));
   C3NullMatrix : TC3Matrix =
-    (fm11: (fRe: 0; fIm:0); fm12: (fRe: 0; fIm:0); fm13: (fRe: 0; fIm:0);
-     fm21: (fRe: 0; fIm:0); fm22: (fRe: 0; fIm:0); fm23: (fRe: 0; fIm:0);
-     fm31: (fRe: 0; fIm:0); fm32: (fRe: 0; fIm:0); fm33: (fRe: 0; fIm:0));
+    (fm11:(fRe: 0; fIm:0); fm12:(fRe: 0; fIm:0); fm13:(fRe: 0; fIm:0);
+     fm21:(fRe: 0; fIm:0); fm22:(fRe: 0; fIm:0); fm23:(fRe: 0; fIm:0);
+     fm31:(fRe: 0; fIm:0); fm32:(fRe: 0; fIm:0); fm33:(fRe: 0; fIm:0));
 
 function SquarePower(const AValue: TComplex): TComplex;
 function SquareRoot(const AValue: TComplex): TC2Ket;
