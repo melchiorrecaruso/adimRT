@@ -65,12 +65,6 @@ begin
         result := '0';
 end;
 
-function TComplex.SameValue(const AComplex: TComplex): boolean;
-begin
-  result := Math.SameValue(fRe, AComplex.fRe) and
-            Math.SameValue(fIm, AComplex.fIm);
-end;
-
 class operator TComplex.:= (const AValue: double): TComplex;
 begin
   result.fRe := AValue;
@@ -199,12 +193,6 @@ begin
   result := fm1.IsNull and fm2.IsNull;
 end;
 
-function TC2KetHelper.SameValue(const AVector: TC2Ket): boolean;
-begin
-  result := fm1.SameValue(AVector.fm1) and
-            fm2.SameValue(AVector.fm2);
-end;
-
 function TC2KetHelper.ToString: string;
 begin
   result := Format('(%s, %s)', [fm1.ToString, fm2.ToString]);
@@ -292,13 +280,6 @@ end;
 function TC3KetHelper.IsNull: boolean;
 begin
   result := fm1.IsNull and fm2.IsNull and fm3.IsNull;
-end;
-
-function TC3KetHelper.SameValue(const AVector: TC3Ket): boolean;
-begin
-  result := fm1.SameValue(AVector.fm1) and
-            fm2.SameValue(AVector.fm2) and
-            fm3.SameValue(AVector.fm3);
 end;
 
 function TC3KetHelper.ToString: string;
@@ -406,12 +387,6 @@ begin
   result := fm1.IsNull and fm2.IsNull;
 end;
 
-function TC2BraHelper.SameValue(const AVector: TC2Bra): boolean;
-begin
-  result := fm1.SameValue(AVector.fm1) and
-            fm2.SameValue(AVector.fm2);
-end;
-
 function TC2BraHelper.ToString: string;
 begin
   result := Format('(%s, %s)', [fm1.ToString, fm2.ToString]);
@@ -512,13 +487,6 @@ end;
 function TC3BraHelper.IsNull: boolean;
 begin
   result := fm1.IsNull and fm2.IsNull and fm3.IsNull;
-end;
-
-function TC3BraHelper.SameValue(const AVector: TC3Bra): boolean;
-begin
-  result := fm1.SameValue(AVector.fm1) and
-            fm2.SameValue(AVector.fm2) and
-            fm3.SameValue(AVector.fm3);
 end;
 
 function TC3BraHelper.ToString: string;
@@ -637,8 +605,8 @@ begin
   result.fm1 := AEigenValue - fm22;
   result.fm2 := fm21;
 
-  if (result.fm1.SameValue(NullComplex)) and
-     (result.fm2.SameValue(NullComplex)) then
+  if SameValue(result.fm1, NullComplex) and
+     SameValue(result.fm2, NullComplex) then
   begin
     result.fm1 := fm12;
     result.fm2 := AEigenValue - fm11;
@@ -758,14 +726,6 @@ begin
   result.fm22 := fm22.Dual;
 end;
 
-function TC2Matrix.SameValue(const AMatrix: TC2Matrix): boolean;
-begin
-  result := fm11.SameValue(AMatrix.fm11) and
-            fm12.SameValue(AMatrix.fm12) and
-            fm21.SameValue(AMatrix.fm21) and
-            fm22.SameValue(AMatrix.fm22);
-end;
-
 function TC2Matrix.Determinant: TComplex;
 begin
   result := fm11*fm22 - fm12*fm21;
@@ -841,15 +801,13 @@ begin
   C2 := -(C1*t1+t2)/2;
   C3 := -(C2*t1+C1*t2+t3)/3;
 
-  p := -SquarePower(C1)/3 + C2;
-  q :=  2*CubicPower(C1)/27 - C1*C2/3 + C3;
+  writeln('----');
+  writeln(Utf8ToAnsi(C1.ToString));
+  writeln(Utf8ToAnsi(C2.ToString));
+  writeln(Utf8ToAnsi(C3.ToString));
+  writeln('----');
 
-  result := CubicRoot(-q/2 + SquareRoot(q*q/4 + p*p*p/27).fm1) +
-            CubicRoot(-q/2 - SquareRoot(q*q/4 + p*p*p/27).fm1);
-
-  result.fm1 := result.fm1 - C1/3;
-  result.fm2 := result.fm2 - C1/3;
-  result.fm3 := result.fm3 - C1/3;
+  result := SolveEquation3(C1, C2, C3);
 end;
 
 function TC3MatrixHelper.Eigenvector(const AEigenValue: TComplex): TC3Ket;
@@ -870,10 +828,10 @@ begin
 
   if A.a11.Norm < a21.Norm then A := A.SwapRow(sw12);
   if A.a11.Norm < a31.Norm then A := A.SwapRow(sw13);
-  if A.a11.SameValue(0) then Exit(C3NullKet);
+  if SameValue(A.a11, 0) then Exit(C3NullKet);
 
   // Eliminate the elements below the pivot in the first column
-  if A.a21.SameValue(0) then
+  if SameValue(A.a21, 0) then
   begin
     ratio := A.a21/A.a11;
     A.a21 := 0;
@@ -881,7 +839,7 @@ begin
     A.a23 := A.a23 - ratio * A.a13;
   end;
 
-  if A.a31.SameValue(0) = False then
+  if SameValue(A.a31, 0) = False then
   begin
     ratio := A.a31/A.a11;
     A.a31 := 0;
@@ -890,9 +848,9 @@ begin
   end;
 
   if A.a22.Norm < a32.Norm then A := A.SwapRow(sw23);
-  if A.a22.SameValue(0) then Exit(C3NullKet);
+  if SameValue(A.a22, 0) then Exit(C3NullKet);
   // Eliminate the elements below the pivot in the second column
-  if A.a32.SameValue(0) = False then
+  if SameValue(A.a32, 0) = False then
   begin
     ratio := A.a32/A.a22;
     A.a31 := 0;
@@ -1083,19 +1041,6 @@ begin
   result.fm33 := fm33.Dual;
 end;
 
-function TC3Matrix.SameValue(const AMatrix: TC3Matrix): boolean;
-begin
-  result := fm11.SameValue(AMatrix.fm11) and
-            fm12.SameValue(AMatrix.fm12) and
-            fm13.SameValue(AMatrix.fm13) and
-            fm21.SameValue(AMatrix.fm21) and
-            fm22.SameValue(AMatrix.fm22) and
-            fm23.SameValue(AMatrix.fm23) and
-            fm31.SameValue(AMatrix.fm31) and
-            fm32.SameValue(AMatrix.fm32) and
-            fm33.SameValue(AMatrix.fm33);
-end;
-
 function TC3Matrix.Determinant: TComplex;
 begin
   result :=  fm11*(fm22*fm33 -fm23*fm32)
@@ -1169,6 +1114,80 @@ end;
 function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
 begin
   result := ALeft*ARight - ARight*ALeft;
+end;
+
+function SameValue(const AValue1, AValue2: TComplex): boolean;
+begin
+  result := Math.SameValue(AValue1.fRe, AValue2.fRe) and
+            Math.SameValue(AValue1.fIm, AValue2.fIm);
+end;
+
+function SameValue(const AValue1, AValue2: TC2Ket): boolean;
+begin
+  result := SameValue(AValue1.fm1, AValue2.fm1) and
+            SameValue(AValue1.fm2, AValue2.fm2);
+end;
+function SameValue(const AValue1, AValue2: TC3Ket): boolean;
+begin
+  result := SameValue(AValue1.fm1, AValue2.fm1) and
+            SameValue(AValue1.fm2, AValue2.fm2) and
+            SameValue(AValue1.fm3, AValue2.fm3);
+end;
+
+function SameValue(const AValue1, AValue2: TC2Bra): boolean;
+begin
+  result := SameValue(AValue1.fm1, AValue2.fm1) and
+            SameValue(AValue1.fm2, AValue2.fm2);
+end;
+
+function SameValue(const AValue1, AValue2: TC3Bra): boolean;
+begin
+  result := SameValue(AValue1.fm1, AValue2.fm1) and
+            SameValue(AValue1.fm2, AValue2.fm2) and
+            SameValue(AValue1.fm3, AValue2.fm3);
+end;
+
+function SameValue(const AValue1, AValue2: TC2Matrix): boolean;
+begin
+  result := SameValue(AValue1.fm11, AValue2.fm11) and
+            SameValue(AValue1.fm12, AValue2.fm12) and
+            SameValue(AValue1.fm21, AValue2.fm21) and
+            SameValue(AValue1.fm22, AValue2.fm22);
+end;
+
+function SameValue(const AValue1, AValue2: TC3Matrix): boolean;
+begin
+  result := SameValue(AValue1.fm11, AValue2.fm11) and
+            SameValue(AValue1.fm12, AValue2.fm12) and
+            SameValue(AValue1.fm13, AValue2.fm13) and
+            SameValue(AValue1.fm21, AValue2.fm21) and
+            SameValue(AValue1.fm22, AValue2.fm22) and
+            SameValue(AValue1.fm23, AValue2.fm23) and
+            SameValue(AValue1.fm31, AValue2.fm31) and
+            SameValue(AValue1.fm32, AValue2.fm32) and
+            SameValue(AValue1.fm33, AValue2.fm33);
+end;
+
+function SolveEquation3(const a, b, c: TComplex): TC3Ket;
+var
+  p, q, s1, t: TComplex;
+  u: TC3Ket;
+begin
+  p := 9*b -3*SquarePower(a);
+  q := 27*c -9*a*b +2*CubicPower(a);
+
+  s1 := -q/2 + SquareRoot(SquarePower(q)/4 + CubicPower(p)/27).fm1;
+//s2 := -q/2 - SquareRoot(SquarePower(q)/4 + CubicPower(p)/27).fm1;
+
+  u := CubicRoot(s1);
+  t := u.fm1 - p/(3*u.fm1); result.fm1 := (t - a)/3;
+  t := u.fm2 - p/(3*u.fm2); result.fm2 := (t - a)/3;
+  t := u.fm3 - p/(3*u.fm3); result.fm3 := (t - a)/3;
+
+  //u := CubicRoot(s2);
+  //t := u.fm1 - p/(3*u.fm1); z := (t - a)/3; writeln(Utf8ToAnsi(z.ToString));
+  //t := u.fm2 - p/(3*u.fm2); z := (t - a)/3; writeln(Utf8ToAnsi(z.ToString));
+  //t := u.fm3 - p/(3*u.fm3); z := (t - a)/3; writeln(Utf8ToAnsi(z.ToString));
 end;
 
 // TImaginayUnit

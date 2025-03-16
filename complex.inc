@@ -15,7 +15,6 @@ type
     function IsNull: boolean;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
-    function SameValue(const AComplex: TComplex): boolean;
     class operator :=(const AValue: double): TComplex; inline;
     class operator +(const AValue: TComplex): TComplex; inline;
     class operator +(const ALeft, ARight: TComplex): TComplex; inline;
@@ -50,7 +49,6 @@ type
     function Dual: TC2Matrix;
     function Transpose: TC2Matrix;
     function TransposeDual: TC2Matrix;
-    function SameValue(const AMatrix: TC2Matrix): boolean;
     function Determinant: TComplex;
     function Reciprocal(const ADeterminant: TComplex): TC2Matrix;
     class operator +(const ALeft, ARight: TC2Matrix): TC2Matrix;
@@ -78,7 +76,6 @@ type
     function Dual: TC3Matrix;
     function Transpose: TC3Matrix;
     function TransposeDual: TC3Matrix;
-    function SameValue(const AMatrix: TC3Matrix): boolean;
     function Determinant: TComplex;
     function Reciprocal(const ADeterminant: TComplex): TC3Matrix;
     class operator +(const ALeft, ARight: TC3Matrix): TC3Matrix;
@@ -192,7 +189,6 @@ type
     function Normalize: TC2Ket;
     function TransposeDual: TC2Bra;
     function IsNull: boolean;
-    function SameValue(const AVector: TC2Ket): boolean;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
@@ -202,7 +198,6 @@ type
     function Norm: double;
     function TransposeDual: TC3Bra;
     function IsNull: boolean;
-    function SameValue(const AVector: TC3Ket): boolean;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
@@ -213,7 +208,6 @@ type
     function Normalize: TC2Bra;
     function TransposeDual: TC2Ket;
     function IsNull: boolean;
-    function SameValue(const AVector: TC2Bra): boolean;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
@@ -223,7 +217,6 @@ type
     function Norm: double;
     function TransposeDual: TC3Ket;
     function IsNull: boolean;
-    function SameValue(const AVector: TC3Bra): boolean;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
@@ -292,4 +285,15 @@ function CubicRoot(const AValue: TComplex): TC3Ket;
 
 function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
 function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
+
+function SameValue(const AValue1, AValue2: TComplex): boolean;
+function SameValue(const AValue1, AValue2: TC2Ket): boolean;
+function SameValue(const AValue1, AValue2: TC3Ket): boolean;
+function SameValue(const AValue1, AValue2: TC2Bra): boolean;
+function SameValue(const AValue1, AValue2: TC3Bra): boolean;
+function SameValue(const AValue1, AValue2: TC2Matrix): boolean;
+function SameValue(const AValue1, AValue2: TC3Matrix): boolean;
+
+function SolveEquation3(const a, b, c: TComplex): TC3Ket;
+
 
