@@ -605,8 +605,8 @@ begin
   result.fm1 := AEigenValue - fm22;
   result.fm2 := fm21;
 
-  if SameValue(result.fm1, NullComplex) and
-     SameValue(result.fm2, NullComplex) then
+  if IsEqualToZero(result.fm1) and
+     IsEqualToZero(result.fm2) then
   begin
     result.fm1 := fm12;
     result.fm2 := AEigenValue - fm11;
@@ -790,7 +790,7 @@ end;
 
 function TC3MatrixHelper.Eigenvalues: TC3Ket;
 var
-  C1, C2, C3, p, q: TComplex;
+  C1, C2, C3: TComplex;
   t1, t2, t3: TComplex;
 begin
   t1 := Trace;
@@ -801,21 +801,20 @@ begin
   C2 := -(C1*t1+t2)/2;
   C3 := -(C2*t1+C1*t2+t3)/3;
 
-  writeln('----');
-  writeln(Utf8ToAnsi(C1.ToString));
-  writeln(Utf8ToAnsi(C2.ToString));
-  writeln(Utf8ToAnsi(C3.ToString));
-  writeln('----');
+  result := SolveEquation(C1, C2, C3);
+end;
 
-  result := SolveEquation3(C1, C2, C3);
+function C3Ket(const a1, a2, a3: TComplex): TC3Ket;
+begin
+  result.a1 := a1;
+  result.a2 := a2;
+  result.a3 := a3;
 end;
 
 function TC3MatrixHelper.Eigenvector(const AEigenValue: TComplex): TC3Ket;
 var
-  ratio: TComplex;
   A: TC3Matrix;
 begin
-  // Apply the Gauss-Jordan method to solve the system
   A.a11 := Self.a11 - AEigenValue;
   A.a12 := Self.a12;
   A.a13 := Self.a13;
@@ -825,42 +824,53 @@ begin
   A.a31 := Self.a31;
   A.a32 := Self.a32;
   A.a33 := Self.a33 - AEigenValue;
+  A     := RowReduction(A);
 
-  if A.a11.Norm < a21.Norm then A := A.SwapRow(sw12);
-  if A.a11.Norm < a31.Norm then A := A.SwapRow(sw13);
-  if SameValue(A.a11, 0) then Exit(C3NullKet);
-
-  // Eliminate the elements below the pivot in the first column
-  if SameValue(A.a21, 0) then
+  result := C3NullKet;
+  if IsEqualToZero(A.a11) and
+     IsEqualToZero(A.a12) and
+     IsEqualToZero(A.a13) then
   begin
-    ratio := A.a21/A.a11;
-    A.a21 := 0;
-    A.a22 := A.a22 - ratio * A.a12;
-    A.a23 := A.a23 - ratio * A.a13;
+    result.fm1 := 1;
+  end else
+  begin
+    if IsEqualToZero(A.a22) and
+       IsEqualToZero(A.a23) then
+    begin
+      result.fm2 := 1;
+    end else
+    begin
+      result.fm3 := 1;
+    end;
   end;
 
-  if SameValue(A.a31, 0) = False then
+
+  if IsNotEqualToZero(A.a22) and
+     IsNotEqualToZero(A.a23) then
   begin
-    ratio := A.a31/A.a11;
-    A.a31 := 0;
-    A.a32 := A.a32 - ratio * A.a12;
-    A.a33 := A.a33 - ratio * A.a13;
+    result.fm2 := -A.a23/A.a22;
+  end else
+  begin
+    if IsNotEqualToZero(A.a22) then
+    begin
+
+    end else
+    begin
+
+    end;
   end;
 
-  if A.a22.Norm < a32.Norm then A := A.SwapRow(sw23);
-  if SameValue(A.a22, 0) then Exit(C3NullKet);
-  // Eliminate the elements below the pivot in the second column
-  if SameValue(A.a32, 0) = False then
+  if IsNotEqualToZero(A.a11) then
   begin
-    ratio := A.a32/A.a22;
-    A.a31 := 0;
-    A.a32 := 0;
-    A.a33 := A.a33 - ratio * A.a23;
+    result.fm1 := -(A.a12*result.fm2 + A.a13*result.fm3)/A.a11;
+  end else
+  begin
+    if IsNotEqualToZero(A.a12) and
+       IsNotEqualToZero(A.a13)then
+    begin
+      result.fm2 := -(A.a13*result.fm3)/A.a12;
+    end;
   end;
-
-  result.a3 := 1;
-  result.a2 := -(A.a23/A.a22);
-  result.a1 := -(A.a13+A.a12*result.a2)/A.a11;
 end;
 
 function TC3MatrixHelper.ToString: string;
@@ -1116,6 +1126,17 @@ begin
   result := ALeft*ARight - ARight*ALeft;
 end;
 
+function IsEqualToZero(const AValue: TComplex): boolean;
+begin
+  result := Math.SameValue(AValue.fRe, 0) and
+            Math.SameValue(AValue.fIm, 0);
+end;
+
+function IsNotEqualToZero(const AValue: TComplex): boolean;
+begin
+  result := not IsEqualToZero(AValue);
+end;
+
 function SameValue(const AValue1, AValue2: TComplex): boolean;
 begin
   result := Math.SameValue(AValue1.fRe, AValue2.fRe) and
@@ -1168,7 +1189,7 @@ begin
             SameValue(AValue1.fm33, AValue2.fm33);
 end;
 
-function SolveEquation3(const a, b, c: TComplex): TC3Ket;
+function SolveEquation(const a, b, c: TComplex): TC3Ket;
 var
   p, q, s1, t: TComplex;
   u: TC3Ket;
@@ -1188,6 +1209,80 @@ begin
   //t := u.fm1 - p/(3*u.fm1); z := (t - a)/3; writeln(Utf8ToAnsi(z.ToString));
   //t := u.fm2 - p/(3*u.fm2); z := (t - a)/3; writeln(Utf8ToAnsi(z.ToString));
   //t := u.fm3 - p/(3*u.fm3); z := (t - a)/3; writeln(Utf8ToAnsi(z.ToString));
+end;
+
+function RowReduction(const A: TC3Matrix): TC3Matrix;
+var
+  ratio: TComplex;
+begin
+  result := A;
+  // Apply the Gauss-Jordan method
+  if result.a11.Norm < result.a21.Norm then result := result.SwapRow(sw12);
+  if result.a11.Norm < result.a31.Norm then result := result.SwapRow(sw13);
+  // Eliminate the elements below the pivot in the first column
+  if IsNotEqualToZero(result.a11) then
+  begin
+    // Normalize first pivot
+    result.a12 := result.a12 / result.a11;
+    result.a13 := result.a13 / result.a11;
+    result.a11 := 1;
+
+    if IsNotEqualToZero(result.a21) then
+    begin
+      ratio := result.a21/result.a11;
+      result.a21 := 0;
+      result.a22 := result.a22 - ratio * result.a12;
+      result.a23 := result.a23 - ratio * result.a13;
+    end;
+
+    if IsNotEqualToZero(result.a31) then
+    begin
+      ratio := result.a31/result.a11;
+      result.a31 := 0;
+      result.a32 := result.a32 - ratio * result.a12;
+      result.a33 := result.a33 - ratio * result.a13;
+    end;
+  end;
+
+  if result.a22.Norm < result.a32.Norm then result := result.SwapRow(sw23);
+  // Eliminate the elements below the pivot in the second column
+  if IsNotEqualToZero(result.a22) then
+  begin
+    // Normalize second pivot
+    result.a23 := result.a23 / result.a22;
+    result.a22 := 1;
+
+    if IsNotEqualToZero(result.a32) then
+    begin
+      ratio := result.a32/result.a22;
+      result.a32 := 0;
+      result.a33 := result.a33 - ratio * result.a23;
+    end;
+  end else
+  begin
+    if result.a23.Norm > result.a33.Norm then
+    begin
+      result := result.SwapRow(sw23);
+    end;
+  end;
+
+  if IsNotEqualToZero(result.a33) then
+  begin
+    // Normalize third pivot
+    result.a33 := 1;
+  end;
+
+  //
+  if IsNotEqualToZero(result.a33) then
+  begin
+    result.a23 := 0;
+    result.a13 := 0;
+
+    if IsNotEqualToZero(result.a22) then
+    begin
+      result.a12 := 0;
+    end;
+  end;
 end;
 
 // TImaginayUnit

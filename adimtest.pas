@@ -1372,32 +1372,31 @@ begin
   //StateL.TransposeDual*H2*StateR = -A0;
   //StateR.TransposeDual*H2*StateL = -A0;
 
-  writeln(Utf8ToAnsi(CubicRoot(27-0*img).a1.ToString));
-  writeln(Utf8ToAnsi(CubicRoot(27-0*img).a2.ToString));
-  writeln(Utf8ToAnsi(CubicRoot(27-0*img).a3.ToString));
+  writeln((CubicRoot(27-0*img).a1.ToString));
+  writeln((CubicRoot(27-0*img).a2.ToString));
+  writeln((CubicRoot(27-0*img).a3.ToString));
   writeln('---');
 
-  writeln(Utf8ToAnsi((Matrix(3, img,2*img,7+img)*Ket(4,img)).ToString));
-  writeln(Utf8ToAnsi((Matrix(3, img,2*img,7+img)*Ket(4,img)).TransposeDual.ToString));
-  writeln(Utf8ToAnsi((Ket(4,img).TransposeDual*Matrix(3, img,2*img,7+img).TransposeDual).ToString));
-  writeln('<<<');
+  writeln(((Matrix(3, img,2*img,7+img)*Ket(4,img)).ToString));
+  writeln(((Matrix(3, img,2*img,7+img)*Ket(4,img)).TransposeDual.ToString));
+  writeln(((Ket(4,img).TransposeDual*Matrix(3, img,2*img,7+img).TransposeDual).ToString));
 
-  writeln(Utf8ToAnsi(SolveEquation3(-6, 3, 10).a1.ToString));
-  writeln(Utf8ToAnsi(SolveEquation3(-6, 3, 10).a2.ToString));
-  writeln(Utf8ToAnsi(SolveEquation3(-6, 3, 10).a3.ToString));
+
+  writeln((SolveEquation(-6, 3, 10).a1.ToString));
+  writeln((SolveEquation(-6, 3, 10).a2.ToString));
+  writeln((SolveEquation(-6, 3, 10).a3.ToString));
 
   writeln('>>>');
 
-  H3 := Matrix(4+img, 0, 2, 1, 3, 2, 1, 0, 5);
-  writeln('l1 = ', Utf8ToAnsi(H3.Eigenvalues.a1.ToString));
-  writeln('l2 = ', Utf8ToAnsi(H3.Eigenvalues.a2.ToString));
-  writeln('l3 = ', Utf8ToAnsi(H3.Eigenvalues.a3.ToString));
+  H3 := Matrix(4*img, 0, 2, 0, 0, 0, 0, 0, 0);
+  writeln('l1 = ', (H3.Eigenvalues.a1.ToString));
+  writeln('l2 = ', (H3.Eigenvalues.a2.ToString));
+  writeln('l3 = ', (H3.Eigenvalues.a3.ToString));
 
-  writeln('v1 = ', Utf8ToAnsi(H3.Eigenvector(H3.Eigenvalues.a1).ToString));
-  writeln('v2 = ', Utf8ToAnsi(H3.Eigenvector(H3.Eigenvalues.a2).ToString));
-  writeln('v3 = ', Utf8ToAnsi(H3.Eigenvector(H3.Eigenvalues.a3).ToString));
+  writeln('v1 = ', (H3.Eigenvector(H3.Eigenvalues.a1).ToString));
+  writeln('v2 = ', (H3.Eigenvector(H3.Eigenvalues.a2).ToString));
+  writeln('v3 = ', (H3.Eigenvector(H3.Eigenvalues.a3).ToString));
 
   writeln;
   writeln('ADIM-TEST DONE.');
-  readln;
 end.

@@ -286,6 +286,9 @@ function CubicRoot(const AValue: TComplex): TC3Ket;
 function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
 function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
 
+function IsEqualToZero(const AValue: TComplex): boolean;
+function IsNotEqualToZero(const AValue: TComplex): boolean;
+
 function SameValue(const AValue1, AValue2: TComplex): boolean;
 function SameValue(const AValue1, AValue2: TC2Ket): boolean;
 function SameValue(const AValue1, AValue2: TC3Ket): boolean;
@@ -294,6 +297,7 @@ function SameValue(const AValue1, AValue2: TC3Bra): boolean;
 function SameValue(const AValue1, AValue2: TC2Matrix): boolean;
 function SameValue(const AValue1, AValue2: TC3Matrix): boolean;
 
-function SolveEquation3(const a, b, c: TComplex): TC3Ket;
+function SolveEquation(const a, b, c: TComplex): TC3Ket;
+function RowReduction(const A: TC3Matrix): TC3Matrix;
 
 
