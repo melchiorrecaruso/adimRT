@@ -34,14 +34,13 @@
           </SearchPaths>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <Optimizations>
-              <OptimizationLevel Value="2"/>
-            </Optimizations>
           </CodeGeneration>
           <Linking>
             <Debugging>
               <GenerateDebugInfo Value="False"/>
               <RunWithoutDebug Value="True"/>
+              <UseLineInfoUnit Value="False"/>
+              <StripSymbols Value="True"/>
             </Debugging>
             <LinkSmart Value="True"/>
           </Linking>
@@ -90,6 +89,9 @@
       <UnitOutputDirectory Value="build/lib"/>
     </SearchPaths>
     <CodeGeneration>
+      <Checks>
+        <RangeChecks Value="True"/>
+      </Checks>
       <Optimizations>
         <OptimizationLevel Value="0"/>
       </Optimizations>

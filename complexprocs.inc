@@ -1,4 +1,4 @@
-{ Complex number implementation }
+{ Complex numbers, vectors and matrixes implementation }
 
 // TComplex
 
@@ -15,7 +15,7 @@ end;
 
 function TComplex.Norm: double;
 begin
-  result := sqrt(SquaredNorm);
+  result := hypot(fRe, fIm);
 end;
 
 function TComplex.SquaredNorm: double;
@@ -29,20 +29,35 @@ begin
             Math.SameValue(fIm, 0);
 end;
 
+function TComplex.IsNotNull: boolean;
+begin
+  result := not IsNull;
+end;
+
 function TComplex.ToString: string;
 var
   sign: array[boolean] of string = ('+', '-');
 begin
   if (not Math.SameValue(fRe, 0)) and
      (not Math.SameValue(fIm, 0)) then
-    result := Format('%s %s%s∙i', [FloatToStr(fRe), sign[fIm < 0], FloatToStr(Abs(fIm))])
-  else
+  begin
+    if (Math.SameValue(Abs(fIm), 1)) then
+      result := Format('%s %si', [FloatToStr(fRe), sign[fIm < 0]])
+    else
+      result := Format('%s %s%s∙i', [FloatToStr(fRe), sign[fIm < 0], FloatToStr(Abs(fIm))]);
+  end else
     if (not Math.SameValue(fRe, 0)) then
       result := Format('%s', [FloatToStr(fRe)])
     else
       if (not Math.SameValue(fIm, 0)) then
-        result := Format('%s∙i', [FloatToStr(fIm)])
-      else
+      begin
+        if (Math.SameValue(fIm, 1)) then
+          result := 'i'
+        else if (Math.SameValue(fIm, -1)) then
+          result := '-i'
+        else
+          result := Format('%s∙i', [FloatToStr(fIm)])
+      end else
         result := '0';
 end;
 
@@ -52,16 +67,25 @@ var
 begin
   if (not Math.SameValue(fRe, 0)) and
      (not Math.SameValue(fIm, 0)) then
-    result := Format('%s %s%s∙i', [
-      FloatToStrF(fRe, ffGeneral, APrecision, ADigits), sign[fIm < 0],
-      FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
-  else
+  begin
+    if (Math.SameValue(Abs(fIm), 1)) then
+      result := Format('%s %si', [FloatToStrF(fRe, ffGeneral, APrecision, ADigits), sign[fIm < 0]])
+    else
+      result := Format('%s %s%s∙i', [FloatToStrF(fRe,      ffGeneral, APrecision, ADigits), sign[fIm < 0],
+                                     FloatToStrF(Abs(fIm), ffGeneral, APrecision, ADigits)]);
+  end else
     if (not Math.SameValue(fRe, 0)) then
       result := Format('%s', [FloatToStrF(fRe, ffGeneral, APrecision, ADigits)])
     else
       if (not Math.SameValue(fIm, 0)) then
-        result := Format('%s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
-      else
+      begin
+        if (Math.SameValue(fIm, 1)) then
+          result := 'i'
+        else if (Math.SameValue(fIm, -1)) then
+          result := '-i'
+        else
+          result := Format('%s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
+      end else
         result := '0';
 end;
 
@@ -165,630 +189,356 @@ begin
             (not Math.SameValue(ALeft.fIm, ARight.fIm));
 end;
 
-// TC2Ket
+// TC2VectorHelper
 
-function TC2KetHelper.SquareNorm: double;
+function TC2VectorHelper.Dual: TC2Vector;
+var
+  i: longint;
 begin
-  result :=  fm1.SquaredNorm + fm2.SquaredNorm;
+  for i := 1 to 2 do
+    result[i] := fm[i].Dual;
 end;
 
-function TC2KetHelper.Norm: double;
+function TC2VectorHelper.Transpose: TC2TransposedVector;
 begin
-  result := sqrt(SquareNorm);
+  result[1] := fm[1];
+  result[2] := fm[2];
 end;
 
-function TC2KetHelper.Normalize: TC2Ket;
+function TC2VectorHelper.TransposeDual: TC2TransposedVector;
 begin
-  result := Self / Norm;
+  result[1] := fm[1].Dual;
+  result[2] := fm[2].Dual;
 end;
 
-function TC2KetHelper.TransposeDual: TC2Bra;
-begin
-  result.fm1 := fm1.Dual;
-  result.fm2 := fm2.Dual;
-end;
-
-function TC2KetHelper.IsNull: boolean;
-begin
-  result := fm1.IsNull and fm2.IsNull;
-end;
-
-function TC2KetHelper.ToString: string;
-begin
-  result := Format('(%s, %s)', [fm1.ToString, fm2.ToString]);
-end;
-
-function TC2KetHelper.ToString(APrecision, ADigits: integer): string;
+function TC2VectorHelper.ToString: string;
 begin
   result := Format('(%s, %s)', [
-    fm1.ToString(APrecision, ADigits),
-    fm2.ToString(APrecision, ADigits)]);
+    fm[1].ToString,
+    fm[2].ToString]);
 end;
 
-class operator TC2Ket.+(const ALeft, ARight: TC2Ket): TC2Ket;
-begin
-  result.fm1 := ALeft.fm1 + ARight.fm1;
-  result.fm2 := ALeft.fm2 + ARight.fm2;
-end;
-
-class operator TC2Ket.-(const ALeft, ARight: TC2Ket): TC2Ket;
-begin
-  result.fm1 := ALeft.fm1 - ARight.fm1;
-  result.fm2 := ALeft.fm2 - ARight.fm2;
-end;
-
-class operator TC2Ket.*(const ALeft: double; const ARight: TC2Ket): TC2Ket;
-begin
-  result.fm1 := ALeft * ARight.fm1;
-  result.fm2 := ALeft * ARight.fm2;
-end;
-
-class operator TC2Ket.*(const ALeft: TC2Ket; const ARight: double): TC2Ket;
-begin
-  result.fm1 := ALeft.fm1 * ARight;
-  result.fm2 := ALeft.fm2 * ARight;
-end;
-
-class operator TC2Ket.*(const ALeft: TComplex; const ARight: TC2Ket): TC2Ket;
-begin
-  result.fm1 := ALeft * ARight.fm1;
-  result.fm2 := ALeft * ARight.fm2;
-end;
-
-class operator TC2Ket.*(const ALeft: TC2Ket; const ARight: TComplex): TC2Ket;
-begin
-  result.fm1 := ALeft.fm1 * ARight;
-  result.fm2 := ALeft.fm2 * ARight;
-end;
-
-class operator TC2Ket./(const ALeft: TC2Ket; const ARight: double): TC2Ket;
-begin
-  result.fm1 := ALeft.fm1 / ARight;
-  result.fm2 := ALeft.fm2 / ARight;
-end;
-
-class operator TC2Ket./(const ALeft: TC2Ket; const ARight: TComplex): TC2Ket;
-begin
-  result := ALeft * ARight.Reciprocal;
-end;
-
-class operator TC2Ket.*(const ALeft: TC2Matrix; const ARight: TC2Ket): TC2Ket;
-begin
-  result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2;
-  result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2;
-end;
-
-// TC3Ket
-
-function TC3KetHelper.SquareNorm: double;
-begin
-  result :=  fm1.SquaredNorm + fm2.SquaredNorm + fm3.SquaredNorm;
-end;
-
-function TC3KetHelper.Norm: double;
-begin
-  result := sqrt(SquareNorm);
-end;
-
-function TC3KetHelper.TransposeDual: TC3Bra;
-begin
-  result.fm1 := fm1.Dual;
-  result.fm2 := fm2.Dual;
-  result.fm3 := fm3.Dual;
-end;
-
-function TC3KetHelper.IsNull: boolean;
-begin
-  result := fm1.IsNull and fm2.IsNull and fm3.IsNull;
-end;
-
-function TC3KetHelper.ToString: string;
-begin
-  result := Format('(%s, %s, %s)', [
-    fm1.ToString,
-    fm2.ToString,
-    fm3.ToString]);
-end;
-
-function TC3KetHelper.ToString(APrecision, ADigits: integer): string;
-begin
-  result := Format('(%s, %s, %s)', [
-    fm1.ToString(APrecision, ADigits),
-    fm2.ToString(APrecision, ADigits),
-    fm3.ToString(APrecision, ADigits)]);
-end;
-
-class operator TC3Ket.+(const ALeft, ARight: TC3Ket): TC3Ket;
-begin
-  result.fm1 := ALeft.fm1 + ARight.fm1;
-  result.fm2 := ALeft.fm2 + ARight.fm2;
-  result.fm3 := ALeft.fm3 + ARight.fm3;
-end;
-
-class operator TC3Ket.-(const ALeft, ARight: TC3Ket): TC3Ket;
-begin
-  result.fm1 := ALeft.fm1 - ARight.fm1;
-  result.fm2 := ALeft.fm2 - ARight.fm2;
-  result.fm3 := ALeft.fm3 - ARight.fm3;
-end;
-
-class operator TC3Ket.*(const ALeft: double; const ARight: TC3Ket): TC3Ket;
-begin
-  result.fm1 := ALeft * ARight.fm1;
-  result.fm2 := ALeft * ARight.fm2;
-  result.fm3 := ALeft * ARight.fm3;
-end;
-
-class operator TC3Ket.*(const ALeft: TC3Ket; const ARight: double): TC3Ket;
-begin
-  result.fm1 := ALeft.fm1 * ARight;
-  result.fm2 := ALeft.fm2 * ARight;
-  result.fm3 := ALeft.fm3 * ARight;
-end;
-
-class operator TC3Ket.*(const ALeft: TComplex; const ARight: TC3Ket): TC3Ket;
-begin
-  result.fm1 := ALeft * ARight.fm1;
-  result.fm2 := ALeft * ARight.fm2;
-  result.fm3 := ALeft * ARight.fm3;
-end;
-
-class operator TC3Ket.*(const ALeft: TC3Ket; const ARight: TComplex): TC3Ket;
-begin
-  result.fm1 := ALeft.fm1 * ARight;
-  result.fm2 := ALeft.fm2 * ARight;
-  result.fm3 := ALeft.fm3 * ARight;
-end;
-
-class operator TC3Ket./(const ALeft: TC3Ket; const ARight: double): TC3Ket;
-begin
-  result.fm1 := ALeft.fm1 / ARight;
-  result.fm2 := ALeft.fm2 / ARight;
-  result.fm3 := ALeft.fm3 / ARight;
-end;
-
-class operator TC3Ket./(const ALeft: TC3Ket; const ARight: TComplex): TC3Ket;
-begin
-  result := ALeft * ARight.Reciprocal;
-end;
-
-class operator TC3Ket.*(const ALeft: TC3Matrix; const ARight: TC3Ket): TC3Ket;
-begin
-  result.fm1 := ALeft.fm11*ARight.fm1 + ALeft.fm12*ARight.fm2 + ALeft.fm13*ARight.fm3;
-  result.fm2 := ALeft.fm21*ARight.fm1 + ALeft.fm22*ARight.fm2 + ALeft.fm23*ARight.fm3;
-  result.fm3 := ALeft.fm31*ARight.fm1 + ALeft.fm32*ARight.fm2 + ALeft.fm33*ARight.fm3;
-end;
-
-// TC2Bra
-
-function TC2BraHelper.SquareNorm: double;
-begin
-  result :=  fm1.SquaredNorm + fm2.SquaredNorm;
-end;
-
-function TC2BraHelper.Norm: double;
-begin
-  result := sqrt(SquareNorm);
-end;
-
-function TC2BraHelper.Normalize: TC2Bra;
-begin
-  result := Self / Norm;
-end;
-
-function TC2BraHelper.TransposeDual: TC2Ket;
-begin
-  result.fm1 := fm1.Dual;
-  result.fm2 := fm2.Dual;
-end;
-
-function TC2BraHelper.IsNull: boolean;
-begin
-  result := fm1.IsNull and fm2.IsNull;
-end;
-
-function TC2BraHelper.ToString: string;
-begin
-  result := Format('(%s, %s)', [fm1.ToString, fm2.ToString]);
-end;
-
-function TC2BraHelper.ToString(APrecision, ADigits: integer): string;
+function TC2VectorHelper.ToString(APrecision, ADigits: integer): string;
 begin
   result := Format('(%s, %s)', [
-    fm1.ToString(APrecision, ADigits),
-    fm2.ToString(APrecision, ADigits)]);
+    fm[1].ToString(APrecision, ADigits),
+    fm[2].ToString(APrecision, ADigits)]);
 end;
 
-class operator TC2Bra.+(const ALeft, ARight: TC2Bra): TC2Bra;
+// TC3VectorHelper
+
+function TC3VectorHelper.Dual: TC3Vector;
+var
+  i: longint;
 begin
-  result.fm1 := ALeft.fm1 + ARight.fm1;
-  result.fm2 := ALeft.fm2 + ARight.fm2;
+  for i := 1 to 3 do
+    result[i] := fm[i].Dual;
 end;
 
-class operator TC2Bra.-(const ALeft, ARight: TC2Bra): TC2Bra;
+function TC3VectorHelper.Transpose: TC3TransposedVector;
 begin
-  result.fm1 := ALeft.fm1 - ARight.fm1;
-  result.fm2 := ALeft.fm2 - ARight.fm2;
+  result[1] := fm[1];
+  result[2] := fm[2];
+  result[3] := fm[3];
 end;
 
-class operator TC2Bra.*(const ALeft: double; const ARight: TC2Bra): TC2Bra;
+function TC3VectorHelper.TransposeDual: TC3TransposedVector;
 begin
-  result.fm1 := ALeft * ARight.fm1;
-  result.fm2 := ALeft * ARight.fm2;
+  result[1] := fm[1].Dual;
+  result[2] := fm[2].Dual;
+  result[3] := fm[3].Dual;
 end;
 
-class operator TC2Bra.*(const ALeft: TC2Bra; const ARight: double): TC2Bra;
-begin
-  result.fm1 := ALeft.fm1 * ARight;
-  result.fm2 := ALeft.fm2 * ARight;
-end;
-
-class operator TC2Bra.*(const ALeft: TComplex; const ARight: TC2Bra): TC2Bra;
-begin
-  result.fm1 := ALeft * ARight.fm1;
-  result.fm2 := ALeft * ARight.fm2;
-end;
-
-class operator TC2Bra.*(const ALeft: TC2Bra; const ARight: TComplex): TC2Bra;
-begin
-  result.fm1 := ALeft.fm1 * ARight;
-  result.fm2 := ALeft.fm2 * ARight;
-end;
-
-class operator TC2Bra./(const ALeft: TC2Bra; const ARight: double): TC2Bra;
-begin
-  result.fm1 := ALeft.fm1 / ARight;
-  result.fm2 := ALeft.fm2 / ARight;
-end;
-
-class operator TC2Bra./(const ALeft: TC2Bra; const ARight: TComplex): TC2Bra;
-begin
-  result := ALeft * ARight.Reciprocal;
-end;
-
-class operator TC2Bra.*(const ALeft: TC2Bra; const ARight: TC2Ket): TComplex;
-begin
-  result := ALeft.fm1*ARight.fm1 + ALeft.fm2*ARight.fm2;
-end;
-
-class operator TC2Bra.*(const ALeft: TC2Ket; const ARight: TC2Bra): TC2Matrix;
-begin
-  result.fm11 := ALeft.fm1*ARight.fm1;
-  result.fm12 := ALeft.fm1*ARight.fm2;
-  result.fm21 := ALeft.fm2*ARight.fm1;
-  result.fm22 := ALeft.fm2*ARight.fm2;
-end;
-
-class operator TC2Bra.*(const ALeft: TC2Bra; const ARight: TC2Matrix): TC2Bra;
-begin
-  result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm2*ARight.fm21;
-  result.fm2 := ALeft.fm1*ARight.fm12 + ALeft.fm2*ARight.fm22;
-end;
-
-// TC3Bra
-
-function TC3BraHelper.SquareNorm: double;
-begin
-  result :=  fm1.SquaredNorm + fm2.SquaredNorm + fm3.SquaredNorm;
-end;
-
-function TC3BraHelper.Norm: double;
-begin
-  result := sqrt(SquareNorm);
-end;
-
-function TC3BraHelper.TransposeDual: TC3Ket;
-begin
-  result.fm1 := fm1.Dual;
-  result.fm2 := fm2.Dual;
-  result.fm3 := fm3.Dual;
-end;
-
-function TC3BraHelper.IsNull: boolean;
-begin
-  result := fm1.IsNull and fm2.IsNull and fm3.IsNull;
-end;
-
-function TC3BraHelper.ToString: string;
-begin
-  result := Format('(%s, %s, %s)', [fm1.ToString, fm2.ToString, fm3.ToString]);
-end;
-
-function TC3BraHelper.ToString(APrecision, ADigits: integer): string;
+function TC3VectorHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s)', [
-    fm1.ToString(APrecision, ADigits),
-    fm2.ToString(APrecision, ADigits),
-    fm3.ToString(APrecision, ADigits)]);
+    fm[1].ToString,
+    fm[2].ToString,
+    fm[3].ToString]);
 end;
 
-class operator TC3Bra.+(const ALeft, ARight: TC3Bra): TC3Bra;
+function TC3VectorHelper.ToString(APrecision, ADigits: integer): string;
 begin
-  result.fm1 := ALeft.fm1 + ARight.fm1;
-  result.fm2 := ALeft.fm2 + ARight.fm2;
-  result.fm3 := ALeft.fm3 + ARight.fm3;
+  result := Format('(%s, %s, %s)', [
+    fm[1].ToString(APrecision, ADigits),
+    fm[2].ToString(APrecision, ADigits),
+    fm[3].ToString(APrecision, ADigits)]);
 end;
 
-class operator TC3Bra.-(const ALeft, ARight: TC3Bra): TC3Bra;
+// TC4VectorHelper
+
+function TC4VectorHelper.Dual: TC4Vector;
+var
+  i: longint;
 begin
-  result.fm1 := ALeft.fm1 - ARight.fm1;
-  result.fm2 := ALeft.fm2 - ARight.fm2;
-  result.fm3 := ALeft.fm3 - ARight.fm3;
+  for i := 1 to 4 do
+    result[i] := fm[i].Dual;
 end;
 
-class operator TC3Bra.*(const ALeft: double; const ARight: TC3Bra): TC3Bra;
+function TC4VectorHelper.Transpose: TC4TransposedVector;
 begin
-  result.fm1 := ALeft * ARight.fm1;
-  result.fm2 := ALeft * ARight.fm2;
-  result.fm3 := ALeft * ARight.fm3;
+  result[1] := fm[1];
+  result[2] := fm[2];
+  result[3] := fm[3];
+  result[4] := fm[4];
 end;
 
-class operator TC3Bra.*(const ALeft: TC3Bra; const ARight: double): TC3Bra;
+function TC4VectorHelper.TransposeDual: TC4TransposedVector;
 begin
-  result.fm1 := ALeft.fm1 * ARight;
-  result.fm2 := ALeft.fm2 * ARight;
-  result.fm3 := ALeft.fm3 * ARight;
+  result[1] := fm[1].Dual;
+  result[2] := fm[2].Dual;
+  result[3] := fm[3].Dual;
+  result[4] := fm[4].Dual;
 end;
 
-class operator TC3Bra.*(const ALeft: TComplex; const ARight: TC3Bra): TC3Bra;
+function TC4VectorHelper.ToString: string;
 begin
-  result.fm1 := ALeft * ARight.fm1;
-  result.fm2 := ALeft * ARight.fm2;
-  result.fm3 := ALeft * ARight.fm3;
+  result := Format('(%s, %s, %s, %s)', [
+    fm[1].ToString,
+    fm[2].ToString,
+    fm[3].ToString,
+    fm[4].ToString]);
 end;
 
-class operator TC3Bra.*(const ALeft: TC3Bra; const ARight: TComplex): TC3Bra;
+function TC4VectorHelper.ToString(APrecision, ADigits: integer): string;
 begin
-  result.fm1 := ALeft.fm1 * ARight;
-  result.fm2 := ALeft.fm2 * ARight;
-  result.fm3 := ALeft.fm3 * ARight;
+  result := Format('(%s, %s, %s, %s)', [
+    fm[1].ToString(APrecision, ADigits),
+    fm[2].ToString(APrecision, ADigits),
+    fm[3].ToString(APrecision, ADigits),
+    fm[4].ToString(APrecision, ADigits)]);
 end;
 
-class operator TC3Bra./(const ALeft: TC3Bra; const ARight: double): TC3Bra;
+// TC2TransposedVectorHelper
+
+function TC2TransposedVectorHelper.Dual: TC2TransposedVector;
+var
+  i: longint;
 begin
-  result.fm1 := ALeft.fm1 / ARight;
-  result.fm2 := ALeft.fm2 / ARight;
-  result.fm3 := ALeft.fm3 / ARight;
+  for i := 1 to 2 do
+    result[i] := fm[i].Dual;
 end;
 
-class operator TC3Bra./(const ALeft: TC3Bra; const ARight: TComplex): TC3Bra;
+function TC2TransposedVectorHelper.Transpose: TC2Vector;
 begin
-  result := ALeft * ARight.Reciprocal;
+  result[1] := fm[1];
+  result[2] := fm[2];
 end;
 
-class operator TC3Bra.*(const ALeft: TC3Bra; const ARight: TC3Ket): TComplex;
+function TC2TransposedVectorHelper.TransposeDual: TC2Vector;
 begin
-  result := ALeft.fm1*ARight.fm1 + ALeft.fm2*ARight.fm2 + ALeft.fm3*ARight.fm3;
+  result[1] := fm[1].Dual;
+  result[2] := fm[2].Dual;
 end;
 
-class operator TC3Bra.*(const ALeft: TC3Ket; const ARight: TC3Bra): TC3Matrix;
+function TC2TransposedVectorHelper.ToString: string;
 begin
-  result.fm11 := ALeft.fm1*ARight.fm1;
-  result.fm12 := ALeft.fm1*ARight.fm2;
-  result.fm13 := ALeft.fm1*ARight.fm3;
-  result.fm21 := ALeft.fm2*ARight.fm1;
-  result.fm22 := ALeft.fm2*ARight.fm2;
-  result.fm23 := ALeft.fm2*ARight.fm3;
-  result.fm31 := ALeft.fm3*ARight.fm1;
-  result.fm32 := ALeft.fm3*ARight.fm2;
-  result.fm33 := ALeft.fm3*ARight.fm3;
+  result := Format('(%s, %s)', [
+    fm[1].ToString,
+    fm[2].ToString]);
 end;
 
-class operator TC3Bra.*(const ALeft: TC3Bra; const ARight: TC3Matrix): TC3Bra;
+function TC2TransposedVectorHelper.ToString(APrecision, ADigits: integer): string;
 begin
-  result.fm1 := ALeft.fm1*ARight.fm11 + ALeft.fm1*ARight.fm12 + ALeft.fm1*ARight.fm13;
-  result.fm2 := ALeft.fm2*ARight.fm21 + ALeft.fm2*ARight.fm22 + ALeft.fm2*ARight.fm23;
-  result.fm3 := ALeft.fm3*ARight.fm31 + ALeft.fm3*ARight.fm32 + ALeft.fm3*ARight.fm33;
+  result := Format('(%s, %s)', [
+    fm[1].ToString(APrecision, ADigits),
+    fm[2].ToString(APrecision, ADigits)]);
 end;
 
-// TC2Matrix
+// TC3TransposedVectorHelper
 
-function TC2MatrixHelper.Trace: TComplex;
+function TC3TransposedVectorHelper.Dual: TC3TransposedVector;
+var
+  i: longint;
 begin
-  result := fm11 + fm22;
+  for i := 1 to 3 do
+    result[i] := fm[i].Dual;
 end;
 
-function TC2MatrixHelper.EigenValues: TC2Ket;
+function TC3TransposedVectorHelper.Transpose: TC3Vector;
+begin
+  result[1] := fm[1];
+  result[2] := fm[2];
+  result[3] := fm[3];
+end;
+
+function TC3TransposedVectorHelper.TransposeDual: TC3Vector;
+begin
+  result[1] := fm[1].Dual;
+  result[2] := fm[2].Dual;
+  result[3] := fm[3].Dual;
+end;
+
+function TC3TransposedVectorHelper.ToString: string;
+begin
+  result := Format('(%s, %s, %s)', [
+    fm[1].ToString,
+    fm[2].ToString,
+    fm[3].ToString]);
+end;
+
+function TC3TransposedVectorHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s, %s)', [
+    fm[1].ToString(APrecision, ADigits),
+    fm[2].ToString(APrecision, ADigits),
+    fm[3].ToString(APrecision, ADigits)]);
+end;
+
+// TC4TransposedVectorHelper
+
+function TC4TransposedVectorHelper.Dual: TC4TransposedVector;
+var
+  i: longint;
+begin
+  for i := 1 to 4 do
+    result[i] := fm[i].Dual;
+end;
+
+function TC4TransposedVectorHelper.Transpose: TC4Vector;
+begin
+  result[1] := fm[1];
+  result[2] := fm[2];
+  result[3] := fm[3];
+  result[4] := fm[4];
+end;
+
+function TC4TransposedVectorHelper.TransposeDual: TC4Vector;
+begin
+  result[1] := fm[1].Dual;
+  result[2] := fm[2].Dual;
+  result[3] := fm[3].Dual;
+  result[4] := fm[4].Dual;
+end;
+
+function TC4TransposedVectorHelper.ToString: string;
+begin
+  result := Format('(%s, %s, %s, %s)', [
+    fm[1].ToString,
+    fm[2].ToString,
+    fm[3].ToString,
+    fm[4].ToString]);
+end;
+
+function TC4TransposedVectorHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s, %s, %s)', [
+    fm[1].ToString(APrecision, ADigits),
+    fm[2].ToString(APrecision, ADigits),
+    fm[3].ToString(APrecision, ADigits),
+    fm[4].ToString(APrecision, ADigits)]);
+end;
+
+// TC2MatrixHelper
+
+function TC2MatrixHelper.Dual: TC2Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 2 do
+    for j := 1 to 2 do
+    begin
+      result[i, j] := fm[i, j].Dual;
+    end;
+end;
+
+function TC2MatrixHelper.Determinant: TComplex;
+begin
+  result := fm[1,1]*fm[2,2] - fm[1,2]*fm[2,1];
+end;
+
+function TC2MatrixHelper.Reciprocal(const ADeterminant: TComplex): TC2Matrix;
+begin
+  result[1,1] :=  fm[2,2]/ADeterminant;
+  result[1,2] := -fm[1,2]/ADeterminant;
+  result[2,1] := -fm[2,1]/ADeterminant;
+  result[2,2] :=  fm[1,1]/ADeterminant;
+end;
+
+function TC2MatrixHelper.EigenValues: TC2Array;
 var
   detA, TrA, TrA2: TComplex;
 begin
   detA := Determinant;
-  TrA  := fm11 + fm22;
+  TrA  := fm[1,1] + fm[2,2];
   TrA2 := SquarePower(TrA);
 
-  result.fm1 := 0.5*(TrA+SquareRoot(TrA2-4*detA).fm1);
-  result.fm2 := 0.5*(TrA+SquareRoot(TrA2-4*detA).fm2);
+  result[1] := 0.5*(TrA+SquareRoot(TrA2-4*detA)[1]);
+  result[2] := 0.5*(TrA+SquareRoot(TrA2-4*detA)[2]);
 end;
 
-function TC2MatrixHelper.Eigenvector(const AEigenValue: TComplex): TC2Ket;
+function TC2MatrixHelper.Eigenvectors(const AEigenValues: TC2Array): TC2Eigenvectors;
+var
+  A: TC2Matrix;
+  i, j, Multiplicity: longint;
 begin
-  result.fm1 := AEigenValue - fm22;
-  result.fm2 := fm21;
-
-  if IsEqualToZero(result.fm1) and
-     IsEqualToZero(result.fm2) then
+  for i := Low(result) to High(result) do
   begin
-    result.fm1 := fm12;
-    result.fm2 := AEigenValue - fm11;
+    A := (Self - AEigenvalues[i]*C2IdMatrix).RowReduction;
+
+    Multiplicity := 1;
+    // Calculate algebraic multiplicity of eigenvalues
+    for j := (i - 1) downto Low(AEigenvalues) do
+      if SameValue(AEigenvalues[j], AEigenvalues[i]) then
+        Inc(Multiplicity);
+
+    // Assign a value to free parameter, ensuring only one assignment
+    for j := Low(AEigenvalues) to High(AEigenvalues) do
+    begin
+      result[i].fm[j]:= 0;
+      if A[j, j].IsNull then
+      begin
+        if Multiplicity = 1 then
+          result[i].fm[j]:= 1;
+
+        Dec(Multiplicity);
+      end;
+    end;
+
+    // Solve linear system
+    if A[1,1].IsNotNull then
+    begin
+      result[i].fm[1] := -(A[1,2]*result[i].fm[2])/A[1,1];
+    end;
   end;
 end;
 
 function TC2MatrixHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s, %s)', [
-    fm11.ToString,
-    fm12.ToString,
-    fm21.ToString,
-    fm22.ToString]);
+    fm[1,1].ToString, fm[1,2].ToString,
+    fm[2,1].ToString, fm[2,2].ToString]);
 end;
 
 function TC2MatrixHelper.ToString(APrecision, ADigits: integer): string;
 begin
   result := Format('(%s, %s, %s, %s)', [
-    fm11.ToString(APrecision, ADigits),
-    fm12.ToString(APrecision, ADigits),
-    fm21.ToString(APrecision, ADigits),
-    fm22.ToString(APrecision, ADigits)]);
-end;
-
-class operator TC2Matrix.+(const ALeft, ARight: TC2Matrix): TC2Matrix;
-begin
-  result.fm11 := ALeft.fm11 + ARight.fm11;
-  result.fm12 := ALeft.fm12 + ARight.fm12;
-  result.fm21 := ALeft.fm21 + ARight.fm21;
-  result.fm22 := ALeft.fm22 + ARight.fm22;
-end;
-
-class operator TC2Matrix.-(const ALeft, ARight: TC2Matrix): TC2Matrix;
-begin
-  result.fm11 := ALeft.fm11 - ARight.fm11;
-  result.fm12 := ALeft.fm12 - ARight.fm12;
-  result.fm21 := ALeft.fm21 - ARight.fm21;
-  result.fm22 := ALeft.fm22 - ARight.fm22;
+    fm[1,1].ToString(APrecision, ADigits), fm[1,2].ToString(APrecision, ADigits),
+    fm[2,1].ToString(APrecision, ADigits), fm[2,2].ToString(APrecision, ADigits)]);
 end;
 
 
-class operator TC2Matrix.*(const ALeft: double; const ARight: TC2Matrix): TC2Matrix;
+// TC3MatrixHelper
+
+function TC3MatrixHelper.Dual: TC3Matrix;
+var
+  i, j: longint;
 begin
-  result.fm11 := ALeft*ARight.fm11;
-  result.fm12 := ALeft*ARight.fm12;
-  result.fm21 := ALeft*ARight.fm21;
-  result.fm22 := ALeft*ARight.fm22;
-end;
-
-class operator TC2Matrix.*(const ALeft: TC2Matrix; const ARight: double): TC2Matrix;
-begin
-  result.fm11 := ALeft.fm11*ARight;
-  result.fm12 := ALeft.fm12*ARight;
-  result.fm21 := ALeft.fm21*ARight;
-  result.fm22 := ALeft.fm22*ARight;
-end;
-
-class operator TC2Matrix.*(const ALeft: TComplex; const ARight: TC2Matrix): TC2Matrix;
-begin
-  result.fm11 := ALeft*ARight.fm11;
-  result.fm12 := ALeft*ARight.fm12;
-  result.fm21 := ALeft*ARight.fm21;
-  result.fm22 := ALeft*ARight.fm22;
-end;
-
-class operator TC2Matrix.*(const ALeft: TC2Matrix; const ARight: TComplex): TC2Matrix;
-begin
-  result.fm11 := ALeft.fm11*ARight;
-  result.fm12 := ALeft.fm12*ARight;
-  result.fm21 := ALeft.fm21*ARight;
-  result.fm22 := ALeft.fm22*ARight;
-end;
-
-class operator TC2Matrix.*(const ALeft, ARight: TC2Matrix): TC2Matrix;
-begin
-  result.fm11 := ALeft.fm11*ARight.fm11 + ALeft.fm12*ARight.fm21;
-  result.fm12 := ALeft.fm11*ARight.fm12 + ALeft.fm12*ARight.fm22;
-
-  result.fm21 := ALeft.fm21*ARight.fm11 + ALeft.fm22*ARight.fm21;
-  result.fm22 := ALeft.fm21*ARight.fm12 + ALeft.fm22*ARight.fm22;
-end;
-
-class operator TC2Matrix./(const ALeft: TC2Matrix; const ARight: double): TC2Matrix;
-begin
-  result.fm11 := ALeft.fm11/ARight;
-  result.fm12 := ALeft.fm12/ARight;
-  result.fm21 := ALeft.fm21/ARight;
-  result.fm22 := ALeft.fm22/ARight;
-end;
-
-class operator TC2Matrix./(const ALeft: TC2Matrix; const ARight: TComplex): TC2Matrix;
-begin
-  result := ALeft * ARight.Reciprocal
-end;
-
-function TC2Matrix.Dual: TC2Matrix;
-begin
-  result.fm11 := fm11.Dual;
-  result.fm12 := fm12.Dual;
-  result.fm21 := fm21.Dual;
-  result.fm22 := fm22.Dual;
-end;
-
-function TC2Matrix.Transpose: TC2Matrix;
-begin
-  result.fm11 := fm11;
-  result.fm12 := fm21;
-  result.fm21 := fm12;
-  result.fm22 := fm22;
-end;
-
-function TC2Matrix.TransposeDual: TC2Matrix;
-begin
-  result.fm11 := fm11.Dual;
-  result.fm12 := fm21.Dual;
-  result.fm21 := fm12.Dual;
-  result.fm22 := fm22.Dual;
-end;
-
-function TC2Matrix.Determinant: TComplex;
-begin
-  result := fm11*fm22 - fm12*fm21;
-end;
-
-function TC2Matrix.Reciprocal(const ADeterminant: TComplex): TC2Matrix;
-begin
-  result.fm11 :=  fm22/ADeterminant;
-  result.fm12 := -fm12/ADeterminant;
-  result.fm21 := -fm21/ADeterminant;
-  result.fm22 :=  fm11/ADeterminant;
-end;
-
-// TC3Matrix
-
-function TC3MatrixHelper.SwapRow(ASwap: TSwapValue): TC3Matrix;
-begin
-  case ASwap of
-    sw12:
+  for i := 1 to 3 do
+    for j := 1 to 3 do
     begin
-      result.fm11 := fm21;
-      result.fm12 := fm22;
-      result.fm13 := fm23;
-      result.fm21 := fm11;
-      result.fm22 := fm12;
-      result.fm23 := fm13;
-      result.fm31 := fm31;
-      result.fm32 := fm32;
-      result.fm33 := fm33;
+      result[i, j] := fm[i, j].Dual;
     end;
-    sw13:
-    begin
-      result.fm11 := fm31;
-      result.fm12 := fm32;
-      result.fm13 := fm33;
-      result.fm21 := fm21;
-      result.fm22 := fm22;
-      result.fm23 := fm23;
-      result.fm31 := fm11;
-      result.fm32 := fm12;
-      result.fm33 := fm13;
-    end;
-    sw23:
-    begin
-      result.fm11 := fm11;
-      result.fm12 := fm12;
-      result.fm13 := fm13;
-      result.fm21 := fm31;
-      result.fm22 := fm32;
-      result.fm23 := fm33;
-      result.fm31 := fm21;
-      result.fm32 := fm22;
-      result.fm33 := fm23;
-    end;
-  end;
 end;
 
-function TC3MatrixHelper.Trace: TComplex;
+function TC3MatrixHelper.Determinant: TComplex;
 begin
-  result := fm11 + fm22 + fm33;
+  result :=  fm[1,1]*(fm[2,2]*fm[3,3]-fm[2,3]*fm[3,2])
+            +fm[1,2]*(fm[2,3]*fm[3,1]-fm[2,1]*fm[3,3])
+            +fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]);
 end;
 
-function TC3MatrixHelper.Eigenvalues: TC3Ket;
+function TC3MatrixHelper.Eigenvalues: TC3Array;
 var
   C1, C2, C3: TComplex;
   t1, t2, t3: TComplex;
@@ -804,271 +554,669 @@ begin
   result := SolveEquation(C1, C2, C3);
 end;
 
-function C3Ket(const a1, a2, a3: TComplex): TC3Ket;
-begin
-  result.a1 := a1;
-  result.a2 := a2;
-  result.a3 := a3;
-end;
-
-function TC3MatrixHelper.Eigenvector(const AEigenValue: TComplex): TC3Ket;
+function TC3MatrixHelper.Eigenvectors(const AEigenvalues: TC3Array): TC3Eigenvectors;
 var
   A: TC3Matrix;
+  i, j, Multiplicity: longint;
 begin
-  A.a11 := Self.a11 - AEigenValue;
-  A.a12 := Self.a12;
-  A.a13 := Self.a13;
-  A.a21 := Self.a21;
-  A.a22 := Self.a22 - AEigenValue;
-  A.a23 := Self.a23;
-  A.a31 := Self.a31;
-  A.a32 := Self.a32;
-  A.a33 := Self.a33 - AEigenValue;
-  A     := RowReduction(A);
+  for i := Low(AEigenvalues) to High(AEigenvalues) do
+  begin
+    A := (Self - AEigenvalues[i] * C3IdMatrix).RowReduction;
 
-  result := C3NullKet;
-  if IsEqualToZero(A.a11) and
-     IsEqualToZero(A.a12) and
-     IsEqualToZero(A.a13) then
-  begin
-    result.fm1 := 1;
-  end else
-  begin
-    if IsEqualToZero(A.a22) and
-       IsEqualToZero(A.a23) then
+    Multiplicity := 1;
+    // Calculate algebraic multiplicity of eigenvalues
+    for j := (i - 1) downto Low(AEigenvalues) do
+      if SameValue(AEigenvalues[j], AEigenvalues[i]) then
+        Inc(Multiplicity);
+
+    // Assign a value to free parameter, ensuring only one assignment
+    for j := Low(AEigenvalues) to High(AEigenvalues) do
     begin
-      result.fm2 := 1;
+      result[i].fm[j]:= 0;
+      if A[j, j].IsNull then
+      begin
+        if Multiplicity = 1 then
+          result[i].fm[j]:= 1;
+
+        Dec(Multiplicity);
+      end;
+    end;
+
+    // Solve linear system
+    if A[2,2].IsNotNull then
+      result[i].fm[2] := -(A[2,3] * result[i].fm[3]) / A[2,2];
+
+    if A[1,1].IsNotNull then
+    begin
+      result[i].fm[1] := -(A[1,2] * result[i].fm[2] + A[1,3] * result[i].fm[3]) / A[1,1];
     end else
-    begin
-      result.fm3 := 1;
-    end;
-  end;
-
-
-  if IsNotEqualToZero(A.a22) and
-     IsNotEqualToZero(A.a23) then
-  begin
-    result.fm2 := -A.a23/A.a22;
-  end else
-  begin
-    if IsNotEqualToZero(A.a22) then
-    begin
-
-    end else
-    begin
-
-    end;
-  end;
-
-  if IsNotEqualToZero(A.a11) then
-  begin
-    result.fm1 := -(A.a12*result.fm2 + A.a13*result.fm3)/A.a11;
-  end else
-  begin
-    if IsNotEqualToZero(A.a12) and
-       IsNotEqualToZero(A.a13)then
-    begin
-      result.fm2 := -(A.a13*result.fm3)/A.a12;
-    end;
+      if A[1,2].IsNotNull then
+      begin
+        result[i].fm[2] := -(A[1,3] * result[i].fm[3]) / A[1,2];
+      end;
   end;
 end;
+
+function TC3MatrixHelper.Reciprocal(const ADeterminant: TComplex): TC3Matrix;
+begin
+  result.fm[1,1] :=  (fm[2,2]*fm[3,3] -fm[2,3]*fm[3,2]) / ADeterminant;
+  result.fm[1,2] := -(fm[1,2]*fm[3,3] -fm[1,3]*fm[3,2]) / ADeterminant;
+  result.fm[1,3] :=  (fm[1,2]*fm[2,3] -fm[1,3]*fm[2,2]) / ADeterminant;
+  result.fm[2,1] := -(fm[2,1]*fm[3,3] -fm[2,3]*fm[3,1]) / ADeterminant;
+  result.fm[2,2] :=  (fm[1,1]*fm[3,3] -fm[1,3]*fm[3,1]) / ADeterminant;
+  result.fm[2,3] := -(fm[1,1]*fm[2,3] -fm[1,3]*fm[2,1]) / ADeterminant;
+  result.fm[3,1] :=  (fm[2,1]*fm[3,2] -fm[2,2]*fm[3,1]) / ADeterminant;
+  result.fm[3,2] := -(fm[1,1]*fm[3,2] -fm[1,2]*fm[3,1]) / ADeterminant;
+  result.fm[3,3] :=  (fm[1,1]*fm[2,2] -fm[1,2]*fm[2,1]) / ADeterminant;
+end;
+
 
 function TC3MatrixHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s)', [
-    fm11.ToString,
-    fm12.ToString,
-    fm13.ToString,
-    fm21.ToString,
-    fm22.ToString,
-    fm23.ToString,
-    fm31.ToString,
-    fm32.ToString,
-    fm33.ToString]);
+    fm[1,1].ToString, fm[1,2].ToString, fm[1,3].ToString,
+    fm[2,1].ToString, fm[2,2].ToString, fm[2,3].ToString,
+    fm[3,1].ToString, fm[3,2].ToString, fm[3,3].ToString]);
 end;
 
 function TC3MatrixHelper.ToString(APrecision, ADigits: integer): string;
 begin
   result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s)', [
-    fm11.ToString(APrecision, ADigits),
-    fm12.ToString(APrecision, ADigits),
-    fm13.ToString(APrecision, ADigits),
-    fm21.ToString(APrecision, ADigits),
-    fm22.ToString(APrecision, ADigits),
-    fm23.ToString(APrecision, ADigits),
-    fm31.ToString(APrecision, ADigits),
-    fm32.ToString(APrecision, ADigits),
-    fm33.ToString(APrecision, ADigits)]);
+    fm[1,1].ToString(APrecision, ADigits), fm[1,2].ToString(APrecision, ADigits), fm[1,3].ToString(APrecision, ADigits),
+    fm[2,1].ToString(APrecision, ADigits), fm[2,2].ToString(APrecision, ADigits), fm[2,3].ToString(APrecision, ADigits),
+    fm[3,1].ToString(APrecision, ADigits), fm[3,2].ToString(APrecision, ADigits), fm[3,3].ToString(APrecision, ADigits)]);
 end;
 
-class operator TC3Matrix.+(const ALeft, ARight: TC3Matrix): TC3Matrix;
+// TC4MatrixHelper
+
+function TC4MatrixHelper.Dual: TC4Matrix;
+var
+  i, j: longint;
 begin
-  result.fm11 := ALeft.fm11 + ARight.fm11;
-  result.fm12 := ALeft.fm12 + ARight.fm12;
-  result.fm13 := ALeft.fm13 + ARight.fm13;
-  result.fm21 := ALeft.fm21 + ARight.fm21;
-  result.fm22 := ALeft.fm22 + ARight.fm22;
-  result.fm23 := ALeft.fm23 + ARight.fm23;
-  result.fm31 := ALeft.fm31 + ARight.fm31;
-  result.fm32 := ALeft.fm32 + ARight.fm32;
-  result.fm33 := ALeft.fm33 + ARight.fm33;
+  for i := 1 to 4 do
+    for j := 1 to 4 do
+    begin
+      result[i, j] := fm[i, j].Dual;
+    end;
 end;
 
-class operator TC3Matrix.-(const ALeft, ARight: TC3Matrix): TC3Matrix;
+function TC4MatrixHelper.Determinant: TComplex;
 begin
-  result.fm11 := ALeft.fm11 - ARight.fm11;
-  result.fm12 := ALeft.fm12 - ARight.fm12;
-  result.fm13 := ALeft.fm13 - ARight.fm13;
-  result.fm21 := ALeft.fm21 - ARight.fm21;
-  result.fm22 := ALeft.fm22 - ARight.fm22;
-  result.fm23 := ALeft.fm23 - ARight.fm23;
-  result.fm31 := ALeft.fm31 - ARight.fm31;
-  result.fm32 := ALeft.fm32 - ARight.fm32;
-  result.fm33 := ALeft.fm33 - ARight.fm33;
+  result := (fm[1,1]*fm[2,2]-fm[1,2]*fm[2,1])*(fm[3,3]*fm[4,4]-fm[3,4]*fm[4,3]) -
+            (fm[1,1]*fm[2,3]-fm[1,3]*fm[2,1])*(fm[3,2]*fm[4,4]-fm[3,4]*fm[4,2]) +
+            (fm[1,1]*fm[2,4]-fm[1,4]*fm[2,1])*(fm[3,2]*fm[4,3]-fm[3,3]*fm[4,2]) +
+            (fm[1,2]*fm[2,3]-fm[1,3]*fm[2,2])*(fm[3,1]*fm[4,4]-fm[3,4]*fm[4,1]) -
+            (fm[1,2]*fm[2,4]-fm[1,4]*fm[2,2])*(fm[3,1]*fm[4,3]-fm[3,3]*fm[4,1]) +
+            (fm[1,3]*fm[2,4]-fm[1,4]*fm[2,3])*(fm[3,1]*fm[4,2]-fm[3,2]*fm[4,1]) ;
 end;
 
-class operator TC3Matrix.*(const ALeft: double; const ARight: TC3Matrix): TC3Matrix;
+function TC4MatrixHelper.Eigenvalues: TC4Array;
+var
+  C1, C2, C3, C4: TComplex;
+  t1, t2, t3, t4: TComplex;
 begin
-  result.fm11 := ALeft*ARight.fm11;
-  result.fm12 := ALeft*ARight.fm12;
-  result.fm13 := ALeft*ARight.fm13;
-  result.fm21 := ALeft*ARight.fm21;
-  result.fm22 := ALeft*ARight.fm22;
-  result.fm23 := ALeft*ARight.fm23;
-  result.fm31 := ALeft*ARight.fm31;
-  result.fm32 := ALeft*ARight.fm32;
-  result.fm33 := ALeft*ARight.fm33;
+  t1 := Trace;
+  t2 := (Self*Self).Trace;
+  t3 := (Self*Self*Self).Trace;
+  t4 := (Self*Self*Self*Self).Trace;
+
+  C1 := -(t1);
+  C2 := -(C1*t1+t2)/2;
+  C3 := -(C2*t1+C1*t2+t3)/3;
+  C4 := -(C3*t1+C2*t2+C1*t3+t4)/4;
+
+  result := SolveEquation(C1, C2, C3, C4);
 end;
 
-class operator TC3Matrix.*(const ALeft: TC3Matrix; const ARight: double): TC3Matrix;
+function TC4MatrixHelper.Eigenvectors(const AEigenvalues: TC4Array): TC4Eigenvectors;
+var
+  A: TC4Matrix;
+  i, j, Multiplicity: longint;
 begin
-  result.fm11 := ALeft.fm11*ARight;
-  result.fm12 := ALeft.fm12*ARight;
-  result.fm13 := ALeft.fm13*ARight;
-  result.fm21 := ALeft.fm21*ARight;
-  result.fm22 := ALeft.fm22*ARight;
-  result.fm23 := ALeft.fm23*ARight;
-  result.fm31 := ALeft.fm31*ARight;
-  result.fm32 := ALeft.fm32*ARight;
-  result.fm33 := ALeft.fm33*ARight;
+  for i := Low(AEigenvalues) to High(AEigenvalues) do
+  begin
+    A := (Self - AEigenvalues[i] * C4IdMatrix).RowReduction;
+    writeln(A.ToString);
+
+    Multiplicity := 1;
+    // Calculate algebraic multiplicity of eigenvalues
+    for j := (i - 1) downto Low(AEigenvalues) do
+      if SameValue(AEigenvalues[j], AEigenvalues[i]) then
+        Inc(Multiplicity);
+
+    // Assign a value to free parameter, ensuring only one assignment
+    for j := Low(AEigenvalues) to High(AEigenvalues) do
+    begin
+      result[i].fm[j]:= 0;
+      if A[j, j].IsNull then
+      begin
+        if Multiplicity = 1 then
+          result[i].fm[j]:= 1;
+
+        Dec(Multiplicity);
+      end;
+    end;
+
+    // Solve linear system
+    if A[3,3].IsNotNull and A[3,4].IsNotNull then
+      result[i].fm[3] := -(A[3,4] * result[i].fm[4]) / A[3,3];
+
+    if A[2,2].IsNotNull then
+    begin
+      result[i].fm[2] := -(A[2,3] * result[i].fm[3] + A[2,4] * result[i].fm[4]) / A[2,2];
+    end else
+      if A[2,3].IsNotNull then
+      begin
+        result[i].fm[3] := -(A[2,4] * result[i].fm[4]) / A[2,3];
+      end;
+
+    if A[1,1].IsNotNull then
+    begin
+      result[i].fm[1] := -(A[1,2] * result[i].fm[2] + A[1,3] * result[i].fm[3] + A[1,4] * result[i].fm[4]) / A[1,1];
+    end else
+      if A[1,2].IsNotNull then
+      begin
+        result[i].fm[2] := -(A[1,3] * result[i].fm[3] + A[1,4] * result[i].fm[4]) / A[1,2];
+      end else
+        if A[1,3].IsNotNull then
+        begin
+          result[i].fm[3] := -(A[1,4] * result[i].fm[4]) / A[1,3];
+        end;
+  end;
 end;
 
-class operator TC3Matrix.*(const ALeft: TComplex; const ARight: TC3Matrix): TC3Matrix;
+function TC4MatrixHelper.Reciprocal(const ADeterminant: TComplex): TC4Matrix;
 begin
-  result.fm11 := ALeft*ARight.fm11;
-  result.fm12 := ALeft*ARight.fm12;
-  result.fm13 := ALeft*ARight.fm13;
-  result.fm21 := ALeft*ARight.fm21;
-  result.fm22 := ALeft*ARight.fm22;
-  result.fm23 := ALeft*ARight.fm23;
-  result.fm31 := ALeft*ARight.fm31;
-  result.fm32 := ALeft*ARight.fm32;
-  result.fm33 := ALeft*ARight.fm33;
+  result[1,1]:= (fm[2,2]*(fm[3,3]*fm[4,4]-fm[3,4]*fm[4,3])+
+                 fm[2,3]*(fm[3,4]*fm[4,2]-fm[3,2]*fm[4,4])+
+                 fm[2,4]*(fm[3,2]*fm[4,3]-fm[3,3]*fm[4,2]))/Adeterminant;
+  result[1,2]:= (fm[3,2]*(fm[1,3]*fm[4,4]-fm[1,4]*fm[4,3])+
+                 fm[3,3]*(fm[1,4]*fm[4,2]-fm[1,2]*fm[4,4])+
+                 fm[3,4]*(fm[1,2]*fm[4,3]-fm[1,3]*fm[4,2]))/Adeterminant;
+  result[1,3]:= (fm[4,2]*(fm[1,3]*fm[2,4]-fm[1,4]*fm[2,3])+
+                 fm[4,3]*(fm[1,4]*fm[2,2]-fm[1,2]*fm[2,4])+
+                 fm[4,4]*(fm[1,2]*fm[2,3]-fm[1,3]*fm[2,2]))/Adeterminant;
+  result[1,4]:= (fm[1,2]*(fm[2,4]*fm[3,3]-fm[2,3]*fm[3,4])+
+                 fm[1,3]*(fm[2,2]*fm[3,4]-fm[2,4]*fm[3,2])+
+                 fm[1,4]*(fm[2,3]*fm[3,2]-fm[2,2]*fm[3,3]))/Adeterminant;
+  result[2,1]:= (fm[2,3]*(fm[3,1]*fm[4,4]-fm[3,4]*fm[4,1])+
+                 fm[2,4]*(fm[3,3]*fm[4,1]-fm[3,1]*fm[4,3])+
+                 fm[2,1]*(fm[3,4]*fm[4,3]-fm[3,3]*fm[4,4]))/Adeterminant;
+  result[2,2]:= (fm[3,3]*(fm[1,1]*fm[4,4]-fm[1,4]*fm[4,1])+
+                 fm[3,4]*(fm[1,3]*fm[4,1]-fm[1,1]*fm[4,3])+
+                 fm[3,1]*(fm[1,4]*fm[4,3]-fm[1,3]*fm[4,4]))/Adeterminant;
+  result[2,3]:= (fm[4,3]*(fm[1,1]*fm[2,4]-fm[1,4]*fm[2,1])+
+                 fm[4,4]*(fm[1,3]*fm[2,1]-fm[1,1]*fm[2,3])+
+                 fm[4,1]*(fm[1,4]*fm[2,3]-fm[1,3]*fm[2,4]))/Adeterminant;
+  result[2,4]:= (fm[1,3]*(fm[2,4]*fm[3,1]-fm[2,1]*fm[3,4])+
+                 fm[1,4]*(fm[2,1]*fm[3,3]-fm[2,3]*fm[3,1])+
+                 fm[1,1]*(fm[2,3]*fm[3,4]-fm[2,4]*fm[3,3]))/Adeterminant;
+  result[3,1]:= (fm[2,4]*(fm[3,1]*fm[4,2]-fm[3,2]*fm[4,1])+
+                 fm[2,1]*(fm[3,2]*fm[4,4]-fm[3,4]*fm[4,2])+
+                 fm[2,2]*(fm[3,4]*fm[4,1]-fm[3,1]*fm[4,4]))/Adeterminant;
+  result[3,2]:= (fm[3,4]*(fm[1,1]*fm[4,2]-fm[1,2]*fm[4,1])+
+                 fm[3,1]*(fm[1,2]*fm[4,4]-fm[1,4]*fm[4,2])+
+                 fm[3,2]*(fm[1,4]*fm[4,1]-fm[1,1]*fm[4,4]))/Adeterminant;
+  result[3,3]:= (fm[4,4]*(fm[1,1]*fm[2,2]-fm[1,2]*fm[2,1])+
+                 fm[4,1]*(fm[1,2]*fm[2,4]-fm[1,4]*fm[2,2])+
+                 fm[4,2]*(fm[1,4]*fm[2,1]-fm[1,1]*fm[2,4]))/Adeterminant;
+  result[3,4]:= (fm[1,4]*(fm[2,2]*fm[3,1]-fm[2,1]*fm[3,2])+
+                 fm[1,1]*(fm[2,4]*fm[3,2]-fm[2,2]*fm[3,4])+
+                 fm[1,2]*(fm[2,1]*fm[3,4]-fm[2,4]*fm[3,1]))/Adeterminant;
+  result[4,1]:= (fm[2,1]*(fm[3,3]*fm[4,2]-fm[3,2]*fm[4,3])+
+                 fm[2,2]*(fm[3,1]*fm[4,3]-fm[3,3]*fm[4,1])+
+                 fm[2,3]*(fm[3,2]*fm[4,1]-fm[3,1]*fm[4,2]))/Adeterminant;
+  result[4,2]:= (fm[3,1]*(fm[1,3]*fm[4,2]-fm[1,2]*fm[4,3])+
+                 fm[3,2]*(fm[1,1]*fm[4,3]-fm[1,3]*fm[4,1])+
+                 fm[3,3]*(fm[1,2]*fm[4,1]-fm[1,1]*fm[4,2]))/Adeterminant;
+  result[4,3]:= (fm[4,1]*(fm[1,3]*fm[2,2]-fm[1,2]*fm[2,3])+
+                 fm[4,2]*(fm[1,1]*fm[2,3]-fm[1,3]*fm[2,1])+
+                 fm[4,3]*(fm[1,2]*fm[2,1]-fm[1,1]*fm[2,2]))/Adeterminant;
+  result[4,4]:= (fm[1,1]*(fm[2,2]*fm[3,3]-fm[2,3]*fm[3,2])+
+                 fm[1,2]*(fm[2,3]*fm[3,1]-fm[2,1]*fm[3,3])+
+                 fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]))/Adeterminant;
+
 end;
 
-class operator TC3Matrix.*(const ALeft: TC3Matrix; const ARight: TComplex): TC3Matrix;
+function TC4MatrixHelper.ToString: string;
 begin
-  result.fm11 := ALeft.fm11*ARight;
-  result.fm12 := ALeft.fm12*ARight;
-  result.fm13 := ALeft.fm13*ARight;
-  result.fm21 := ALeft.fm21*ARight;
-  result.fm22 := ALeft.fm22*ARight;
-  result.fm23 := ALeft.fm23*ARight;
-  result.fm31 := ALeft.fm31*ARight;
-  result.fm32 := ALeft.fm32*ARight;
-  result.fm33 := ALeft.fm33*ARight;
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+    fm[1,1].ToString, fm[1,2].ToString, fm[1,3].ToString, fm[1,4].ToString,
+    fm[2,1].ToString, fm[2,2].ToString, fm[2,3].ToString, fm[2,4].ToString,
+    fm[3,1].ToString, fm[3,2].ToString, fm[3,3].ToString, fm[3,4].ToString,
+    fm[4,1].ToString, fm[4,2].ToString, fm[4,3].ToString, fm[4,4].ToString]);
 end;
 
-class operator TC3Matrix.*(const ALeft, ARight: TC3Matrix): TC3Matrix;
+function TC4MatrixHelper.ToString(APrecision, ADigits: integer): string;
 begin
-  result.fm11 := ALeft.fm11*ARight.fm11 + ALeft.fm12*ARight.fm21 + ALeft.fm13*ARight.fm31;
-  result.fm12 := ALeft.fm11*ARight.fm12 + ALeft.fm12*ARight.fm22 + ALeft.fm13*ARight.fm32;
-  result.fm13 := ALeft.fm11*ARight.fm13 + ALeft.fm12*ARight.fm23 + ALeft.fm13*ARight.fm33;
-
-  result.fm21 := ALeft.fm21*ARight.fm11 + ALeft.fm22*ARight.fm21 + ALeft.fm23*ARight.fm31;
-  result.fm22 := ALeft.fm21*ARight.fm12 + ALeft.fm22*ARight.fm22 + ALeft.fm23*ARight.fm32;
-  result.fm23 := ALeft.fm21*ARight.fm13 + ALeft.fm22*ARight.fm23 + ALeft.fm23*ARight.fm33;
-
-  result.fm31 := ALeft.fm31*ARight.fm11 + ALeft.fm32*ARight.fm21 + ALeft.fm33*ARight.fm31;
-  result.fm32 := ALeft.fm31*ARight.fm12 + ALeft.fm32*ARight.fm22 + ALeft.fm33*ARight.fm32;
-  result.fm33 := ALeft.fm31*ARight.fm13 + ALeft.fm32*ARight.fm23 + ALeft.fm33*ARight.fm33;
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+    fm[1,1].ToString(APrecision, ADigits), fm[1,2].ToString(APrecision, ADigits), fm[1,3].ToString, fm[1,4].ToString(APrecision, ADigits),
+    fm[2,1].ToString(APrecision, ADigits), fm[2,2].ToString(APrecision, ADigits), fm[2,3].ToString, fm[2,4].ToString(APrecision, ADigits),
+    fm[3,1].ToString(APrecision, ADigits), fm[3,2].ToString(APrecision, ADigits), fm[3,3].ToString, fm[3,4].ToString(APrecision, ADigits),
+    fm[4,1].ToString(APrecision, ADigits), fm[4,2].ToString(APrecision, ADigits), fm[4,3].ToString, fm[4,4].ToString(APrecision, ADigits)]);
 end;
 
-class operator TC3Matrix./(const ALeft: TC3Matrix; const ARight: double): TC3Matrix;
+// TMatrix
+
+function TMatrix.Get(ARow, ACol: longint): TType;
 begin
-  result.fm11 := ALeft.fm11/ARight;
-  result.fm12 := ALeft.fm12/ARight;
-  result.fm13 := ALeft.fm13/ARight;
-  result.fm21 := ALeft.fm21/ARight;
-  result.fm22 := ALeft.fm22/ARight;
-  result.fm23 := ALeft.fm23/ARight;
-  result.fm31 := ALeft.fm31/ARight;
-  result.fm32 := ALeft.fm32/ARight;
-  result.fm33 := ALeft.fm33/ARight;
+  result := fm[ARow, ACol];
 end;
 
-class operator TC3Matrix./(const ALeft: TC3Matrix; const ARight: TComplex): TC3Matrix;
+procedure TMatrix.Put(ARow, ACol: longint; AValue: TType);
 begin
-  result := ALeft * ARight.Reciprocal
+  fm[ARow, ACol] := AValue;
 end;
 
-function TC3Matrix.Dual: TC3Matrix;
+function TMatrix.IsNull: boolean;
+var
+  i, j: longint;
 begin
-  result.fm11 := fm11.Dual;
-  result.fm12 := fm12.Dual;
-  result.fm13 := fm13.Dual;
-  result.fm21 := fm21.Dual;
-  result.fm22 := fm22.Dual;
-  result.fm23 := fm23.Dual;
-  result.fm31 := fm31.Dual;
-  result.fm32 := fm32.Dual;
-  result.fm33 := fm33.Dual;
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      if not SameValue(fm[i, j], 0) then Exit(False);
+    end;
+  result := True;
 end;
 
-function TC3Matrix.Transpose: TC3Matrix;
+function TMatrix.IsNotNull: boolean;
 begin
-  result.fm11 := fm11;
-  result.fm12 := fm21;
-  result.fm13 := fm31;
-  result.fm21 := fm12;
-  result.fm22 := fm22;
-  result.fm23 := fm32;
-  result.fm31 := fm13;
-  result.fm32 := fm23;
-  result.fm33 := fm33;
+  result := not IsNull;
 end;
 
-function TC3Matrix.TransposeDual: TC3Matrix;
+function TMatrix.RowReduction: TMatrix;
+var
+  ratio: TComplex;
+  var i, j, k, maxRow: longint;
 begin
-  result.fm11 := fm11.Dual;
-  result.fm12 := fm21.Dual;
-  result.fm13 := fm31.Dual;
-  result.fm21 := fm12.Dual;
-  result.fm22 := fm22.Dual;
-  result.fm23 := fm32.Dual;
-  result.fm31 := fm13.Dual;
-  result.fm32 := fm23.Dual;
-  result.fm33 := fm33.Dual;
+  result := Self;
+  // Step 1: Forward elimination (Gaussian elimination)
+  for i := 1 to TSpace.N do
+  begin
+    // Find the row with the largest absolute value in the current column (Partial Pivoting)
+    maxRow := i;
+    for j := i + 1 to TSpace.N do
+      if result[j ,i].Norm > result[maxRow, i].Norm then maxRow := j;
+
+    // Swap the current row with the row having the largest pivot
+    if maxRow <> i then
+      result.Swap(maxRow, i);
+
+    if result[i, i].IsNotNull then
+    begin
+      // Normalize the pivot row (Make the pivot element 1)
+      for j := i + 1 to TSpace.N do
+        result[i, j] := result[i, j] / result[i, i];
+      result[i, i] := 1;
+      // Eliminate elements below the pivot (Create upper triangular form)
+      for j := i + 1 to TSpace.N do
+        if result[j, i].Norm <> 0 then
+        begin
+          // Factor to eliminate the element
+          ratio := result[j, i];
+
+          for k := i + 1 to TSpace.N do
+          begin
+            result[j, k] := result[j, k] - ratio*result[i, k]
+          end;
+          // Explicitly set to zero for numerical stability
+          result[j , i] := 0;
+        end;
+    end;
+  end;
+
+  // Step 2: Back-substitution (Convert to reduced row echelon form)
+  for i := TSpace.N downto 1 do
+    if result[i, i].IsNotNull then
+    begin
+      // Eliminate elements above the pivot
+      for j := i - 1 downto 1 do
+      begin
+        // Factor to eliminate the element
+        ratio := result[j, i];
+
+        for k := i to TSpace.N do
+          result[j, k] := result[j, k] - ratio * result[i, k];
+        // Explicitly set to zero
+        result[j, i] := 0;
+      end;
+    end;
 end;
 
-function TC3Matrix.Determinant: TComplex;
+procedure TMatrix.Swap(ARow1, ARow2: longint);
+var
+  i: longint;
+  r: array[1..TSpace.N] of TComplex;
 begin
-  result :=  fm11*(fm22*fm33 -fm23*fm32)
-            +fm12*(fm23*fm31 -fm21*fm33)
-            +fm13*(fm21*fm32 -fm22*fm31);
+  for i := 1 to TSpace.N do r[i]           := Self[ARow1, i];
+  for i := 1 to TSpace.N do Self[ARow1, i] := Self[ARow2, i];
+  for i := 1 to TSpace.N do Self[ARow2, i] := r[i];
 end;
 
-function TC3Matrix.Reciprocal(const ADeterminant: Tcomplex): TC3Matrix;
+function TMatrix.Trace: TType;
+var
+  i: longint;
 begin
-  result.fm11 :=  (fm22*fm33 -fm23*fm32) / ADeterminant;
-  result.fm12 := -(fm12*fm33 -fm13*fm32) / ADeterminant;
-  result.fm13 :=  (fm12*fm23 -fm13*fm22) / ADeterminant;
-  result.fm21 := -(fm21*fm33 -fm23*fm31) / ADeterminant;
-  result.fm22 :=  (fm11*fm33 -fm13*fm31) / ADeterminant;
-  result.fm23 := -(fm11*fm23 -fm13*fm21) / ADeterminant;
-  result.fm31 :=  (fm21*fm32 -fm22*fm31) / ADeterminant;
-  result.fm32 := -(fm11*fm32 -fm12*fm31) / ADeterminant;
-  result.fm33 :=  (fm11*fm22 -fm12*fm21) / ADeterminant;
+  result := 0;
+  for i := 1 to TSpace.N do
+    result := result + fm[i, i];
+end;
+
+function TMatrix.Transpose: TMatrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := fm[j, i];
+    end;
+end;
+
+function TMatrix.TransposeDual: TMatrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := fm[j, i].Dual;
+    end;
+end;
+
+class operator TMatrix.+(const ALeft, ARight: TMatrix): TMatrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := ALeft[i, j] + ARight[i, j];
+    end;
+end;
+
+class operator TMatrix.-(const ALeft, ARight: TMatrix): TMatrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := ALeft[i, j] - ARight[i, j];
+    end;
+end;
+
+class operator TMatrix.*(const ALeft: TType; const ARight: TMatrix): TMatrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := ALeft * ARight[i, j];
+    end;
+end;
+
+class operator TMatrix.*(const ALeft: TMatrix; const ARight: TType): TMatrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := ALeft[i, j] * ARight;
+    end;
+end;
+
+class operator TMatrix.*(const ALeft, ARight: TMatrix): TMatrix;
+var
+  i, j, k: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := 0;
+      for k := 1 to TSpace.N do
+        result[i, j] := result[i, j] + ALeft[i, k] * ARight[k, j];
+    end;
+end;
+
+class operator TMatrix./(const ALeft: TMatrix; const ARight: TType): TMatrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := ALeft[i, j] / ARight;
+    end;
+end;
+
+// TVector
+
+function TVector.Get(ARow: longint): TType;
+begin
+  result := fm[ARow];
+end;
+
+procedure TVector.Put(ARow: longint; AValue: TType);
+begin
+  fm[ARow] := AValue;
+end;
+
+function TVector.IsNull: boolean;
+var
+  i: longint;
+begin
+  for i := 1 to TSpace.N do
+  begin
+    if not SameValue(fm[i], 0) then Exit(False);
+  end;
+  result := True;
+end;
+
+function TVector.IsNotNull: boolean;
+begin
+  result := not IsNull;
+end;
+
+function TVector.Norm: double;
+begin
+  result := sqrt(SquareNorm);
+end;
+
+function TVector.Normalize: TSelf;
+var
+  i: longint;
+  n: double;
+begin
+  n := Norm;
+  for i := 1 to TSpace.N do
+    result[i] := fm[i] / n;
+end;
+
+function TVector.SquareNorm: double;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to TSpace.N do
+    result := result + fm[i].SquaredNorm;
+end;
+
+class operator TVector.+(const ALeft, ARight: TSelf): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to TSpace.N do
+    result[i] := ALeft[i] + ARight[i];
+end;
+
+class operator TVector.-(const ALeft, ARight: TSelf): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to TSpace.N do
+    result[i] := ALeft[i] - ARight[i];
+end;
+
+class operator TVector.*(const ALeft: TType; const ARight: TSelf): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to TSpace.N do
+    result[i] := ALeft * ARight[i];
+end;
+
+class operator TVector.*(const ALeft: TSelf; const ARight: TType): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to TSpace.N do
+    result[i] := ALeft[i] * ARight;
+end;
+
+class operator TVector.*(const ALeft: TMatrix; const ARight: TSelf): TSelf;
+var
+  i, j: longint;
+begin
+  for i := 1 to TSpace.N do
+  begin
+    result[i] := 0;
+    for j := 1 to TSpace.N do
+    begin
+      result[i] := result[i] + ALeft[i, j] * ARight[j];
+    end;
+  end;
+end;
+
+class operator TVector./(const ALeft: TSelf; const ARight: TType): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to TSpace.N do
+    result[i] := ALeft[i] / ARight;
+end;
+
+// TTransposedVector
+
+function TTransposedVector.Get(ACol: longint): TType;
+begin
+  result := fm[ACol];
+end;
+
+procedure TTransposedVector.Put(ACol: longint; AValue: TType);
+begin
+  fm[ACol] := AValue;
+end;
+
+function TTransposedVector.IsNull: boolean;
+var
+  i: longint;
+begin
+  for i := 1 to  TSpace.N do
+    if not SameValue(fm[i], 0) then Exit(False);
+  result := True;
+end;
+
+function TTransposedVector.IsNotNull: boolean;
+begin
+  result := not IsNull;
+end;
+
+function TTransposedVector.Norm: double;
+begin
+  result := sqrt(SquareNorm);
+end;
+
+function TTransposedVector.SquareNorm: double;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to TSpace.N do
+    result := result + fm[i].SquaredNorm;
+end;
+
+function TTransposedVector.Normalize: TSelf;
+var
+  i: longint;
+  n: double;
+begin
+  n := Norm;
+  for i := 1 to TSpace.N do
+    result[i] := fm[i] / n;
+end;
+
+class operator TTransposedVector.+(const ALeft, ARight: TSelf): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to  TSpace.N do
+    result[i] := ALeft[i] + ARight[i];
+end;
+
+class operator TTransposedVector.-(const ALeft, ARight: TSelf): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to  TSpace.N do
+    result[i] := ALeft[i] - ARight[i];
+end;
+
+class operator TTransposedVector.*(const ALeft: TType; const ARight: TSelf): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to  TSpace.N do
+    result[i] := ALeft * ARight[i];
+end;
+
+class operator TTransposedVector.*(const ALeft: TSelf; const ARight: TType): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to  TSpace.N do
+    result[i] := ALeft[i] * ARight;
+end;
+
+class operator TTransposedVector.*(const ALeft: TSelf; const ARight: TVector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to  TSpace.N do
+    result := result + ALeft[i] * ARight[i];
+end;
+
+class operator TTransposedVector.*(const ALeft: TVector; const ARight: TSelf): TMatrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to  TSpace.N do
+    for j := 1 to  TSpace.N do
+      result[i, j] := ALeft[i] * ARight[j];
+end;
+
+class operator TTransposedVector.*(const ALeft: TSelf; const ARight: TMatrix): TSelf;
+var
+  i, j: longint;
+begin
+  for i := 1 to  TSpace.N do
+  begin
+    result[i] := 0;
+    for j := 1 to  TSpace.N do
+      result[i] := result[i] + ALeft[i] * ARight[i, j];
+  end;
+end;
+
+class operator TTransposedVector./(const ALeft: TSelf; const ARight: TType): TSelf;
+var
+  i: longint;
+begin
+  for i := 1 to  TSpace.N do
+    result[i] := ALeft[i] / ARight;
 end;
 
 // Useful routines
@@ -1078,26 +1226,30 @@ begin
   result := AValue*AValue;
 end;
 
-function SquareRoot(const AValue: TComplex): TC2Ket;
-var
-  norm: double;
-begin
-  norm := hypot(AValue.fRe, AValue.fIm);
-  result.fm1.fRe := sqrt(0.5*(norm + AValue.fRe));
-  if AValue.fIm >= 0 then
-    result.fm1.fIm := sqrt(0.5*(norm - AValue.fRe))
-  else
-    result.fm1.fIm := -sqrt(0.5*(norm - AValue.fRe));
-  result.fm2 := -result.fm1;
-end;
-
 function CubicPower(const AValue: TComplex): TComplex;
 begin
   result := AValue*AValue*AValue;
 end;
 
-function CubicRoot(const AValue: TComplex): TC3Ket;
+function QuarticPower(const AValue: TComplex): TComplex;
+begin
+  result := AValue*AValue*AValue*AValue;
+end;
 
+function SquareRoot(const AValue: TComplex): TC2Array;
+var
+  norm: double;
+begin
+  norm := hypot(AValue.fRe, AValue.fIm);
+  result[1].fRe := sqrt(0.5*(norm + AValue.fRe));
+  if AValue.fIm >= 0 then
+    result[1].fIm := sqrt(0.5*(norm - AValue.fRe))
+  else
+    result[1].fIm := -sqrt(0.5*(norm - AValue.fRe));
+  result[2] := -result[1];
+end;
+
+function CubicRoot(const AValue: TComplex): TC3Array;
 const
   i: TImaginaryNumber = ();
 var
@@ -1107,13 +1259,35 @@ begin
   theta := Math.ArcTan2(AValue.fIm, AValue.fRe);
 
   rootArgument := (theta)/3;
-  result.fm1 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
+  result[1] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 
   rootArgument := (theta+2*Pi)/3;
-  result.fm2 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
+  result[2] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 
   rootArgument := (theta+4*Pi)/3;
-  result.fm3 := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
+  result[3] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
+end;
+
+function QuarticRoot(const AValue: TComplex): TC4Array;
+const
+  i: TImaginaryNumber = ();
+var
+  theta, rootModulus, rootArgument: double;
+begin
+  rootModulus := Power(AValue.Norm, 1/4);
+  theta := Math.ArcTan2(AValue.fIm, AValue.fRe);
+
+  rootArgument := (theta)/4;
+  result[1] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
+
+  rootArgument := (theta+2*Pi)/4;
+  result[2] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
+
+  rootArgument := (theta+4*Pi)/4;
+  result[3] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
+
+  rootArgument := (theta+6*Pi)/4;
+  result[4] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 end;
 
 function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
@@ -1126,162 +1300,157 @@ begin
   result := ALeft*ARight - ARight*ALeft;
 end;
 
-function IsEqualToZero(const AValue: TComplex): boolean;
-begin
-  result := Math.SameValue(AValue.fRe, 0) and
-            Math.SameValue(AValue.fIm, 0);
-end;
-
-function IsNotEqualToZero(const AValue: TComplex): boolean;
-begin
-  result := not IsEqualToZero(AValue);
-end;
-
 function SameValue(const AValue1, AValue2: TComplex): boolean;
 begin
   result := Math.SameValue(AValue1.fRe, AValue2.fRe) and
             Math.SameValue(AValue1.fIm, AValue2.fIm);
 end;
 
-function SameValue(const AValue1, AValue2: TC2Ket): boolean;
+function SameValue(const AValue1, AValue2: TC2Vector): boolean;
 begin
-  result := SameValue(AValue1.fm1, AValue2.fm1) and
-            SameValue(AValue1.fm2, AValue2.fm2);
+  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
+            SameValue(AValue1.fm[2], AValue2.fm[2]);
 end;
-function SameValue(const AValue1, AValue2: TC3Ket): boolean;
+function SameValue(const AValue1, AValue2: TC3Vector): boolean;
 begin
-  result := SameValue(AValue1.fm1, AValue2.fm1) and
-            SameValue(AValue1.fm2, AValue2.fm2) and
-            SameValue(AValue1.fm3, AValue2.fm3);
-end;
-
-function SameValue(const AValue1, AValue2: TC2Bra): boolean;
-begin
-  result := SameValue(AValue1.fm1, AValue2.fm1) and
-            SameValue(AValue1.fm2, AValue2.fm2);
+  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
+            SameValue(AValue1.fm[2], AValue2.fm[2]) and
+            SameValue(AValue1.fm[3], AValue2.fm[3]);
 end;
 
-function SameValue(const AValue1, AValue2: TC3Bra): boolean;
+function SameValue(const AValue1, AValue2: TC2TransposedVector): boolean;
 begin
-  result := SameValue(AValue1.fm1, AValue2.fm1) and
-            SameValue(AValue1.fm2, AValue2.fm2) and
-            SameValue(AValue1.fm3, AValue2.fm3);
+  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
+            SameValue(AValue1.fm[2], AValue2.fm[2]);
+end;
+
+function SameValue(const AValue1, AValue2: TC3TransposedVector): boolean;
+begin
+  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
+            SameValue(AValue1.fm[2], AValue2.fm[2]) and
+            SameValue(AValue1.fm[3], AValue2.fm[3]);
 end;
 
 function SameValue(const AValue1, AValue2: TC2Matrix): boolean;
 begin
-  result := SameValue(AValue1.fm11, AValue2.fm11) and
-            SameValue(AValue1.fm12, AValue2.fm12) and
-            SameValue(AValue1.fm21, AValue2.fm21) and
-            SameValue(AValue1.fm22, AValue2.fm22);
+  result := SameValue(AValue1.fm[1,1], AValue2.fm[1,1]) and
+            SameValue(AValue1.fm[1,2], AValue2.fm[1,2]) and
+            SameValue(AValue1.fm[2,1], AValue2.fm[2,1]) and
+            SameValue(AValue1.fm[2,2], AValue2.fm[2,2]);
 end;
 
 function SameValue(const AValue1, AValue2: TC3Matrix): boolean;
 begin
-  result := SameValue(AValue1.fm11, AValue2.fm11) and
-            SameValue(AValue1.fm12, AValue2.fm12) and
-            SameValue(AValue1.fm13, AValue2.fm13) and
-            SameValue(AValue1.fm21, AValue2.fm21) and
-            SameValue(AValue1.fm22, AValue2.fm22) and
-            SameValue(AValue1.fm23, AValue2.fm23) and
-            SameValue(AValue1.fm31, AValue2.fm31) and
-            SameValue(AValue1.fm32, AValue2.fm32) and
-            SameValue(AValue1.fm33, AValue2.fm33);
+  result := SameValue(AValue1.fm[1,1], AValue2.fm[1,1]) and
+            SameValue(AValue1.fm[1,2], AValue2.fm[1,2]) and
+            SameValue(AValue1.fm[1,3], AValue2.fm[1,3]) and
+            SameValue(AValue1.fm[2,1], AValue2.fm[2,1]) and
+            SameValue(AValue1.fm[2,2], AValue2.fm[2,2]) and
+            SameValue(AValue1.fm[2,3], AValue2.fm[2,3]) and
+            SameValue(AValue1.fm[3,1], AValue2.fm[3,1]) and
+            SameValue(AValue1.fm[3,2], AValue2.fm[3,2]) and
+            SameValue(AValue1.fm[3,3], AValue2.fm[3,3]);
 end;
 
-function SolveEquation(const a, b, c: TComplex): TC3Ket;
+function SolveEquation(const a: double): double;
+begin
+  result := -a;
+end;
+
+function SolveEquation(const a: TComplex): TComplex;
+begin
+  result := -a;
+end;
+
+function SolveEquation(const a, b: TComplex): TC2Array;
+var
+  delta: TComplex;
+begin
+  delta := SquareRoot(SquarePower(a) - 4*b)[1];
+  result[1] := (-a + delta)/2;
+  result[2] := (-a - delta)/2;
+end;
+
+function SolveEquation(const a, b, c: TComplex): TC3Array;
 var
   p, q, s1, t: TComplex;
-  u: TC3Ket;
+
+  u: TC3Array;
+  v: TC2Array;
 begin
   p := 9*b -3*SquarePower(a);
   q := 27*c -9*a*b +2*CubicPower(a);
 
-  s1 := -q/2 + SquareRoot(SquarePower(q)/4 + CubicPower(p)/27).fm1;
-//s2 := -q/2 - SquareRoot(SquarePower(q)/4 + CubicPower(p)/27).fm1;
-
-  u := CubicRoot(s1);
-  t := u.fm1 - p/(3*u.fm1); result.fm1 := (t - a)/3;
-  t := u.fm2 - p/(3*u.fm2); result.fm2 := (t - a)/3;
-  t := u.fm3 - p/(3*u.fm3); result.fm3 := (t - a)/3;
-
-  //u := CubicRoot(s2);
-  //t := u.fm1 - p/(3*u.fm1); z := (t - a)/3; writeln(Utf8ToAnsi(z.ToString));
-  //t := u.fm2 - p/(3*u.fm2); z := (t - a)/3; writeln(Utf8ToAnsi(z.ToString));
-  //t := u.fm3 - p/(3*u.fm3); z := (t - a)/3; writeln(Utf8ToAnsi(z.ToString));
+  if p.IsNotNull and q.IsNotNull then
+  begin
+    s1 := -q/2 + SquareRoot(SquarePower(q)/4 + CubicPower(p)/27)[1];
+  //s2 := -q/2 - SquareRoot(SquarePower(q)/4 + CubicPower(p)/27)[2];
+    u := CubicRoot(s1);
+    t := u[1] - p/(3*u[1]); result[1] := (t - a)/3;
+    t := u[2] - p/(3*u[2]); result[2] := (t - a)/3;
+    t := u[3] - p/(3*u[3]); result[3] := (t - a)/3;
+  end else
+    if p.IsNull and q.IsNull then
+    begin
+      result[1] := -a/3;
+      result[2] := -a/3;
+      result[3] := -a/3;
+    end else
+      if q.IsNull then
+      begin
+        v := SquareRoot(p);
+        result[1] :=0;
+        result[2] := v[1];
+        result[3] := v[2];
+      end else
+      begin
+        u := CubicRoot(q);
+        result[1] := u[1];
+        result[2] := u[2];
+        result[3] := u[3];
+      end;
 end;
 
-function RowReduction(const A: TC3Matrix): TC3Matrix;
+function SolveEquation(const a, b, c, d: TComplex): TC4Array;
 var
-  ratio: TComplex;
+  p, q, r: TComplex;
+  u1, u2, u3: TC2Array;
+  v1: TC3Array;
+  v2, v3: TC2Array;
+
+  alpha: TComplex;
+  beta: TComplex;
+  gamma: Tcomplex;
 begin
-  result := A;
-  // Apply the Gauss-Jordan method
-  if result.a11.Norm < result.a21.Norm then result := result.SwapRow(sw12);
-  if result.a11.Norm < result.a31.Norm then result := result.SwapRow(sw13);
-  // Eliminate the elements below the pivot in the first column
-  if IsNotEqualToZero(result.a11) then
+  p := 16*b -6*SquarePower(a);
+  q := 64*c -32*a*b +8*CubicPower(a);
+  r := 256*d -64*a*c +16*b*SquarePower(a) -3*QuarticPower(a);
+
+  if q.IsNull then
   begin
-    // Normalize first pivot
-    result.a12 := result.a12 / result.a11;
-    result.a13 := result.a13 / result.a11;
-    result.a11 := 1;
+    u1 := SolveEquation(p, r);
+    u2 := SquareRoot(u1[1]);
+    u3 := SquareRoot(u1[2]);
 
-    if IsNotEqualToZero(result.a21) then
-    begin
-      ratio := result.a21/result.a11;
-      result.a21 := 0;
-      result.a22 := result.a22 - ratio * result.a12;
-      result.a23 := result.a23 - ratio * result.a13;
-    end;
-
-    if IsNotEqualToZero(result.a31) then
-    begin
-      ratio := result.a31/result.a11;
-      result.a31 := 0;
-      result.a32 := result.a32 - ratio * result.a12;
-      result.a33 := result.a33 - ratio * result.a13;
-    end;
-  end;
-
-  if result.a22.Norm < result.a32.Norm then result := result.SwapRow(sw23);
-  // Eliminate the elements below the pivot in the second column
-  if IsNotEqualToZero(result.a22) then
-  begin
-    // Normalize second pivot
-    result.a23 := result.a23 / result.a22;
-    result.a22 := 1;
-
-    if IsNotEqualToZero(result.a32) then
-    begin
-      ratio := result.a32/result.a22;
-      result.a32 := 0;
-      result.a33 := result.a33 - ratio * result.a23;
-    end;
+    result[1] := (u2[1] -a)/4;
+    result[2] := (u2[2] -a)/4;
+    result[3] := (u3[1] -a)/4;
+    result[4] := (u3[2] -a)/4;
   end else
   begin
-    if result.a23.Norm > result.a33.Norm then
-    begin
-      result := result.SwapRow(sw23);
-    end;
-  end;
+    v1 := SolveEquation(2*p, SquarePower(p)-4*r, -SquarePower(q));
 
-  if IsNotEqualToZero(result.a33) then
-  begin
-    // Normalize third pivot
-    result.a33 := 1;
-  end;
+    alpha := SquareRoot(v1[1])[1];
+    beta  := ((alpha*alpha*alpha)+p*alpha-q)/(2*alpha);
+    gamma := ((alpha*alpha*alpha)+p*alpha+q)/(2*alpha);
 
-  //
-  if IsNotEqualToZero(result.a33) then
-  begin
-    result.a23 := 0;
-    result.a13 := 0;
+    v2 := SolveEquation( alpha,  beta);
+    v3 := SolveEquation(-alpha, gamma);
 
-    if IsNotEqualToZero(result.a22) then
-    begin
-      result.a12 := 0;
-    end;
+    result[1] := (v2[1] -a)/4;
+    result[2] := (v2[2] -a)/4;
+    result[3] := (v3[1] -a)/4;
+    result[4] := (v3[2] -a)/4;
   end;
 end;
 
@@ -1387,5 +1556,91 @@ class operator TImaginaryNumber./(const ALeft: TImaginaryNumber; const ARight: T
 begin
   result.fRe := -ARight.fIm;
   result.fIm :=  ARight.fRe;
+end;
+
+// Usefull routines
+
+function C2NullVector: TC2Vector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+end;
+
+function C3NullVector: TC3Vector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+  result[3] := 0;
+end;
+
+function C4NullVector: TC4Vector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+  result[3] := 0;
+  result[4] := 0;
+end;
+
+function C2NullTransposedVector: TC2TransposedVector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+end;
+
+function C3NullTransposedVector: TC3TransposedVector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+  result[3] := 0;
+end;
+
+function C4NullTransposedVector: TC4TransposedVector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+  result[3] := 0;
+  result[4] := 0;
+end;
+
+function C2NullMatrix: TC2Matrix;
+begin
+  result[1,1] := 0; result[1,2] := 0;
+  result[2,1] := 0; result[2,2] := 0;
+end;
+
+function C3NullMatrix: TC3Matrix;
+begin
+  result[1,1] := 0; result[1,2] := 0; result[1,3] := 0;
+  result[2,1] := 0; result[2,2] := 0; result[2,3] := 0;
+  result[3,1] := 0; result[3,2] := 0; result[3,3] := 0;
+end;
+
+function C4NullMatrix: TC4Matrix;
+begin
+  result[1,1] := 0; result[1,2] := 0; result[1,3] := 0; result[1,4] := 0;
+  result[2,1] := 0; result[2,2] := 0; result[2,3] := 0; result[2,4] := 0;
+  result[3,1] := 0; result[3,2] := 0; result[3,3] := 0; result[3,4] := 0;
+  result[4,1] := 0; result[4,2] := 0; result[4,3] := 0; result[4,4] := 0;
+end;
+
+function C2IdMatrix: TC2Matrix;
+begin
+  result[1,1] := 1; result[1,2] := 0;
+  result[2,1] := 0; result[2,2] := 1;
+end;
+
+function C3IdMatrix: TC3Matrix;
+begin
+  result[1,1] := 1; result[1,2] := 0; result[1,3] := 0;
+  result[2,1] := 0; result[2,2] := 1; result[2,3] := 0;
+  result[3,1] := 0; result[3,2] := 0; result[3,3] := 1;
+end;
+
+function C4IdMatrix: TC4Matrix;
+begin
+  result[1,1] := 1; result[1,2] := 0; result[1,3] := 0; result[1,4] := 0;
+  result[2,1] := 0; result[2,2] := 1; result[2,3] := 0; result[2,4] := 0;
+  result[3,1] := 0; result[3,2] := 0; result[3,3] := 1; result[3,4] := 0;
+  result[4,1] := 0; result[4,2] := 0; result[4,3] := 0; result[4,4] := 1;
 end;
 

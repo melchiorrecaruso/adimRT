@@ -227,6 +227,16 @@ var
 
   H2: TC2Matrix;
   H3: TC3Matrix;
+  H4: TC4Matrix;
+
+  H2Eigenvalues: TC2Eigenvalues;
+  H3Eigenvalues: TC3Eigenvalues;
+  H4Eigenvalues: TC4Eigenvalues;
+
+  H2Eigenvectors: TC2Eigenvectors;
+  H3Eigenvectors: TC3Eigenvectors;
+  H4Eigenvectors: TC4Eigenvectors;
+
   StateL : TC2Ket;
   StateR : TC2Ket;
 
@@ -1338,9 +1348,9 @@ begin
   power__      := current__*potential__;
 
   {$IFDEF WINDOWS}
-  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance__)])) <> Utf8ToAnsi('Z = (2 +1∙i) Ω') then halt(1);
+  if Utf8ToAnsi(Format('Z = %s', [ohm.ToString(impedance__)])) <> Utf8ToAnsi('Z = (2 +i) Ω') then halt(1);
   {$ELSE}
-  if            Format('Z = %s', [ohm.ToString(impedance__)]) <> 'Z = (2 +1∙i) Ω'              then halt(1);
+  if            Format('Z = %s', [ohm.ToString(impedance__)]) <> 'Z = (2 +i) Ω'              then halt(1);
   {$ENDIF}
   if            Format('I = %s', [A.ToString(current__)]) <> 'I = (20 -10∙i) A'                then halt(2);
   if            Format('P = %s', [W.ToString(power__)]) <> 'P = (1000 -500∙i) W'               then halt(3);
@@ -1356,8 +1366,8 @@ begin
   t2 := Ket(0, 1);
 
   State  := 2/Sqrt(5)*t1 + 1/Sqrt(5)*t2;
-  Writeln('State 1 probability: ', (SquarePower(t1.TransposeDual*State)).ToString);
-  Writeln('State 2 probability: ', (SquarePower(t2.TransposeDual*State)).ToString);
+  //writeln('State 1 probability: ', (SquarePower(t1.TransposeDual*State)).ToString);
+  //writeln('State 2 probability: ', (SquarePower(t2.TransposeDual*State)).ToString);
 
   StateL := Ket(1,0);
   StateR := Ket(0,1);
@@ -1371,31 +1381,6 @@ begin
 
   //StateL.TransposeDual*H2*StateR = -A0;
   //StateR.TransposeDual*H2*StateL = -A0;
-
-  writeln((CubicRoot(27-0*img).a1.ToString));
-  writeln((CubicRoot(27-0*img).a2.ToString));
-  writeln((CubicRoot(27-0*img).a3.ToString));
-  writeln('---');
-
-  writeln(((Matrix(3, img,2*img,7+img)*Ket(4,img)).ToString));
-  writeln(((Matrix(3, img,2*img,7+img)*Ket(4,img)).TransposeDual.ToString));
-  writeln(((Ket(4,img).TransposeDual*Matrix(3, img,2*img,7+img).TransposeDual).ToString));
-
-
-  writeln((SolveEquation(-6, 3, 10).a1.ToString));
-  writeln((SolveEquation(-6, 3, 10).a2.ToString));
-  writeln((SolveEquation(-6, 3, 10).a3.ToString));
-
-  writeln('>>>');
-
-  H3 := Matrix(4*img, 0, 2, 0, 0, 0, 0, 0, 0);
-  writeln('l1 = ', (H3.Eigenvalues.a1.ToString));
-  writeln('l2 = ', (H3.Eigenvalues.a2.ToString));
-  writeln('l3 = ', (H3.Eigenvalues.a3.ToString));
-
-  writeln('v1 = ', (H3.Eigenvector(H3.Eigenvalues.a1).ToString));
-  writeln('v2 = ', (H3.Eigenvector(H3.Eigenvalues.a2).ToString));
-  writeln('v3 = ', (H3.Eigenvector(H3.Eigenvalues.a3).ToString));
 
   writeln;
   writeln('ADIM-TEST DONE.');
