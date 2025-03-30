@@ -1299,6 +1299,11 @@ begin
   result := ALeft*ARight - ARight*ALeft;
 end;
 
+function Commutator(const ALeft, ARight: TC4Matrix): TC4Matrix;
+begin
+  result := ALeft*ARight - ARight*ALeft;
+end;
+
 function SameValue(const AValue1, AValue2: TComplex): boolean;
 begin
   result := Math.SameValue(AValue1.fRe, AValue2.fRe) and
@@ -1317,6 +1322,14 @@ begin
             SameValue(AValue1.fm[3], AValue2.fm[3]);
 end;
 
+function SameValue(const AValue1, AValue2: TC4Vector): boolean;
+begin
+  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
+            SameValue(AValue1.fm[2], AValue2.fm[2]) and
+            SameValue(AValue1.fm[3], AValue2.fm[3]) and
+            SameValue(AValue1.fm[4], AValue2.fm[4]);
+end;
+
 function SameValue(const AValue1, AValue2: TC2TransposedVector): boolean;
 begin
   result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
@@ -1330,10 +1343,19 @@ begin
             SameValue(AValue1.fm[3], AValue2.fm[3]);
 end;
 
+function SameValue(const AValue1, AValue2: TC4TransposedVector): boolean;
+begin
+  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
+            SameValue(AValue1.fm[2], AValue2.fm[2]) and
+            SameValue(AValue1.fm[3], AValue2.fm[3]) and
+            SameValue(AValue1.fm[4], AValue2.fm[4]);
+end;
+
 function SameValue(const AValue1, AValue2: TC2Matrix): boolean;
 begin
   result := SameValue(AValue1.fm[1,1], AValue2.fm[1,1]) and
             SameValue(AValue1.fm[1,2], AValue2.fm[1,2]) and
+
             SameValue(AValue1.fm[2,1], AValue2.fm[2,1]) and
             SameValue(AValue1.fm[2,2], AValue2.fm[2,2]);
 end;
@@ -1343,12 +1365,37 @@ begin
   result := SameValue(AValue1.fm[1,1], AValue2.fm[1,1]) and
             SameValue(AValue1.fm[1,2], AValue2.fm[1,2]) and
             SameValue(AValue1.fm[1,3], AValue2.fm[1,3]) and
+
             SameValue(AValue1.fm[2,1], AValue2.fm[2,1]) and
             SameValue(AValue1.fm[2,2], AValue2.fm[2,2]) and
             SameValue(AValue1.fm[2,3], AValue2.fm[2,3]) and
+
             SameValue(AValue1.fm[3,1], AValue2.fm[3,1]) and
             SameValue(AValue1.fm[3,2], AValue2.fm[3,2]) and
             SameValue(AValue1.fm[3,3], AValue2.fm[3,3]);
+end;
+
+function SameValue(const AValue1, AValue2: TC4Matrix): boolean;
+begin
+  result := SameValue(AValue1.fm[1,1], AValue2.fm[1,1]) and
+            SameValue(AValue1.fm[1,2], AValue2.fm[1,2]) and
+            SameValue(AValue1.fm[1,3], AValue2.fm[1,3]) and
+            SameValue(AValue1.fm[1,4], AValue2.fm[1,4]) and
+
+            SameValue(AValue1.fm[2,1], AValue2.fm[2,1]) and
+            SameValue(AValue1.fm[2,2], AValue2.fm[2,2]) and
+            SameValue(AValue1.fm[2,3], AValue2.fm[2,3]) and
+            SameValue(AValue1.fm[2,4], AValue2.fm[2,4]) and
+
+            SameValue(AValue1.fm[3,1], AValue2.fm[3,1]) and
+            SameValue(AValue1.fm[3,2], AValue2.fm[3,2]) and
+            SameValue(AValue1.fm[3,3], AValue2.fm[3,3]) and
+            SameValue(AValue1.fm[3,4], AValue2.fm[3,4]) and
+
+            SameValue(AValue1.fm[4,1], AValue2.fm[4,1]) and
+            SameValue(AValue1.fm[4,2], AValue2.fm[4,2]) and
+            SameValue(AValue1.fm[4,3], AValue2.fm[4,3]) and
+            SameValue(AValue1.fm[4,4], AValue2.fm[4,4]);
 end;
 
 function SolveEquation(const a: double): double;

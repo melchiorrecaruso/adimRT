@@ -277,26 +277,22 @@ function SquareRoot(const AValue: TComplex): TC2Array;
 function CubicRoot(const AValue: TComplex): TC3Array;
 function QuarticRoot(const AValue: TComplex): TC4Array;
 
+// Usefull routines
+
 function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
 function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
+function Commutator(const ALeft, ARight: TC4Matrix): TC4Matrix;
 
 function SameValue(const AValue1, AValue2: TComplex): boolean;
-function SameValue(const AValue1, AValue2: TC2Ket): boolean;
-function SameValue(const AValue1, AValue2: TC3Ket): boolean;
-function SameValue(const AValue1, AValue2: TC2Bra): boolean;
-function SameValue(const AValue1, AValue2: TC3Bra): boolean;
+function SameValue(const AValue1, AValue2: TC2Vector): boolean;
+function SameValue(const AValue1, AValue2: TC3Vector): boolean;
+function SameValue(const AValue1, AValue2: TC4Vector): boolean;
+function SameValue(const AValue1, AValue2: TC2TransposedVector): boolean;
+function SameValue(const AValue1, AValue2: TC3TransposedVector): boolean;
+function SameValue(const AValue1, AValue2: TC4TransposedVector): boolean;
 function SameValue(const AValue1, AValue2: TC2Matrix): boolean;
 function SameValue(const AValue1, AValue2: TC3Matrix): boolean;
-
-// Solvers for linear, quadratic, cubic and quartic equation
-
-function SolveEquation(const a: double): double;
-function SolveEquation(const a: TComplex): TComplex;
-function SolveEquation(const a, b: TComplex): TC2Array;
-function SolveEquation(const a, b, c: TComplex): TC3Array;
-function SolveEquation(const a, b, c, d: TComplex): TC4Array;
-
-// Usefull routines
+function SameValue(const AValue1, AValue2: TC4Matrix): boolean;
 
 function C2NullVector: TC2Vector;
 function C3NullVector: TC3Vector;
@@ -313,4 +309,12 @@ function C4NullMatrix: TC4Matrix;
 function C2IdMatrix: TC2Matrix;
 function C3IdMatrix: TC3Matrix;
 function C4IdMatrix: TC4Matrix;
+
+// Solvers for linear, quadratic, cubic and quartic equation
+
+function SolveEquation(const a: double): double;
+function SolveEquation(const a: TComplex): TComplex;
+function SolveEquation(const a, b: TComplex): TC2Array;
+function SolveEquation(const a, b, c: TComplex): TC3Array;
+function SolveEquation(const a, b, c, d: TComplex): TC4Array;
 
