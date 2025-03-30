@@ -45,40 +45,68 @@ type
   {$ENDIF}
 
   {$IFNDEF ADIMOFF}
-  TC2MatrixQuantity = record
+  generic TMatrixQuantity<TType, TSpace> = record
+  type
+    TSelf = specialize TMatrixQuantity<TType, TSpace>;
+    TMatrix = specialize TMatrix<TType, TSpace>;
   private
     FID: longint;
-    FValue: TC2Matrix;
+    FValue: TMatrix;
   public
+
   end;
+
+  TC2MatrixQuantity = specialize TMatrixQuantity<TComplex, T2DSpace>;
+  TC3MatrixQuantity = specialize TMatrixQuantity<TComplex, T3DSpace>;
+  TC4MatrixQuantity = specialize TMatrixQuantity<TComplex, T4DSpace>;
   {$ELSE}
-  TC2MatrixQuantity = TC2Matrix;
+  TC2MatrixQuantity = specialize TMatrix<TComplex, T2DSpace>;
+  TC3MatrixQuantity = specialize TMatrix<TComplex, T3DSpace>;
+  TC4MatrixQuantity = specialize TMatrix<TComplex, T4DSpace>;
   {$ENDIF}
 
-  // TKet for Hilbert space
+  // TVecQuantity for Hilbert space
 
   {$IFNDEF ADIMOFF}
-  TC2KetQuantity = record
+  generic TVecQuantity<TType, TSpace> = record
+  type
+    TSelf = specialize TVecQuantity<TType, TSpace>;
+    TVector = specialize TVector<TType, TSpace>;
   private
     FID: longint;
-    FValue: TC2Ket;
+    FValue: TVector;
   public
   end;
+
+  TC2VecQuantity = specialize TVecQuantity<TComplex, T2DSpace>;
+  TC3VecQuantity = specialize TVecQuantity<TComplex, T3DSpace>;
+  TC4VecQuantity = specialize TVecQuantity<TComplex, T4DSpace>;
   {$ELSE}
-  TC2KetQuantity = TC2Ket;
+  TC2VecQuantity = specialize TVector<TComplex, T2DSpace>;
+  TC3VecQuantity = specialize TVector<TComplex, T3DSpace>;
+  TC4VecQuantity = specialize TVector<TComplex, T4DSpace>;
   {$ENDIF}
 
-  // TBra for Hilbert space
+  // TTransposedVecQuantity for Hilbert space
 
   {$IFNDEF ADIMOFF}
-  TC2BraQuantity = record
+  generic TTransposedVecQuantity<TType, TSpace> = record
+  type
+    TSelf = specialize TVecQuantity<TType, TSpace>;
+    TVector = specialize TTransposedVector<TType, TSpace>;
   private
     FID: longint;
-    FValue: TC2Bra;
+    FValue: TVector;
   public
   end;
+
+  TC2TransposedVecQuantity = specialize TTransposedVector<TComplex, T2DSpace>;
+  TC3TransposedVecQuantity = specialize TTransposedVector<TComplex, T3DSpace>;
+  TC4TransposedVecQuantity = specialize TTransposedVector<TComplex, T4DSpace>;
   {$ELSE}
-  TC2BraQuantity = TC2Bra;
+  TC2TransposedVecQuantity = specialize TTransposedVector<TComplex, T2DSpace>;
+  TC3TransposedVecQuantity = specialize TTransposedVector<TComplex, T3DSpace>;
+  TC4TransposedVecQuantity = specialize TTransposedVector<TComplex, T4DSpace>;
   {$ENDIF}
 
 {$IFNDEF ADIMOFF}
