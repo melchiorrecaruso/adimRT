@@ -227,10 +227,10 @@ end;
 
 class operator TR2Matrix.:=(const ASelf: TR2Matrix): TC2Matrix;
 begin
-  result.fm11 := ASelf.fm11;
-  result.fm12 := ASelf.fm12;
-  result.fm21 := ASelf.fm21;
-  result.fm22 := ASelf.fm22;
+  result.fm[1,1] := ASelf.fm11;
+  result.fm[1,2] := ASelf.fm12;
+  result.fm[2,1] := ASelf.fm21;
+  result.fm[2,2] := ASelf.fm22;
 end;
 
 class operator TR2Matrix.+(const ALeft, ARight: TR2Matrix): TR2Matrix;
@@ -344,15 +344,15 @@ end;
 
 class operator TR3Matrix.:=(const ASelf: TR3Matrix): TC3Matrix;
 begin
-  result.fm11 := ASelf.fm11;
-  result.fm12 := ASelf.fm12;
-  result.fm13 := ASelf.fm13;
-  result.fm21 := ASelf.fm21;
-  result.fm22 := ASelf.fm22;
-  result.fm23 := ASelf.fm23;
-  result.fm31 := ASelf.fm31;
-  result.fm32 := ASelf.fm32;
-  result.fm33 := ASelf.fm33;
+  result.fm[1,1] := ASelf.fm11;
+  result.fm[1,2] := ASelf.fm12;
+  result.fm[1,3] := ASelf.fm13;
+  result.fm[2,1] := ASelf.fm21;
+  result.fm[2,2] := ASelf.fm22;
+  result.fm[2,3] := ASelf.fm23;
+  result.fm[3,1] := ASelf.fm31;
+  result.fm[3,2] := ASelf.fm32;
+  result.fm[3,3] := ASelf.fm33;
 end;
 
 class operator TR3Matrix.+(const ALeft, ARight: TR3Matrix): TR3Matrix;
