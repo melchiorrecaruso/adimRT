@@ -676,7 +676,6 @@ begin
   for i := Low(AEigenvalues) to High(AEigenvalues) do
   begin
     A := (Self - AEigenvalues[i] * C4IdMatrix).RowReduction;
-    writeln(A.ToString);
 
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
