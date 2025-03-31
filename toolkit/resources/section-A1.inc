@@ -16,14 +16,14 @@ type
   TExponents = array of longint;
 
   { TQuantities } 
-
-  {$I complex.inc}
   {$I scalarquantity.inc}
-  {$I complexquantity.inc}
+  {$I complex.inc}
+  {$I matrix.inc}
   {$I cl3.inc}
+  {$I extra.inc}
+  {$I complexquantity.inc}
+  {$I matrixquantity.inc}
   {$I cl3quantity.inc}
-  {$I vector.inc}
-  {$I vectorquantity.inc}
 
   { TUnit }
 

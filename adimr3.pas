@@ -26,73 +26,81 @@ interface
 uses
   ADim;
 
-const
-  e1 : TR3Versor1 = ();
-  e2 : TR3Versor2 = ();
-  e3 : TR3Versor3 = ();
-
-  u1 : TR3Vector = (fm1:1.0; fm2:0.0; fm3:0.0);
-  u2 : TR3Vector = (fm1:0.0; fm2:1.0; fm3:0.0);
-  u3 : TR3Vector = (fm1:0.0; fm2:0.0; fm3:1.0);
-
+  function Vector(const m1, m2: double): TR2Vector;
   function Vector(const m1, m2, m3: double): TR3Vector;
+  function Vector(const m1, m2, m3, m4: double): TR4Vector;
+
   function Matrix(const m11, m12, m21, m22: double): TR2Matrix;
   function Matrix(const m11, m12, m13, m21, m22, m23, m31, m32, m33: double): TR3Matrix;
   function Matrix(const m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44: double): TR4Matrix;
 
 implementation
 
+function Vector(const m1, m2: double): TR2Vector;
+begin
+  result[1] := m1;
+  result[2] := m2;
+end;
+
 function Vector(const m1, m2, m3: double): TR3Vector;
 begin
-  result.a1 := m1;
-  result.a2 := m2;
-  result.a3 := m3;
+  result[1] := m1;
+  result[2] := m2;
+  result[3] := m3;
+end;
+
+function Vector(const m1, m2, m3, m4: double): TR4Vector;
+begin
+  result[1] := m1;
+  result[2] := m2;
+  result[3] := m3;
+  result[4] := m4;
 end;
 
 function Matrix(const m11, m12, m21, m22: double): TR2Matrix;
 begin
-  result.a11 := m11;
-  result.a12 := m12;
-  result.a21 := m21;
-  result.a22 := m22;
+  result[1,1] := m11;
+  result[1,2] := m12;
+  result[2,1] := m21;
+  result[2,2] := m22;
 end;
 
 function Matrix(const m11, m12, m13, m21, m22, m23, m31, m32, m33: double): TR3Matrix;
 begin
-  result.a11 := m11;
-  result.a12 := m12;
-  result.a13 := m13;
+  result[1,1] := m11;
+  result[1,2] := m12;
+  result[1,3] := m13;
 
-  result.a21 := m21;
-  result.a22 := m22;
-  result.a23 := m23;
+  result[2,1] := m21;
+  result[2,2] := m22;
+  result[2,3] := m23;
 
-  result.a31 := m31;
-  result.a32 := m32;
-  result.a33 := m33;
+  result[3,1] := m31;
+  result[3,2] := m32;
+  result[3,3] := m33;
 end;
 
 function Matrix(const m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44: double): TR4Matrix;
 begin
-  result.a11 := m11;
-  result.a12 := m12;
-  result.a13 := m13;
-  result.a14 := m14;
+  result[1,1] := m11;
+  result[1,2] := m12;
+  result[1,3] := m13;
+  result[1,4] := m14;
 
-  result.a21 := m21;
-  result.a22 := m22;
-  result.a23 := m23;
-  result.a24 := m24;
+  result[2,1] := m21;
+  result[2,2] := m22;
+  result[2,3] := m23;
+  result[2,4] := m24;
 
-  result.a31 := m31;
-  result.a32 := m32;
-  result.a33 := m33;
-  result.a34 := m34;
+  result[3,1] := m31;
+  result[3,2] := m32;
+  result[3,3] := m33;
+  result[3,4] := m34;
 
-  result.a41 := m41;
-  result.a42 := m42;
-  result.a43 := m43;
-  result.a44 := m44;
+  result[4,1] := m41;
+  result[4,2] := m42;
+  result[4,3] := m43;
+  result[4,4] := m44;
 end;
 
 end.

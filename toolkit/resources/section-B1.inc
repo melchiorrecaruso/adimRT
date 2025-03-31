@@ -80,13 +80,14 @@ begin
   result := ALeft - ARight;
 end;
 
-{$I complexprocs.inc}
 {$I scalarquantityprocs.inc}
-{$I complexquantityprocs.inc}
+{$I complexprocs.inc}
+{$I matrixprocs.inc}
 {$I cl3procs.inc}
+{$I complexquantityprocs.inc}
+{$I matrixquantityprocs.inc}
 {$I cl3quantityprocs.inc}
-{$I vectorprocs.inc}
-{$I vectorquantityprocs.inc}
+{$I extraprocs.inc}
 
 { TUnit }
 

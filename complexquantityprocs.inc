@@ -154,38 +154,3 @@ begin
 end;
 {$ENDIF}
 
-{$IFNDEF ADIMOFF}
-operator *(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
-const
-  i: TImaginaryNumber = ();
-begin
-  result.FID := CheckMul(ALeft.FID, ScalarID);
-  result.FValue := ALeft.FValue * i;
-end;
-
-operator *(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
-const
-  i: TImaginaryNumber = ();
-begin
-  result.FID := CheckMul(ScalarID, ARight.FID);
-  result.FValue := ARight.FValue * i;
-end;
-
-operator /(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
-const
-  i: TImaginaryNumber = ();
-begin
-  result.FID := CheckDiv(ALeft.FID, ScalarID);
-  result.FValue := -ALeft.FValue * i;
-end;
-
-operator /(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
-const
-  i: TImaginaryNumber = ();
-begin
-  result.FID := CheckDiv(ScalarID, ARight.FID);
-  result.FValue := i / ARight.FValue;
-end;
-
-{$ENDIF}
-

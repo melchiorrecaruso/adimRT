@@ -33,57 +33,43 @@ type
     class operator *(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity; inline;
     class operator *(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
     class operator *(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
-
+    {$IFNDEF ADIMOFF}
     class operator /(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
     class operator /(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity; inline;
     class operator /(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity; inline;
     class operator /(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
     class operator /(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+    {$ENDIF}
   end;
   {$ELSE}
   TComplexQuantity = TComplex;
   {$ENDIF}
 
-  {$IFNDEF ADIMOFF}
-  TC2MatrixQuantity = record
-  private
-    FID: longint;
-    FValue: TC2Matrix;
-  public
+  // TImaginaryNumber
+
+  TImaginaryNumber = record
+    class operator:=(const ASelf: TImaginaryNumber): TComplex;
+    class operator +(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
+    class operator +(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
+    class operator -(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
+    class operator -(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
+    class operator +(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
+    class operator +(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
+    class operator -(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
+    class operator -(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
+    class operator *(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
+    class operator *(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
+    class operator *(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
+    class operator *(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
+    class operator /(const ALeft: double; const ARight: TImaginaryNumber): TComplex;
+    class operator /(const ALeft: TImaginaryNumber; const ARight: double): TComplex;
+    class operator /(const ALeft: TComplex; const ARight: TImaginaryNumber): TComplex;
+    class operator /(const ALeft: TImaginaryNumber; const ARight: TComplex): TComplex;
+    {$IFNDEF ADIMOFF}
+    class operator *(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
+    class operator *(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
+    class operator /(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
+    class operator /(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
+    {$ENDIF}
   end;
-  {$ELSE}
-  TC2MatrixQuantity = TC2Matrix;
-  {$ENDIF}
 
-  // TKet for Hilbert space
-
-  {$IFNDEF ADIMOFF}
-  TC2KetQuantity = record
-  private
-    FID: longint;
-    FValue: TC2Ket;
-  public
-  end;
-  {$ELSE}
-  TC2KetQuantity = TC2Ket;
-  {$ENDIF}
-
-  // TBra for Hilbert space
-
-  {$IFNDEF ADIMOFF}
-  TC2BraQuantity = record
-  private
-    FID: longint;
-    FValue: TC2Bra;
-  public
-  end;
-  {$ELSE}
-  TC2BraQuantity = TC2Bra;
-  {$ENDIF}
-
-{$IFNDEF ADIMOFF}
-operator *(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
-operator *(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
-operator /(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
-operator /(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
-{$ENDIF}

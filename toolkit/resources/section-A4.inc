@@ -106,4 +106,14 @@ const
     (Symbol: 'r';   Name: 'ronto';   Exponent: -27),
     (Symbol: 'q';   Name: 'quecto';  Exponent: -30)
   );
+
+{ Internal routines }
+
+function GetStr(AIndex: longint): string;
+procedure Check(ALeft, ARight: longint); inline;
+function CheckEqual(ALeft, ARight: longint): longint; inline;
+function CheckSum(ALeft, ARight: longint): longint; inline;
+function CheckSub(ALeft, ARight: longint): longint; inline;
+function CheckMul(ALeft, ARight: longint): longint; inline;
+function CheckDiv(ALeft, ARight: longint): longint; inline;
   
