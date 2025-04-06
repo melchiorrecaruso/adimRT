@@ -343,13 +343,3 @@ begin
 {$ENDIF}
 end;
 
-function SameValue(const ALeft, ARight: TQuantity): boolean;
-begin
-{$IFNDEF ADIMOFF}
-  Check(ALeft.FID, ARight.FID);
-  result := Math.SameValue(ALeft.FValue, ARight.FValue);
-{$ELSE}
-  result := Math.SameValue(ALeft, ARight);
-{$ENDIF}
-end;
-

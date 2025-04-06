@@ -331,15 +331,6 @@ begin
     end;
 end;
 
-class operator TRMatrix.:=(const AValue: TSelf): TCMatrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to TSpace.N do
-    for j := 1 to TSpace.N do
-      result[i,j] := AValue[i,j];
-end;
-
 class operator TRMatrix.<>(const ALeft, ARight: TSelf): boolean;
 var
   i, j: longint;
@@ -434,645 +425,67 @@ begin
     end;
 end;
 
-// TCVector
+// TCMatrixQuantity
 
-function TCVector.Get(ARow: longint): TComplex;
-begin
-  result := fm[ARow];
-end;
-
-procedure TCVector.Put(ARow: longint; AValue: TComplex);
-begin
-  fm[ARow] := AValue;
-end;
-
-function TCVector.IsNull: boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-  begin
-    if not SameValue(fm[i], 0) then Exit(False);
-  end;
-  result := True;
-end;
-
-function TCVector.IsNotNull: boolean;
-begin
-  result := not IsNull;
-end;
-
-function TCVector.Norm: double;
-begin
-  result := sqrt(SquaredNorm);
-end;
-
-function TCVector.Normalize: TSelf;
-var
-  i: longint;
-  n: double;
-begin
-  n := Norm;
-  for i := 1 to TSpace.N do
-    result[i] := fm[i] / n;
-end;
-
-function TCVector.Reciprocal: TSelf;
-var
-  i: longint;
-  sn: double;
-begin
-  sn := SquaredNorm;
-  for i := 1 to Tspace.N do
-    result[i] := fm[i] / sn;
-end;
-
-function TCVector.SquaredNorm: double;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 1 to TSpace.N do
-    result := result + fm[i].SquaredNorm;
-end;
-
-class operator TCVector.<>(const ALeft, ARight: TSelf): boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    if ALeft[i] <> ARight[i] then Exit(True);
-  result := False;
-end;
-
-class operator TCVector.=(const ALeft, ARight: TSelf): boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    if ALeft[i] <> ARight[i] then Exit(False);
-  result := True;
-end;
-
-class operator TCVector.+(const ASelf: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ASelf[i];
-end;
-
-class operator TCVector.+(const ALeft, ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft[i] + ARight[i];
-end;
-
-class operator TCVector.-(const ASelf: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := -ASelf[i];
-end;
-
-class operator TCVector.-(const ALeft, ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft[i] - ARight[i];
-end;
-
-class operator TCVector.*(const ALeft: TComplex; const ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft * ARight[i];
-end;
-
-class operator TCVector.*(const ALeft: TSelf; const ARight: TComplex): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft[i] * ARight;
-end;
-
-class operator TCVector.*(const ALeft: TMatrix; const ARight: TSelf): TSelf;
+{$IFNDEF ADIMOFF}
+class operator TCMatrixQuantity.:=(const AMatrix: TMatrix): TSelf;
 var
   i, j: longint;
 begin
+  result.FID := ScalarID;
   for i := 1 to TSpace.N do
-  begin
-    result[i] := 0;
     for j := 1 to TSpace.N do
-    begin
-      result[i] := result[i] + ALeft[i, j] * ARight[j];
-    end;
-  end;
+      result.FValue[i, j] := AMatrix[i, j];
 end;
 
-class operator TCVector./(const ALeft: TSelf; const ARight: TComplex): TSelf;
-var
-  i: longint;
+class operator TCMatrixQuantity.+(const ALeft, ARight: TSelf): TSelf;
 begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft[i] / ARight;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCVector./(const ALeft: TComplex; const ARight: TSelf): TSelf;
-var
-  i: longint;
-  AReciprocal: TSelf;
+class operator TCMatrixQuantity.-(const ALeft, ARight: TSelf): TSelf;
 begin
-  AReciprocal := ARight.Reciprocal;
-  for i := 1 to TSpace.N do
-    result[i] := ALeft * AReciprocal[i];
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
 end;
+{$ENDIF}
 
-// TRVector
+// TRMatrixQuantity
 
-function TRVector.Get(ARow: longint): double;
-begin
-  result := fm[ARow];
-end;
-
-procedure TRVector.Put(ARow: longint; AValue: double);
-begin
-  fm[ARow] := AValue;
-end;
-
-function TRVector.IsNull: boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-  begin
-    if not SameValue(fm[i], 0) then Exit(False);
-  end;
-  result := True;
-end;
-
-function TRVector.IsNotNull: boolean;
-begin
-  result := not IsNull;
-end;
-
-function TRVector.Norm: double;
-begin
-  result := sqrt(SquaredNorm);
-end;
-
-function TRVector.Normalize: TSelf;
-var
-  i: longint;
-  n: double;
-begin
-  n := Norm;
-  for i := 1 to TSpace.N do
-    result[i] := fm[i] / n;
-end;
-
-function TRVector.Reciprocal: TSelf;
-var
-  i: longint;
-  sn: double;
-begin
-  sn := SquaredNorm;
-  for i := 1 to Tspace.N do
-    result[i] := fm[i] / sn;
-end;
-
-function TRVector.SquaredNorm: double;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 1 to TSpace.N do
-    result := result + sqr(fm[i]);
-end;
-
-class operator TRVector.<>(const ALeft, ARight: TSelf): boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    if ALeft[i] <> ARight[i] then Exit(True);
-  result := False;
-end;
-
-class operator TRVector.=(const ALeft, ARight: TSelf): boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    if ALeft[i] <> ARight[i] then Exit(False);
-  result := True;
-end;
-
-class operator TRVector.+(const ASelf: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ASelf[i];
-end;
-
-class operator TRVector.+(const ALeft, ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft[i] + ARight[i];
-end;
-
-class operator TRVector.-(const ASelf: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := -ASelf[i];
-end;
-
-class operator TRVector.-(const ALeft, ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft[i] - ARight[i];
-end;
-
-class operator TRVector.*(const ALeft: double; const ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft * ARight[i];
-end;
-
-class operator TRVector.*(const ALeft: TSelf; const ARight: double): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft[i] * ARight;
-end;
-
-class operator TRVector.*(const ALeft: TMatrix; const ARight: TSelf): TSelf;
+{$IFNDEF ADIMOFF}
+class operator TRMatrixQuantity.:=(const AMatrix: TMatrix): TSelf;
 var
   i, j: longint;
 begin
+  result.FID := ScalarID;
   for i := 1 to TSpace.N do
-  begin
-    result[i] := 0;
     for j := 1 to TSpace.N do
-    begin
-      result[i] := result[i] + ALeft[i, j] * ARight[j];
-    end;
-  end;
+      result.FValue[i, j] := AMatrix[i, j];
 end;
 
-class operator TRVector./(const ALeft: TSelf; const ARight: double): TSelf;
-var
-  i: longint;
+class operator TRMatrixQuantity.+(const ALeft, ARight: TSelf): TSelf;
 begin
-  for i := 1 to TSpace.N do
-    result[i] := ALeft[i] / ARight;
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TRVector./(const ALeft: double; const ARight: TSelf): TSelf;
-var
-  i: longint;
-  AReciprocal: TSelf;
+class operator TRMatrixQuantity.-(const ALeft, ARight: TSelf): TSelf;
 begin
-  AReciprocal := ARight.Reciprocal;
-  for i := 1 to TSpace.N do
-    result[i] := ALeft * AReciprocal[i];
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
 end;
-
-// TCTransposedVector
-
-function TCTransposedVector.Get(ACol: longint): TComplex;
-begin
-  result := fm[ACol];
-end;
-
-procedure TCTransposedVector.Put(ACol: longint; AValue: TComplex);
-begin
-  fm[ACol] := AValue;
-end;
-
-function TCTransposedVector.IsNull: boolean;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    if not SameValue(fm[i], 0) then Exit(False);
-  result := True;
-end;
-
-function TCTransposedVector.IsNotNull: boolean;
-begin
-  result := not IsNull;
-end;
-
-function TCTransposedVector.Norm: double;
-begin
-  result := sqrt(SquaredNorm);
-end;
-
-function TCTransposedVector.Normalize: TSelf;
-var
-  i: longint;
-  n: double;
-begin
-  n := Norm;
-  for i := 1 to TSpace.N do
-    result[i] := fm[i] / n;
-end;
-
-function TCTransposedVector.Reciprocal: TSelf;
-var
-  i: longint;
-  sn: double;
-begin
-  sn := SquaredNorm;
-  for i := 1 to Tspace.N do
-    result[i] := fm[i] / sn;
-end;
-
-function TCTransposedVector.SquaredNorm: double;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 1 to TSpace.N do
-    result := result + fm[i].SquaredNorm;
-end;
-
-class operator TCTransposedVector.<>(const ALeft, ARight: TSelf): boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    if ALeft[i] <> ARight[i] then Exit(True);
-
-  result := False;
-end;
-
-class operator TCTransposedVector.=(const ALeft, ARight: TSelf): boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    if ALeft[i] <> ARight[i] then Exit(False);
-  result := True;
-end;
-
-class operator TCTransposedVector.+(const ALeft, ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft[i] + ARight[i];
-end;
-
-class operator TCTransposedVector.-(const ALeft, ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft[i] - ARight[i];
-end;
-
-class operator TCTransposedVector.*(const ALeft: TComplex; const ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft * ARight[i];
-end;
-
-class operator TCTransposedVector.*(const ALeft: TSelf; const ARight: TComplex): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft[i] * ARight;
-end;
-
-class operator TCTransposedVector.*(const ALeft: TSelf; const ARight: TVector): TComplex;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 1 to  TSpace.N do
-    result := result + ALeft[i] * ARight[i];
-end;
-
-class operator TCTransposedVector.*(const ALeft: TVector; const ARight: TSelf): TMatrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to  TSpace.N do
-    for j := 1 to  TSpace.N do
-      result[i, j] := ALeft[i] * ARight[j];
-end;
-
-class operator TCTransposedVector.*(const ALeft: TSelf; const ARight: TMatrix): TSelf;
-var
-  i, j: longint;
-begin
-  for i := 1 to  TSpace.N do
-  begin
-    result[i] := 0;
-    for j := 1 to  TSpace.N do
-      result[i] := result[i] + ALeft[i] * ARight[i, j];
-  end;
-end;
-
-class operator TCTransposedVector./(const ALeft: TSelf; const ARight: TComplex): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft[i] / ARight;
-end;
-
-class operator TCTransposedVector./(const ALeft: TComplex; const ARight: TSelf): TSelf;
-var
-  i: longint;
-  AReciprocal: TSelf;
-begin
-  AReciprocal := ARight.Reciprocal;
-  for i := 1 to TSpace.N do
-    result[i] := ALeft * AReciprocal[i];
-end;
-
-// TRTransposedVector
-
-function TRTransposedVector.Get(ACol: longint): double;
-begin
-  result := fm[ACol];
-end;
-
-procedure TRTransposedVector.Put(ACol: longint; AValue: double);
-begin
-  fm[ACol] := AValue;
-end;
-
-function TRTransposedVector.IsNull: boolean;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    if not SameValue(fm[i], 0) then Exit(False);
-  result := True;
-end;
-
-function TRTransposedVector.IsNotNull: boolean;
-begin
-  result := not IsNull;
-end;
-
-function TRTransposedVector.Norm: double;
-begin
-  result := sqrt(SquaredNorm);
-end;
-
-function TRTransposedVector.Normalize: TSelf;
-var
-  i: longint;
-  n: double;
-begin
-  n := Norm;
-  for i := 1 to TSpace.N do
-    result[i] := fm[i] / n;
-end;
-
-function TRTransposedVector.Reciprocal: TSelf;
-var
-  i: longint;
-  sn: double;
-begin
-  sn := SquaredNorm;
-  for i := 1 to Tspace.N do
-    result[i] := fm[i] / sn;
-end;
-
-function TRTransposedVector.SquaredNorm: double;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 1 to TSpace.N do
-    result := result + sqr(fm[i]);
-end;
-
-class operator TRTransposedVector.<>(const ALeft, ARight: TSelf): boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    if ALeft[i] <> ARight[i] then Exit(True);
-
-  result := False;
-end;
-
-class operator TRTransposedVector.=(const ALeft, ARight: TSelf): boolean;
-var
-  i: longint;
-begin
-  for i := 1 to TSpace.N do
-    if ALeft[i] <> ARight[i] then Exit(False);
-  result := True;
-end;
-
-class operator TRTransposedVector.+(const ALeft, ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft[i] + ARight[i];
-end;
-
-class operator TRTransposedVector.-(const ALeft, ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft[i] - ARight[i];
-end;
-
-class operator TRTransposedVector.*(const ALeft: double; const ARight: TSelf): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft * ARight[i];
-end;
-
-class operator TRTransposedVector.*(const ALeft: TSelf; const ARight: double): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft[i] * ARight;
-end;
-
-class operator TRTransposedVector.*(const ALeft: TSelf; const ARight: TVector): double;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 1 to  TSpace.N do
-    result := result + ALeft[i] * ARight[i];
-end;
-
-class operator TRTransposedVector.*(const ALeft: TVector; const ARight: TSelf): TMatrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to  TSpace.N do
-    for j := 1 to  TSpace.N do
-      result[i, j] := ALeft[i] * ARight[j];
-end;
-
-class operator TRTransposedVector.*(const ALeft: TSelf; const ARight: TMatrix): TSelf;
-var
-  i, j: longint;
-begin
-  for i := 1 to  TSpace.N do
-  begin
-    result[i] := 0;
-    for j := 1 to  TSpace.N do
-      result[i] := result[i] + ALeft[i] * ARight[i, j];
-  end;
-end;
-
-class operator TRTransposedVector./(const ALeft: TSelf; const ARight: double): TSelf;
-var
-  i: longint;
-begin
-  for i := 1 to  TSpace.N do
-    result[i] := ALeft[i] / ARight;
-end;
-
-class operator TRTransposedVector./(const ALeft: double; const ARight: TSelf): TSelf;
-var
-  i: longint;
-  AReciprocal: TSelf;
-begin
-  AReciprocal := ARight.Reciprocal;
-  for i := 1 to TSpace.N do
-    result[i] := ALeft * AReciprocal[i];
-end;
+{$ENDIF}
 
 // TC2MatrixHelper
+
+function TC2MatrixHelper.Diagonalize(const AEigenValues: TC2ArrayOfComplex): TC2Matrix;
+begin
+  result[1,1] := AEigenValues[1];
+  result[1,2] := 0;
+  result[2,1] := 0;
+  result[2,2] := AEigenValues[2];
+end;
 
 function TC2MatrixHelper.Dual: TC2Matrix;
 var
@@ -1098,19 +511,19 @@ begin
   result[2,2] :=  fm[1,1]/ADeterminant;
 end;
 
-function TC2MatrixHelper.EigenValues: TC2Array;
+function TC2MatrixHelper.EigenValues: TC2ArrayOfComplex;
 var
   detA, TrA, TrA2: TComplex;
 begin
   detA := Determinant;
   TrA  := fm[1,1] + fm[2,2];
-  TrA2 := SquarePower(TrA);
+  TrA2 := ComplexSquarePower(TrA);
 
-  result[1] := 0.5*(TrA+SquareRoot(TrA2-4*detA)[1]);
-  result[2] := 0.5*(TrA+SquareRoot(TrA2-4*detA)[2]);
+  result[1] := 0.5*(TrA+ComplexSquareRoot(TrA2-4*detA)[1]);
+  result[2] := 0.5*(TrA+ComplexSquareRoot(TrA2-4*detA)[2]);
 end;
 
-function TC2MatrixHelper.Eigenvectors(const AEigenValues: TC2Array): TC2Eigenvectors;
+function TC2MatrixHelper.Eigenvectors(const AEigenValues: TC2ArrayOfComplex): TC2ArrayOfVector;
 var
   A: TC2Matrix;
   i, j, Multiplicity: longint;
@@ -1173,6 +586,21 @@ end;
 
 // TC3MatrixHelper
 
+function TC3MatrixHelper.Diagonalize(const AEigenValues: TC3ArrayOfComplex): TC3Matrix;
+begin
+  result[1,1] := AEigenValues[1];
+  result[1,2] := 0;
+  result[1,3] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := AEigenValues[2];
+  result[2,3] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := AEigenValues[3];
+end;
+
 function TC3MatrixHelper.Dual: TC3Matrix;
 var
   i, j: longint;
@@ -1191,7 +619,7 @@ begin
             +fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]);
 end;
 
-function TC3MatrixHelper.Eigenvalues: TC3Array;
+function TC3MatrixHelper.Eigenvalues: TC3ArrayOfComplex;
 var
   C1, C2, C3: TComplex;
   t1, t2, t3: TComplex;
@@ -1207,7 +635,7 @@ begin
   result := SolveEquation(C1, C2, C3);
 end;
 
-function TC3MatrixHelper.Eigenvectors(const AEigenvalues: TC3Array): TC3Eigenvectors;
+function TC3MatrixHelper.Eigenvectors(const AEigenvalues: TC3ArrayOfComplex): TC3ArrayOfVector;
 var
   A: TC3Matrix;
   i, j, Multiplicity: longint;
@@ -1292,6 +720,29 @@ end;
 
 // TC4MatrixHelper
 
+function TC4MatrixHelper.Diagonalize(const AEigenValues: TC4ArrayOfComplex): TC4Matrix;
+begin
+  result[1,1] := AEigenValues[1];
+  result[1,2] := 0;
+  result[1,3] := 0;
+  result[1,4] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := AEigenValues[2];
+  result[2,3] := 0;
+  result[2,4] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := AEigenValues[3];
+  result[3,4] := 0;
+
+  result[4,1] := 0;
+  result[4,2] := 0;
+  result[4,3] := 0;
+  result[4,4] := AEigenValues[4];
+end;
+
 function TC4MatrixHelper.Dual: TC4Matrix;
 var
   i, j: longint;
@@ -1313,7 +764,7 @@ begin
             (fm[1,3]*fm[2,4]-fm[1,4]*fm[2,3])*(fm[3,1]*fm[4,2]-fm[3,2]*fm[4,1]) ;
 end;
 
-function TC4MatrixHelper.Eigenvalues: TC4Array;
+function TC4MatrixHelper.Eigenvalues: TC4ArrayOfComplex;
 var
   C1, C2, C3, C4: TComplex;
   t1, t2, t3, t4: TComplex;
@@ -1331,7 +782,7 @@ begin
   result := SolveEquation(C1, C2, C3, C4);
 end;
 
-function TC4MatrixHelper.Eigenvectors(const AEigenvalues: TC4Array): TC4Eigenvectors;
+function TC4MatrixHelper.Eigenvectors(const AEigenvalues: TC4ArrayOfComplex): TC4ArrayOfVector;
 var
   A: TC4Matrix;
   i, j, Multiplicity: longint;
@@ -1471,6 +922,15 @@ end;
 
 // TC2VectorHelper
 
+function TC2VectorHelper.Dot(const AVector: TC2Vector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to 2 do
+    result := result + fm[i] * AVector[i];
+end;
+
 function TC2VectorHelper.Dual: TC2Vector;
 var
   i: longint;
@@ -1506,6 +966,15 @@ begin
 end;
 
 // TC3VectorHelper
+
+function TC3VectorHelper.Dot(const AVector: TC3Vector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to 2 do
+    result := result + fm[i] * AVector[i];
+end;
 
 function TC3VectorHelper.Dual: TC3Vector;
 var
@@ -1546,6 +1015,15 @@ begin
 end;
 
 // TC4VectorHelper
+
+function TC4VectorHelper.Dot(const AVector: TC4Vector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to 2 do
+    result := result + fm[i] * AVector[i];
+end;
 
 function TC4VectorHelper.Dual: TC4Vector;
 var

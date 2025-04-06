@@ -16,14 +16,16 @@ type
   TExponents = array of longint;
 
   { TQuantities } 
-  {$I scalarquantity.inc}
+    
   {$I complex.inc}
   {$I matrix.inc}
+  {$I vector.inc}
   {$I cl3.inc}
-  {$I extra.inc}
-  {$I complexquantity.inc}
-  {$I matrixquantity.inc}
-  {$I cl3quantity.inc}
+  {$I scalar.inc}
+  {$I helper.inc}
+  {$I extra.inc} 
+
+type
 
   { TUnit }
 
@@ -178,7 +180,13 @@ type
     function ToComplex(const AQuantity: TComplexQuantity): TComplex;
     function ToString(const AQuantity: TComplexQuantity): string;
     function ToVerboseString(const AQuantity: TComplexQuantity): string;
-    // R3 vector space
+    // Complex matrix
+    function ToString(const AQuantity: TC2MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
+    // Vector space
+    function ToString(const AQuantity: TC2VecQuantity): string;
+    function ToVerboseString(const AQuantity: TC2VecQuantity): string;
+
     function ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
     function ToString(const AQuantity: TR3VecQuantity): string;
     function ToVerboseString(const AQuantity: TR3VecQuantity): string;

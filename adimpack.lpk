@@ -5,7 +5,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+        <UnitOutputDirectory Value="build/lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
     </CompilerOptions>
     <Files>
@@ -18,14 +18,6 @@
         <Type Value="Include"/>
       </Item>
       <Item>
-        <Filename Value="cl3quantity.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="cl3quantityprocs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
         <Filename Value="complex.inc"/>
         <Type Value="Include"/>
       </Item>
@@ -34,19 +26,7 @@
         <Type Value="Include"/>
       </Item>
       <Item>
-        <Filename Value="complexquantity.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="complexquantityprocs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="scalarquantity.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="scalarquantityprocs.inc"/>
+        <Filename Value="scalar.inc"/>
         <Type Value="Include"/>
       </Item>
       <Item>
@@ -54,20 +34,36 @@
         <Type Value="Include"/>
       </Item>
       <Item>
-        <Filename Value="vectorprocs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="vectorquantity.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="vectorquantityprocs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
         <Filename Value="adim.pas"/>
         <UnitName Value="ADim"/>
+      </Item>
+      <Item>
+        <Filename Value="matrix.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="matrixprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="scalarprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="extra.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="extraprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="helper.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="helperprocs.inc"/>
+        <Type Value="Include"/>
       </Item>
     </Files>
     <RequiredPkgs>

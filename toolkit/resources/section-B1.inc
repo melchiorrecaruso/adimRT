@@ -80,14 +80,13 @@ begin
   result := ALeft - ARight;
 end;
 
-{$I scalarquantityprocs.inc}
 {$I complexprocs.inc}
 {$I matrixprocs.inc}
+{$I vectorprocs.inc}
 {$I cl3procs.inc}
-{$I complexquantityprocs.inc}
-{$I matrixquantityprocs.inc}
-{$I cl3quantityprocs.inc}
-{$I extraprocs.inc}
+{$I scalarprocs.inc}
+{$I helperprocs.inc}
+{$I extraprocs.inc} 
 
 { TUnit }
 
@@ -919,7 +918,49 @@ begin
 {$ENDIF}
 end;
 
+// Complex matrix
+
+function TUnitHelper.ToString(const AQuantity: TC2MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
 // R3 vector space
+
+function TUnitHelper.ToString(const AQuantity: TC2VecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC2VecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
 
 function TUnitHelper.ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
 begin

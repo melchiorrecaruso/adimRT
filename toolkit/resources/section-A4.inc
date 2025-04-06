@@ -47,7 +47,6 @@ function EqualToZero(const AQuantity: TQuantity): boolean;
 function NotEqualToZero(const AQuantity: TQuantity): boolean;
 function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
 function GreaterThanZero(const AQuantity: TQuantity): boolean;
-function SameValue(const ALeft, ARight: TQuantity): boolean;
 
 { Constants }
 

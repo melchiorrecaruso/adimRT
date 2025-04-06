@@ -203,7 +203,7 @@ type
   end;
 
   // TCL3MultivectorHelper
-  
+
   TCL3MultivectorHelper = record helper for TCL3Multivector
     function Dual: TCL3Multivector;
     function Inverse: TCL3Multivector;
@@ -272,7 +272,7 @@ type
   end;
 
   // TCL3TrivectorHelper
-  
+
   TCL3TrivectorHelper = record helper for TCL3Trivector
     function Dual: double;
     function Inverse: TCL3Trivector;
@@ -322,7 +322,7 @@ type
   end;
 
   // TCL3BivectorHelper
-  
+
   TCL3BivectorHelper = record helper for TCL3Bivector
     function Dual: TCL3Vector;
     function Inverse: TCL3Bivector;
@@ -374,7 +374,7 @@ type
   end;
 
   // TCL3VectorHelper
-  
+
   TCL3VectorHelper = record helper for TCL3Vector
     function Dual: TCL3Bivector;
     function Inverse: TCL3Vector;
@@ -442,6 +442,183 @@ type
   // TCL3Triversor
   
   TCL3Triversor123 = record class operator *(const AValue: double; const ASelf: TCL3Triversor123): TCL3Trivector; end;
+
+  { TCL3MultivecQuantity }
+
+  {$IFNDEF ADIMOFF}
+  TCL3MultivecQuantity = record
+  private
+    FID: longint;
+    FValue: TCL3Multivector;
+  public
+    class operator <>(const ALeft, ARight: TCL3MultivecQuantity): boolean;
+    class operator = (const ALeft, ARight: TCL3MultivecQuantity): boolean;
+    class operator + (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ASelf: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: double; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: double): TCL3MultivecQuantity;
+  end;
+  {$ELSE}
+  TCL3MultivecQuantity = TCL3Multivector;
+  {$ENDIF}
+
+  { TCL3TrivecQuantity }
+
+  {$IFNDEF ADIMOFF}
+  TCL3TrivecQuantity = record
+  private
+    FID: longint;
+    FValue: TCL3Trivector;
+  public
+    class operator :=(const AValue: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator <>(const ALeft, ARight: TCL3TrivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
+
+    class operator = (const ALeft, ARight: TCL3TrivecQuantity): boolean;
+    class operator = (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
+
+    class operator + (const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+
+    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    class operator - (const ASelf: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator - (const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+
+    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    class operator / (const ALeft: double; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: double): TCL3TrivecQuantity;
+
+    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+  end;
+  {$ELSE}
+  TCL3TrivecQuantity = TCL3Trivector;
+  {$ENDIF}
+
+  { TCL3BivecQuantity }
+
+  {$IFNDEF ADIMOFF}
+  TCL3BivecQuantity = record
+  private
+    FID: longint;
+    FValue: TCL3Bivector;
+  public
+    class operator :=(const AValue: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator <>(const ALeft, ARight: TCL3BivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): boolean;
+
+    class operator = (const ALeft, ARight: TCL3BivecQuantity): boolean;
+    class operator = (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): boolean;
+
+    class operator + (const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+
+    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    class operator - (const ASelf: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator - (const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+
+    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    class operator * (const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    class operator / (const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    class operator / (const ALeft: double; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator / (const ALeft: TCL3BivecQuantity; const ARight: double): TCL3BivecQuantity;
+
+    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+  end;
+  {$ELSE}
+  TCL3BivecQuantity = TCL3Bivector;
+  {$ENDIF}
+
+  { TCL3VecQuantity }
+
+  {$IFNDEF ADIMOFF}
+  TCL3VecQuantity = record
+  private
+    FID: longint;
+    FValue: TCL3Vector;
+  public
+    class operator :=(const AValue: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator <>(const ALeft, ARight: TCL3VecQuantity): boolean;
+    class operator <>(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): boolean;
+
+    class operator = (const ALeft, ARight: TCL3VecQuantity): boolean;
+    class operator = (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): boolean;
+
+    class operator + (const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
+
+    class operator + (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    class operator - (const ASelf: TCL3VecQuantity): TCL3VecQuantity;
+    class operator - (const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
+
+    class operator - (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    class operator * (const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    class operator * (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
+    class operator * (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
+    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    class operator / (const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    class operator / (const ALeft: double; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+    class operator / (const ALeft: TCL3VecQuantity; const ARight: double): TCL3VecQuantity;
+
+    class operator / (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
+    class operator / (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
+    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+  end;
+  {$ELSE}
+  TCL3VecQuantity = TCL3Vector;
+  {$ENDIF}
 
 const
   CL3NullMultivector : TCL3Multivector = (fm0:0.0; fm1:0.0; fm2:0.0; fm3:0.0; fm12:0.0; fm13:0.0; fm23:0.0; fm123:0.0);
