@@ -16,7 +16,10 @@ type
     function SquaredNorm: double;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
-    class operator :=(const AValue: double): TComplex; inline;
+    class operator :=(const AValue: double): TComplex;
+    class operator  =(const ALeft, ARight: TComplex): boolean; inline;
+    class operator <>(const ALeft, ARight: TComplex): boolean; inline;
+
     class operator +(const AValue: TComplex): TComplex; inline;
     class operator +(const ALeft, ARight: TComplex): TComplex; inline;
     class operator +(const ALeft: double; const ARight: TComplex): TComplex; inline;
@@ -34,13 +37,61 @@ type
     class operator /(const ALeft, ARight: TComplex): TComplex; inline;
     class operator /(const ALeft: double; const ARight: TComplex): TComplex; inline;
     class operator /(const ALeft: TComplex; const ARight: double): TComplex; inline;
-
-    class operator =(const ALeft, ARight: TComplex): boolean; inline;
-    class operator <>(const ALeft, ARight: TComplex): boolean; inline;
   public
     property Re: double read fRe write fRe;
     property Im: double read fIm write fIm;
   end;
 
+  // TComplexQuantity
 
+  {$IFNDEF ADIMOFF}
+  TComplexQuantity = record
+  type
+    TSelf = TComplexQuantity;
+  private
+    FID: longint;
+    FValue: TComplex;
+  public
+    class operator:=(const AValue: TComplex): TSelf;
+    class operator =(const ALeft, ARight: TSelf): boolean; inline;
+    class operator<>(const ALeft, ARight: TSelf): boolean; inline;
+    class operator +(const AValue: TSelf): TSelf; inline;
+    class operator +(const ALeft, ARight: TSelf): TSelf; inline;
+    class operator -(const AValue: TSelf): TSelf; inline;
+    class operator -(const ALeft, ARight: TSelf): TSelf; inline;
+    class operator *(const ALeft, ARight: TSelf): TSelf; inline;
+    class operator *(const ALeft: double; const ARight: TSelf): TSelf; inline;
+    class operator *(const ALeft: TSelf; const ARight: double): TSelf; inline;
+    class operator /(const ALeft, ARight: TSelf): TSelf; inline;
+    class operator /(const ALeft: double; const ARight: TSelf): TSelf; inline;
+    class operator /(const ALeft: TSelf; const ARight: double): TSelf; inline;
+  end;
+  {$ELSE}
+  TComplexQuantity = TComplex;
+  {$ENDIF}
+
+  // TImaginaryNumber
+
+  TImaginaryNumber = record
+  type
+    TSelf = TImaginaryNumber;
+  public
+    class operator:=(const ASelf: TSelf): TComplex;
+    class operator +(const ALeft: double; const ARight: TSelf): TComplex;
+    class operator +(const ALeft: TSelf; const ARight: double): TComplex;
+    class operator -(const ALeft: double; const ARight: TSelf): TComplex;
+    class operator -(const ALeft: TSelf; const ARight: double): TComplex;
+    class operator +(const ALeft: TComplex; const ARight: TSelf): TComplex;
+    class operator +(const ALeft: TSelf; const ARight: TComplex): TComplex;
+    class operator -(const ALeft: TComplex; const ARight: TSelf): TComplex;
+    class operator -(const ALeft: TSelf; const ARight: TComplex): TComplex;
+    class operator *(const ALeft: double; const ARight: TSelf): TComplex;
+    class operator *(const ALeft: TSelf; const ARight: double): TComplex;
+    class operator *(const ALeft: TComplex; const ARight: TSelf): TComplex;
+    class operator *(const ALeft: TSelf; const ARight: TComplex): TComplex;
+    class operator /(const ALeft: double; const ARight: TSelf): TComplex;
+    class operator /(const ALeft: TSelf; const ARight: double): TComplex;
+    class operator /(const ALeft: TComplex; const ARight: TSelf): TComplex;
+    class operator /(const ALeft: TSelf; const ARight: TComplex): TComplex;
+  end;
 

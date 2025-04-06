@@ -29,6 +29,8 @@ uses
 var
   img: TImaginaryNumber;
 
+  function Complex(const ARe, AIm: double): TComplex;
+
   function Vector(const a1, a2: TComplex): TC2Vector;
   function Vector(const a1, a2, a3: TComplex): TC3Vector;
   function Vector(const a1, a2, a3, a4: TComplex): TC4Vector;
@@ -50,6 +52,12 @@ var
   function Matrix(const a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44: TComplex): TC4Matrix;
 
 implementation
+
+function Complex(const ARe, AIm: double): TComplex;
+begin
+  result.Re := ARe;
+  result.Im := AIm;
+end;
 
 function Vector(const a1, a2: TComplex): TC2Vector;
 begin

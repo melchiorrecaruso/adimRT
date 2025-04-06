@@ -225,17 +225,17 @@ var
 
   t1, t2, State: TC2Ket;
 
-  H2: TC2Matrix;
-  H3: TC3Matrix;
-  H4: TC4Matrix;
+  H2: TC2MatrixQuantity;
+  H3: TC3MatrixQuantity;
+  H4: TC4MatrixQuantity;
 
-  H2Eigenvalues: TC2Eigenvalues;
-  H3Eigenvalues: TC3Eigenvalues;
-  H4Eigenvalues: TC4Eigenvalues;
+  H2Eigenvalues: TC2ArrayOfQuantity;
+  H3Eigenvalues: TC3ArrayOfQuantity;
+  H4Eigenvalues: TC4ArrayOfQuantity;
 
-  H2Eigenvectors: TC2Eigenvectors;
-  H3Eigenvectors: TC3Eigenvectors;
-  H4Eigenvectors: TC4Eigenvectors;
+  H2Eigenvectors: TC2ArrayOfVecQuantity;
+  H3Eigenvectors: TC3ArrayOfVecQuantity;
+  H4Eigenvectors: TC4ArrayOfVecQuantity;
 
   StateL : TC2Ket;
   StateR : TC2Ket;
@@ -1042,9 +1042,9 @@ begin
 
   y               := SquareRoot(mass*omega/ReducedPlanckConstant)*x;
 
-  PsiValues[1]    := A0*(  sqrt(2)*(  y         ))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
-  PsiValues[2]    := A0*(1/sqrt(2)*(2*y*y   -1  ))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
-  PsiValues[3]    := A0*(1/sqrt(3)*(2*y*y*y -3*y))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
+  PsiValues[1]    := A0*(  SquareRoot(2)*(  y         ))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
+  PsiValues[2]    := A0*(1/SquareRoot(2)*(2*y*y   -1  ))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
+  PsiValues[3]    := A0*(1/SquareRoot(3)*(2*y*y*y -3*y))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
   writeln('* TEST-104: PASSED');
 
   // TEST-105 : STEN-GERLACH EXPERIMENT
@@ -1375,8 +1375,30 @@ begin
   E0 := 5*J;
   A0 := 1*J;
 
-  //H2 := E0*Matrix(1,0,0,1) + A0*Matrix(0,1,1,0);
-  //StateL.TransposeDual*H2*StateL = E0;
+  H2 := E0*Matrix(1,0,0,1) + A0*Matrix(0,1,1,0);
+  H2Eigenvalues  := H2.Eigenvalues;
+  H2Eigenvectors := H2.Eigenvectors(H2Eigenvalues);
+
+  writeln(J.ToString(H2));
+  writeln(J.ToString(H2Eigenvalues[1]));
+  writeln(J.ToString(H2Eigenvalues[2]));
+
+  writeln(J.ToString(H2Eigenvectors[1]));
+  writeln(J.ToString(H2Eigenvectors[2]));
+  writeln(J2.ToString(H2Eigenvectors[1].Dot(H2Eigenvectors[2])));
+
+  writeln(J.ToString(H2Eigenvectors[1]));
+  writeln(J.ToString(H2Eigenvectors[1].Normalize));
+  writeln(J.ToString(H2Eigenvectors[2]));
+  writeln(J.ToString(H2Eigenvectors[2].Normalize));
+
+  H2 := H2.Diagonalize(H2Eigenvalues);
+
+  writeln(J.ToString(H2));
+  writeln(J2.ToString(H2*H2Eigenvectors[1]));
+  writeln(J2.ToString(H2*H2Eigenvectors[2]));
+
+ // StateL.TransposeDual*H2*StateL = E0;
   //StateR.TransposeDual*H2*StateR = E0;
 
   //StateL.TransposeDual*H2*StateR = -A0;

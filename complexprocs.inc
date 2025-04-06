@@ -1,7 +1,5 @@
 { Complex numbers implementation }
 
-// TComplex
-
 function TComplex.Dual: TComplex;
 begin
   result.fRe :=  fRe;
@@ -87,12 +85,6 @@ begin
           result := Format('%s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
       end else
         result := '0';
-end;
-
-class operator TComplex.:= (const AValue: double): TComplex;
-begin
-  result.fRe := AValue;
-  result.fIm := 0;
 end;
 
 class operator TComplex.+(const AValue: TComplex): TComplex;
@@ -189,76 +181,93 @@ begin
             (ALeft.fIm <> ARight.fIm);
 end;
 
+class operator TComplex.:=(const AValue: double): TComplex;
+begin
+  result.fRe := AValue;
+  result.fIm := 0;
+end;
+
+{$IFNDEF ADIMOFF}
+class operator TComplexQuantity.+(const AValue: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := AValue.FID;
+  result.FValue := AValue.FValue;
+end;
+
+class operator TComplexQuantity.+(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TComplexQuantity.-(const AValue: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := AValue.FID;
+  result.FValue := -AValue.FValue;
+end;
+
+class operator TComplexQuantity.-(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TComplexQuantity.*(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TComplexQuantity.*(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+class operator TComplexQuantity.*(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ScalarID);
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+class operator TComplexQuantity./(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TComplexQuantity./(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := CheckDiv(ScalarID, ARight.FID);
+  result.FValue := ALeft * ARight.FValue.Reciprocal;
+end;
+
+class operator TComplexQuantity./(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ScalarID);
+  result.FValue := ALeft.FValue / ARight;
+end;
+
+class operator TComplexQuantity.=(const ALeft, ARight: TComplexQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TComplexQuantity.<>(const ALeft, ARight: TComplexQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TComplexQuantity.:=(const AValue: TComplex): TComplexQuantity;
+begin
+  result.FID := ScalarID;
+  result.FValue := AValue;
+end;
+{$ENDIF}
+
 // Useful routines
-
-function SquarePower(const AValue: TComplex): TComplex;
-begin
-  result := AValue*AValue;
-end;
-
-function CubicPower(const AValue: TComplex): TComplex;
-begin
-  result := AValue*AValue*AValue;
-end;
-
-function QuarticPower(const AValue: TComplex): TComplex;
-begin
-  result := AValue*AValue*AValue*AValue;
-end;
-
-function SquareRoot(const AValue: TComplex): TC2Array;
-var
-  norm: double;
-begin
-  norm := hypot(AValue.fRe, AValue.fIm);
-  result[1].fRe := sqrt(0.5*(norm + AValue.fRe));
-  if AValue.fIm >= 0 then
-    result[1].fIm := sqrt(0.5*(norm - AValue.fRe))
-  else
-    result[1].fIm := -sqrt(0.5*(norm - AValue.fRe));
-  result[2] := -result[1];
-end;
-
-function CubicRoot(const AValue: TComplex): TC3Array;
-const
-  i: TImaginaryNumber = ();
-var
-  theta, rootModulus, rootArgument: double;
-begin
-  rootModulus := Power(AValue.Norm, 1/3);
-  theta := Math.ArcTan2(AValue.fIm, AValue.fRe);
-
-  rootArgument := (theta)/3;
-  result[1] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
-
-  rootArgument := (theta+2*Pi)/3;
-  result[2] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
-
-  rootArgument := (theta+4*Pi)/3;
-  result[3] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
-end;
-
-function QuarticRoot(const AValue: TComplex): TC4Array;
-const
-  i: TImaginaryNumber = ();
-var
-  theta, rootModulus, rootArgument: double;
-begin
-  rootModulus := Power(AValue.Norm, 1/4);
-  theta := Math.ArcTan2(AValue.fIm, AValue.fRe);
-
-  rootArgument := (theta)/4;
-  result[1] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
-
-  rootArgument := (theta+2*Pi)/4;
-  result[2] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
-
-  rootArgument := (theta+4*Pi)/4;
-  result[3] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
-
-  rootArgument := (theta+6*Pi)/4;
-  result[4] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
-end;
 
 function SolveEquation(const a: double): double;
 begin
@@ -270,30 +279,30 @@ begin
   result := -a;
 end;
 
-function SolveEquation(const a, b: TComplex): TC2Array;
+function SolveEquation(const a, b: TComplex): TC2ArrayOfComplex;
 var
   delta: TComplex;
 begin
-  delta := SquareRoot(SquarePower(a) - 4*b)[1];
+  delta := ComplexSquareRoot(ComplexSquarePower(a) - 4*b)[1];
   result[1] := (-a + delta)/2;
   result[2] := (-a - delta)/2;
 end;
 
-function SolveEquation(const a, b, c: TComplex): TC3Array;
+function SolveEquation(const a, b, c: TComplex): TC3ArrayOfComplex;
 var
   p, q, s1, t: TComplex;
 
-  u: TC3Array;
-  v: TC2Array;
+  u: TC3ArrayOfComplex;
+  v: TC2ArrayOfComplex;
 begin
-  p := 9*b -3*SquarePower(a);
-  q := 27*c -9*a*b +2*CubicPower(a);
+  p := 9*b -3*ComplexSquarePower(a);
+  q := 27*c -9*a*b +2*ComplexCubicPower(a);
 
   if p.IsNotNull and q.IsNotNull then
   begin
-    s1 := -q/2 + SquareRoot(SquarePower(q)/4 + CubicPower(p)/27)[1];
-  //s2 := -q/2 - SquareRoot(SquarePower(q)/4 + CubicPower(p)/27)[2];
-    u := CubicRoot(s1);
+    s1 := -q/2 + ComplexSquareRoot(ComplexSquarePower(q)/4 + ComplexCubicPower(p)/27)[1];
+  //s2 := -q/2 - ComplexSquareRoot(ComplexSquarePower(q)/4 + ComplexCubicPower(p)/27)[2];
+    u := ComplexCubicRoot(s1);
     t := u[1] - p/(3*u[1]); result[1] := (t - a)/3;
     t := u[2] - p/(3*u[2]); result[2] := (t - a)/3;
     t := u[3] - p/(3*u[3]); result[3] := (t - a)/3;
@@ -306,39 +315,39 @@ begin
     end else
       if q.IsNull then
       begin
-        v := SquareRoot(p);
-        result[1] :=0;
+        v := ComplexSquareRoot(p);
+        result[1] := 0;
         result[2] := v[1];
         result[3] := v[2];
       end else
       begin
-        u := CubicRoot(q);
+        u := ComplexCubicRoot(q);
         result[1] := u[1];
         result[2] := u[2];
         result[3] := u[3];
       end;
 end;
 
-function SolveEquation(const a, b, c, d: TComplex): TC4Array;
+function SolveEquation(const a, b, c, d: TComplex): TC4ArrayOfComplex;
 var
   p, q, r: TComplex;
-  u1, u2, u3: TC2Array;
-  v1: TC3Array;
-  v2, v3: TC2Array;
+  u1, u2, u3: TC2ArrayOfComplex;
+  v1: TC3ArrayOfComplex;
+  v2, v3: TC2ArrayOfComplex;
 
   alpha: TComplex;
   beta: TComplex;
   gamma: Tcomplex;
 begin
-  p := 16*b -6*SquarePower(a);
-  q := 64*c -32*a*b +8*CubicPower(a);
-  r := 256*d -64*a*c +16*b*SquarePower(a) -3*QuarticPower(a);
+  p := 16*b -6*ComplexSquarePower(a);
+  q := 64*c -32*a*b +8*ComplexCubicPower(a);
+  r := 256*d -64*a*c +16*b*ComplexSquarePower(a) -3*ComplexQuarticPower(a);
 
   if q.IsNull then
   begin
     u1 := SolveEquation(p, r);
-    u2 := SquareRoot(u1[1]);
-    u3 := SquareRoot(u1[2]);
+    u2 := ComplexSquareRoot(u1[1]);
+    u3 := ComplexSquareRoot(u1[2]);
 
     result[1] := (u2[1] -a)/4;
     result[2] := (u2[2] -a)/4;
@@ -346,9 +355,9 @@ begin
     result[4] := (u3[2] -a)/4;
   end else
   begin
-    v1 := SolveEquation(2*p, SquarePower(p)-4*r, -SquarePower(q));
+    v1 := SolveEquation(2*p, ComplexSquarePower(p)-4*r, -ComplexSquarePower(q));
 
-    alpha := SquareRoot(v1[1])[1];
+    alpha := ComplexSquareRoot(v1[1])[1];
     beta  := ((alpha*alpha*alpha)+p*alpha-q)/(2*alpha);
     gamma := ((alpha*alpha*alpha)+p*alpha+q)/(2*alpha);
 
@@ -466,41 +475,13 @@ begin
   result.fIm :=  ARight.fRe;
 end;
 
-{$IFNDEF ADIMOFF}
-class operator TImaginaryNumber.*(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
-const
-  i: TImaginaryNumber = ();
-begin
-  result.FID := CheckMul(ALeft.FID, ScalarID);
-  result.FValue := ALeft.FValue * i;
-end;
-
-class operator TImaginaryNumber.*(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
-const
-  i: TImaginaryNumber = ();
-begin
-  result.FID := CheckMul(ScalarID, ARight.FID);
-  result.FValue := ARight.FValue * i;
-end;
-
-class operator TImaginaryNumber./(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
-const
-  i: TImaginaryNumber = ();
-begin
-  result.FID := CheckDiv(ALeft.FID, ScalarID);
-  result.FValue := -ALeft.FValue * i;
-end;
-
-class operator TImaginaryNumber./(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
-const
-  i: TImaginaryNumber = ();
-begin
-  result.FID := CheckDiv(ScalarID, ARight.FID);
-  result.FValue := i / ARight.FValue;
-end;
-{$ENDIF}
-
 // Usefull routines
+
+function NullComplex: TComplex;
+begin
+  result.FRe := 0;
+  result.FIm := 0;
+end;
 
 function C2NullVector: TC2Vector;
 begin
@@ -546,43 +527,92 @@ end;
 
 function C2NullMatrix: TC2Matrix;
 begin
-  result[1,1] := 0; result[1,2] := 0;
-  result[2,1] := 0; result[2,2] := 0;
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[2,1] := 0;
+  result[2,2] := 0;
 end;
 
 function C3NullMatrix: TC3Matrix;
 begin
-  result[1,1] := 0; result[1,2] := 0; result[1,3] := 0;
-  result[2,1] := 0; result[2,2] := 0; result[2,3] := 0;
-  result[3,1] := 0; result[3,2] := 0; result[3,3] := 0;
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[1,3] := 0;
+  result[2,1] := 0;
+  result[2,2] := 0;
+  result[2,3] := 0;
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 0;
 end;
 
 function C4NullMatrix: TC4Matrix;
 begin
-  result[1,1] := 0; result[1,2] := 0; result[1,3] := 0; result[1,4] := 0;
-  result[2,1] := 0; result[2,2] := 0; result[2,3] := 0; result[2,4] := 0;
-  result[3,1] := 0; result[3,2] := 0; result[3,3] := 0; result[3,4] := 0;
-  result[4,1] := 0; result[4,2] := 0; result[4,3] := 0; result[4,4] := 0;
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[1,3] := 0;
+  result[1,4] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 0;
+  result[2,3] := 0;
+  result[2,4] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 0;
+  result[3,4] := 0;
+
+  result[4,1] := 0;
+  result[4,2] := 0;
+  result[4,3] := 0;
+  result[4,4] := 0;
 end;
 
 function C2IdMatrix: TC2Matrix;
 begin
-  result[1,1] := 1; result[1,2] := 0;
-  result[2,1] := 0; result[2,2] := 1;
+  result[1,1] := 1;
+  result[1,2] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 1;
 end;
 
 function C3IdMatrix: TC3Matrix;
 begin
-  result[1,1] := 1; result[1,2] := 0; result[1,3] := 0;
-  result[2,1] := 0; result[2,2] := 1; result[2,3] := 0;
-  result[3,1] := 0; result[3,2] := 0; result[3,3] := 1;
+  result[1,1] := 1;
+  result[1,2] := 0;
+  result[1,3] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 1;
+  result[2,3] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 1;
 end;
 
 function C4IdMatrix: TC4Matrix;
 begin
-  result[1,1] := 1; result[1,2] := 0; result[1,3] := 0; result[1,4] := 0;
-  result[2,1] := 0; result[2,2] := 1; result[2,3] := 0; result[2,4] := 0;
-  result[3,1] := 0; result[3,2] := 0; result[3,3] := 1; result[3,4] := 0;
-  result[4,1] := 0; result[4,2] := 0; result[4,3] := 0; result[4,4] := 1;
+  result[1,1] := 1;
+  result[1,2] := 0;
+  result[1,3] := 0;
+  result[1,4] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 1;
+  result[2,3] := 0;
+  result[2,4] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 1;
+  result[3,4] := 0;
+
+  result[4,1] := 0;
+  result[4,2] := 0;
+  result[4,3] := 0;
+  result[4,4] := 1;
 end;
 

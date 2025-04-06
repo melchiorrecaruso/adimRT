@@ -16,13 +16,13 @@ type
 
 // Power and root functions
 
-function SquarePower(const AValue: TComplex): TComplex;
-function CubicPower(const AValue: TComplex): TComplex;
-function QuarticPower(const AValue: TComplex): TComplex;
+function ComplexSquarePower (const AValue: TComplex): TComplex;
+function ComplexCubicPower  (const AValue: TComplex): TComplex;
+function ComplexQuarticPower(const AValue: TComplex): TComplex;
 
-function SquareRoot(const AValue: TComplex): TC2Array;
-function CubicRoot(const AValue: TComplex): TC3Array;
-function QuarticRoot(const AValue: TComplex): TC4Array;
+function ComplexSquareRoot (const AValue: TComplex): TC2ArrayOfComplex;
+function ComplexCubicRoot  (const AValue: TComplex): TC3ArrayOfComplex;
+function ComplexQuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
 
 // Usefull routines
 
@@ -68,7 +68,7 @@ function C4IdMatrix: TC4Matrix;
 
 function SolveEquation(const a: double): double;
 function SolveEquation(const a: TComplex): TComplex;
-function SolveEquation(const a, b: TComplex): TC2Array;
-function SolveEquation(const a, b, c: TComplex): TC3Array;
-function SolveEquation(const a, b, c, d: TComplex): TC4Array;
+function SolveEquation(const a, b: TComplex): TC2ArrayOfComplex;
+function SolveEquation(const a, b, c: TComplex): TC3ArrayOfComplex;
+function SolveEquation(const a, b, c, d: TComplex): TC4ArrayOfComplex;
 
