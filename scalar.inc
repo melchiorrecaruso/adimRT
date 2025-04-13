@@ -10,6 +10,7 @@ type
     FID: longint;
     FValue: double;
   public
+
     class operator + (const ASelf: TQuantity): TQuantity;
     class operator + (const ALeft, ARight: TQuantity): TQuantity;
     class operator - (const ASelf: TQuantity): TQuantity;
@@ -41,10 +42,10 @@ type
     class operator /(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
     class operator /(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
 
-    class operator *(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
-    class operator *(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
-    class operator /(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity;
-    class operator /(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity;
+    class operator *(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity; inline;
+    class operator *(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity; inline;
+    class operator /(const ALeft: TImaginaryNumber; const ARight: TQuantity): TComplexQuantity; inline;
+    class operator /(const ALeft: TQuantity; const ARight: TImaginaryNumber): TComplexQuantity; inline;
 
     // Matrix
     class operator * (const ALeft: TQuantity; const ARight: TC2MatrixQuantity): TC2MatrixQuantity;
@@ -141,5 +142,11 @@ type
   end;
   {$ELSE}
   TQuantity = double;
+  {$ENDIF}
+
+  {$IFNDEF ADIMOFF}
+  operator * (const ALeft: TC2TransposedVecQuantity; const ARight: TC2VecQuantity): TComplexQuantity;
+  operator * (const ALeft: TC3TransposedVecQuantity; const ARight: TC3VecQuantity): TComplexQuantity;
+  operator * (const ALeft: TC4TransposedVecQuantity; const ARight: TC4VecQuantity): TComplexQuantity;
   {$ENDIF}
 

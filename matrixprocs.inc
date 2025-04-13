@@ -449,6 +449,12 @@ begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
+
+class operator TCMatrixQuantity.*(const ALeft, ARight: TSelf): TSelf;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
 {$ENDIF}
 
 // TRMatrixQuantity

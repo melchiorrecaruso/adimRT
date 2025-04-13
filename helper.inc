@@ -1,4 +1,3 @@
-
 type
 
   { TComplexQuantityHelper }
@@ -39,6 +38,9 @@ type
   {$IFNDEF ADIMOFF}
   TC2VecQuantityHelper = record helper for TC2VecQuantity
     function Dot(const AVector: TC2VecQuantity): TComplexQuantity;
+    function Dual: TC2VecQuantity;
+    function Transpose: TC2TransposedVecQuantity;
+    function TransposeDual: TC2TransposedVecQuantity;
   end;
   {$ENDIF}
 

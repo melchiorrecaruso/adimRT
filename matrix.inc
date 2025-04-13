@@ -82,6 +82,7 @@ type
     class operator:=(const AMatrix: TMatrix): TSelf;
     class operator +(const ALeft, ARight: TSelf): TSelf;
     class operator -(const ALeft, ARight: TSelf): TSelf;
+    class operator *(const ALeft, ARight: TSelf): TSelf;
   end;
 
   generic TRMatrixQuantity<TSpace> = record

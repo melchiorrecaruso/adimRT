@@ -181,17 +181,15 @@ type
     FValue: TVector;
   public
     function Normalize: TSelf;
+    class operator :=(const AValue: TVector): TSelf;
     class operator <>(const ALeft, ARight: TSelf): boolean;
     class operator = (const ALeft, ARight: TSelf): boolean;
     class operator + (const AValue: TSelf): TSelf;
     class operator + (const ALeft, ARight: TSelf): TSelf;
     class operator - (const AValue: TSelf): TSelf;
     class operator - (const ALeft, ARight: TSelf): TSelf;
-    class operator * (const ALeft: double; ARight: TSelf): TSelf;
-    class operator * (const ALeft: TSelf; ARight: double): TSelf;
-    class operator *(const ALeft: TMatrixQuantity; const ARight: TSelf): TSelf;
-    class operator / (const ALeft: double; ARight: TSelf): TSelf;
-    class operator / (const ALeft: TSelf; ARight: double): TSelf;
+    class operator * (const ALeft: TMatrixQuantity; const ARight: TSelf): TSelf;
+    class operator / (const ALeft: TMatrixQuantity; const ARight: TSelf): TSelf;
   end;
 
   // TRVecQuantity
@@ -211,10 +209,6 @@ type
     class operator + (const ALeft, ARight: TSelf): TSelf;
     class operator - (const AValue: TSelf): TSelf;
     class operator - (const ALeft, ARight: TSelf): TSelf;
-    class operator * (const ALeft: double; ARight: TSelf): TSelf;
-    class operator * (const ALeft: TSelf; ARight: double): TSelf;
-    class operator / (const ALeft: double; ARight: TSelf): TSelf;
-    class operator / (const ALeft: TSelf; ARight: double): TSelf;
   end;
 
   TC2VecQuantity = specialize TCVecQuantity<T2DSpace>;
@@ -236,11 +230,23 @@ type
   generic TCTransposedVecQuantity<TSpace> = record
   type
     TSelf = specialize TCTransposedVecQuantity<TSpace>;
+    TTransposedVector = specialize TCTransposedVector<TSpace>;
     TVector = specialize TCVector<TSpace>;
+    TVecQuantity = specialize TCVecQuantity<TSpace>;
+    TMatrix = specialize TCMatrix<TSpace>;
+    TMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
   private
     FID: longint;
-    FValue: TVector;
+    FValue: TTransposedVector;
   public
+    class operator<>(const ALeft, ARight: TSelf): boolean;
+    class operator =(const ALeft, ARight: TSelf): boolean;
+    class operator +(const ALeft, ARight: TSelf): TSelf;
+    class operator -(const ALeft, ARight: TSelf): TSelf;
+    class operator *(const ALeft: TVecQuantity; const ARight: TSelf): TMatrixQuantity;
+    class operator *(const ALeft: TSelf; const ARight: TMatrixQuantity): TSelf;
+    class operator *(const ALeft: TSelf; const ARight: TVecQuantity): TComplexQuantity;
+    class operator /(const ALeft: TSelf; const ARight: TVecQuantity): TComplexQuantity;
   end;
 
   generic TRTransposedVecQuantity<TSpace> = record
@@ -253,12 +259,12 @@ type
   public
   end;
 
-  TC2TransposedVecQuantity = specialize TCTransposedVector<T2DSpace>;
-  TC3TransposedVecQuantity = specialize TCTransposedVector<T3DSpace>;
-  TC4TransposedVecQuantity = specialize TCTransposedVector<T4DSpace>;
-  TR2TransposedVecQuantity = specialize TRTransposedVector<T2DSpace>;
-  TR3TransposedVecQuantity = specialize TRTransposedVector<T3DSpace>;
-  TR4TransposedVecQuantity = specialize TRTransposedVector<T4DSpace>;
+  TC2TransposedVecQuantity = specialize TCTransposedVecQuantity<T2DSpace>;
+  TC3TransposedVecQuantity = specialize TCTransposedVecQuantity<T3DSpace>;
+  TC4TransposedVecQuantity = specialize TCTransposedVecQuantity<T4DSpace>;
+  TR2TransposedVecQuantity = specialize TRTransposedVecQuantity<T2DSpace>;
+  TR3TransposedVecQuantity = specialize TRTransposedVecQuantity<T3DSpace>;
+  TR4TransposedVecQuantity = specialize TRTransposedVecQuantity<T4DSpace>;
   {$ELSE}
   TC2TransposedVecQuantity = specialize TCTransposedVector<T2DSpace>;
   TC3TransposedVecQuantity = specialize TCTransposedVector<T3DSpace>;

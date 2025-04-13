@@ -642,3 +642,21 @@ begin
 end;
 {$ENDIF}
 
+{$IFNDEF ADIMOFF}
+operator *(const ALeft: TC2TransposedVecQuantity; const ARight: TC2VecQuantity): TComplexQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+operator *(const ALeft: TC3TransposedVecQuantity; const ARight: TC3VecQuantity): TComplexQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+operator *(const ALeft: TC4TransposedVecQuantity; const ARight: TC4VecQuantity): TComplexQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+{$ENDIF}
