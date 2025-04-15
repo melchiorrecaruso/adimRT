@@ -2,6 +2,38 @@
 
 type
 
+  // TRVector
+
+  generic TRVector<TSpace> = record
+  type
+    TSelf = specialize TRVector<TSpace>;
+    TMatrix = specialize TRMatrix<TSpace>;
+  private
+    fm: array[1..TSpace.N] of double;
+    function Get(ARow: longint): double;
+    procedure Put(ARow: longint; AValue: double);
+  public
+    function IsNull: boolean;
+    function IsNotNull: boolean;
+    function Norm: double;
+    function Normalize: TSelf;
+    function Reciprocal: TSelf;
+    function SquaredNorm: double;
+    class operator<>(const ALeft, ARight: TSelf): boolean;
+    class operator =(const ALeft, ARight: TSelf): boolean;
+    class operator +(const ASelf: TSelf): TSelf;
+    class operator +(const ALeft, ARight: TSelf): TSelf;
+    class operator -(const ASelf: TSelf): TSelf;
+    class operator -(const ALeft, ARight: TSelf): TSelf;
+    class operator *(const ALeft: double; const ARight: TSelf): TSelf;
+    class operator *(const ALeft: TSelf; const ARight: double): TSelf;
+    class operator *(const ALeft: TMatrix; const ARight: TSelf): TSelf;
+    class operator /(const ALeft: TSelf; const ARight: double): TSelf;
+    class operator /(const ALeft: double; const ARight: TSelf): TSelf;
+  public
+    property a[ARow: longint]: double read Get write Put; default;
+  end;
+
   // TCVector
 
   generic TCVector<TSpace> = record
@@ -38,16 +70,17 @@ type
     property a[ARow: longint]: TComplex read Get write Put; default;
   end;
 
-  // TRVector
+  // TRTransposedVector
 
-  generic TRVector<TSpace> = record
+  generic TRTransposedVector<TSpace> = record
   type
-    TSelf = specialize TRVector<TSpace>;
+    TSelf = specialize TRTransposedVector<TSpace>;
+    TVector = specialize TRVector<TSpace>;
     TMatrix = specialize TRMatrix<TSpace>;
   private
     fm: array[1..TSpace.N] of double;
-    function Get(ARow: longint): double;
-    procedure Put(ARow: longint; AValue: double);
+    function Get(ACol: longint): double;
+    procedure Put(ACol: longint; AValue: double);
   public
     function IsNull: boolean;
     function IsNotNull: boolean;
@@ -57,17 +90,17 @@ type
     function SquaredNorm: double;
     class operator<>(const ALeft, ARight: TSelf): boolean;
     class operator =(const ALeft, ARight: TSelf): boolean;
-    class operator +(const ASelf: TSelf): TSelf;
     class operator +(const ALeft, ARight: TSelf): TSelf;
-    class operator -(const ASelf: TSelf): TSelf;
     class operator -(const ALeft, ARight: TSelf): TSelf;
     class operator *(const ALeft: double; const ARight: TSelf): TSelf;
     class operator *(const ALeft: TSelf; const ARight: double): TSelf;
-    class operator *(const ALeft: TMatrix; const ARight: TSelf): TSelf;
+    class operator *(const ALeft: TSelf; const ARight: TVector): double;
+    class operator *(const ALeft: TVector; const ARight: TSelf): TMatrix;
+    class operator *(const ALeft: TSelf; const ARight: TMatrix): TSelf;
     class operator /(const ALeft: TSelf; const ARight: double): TSelf;
     class operator /(const ALeft: double; const ARight: TSelf): TSelf;
   public
-    property a[ARow: longint]: double read Get write Put; default;
+    property a[ACol: longint]: double read Get write Put; default;
   end;
 
   // TCTransposedVector
@@ -101,39 +134,6 @@ type
     class operator /(const ALeft: TComplex; const ARight: TSelf): TSelf;
   public
     property a[ACol: longint]: TComplex read Get write Put; default;
-  end;
-
-  // TRTransposedVector
-
-  generic TRTransposedVector<TSpace> = record
-  type
-    TSelf = specialize TRTransposedVector<TSpace>;
-    TVector = specialize TRVector<TSpace>;
-    TMatrix = specialize TRMatrix<TSpace>;
-  private
-    fm: array[1..TSpace.N] of double;
-    function Get(ACol: longint): double;
-    procedure Put(ACol: longint; AValue: double);
-  public
-    function IsNull: boolean;
-    function IsNotNull: boolean;
-    function Norm: double;
-    function Normalize: TSelf;
-    function Reciprocal: TSelf;
-    function SquaredNorm: double;
-    class operator<>(const ALeft, ARight: TSelf): boolean;
-    class operator =(const ALeft, ARight: TSelf): boolean;
-    class operator +(const ALeft, ARight: TSelf): TSelf;
-    class operator -(const ALeft, ARight: TSelf): TSelf;
-    class operator *(const ALeft: double; const ARight: TSelf): TSelf;
-    class operator *(const ALeft: TSelf; const ARight: double): TSelf;
-    class operator *(const ALeft: TSelf; const ARight: TVector): double;
-    class operator *(const ALeft: TVector; const ARight: TSelf): TMatrix;
-    class operator *(const ALeft: TSelf; const ARight: TMatrix): TSelf;
-    class operator /(const ALeft: TSelf; const ARight: double): TSelf;
-    class operator /(const ALeft: double; const ARight: TSelf): TSelf;
-  public
-    property a[ACol: longint]: double read Get write Put; default;
   end;
 
   TC2Vector = specialize TCVector<T2DSpace>;
@@ -179,6 +179,8 @@ type
   private
     FID: longint;
     FValue: TVector;
+    function Get(ARow: longint): TComplexQuantity;
+    procedure Put(ARow: longint; const AQuantity: TComplexQuantity);
   public
     function Normalize: TSelf;
     class operator :=(const AValue: TVector): TSelf;
@@ -190,6 +192,13 @@ type
     class operator - (const ALeft, ARight: TSelf): TSelf;
     class operator * (const ALeft: TMatrixQuantity; const ARight: TSelf): TSelf;
     class operator / (const ALeft: TMatrixQuantity; const ARight: TSelf): TSelf;
+
+    class operator * (const ALeft: TQuantity; const ARight: TSelf): TSelf;
+    class operator * (const ALeft: TSelf; const ARight: TQuantity): TSelf;
+    class operator / (const ALeft: TQuantity; const ARight: TSelf): TSelf;
+    class operator / (const ALeft: TSelf; const ARight: TQuantity): TSelf;
+  public
+    property a[ARow: longint]: TComplexQuantity read Get write Put; default;
   end;
 
   // TRVecQuantity
@@ -201,6 +210,8 @@ type
   private
     FID: longint;
     FValue: TVector;
+    function Get(ARow: longint): TQuantity;
+    procedure Put(ARow: longint; const AQuantity: TQuantity);
   public
     function Normalize: TSelf;
     class operator <>(const ALeft, ARight: TSelf): boolean;
@@ -209,6 +220,13 @@ type
     class operator + (const ALeft, ARight: TSelf): TSelf;
     class operator - (const AValue: TSelf): TSelf;
     class operator - (const ALeft, ARight: TSelf): TSelf;
+
+    class operator * (const ALeft: TQuantity; const ARight: TSelf): TSelf;
+    class operator * (const ALeft: TSelf; const ARight: TQuantity): TSelf;
+    class operator / (const ALeft: TQuantity; const ARight: TSelf): TSelf;
+    class operator / (const ALeft: TSelf; const ARight: TQuantity): TSelf;
+  public
+    property a[ARow: longint]: TQuantity read Get write Put; default;
   end;
 
   TC2VecQuantity = specialize TCVecQuantity<T2DSpace>;

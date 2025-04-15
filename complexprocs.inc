@@ -260,11 +260,60 @@ begin
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TComplexQuantity.:=(const AValue: TComplex): TComplexQuantity;
+class operator TComplexQuantity.:=(const AQuantity: TQuantity): TComplexQuantity;
 begin
-  result.FID := ScalarID;
-  result.FValue := AValue;
+  result.FID := AQuantity.FID;
+  result.FValue := AQuantity.FValue;
 end;
+
+class operator TComplexQuantity.+(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TComplexQuantity.+(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TComplexQuantity.-(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TComplexQuantity.-(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TComplexQuantity.*(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TComplexQuantity.*(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TComplexQuantity./(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TComplexQuantity./(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
 {$ENDIF}
 
 // Useful routines
@@ -474,6 +523,40 @@ begin
   result.fRe := -ARight.fIm;
   result.fIm :=  ARight.fRe;
 end;
+
+{$IFNDEF ADIMOFF}
+class operator TImaginaryNumber.*(const ALeft: TQuantity; const ARight: TSelf): TComplexQuantity;
+const
+  i: TSelf = ();
+begin
+  result.FID := CheckMul(ALeft.FID, ScalarID);
+  result.FValue := ALeft.FValue * i;
+end;
+
+class operator TImaginaryNumber.*(const ALeft: TSelf; const ARight: TQuantity): TComplexQuantity;
+const
+  i: TSelf = ();
+begin
+  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FValue := ARight.FValue * i;
+end;
+
+class operator TImaginaryNumber./(const ALeft: TQuantity; const ARight: TSelf): TComplexQuantity;
+const
+  i: TSelf = ();
+begin
+  result.FID := CheckDiv(ALeft.FID, ScalarID);
+  result.FValue := -ALeft.FValue * i;
+end;
+
+class operator TImaginaryNumber./(const ALeft: TSelf; const ARight: TQuantity): TComplexQuantity;
+const
+  i: TSelf = ();
+begin
+  result.FID := CheckDiv(ScalarID, ARight.FID);
+  result.FValue := i / ARight.FValue;
+end;
+{$ENDIF}
 
 // Usefull routines
 

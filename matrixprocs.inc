@@ -119,7 +119,18 @@ begin
     end;
 end;
 
-class operator TCMatrix.<>(const ALeft, ARight: TSelf): boolean;
+class operator TCMatrix.:=(const AMatrix: TRMatrix): TCMatrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := AMatrix[j, i];
+    end;
+end;
+
+class operator TCMatrix.<>(const ALeft, ARight: TCMatrix): boolean;
 var
   i, j: longint;
 begin
@@ -132,7 +143,7 @@ begin
   result := False;
 end;
 
-class operator TCMatrix.=(const ALeft, ARight: TSelf): boolean;
+class operator TCMatrix.=(const ALeft, ARight: TCMatrix): boolean;
 var
   i, j: longint;
 begin
@@ -167,6 +178,19 @@ begin
     end;
 end;
 
+class operator TCMatrix.*(const ALeft, ARight: TCMatrix): TCMatrix;
+var
+  i, j, k: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := 0;
+      for k := 1 to TSpace.N do
+        result[i, j] := result[i, j] + ALeft[i, k] * ARight[k, j];
+    end;
+end;
+
 class operator TCMatrix.*(const ALeft: TComplex; const ARight: TCMatrix): TCMatrix;
 var
   i, j: longint;
@@ -186,19 +210,6 @@ begin
     for j := 1 to TSpace.N do
     begin
       result[i, j] := ALeft[i, j] * ARight;
-    end;
-end;
-
-class operator TCMatrix.*(const ALeft, ARight: TCMatrix): TCMatrix;
-var
-  i, j, k: longint;
-begin
-  for i := 1 to TSpace.N do
-    for j := 1 to TSpace.N do
-    begin
-      result[i, j] := 0;
-      for k := 1 to TSpace.N do
-        result[i, j] := result[i, j] + ALeft[i, k] * ARight[k, j];
     end;
 end;
 
@@ -331,7 +342,7 @@ begin
     end;
 end;
 
-class operator TRMatrix.<>(const ALeft, ARight: TSelf): boolean;
+class operator TRMatrix.<>(const ALeft, ARight: TRMatrix): boolean;
 var
   i, j: longint;
 begin
@@ -344,7 +355,7 @@ begin
   result := False;
 end;
 
-class operator TRMatrix.=(const ALeft, ARight: TSelf): boolean;
+class operator TRMatrix.=(const ALeft, ARight: TRMatrix): boolean;
 var
   i, j: longint;
 begin
@@ -379,6 +390,19 @@ begin
     end;
 end;
 
+class operator TRMatrix.*(const ALeft, ARight: TRMatrix): TRMatrix;
+var
+  i, j, k: longint;
+begin
+  for i := 1 to TSpace.N do
+    for j := 1 to TSpace.N do
+    begin
+      result[i, j] := 0;
+      for k := 1 to TSpace.N do
+        result[i, j] := result[i, j] + ALeft[i, k] * ARight[k, j];
+    end;
+end;
+
 class operator TRMatrix.*(const ALeft: double; const ARight: TRMatrix): TRMatrix;
 var
   i, j: longint;
@@ -401,19 +425,6 @@ begin
     end;
 end;
 
-class operator TRMatrix.*(const ALeft, ARight: TRMatrix): TRMatrix;
-var
-  i, j, k: longint;
-begin
-  for i := 1 to TSpace.N do
-    for j := 1 to TSpace.N do
-    begin
-      result[i, j] := 0;
-      for k := 1 to TSpace.N do
-        result[i, j] := result[i, j] + ALeft[i, k] * ARight[k, j];
-    end;
-end;
-
 class operator TRMatrix./(const ALeft: TRMatrix; const ARight: double): TRMatrix;
 var
   i, j: longint;
@@ -428,7 +439,20 @@ end;
 // TCMatrixQuantity
 
 {$IFNDEF ADIMOFF}
-class operator TCMatrixQuantity.:=(const AMatrix: TMatrix): TSelf;
+
+function TCMatrixQuantity.Get(ARow, ACol: longint): TComplexQuantity;
+begin
+  result.FID := FID;
+  result.FValue := FValue[ARow, ACol];
+end;
+
+procedure TCMatrixQuantity.Put(ARow, ACol: longint; AQuantity: TComplexQuantity);
+begin
+  Check(FID, AQuantity.FID);
+  FValue[ARow, ACol] := AQuantity.FValue;
+end;
+
+class operator TCMatrixQuantity.:=(const AMatrix: TCMatrix): TCMatrixQuantity;
 var
   i, j: longint;
 begin
@@ -438,29 +462,59 @@ begin
       result.FValue[i, j] := AMatrix[i, j];
 end;
 
-class operator TCMatrixQuantity.+(const ALeft, ARight: TSelf): TSelf;
+class operator TCMatrixQuantity.<>(const ALeft, ARight: TCMatrixQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TCMatrixQuantity.=(const ALeft, ARight: TCMatrixQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TCMatrixQuantity.+(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCMatrixQuantity.-(const ALeft, ARight: TSelf): TSelf;
+class operator TCMatrixQuantity.-(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCMatrixQuantity.*(const ALeft, ARight: TSelf): TSelf;
+class operator TCMatrixQuantity.*(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
-  result.FValue := ALeft.FValue - ARight.FValue;
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCMatrixQuantity.*(const ALeft: TComplexQuantity; const ARight: TCMatrixQuantity): TCMatrixQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCMatrixQuantity.*(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCMatrixQuantity./(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue / ARight.FValue;
 end;
 {$ENDIF}
 
 // TRMatrixQuantity
 
 {$IFNDEF ADIMOFF}
-class operator TRMatrixQuantity.:=(const AMatrix: TMatrix): TSelf;
+class operator TRMatrixQuantity.:=(const AMatrix: TRMatrix): TRMatrixQuantity;
 var
   i, j: longint;
 begin
@@ -470,16 +524,126 @@ begin
       result.FValue[i, j] := AMatrix[i, j];
 end;
 
-class operator TRMatrixQuantity.+(const ALeft, ARight: TSelf): TSelf;
+class operator TRMatrixQuantity.<>(const ALeft, ARight: TRMatrixQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TRMatrixQuantity.=(const ALeft, ARight: TRMatrixQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TRMatrixQuantity.+(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TRMatrixQuantity.-(const ALeft, ARight: TSelf): TSelf;
+class operator TRMatrixQuantity.-(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TRMatrixQuantity.*(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TRMatrixQuantity.*(const ALeft: TQuantity; const ARight: TRMatrixQuantity): TRMatrixQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TRMatrixQuantity.*(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TRMatrixQuantity./(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+{$ENDIF}
+
+{$IFNDEF ADIMOFF}
+operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
+begin
+  result.FID := ALeft.FID;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
+begin
+  result.FID := ARight.FID;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
+begin
+  result.FID := ALeft.FID;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
+begin
+  result.FID := ARight.FID;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
+begin
+  result.FID := ALeft.FID;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
+begin
+  result.FID := ARight.FID;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
+begin
+  result.FID := ALeft.FID;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
+begin
+  result.FID := ARight.FID;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
+begin
+  result.FID := ALeft.FID;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
+begin
+  result.FID := ARight.FID;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
+begin
+  result.FID := ALeft.FID;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
+begin
+  result.FID := ARight.FID;
+  result.FValue := ALeft * ARight.FValue;
 end;
 {$ENDIF}
 

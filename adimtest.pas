@@ -1277,8 +1277,8 @@ begin
   angle__ := (10*x3)*rad;
   time   := 2.5*s;
   angularspeed__ := angle__/time;
-  time := angle__.dot(TQuantity(1.0)/angularspeed__);
-  freq := angularspeed__.dot(TQuantity(1)/angle__);
+  time := angle__.dot(1.0/angularspeed__);
+  freq := angularspeed__.dot(1/angle__);
   if SecondUnit.ToVerboseString(time) <> '2.5 seconds'             then halt(1);
   if RadianPerSecondUnit.ToString(angularspeed__) <> '(+4e3) rad/s' then halt(2);
   writeln('* TEST-601: PASSED');
@@ -1312,8 +1312,8 @@ begin
   radius__ :=  2*x1*m;
   force__  := 10*x2*N;
   torque__ := radius__.cross(force__);
-  radius__ := (TQuantity(1)/force__).cross(torque__);
-  force__  := (TQuantity(1)/radius__).cross(torque__);
+  radius__ := (1/force__).cross(torque__);
+  force__  := (1/radius__).cross(torque__);
   if NewtonMeterUnit.ToString(torque__) <> '(+20e3) N∙m' then halt(1);
   if MeterUnit.ToString(radius__) <> '(+2e1) m'           then halt(2);
   if NewtonUnit.ToString(force__) <> '(+10e2) N'          then halt(3);
@@ -1388,21 +1388,15 @@ begin
   writeln('v1 = ', ScalarUnit.ToString(H2Eigenvectors[1]));
   writeln('v2 = ', ScalarUnit.ToString(H2Eigenvectors[2]));
 
-
   H2 := H2.Diagonalize(H2Eigenvalues);
-  writeln('H2 = ', J.ToString(H2));
 
   StateL := H2Eigenvectors[1];
   StateR := H2Eigenvectors[2];
 
-  O := Matrix(H2Eigenvectors[1][1], H2Eigenvectors[2][1],
-              H2Eigenvectors[1][2], H2Eigenvectors[2][2]);
-
-
-  writeln(ScalarUnit.ToString(O));
-  writeln(ScalarUnit.ToString(O.TransposeDual));
-
-  writeln(J.ToString(O * H2 * O.TransposeDual));
+  O[1,1] := H2Eigenvectors[1][1];
+  O[1,2] := H2Eigenvectors[2][1];
+  O[2,1] := H2Eigenvectors[1][2];
+  O[2,2] := H2Eigenvectors[2][2];
 
   writeln;
   writeln('ADIM-TEST DONE.');
