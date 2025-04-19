@@ -62,7 +62,7 @@ begin
   end;
 end;
 
-function TC2MatrixQuantityHelper.Eigenvectors(const AEigenValues: TC2ArrayOfQuantity): TC2ArrayOfVecQuantity;
+function TC2MatrixQuantityHelper.Eigenvectors(const AEigenValues: TC2ArrayOfQuantity): TC2ArrayOfVector;
 var
   i: longint;
   EigenVals: TC2ArrayOfComplex;
@@ -74,8 +74,7 @@ begin
   EigenVecs := FValue.EigenVectors(EigenVals);
   for i := 1 to 2 do
   begin
-    result[i].FID := ScalarID;
-    result[i].FValue := EigenVecs[i];
+    result[i] := EigenVecs[i];
   end;
 end;
 

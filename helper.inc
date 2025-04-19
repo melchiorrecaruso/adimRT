@@ -27,7 +27,7 @@ type
     function Dual: TC2MatrixQuantity;
     function Determinant: TComplexQuantity;
     function Eigenvalues: TC2ArrayOfQuantity;
-    function Eigenvectors(const AEigenValues: TC2ArrayOfQuantity): TC2ArrayOfVecQuantity;
+    function Eigenvectors(const AEigenValues: TC2ArrayOfQuantity): TC2ArrayOfVector;
     function Reciprocal(const ADeterminant: TComplexQuantity): TC2MatrixQuantity;
     function TransposeDual: TC2MatrixQuantity;
   end;
