@@ -77,6 +77,8 @@ type
   private
     FID: longint;
     FValue: TRMatrix;
+    procedure Put(ARow, ACol: longint; AQuantity: TQuantity);
+    function Get(ARow, ACol: longint): TQuantity;
   public
     class operator:=(const AMatrix: TRMatrix): TRMatrixQuantity;
     class operator<>(const ALeft, ARight: TRMatrixQuantity): boolean;
