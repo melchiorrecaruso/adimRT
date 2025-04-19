@@ -164,9 +164,8 @@ type
   TC3ArrayOfVector = array[1..T3DSpace.N] of TC3Vector;
   TC4ArrayOfVector = array[1..T4DSpace.N] of TC4Vector;
 
-  // TCVecQuantity
-
   {$IFNDEF ADIMOFF}
+
   // TRVecQuantity
 
   generic TRVecQuantity<TSpace> = record
@@ -193,6 +192,8 @@ type
   public
     property a[ARow: longint]: TQuantity read Get write Put; default;
   end;
+
+  // TCVecQuantity
 
   generic TCVecQuantity<TSpace> = record
   type
@@ -224,51 +225,51 @@ type
     property a[ARow: longint]: TComplexQuantity read Get write Put; default;
   end;
 
-  TC2VecQuantity = specialize TCVecQuantity<T2DSpace>;
-  TC3VecQuantity = specialize TCVecQuantity<T3DSpace>;
-  TC4VecQuantity = specialize TCVecQuantity<T4DSpace>;
   TR2VecQuantity = specialize TRVecQuantity<T2DSpace>;
   TR3VecQuantity = specialize TRVecQuantity<T3DSpace>;
   TR4VecQuantity = specialize TRVecQuantity<T4DSpace>;
+
+  TC2VecQuantity = specialize TCVecQuantity<T2DSpace>;
+  TC3VecQuantity = specialize TCVecQuantity<T3DSpace>;
+  TC4VecQuantity = specialize TCVecQuantity<T4DSpace>;
   {$ELSE}
-  TC2VecQuantity = specialize TCVector<T2DSpace>;
-  TC3VecQuantity = specialize TCVector<T3DSpace>;
-  TC4VecQuantity = specialize TCVector<T4DSpace>;
   TR2VecQuantity = specialize TRVector<T2DSpace>;
   TR3VecQuantity = specialize TRVector<T3DSpace>;
   TR4VecQuantity = specialize TRVector<T4DSpace>;
+
+  TC2VecQuantity = specialize TCVector<T2DSpace>;
+  TC3VecQuantity = specialize TCVector<T3DSpace>;
+  TC4VecQuantity = specialize TCVector<T4DSpace>;
   {$ENDIF}
 
   {$IFNDEF ADIMOFF}
   generic TCTransposedVecQuantity<TSpace> = record
   type
-    TSelf = specialize TCTransposedVecQuantity<TSpace>;
-    TTransposedVector = specialize TCTransposedVector<TSpace>;
-    TVector = specialize TCVector<TSpace>;
-    TVecQuantity = specialize TCVecQuantity<TSpace>;
-    TMatrix = specialize TCMatrix<TSpace>;
-    TMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
+    TCTransposedVector = specialize TCTransposedVector<TSpace>;
+    TCVector = specialize TCVector<TSpace>;
+    TCVecQuantity = specialize TCVecQuantity<TSpace>;
+    TCMatrix = specialize TCMatrix<TSpace>;
+    TCMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
   private
     FID: longint;
-    FValue: TTransposedVector;
+    FValue: TCTransposedVector;
   public
-    class operator<>(const ALeft, ARight: TSelf): boolean;
-    class operator =(const ALeft, ARight: TSelf): boolean;
-    class operator +(const ALeft, ARight: TSelf): TSelf;
-    class operator -(const ALeft, ARight: TSelf): TSelf;
-    class operator *(const ALeft: TVecQuantity; const ARight: TSelf): TMatrixQuantity;
-    class operator *(const ALeft: TSelf; const ARight: TMatrixQuantity): TSelf;
-    class operator *(const ALeft: TSelf; const ARight: TVecQuantity): TComplexQuantity;
-    class operator /(const ALeft: TSelf; const ARight: TVecQuantity): TComplexQuantity;
+    class operator<>(const ALeft, ARight: TCTransposedVecQuantity): boolean;
+    class operator =(const ALeft, ARight: TCTransposedVecQuantity): boolean;
+    class operator +(const ALeft, ARight: TCTransposedVecQuantity): TCTransposedVecQuantity;
+    class operator -(const ALeft, ARight: TCTransposedVecQuantity): TCTransposedVecQuantity;
+    class operator *(const ALeft: TCVecQuantity; const ARight: TCTransposedVecQuantity): TCMatrixQuantity;
+    class operator *(const ALeft: TCTransposedVecQuantity; const ARight: TCMatrixQuantity): TCTransposedVecQuantity;
+    class operator *(const ALeft: TCTransposedVecQuantity; const ARight: TCVecQuantity): TComplexQuantity;
+    class operator /(const ALeft: TCTransposedVecQuantity; const ARight: TCVecQuantity): TComplexQuantity;
   end;
 
   generic TRTransposedVecQuantity<TSpace> = record
   type
-    TSelf = specialize TRTransposedVecQuantity<TSpace>;
-    TVector = specialize TRVector<TSpace>;
+    TRVector = specialize TRVector<TSpace>;
   private
     FID: longint;
-    FValue: TVector;
+    FValue: TRVector;
   public
   end;
 
