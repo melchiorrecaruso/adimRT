@@ -1393,6 +1393,9 @@ begin
   StateL := H2Eigenvectors[1];
   StateR := H2Eigenvectors[2];
 
+  writeln(J.ToString(StateL.TransposeDual * H2 * StateL));
+  writeln(J.ToString(StateR.TransposeDual * H2 * StateR));
+
   O[1,1] := H2Eigenvectors[1][1];
   O[1,2] := H2Eigenvectors[2][1];
   O[2,1] := H2Eigenvectors[1][2];

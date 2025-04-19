@@ -197,30 +197,29 @@ type
 
   generic TCVecQuantity<TSpace> = record
   type
-    TSelf = specialize TCVecQuantity<TSpace>;
-    TVector = specialize TCVector<TSpace>;
-    TMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
+    TCVector = specialize TCVector<TSpace>;
+    TCMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
   private
     FID: longint;
-    FValue: TVector;
+    FValue: TCVector;
     function Get(ARow: longint): TComplexQuantity;
     procedure Put(ARow: longint; const AQuantity: TComplexQuantity);
   public
-    function Normalize: TSelf;
-    class operator :=(const AValue: TVector): TSelf;
-    class operator <>(const ALeft, ARight: TSelf): boolean;
-    class operator = (const ALeft, ARight: TSelf): boolean;
-    class operator + (const AValue: TSelf): TSelf;
-    class operator + (const ALeft, ARight: TSelf): TSelf;
-    class operator - (const AValue: TSelf): TSelf;
-    class operator - (const ALeft, ARight: TSelf): TSelf;
-    class operator * (const ALeft: TMatrixQuantity; const ARight: TSelf): TSelf;
-    class operator / (const ALeft: TMatrixQuantity; const ARight: TSelf): TSelf;
+    function Normalize: TCVecQuantity;
+    class operator :=(const AValue: TCVector): TCVecQuantity;
+    class operator <>(const ALeft, ARight: TCVecQuantity): boolean;
+    class operator = (const ALeft, ARight: TCVecQuantity): boolean;
+    class operator + (const AValue: TCVecQuantity): TCVecQuantity;
+    class operator + (const ALeft, ARight: TCVecQuantity): TCVecQuantity;
+    class operator - (const AValue: TCVecQuantity): TCVecQuantity;
+    class operator - (const ALeft, ARight: TCVecQuantity): TCVecQuantity;
+    class operator * (const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
+    class operator / (const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 
-    class operator * (const ALeft: TQuantity; const ARight: TSelf): TSelf;
-    class operator * (const ALeft: TSelf; const ARight: TQuantity): TSelf;
-    class operator / (const ALeft: TQuantity; const ARight: TSelf): TSelf;
-    class operator / (const ALeft: TSelf; const ARight: TQuantity): TSelf;
+    class operator * (const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
+    class operator * (const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
+    class operator / (const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
+    class operator / (const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
   public
     property a[ARow: longint]: TComplexQuantity read Get write Put; default;
   end;
