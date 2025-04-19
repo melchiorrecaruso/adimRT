@@ -767,87 +767,87 @@ begin
   FValue[ARow] := AQuantity.FValue;
 end;
 
-function TCVecQuantity.Normalize: TSelf;
+function TCVecQuantity.Normalize: TCVecQuantity;
 begin
   result.FID := FID;
   result.FValue := FValue / FValue.Norm;
 end;
 
-class operator TCVecQuantity.:=(const AValue: TVector): TSelf;
+class operator TCVecQuantity.:=(const AValue: TCVector): TCVecQuantity;
 begin
   result.FID := ScalarID;
   result.FValue := AValue;
 end;
 
-class operator TCVecQuantity.<>(const ALeft, ARight: TSelf): boolean;
+class operator TCVecQuantity.<>(const ALeft, ARight: TCVecQuantity): boolean;
 begin
   if ALeft.FID <> ARight.FID then Exit(True);
   if ALeft.FValue <> ARight.FValue then Exit(True);
   result := False;
 end;
 
-class operator TCVecQuantity.=(const ALeft, ARight: TSelf): boolean;
+class operator TCVecQuantity.=(const ALeft, ARight: TCVecQuantity): boolean;
 begin
   if ALeft.FID <> ARight.FID then Exit(False);
   if ALeft.FValue <> ARight.FValue then Exit(False);
   result := True;
 end;
 
-class operator TCVecQuantity.+(const AValue: TSelf): TSelf;
+class operator TCVecQuantity.+(const AValue: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := AValue.FID;
   result.FValue := AValue.FValue;
 end;
 
-class operator TCVecQuantity.+(const ALeft, ARight: TSelf): TSelf;
+class operator TCVecQuantity.+(const ALeft, ARight: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := CheckSum(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCVecQuantity.-(const AValue: TCVecQuantity): TSelf;
+class operator TCVecQuantity.-(const AValue: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := AValue.FID;
   result.FValue := -AValue.FValue;
 end;
 
-class operator TCVecQuantity.-(const ALeft, ARight: TCVecQuantity): TSelf;
+class operator TCVecQuantity.-(const ALeft, ARight: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCVecQuantity.*(const ALeft: TMatrixQuantity; const ARight: TSelf): TSelf;
+class operator TCVecQuantity.*(const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCVecQuantity./(const ALeft: TMatrixQuantity; const ARight: TSelf): TSelf;
+class operator TCVecQuantity./(const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TCVecQuantity.*(const ALeft: TQuantity; const ARight: TSelf): TSelf;
+class operator TCVecQuantity.*(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCVecQuantity.*(const ALeft: TSelf; const ARight: TQuantity): TSelf;
+class operator TCVecQuantity.*(const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCVecQuantity./(const ALeft: TQuantity; const ARight: TSelf): TSelf;
+class operator TCVecQuantity./(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TCVecQuantity./(const ALeft: TSelf; const ARight: TQuantity): TSelf;
+class operator TCVecQuantity./(const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue / ARight.FValue;
