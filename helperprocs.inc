@@ -74,7 +74,7 @@ begin
   EigenVecs := FValue.EigenVectors(EigenVals);
   for i := 1 to 2 do
   begin
-    result[i].FID := FID;
+    result[i].FID := ScalarID;
     result[i].FValue := EigenVecs[i];
   end;
 end;
@@ -99,6 +99,24 @@ function TC2VecQuantityHelper.Dot(const AVector: TC2VecQuantity): TComplexQuanti
 begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TC2VecQuantityHelper.Dual: TC2VecQuantity;
+begin
+  result.FID := FID;
+  result.FValue:= FValue.Dual;
+end;
+
+function TC2VecQuantityHelper.Transpose: TC2TransposedVecQuantity;
+begin
+  result.FID := FID;
+  result.FValue := FValue.Transpose;
+end;
+
+function TC2VecQuantityHelper.TransposeDual: TC2TransposedVecQuantity;
+begin
+  result.FID := FID;
+  result.FValue := FValue.TransposeDual;
 end;
 {$ENDIF}
 

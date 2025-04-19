@@ -3001,6 +3001,77 @@ begin
   result.FValue := ALeft.FValue / ARight;
 end;
 
+class operator TCL3MultivecQuantity.<>(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity.<>(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity.=(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity.=(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
+begin
+  Check(ALeft.FID, ARight.FID);
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity.+(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity.-(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity.*(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TCL3MultivecQuantity./(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
 {$ENDIF}
 
 // TCL3TrivecQuantity
@@ -3126,6 +3197,70 @@ begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
+
+
+
+class operator TCL3TrivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TCL3TrivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TCL3TrivecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TCL3TrivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TCL3TrivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCL3TrivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+
+class operator TCL3TrivecQuantity.*(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCL3TrivecQuantity./(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TCL3TrivecQuantity./(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
 {$ENDIF}
 
 // TCL3BivecQuantity
@@ -3306,6 +3441,54 @@ begin
 end;
 
 class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TCL3BivecQuantity.+(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TCL3BivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TCL3BivecQuantity.-(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TCL3BivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TCL3BivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCL3BivecQuantity.*(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TCL3BivecQuantity./(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
@@ -3539,6 +3722,54 @@ begin
 end;
 
 class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+end;
+
+class operator TCL3VecQuantity.+(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TCL3VecQuantity.+(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TCL3VecQuantity.-(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TCL3VecQuantity.-(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+begin
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TCL3VecQuantity.*(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCL3VecQuantity.*(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+begin
+  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TCL3VecQuantity./ (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+begin
+  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+class operator TCL3VecQuantity./(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FID := CheckDiv(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;

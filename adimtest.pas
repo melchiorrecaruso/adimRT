@@ -237,8 +237,10 @@ var
   H3Eigenvectors: TC3ArrayOfVecQuantity;
   H4Eigenvectors: TC4ArrayOfVecQuantity;
 
-  StateL : TC2Ket;
-  StateR : TC2Ket;
+  StateL : TC2VecQuantity;
+  StateR : TC2VecQuantity;
+
+  O: TC2MatrixQuantity;
 
 const
   x1 : TR3Versor1 = ();
@@ -1275,7 +1277,7 @@ begin
   angle__ := (10*x3)*rad;
   time   := 2.5*s;
   angularspeed__ := angle__/time;
-  time := angle__.dot(1/angularspeed__);
+  time := angle__.dot(1.0/angularspeed__);
   freq := angularspeed__.dot(1/angle__);
   if SecondUnit.ToVerboseString(time) <> '2.5 seconds'             then halt(1);
   if RadianPerSecondUnit.ToString(angularspeed__) <> '(+4e3) rad/s' then halt(2);
@@ -1369,40 +1371,32 @@ begin
   //writeln('State 1 probability: ', (SquarePower(t1.TransposeDual*State)).ToString);
   //writeln('State 2 probability: ', (SquarePower(t2.TransposeDual*State)).ToString);
 
-  StateL := Ket(1,0);
-  StateR := Ket(0,1);
-
   E0 := 5*J;
   A0 := 1*J;
 
   H2 := E0*Matrix(1,0,0,1) + A0*Matrix(0,1,1,0);
+  writeln('H2 = ', J.ToString(H2));
   H2Eigenvalues  := H2.Eigenvalues;
+
+  writeln('l1 = ', J.ToString(H2Eigenvalues[1]));
+  writeln('l2 = ', J.ToString(H2Eigenvalues[2]));
+
   H2Eigenvectors := H2.Eigenvectors(H2Eigenvalues);
+  H2Eigenvectors[1] := H2Eigenvectors[1].Normalize;
+  H2Eigenvectors[2] := H2Eigenvectors[2].Normalize;
 
-  writeln(J.ToString(H2));
-  writeln(J.ToString(H2Eigenvalues[1]));
-  writeln(J.ToString(H2Eigenvalues[2]));
-
-  writeln(J.ToString(H2Eigenvectors[1]));
-  writeln(J.ToString(H2Eigenvectors[2]));
-  writeln(J2.ToString(H2Eigenvectors[1].Dot(H2Eigenvectors[2])));
-
-  writeln(J.ToString(H2Eigenvectors[1]));
-  writeln(J.ToString(H2Eigenvectors[1].Normalize));
-  writeln(J.ToString(H2Eigenvectors[2]));
-  writeln(J.ToString(H2Eigenvectors[2].Normalize));
+  writeln('v1 = ', ScalarUnit.ToString(H2Eigenvectors[1]));
+  writeln('v2 = ', ScalarUnit.ToString(H2Eigenvectors[2]));
 
   H2 := H2.Diagonalize(H2Eigenvalues);
 
-  writeln(J.ToString(H2));
-  writeln(J2.ToString(H2*H2Eigenvectors[1]));
-  writeln(J2.ToString(H2*H2Eigenvectors[2]));
+  StateL := H2Eigenvectors[1];
+  StateR := H2Eigenvectors[2];
 
- // StateL.TransposeDual*H2*StateL = E0;
-  //StateR.TransposeDual*H2*StateR = E0;
-
-  //StateL.TransposeDual*H2*StateR = -A0;
-  //StateR.TransposeDual*H2*StateL = -A0;
+  O[1,1] := H2Eigenvectors[1][1];
+  O[1,2] := H2Eigenvectors[2][1];
+  O[2,1] := H2Eigenvectors[1][2];
+  O[2,2] := H2Eigenvectors[2][2];
 
   writeln;
   writeln('ADIM-TEST DONE.');
