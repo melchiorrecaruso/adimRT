@@ -16,12 +16,12 @@ type
   TExponents = array of longint;
 
   { TQuantities } 
-    
+
+  {$I scalar.inc}
   {$I complex.inc}
   {$I matrix.inc}
   {$I vector.inc}
   {$I cl3.inc}
-  {$I scalar.inc}
   {$I helper.inc}
   {$I extra.inc} 
 
@@ -71,7 +71,6 @@ type
     class operator *(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
     class operator *(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
     class operator *(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
-
     // R3 vector space
     class operator *(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
     class operator /(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
@@ -169,6 +168,7 @@ type
     function GetPluralName(Prefixes: TPrefixes): string;
     function GetSymbol(Prefixes: TPrefixes): string;
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
   public
     // Real numbers
     function ToFloat(const AQuantity: TQuantity): double;
@@ -184,6 +184,9 @@ type
     // Complex numbers
     function ToComplex(const AQuantity: TComplexQuantity): TComplex;
     function ToString(const AQuantity: TComplexQuantity): string;
+    function ToString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
     function ToVerboseString(const AQuantity: TComplexQuantity): string;
     // Complex matrix
     function ToString(const AQuantity: TC2MatrixQuantity): string;
