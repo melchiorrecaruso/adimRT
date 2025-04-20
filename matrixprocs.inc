@@ -19,7 +19,7 @@ begin
   for i := 1 to TSpace.N do
     for j := 1 to TSpace.N do
     begin
-      if not SameValue(fm[i, j], 0) then Exit(False);
+      if not SameValueEx(fm[i, j], 0) then Exit(False);
     end;
   result := True;
 end;
@@ -231,7 +231,7 @@ begin
   for i := 1 to TSpace.N do
     for j := 1 to TSpace.N do
     begin
-      if not SameValue(fm[i, j], 0) then Exit(False);
+      if not SameValueEx(fm[i, j], 0) then Exit(False);
     end;
   result := True;
 end;

@@ -10,8 +10,8 @@ end;
 
 function TComplex.IsNull: boolean;
 begin
-  result := Math.SameValue(fRe, 0) and
-            Math.SameValue(fIm, 0);
+  result := SameValueEx(fRe, 0) and
+            SameValueEx(fIm, 0);
 end;
 
 function TComplex.IsNotNull: boolean;
@@ -38,22 +38,22 @@ function TComplex.ToString: string;
 var
   sign: array[boolean] of string = ('+', '-');
 begin
-  if (not Math.SameValue(fRe, 0)) and
-     (not Math.SameValue(fIm, 0)) then
+  if (not SameValueEx(fRe, 0)) and
+     (not SameValueEx(fIm, 0)) then
   begin
-    if (Math.SameValue(Abs(fIm), 1)) then
+    if (SameValueEx(Abs(fIm), 1)) then
       result := Format('%s %si', [FloatToStr(fRe), sign[fIm < 0]])
     else
       result := Format('%s %s%s∙i', [FloatToStr(fRe), sign[fIm < 0], FloatToStr(Abs(fIm))]);
   end else
-    if (not Math.SameValue(fRe, 0)) then
+    if (not SameValueEx(fRe, 0)) then
       result := Format('%s', [FloatToStr(fRe)])
     else
-      if (not Math.SameValue(fIm, 0)) then
+      if (not SameValueEx(fIm, 0)) then
       begin
-        if (Math.SameValue(fIm, 1)) then
+        if (SameValueEx(fIm, 1)) then
           result := 'i'
-        else if (Math.SameValue(fIm, -1)) then
+        else if (SameValueEx(fIm, -1)) then
           result := '-i'
         else
           result := Format('%s∙i', [FloatToStr(fIm)])
@@ -65,23 +65,23 @@ function TComplex.ToString(APrecision, ADigits: integer): string;
 var
   sign: array[boolean] of string = ('+', '-');
 begin
-  if (not Math.SameValue(fRe, 0)) and
-     (not Math.SameValue(fIm, 0)) then
+  if (not SameValueEx(fRe, 0)) and
+     (not SameValueEx(fIm, 0)) then
   begin
-    if (Math.SameValue(Abs(fIm), 1)) then
+    if (SameValueEx(Abs(fIm), 1)) then
       result := Format('%s %si', [FloatToStrF(fRe, ffGeneral, APrecision, ADigits), sign[fIm < 0]])
     else
       result := Format('%s %s%s∙i', [FloatToStrF(fRe,      ffGeneral, APrecision, ADigits), sign[fIm < 0],
                                      FloatToStrF(Abs(fIm), ffGeneral, APrecision, ADigits)]);
   end else
-    if (not Math.SameValue(fRe, 0)) then
+    if (not SameValueEx(fRe, 0)) then
       result := Format('%s', [FloatToStrF(fRe, ffGeneral, APrecision, ADigits)])
     else
-      if (not Math.SameValue(fIm, 0)) then
+      if (not SameValueEx(fIm, 0)) then
       begin
-        if (Math.SameValue(fIm, 1)) then
+        if (SameValueEx(fIm, 1)) then
           result := 'i'
-        else if (Math.SameValue(fIm, -1)) then
+        else if (SameValueEx(fIm, -1)) then
           result := '-i'
         else
           result := Format('%s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])

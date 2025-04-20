@@ -128,6 +128,9 @@ var
   sigma: TQuantity;
 
   B: TQuantity;
+  Bx: TQuantity;
+  By: TQuantity;
+  Bz: TQuantity;
   muB: TQuantity;
   len: TQuantity;
   r: TQuantity;
@@ -932,9 +935,9 @@ begin
 
   // TEST-97
   distance := 5.0*m;
-  if SameValue(distance, (5.0+1E-13)*m) = False then halt(1);
-  if SameValue(distance, (5.0+1E-12)*m) = False then halt(2);
-  if SameValue(distance, (5.0+1E-11)*m) = True  then halt(3);
+  if SameValueEx(distance, (5.0+1E-13)*m) = False then halt(1);
+  if SameValueEx(distance, (5.0+1E-12)*m) = True  then halt(2);
+  if SameValueEx(distance, (5.0+1E-11)*m) = True  then halt(3);
   writeln('* TEST-97: PASSED');
 
   // TEST-98
@@ -944,7 +947,7 @@ begin
 
   // TEST-99 - COMPTON WAVE LEGNTH
   wavelenc := PlanckConstant/(ElectronMass*SpeedOfLight);
-  if SameValue(wavelenc, ComptonWaveLength) <> TRUE then halt(1);
+  if SameValueEx(wavelenc, ComptonWaveLength) <> TRUE then halt(1);
   writeln('* TEST-99: PASSED');
 
   // TEST-100 - BOHR MODEL
@@ -972,7 +975,7 @@ begin
   // energy
   energy := 0.5*ElectronMass*SquarePower(speed) - (CoulombConstant*SquarePower(ElectronCharge))/radius;
 
-  if SameValue(radius ,BohrRadius)                 <> TRUE          then halt(1);
+  if SameValueEx(radius ,BohrRadius)               <> TRUE          then halt(1);
   if m.ToString(radius, 4, 4, [])                  <> '5.292E-11 m' then halt(2);
   if MeterPerSecondUnit.ToString(speed, 4, 4, [])  <> '2.188E6 m/s' then halt(3);
   if ElectronVoltUnit.ToString(energy, 3, 3, [])   <> '-13.6 eV'    then halt(4);
@@ -1248,7 +1251,7 @@ begin
   force_         := electricfield_ * charge;
   charge         := force_.dot(1/electricfield_);
   electricfield_ := force_/charge;
-  if not SameValue(charge, ElectronCharge) then halt(1);
+  if not SameValueEx(charge, ElectronCharge) then halt(1);
   writeln('* TEST-514: PASSED');
 
   // TEST-515: Voltages
@@ -1366,21 +1369,29 @@ begin
   writeln('* TEST-608: PASSED');
 
   // Quantum mechanics
-  B := 10*T;
+  DefaultEpsilon := 1E-25;
+
+  Bx := 1.0*T;
+  Bz := 2.0*T;
   muB := 9.274E-24*J/T;
-  H2 := 2 * muB * B * Matrix(1,0,0,-1);
+  H2 := 2*muB/2*(Bx*Matrix(0,1,1,0) + Bz*Matrix(1,0,0,-1));
 
   EigenValues := H2.EigenValues;
+
+  writeln(J.ToString(EigenValues[1]));
+  writeln(J.ToString(EigenValues[2]));
+
   EigenVectors := H2.EigenVectors(EigenValues);
+
+  writeln((EigenVectors[1]).ToString);
+  writeln((EigenVectors[2]).ToString);
+
   H2 := H2.Diagonalize(EigenValues);
 
   StateUp      := EigenVectors[1];
   StateDown    := EigenVectors[2];
 
-  writeln(J.ToString(EigenValues[1],30,30,[]));
-  writeln(J.ToString(EigenValues[2],30,30,[]));
-  writeln(J.ToString(StateUp.TransposeDual*H2*StateUp,30,30,[]));
-  writeln(J.ToString(StateDown.TransposeDual*H2*StateDown,30,30,[]));
+
   writeln('* TEST-609: PASSED');
 
   writeln;

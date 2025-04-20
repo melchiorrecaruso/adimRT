@@ -1837,62 +1837,62 @@ end;
 
 function TCL3MultivectorHelper.SameValue(const AValue: TCL3Multivector): boolean;
 begin
-  result := Math.SameValue(fm0,   AValue.fm0  ) and
-            Math.SameValue(fm1,   AValue.fm1  ) and
-            Math.SameValue(fm2,   AValue.fm2  ) and
-            Math.SameValue(fm3,   AValue.fm3  ) and
-            Math.SameValue(fm12,  AValue.fm12 ) and
-            Math.SameValue(fm13,  AValue.fm13 ) and
-            Math.SameValue(fm23,  AValue.fm23 ) and
-            Math.SameValue(fm123, AValue.fm123);
+  result := SameValueEx(fm0,   AValue.fm0  ) and
+            SameValueEx(fm1,   AValue.fm1  ) and
+            SameValueEx(fm2,   AValue.fm2  ) and
+            SameValueEx(fm3,   AValue.fm3  ) and
+            SameValueEx(fm12,  AValue.fm12 ) and
+            SameValueEx(fm13,  AValue.fm13 ) and
+            SameValueEx(fm23,  AValue.fm23 ) and
+            SameValueEx(fm123, AValue.fm123);
 end;
 
 function TCL3MultivectorHelper.SameValue(const AValue: TCL3Trivector): boolean;
 begin
-  result := Math.SameValue(fm0,            0.0) and
-            Math.SameValue(fm1,            0.0) and
-            Math.SameValue(fm2,            0.0) and
-            Math.SameValue(fm3,            0.0) and
-            Math.SameValue(fm12,           0.0) and
-            Math.SameValue(fm23,           0.0) and
-            Math.SameValue(fm13,           0.0) and
-            Math.SameValue(fm123, AValue.fm123);
+  result := SameValueEx(fm0,            0.0) and
+            SameValueEx(fm1,            0.0) and
+            SameValueEx(fm2,            0.0) and
+            SameValueEx(fm3,            0.0) and
+            SameValueEx(fm12,           0.0) and
+            SameValueEx(fm23,           0.0) and
+            SameValueEx(fm13,           0.0) and
+            SameValueEx(fm123, AValue.fm123);
 end;
 
 function TCL3MultivectorHelper.SameValue(const AValue: TCL3Bivector): boolean;
 begin
-  result := Math.SameValue(fm0,           0.0) and
-            Math.SameValue(fm1,           0.0) and
-            Math.SameValue(fm2,           0.0) and
-            Math.SameValue(fm3,           0.0) and
-            Math.SameValue(fm12,  AValue.fm12) and
-            Math.SameValue(fm13,  AValue.fm13) and
-            Math.SameValue(fm23,  AValue.fm23) and
-            Math.SameValue(fm123,         0.0);
+  result := SameValueEx(fm0,           0.0) and
+            SameValueEx(fm1,           0.0) and
+            SameValueEx(fm2,           0.0) and
+            SameValueEx(fm3,           0.0) and
+            SameValueEx(fm12,  AValue.fm12) and
+            SameValueEx(fm13,  AValue.fm13) and
+            SameValueEx(fm23,  AValue.fm23) and
+            SameValueEx(fm123,         0.0);
 end;
 
 function TCL3MultivectorHelper.SameValue(const AValue: TCL3Vector): boolean;
 begin
-  result := Math.SameValue(fm0,          0.0) and
-            Math.SameValue(fm1,   AValue.fm1) and
-            Math.SameValue(fm2,   AValue.fm2) and
-            Math.SameValue(fm3,   AValue.fm3) and
-            Math.SameValue(fm12,         0.0) and
-            Math.SameValue(fm23,         0.0) and
-            Math.SameValue(fm13,         0.0) and
-            Math.SameValue(fm123,        0.0);
+  result := SameValueEx(fm0,          0.0) and
+            SameValueEx(fm1,   AValue.fm1) and
+            SameValueEx(fm2,   AValue.fm2) and
+            SameValueEx(fm3,   AValue.fm3) and
+            SameValueEx(fm12,         0.0) and
+            SameValueEx(fm23,         0.0) and
+            SameValueEx(fm13,         0.0) and
+            SameValueEx(fm123,        0.0);
 end;
 
 function TCL3MultivectorHelper.SameValue(const AValue: double): boolean;
 begin
-  result := Math.SameValue(fm0,   AValue) and
-            Math.SameValue(fm1,      0.0) and
-            Math.SameValue(fm2,      0.0) and
-            Math.SameValue(fm3,      0.0) and
-            Math.SameValue(fm12,     0.0) and
-            Math.SameValue(fm23,     0.0) and
-            Math.SameValue(fm13,     0.0) and
-            Math.SameValue(fm123,    0.0);
+  result := SameValueEx(fm0,   AValue) and
+            SameValueEx(fm1,      0.0) and
+            SameValueEx(fm2,      0.0) and
+            SameValueEx(fm3,      0.0) and
+            SameValueEx(fm12,     0.0) and
+            SameValueEx(fm23,     0.0) and
+            SameValueEx(fm13,     0.0) and
+            SameValueEx(fm123,    0.0);
 end;
 
 function TCL3MultivectorHelper.ToString(APrecision, ADigits: longint): string;
@@ -1900,14 +1900,14 @@ var
   i: longint;
 begin
   result := '';
-  if not Math.SameValue(fm0,   0.0) then result := result + Fmt(fm0,   APrecision, ADigits) + ' ';
-  if not Math.SameValue(fm1,   0.0) then result := result + Fmt(fm1,   APrecision, ADigits) + 'e1 ';
-  if not Math.SameValue(fm2,   0.0) then result := result + Fmt(fm2,   APrecision, ADigits) + 'e2 ';
-  if not Math.SameValue(fm3,   0.0) then result := result + Fmt(fm3,   APrecision, ADigits) + 'e3 ';
-  if not Math.SameValue(fm12,  0.0) then result := result + Fmt(fm12,  APrecision, ADigits) + 'e12 ';
-  if not Math.SameValue(fm23,  0.0) then result := result + Fmt(fm23,  APrecision, ADigits) + 'e23 ';
-  if not Math.SameValue(fm13,  0.0) then result := result + Fmt(fm13,  APrecision, ADigits) + 'e31 ';
-  if not Math.SameValue(fm123, 0.0) then result := result + Fmt(fm123, APrecision, ADigits) + 'e123 ';
+  if not SameValueEx(fm0,   0.0) then result := result + Fmt(fm0,   APrecision, ADigits) + ' ';
+  if not SameValueEx(fm1,   0.0) then result := result + Fmt(fm1,   APrecision, ADigits) + 'e1 ';
+  if not SameValueEx(fm2,   0.0) then result := result + Fmt(fm2,   APrecision, ADigits) + 'e2 ';
+  if not SameValueEx(fm3,   0.0) then result := result + Fmt(fm3,   APrecision, ADigits) + 'e3 ';
+  if not SameValueEx(fm12,  0.0) then result := result + Fmt(fm12,  APrecision, ADigits) + 'e12 ';
+  if not SameValueEx(fm23,  0.0) then result := result + Fmt(fm23,  APrecision, ADigits) + 'e23 ';
+  if not SameValueEx(fm13,  0.0) then result := result + Fmt(fm13,  APrecision, ADigits) + 'e31 ';
+  if not SameValueEx(fm123, 0.0) then result := result + Fmt(fm123, APrecision, ADigits) + 'e123 ';
 
   i := Length(result);
   if i > 0 then
@@ -1923,14 +1923,14 @@ var
   i: longint;
 begin
   result := '';
-  if not Math.SameValue(fm0,   0.0) then result := result + Fmt(fm0  ) + ' ';
-  if not Math.SameValue(fm1,   0.0) then result := result + Fmt(fm1  ) + 'e1 ';
-  if not Math.SameValue(fm2,   0.0) then result := result + Fmt(fm2  ) + 'e2 ';
-  if not Math.SameValue(fm3,   0.0) then result := result + Fmt(fm3  ) + 'e3 ';
-  if not Math.SameValue(fm12,  0.0) then result := result + Fmt(fm12 ) + 'e12 ';
-  if not Math.SameValue(fm23,  0.0) then result := result + Fmt(fm23 ) + 'e23 ';
-  if not Math.SameValue(fm13,  0.0) then result := result + Fmt(fm13 ) + 'e31 ';
-  if not Math.SameValue(fm123, 0.0) then result := result + Fmt(fm123) + 'e123 ';
+  if not SameValueEx(fm0,   0.0) then result := result + Fmt(fm0  ) + ' ';
+  if not SameValueEx(fm1,   0.0) then result := result + Fmt(fm1  ) + 'e1 ';
+  if not SameValueEx(fm2,   0.0) then result := result + Fmt(fm2  ) + 'e2 ';
+  if not SameValueEx(fm3,   0.0) then result := result + Fmt(fm3  ) + 'e3 ';
+  if not SameValueEx(fm12,  0.0) then result := result + Fmt(fm12 ) + 'e12 ';
+  if not SameValueEx(fm23,  0.0) then result := result + Fmt(fm23 ) + 'e23 ';
+  if not SameValueEx(fm13,  0.0) then result := result + Fmt(fm13 ) + 'e31 ';
+  if not SameValueEx(fm123, 0.0) then result := result + Fmt(fm123) + 'e123 ';
 
   i := Length(result);
   if i > 0 then
@@ -2001,50 +2001,50 @@ end;
 
 function TCL3MultivectorHelper.IsScalar: boolean;
 begin
-  result := (not Math.SameValue(fm0,   0.0)) and
-            (    Math.SameValue(fm1,   0.0)) and
-            (    Math.SameValue(fm2,   0.0)) and
-            (    Math.SameValue(fm3,   0.0)) and
-            (    Math.SameValue(fm12,  0.0)) and
-            (    Math.SameValue(fm23,  0.0)) and
-            (    Math.SameValue(fm13,  0.0)) and
-            (    Math.SameValue(fm123, 0.0));
+  result := (not SameValueEx(fm0,   0.0)) and
+            (    SameValueEx(fm1,   0.0)) and
+            (    SameValueEx(fm2,   0.0)) and
+            (    SameValueEx(fm3,   0.0)) and
+            (    SameValueEx(fm12,  0.0)) and
+            (    SameValueEx(fm23,  0.0)) and
+            (    SameValueEx(fm13,  0.0)) and
+            (    SameValueEx(fm123, 0.0));
 end;
 
 function TCL3MultivectorHelper.IsVector: boolean;
 begin
-  result :=  (    Math.SameValue(fm0,   0.0))  and
-            ((not Math.SameValue(fm1,   0.0))  or
-             (not Math.SameValue(fm2,   0.0))  or
-             (not Math.SameValue(fm3,   0.0))) and
-             (    Math.SameValue(fm12,  0.0))  and
-             (    Math.SameValue(fm23,  0.0))  and
-             (    Math.SameValue(fm13,  0.0))  and
-             (    Math.SameValue(fm123, 0.0));
+  result :=  (    SameValueEx(fm0,   0.0))  and
+            ((not SameValueEx(fm1,   0.0))  or
+             (not SameValueEx(fm2,   0.0))  or
+             (not SameValueEx(fm3,   0.0))) and
+             (    SameValueEx(fm12,  0.0))  and
+             (    SameValueEx(fm23,  0.0))  and
+             (    SameValueEx(fm13,  0.0))  and
+             (    SameValueEx(fm123, 0.0));
 end;
 
 function TCL3MultivectorHelper.IsBiVector: boolean;
 begin
-  result :=  (    Math.SameValue(fm0,   0.0))  and
-             (    Math.SameValue(fm1,   0.0))  and
-             (    Math.SameValue(fm2,   0.0))  and
-             (    Math.SameValue(fm3,   0.0))  and
-            ((not Math.SameValue(fm12,  0.0))  or
-             (not Math.SameValue(fm23,  0.0))  or
-             (not Math.SameValue(fm13,  0.0))) and
-             (    Math.SameValue(fm123, 0.0));
+  result :=  (    SameValueEx(fm0,   0.0))  and
+             (    SameValueEx(fm1,   0.0))  and
+             (    SameValueEx(fm2,   0.0))  and
+             (    SameValueEx(fm3,   0.0))  and
+            ((not SameValueEx(fm12,  0.0))  or
+             (not SameValueEx(fm23,  0.0))  or
+             (not SameValueEx(fm13,  0.0))) and
+             (    SameValueEx(fm123, 0.0));
 end;
 
 function TCL3MultivectorHelper.IsTrivector: boolean;
 begin
-  result := (    Math.SameValue(fm0,   0.0)) and
-            (    Math.SameValue(fm1,   0.0)) and
-            (    Math.SameValue(fm2,   0.0)) and
-            (    Math.SameValue(fm3,   0.0)) and
-            (    Math.SameValue(fm12,  0.0)) and
-            (    Math.SameValue(fm23,  0.0)) and
-            (    Math.SameValue(fm13,  0.0)) and
-            (not Math.SameValue(fm123, 0.0));
+  result := (    SameValueEx(fm0,   0.0)) and
+            (    SameValueEx(fm1,   0.0)) and
+            (    SameValueEx(fm2,   0.0)) and
+            (    SameValueEx(fm3,   0.0)) and
+            (    SameValueEx(fm12,  0.0)) and
+            (    SameValueEx(fm23,  0.0)) and
+            (    SameValueEx(fm13,  0.0)) and
+            (not SameValueEx(fm123, 0.0));
 end;
 
 function TCL3MultivectorHelper.IsA: string;
@@ -2239,24 +2239,24 @@ end;
 
 function TCL3TrivectorHelper.SameValue(const AValue: TCL3Multivector): boolean;
 begin
-  result := Math.SameValue(0.0,   AValue.fm0  ) and
-            Math.SameValue(0.0,   AValue.fm1  ) and
-            Math.SameValue(0.0,   AValue.fm2  ) and
-            Math.SameValue(0.0,   AValue.fm3  ) and
-            Math.SameValue(0.0,   AValue.fm12 ) and
-            Math.SameValue(0.0,   AValue.fm13 ) and
-            Math.SameValue(0.0,   AValue.fm23 ) and
-            Math.SameValue(fm123, AValue.fm123);
+  result := SameValueEx(0.0,   AValue.fm0  ) and
+            SameValueEx(0.0,   AValue.fm1  ) and
+            SameValueEx(0.0,   AValue.fm2  ) and
+            SameValueEx(0.0,   AValue.fm3  ) and
+            SameValueEx(0.0,   AValue.fm12 ) and
+            SameValueEx(0.0,   AValue.fm13 ) and
+            SameValueEx(0.0,   AValue.fm23 ) and
+            SameValueEx(fm123, AValue.fm123);
 end;
 
 function TCL3TrivectorHelper.SameValue(const AValue: TCL3Trivector): boolean;
 begin
-  result := Math.SameValue(fm123, AValue.fm123);
+  result := SameValueEx(fm123, AValue.fm123);
 end;
 
 function TCL3TrivectorHelper.ToString(APrecision, ADigits: longint): string;
 begin
-  if not Math.SameValue(fm123, 0.0) then
+  if not SameValueEx(fm123, 0.0) then
     result := Fmt(fm123, APrecision, ADigits) + 'e123'
   else
     result := '0e123';
@@ -2266,7 +2266,7 @@ end;
 
 function TCL3TrivectorHelper.ToString: string;
 begin
-  if not Math.SameValue(fm123, 0.0) then
+  if not SameValueEx(fm123, 0.0) then
     result := Fmt(fm123) + 'e123'
   else
     result := '0e123';
@@ -2507,21 +2507,21 @@ end;
 
 function TCL3BivectorHelper.SameValue(const AValue: TCL3Multivector): boolean;
 begin
-  result := Math.SameValue(0.0,  AValue.fm0  ) and
-            Math.SameValue(0.0,  AValue.fm1  ) and
-            Math.SameValue(0.0,  AValue.fm2  ) and
-            Math.SameValue(0.0,  AValue.fm3  ) and
-            Math.SameValue(fm12, AValue.fm12 ) and
-            Math.SameValue(fm13, AValue.fm13 ) and
-            Math.SameValue(fm23, AValue.fm23 ) and
-            Math.SameValue(0.0,  AValue.fm123);
+  result := SameValueEx(0.0,  AValue.fm0  ) and
+            SameValueEx(0.0,  AValue.fm1  ) and
+            SameValueEx(0.0,  AValue.fm2  ) and
+            SameValueEx(0.0,  AValue.fm3  ) and
+            SameValueEx(fm12, AValue.fm12 ) and
+            SameValueEx(fm13, AValue.fm13 ) and
+            SameValueEx(fm23, AValue.fm23 ) and
+            SameValueEx(0.0,  AValue.fm123);
 end;
 
 function TCL3BivectorHelper.SameValue(const AValue: TCL3Bivector): boolean;
 begin
-  result := Math.SameValue(fm12, AValue.fm12) and
-            Math.SameValue(fm13, AValue.fm13) and
-            Math.SameValue(fm23, AValue.fm23);
+  result := SameValueEx(fm12, AValue.fm12) and
+            SameValueEx(fm13, AValue.fm13) and
+            SameValueEx(fm23, AValue.fm23);
 end;
 
 function TCL3BivectorHelper.ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
@@ -2537,9 +2537,9 @@ var
   i: longint;
 begin
   result := '';
-  if not Math.SameValue(fm12, 0.0) then result := result + Fmt(fm12,  APrecision, ADigits) + 'e12 ';
-  if not Math.SameValue(fm13, 0.0) then result := result + Fmt(fm13,  APrecision, ADigits) + 'e13 ';
-  if not Math.SameValue(fm23, 0.0) then result := result + Fmt(fm23,  APrecision, ADigits) + 'e23 ';
+  if not SameValueEx(fm12, 0.0) then result := result + Fmt(fm12,  APrecision, ADigits) + 'e12 ';
+  if not SameValueEx(fm13, 0.0) then result := result + Fmt(fm13,  APrecision, ADigits) + 'e13 ';
+  if not SameValueEx(fm23, 0.0) then result := result + Fmt(fm23,  APrecision, ADigits) + 'e23 ';
 
   i := Length(result);
   if i > 0 then
@@ -2555,9 +2555,9 @@ var
   i: longint;
 begin
   result := '';
-  if not Math.SameValue(fm12, 0.0) then result := result + Fmt(fm12) + 'e12 ';
-  if not Math.SameValue(fm13, 0.0) then result := result + Fmt(fm13) + 'e13 ';
-  if not Math.SameValue(fm23, 0.0) then result := result + Fmt(fm23) + 'e23 ';
+  if not SameValueEx(fm12, 0.0) then result := result + Fmt(fm12) + 'e12 ';
+  if not SameValueEx(fm13, 0.0) then result := result + Fmt(fm13) + 'e13 ';
+  if not SameValueEx(fm23, 0.0) then result := result + Fmt(fm23) + 'e23 ';
 
   i := Length(result);
   if i > 0 then
@@ -2819,21 +2819,21 @@ end;
 
 function TCL3VectorHelper.SameValue(const AValue: TCL3Multivector): boolean;
 begin
-  result := Math.SameValue(0.0, AValue.fm0  ) and
-            Math.SameValue(fm1, AValue.fm1  ) and
-            Math.SameValue(fm2, AValue.fm2  ) and
-            Math.SameValue(fm3, AValue.fm3  ) and
-            Math.SameValue(0.0, AValue.fm12 ) and
-            Math.SameValue(0.0, AValue.fm13 ) and
-            Math.SameValue(0.0, AValue.fm23 ) and
-            Math.SameValue(0.0, AValue.fm123);
+  result := SameValueEx(0.0, AValue.fm0  ) and
+            SameValueEx(fm1, AValue.fm1  ) and
+            SameValueEx(fm2, AValue.fm2  ) and
+            SameValueEx(fm3, AValue.fm3  ) and
+            SameValueEx(0.0, AValue.fm12 ) and
+            SameValueEx(0.0, AValue.fm13 ) and
+            SameValueEx(0.0, AValue.fm23 ) and
+            SameValueEx(0.0, AValue.fm123);
 end;
 
 function TCL3VectorHelper.SameValue(const AValue: TCL3Vector): boolean;
 begin
-  result := Math.SameValue(fm1, AValue.fm1) and
-            Math.SameValue(fm2, AValue.fm2) and
-            Math.SameValue(fm3, AValue.fm3);
+  result := SameValueEx(fm1, AValue.fm1) and
+            SameValueEx(fm2, AValue.fm2) and
+            SameValueEx(fm3, AValue.fm3);
 end;
 
 function TCL3VectorHelper.ExtractVector(AComponents: TCL3MultivectorComponents): TCL3Vector;
@@ -2850,9 +2850,9 @@ var
   i: longint;
 begin
   result := '';
-  if not Math.SameValue(fm1, 0.0) then result := result + Fmt(fm1,  APrecision, ADigits) + 'e1 ';
-  if not Math.SameValue(fm2, 0.0) then result := result + Fmt(fm2,  APrecision, ADigits) + 'e2 ';
-  if not Math.SameValue(fm3, 0.0) then result := result + Fmt(fm3,  APrecision, ADigits) + 'e3 ';
+  if not SameValueEx(fm1, 0.0) then result := result + Fmt(fm1,  APrecision, ADigits) + 'e1 ';
+  if not SameValueEx(fm2, 0.0) then result := result + Fmt(fm2,  APrecision, ADigits) + 'e2 ';
+  if not SameValueEx(fm3, 0.0) then result := result + Fmt(fm3,  APrecision, ADigits) + 'e3 ';
 
     i := Length(result);
   if i > 0 then
@@ -2868,9 +2868,9 @@ var
   i: longint;
 begin
   result := '';
-  if not Math.SameValue(fm1, 0.0) then result := result + Fmt(fm1) + 'e1 ';
-  if not Math.SameValue(fm2, 0.0) then result := result + Fmt(fm2) + 'e2 ';
-  if not Math.SameValue(fm3, 0.0) then result := result + Fmt(fm3) + 'e3 ';
+  if not SameValueEx(fm1, 0.0) then result := result + Fmt(fm1) + 'e1 ';
+  if not SameValueEx(fm2, 0.0) then result := result + Fmt(fm2) + 'e2 ';
+  if not SameValueEx(fm3, 0.0) then result := result + Fmt(fm3) + 'e3 ';
 
   i := Length(result);
   if i > 0 then
