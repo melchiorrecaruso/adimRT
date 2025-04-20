@@ -128,6 +128,7 @@ var
   sigma: TQuantity;
 
   B: TQuantity;
+  muB: TQuantity;
   len: TQuantity;
   r: TQuantity;
   z: TQuantity;
@@ -237,10 +238,11 @@ var
   H3Eigenvectors: TC3ArrayOfVecQuantity;
   H4Eigenvectors: TC4ArrayOfVecQuantity;
 
-  StateL : TC2VecQuantity;
-  StateR : TC2VecQuantity;
+  StateUp : TC2VecQuantity;
+  StateDown : TC2VecQuantity;
 
-  O: TC2MatrixQuantity;
+  EigenValues: TC2ArrayOfQuantity;
+  EigenVectors: TC2ArrayOfVector;
 
 const
   x1 : TR3Versor1 = ();
@@ -1364,42 +1366,22 @@ begin
   writeln('* TEST-608: PASSED');
 
   // Quantum mechanics
-  t1 := Ket(1, 0);
-  t2 := Ket(0, 1);
+  B := 10*T;
+  muB := 9.274E-24*J/T;
+  H2 := 2 * muB * B * Matrix(1,0,0,-1);
 
-  State  := 2/Sqrt(5)*t1 + 1/Sqrt(5)*t2;
-  //writeln('State 1 probability: ', (SquarePower(t1.TransposeDual*State)).ToString);
-  //writeln('State 2 probability: ', (SquarePower(t2.TransposeDual*State)).ToString);
+  EigenValues := H2.EigenValues;
+  EigenVectors := H2.EigenVectors(EigenValues);
+  H2 := H2.Diagonalize(EigenValues);
 
-  E0 := 5*J;
-  A0 := 1*J;
+  StateUp      := EigenVectors[1];
+  StateDown    := EigenVectors[2];
 
-  H2 := E0*Matrix(1,0,0,1) + A0*Matrix(0,1,1,0);
-  writeln('H2 = ', J.ToString(H2));
-  H2Eigenvalues  := H2.Eigenvalues;
-
-  writeln('l1 = ', J.ToString(H2Eigenvalues[1]));
-  writeln('l2 = ', J.ToString(H2Eigenvalues[2]));
-
-  H2Eigenvectors := H2.Eigenvectors(H2Eigenvalues);
-  H2Eigenvectors[1] := H2Eigenvectors[1].Normalize;
-  H2Eigenvectors[2] := H2Eigenvectors[2].Normalize;
-
-  writeln('v1 = ', ScalarUnit.ToString(H2Eigenvectors[1]));
-  writeln('v2 = ', ScalarUnit.ToString(H2Eigenvectors[2]));
-
-  H2 := H2.Diagonalize(H2Eigenvalues);
-
-  StateL := H2Eigenvectors[1];
-  StateR := H2Eigenvectors[2];
-
-  writeln(J.ToString(StateL.TransposeDual * H2 * StateL));
-  writeln(J.ToString(StateR.TransposeDual * H2 * StateR));
-
-  O[1,1] := H2Eigenvectors[1][1];
-  O[1,2] := H2Eigenvectors[2][1];
-  O[2,1] := H2Eigenvectors[1][2];
-  O[2,2] := H2Eigenvectors[2][2];
+  writeln(J.ToString(EigenValues[1],30,30,[]));
+  writeln(J.ToString(EigenValues[2],30,30,[]));
+  writeln(J.ToString(StateUp.TransposeDual*H2*StateUp,30,30,[]));
+  writeln(J.ToString(StateDown.TransposeDual*H2*StateDown,30,30,[]));
+  writeln('* TEST-609: PASSED');
 
   writeln;
   writeln('ADIM-TEST DONE.');
