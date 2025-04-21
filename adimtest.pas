@@ -231,6 +231,8 @@ var
   H3: TC3MatrixQuantity;
   H4: TC4MatrixQuantity;
 
+  U2: TC2Matrix;
+
   H2Eigenvalues: TC2ArrayOfQuantity;
   H3Eigenvalues: TC3ArrayOfQuantity;
   H4Eigenvalues: TC4ArrayOfQuantity;
@@ -1369,39 +1371,43 @@ begin
   if W.ToString(power__.Norm) <> '1118.03398874989 W'   then halt(7);
   writeln('* TEST-608: PASSED');
 
-  // Quantum mechanics
+  // TEST-609: Quantum mechanics, expectation values by diagonalizing the Hamiltonian
+  // In this example, we explore three different methods for calculating the expectation
+  // value of an observable in quantum mechanics. Starting from the standard matrix form
+  // of the Hamiltonian, we compute the expectation value directly in the original basis,
+  // then repeat the calculation after diagonalizing the Hamiltonian, and finally use the
+  // expansion of the quantum state in terms of the Hamiltonian’s eigenstates.
+  // All three approaches are shown to give consistent results.
+
   DefaultEpsilon := 1E-30;
 
   Bx  := 1.0*T;
   Bz  := 2.0*T;
   muB := 9.274009994E-24*J/T;
+  State := Vector(3/sqrt(10), 1/sqrt(10));
+
   H2 := 2*muB/2*(Bx*Matrix(0,1,1,0) + Bz*Matrix(1,0,0,-1));
 
-  writeln('H2 = ', J.ToString(H2));
+  if eV.toString(State.TransposeDual*H2*State) <> '(0.00012734439857522) eV' then halt(1);
 
-  EigenValues := H2.EigenValues;
-
-  writeln('EigenValue 1 = ', J.ToString(EigenValues[1]));
-  writeln('EigenValue 2 = ', J.ToString(EigenValues[2]));
-
+  EigenValues  := H2.EigenValues;
   EigenVectors := H2.EigenVectors(EigenValues);
   EigenVectors[1] := EigenVectors[1].Normalize;
   EigenVectors[2] := EigenVectors[2].Normalize;
 
-  writeln('EigenVector 1 = ', (EigenVectors[1]).ToString);
-  writeln('EigenVector 2 = ', (EigenVectors[2]).ToString);
+  H2 := H2.Diagonalize(EigenValues);
+  U2:= Matrix(EigenVectors[1][1],
+              EigenVectors[2][1],
+              EigenVectors[1][2],
+              EigenVectors[2][2]).TransposeDual;
 
-  //H2 := H2.Diagonalize(EigenValues);
-
-  State := Vector(3/sqrt(10), 1/sqrt(10));
-
-  writeln(eV.toString((State.TransposeDual*H2*State)));
+  if eV.toString((U2*State).TransposeDual*H2*(U2*State)) <> '(0.00012734439857522) eV' then halt(2);
 
   coeff[1] := EigenVectors[1].TransposeDual*State;
   coeff[2] := EigenVectors[2].TransposeDual*State;
 
-  writeln(eV.ToString(ComplexSquarePower(coeff[1])*EigenValues[1] + ComplexSquarePower(coeff[2])*EigenValues[2]));
-
+  if eV.ToString(ComplexSquarePower(coeff[1])*EigenValues[1] +
+                 ComplexSquarePower(coeff[2])*EigenValues[2]) <> '(0.00012734439857522) eV' then halt(3);
   writeln('* TEST-609: PASSED');
 
   writeln;
