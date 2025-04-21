@@ -227,8 +227,6 @@ var
   current__: TComplexQuantity;
   power__: TComplexQuantity;
 
-  t1, t2, State: TC2Ket;
-
   H2: TC2MatrixQuantity;
   H3: TC3MatrixQuantity;
   H4: TC4MatrixQuantity;
@@ -241,11 +239,14 @@ var
   H3Eigenvectors: TC3ArrayOfVecQuantity;
   H4Eigenvectors: TC4ArrayOfVecQuantity;
 
+  State: TC2VecQuantity;
   StateUp : TC2VecQuantity;
   StateDown : TC2VecQuantity;
 
   EigenValues: TC2ArrayOfQuantity;
   EigenVectors: TC2ArrayOfVector;
+
+  coeff: TC2ArrayOfQuantity;
 
 const
   x1 : TR3Versor1 = ();
@@ -1369,28 +1370,37 @@ begin
   writeln('* TEST-608: PASSED');
 
   // Quantum mechanics
-  DefaultEpsilon := 1E-25;
+  DefaultEpsilon := 1E-30;
 
-  Bx := 1.0*T;
-  Bz := 2.0*T;
-  muB := 9.274E-24*J/T;
+  Bx  := 1.0*T;
+  Bz  := 2.0*T;
+  muB := 9.274009994E-24*J/T;
   H2 := 2*muB/2*(Bx*Matrix(0,1,1,0) + Bz*Matrix(1,0,0,-1));
+
+  writeln('H2 = ', J.ToString(H2));
 
   EigenValues := H2.EigenValues;
 
-  writeln(J.ToString(EigenValues[1]));
-  writeln(J.ToString(EigenValues[2]));
+  writeln('EigenValue 1 = ', J.ToString(EigenValues[1]));
+  writeln('EigenValue 2 = ', J.ToString(EigenValues[2]));
 
   EigenVectors := H2.EigenVectors(EigenValues);
+  EigenVectors[1] := EigenVectors[1].Normalize;
+  EigenVectors[2] := EigenVectors[2].Normalize;
 
-  writeln((EigenVectors[1]).ToString);
-  writeln((EigenVectors[2]).ToString);
+  writeln('EigenVector 1 = ', (EigenVectors[1]).ToString);
+  writeln('EigenVector 2 = ', (EigenVectors[2]).ToString);
 
-  H2 := H2.Diagonalize(EigenValues);
+  //H2 := H2.Diagonalize(EigenValues);
 
-  StateUp      := EigenVectors[1];
-  StateDown    := EigenVectors[2];
+  State := Vector(3/sqrt(10), 1/sqrt(10));
 
+  writeln(eV.toString((State.TransposeDual*H2*State)));
+
+  coeff[1] := EigenVectors[1].TransposeDual*State;
+  coeff[2] := EigenVectors[2].TransposeDual*State;
+
+  writeln(eV.ToString(ComplexSquarePower(coeff[1])*EigenValues[1] + ComplexSquarePower(coeff[2])*EigenValues[2]));
 
   writeln('* TEST-609: PASSED');
 
