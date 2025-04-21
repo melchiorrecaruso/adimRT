@@ -401,7 +401,7 @@ var
   sn: double;
 begin
   sn := SquaredNorm;
-  for i := 1 to Tspace.N do
+  for i := 1 to TSpace.N do
     result[i] := fm[i] / sn;
 end;
 
@@ -490,7 +490,7 @@ begin
   begin
     result[i] := 0;
     for j := 1 to  TSpace.N do
-      result[i] := result[i] + ALeft[i] * ARight[i, j];
+      result[i] := result[i] + ALeft[j] * ARight[j, i];
   end;
 end;
 
@@ -648,7 +648,7 @@ begin
   begin
     result[i] := 0;
     for j := 1 to  TSpace.N do
-      result[i] := result[i] + ALeft[i] * ARight[i, j];
+      result[i] := result[i] + ALeft[j] * ARight[j, i];
   end;
 end;
 
@@ -725,6 +725,12 @@ class operator TRVecQuantity.-(const ALeft, ARight: TRVecQuantity): TRVecQuantit
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TRVecQuantity.*(const ALeft: TRTransposedVector; const ARight: TRVecQuantity): TQuantity;
+begin
+  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FValue := ALeft * ARight.FValue;
 end;
 
 class operator TRVecQuantity.*(const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
@@ -829,6 +835,12 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
+class operator TCVecQuantity.*(const ALeft: TCTransposedVector; const ARight: TCVecQuantity): TComplexQuantity;
+begin
+  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FValue := ALeft * ARight.FValue;
+end;
+
 class operator TCVecQuantity.*(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
@@ -877,7 +889,7 @@ end;
 
 class operator TCTransposedVecQuantity.-(const ALeft, ARight: TCTransposedVecQuantity): TCTransposedVecQuantity;
 begin
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
