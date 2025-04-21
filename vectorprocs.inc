@@ -18,7 +18,7 @@ var
 begin
   for i := 1 to TSpace.N do
   begin
-    if not SameValue(fm[i], 0) then Exit(False);
+    if not SameValueEx(fm[i], 0) then Exit(False);
   end;
   result := True;
 end;
@@ -178,7 +178,7 @@ var
 begin
   for i := 1 to TSpace.N do
   begin
-    if not SameValue(fm[i], 0) then Exit(False);
+    if not SameValueEx(fm[i], 0) then Exit(False);
   end;
   result := True;
 end;
@@ -371,7 +371,7 @@ var
   i: longint;
 begin
   for i := 1 to  TSpace.N do
-    if not SameValue(fm[i], 0) then Exit(False);
+    if not SameValueEx(fm[i], 0) then Exit(False);
   result := True;
 end;
 
@@ -401,7 +401,7 @@ var
   sn: double;
 begin
   sn := SquaredNorm;
-  for i := 1 to Tspace.N do
+  for i := 1 to TSpace.N do
     result[i] := fm[i] / sn;
 end;
 
@@ -490,7 +490,7 @@ begin
   begin
     result[i] := 0;
     for j := 1 to  TSpace.N do
-      result[i] := result[i] + ALeft[i] * ARight[i, j];
+      result[i] := result[i] + ALeft[j] * ARight[j, i];
   end;
 end;
 
@@ -529,7 +529,7 @@ var
   i: longint;
 begin
   for i := 1 to  TSpace.N do
-    if not SameValue(fm[i], 0) then Exit(False);
+    if not SameValueEx(fm[i], 0) then Exit(False);
   result := True;
 end;
 
@@ -648,7 +648,7 @@ begin
   begin
     result[i] := 0;
     for j := 1 to  TSpace.N do
-      result[i] := result[i] + ALeft[i] * ARight[i, j];
+      result[i] := result[i] + ALeft[j] * ARight[j, i];
   end;
 end;
 
@@ -725,6 +725,12 @@ class operator TRVecQuantity.-(const ALeft, ARight: TRVecQuantity): TRVecQuantit
 begin
   result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TRVecQuantity.*(const ALeft: TRTransposedVector; const ARight: TRVecQuantity): TQuantity;
+begin
+  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FValue := ALeft * ARight.FValue;
 end;
 
 class operator TRVecQuantity.*(const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
@@ -829,6 +835,12 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
+class operator TCVecQuantity.*(const ALeft: TCTransposedVector; const ARight: TCVecQuantity): TComplexQuantity;
+begin
+  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FValue := ALeft * ARight.FValue;
+end;
+
 class operator TCVecQuantity.*(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
   result.FID := CheckMul(ALeft.FID, ARight.FID);
@@ -877,7 +889,7 @@ end;
 
 class operator TCTransposedVecQuantity.-(const ALeft, ARight: TCTransposedVecQuantity): TCTransposedVecQuantity;
 begin
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FID := CheckSub(ALeft.FID, ARight.FID);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
@@ -964,7 +976,7 @@ begin
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
     for j := (i - 1) downto Low(AEigenvalues) do
-      if SameValue(AEigenvalues[j], AEigenvalues[i]) then
+      if SameValueEx(AEigenvalues[j], AEigenvalues[i]) then
         Inc(Multiplicity);
 
     // Assign a value to free parameter, ensuring only one assignment
@@ -1076,7 +1088,7 @@ begin
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
     for j := (i - 1) downto Low(AEigenvalues) do
-      if SameValue(AEigenvalues[j], AEigenvalues[i]) then
+      if SameValueEx(AEigenvalues[j], AEigenvalues[i]) then
         Inc(Multiplicity);
 
     // Assign a value to free parameter, ensuring only one assignment
@@ -1223,7 +1235,7 @@ begin
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
     for j := (i - 1) downto Low(AEigenvalues) do
-      if SameValue(AEigenvalues[j], AEigenvalues[i]) then
+      if SameValueEx(AEigenvalues[j], AEigenvalues[i]) then
         Inc(Multiplicity);
 
     // Assign a value to free parameter, ensuring only one assignment
@@ -1650,9 +1662,9 @@ var
   i: longint;
 begin
   result := '';
-  if not Math.SameValue(fm[1], 0) then result := result + Fmt(fm[1],  APrecision, ADigits) + 'e1 ';
-  if not Math.SameValue(fm[2], 0) then result := result + Fmt(fm[2],  APrecision, ADigits) + 'e2 ';
-  if not Math.SameValue(fm[3], 0) then result := result + Fmt(fm[3],  APrecision, ADigits) + 'e3 ';
+  if not SameValueEx(fm[1], 0) then result := result + Fmt(fm[1],  APrecision, ADigits) + 'e1 ';
+  if not SameValueEx(fm[2], 0) then result := result + Fmt(fm[2],  APrecision, ADigits) + 'e2 ';
+  if not SameValueEx(fm[3], 0) then result := result + Fmt(fm[3],  APrecision, ADigits) + 'e3 ';
 
     i := Length(result);
   if i > 0 then
@@ -1668,9 +1680,9 @@ var
   i: longint;
 begin
   result := '';
-  if not Math.SameValue(fm[1], 0.0) then result := result + Fmt(fm[1]) + 'e1 ';
-  if not Math.SameValue(fm[2], 0.0) then result := result + Fmt(fm[2]) + 'e2 ';
-  if not Math.SameValue(fm[3], 0.0) then result := result + Fmt(fm[3]) + 'e3 ';
+  if not SameValueEx(fm[1], 0.0) then result := result + Fmt(fm[1]) + 'e1 ';
+  if not SameValueEx(fm[2], 0.0) then result := result + Fmt(fm[2]) + 'e2 ';
+  if not SameValueEx(fm[3], 0.0) then result := result + Fmt(fm[3]) + 'e3 ';
 
   i := Length(result);
   if i > 0 then

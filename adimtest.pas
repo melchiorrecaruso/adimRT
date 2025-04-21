@@ -128,6 +128,10 @@ var
   sigma: TQuantity;
 
   B: TQuantity;
+  Bx: TQuantity;
+  By: TQuantity;
+  Bz: TQuantity;
+  muB: TQuantity;
   len: TQuantity;
   r: TQuantity;
   z: TQuantity;
@@ -223,8 +227,6 @@ var
   current__: TComplexQuantity;
   power__: TComplexQuantity;
 
-  t1, t2, State: TC2Ket;
-
   H2: TC2MatrixQuantity;
   H3: TC3MatrixQuantity;
   H4: TC4MatrixQuantity;
@@ -237,10 +239,14 @@ var
   H3Eigenvectors: TC3ArrayOfVecQuantity;
   H4Eigenvectors: TC4ArrayOfVecQuantity;
 
-  StateL : TC2VecQuantity;
-  StateR : TC2VecQuantity;
+  State: TC2VecQuantity;
+  StateUp : TC2VecQuantity;
+  StateDown : TC2VecQuantity;
 
-  O: TC2MatrixQuantity;
+  EigenValues: TC2ArrayOfQuantity;
+  EigenVectors: TC2ArrayOfVector;
+
+  coeff: TC2ArrayOfQuantity;
 
 const
   x1 : TR3Versor1 = ();
@@ -930,9 +936,9 @@ begin
 
   // TEST-97
   distance := 5.0*m;
-  if SameValue(distance, (5.0+1E-13)*m) = False then halt(1);
-  if SameValue(distance, (5.0+1E-12)*m) = False then halt(2);
-  if SameValue(distance, (5.0+1E-11)*m) = True  then halt(3);
+  if SameValueEx(distance, (5.0+1E-13)*m) = False then halt(1);
+  if SameValueEx(distance, (5.0+1E-12)*m) = True  then halt(2);
+  if SameValueEx(distance, (5.0+1E-11)*m) = True  then halt(3);
   writeln('* TEST-97: PASSED');
 
   // TEST-98
@@ -942,7 +948,7 @@ begin
 
   // TEST-99 - COMPTON WAVE LEGNTH
   wavelenc := PlanckConstant/(ElectronMass*SpeedOfLight);
-  if SameValue(wavelenc, ComptonWaveLength) <> TRUE then halt(1);
+  if SameValueEx(wavelenc, ComptonWaveLength) <> TRUE then halt(1);
   writeln('* TEST-99: PASSED');
 
   // TEST-100 - BOHR MODEL
@@ -970,7 +976,7 @@ begin
   // energy
   energy := 0.5*ElectronMass*SquarePower(speed) - (CoulombConstant*SquarePower(ElectronCharge))/radius;
 
-  if SameValue(radius ,BohrRadius)                 <> TRUE          then halt(1);
+  if SameValueEx(radius ,BohrRadius)               <> TRUE          then halt(1);
   if m.ToString(radius, 4, 4, [])                  <> '5.292E-11 m' then halt(2);
   if MeterPerSecondUnit.ToString(speed, 4, 4, [])  <> '2.188E6 m/s' then halt(3);
   if ElectronVoltUnit.ToString(energy, 3, 3, [])   <> '-13.6 eV'    then halt(4);
@@ -1246,7 +1252,7 @@ begin
   force_         := electricfield_ * charge;
   charge         := force_.dot(1/electricfield_);
   electricfield_ := force_/charge;
-  if not SameValue(charge, ElectronCharge) then halt(1);
+  if not SameValueEx(charge, ElectronCharge) then halt(1);
   writeln('* TEST-514: PASSED');
 
   // TEST-515: Voltages
@@ -1364,42 +1370,39 @@ begin
   writeln('* TEST-608: PASSED');
 
   // Quantum mechanics
-  t1 := Ket(1, 0);
-  t2 := Ket(0, 1);
+  DefaultEpsilon := 1E-30;
 
-  State  := 2/Sqrt(5)*t1 + 1/Sqrt(5)*t2;
-  //writeln('State 1 probability: ', (SquarePower(t1.TransposeDual*State)).ToString);
-  //writeln('State 2 probability: ', (SquarePower(t2.TransposeDual*State)).ToString);
+  Bx  := 1.0*T;
+  Bz  := 2.0*T;
+  muB := 9.274009994E-24*J/T;
+  H2 := 2*muB/2*(Bx*Matrix(0,1,1,0) + Bz*Matrix(1,0,0,-1));
 
-  E0 := 5*J;
-  A0 := 1*J;
-
-  H2 := E0*Matrix(1,0,0,1) + A0*Matrix(0,1,1,0);
   writeln('H2 = ', J.ToString(H2));
-  H2Eigenvalues  := H2.Eigenvalues;
 
-  writeln('l1 = ', J.ToString(H2Eigenvalues[1]));
-  writeln('l2 = ', J.ToString(H2Eigenvalues[2]));
+  EigenValues := H2.EigenValues;
 
-  H2Eigenvectors := H2.Eigenvectors(H2Eigenvalues);
-  H2Eigenvectors[1] := H2Eigenvectors[1].Normalize;
-  H2Eigenvectors[2] := H2Eigenvectors[2].Normalize;
+  writeln('EigenValue 1 = ', J.ToString(EigenValues[1]));
+  writeln('EigenValue 2 = ', J.ToString(EigenValues[2]));
 
-  writeln('v1 = ', ScalarUnit.ToString(H2Eigenvectors[1]));
-  writeln('v2 = ', ScalarUnit.ToString(H2Eigenvectors[2]));
+  EigenVectors := H2.EigenVectors(EigenValues);
+  EigenVectors[1] := EigenVectors[1].Normalize;
+  EigenVectors[2] := EigenVectors[2].Normalize;
 
-  H2 := H2.Diagonalize(H2Eigenvalues);
+  writeln('EigenVector 1 = ', (EigenVectors[1]).ToString);
+  writeln('EigenVector 2 = ', (EigenVectors[2]).ToString);
 
-  StateL := H2Eigenvectors[1];
-  StateR := H2Eigenvectors[2];
+  //H2 := H2.Diagonalize(EigenValues);
 
-  writeln(J.ToString(StateL.TransposeDual * H2 * StateL));
-  writeln(J.ToString(StateR.TransposeDual * H2 * StateR));
+  State := Vector(3/sqrt(10), 1/sqrt(10));
 
-  O[1,1] := H2Eigenvectors[1][1];
-  O[1,2] := H2Eigenvectors[2][1];
-  O[2,1] := H2Eigenvectors[1][2];
-  O[2,2] := H2Eigenvectors[2][2];
+  writeln(eV.toString((State.TransposeDual*H2*State)));
+
+  coeff[1] := EigenVectors[1].TransposeDual*State;
+  coeff[2] := EigenVectors[2].TransposeDual*State;
+
+  writeln(eV.ToString(ComplexSquarePower(coeff[1])*EigenValues[1] + ComplexSquarePower(coeff[2])*EigenValues[2]));
+
+  writeln('* TEST-609: PASSED');
 
   writeln;
   writeln('ADIM-TEST DONE.');

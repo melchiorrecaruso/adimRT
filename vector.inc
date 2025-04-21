@@ -171,6 +171,7 @@ type
   generic TRVecQuantity<TSpace> = record
   type
     TRVector = specialize TRVector<TSpace>;
+    TRTransposedVector = specialize TRTransposedVector<TSpace>;
   private
     FID: longint;
     FValue: TRVector;
@@ -185,6 +186,7 @@ type
     class operator - (const AValue: TRVecQuantity): TRVecQuantity;
     class operator - (const ALeft, ARight: TRVecQuantity): TRVecQuantity;
 
+    class operator * (const ALeft: TRTransposedVector; const ARight: TRVecQuantity): TQuantity;
     class operator * (const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
     class operator * (const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
     class operator / (const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
@@ -198,6 +200,7 @@ type
   generic TCVecQuantity<TSpace> = record
   type
     TCVector = specialize TCVector<TSpace>;
+    TCTransposedVector = specialize TCTransposedVector<TSpace>;
     TCMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
   private
     FID: longint;
@@ -216,6 +219,7 @@ type
     class operator * (const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
     class operator / (const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 
+    class operator * (const ALeft: TCTransposedVector; const ARight: TCVecQuantity): TComplexQuantity;
     class operator * (const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
     class operator * (const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
     class operator / (const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;

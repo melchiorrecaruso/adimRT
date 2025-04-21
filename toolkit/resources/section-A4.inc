@@ -106,6 +106,12 @@ const
     (Symbol: 'q';   Name: 'quecto';  Exponent: -30)
   );
 
+{ Default Epsilon }
+
+var
+
+  DefaultEpsilon : double = 1E-12;
+
 { Internal routines }
 
 function GetStr(AIndex: longint): string;

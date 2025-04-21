@@ -138,6 +138,24 @@ begin
   result[4] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 end;
 
+function ComplexSquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := 2 * AQuantity.FID;
+  result.FValue := AQuantity.FValue*AQuantity.FValue;
+end;
+
+function ComplexCubicPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := 3 * AQuantity.FID;
+  result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
+end;
+
+function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := 4 * AQuantity.FID;
+  result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
+end;
+
 // Usefull routines
 
 function ToComplex(const AValue: double): TComplex;
@@ -171,112 +189,112 @@ begin
   result := ALeft*ARight - ARight*ALeft;
 end;
 
-function SameValue(const AValue1, AValue2: double): boolean;
+function SameValueEx(const AValue1, AValue2: double): boolean;
 begin
-  result := Math.SameValue(AValue1, AValue2);
+  result := Math.SameValue(AValue1, AValue2, DefaultEpsilon);
 end;
 
 {$IFNDEF ADIMOFF}
-function SameValue(const ALeft, ARight: TQuantity): boolean;
+function SameValueEx(const ALeft, ARight: TQuantity): boolean;
 begin
   Check(ALeft.FID, ARight.FID);
-  result := Math.SameValue(ALeft.FValue, ARight.FValue);
+  result := SameValueEx(ALeft.FValue, ARight.FValue);
 end;
 {$ENDIF}
 
-function SameValue(const AValue1, AValue2: TComplex): boolean;
+function SameValueEx(const AValue1, AValue2: TComplex): boolean;
 begin
-  result := Math.SameValue(AValue1.fRe, AValue2.fRe) and
-            Math.SameValue(AValue1.fIm, AValue2.fIm);
+  result := SameValueEx(AValue1.fRe, AValue2.fRe) and
+            SameValueEx(AValue1.fIm, AValue2.fIm);
 end;
 
-function SameValue(const AValue1, AValue2: TC2Vector): boolean;
+function SameValueEx(const AValue1, AValue2: TC2Vector): boolean;
 begin
-  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
-            SameValue(AValue1.fm[2], AValue2.fm[2]);
+  result := SameValueEx(AValue1.fm[1], AValue2.fm[1]) and
+            SameValueEx(AValue1.fm[2], AValue2.fm[2]);
 end;
 
-function SameValue(const AValue1, AValue2: TC3Vector): boolean;
+function SameValueEx(const AValue1, AValue2: TC3Vector): boolean;
 begin
-  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
-            SameValue(AValue1.fm[2], AValue2.fm[2]) and
-            SameValue(AValue1.fm[3], AValue2.fm[3]);
+  result := SameValueEx(AValue1.fm[1], AValue2.fm[1]) and
+            SameValueEx(AValue1.fm[2], AValue2.fm[2]) and
+            SameValueEx(AValue1.fm[3], AValue2.fm[3]);
 end;
 
-function SameValue(const AValue1, AValue2: TC4Vector): boolean;
+function SameValueEx(const AValue1, AValue2: TC4Vector): boolean;
 begin
-  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
-            SameValue(AValue1.fm[2], AValue2.fm[2]) and
-            SameValue(AValue1.fm[3], AValue2.fm[3]) and
-            SameValue(AValue1.fm[4], AValue2.fm[4]);
+  result := SameValueEx(AValue1.fm[1], AValue2.fm[1]) and
+            SameValueEx(AValue1.fm[2], AValue2.fm[2]) and
+            SameValueEx(AValue1.fm[3], AValue2.fm[3]) and
+            SameValueEx(AValue1.fm[4], AValue2.fm[4]);
 end;
 
-function SameValue(const AValue1, AValue2: TC2TransposedVector): boolean;
+function SameValueEx(const AValue1, AValue2: TC2TransposedVector): boolean;
 begin
-  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
-            SameValue(AValue1.fm[2], AValue2.fm[2]);
+  result := SameValueEx(AValue1.fm[1], AValue2.fm[1]) and
+            SameValueEx(AValue1.fm[2], AValue2.fm[2]);
 end;
 
-function SameValue(const AValue1, AValue2: TC3TransposedVector): boolean;
+function SameValueEx(const AValue1, AValue2: TC3TransposedVector): boolean;
 begin
-  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
-            SameValue(AValue1.fm[2], AValue2.fm[2]) and
-            SameValue(AValue1.fm[3], AValue2.fm[3]);
+  result := SameValueEx(AValue1.fm[1], AValue2.fm[1]) and
+            SameValueEx(AValue1.fm[2], AValue2.fm[2]) and
+            SameValueEx(AValue1.fm[3], AValue2.fm[3]);
 end;
 
-function SameValue(const AValue1, AValue2: TC4TransposedVector): boolean;
+function SameValueEx(const AValue1, AValue2: TC4TransposedVector): boolean;
 begin
-  result := SameValue(AValue1.fm[1], AValue2.fm[1]) and
-            SameValue(AValue1.fm[2], AValue2.fm[2]) and
-            SameValue(AValue1.fm[3], AValue2.fm[3]) and
-            SameValue(AValue1.fm[4], AValue2.fm[4]);
+  result := SameValueEx(AValue1.fm[1], AValue2.fm[1]) and
+            SameValueEx(AValue1.fm[2], AValue2.fm[2]) and
+            SameValueEx(AValue1.fm[3], AValue2.fm[3]) and
+            SameValueEx(AValue1.fm[4], AValue2.fm[4]);
 end;
 
-function SameValue(const AValue1, AValue2: TC2Matrix): boolean;
+function SameValueEx(const AValue1, AValue2: TC2Matrix): boolean;
 begin
-  result := SameValue(AValue1.fm[1,1], AValue2.fm[1,1]) and
-            SameValue(AValue1.fm[1,2], AValue2.fm[1,2]) and
+  result := SameValueEx(AValue1.fm[1,1], AValue2.fm[1,1]) and
+            SameValueEx(AValue1.fm[1,2], AValue2.fm[1,2]) and
 
-            SameValue(AValue1.fm[2,1], AValue2.fm[2,1]) and
-            SameValue(AValue1.fm[2,2], AValue2.fm[2,2]);
+            SameValueEx(AValue1.fm[2,1], AValue2.fm[2,1]) and
+            SameValueEx(AValue1.fm[2,2], AValue2.fm[2,2]);
 end;
 
-function SameValue(const AValue1, AValue2: TC3Matrix): boolean;
+function SameValueEx(const AValue1, AValue2: TC3Matrix): boolean;
 begin
-  result := SameValue(AValue1.fm[1,1], AValue2.fm[1,1]) and
-            SameValue(AValue1.fm[1,2], AValue2.fm[1,2]) and
-            SameValue(AValue1.fm[1,3], AValue2.fm[1,3]) and
+  result := SameValueEx(AValue1.fm[1,1], AValue2.fm[1,1]) and
+            SameValueEx(AValue1.fm[1,2], AValue2.fm[1,2]) and
+            SameValueEx(AValue1.fm[1,3], AValue2.fm[1,3]) and
 
-            SameValue(AValue1.fm[2,1], AValue2.fm[2,1]) and
-            SameValue(AValue1.fm[2,2], AValue2.fm[2,2]) and
-            SameValue(AValue1.fm[2,3], AValue2.fm[2,3]) and
+            SameValueEx(AValue1.fm[2,1], AValue2.fm[2,1]) and
+            SameValueEx(AValue1.fm[2,2], AValue2.fm[2,2]) and
+            SameValueEx(AValue1.fm[2,3], AValue2.fm[2,3]) and
 
-            SameValue(AValue1.fm[3,1], AValue2.fm[3,1]) and
-            SameValue(AValue1.fm[3,2], AValue2.fm[3,2]) and
-            SameValue(AValue1.fm[3,3], AValue2.fm[3,3]);
+            SameValueEx(AValue1.fm[3,1], AValue2.fm[3,1]) and
+            SameValueEx(AValue1.fm[3,2], AValue2.fm[3,2]) and
+            SameValueEx(AValue1.fm[3,3], AValue2.fm[3,3]);
 end;
 
-function SameValue(const AValue1, AValue2: TC4Matrix): boolean;
+function SameValueEx(const AValue1, AValue2: TC4Matrix): boolean;
 begin
-  result := SameValue(AValue1.fm[1,1], AValue2.fm[1,1]) and
-            SameValue(AValue1.fm[1,2], AValue2.fm[1,2]) and
-            SameValue(AValue1.fm[1,3], AValue2.fm[1,3]) and
-            SameValue(AValue1.fm[1,4], AValue2.fm[1,4]) and
+  result := SameValueEx(AValue1.fm[1,1], AValue2.fm[1,1]) and
+            SameValueEx(AValue1.fm[1,2], AValue2.fm[1,2]) and
+            SameValueEx(AValue1.fm[1,3], AValue2.fm[1,3]) and
+            SameValueEx(AValue1.fm[1,4], AValue2.fm[1,4]) and
 
-            SameValue(AValue1.fm[2,1], AValue2.fm[2,1]) and
-            SameValue(AValue1.fm[2,2], AValue2.fm[2,2]) and
-            SameValue(AValue1.fm[2,3], AValue2.fm[2,3]) and
-            SameValue(AValue1.fm[2,4], AValue2.fm[2,4]) and
+            SameValueEx(AValue1.fm[2,1], AValue2.fm[2,1]) and
+            SameValueEx(AValue1.fm[2,2], AValue2.fm[2,2]) and
+            SameValueEx(AValue1.fm[2,3], AValue2.fm[2,3]) and
+            SameValueEx(AValue1.fm[2,4], AValue2.fm[2,4]) and
 
-            SameValue(AValue1.fm[3,1], AValue2.fm[3,1]) and
-            SameValue(AValue1.fm[3,2], AValue2.fm[3,2]) and
-            SameValue(AValue1.fm[3,3], AValue2.fm[3,3]) and
-            SameValue(AValue1.fm[3,4], AValue2.fm[3,4]) and
+            SameValueEx(AValue1.fm[3,1], AValue2.fm[3,1]) and
+            SameValueEx(AValue1.fm[3,2], AValue2.fm[3,2]) and
+            SameValueEx(AValue1.fm[3,3], AValue2.fm[3,3]) and
+            SameValueEx(AValue1.fm[3,4], AValue2.fm[3,4]) and
 
-            SameValue(AValue1.fm[4,1], AValue2.fm[4,1]) and
-            SameValue(AValue1.fm[4,2], AValue2.fm[4,2]) and
-            SameValue(AValue1.fm[4,3], AValue2.fm[4,3]) and
-            SameValue(AValue1.fm[4,4], AValue2.fm[4,4]);
+            SameValueEx(AValue1.fm[4,1], AValue2.fm[4,1]) and
+            SameValueEx(AValue1.fm[4,2], AValue2.fm[4,2]) and
+            SameValueEx(AValue1.fm[4,3], AValue2.fm[4,3]) and
+            SameValueEx(AValue1.fm[4,4], AValue2.fm[4,4]);
 end;
 
 function NullComplex: TComplex;

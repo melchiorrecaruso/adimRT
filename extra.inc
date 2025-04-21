@@ -20,6 +20,10 @@ function ComplexSquarePower (const AValue: TComplex): TComplex;
 function ComplexCubicPower  (const AValue: TComplex): TComplex;
 function ComplexQuarticPower(const AValue: TComplex): TComplex;
 
+function ComplexSquarePower (const AQuantity: TComplexQuantity): TComplexQuantity;
+function ComplexCubicPower  (const AQuantity: TComplexQuantity): TComplexQuantity;
+function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+
 function ComplexSquareRoot (const AValue: TComplex): TC2ArrayOfComplex;
 function ComplexCubicRoot  (const AValue: TComplex): TC3ArrayOfComplex;
 function ComplexQuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
@@ -33,19 +37,19 @@ function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
 function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
 function Commutator(const ALeft, ARight: TC4Matrix): TC4Matrix;
 
-function SameValue(const AValue1, AValue2: double): boolean;
-function SameValue(const AValue1, AValue2: TComplex): boolean;
-function SameValue(const AValue1, AValue2: TC2Vector): boolean;
-function SameValue(const AValue1, AValue2: TC3Vector): boolean;
-function SameValue(const AValue1, AValue2: TC4Vector): boolean;
-function SameValue(const AValue1, AValue2: TC2TransposedVector): boolean;
-function SameValue(const AValue1, AValue2: TC3TransposedVector): boolean;
-function SameValue(const AValue1, AValue2: TC4TransposedVector): boolean;
-function SameValue(const AValue1, AValue2: TC2Matrix): boolean;
-function SameValue(const AValue1, AValue2: TC3Matrix): boolean;
-function SameValue(const AValue1, AValue2: TC4Matrix): boolean;
+function SameValueEx(const AValue1, AValue2: double): boolean;
+function SameValueEx(const AValue1, AValue2: TComplex): boolean;
+function SameValueEx(const AValue1, AValue2: TC2Vector): boolean;
+function SameValueEx(const AValue1, AValue2: TC3Vector): boolean;
+function SameValueEx(const AValue1, AValue2: TC4Vector): boolean;
+function SameValueEx(const AValue1, AValue2: TC2TransposedVector): boolean;
+function SameValueEx(const AValue1, AValue2: TC3TransposedVector): boolean;
+function SameValueEx(const AValue1, AValue2: TC4TransposedVector): boolean;
+function SameValueEx(const AValue1, AValue2: TC2Matrix): boolean;
+function SameValueEx(const AValue1, AValue2: TC3Matrix): boolean;
+function SameValueEx(const AValue1, AValue2: TC4Matrix): boolean;
 {$IFNDEF ADIMOFF}
-function SameValue(const ALeft, ARight: TQuantity): boolean;
+function SameValueEx(const ALeft, ARight: TQuantity): boolean;
 {$ENDIF}
 
 function C2NullVector: TC2Vector;
