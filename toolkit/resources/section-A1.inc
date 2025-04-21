@@ -195,6 +195,9 @@ type
     function ToString(const AQuantity: TC2VecQuantity): string;
     function ToVerboseString(const AQuantity: TC2VecQuantity): string;
 
+    function ToString(const AQuantity: TC2TransposedVecQuantity): string;
+    function ToVerboseString(const AQuantity: TC2TransposedVecQuantity): string;
+
     function ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
     function ToString(const AQuantity: TR3VecQuantity): string;
     function ToVerboseString(const AQuantity: TR3VecQuantity): string;
