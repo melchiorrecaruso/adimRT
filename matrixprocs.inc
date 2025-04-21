@@ -47,7 +47,7 @@ begin
     if maxRow <> i then
       result.Swap(maxRow, i);
 
-    if result[i, i] <> 0 then
+    if not SameValueEx(result[i, i], 0) then
     begin
       // Normalize the pivot row (Make the pivot element 1)
       for j := i + 1 to TSpace.N do
@@ -55,7 +55,7 @@ begin
       result[i, i] := 1;
       // Eliminate elements below the pivot (Create upper triangular form)
       for j := i + 1 to TSpace.N do
-        if result[j, i] <> 0 then
+        if not SameValueEx(result[j, i], 0) then
         begin
           // Factor to eliminate the element
           ratio := result[j, i];
@@ -72,7 +72,7 @@ begin
 
   // Step 2: Back-substitution (Convert to reduced row echelon form)
   for i := TSpace.N downto 1 do
-    if result[i, i] <> 0 then
+    if not SameValueEx(result[i, i], 0) then
     begin
       // Eliminate elements above the pivot
       for j := i - 1 downto 1 do
@@ -259,7 +259,7 @@ begin
     if maxRow <> i then
       result.Swap(maxRow, i);
 
-    if result[i, i] <> 0 then
+    if result[i, i].IsNotNull then
     begin
       // Normalize the pivot row (Make the pivot element 1)
       for j := i + 1 to TSpace.N do
@@ -267,7 +267,7 @@ begin
       result[i, i] := 1;
       // Eliminate elements below the pivot (Create upper triangular form)
       for j := i + 1 to TSpace.N do
-        if result[j, i] <> 0 then
+        if result[j, i].IsNotNull then
         begin
           // Factor to eliminate the element
           ratio := result[j, i];
@@ -284,7 +284,7 @@ begin
 
   // Step 2: Back-substitution (Convert to reduced row echelon form)
   for i := TSpace.N downto 1 do
-    if result[i, i] <> 0 then
+    if result[i, i].IsNotNull then
     begin
       // Eliminate elements above the pivot
       for j := i - 1 downto 1 do
