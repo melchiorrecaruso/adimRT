@@ -138,6 +138,24 @@ begin
   result[4] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 end;
 
+function ComplexSquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := 2 * AQuantity.FID;
+  result.FValue := AQuantity.FValue*AQuantity.FValue;
+end;
+
+function ComplexCubicPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := 3 * AQuantity.FID;
+  result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
+end;
+
+function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+begin
+  result.FID := 4 * AQuantity.FID;
+  result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
+end;
+
 // Usefull routines
 
 function ToComplex(const AValue: double): TComplex;

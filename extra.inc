@@ -20,6 +20,10 @@ function ComplexSquarePower (const AValue: TComplex): TComplex;
 function ComplexCubicPower  (const AValue: TComplex): TComplex;
 function ComplexQuarticPower(const AValue: TComplex): TComplex;
 
+function ComplexSquarePower (const AQuantity: TComplexQuantity): TComplexQuantity;
+function ComplexCubicPower  (const AQuantity: TComplexQuantity): TComplexQuantity;
+function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+
 function ComplexSquareRoot (const AValue: TComplex): TC2ArrayOfComplex;
 function ComplexCubicRoot  (const AValue: TComplex): TC3ArrayOfComplex;
 function ComplexQuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
