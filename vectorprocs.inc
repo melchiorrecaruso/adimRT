@@ -1526,7 +1526,7 @@ var
   i: longint;
 begin
   result := 0;
-  for i := 1 to 2 do
+  for i := 1 to 3 do
     result := result + fm[i] * AVector[i];
 end;
 

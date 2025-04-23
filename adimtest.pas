@@ -1287,7 +1287,7 @@ begin
   angularspeed__ := angle__/time;
   time := angle__.dot(1.0/angularspeed__);
   freq := angularspeed__.dot(1/angle__);
-  if SecondUnit.ToVerboseString(time) <> '2.5 seconds'             then halt(1);
+  if SecondUnit.ToVerboseString(time) <> '2.5 seconds'              then halt(1);
   if RadianPerSecondUnit.ToString(angularspeed__) <> '(+4e3) rad/s' then halt(2);
   writeln('* TEST-601: PASSED');
 
