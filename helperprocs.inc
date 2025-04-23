@@ -122,21 +122,13 @@ end;
 { TC3VecQuantityHelper }
 
 {$IFNDEF ADIMOFF}
-function TC3VecQuantityHelper.Dot(const AVector: TC3VecQuantity): TComplexQuantity;
-begin
-  result.FID := CheckMul(FID, AVector.FID);
-  result.FValue := FValue.Dot(AVector.FValue);
-end;
+
 {$ENDIF}
 
 { TC4VecQuantityHelper }
 
 {$IFNDEF ADIMOFF}
-function TC4VecQuantityHelper.Dot(const AVector: TC4VecQuantity): TComplexQuantity;
-begin
-  result.FID := CheckMul(FID, AVector.FID);
-  result.FValue := FValue.Dot(AVector.FValue);
-end;
+
 {$ENDIF}
 
 {$IFNDEF ADIMOFF}

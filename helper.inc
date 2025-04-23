@@ -48,7 +48,7 @@ type
 
   {$IFNDEF ADIMOFF}
   TC3VecQuantityHelper = record helper for TC3VecQuantity
-    function Dot(const AVector: TC3VecQuantity): TComplexQuantity;
+
   end;
   {$ENDIF}
 
@@ -56,7 +56,7 @@ type
 
   {$IFNDEF ADIMOFF}
   TC4VecQuantityHelper = record helper for TC4VecQuantity
-    function Dot(const AVector: TC4VecQuantity): TComplexQuantity;
+
   end;
   {$ENDIF}
 
