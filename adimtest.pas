@@ -1388,7 +1388,7 @@ begin
 
   H2 := 2*muB/2*(Bx*Matrix(0,1,1,0) + Bz*Matrix(1,0,0,-1));
 
-  if eV.toString(State.Dual*H2*State) <> '(0.00012734439857522) eV' then halt(1);
+  if eV.toString(State.Conjugate*H2*State) <> '(0.00012734439857522) eV' then halt(1);
 
   EigenValues  := H2.EigenValues;
   EigenVectors := H2.EigenVectors(EigenValues);
@@ -1399,12 +1399,12 @@ begin
   U2:= Matrix(EigenVectors[1][1],
               EigenVectors[2][1],
               EigenVectors[1][2],
-              EigenVectors[2][2]).TransposeDual;
+              EigenVectors[2][2]).TransposeConjugate;
 
-  if eV.toString((U2*State).Dual*H2*(U2*State)) <> '(0.00012734439857522) eV' then halt(2);
+  if eV.toString((U2*State).Conjugate*H2*(U2*State)) <> '(0.00012734439857522) eV' then halt(2);
 
-  coeff[1] := EigenVectors[1].Dual*State;
-  coeff[2] := EigenVectors[2].Dual*State;
+  coeff[1] := EigenVectors[1].Conjugate*State;
+  coeff[2] := EigenVectors[2].Conjugate*State;
 
   if eV.ToString(ComplexSquarePower(coeff[1])*EigenValues[1] +
                  ComplexSquarePower(coeff[2])*EigenValues[2]) <> '(0.00012734439857522) eV' then halt(3);
