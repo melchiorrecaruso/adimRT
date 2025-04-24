@@ -612,14 +612,14 @@ begin
   result[2,2] := AEigenValues[2];
 end;
 
-function TC2MatrixHelper.Dual: TC2Matrix;
+function TC2MatrixHelper.Conjugate: TC2Matrix;
 var
   i, j: longint;
 begin
   for i := 1 to 2 do
     for j := 1 to 2 do
     begin
-      result[i, j] := fm[i, j].Dual;
+      result[i, j] := fm[i, j].Conjugate;
     end;
 end;
 
@@ -698,14 +698,14 @@ begin
     fm[2,1].ToString(APrecision, ADigits), fm[2,2].ToString(APrecision, ADigits)]);
 end;
 
-function TC2MatrixHelper.TransposeDual: TC2Matrix;
+function TC2MatrixHelper.TransposeConjugate: TC2Matrix;
 var
   i, j: longint;
 begin
   for i := 1 to 2 do
     for j := 1 to 2 do
     begin
-      result[i, j] := fm[j, i].Dual;
+      result[i, j] := fm[j, i].Conjugate;
     end;
 end;
 
@@ -726,14 +726,14 @@ begin
   result[3,3] := AEigenValues[3];
 end;
 
-function TC3MatrixHelper.Dual: TC3Matrix;
+function TC3MatrixHelper.Conjugate: TC3Matrix;
 var
   i, j: longint;
 begin
   for i := 1 to 3 do
     for j := 1 to 3 do
     begin
-      result[i, j] := fm[i, j].Dual;
+      result[i, j] := fm[i, j].Conjugate;
     end;
 end;
 
@@ -832,14 +832,14 @@ begin
     fm[3,1].ToString(APrecision, ADigits), fm[3,2].ToString(APrecision, ADigits), fm[3,3].ToString(APrecision, ADigits)]);
 end;
 
-function TC3MatrixHelper.TransposeDual: TC3Matrix;
+function TC3MatrixHelper.TransposeConjugate: TC3Matrix;
 var
   i, j: longint;
 begin
   for i := 1 to 3 do
     for j := 1 to 3 do
     begin
-      result[i, j] := fm[j, i].Dual;
+      result[i, j] := fm[j, i].Conjugate;
     end;
 end;
 
@@ -868,14 +868,14 @@ begin
   result[4,4] := AEigenValues[4];
 end;
 
-function TC4MatrixHelper.Dual: TC4Matrix;
+function TC4MatrixHelper.Conjugate: TC4Matrix;
 var
   i, j: longint;
 begin
   for i := 1 to 4 do
     for j := 1 to 4 do
     begin
-      result[i, j] := fm[i, j].Dual;
+      result[i, j] := fm[i, j].Conjugate;
     end;
 end;
 
@@ -1034,14 +1034,14 @@ begin
     fm[4,1].ToString(APrecision, ADigits), fm[4,2].ToString(APrecision, ADigits), fm[4,3].ToString, fm[4,4].ToString(APrecision, ADigits)]);
 end;
 
-function TC4MatrixHelper.TransposeDual: TC4Matrix;
+function TC4MatrixHelper.TransposeConjugate: TC4Matrix;
 var
   i, j: longint;
 begin
   for i := 1 to 4 do
     for j := 1 to 4 do
     begin
-      result[i, j] := fm[j, i].Dual;
+      result[i, j] := fm[j, i].Conjugate;
     end;
 end;
 
@@ -1056,12 +1056,12 @@ begin
     result := result + fm[i] * AVector[i];
 end;
 
-function TC2VectorHelper.Dual: TC2Vector;
+function TC2VectorHelper.Conjugate: TC2Vector;
 var
   i: longint;
 begin
   for i := 1 to 2 do
-    result[i] := fm[i].Dual;
+    result[i] := fm[i].Conjugate;
 end;
 
 function TC2VectorHelper.ToString: string;
@@ -1080,12 +1080,12 @@ end;
 
 // TC3VectorHelper
 
-function TC3VectorHelper.Dual: TC3Vector;
+function TC3VectorHelper.Conjugate: TC3Vector;
 var
   i: longint;
 begin
   for i := 1 to 3 do
-    result[i] := fm[i].Dual;
+    result[i] := fm[i].Conjugate;
 end;
 
 function TC3VectorHelper.ToString: string;
@@ -1106,12 +1106,12 @@ end;
 
 // TC4VectorHelper
 
-function TC4VectorHelper.Dual: TC4Vector;
+function TC4VectorHelper.Conjugate: TC4Vector;
 var
   i: longint;
 begin
   for i := 1 to 4 do
-    result[i] := fm[i].Dual;
+    result[i] := fm[i].Conjugate;
 end;
 
 function TC4VectorHelper.ToString: string;

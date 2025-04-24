@@ -186,55 +186,55 @@ type
 
   TC2MatrixHelper = record helper for TC2Matrix
     function Diagonalize(const AEigenValues: TC2ArrayOfComplex): TC2Matrix;
-    function Dual: TC2Matrix;
+    function Conjugate: TC2Matrix;
     function Determinant: TComplex;
     function Eigenvalues: TC2ArrayOfComplex;
     function Eigenvectors(const AEigenValues: TC2ArrayOfComplex): TC2ArrayOfVector;
     function Reciprocal(const ADeterminant: TComplex): TC2Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
-    function TransposeDual: TC2Matrix;
+    function TransposeConjugate: TC2Matrix;
   end;
 
   TC3MatrixHelper = record helper for TC3Matrix
     function Diagonalize(const AEigenValues: TC3ArrayOfComplex): TC3Matrix;
-    function Dual: TC3Matrix;
+    function Conjugate: TC3Matrix;
     function Determinant: TComplex;
     function Eigenvalues: TC3ArrayOfComplex;
     function Eigenvectors(const AEigenValues: TC3ArrayOfComplex): TC3ArrayOfVector;
     function Reciprocal(const ADeterminant: TComplex): TC3Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
-    function TransposeDual: TC3Matrix;
+    function TransposeConjugate: TC3Matrix;
   end;
 
   TC4MatrixHelper = record helper for TC4Matrix
     function Diagonalize(const AEigenValues: TC4ArrayOfComplex): TC4Matrix;
-    function Dual: TC4Matrix;
+    function Conjugate: TC4Matrix;
     function Determinant: TComplex;
     function Eigenvalues: TC4ArrayOfComplex;
     function Eigenvectors(const AEigenValues: TC4ArrayOfComplex): TC4ArrayOfVector;
     function Reciprocal(const ADeterminant: TComplex): TC4Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
-    function TransposeDual: TC4Matrix;
+    function TransposeConjugate: TC4Matrix;
   end;
 
   TC2VectorHelper = record helper for TC2Vector
     function Dot(const AVector: TC2Vector): TComplex;
-    function Dual: TC2Vector;
+    function Conjugate: TC2Vector;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC3VectorHelper = record helper for TC3Vector
-    function Dual: TC3Vector;
+    function Conjugate: TC3Vector;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC4VectorHelper = record helper for TC4Vector
-    function Dual: TC4Vector;
+    function Conjugate: TC4Vector;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
