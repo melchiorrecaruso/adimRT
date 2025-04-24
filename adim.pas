@@ -227,9 +227,6 @@ type
     function ToString(const AQuantity: TC2VecQuantity): string;
     function ToVerboseString(const AQuantity: TC2VecQuantity): string;
 
-    function ToString(const AQuantity: TC2TransposedVecQuantity): string;
-    function ToVerboseString(const AQuantity: TC2TransposedVecQuantity): string;
-
     function ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
     function ToString(const AQuantity: TR3VecQuantity): string;
     function ToVerboseString(const AQuantity: TR3VecQuantity): string;
@@ -15587,26 +15584,6 @@ begin
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TC2VecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TC2TransposedVecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC2TransposedVecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);

@@ -35,18 +35,6 @@ var
   function Vector(const a1, a2, a3: TComplex): TC3Vector;
   function Vector(const a1, a2, a3, a4: TComplex): TC4Vector;
 
-  function TransposedVector(const a1, a2: TComplex): TC2TransposedVector;
-  function TransposedVector(const a1, a2, a3: TComplex): TC3TransposedVector;
-  function TransposedVector(const a1, a2, a3, a4: TComplex): TC4TransposedVector;
-
-  function Ket(const a1, a2: TComplex): TC2Vector;
-  function Ket(const a1, a2, a3: TComplex): TC3Vector;
-  function Ket(const a1, a2, a3, a4: TComplex): TC4Vector;
-
-  function Bra(const a1, a2: TComplex): TC2Bra;
-  function Bra(const a1, a2, a3: TComplex): TC3Bra;
-  function Bra(const a1, a2, a3, a4: TComplex): TC4Bra;
-
   function Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
   function Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
   function Matrix(const a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44: TComplex): TC4Matrix;
@@ -78,57 +66,6 @@ begin
   result[2] := a2;
   result[3] := a3;
   result[4] := a4;
-end;
-
-function TransposedVector(const a1, a2: TComplex): TC2TransposedVector;
-begin
-  result[1] := a1;
-  result[2] := a2;
-end;
-
-function TransposedVector(const a1, a2, a3: TComplex): TC3TransposedVector;
-begin
-  result[1] := a1;
-  result[2] := a2;
-  result[3] := a3;
-end;
-
-function TransposedVector(const a1, a2, a3, a4: TComplex): TC4TransposedVector;
-begin
-  result[1] := a1;
-  result[2] := a2;
-  result[3] := a3;
-  result[4] := a4;
-end;
-
-function Ket(const a1, a2: TComplex): TC2Ket;
-begin
-  result := Vector(a1, a2);
-end;
-
-function Ket(const a1, a2, a3: TComplex): TC3Ket;
-begin
-  result := Vector(a1, a2, a3);
-end;
-
-function Ket(const a1, a2, a3, a4: TComplex): TC4Ket;
-begin
-  result := Vector(a1, a2, a3, a4);
-end;
-
-function Bra(const a1, a2: TComplex): TC2Bra;
-begin
-  result := TransposedVector(a1, a2);
-end;
-
-function Bra(const a1, a2, a3: TComplex): TC3Bra;
-begin
-  result := TransposedVector(a1, a2, a3);
-end;
-
-function Bra(const a1, a2, a3, a4: TComplex): TC4Bra;
-begin
-  result := TransposedVector(a1, a2, a3, a4);
 end;
 
 function Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;

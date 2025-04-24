@@ -42,9 +42,6 @@ function SameValueEx(const AValue1, AValue2: TComplex): boolean;
 function SameValueEx(const AValue1, AValue2: TC2Vector): boolean;
 function SameValueEx(const AValue1, AValue2: TC3Vector): boolean;
 function SameValueEx(const AValue1, AValue2: TC4Vector): boolean;
-function SameValueEx(const AValue1, AValue2: TC2TransposedVector): boolean;
-function SameValueEx(const AValue1, AValue2: TC3TransposedVector): boolean;
-function SameValueEx(const AValue1, AValue2: TC4TransposedVector): boolean;
 function SameValueEx(const AValue1, AValue2: TC2Matrix): boolean;
 function SameValueEx(const AValue1, AValue2: TC3Matrix): boolean;
 function SameValueEx(const AValue1, AValue2: TC4Matrix): boolean;
@@ -55,10 +52,6 @@ function SameValueEx(const ALeft, ARight: TQuantity): boolean;
 function C2NullVector: TC2Vector;
 function C3NullVector: TC3Vector;
 function C4NullVector: TC4Vector;
-
-function C2NullTransposedVector: TC2TransposedVector;
-function C3NullTransposedVector: TC3TransposedVector;
-function C4NullTransposedVector: TC4TransposedVector;
 
 function C2NullMatrix: TC2Matrix;
 function C3NullMatrix: TC3Matrix;

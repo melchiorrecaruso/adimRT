@@ -2,7 +2,7 @@
 
 // TComplex
 
-function TComplex.Dual: TComplex;
+function TComplex.Conjugate: TComplex;
 begin
   result.fRe :=  fRe;
   result.fIm := -fIm;
@@ -26,7 +26,7 @@ end;
 
 function TComplex.Reciprocal: TComplex;
 begin
-  result := Dual / SquaredNorm;
+  result := Conjugate / SquaredNorm;
 end;
 
 function TComplex.SquaredNorm: double;

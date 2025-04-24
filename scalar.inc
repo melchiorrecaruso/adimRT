@@ -10,6 +10,7 @@ type
     FID: longint;
     FValue: double;
   public
+    function Reciprocal: TQuantity;
     class operator + (const ASelf: TQuantity): TQuantity;
     class operator + (const ALeft, ARight: TQuantity): TQuantity;
     class operator - (const ASelf: TQuantity): TQuantity;

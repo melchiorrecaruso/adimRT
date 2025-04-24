@@ -229,27 +229,6 @@ begin
             SameValueEx(AValue1.fm[4], AValue2.fm[4]);
 end;
 
-function SameValueEx(const AValue1, AValue2: TC2TransposedVector): boolean;
-begin
-  result := SameValueEx(AValue1.fm[1], AValue2.fm[1]) and
-            SameValueEx(AValue1.fm[2], AValue2.fm[2]);
-end;
-
-function SameValueEx(const AValue1, AValue2: TC3TransposedVector): boolean;
-begin
-  result := SameValueEx(AValue1.fm[1], AValue2.fm[1]) and
-            SameValueEx(AValue1.fm[2], AValue2.fm[2]) and
-            SameValueEx(AValue1.fm[3], AValue2.fm[3]);
-end;
-
-function SameValueEx(const AValue1, AValue2: TC4TransposedVector): boolean;
-begin
-  result := SameValueEx(AValue1.fm[1], AValue2.fm[1]) and
-            SameValueEx(AValue1.fm[2], AValue2.fm[2]) and
-            SameValueEx(AValue1.fm[3], AValue2.fm[3]) and
-            SameValueEx(AValue1.fm[4], AValue2.fm[4]);
-end;
-
 function SameValueEx(const AValue1, AValue2: TC2Matrix): boolean;
 begin
   result := SameValueEx(AValue1.fm[1,1], AValue2.fm[1,1]) and
@@ -317,27 +296,6 @@ begin
 end;
 
 function C4NullVector: TC4Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-  result[3] := 0;
-  result[4] := 0;
-end;
-
-function C2NullTransposedVector: TC2TransposedVector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-end;
-
-function C3NullTransposedVector: TC3TransposedVector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-  result[3] := 0;
-end;
-
-function C4NullTransposedVector: TC4TransposedVector;
 begin
   result[1] := 0;
   result[2] := 0;

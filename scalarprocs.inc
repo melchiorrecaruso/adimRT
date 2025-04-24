@@ -1,6 +1,12 @@
 { TQuantity implementation }
 
 {$IFNDEF ADIMOFF}
+function TQuantity.Reciprocal: TQuantity;
+begin
+  result.FID := CheckDiv(ScalarID, FID);
+  result.FValue := 1/FValue;
+end;
+
 class operator TQuantity.+(const ASelf: TQuantity): TQuantity;
 begin
   result.FID := ASelf.FID;
