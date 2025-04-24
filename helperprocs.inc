@@ -105,18 +105,6 @@ begin
   result.FID := FID;
   result.FValue:= FValue.Dual;
 end;
-
-function TC2VecQuantityHelper.Transpose: TC2TransposedVecQuantity;
-begin
-  result.FID := FID;
-  result.FValue := FValue.Transpose;
-end;
-
-function TC2VecQuantityHelper.TransposeDual: TC2TransposedVecQuantity;
-begin
-  result.FID := FID;
-  result.FValue := FValue.TransposeDual;
-end;
 {$ENDIF}
 
 { TC3VecQuantityHelper }

@@ -58,51 +58,24 @@ type
     class operator +(const ALeft, ARight: TCVector): TCVector;
     class operator -(const ASelf: TCVector): TCVector;
     class operator -(const ALeft, ARight: TCVector): TCVector;
+
+    class operator *(const ALeft, ARight: TCVector): TComplex;
+
     class operator *(const ALeft: double; const ARight: TCVector): TCVector;
     class operator *(const ALeft: TCVector; const ARight: double): TCVector;
+
     class operator *(const ALeft: TComplex; const ARight: TCVector): TCVector;
     class operator *(const ALeft: TCVector; const ARight: TComplex): TCVector;
+
+    class operator *(const ALeft: TCVector; const ARight: TCMatrix): TCVector;
     class operator *(const ALeft: TCMatrix; const ARight: TCVector): TCVector;
+
     class operator /(const ALeft: TCVector; const ARight: double): TCVector;
     class operator /(const ALeft: double; const ARight: TCVector): TCVector;
     class operator /(const ALeft: TCVector; const ARight: TComplex): TCVector;
     class operator /(const ALeft: TComplex; const ARight: TCVector): TCVector;
   public
     property a[ARow: longint]: TComplex read Get write Put; default;
-  end;
-
-  // TCTransposedVector
-
-  generic TCTransposedVector<TSpace> = record
-  type
-    TCVector = specialize TCVector<TSpace>;
-    TCMatrix = specialize TCMatrix<TSpace>;
-  private
-    fm: array[1..TSpace.N] of TComplex;
-    function Get(ACol: longint): TComplex;
-    procedure Put(ACol: longint; AValue: TComplex);
-  public
-    function IsNull: boolean;
-    function IsNotNull: boolean;
-    function Norm: double;
-    function Normalize: TCTransposedVector;
-    function Reciprocal: TCTransposedVector;
-    function SquaredNorm: double;
-    class operator<>(const ALeft, ARight: TCTransposedVector): boolean;
-    class operator =(const ALeft, ARight: TCTransposedVector): boolean;
-    class operator +(const ASelf: TCTransposedVector): TCTransposedVector;
-    class operator +(const ALeft, ARight: TCTransposedVector): TCTransposedVector;
-    class operator -(const ASelf: TCTransposedVector): TCTransposedVector;
-    class operator -(const ALeft, ARight: TCTransposedVector): TCTransposedVector;
-    class operator *(const ALeft: TComplex; const ARight: TCTransposedVector): TCTransposedVector;
-    class operator *(const ALeft: TCTransposedVector; const ARight: TComplex): TCTransposedVector;
-    class operator *(const ALeft: TCTransposedVector; const ARight: TCVector): TComplex;
-  //class operator *(const ALeft: TCVector; const ARight: TCTransposedVector): TCMatrix;
-    class operator *(const ALeft: TCTransposedVector; const ARight: TCMatrix): TCTransposedVector;
-    class operator /(const ALeft: TCTransposedVector; const ARight: TComplex): TCTransposedVector;
-    class operator /(const ALeft: TComplex; const ARight: TCTransposedVector): TCTransposedVector;
-  public
-    property a[ACol: longint]: TComplex read Get write Put; default;
   end;
 
   TC2Vector = specialize TCVector<T2DSpace>;
@@ -112,18 +85,6 @@ type
   TR2Vector = specialize TRVector<T2DSpace>;
   TR3Vector = specialize TRVector<T3DSpace>;
   TR4Vector = specialize TRVector<T4DSpace>;
-
-  TC2TransposedVector = specialize TCTransposedVector<T2DSpace>;
-  TC3TransposedVector = specialize TCTransposedVector<T3DSpace>;
-  TC4TransposedVector = specialize TCTransposedVector<T4DSpace>;
-
-  TC2Ket = TC2Vector;
-  TC3Ket = TC3Vector;
-  TC4Ket = TC4Vector;
-
-  TC2Bra = TC2TransposedVector;
-  TC3Bra = TC3TransposedVector;
-  TC4Bra = TC4TransposedVector;
 
   TC2ArrayOfComplex = array[1..T2DSpace.N] of TComplex;
   TC3ArrayOfComplex = array[1..T3DSpace.N] of TComplex;
@@ -154,10 +115,13 @@ type
     class operator + (const ALeft, ARight: TRVecQuantity): TRVecQuantity;
     class operator - (const AValue: TRVecQuantity): TRVecQuantity;
     class operator - (const ALeft, ARight: TRVecQuantity): TRVecQuantity;
+
     class operator * (const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
     class operator * (const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
+
     class operator * (const ALeft: TRMatrixQuantity; const ARight: TRVecQuantity): TRVecQuantity;
     class operator * (const ALeft, ARight: TRVecQuantity): TQuantity;
+
     class operator / (const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
     class operator / (const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
   public
@@ -169,7 +133,6 @@ type
   generic TCVecQuantity<TSpace> = record
   type
     TCVector = specialize TCVector<TSpace>;
-    TCTransposedVector = specialize TCTransposedVector<TSpace>;
     TCMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
   private
     FID: longint;
@@ -185,10 +148,17 @@ type
     class operator + (const ALeft, ARight: TCVecQuantity): TCVecQuantity;
     class operator - (const AValue: TCVecQuantity): TCVecQuantity;
     class operator - (const ALeft, ARight: TCVecQuantity): TCVecQuantity;
+
+    class operator * (const ALeft, ARight: TCVecQuantity): TComplexQuantity;
+
     class operator * (const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
     class operator * (const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
+
+    class operator * (const ALeft: TCVecQuantity; const ARight: TCMatrixQuantity): TCVecQuantity;
     class operator * (const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
-    class operator * (const ALeft: TCTransposedVector; const ARight: TCVecQuantity): TComplexQuantity;
+
+    class operator * (const ALeft: TCVector; const ARight: TCVecQuantity): TComplexQuantity;
+
     class operator / (const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
     class operator / (const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
   public
@@ -210,37 +180,6 @@ type
   TC2VecQuantity = specialize TCVector<T2DSpace>;
   TC3VecQuantity = specialize TCVector<T3DSpace>;
   TC4VecQuantity = specialize TCVector<T4DSpace>;
-  {$ENDIF}
-
-  {$IFNDEF ADIMOFF}
-  generic TCTransposedVecQuantity<TSpace> = record
-  type
-    TCTransposedVector = specialize TCTransposedVector<TSpace>;
-    TCVector = specialize TCVector<TSpace>;
-    TCVecQuantity = specialize TCVecQuantity<TSpace>;
-    TCMatrix = specialize TCMatrix<TSpace>;
-    TCMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
-  private
-    FID: longint;
-    FValue: TCTransposedVector;
-  public
-    class operator<>(const ALeft, ARight: TCTransposedVecQuantity): boolean;
-    class operator =(const ALeft, ARight: TCTransposedVecQuantity): boolean;
-    class operator +(const ALeft, ARight: TCTransposedVecQuantity): TCTransposedVecQuantity;
-    class operator -(const ALeft, ARight: TCTransposedVecQuantity): TCTransposedVecQuantity;
-  //class operator *(const ALeft: TCVecQuantity; const ARight: TCTransposedVecQuantity): TCMatrixQuantity;
-    class operator *(const ALeft: TCTransposedVecQuantity; const ARight: TCMatrixQuantity): TCTransposedVecQuantity;
-    class operator *(const ALeft: TCTransposedVecQuantity; const ARight: TCVecQuantity): TComplexQuantity;
-    class operator /(const ALeft: TCTransposedVecQuantity; const ARight: TCVecQuantity): TComplexQuantity;
-  end;
-
-  TC2TransposedVecQuantity = specialize TCTransposedVecQuantity<T2DSpace>;
-  TC3TransposedVecQuantity = specialize TCTransposedVecQuantity<T3DSpace>;
-  TC4TransposedVecQuantity = specialize TCTransposedVecQuantity<T4DSpace>;
-  {$ELSE}
-  TC2TransposedVecQuantity = specialize TCTransposedVector<T2DSpace>;
-  TC3TransposedVecQuantity = specialize TCTransposedVector<T3DSpace>;
-  TC4TransposedVecQuantity = specialize TCTransposedVector<T4DSpace>;
   {$ENDIF}
 
   // Helpers
@@ -284,51 +223,18 @@ type
   TC2VectorHelper = record helper for TC2Vector
     function Dot(const AVector: TC2Vector): TComplex;
     function Dual: TC2Vector;
-    function Transpose: TC2TransposedVector;
-    function TransposeDual: TC2TransposedVector;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC3VectorHelper = record helper for TC3Vector
     function Dual: TC3Vector;
-    function Transpose: TC3TransposedVector;
-    function TransposeDual: TC3TransposedVector;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC4VectorHelper = record helper for TC4Vector
     function Dual: TC4Vector;
-    function Transpose: TC4TransposedVector;
-    function TransposeDual: TC4TransposedVector;
-    function ToString: string;
-    function ToString(APrecision, ADigits: integer): string;
-  end;
-
-  TC2TransposedVectorHelper = record helper for TC2TransposedVector
-    function Dot(const AVector: TC2Vector): TComplex;
-    function Dual: TC2TransposedVector;
-    function Transpose: TC2Vector;
-    function TransposeDual: TC2Vector;
-    function ToString: string;
-    function ToString(APrecision, ADigits: integer): string;
-  end;
-
-  TC3TransposedVectorHelper = record helper for TC3TransposedVector
-    function Dot(const AVector: TC3Vector): TComplex;
-    function Dual: TC3TransposedVector;
-    function Transpose: TC3Vector;
-    function TransposeDual: TC3Vector;
-    function ToString: string;
-    function ToString(APrecision, ADigits: integer): string;
-  end;
-
-  TC4TransposedVectorHelper = record helper for TC4TransposedVector
-    function Dot(const AVector: TC4Vector): TComplex;
-    function Dual: TC4TransposedVector;
-    function Transpose: TC4Vector;
-    function TransposeDual: TC4Vector;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
