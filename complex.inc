@@ -8,7 +8,7 @@ type
   private
     fRe, fIm: double;
   public
-    function Dual: TComplex;
+    function Conjugate: TComplex;
     function IsNull: boolean;
     function IsNotNull: boolean;
     function Norm: double;
