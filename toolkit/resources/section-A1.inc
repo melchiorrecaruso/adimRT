@@ -39,25 +39,40 @@ type
     FExponents: TExponents;
   public
     // Real numbers
-    class operator *(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
-    class operator /(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
+    class operator *(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+    class operator /(const AValue: double; const ASelf: TUnit): TQuantity; inline;
     // Complex numbers
-    class operator *(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
-    class operator /(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
-    class operator *(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
-    class operator /(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
-    // R3 vector space
-    class operator *(const AQuantity: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
-    class operator /(const AQuantity: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
+    class operator *(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator /(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+    class operator *(const ASelf: TUnit; const AValue: TComplex): TComplexQuantity; inline;
+    class operator /(const ASelf: TUnit; const AValue: TComplex): TComplexQuantity; inline;
+    // Real vector space
+    class operator *(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
+    class operator *(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
+    class operator *(const AVector: TR4Vector; const ASelf: TUnit): TR4vecQuantity; inline;
+    class operator /(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
+    class operator /(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
+    class operator /(const AVector: TR4Vector; const ASelf: TUnit): TR4vecQuantity; inline;
+    // Complex vector space
+    class operator *(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
+    class operator *(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
+    class operator *(const AVector: TC4Vector; const ASelf: TUnit): TC4vecQuantity; inline;
+    class operator /(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
+    class operator /(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
+    class operator /(const AVector: TC4Vector; const ASelf: TUnit): TC4vecQuantity; inline;
+    // Matrix
+    class operator *(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
+    class operator *(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
+    class operator *(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
     // CL3 vector space, Clifford algebra
-    class operator *(const AQuantity: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
-    class operator /(const AQuantity: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
-    class operator *(const AQuantity: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
-    class operator /(const AQuantity: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
-    class operator *(const AQuantity: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
-    class operator /(const AQuantity: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
-    class operator *(const AQuantity: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
-    class operator /(const AQuantity: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+    class operator *(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
+    class operator /(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
+    class operator *(const ABivector: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
+    class operator /(const ABivector: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
+    class operator *(const ATrivector: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+    class operator /(const ATrivector: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+    class operator *(const AMultivector: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+    class operator /(const AMultivector: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
   {$IFNDEF ADIMOFF}
     // Real numbers
     class operator *(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
@@ -67,13 +82,20 @@ type
     class operator /(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
     class operator *(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
     class operator /(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
-    // Matrix
-    class operator *(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
-    class operator *(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
-    class operator *(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
-    // R3 vector space
+    // Real vector space
+    class operator *(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
     class operator *(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
+    class operator *(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
+    class operator /(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
     class operator /(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
+    class operator /(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
+    // Complex vector space
+    class operator *(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
+    class operator *(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
+    class operator *(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
+    class operator /(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
+    class operator /(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
+    class operator /(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
     // CL3 vector space, Clifford algebra
     class operator *(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
     class operator /(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
