@@ -112,6 +112,15 @@ begin
     result[i] := ALeft[i] - ARight[i];
 end;
 
+class operator TRVector.*(const ALeft, ARight: TRVector): double;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to TSpace.N do
+    result := result + ALeft[i] * ARight[i];
+end;
+
 class operator TRVector.*(const ALeft: double; const ARight: TRVector): TRVector;
 var
   i: longint;
@@ -128,16 +137,21 @@ begin
     result[i] := ALeft[i] * ARight;
 end;
 
-class operator  TRVector.*(const ALeft, ARight: TRVector): double;
+class operator TRVector.*(const ALeft: TRVector; const ARight: TRMatrix): TRVector;
 var
-  i: longint;
+  i, j: longint;
 begin
-  result := 0;
   for i := 1 to TSpace.N do
-    result := result + ALeft[i] * ARight[i];
+  begin
+    result[i] := 0;
+    for j := 1 to TSpace.N do
+    begin
+      result[i] := result[i] + ALeft[j] * ARight[j, i];
+    end;
+  end;
 end;
 
-class operator TRVector.*(const ALeft: TMatrix; const ARight: TRVector): TRVector;
+class operator TRVector.*(const ALeft: TRMatrix; const ARight: TRVector): TRVector;
 var
   i, j: longint;
 begin

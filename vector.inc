@@ -6,7 +6,7 @@ type
 
   generic TRVector<TSpace> = record
   type
-    TMatrix = specialize TRMatrix<TSpace>;
+    TRMatrix = specialize TRMatrix<TSpace>;
   private
     fm: array[1..TSpace.N] of double;
     function Get(ARow: longint): double;
@@ -24,10 +24,11 @@ type
     class operator +(const ALeft, ARight: TRVector): TRVector;
     class operator -(const ASelf: TRVector): TRVector;
     class operator -(const ALeft, ARight: TRVector): TRVector;
+    class operator *(const ALeft, ARight: TRVector): double;
     class operator *(const ALeft: double; const ARight: TRVector): TRVector;
     class operator *(const ALeft: TRVector; const ARight: double): TRVector;
-    class operator *(const ALeft: TMatrix; const ARight: TRVector): TRVector;
-    class operator *(const ALeft, ARight: TRVector): double;
+    class operator *(const ALeft: TRVector; const ARight: TRMatrix): TRVector;
+    class operator *(const ALeft: TRMatrix; const ARight: TRVector): TRVector;
     class operator /(const ALeft: TRVector; const ARight: double): TRVector;
     class operator /(const ALeft: double; const ARight: TRVector): TRVector;
   public
@@ -58,18 +59,13 @@ type
     class operator +(const ALeft, ARight: TCVector): TCVector;
     class operator -(const ASelf: TCVector): TCVector;
     class operator -(const ALeft, ARight: TCVector): TCVector;
-
     class operator *(const ALeft, ARight: TCVector): TComplex;
-
     class operator *(const ALeft: double; const ARight: TCVector): TCVector;
     class operator *(const ALeft: TCVector; const ARight: double): TCVector;
-
     class operator *(const ALeft: TComplex; const ARight: TCVector): TCVector;
     class operator *(const ALeft: TCVector; const ARight: TComplex): TCVector;
-
     class operator *(const ALeft: TCVector; const ARight: TCMatrix): TCVector;
     class operator *(const ALeft: TCMatrix; const ARight: TCVector): TCVector;
-
     class operator /(const ALeft: TCVector; const ARight: double): TCVector;
     class operator /(const ALeft: double; const ARight: TCVector): TCVector;
     class operator /(const ALeft: TCVector; const ARight: TComplex): TCVector;
