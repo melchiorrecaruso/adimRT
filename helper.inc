@@ -4,7 +4,7 @@ type
 
   {$IFNDEF ADIMOFF}
   TComplexQuantityHelper = record helper for TComplexQuantity
-    function Dual: TComplexQuantity;
+    function Conjugate: TComplexQuantity;
     function Reciprocal: TComplexQuantity;
     function Norm: TQuantity;
     function SquaredNorm: TQuantity;
@@ -24,12 +24,12 @@ type
   {$IFNDEF ADIMOFF}
   TC2MatrixQuantityHelper = record helper for TC2MatrixQuantity
     function Diagonalize(const AEigenvalues: TC2ArrayOfQuantity): TC2MatrixQuantity;
-    function Dual: TC2MatrixQuantity;
+    function Conjugate: TC2MatrixQuantity;
     function Determinant: TComplexQuantity;
     function Eigenvalues: TC2ArrayOfQuantity;
     function Eigenvectors(const AEigenValues: TC2ArrayOfQuantity): TC2ArrayOfVector;
     function Reciprocal(const ADeterminant: TComplexQuantity): TC2MatrixQuantity;
-    function TransposeDual: TC2MatrixQuantity;
+    function TransposeConjugate: TC2MatrixQuantity;
   end;
   {$ENDIF}
 
@@ -38,7 +38,7 @@ type
   {$IFNDEF ADIMOFF}
   TC2VecQuantityHelper = record helper for TC2VecQuantity
     function Dot(const AVector: TC2VecQuantity): TComplexQuantity;
-    function Dual: TC2VecQuantity;
+    function Conjugate: TC2VecQuantity;
   end;
   {$ENDIF}
 

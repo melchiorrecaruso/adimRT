@@ -1,9 +1,9 @@
 
 {$IFNDEF ADIMOFF}
-function TComplexQuantityHelper.Dual: TComplexQuantity;
+function TComplexQuantityHelper.Conjugate: TComplexQuantity;
 begin
   result.FID := FID;
-  result.FValue := FValue.Dual;
+  result.FValue := FValue.Conjugate;
 end;
 
 function TComplexQuantityHelper.Reciprocal: TComplexQuantity;
@@ -37,10 +37,10 @@ begin
   result.FValue := FValue.Diagonalize(EigenVals);
 end;
 
-function TC2MatrixQuantityHelper.Dual: TC2MatrixQuantity;
+function TC2MatrixQuantityHelper.Conjugate: TC2MatrixQuantity;
 begin
   result.FID := FID;
-  result.FValue := FValue.Dual;
+  result.FValue := FValue.Conjugate;
 end;
 
 function TC2MatrixQuantityHelper.Determinant: TComplexQuantity;
@@ -84,10 +84,10 @@ begin
   result.FValue := FValue.Reciprocal(ADeterminant.FValue);
 end;
 
-function TC2MatrixQuantityHelper.TransposeDual: TC2MatrixQuantity;
+function TC2MatrixQuantityHelper.TransposeConjugate: TC2MatrixQuantity;
 begin
   result.FID := FID;
-  result.FValue := FValue.TransposeDual;
+  result.FValue := FValue.TransposeConjugate;
 end;
 {$ENDIF}
 
@@ -100,10 +100,10 @@ begin
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TC2VecQuantityHelper.Dual: TC2VecQuantity;
+function TC2VecQuantityHelper.Conjugate: TC2VecQuantity;
 begin
   result.FID := FID;
-  result.FValue:= FValue.Dual;
+  result.FValue:= FValue.Conjugate;
 end;
 {$ENDIF}
 
