@@ -871,6 +871,7 @@ begin
   SectionA0.Append('{$modeswitch advancedrecords}');
   SectionA0.Append('{$WARN 5024 OFF} // Suppress warning for unused routine parameter.');
   SectionA0.Append('{$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.');
+  SectionA0.Append('{$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.');
   SectionA0.Append('');
 
   SectionA0.Append('{');
