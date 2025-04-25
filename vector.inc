@@ -180,6 +180,21 @@ type
 
   // Helpers
 
+  TR2MatrixHelper = record helper for TR2Matrix
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
+  TR3MatrixHelper = record helper for TR3Matrix
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
+  TR4MatrixHelper = record helper for TR4Matrix
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
   TC2MatrixHelper = record helper for TC2Matrix
     function Diagonalize(const AEigenValues: TC2ArrayOfComplex): TC2Matrix;
     function Conjugate: TC2Matrix;
@@ -235,6 +250,11 @@ type
     function ToString(APrecision, ADigits: integer): string;
   end;
 
+  TR2VectorHelper = record helper for TR2Vector
+    function ToString(APrecision, ADigits: longint): string;
+    function ToString: string;
+  end;
+
   TR3VectorHelper = record helper for TR3Vector
     function Dot(const AVector: TR3Vector): double;
     function Cross(const AVector: TR3Vector): TR3Vector;
@@ -244,4 +264,10 @@ type
     function ToString(APrecision, ADigits: longint): string;
     function ToString: string;
   end;
+
+  TR4VectorHelper = record helper for TR4Vector
+    function ToString(APrecision, ADigits: longint): string;
+    function ToString: string;
+  end;
+
 
