@@ -1321,25 +1321,25 @@ end;
 
 { TDegreeCelsiusUnit }
 
-class operator TDegreeCelsiusUnit.*(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
+class operator TDegreeCelsiusUnit.*(const AValue: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity + 273.15;
+  result.FValue := AValue + 273.15;
 {$ELSE}
-  result := AQuantity + 273.15;
+  result := AValue + 273.15;
 {$ENDIF}
 end;
 
 { TDegreeFahrenheitUnit }
 
-class operator TDegreeFahrenheitUnit.*(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
+class operator TDegreeFahrenheitUnit.*(const AValue: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := 5/9 * (AQuantity - 32) + 273.15;
+  result.FValue := 5/9 * (AValue - 32) + 273.15;
 {$ELSE}
-  result := 5/9 * (AQuantity - 32) + 273.15;
+  result := 5/9 * (AValue - 32) + 273.15;
 {$ENDIF}
 end;
 
@@ -1647,6 +1647,16 @@ begin
 {$ENDIF}
 end;
 
+function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): TComplex;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+end;
+
 function TUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
@@ -1695,13 +1705,47 @@ function TUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
-  result := '(' + AQuantity.FValue.ToString + ') ' + GetName(FPrefixes)
+  result := '(' + AQuantity.FValue.ToString + ') ' + GetPluralName(FPrefixes)
 {$ELSE}
-  result := '(' + AQuantity.ToString + ') ' + GetName(FPrefixes)
+  result := '(' + AQuantity.ToString + ') ' + GetPluralName(FPrefixes)
 {$ENDIF}
 end;
 
-// Complex matrix
+function TUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TComplex;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPRefixes)
+  else
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APRefixes);
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TComplex;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetSymbol(FPrefixes)
+  else
+    result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetSymbol(APrefixes);
+end;
+
+// Complex matrixes
 
 function TUnitHelper.ToString(const AQuantity: TC2MatrixQuantity): string;
 begin
@@ -2305,7 +2349,6 @@ begin
 {$ENDIF}
   result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
-
 
 { TDegreeCelsiusUnitHelper }
 
