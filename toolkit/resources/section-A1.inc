@@ -283,12 +283,14 @@ type
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     // Complex numbers
     function ToComplex(const AQuantity: TComplexQuantity): TComplex;
+    function ToComplex(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): TComplex;
     function ToString(const AQuantity: TComplexQuantity): string;
     function ToString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
     function ToString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-
     function ToVerboseString(const AQuantity: TComplexQuantity): string;
-    // Complex matrix
+    function ToVerboseString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    // Complex matrixes
     function ToString(const AQuantity: TC2MatrixQuantity): string;
     function ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
     // Vector space
