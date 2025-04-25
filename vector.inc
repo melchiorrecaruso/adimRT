@@ -235,6 +235,11 @@ type
     function ToString(APrecision, ADigits: integer): string;
   end;
 
+  TR2VectorHelper = record helper for TR2Vector
+    function ToString(APrecision, ADigits: longint): string;
+    function ToString: string;
+  end;
+
   TR3VectorHelper = record helper for TR3Vector
     function Dot(const AVector: TR3Vector): double;
     function Cross(const AVector: TR3Vector): TR3Vector;
@@ -244,4 +249,10 @@ type
     function ToString(APrecision, ADigits: longint): string;
     function ToString: string;
   end;
+
+  TR4VectorHelper = record helper for TR4Vector
+    function ToString(APrecision, ADigits: longint): string;
+    function ToString: string;
+  end;
+
 
