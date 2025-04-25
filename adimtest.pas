@@ -1410,6 +1410,10 @@ begin
                  ComplexSquarePower(coeff[2])*EigenValues[2]) <> '(0.00012734439857522) eV' then halt(3);
   writeln('* TEST-609: PASSED');
 
+
+  State := Vector(1,2) * J * 5;
+
+
   writeln;
   writeln('ADIM-TEST DONE.');
 end.

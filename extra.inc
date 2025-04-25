@@ -20,9 +20,11 @@ function ComplexSquarePower (const AValue: TComplex): TComplex;
 function ComplexCubicPower  (const AValue: TComplex): TComplex;
 function ComplexQuarticPower(const AValue: TComplex): TComplex;
 
+{$IFNDEF ADIMOFF}
 function ComplexSquarePower (const AQuantity: TComplexQuantity): TComplexQuantity;
 function ComplexCubicPower  (const AQuantity: TComplexQuantity): TComplexQuantity;
 function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+{$ENDIF}
 
 function ComplexSquareRoot (const AValue: TComplex): TC2ArrayOfComplex;
 function ComplexCubicRoot  (const AValue: TComplex): TC3ArrayOfComplex;

@@ -138,6 +138,7 @@ begin
   result[4] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 end;
 
+{$IFNDEF ADIMOFF}
 function ComplexSquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
 begin
   result.FID := 2 * AQuantity.FID;
@@ -155,6 +156,7 @@ begin
   result.FID := 4 * AQuantity.FID;
   result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
 end;
+{$ENDIF}
 
 // Usefull routines
 

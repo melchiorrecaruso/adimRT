@@ -92,169 +92,375 @@ end;
 
 // Real numbers
 
-class operator TUnit.*(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit.*(const AValue: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity;
+  result.FValue := AValue;
 {$ELSE}
-  result := AQuantity;
+  result := AValue;
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: double; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit./(const AValue: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
-  result.FValue := AQuantity;
+  result.FValue := AValue;
 {$ELSE}
-  result := AQuantity;
+  result := AValue;
 {$ENDIF}
 end;
 
 // Complex numbers
 
-class operator TUnit.*(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+class operator TUnit.*(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckMul(ScalarID, ASelf.FID);
-  result.FValue := AQuantity;
+  result.FValue := AValue;
 {$ELSE}
-  result := AQuantity;
+  result := AValue;
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+class operator TUnit./(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarID, ASelf.FID);
-  result.FValue := AQuantity;
+  result.FValue := AValue;
 {$ELSE}
-  result := AQuantity;
+  result := AValue;
 {$ENDIF}
 end;
 
-class operator TUnit.*(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FID := CheckMul(ASelf.FID, ScalarID);
-  result.FValue := AQuantity;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
+// Real vector space
 
-class operator TUnit./(const ASelf: TUnit; const AQuantity: TComplex): TComplexQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ASelf.FID, ScalarID);
-  result.FValue := AQuantity.Reciprocal;
-{$ELSE}
-  result := AQuantity.Reciprocal;
-{$ENDIF}
-end;
-
-// R3 vector space
-
-class operator TUnit.*(const AQuantity: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
+class operator TUnit.*(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity;
+  result.FValue := AVector;
 {$ELSE}
-  result := AQuantity;
+  result := AVector;
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
+class operator TUnit.*(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarId, ASelf.FID);
-  result.FValue := AQuantity;
+  result.FID := ASelf.FID;
+  result.FValue := AVector;
 {$ELSE}
-  result := AQuantity;
+  result := AVector;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+// Complex vector space
+
+class operator TUnit.*(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AVector;
+{$ELSE}
+  result := AVector;
+{$ENDIF}
+end;
+
+// Real matrixes
+
+class operator TUnit.*(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+// Complex matrixes
+
+class operator TUnit.*(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit.*(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
+{$ENDIF}
+end;
+
+class operator TUnit./(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix;
+{$ELSE}
+  result := AMatrix;
 {$ENDIF}
 end;
 
 // CL3 vector space, Clifford algebra
 
-class operator TUnit.*(const AQuantity: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
+class operator TUnit.*(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity;
+  result.FValue := AVector;
 {$ELSE}
-  result := AQuantity;
+  result := AVector;
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
+class operator TUnit./(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
-  result.FValue := AQuantity;
+  result.FValue := AVector;
 {$ELSE}
-  result := AQuantity;
+  result := AVector;
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AQuantity: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
+class operator TUnit.*(const ABivector: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity;
+  result.FValue := ABivector;
 {$ELSE}
-  result := AQuantity;
+  result := ABivector;
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
+class operator TUnit./(const ABivector: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
-  result.FValue := AQuantity;
+  result.FValue := ABivector;
 {$ELSE}
-  result := AQuantity;
+  result := ABivector;
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AQuantity: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+class operator TUnit.*(const ATrivector: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity;
+  result.FValue := ATrivector;
 {$ELSE}
-  result := AQuantity;
+  result := ATrivector;
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+class operator TUnit./(const ATrivector: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
-  result.FValue := AQuantity;
+  result.FValue := ATrivector;
 {$ELSE}
-  result := AQuantity;
+  result := ATrivector;
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AQuantity: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+class operator TUnit.*(const AMultivector: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity;
+  result.FValue := AMultivector;
 {$ELSE}
-  result := AQuantity;
+  result := AMultivector;
 {$ENDIF}
 end;
 
-class operator TUnit./(const AQuantity: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+class operator TUnit./(const AMultivector: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
-  result.FValue := AQuantity;
+  result.FValue := AMultivector;
 {$ELSE}
-  result := AQuantity;
+  result := AMultivector;
 {$ENDIF}
 end;
 
@@ -300,27 +506,13 @@ begin
   result.FValue := AQuantity.FValue.Reciprocal;
 end;
 
-// Matrix
+// Real space vector
 
-class operator TUnit.*(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
+class operator TUnit.*(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
 begin
-  result.FID := ASelf.FID;
-  result.FValue := AMatrix;
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
 end;
-
-class operator TUnit.*(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
-begin
-  result.FID := ASelf.FID;
-  result.FValue := AMatrix;
-end;
-
-class operator TUnit.*(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
-begin
-  result.FID := ASelf.FID;
-  result.FValue := AMatrix;
-end;
-
-// R3 vector space
 
 class operator TUnit.*(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
@@ -328,7 +520,139 @@ begin
   result.FValue := AQuantity.FValue;
 end;
 
+class operator TUnit.*(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
 class operator TUnit./(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+// Complex space vector
+
+class operator TUnit.*(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+// Real matrixes
+
+class operator TUnit.*(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+// Complex matrixes
+
+class operator TUnit.*(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit.*(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
@@ -342,21 +666,9 @@ begin
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
-begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
-  result.FValue := AQuantity.FValue;
-end;
-
 class operator TUnit.*(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
-begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
 end;
 
@@ -366,15 +678,27 @@ begin
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TCL3TrivecQuantity; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+class operator TUnit.*(const AQuantity: TCL3MultivecQuantity; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TCL3MultivecQuantity; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+class operator TUnit./(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue;
+end;
+
+class operator TUnit./(const AQuantity: TCL3TrivecQuantity; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue;
 end;
 
@@ -389,51 +713,329 @@ end;
 
 // Real numbers
 
-class operator TFactoredUnit.*(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity * ASelf.FFactor;
+  result.FValue := AValue * ASelf.FFactor;
 {$ELSE}
-  result := AQuantity * ASelf.FFactor;
+  result := AValue * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
-  result.FValue := AQuantity / ASelf.FFactor;
+  result.FValue := AValue / ASelf.FFactor;
 {$ELSE}
-  result := AQuantity / ASelf.FFactor;
+  result := AValue / ASelf.FFactor;
 {$ENDIF}
 end;
 
-// R3 vector space
+// Complex numbers
 
-class operator TFactoredUnit.*(const AQuantity: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
+class operator TFactoredUnit.*(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckMul(ScalarID, ASelf.FID);
+  result.FValue := AValue * ASelf.FFactor;
+{$ELSE}
+  result := AValue * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AValue / ASelf.FFactor;
+{$ELSE}
+  result := AValue / ASelf.FFactor;
+{$ENDIF}
+end;
+
+// Real vector space
+
+class operator TFactoredUnit.*(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity * ASelf.FFactor;
+  result.FValue := AVector * ASelf.FFactor;
 {$ELSE}
-  result := AQuantity * ASelf.FFactor;
+  result := AVector * ASelf.FFactor;
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AQuantity: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
+class operator TFactoredUnit.*(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AVector * ASelf.FFactor;
+{$ELSE}
+  result := AVector * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AVector * ASelf.FFactor;
+{$ELSE}
+  result := AVector * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := CheckDiv(ScalarId, ASelf.FID);
-  result.FValue := AQuantity / ASelf.FFactor;
+  result.FValue := AVector / ASelf.FFactor;
 {$ELSE}
-  result := AQuantity / ASelf.FFactor;
+  result := AVector / ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarId, ASelf.FID);
+  result.FValue := AVector / ASelf.FFactor;
+{$ELSE}
+  result := AVector / ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarId, ASelf.FID);
+  result.FValue := AVector / ASelf.FFactor;
+{$ELSE}
+  result := AVector / ASelf.FFactor;
+{$ENDIF}
+end;
+
+// Complex vector space
+
+class operator TFactoredUnit.*(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AVector * ASelf.FFactor;
+{$ELSE}
+  result := AVector * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AVector * ASelf.FFactor;
+{$ELSE}
+  result := AVector * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AVector * ASelf.FFactor;
+{$ELSE}
+  result := AVector * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarId, ASelf.FID);
+  result.FValue := AVector / ASelf.FFactor;
+{$ELSE}
+  result := AVector / ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarId, ASelf.FID);
+  result.FValue := AVector / ASelf.FFactor;
+{$ELSE}
+  result := AVector / ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarId, ASelf.FID);
+  result.FValue := AVector / ASelf.FFactor;
+{$ELSE}
+  result := AVector / ASelf.FFactor;
+{$ENDIF}
+end;
+
+// Real matrixes
+
+class operator TFactoredUnit.*(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix * ASelf.FFactor;
+{$ELSE}
+  result := AMatrix * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix * ASelf.FFactor;
+{$ELSE}
+  result := AMatrix * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix * ASelf.FFactor;
+{$ELSE}
+  result := AMatrix * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix / ASelf.FFactor;
+{$ELSE}
+  result := AMatrix / ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix / ASelf.FFactor;
+{$ELSE}
+  result := AMatrix / ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix / ASelf.FFactor;
+{$ELSE}
+  result := AMatrix / ASelf.FFactor;
+{$ENDIF}
+end;
+
+// Complex matrixes
+
+class operator TFactoredUnit.*(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix * ASelf.FFactor;
+{$ELSE}
+  result := AMatrix * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix * ASelf.FFactor;
+{$ELSE}
+  result := AMatrix * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AMatrix * ASelf.FFactor;
+{$ELSE}
+  result := AMatrix * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix / ASelf.FFactor;
+{$ELSE}
+  result := AMatrix / ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix / ASelf.FFactor;
+{$ELSE}
+  result := AMatrix / ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit./(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := CheckDiv(ScalarID, ASelf.FID);
+  result.FValue := AMatrix / ASelf.FFactor;
+{$ELSE}
+  result := AMatrix / ASelf.FFactor;
 {$ENDIF}
 end;
 
 // CL3 vector space, Clifford algebra
 
 class operator TFactoredUnit.*(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AQuantity * ASelf.FFactor;
+{$ELSE}
+  result := AQuantity * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AQuantity * ASelf.FFactor;
+{$ELSE}
+  result := AQuantity * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FID := ASelf.FID;
+  result.FValue := AQuantity * ASelf.FFactor;
+{$ELSE}
+  result := AQuantity * ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TCL3Multivector; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
@@ -453,16 +1055,6 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
-  result.FValue := AQuantity * ASelf.FFactor;
-{$ELSE}
-  result := AQuantity * ASelf.FFactor;
-{$ENDIF}
-end;
-
 class operator TFactoredUnit./(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
@@ -473,16 +1065,6 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
-  result.FValue := AQuantity * ASelf.FFactor;
-{$ELSE}
-  result := AQuantity * ASelf.FFactor;
-{$ENDIF}
-end;
-
 class operator TFactoredUnit./(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
@@ -490,16 +1072,6 @@ begin
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TCL3Multivector; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
-  result.FValue := AQuantity * ASelf.FFactor;
-{$ELSE}
-  result := AQuantity * ASelf.FFactor;
 {$ENDIF}
 end;
 
@@ -529,7 +1101,33 @@ begin
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-// R3 vector space
+// Complex numbers
+
+class operator TFactoredUnit.*(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+// Real vector space
+
+class operator TFactoredUnit.*(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
 
 class operator TFactoredUnit.*(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
 begin
@@ -543,9 +1141,153 @@ begin
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
+class operator TFactoredUnit.*(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+// Complex vector space
+
+class operator TFactoredUnit.*(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+// Real matrixes
+
+class operator TFactoredUnit.*(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+// Complex matrixes
+
+class operator TFactoredUnit.*(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit./(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+begin
+  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue / ASelf.FFactor;
+end;
+
 // CL3 vector space, Clifford algebra
 
 class operator TFactoredUnit.*(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
+begin
+  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FValue := AQuantity.FValue * ASelf.FFactor;
+end;
+
+class operator TFactoredUnit.*(const AQuantity: TCL3MultivecQuantity; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
 begin
   result.FID := CheckMul(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
@@ -557,34 +1299,16 @@ begin
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
-begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
 class operator TFactoredUnit./(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
-begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
 class operator TFactoredUnit./(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
   result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TCL3MultivecQuantity; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
-begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TCL3MultivecQuantity; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
@@ -1020,27 +1744,6 @@ begin
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
 {$ENDIF}
 end;
-
-function TUnitHelper.ToString(const AQuantity: TC2TransposedVecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC2TransposedVecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
 
 function TUnitHelper.ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
 begin
