@@ -275,7 +275,12 @@ type
     function GetValue(const AQuantity: TC2Vector; const APrefixes: TPrefixes): TC2Vector;
     function GetValue(const AQuantity: TC3Vector; const APrefixes: TPrefixes): TC3Vector;
     function GetValue(const AQuantity: TC4Vector; const APrefixes: TPrefixes): TC4Vector;
-
+    function GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
+    function GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
+    function GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
+    function GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
+    function GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
+    function GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
   public
     // Real numbers
     function ToFloat(const AQuantity: TQuantity): double;
@@ -324,10 +329,20 @@ type
     function ToVerboseString(const AQuantity: TC3VecQuantity): string;
     function ToVerboseString(const AQuantity: TC4VecQuantity): string;
     // Real matrixes
+    function ToString(const AQuantity: TR2MatrixQuantity): string;
+    function ToString(const AQuantity: TR3MatrixQuantity): string;
+    function ToString(const AQuantity: TR4MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
 
     // Complex matrixes
     function ToString(const AQuantity: TC2MatrixQuantity): string;
+    function ToString(const AQuantity: TC3MatrixQuantity): string;
+    function ToString(const AQuantity: TC4MatrixQuantity): string;
     function ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
 
     // CL3 vector space, Clifford algebra
     function ToString(const AQuantity: TCL3VecQuantity): string;

@@ -1493,6 +1493,60 @@ begin
   result[4] := GetValue(AQuantity[4], APrefixes);
 end;
 
+function TUnitHelper.GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 2 do
+    for j := 1 to 2 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TUnitHelper.GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 3 do
+    for j := 1 to 3 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TUnitHelper.GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 4 do
+    for j := 1 to 4 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TUnitHelper.GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 2 do
+    for j := 1 to 2 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TUnitHelper.GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 3 do
+    for j := 1 to 3 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TUnitHelper.GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 4 do
+    for j := 1 to 4 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
 // Real numbers
 
 function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
@@ -1787,28 +1841,6 @@ begin
     result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetSymbol(APrefixes);
 end;
 
-// Complex matrixes
-
-function TUnitHelper.ToString(const AQuantity: TC2MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
 // Real vector space
 
 function TUnitHelper.ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
@@ -2056,6 +2088,130 @@ begin
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TC4VecQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+// Real matrixes
+
+function TUnitHelper.ToString(const AQuantity: TR2MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToString(const AQuantity: TR3MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToString(const AQuantity: TR4MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+// Complex matrixes
+
+function TUnitHelper.ToString(const AQuantity: TC2MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToString(const AQuantity: TC3MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToString(const AQuantity: TC4MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
+{$ELSE}
+  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
+{$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
