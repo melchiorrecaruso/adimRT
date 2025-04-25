@@ -243,7 +243,7 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
-    class operator *(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
+    class operator *(const AValue: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
   end;
 
   { TDegreeFahrenheitUnit }
@@ -257,7 +257,7 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
-    class operator *(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
+    class operator *(const AValue: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
   end;   
 
  { TUnitHelper }

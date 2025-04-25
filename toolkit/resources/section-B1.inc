@@ -1321,25 +1321,25 @@ end;
 
 { TDegreeCelsiusUnit }
 
-class operator TDegreeCelsiusUnit.*(const AQuantity: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
+class operator TDegreeCelsiusUnit.*(const AValue: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := AQuantity + 273.15;
+  result.FValue := AValue + 273.15;
 {$ELSE}
-  result := AQuantity + 273.15;
+  result := AValue + 273.15;
 {$ENDIF}
 end;
 
 { TDegreeFahrenheitUnit }
 
-class operator TDegreeFahrenheitUnit.*(const AQuantity: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
+class operator TDegreeFahrenheitUnit.*(const AValue: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FID := ASelf.FID;
-  result.FValue := 5/9 * (AQuantity - 32) + 273.15;
+  result.FValue := 5/9 * (AValue - 32) + 273.15;
 {$ELSE}
-  result := 5/9 * (AQuantity - 32) + 273.15;
+  result := 5/9 * (AValue - 32) + 273.15;
 {$ENDIF}
 end;
 
@@ -2305,7 +2305,6 @@ begin
 {$ENDIF}
   result := FactoredValue.ToString + ' ' + GetName(FPrefixes)
 end;
-
 
 { TDegreeCelsiusUnitHelper }
 
