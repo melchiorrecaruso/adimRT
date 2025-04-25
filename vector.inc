@@ -180,6 +180,21 @@ type
 
   // Helpers
 
+  TR2MatrixHelper = record helper for TR2Matrix
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
+  TR3MatrixHelper = record helper for TR3Matrix
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
+  TR4MatrixHelper = record helper for TR4Matrix
+    function ToString: string;
+    function ToString(APrecision, ADigits: integer): string;
+  end;
+
   TC2MatrixHelper = record helper for TC2Matrix
     function Diagonalize(const AEigenValues: TC2ArrayOfComplex): TC2Matrix;
     function Conjugate: TC2Matrix;

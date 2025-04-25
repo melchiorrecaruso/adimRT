@@ -616,6 +616,86 @@ begin
 end;
 {$ENDIF}
 
+// TR2MatrixHelper
+
+function TR2MatrixHelper.ToString: string;
+begin
+  result := Format('(%s, %s, %s, %s)', [
+    fm[1,1].ToString, fm[1,2].ToString,
+    fm[2,1].ToString, fm[2,2].ToString]);
+end;
+
+function TR2MatrixHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s, %s, %s)', [
+    fm[1,1].ToString(ffGeneral, APrecision, ADigits),
+    fm[1,2].ToString(ffGeneral, APrecision, ADigits),
+
+    fm[2,1].ToString(ffGeneral, APrecision, ADigits),
+    fm[2,2].ToString(ffGeneral, APrecision, ADigits)]);
+end;
+
+// TR3MatrixHelper
+
+function TR3MatrixHelper.ToString: string;
+begin
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+    fm[1,1].ToString, fm[1,2].ToString, fm[1,3].ToString,
+    fm[2,1].ToString, fm[2,2].ToString, fm[2,3].ToString,
+    fm[3,1].ToString, fm[3,2].ToString, fm[3,3].ToString]);
+end;
+
+function TR3MatrixHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+    fm[1,1].ToString(ffGeneral, APrecision, ADigits),
+    fm[1,2].ToString(ffGeneral, APrecision, ADigits),
+    fm[1,3].ToString(ffGeneral, APrecision, ADigits),
+
+    fm[2,1].ToString(ffGeneral, APrecision, ADigits),
+    fm[2,2].ToString(ffGeneral, APrecision, ADigits),
+    fm[2,3].ToString(ffGeneral, APrecision, ADigits),
+
+    fm[3,1].ToString(ffGeneral, APrecision, ADigits),
+    fm[3,2].ToString(ffGeneral, APrecision, ADigits),
+    fm[3,3].ToString(ffGeneral, APrecision, ADigits)]);
+end;
+
+// TR4MatrixHelper
+
+function TR4MatrixHelper.ToString: string;
+begin
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+    fm[1,1].ToString, fm[1,2].ToString, fm[1,3].ToString, fm[1,4].ToString,
+    fm[2,1].ToString, fm[2,2].ToString, fm[2,3].ToString, fm[2,4].ToString,
+    fm[3,1].ToString, fm[3,2].ToString, fm[3,3].ToString, fm[3,4].ToString,
+    fm[4,1].ToString, fm[4,2].ToString, fm[4,3].ToString, fm[4,4].ToString]);
+end;
+
+function TR4MatrixHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+    fm[1,1].ToString(ffGeneral, APrecision, ADigits),
+    fm[1,2].ToString(ffGeneral, APrecision, ADigits),
+    fm[1,3].ToString(ffGeneral, APrecision, ADigits),
+    fm[1,4].ToString(ffGeneral, APrecision, ADigits),
+
+    fm[2,1].ToString(ffGeneral, APrecision, ADigits),
+    fm[2,2].ToString(ffGeneral, APrecision, ADigits),
+    fm[2,3].ToString(ffGeneral, APrecision, ADigits),
+    fm[2,4].ToString(ffGeneral, APrecision, ADigits),
+
+    fm[3,1].ToString(ffGeneral, APrecision, ADigits),
+    fm[3,2].ToString(ffGeneral, APrecision, ADigits),
+    fm[3,3].ToString(ffGeneral, APrecision, ADigits),
+    fm[3,4].ToString(ffGeneral, APrecision, ADigits),
+
+    fm[4,1].ToString(ffGeneral, APrecision, ADigits),
+    fm[4,2].ToString(ffGeneral, APrecision, ADigits),
+    fm[4,3].ToString(ffGeneral, APrecision, ADigits),
+    fm[4,4].ToString(ffGeneral, APrecision, ADigits)]);
+end;
+
 // TC2MatrixHelper
 
 function TC2MatrixHelper.Diagonalize(const AEigenValues: TC2ArrayOfComplex): TC2Matrix;
