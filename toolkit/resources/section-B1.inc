@@ -1874,8 +1874,6 @@ begin
 end;
 
 function TUnitHelper.ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
-var
-  FactoredValue : TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
@@ -1886,8 +1884,6 @@ begin
 end;
 
 function TUnitHelper.ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
-var
-  FactoredValue : TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
@@ -1898,8 +1894,6 @@ begin
 end;
 
 function TUnitHelper.ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
-var
-  FactoredValue : TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
@@ -1939,6 +1933,57 @@ begin
 {$ENDIF}
 end;
 
+function TUnitHelper.ToString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TR2Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnitHelper.ToString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TR3Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnitHelper.ToString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TR4Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
 function TUnitHelper.ToVerboseString(const AQuantity: TR2VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
@@ -1967,6 +2012,57 @@ begin
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
 {$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TR2Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TR3Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TR4Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
 // Complex vector space
@@ -2002,8 +2098,6 @@ begin
 end;
 
 function TUnitHelper.ToVector(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): TC2Vector;
-var
-  FactoredValue : TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
@@ -2014,8 +2108,6 @@ begin
 end;
 
 function TUnitHelper.ToVector(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): TC3Vector;
-var
-  FactoredValue : TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
@@ -2026,8 +2118,6 @@ begin
 end;
 
 function TUnitHelper.ToVector(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): TC4Vector;
-var
-  FactoredValue : TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FID, AQuantity.FID);
@@ -2067,6 +2157,57 @@ begin
 {$ENDIF}
 end;
 
+function TUnitHelper.ToString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TC2Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnitHelper.ToString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TC3Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnitHelper.ToString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TC4Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
 function TUnitHelper.ToVerboseString(const AQuantity: TC2VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
@@ -2095,6 +2236,57 @@ begin
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
 {$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TC2Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TC3Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TC4Vector;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
 // Real matrixes
@@ -2195,6 +2387,57 @@ begin
 {$ENDIF}
 end;
 
+function TUnitHelper.ToString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue : TR2Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnitHelper.ToString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue : TR3Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnitHelper.ToString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue : TR4Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
 function TUnitHelper.ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
@@ -2223,6 +2466,57 @@ begin
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
 {$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TR2Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TR3Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TR4Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
 // Complex matrixes
@@ -2323,6 +2617,57 @@ begin
 {$ENDIF}
 end;
 
+function TUnitHelper.ToString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue : TC2Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnitHelper.ToString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue : TC3Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
+function TUnitHelper.ToString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue : TC4Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
+end;
+
 function TUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
@@ -2351,6 +2696,57 @@ begin
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
 {$ENDIF}
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TC2Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TC3Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
+end;
+
+function TUnitHelper.ToVerboseString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TC4Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
+  else
+    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
 // CL3 vector space, Clifford algebra
