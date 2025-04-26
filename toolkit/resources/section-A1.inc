@@ -329,21 +329,31 @@ type
     function ToVerboseString(const AQuantity: TC3VecQuantity): string;
     function ToVerboseString(const AQuantity: TC4VecQuantity): string;
     // Real matrixes
+    function ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
+    function ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
+    function ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
+    function ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
+    function ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
+    function ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
     function ToString(const AQuantity: TR2MatrixQuantity): string;
     function ToString(const AQuantity: TR3MatrixQuantity): string;
     function ToString(const AQuantity: TR4MatrixQuantity): string;
     function ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
     function ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
     function ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
-
     // Complex matrixes
+    function ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
+    function ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
+    function ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
+    function ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
+    function ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
+    function ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
     function ToString(const AQuantity: TC2MatrixQuantity): string;
     function ToString(const AQuantity: TC3MatrixQuantity): string;
     function ToString(const AQuantity: TC4MatrixQuantity): string;
     function ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
     function ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
     function ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
-
     // CL3 vector space, Clifford algebra
     function ToString(const AQuantity: TCL3VecQuantity): string;
     function ToString(const AQuantity: TCL3BivecQuantity): string;

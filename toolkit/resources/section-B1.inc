@@ -2099,6 +2099,72 @@ end;
 
 // Real matrixes
 
+function TUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
+var
+  FactoredValue : TC2Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity, APrefixes);;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
+var
+  FactoredValue : TC3Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity, APrefixes);;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
+var
+  FactoredValue : TC4Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity, APrefixes);;
+{$ENDIF}
+end;
+
 function TUnitHelper.ToString(const AQuantity: TR2MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
@@ -2160,6 +2226,72 @@ begin
 end;
 
 // Complex matrixes
+
+function TUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue;
+{$ELSE}
+  result := AQuantity;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
+var
+  FactoredValue : TC2Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity, APrefixes);;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
+var
+  FactoredValue : TC3Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity, APrefixes);;
+{$ENDIF}
+end;
+
+function TUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
+var
+  FactoredValue : TC4Matrix;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := GetValue(AQuantity.FValue, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity, APrefixes);;
+{$ENDIF}
+end;
 
 function TUnitHelper.ToString(const AQuantity: TC2MatrixQuantity): string;
 begin
