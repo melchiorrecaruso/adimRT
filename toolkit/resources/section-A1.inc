@@ -432,8 +432,24 @@ type
     function ToVerboseString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     // R3 vector space
+    function ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
+    function ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
+    function ToVector(const AQuantity: TR4VecQuantity): TR4Vector;
+    function ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
+    function ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
+    function ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
+    function ToString(const AQuantity: TR2VecQuantity): string;
     function ToString(const AQuantity: TR3VecQuantity): string;
+    function ToString(const AQuantity: TR4VecQuantity): string;
+    function ToString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TR2VecQuantity): string;
     function ToVerboseString(const AQuantity: TR3VecQuantity): string;
+    function ToVerboseString(const AQuantity: TR4VecQuantity): string;
+    function ToVerboseString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
     // CL3 vector space, Clifford algebra
     function ToString(const AQuantity: TCL3VecQuantity): string;
     function ToString(const AQuantity: TCL3BivecQuantity): string;
