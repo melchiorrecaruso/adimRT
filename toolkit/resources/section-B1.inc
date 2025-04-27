@@ -2933,6 +2933,114 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
+function TFactoredUnitHelper.GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
+begin
+  result.FRe := GetValue(AQuantity.FRe, APrefixes);
+  result.FIm := GetValue(AQuantity.FIm, APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TR2Vector; const APrefixes: TPrefixes): TR2Vector;
+var
+  i: longint;
+begin
+  for i := 1 to 2 do
+    result[i] := GetValue(AQuantity[i], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TR3Vector; const APrefixes: TPrefixes): TR3Vector;
+var
+  i: longint;
+begin
+  for i := 1 to 3 do
+    result[i] := GetValue(AQuantity[i], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TR4Vector; const APrefixes: TPrefixes): TR4Vector;
+var
+  i: longint;
+begin
+  for i := 1 to 4 do
+    result[i] := GetValue(AQuantity[i], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TC2Vector; const APrefixes: TPrefixes): TC2Vector;
+var
+  i: longint;
+begin
+  for i := 1 to 2 do
+    result[i] := GetValue(AQuantity[i], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TC3Vector; const APrefixes: TPrefixes): TC3Vector;
+var
+  i: longint;
+begin
+  for i := 1 to 3 do
+    result[i] := GetValue(AQuantity[i], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TC4Vector; const APrefixes: TPrefixes): TC4Vector;
+var
+  i: longint;
+begin
+  for i := 1 to 4 do
+    result[i] := GetValue(AQuantity[i], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 2 do
+    for j := 1 to 2 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 3 do
+    for j := 1 to 3 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 4 do
+    for j := 1 to 4 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 2 do
+    for j := 1 to 2 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 3 do
+    for j := 1 to 3 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
+function TFactoredUnitHelper.GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 4 do
+    for j := 1 to 4 do
+      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+end;
+
 // Real numbers
 
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
@@ -3120,6 +3228,26 @@ end;
 
 // Complex numbers
 
+function TFactoredUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := AQuantity.FValue / FFactor;
+{$ELSE}
+  result := AQuantity / FFactor;
+{$ENDIF}
+end;
+
+function TFactoredUnitHelper.ToComplex(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): TComplex;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
+{$ELSE}
+  result := GetValue(AQuantity / FFactor, APrefixes);
+{$ENDIF}
+end;
+
 function TFactoredUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
 var
   FactoredValue: TComplex;
@@ -3133,6 +3261,40 @@ begin
   result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
 end;
 
+function TFactoredUnitHelper.ToString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TComplex;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := '(' + FactoredValue.ToString + ') ' + GetSymbol(FPrefixes)
+  else
+    result := '(' + FactoredValue.ToString + ') ' + GetSymbol(APrefixes);
+end;
+
+function TFactoredUnitHelper.ToString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TComplex;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetSymbol(FPrefixes)
+  else
+    result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetSymbol(APrefixes);
+end;
+
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity): string;
 var
   FactoredValue: TComplex;
@@ -3144,6 +3306,40 @@ begin
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
   result := '(' + FactoredValue.ToString + ') ' + GetName(FPrefixes)
+end;
+
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TComplex;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(FPrefixes)
+  else
+    result := '(' + FactoredValue.ToString + ') ' + GetPluralName(APrefixes);
+end;
+
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+var
+  FactoredValue: TComplex;
+begin
+{$IFNDEF ADIMOFF}
+  Check(FID, AQuantity.FID);
+  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
+{$ELSE}
+  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
+{$ENDIF}
+
+  if Length(APrefixes) = 0 then
+    result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetPluralName(FPrefixes)
+  else
+    result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetPluralName(APrefixes);
 end;
 
 // R3 vector space

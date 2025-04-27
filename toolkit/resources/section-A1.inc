@@ -396,7 +396,20 @@ type
     function GetName(Prefixes: TPrefixes): string;
     function GetPluralName(Prefixes: TPrefixes): string;
     function GetSymbol(Prefixes: TPrefixes): string;
-    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;  
+    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
+    function GetValue(const AQuantity: TR2Vector; const APrefixes: TPrefixes): TR2Vector;
+    function GetValue(const AQuantity: TR3Vector; const APrefixes: TPrefixes): TR3Vector;
+    function GetValue(const AQuantity: TR4Vector; const APrefixes: TPrefixes): TR4Vector;
+    function GetValue(const AQuantity: TC2Vector; const APrefixes: TPrefixes): TC2Vector;
+    function GetValue(const AQuantity: TC3Vector; const APrefixes: TPrefixes): TC3Vector;
+    function GetValue(const AQuantity: TC4Vector; const APrefixes: TPrefixes): TC4Vector;
+    function GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
+    function GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
+    function GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
+    function GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
+    function GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
+    function GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
   public
     // Real numbers
     function ToFloat(const AQuantity: TQuantity): double;
@@ -410,8 +423,14 @@ type
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     // Complex numbers
+    function ToComplex(const AQuantity: TComplexQuantity): TComplex;
+    function ToComplex(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): TComplex;
     function ToString(const AQuantity: TComplexQuantity): string;
+    function ToString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TComplexQuantity): string;
+    function ToVerboseString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
     // R3 vector space
     function ToString(const AQuantity: TR3VecQuantity): string;
     function ToVerboseString(const AQuantity: TR3VecQuantity): string;
