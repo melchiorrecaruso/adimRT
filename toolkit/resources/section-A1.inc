@@ -488,6 +488,25 @@ type
     function ToVerboseString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
+    // Complex matrixes
+    function ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
+    function ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
+    function ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
+    function ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
+    function ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
+    function ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
+    function ToString(const AQuantity: TC2MatrixQuantity): string;
+    function ToString(const AQuantity: TC3MatrixQuantity): string;
+    function ToString(const AQuantity: TC4MatrixQuantity): string;
+    function ToString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
     // CL3 vector space, Clifford algebra
     function ToString(const AQuantity: TCL3VecQuantity): string;
     function ToString(const AQuantity: TCL3BivecQuantity): string;
