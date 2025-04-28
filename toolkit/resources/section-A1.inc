@@ -281,6 +281,10 @@ type
     function GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
     function GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
     function GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
+    function GetValue(const AQuantity: TCL3Vector; const APrefixes: TPrefixes): TCL3Vector;
+    function GetValue(const AQuantity: TCL3Bivector; const APrefixes: TPrefixes): TCL3Bivector;
+    function GetValue(const AQuantity: TCL3Trivector; const APrefixes: TPrefixes): TCL3Trivector;
+    function GetValue(const AQuantity: TCL3Multivector; const APrefixes: TPrefixes): TCL3Multivector;
   public
     // Real numbers
     function ToFloat(const AQuantity: TQuantity): double;
@@ -383,10 +387,18 @@ type
     function ToString(const AQuantity: TCL3BivecQuantity): string;
     function ToString(const AQuantity: TCL3TrivecQuantity): string;
     function ToString(const AQuantity: TCL3MultivecQuantity): string;
+    function ToString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TCL3VecQuantity): string;
     function ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
     function ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
     function ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
   end;
 
  { TFactoredUnitHelper }
@@ -410,6 +422,10 @@ type
     function GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
     function GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
     function GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
+    function GetValue(const AQuantity: TCL3Vector; const APrefixes: TPrefixes): TCL3Vector;
+    function GetValue(const AQuantity: TCL3Bivector; const APrefixes: TPrefixes): TCL3Bivector;
+    function GetValue(const AQuantity: TCL3Trivector; const APrefixes: TPrefixes): TCL3Trivector;
+    function GetValue(const AQuantity: TCL3Multivector; const APrefixes: TPrefixes): TCL3Multivector;
   public
     // Real numbers
     function ToFloat(const AQuantity: TQuantity): double;
@@ -512,10 +528,18 @@ type
     function ToString(const AQuantity: TCL3BivecQuantity): string;
     function ToString(const AQuantity: TCL3TrivecQuantity): string;
     function ToString(const AQuantity: TCL3MultivecQuantity): string;
+    function ToString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
     function ToVerboseString(const AQuantity: TCL3VecQuantity): string;
     function ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
     function ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
     function ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
+    function ToVerboseString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
   end;
 
  { TDegreeCelsiusUnitHelper }
