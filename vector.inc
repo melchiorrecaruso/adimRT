@@ -181,16 +181,22 @@ type
   // Helpers
 
   TR2MatrixHelper = record helper for TR2Matrix
+    function Determinant: double;
+    function Transpose: TR2Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
 
   TR3MatrixHelper = record helper for TR3Matrix
+    function Determinant: double;
+    function Transpose: TR3Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
 
   TR4MatrixHelper = record helper for TR4Matrix
+    function Determinant: double;
+    function Transpose: TR4Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
@@ -204,6 +210,7 @@ type
     function Reciprocal(const ADeterminant: TComplex): TC2Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
+    function Transpose: TC2Matrix;
     function TransposeConjugate: TC2Matrix;
   end;
 
@@ -216,6 +223,7 @@ type
     function Reciprocal(const ADeterminant: TComplex): TC3Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
+    function Transpose: TC3Matrix;
     function TransposeConjugate: TC3Matrix;
   end;
 
@@ -228,6 +236,7 @@ type
     function Reciprocal(const ADeterminant: TComplex): TC4Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
+    function Transpose: TC4Matrix;
     function TransposeConjugate: TC4Matrix;
   end;
 

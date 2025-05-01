@@ -618,6 +618,22 @@ end;
 
 // TR2MatrixHelper
 
+function TR2MatrixHelper.Determinant: double;
+begin
+  result := fm[1,1]*fm[2,2] - fm[1,2]*fm[2,1];
+end;
+
+function TR2MatrixHelper.Transpose: TR2Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 2 do
+    for j := 1 to 2 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
+
 function TR2MatrixHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s, %s)', [
@@ -636,6 +652,24 @@ begin
 end;
 
 // TR3MatrixHelper
+
+function TR3MatrixHelper.Determinant: double;
+begin
+  result :=  fm[1,1]*(fm[2,2]*fm[3,3]-fm[2,3]*fm[3,2])
+            +fm[1,2]*(fm[2,3]*fm[3,1]-fm[2,1]*fm[3,3])
+            +fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]);
+end;
+
+function TR3MatrixHelper.Transpose: TR3Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 3 do
+    for j := 1 to 3 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
 
 function TR3MatrixHelper.ToString: string;
 begin
@@ -662,6 +696,27 @@ begin
 end;
 
 // TR4MatrixHelper
+
+function TR4MatrixHelper.Determinant: double;
+begin
+  result := (fm[1,1]*fm[2,2]-fm[1,2]*fm[2,1])*(fm[3,3]*fm[4,4]-fm[3,4]*fm[4,3]) -
+            (fm[1,1]*fm[2,3]-fm[1,3]*fm[2,1])*(fm[3,2]*fm[4,4]-fm[3,4]*fm[4,2]) +
+            (fm[1,1]*fm[2,4]-fm[1,4]*fm[2,1])*(fm[3,2]*fm[4,3]-fm[3,3]*fm[4,2]) +
+            (fm[1,2]*fm[2,3]-fm[1,3]*fm[2,2])*(fm[3,1]*fm[4,4]-fm[3,4]*fm[4,1]) -
+            (fm[1,2]*fm[2,4]-fm[1,4]*fm[2,2])*(fm[3,1]*fm[4,3]-fm[3,3]*fm[4,1]) +
+            (fm[1,3]*fm[2,4]-fm[1,4]*fm[2,3])*(fm[3,1]*fm[4,2]-fm[3,2]*fm[4,1]) ;
+end;
+
+function TR4MatrixHelper.Transpose: TR4Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 4 do
+    for j := 1 to 4 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
 
 function TR4MatrixHelper.ToString: string;
 begin
@@ -713,7 +768,7 @@ begin
   for i := 1 to 2 do
     for j := 1 to 2 do
     begin
-      result[i, j] := fm[i, j].Conjugate;
+      result[i,j] := fm[i,j].Conjugate;
     end;
 end;
 
@@ -792,6 +847,17 @@ begin
     fm[2,1].ToString(APrecision, ADigits), fm[2,2].ToString(APrecision, ADigits)]);
 end;
 
+function TC2MatrixHelper.Transpose: TC2Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 2 do
+    for j := 1 to 2 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
+
 function TC2MatrixHelper.TransposeConjugate: TC2Matrix;
 var
   i, j: longint;
@@ -799,7 +865,7 @@ begin
   for i := 1 to 2 do
     for j := 1 to 2 do
     begin
-      result[i, j] := fm[j, i].Conjugate;
+      result[i,j] := fm[j,i].Conjugate;
     end;
 end;
 
@@ -827,7 +893,7 @@ begin
   for i := 1 to 3 do
     for j := 1 to 3 do
     begin
-      result[i, j] := fm[i, j].Conjugate;
+      result[i,j] := fm[i,j].Conjugate;
     end;
 end;
 
@@ -926,6 +992,17 @@ begin
     fm[3,1].ToString(APrecision, ADigits), fm[3,2].ToString(APrecision, ADigits), fm[3,3].ToString(APrecision, ADigits)]);
 end;
 
+function TC3MatrixHelper.Transpose: TC3Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 3 do
+    for j := 1 to 3 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
+
 function TC3MatrixHelper.TransposeConjugate: TC3Matrix;
 var
   i, j: longint;
@@ -933,7 +1010,7 @@ begin
   for i := 1 to 3 do
     for j := 1 to 3 do
     begin
-      result[i, j] := fm[j, i].Conjugate;
+      result[i,j] := fm[j,i].Conjugate;
     end;
 end;
 
@@ -969,7 +1046,7 @@ begin
   for i := 1 to 4 do
     for j := 1 to 4 do
     begin
-      result[i, j] := fm[i, j].Conjugate;
+      result[i,j] := fm[i,j].Conjugate;
     end;
 end;
 
@@ -1128,6 +1205,17 @@ begin
     fm[4,1].ToString(APrecision, ADigits), fm[4,2].ToString(APrecision, ADigits), fm[4,3].ToString, fm[4,4].ToString(APrecision, ADigits)]);
 end;
 
+function TC4MatrixHelper.Transpose: TC4Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 4 do
+    for j := 1 to 4 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
+
 function TC4MatrixHelper.TransposeConjugate: TC4Matrix;
 var
   i, j: longint;
@@ -1135,7 +1223,7 @@ begin
   for i := 1 to 4 do
     for j := 1 to 4 do
     begin
-      result[i, j] := fm[j, i].Conjugate;
+      result[i,j] := fm[j,i].Conjugate;
     end;
 end;
 
