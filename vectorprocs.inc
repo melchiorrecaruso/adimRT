@@ -623,6 +623,14 @@ begin
   result := fm[1,1]*fm[2,2] - fm[1,2]*fm[2,1];
 end;
 
+function TR2MatrixHelper.Reciprocal(const ADeterminant: double): TR2Matrix;
+begin
+  result[1,1] :=  fm[2,2]/ADeterminant;
+  result[1,2] := -fm[1,2]/ADeterminant;
+  result[2,1] := -fm[2,1]/ADeterminant;
+  result[2,2] :=  fm[1,1]/ADeterminant;
+end;
+
 function TR2MatrixHelper.Transpose: TR2Matrix;
 var
   i, j: longint;
@@ -658,6 +666,19 @@ begin
   result :=  fm[1,1]*(fm[2,2]*fm[3,3]-fm[2,3]*fm[3,2])
             +fm[1,2]*(fm[2,3]*fm[3,1]-fm[2,1]*fm[3,3])
             +fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]);
+end;
+
+function TR3MatrixHelper.Reciprocal(const ADeterminant: double): TR3Matrix;
+begin
+  result.fm[1,1] :=  (fm[2,2]*fm[3,3] -fm[2,3]*fm[3,2]) / ADeterminant;
+  result.fm[1,2] := -(fm[1,2]*fm[3,3] -fm[1,3]*fm[3,2]) / ADeterminant;
+  result.fm[1,3] :=  (fm[1,2]*fm[2,3] -fm[1,3]*fm[2,2]) / ADeterminant;
+  result.fm[2,1] := -(fm[2,1]*fm[3,3] -fm[2,3]*fm[3,1]) / ADeterminant;
+  result.fm[2,2] :=  (fm[1,1]*fm[3,3] -fm[1,3]*fm[3,1]) / ADeterminant;
+  result.fm[2,3] := -(fm[1,1]*fm[2,3] -fm[1,3]*fm[2,1]) / ADeterminant;
+  result.fm[3,1] :=  (fm[2,1]*fm[3,2] -fm[2,2]*fm[3,1]) / ADeterminant;
+  result.fm[3,2] := -(fm[1,1]*fm[3,2] -fm[1,2]*fm[3,1]) / ADeterminant;
+  result.fm[3,3] :=  (fm[1,1]*fm[2,2] -fm[1,2]*fm[2,1]) / ADeterminant;
 end;
 
 function TR3MatrixHelper.Transpose: TR3Matrix;
@@ -707,6 +728,58 @@ begin
             (fm[1,3]*fm[2,4]-fm[1,4]*fm[2,3])*(fm[3,1]*fm[4,2]-fm[3,2]*fm[4,1]) ;
 end;
 
+function TR4MatrixHelper.Reciprocal(const ADeterminant: double): TR4Matrix;
+begin
+  result[1,1]:= (fm[2,2]*(fm[3,3]*fm[4,4]-fm[3,4]*fm[4,3])+
+                 fm[2,3]*(fm[3,4]*fm[4,2]-fm[3,2]*fm[4,4])+
+                 fm[2,4]*(fm[3,2]*fm[4,3]-fm[3,3]*fm[4,2]))/Adeterminant;
+  result[1,2]:= (fm[3,2]*(fm[1,3]*fm[4,4]-fm[1,4]*fm[4,3])+
+                 fm[3,3]*(fm[1,4]*fm[4,2]-fm[1,2]*fm[4,4])+
+                 fm[3,4]*(fm[1,2]*fm[4,3]-fm[1,3]*fm[4,2]))/Adeterminant;
+  result[1,3]:= (fm[4,2]*(fm[1,3]*fm[2,4]-fm[1,4]*fm[2,3])+
+                 fm[4,3]*(fm[1,4]*fm[2,2]-fm[1,2]*fm[2,4])+
+                 fm[4,4]*(fm[1,2]*fm[2,3]-fm[1,3]*fm[2,2]))/Adeterminant;
+  result[1,4]:= (fm[1,2]*(fm[2,4]*fm[3,3]-fm[2,3]*fm[3,4])+
+                 fm[1,3]*(fm[2,2]*fm[3,4]-fm[2,4]*fm[3,2])+
+                 fm[1,4]*(fm[2,3]*fm[3,2]-fm[2,2]*fm[3,3]))/Adeterminant;
+  result[2,1]:= (fm[2,3]*(fm[3,1]*fm[4,4]-fm[3,4]*fm[4,1])+
+                 fm[2,4]*(fm[3,3]*fm[4,1]-fm[3,1]*fm[4,3])+
+                 fm[2,1]*(fm[3,4]*fm[4,3]-fm[3,3]*fm[4,4]))/Adeterminant;
+  result[2,2]:= (fm[3,3]*(fm[1,1]*fm[4,4]-fm[1,4]*fm[4,1])+
+                 fm[3,4]*(fm[1,3]*fm[4,1]-fm[1,1]*fm[4,3])+
+                 fm[3,1]*(fm[1,4]*fm[4,3]-fm[1,3]*fm[4,4]))/Adeterminant;
+  result[2,3]:= (fm[4,3]*(fm[1,1]*fm[2,4]-fm[1,4]*fm[2,1])+
+                 fm[4,4]*(fm[1,3]*fm[2,1]-fm[1,1]*fm[2,3])+
+                 fm[4,1]*(fm[1,4]*fm[2,3]-fm[1,3]*fm[2,4]))/Adeterminant;
+  result[2,4]:= (fm[1,3]*(fm[2,4]*fm[3,1]-fm[2,1]*fm[3,4])+
+                 fm[1,4]*(fm[2,1]*fm[3,3]-fm[2,3]*fm[3,1])+
+                 fm[1,1]*(fm[2,3]*fm[3,4]-fm[2,4]*fm[3,3]))/Adeterminant;
+  result[3,1]:= (fm[2,4]*(fm[3,1]*fm[4,2]-fm[3,2]*fm[4,1])+
+                 fm[2,1]*(fm[3,2]*fm[4,4]-fm[3,4]*fm[4,2])+
+                 fm[2,2]*(fm[3,4]*fm[4,1]-fm[3,1]*fm[4,4]))/Adeterminant;
+  result[3,2]:= (fm[3,4]*(fm[1,1]*fm[4,2]-fm[1,2]*fm[4,1])+
+                 fm[3,1]*(fm[1,2]*fm[4,4]-fm[1,4]*fm[4,2])+
+                 fm[3,2]*(fm[1,4]*fm[4,1]-fm[1,1]*fm[4,4]))/Adeterminant;
+  result[3,3]:= (fm[4,4]*(fm[1,1]*fm[2,2]-fm[1,2]*fm[2,1])+
+                 fm[4,1]*(fm[1,2]*fm[2,4]-fm[1,4]*fm[2,2])+
+                 fm[4,2]*(fm[1,4]*fm[2,1]-fm[1,1]*fm[2,4]))/Adeterminant;
+  result[3,4]:= (fm[1,4]*(fm[2,2]*fm[3,1]-fm[2,1]*fm[3,2])+
+                 fm[1,1]*(fm[2,4]*fm[3,2]-fm[2,2]*fm[3,4])+
+                 fm[1,2]*(fm[2,1]*fm[3,4]-fm[2,4]*fm[3,1]))/Adeterminant;
+  result[4,1]:= (fm[2,1]*(fm[3,3]*fm[4,2]-fm[3,2]*fm[4,3])+
+                 fm[2,2]*(fm[3,1]*fm[4,3]-fm[3,3]*fm[4,1])+
+                 fm[2,3]*(fm[3,2]*fm[4,1]-fm[3,1]*fm[4,2]))/Adeterminant;
+  result[4,2]:= (fm[3,1]*(fm[1,3]*fm[4,2]-fm[1,2]*fm[4,3])+
+                 fm[3,2]*(fm[1,1]*fm[4,3]-fm[1,3]*fm[4,1])+
+                 fm[3,3]*(fm[1,2]*fm[4,1]-fm[1,1]*fm[4,2]))/Adeterminant;
+  result[4,3]:= (fm[4,1]*(fm[1,3]*fm[2,2]-fm[1,2]*fm[2,3])+
+                 fm[4,2]*(fm[1,1]*fm[2,3]-fm[1,3]*fm[2,1])+
+                 fm[4,3]*(fm[1,2]*fm[2,1]-fm[1,1]*fm[2,2]))/Adeterminant;
+  result[4,4]:= (fm[1,1]*(fm[2,2]*fm[3,3]-fm[2,3]*fm[3,2])+
+                 fm[1,2]*(fm[2,3]*fm[3,1]-fm[2,1]*fm[3,3])+
+                 fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]))/Adeterminant;
+end;
+
 function TR4MatrixHelper.Transpose: TR4Matrix;
 var
   i, j: longint;
@@ -729,7 +802,7 @@ end;
 
 function TR4MatrixHelper.ToString(APrecision, ADigits: integer): string;
 begin
-  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', [
     fm[1,1].ToString(ffGeneral, APrecision, ADigits),
     fm[1,2].ToString(ffGeneral, APrecision, ADigits),
     fm[1,3].ToString(ffGeneral, APrecision, ADigits),
@@ -1184,7 +1257,6 @@ begin
   result[4,4]:= (fm[1,1]*(fm[2,2]*fm[3,3]-fm[2,3]*fm[3,2])+
                  fm[1,2]*(fm[2,3]*fm[3,1]-fm[2,1]*fm[3,3])+
                  fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]))/Adeterminant;
-
 end;
 
 function TC4MatrixHelper.ToString: string;
