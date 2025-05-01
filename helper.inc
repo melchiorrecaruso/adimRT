@@ -46,7 +46,8 @@ type
 
   {$IFNDEF ADIMOFF}
   TC3VecQuantityHelper = record helper for TC3VecQuantity
-
+    function Dot(const AVector: TC3VecQuantity): TComplexQuantity;
+    function Conjugate: TC3VecQuantity;
   end;
   {$ENDIF}
 
@@ -54,7 +55,16 @@ type
 
   {$IFNDEF ADIMOFF}
   TC4VecQuantityHelper = record helper for TC4VecQuantity
+    function Dot(const AVector: TC4VecQuantity): TComplexQuantity;
+    function Conjugate: TC4VecQuantity;
+  end;
+  {$ENDIF}
 
+  { TR2VecQuantityHelper }
+
+  {$IFNDEF ADIMOFF}
+  TR2VecQuantityHelper = record helper for TR2VecQuantity
+    function Dot(const AVector: TR2VecQuantity): TQuantity;
   end;
   {$ENDIF}
 
@@ -64,9 +74,14 @@ type
   TR3VecQuantityHelper = record helper for TR3VecQuantity
     function Dot(const AVector: TR3VecQuantity): TQuantity;
     function Cross(const AVector: TR3VecQuantity): TR3VecQuantity;
-    function Projection(const AVersor: TR3Vector): TR3VecQuantity;
-    function Rejection(const AVersor: TR3Vector): TR3VecQuantity;
-    function Reflection(const AVersor: TR3Vector): TR3VecQuantity;
+  end;
+  {$ENDIF}
+
+  { TR4VecQuantityHelper }
+
+  {$IFNDEF ADIMOFF}
+  TR4VecQuantityHelper = record helper for TR4VecQuantity
+    function Dot(const AVector: TR4VecQuantity): TQuantity;
   end;
   {$ENDIF}
 
@@ -293,3 +308,4 @@ type
     function ToMultivector: TCL3MultivecQuantity;
   end;
   {$ENDIF}
+

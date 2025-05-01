@@ -181,93 +181,106 @@ type
   // Helpers
 
   TR2MatrixHelper = record helper for TR2Matrix
+    function Determinant: double;
+    function Reciprocal(const ADeterminant: double): TR2Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
+    function Transpose: TR2Matrix;
   end;
 
   TR3MatrixHelper = record helper for TR3Matrix
+    function Determinant: double;
+    function Reciprocal(const ADeterminant: double): TR3Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
+    function Transpose: TR3Matrix;
   end;
 
   TR4MatrixHelper = record helper for TR4Matrix
+    function Determinant: double;
+    function Reciprocal(const ADeterminant: double): TR4Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
+    function Transpose: TR4Matrix;
   end;
 
   TC2MatrixHelper = record helper for TC2Matrix
-    function Diagonalize(const AEigenValues: TC2ArrayOfComplex): TC2Matrix;
     function Conjugate: TC2Matrix;
     function Determinant: TComplex;
+    function Diagonalize(const AEigenValues: TC2ArrayOfComplex): TC2Matrix;
     function Eigenvalues: TC2ArrayOfComplex;
     function Eigenvectors(const AEigenValues: TC2ArrayOfComplex): TC2ArrayOfVector;
     function Reciprocal(const ADeterminant: TComplex): TC2Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
+    function Transpose: TC2Matrix;
     function TransposeConjugate: TC2Matrix;
   end;
 
   TC3MatrixHelper = record helper for TC3Matrix
-    function Diagonalize(const AEigenValues: TC3ArrayOfComplex): TC3Matrix;
     function Conjugate: TC3Matrix;
     function Determinant: TComplex;
+    function Diagonalize(const AEigenValues: TC3ArrayOfComplex): TC3Matrix;
     function Eigenvalues: TC3ArrayOfComplex;
     function Eigenvectors(const AEigenValues: TC3ArrayOfComplex): TC3ArrayOfVector;
     function Reciprocal(const ADeterminant: TComplex): TC3Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
+    function Transpose: TC3Matrix;
     function TransposeConjugate: TC3Matrix;
   end;
 
   TC4MatrixHelper = record helper for TC4Matrix
-    function Diagonalize(const AEigenValues: TC4ArrayOfComplex): TC4Matrix;
     function Conjugate: TC4Matrix;
     function Determinant: TComplex;
+    function Diagonalize(const AEigenValues: TC4ArrayOfComplex): TC4Matrix;
     function Eigenvalues: TC4ArrayOfComplex;
     function Eigenvectors(const AEigenValues: TC4ArrayOfComplex): TC4ArrayOfVector;
     function Reciprocal(const ADeterminant: TComplex): TC4Matrix;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
+    function Transpose: TC4Matrix;
     function TransposeConjugate: TC4Matrix;
   end;
 
   TC2VectorHelper = record helper for TC2Vector
-    function Dot(const AVector: TC2Vector): TComplex;
     function Conjugate: TC2Vector;
+    function Dot(const AVector: TC2Vector): TComplex;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC3VectorHelper = record helper for TC3Vector
     function Conjugate: TC3Vector;
+    function Dot(const AVector: TC3Vector): TComplex;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
 
   TC4VectorHelper = record helper for TC4Vector
     function Conjugate: TC4Vector;
+    function Dot(const AVector: TC4Vector): TComplex;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
 
   TR2VectorHelper = record helper for TR2Vector
-    function ToString(APrecision, ADigits: longint): string;
+    function Dot(const AVector: TR2Vector): double;
     function ToString: string;
+    function ToString(APrecision, ADigits: longint): string;
   end;
 
   TR3VectorHelper = record helper for TR3Vector
     function Dot(const AVector: TR3Vector): double;
     function Cross(const AVector: TR3Vector): TR3Vector;
-    function Projection(const AVector: TR3Vector): TR3Vector; overload;
-    function Rejection(const AVector: TR3Vector): TR3Vector; overload;
-    function Reflection(const AVector: TR3Vector): TR3Vector; overload;
-    function ToString(APrecision, ADigits: longint): string;
     function ToString: string;
+    function ToString(APrecision, ADigits: longint): string;
   end;
 
   TR4VectorHelper = record helper for TR4Vector
-    function ToString(APrecision, ADigits: longint): string;
+    function Dot(const AVector: TR4Vector): double;
     function ToString: string;
+    function ToString(APrecision, ADigits: longint): string;
   end;
 
 

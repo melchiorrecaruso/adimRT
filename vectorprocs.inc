@@ -618,6 +618,30 @@ end;
 
 // TR2MatrixHelper
 
+function TR2MatrixHelper.Determinant: double;
+begin
+  result := fm[1,1]*fm[2,2] - fm[1,2]*fm[2,1];
+end;
+
+function TR2MatrixHelper.Reciprocal(const ADeterminant: double): TR2Matrix;
+begin
+  result[1,1] :=  fm[2,2]/ADeterminant;
+  result[1,2] := -fm[1,2]/ADeterminant;
+  result[2,1] := -fm[2,1]/ADeterminant;
+  result[2,2] :=  fm[1,1]/ADeterminant;
+end;
+
+function TR2MatrixHelper.Transpose: TR2Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 2 do
+    for j := 1 to 2 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
+
 function TR2MatrixHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s, %s)', [
@@ -636,6 +660,37 @@ begin
 end;
 
 // TR3MatrixHelper
+
+function TR3MatrixHelper.Determinant: double;
+begin
+  result :=  fm[1,1]*(fm[2,2]*fm[3,3]-fm[2,3]*fm[3,2])
+            +fm[1,2]*(fm[2,3]*fm[3,1]-fm[2,1]*fm[3,3])
+            +fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]);
+end;
+
+function TR3MatrixHelper.Reciprocal(const ADeterminant: double): TR3Matrix;
+begin
+  result.fm[1,1] :=  (fm[2,2]*fm[3,3] -fm[2,3]*fm[3,2]) / ADeterminant;
+  result.fm[1,2] := -(fm[1,2]*fm[3,3] -fm[1,3]*fm[3,2]) / ADeterminant;
+  result.fm[1,3] :=  (fm[1,2]*fm[2,3] -fm[1,3]*fm[2,2]) / ADeterminant;
+  result.fm[2,1] := -(fm[2,1]*fm[3,3] -fm[2,3]*fm[3,1]) / ADeterminant;
+  result.fm[2,2] :=  (fm[1,1]*fm[3,3] -fm[1,3]*fm[3,1]) / ADeterminant;
+  result.fm[2,3] := -(fm[1,1]*fm[2,3] -fm[1,3]*fm[2,1]) / ADeterminant;
+  result.fm[3,1] :=  (fm[2,1]*fm[3,2] -fm[2,2]*fm[3,1]) / ADeterminant;
+  result.fm[3,2] := -(fm[1,1]*fm[3,2] -fm[1,2]*fm[3,1]) / ADeterminant;
+  result.fm[3,3] :=  (fm[1,1]*fm[2,2] -fm[1,2]*fm[2,1]) / ADeterminant;
+end;
+
+function TR3MatrixHelper.Transpose: TR3Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 3 do
+    for j := 1 to 3 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
 
 function TR3MatrixHelper.ToString: string;
 begin
@@ -663,6 +718,79 @@ end;
 
 // TR4MatrixHelper
 
+function TR4MatrixHelper.Determinant: double;
+begin
+  result := (fm[1,1]*fm[2,2]-fm[1,2]*fm[2,1])*(fm[3,3]*fm[4,4]-fm[3,4]*fm[4,3]) -
+            (fm[1,1]*fm[2,3]-fm[1,3]*fm[2,1])*(fm[3,2]*fm[4,4]-fm[3,4]*fm[4,2]) +
+            (fm[1,1]*fm[2,4]-fm[1,4]*fm[2,1])*(fm[3,2]*fm[4,3]-fm[3,3]*fm[4,2]) +
+            (fm[1,2]*fm[2,3]-fm[1,3]*fm[2,2])*(fm[3,1]*fm[4,4]-fm[3,4]*fm[4,1]) -
+            (fm[1,2]*fm[2,4]-fm[1,4]*fm[2,2])*(fm[3,1]*fm[4,3]-fm[3,3]*fm[4,1]) +
+            (fm[1,3]*fm[2,4]-fm[1,4]*fm[2,3])*(fm[3,1]*fm[4,2]-fm[3,2]*fm[4,1]) ;
+end;
+
+function TR4MatrixHelper.Reciprocal(const ADeterminant: double): TR4Matrix;
+begin
+  result[1,1]:= (fm[2,2]*(fm[3,3]*fm[4,4]-fm[3,4]*fm[4,3])+
+                 fm[2,3]*(fm[3,4]*fm[4,2]-fm[3,2]*fm[4,4])+
+                 fm[2,4]*(fm[3,2]*fm[4,3]-fm[3,3]*fm[4,2]))/Adeterminant;
+  result[1,2]:= (fm[3,2]*(fm[1,3]*fm[4,4]-fm[1,4]*fm[4,3])+
+                 fm[3,3]*(fm[1,4]*fm[4,2]-fm[1,2]*fm[4,4])+
+                 fm[3,4]*(fm[1,2]*fm[4,3]-fm[1,3]*fm[4,2]))/Adeterminant;
+  result[1,3]:= (fm[4,2]*(fm[1,3]*fm[2,4]-fm[1,4]*fm[2,3])+
+                 fm[4,3]*(fm[1,4]*fm[2,2]-fm[1,2]*fm[2,4])+
+                 fm[4,4]*(fm[1,2]*fm[2,3]-fm[1,3]*fm[2,2]))/Adeterminant;
+  result[1,4]:= (fm[1,2]*(fm[2,4]*fm[3,3]-fm[2,3]*fm[3,4])+
+                 fm[1,3]*(fm[2,2]*fm[3,4]-fm[2,4]*fm[3,2])+
+                 fm[1,4]*(fm[2,3]*fm[3,2]-fm[2,2]*fm[3,3]))/Adeterminant;
+  result[2,1]:= (fm[2,3]*(fm[3,1]*fm[4,4]-fm[3,4]*fm[4,1])+
+                 fm[2,4]*(fm[3,3]*fm[4,1]-fm[3,1]*fm[4,3])+
+                 fm[2,1]*(fm[3,4]*fm[4,3]-fm[3,3]*fm[4,4]))/Adeterminant;
+  result[2,2]:= (fm[3,3]*(fm[1,1]*fm[4,4]-fm[1,4]*fm[4,1])+
+                 fm[3,4]*(fm[1,3]*fm[4,1]-fm[1,1]*fm[4,3])+
+                 fm[3,1]*(fm[1,4]*fm[4,3]-fm[1,3]*fm[4,4]))/Adeterminant;
+  result[2,3]:= (fm[4,3]*(fm[1,1]*fm[2,4]-fm[1,4]*fm[2,1])+
+                 fm[4,4]*(fm[1,3]*fm[2,1]-fm[1,1]*fm[2,3])+
+                 fm[4,1]*(fm[1,4]*fm[2,3]-fm[1,3]*fm[2,4]))/Adeterminant;
+  result[2,4]:= (fm[1,3]*(fm[2,4]*fm[3,1]-fm[2,1]*fm[3,4])+
+                 fm[1,4]*(fm[2,1]*fm[3,3]-fm[2,3]*fm[3,1])+
+                 fm[1,1]*(fm[2,3]*fm[3,4]-fm[2,4]*fm[3,3]))/Adeterminant;
+  result[3,1]:= (fm[2,4]*(fm[3,1]*fm[4,2]-fm[3,2]*fm[4,1])+
+                 fm[2,1]*(fm[3,2]*fm[4,4]-fm[3,4]*fm[4,2])+
+                 fm[2,2]*(fm[3,4]*fm[4,1]-fm[3,1]*fm[4,4]))/Adeterminant;
+  result[3,2]:= (fm[3,4]*(fm[1,1]*fm[4,2]-fm[1,2]*fm[4,1])+
+                 fm[3,1]*(fm[1,2]*fm[4,4]-fm[1,4]*fm[4,2])+
+                 fm[3,2]*(fm[1,4]*fm[4,1]-fm[1,1]*fm[4,4]))/Adeterminant;
+  result[3,3]:= (fm[4,4]*(fm[1,1]*fm[2,2]-fm[1,2]*fm[2,1])+
+                 fm[4,1]*(fm[1,2]*fm[2,4]-fm[1,4]*fm[2,2])+
+                 fm[4,2]*(fm[1,4]*fm[2,1]-fm[1,1]*fm[2,4]))/Adeterminant;
+  result[3,4]:= (fm[1,4]*(fm[2,2]*fm[3,1]-fm[2,1]*fm[3,2])+
+                 fm[1,1]*(fm[2,4]*fm[3,2]-fm[2,2]*fm[3,4])+
+                 fm[1,2]*(fm[2,1]*fm[3,4]-fm[2,4]*fm[3,1]))/Adeterminant;
+  result[4,1]:= (fm[2,1]*(fm[3,3]*fm[4,2]-fm[3,2]*fm[4,3])+
+                 fm[2,2]*(fm[3,1]*fm[4,3]-fm[3,3]*fm[4,1])+
+                 fm[2,3]*(fm[3,2]*fm[4,1]-fm[3,1]*fm[4,2]))/Adeterminant;
+  result[4,2]:= (fm[3,1]*(fm[1,3]*fm[4,2]-fm[1,2]*fm[4,3])+
+                 fm[3,2]*(fm[1,1]*fm[4,3]-fm[1,3]*fm[4,1])+
+                 fm[3,3]*(fm[1,2]*fm[4,1]-fm[1,1]*fm[4,2]))/Adeterminant;
+  result[4,3]:= (fm[4,1]*(fm[1,3]*fm[2,2]-fm[1,2]*fm[2,3])+
+                 fm[4,2]*(fm[1,1]*fm[2,3]-fm[1,3]*fm[2,1])+
+                 fm[4,3]*(fm[1,2]*fm[2,1]-fm[1,1]*fm[2,2]))/Adeterminant;
+  result[4,4]:= (fm[1,1]*(fm[2,2]*fm[3,3]-fm[2,3]*fm[3,2])+
+                 fm[1,2]*(fm[2,3]*fm[3,1]-fm[2,1]*fm[3,3])+
+                 fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]))/Adeterminant;
+end;
+
+function TR4MatrixHelper.Transpose: TR4Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 4 do
+    for j := 1 to 4 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
+
 function TR4MatrixHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', [
@@ -674,7 +802,7 @@ end;
 
 function TR4MatrixHelper.ToString(APrecision, ADigits: integer): string;
 begin
-  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s)', [
+  result := Format('(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', [
     fm[1,1].ToString(ffGeneral, APrecision, ADigits),
     fm[1,2].ToString(ffGeneral, APrecision, ADigits),
     fm[1,3].ToString(ffGeneral, APrecision, ADigits),
@@ -713,7 +841,7 @@ begin
   for i := 1 to 2 do
     for j := 1 to 2 do
     begin
-      result[i, j] := fm[i, j].Conjugate;
+      result[i,j] := fm[i,j].Conjugate;
     end;
 end;
 
@@ -792,6 +920,17 @@ begin
     fm[2,1].ToString(APrecision, ADigits), fm[2,2].ToString(APrecision, ADigits)]);
 end;
 
+function TC2MatrixHelper.Transpose: TC2Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 2 do
+    for j := 1 to 2 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
+
 function TC2MatrixHelper.TransposeConjugate: TC2Matrix;
 var
   i, j: longint;
@@ -799,7 +938,7 @@ begin
   for i := 1 to 2 do
     for j := 1 to 2 do
     begin
-      result[i, j] := fm[j, i].Conjugate;
+      result[i,j] := fm[j,i].Conjugate;
     end;
 end;
 
@@ -827,7 +966,7 @@ begin
   for i := 1 to 3 do
     for j := 1 to 3 do
     begin
-      result[i, j] := fm[i, j].Conjugate;
+      result[i,j] := fm[i,j].Conjugate;
     end;
 end;
 
@@ -926,6 +1065,17 @@ begin
     fm[3,1].ToString(APrecision, ADigits), fm[3,2].ToString(APrecision, ADigits), fm[3,3].ToString(APrecision, ADigits)]);
 end;
 
+function TC3MatrixHelper.Transpose: TC3Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 3 do
+    for j := 1 to 3 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
+
 function TC3MatrixHelper.TransposeConjugate: TC3Matrix;
 var
   i, j: longint;
@@ -933,7 +1083,7 @@ begin
   for i := 1 to 3 do
     for j := 1 to 3 do
     begin
-      result[i, j] := fm[j, i].Conjugate;
+      result[i,j] := fm[j,i].Conjugate;
     end;
 end;
 
@@ -969,7 +1119,7 @@ begin
   for i := 1 to 4 do
     for j := 1 to 4 do
     begin
-      result[i, j] := fm[i, j].Conjugate;
+      result[i,j] := fm[i,j].Conjugate;
     end;
 end;
 
@@ -1107,7 +1257,6 @@ begin
   result[4,4]:= (fm[1,1]*(fm[2,2]*fm[3,3]-fm[2,3]*fm[3,2])+
                  fm[1,2]*(fm[2,3]*fm[3,1]-fm[2,1]*fm[3,3])+
                  fm[1,3]*(fm[2,1]*fm[3,2]-fm[2,2]*fm[3,1]))/Adeterminant;
-
 end;
 
 function TC4MatrixHelper.ToString: string;
@@ -1128,6 +1277,17 @@ begin
     fm[4,1].ToString(APrecision, ADigits), fm[4,2].ToString(APrecision, ADigits), fm[4,3].ToString, fm[4,4].ToString(APrecision, ADigits)]);
 end;
 
+function TC4MatrixHelper.Transpose: TC4Matrix;
+var
+  i, j: longint;
+begin
+  for i := 1 to 4 do
+    for j := 1 to 4 do
+    begin
+      result[i,j] := fm[j,i];
+    end;
+end;
+
 function TC4MatrixHelper.TransposeConjugate: TC4Matrix;
 var
   i, j: longint;
@@ -1135,7 +1295,7 @@ begin
   for i := 1 to 4 do
     for j := 1 to 4 do
     begin
-      result[i, j] := fm[j, i].Conjugate;
+      result[i,j] := fm[j,i].Conjugate;
     end;
 end;
 
@@ -1182,6 +1342,15 @@ begin
     result[i] := fm[i].Conjugate;
 end;
 
+function TC3VectorHelper.Dot(const AVector: TC3Vector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to 3 do
+    result := result + fm[i] * AVector[i];
+end;
+
 function TC3VectorHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s)', [
@@ -1208,6 +1377,15 @@ begin
     result[i] := fm[i].Conjugate;
 end;
 
+function TC4VectorHelper.Dot(const AVector: TC4Vector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to 4 do
+    result := result + fm[i] * AVector[i];
+end;
+
 function TC4VectorHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s, %s)', [
@@ -1228,21 +1406,13 @@ end;
 
 // TR2VectorHelper
 
-function TR2VectorHelper.ToString(APrecision, ADigits: longint): string;
+function TR2VectorHelper.Dot(const AVector: TR2Vector): double;
 var
   i: longint;
 begin
-  result := '';
-  if not SameValueEx(fm[1], 0) then result := result + Fmt(fm[1],  APrecision, ADigits) + 'e1 ';
-  if not SameValueEx(fm[2], 0) then result := result + Fmt(fm[2],  APrecision, ADigits) + 'e2 ';
-
-    i := Length(result);
-  if i > 0 then
-    SetLength(result, i - 1)
-  else
-    result := '0e1';
-
-  result := '(' + result + ')';
+  result := 0;
+  for i := 1 to 2 do
+    result := result + fm[i] * AVector[i];
 end;
 
 function TR2VectorHelper.ToString: string;
@@ -1254,6 +1424,23 @@ begin
   if not SameValueEx(fm[2], 0.0) then result := result + Fmt(fm[2]) + 'e2 ';
 
   i := Length(result);
+  if i > 0 then
+    SetLength(result, i - 1)
+  else
+    result := '0e1';
+
+  result := '(' + result + ')';
+end;
+
+function TR2VectorHelper.ToString(APrecision, ADigits: longint): string;
+var
+  i: longint;
+begin
+  result := '';
+  if not SameValueEx(fm[1], 0) then result := result + Fmt(fm[1],  APrecision, ADigits) + 'e1 ';
+  if not SameValueEx(fm[2], 0) then result := result + Fmt(fm[2],  APrecision, ADigits) + 'e2 ';
+
+    i := Length(result);
   if i > 0 then
     SetLength(result, i - 1)
   else
@@ -1280,19 +1467,22 @@ begin
   result[3] :=  fm[1]*AVector[2] - fm[2]*AVector[1];
 end;
 
-function TR3VectorHelper.Projection(const AVector: TR3Vector): TR3Vector;
+function TR3VectorHelper.ToString: string;
+var
+  i: longint;
 begin
-  result := Dot(AVector) * AVector.Reciprocal;
-end;
+  result := '';
+  if not SameValueEx(fm[1], 0.0) then result := result + Fmt(fm[1]) + 'e1 ';
+  if not SameValueEx(fm[2], 0.0) then result := result + Fmt(fm[2]) + 'e2 ';
+  if not SameValueEx(fm[3], 0.0) then result := result + Fmt(fm[3]) + 'e3 ';
 
-function TR3VectorHelper.Rejection(const AVector: TR3Vector): TR3Vector;
-begin
-  result := Self - Dot(AVector) * AVector.Reciprocal;
-end;
+  i := Length(result);
+  if i > 0 then
+    SetLength(result, i - 1)
+  else
+    result := '0e1';
 
-function TR3VectorHelper.Reflection(const AVector: TR3Vector): TR3Vector;
-begin
-  result := Projection(AVector.Normalize) - Rejection(AVector.Normalize);
+  result := '(' + result + ')';
 end;
 
 function TR3VectorHelper.ToString(APrecision, ADigits: longint): string;
@@ -1313,43 +1503,15 @@ begin
   result := '(' + result + ')';
 end;
 
-function TR3VectorHelper.ToString: string;
-var
-  i: longint;
-begin
-  result := '';
-  if not SameValueEx(fm[1], 0.0) then result := result + Fmt(fm[1]) + 'e1 ';
-  if not SameValueEx(fm[2], 0.0) then result := result + Fmt(fm[2]) + 'e2 ';
-  if not SameValueEx(fm[3], 0.0) then result := result + Fmt(fm[3]) + 'e3 ';
-
-  i := Length(result);
-  if i > 0 then
-    SetLength(result, i - 1)
-  else
-    result := '0e1';
-
-  result := '(' + result + ')';
-end;
-
 // TR4VectorHelper
 
-function TR4VectorHelper.ToString(APrecision, ADigits: longint): string;
+function TR4VectorHelper.Dot(const AVector: TR4Vector): double;
 var
   i: longint;
 begin
-  result := '';
-  if not SameValueEx(fm[1], 0) then result := result + Fmt(fm[1],  APrecision, ADigits) + 'e1 ';
-  if not SameValueEx(fm[2], 0) then result := result + Fmt(fm[2],  APrecision, ADigits) + 'e2 ';
-  if not SameValueEx(fm[3], 0) then result := result + Fmt(fm[3],  APrecision, ADigits) + 'e3 ';
-  if not SameValueEx(fm[4], 0) then result := result + Fmt(fm[4],  APrecision, ADigits) + 'e4 ';
-
-    i := Length(result);
-  if i > 0 then
-    SetLength(result, i - 1)
-  else
-    result := '0e1';
-
-  result := '(' + result + ')';
+  result := 0;
+  for i := 1 to 4 do
+    result := result + fm[i] * AVector[i];
 end;
 
 function TR4VectorHelper.ToString: string;
@@ -1363,6 +1525,25 @@ begin
   if not SameValueEx(fm[4], 0.0) then result := result + Fmt(fm[4]) + 'e4 ';
 
   i := Length(result);
+  if i > 0 then
+    SetLength(result, i - 1)
+  else
+    result := '0e1';
+
+  result := '(' + result + ')';
+end;
+
+function TR4VectorHelper.ToString(APrecision, ADigits: longint): string;
+var
+  i: longint;
+begin
+  result := '';
+  if not SameValueEx(fm[1], 0) then result := result + Fmt(fm[1],  APrecision, ADigits) + 'e1 ';
+  if not SameValueEx(fm[2], 0) then result := result + Fmt(fm[2],  APrecision, ADigits) + 'e2 ';
+  if not SameValueEx(fm[3], 0) then result := result + Fmt(fm[3],  APrecision, ADigits) + 'e3 ';
+  if not SameValueEx(fm[4], 0) then result := result + Fmt(fm[4],  APrecision, ADigits) + 'e4 ';
+
+    i := Length(result);
   if i > 0 then
     SetLength(result, i - 1)
   else
