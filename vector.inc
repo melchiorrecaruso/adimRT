@@ -273,9 +273,6 @@ type
   TR3VectorHelper = record helper for TR3Vector
     function Dot(const AVector: TR3Vector): double;
     function Cross(const AVector: TR3Vector): TR3Vector;
-    function Projection(const AVector: TR3Vector): TR3Vector; overload;
-    function Rejection(const AVector: TR3Vector): TR3Vector; overload;
-    function Reflection(const AVector: TR3Vector): TR3Vector; overload;
     function ToString: string;
     function ToString(APrecision, ADigits: longint): string;
   end;

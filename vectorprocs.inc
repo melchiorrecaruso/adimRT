@@ -1467,21 +1467,6 @@ begin
   result[3] :=  fm[1]*AVector[2] - fm[2]*AVector[1];
 end;
 
-function TR3VectorHelper.Projection(const AVector: TR3Vector): TR3Vector;
-begin
-  result := Dot(AVector) * AVector.Reciprocal;
-end;
-
-function TR3VectorHelper.Rejection(const AVector: TR3Vector): TR3Vector;
-begin
-  result := Self - Dot(AVector) * AVector.Reciprocal;
-end;
-
-function TR3VectorHelper.Reflection(const AVector: TR3Vector): TR3Vector;
-begin
-  result := Projection(AVector.Normalize) - Rejection(AVector.Normalize);
-end;
-
 function TR3VectorHelper.ToString: string;
 var
   i: longint;
