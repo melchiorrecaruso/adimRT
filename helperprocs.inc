@@ -110,14 +110,46 @@ end;
 { TC3VecQuantityHelper }
 
 {$IFNDEF ADIMOFF}
+function TC3VecQuantityHelper.Dot(const AVector: TC3VecQuantity): TComplexQuantity;
+begin
+  result.FID := CheckMul(FID, AVector.FID);
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
 
+function TC3VecQuantityHelper.Conjugate: TC3VecQuantity;
+begin
+  result.FID := FID;
+  result.FValue:= FValue.Conjugate;
+end;
 {$ENDIF}
 
 { TC4VecQuantityHelper }
 
 {$IFNDEF ADIMOFF}
+function TC4VecQuantityHelper.Dot(const AVector: TC4VecQuantity): TComplexQuantity;
+begin
+  result.FID := CheckMul(FID, AVector.FID);
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
 
+function TC4VecQuantityHelper.Conjugate: TC4VecQuantity;
+begin
+  result.FID := FID;
+  result.FValue:= FValue.Conjugate;
+end;
 {$ENDIF}
+
+{ TR2VecQuantityHelper }
+
+{$IFNDEF ADIMOFF}
+function TR2VecQuantityHelper.Dot(const AVector: TR2VecQuantity): TQuantity;
+begin
+  result.FID := CheckMul(FID, AVector.FID);
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+{$ENDIF}
+
+{ TR3VecQuantityHelper }
 
 {$IFNDEF ADIMOFF}
 function TR3VecQuantityHelper.Dot(const AVector: TR3VecQuantity): TQuantity;
@@ -131,23 +163,15 @@ begin
   result.FID := CheckMul(FID, AVector.FID);
   result.FValue := FValue.Cross(AVector.FValue);
 end;
+{$ENDIF}
 
-function TR3VecQuantityHelper.Projection(const AVersor: TR3Vector): TR3VecQuantity;
-begin
-  result.FID := FID;
-  result.FValue := FValue.Projection(AVersor);
-end;
+{ TR4VecQuantityHelper }
 
-function TR3VecQuantityHelper.Rejection(const AVersor: TR3Vector): TR3VecQuantity;
+{$IFNDEF ADIMOFF}
+function TR4VecQuantityHelper.Dot(const AVector: TR4VecQuantity): TQuantity;
 begin
-  result.FID := FID;
-  result.FValue := FValue.Rejection(AVersor);
-end;
-
-function TR3VecQuantityHelper.Reflection(const AVersor: TR3Vector): TR3VecQuantity;
-begin
-  result.FID := FID;
-  result.FValue := FValue.Reflection(AVersor);
+  result.FID := CheckMul(FID, AVector.FID);
+  result.FValue := FValue.Dot(AVector.FValue);
 end;
 {$ENDIF}
 
