@@ -31,7 +31,7 @@ type
 
 const
   TExponentBase = 60;
-  TExponentValue : array[0..13] of integer = (10, 12, 15, 20, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360);
+  TExponentValue : array[0..13] of longint = (10, 12, 15, 20, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360);
 
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
@@ -256,9 +256,12 @@ var
   Value: longint;
 begin
   Value := Abs(ADim);
+  if (Value = 10 ) then result := '∜√' + Format('%s' , [ASymbol]) else
+  if (Value = 12 ) then result := '∛√' + Format('%s' , [ASymbol]) else
   if (Value = 15 ) then result := '∜'  + Format('%s' , [ASymbol]) else
   if (Value = 20 ) then result := '∛'  + Format('%s' , [ASymbol]) else
   if (Value = 30 ) then result := '√'  + Format('%s' , [ASymbol]) else
+  if (Value = 45 ) then result := '∜'  + Format('%s3', [ASymbol]) else
   if (Value = 60 ) then result :=        Format('%s' , [ASymbol]) else
   if (Value = 90 ) then result := '√'  + Format('%s3', [ASymbol]) else
   if (Value = 120) then result :=        Format('%s2', [ASymbol]) else
@@ -280,6 +283,7 @@ begin
   if (Value = 15 ) then result := Format('Quartic Root %s'       , [AName]) else
   if (Value = 20 ) then result := Format('Cubic Root %s'         , [AName]) else
   if (Value = 30 ) then result := Format('Square Root %s'        , [AName]) else
+  if (Value = 45 ) then result := Format('Quartic Root Cubic %s' , [AName]) else
   if (Value = 60 ) then result := Format('%s'                    , [AName]) else
   if (Value = 90 ) then result := Format('Square Root Cubic %s'  , [AName]) else
   if (Value = 120) then result := Format('Square %s'             , [AName]) else
