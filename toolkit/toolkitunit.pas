@@ -114,13 +114,9 @@ type
 
     procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
-    procedure AddTable(ASection: TStringList);
 
     procedure Add(const AItem: TToolkitItem);
     procedure ExpandUnits;
-    procedure CreateIndexes;
-    procedure Check;
-    function AreThereCollisions: boolean;
     procedure Execute; override;
   public
     property Document: TStringList read FDocument;
@@ -197,11 +193,21 @@ end;
 
 procedure TToolKitBuilder.AddUnits(const SectionA, SectionB: TStringList);
 var
-  i: longint;
+  i, j: longint;
 begin
-  CreateIndexes;
   for i := 0 to FList.Count -1 do
   begin
+    if (FList[i].FBase <> '') then
+    begin
+      j := FList.Search(FList[i].FBase, 1);
+      if j <> -1 then
+      begin
+        FList[i].FExponents := FList[j].FExponents;
+      end;
+    end else
+      FList[i].FExponents := StringToDimensions(FList[i].FDimension);
+
+    //
     if (FList[i].FBase = '') then
     begin
       AddUnit(FList[i], SectionA);
@@ -224,7 +230,7 @@ begin
         end;
     end;
   end;
-  Check;
+  ExpandUnits;
 end;
 
 function GetDescription(const S: string): string;
@@ -250,9 +256,9 @@ begin
   ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
   ASection.Add('');
   ASection.Add('const');
-  ASection.Add('  %sID = %s;', [GetUnitID(AItem.FQuantity), IntToStr(AItem.FIndex)]);
+
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FQuantity)]);
+  ASection.Add('    FID         : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
   ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
   ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -278,7 +284,7 @@ begin
   ASection.Add('');
   ASection.Add('const');
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FID         : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
   ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
   ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -314,7 +320,7 @@ begin
       ASection.Add('');
       ASection.Add('const');
       ASection.Add('  %sUnit : TFactoredUnit = (', [GetUnitID(AItem.FQuantity)]);
-      ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FBase)]);
+      ASection.Add('    FID         : %s;', [GetUnitID(AItem.FExponents)]);
       ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
       ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
       ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -343,7 +349,7 @@ begin
   ASection.Add('');
   ASection.Add('const');
   ASection.Add('  %sUnit : TDegreeCelsiusUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FID         : %sID;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FID         : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
   ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
   ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -369,7 +375,7 @@ begin
   ASection.Add('');
   ASection.Add('const');
   ASection.Add('  %sUnit : TDegreeFahrenheitUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FID : %sID;', [GetUnitID(AItem.FBase)]);
+  ASection.Add('    FID                : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol            : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
   ASection.Add('    FName              : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
   ASection.Add('    FPluralName        : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -449,7 +455,7 @@ var
   Factor: string;
   FIndex: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFNDEF ADIMOFF} (FID: %sID; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TQuantity = {$IFNDEF ADIMOFF} (FID: %s; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AItem.FFactor <> '' then
@@ -472,9 +478,9 @@ begin
   if Pos('9', AItem.FIdentifier) > 0 then Power := 9;
 
   if AItem.FBase = '' then
-    FIndex := GetUnitID(AItem.FQuantity)
+    FIndex := GetUnitID(AItem.FExponents)
   else
-    FIndex := GetUnitID(AItem.FBase);
+    FIndex := GetUnitID(AItem.FExponents);
 
   LocList := TStringList.Create;
   if (LowerCase(AItem.FIdentifier) <> 'kg' ) and
@@ -575,196 +581,24 @@ begin
   LocList.Destroy;
 end;
 
-procedure TToolKitBuilder.AddTable(ASection: TStringList);
-var
-  i: longint;
-  Line: string;
-begin
-  ASection.Add('const');
-  ASection.Add('  Table : array[0..%s-1] of', [FBaseUnits.Count.toString]);
-  ASection.Add('    record FID: longint; FStr: string; end = (', []);
-
-  for i := 0 to FList.Count -1 do
-    if FList[i].FBase = '' then
-    begin
-      ASection.Add('    (FID: %5s; FStr: ''T%s''),', [FList[i].FIndex.ToString, GetUnitID(FList[i].FQuantity)]);
-    end;
-
-  Line := ASection[ASection.Count-1];
-  SetLength(Line, Length(Line)-1);
-  ASection[ASection.Count-1] := Line;
-  ASection.Add('  );');
-end;
-
 procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
 begin
   FList.Add(AItem);
 end;
 
-procedure TToolKitBuilder.Check;
-var
-  i, j: longint;
-begin
-  for i := 0 to FList.Count -1 do
-    if FList[i].FBase = '' then
-    begin
-      for j := 0 to FList.Count -1 do
-        if FList[j].FBase = '' then
-        begin
-          if FList.SameValue(FList[i].FExponents, FList[j].FExponents) and (i <> j) then
-          begin
-            FMessage := Format('FATAL ERROR: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
-            if Assigned(FOnMessage) then Queue(FOnMessage);
-          end;
-
-          if (FList[i].FIndex = FList[j].FIndex) and (i <> j) then
-          begin
-            FMessage := Format('FATAL ERROR: %s and %s have same units of measurement.', [FList[i].FQuantity, FList[j].FQuantity]);
-            if Assigned(FOnMessage) then Queue(FOnMessage);
-          end;
-        end;
-
-      if FList.Search(GetReciprocal(FList[i].FExponents)) = -1 then
-      begin
-        FMessage := Format('WARNING: %s unit hasn''t a reciprocal.', [FList[i].FQuantity]);
-        if Assigned(FOnMessage) then Queue(FOnMessage);
-      end;
-    end;
-end;
-
-function TToolKitBuilder.AreThereCollisions: boolean;
-var
-  i, j, k: longint;
-  kExponents: TExponents;
-  kIndex: longint;
-begin
-  for i := 0 to FList.Count -1 do
-    if FList[i].FBase = '' then
-    begin
-      for j := 0 to FList.Count -1 do
-        if FList[j].FBase = '' then
-        begin
-          // Multiply
-          kExponents := SumDim(FList[i].FExponents, FList[j].FExponents);
-          kIndex     := FList[i].FIndex + FList[j].FIndex;
-
-          for k := 0 to FList.Count -1 do
-            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then Exit(True);
-
-          // Divide
-          kExponents := SubDim(FList[i].FExponents, FList[j].FExponents);
-          kIndex     := FList[i].FIndex - FList[j].FIndex;
-
-          for k := 0 to FList.Count -1 do
-            if (FList[k].FBase = '') and FList.SameValue(FList[k].FExponents, kExponents) and (FList[k].FIndex <> kIndex) then Exit(True);
-        end;
-    end;
-  result := False;
-end;
-
-procedure TToolKitBuilder.CreateIndexes;
-var
- i, j: longint;
- Weights: TExponents;
- IsNeededRecalculate: boolean;
- Indexes: TIntegerList;
- Range: longint;
-begin
-  Indexes := TIntegerList.Create;
-  Indexes.Sort(@CompareInteger);
-  for i := 0 to FList.Count -1 do
-  begin
-    if (FList[i].FBase = '') then
-      FList[i].FExponents := StringToDimensions(FList[i].FDimension);
-  end;
-  ExpandUnits;
-
-  Range := 1;
-  IsNeededRecalculate := True;
-  while IsNeededRecalculate do
-  begin
-    FMessage := '';
-    for i := Low(Weights) to High(Weights) do
-    begin
-      Weights[i] := random(Range div 10);
-      FMessage := FMessage + ' ' + Weights[i].ToString;
-    end;
-    if Assigned(FOnMessage) then
-      Synchronize(FOnMessage);
-
-    Indexes.Clear;
-    for i := 0 to FList.Count -1 do
-      if FList[i].FBase = '' then
-      begin
-        FList[i].FIndex :=
-          (FList[i].FExponents[1]*Weights[1]) +
-          (FList[i].FExponents[2]*Weights[2]) +
-          (FList[i].FExponents[3]*Weights[3]) +
-          (FList[i].FExponents[4]*Weights[4]) +
-          (FList[i].FExponents[5]*Weights[5]) +
-          (FList[i].FExponents[6]*Weights[6]) +
-          (FList[i].FExponents[7]*Weights[7]) +
-          (FList[i].FExponents[8]*Weights[8]);
-
-        IsNeededRecalculate := Indexes.IndexOf(FList[i].FIndex) <> -1;
-        if IsNeededRecalculate = False then
-          Indexes.Add(FList[i].FIndex)
-        else
-          Break;
-      end;
-
-    if IsNeededRecalculate = False then
-      IsNeededRecalculate := AreThereCollisions = True;
-    Inc(Range);
-  end;
-  Indexes.Destroy;
-
-  for i := 0 to FList.Count -1 do
-  begin
-    if FList[i].FBase <> '' then
-    begin
-      j := FList.Search(FList[i].FBase, 1);
-      if j <> -1 then
-      begin
-        FList[i].FExponents := FList[j].FExponents;
-        FList[i].FIndex := FList[j].FIndex;
-      end else
-      begin
-        FMessage := Format('%s base unit not found', [FList[i].FQuantity]);
-        if Assigned(FOnMessage) then Queue(FOnMessage);
-      end;
-    end;
-  end;
-
-  j := 0;
-  for i := 0 to FList.Count -1 do
-    j := Min(j, FList[i].FIndex);
-  FMessage := 'MinIndex = ' + J.ToString;
-  if Assigned(FOnMessage) then
-    Synchronize(FOnMessage);
-
-  j := 0;
-  for i := 0 to FList.Count -1 do
-    j := Max(j, FList[i].FIndex);
-  FMessage := 'MaxIndex = ' + J.ToString;
-  if Assigned(FOnMessage) then
-    Synchronize(FOnMessage);
-end;
-
 procedure TToolKitBuilder.ExpandUnits;
 const
   NullDim : TExponents = (0, 0, 0, 0, 0, 0, 0, 0);
-  Powers : array[0..10] of integer = (15, 20, 30, 60, 90, 120, 150, 180, 240, 300, 360);
 var
  i, j: longint;
  NewDim: TExponents;
 begin
   // Add powers
   for i := Low(NewDim) to High(NewDim) do
-    for j := Low(Powers) to High(Powers) do
+    for j := Low(TExponentValues) to High(TExponentValues) do
     begin
       NewDim := NullDim;
-      NewDim[i] := Powers[j];
+      NewDim[i] := TExponentValues[j];
       if FList.Search(NewDim) = -1 then
         FList.Add(NewDim);
     end;
@@ -850,7 +684,6 @@ begin
   FIdentifiers.Clear;
   FDocument.Clear;
   AddUnits(SectionA3, SectionB3);
-  AddTable(SectionB0);
 
   Stream := TResourceStream.Create(HInstance, 'Section-A4', RT_RCDATA);
   SectionA4.LoadFromStream(Stream);
@@ -868,6 +701,7 @@ begin
   SectionA0.Append('unit ADim;');
   SectionA0.Append('');
   SectionA0.Append('{$H+}{$J-}');
+  SectionA0.Append('{$macro on}');
   SectionA0.Append('{$modeswitch advancedrecords}');
   SectionA0.Append('{$WARN 5024 OFF} // Suppress warning for unused routine parameter.');
   SectionA0.Append('{$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.');

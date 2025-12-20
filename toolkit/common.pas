@@ -31,7 +31,7 @@ type
 
 const
   TExponentBase = 60;
-  TExponentValue : array[0..13] of longint = (10, 12, 15, 20, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360);
+  TExponentValues : array[0..13] of longint = (10, 12, 15, 20, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360);
 
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
@@ -50,6 +50,8 @@ function GetReciprocal(const AExponents: TExponents): TExponents;
 
 function GetQuantity(const S: string): string;
 function GetUnitID(const S: string): string;
+function GetUnitID(const ADim: TExponents): string;
+
 
 function StringToDimensions(const S: string): TExponents;
 function DimensionToString(const ADim: TExponents): string;
@@ -171,6 +173,19 @@ begin
   Result := GetQuantity(S);
   if Pos('T', Result) = 1 then
     Delete(Result, 1, 1);
+end;
+
+function GetUnitID(const ADim: TExponents): string;
+begin
+  result := Format('(FKilogram: %d; FMeter: %d; FSecond: %d; FAmpere: %d; FKelvin: %d; FMole: %d; FCandela: %d; FRadian: %d)', [
+    ADim[1],
+    ADim[2],
+    ADim[3],
+    ADim[4],
+    ADim[5],
+    ADim[6],
+    ADim[7],
+    ADim[8]]);
 end;
 
 function StringToDimensions(const S: string): TExponents;
