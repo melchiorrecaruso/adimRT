@@ -525,7 +525,7 @@ end;
 
 class operator TCVecQuantity.:=(const AValue: TCVector): TCVecQuantity;
 begin
-  result.FID := ScalarID;
+  result.FID := ScalarUnit.FID;
   result.FValue := AValue;
 end;
 
@@ -587,7 +587,7 @@ end;
 
 class operator TCVecQuantity.*(const ALeft: TCVector; const ARight: TCVecQuantity): TComplexQuantity;
 begin
-  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FID := CheckMul(ScalarUnit.FID, ARight.FID);
   result.FValue := ALeft * ARight.FValue;
 end;
 

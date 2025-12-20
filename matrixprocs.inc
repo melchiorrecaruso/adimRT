@@ -454,7 +454,7 @@ class operator TRMatrixQuantity.:=(const AMatrix: TRMatrix): TRMatrixQuantity;
 var
   i, j: longint;
 begin
-  result.FID := ScalarID;
+  result.FID := ScalarUnit.FID;
   for i := 1 to TSpace.N do
     for j := 1 to TSpace.N do
       result.FValue[i, j] := AMatrix[i, j];
@@ -528,7 +528,7 @@ class operator TCMatrixQuantity.:=(const AMatrix: TCMatrix): TCMatrixQuantity;
 var
   i, j: longint;
 begin
-  result.FID := ScalarID;
+  result.FID := ScalarUnit.FID;
   for i := 1 to TSpace.N do
     for j := 1 to TSpace.N do
       result.FValue[i, j] := AMatrix[i, j];

@@ -3,7 +3,7 @@
 {$IFNDEF ADIMOFF}
 function TQuantity.Reciprocal: TQuantity;
 begin
-  result.FID := CheckDiv(ScalarID, FID);
+  result.FID := CheckDiv(ScalarUnit.FID, FID);
   result.FValue := 1/FValue;
 end;
 
@@ -57,7 +57,7 @@ end;
 
 class operator TQuantity./(const ALeft: double; const ARight: TQuantity): TQuantity;
 begin
-  result.FID := CheckDiv(ScalarId, ARight.FID);
+  result.FID := CheckDiv(ScalarUnit.FID, ARight.FID);
   result.FValue:= ALeft / ARight.FValue;
 end;
 
@@ -105,7 +105,7 @@ end;
 
 class operator TQuantity.:=(const AValue: double): TQuantity;
 begin
-  result.FID := ScalarId;
+  result.FID := ScalarUnit.FID;
   result.FValue := AValue;
 end;
 {$ENDIF}

@@ -2991,13 +2991,13 @@ end;
 
 class operator TCL3MultivecQuantity./(const ALeft: double; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
-  result.FID := CheckDiv(ScalarID, ARight.FID);
+  result.FID := CheckDiv(ScalarUnit.FID, ARight.FID);
   result.FValue := ALeft * ARight.FValue.Reciprocal;
 end;
 
 class operator TCL3MultivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: double): TCL3MultivecQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ScalarID);
+  result.FID := CheckDiv(ALeft.FID, ScalarUnit.FID);
   result.FValue := ALeft.FValue / ARight;
 end;
 
@@ -3176,13 +3176,13 @@ end;
 
 class operator TCL3TrivecQuantity./(const ALeft: double; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
-  result.FID := CheckDiv(ScalarID, ARight.FID);
+  result.FID := CheckDiv(ScalarUnit.FID, ARight.FID);
   result.FValue := ALeft * ARight.FValue.Reciprocal;
 end;
 
 class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: double): TCL3TrivecQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ScalarID);
+  result.FID := CheckDiv(ALeft.FID, ScalarUnit.FID);
   result.FValue := ALeft.FValue / ARight;
 end;
 
@@ -3412,13 +3412,13 @@ end;
 
 class operator TCL3BivecQuantity./(const ALeft: double; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
-  result.FID := CheckDiv(ScalarID, ARight.FID);
+  result.FID := CheckDiv(ScalarUnit.FID, ARight.FID);
   result.FValue := ALeft * ARight.FValue.Reciprocal;
 end;
 
 class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: double): TCL3BivecQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ScalarID);
+  result.FID := CheckDiv(ALeft.FID, ScalarUnit.FID);
   result.FValue := ALeft.FValue * ARight;
 end;
 
@@ -3681,13 +3681,13 @@ end;
 
 class operator TCL3VecQuantity./(const ALeft: double; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
-  result.FID := CheckDiv(ScalarID, ARight.FID);
+  result.FID := CheckDiv(ScalarUnit.FID, ARight.FID);
   result.FValue := ALeft * ARight.FValue.Reciprocal;
 end;
 
 class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: double): TCL3VecQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ScalarID);
+  result.FID := CheckDiv(ALeft.FID, ScalarUnit.FID);
   result.FValue := ALeft.FValue * ARight;
 end;
 

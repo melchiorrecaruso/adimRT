@@ -75,7 +75,7 @@ type
   type
     TRMatrix = specialize TRMatrix<TSpace>;
   private
-    FID: longint;
+    FID: TID;
     FValue: TRMatrix;
     procedure Put(ARow, ACol: longint; AQuantity: TQuantity);
     function Get(ARow, ACol: longint): TQuantity;
@@ -96,7 +96,7 @@ type
   type
     TCMatrix = specialize TCMatrix<TSpace>;
   private
-    FID: longint;
+    FID: TID;
     FValue: TCMatrix;
     procedure Put(ARow, ACol: longint; AQuantity: TComplexQuantity);
     function Get(ARow, ACol: longint): TComplexQuantity;

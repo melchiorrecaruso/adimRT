@@ -99,7 +99,7 @@ type
     TRVector = specialize TRVector<TSpace>;
     TRMatrixQuantity = specialize TRMatrixQuantity<TSpace>;
   private
-    FID: longint;
+    FID: TID;
     FValue: TRVector;
     function Get(ARow: longint): TQuantity;
     procedure Put(ARow: longint; const AQuantity: TQuantity);
@@ -131,7 +131,7 @@ type
     TCVector = specialize TCVector<TSpace>;
     TCMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
   private
-    FID: longint;
+    FID: TID;
     FValue: TCVector;
     function Get(ARow: longint): TComplexQuantity;
     procedure Put(ARow: longint; const AQuantity: TComplexQuantity);

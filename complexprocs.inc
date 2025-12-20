@@ -242,13 +242,13 @@ end;
 
 class operator TComplexQuantity.*(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity;
 begin
-  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FID := CheckMul(ScalarUnit.FID, ARight.FID);
   result.FValue := ALeft * ARight.FValue;
 end;
 
 class operator TComplexQuantity.*(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ScalarID);
+  result.FID := CheckMul(ALeft.FID, ScalarUnit.FID);
   result.FValue := ALeft.FValue * ARight;
 end;
 
@@ -260,13 +260,13 @@ end;
 
 class operator TComplexQuantity./(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity;
 begin
-  result.FID := CheckDiv(ScalarID, ARight.FID);
+  result.FID := CheckDiv(ScalarUnit.FID, ARight.FID);
   result.FValue := ALeft / ARight.FValue;
 end;
 
 class operator TComplexQuantity./(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ScalarID);
+  result.FID := CheckDiv(ALeft.FID, ScalarUnit.FID);
   result.FValue := ALeft.FValue / ARight;
 end;
 
@@ -428,7 +428,7 @@ class operator TImaginaryNumber.*(const ALeft: TQuantity; const ARight: TImagina
 const
   i: TImaginaryNumber = ();
 begin
-  result.FID := CheckMul(ALeft.FID, ScalarID);
+  result.FID := CheckMul(ALeft.FID, ScalarUnit.FID);
   result.FValue := ALeft.FValue * i;
 end;
 
@@ -436,7 +436,7 @@ class operator TImaginaryNumber.*(const ALeft: TImaginaryNumber; const ARight: T
 const
   i: TImaginaryNumber = ();
 begin
-  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FID := CheckMul(ScalarUnit.FID, ARight.FID);
   result.FValue := ARight.FValue * i;
 end;
 
@@ -444,7 +444,7 @@ class operator TImaginaryNumber./(const ALeft: TQuantity; const ARight: TImagina
 const
   i: TImaginaryNumber = ();
 begin
-  result.FID := CheckDiv(ALeft.FID, ScalarID);
+  result.FID := CheckDiv(ALeft.FID, ScalarUnit.FID);
   result.FValue := ALeft.FValue / i;
 end;
 
@@ -452,7 +452,7 @@ class operator TImaginaryNumber./(const ALeft: TImaginaryNumber; const ARight: T
 const
   i: TImaginaryNumber = ();
 begin
-  result.FID := CheckDiv(ScalarID, ARight.FID);
+  result.FID := CheckDiv(ScalarUnit.FID, ARight.FID);
   result.FValue := i / ARight.FValue;
 end;
 {$ENDIF}

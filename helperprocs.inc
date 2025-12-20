@@ -8,7 +8,7 @@ end;
 
 function TComplexQuantityHelper.Reciprocal: TComplexQuantity;
 begin
-  result.FID := CheckDiv(ScalarID, FID);
+  result.FID := CheckDiv(ScalarUnit.FID, FID);
   result.FValue := FValue.Reciprocal;
 end;
 
@@ -80,7 +80,7 @@ end;
 
 function TC2MatrixQuantityHelper.Reciprocal(const ADeterminant: TComplexQuantity): TC2MatrixQuantity;
 begin
-  result.FID := CheckDiv(ScalarID, FID);
+  result.FID := CheckDiv(ScalarUnit.FID, FID);
   result.FValue := FValue.Reciprocal(ADeterminant.FValue);
 end;
 
@@ -204,13 +204,13 @@ end;
 
 function TCL3MultivecQuantityHelper.Reciprocal: TCL3MultivecQuantity;
 begin
-  result.FID := CheckDiv(ScalarId, FID);
+  result.FID := CheckDiv(ScalarUnit.FID, FID);
   result.FValue := FValue.Reciprocal;
 end;
 
 function TCL3MultivecQuantityHelper.LeftReciprocal: TCL3MultivecQuantity;
 begin
-  result.FID := CheckDiv(ScalarId, FID);
+  result.FID := CheckDiv(ScalarUnit.FID, FID);
   result.FValue := FValue.LeftReciprocal;
 end;
 
@@ -503,7 +503,7 @@ end;
 
 function TCL3TrivecQuantityHelper.Reciprocal: TCL3TrivecQuantity;
 begin
-  result.FID := CheckDiv(ScalarId, FID);
+  result.FID := CheckDiv(ScalarUnit.FID, FID);
   result.FValue := FValue.Reciprocal;
 end;
 
@@ -715,7 +715,7 @@ end;
 
 function TCL3BivecQuantityHelper.Reciprocal: TCL3BivecQuantity;
 begin
-  result.FID := CheckDiv(ScalarId, FID);
+  result.FID := CheckDiv(ScalarUnit.FID, FID);
   result.FValue := FValue.Reciprocal;
 end;
 
@@ -933,7 +933,7 @@ end;
 
 function TCL3VecQuantityHelper.Reciprocal: TCL3VecQuantity;
 begin
-  result.FID := CheckDiv(ScalarId, FID);
+  result.FID := CheckDiv(ScalarUnit.FID, FID);
   result.FValue := FValue.Reciprocal;
 end;
 

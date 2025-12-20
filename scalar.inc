@@ -7,7 +7,7 @@ type
   {$IFNDEF ADIMOFF}
   TQuantity = record
   private
-    FID: longint;
+    FID: TID;
     FValue: double;
   public
     function Reciprocal: TQuantity;
