@@ -65,6 +65,14 @@
         <Filename Value="helperprocs.inc"/>
         <Type Value="Include"/>
       </Item>
+      <Item>
+        <Filename Value="base.inc"/>
+        <Type Value="Include"/>
+      </Item>
+      <Item>
+        <Filename Value="baseprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>

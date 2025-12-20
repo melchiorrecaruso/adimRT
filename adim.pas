@@ -20,7 +20,6 @@
 unit ADim;
 
 {$H+}{$J-}
-{$macro on}
 {$modeswitch advancedrecords}
 {$WARN 5024 OFF} // Suppress warning for unused routine parameter.
 {$WARN 5033 OFF} // Suppress warning for unassigned function's return value.
@@ -66,7 +65,7 @@ type
 
   TUnit = record
   private
-    FID: TID;
+    FDim: TDimension;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -169,7 +168,7 @@ type
 
   TFactoredUnit = record
   private
-    FID: TID;
+    FDim: TDimension;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -271,7 +270,7 @@ type
 
   TDegreeCelsiusUnit = record
   private
-    FID: TID;
+    FDim: TDimension;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -285,7 +284,7 @@ type
 
   TDegreeFahrenheitUnit = record
   private
-    FID: TID;
+    FDim: TDimension;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -628,7 +627,7 @@ resourcestring
 
 const
   ScalarUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsScalarSymbol;
     FName       : rsScalarName;
     FPluralName : rsScalarPluralName;
@@ -644,7 +643,7 @@ resourcestring
 
 const
   RadianUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsRadianSymbol;
     FName       : rsRadianName;
     FPluralName : rsRadianPluralName;
@@ -663,7 +662,7 @@ resourcestring
 
 const
   DegreeUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsDegreeSymbol;
     FName       : rsDegreeName;
     FPluralName : rsDegreePluralName;
@@ -683,7 +682,7 @@ resourcestring
 
 const
   SteradianUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
     FSymbol     : rsSteradianSymbol;
     FName       : rsSteradianName;
     FPluralName : rsSteradianPluralName;
@@ -702,7 +701,7 @@ resourcestring
 
 const
   SecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSecondSymbol;
     FName       : rsSecondName;
     FPluralName : rsSecondPluralName;
@@ -713,12 +712,12 @@ var
   s : TUnit absolute SecondUnit;
 
 const
-  ds         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cs         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  ms         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  mis        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  ns         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  ps         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ds         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cs         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  ms         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  mis        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  ns         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  ps         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TDay }
 
@@ -729,7 +728,7 @@ resourcestring
 
 const
   DayUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsDaySymbol;
     FName       : rsDayName;
     FPluralName : rsDayPluralName;
@@ -749,7 +748,7 @@ resourcestring
 
 const
   HourUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsHourSymbol;
     FName       : rsHourName;
     FPluralName : rsHourPluralName;
@@ -769,7 +768,7 @@ resourcestring
 
 const
   MinuteUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMinuteSymbol;
     FName       : rsMinuteName;
     FPluralName : rsMinutePluralName;
@@ -789,7 +788,7 @@ resourcestring
 
 const
   SquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareSecondSymbol;
     FName       : rsSquareSecondName;
     FPluralName : rsSquareSecondPluralName;
@@ -800,12 +799,12 @@ var
   s2 : TUnit absolute SquareSecondUnit;
 
 const
-  ds2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cs2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  ms2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mis2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  ns2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ps2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  ds2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cs2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  ms2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mis2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ns2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ps2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareDay }
 
@@ -816,7 +815,7 @@ resourcestring
 
 const
   SquareDayUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareDaySymbol;
     FName       : rsSquareDayName;
     FPluralName : rsSquareDayPluralName;
@@ -836,7 +835,7 @@ resourcestring
 
 const
   SquareHourUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareHourSymbol;
     FName       : rsSquareHourName;
     FPluralName : rsSquareHourPluralName;
@@ -856,7 +855,7 @@ resourcestring
 
 const
   SquareMinuteUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMinuteSymbol;
     FName       : rsSquareMinuteName;
     FPluralName : rsSquareMinutePluralName;
@@ -876,7 +875,7 @@ resourcestring
 
 const
   CubicSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicSecondSymbol;
     FName       : rsCubicSecondName;
     FPluralName : rsCubicSecondPluralName;
@@ -887,12 +886,12 @@ var
   s3 : TUnit absolute CubicSecondUnit;
 
 const
-  ds3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  cs3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  ms3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  mis3       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ns3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
-  ps3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ds3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  cs3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  ms3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mis3       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ns3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
+  ps3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
 
 { TQuarticSecond }
 
@@ -903,7 +902,7 @@ resourcestring
 
 const
   QuarticSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsQuarticSecondSymbol;
     FName       : rsQuarticSecondName;
     FPluralName : rsQuarticSecondPluralName;
@@ -914,12 +913,12 @@ var
   s4 : TUnit absolute QuarticSecondUnit;
 
 const
-  ds4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cs4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  ms4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mis4       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  ns4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  ps4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
+  ds4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cs4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  ms4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mis4       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  ns4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ps4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
 
 { TQuinticSecond }
 
@@ -930,7 +929,7 @@ resourcestring
 
 const
   QuinticSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsQuinticSecondSymbol;
     FName       : rsQuinticSecondName;
     FPluralName : rsQuinticSecondPluralName;
@@ -941,12 +940,12 @@ var
   s5 : TUnit absolute QuinticSecondUnit;
 
 const
-  ds5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  cs5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  ms5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
-  mis5       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
-  ns5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
-  ps5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
+  ds5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  cs5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  ms5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  mis5       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  ns5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
+  ps5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
 
 { TSexticSecond }
 
@@ -957,7 +956,7 @@ resourcestring
 
 const
   SexticSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSexticSecondSymbol;
     FName       : rsSexticSecondName;
     FPluralName : rsSexticSecondPluralName;
@@ -968,12 +967,12 @@ var
   s6 : TUnit absolute SexticSecondUnit;
 
 const
-  ds6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  cs6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  ms6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  mis6       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  ns6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
-  ps6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
+  ds6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cs6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ms6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  mis6       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ns6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
+  ps6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
 
 { TMeter }
 
@@ -984,7 +983,7 @@ resourcestring
 
 const
   MeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterSymbol;
     FName       : rsMeterName;
     FPluralName : rsMeterPluralName;
@@ -995,13 +994,13 @@ var
   m : TUnit absolute MeterUnit;
 
 const
-  km         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  dm         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cm         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mm         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  mim        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nm         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pm         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  km         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  dm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  mim        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TAstronomical }
 
@@ -1012,7 +1011,7 @@ resourcestring
 
 const
   AstronomicalUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsAstronomicalSymbol;
     FName       : rsAstronomicalName;
     FPluralName : rsAstronomicalPluralName;
@@ -1032,7 +1031,7 @@ resourcestring
 
 const
   InchUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsInchSymbol;
     FName       : rsInchName;
     FPluralName : rsInchPluralName;
@@ -1052,7 +1051,7 @@ resourcestring
 
 const
   FootUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsFootSymbol;
     FName       : rsFootName;
     FPluralName : rsFootPluralName;
@@ -1072,7 +1071,7 @@ resourcestring
 
 const
   YardUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsYardSymbol;
     FName       : rsYardName;
     FPluralName : rsYardPluralName;
@@ -1092,7 +1091,7 @@ resourcestring
 
 const
   MileUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMileSymbol;
     FName       : rsMileName;
     FPluralName : rsMilePluralName;
@@ -1112,7 +1111,7 @@ resourcestring
 
 const
   NauticalMileUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNauticalMileSymbol;
     FName       : rsNauticalMileName;
     FPluralName : rsNauticalMilePluralName;
@@ -1132,7 +1131,7 @@ resourcestring
 
 const
   AngstromUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsAngstromSymbol;
     FName       : rsAngstromName;
     FPluralName : rsAngstromPluralName;
@@ -1152,7 +1151,7 @@ resourcestring
 
 const
   SquareRootMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 30; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 30; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareRootMeterSymbol;
     FName       : rsSquareRootMeterName;
     FPluralName : rsSquareRootMeterPluralName;
@@ -1168,7 +1167,7 @@ resourcestring
 
 const
   SquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMeterSymbol;
     FName       : rsSquareMeterName;
     FPluralName : rsSquareMeterPluralName;
@@ -1179,13 +1178,13 @@ var
   m2 : TUnit absolute SquareMeterUnit;
 
 const
-  km2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  dm2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cm2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mm2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mim2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nm2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  pm2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  km2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  dm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mim2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  pm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareInch }
 
@@ -1196,7 +1195,7 @@ resourcestring
 
 const
   SquareInchUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareInchSymbol;
     FName       : rsSquareInchName;
     FPluralName : rsSquareInchPluralName;
@@ -1216,7 +1215,7 @@ resourcestring
 
 const
   SquareFootUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareFootSymbol;
     FName       : rsSquareFootName;
     FPluralName : rsSquareFootPluralName;
@@ -1236,7 +1235,7 @@ resourcestring
 
 const
   SquareYardUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareYardSymbol;
     FName       : rsSquareYardName;
     FPluralName : rsSquareYardPluralName;
@@ -1256,7 +1255,7 @@ resourcestring
 
 const
   SquareMileUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMileSymbol;
     FName       : rsSquareMileName;
     FPluralName : rsSquareMilePluralName;
@@ -1276,7 +1275,7 @@ resourcestring
 
 const
   CubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicMeterSymbol;
     FName       : rsCubicMeterName;
     FPluralName : rsCubicMeterPluralName;
@@ -1287,13 +1286,13 @@ var
   m3 : TUnit absolute CubicMeterUnit;
 
 const
-  km3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  dm3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  cm3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mm3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  mim3       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  nm3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
-  pm3        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  km3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  dm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  cm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mim3       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  nm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
+  pm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
 
 { TCubicInch }
 
@@ -1304,7 +1303,7 @@ resourcestring
 
 const
   CubicInchUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicInchSymbol;
     FName       : rsCubicInchName;
     FPluralName : rsCubicInchPluralName;
@@ -1324,7 +1323,7 @@ resourcestring
 
 const
   CubicFootUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicFootSymbol;
     FName       : rsCubicFootName;
     FPluralName : rsCubicFootPluralName;
@@ -1344,7 +1343,7 @@ resourcestring
 
 const
   CubicYardUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicYardSymbol;
     FName       : rsCubicYardName;
     FPluralName : rsCubicYardPluralName;
@@ -1364,7 +1363,7 @@ resourcestring
 
 const
   LitreUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsLitreSymbol;
     FName       : rsLitreName;
     FPluralName : rsLitrePluralName;
@@ -1376,9 +1375,9 @@ var
   L : TFactoredUnit absolute LitreUnit;
 
 const
-  dL         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
-  cL         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03 * 1E-02); {$ELSE} (1E-03 * 1E-02); {$ENDIF}
-  mL         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03 * 1E-03); {$ELSE} (1E-03 * 1E-03); {$ENDIF}
+  dL         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
+  cL         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03 * 1E-02); {$ELSE} (1E-03 * 1E-02); {$ENDIF}
+  mL         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03 * 1E-03); {$ELSE} (1E-03 * 1E-03); {$ENDIF}
 
 { TGallon }
 
@@ -1389,7 +1388,7 @@ resourcestring
 
 const
   GallonUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsGallonSymbol;
     FName       : rsGallonName;
     FPluralName : rsGallonPluralName;
@@ -1409,7 +1408,7 @@ resourcestring
 
 const
   QuarticMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsQuarticMeterSymbol;
     FName       : rsQuarticMeterName;
     FPluralName : rsQuarticMeterPluralName;
@@ -1420,13 +1419,13 @@ var
   m4 : TUnit absolute QuarticMeterUnit;
 
 const
-  km4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  dm4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cm4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  mm4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mim4       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  nm4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  pm4        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
+  km4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  dm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  mm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mim4       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  nm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  pm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
 
 { TQuinticMeter }
 
@@ -1437,7 +1436,7 @@ resourcestring
 
 const
   QuinticMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsQuinticMeterSymbol;
     FName       : rsQuinticMeterName;
     FPluralName : rsQuinticMeterPluralName;
@@ -1448,13 +1447,13 @@ var
   m5 : TUnit absolute QuinticMeterUnit;
 
 const
-  km5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+15); {$ELSE} (1E+15); {$ENDIF}
-  dm5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  cm5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  mm5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
-  mim5       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
-  nm5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
-  pm5        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
+  km5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+15); {$ELSE} (1E+15); {$ENDIF}
+  dm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  cm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  mm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  mim5       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  nm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
+  pm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
 
 { TSexticMeter }
 
@@ -1465,7 +1464,7 @@ resourcestring
 
 const
   SexticMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSexticMeterSymbol;
     FName       : rsSexticMeterName;
     FPluralName : rsSexticMeterPluralName;
@@ -1476,13 +1475,13 @@ var
   m6 : TUnit absolute SexticMeterUnit;
 
 const
-  km6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  dm6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  cm6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mm6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  mim6       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  nm6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
-  pm6        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
+  km6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  dm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  mim6       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  nm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
+  pm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
 
 { TKilogram }
 
@@ -1493,7 +1492,7 @@ resourcestring
 
 const
   KilogramUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSymbol;
     FName       : rsKilogramName;
     FPluralName : rsKilogramPluralName;
@@ -1504,15 +1503,15 @@ var
   kg : TUnit absolute KilogramUnit;
 
 const
-  hg         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  dag        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  g          : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  dg         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cg         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  mg         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mig        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  ng         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  pg         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  hg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  dag        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  g          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  dg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  mg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mig        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  ng         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  pg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
 
 { TTonne }
 
@@ -1523,7 +1522,7 @@ resourcestring
 
 const
   TonneUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsTonneSymbol;
     FName       : rsTonneName;
     FPluralName : rsTonnePluralName;
@@ -1535,9 +1534,9 @@ var
   tonne : TFactoredUnit absolute TonneUnit;
 
 const
-  gigatonne  : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
-  megatonne  : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03 * 1E+06); {$ELSE} (1E+03 * 1E+06); {$ENDIF}
-  kilotonne  : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03 * 1E+03); {$ELSE} (1E+03 * 1E+03); {$ENDIF}
+  gigatonne  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
+  megatonne  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03 * 1E+06); {$ELSE} (1E+03 * 1E+06); {$ENDIF}
+  kilotonne  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03 * 1E+03); {$ELSE} (1E+03 * 1E+03); {$ENDIF}
 
 { TPound }
 
@@ -1548,7 +1547,7 @@ resourcestring
 
 const
   PoundUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPoundSymbol;
     FName       : rsPoundName;
     FPluralName : rsPoundPluralName;
@@ -1568,7 +1567,7 @@ resourcestring
 
 const
   OunceUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsOunceSymbol;
     FName       : rsOunceName;
     FPluralName : rsOuncePluralName;
@@ -1588,7 +1587,7 @@ resourcestring
 
 const
   StoneUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsStoneSymbol;
     FName       : rsStoneName;
     FPluralName : rsStonePluralName;
@@ -1608,7 +1607,7 @@ resourcestring
 
 const
   TonUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsTonSymbol;
     FName       : rsTonName;
     FPluralName : rsTonPluralName;
@@ -1628,7 +1627,7 @@ resourcestring
 
 const
   ElectronvoltPerSquareSpeedOfLightUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsElectronvoltPerSquareSpeedOfLightSymbol;
     FName       : rsElectronvoltPerSquareSpeedOfLightName;
     FPluralName : rsElectronvoltPerSquareSpeedOfLightPluralName;
@@ -1645,7 +1644,7 @@ resourcestring
 
 const
   SquareKilogramUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareKilogramSymbol;
     FName       : rsSquareKilogramName;
     FPluralName : rsSquareKilogramPluralName;
@@ -1656,15 +1655,15 @@ var
   kg2 : TUnit absolute SquareKilogramUnit;
 
 const
-  hg2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  dag2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  g2         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  dg2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  cg2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  mg2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mig2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ng2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  pg2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  hg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  dag2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  g2         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  dg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  cg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  mg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mig2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ng2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  pg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
 
 { TAmpere }
 
@@ -1675,7 +1674,7 @@ resourcestring
 
 const
   AmpereUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsAmpereSymbol;
     FName       : rsAmpereName;
     FPluralName : rsAmperePluralName;
@@ -1686,15 +1685,15 @@ var
   A : TUnit absolute AmpereUnit;
 
 const
-  kA         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hA         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daA        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
-  dA         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cA         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mA         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miA        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nA         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  picoA      : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daA        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  dA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miA        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  picoA      : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TSquareAmpere }
 
@@ -1705,7 +1704,7 @@ resourcestring
 
 const
   SquareAmpereUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareAmpereSymbol;
     FName       : rsSquareAmpereName;
     FPluralName : rsSquareAmperePluralName;
@@ -1716,15 +1715,15 @@ var
   A2 : TUnit absolute SquareAmpereUnit;
 
 const
-  kA2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hA2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daA2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  dA2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cA2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mA2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  miA2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nA2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  picoA2     : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  kA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daA2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  dA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  miA2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  picoA2     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TKelvin }
 
@@ -1735,7 +1734,7 @@ resourcestring
 
 const
   KelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKelvinSymbol;
     FName       : rsKelvinName;
     FPluralName : rsKelvinPluralName;
@@ -1754,7 +1753,7 @@ resourcestring
 
 const
   DegreeCelsiusUnit : TDegreeCelsiusUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsDegreeCelsiusSymbol;
     FName       : rsDegreeCelsiusName;
     FPluralName : rsDegreeCelsiusPluralName;
@@ -1773,7 +1772,7 @@ resourcestring
 
 const
   DegreeFahrenheitUnit : TDegreeFahrenheitUnit = (
-    FID                : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim               : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol            : rsDegreeFahrenheitSymbol;
     FName              : rsDegreeFahrenheitName;
     FPluralName        : rsDegreeFahrenheitPluralName;
@@ -1792,7 +1791,7 @@ resourcestring
 
 const
   SquareKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 120; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 120; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareKelvinSymbol;
     FName       : rsSquareKelvinName;
     FPluralName : rsSquareKelvinPluralName;
@@ -1811,7 +1810,7 @@ resourcestring
 
 const
   CubicKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 180; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 180; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicKelvinSymbol;
     FName       : rsCubicKelvinName;
     FPluralName : rsCubicKelvinPluralName;
@@ -1830,7 +1829,7 @@ resourcestring
 
 const
   QuarticKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsQuarticKelvinSymbol;
     FName       : rsQuarticKelvinName;
     FPluralName : rsQuarticKelvinPluralName;
@@ -1849,7 +1848,7 @@ resourcestring
 
 const
   MoleUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
     FSymbol     : rsMoleSymbol;
     FName       : rsMoleName;
     FPluralName : rsMolePluralName;
@@ -1860,9 +1859,9 @@ var
   mol : TUnit absolute MoleUnit;
 
 const
-  kmol       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hmol       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  damol      : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  kmol       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hmol       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  damol      : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
 
 { TCandela }
 
@@ -1873,7 +1872,7 @@ resourcestring
 
 const
   CandelaUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
     FSymbol     : rsCandelaSymbol;
     FName       : rsCandelaName;
     FPluralName : rsCandelaPluralName;
@@ -1892,7 +1891,7 @@ resourcestring
 
 const
   HertzUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsHertzSymbol;
     FName       : rsHertzName;
     FPluralName : rsHertzPluralName;
@@ -1903,10 +1902,10 @@ var
   Hz : TUnit absolute HertzUnit;
 
 const
-  THz        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GHz        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MHz        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kHz        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  THz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GHz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MHz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kHz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TReciprocalSecond }
 
@@ -1917,7 +1916,7 @@ resourcestring
 
 const
   ReciprocalSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalSecondSymbol;
     FName       : rsReciprocalSecondName;
     FPluralName : rsReciprocalSecondPluralName;
@@ -1933,7 +1932,7 @@ resourcestring
 
 const
   RadianPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsRadianPerSecondSymbol;
     FName       : rsRadianPerSecondName;
     FPluralName : rsRadianPerSecondPluralName;
@@ -1949,7 +1948,7 @@ resourcestring
 
 const
   SquareHertzUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareHertzSymbol;
     FName       : rsSquareHertzName;
     FPluralName : rsSquareHertzPluralName;
@@ -1960,10 +1959,10 @@ var
   Hz2 : TUnit absolute SquareHertzUnit;
 
 const
-  THz2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
-  GHz2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MHz2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kHz2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  THz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
+  GHz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MHz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kHz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
 
 { TReciprocalSquareSecond }
 
@@ -1974,7 +1973,7 @@ resourcestring
 
 const
   ReciprocalSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalSquareSecondSymbol;
     FName       : rsReciprocalSquareSecondName;
     FPluralName : rsReciprocalSquareSecondPluralName;
@@ -1990,7 +1989,7 @@ resourcestring
 
 const
   RadianPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsRadianPerSquareSecondSymbol;
     FName       : rsRadianPerSquareSecondName;
     FPluralName : rsRadianPerSquareSecondPluralName;
@@ -2006,7 +2005,7 @@ resourcestring
 
 const
   SteradianPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
     FSymbol     : rsSteradianPerSquareSecondSymbol;
     FName       : rsSteradianPerSquareSecondName;
     FPluralName : rsSteradianPerSquareSecondPluralName;
@@ -2022,7 +2021,7 @@ resourcestring
 
 const
   MeterPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerSecondSymbol;
     FName       : rsMeterPerSecondName;
     FPluralName : rsMeterPerSecondPluralName;
@@ -2038,7 +2037,7 @@ resourcestring
 
 const
   MeterPerHourUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerHourSymbol;
     FName       : rsMeterPerHourName;
     FPluralName : rsMeterPerHourPluralName;
@@ -2055,7 +2054,7 @@ resourcestring
 
 const
   MilePerHourUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMilePerHourSymbol;
     FName       : rsMilePerHourName;
     FPluralName : rsMilePerHourPluralName;
@@ -2072,7 +2071,7 @@ resourcestring
 
 const
   NauticalMilePerHourUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNauticalMilePerHourSymbol;
     FName       : rsNauticalMilePerHourName;
     FPluralName : rsNauticalMilePerHourPluralName;
@@ -2089,7 +2088,7 @@ resourcestring
 
 const
   MeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerSquareSecondSymbol;
     FName       : rsMeterPerSquareSecondName;
     FPluralName : rsMeterPerSquareSecondPluralName;
@@ -2105,7 +2104,7 @@ resourcestring
 
 const
   MeterPerSecondPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerSecondPerSecondSymbol;
     FName       : rsMeterPerSecondPerSecondName;
     FPluralName : rsMeterPerSecondPerSecondPluralName;
@@ -2121,7 +2120,7 @@ resourcestring
 
 const
   MeterPerHourPerSecondUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerHourPerSecondSymbol;
     FName       : rsMeterPerHourPerSecondName;
     FPluralName : rsMeterPerHourPerSecondPluralName;
@@ -2138,7 +2137,7 @@ resourcestring
 
 const
   MeterPerCubicSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerCubicSecondSymbol;
     FName       : rsMeterPerCubicSecondName;
     FPluralName : rsMeterPerCubicSecondPluralName;
@@ -2154,7 +2153,7 @@ resourcestring
 
 const
   MeterPerQuarticSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerQuarticSecondSymbol;
     FName       : rsMeterPerQuarticSecondName;
     FPluralName : rsMeterPerQuarticSecondPluralName;
@@ -2170,7 +2169,7 @@ resourcestring
 
 const
   MeterPerQuinticSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerQuinticSecondSymbol;
     FName       : rsMeterPerQuinticSecondName;
     FPluralName : rsMeterPerQuinticSecondPluralName;
@@ -2186,7 +2185,7 @@ resourcestring
 
 const
   MeterPerSexticSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerSexticSecondSymbol;
     FName       : rsMeterPerSexticSecondName;
     FPluralName : rsMeterPerSexticSecondPluralName;
@@ -2202,7 +2201,7 @@ resourcestring
 
 const
   SquareMeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMeterPerSquareSecondSymbol;
     FName       : rsSquareMeterPerSquareSecondName;
     FPluralName : rsSquareMeterPerSquareSecondPluralName;
@@ -2218,7 +2217,7 @@ resourcestring
 
 const
   JoulePerKilogramUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerKilogramSymbol;
     FName       : rsJoulePerKilogramName;
     FPluralName : rsJoulePerKilogramPluralName;
@@ -2234,7 +2233,7 @@ resourcestring
 
 const
   GrayUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsGraySymbol;
     FName       : rsGrayName;
     FPluralName : rsGrayPluralName;
@@ -2245,10 +2244,10 @@ var
   Gy : TUnit absolute GrayUnit;
 
 const
-  kGy        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mGy        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miGy       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nGy        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  kGy        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mGy        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miGy       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nGy        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TSievert }
 
@@ -2259,7 +2258,7 @@ resourcestring
 
 const
   SievertUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSievertSymbol;
     FName       : rsSievertName;
     FPluralName : rsSievertPluralName;
@@ -2270,10 +2269,10 @@ var
   Sv : TUnit absolute SievertUnit;
 
 const
-  kSv        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mSv        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miSv       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nSv        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  kSv        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mSv        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miSv       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nSv        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TMeterSecond }
 
@@ -2284,7 +2283,7 @@ resourcestring
 
 const
   MeterSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterSecondSymbol;
     FName       : rsMeterSecondName;
     FPluralName : rsMeterSecondPluralName;
@@ -2300,7 +2299,7 @@ resourcestring
 
 const
   KilogramMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramMeterSymbol;
     FName       : rsKilogramMeterName;
     FPluralName : rsKilogramMeterPluralName;
@@ -2316,7 +2315,7 @@ resourcestring
 
 const
   KilogramPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerSecondSymbol;
     FName       : rsKilogramPerSecondName;
     FPluralName : rsKilogramPerSecondPluralName;
@@ -2332,7 +2331,7 @@ resourcestring
 
 const
   JoulePerSquareMeterPerHertzUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerSquareMeterPerHertzSymbol;
     FName       : rsJoulePerSquareMeterPerHertzName;
     FPluralName : rsJoulePerSquareMeterPerHertzPluralName;
@@ -2348,7 +2347,7 @@ resourcestring
 
 const
   KilogramMeterPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramMeterPerSecondSymbol;
     FName       : rsKilogramMeterPerSecondName;
     FPluralName : rsKilogramMeterPerSecondPluralName;
@@ -2364,7 +2363,7 @@ resourcestring
 
 const
   NewtonSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonSecondSymbol;
     FName       : rsNewtonSecondName;
     FPluralName : rsNewtonSecondPluralName;
@@ -2380,7 +2379,7 @@ resourcestring
 
 const
   SquareKilogramSquareMeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareKilogramSquareMeterPerSquareSecondSymbol;
     FName       : rsSquareKilogramSquareMeterPerSquareSecondName;
     FPluralName : rsSquareKilogramSquareMeterPerSquareSecondPluralName;
@@ -2396,7 +2395,7 @@ resourcestring
 
 const
   ReciprocalSquareRootMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -30; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -30; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalSquareRootMeterSymbol;
     FName       : rsReciprocalSquareRootMeterName;
     FPluralName : rsReciprocalSquareRootMeterPluralName;
@@ -2412,7 +2411,7 @@ resourcestring
 
 const
   ReciprocalMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalMeterSymbol;
     FName       : rsReciprocalMeterName;
     FPluralName : rsReciprocalMeterPluralName;
@@ -2428,7 +2427,7 @@ resourcestring
 
 const
   DioptreUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsDioptreSymbol;
     FName       : rsDioptreName;
     FPluralName : rsDioptrePluralName;
@@ -2444,7 +2443,7 @@ resourcestring
 
 const
   ReciprocalSquareRootCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -90; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -90; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalSquareRootCubicMeterSymbol;
     FName       : rsReciprocalSquareRootCubicMeterName;
     FPluralName : rsReciprocalSquareRootCubicMeterPluralName;
@@ -2460,7 +2459,7 @@ resourcestring
 
 const
   ReciprocalSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalSquareMeterSymbol;
     FName       : rsReciprocalSquareMeterName;
     FPluralName : rsReciprocalSquareMeterPluralName;
@@ -2476,7 +2475,7 @@ resourcestring
 
 const
   ReciprocalCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalCubicMeterSymbol;
     FName       : rsReciprocalCubicMeterName;
     FPluralName : rsReciprocalCubicMeterPluralName;
@@ -2492,7 +2491,7 @@ resourcestring
 
 const
   ReciprocalQuarticMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalQuarticMeterSymbol;
     FName       : rsReciprocalQuarticMeterName;
     FPluralName : rsReciprocalQuarticMeterPluralName;
@@ -2508,7 +2507,7 @@ resourcestring
 
 const
   KilogramSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterSymbol;
     FName       : rsKilogramSquareMeterName;
     FPluralName : rsKilogramSquareMeterPluralName;
@@ -2524,7 +2523,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerSecondSymbol;
     FName       : rsKilogramSquareMeterPerSecondName;
     FPluralName : rsKilogramSquareMeterPerSecondPluralName;
@@ -2540,7 +2539,7 @@ resourcestring
 
 const
   NewtonMeterSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonMeterSecondSymbol;
     FName       : rsNewtonMeterSecondName;
     FPluralName : rsNewtonMeterSecondPluralName;
@@ -2556,7 +2555,7 @@ resourcestring
 
 const
   SecondPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSecondPerMeterSymbol;
     FName       : rsSecondPerMeterName;
     FPluralName : rsSecondPerMeterPluralName;
@@ -2572,7 +2571,7 @@ resourcestring
 
 const
   KilogramPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerMeterSymbol;
     FName       : rsKilogramPerMeterName;
     FPluralName : rsKilogramPerMeterPluralName;
@@ -2588,7 +2587,7 @@ resourcestring
 
 const
   KilogramPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerSquareMeterSymbol;
     FName       : rsKilogramPerSquareMeterName;
     FPluralName : rsKilogramPerSquareMeterPluralName;
@@ -2604,7 +2603,7 @@ resourcestring
 
 const
   KilogramPerCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerCubicMeterSymbol;
     FName       : rsKilogramPerCubicMeterName;
     FPluralName : rsKilogramPerCubicMeterPluralName;
@@ -2620,7 +2619,7 @@ resourcestring
 
 const
   PoundPerCubicInchUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPoundPerCubicInchSymbol;
     FName       : rsPoundPerCubicInchName;
     FPluralName : rsPoundPerCubicInchPluralName;
@@ -2637,7 +2636,7 @@ resourcestring
 
 const
   NewtonUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonSymbol;
     FName       : rsNewtonName;
     FPluralName : rsNewtonPluralName;
@@ -2648,11 +2647,11 @@ var
   N : TUnit absolute NewtonUnit;
 
 const
-  GN         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MN         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kN         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hN         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daN        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  GN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daN        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
 
 { TPoundForce }
 
@@ -2663,7 +2662,7 @@ resourcestring
 
 const
   PoundForceUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPoundForceSymbol;
     FName       : rsPoundForceName;
     FPluralName : rsPoundForcePluralName;
@@ -2683,7 +2682,7 @@ resourcestring
 
 const
   KilogramMeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramMeterPerSquareSecondSymbol;
     FName       : rsKilogramMeterPerSquareSecondName;
     FPluralName : rsKilogramMeterPerSquareSecondPluralName;
@@ -2699,7 +2698,7 @@ resourcestring
 
 const
   NewtonRadianUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonRadianSymbol;
     FName       : rsNewtonRadianName;
     FPluralName : rsNewtonRadianPluralName;
@@ -2715,7 +2714,7 @@ resourcestring
 
 const
   SquareNewtonUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareNewtonSymbol;
     FName       : rsSquareNewtonName;
     FPluralName : rsSquareNewtonPluralName;
@@ -2726,11 +2725,11 @@ var
   N2 : TUnit absolute SquareNewtonUnit;
 
 const
-  GN2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MN2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kN2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hN2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daN2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  GN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daN2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
 
 { TSquareKilogramSquareMeterPerQuarticSecond }
 
@@ -2741,7 +2740,7 @@ resourcestring
 
 const
   SquareKilogramSquareMeterPerQuarticSecondUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareKilogramSquareMeterPerQuarticSecondSymbol;
     FName       : rsSquareKilogramSquareMeterPerQuarticSecondName;
     FPluralName : rsSquareKilogramSquareMeterPerQuarticSecondPluralName;
@@ -2757,7 +2756,7 @@ resourcestring
 
 const
   PascalUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPascalSymbol;
     FName       : rsPascalName;
     FPluralName : rsPascalPluralName;
@@ -2768,10 +2767,10 @@ var
   Pa : TUnit absolute PascalUnit;
 
 const
-  TPa        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GPa        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MPa        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kPa        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  TPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TNewtonPerSquareMeter }
 
@@ -2782,7 +2781,7 @@ resourcestring
 
 const
   NewtonPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonPerSquareMeterSymbol;
     FName       : rsNewtonPerSquareMeterName;
     FPluralName : rsNewtonPerSquareMeterPluralName;
@@ -2798,7 +2797,7 @@ resourcestring
 
 const
   BarUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsBarSymbol;
     FName       : rsBarName;
     FPluralName : rsBarPluralName;
@@ -2810,8 +2809,8 @@ var
   bar : TFactoredUnit absolute BarUnit;
 
 const
-  kbar       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
-  mbar       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+05 * 1E-03); {$ELSE} (1E+05 * 1E-03); {$ENDIF}
+  kbar       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
+  mbar       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+05 * 1E-03); {$ELSE} (1E+05 * 1E-03); {$ENDIF}
 
 { TPoundPerSquareInch }
 
@@ -2822,7 +2821,7 @@ resourcestring
 
 const
   PoundPerSquareInchUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPoundPerSquareInchSymbol;
     FName       : rsPoundPerSquareInchName;
     FPluralName : rsPoundPerSquareInchPluralName;
@@ -2834,7 +2833,7 @@ var
   psi : TFactoredUnit absolute PoundPerSquareInchUnit;
 
 const
-  kpsi       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
+  kpsi       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
 
 { TJoulePerCubicMeter }
 
@@ -2845,7 +2844,7 @@ resourcestring
 
 const
   JoulePerCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerCubicMeterSymbol;
     FName       : rsJoulePerCubicMeterName;
     FPluralName : rsJoulePerCubicMeterPluralName;
@@ -2861,7 +2860,7 @@ resourcestring
 
 const
   KilogramPerMeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerMeterPerSquareSecondSymbol;
     FName       : rsKilogramPerMeterPerSquareSecondName;
     FPluralName : rsKilogramPerMeterPerSquareSecondPluralName;
@@ -2877,7 +2876,7 @@ resourcestring
 
 const
   JouleUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJouleSymbol;
     FName       : rsJouleName;
     FPluralName : rsJoulePluralName;
@@ -2888,10 +2887,10 @@ var
   J : TUnit absolute JouleUnit;
 
 const
-  TJ         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GJ         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MJ         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kJ         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  TJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TWattHour }
 
@@ -2902,7 +2901,7 @@ resourcestring
 
 const
   WattHourUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattHourSymbol;
     FName       : rsWattHourName;
     FPluralName : rsWattHourPluralName;
@@ -2919,7 +2918,7 @@ resourcestring
 
 const
   WattSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattSecondSymbol;
     FName       : rsWattSecondName;
     FPluralName : rsWattSecondPluralName;
@@ -2935,7 +2934,7 @@ resourcestring
 
 const
   WattPerHertzUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerHertzSymbol;
     FName       : rsWattPerHertzName;
     FPluralName : rsWattPerHertzPluralName;
@@ -2951,7 +2950,7 @@ resourcestring
 
 const
   ElectronvoltUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsElectronvoltSymbol;
     FName       : rsElectronvoltName;
     FPluralName : rsElectronvoltPluralName;
@@ -2963,10 +2962,10 @@ var
   eV : TFactoredUnit absolute ElectronvoltUnit;
 
 const
-  TeV        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
-  GeV        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+09); {$ELSE} (1.602176634E-019 * 1E+09); {$ENDIF}
-  MeV        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+06); {$ELSE} (1.602176634E-019 * 1E+06); {$ENDIF}
-  keV        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+03); {$ELSE} (1.602176634E-019 * 1E+03); {$ENDIF}
+  TeV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
+  GeV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+09); {$ELSE} (1.602176634E-019 * 1E+09); {$ENDIF}
+  MeV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+06); {$ELSE} (1.602176634E-019 * 1E+06); {$ENDIF}
+  keV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+03); {$ELSE} (1.602176634E-019 * 1E+03); {$ENDIF}
 
 { TNewtonMeter }
 
@@ -2977,7 +2976,7 @@ resourcestring
 
 const
   NewtonMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonMeterSymbol;
     FName       : rsNewtonMeterName;
     FPluralName : rsNewtonMeterPluralName;
@@ -2993,7 +2992,7 @@ resourcestring
 
 const
   PoundForceInchUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPoundForceInchSymbol;
     FName       : rsPoundForceInchName;
     FPluralName : rsPoundForceInchPluralName;
@@ -3010,7 +3009,7 @@ resourcestring
 
 const
   RydbergUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsRydbergSymbol;
     FName       : rsRydbergName;
     FPluralName : rsRydbergPluralName;
@@ -3030,7 +3029,7 @@ resourcestring
 
 const
   CalorieUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCalorieSymbol;
     FName       : rsCalorieName;
     FPluralName : rsCaloriePluralName;
@@ -3042,8 +3041,8 @@ var
   cal : TFactoredUnit absolute CalorieUnit;
 
 const
-  Mcal       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
-  kcal       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 4.184 * 1E+03); {$ELSE} (4.184 * 1E+03); {$ENDIF}
+  Mcal       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
+  kcal       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 4.184 * 1E+03); {$ELSE} (4.184 * 1E+03); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareSecond }
 
@@ -3054,7 +3053,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareSecondSymbol;
     FName       : rsKilogramSquareMeterPerSquareSecondName;
     FPluralName : rsKilogramSquareMeterPerSquareSecondPluralName;
@@ -3070,7 +3069,7 @@ resourcestring
 
 const
   JoulePerRadianUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerRadianSymbol;
     FName       : rsJoulePerRadianName;
     FPluralName : rsJoulePerRadianPluralName;
@@ -3086,7 +3085,7 @@ resourcestring
 
 const
   JoulePerDegreeUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerDegreeSymbol;
     FName       : rsJoulePerDegreeName;
     FPluralName : rsJoulePerDegreePluralName;
@@ -3103,7 +3102,7 @@ resourcestring
 
 const
   NewtonMeterPerRadianUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonMeterPerRadianSymbol;
     FName       : rsNewtonMeterPerRadianName;
     FPluralName : rsNewtonMeterPerRadianPluralName;
@@ -3119,7 +3118,7 @@ resourcestring
 
 const
   NewtonMeterPerDegreeUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonMeterPerDegreeSymbol;
     FName       : rsNewtonMeterPerDegreeName;
     FPluralName : rsNewtonMeterPerDegreePluralName;
@@ -3136,7 +3135,7 @@ resourcestring
 
 const
   PoundForceInchPerRadianUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPoundForceInchPerRadianSymbol;
     FName       : rsPoundForceInchPerRadianName;
     FPluralName : rsPoundForceInchPerRadianPluralName;
@@ -3153,7 +3152,7 @@ resourcestring
 
 const
   PoundForceInchPerDegreeUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPoundForceInchPerDegreeSymbol;
     FName       : rsPoundForceInchPerDegreeName;
     FPluralName : rsPoundForceInchPerDegreePluralName;
@@ -3170,7 +3169,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareSecondPerRadianUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareSecondPerRadianSymbol;
     FName       : rsKilogramSquareMeterPerSquareSecondPerRadianName;
     FPluralName : rsKilogramSquareMeterPerSquareSecondPerRadianPluralName;
@@ -3186,7 +3185,7 @@ resourcestring
 
 const
   WattUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattSymbol;
     FName       : rsWattName;
     FPluralName : rsWattPluralName;
@@ -3197,11 +3196,11 @@ var
   W : TUnit absolute WattUnit;
 
 const
-  TW         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GW         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MW         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kW         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  milliW     : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  TW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  milliW     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 { TKilogramSquareMeterPerCubicSecond }
 
@@ -3212,7 +3211,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerCubicSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerCubicSecondSymbol;
     FName       : rsKilogramSquareMeterPerCubicSecondName;
     FPluralName : rsKilogramSquareMeterPerCubicSecondPluralName;
@@ -3228,7 +3227,7 @@ resourcestring
 
 const
   CoulombUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCoulombSymbol;
     FName       : rsCoulombName;
     FPluralName : rsCoulombPluralName;
@@ -3239,15 +3238,15 @@ var
   C : TUnit absolute CoulombUnit;
 
 const
-  kC         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hC         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daC        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
-  dC         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cC         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mC         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miC        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nC         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pC         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daC        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  dC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miC        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TAmpereHour }
 
@@ -3258,7 +3257,7 @@ resourcestring
 
 const
   AmpereHourUnit : TFactoredUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsAmpereHourSymbol;
     FName       : rsAmpereHourName;
     FPluralName : rsAmpereHourPluralName;
@@ -3275,7 +3274,7 @@ resourcestring
 
 const
   AmpereSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsAmpereSecondSymbol;
     FName       : rsAmpereSecondName;
     FPluralName : rsAmpereSecondPluralName;
@@ -3291,7 +3290,7 @@ resourcestring
 
 const
   SquareCoulombUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareCoulombSymbol;
     FName       : rsSquareCoulombName;
     FPluralName : rsSquareCoulombPluralName;
@@ -3302,15 +3301,15 @@ var
   C2 : TUnit absolute SquareCoulombUnit;
 
 const
-  kC2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hC2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daC2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  dC2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cC2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mC2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  miC2       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nC2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  pC2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  kC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daC2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  dC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  miC2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  pC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareAmpereSquareSecond }
 
@@ -3321,7 +3320,7 @@ resourcestring
 
 const
   SquareAmpereSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareAmpereSquareSecondSymbol;
     FName       : rsSquareAmpereSquareSecondName;
     FPluralName : rsSquareAmpereSquareSecondPluralName;
@@ -3337,7 +3336,7 @@ resourcestring
 
 const
   CoulombMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCoulombMeterSymbol;
     FName       : rsCoulombMeterName;
     FPluralName : rsCoulombMeterPluralName;
@@ -3353,7 +3352,7 @@ resourcestring
 
 const
   VoltUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsVoltSymbol;
     FName       : rsVoltName;
     FPluralName : rsVoltPluralName;
@@ -3364,8 +3363,8 @@ var
   V : TUnit absolute VoltUnit;
 
 const
-  kV         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mV         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  kV         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mV         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 { TJoulePerCoulomb }
 
@@ -3376,7 +3375,7 @@ resourcestring
 
 const
   JoulePerCoulombUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerCoulombSymbol;
     FName       : rsJoulePerCoulombName;
     FPluralName : rsJoulePerCoulombPluralName;
@@ -3392,7 +3391,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerAmperePerCubicSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerAmperePerCubicSecondSymbol;
     FName       : rsKilogramSquareMeterPerAmperePerCubicSecondName;
     FPluralName : rsKilogramSquareMeterPerAmperePerCubicSecondPluralName;
@@ -3408,7 +3407,7 @@ resourcestring
 
 const
   SquareVoltUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareVoltSymbol;
     FName       : rsSquareVoltName;
     FPluralName : rsSquareVoltPluralName;
@@ -3419,8 +3418,8 @@ var
   V2 : TUnit absolute SquareVoltUnit;
 
 const
-  kV2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  mV2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  kV2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  mV2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
 
 { TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond }
 
@@ -3431,7 +3430,7 @@ resourcestring
 
 const
   SquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondSymbol;
     FName       : rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondName;
     FPluralName : rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondPluralName;
@@ -3447,7 +3446,7 @@ resourcestring
 
 const
   FaradUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsFaradSymbol;
     FName       : rsFaradName;
     FPluralName : rsFaradPluralName;
@@ -3458,10 +3457,10 @@ var
   F : TUnit absolute FaradUnit;
 
 const
-  mF         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miF        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nF         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pF         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mF         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miF        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nF         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pF         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TCoulombPerVolt }
 
@@ -3472,7 +3471,7 @@ resourcestring
 
 const
   CoulombPerVoltUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCoulombPerVoltSymbol;
     FName       : rsCoulombPerVoltName;
     FPluralName : rsCoulombPerVoltPluralName;
@@ -3488,7 +3487,7 @@ resourcestring
 
 const
   SquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterSymbol;
     FName       : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterName;
     FPluralName : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterPluralName;
@@ -3504,7 +3503,7 @@ resourcestring
 
 const
   OhmUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsOhmSymbol;
     FName       : rsOhmName;
     FPluralName : rsOhmPluralName;
@@ -3515,12 +3514,12 @@ var
   ohm : TUnit absolute OhmUnit;
 
 const
-  Gohm       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  megaohm    : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kohm       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mohm       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miohm      : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nohm       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  Gohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  megaohm    : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miohm      : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareAmperePerCubicSecond }
 
@@ -3531,7 +3530,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareAmperePerCubicSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareAmperePerCubicSecondSymbol;
     FName       : rsKilogramSquareMeterPerSquareAmperePerCubicSecondName;
     FPluralName : rsKilogramSquareMeterPerSquareAmperePerCubicSecondPluralName;
@@ -3547,7 +3546,7 @@ resourcestring
 
 const
   SiemensUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSiemensSymbol;
     FName       : rsSiemensName;
     FPluralName : rsSiemensPluralName;
@@ -3558,9 +3557,9 @@ var
   siemens : TUnit absolute SiemensUnit;
 
 const
-  millisiemens : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  microsiemens : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-   nanosiemens : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  millisiemens : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  microsiemens : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+   nanosiemens : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TSquareAmpereCubicSecondPerKilogramPerSquareMeter }
 
@@ -3571,7 +3570,7 @@ resourcestring
 
 const
   SquareAmpereCubicSecondPerKilogramPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareAmpereCubicSecondPerKilogramPerSquareMeterSymbol;
     FName       : rsSquareAmpereCubicSecondPerKilogramPerSquareMeterName;
     FPluralName : rsSquareAmpereCubicSecondPerKilogramPerSquareMeterPluralName;
@@ -3587,7 +3586,7 @@ resourcestring
 
 const
   SiemensPerMeterUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -180; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSiemensPerMeterSymbol;
     FName       : rsSiemensPerMeterName;
     FPluralName : rsSiemensPerMeterPluralName;
@@ -3603,7 +3602,7 @@ resourcestring
 
 const
   TeslaUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsTeslaSymbol;
     FName       : rsTeslaName;
     FPluralName : rsTeslaPluralName;
@@ -3614,9 +3613,9 @@ var
   T : TUnit absolute TeslaUnit;
 
 const
-  mT         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miT        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nT         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mT         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miT        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nT         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TWeberPerSquareMeter }
 
@@ -3627,7 +3626,7 @@ resourcestring
 
 const
   WeberPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWeberPerSquareMeterSymbol;
     FName       : rsWeberPerSquareMeterName;
     FPluralName : rsWeberPerSquareMeterPluralName;
@@ -3643,7 +3642,7 @@ resourcestring
 
 const
   KilogramPerAmperePerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerAmperePerSquareSecondSymbol;
     FName       : rsKilogramPerAmperePerSquareSecondName;
     FPluralName : rsKilogramPerAmperePerSquareSecondPluralName;
@@ -3659,7 +3658,7 @@ resourcestring
 
 const
   WeberUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWeberSymbol;
     FName       : rsWeberName;
     FPluralName : rsWeberPluralName;
@@ -3678,7 +3677,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerAmperePerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerAmperePerSquareSecondSymbol;
     FName       : rsKilogramSquareMeterPerAmperePerSquareSecondName;
     FPluralName : rsKilogramSquareMeterPerAmperePerSquareSecondPluralName;
@@ -3694,7 +3693,7 @@ resourcestring
 
 const
   HenryUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsHenrySymbol;
     FName       : rsHenryName;
     FPluralName : rsHenryPluralName;
@@ -3705,9 +3704,9 @@ var
   H : TUnit absolute HenryUnit;
 
 const
-  mH         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miH        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nH         : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mH         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miH        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nH         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareAmperePerSquareSecond }
 
@@ -3718,7 +3717,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareAmperePerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareAmperePerSquareSecondSymbol;
     FName       : rsKilogramSquareMeterPerSquareAmperePerSquareSecondName;
     FPluralName : rsKilogramSquareMeterPerSquareAmperePerSquareSecondPluralName;
@@ -3734,7 +3733,7 @@ resourcestring
 
 const
   ReciprocalHenryUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalHenrySymbol;
     FName       : rsReciprocalHenryName;
     FPluralName : rsReciprocalHenryPluralName;
@@ -3750,7 +3749,7 @@ resourcestring
 
 const
   LumenUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
     FSymbol     : rsLumenSymbol;
     FName       : rsLumenName;
     FPluralName : rsLumenPluralName;
@@ -3769,7 +3768,7 @@ resourcestring
 
 const
   CandelaSteradianUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
     FSymbol     : rsCandelaSteradianSymbol;
     FName       : rsCandelaSteradianName;
     FPluralName : rsCandelaSteradianPluralName;
@@ -3785,7 +3784,7 @@ resourcestring
 
 const
   LumenSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
     FSymbol     : rsLumenSecondSymbol;
     FName       : rsLumenSecondName;
     FPluralName : rsLumenSecondPluralName;
@@ -3801,7 +3800,7 @@ resourcestring
 
 const
   LumenSecondPerCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
     FSymbol     : rsLumenSecondPerCubicMeterSymbol;
     FName       : rsLumenSecondPerCubicMeterName;
     FPluralName : rsLumenSecondPerCubicMeterPluralName;
@@ -3817,7 +3816,7 @@ resourcestring
 
 const
   LuxUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
     FSymbol     : rsLuxSymbol;
     FName       : rsLuxName;
     FPluralName : rsLuxPluralName;
@@ -3836,7 +3835,7 @@ resourcestring
 
 const
   CandelaSteradianPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
     FSymbol     : rsCandelaSteradianPerSquareMeterSymbol;
     FName       : rsCandelaSteradianPerSquareMeterName;
     FPluralName : rsCandelaSteradianPerSquareMeterPluralName;
@@ -3852,7 +3851,7 @@ resourcestring
 
 const
   LuxSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
     FSymbol     : rsLuxSecondSymbol;
     FName       : rsLuxSecondName;
     FPluralName : rsLuxSecondPluralName;
@@ -3868,7 +3867,7 @@ resourcestring
 
 const
   BequerelUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsBequerelSymbol;
     FName       : rsBequerelName;
     FPluralName : rsBequerelPluralName;
@@ -3879,11 +3878,11 @@ var
   Bq : TUnit absolute BequerelUnit;
 
 const
-  kBq        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mBq        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miBq       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nBq        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pBq        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miBq       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TKatal }
 
@@ -3894,7 +3893,7 @@ resourcestring
 
 const
   KatalUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
     FSymbol     : rsKatalSymbol;
     FName       : rsKatalName;
     FPluralName : rsKatalPluralName;
@@ -3913,7 +3912,7 @@ resourcestring
 
 const
   MolePerSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
     FSymbol     : rsMolePerSecondSymbol;
     FName       : rsMolePerSecondName;
     FPluralName : rsMolePerSecondPluralName;
@@ -3929,7 +3928,7 @@ resourcestring
 
 const
   NewtonPerCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonPerCubicMeterSymbol;
     FName       : rsNewtonPerCubicMeterName;
     FPluralName : rsNewtonPerCubicMeterPluralName;
@@ -3945,7 +3944,7 @@ resourcestring
 
 const
   PascalPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPascalPerMeterSymbol;
     FName       : rsPascalPerMeterName;
     FPluralName : rsPascalPerMeterPluralName;
@@ -3961,7 +3960,7 @@ resourcestring
 
 const
   KilogramPerSquareMeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerSquareMeterPerSquareSecondSymbol;
     FName       : rsKilogramPerSquareMeterPerSquareSecondName;
     FPluralName : rsKilogramPerSquareMeterPerSquareSecondPluralName;
@@ -3977,7 +3976,7 @@ resourcestring
 
 const
   NewtonPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonPerMeterSymbol;
     FName       : rsNewtonPerMeterName;
     FPluralName : rsNewtonPerMeterPluralName;
@@ -3993,7 +3992,7 @@ resourcestring
 
 const
   JoulePerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerSquareMeterSymbol;
     FName       : rsJoulePerSquareMeterName;
     FPluralName : rsJoulePerSquareMeterPluralName;
@@ -4009,7 +4008,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerHertzUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerSquareMeterPerHertzSymbol;
     FName       : rsWattPerSquareMeterPerHertzName;
     FPluralName : rsWattPerSquareMeterPerHertzPluralName;
@@ -4025,7 +4024,7 @@ resourcestring
 
 const
   PoundForcePerInchUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPoundForcePerInchSymbol;
     FName       : rsPoundForcePerInchName;
     FPluralName : rsPoundForcePerInchPluralName;
@@ -4042,7 +4041,7 @@ resourcestring
 
 const
   KilogramPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerSquareSecondSymbol;
     FName       : rsKilogramPerSquareSecondName;
     FPluralName : rsKilogramPerSquareSecondPluralName;
@@ -4058,7 +4057,7 @@ resourcestring
 
 const
   CubicMeterPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicMeterPerSecondSymbol;
     FName       : rsCubicMeterPerSecondName;
     FPluralName : rsCubicMeterPerSecondPluralName;
@@ -4074,7 +4073,7 @@ resourcestring
 
 const
   PoiseuilleUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPoiseuilleSymbol;
     FName       : rsPoiseuilleName;
     FPluralName : rsPoiseuillePluralName;
@@ -4085,9 +4084,9 @@ var
   Pl : TUnit absolute PoiseuilleUnit;
 
 const
-  cPl        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mPl        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miPl       : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cPl        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mPl        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miPl       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
 
 { TPascalSecond }
 
@@ -4098,7 +4097,7 @@ resourcestring
 
 const
   PascalSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsPascalSecondSymbol;
     FName       : rsPascalSecondName;
     FPluralName : rsPascalSecondPluralName;
@@ -4114,7 +4113,7 @@ resourcestring
 
 const
   KilogramPerMeterPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerMeterPerSecondSymbol;
     FName       : rsKilogramPerMeterPerSecondName;
     FPluralName : rsKilogramPerMeterPerSecondPluralName;
@@ -4130,7 +4129,7 @@ resourcestring
 
 const
   SquareMeterPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMeterPerSecondSymbol;
     FName       : rsSquareMeterPerSecondName;
     FPluralName : rsSquareMeterPerSecondPluralName;
@@ -4146,7 +4145,7 @@ resourcestring
 
 const
   KilogramPerQuarticMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerQuarticMeterSymbol;
     FName       : rsKilogramPerQuarticMeterName;
     FPluralName : rsKilogramPerQuarticMeterPluralName;
@@ -4162,7 +4161,7 @@ resourcestring
 
 const
   QuarticMeterSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 240; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 240; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsQuarticMeterSecondSymbol;
     FName       : rsQuarticMeterSecondName;
     FPluralName : rsQuarticMeterSecondPluralName;
@@ -4178,7 +4177,7 @@ resourcestring
 
 const
   KilogramPerQuarticMeterPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -240; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -240; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerQuarticMeterPerSecondSymbol;
     FName       : rsKilogramPerQuarticMeterPerSecondName;
     FPluralName : rsKilogramPerQuarticMeterPerSecondPluralName;
@@ -4194,7 +4193,7 @@ resourcestring
 
 const
   CubicMeterPerKilogramUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicMeterPerKilogramSymbol;
     FName       : rsCubicMeterPerKilogramName;
     FPluralName : rsCubicMeterPerKilogramPluralName;
@@ -4210,7 +4209,7 @@ resourcestring
 
 const
   KilogramSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareSecondSymbol;
     FName       : rsKilogramSquareSecondName;
     FPluralName : rsKilogramSquareSecondPluralName;
@@ -4226,7 +4225,7 @@ resourcestring
 
 const
   CubicMeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicMeterPerSquareSecondSymbol;
     FName       : rsCubicMeterPerSquareSecondName;
     FPluralName : rsCubicMeterPerSquareSecondPluralName;
@@ -4242,7 +4241,7 @@ resourcestring
 
 const
   NewtonSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonSquareMeterSymbol;
     FName       : rsNewtonSquareMeterName;
     FPluralName : rsNewtonSquareMeterPluralName;
@@ -4258,7 +4257,7 @@ resourcestring
 
 const
   KilogramCubicMeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramCubicMeterPerSquareSecondSymbol;
     FName       : rsKilogramCubicMeterPerSquareSecondName;
     FPluralName : rsKilogramCubicMeterPerSquareSecondPluralName;
@@ -4274,7 +4273,7 @@ resourcestring
 
 const
   NewtonCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonCubicMeterSymbol;
     FName       : rsNewtonCubicMeterName;
     FPluralName : rsNewtonCubicMeterPluralName;
@@ -4290,7 +4289,7 @@ resourcestring
 
 const
   KilogramQuarticMeterPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramQuarticMeterPerSquareSecondSymbol;
     FName       : rsKilogramQuarticMeterPerSquareSecondName;
     FPluralName : rsKilogramQuarticMeterPerSquareSecondPluralName;
@@ -4306,7 +4305,7 @@ resourcestring
 
 const
   NewtonPerSquareKilogramUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonPerSquareKilogramSymbol;
     FName       : rsNewtonPerSquareKilogramName;
     FPluralName : rsNewtonPerSquareKilogramPluralName;
@@ -4322,7 +4321,7 @@ resourcestring
 
 const
   MeterPerKilogramPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerKilogramPerSquareSecondSymbol;
     FName       : rsMeterPerKilogramPerSquareSecondName;
     FPluralName : rsMeterPerKilogramPerSquareSecondPluralName;
@@ -4338,7 +4337,7 @@ resourcestring
 
 const
   SquareKilogramPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareKilogramPerMeterSymbol;
     FName       : rsSquareKilogramPerMeterName;
     FPluralName : rsSquareKilogramPerMeterPluralName;
@@ -4354,7 +4353,7 @@ resourcestring
 
 const
   SquareKilogramPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareKilogramPerSquareMeterSymbol;
     FName       : rsSquareKilogramPerSquareMeterName;
     FPluralName : rsSquareKilogramPerSquareMeterPluralName;
@@ -4370,7 +4369,7 @@ resourcestring
 
 const
   SquareMeterPerSquareKilogramUnit : TUnit = (
-    FID         : (FKilogram: -120; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMeterPerSquareKilogramSymbol;
     FName       : rsSquareMeterPerSquareKilogramName;
     FPluralName : rsSquareMeterPerSquareKilogramPluralName;
@@ -4386,7 +4385,7 @@ resourcestring
 
 const
   NewtonSquareMeterPerSquareKilogramUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonSquareMeterPerSquareKilogramSymbol;
     FName       : rsNewtonSquareMeterPerSquareKilogramName;
     FPluralName : rsNewtonSquareMeterPerSquareKilogramPluralName;
@@ -4402,7 +4401,7 @@ resourcestring
 
 const
   CubicMeterPerKilogramPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCubicMeterPerKilogramPerSquareSecondSymbol;
     FName       : rsCubicMeterPerKilogramPerSquareSecondName;
     FPluralName : rsCubicMeterPerKilogramPerSquareSecondPluralName;
@@ -4418,7 +4417,7 @@ resourcestring
 
 const
   ReciprocalKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalKelvinSymbol;
     FName       : rsReciprocalKelvinName;
     FPluralName : rsReciprocalKelvinPluralName;
@@ -4434,7 +4433,7 @@ resourcestring
 
 const
   KilogramKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramKelvinSymbol;
     FName       : rsKilogramKelvinName;
     FPluralName : rsKilogramKelvinPluralName;
@@ -4450,7 +4449,7 @@ resourcestring
 
 const
   JoulePerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerKelvinSymbol;
     FName       : rsJoulePerKelvinName;
     FPluralName : rsJoulePerKelvinPluralName;
@@ -4466,7 +4465,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareSecondPerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareSecondPerKelvinSymbol;
     FName       : rsKilogramSquareMeterPerSquareSecondPerKelvinName;
     FPluralName : rsKilogramSquareMeterPerSquareSecondPerKelvinPluralName;
@@ -4482,7 +4481,7 @@ resourcestring
 
 const
   JoulePerKilogramPerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerKilogramPerKelvinSymbol;
     FName       : rsJoulePerKilogramPerKelvinName;
     FPluralName : rsJoulePerKilogramPerKelvinPluralName;
@@ -4498,7 +4497,7 @@ resourcestring
 
 const
   SquareMeterPerSquareSecondPerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMeterPerSquareSecondPerKelvinSymbol;
     FName       : rsSquareMeterPerSquareSecondPerKelvinName;
     FPluralName : rsSquareMeterPerSquareSecondPerKelvinPluralName;
@@ -4514,7 +4513,7 @@ resourcestring
 
 const
   MeterKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterKelvinSymbol;
     FName       : rsMeterKelvinName;
     FPluralName : rsMeterKelvinPluralName;
@@ -4530,7 +4529,7 @@ resourcestring
 
 const
   KelvinPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKelvinPerMeterSymbol;
     FName       : rsKelvinPerMeterName;
     FPluralName : rsKelvinPerMeterPluralName;
@@ -4546,7 +4545,7 @@ resourcestring
 
 const
   WattPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerMeterSymbol;
     FName       : rsWattPerMeterName;
     FPluralName : rsWattPerMeterPluralName;
@@ -4562,7 +4561,7 @@ resourcestring
 
 const
   KilogramMeterPerCubicSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramMeterPerCubicSecondSymbol;
     FName       : rsKilogramMeterPerCubicSecondName;
     FPluralName : rsKilogramMeterPerCubicSecondPluralName;
@@ -4578,7 +4577,7 @@ resourcestring
 
 const
   WattPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerSquareMeterSymbol;
     FName       : rsWattPerSquareMeterName;
     FPluralName : rsWattPerSquareMeterPluralName;
@@ -4594,7 +4593,7 @@ resourcestring
 
 const
   KilogramPerCubicSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerCubicSecondSymbol;
     FName       : rsKilogramPerCubicSecondName;
     FPluralName : rsKilogramPerCubicSecondPluralName;
@@ -4610,7 +4609,7 @@ resourcestring
 
 const
   WattPerCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerCubicMeterSymbol;
     FName       : rsWattPerCubicMeterName;
     FPluralName : rsWattPerCubicMeterPluralName;
@@ -4626,7 +4625,7 @@ resourcestring
 
 const
   WattPerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerKelvinSymbol;
     FName       : rsWattPerKelvinName;
     FPluralName : rsWattPerKelvinPluralName;
@@ -4642,7 +4641,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerCubicSecondPerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramSquareMeterPerCubicSecondPerKelvinSymbol;
     FName       : rsKilogramSquareMeterPerCubicSecondPerKelvinName;
     FPluralName : rsKilogramSquareMeterPerCubicSecondPerKelvinPluralName;
@@ -4658,7 +4657,7 @@ resourcestring
 
 const
   WattPerMeterPerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerMeterPerKelvinSymbol;
     FName       : rsWattPerMeterPerKelvinName;
     FPluralName : rsWattPerMeterPerKelvinPluralName;
@@ -4674,7 +4673,7 @@ resourcestring
 
 const
   KilogramMeterPerCubicSecondPerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramMeterPerCubicSecondPerKelvinSymbol;
     FName       : rsKilogramMeterPerCubicSecondPerKelvinName;
     FPluralName : rsKilogramMeterPerCubicSecondPerKelvinPluralName;
@@ -4690,7 +4689,7 @@ resourcestring
 
 const
   KelvinPerWattUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKelvinPerWattSymbol;
     FName       : rsKelvinPerWattName;
     FPluralName : rsKelvinPerWattPluralName;
@@ -4706,7 +4705,7 @@ resourcestring
 
 const
   MeterPerWattUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerWattSymbol;
     FName       : rsMeterPerWattName;
     FPluralName : rsMeterPerWattPluralName;
@@ -4722,7 +4721,7 @@ resourcestring
 
 const
   MeterKelvinPerWattUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterKelvinPerWattSymbol;
     FName       : rsMeterKelvinPerWattName;
     FPluralName : rsMeterKelvinPerWattPluralName;
@@ -4738,7 +4737,7 @@ resourcestring
 
 const
   SquareMeterKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMeterKelvinSymbol;
     FName       : rsSquareMeterKelvinName;
     FPluralName : rsSquareMeterKelvinPluralName;
@@ -4754,7 +4753,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerSquareMeterPerKelvinSymbol;
     FName       : rsWattPerSquareMeterPerKelvinName;
     FPluralName : rsWattPerSquareMeterPerKelvinPluralName;
@@ -4770,7 +4769,7 @@ resourcestring
 
 const
   KilogramPerCubicSecondPerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsKilogramPerCubicSecondPerKelvinSymbol;
     FName       : rsKilogramPerCubicSecondPerKelvinName;
     FPluralName : rsKilogramPerCubicSecondPerKelvinPluralName;
@@ -4786,7 +4785,7 @@ resourcestring
 
 const
   SquareMeterQuarticKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMeterQuarticKelvinSymbol;
     FName       : rsSquareMeterQuarticKelvinName;
     FPluralName : rsSquareMeterQuarticKelvinPluralName;
@@ -4802,7 +4801,7 @@ resourcestring
 
 const
   WattPerQuarticKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerQuarticKelvinSymbol;
     FName       : rsWattPerQuarticKelvinName;
     FPluralName : rsWattPerQuarticKelvinPluralName;
@@ -4818,7 +4817,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerQuarticKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsWattPerSquareMeterPerQuarticKelvinSymbol;
     FName       : rsWattPerSquareMeterPerQuarticKelvinName;
     FPluralName : rsWattPerSquareMeterPerQuarticKelvinPluralName;
@@ -4834,7 +4833,7 @@ resourcestring
 
 const
   JoulePerMoleUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerMoleSymbol;
     FName       : rsJoulePerMoleName;
     FPluralName : rsJoulePerMolePluralName;
@@ -4850,7 +4849,7 @@ resourcestring
 
 const
   MoleKelvinUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
     FSymbol     : rsMoleKelvinSymbol;
     FName       : rsMoleKelvinName;
     FPluralName : rsMoleKelvinPluralName;
@@ -4866,7 +4865,7 @@ resourcestring
 
 const
   JoulePerMolePerKelvinUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerMolePerKelvinSymbol;
     FName       : rsJoulePerMolePerKelvinName;
     FPluralName : rsJoulePerMolePerKelvinPluralName;
@@ -4882,7 +4881,7 @@ resourcestring
 
 const
   OhmMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsOhmMeterSymbol;
     FName       : rsOhmMeterName;
     FPluralName : rsOhmMeterPluralName;
@@ -4898,7 +4897,7 @@ resourcestring
 
 const
   VoltPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsVoltPerMeterSymbol;
     FName       : rsVoltPerMeterName;
     FPluralName : rsVoltPerMeterPluralName;
@@ -4914,7 +4913,7 @@ resourcestring
 
 const
   NewtonPerCoulombUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonPerCoulombSymbol;
     FName       : rsNewtonPerCoulombName;
     FPluralName : rsNewtonPerCoulombPluralName;
@@ -4930,7 +4929,7 @@ resourcestring
 
 const
   CoulombPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -60; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCoulombPerMeterSymbol;
     FName       : rsCoulombPerMeterName;
     FPluralName : rsCoulombPerMeterPluralName;
@@ -4946,7 +4945,7 @@ resourcestring
 
 const
   SquareCoulombPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -60; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareCoulombPerMeterSymbol;
     FName       : rsSquareCoulombPerMeterName;
     FPluralName : rsSquareCoulombPerMeterPluralName;
@@ -4962,7 +4961,7 @@ resourcestring
 
 const
   CoulombPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCoulombPerSquareMeterSymbol;
     FName       : rsCoulombPerSquareMeterName;
     FPluralName : rsCoulombPerSquareMeterPluralName;
@@ -4978,7 +4977,7 @@ resourcestring
 
 const
   SquareMeterPerSquareCoulombUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMeterPerSquareCoulombSymbol;
     FName       : rsSquareMeterPerSquareCoulombName;
     FPluralName : rsSquareMeterPerSquareCoulombPluralName;
@@ -4994,7 +4993,7 @@ resourcestring
 
 const
   NewtonPerSquareCoulombUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonPerSquareCoulombSymbol;
     FName       : rsNewtonPerSquareCoulombName;
     FPluralName : rsNewtonPerSquareCoulombPluralName;
@@ -5010,7 +5009,7 @@ resourcestring
 
 const
   NewtonSquareMeterPerSquareCoulombUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonSquareMeterPerSquareCoulombSymbol;
     FName       : rsNewtonSquareMeterPerSquareCoulombName;
     FPluralName : rsNewtonSquareMeterPerSquareCoulombPluralName;
@@ -5026,7 +5025,7 @@ resourcestring
 
 const
   VoltMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsVoltMeterSymbol;
     FName       : rsVoltMeterName;
     FPluralName : rsVoltMeterPluralName;
@@ -5042,7 +5041,7 @@ resourcestring
 
 const
   NewtonSquareMeterPerCoulombUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonSquareMeterPerCoulombSymbol;
     FName       : rsNewtonSquareMeterPerCoulombName;
     FPluralName : rsNewtonSquareMeterPerCoulombPluralName;
@@ -5058,7 +5057,7 @@ resourcestring
 
 const
   VoltMeterPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsVoltMeterPerSecondSymbol;
     FName       : rsVoltMeterPerSecondName;
     FPluralName : rsVoltMeterPerSecondPluralName;
@@ -5074,7 +5073,7 @@ resourcestring
 
 const
   FaradPerMeterUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -180; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsFaradPerMeterSymbol;
     FName       : rsFaradPerMeterName;
     FPluralName : rsFaradPerMeterPluralName;
@@ -5090,7 +5089,7 @@ resourcestring
 
 const
   AmperePerMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsAmperePerMeterSymbol;
     FName       : rsAmperePerMeterName;
     FPluralName : rsAmperePerMeterPluralName;
@@ -5106,7 +5105,7 @@ resourcestring
 
 const
   MeterPerAmpereUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerAmpereSymbol;
     FName       : rsMeterPerAmpereName;
     FPluralName : rsMeterPerAmperePluralName;
@@ -5122,7 +5121,7 @@ resourcestring
 
 const
   TeslaMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsTeslaMeterSymbol;
     FName       : rsTeslaMeterName;
     FPluralName : rsTeslaMeterPluralName;
@@ -5138,7 +5137,7 @@ resourcestring
 
 const
   NewtonPerAmpereUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonPerAmpereSymbol;
     FName       : rsNewtonPerAmpereName;
     FPluralName : rsNewtonPerAmperePluralName;
@@ -5154,7 +5153,7 @@ resourcestring
 
 const
   TeslaPerAmpereUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsTeslaPerAmpereSymbol;
     FName       : rsTeslaPerAmpereName;
     FPluralName : rsTeslaPerAmperePluralName;
@@ -5170,7 +5169,7 @@ resourcestring
 
 const
   HenryPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsHenryPerMeterSymbol;
     FName       : rsHenryPerMeterName;
     FPluralName : rsHenryPerMeterPluralName;
@@ -5186,7 +5185,7 @@ resourcestring
 
 const
   TeslaMeterPerAmpereUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsTeslaMeterPerAmpereSymbol;
     FName       : rsTeslaMeterPerAmpereName;
     FPluralName : rsTeslaMeterPerAmperePluralName;
@@ -5202,7 +5201,7 @@ resourcestring
 
 const
   NewtonPerSquareAmpereUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsNewtonPerSquareAmpereSymbol;
     FName       : rsNewtonPerSquareAmpereName;
     FPluralName : rsNewtonPerSquareAmperePluralName;
@@ -5218,7 +5217,7 @@ resourcestring
 
 const
   RadianPerMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsRadianPerMeterSymbol;
     FName       : rsRadianPerMeterName;
     FPluralName : rsRadianPerMeterPluralName;
@@ -5234,7 +5233,7 @@ resourcestring
 
 const
   SquareKilogramPerSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareKilogramPerSquareSecondSymbol;
     FName       : rsSquareKilogramPerSquareSecondName;
     FPluralName : rsSquareKilogramPerSquareSecondPluralName;
@@ -5250,7 +5249,7 @@ resourcestring
 
 const
   SquareSecondPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareSecondPerSquareMeterSymbol;
     FName       : rsSquareSecondPerSquareMeterName;
     FPluralName : rsSquareSecondPerSquareMeterPluralName;
@@ -5266,7 +5265,7 @@ resourcestring
 
 const
   SquareJouleUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareJouleSymbol;
     FName       : rsSquareJouleName;
     FPluralName : rsSquareJoulePluralName;
@@ -5277,10 +5276,10 @@ var
   J2 : TUnit absolute SquareJouleUnit;
 
 const
-  TJ2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
-  GJ2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MJ2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kJ2        : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  TJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
+  GJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
 
 { TJouleSecond }
 
@@ -5291,7 +5290,7 @@ resourcestring
 
 const
   JouleSecondUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJouleSecondSymbol;
     FName       : rsJouleSecondName;
     FPluralName : rsJouleSecondPluralName;
@@ -5307,7 +5306,7 @@ resourcestring
 
 const
   JoulePerHertzUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerHertzSymbol;
     FName       : rsJoulePerHertzName;
     FPluralName : rsJoulePerHertzPluralName;
@@ -5323,7 +5322,7 @@ resourcestring
 
 const
   ElectronvoltSecondUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsElectronvoltSecondSymbol;
     FName       : rsElectronvoltSecondName;
     FPluralName : rsElectronvoltSecondPluralName;
@@ -5340,7 +5339,7 @@ resourcestring
 
 const
   ElectronvoltMeterPerSpeedOfLightUnit : TFactoredUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsElectronvoltMeterPerSpeedOfLightSymbol;
     FName       : rsElectronvoltMeterPerSpeedOfLightName;
     FPluralName : rsElectronvoltMeterPerSpeedOfLightPluralName;
@@ -5357,7 +5356,7 @@ resourcestring
 
 const
   SquareJouleSquareSecondUnit : TUnit = (
-    FID         : (FKilogram: 120; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareJouleSquareSecondSymbol;
     FName       : rsSquareJouleSquareSecondName;
     FPluralName : rsSquareJouleSquareSecondPluralName;
@@ -5373,7 +5372,7 @@ resourcestring
 
 const
   CoulombPerKilogramUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCoulombPerKilogramSymbol;
     FName       : rsCoulombPerKilogramName;
     FPluralName : rsCoulombPerKilogramPluralName;
@@ -5389,7 +5388,7 @@ resourcestring
 
 const
   SquareMeterAmpereUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSquareMeterAmpereSymbol;
     FName       : rsSquareMeterAmpereName;
     FPluralName : rsSquareMeterAmperePluralName;
@@ -5405,7 +5404,7 @@ resourcestring
 
 const
   JoulePerTeslaUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsJoulePerTeslaSymbol;
     FName       : rsJoulePerTeslaName;
     FPluralName : rsJoulePerTeslaPluralName;
@@ -5421,7 +5420,7 @@ resourcestring
 
 const
   LumenPerWattUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 60);
     FSymbol     : rsLumenPerWattSymbol;
     FName       : rsLumenPerWattName;
     FPluralName : rsLumenPerWattPluralName;
@@ -5437,7 +5436,7 @@ resourcestring
 
 const
   ReciprocalMoleUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalMoleSymbol;
     FName       : rsReciprocalMoleName;
     FPluralName : rsReciprocalMolePluralName;
@@ -5453,7 +5452,7 @@ resourcestring
 
 const
   AmperePerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsAmperePerSquareMeterSymbol;
     FName       : rsAmperePerSquareMeterName;
     FPluralName : rsAmperePerSquareMeterPluralName;
@@ -5469,7 +5468,7 @@ resourcestring
 
 const
   MolePerCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
     FSymbol     : rsMolePerCubicMeterSymbol;
     FName       : rsMolePerCubicMeterName;
     FPluralName : rsMolePerCubicMeterPluralName;
@@ -5485,7 +5484,7 @@ resourcestring
 
 const
   CandelaPerSquareMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
     FSymbol     : rsCandelaPerSquareMeterSymbol;
     FName       : rsCandelaPerSquareMeterName;
     FPluralName : rsCandelaPerSquareMeterPluralName;
@@ -5501,7 +5500,7 @@ resourcestring
 
 const
   CoulombPerCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsCoulombPerCubicMeterSymbol;
     FName       : rsCoulombPerCubicMeterName;
     FPluralName : rsCoulombPerCubicMeterPluralName;
@@ -5517,7 +5516,7 @@ resourcestring
 
 const
   GrayPerSecondUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsGrayPerSecondSymbol;
     FName       : rsGrayPerSecondName;
     FPluralName : rsGrayPerSecondPluralName;
@@ -5533,7 +5532,7 @@ resourcestring
 
 const
   SteradianHertzUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
     FSymbol     : rsSteradianHertzSymbol;
     FName       : rsSteradianHertzName;
     FPluralName : rsSteradianHertzPluralName;
@@ -5549,7 +5548,7 @@ resourcestring
 
 const
   MeterSteradianUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
     FSymbol     : rsMeterSteradianSymbol;
     FName       : rsMeterSteradianName;
     FPluralName : rsMeterSteradianPluralName;
@@ -5565,7 +5564,7 @@ resourcestring
 
 const
   SquareMeterSteradianUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
     FSymbol     : rsSquareMeterSteradianSymbol;
     FName       : rsSquareMeterSteradianName;
     FPluralName : rsSquareMeterSteradianPluralName;
@@ -5581,7 +5580,7 @@ resourcestring
 
 const
   CubicMeterSteradianUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
     FSymbol     : rsCubicMeterSteradianSymbol;
     FName       : rsCubicMeterSteradianName;
     FPluralName : rsCubicMeterSteradianPluralName;
@@ -5597,7 +5596,7 @@ resourcestring
 
 const
   SquareMeterSteradianHertzUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
     FSymbol     : rsSquareMeterSteradianHertzSymbol;
     FName       : rsSquareMeterSteradianHertzName;
     FPluralName : rsSquareMeterSteradianHertzPluralName;
@@ -5613,7 +5612,7 @@ resourcestring
 
 const
   WattPerSteradianUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
     FSymbol     : rsWattPerSteradianSymbol;
     FName       : rsWattPerSteradianName;
     FPluralName : rsWattPerSteradianPluralName;
@@ -5629,7 +5628,7 @@ resourcestring
 
 const
   WattPerSteradianPerHertzUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
     FSymbol     : rsWattPerSteradianPerHertzSymbol;
     FName       : rsWattPerSteradianPerHertzName;
     FPluralName : rsWattPerSteradianPerHertzPluralName;
@@ -5645,7 +5644,7 @@ resourcestring
 
 const
   WattPerMeterPerSteradianUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
     FSymbol     : rsWattPerMeterPerSteradianSymbol;
     FName       : rsWattPerMeterPerSteradianName;
     FPluralName : rsWattPerMeterPerSteradianPluralName;
@@ -5661,7 +5660,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerSteradianUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
     FSymbol     : rsWattPerSquareMeterPerSteradianSymbol;
     FName       : rsWattPerSquareMeterPerSteradianName;
     FPluralName : rsWattPerSquareMeterPerSteradianPluralName;
@@ -5677,7 +5676,7 @@ resourcestring
 
 const
   WattPerCubicMeterPerSteradianUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
     FSymbol     : rsWattPerCubicMeterPerSteradianSymbol;
     FName       : rsWattPerCubicMeterPerSteradianName;
     FPluralName : rsWattPerCubicMeterPerSteradianPluralName;
@@ -5693,7 +5692,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerSteradianPerHertzUnit : TUnit = (
-    FID         : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
     FSymbol     : rsWattPerSquareMeterPerSteradianPerHertzSymbol;
     FName       : rsWattPerSquareMeterPerSteradianPerHertzName;
     FPluralName : rsWattPerSquareMeterPerSteradianPerHertzPluralName;
@@ -5709,7 +5708,7 @@ resourcestring
 
 const
   KatalPerCubicMeterUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: -180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
     FSymbol     : rsKatalPerCubicMeterSymbol;
     FName       : rsKatalPerCubicMeterName;
     FPluralName : rsKatalPerCubicMeterPluralName;
@@ -5725,7 +5724,7 @@ resourcestring
 
 const
   CoulombPerMoleUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
     FSymbol     : rsCoulombPerMoleSymbol;
     FName       : rsCoulombPerMoleName;
     FPluralName : rsCoulombPerMolePluralName;
@@ -5741,7 +5740,7 @@ resourcestring
 
 const
   ReciprocalNewtonUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalNewtonSymbol;
     FName       : rsReciprocalNewtonName;
     FPluralName : rsReciprocalNewtonPluralName;
@@ -5757,7 +5756,7 @@ resourcestring
 
 const
   ReciprocalTeslaUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalTeslaSymbol;
     FName       : rsReciprocalTeslaName;
     FPluralName : rsReciprocalTeslaPluralName;
@@ -5773,7 +5772,7 @@ resourcestring
 
 const
   ReciprocalPascalUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: 60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalPascalSymbol;
     FName       : rsReciprocalPascalName;
     FPluralName : rsReciprocalPascalPluralName;
@@ -5789,7 +5788,7 @@ resourcestring
 
 const
   ReciprocalWeberUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalWeberSymbol;
     FName       : rsReciprocalWeberName;
     FPluralName : rsReciprocalWeberPluralName;
@@ -5805,7 +5804,7 @@ resourcestring
 
 const
   ReciprocalWattUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalWattSymbol;
     FName       : rsReciprocalWattName;
     FPluralName : rsReciprocalWattPluralName;
@@ -5821,7 +5820,7 @@ resourcestring
 
 const
   ReciprocalRadianUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsReciprocalRadianSymbol;
     FName       : rsReciprocalRadianName;
     FPluralName : rsReciprocalRadianPluralName;
@@ -5837,7 +5836,7 @@ resourcestring
 
 const
   MeterPerVoltUnit : TUnit = (
-    FID         : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsMeterPerVoltSymbol;
     FName       : rsMeterPerVoltName;
     FPluralName : rsMeterPerVoltPluralName;
@@ -5853,7 +5852,7 @@ resourcestring
 
 const
   SecondPerRadianUnit : TUnit = (
-    FID         : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
     FSymbol     : rsSecondPerRadianSymbol;
     FName       : rsSecondPerRadianName;
     FPluralName : rsSecondPerRadianPluralName;
@@ -5912,30 +5911,30 @@ function GreaterThanZero(const AQuantity: TQuantity): boolean;
 { Constants }
 
 const
-  AvogadroConstant               : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole: -60; FCandela: 0; FRadian: 0); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
-  BohrMagneton                   : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:  120; FSecond:    0; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
-  BohrRadius                     : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
-  BoltzmannConstant              : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole:   0; FCandela: 0; FRadian: 0); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
-  ComptonWaveLength              : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
-  CoulombConstant                : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:  120; FSecond: -240; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
-  DeuteronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
-  ElectricPermittivity           : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: -60; FMeter: -180; FSecond:  240; FAmpere:  120; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
-  ElectronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
-  ElectronCharge                 : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:   60; FSecond:   60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
-  FineStructureConstant          : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
-  InverseFineStructureConstant   : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
-  MagneticPermeability           : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:  -60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
-  MolarGasConstant               : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:  120; FSecond:  120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
-  NeutronMass                    : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
-  NewtonianConstantOfGravitation : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram: -60; FMeter:  180; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
-  PlanckConstant                 : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
-  ProtonMass                     : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
-  RydbergConstant                : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:  -60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
-  SpeedOfLight                   : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:   60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
-  SquaredSpeedOfLight            : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
-  StandardAccelerationOfGravity  : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:   0; FMeter:   60; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
-  ReducedPlanckConstant          : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
-  UnifiedAtomicMassUnit          : TQuantity = {$IFNDEF ADIMOFF} (FID: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
+  AvogadroConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole: -60; FCandela: 0; FRadian: 0); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
+  BohrMagneton                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond:    0; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
+  BohrRadius                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
+  BoltzmannConstant              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole:   0; FCandela: 0; FRadian: 0); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
+  ComptonWaveLength              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
+  CoulombConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -240; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
+  DeuteronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
+  ElectricPermittivity           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -180; FSecond:  240; FAmpere:  120; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
+  ElectronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
+  ElectronCharge                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:   60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
+  FineStructureConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
+  InverseFineStructureConstant   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
+  MagneticPermeability           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
+  MolarGasConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
+  NeutronMass                    : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+  NewtonianConstantOfGravitation : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter:  180; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
+  PlanckConstant                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
+  ProtonMass                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+  RydbergConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
+  SpeedOfLight                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
+  SquaredSpeedOfLight            : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
+  StandardAccelerationOfGravity  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
+  ReducedPlanckConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
+  UnifiedAtomicMassUnit          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
 
 { Prefix Table }
 
@@ -5977,12 +5976,12 @@ var
 
 { Internal routines }
 
-procedure Check(ALeft, ARight: TID); inline;
-function CheckEqual(ALeft, ARight: TID): TID; inline;
-function CheckSum(ALeft, ARight: TID): TID; inline;
-function CheckSub(ALeft, ARight: TID): TID; inline;
-function CheckMul(ALeft, ARight: TID): TID; inline;
-function CheckDiv(ALeft, ARight: TID): TID; inline;
+procedure Check(ALeft, ARight: TDimension); inline;
+function CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
+function CheckSum(ALeft, ARight: TDimension): TDimension; inline;
+function CheckSub(ALeft, ARight: TDimension): TDimension; inline;
+function CheckMul(ALeft, ARight: TDimension): TDimension; inline;
+function CheckDiv(ALeft, ARight: TDimension): TDimension; inline;
 
 implementation
 
@@ -6012,47 +6011,117 @@ end;
   {$ASSERTIONS ON}
 {$ENDIF}
 
-procedure Check(ALeft, ARight: TID); inline;
+function DimToShortString(AValue: smallint; const ASymbol: string): string;
+begin
+  AValue := System.Abs(AValue);
+  if (AValue = 10 ) then result := Format('√[6]{%s}',   [ASymbol]) else
+  if (AValue = 12 ) then result := Format('√[5]{%s}',   [ASymbol]) else
+  if (AValue = 15 ) then result := '∜'  + Format('%s' , [ASymbol]) else
+  if (AValue = 20 ) then result := '∛'  + Format('%s' , [ASymbol]) else
+  if (AValue = 30 ) then result := '√'  + Format('%s' , [ASymbol]) else
+  if (AValue = 45 ) then result := '∜'  + Format('%s3', [ASymbol]) else
+  if (AValue = 60 ) then result :=        Format('%s' , [ASymbol]) else
+  if (AValue = 90 ) then result := '√'  + Format('%s3', [ASymbol]) else
+  if (AValue = 120) then result :=        Format('%s2', [ASymbol]) else
+  if (AValue = 150) then result := '√'  + Format('%s5', [ASymbol]) else
+  if (AValue = 180) then result :=        Format('%s3', [ASymbol]) else
+  if (AValue = 240) then result :=        Format('%s4', [ASymbol]) else
+  if (AValue = 300) then result :=        Format('%s5', [ASymbol]) else
+  if (AValue = 360) then result :=        Format('%s6', [ASymbol]) else
+    raise Exception.CreateFmt('ERROR: DimToShortString (%s)', [AValue.ToString]);
+end;
+
+function DimToShortString(const AValue: TDimension): string;
+var
+  Num, Denom: string;
+begin
+  Num := '';
+  if AValue.FKilogram > 0 then Num := Num + '.' + DimToShortString(AValue.FKilogram, '%skg');
+  if AValue.FMeter    > 0 then Num := Num + '.' + DimToShortString(AValue.FMeter,     '%sm');
+  if AValue.FSecond   > 0 then Num := Num + '.' + DimToShortString(AValue.FSecond,    '%ss');
+  if AValue.FAmpere   > 0 then Num := Num + '.' + DimToShortString(AValue.FAmpere,    '%sA');
+  if AValue.FKelvin   > 0 then Num := Num + '.' + DimToShortString(AValue.FKelvin,    '%sK');
+  if AValue.FMole     > 0 then Num := Num + '.' + DimToShortString(AValue.FMole,    '%smol');
+  if AValue.FCandela  > 0 then Num := Num + '.' + DimToShortString(AValue.FCandela,  '%scd');
+  if AValue.FRadian   > 0 then Num := Num + '.' + DimToShortString(AValue.FRadian,    'rad');
+
+  if (Length(Num) > 0) then Delete(Num, 1, 1);
+
+  Denom := '';
+  if AValue.FKilogram < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKilogram, '%skg');
+  if AValue.FMeter    < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMeter,     '%sm');
+  if AValue.FSecond   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FSecond,    '%ss');
+  if AValue.FAmpere   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FAmpere,    '%sA');
+  if AValue.FKelvin   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKelvin,    '%sK');
+  if AValue.FMole     < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMole,    '%smol');
+  if AValue.FCandela  < 0 then Denom := Denom + '/' + DimToShortString(AValue.FCandela,  '%scd');
+  if AValue.FRadian   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FRadian,     'sr');
+
+  if Num = '' then
+  begin
+    if Denom = '' then
+      result := ''
+    else
+      result := '1' + Denom;
+  end else
+  begin
+    if Denom = '' then
+      result := Num
+    else
+      result := Num + Denom
+  end;
+
+  while (Length(result) > 0) and (result[Low (result)] = ' ') do Delete(result, Low (result), 1);
+  while (Length(result) > 0) and (result[High(result)] = ' ') do Delete(result, High(result), 1);
+  result := StringReplace(result, '//', '/', [rfReplaceAll]);
+  result := StringReplace(result, '  ', ' ', [rfReplaceAll]);
+end;
+
+procedure Check(ALeft, ARight: TDimension); inline;
 begin
   if ALeft <> ARight then
   begin
-    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', ['', '']));
+    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found',
+      [DimToShortString(ALeft), DimToShortString(ARight)]));
   end;
 end;
 
-function CheckEqual(ALeft, ARight: TID): TID; inline;
+function CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
 begin
   if ALeft <> ARight then
   begin
-    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', ['', '']));
+    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found',
+      [DimToShortString(ALeft), DimToShortString(ARight)]));
   end;
   result := ALeft;
 end;
 
-function CheckSum(ALeft, ARight: TID): TID; inline;
+function CheckSum(ALeft, ARight: TDimension): TDimension; inline;
 begin
   if ALeft <> ARight then
   begin
-    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', ['', '']));
+    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found',
+      [DimToShortString(ALeft), DimToShortString(ARight)]));
   end;
   result := ALeft;
 end;
 
-function CheckSub(ALeft, ARight: TID): TID; inline;
+function CheckSub(ALeft, ARight: TDimension): TDimension; inline;
 begin
   if ALeft <> ARight then
   begin
-    Assert(FALSE, Format('Wrong units of measurement detected, "%s" expected but "%s" found', ['', '']));
+    Assert(FALSE, Format('Wrong units of measurement detected, "%s" expected but "%s" found',
+      [DimToShortString(ALeft), DimToShortString(ARight)]));
   end;
   result := ALeft;
 end;
 
-function CheckMul(ALeft, ARight: TID): TID; inline;
+function CheckMul(ALeft, ARight: TDimension): TDimension; inline;
 begin
   result := ALeft + ARight;
 end;
 
-function CheckDiv(ALeft, ARight: TID): TID; inline;
+function CheckDiv(ALeft, ARight: TDimension): TDimension; inline;
 begin
   result := ALeft - ARight;
 end;
@@ -6073,7 +6142,7 @@ end;
 class operator TUnit.*(const AValue: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AValue;
 {$ELSE}
   result := AValue;
@@ -6083,7 +6152,7 @@ end;
 class operator TUnit./(const AValue: double; const ASelf: TUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AValue;
 {$ELSE}
   result := AValue;
@@ -6095,7 +6164,7 @@ end;
 class operator TUnit.*(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckMul(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckMul(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AValue;
 {$ELSE}
   result := AValue;
@@ -6105,7 +6174,7 @@ end;
 class operator TUnit./(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AValue;
 {$ELSE}
   result := AValue;
@@ -6117,7 +6186,7 @@ end;
 class operator TUnit.*(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6127,7 +6196,7 @@ end;
 class operator TUnit.*(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6137,7 +6206,7 @@ end;
 class operator TUnit.*(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6147,7 +6216,7 @@ end;
 class operator TUnit./(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6157,7 +6226,7 @@ end;
 class operator TUnit./(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6167,7 +6236,7 @@ end;
 class operator TUnit./(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6179,7 +6248,7 @@ end;
 class operator TUnit.*(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6189,7 +6258,7 @@ end;
 class operator TUnit.*(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6199,7 +6268,7 @@ end;
 class operator TUnit.*(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6209,7 +6278,7 @@ end;
 class operator TUnit./(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6219,7 +6288,7 @@ end;
 class operator TUnit./(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6229,7 +6298,7 @@ end;
 class operator TUnit./(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6241,7 +6310,7 @@ end;
 class operator TUnit.*(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6251,7 +6320,7 @@ end;
 class operator TUnit.*(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6261,7 +6330,7 @@ end;
 class operator TUnit.*(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6271,7 +6340,7 @@ end;
 class operator TUnit./(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6281,7 +6350,7 @@ end;
 class operator TUnit./(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6291,7 +6360,7 @@ end;
 class operator TUnit./(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6303,7 +6372,7 @@ end;
 class operator TUnit.*(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6313,7 +6382,7 @@ end;
 class operator TUnit.*(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6323,7 +6392,7 @@ end;
 class operator TUnit.*(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6333,7 +6402,7 @@ end;
 class operator TUnit./(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6343,7 +6412,7 @@ end;
 class operator TUnit./(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6353,7 +6422,7 @@ end;
 class operator TUnit./(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix;
 {$ELSE}
   result := AMatrix;
@@ -6365,7 +6434,7 @@ end;
 class operator TUnit.*(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6375,7 +6444,7 @@ end;
 class operator TUnit./(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector;
 {$ELSE}
   result := AVector;
@@ -6385,7 +6454,7 @@ end;
 class operator TUnit.*(const ABivector: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := ABivector;
 {$ELSE}
   result := ABivector;
@@ -6395,7 +6464,7 @@ end;
 class operator TUnit./(const ABivector: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := ABivector;
 {$ELSE}
   result := ABivector;
@@ -6405,7 +6474,7 @@ end;
 class operator TUnit.*(const ATrivector: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := ATrivector;
 {$ELSE}
   result := ATrivector;
@@ -6415,7 +6484,7 @@ end;
 class operator TUnit./(const ATrivector: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := ATrivector;
 {$ELSE}
   result := ATrivector;
@@ -6425,7 +6494,7 @@ end;
 class operator TUnit.*(const AMultivector: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMultivector;
 {$ELSE}
   result := AMultivector;
@@ -6435,7 +6504,7 @@ end;
 class operator TUnit./(const AMultivector: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMultivector;
 {$ELSE}
   result := AMultivector;
@@ -6448,13 +6517,13 @@ end;
 
 class operator TUnit.*(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
@@ -6462,25 +6531,25 @@ end;
 
 class operator TUnit.*(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
 begin
-  result.FID := CheckMul(ASelf.FID, AQuantity.FID);
+  result.FDim := CheckMul(ASelf.FDim, AQuantity.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
 begin
-  result.FID := CheckDiv(ASelf.FID, AQuantity.FID);
+  result.FDim := CheckDiv(ASelf.FDim, AQuantity.FDim);
   result.FValue := AQuantity.FValue.Reciprocal;
 end;
 
@@ -6488,37 +6557,37 @@ end;
 
 class operator TUnit.*(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
@@ -6526,37 +6595,37 @@ end;
 
 class operator TUnit.*(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
@@ -6564,37 +6633,37 @@ end;
 
 class operator TUnit.*(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
@@ -6602,37 +6671,37 @@ end;
 
 class operator TUnit.*(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
@@ -6640,49 +6709,49 @@ end;
 
 class operator TUnit.*(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TCL3TrivecQuantity; const ASelf: TUnit): TCL3TrivecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit.*(const AQuantity: TCL3MultivecQuantity; const ASelf: TUnit): TCL3MultivecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TCL3TrivecQuantity; const ASelf: TUnit): TCL3TrivecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
 class operator TUnit./(const AQuantity: TCL3MultivecQuantity; const ASelf: TUnit): TCL3MultivecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 {$ENDIF}
@@ -6694,7 +6763,7 @@ end;
 class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AValue * ASelf.FFactor;
 {$ELSE}
   result := AValue * ASelf.FFactor;
@@ -6704,7 +6773,7 @@ end;
 class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AValue / ASelf.FFactor;
 {$ELSE}
   result := AValue / ASelf.FFactor;
@@ -6716,7 +6785,7 @@ end;
 class operator TFactoredUnit.*(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckMul(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckMul(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AValue * ASelf.FFactor;
 {$ELSE}
   result := AValue * ASelf.FFactor;
@@ -6726,7 +6795,7 @@ end;
 class operator TFactoredUnit./(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AValue / ASelf.FFactor;
 {$ELSE}
   result := AValue / ASelf.FFactor;
@@ -6738,7 +6807,7 @@ end;
 class operator TFactoredUnit.*(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector * ASelf.FFactor;
 {$ELSE}
   result := AVector * ASelf.FFactor;
@@ -6748,7 +6817,7 @@ end;
 class operator TFactoredUnit.*(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector * ASelf.FFactor;
 {$ELSE}
   result := AVector * ASelf.FFactor;
@@ -6758,7 +6827,7 @@ end;
 class operator TFactoredUnit.*(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector * ASelf.FFactor;
 {$ELSE}
   result := AVector * ASelf.FFactor;
@@ -6768,7 +6837,7 @@ end;
 class operator TFactoredUnit./(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector / ASelf.FFactor;
 {$ELSE}
   result := AVector / ASelf.FFactor;
@@ -6778,7 +6847,7 @@ end;
 class operator TFactoredUnit./(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector / ASelf.FFactor;
 {$ELSE}
   result := AVector / ASelf.FFactor;
@@ -6788,7 +6857,7 @@ end;
 class operator TFactoredUnit./(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector / ASelf.FFactor;
 {$ELSE}
   result := AVector / ASelf.FFactor;
@@ -6800,7 +6869,7 @@ end;
 class operator TFactoredUnit.*(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector * ASelf.FFactor;
 {$ELSE}
   result := AVector * ASelf.FFactor;
@@ -6810,7 +6879,7 @@ end;
 class operator TFactoredUnit.*(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector * ASelf.FFactor;
 {$ELSE}
   result := AVector * ASelf.FFactor;
@@ -6820,7 +6889,7 @@ end;
 class operator TFactoredUnit.*(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AVector * ASelf.FFactor;
 {$ELSE}
   result := AVector * ASelf.FFactor;
@@ -6830,7 +6899,7 @@ end;
 class operator TFactoredUnit./(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector / ASelf.FFactor;
 {$ELSE}
   result := AVector / ASelf.FFactor;
@@ -6840,7 +6909,7 @@ end;
 class operator TFactoredUnit./(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector / ASelf.FFactor;
 {$ELSE}
   result := AVector / ASelf.FFactor;
@@ -6850,7 +6919,7 @@ end;
 class operator TFactoredUnit./(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AVector / ASelf.FFactor;
 {$ELSE}
   result := AVector / ASelf.FFactor;
@@ -6862,7 +6931,7 @@ end;
 class operator TFactoredUnit.*(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix * ASelf.FFactor;
 {$ELSE}
   result := AMatrix * ASelf.FFactor;
@@ -6872,7 +6941,7 @@ end;
 class operator TFactoredUnit.*(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix * ASelf.FFactor;
 {$ELSE}
   result := AMatrix * ASelf.FFactor;
@@ -6882,7 +6951,7 @@ end;
 class operator TFactoredUnit.*(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix * ASelf.FFactor;
 {$ELSE}
   result := AMatrix * ASelf.FFactor;
@@ -6892,7 +6961,7 @@ end;
 class operator TFactoredUnit./(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix / ASelf.FFactor;
 {$ELSE}
   result := AMatrix / ASelf.FFactor;
@@ -6902,7 +6971,7 @@ end;
 class operator TFactoredUnit./(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix / ASelf.FFactor;
 {$ELSE}
   result := AMatrix / ASelf.FFactor;
@@ -6912,7 +6981,7 @@ end;
 class operator TFactoredUnit./(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix / ASelf.FFactor;
 {$ELSE}
   result := AMatrix / ASelf.FFactor;
@@ -6924,7 +6993,7 @@ end;
 class operator TFactoredUnit.*(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix * ASelf.FFactor;
 {$ELSE}
   result := AMatrix * ASelf.FFactor;
@@ -6934,7 +7003,7 @@ end;
 class operator TFactoredUnit.*(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix * ASelf.FFactor;
 {$ELSE}
   result := AMatrix * ASelf.FFactor;
@@ -6944,7 +7013,7 @@ end;
 class operator TFactoredUnit.*(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AMatrix * ASelf.FFactor;
 {$ELSE}
   result := AMatrix * ASelf.FFactor;
@@ -6954,7 +7023,7 @@ end;
 class operator TFactoredUnit./(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix / ASelf.FFactor;
 {$ELSE}
   result := AMatrix / ASelf.FFactor;
@@ -6964,7 +7033,7 @@ end;
 class operator TFactoredUnit./(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix / ASelf.FFactor;
 {$ELSE}
   result := AMatrix / ASelf.FFactor;
@@ -6974,7 +7043,7 @@ end;
 class operator TFactoredUnit./(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AMatrix / ASelf.FFactor;
 {$ELSE}
   result := AMatrix / ASelf.FFactor;
@@ -6986,7 +7055,7 @@ end;
 class operator TFactoredUnit.*(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
   result := AQuantity * ASelf.FFactor;
@@ -6996,7 +7065,7 @@ end;
 class operator TFactoredUnit.*(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
   result := AQuantity * ASelf.FFactor;
@@ -7006,7 +7075,7 @@ end;
 class operator TFactoredUnit.*(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
   result := AQuantity * ASelf.FFactor;
@@ -7016,7 +7085,7 @@ end;
 class operator TFactoredUnit.*(const AQuantity: TCL3Multivector; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AQuantity * ASelf.FFactor;
 {$ELSE}
   result := AQuantity * ASelf.FFactor;
@@ -7026,7 +7095,7 @@ end;
 class operator TFactoredUnit./(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
@@ -7036,7 +7105,7 @@ end;
 class operator TFactoredUnit./(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
@@ -7046,7 +7115,7 @@ end;
 class operator TFactoredUnit./(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
@@ -7056,7 +7125,7 @@ end;
 class operator TFactoredUnit./(const AQuantity: TCL3Multivector; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckDiv(ScalarUnit.FID, ASelf.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
   result.FValue := AQuantity / ASelf.FFactor;
 {$ELSE}
   result := AQuantity / ASelf.FFactor;
@@ -7069,13 +7138,13 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
@@ -7083,13 +7152,13 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
@@ -7097,37 +7166,37 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
@@ -7135,37 +7204,37 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
@@ -7173,37 +7242,37 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
@@ -7211,37 +7280,37 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
@@ -7249,49 +7318,49 @@ end;
 
 class operator TFactoredUnit.*(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit.*(const AQuantity: TCL3MultivecQuantity; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
 begin
-  result.FID := CheckMul(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
 class operator TFactoredUnit./(const AQuantity: TCL3MultivecQuantity; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
 begin
-  result.FID := CheckDiv(AQuantity.FID, ASelf.FID);
+  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
@@ -7302,7 +7371,7 @@ end;
 class operator TDegreeCelsiusUnit.*(const AValue: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := AValue + 273.15;
 {$ELSE}
   result := AValue + 273.15;
@@ -7314,7 +7383,7 @@ end;
 class operator TDegreeFahrenheitUnit.*(const AValue: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := 5/9 * (AValue - 32) + 273.15;
 {$ELSE}
   result := 5/9 * (AValue - 32) + 273.15;
@@ -7561,7 +7630,7 @@ end;
 function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -7571,7 +7640,7 @@ end;
 function TUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);
@@ -7581,7 +7650,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(AQuantity) + ' ' + GetSymbol(FPrefixes);
@@ -7593,7 +7662,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7610,7 +7679,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7628,7 +7697,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -7650,7 +7719,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
     result := FloatToStr(AQuantity.FValue) + ' ' + GetName(FPrefixes)
   else
@@ -7668,7 +7737,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7694,7 +7763,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7721,7 +7790,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -7745,7 +7814,7 @@ end;
 function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -7755,7 +7824,7 @@ end;
 function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);
@@ -7765,7 +7834,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TComplexQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := '(' + AQuantity.FValue.ToString + ') ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := '(' + AQuantity.ToString + ') ' + GetSymbol(FPrefixes)
@@ -7777,7 +7846,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7794,7 +7863,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7809,7 +7878,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TComplexQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := '(' + AQuantity.FValue.ToString + ') ' + GetPluralName(FPrefixes)
 {$ELSE}
   result := '(' + AQuantity.ToString + ') ' + GetPluralName(FPrefixes)
@@ -7821,7 +7890,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7838,7 +7907,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7855,7 +7924,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -7865,7 +7934,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -7875,7 +7944,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TR4VecQuantity): TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -7885,7 +7954,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -7895,7 +7964,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -7905,7 +7974,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -7915,7 +7984,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TR2VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -7925,7 +7994,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TR3VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -7935,7 +8004,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TR4VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -7947,7 +8016,7 @@ var
   FactoredValue: TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7964,7 +8033,7 @@ var
   FactoredValue: TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7981,7 +8050,7 @@ var
   FactoredValue: TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -7996,7 +8065,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TR2VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8006,7 +8075,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TR3VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8016,7 +8085,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TR4VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8028,7 +8097,7 @@ var
   FactoredValue: TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8045,7 +8114,7 @@ var
   FactoredValue: TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8062,7 +8131,7 @@ var
   FactoredValue: TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8079,7 +8148,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -8089,7 +8158,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TC3VecQuantity): TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -8099,7 +8168,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TC4VecQuantity): TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -8109,7 +8178,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -8119,7 +8188,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -8129,7 +8198,7 @@ end;
 function TUnitHelper.ToVector(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -8139,7 +8208,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TC2VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8149,7 +8218,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TC3VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8159,7 +8228,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TC4VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8171,7 +8240,7 @@ var
   FactoredValue: TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8188,7 +8257,7 @@ var
   FactoredValue: TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8205,7 +8274,7 @@ var
   FactoredValue: TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8220,7 +8289,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TC2VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8230,7 +8299,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TC3VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8240,7 +8309,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TC4VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8252,7 +8321,7 @@ var
   FactoredValue: TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8269,7 +8338,7 @@ var
   FactoredValue: TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8286,7 +8355,7 @@ var
   FactoredValue: TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8303,7 +8372,7 @@ end;
 function TUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -8313,7 +8382,7 @@ end;
 function TUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -8323,7 +8392,7 @@ end;
 function TUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -8335,7 +8404,7 @@ var
   FactoredValue : TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -8347,7 +8416,7 @@ var
   FactoredValue : TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -8359,7 +8428,7 @@ var
   FactoredValue : TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -8369,7 +8438,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TR2MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8379,7 +8448,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TR3MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8389,7 +8458,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TR4MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8401,7 +8470,7 @@ var
   FactoredValue : TR2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8418,7 +8487,7 @@ var
   FactoredValue : TR3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8435,7 +8504,7 @@ var
   FactoredValue : TR4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8450,7 +8519,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8460,7 +8529,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8470,7 +8539,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8482,7 +8551,7 @@ var
   FactoredValue: TR2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8499,7 +8568,7 @@ var
   FactoredValue: TR3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8516,7 +8585,7 @@ var
   FactoredValue: TR4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8533,7 +8602,7 @@ end;
 function TUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -8543,7 +8612,7 @@ end;
 function TUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -8553,7 +8622,7 @@ end;
 function TUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue;
 {$ELSE}
   result := AQuantity;
@@ -8565,7 +8634,7 @@ var
   FactoredValue : TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -8577,7 +8646,7 @@ var
   FactoredValue : TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -8589,7 +8658,7 @@ var
   FactoredValue : TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity, APrefixes);;
@@ -8599,7 +8668,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TC2MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8609,7 +8678,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TC3MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8619,7 +8688,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TC4MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8631,7 +8700,7 @@ var
   FactoredValue : TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8648,7 +8717,7 @@ var
   FactoredValue : TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8665,7 +8734,7 @@ var
   FactoredValue : TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8680,7 +8749,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8690,7 +8759,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8700,7 +8769,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetName(FPrefixes)
@@ -8712,7 +8781,7 @@ var
   FactoredValue: TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8729,7 +8798,7 @@ var
   FactoredValue: TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8746,7 +8815,7 @@ var
   FactoredValue: TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8763,7 +8832,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TCL3VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8773,7 +8842,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TCL3BivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8783,7 +8852,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TCL3TrivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8793,7 +8862,7 @@ end;
 function TUnitHelper.ToString(const AQuantity: TCL3MultivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
@@ -8805,7 +8874,7 @@ var
   FactoredValue: TCL3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8818,7 +8887,7 @@ var
   FactoredValue: TCL3Bivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8831,7 +8900,7 @@ var
   FactoredValue: TCL3Trivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8844,7 +8913,7 @@ var
   FactoredValue: TCL3Multivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8855,7 +8924,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetPluralName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetPluralName(FPrefixes)
@@ -8865,7 +8934,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetPluralName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetPluralName(FPrefixes)
@@ -8875,7 +8944,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetPluralName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetPluralName(FPrefixes)
@@ -8885,7 +8954,7 @@ end;
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue.ToString + ' ' + GetPluralName(FPrefixes)
 {$ELSE}
   result := AQuantity.ToString + ' ' + GetPluralName(FPrefixes)
@@ -8897,7 +8966,7 @@ var
   FactoredValue: TCL3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8910,7 +8979,7 @@ var
   FactoredValue: TCL3Bivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8923,7 +8992,7 @@ var
   FactoredValue: TCL3Trivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -8936,7 +9005,7 @@ var
   FactoredValue: TCL3Multivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
@@ -9190,7 +9259,7 @@ end;
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9200,7 +9269,7 @@ end;
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -9210,7 +9279,7 @@ end;
 function TFactoredUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := FloatToStr(AQuantity.FValue / FFactor) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(AQuantity / FFactor) + ' ' + GetSymbol(FPrefixes);
@@ -9222,7 +9291,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9239,7 +9308,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-   Check(FID, AQuantity.FID);
+   Check(FDim, AQuantity.FDim);
    FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
    FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9257,7 +9326,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -9281,7 +9350,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9298,7 +9367,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9324,7 +9393,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9351,7 +9420,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -9375,7 +9444,7 @@ end;
 function TFactoredUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9385,7 +9454,7 @@ end;
 function TFactoredUnitHelper.ToComplex(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -9397,7 +9466,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9410,7 +9479,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9427,7 +9496,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9444,7 +9513,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9457,7 +9526,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9474,7 +9543,7 @@ var
   FactoredValue: TComplex;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9491,7 +9560,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9501,7 +9570,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9511,7 +9580,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TR4VecQuantity): TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9521,7 +9590,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -9531,7 +9600,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -9541,7 +9610,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -9553,7 +9622,7 @@ var
   FactoredValue: TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9566,7 +9635,7 @@ var
   FactoredValue: TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9579,7 +9648,7 @@ var
   FactoredValue: TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9592,7 +9661,7 @@ var
   FactoredValue: TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9605,7 +9674,7 @@ var
   FactoredValue: TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9618,7 +9687,7 @@ var
   FactoredValue: TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9631,7 +9700,7 @@ var
   FactoredValue: TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9644,7 +9713,7 @@ var
   FactoredValue: TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9657,7 +9726,7 @@ var
   FactoredValue: TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9670,7 +9739,7 @@ var
   FactoredValue: TR2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9687,7 +9756,7 @@ var
   FactoredValue: TR3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9704,7 +9773,7 @@ var
   FactoredValue: TR4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9721,7 +9790,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9731,7 +9800,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TC3VecQuantity): TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9741,7 +9810,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TC4VecQuantity): TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9751,7 +9820,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -9761,7 +9830,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -9771,7 +9840,7 @@ end;
 function TFactoredUnitHelper.ToVector(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -9783,7 +9852,7 @@ var
   FactoredValue: TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9796,7 +9865,7 @@ var
   FactoredValue: TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9809,7 +9878,7 @@ var
   FactoredValue: TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9822,7 +9891,7 @@ var
   FactoredValue: TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9835,7 +9904,7 @@ var
   FactoredValue: TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9848,7 +9917,7 @@ var
   FactoredValue: TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9861,7 +9930,7 @@ var
   FactoredValue: TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9874,7 +9943,7 @@ var
   FactoredValue: TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9887,7 +9956,7 @@ var
   FactoredValue: TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -9900,7 +9969,7 @@ var
   FactoredValue: TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9917,7 +9986,7 @@ var
   FactoredValue: TC3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9934,7 +10003,7 @@ var
   FactoredValue: TC4Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -9951,7 +10020,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9961,7 +10030,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9971,7 +10040,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -9981,7 +10050,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -9991,7 +10060,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -10001,7 +10070,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -10013,7 +10082,7 @@ var
   FactoredValue: TR2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10026,7 +10095,7 @@ var
   FactoredValue: TR3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10039,7 +10108,7 @@ var
   FactoredValue: TR4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10052,7 +10121,7 @@ var
   FactoredValue: TR2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10065,7 +10134,7 @@ var
   FactoredValue: TR3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10078,7 +10147,7 @@ var
   FactoredValue: TR4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10091,7 +10160,7 @@ var
   FactoredValue: TR2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10104,7 +10173,7 @@ var
   FactoredValue: TR3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10117,7 +10186,7 @@ var
   FactoredValue: TR4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10130,7 +10199,7 @@ var
   FactoredValue: TR2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10147,7 +10216,7 @@ var
   FactoredValue: TR3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10164,7 +10233,7 @@ var
   FactoredValue: TR4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10181,7 +10250,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -10191,7 +10260,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -10201,7 +10270,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue / FFactor;
 {$ELSE}
   result := AQuantity / FFactor;
@@ -10211,7 +10280,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -10221,7 +10290,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -10231,7 +10300,7 @@ end;
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity / FFactor, APrefixes);
@@ -10243,7 +10312,7 @@ var
   FactoredValue: TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10256,7 +10325,7 @@ var
   FactoredValue: TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10269,7 +10338,7 @@ var
   FactoredValue: TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10282,7 +10351,7 @@ var
   FactoredValue: TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10295,7 +10364,7 @@ var
   FactoredValue: TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10308,7 +10377,7 @@ var
   FactoredValue: TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10321,7 +10390,7 @@ var
   FactoredValue: TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10334,7 +10403,7 @@ var
   FactoredValue: TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10347,7 +10416,7 @@ var
   FactoredValue: TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10360,7 +10429,7 @@ var
   FactoredValue: TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10377,7 +10446,7 @@ var
   FactoredValue: TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10394,7 +10463,7 @@ var
   FactoredValue: TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10413,7 +10482,7 @@ var
   FactoredValue: TCL3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10426,7 +10495,7 @@ var
   FactoredValue: TCL3Bivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10439,7 +10508,7 @@ var
   FactoredValue: TCL3Trivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10452,7 +10521,7 @@ var
   FactoredValue: TCL3Multivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10465,7 +10534,7 @@ var
   FactoredValue: TCL3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10478,7 +10547,7 @@ var
   FactoredValue: TCL3Bivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10491,7 +10560,7 @@ var
   FactoredValue: TCL3Trivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10504,7 +10573,7 @@ var
   FactoredValue: TCL3Multivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10517,7 +10586,7 @@ var
   FactoredValue: TCL3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10530,7 +10599,7 @@ var
   FactoredValue: TCL3Bivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10543,7 +10612,7 @@ var
   FactoredValue: TCL3Trivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10556,7 +10625,7 @@ var
   FactoredValue: TCL3Multivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue / FFactor;
 {$ELSE}
   FactoredValue := AQuantity / FFactor;
@@ -10569,7 +10638,7 @@ var
   FactoredValue: TCL3Vector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10582,7 +10651,7 @@ var
   FactoredValue: TCL3Bivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10595,7 +10664,7 @@ var
   FactoredValue: TCL3Trivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10608,7 +10677,7 @@ var
   FactoredValue: TCL3Multivector;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
@@ -10709,7 +10778,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := AQuantity.FValue - 273.15;
 {$ELSE}
   result := AQuantity - 273.15;
@@ -10719,7 +10788,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   result := GetValue(AQuantity - 273.15, APrefixes);
@@ -10729,7 +10798,7 @@ end;
 function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := FloatToStr(AQuantity.FValue - 273.15) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(AQuantity - 273.15) + ' ' + GetSymbol(FPrefixes);
@@ -10741,7 +10810,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -10758,7 +10827,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -10776,7 +10845,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -10800,7 +10869,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := AQuantity.FValue - 273.15;
 {$ELSE}
   FactoredValue := AQuantity - 273.15;
@@ -10817,7 +10886,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -10843,7 +10912,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
@@ -10870,7 +10939,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -10982,7 +11051,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := 9/5 * AQuantity.FValue - 459.67;
 {$ELSE}
   result := 9/5 * AQuantity - 459.67;
@@ -10992,7 +11061,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   result := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -11002,7 +11071,7 @@ end;
 function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   result := FloatToStr(9/5 * AQuantity.FValue - 459.67) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
   result := FloatToStr(9/5 * AQuantity - 459.67) + ' ' + GetSymbol(FPrefixes);
@@ -11014,7 +11083,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -11031,7 +11100,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -11049,7 +11118,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -11073,7 +11142,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := 9/5 * AQuantity.FValue - 459.67;
 {$ELSE}
   FactoredValue := 9/5 * AQuantity - 459.67;
@@ -11090,7 +11159,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -11116,7 +11185,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
 {$ELSE}
   FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
@@ -11143,7 +11212,7 @@ var
   FactoredValue: double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -11167,7 +11236,7 @@ end;
 function SquarePower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 2;
+  result.FDim := AQuantity.FDim * 2;
   result.FValue := IntPower(AQuantity.FValue, 2);
 {$ELSE}
   result := IntPower(AQuantity, 2);
@@ -11177,7 +11246,7 @@ end;
 function CubicPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 3;
+  result.FDim := AQuantity.FDim * 3;
   result.FValue := IntPower(AQuantity.FValue, 3);
 {$ELSE}
   result := IntPower(AQuantity, 3);
@@ -11187,7 +11256,7 @@ end;
 function QuarticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 4;
+  result.FDim := AQuantity.FDim * 4;
   result.FValue := IntPower(AQuantity.FValue, 4);
 {$ELSE}
   result := IntPower(AQuantity, 4);
@@ -11197,7 +11266,7 @@ end;
 function QuinticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 5;
+  result.FDim := AQuantity.FDim * 5;
   result.FValue := IntPower(AQuantity.FValue, 5);
 {$ELSE}
   result := IntPower(AQuantity, 5);
@@ -11207,7 +11276,7 @@ end;
 function SexticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 6;
+  result.FDim := AQuantity.FDim * 6;
   result.FValue := IntPower(AQuantity.FValue, 6);
 {$ELSE}
   result := IntPower(AQuantity, 6);
@@ -11217,7 +11286,7 @@ end;
 function SquareRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 2;
+  result.FDim := AQuantity.FDim div 2;
   result.FValue := Power(AQuantity.FValue, 1/2);
 {$ELSE};
   result := Power(AQuantity, 1/2);
@@ -11227,7 +11296,7 @@ end;
 function CubicRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 3;
+  result.FDim := AQuantity.FDim div 3;
   result.FValue := Power(AQuantity.FValue, 1/3);
 {$ELSE}
   result := Power(AQuantity, 1/3);
@@ -11237,7 +11306,7 @@ end;
 function QuarticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 4;
+  result.FDim := AQuantity.FDim div 4;
   result.FValue := Power(AQuantity.FValue, 1/4);
 {$ELSE}
   result := Power(AQuantity, 1/4);
@@ -11247,7 +11316,7 @@ end;
 function QuinticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 5;
+  result.FDim := AQuantity.FDim div 5;
   result.FValue := Power(AQuantity.FValue, 1/5);
 {$ELSE}
   result := Power(AQuantity, 1/5);
@@ -11257,7 +11326,7 @@ end;
 function SexticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 6;
+  result.FDim := AQuantity.FDim div 6;
   result.FValue := Power(AQuantity.FValue, 1/6);
 {$ELSE}
   result := Power(AQuantity, 1/6);
@@ -11269,7 +11338,7 @@ end;
 function Cos(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := System.Cos(AQuantity.FValue);
 {$ELSE}
   result := System.Cos(AQuantity);
@@ -11279,7 +11348,7 @@ end;
 function Sin(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := System.Sin(AQuantity.FValue);
 {$ELSE}
   result := System.Sin(AQuantity);
@@ -11289,7 +11358,7 @@ end;
 function Tan(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Tan(AQuantity.FValue);
 {$ELSE}
   result := Math.Tan(AQuantity);
@@ -11299,7 +11368,7 @@ end;
 function Cotan(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Cotan(AQuantity.FValue);
 {$ELSE}
   result := Math.Cotan(AQuantity);
@@ -11309,7 +11378,7 @@ end;
 function Secant(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Secant(AQuantity.FValue);
 {$ELSE}
   result := Math.Secant(AQuantity);
@@ -11319,7 +11388,7 @@ end;
 function Cosecant(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Cosecant(AQuantity.FValue);
 {$ELSE}
   result := Math.Cosecant(AQuantity);
@@ -11329,7 +11398,7 @@ end;
 function ArcCos(const AValue: double): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ScalarUnit.FID;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := Math.ArcCos(AValue);
 {$ELSE}
   result := Math.ArcCos(AValue);
@@ -11339,7 +11408,7 @@ end;
 function ArcSin(const AValue: double): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ScalarUnit.FID;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := Math.ArcSin(AValue);
 {$ELSE}
   result := Math.ArcSin(AValue);
@@ -11349,7 +11418,7 @@ end;
 function ArcTan(const AValue: double): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ScalarUnit.FID;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := System.ArcTan(AValue);
 {$ELSE}
   result := System.ArcTan(AValue);
@@ -11359,7 +11428,7 @@ end;
 function ArcTan2(const x, y: double): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ScalarUnit.FID;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := Math.ArcTan2(x, y);
 {$ELSE}
   result := Math.ArcTan2(x, y);
@@ -11371,7 +11440,7 @@ end;
 function Min(const ALeft, ARight: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := Math.Min(ALeft.FValue, ARight.FValue);
 {$ELSE}
   result := Math.Min(ALeft, ARight);
@@ -11381,7 +11450,7 @@ end;
 function Max(const ALeft, ARight: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := Math.Max(ALeft.FValue, ARight.FValue);
 {$ELSE}
   result := Math.Max(ALeft, ARight);
@@ -11391,7 +11460,7 @@ end;
 function Exp(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckSum(AQuantity.FID, ScalarUnit.FID);
+  result.FDim := CheckSum(ScalarUnit.FDim, AQuantity.FDim);
   result.FValue := System.Exp(AQuantity.FValue);
 {$ELSE}
   result := System.Exp(AQuantity);
@@ -11401,7 +11470,7 @@ end;
 function Log10(const AQuantity : TQuantity) : double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Log10(AQuantity.FValue);
 {$ELSE}
   result := Math.Log10(AQuantity);
@@ -11411,7 +11480,7 @@ end;
 function Log2(const AQuantity : TQuantity) : double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Log2(AQuantity.FValue);
 {$ELSE}
   result := Math.Log2(AQuantity);
@@ -11421,7 +11490,7 @@ end;
 function LogN(ABase: longint; const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.LogN(ABase, AQuantity.FValue);
 {$ELSE}
   result := Math.LogN(ABase, AQuantity);
@@ -11431,8 +11500,8 @@ end;
 function LogN(const ABase, AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ABase.FID, ScalarUnit.FID);
-  Check(ScalarUnit.FID, AQuantity.FID);
+  Check(ScalarUnit.FDim, ABase.FDim);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.LogN(ABase.FValue, AQuantity.FValue);
 {$ELSE}
   result := Math.LogN(ABase, AQuantity);
@@ -11442,7 +11511,7 @@ end;
 function Power(const ABase: TQuantity; AExponent: double): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ABase.FID, ScalarUnit.FID);
+  Check(ScalarUnit.FDim, ABase.FDim);
   result := Math.Power(ABase.FValue, AExponent);
 {$ELSE}
   result := Math.Power(ABase, AExponent);
