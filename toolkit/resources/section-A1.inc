@@ -17,6 +17,7 @@ type
 
   { TQuantities } 
 
+  {$I base.inc}
   {$I scalar.inc}
   {$I complex.inc}
   {$I matrix.inc}
@@ -31,7 +32,7 @@ type
 
   TUnit = record
   private
-    FID: longint;
+    FID: TID;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -134,7 +135,7 @@ type
 
   TFactoredUnit = record
   private
-    FID: longint;
+    FID: TID;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -236,7 +237,7 @@ type
 
   TDegreeCelsiusUnit = record
   private
-    FID: longint;
+    FID: TID;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -250,7 +251,7 @@ type
 
   TDegreeFahrenheitUnit = record
   private
-    FID: longint;
+    FID: TID;
     FSymbol: string;
     FName: string;
     FPluralName: string;

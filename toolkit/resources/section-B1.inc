@@ -23,63 +23,52 @@ end;
   {$ASSERTIONS ON}
 {$ENDIF}
 
-function GetStr(AIndex: longint): string;
-var
-  i: longint;
-begin
-  for i := Low(Table) to High(Table) do
-  begin
-    if Table[i].FID = AIndex then
-      Exit(Table[i].FStr);
-  end;
-  result := 'a unknown unit of measurement';
-end;
-
-procedure Check(ALeft, ARight: longint); inline;
+procedure Check(ALeft, ARight: TID); inline;
 begin
   if ALeft <> ARight then
   begin
-    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', [GetStr(ALeft), GetStr(ARight)]));
+    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', ['', '']));
   end;
 end;
 
-function CheckEqual(ALeft, ARight: longint): longint; inline;
+function CheckEqual(ALeft, ARight: TID): TID; inline;
 begin
   if ALeft <> ARight then
   begin
-    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', [GetStr(ALeft), GetStr(ARight)]));
+    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', ['', '']));
   end;
   result := ALeft;
 end;
 
-function CheckSum(ALeft, ARight: longint): longint; inline;
+function CheckSum(ALeft, ARight: TID): TID; inline;
 begin
   if ALeft <> ARight then
   begin
-    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', [GetStr(ALeft), GetStr(ARight)]));
+    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', ['', '']));
   end;
   result := ALeft;
 end;
 
-function CheckSub(ALeft, ARight: longint): longint; inline;
+function CheckSub(ALeft, ARight: TID): TID; inline;
 begin
   if ALeft <> ARight then
   begin
-    Assert(FALSE, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [GetStr(ALeft), GetStr(ARight)]));
+    Assert(FALSE, Format('Wrong units of measurement detected, "%s" expected but "%s" found', ['', '']));
   end;
   result := ALeft;
 end;
 
-function CheckMul(ALeft, ARight: longint): longint; inline;
+function CheckMul(ALeft, ARight: TID): TID; inline;
 begin
   result := ALeft + ARight;
 end;
 
-function CheckDiv(ALeft, ARight: longint): longint; inline;
+function CheckDiv(ALeft, ARight: TID): TID; inline;
 begin
   result := ALeft - ARight;
 end;
 
+{$I baseprocs.inc}
 {$I scalarprocs.inc}
 {$I complexprocs.inc}
 {$I matrixprocs.inc}
