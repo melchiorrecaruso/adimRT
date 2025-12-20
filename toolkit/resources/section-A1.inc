@@ -32,7 +32,7 @@ type
 
   TUnit = record
   private
-    FID: TID;
+    FDim: TDimension;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -135,7 +135,7 @@ type
 
   TFactoredUnit = record
   private
-    FID: TID;
+    FDim: TDimension;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -237,7 +237,7 @@ type
 
   TDegreeCelsiusUnit = record
   private
-    FID: TID;
+    FDim: TDimension;
     FSymbol: string;
     FName: string;
     FPluralName: string;
@@ -251,7 +251,7 @@ type
 
   TDegreeFahrenheitUnit = record
   private
-    FID: TID;
+    FDim: TDimension;
     FSymbol: string;
     FName: string;
     FPluralName: string;

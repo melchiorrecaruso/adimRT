@@ -258,7 +258,7 @@ begin
   ASection.Add('const');
 
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FID         : %s;', [GetUnitID(AItem.FExponents)]);
+  ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
   ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
   ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -284,7 +284,7 @@ begin
   ASection.Add('');
   ASection.Add('const');
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FID         : %s;', [GetUnitID(AItem.FExponents)]);
+  ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
   ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
   ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -320,7 +320,7 @@ begin
       ASection.Add('');
       ASection.Add('const');
       ASection.Add('  %sUnit : TFactoredUnit = (', [GetUnitID(AItem.FQuantity)]);
-      ASection.Add('    FID         : %s;', [GetUnitID(AItem.FExponents)]);
+      ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
       ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
       ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
       ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -349,7 +349,7 @@ begin
   ASection.Add('');
   ASection.Add('const');
   ASection.Add('  %sUnit : TDegreeCelsiusUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FID         : %s;', [GetUnitID(AItem.FExponents)]);
+  ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
   ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
   ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -375,7 +375,7 @@ begin
   ASection.Add('');
   ASection.Add('const');
   ASection.Add('  %sUnit : TDegreeFahrenheitUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FID                : %s;', [GetUnitID(AItem.FExponents)]);
+  ASection.Add('    FDim               : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol            : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
   ASection.Add('    FName              : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
   ASection.Add('    FPluralName        : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
@@ -455,7 +455,7 @@ var
   Factor: string;
   FIndex: string;
 begin
-  Str := '  %-10s : TQuantity = {$IFNDEF ADIMOFF} (FID: %s; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  Str := '  %-10s : TQuantity = {$IFNDEF ADIMOFF} (FDim: %s; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 
   Factor := '';
   if AItem.FFactor <> '' then
@@ -701,7 +701,6 @@ begin
   SectionA0.Append('unit ADim;');
   SectionA0.Append('');
   SectionA0.Append('{$H+}{$J-}');
-  SectionA0.Append('{$macro on}');
   SectionA0.Append('{$modeswitch advancedrecords}');
   SectionA0.Append('{$WARN 5024 OFF} // Suppress warning for unused routine parameter.');
   SectionA0.Append('{$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.');

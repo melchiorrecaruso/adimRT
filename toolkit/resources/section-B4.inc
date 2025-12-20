@@ -4,7 +4,7 @@
 function SquarePower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 2;
+  result.FDim := AQuantity.FDim * 2;
   result.FValue := IntPower(AQuantity.FValue, 2);
 {$ELSE}
   result := IntPower(AQuantity, 2);
@@ -14,7 +14,7 @@ end;
 function CubicPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 3;
+  result.FDim := AQuantity.FDim * 3;
   result.FValue := IntPower(AQuantity.FValue, 3);
 {$ELSE}
   result := IntPower(AQuantity, 3);
@@ -24,7 +24,7 @@ end;
 function QuarticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 4;
+  result.FDim := AQuantity.FDim * 4;
   result.FValue := IntPower(AQuantity.FValue, 4);
 {$ELSE}
   result := IntPower(AQuantity, 4);
@@ -34,7 +34,7 @@ end;
 function QuinticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 5;
+  result.FDim := AQuantity.FDim * 5;
   result.FValue := IntPower(AQuantity.FValue, 5);
 {$ELSE}
   result := IntPower(AQuantity, 5);
@@ -44,7 +44,7 @@ end;
 function SexticPower(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID * 6;
+  result.FDim := AQuantity.FDim * 6;
   result.FValue := IntPower(AQuantity.FValue, 6);
 {$ELSE}
   result := IntPower(AQuantity, 6);
@@ -54,7 +54,7 @@ end;
 function SquareRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 2;
+  result.FDim := AQuantity.FDim div 2;
   result.FValue := Power(AQuantity.FValue, 1/2);
 {$ELSE};
   result := Power(AQuantity, 1/2);
@@ -64,7 +64,7 @@ end;
 function CubicRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 3;
+  result.FDim := AQuantity.FDim div 3;
   result.FValue := Power(AQuantity.FValue, 1/3);
 {$ELSE}
   result := Power(AQuantity, 1/3);
@@ -74,7 +74,7 @@ end;
 function QuarticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 4;
+  result.FDim := AQuantity.FDim div 4;
   result.FValue := Power(AQuantity.FValue, 1/4);
 {$ELSE}
   result := Power(AQuantity, 1/4);
@@ -84,7 +84,7 @@ end;
 function QuinticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 5;
+  result.FDim := AQuantity.FDim div 5;
   result.FValue := Power(AQuantity.FValue, 1/5);
 {$ELSE}
   result := Power(AQuantity, 1/5);
@@ -94,7 +94,7 @@ end;
 function SexticRoot(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := AQuantity.FID div 6;
+  result.FDim := AQuantity.FDim div 6;
   result.FValue := Power(AQuantity.FValue, 1/6);
 {$ELSE}
   result := Power(AQuantity, 1/6);
@@ -106,7 +106,7 @@ end;
 function Cos(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := System.Cos(AQuantity.FValue);
 {$ELSE}
   result := System.Cos(AQuantity);
@@ -116,7 +116,7 @@ end;
 function Sin(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := System.Sin(AQuantity.FValue);
 {$ELSE}
   result := System.Sin(AQuantity);
@@ -126,7 +126,7 @@ end;
 function Tan(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Tan(AQuantity.FValue);
 {$ELSE}
   result := Math.Tan(AQuantity);
@@ -136,7 +136,7 @@ end;
 function Cotan(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Cotan(AQuantity.FValue);
 {$ELSE}
   result := Math.Cotan(AQuantity);
@@ -146,7 +146,7 @@ end;
 function Secant(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Secant(AQuantity.FValue);
 {$ELSE}
   result := Math.Secant(AQuantity);
@@ -156,7 +156,7 @@ end;
 function Cosecant(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Cosecant(AQuantity.FValue);
 {$ELSE}
   result := Math.Cosecant(AQuantity);
@@ -166,7 +166,7 @@ end;
 function ArcCos(const AValue: double): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ScalarId;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := Math.ArcCos(AValue);
 {$ELSE}
   result := Math.ArcCos(AValue);
@@ -176,7 +176,7 @@ end;
 function ArcSin(const AValue: double): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ScalarId;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := Math.ArcSin(AValue);
 {$ELSE}
   result := Math.ArcSin(AValue);
@@ -186,7 +186,7 @@ end;
 function ArcTan(const AValue: double): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ScalarId;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := System.ArcTan(AValue);
 {$ELSE}
   result := System.ArcTan(AValue);
@@ -196,7 +196,7 @@ end;
 function ArcTan2(const x, y: double): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := ScalarId;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := Math.ArcTan2(x, y);
 {$ELSE}
   result := Math.ArcTan2(x, y);
@@ -205,11 +205,10 @@ end;
 
 { Math functions }
 
-
 function Min(const ALeft, ARight: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := Math.Min(ALeft.FValue, ARight.FValue);
 {$ELSE}
   result := Math.Min(ALeft, ARight);
@@ -219,7 +218,7 @@ end;
 function Max(const ALeft, ARight: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := Math.Max(ALeft.FValue, ARight.FValue);
 {$ELSE}
   result := Math.Max(ALeft, ARight);
@@ -229,7 +228,7 @@ end;
 function Exp(const AQuantity: TQuantity): TQuantity;
 begin
 {$IFNDEF ADIMOFF}
-  result.FID := CheckSum(AQuantity.FID, ScalarId);
+  result.FDim := CheckSum(ScalarUnit.FDim, AQuantity.FDim);
   result.FValue := System.Exp(AQuantity.FValue);
 {$ELSE}
   result := System.Exp(AQuantity);
@@ -239,7 +238,7 @@ end;
 function Log10(const AQuantity : TQuantity) : double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Log10(AQuantity.FValue);
 {$ELSE}  
   result := Math.Log10(AQuantity);
@@ -249,7 +248,7 @@ end;
 function Log2(const AQuantity : TQuantity) : double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.Log2(AQuantity.FValue);
 {$ELSE} 
   result := Math.Log2(AQuantity);
@@ -259,7 +258,7 @@ end;
 function LogN(ABase: longint; const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.LogN(ABase, AQuantity.FValue);
 {$ELSE} 
   result := Math.LogN(ABase, AQuantity);
@@ -269,8 +268,8 @@ end;
 function LogN(const ABase, AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ABase.FID, ScalarId);
-  Check(ScalarId, AQuantity.FID);
+  Check(ScalarUnit.FDim, ABase.FDim);
+  Check(ScalarUnit.FDim, AQuantity.FDim);
   result := Math.LogN(ABase.FValue, AQuantity.FValue);
 {$ELSE} 
   result := Math.LogN(ABase, AQuantity);
@@ -280,7 +279,7 @@ end;
 function Power(const ABase: TQuantity; AExponent: double): double;
 begin
 {$IFNDEF ADIMOFF}
-  Check(ABase.FID, ScalarId);
+  Check(ScalarUnit.FDim, ABase.FDim);
   result := Math.Power(ABase.FValue, AExponent);
 {$ELSE}
   result := Math.Power(ABase, AExponent);
