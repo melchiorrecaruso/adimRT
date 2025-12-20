@@ -1,21 +1,21 @@
 type
-  TID = record
+  TDimension = record
   private
     FKilogram: smallint;
-    FMeter: smallint;
-    FSecond: smallint;
-    FAmpere: smallint;
-    FKelvin: smallint;
-    FMole: smallint;
-    FCandela: smallint;
-    FRadian: smallint;
+    FMeter:    smallint;
+    FSecond:   smallint;
+    FAmpere:   smallint;
+    FKelvin:   smallint;
+    FMole:     smallint;
+    FCandela:  smallint;
+    FRadian:   smallint;
   public
-    class operator  <>(const ALeft, ARight: TID): boolean;
-    class operator   =(const ALeft, ARight: TID): boolean;
-    class operator   +(const ALeft, ARight: TID): TID;
-    class operator   -(const ALeft, ARight: TID): TID;
-    class operator   *(const ALeft: longint; ARight: TID): TID;
-    class operator   *(const ALeft: TID; ARight: longint): TID;
-    class operator div(const ALeft: TID; ARight: longint): TID;
+    class operator  <>(const ALeft, ARight: TDimension): boolean;
+    class operator   =(const ALeft, ARight: TDimension): boolean;
+    class operator   +(const ALeft, ARight: TDimension): TDimension;
+    class operator   -(const ALeft, ARight: TDimension): TDimension;
+    class operator   *(const ALeft: longint; ARight: TDimension): TDimension;
+    class operator   *(const ALeft: TDimension; ARight: longint): TDimension;
+    class operator div(const ALeft: TDimension; ARight: longint): TDimension;
   end;
 

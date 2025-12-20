@@ -448,7 +448,7 @@ type
   {$IFNDEF ADIMOFF}
   TCL3MultivecQuantity = record
   private
-    FID: TID;
+    FDim: TDimension;
     FValue: TCL3Multivector;
   public
     class operator <>(const ALeft, ARight: TCL3MultivecQuantity): boolean;
@@ -483,7 +483,7 @@ type
   {$IFNDEF ADIMOFF}
   TCL3TrivecQuantity = record
   private
-    FID: TID;
+    FDim: TDimension;
     FValue: TCL3Trivector;
   public
     class operator :=(const AValue: TCL3TrivecQuantity): TCL3MultivecQuantity;
@@ -535,7 +535,7 @@ type
   {$IFNDEF ADIMOFF}
   TCL3BivecQuantity = record
   private
-    FID: TID;
+    FDim: TDimension;
     FValue: TCL3Bivector;
   public
     class operator :=(const AValue: TCL3BivecQuantity): TCL3MultivecQuantity;
@@ -598,7 +598,7 @@ type
   {$IFNDEF ADIMOFF}
   TCL3VecQuantity = record
   private
-    FID: TID;
+    FDim: TDimension;
     FValue: TCL3Vector;
   public
     class operator :=(const AValue: TCL3VecQuantity): TCL3MultivecQuantity;

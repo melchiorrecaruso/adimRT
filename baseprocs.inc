@@ -1,6 +1,6 @@
-// TID
+// TDimension
 
-class operator TID.<>(const ALeft, ARight: TID): boolean;
+class operator TDimension.<>(const ALeft, ARight: TDimension): boolean;
 begin
   result := (ALeft.FKilogram  <> ARight.FKilogram ) and
             (ALeft.FMeter     <> ARight.FMeter    ) and
@@ -12,7 +12,7 @@ begin
             (ALeft.FRadian    <> ARight.FRadian   );
 end;
 
-class operator TID.=(const ALeft, ARight: TID): boolean;
+class operator TDimension.=(const ALeft, ARight: TDimension): boolean;
 begin
   result := (ALeft.FKilogram  = ARight.FKilogram ) and
             (ALeft.FMeter     = ARight.FMeter    ) and
@@ -24,7 +24,7 @@ begin
             (ALeft.FRadian    = ARight.FRadian   );
 end;
 
-class operator TID.+(const ALeft, ARight: TID): TID;
+class operator TDimension.+(const ALeft, ARight: TDimension): TDimension;
 begin
   result.FKilogram  := ALeft.FKilogram  + ARight.FKilogram;
   result.FMeter     := ALeft.FMeter     + ARight.FMeter;
@@ -36,7 +36,7 @@ begin
   result.FRadian    := ALeft.FRadian    + ARight.FRadian;
 end;
 
-class operator TID.-(const ALeft, ARight: TID): TID;
+class operator TDimension.-(const ALeft, ARight: TDimension): TDimension;
 begin
   result.FKilogram  := ALeft.FKilogram  - ARight.FKilogram;
   result.FMeter     := ALeft.FMeter     - ARight.FMeter;
@@ -48,7 +48,7 @@ begin
   result.FRadian    := ALeft.FRadian    - ARight.FRadian;
 end;
 
-class operator TID.*(const ALeft: longint; ARight: TID): TID;
+class operator TDimension.*(const ALeft: longint; ARight: TDimension): TDimension;
 begin
   result.FKilogram  := ALeft * ARight.FKilogram;
   result.FMeter     := ALeft * ARight.FMeter;
@@ -60,7 +60,7 @@ begin
   result.FRadian    := ALeft * ARight.FRadian;
 end;
 
-class operator TID.*(const ALeft: TID; ARight: longint): TID;
+class operator TDimension.*(const ALeft: TDimension; ARight: longint): TDimension;
 begin
   result.FKilogram  := ALeft.FKilogram  * ARight;
   result.FMeter     := ALeft.FMeter     * ARight;
@@ -72,7 +72,7 @@ begin
   result.FRadian    := ALeft.FRadian    * ARight;
 end;
 
-class operator TID.div(const ALeft: TID; ARight: longint): TID;
+class operator TDimension.div(const ALeft: TDimension; ARight: longint): TDimension;
 begin
   result.FKilogram  := ALeft.FKilogram  div ARight;
   result.FMeter     := ALeft.FMeter     div ARight;
