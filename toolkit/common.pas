@@ -245,25 +245,19 @@ begin
 end;
 
 function DimensionToString(const ADim: TExponents): string;
-var
-  i: longint;
 begin
   result := '';
+  if (ADim[1] <> 0) then result := result + Format('kg%0.2f ',  [ADim[1]/TExponentBase]);
+  if (ADim[2] <> 0) then result := result + Format('m%0.2f ',   [ADim[2]/TExponentBase]);
+  if (ADim[3] <> 0) then result := result + Format('s%0.2f ',   [ADim[3]/TExponentBase]);
+  if (ADim[4] <> 0) then result := result + Format('A%0.2f ',   [ADim[4]/TExponentBase]);
+  if (ADim[5] <> 0) then result := result + Format('K%0.2f ',   [ADim[5]/TExponentBase]);
+  if (ADim[6] <> 0) then result := result + Format('mol%0.2f ', [ADim[6]/TExponentBase]);
+  if (ADim[7] <> 0) then result := result + Format('cd%0.2f ',  [ADim[7]/TExponentBase]);
+  if (ADim[8] <> 0) then result := result + Format('sr%0.2f ',  [ADim[8]/TExponentBase]);
 
-  if (ADim[1] <> 0) then result := result + Format('kg%0.1f ',  [ADim[1]/TExponentBase]);
-  if (ADim[2] <> 0) then result := result + Format('m%0.1f ',   [ADim[2]/TExponentBase]);
-  if (ADim[3] <> 0) then result := result + Format('s%0.1f ',   [ADim[3]/TExponentBase]);
-  if (ADim[4] <> 0) then result := result + Format('A%0.1f ',   [ADim[4]/TExponentBase]);
-  if (ADim[5] <> 0) then result := result + Format('K%0.1f ',   [ADim[5]/TExponentBase]);
-  if (ADim[6] <> 0) then result := result + Format('mol%0.1f ', [ADim[6]/TExponentBase]);
-  if (ADim[7] <> 0) then result := result + Format('cd%0.1f ',  [ADim[7]/TExponentBase]);
-  if (ADim[8] <> 0) then result := result + Format('sr%0.1f ',  [ADim[8]/TExponentBase]);
-
-  i := Length(result);
-  if i > 0 then
-  begin
-    SetLength(result, i -1);
-  end;
+  if result <> '' then
+    SetLength(result, Length(result) -1);
 end;
 
 function DimensionToShortString(const ADim: longint; const ASymbol: string): string;
@@ -271,8 +265,8 @@ var
   Value: longint;
 begin
   Value := Abs(ADim);
-  if (Value = 10 ) then result := '∜√' + Format('%s' , [ASymbol]) else
-  if (Value = 12 ) then result := '∛√' + Format('%s' , [ASymbol]) else
+  if (Value = 10 ) then result := Format('√[6]{%s}',   [ASymbol]) else
+  if (Value = 12 ) then result := Format('√[5]{%s}',   [ASymbol]) else
   if (Value = 15 ) then result := '∜'  + Format('%s' , [ASymbol]) else
   if (Value = 20 ) then result := '∛'  + Format('%s' , [ASymbol]) else
   if (Value = 30 ) then result := '√'  + Format('%s' , [ASymbol]) else
