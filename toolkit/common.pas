@@ -30,8 +30,11 @@ type
   TExponents = array [1..8] of longint;
 
 const
-  TExponentBase = 60;
   TExponentValues : array[0..13] of longint = (10, 12, 15, 20, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360);
+  TExponentBase = 60;
+
+  NullExponents  : TExponents = (0, 0, 0, 0, 0, 0, 0, 0);
+
 
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
@@ -265,16 +268,16 @@ var
   Value: longint;
 begin
   Value := Abs(ADim);
-  if (Value = 10 ) then result := Format('√[6]{%s}',   [ASymbol]) else
-  if (Value = 12 ) then result := Format('√[5]{%s}',   [ASymbol]) else
-  if (Value = 15 ) then result := '∜'  + Format('%s' , [ASymbol]) else
-  if (Value = 20 ) then result := '∛'  + Format('%s' , [ASymbol]) else
-  if (Value = 30 ) then result := '√'  + Format('%s' , [ASymbol]) else
-  if (Value = 45 ) then result := '∜'  + Format('%s3', [ASymbol]) else
+  if (Value = 10 ) then result := '⁶√' + Format('%s',  [ASymbol]) else
+  if (Value = 12 ) then result := '⁵√' + Format('%s',  [ASymbol]) else
+  if (Value = 15 ) then result :=  '∜' + Format('%s',  [ASymbol]) else
+  if (Value = 20 ) then result :=  '∛' + Format('%s',  [ASymbol]) else
+  if (Value = 30 ) then result :=  '√' + Format('%s',  [ASymbol]) else
+  if (Value = 45 ) then result :=  '∜' + Format('%s3', [ASymbol]) else
   if (Value = 60 ) then result :=        Format('%s' , [ASymbol]) else
-  if (Value = 90 ) then result := '√'  + Format('%s3', [ASymbol]) else
+  if (Value = 90 ) then result :=  '√' + Format('%s3', [ASymbol]) else
   if (Value = 120) then result :=        Format('%s2', [ASymbol]) else
-  if (Value = 150) then result := '√'  + Format('%s5', [ASymbol]) else
+  if (Value = 150) then result :=  '√' + Format('%s5', [ASymbol]) else
   if (Value = 180) then result :=        Format('%s3', [ASymbol]) else
   if (Value = 240) then result :=        Format('%s4', [ASymbol]) else
   if (Value = 300) then result :=        Format('%s5', [ASymbol]) else
