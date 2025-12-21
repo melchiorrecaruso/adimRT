@@ -2412,8 +2412,6 @@ begin
 end;
 
 function TUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
-var
-  FactoredValue : TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -2424,8 +2422,6 @@ begin
 end;
 
 function TUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
-var
-  FactoredValue : TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -2436,8 +2432,6 @@ begin
 end;
 
 function TUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
-var
-  FactoredValue : TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -2642,8 +2636,6 @@ begin
 end;
 
 function TUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
-var
-  FactoredValue : TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -2654,8 +2646,6 @@ begin
 end;
 
 function TUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
-var
-  FactoredValue : TC3Matrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -2666,8 +2656,6 @@ begin
 end;
 
 function TUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
-var
-  FactoredValue : TC4Matrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
