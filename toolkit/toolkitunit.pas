@@ -41,7 +41,6 @@ type
     FComment: string;
     FColor: string;
     FExponents: TExponents;
-    FIndex: longint;
   public
     function NewItem: TToolKitItem;
   end;
@@ -160,7 +159,6 @@ begin
   result.FComment     := FComment;
   result.FColor       := FColor;
   result.FExponents   := FExponents;
-  result.FIndex       := FIndex;
 end;
 
 // TToolKitBuilder
@@ -196,18 +194,23 @@ var
   i, j: longint;
 begin
   for i := 0 to FList.Count -1 do
-  begin
-    if (FList[i].FBase <> '') then
-    begin
-      j := FList.Search(FList[i].FBase, 1);
-      if j <> -1 then
-      begin
-        FList[i].FExponents := FList[j].FExponents;
-      end;
-    end else
-      FList[i].FExponents := StringToDimensions(FList[i].FDimension);
+  begin;
+    if FList[i].FBase = '' then
+     begin
+       FList[i].FExponents := StringToDimensions(FList[i].FDimension);
+     end else
+     begin
+       j := FList.Search(FList[i].FBase, 1);
+       if j <> -1 then
+       begin
+         FList[i].FExponents := FList[j].FExponents;
+       end;
+     end;
+  end;
 
-    //
+  ExpandUnits;
+  for i := 0 to FList.Count -1 do
+  begin
     if (FList[i].FBase = '') then
     begin
       AddUnit(FList[i], SectionA);
@@ -230,7 +233,6 @@ begin
         end;
     end;
   end;
-  ExpandUnits;
 end;
 
 function GetDescription(const S: string): string;
@@ -477,10 +479,7 @@ begin
   if Pos('8', AItem.FIdentifier) > 0 then Power := 8;
   if Pos('9', AItem.FIdentifier) > 0 then Power := 9;
 
-  if AItem.FBase = '' then
-    FIndex := GetUnitID(AItem.FExponents)
-  else
-    FIndex := GetUnitID(AItem.FExponents);
+  FIndex := GetUnitID(AItem.FExponents);
 
   LocList := TStringList.Create;
   if (LowerCase(AItem.FIdentifier) <> 'kg' ) and
@@ -587,8 +586,6 @@ begin
 end;
 
 procedure TToolKitBuilder.ExpandUnits;
-const
-  NullDim : TExponents = (0, 0, 0, 0, 0, 0, 0, 0);
 var
  i, j: longint;
  NewDim: TExponents;
@@ -597,7 +594,7 @@ begin
   for i := Low(NewDim) to High(NewDim) do
     for j := Low(TExponentValues) to High(TExponentValues) do
     begin
-      NewDim := NullDim;
+      NewDim := NullExponents;
       NewDim[i] := TExponentValues[j];
       if FList.Search(NewDim) = -1 then
         FList.Add(NewDim);
@@ -613,7 +610,6 @@ begin
       begin
          NewDim := FList[i].FExponents;
          NewDim[j] := 0;
-
          if FList.Search(NewDim) = -1 then
            FList.Add(NewDim);
        end;
@@ -629,7 +625,6 @@ begin
     begin
       for j := Low(NewDim) to High(NewDim) do
         NewDim[j] := -FList[i].FExponents[j];
-
       if FList.Search(NewDim) = -1 then
         FList.Add(NewDim);
     end;
@@ -799,7 +794,6 @@ begin
   NewItem.FExponents   := ADim;
   NewItem.FComment     := '';
   NewItem.FColor       := '';
-  NewItem.FIndex       := 0;
   FList.Add(NewItem);
 end;
 
