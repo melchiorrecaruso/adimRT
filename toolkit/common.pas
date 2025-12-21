@@ -236,14 +236,14 @@ begin
   end;
   List2 := nil;
 
-  result[1] := GetExponent( 'kg');
-  result[2] := GetExponent(  'm');
-  result[3] := GetExponent(  's');
-  result[4] := GetExponent(  'A');
-  result[5] := GetExponent(  'K');
-  result[6] := GetExponent('mol');
-  result[7] := GetExponent( 'cd');
-  result[8] := GetExponent( 'sr');
+  result[1] := GetExponent(  'kg');
+  result[2] := GetExponent(   'm');
+  result[3] := GetExponent(   's');
+  result[4] := GetExponent(   'A');
+  result[5] := GetExponent(   'K');
+  result[6] := GetExponent( 'mol');
+  result[7] := GetExponent(  'cd');
+  result[8] := GetExponent( 'rad');
   List1.Destroy;
 end;
 
@@ -257,7 +257,7 @@ begin
   if (ADim[5] <> 0) then result := result + Format('K%0.2f ',   [ADim[5]/TExponentBase]);
   if (ADim[6] <> 0) then result := result + Format('mol%0.2f ', [ADim[6]/TExponentBase]);
   if (ADim[7] <> 0) then result := result + Format('cd%0.2f ',  [ADim[7]/TExponentBase]);
-  if (ADim[8] <> 0) then result := result + Format('sr%0.2f ',  [ADim[8]/TExponentBase]);
+  if (ADim[8] <> 0) then result := result + Format('rad%0.2f ', [ADim[8]/TExponentBase]);
 
   if result <> '' then
     SetLength(result, Length(result) -1);
@@ -319,7 +319,7 @@ begin
   if ADim[5] > 0 then Num := Num + DimensionToLongString(ADim[5], '%sKelvin? '  );
   if ADim[6] > 0 then Num := Num + DimensionToLongString(ADim[6], '%sMole? '    );
   if ADim[7] > 0 then Num := Num + DimensionToLongString(ADim[7], '%sCandela? ' );
-  if ADim[8] > 0 then Num := Num + DimensionToLongString(ADim[8], 'Steradian '  );
+  if ADim[8] > 0 then Num := Num + DimensionToLongString(ADim[8], 'Radian? '  );
 
   Denom := '';
   if ADim[1] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[1], '%sKilogram ');
@@ -329,7 +329,7 @@ begin
   if ADim[5] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[5], '%sKelvin '  );
   if ADim[6] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[6], '%sMole '    );
   if ADim[7] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[7], '%sCandela ' );
-  if ADim[8] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[8], 'Steradian ' );
+  if ADim[8] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[8], 'Radian '  );
 
   if Num = '' then
   begin
@@ -378,7 +378,7 @@ begin
   if ADim[5] > 0 then Num := Num + '.' + DimensionToShortString(ADim[5], '%sK'  );
   if ADim[6] > 0 then Num := Num + '.' + DimensionToShortString(ADim[6], '%smol');
   if ADim[7] > 0 then Num := Num + '.' + DimensionToShortString(ADim[7], '%scd' );
-  if ADim[8] > 0 then Num := Num + '.' + DimensionToShortString(ADim[8], 'sr'   );
+  if ADim[8] > 0 then Num := Num + '.' + DimensionToShortString(ADim[8], 'rad');
 
   if (Length(Num) > 0) then Delete(Num, 1, 1);
 
@@ -390,7 +390,7 @@ begin
   if ADim[5] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[5], '%sK'  );
   if ADim[6] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[6], '%smol');
   if ADim[7] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[7], '%scd' );
-  if ADim[8] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[8], 'sr'   );
+  if ADim[8] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[8], 'rad');
 
   if Num = '' then
   begin
