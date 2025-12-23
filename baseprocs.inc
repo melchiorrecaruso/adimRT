@@ -2,14 +2,14 @@
 
 class operator TDimension.<>(const ALeft, ARight: TDimension): boolean;
 begin
-  result := (ALeft.FKilogram  <> ARight.FKilogram ) and
-            (ALeft.FMeter     <> ARight.FMeter    ) and
-            (ALeft.FSecond    <> ARight.FSecond   ) and
-            (ALeft.FAmpere    <> ARight.FAmpere   ) and
-            (ALeft.FKelvin    <> ARight.FKelvin   ) and
-            (ALeft.FMole      <> ARight.FMole     ) and
-            (ALeft.FCandela   <> ARight.FCandela  ) and
-            (ALeft.FRadian    <> ARight.FRadian   );
+  result := (ALeft.FKilogram  <> ARight.FKilogram ) or
+            (ALeft.FMeter     <> ARight.FMeter    ) or
+            (ALeft.FSecond    <> ARight.FSecond   ) or
+            (ALeft.FAmpere    <> ARight.FAmpere   ) or
+            (ALeft.FKelvin    <> ARight.FKelvin   ) or
+            (ALeft.FMole      <> ARight.FMole     ) or
+            (ALeft.FCandela   <> ARight.FCandela  ) or
+            (ALeft.FSteradian <> ARight.FSteradian);
 end;
 
 class operator TDimension.=(const ALeft, ARight: TDimension): boolean;
@@ -21,7 +21,7 @@ begin
             (ALeft.FKelvin    = ARight.FKelvin   ) and
             (ALeft.FMole      = ARight.FMole     ) and
             (ALeft.FCandela   = ARight.FCandela  ) and
-            (ALeft.FRadian    = ARight.FRadian   );
+            (ALeft.FSteradian = ARight.FSteradian);
 end;
 
 class operator TDimension.+(const ALeft, ARight: TDimension): TDimension;
@@ -33,7 +33,7 @@ begin
   result.FKelvin    := ALeft.FKelvin    + ARight.FKelvin;
   result.FMole      := ALeft.FMole      + ARight.FMole;
   result.FCandela   := ALeft.FCandela   + ARight.FCandela;
-  result.FRadian    := ALeft.FRadian    + ARight.FRadian;
+  result.FSteradian := ALeft.FSteradian + ARight.FSteradian;
 end;
 
 class operator TDimension.-(const ALeft, ARight: TDimension): TDimension;
@@ -45,7 +45,7 @@ begin
   result.FKelvin    := ALeft.FKelvin    - ARight.FKelvin;
   result.FMole      := ALeft.FMole      - ARight.FMole;
   result.FCandela   := ALeft.FCandela   - ARight.FCandela;
-  result.FRadian    := ALeft.FRadian    - ARight.FRadian;
+  result.FSteradian := ALeft.FSteradian - ARight.FSteradian;
 end;
 
 class operator TDimension.*(const ALeft: longint; ARight: TDimension): TDimension;
@@ -57,7 +57,7 @@ begin
   result.FKelvin    := ALeft * ARight.FKelvin;
   result.FMole      := ALeft * ARight.FMole;
   result.FCandela   := ALeft * ARight.FCandela;
-  result.FRadian    := ALeft * ARight.FRadian;
+  result.FSteradian := ALeft * ARight.FSteradian;
 end;
 
 class operator TDimension.*(const ALeft: TDimension; ARight: longint): TDimension;
@@ -69,7 +69,7 @@ begin
   result.FKelvin    := ALeft.FKelvin    * ARight;
   result.FMole      := ALeft.FMole      * ARight;
   result.FCandela   := ALeft.FCandela   * ARight;
-  result.FRadian    := ALeft.FRadian    * ARight;
+  result.FSteradian := ALeft.FSteradian * ARight;
 end;
 
 class operator TDimension.div(const ALeft: TDimension; ARight: longint): TDimension;
@@ -81,6 +81,6 @@ begin
   result.FKelvin    := ALeft.FKelvin    div ARight;
   result.FMole      := ALeft.FMole      div ARight;
   result.FCandela   := ALeft.FCandela   div ARight;
-  result.FRadian    := ALeft.FRadian    div ARight;
+  result.FSteradian := ALeft.FSteradian div ARight;
 end;
 
