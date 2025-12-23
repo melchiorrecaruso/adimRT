@@ -26,10 +26,10 @@ unit ADim;
 {$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
 
 {
-  ADim Run-time library built on 21-12-2025.
+  ADim Run-time library built on 23-12-2025.
 
-  Number of base units: 691
-  Number of factored units: 120
+  Number of base units: 687
+  Number of factored units: 126
 }
 
 interface
@@ -627,7 +627,7 @@ resourcestring
 
 const
   ScalarUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsScalarSymbol;
     FName       : rsScalarName;
     FPluralName : rsScalarPluralName;
@@ -643,7 +643,7 @@ resourcestring
 
 const
   RadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsRadianSymbol;
     FName       : rsRadianName;
     FPluralName : rsRadianPluralName;
@@ -656,13 +656,13 @@ var
 { TDegree }
 
 resourcestring
-  rsDegreeSymbol = '°';
+  rsDegreeSymbol = 'deg';
   rsDegreeName = 'degree';
   rsDegreePluralName = 'degrees';
 
 const
   DegreeUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsDegreeSymbol;
     FName       : rsDegreeName;
     FPluralName : rsDegreePluralName;
@@ -682,7 +682,7 @@ resourcestring
 
 const
   SteradianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
     FSymbol     : rsSteradianSymbol;
     FName       : rsSteradianName;
     FPluralName : rsSteradianPluralName;
@@ -691,6 +691,26 @@ const
 
 var
   sr : TUnit absolute SteradianUnit;
+
+{ TSquareDegree }
+
+resourcestring
+  rsSquareDegreeSymbol = 'deg²';
+  rsSquareDegreeName = 'square degree';
+  rsSquareDegreePluralName = 'square degrees';
+
+const
+  SquareDegreeUnit : TFactoredUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSquareDegreeSymbol;
+    FName       : rsSquareDegreeName;
+    FPluralName : rsSquareDegreePluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (Pi*Pi/32400));
+
+var
+  deg2 : TFactoredUnit absolute SquareDegreeUnit;
 
 { TSecond }
 
@@ -701,7 +721,7 @@ resourcestring
 
 const
   SecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSecondSymbol;
     FName       : rsSecondName;
     FPluralName : rsSecondPluralName;
@@ -712,12 +732,12 @@ var
   s : TUnit absolute SecondUnit;
 
 const
-  ds         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cs         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  ms         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  mis        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  ns         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  ps         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ds         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cs         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  ms         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  mis        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  ns         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  ps         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TDay }
 
@@ -728,7 +748,7 @@ resourcestring
 
 const
   DayUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsDaySymbol;
     FName       : rsDayName;
     FPluralName : rsDayPluralName;
@@ -748,7 +768,7 @@ resourcestring
 
 const
   HourUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsHourSymbol;
     FName       : rsHourName;
     FPluralName : rsHourPluralName;
@@ -768,7 +788,7 @@ resourcestring
 
 const
   MinuteUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMinuteSymbol;
     FName       : rsMinuteName;
     FPluralName : rsMinutePluralName;
@@ -788,7 +808,7 @@ resourcestring
 
 const
   SquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondSymbol;
     FName       : rsSquareSecondName;
     FPluralName : rsSquareSecondPluralName;
@@ -799,12 +819,12 @@ var
   s2 : TUnit absolute SquareSecondUnit;
 
 const
-  ds2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cs2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  ms2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mis2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  ns2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ps2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  ds2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cs2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  ms2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mis2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ns2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ps2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareDay }
 
@@ -815,7 +835,7 @@ resourcestring
 
 const
   SquareDayUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareDaySymbol;
     FName       : rsSquareDayName;
     FPluralName : rsSquareDayPluralName;
@@ -835,7 +855,7 @@ resourcestring
 
 const
   SquareHourUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareHourSymbol;
     FName       : rsSquareHourName;
     FPluralName : rsSquareHourPluralName;
@@ -855,7 +875,7 @@ resourcestring
 
 const
   SquareMinuteUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMinuteSymbol;
     FName       : rsSquareMinuteName;
     FPluralName : rsSquareMinutePluralName;
@@ -875,7 +895,7 @@ resourcestring
 
 const
   CubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondSymbol;
     FName       : rsCubicSecondName;
     FPluralName : rsCubicSecondPluralName;
@@ -886,12 +906,12 @@ var
   s3 : TUnit absolute CubicSecondUnit;
 
 const
-  ds3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  cs3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  ms3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  mis3       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ns3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
-  ps3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ds3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  cs3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  ms3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mis3       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ns3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
+  ps3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
 
 { TQuarticSecond }
 
@@ -902,7 +922,7 @@ resourcestring
 
 const
   QuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondSymbol;
     FName       : rsQuarticSecondName;
     FPluralName : rsQuarticSecondPluralName;
@@ -913,12 +933,12 @@ var
   s4 : TUnit absolute QuarticSecondUnit;
 
 const
-  ds4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cs4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  ms4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mis4       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  ns4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  ps4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
+  ds4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cs4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  ms4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mis4       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  ns4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ps4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
 
 { TQuinticSecond }
 
@@ -929,7 +949,7 @@ resourcestring
 
 const
   QuinticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticSecondSymbol;
     FName       : rsQuinticSecondName;
     FPluralName : rsQuinticSecondPluralName;
@@ -940,12 +960,12 @@ var
   s5 : TUnit absolute QuinticSecondUnit;
 
 const
-  ds5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  cs5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  ms5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
-  mis5       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
-  ns5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
-  ps5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
+  ds5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  cs5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  ms5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  mis5       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  ns5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
+  ps5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
 
 { TSexticSecond }
 
@@ -956,7 +976,7 @@ resourcestring
 
 const
   SexticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticSecondSymbol;
     FName       : rsSexticSecondName;
     FPluralName : rsSexticSecondPluralName;
@@ -967,12 +987,12 @@ var
   s6 : TUnit absolute SexticSecondUnit;
 
 const
-  ds6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  cs6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  ms6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  mis6       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  ns6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
-  ps6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
+  ds6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cs6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  ms6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  mis6       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  ns6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
+  ps6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
 
 { TMeter }
 
@@ -983,7 +1003,7 @@ resourcestring
 
 const
   MeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterSymbol;
     FName       : rsMeterName;
     FPluralName : rsMeterPluralName;
@@ -994,13 +1014,13 @@ var
   m : TUnit absolute MeterUnit;
 
 const
-  km         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  dm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  mim        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  km         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  dm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  mim        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pm         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TAstronomical }
 
@@ -1011,7 +1031,7 @@ resourcestring
 
 const
   AstronomicalUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAstronomicalSymbol;
     FName       : rsAstronomicalName;
     FPluralName : rsAstronomicalPluralName;
@@ -1031,7 +1051,7 @@ resourcestring
 
 const
   InchUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsInchSymbol;
     FName       : rsInchName;
     FPluralName : rsInchPluralName;
@@ -1051,7 +1071,7 @@ resourcestring
 
 const
   FootUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsFootSymbol;
     FName       : rsFootName;
     FPluralName : rsFootPluralName;
@@ -1071,7 +1091,7 @@ resourcestring
 
 const
   YardUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsYardSymbol;
     FName       : rsYardName;
     FPluralName : rsYardPluralName;
@@ -1091,7 +1111,7 @@ resourcestring
 
 const
   MileUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMileSymbol;
     FName       : rsMileName;
     FPluralName : rsMilePluralName;
@@ -1111,7 +1131,7 @@ resourcestring
 
 const
   NauticalMileUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNauticalMileSymbol;
     FName       : rsNauticalMileName;
     FPluralName : rsNauticalMilePluralName;
@@ -1131,7 +1151,7 @@ resourcestring
 
 const
   AngstromUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAngstromSymbol;
     FName       : rsAngstromName;
     FPluralName : rsAngstromPluralName;
@@ -1151,7 +1171,7 @@ resourcestring
 
 const
   SquareRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 30; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 30; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootMeterSymbol;
     FName       : rsSquareRootMeterName;
     FPluralName : rsSquareRootMeterPluralName;
@@ -1167,7 +1187,7 @@ resourcestring
 
 const
   SquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterSymbol;
     FName       : rsSquareMeterName;
     FPluralName : rsSquareMeterPluralName;
@@ -1178,13 +1198,13 @@ var
   m2 : TUnit absolute SquareMeterUnit;
 
 const
-  km2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  dm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mim2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  pm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  km2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  dm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mim2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  pm2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareInch }
 
@@ -1195,7 +1215,7 @@ resourcestring
 
 const
   SquareInchUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareInchSymbol;
     FName       : rsSquareInchName;
     FPluralName : rsSquareInchPluralName;
@@ -1215,7 +1235,7 @@ resourcestring
 
 const
   SquareFootUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareFootSymbol;
     FName       : rsSquareFootName;
     FPluralName : rsSquareFootPluralName;
@@ -1235,7 +1255,7 @@ resourcestring
 
 const
   SquareYardUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareYardSymbol;
     FName       : rsSquareYardName;
     FPluralName : rsSquareYardPluralName;
@@ -1255,7 +1275,7 @@ resourcestring
 
 const
   SquareMileUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMileSymbol;
     FName       : rsSquareMileName;
     FPluralName : rsSquareMilePluralName;
@@ -1275,7 +1295,7 @@ resourcestring
 
 const
   CubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterSymbol;
     FName       : rsCubicMeterName;
     FPluralName : rsCubicMeterPluralName;
@@ -1286,13 +1306,13 @@ var
   m3 : TUnit absolute CubicMeterUnit;
 
 const
-  km3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  dm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  cm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  mim3       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  nm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
-  pm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  km3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  dm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  cm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mim3       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  nm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-27); {$ELSE} (1E-27); {$ENDIF}
+  pm3        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
 
 { TCubicInch }
 
@@ -1303,7 +1323,7 @@ resourcestring
 
 const
   CubicInchUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicInchSymbol;
     FName       : rsCubicInchName;
     FPluralName : rsCubicInchPluralName;
@@ -1323,7 +1343,7 @@ resourcestring
 
 const
   CubicFootUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicFootSymbol;
     FName       : rsCubicFootName;
     FPluralName : rsCubicFootPluralName;
@@ -1343,7 +1363,7 @@ resourcestring
 
 const
   CubicYardUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicYardSymbol;
     FName       : rsCubicYardName;
     FPluralName : rsCubicYardPluralName;
@@ -1363,7 +1383,7 @@ resourcestring
 
 const
   LitreUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsLitreSymbol;
     FName       : rsLitreName;
     FPluralName : rsLitrePluralName;
@@ -1375,9 +1395,9 @@ var
   L : TFactoredUnit absolute LitreUnit;
 
 const
-  dL         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
-  cL         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03 * 1E-02); {$ELSE} (1E-03 * 1E-02); {$ENDIF}
-  mL         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03 * 1E-03); {$ELSE} (1E-03 * 1E-03); {$ENDIF}
+  dL         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03 * 1E-01); {$ELSE} (1E-03 * 1E-01); {$ENDIF}
+  cL         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03 * 1E-02); {$ELSE} (1E-03 * 1E-02); {$ENDIF}
+  mL         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03 * 1E-03); {$ELSE} (1E-03 * 1E-03); {$ENDIF}
 
 { TGallon }
 
@@ -1388,7 +1408,7 @@ resourcestring
 
 const
   GallonUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsGallonSymbol;
     FName       : rsGallonName;
     FPluralName : rsGallonPluralName;
@@ -1408,7 +1428,7 @@ resourcestring
 
 const
   QuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMeterSymbol;
     FName       : rsQuarticMeterName;
     FPluralName : rsQuarticMeterPluralName;
@@ -1419,13 +1439,13 @@ var
   m4 : TUnit absolute QuarticMeterUnit;
 
 const
-  km4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  dm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  mm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mim4       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  nm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  pm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
+  km4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  dm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  mm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mim4       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  nm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  pm4        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-48); {$ELSE} (1E-48); {$ENDIF}
 
 { TQuinticMeter }
 
@@ -1436,7 +1456,7 @@ resourcestring
 
 const
   QuinticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticMeterSymbol;
     FName       : rsQuinticMeterName;
     FPluralName : rsQuinticMeterPluralName;
@@ -1447,13 +1467,13 @@ var
   m5 : TUnit absolute QuinticMeterUnit;
 
 const
-  km5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+15); {$ELSE} (1E+15); {$ENDIF}
-  dm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  cm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  mm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
-  mim5       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
-  nm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
-  pm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
+  km5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+15); {$ELSE} (1E+15); {$ENDIF}
+  dm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  cm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  mm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  mim5       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  nm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-45); {$ELSE} (1E-45); {$ENDIF}
+  pm5        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-60); {$ELSE} (1E-60); {$ENDIF}
 
 { TSexticMeter }
 
@@ -1464,7 +1484,7 @@ resourcestring
 
 const
   SexticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticMeterSymbol;
     FName       : rsSexticMeterName;
     FPluralName : rsSexticMeterPluralName;
@@ -1475,13 +1495,13 @@ var
   m6 : TUnit absolute SexticMeterUnit;
 
 const
-  km6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  dm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  cm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  mim6       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
-  nm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
-  pm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
+  km6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  dm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  mim6       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-36); {$ELSE} (1E-36); {$ENDIF}
+  nm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-54); {$ELSE} (1E-54); {$ENDIF}
+  pm6        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-72); {$ELSE} (1E-72); {$ENDIF}
 
 { TKilogram }
 
@@ -1492,7 +1512,7 @@ resourcestring
 
 const
   KilogramUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSymbol;
     FName       : rsKilogramName;
     FPluralName : rsKilogramPluralName;
@@ -1503,15 +1523,15 @@ var
   kg : TUnit absolute KilogramUnit;
 
 const
-  hg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  dag        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  g          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  dg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  cg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
-  mg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  mig        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  ng         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  pg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
+  hg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  dag        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  g          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  dg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  cg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-05); {$ELSE} (1E-05); {$ENDIF}
+  mg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  mig        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  ng         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  pg         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-15); {$ELSE} (1E-15); {$ENDIF}
 
 { TTonne }
 
@@ -1522,7 +1542,7 @@ resourcestring
 
 const
   TonneUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsTonneSymbol;
     FName       : rsTonneName;
     FPluralName : rsTonnePluralName;
@@ -1534,9 +1554,9 @@ var
   tonne : TFactoredUnit absolute TonneUnit;
 
 const
-  gigatonne  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
-  megatonne  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03 * 1E+06); {$ELSE} (1E+03 * 1E+06); {$ENDIF}
-  kilotonne  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03 * 1E+03); {$ELSE} (1E+03 * 1E+03); {$ENDIF}
+  gigatonne  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03 * 1E+09); {$ELSE} (1E+03 * 1E+09); {$ENDIF}
+  megatonne  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03 * 1E+06); {$ELSE} (1E+03 * 1E+06); {$ENDIF}
+  kilotonne  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03 * 1E+03); {$ELSE} (1E+03 * 1E+03); {$ENDIF}
 
 { TPound }
 
@@ -1547,7 +1567,7 @@ resourcestring
 
 const
   PoundUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPoundSymbol;
     FName       : rsPoundName;
     FPluralName : rsPoundPluralName;
@@ -1567,7 +1587,7 @@ resourcestring
 
 const
   OunceUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsOunceSymbol;
     FName       : rsOunceName;
     FPluralName : rsOuncePluralName;
@@ -1587,7 +1607,7 @@ resourcestring
 
 const
   StoneUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsStoneSymbol;
     FName       : rsStoneName;
     FPluralName : rsStonePluralName;
@@ -1607,7 +1627,7 @@ resourcestring
 
 const
   TonUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsTonSymbol;
     FName       : rsTonName;
     FPluralName : rsTonPluralName;
@@ -1627,7 +1647,7 @@ resourcestring
 
 const
   ElectronvoltPerSquareSpeedOfLightUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsElectronvoltPerSquareSpeedOfLightSymbol;
     FName       : rsElectronvoltPerSquareSpeedOfLightName;
     FPluralName : rsElectronvoltPerSquareSpeedOfLightPluralName;
@@ -1644,7 +1664,7 @@ resourcestring
 
 const
   SquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramSymbol;
     FName       : rsSquareKilogramName;
     FPluralName : rsSquareKilogramPluralName;
@@ -1655,15 +1675,15 @@ var
   kg2 : TUnit absolute SquareKilogramUnit;
 
 const
-  hg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  dag2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  g2         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  dg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
-  cg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
-  mg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  mig2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  ng2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
-  pg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
+  hg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  dag2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  g2         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  dg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-08); {$ELSE} (1E-08); {$ENDIF}
+  cg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-10); {$ELSE} (1E-10); {$ENDIF}
+  mg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mig2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  ng2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  pg2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-30); {$ELSE} (1E-30); {$ENDIF}
 
 { TAmpere }
 
@@ -1674,7 +1694,7 @@ resourcestring
 
 const
   AmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmpereSymbol;
     FName       : rsAmpereName;
     FPluralName : rsAmperePluralName;
@@ -1685,15 +1705,15 @@ var
   A : TUnit absolute AmpereUnit;
 
 const
-  kA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daA        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
-  dA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miA        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  picoA      : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daA        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  dA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miA        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nA         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  picoA      : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TSquareAmpere }
 
@@ -1704,7 +1724,7 @@ resourcestring
 
 const
   SquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmpereSymbol;
     FName       : rsSquareAmpereName;
     FPluralName : rsSquareAmperePluralName;
@@ -1715,15 +1735,15 @@ var
   A2 : TUnit absolute SquareAmpereUnit;
 
 const
-  kA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daA2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  dA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  miA2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  picoA2     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  kA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daA2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  dA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  miA2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nA2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  picoA2     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TKelvin }
 
@@ -1734,7 +1754,7 @@ resourcestring
 
 const
   KelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinSymbol;
     FName       : rsKelvinName;
     FPluralName : rsKelvinPluralName;
@@ -1753,7 +1773,7 @@ resourcestring
 
 const
   DegreeCelsiusUnit : TDegreeCelsiusUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsDegreeCelsiusSymbol;
     FName       : rsDegreeCelsiusName;
     FPluralName : rsDegreeCelsiusPluralName;
@@ -1772,7 +1792,7 @@ resourcestring
 
 const
   DegreeFahrenheitUnit : TDegreeFahrenheitUnit = (
-    FDim               : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim               : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol            : rsDegreeFahrenheitSymbol;
     FName              : rsDegreeFahrenheitName;
     FPluralName        : rsDegreeFahrenheitPluralName;
@@ -1791,7 +1811,7 @@ resourcestring
 
 const
   SquareKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 120; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 120; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKelvinSymbol;
     FName       : rsSquareKelvinName;
     FPluralName : rsSquareKelvinPluralName;
@@ -1810,7 +1830,7 @@ resourcestring
 
 const
   CubicKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 180; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 180; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicKelvinSymbol;
     FName       : rsCubicKelvinName;
     FPluralName : rsCubicKelvinPluralName;
@@ -1829,7 +1849,7 @@ resourcestring
 
 const
   QuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticKelvinSymbol;
     FName       : rsQuarticKelvinName;
     FPluralName : rsQuarticKelvinPluralName;
@@ -1848,7 +1868,7 @@ resourcestring
 
 const
   MoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMoleSymbol;
     FName       : rsMoleName;
     FPluralName : rsMolePluralName;
@@ -1859,9 +1879,9 @@ var
   mol : TUnit absolute MoleUnit;
 
 const
-  kmol       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hmol       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  damol      : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  kmol       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hmol       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  damol      : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
 
 { TCandela }
 
@@ -1872,7 +1892,7 @@ resourcestring
 
 const
   CandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsCandelaSymbol;
     FName       : rsCandelaName;
     FPluralName : rsCandelaPluralName;
@@ -1891,7 +1911,7 @@ resourcestring
 
 const
   HertzUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsHertzSymbol;
     FName       : rsHertzName;
     FPluralName : rsHertzPluralName;
@@ -1902,10 +1922,10 @@ var
   Hz : TUnit absolute HertzUnit;
 
 const
-  THz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GHz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MHz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kHz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  THz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GHz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MHz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kHz        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TReciprocalSecond }
 
@@ -1916,7 +1936,7 @@ resourcestring
 
 const
   ReciprocalSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSecondSymbol;
     FName       : rsReciprocalSecondName;
     FPluralName : rsReciprocalSecondPluralName;
@@ -1932,7 +1952,7 @@ resourcestring
 
 const
   RadianPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsRadianPerSecondSymbol;
     FName       : rsRadianPerSecondName;
     FPluralName : rsRadianPerSecondPluralName;
@@ -1948,7 +1968,7 @@ resourcestring
 
 const
   SquareHertzUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareHertzSymbol;
     FName       : rsSquareHertzName;
     FPluralName : rsSquareHertzPluralName;
@@ -1959,10 +1979,10 @@ var
   Hz2 : TUnit absolute SquareHertzUnit;
 
 const
-  THz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
-  GHz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MHz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kHz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  THz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
+  GHz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MHz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kHz2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
 
 { TReciprocalSquareSecond }
 
@@ -1973,7 +1993,7 @@ resourcestring
 
 const
   ReciprocalSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareSecondSymbol;
     FName       : rsReciprocalSquareSecondName;
     FPluralName : rsReciprocalSquareSecondPluralName;
@@ -1989,7 +2009,7 @@ resourcestring
 
 const
   RadianPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsRadianPerSquareSecondSymbol;
     FName       : rsRadianPerSquareSecondName;
     FPluralName : rsRadianPerSquareSecondPluralName;
@@ -2005,7 +2025,7 @@ resourcestring
 
 const
   SteradianPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
     FSymbol     : rsSteradianPerSquareSecondSymbol;
     FName       : rsSteradianPerSquareSecondName;
     FPluralName : rsSteradianPerSquareSecondPluralName;
@@ -2021,7 +2041,7 @@ resourcestring
 
 const
   MeterPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerSecondSymbol;
     FName       : rsMeterPerSecondName;
     FPluralName : rsMeterPerSecondPluralName;
@@ -2037,7 +2057,7 @@ resourcestring
 
 const
   MeterPerHourUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerHourSymbol;
     FName       : rsMeterPerHourName;
     FPluralName : rsMeterPerHourPluralName;
@@ -2054,7 +2074,7 @@ resourcestring
 
 const
   MilePerHourUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMilePerHourSymbol;
     FName       : rsMilePerHourName;
     FPluralName : rsMilePerHourPluralName;
@@ -2071,7 +2091,7 @@ resourcestring
 
 const
   NauticalMilePerHourUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNauticalMilePerHourSymbol;
     FName       : rsNauticalMilePerHourName;
     FPluralName : rsNauticalMilePerHourPluralName;
@@ -2088,7 +2108,7 @@ resourcestring
 
 const
   MeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerSquareSecondSymbol;
     FName       : rsMeterPerSquareSecondName;
     FPluralName : rsMeterPerSquareSecondPluralName;
@@ -2104,7 +2124,7 @@ resourcestring
 
 const
   MeterPerSecondPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerSecondPerSecondSymbol;
     FName       : rsMeterPerSecondPerSecondName;
     FPluralName : rsMeterPerSecondPerSecondPluralName;
@@ -2120,7 +2140,7 @@ resourcestring
 
 const
   MeterPerHourPerSecondUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerHourPerSecondSymbol;
     FName       : rsMeterPerHourPerSecondName;
     FPluralName : rsMeterPerHourPerSecondPluralName;
@@ -2137,7 +2157,7 @@ resourcestring
 
 const
   MeterPerCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerCubicSecondSymbol;
     FName       : rsMeterPerCubicSecondName;
     FPluralName : rsMeterPerCubicSecondPluralName;
@@ -2153,7 +2173,7 @@ resourcestring
 
 const
   MeterPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerQuarticSecondSymbol;
     FName       : rsMeterPerQuarticSecondName;
     FPluralName : rsMeterPerQuarticSecondPluralName;
@@ -2169,7 +2189,7 @@ resourcestring
 
 const
   MeterPerQuinticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerQuinticSecondSymbol;
     FName       : rsMeterPerQuinticSecondName;
     FPluralName : rsMeterPerQuinticSecondPluralName;
@@ -2185,7 +2205,7 @@ resourcestring
 
 const
   MeterPerSexticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerSexticSecondSymbol;
     FName       : rsMeterPerSexticSecondName;
     FPluralName : rsMeterPerSexticSecondPluralName;
@@ -2201,7 +2221,7 @@ resourcestring
 
 const
   SquareMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSquareSecondSymbol;
     FName       : rsSquareMeterPerSquareSecondName;
     FPluralName : rsSquareMeterPerSquareSecondPluralName;
@@ -2217,7 +2237,7 @@ resourcestring
 
 const
   JoulePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerKilogramSymbol;
     FName       : rsJoulePerKilogramName;
     FPluralName : rsJoulePerKilogramPluralName;
@@ -2233,7 +2253,7 @@ resourcestring
 
 const
   GrayUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsGraySymbol;
     FName       : rsGrayName;
     FPluralName : rsGrayPluralName;
@@ -2244,10 +2264,10 @@ var
   Gy : TUnit absolute GrayUnit;
 
 const
-  kGy        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mGy        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miGy       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nGy        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  kGy        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mGy        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miGy       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nGy        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TSievert }
 
@@ -2258,7 +2278,7 @@ resourcestring
 
 const
   SievertUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSievertSymbol;
     FName       : rsSievertName;
     FPluralName : rsSievertPluralName;
@@ -2269,10 +2289,10 @@ var
   Sv : TUnit absolute SievertUnit;
 
 const
-  kSv        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mSv        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miSv       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nSv        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  kSv        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mSv        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miSv       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nSv        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TMeterSecond }
 
@@ -2283,7 +2303,7 @@ resourcestring
 
 const
   MeterSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterSecondSymbol;
     FName       : rsMeterSecondName;
     FPluralName : rsMeterSecondPluralName;
@@ -2299,7 +2319,7 @@ resourcestring
 
 const
   KilogramMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramMeterSymbol;
     FName       : rsKilogramMeterName;
     FPluralName : rsKilogramMeterPluralName;
@@ -2315,7 +2335,7 @@ resourcestring
 
 const
   KilogramPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerSecondSymbol;
     FName       : rsKilogramPerSecondName;
     FPluralName : rsKilogramPerSecondPluralName;
@@ -2331,7 +2351,7 @@ resourcestring
 
 const
   JoulePerSquareMeterPerHertzUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerSquareMeterPerHertzSymbol;
     FName       : rsJoulePerSquareMeterPerHertzName;
     FPluralName : rsJoulePerSquareMeterPerHertzPluralName;
@@ -2347,7 +2367,7 @@ resourcestring
 
 const
   KilogramMeterPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramMeterPerSecondSymbol;
     FName       : rsKilogramMeterPerSecondName;
     FPluralName : rsKilogramMeterPerSecondPluralName;
@@ -2363,7 +2383,7 @@ resourcestring
 
 const
   NewtonSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonSecondSymbol;
     FName       : rsNewtonSecondName;
     FPluralName : rsNewtonSecondPluralName;
@@ -2379,7 +2399,7 @@ resourcestring
 
 const
   SquareKilogramSquareMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramSquareMeterPerSquareSecondSymbol;
     FName       : rsSquareKilogramSquareMeterPerSquareSecondName;
     FPluralName : rsSquareKilogramSquareMeterPerSquareSecondPluralName;
@@ -2395,7 +2415,7 @@ resourcestring
 
 const
   ReciprocalSquareRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -30; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -30; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootMeterSymbol;
     FName       : rsReciprocalSquareRootMeterName;
     FPluralName : rsReciprocalSquareRootMeterPluralName;
@@ -2411,7 +2431,7 @@ resourcestring
 
 const
   ReciprocalMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalMeterSymbol;
     FName       : rsReciprocalMeterName;
     FPluralName : rsReciprocalMeterPluralName;
@@ -2427,7 +2447,7 @@ resourcestring
 
 const
   DioptreUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsDioptreSymbol;
     FName       : rsDioptreName;
     FPluralName : rsDioptrePluralName;
@@ -2443,7 +2463,7 @@ resourcestring
 
 const
   ReciprocalSquareRootCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -90; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -90; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootCubicMeterSymbol;
     FName       : rsReciprocalSquareRootCubicMeterName;
     FPluralName : rsReciprocalSquareRootCubicMeterPluralName;
@@ -2459,7 +2479,7 @@ resourcestring
 
 const
   ReciprocalSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareMeterSymbol;
     FName       : rsReciprocalSquareMeterName;
     FPluralName : rsReciprocalSquareMeterPluralName;
@@ -2475,7 +2495,7 @@ resourcestring
 
 const
   ReciprocalCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicMeterSymbol;
     FName       : rsReciprocalCubicMeterName;
     FPluralName : rsReciprocalCubicMeterPluralName;
@@ -2491,7 +2511,7 @@ resourcestring
 
 const
   ReciprocalQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticMeterSymbol;
     FName       : rsReciprocalQuarticMeterName;
     FPluralName : rsReciprocalQuarticMeterPluralName;
@@ -2507,7 +2527,7 @@ resourcestring
 
 const
   KilogramSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterSymbol;
     FName       : rsKilogramSquareMeterName;
     FPluralName : rsKilogramSquareMeterPluralName;
@@ -2523,7 +2543,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerSecondSymbol;
     FName       : rsKilogramSquareMeterPerSecondName;
     FPluralName : rsKilogramSquareMeterPerSecondPluralName;
@@ -2539,7 +2559,7 @@ resourcestring
 
 const
   NewtonMeterSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonMeterSecondSymbol;
     FName       : rsNewtonMeterSecondName;
     FPluralName : rsNewtonMeterSecondPluralName;
@@ -2555,7 +2575,7 @@ resourcestring
 
 const
   SecondPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSecondPerMeterSymbol;
     FName       : rsSecondPerMeterName;
     FPluralName : rsSecondPerMeterPluralName;
@@ -2571,7 +2591,7 @@ resourcestring
 
 const
   KilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerMeterSymbol;
     FName       : rsKilogramPerMeterName;
     FPluralName : rsKilogramPerMeterPluralName;
@@ -2587,7 +2607,7 @@ resourcestring
 
 const
   KilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerSquareMeterSymbol;
     FName       : rsKilogramPerSquareMeterName;
     FPluralName : rsKilogramPerSquareMeterPluralName;
@@ -2603,7 +2623,7 @@ resourcestring
 
 const
   KilogramPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerCubicMeterSymbol;
     FName       : rsKilogramPerCubicMeterName;
     FPluralName : rsKilogramPerCubicMeterPluralName;
@@ -2619,7 +2639,7 @@ resourcestring
 
 const
   PoundPerCubicInchUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPoundPerCubicInchSymbol;
     FName       : rsPoundPerCubicInchName;
     FPluralName : rsPoundPerCubicInchPluralName;
@@ -2636,7 +2656,7 @@ resourcestring
 
 const
   NewtonUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonSymbol;
     FName       : rsNewtonName;
     FPluralName : rsNewtonPluralName;
@@ -2647,11 +2667,11 @@ var
   N : TUnit absolute NewtonUnit;
 
 const
-  GN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daN        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  GN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hN         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daN        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
 
 { TPoundForce }
 
@@ -2662,7 +2682,7 @@ resourcestring
 
 const
   PoundForceUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPoundForceSymbol;
     FName       : rsPoundForceName;
     FPluralName : rsPoundForcePluralName;
@@ -2682,7 +2702,7 @@ resourcestring
 
 const
   KilogramMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramMeterPerSquareSecondSymbol;
     FName       : rsKilogramMeterPerSquareSecondName;
     FPluralName : rsKilogramMeterPerSquareSecondPluralName;
@@ -2698,7 +2718,7 @@ resourcestring
 
 const
   NewtonRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonRadianSymbol;
     FName       : rsNewtonRadianName;
     FPluralName : rsNewtonRadianPluralName;
@@ -2714,7 +2734,7 @@ resourcestring
 
 const
   SquareNewtonUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareNewtonSymbol;
     FName       : rsSquareNewtonName;
     FPluralName : rsSquareNewtonPluralName;
@@ -2725,11 +2745,11 @@ var
   N2 : TUnit absolute SquareNewtonUnit;
 
 const
-  GN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daN2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  GN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hN2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daN2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
 
 { TSquareKilogramSquareMeterPerQuarticSecond }
 
@@ -2740,7 +2760,7 @@ resourcestring
 
 const
   SquareKilogramSquareMeterPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramSquareMeterPerQuarticSecondSymbol;
     FName       : rsSquareKilogramSquareMeterPerQuarticSecondName;
     FPluralName : rsSquareKilogramSquareMeterPerQuarticSecondPluralName;
@@ -2756,7 +2776,7 @@ resourcestring
 
 const
   PascalUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPascalSymbol;
     FName       : rsPascalName;
     FPluralName : rsPascalPluralName;
@@ -2767,10 +2787,10 @@ var
   Pa : TUnit absolute PascalUnit;
 
 const
-  TPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  TPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kPa        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TNewtonPerSquareMeter }
 
@@ -2781,7 +2801,7 @@ resourcestring
 
 const
   NewtonPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonPerSquareMeterSymbol;
     FName       : rsNewtonPerSquareMeterName;
     FPluralName : rsNewtonPerSquareMeterPluralName;
@@ -2797,7 +2817,7 @@ resourcestring
 
 const
   BarUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsBarSymbol;
     FName       : rsBarName;
     FPluralName : rsBarPluralName;
@@ -2809,8 +2829,8 @@ var
   bar : TFactoredUnit absolute BarUnit;
 
 const
-  kbar       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
-  mbar       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+05 * 1E-03); {$ELSE} (1E+05 * 1E-03); {$ENDIF}
+  kbar       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+05 * 1E+03); {$ELSE} (1E+05 * 1E+03); {$ENDIF}
+  mbar       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+05 * 1E-03); {$ELSE} (1E+05 * 1E-03); {$ENDIF}
 
 { TPoundPerSquareInch }
 
@@ -2821,7 +2841,7 @@ resourcestring
 
 const
   PoundPerSquareInchUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPoundPerSquareInchSymbol;
     FName       : rsPoundPerSquareInchName;
     FPluralName : rsPoundPerSquareInchPluralName;
@@ -2833,7 +2853,7 @@ var
   psi : TFactoredUnit absolute PoundPerSquareInchUnit;
 
 const
-  kpsi       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
+  kpsi       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 6894.75729316836 * 1E+03); {$ELSE} (6894.75729316836 * 1E+03); {$ENDIF}
 
 { TJoulePerCubicMeter }
 
@@ -2844,7 +2864,7 @@ resourcestring
 
 const
   JoulePerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerCubicMeterSymbol;
     FName       : rsJoulePerCubicMeterName;
     FPluralName : rsJoulePerCubicMeterPluralName;
@@ -2860,7 +2880,7 @@ resourcestring
 
 const
   KilogramPerMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerMeterPerSquareSecondSymbol;
     FName       : rsKilogramPerMeterPerSquareSecondName;
     FPluralName : rsKilogramPerMeterPerSquareSecondPluralName;
@@ -2876,7 +2896,7 @@ resourcestring
 
 const
   JouleUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJouleSymbol;
     FName       : rsJouleName;
     FPluralName : rsJoulePluralName;
@@ -2887,10 +2907,10 @@ var
   J : TUnit absolute JouleUnit;
 
 const
-  TJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  TJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kJ         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
 
 { TWattHour }
 
@@ -2901,7 +2921,7 @@ resourcestring
 
 const
   WattHourUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattHourSymbol;
     FName       : rsWattHourName;
     FPluralName : rsWattHourPluralName;
@@ -2918,7 +2938,7 @@ resourcestring
 
 const
   WattSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattSecondSymbol;
     FName       : rsWattSecondName;
     FPluralName : rsWattSecondPluralName;
@@ -2934,7 +2954,7 @@ resourcestring
 
 const
   WattPerHertzUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerHertzSymbol;
     FName       : rsWattPerHertzName;
     FPluralName : rsWattPerHertzPluralName;
@@ -2950,7 +2970,7 @@ resourcestring
 
 const
   ElectronvoltUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsElectronvoltSymbol;
     FName       : rsElectronvoltName;
     FPluralName : rsElectronvoltPluralName;
@@ -2962,10 +2982,10 @@ var
   eV : TFactoredUnit absolute ElectronvoltUnit;
 
 const
-  TeV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
-  GeV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+09); {$ELSE} (1.602176634E-019 * 1E+09); {$ENDIF}
-  MeV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+06); {$ELSE} (1.602176634E-019 * 1E+06); {$ENDIF}
-  keV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1.602176634E-019 * 1E+03); {$ELSE} (1.602176634E-019 * 1E+03); {$ENDIF}
+  TeV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1.602176634E-019 * 1E+12); {$ELSE} (1.602176634E-019 * 1E+12); {$ENDIF}
+  GeV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1.602176634E-019 * 1E+09); {$ELSE} (1.602176634E-019 * 1E+09); {$ENDIF}
+  MeV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1.602176634E-019 * 1E+06); {$ELSE} (1.602176634E-019 * 1E+06); {$ENDIF}
+  keV        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1.602176634E-019 * 1E+03); {$ELSE} (1.602176634E-019 * 1E+03); {$ENDIF}
 
 { TNewtonMeter }
 
@@ -2976,7 +2996,7 @@ resourcestring
 
 const
   NewtonMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonMeterSymbol;
     FName       : rsNewtonMeterName;
     FPluralName : rsNewtonMeterPluralName;
@@ -2992,7 +3012,7 @@ resourcestring
 
 const
   PoundForceInchUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPoundForceInchSymbol;
     FName       : rsPoundForceInchName;
     FPluralName : rsPoundForceInchPluralName;
@@ -3009,7 +3029,7 @@ resourcestring
 
 const
   RydbergUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsRydbergSymbol;
     FName       : rsRydbergName;
     FPluralName : rsRydbergPluralName;
@@ -3029,7 +3049,7 @@ resourcestring
 
 const
   CalorieUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCalorieSymbol;
     FName       : rsCalorieName;
     FPluralName : rsCaloriePluralName;
@@ -3041,8 +3061,8 @@ var
   cal : TFactoredUnit absolute CalorieUnit;
 
 const
-  Mcal       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
-  kcal       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 4.184 * 1E+03); {$ELSE} (4.184 * 1E+03); {$ENDIF}
+  Mcal       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 4.184 * 1E+06); {$ELSE} (4.184 * 1E+06); {$ENDIF}
+  kcal       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 4.184 * 1E+03); {$ELSE} (4.184 * 1E+03); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareSecond }
 
@@ -3053,7 +3073,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareSecondSymbol;
     FName       : rsKilogramSquareMeterPerSquareSecondName;
     FPluralName : rsKilogramSquareMeterPerSquareSecondPluralName;
@@ -3069,7 +3089,7 @@ resourcestring
 
 const
   JoulePerRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerRadianSymbol;
     FName       : rsJoulePerRadianName;
     FPluralName : rsJoulePerRadianPluralName;
@@ -3079,13 +3099,13 @@ const
 { TJoulePerDegree }
 
 resourcestring
-  rsJoulePerDegreeSymbol = '%sJ/°';
+  rsJoulePerDegreeSymbol = '%sJ/deg';
   rsJoulePerDegreeName = '%sjoule per degree';
   rsJoulePerDegreePluralName = '%sjoules per degree';
 
 const
   JoulePerDegreeUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerDegreeSymbol;
     FName       : rsJoulePerDegreeName;
     FPluralName : rsJoulePerDegreePluralName;
@@ -3102,7 +3122,7 @@ resourcestring
 
 const
   NewtonMeterPerRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonMeterPerRadianSymbol;
     FName       : rsNewtonMeterPerRadianName;
     FPluralName : rsNewtonMeterPerRadianPluralName;
@@ -3112,13 +3132,13 @@ const
 { TNewtonMeterPerDegree }
 
 resourcestring
-  rsNewtonMeterPerDegreeSymbol = '%sN∙%sm/°';
+  rsNewtonMeterPerDegreeSymbol = '%sN∙%sm/deg';
   rsNewtonMeterPerDegreeName = '%snewton %smeter per degree';
   rsNewtonMeterPerDegreePluralName = '%snewton %smeters per degree';
 
 const
   NewtonMeterPerDegreeUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonMeterPerDegreeSymbol;
     FName       : rsNewtonMeterPerDegreeName;
     FPluralName : rsNewtonMeterPerDegreePluralName;
@@ -3135,7 +3155,7 @@ resourcestring
 
 const
   PoundForceInchPerRadianUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPoundForceInchPerRadianSymbol;
     FName       : rsPoundForceInchPerRadianName;
     FPluralName : rsPoundForceInchPerRadianPluralName;
@@ -3146,13 +3166,13 @@ const
 { TPoundForceInchPerDegree }
 
 resourcestring
-  rsPoundForceInchPerDegreeSymbol = 'lbf∙in/°';
+  rsPoundForceInchPerDegreeSymbol = 'lbf∙in/deg';
   rsPoundForceInchPerDegreeName = 'pound-force inch per degree';
   rsPoundForceInchPerDegreePluralName = 'pound-force inches per degree';
 
 const
   PoundForceInchPerDegreeUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPoundForceInchPerDegreeSymbol;
     FName       : rsPoundForceInchPerDegreeName;
     FPluralName : rsPoundForceInchPerDegreePluralName;
@@ -3169,7 +3189,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareSecondPerRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareSecondPerRadianSymbol;
     FName       : rsKilogramSquareMeterPerSquareSecondPerRadianName;
     FPluralName : rsKilogramSquareMeterPerSquareSecondPerRadianPluralName;
@@ -3185,7 +3205,7 @@ resourcestring
 
 const
   WattUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattSymbol;
     FName       : rsWattName;
     FPluralName : rsWattPluralName;
@@ -3196,11 +3216,11 @@ var
   W : TUnit absolute WattUnit;
 
 const
-  TW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  GW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  MW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  milliW     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  TW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  GW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  MW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kW         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  milliW     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 { TKilogramSquareMeterPerCubicSecond }
 
@@ -3211,7 +3231,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerCubicSecondSymbol;
     FName       : rsKilogramSquareMeterPerCubicSecondName;
     FPluralName : rsKilogramSquareMeterPerCubicSecondPluralName;
@@ -3227,7 +3247,7 @@ resourcestring
 
 const
   CoulombUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCoulombSymbol;
     FName       : rsCoulombName;
     FPluralName : rsCoulombPluralName;
@@ -3238,15 +3258,15 @@ var
   C : TUnit absolute CoulombUnit;
 
 const
-  kC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  hC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  daC        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
-  dC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
-  cC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miC        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  hC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  daC        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+01); {$ELSE} (1E+01); {$ENDIF}
+  dC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-01); {$ELSE} (1E-01); {$ENDIF}
+  cC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miC        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pC         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TAmpereHour }
 
@@ -3257,7 +3277,7 @@ resourcestring
 
 const
   AmpereHourUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmpereHourSymbol;
     FName       : rsAmpereHourName;
     FPluralName : rsAmpereHourPluralName;
@@ -3274,7 +3294,7 @@ resourcestring
 
 const
   AmpereSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmpereSecondSymbol;
     FName       : rsAmpereSecondName;
     FPluralName : rsAmpereSecondPluralName;
@@ -3290,7 +3310,7 @@ resourcestring
 
 const
   SquareCoulombUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareCoulombSymbol;
     FName       : rsSquareCoulombName;
     FPluralName : rsSquareCoulombPluralName;
@@ -3301,15 +3321,15 @@ var
   C2 : TUnit absolute SquareCoulombUnit;
 
 const
-  kC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  hC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
-  daC2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
-  dC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  cC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
-  mC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  miC2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
-  nC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
-  pC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
+  kC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  hC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+04); {$ELSE} (1E+04); {$ENDIF}
+  daC2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+02); {$ELSE} (1E+02); {$ENDIF}
+  dC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  cC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-04); {$ELSE} (1E-04); {$ENDIF}
+  mC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  miC2       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  nC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-18); {$ELSE} (1E-18); {$ENDIF}
+  pC2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-24); {$ELSE} (1E-24); {$ENDIF}
 
 { TSquareAmpereSquareSecond }
 
@@ -3320,7 +3340,7 @@ resourcestring
 
 const
   SquareAmpereSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmpereSquareSecondSymbol;
     FName       : rsSquareAmpereSquareSecondName;
     FPluralName : rsSquareAmpereSquareSecondPluralName;
@@ -3336,7 +3356,7 @@ resourcestring
 
 const
   CoulombMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCoulombMeterSymbol;
     FName       : rsCoulombMeterName;
     FPluralName : rsCoulombMeterPluralName;
@@ -3352,7 +3372,7 @@ resourcestring
 
 const
   VoltUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsVoltSymbol;
     FName       : rsVoltName;
     FPluralName : rsVoltPluralName;
@@ -3363,8 +3383,8 @@ var
   V : TUnit absolute VoltUnit;
 
 const
-  kV         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mV         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  kV         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mV         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
 
 { TJoulePerCoulomb }
 
@@ -3375,7 +3395,7 @@ resourcestring
 
 const
   JoulePerCoulombUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerCoulombSymbol;
     FName       : rsJoulePerCoulombName;
     FPluralName : rsJoulePerCoulombPluralName;
@@ -3391,7 +3411,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerAmperePerCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerAmperePerCubicSecondSymbol;
     FName       : rsKilogramSquareMeterPerAmperePerCubicSecondName;
     FPluralName : rsKilogramSquareMeterPerAmperePerCubicSecondPluralName;
@@ -3407,7 +3427,7 @@ resourcestring
 
 const
   SquareVoltUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareVoltSymbol;
     FName       : rsSquareVoltName;
     FPluralName : rsSquareVoltPluralName;
@@ -3418,8 +3438,8 @@ var
   V2 : TUnit absolute SquareVoltUnit;
 
 const
-  kV2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  mV2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  kV2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  mV2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
 
 { TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond }
 
@@ -3430,7 +3450,7 @@ resourcestring
 
 const
   SquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondSymbol;
     FName       : rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondName;
     FPluralName : rsSquareKilogramQuarticMeterPerSquareAmperePerSexticSecondPluralName;
@@ -3446,7 +3466,7 @@ resourcestring
 
 const
   FaradUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsFaradSymbol;
     FName       : rsFaradName;
     FPluralName : rsFaradPluralName;
@@ -3457,10 +3477,10 @@ var
   F : TUnit absolute FaradUnit;
 
 const
-  mF         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miF        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nF         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pF         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  mF         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miF        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nF         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pF         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TCoulombPerVolt }
 
@@ -3471,7 +3491,7 @@ resourcestring
 
 const
   CoulombPerVoltUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCoulombPerVoltSymbol;
     FName       : rsCoulombPerVoltName;
     FPluralName : rsCoulombPerVoltPluralName;
@@ -3487,7 +3507,7 @@ resourcestring
 
 const
   SquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterSymbol;
     FName       : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterName;
     FPluralName : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterPluralName;
@@ -3503,7 +3523,7 @@ resourcestring
 
 const
   OhmUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsOhmSymbol;
     FName       : rsOhmName;
     FPluralName : rsOhmPluralName;
@@ -3514,12 +3534,12 @@ var
   ohm : TUnit absolute OhmUnit;
 
 const
-  Gohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
-  megaohm    : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
-  kohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miohm      : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  Gohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+09); {$ELSE} (1E+09); {$ENDIF}
+  megaohm    : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  kohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miohm      : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nohm       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareAmperePerCubicSecond }
 
@@ -3530,7 +3550,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareAmperePerCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareAmperePerCubicSecondSymbol;
     FName       : rsKilogramSquareMeterPerSquareAmperePerCubicSecondName;
     FPluralName : rsKilogramSquareMeterPerSquareAmperePerCubicSecondPluralName;
@@ -3546,7 +3566,7 @@ resourcestring
 
 const
   SiemensUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSiemensSymbol;
     FName       : rsSiemensName;
     FPluralName : rsSiemensPluralName;
@@ -3557,9 +3577,9 @@ var
   siemens : TUnit absolute SiemensUnit;
 
 const
-  millisiemens : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  microsiemens : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-   nanosiemens : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  millisiemens : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  microsiemens : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+   nanosiemens : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TSquareAmpereCubicSecondPerKilogramPerSquareMeter }
 
@@ -3570,7 +3590,7 @@ resourcestring
 
 const
   SquareAmpereCubicSecondPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmpereCubicSecondPerKilogramPerSquareMeterSymbol;
     FName       : rsSquareAmpereCubicSecondPerKilogramPerSquareMeterName;
     FPluralName : rsSquareAmpereCubicSecondPerKilogramPerSquareMeterPluralName;
@@ -3586,7 +3606,7 @@ resourcestring
 
 const
   SiemensPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSiemensPerMeterSymbol;
     FName       : rsSiemensPerMeterName;
     FPluralName : rsSiemensPerMeterPluralName;
@@ -3602,7 +3622,7 @@ resourcestring
 
 const
   TeslaUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsTeslaSymbol;
     FName       : rsTeslaName;
     FPluralName : rsTeslaPluralName;
@@ -3613,9 +3633,9 @@ var
   T : TUnit absolute TeslaUnit;
 
 const
-  mT         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miT        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nT         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mT         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miT        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nT         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TWeberPerSquareMeter }
 
@@ -3626,7 +3646,7 @@ resourcestring
 
 const
   WeberPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWeberPerSquareMeterSymbol;
     FName       : rsWeberPerSquareMeterName;
     FPluralName : rsWeberPerSquareMeterPluralName;
@@ -3642,7 +3662,7 @@ resourcestring
 
 const
   KilogramPerAmperePerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerAmperePerSquareSecondSymbol;
     FName       : rsKilogramPerAmperePerSquareSecondName;
     FPluralName : rsKilogramPerAmperePerSquareSecondPluralName;
@@ -3658,7 +3678,7 @@ resourcestring
 
 const
   WeberUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWeberSymbol;
     FName       : rsWeberName;
     FPluralName : rsWeberPluralName;
@@ -3677,7 +3697,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerAmperePerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerAmperePerSquareSecondSymbol;
     FName       : rsKilogramSquareMeterPerAmperePerSquareSecondName;
     FPluralName : rsKilogramSquareMeterPerAmperePerSquareSecondPluralName;
@@ -3693,7 +3713,7 @@ resourcestring
 
 const
   HenryUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsHenrySymbol;
     FName       : rsHenryName;
     FPluralName : rsHenryPluralName;
@@ -3704,9 +3724,9 @@ var
   H : TUnit absolute HenryUnit;
 
 const
-  mH         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miH        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nH         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  mH         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miH        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nH         : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
 
 { TKilogramSquareMeterPerSquareAmperePerSquareSecond }
 
@@ -3717,7 +3737,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareAmperePerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareAmperePerSquareSecondSymbol;
     FName       : rsKilogramSquareMeterPerSquareAmperePerSquareSecondName;
     FPluralName : rsKilogramSquareMeterPerSquareAmperePerSquareSecondPluralName;
@@ -3733,7 +3753,7 @@ resourcestring
 
 const
   ReciprocalHenryUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalHenrySymbol;
     FName       : rsReciprocalHenryName;
     FPluralName : rsReciprocalHenryPluralName;
@@ -3749,7 +3769,7 @@ resourcestring
 
 const
   LumenUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
     FSymbol     : rsLumenSymbol;
     FName       : rsLumenName;
     FPluralName : rsLumenPluralName;
@@ -3768,7 +3788,7 @@ resourcestring
 
 const
   CandelaSteradianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
     FSymbol     : rsCandelaSteradianSymbol;
     FName       : rsCandelaSteradianName;
     FPluralName : rsCandelaSteradianPluralName;
@@ -3784,7 +3804,7 @@ resourcestring
 
 const
   LumenSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
     FSymbol     : rsLumenSecondSymbol;
     FName       : rsLumenSecondName;
     FPluralName : rsLumenSecondPluralName;
@@ -3800,7 +3820,7 @@ resourcestring
 
 const
   LumenSecondPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
     FSymbol     : rsLumenSecondPerCubicMeterSymbol;
     FName       : rsLumenSecondPerCubicMeterName;
     FPluralName : rsLumenSecondPerCubicMeterPluralName;
@@ -3816,7 +3836,7 @@ resourcestring
 
 const
   LuxUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
     FSymbol     : rsLuxSymbol;
     FName       : rsLuxName;
     FPluralName : rsLuxPluralName;
@@ -3835,7 +3855,7 @@ resourcestring
 
 const
   CandelaSteradianPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
     FSymbol     : rsCandelaSteradianPerSquareMeterSymbol;
     FName       : rsCandelaSteradianPerSquareMeterName;
     FPluralName : rsCandelaSteradianPerSquareMeterPluralName;
@@ -3851,7 +3871,7 @@ resourcestring
 
 const
   LuxSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
     FSymbol     : rsLuxSecondSymbol;
     FName       : rsLuxSecondName;
     FPluralName : rsLuxSecondPluralName;
@@ -3867,7 +3887,7 @@ resourcestring
 
 const
   BequerelUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsBequerelSymbol;
     FName       : rsBequerelName;
     FPluralName : rsBequerelPluralName;
@@ -3878,11 +3898,11 @@ var
   Bq : TUnit absolute BequerelUnit;
 
 const
-  kBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
-  mBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miBq       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
-  nBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
-  pBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
+  kBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+03); {$ELSE} (1E+03); {$ENDIF}
+  mBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miBq       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  nBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-09); {$ELSE} (1E-09); {$ENDIF}
+  pBq        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-12); {$ELSE} (1E-12); {$ENDIF}
 
 { TKatal }
 
@@ -3893,7 +3913,7 @@ resourcestring
 
 const
   KatalUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKatalSymbol;
     FName       : rsKatalName;
     FPluralName : rsKatalPluralName;
@@ -3912,7 +3932,7 @@ resourcestring
 
 const
   MolePerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMolePerSecondSymbol;
     FName       : rsMolePerSecondName;
     FPluralName : rsMolePerSecondPluralName;
@@ -3928,7 +3948,7 @@ resourcestring
 
 const
   NewtonPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonPerCubicMeterSymbol;
     FName       : rsNewtonPerCubicMeterName;
     FPluralName : rsNewtonPerCubicMeterPluralName;
@@ -3944,7 +3964,7 @@ resourcestring
 
 const
   PascalPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPascalPerMeterSymbol;
     FName       : rsPascalPerMeterName;
     FPluralName : rsPascalPerMeterPluralName;
@@ -3960,7 +3980,7 @@ resourcestring
 
 const
   KilogramPerSquareMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerSquareMeterPerSquareSecondSymbol;
     FName       : rsKilogramPerSquareMeterPerSquareSecondName;
     FPluralName : rsKilogramPerSquareMeterPerSquareSecondPluralName;
@@ -3976,7 +3996,7 @@ resourcestring
 
 const
   NewtonPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonPerMeterSymbol;
     FName       : rsNewtonPerMeterName;
     FPluralName : rsNewtonPerMeterPluralName;
@@ -3992,7 +4012,7 @@ resourcestring
 
 const
   JoulePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerSquareMeterSymbol;
     FName       : rsJoulePerSquareMeterName;
     FPluralName : rsJoulePerSquareMeterPluralName;
@@ -4008,7 +4028,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerHertzUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerSquareMeterPerHertzSymbol;
     FName       : rsWattPerSquareMeterPerHertzName;
     FPluralName : rsWattPerSquareMeterPerHertzPluralName;
@@ -4024,7 +4044,7 @@ resourcestring
 
 const
   PoundForcePerInchUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPoundForcePerInchSymbol;
     FName       : rsPoundForcePerInchName;
     FPluralName : rsPoundForcePerInchPluralName;
@@ -4041,7 +4061,7 @@ resourcestring
 
 const
   KilogramPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerSquareSecondSymbol;
     FName       : rsKilogramPerSquareSecondName;
     FPluralName : rsKilogramPerSquareSecondPluralName;
@@ -4057,7 +4077,7 @@ resourcestring
 
 const
   CubicMeterPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerSecondSymbol;
     FName       : rsCubicMeterPerSecondName;
     FPluralName : rsCubicMeterPerSecondPluralName;
@@ -4073,7 +4093,7 @@ resourcestring
 
 const
   PoiseuilleUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPoiseuilleSymbol;
     FName       : rsPoiseuilleName;
     FPluralName : rsPoiseuillePluralName;
@@ -4084,9 +4104,9 @@ var
   Pl : TUnit absolute PoiseuilleUnit;
 
 const
-  cPl        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
-  mPl        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
-  miPl       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
+  cPl        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-02); {$ELSE} (1E-02); {$ENDIF}
+  mPl        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-03); {$ELSE} (1E-03); {$ENDIF}
+  miPl       : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E-06); {$ELSE} (1E-06); {$ENDIF}
 
 { TPascalSecond }
 
@@ -4097,7 +4117,7 @@ resourcestring
 
 const
   PascalSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsPascalSecondSymbol;
     FName       : rsPascalSecondName;
     FPluralName : rsPascalSecondPluralName;
@@ -4113,7 +4133,7 @@ resourcestring
 
 const
   KilogramPerMeterPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerMeterPerSecondSymbol;
     FName       : rsKilogramPerMeterPerSecondName;
     FPluralName : rsKilogramPerMeterPerSecondPluralName;
@@ -4129,7 +4149,7 @@ resourcestring
 
 const
   SquareMeterPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSecondSymbol;
     FName       : rsSquareMeterPerSecondName;
     FPluralName : rsSquareMeterPerSecondPluralName;
@@ -4145,7 +4165,7 @@ resourcestring
 
 const
   KilogramPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerQuarticMeterSymbol;
     FName       : rsKilogramPerQuarticMeterName;
     FPluralName : rsKilogramPerQuarticMeterPluralName;
@@ -4161,7 +4181,7 @@ resourcestring
 
 const
   QuarticMeterSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 240; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 240; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMeterSecondSymbol;
     FName       : rsQuarticMeterSecondName;
     FPluralName : rsQuarticMeterSecondPluralName;
@@ -4177,7 +4197,7 @@ resourcestring
 
 const
   KilogramPerQuarticMeterPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -240; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -240; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerQuarticMeterPerSecondSymbol;
     FName       : rsKilogramPerQuarticMeterPerSecondName;
     FPluralName : rsKilogramPerQuarticMeterPerSecondPluralName;
@@ -4193,7 +4213,7 @@ resourcestring
 
 const
   CubicMeterPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerKilogramSymbol;
     FName       : rsCubicMeterPerKilogramName;
     FPluralName : rsCubicMeterPerKilogramPluralName;
@@ -4209,7 +4229,7 @@ resourcestring
 
 const
   KilogramSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareSecondSymbol;
     FName       : rsKilogramSquareSecondName;
     FPluralName : rsKilogramSquareSecondPluralName;
@@ -4225,7 +4245,7 @@ resourcestring
 
 const
   CubicMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerSquareSecondSymbol;
     FName       : rsCubicMeterPerSquareSecondName;
     FPluralName : rsCubicMeterPerSquareSecondPluralName;
@@ -4241,7 +4261,7 @@ resourcestring
 
 const
   NewtonSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonSquareMeterSymbol;
     FName       : rsNewtonSquareMeterName;
     FPluralName : rsNewtonSquareMeterPluralName;
@@ -4257,7 +4277,7 @@ resourcestring
 
 const
   KilogramCubicMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramCubicMeterPerSquareSecondSymbol;
     FName       : rsKilogramCubicMeterPerSquareSecondName;
     FPluralName : rsKilogramCubicMeterPerSquareSecondPluralName;
@@ -4273,7 +4293,7 @@ resourcestring
 
 const
   NewtonCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonCubicMeterSymbol;
     FName       : rsNewtonCubicMeterName;
     FPluralName : rsNewtonCubicMeterPluralName;
@@ -4289,7 +4309,7 @@ resourcestring
 
 const
   KilogramQuarticMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramQuarticMeterPerSquareSecondSymbol;
     FName       : rsKilogramQuarticMeterPerSquareSecondName;
     FPluralName : rsKilogramQuarticMeterPerSquareSecondPluralName;
@@ -4305,7 +4325,7 @@ resourcestring
 
 const
   NewtonPerSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonPerSquareKilogramSymbol;
     FName       : rsNewtonPerSquareKilogramName;
     FPluralName : rsNewtonPerSquareKilogramPluralName;
@@ -4321,7 +4341,7 @@ resourcestring
 
 const
   MeterPerKilogramPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerKilogramPerSquareSecondSymbol;
     FName       : rsMeterPerKilogramPerSquareSecondName;
     FPluralName : rsMeterPerKilogramPerSquareSecondPluralName;
@@ -4337,7 +4357,7 @@ resourcestring
 
 const
   SquareKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramPerMeterSymbol;
     FName       : rsSquareKilogramPerMeterName;
     FPluralName : rsSquareKilogramPerMeterPluralName;
@@ -4353,7 +4373,7 @@ resourcestring
 
 const
   SquareKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramPerSquareMeterSymbol;
     FName       : rsSquareKilogramPerSquareMeterName;
     FPluralName : rsSquareKilogramPerSquareMeterPluralName;
@@ -4369,7 +4389,7 @@ resourcestring
 
 const
   SquareMeterPerSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSquareKilogramSymbol;
     FName       : rsSquareMeterPerSquareKilogramName;
     FPluralName : rsSquareMeterPerSquareKilogramPluralName;
@@ -4385,7 +4405,7 @@ resourcestring
 
 const
   NewtonSquareMeterPerSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonSquareMeterPerSquareKilogramSymbol;
     FName       : rsNewtonSquareMeterPerSquareKilogramName;
     FPluralName : rsNewtonSquareMeterPerSquareKilogramPluralName;
@@ -4401,7 +4421,7 @@ resourcestring
 
 const
   CubicMeterPerKilogramPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 180; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerKilogramPerSquareSecondSymbol;
     FName       : rsCubicMeterPerKilogramPerSquareSecondName;
     FPluralName : rsCubicMeterPerKilogramPerSquareSecondPluralName;
@@ -4417,7 +4437,7 @@ resourcestring
 
 const
   ReciprocalKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalKelvinSymbol;
     FName       : rsReciprocalKelvinName;
     FPluralName : rsReciprocalKelvinPluralName;
@@ -4433,7 +4453,7 @@ resourcestring
 
 const
   KilogramKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramKelvinSymbol;
     FName       : rsKilogramKelvinName;
     FPluralName : rsKilogramKelvinPluralName;
@@ -4449,7 +4469,7 @@ resourcestring
 
 const
   JoulePerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerKelvinSymbol;
     FName       : rsJoulePerKelvinName;
     FPluralName : rsJoulePerKelvinPluralName;
@@ -4465,7 +4485,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareSecondPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareSecondPerKelvinSymbol;
     FName       : rsKilogramSquareMeterPerSquareSecondPerKelvinName;
     FPluralName : rsKilogramSquareMeterPerSquareSecondPerKelvinPluralName;
@@ -4481,7 +4501,7 @@ resourcestring
 
 const
   JoulePerKilogramPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerKilogramPerKelvinSymbol;
     FName       : rsJoulePerKilogramPerKelvinName;
     FPluralName : rsJoulePerKilogramPerKelvinPluralName;
@@ -4497,7 +4517,7 @@ resourcestring
 
 const
   SquareMeterPerSquareSecondPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSquareSecondPerKelvinSymbol;
     FName       : rsSquareMeterPerSquareSecondPerKelvinName;
     FPluralName : rsSquareMeterPerSquareSecondPerKelvinPluralName;
@@ -4513,7 +4533,7 @@ resourcestring
 
 const
   MeterKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterKelvinSymbol;
     FName       : rsMeterKelvinName;
     FPluralName : rsMeterKelvinPluralName;
@@ -4529,7 +4549,7 @@ resourcestring
 
 const
   KelvinPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinPerMeterSymbol;
     FName       : rsKelvinPerMeterName;
     FPluralName : rsKelvinPerMeterPluralName;
@@ -4545,7 +4565,7 @@ resourcestring
 
 const
   WattPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerMeterSymbol;
     FName       : rsWattPerMeterName;
     FPluralName : rsWattPerMeterPluralName;
@@ -4561,7 +4581,7 @@ resourcestring
 
 const
   KilogramMeterPerCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramMeterPerCubicSecondSymbol;
     FName       : rsKilogramMeterPerCubicSecondName;
     FPluralName : rsKilogramMeterPerCubicSecondPluralName;
@@ -4577,7 +4597,7 @@ resourcestring
 
 const
   WattPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerSquareMeterSymbol;
     FName       : rsWattPerSquareMeterName;
     FPluralName : rsWattPerSquareMeterPluralName;
@@ -4593,7 +4613,7 @@ resourcestring
 
 const
   KilogramPerCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerCubicSecondSymbol;
     FName       : rsKilogramPerCubicSecondName;
     FPluralName : rsKilogramPerCubicSecondPluralName;
@@ -4609,7 +4629,7 @@ resourcestring
 
 const
   WattPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerCubicMeterSymbol;
     FName       : rsWattPerCubicMeterName;
     FPluralName : rsWattPerCubicMeterPluralName;
@@ -4625,7 +4645,7 @@ resourcestring
 
 const
   WattPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerKelvinSymbol;
     FName       : rsWattPerKelvinName;
     FPluralName : rsWattPerKelvinPluralName;
@@ -4641,7 +4661,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerCubicSecondPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerCubicSecondPerKelvinSymbol;
     FName       : rsKilogramSquareMeterPerCubicSecondPerKelvinName;
     FPluralName : rsKilogramSquareMeterPerCubicSecondPerKelvinPluralName;
@@ -4657,7 +4677,7 @@ resourcestring
 
 const
   WattPerMeterPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerMeterPerKelvinSymbol;
     FName       : rsWattPerMeterPerKelvinName;
     FPluralName : rsWattPerMeterPerKelvinPluralName;
@@ -4673,7 +4693,7 @@ resourcestring
 
 const
   KilogramMeterPerCubicSecondPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramMeterPerCubicSecondPerKelvinSymbol;
     FName       : rsKilogramMeterPerCubicSecondPerKelvinName;
     FPluralName : rsKilogramMeterPerCubicSecondPerKelvinPluralName;
@@ -4689,7 +4709,7 @@ resourcestring
 
 const
   KelvinPerWattUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinPerWattSymbol;
     FName       : rsKelvinPerWattName;
     FPluralName : rsKelvinPerWattPluralName;
@@ -4705,7 +4725,7 @@ resourcestring
 
 const
   MeterPerWattUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerWattSymbol;
     FName       : rsMeterPerWattName;
     FPluralName : rsMeterPerWattPluralName;
@@ -4721,7 +4741,7 @@ resourcestring
 
 const
   MeterKelvinPerWattUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterKelvinPerWattSymbol;
     FName       : rsMeterKelvinPerWattName;
     FPluralName : rsMeterKelvinPerWattPluralName;
@@ -4737,7 +4757,7 @@ resourcestring
 
 const
   SquareMeterKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterKelvinSymbol;
     FName       : rsSquareMeterKelvinName;
     FPluralName : rsSquareMeterKelvinPluralName;
@@ -4753,7 +4773,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerSquareMeterPerKelvinSymbol;
     FName       : rsWattPerSquareMeterPerKelvinName;
     FPluralName : rsWattPerSquareMeterPerKelvinPluralName;
@@ -4769,7 +4789,7 @@ resourcestring
 
 const
   KilogramPerCubicSecondPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerCubicSecondPerKelvinSymbol;
     FName       : rsKilogramPerCubicSecondPerKelvinName;
     FPluralName : rsKilogramPerCubicSecondPerKelvinPluralName;
@@ -4785,7 +4805,7 @@ resourcestring
 
 const
   SquareMeterQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterQuarticKelvinSymbol;
     FName       : rsSquareMeterQuarticKelvinName;
     FPluralName : rsSquareMeterQuarticKelvinPluralName;
@@ -4801,7 +4821,7 @@ resourcestring
 
 const
   WattPerQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerQuarticKelvinSymbol;
     FName       : rsWattPerQuarticKelvinName;
     FPluralName : rsWattPerQuarticKelvinPluralName;
@@ -4817,7 +4837,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsWattPerSquareMeterPerQuarticKelvinSymbol;
     FName       : rsWattPerSquareMeterPerQuarticKelvinName;
     FPluralName : rsWattPerSquareMeterPerQuarticKelvinPluralName;
@@ -4833,7 +4853,7 @@ resourcestring
 
 const
   JoulePerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerMoleSymbol;
     FName       : rsJoulePerMoleName;
     FPluralName : rsJoulePerMolePluralName;
@@ -4849,7 +4869,7 @@ resourcestring
 
 const
   MoleKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMoleKelvinSymbol;
     FName       : rsMoleKelvinName;
     FPluralName : rsMoleKelvinPluralName;
@@ -4865,7 +4885,7 @@ resourcestring
 
 const
   JoulePerMolePerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerMolePerKelvinSymbol;
     FName       : rsJoulePerMolePerKelvinName;
     FPluralName : rsJoulePerMolePerKelvinPluralName;
@@ -4881,7 +4901,7 @@ resourcestring
 
 const
   OhmMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsOhmMeterSymbol;
     FName       : rsOhmMeterName;
     FPluralName : rsOhmMeterPluralName;
@@ -4897,7 +4917,7 @@ resourcestring
 
 const
   VoltPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsVoltPerMeterSymbol;
     FName       : rsVoltPerMeterName;
     FPluralName : rsVoltPerMeterPluralName;
@@ -4913,7 +4933,7 @@ resourcestring
 
 const
   NewtonPerCoulombUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonPerCoulombSymbol;
     FName       : rsNewtonPerCoulombName;
     FPluralName : rsNewtonPerCoulombPluralName;
@@ -4929,7 +4949,7 @@ resourcestring
 
 const
   CoulombPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCoulombPerMeterSymbol;
     FName       : rsCoulombPerMeterName;
     FPluralName : rsCoulombPerMeterPluralName;
@@ -4945,7 +4965,7 @@ resourcestring
 
 const
   SquareCoulombPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareCoulombPerMeterSymbol;
     FName       : rsSquareCoulombPerMeterName;
     FPluralName : rsSquareCoulombPerMeterPluralName;
@@ -4961,7 +4981,7 @@ resourcestring
 
 const
   CoulombPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCoulombPerSquareMeterSymbol;
     FName       : rsCoulombPerSquareMeterName;
     FPluralName : rsCoulombPerSquareMeterPluralName;
@@ -4977,7 +4997,7 @@ resourcestring
 
 const
   SquareMeterPerSquareCoulombUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSquareCoulombSymbol;
     FName       : rsSquareMeterPerSquareCoulombName;
     FPluralName : rsSquareMeterPerSquareCoulombPluralName;
@@ -4993,7 +5013,7 @@ resourcestring
 
 const
   NewtonPerSquareCoulombUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonPerSquareCoulombSymbol;
     FName       : rsNewtonPerSquareCoulombName;
     FPluralName : rsNewtonPerSquareCoulombPluralName;
@@ -5009,7 +5029,7 @@ resourcestring
 
 const
   NewtonSquareMeterPerSquareCoulombUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonSquareMeterPerSquareCoulombSymbol;
     FName       : rsNewtonSquareMeterPerSquareCoulombName;
     FPluralName : rsNewtonSquareMeterPerSquareCoulombPluralName;
@@ -5025,7 +5045,7 @@ resourcestring
 
 const
   VoltMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsVoltMeterSymbol;
     FName       : rsVoltMeterName;
     FPluralName : rsVoltMeterPluralName;
@@ -5041,7 +5061,7 @@ resourcestring
 
 const
   NewtonSquareMeterPerCoulombUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonSquareMeterPerCoulombSymbol;
     FName       : rsNewtonSquareMeterPerCoulombName;
     FPluralName : rsNewtonSquareMeterPerCoulombPluralName;
@@ -5057,7 +5077,7 @@ resourcestring
 
 const
   VoltMeterPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsVoltMeterPerSecondSymbol;
     FName       : rsVoltMeterPerSecondName;
     FPluralName : rsVoltMeterPerSecondPluralName;
@@ -5073,7 +5093,7 @@ resourcestring
 
 const
   FaradPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsFaradPerMeterSymbol;
     FName       : rsFaradPerMeterName;
     FPluralName : rsFaradPerMeterPluralName;
@@ -5089,7 +5109,7 @@ resourcestring
 
 const
   AmperePerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmperePerMeterSymbol;
     FName       : rsAmperePerMeterName;
     FPluralName : rsAmperePerMeterPluralName;
@@ -5105,7 +5125,7 @@ resourcestring
 
 const
   MeterPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerAmpereSymbol;
     FName       : rsMeterPerAmpereName;
     FPluralName : rsMeterPerAmperePluralName;
@@ -5121,7 +5141,7 @@ resourcestring
 
 const
   TeslaMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsTeslaMeterSymbol;
     FName       : rsTeslaMeterName;
     FPluralName : rsTeslaMeterPluralName;
@@ -5137,7 +5157,7 @@ resourcestring
 
 const
   NewtonPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonPerAmpereSymbol;
     FName       : rsNewtonPerAmpereName;
     FPluralName : rsNewtonPerAmperePluralName;
@@ -5153,7 +5173,7 @@ resourcestring
 
 const
   TeslaPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsTeslaPerAmpereSymbol;
     FName       : rsTeslaPerAmpereName;
     FPluralName : rsTeslaPerAmperePluralName;
@@ -5169,7 +5189,7 @@ resourcestring
 
 const
   HenryPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsHenryPerMeterSymbol;
     FName       : rsHenryPerMeterName;
     FPluralName : rsHenryPerMeterPluralName;
@@ -5185,7 +5205,7 @@ resourcestring
 
 const
   TeslaMeterPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsTeslaMeterPerAmpereSymbol;
     FName       : rsTeslaMeterPerAmpereName;
     FPluralName : rsTeslaMeterPerAmperePluralName;
@@ -5201,7 +5221,7 @@ resourcestring
 
 const
   NewtonPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsNewtonPerSquareAmpereSymbol;
     FName       : rsNewtonPerSquareAmpereName;
     FPluralName : rsNewtonPerSquareAmperePluralName;
@@ -5217,7 +5237,7 @@ resourcestring
 
 const
   RadianPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 60);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsRadianPerMeterSymbol;
     FName       : rsRadianPerMeterName;
     FPluralName : rsRadianPerMeterPluralName;
@@ -5233,7 +5253,7 @@ resourcestring
 
 const
   SquareKilogramPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramPerSquareSecondSymbol;
     FName       : rsSquareKilogramPerSquareSecondName;
     FPluralName : rsSquareKilogramPerSquareSecondPluralName;
@@ -5249,7 +5269,7 @@ resourcestring
 
 const
   SquareSecondPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerSquareMeterSymbol;
     FName       : rsSquareSecondPerSquareMeterName;
     FPluralName : rsSquareSecondPerSquareMeterPluralName;
@@ -5265,7 +5285,7 @@ resourcestring
 
 const
   SquareJouleUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareJouleSymbol;
     FName       : rsSquareJouleName;
     FPluralName : rsSquareJoulePluralName;
@@ -5276,10 +5296,10 @@ var
   J2 : TUnit absolute SquareJouleUnit;
 
 const
-  TJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
-  GJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
-  MJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
-  kJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
+  TJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+24); {$ELSE} (1E+24); {$ENDIF}
+  GJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+18); {$ELSE} (1E+18); {$ENDIF}
+  MJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+12); {$ELSE} (1E+12); {$ENDIF}
+  kJ2        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1E+06); {$ELSE} (1E+06); {$ENDIF}
 
 { TJouleSecond }
 
@@ -5290,7 +5310,7 @@ resourcestring
 
 const
   JouleSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJouleSecondSymbol;
     FName       : rsJouleSecondName;
     FPluralName : rsJouleSecondPluralName;
@@ -5306,7 +5326,7 @@ resourcestring
 
 const
   JoulePerHertzUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerHertzSymbol;
     FName       : rsJoulePerHertzName;
     FPluralName : rsJoulePerHertzPluralName;
@@ -5322,7 +5342,7 @@ resourcestring
 
 const
   ElectronvoltSecondUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsElectronvoltSecondSymbol;
     FName       : rsElectronvoltSecondName;
     FPluralName : rsElectronvoltSecondPluralName;
@@ -5339,7 +5359,7 @@ resourcestring
 
 const
   ElectronvoltMeterPerSpeedOfLightUnit : TFactoredUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsElectronvoltMeterPerSpeedOfLightSymbol;
     FName       : rsElectronvoltMeterPerSpeedOfLightName;
     FPluralName : rsElectronvoltMeterPerSpeedOfLightPluralName;
@@ -5356,7 +5376,7 @@ resourcestring
 
 const
   SquareJouleSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareJouleSquareSecondSymbol;
     FName       : rsSquareJouleSquareSecondName;
     FPluralName : rsSquareJouleSquareSecondPluralName;
@@ -5372,7 +5392,7 @@ resourcestring
 
 const
   CoulombPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCoulombPerKilogramSymbol;
     FName       : rsCoulombPerKilogramName;
     FPluralName : rsCoulombPerKilogramPluralName;
@@ -5388,7 +5408,7 @@ resourcestring
 
 const
   SquareMeterAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterAmpereSymbol;
     FName       : rsSquareMeterAmpereName;
     FPluralName : rsSquareMeterAmperePluralName;
@@ -5404,7 +5424,7 @@ resourcestring
 
 const
   JoulePerTeslaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsJoulePerTeslaSymbol;
     FName       : rsJoulePerTeslaName;
     FPluralName : rsJoulePerTeslaPluralName;
@@ -5420,7 +5440,7 @@ resourcestring
 
 const
   LumenPerWattUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
     FSymbol     : rsLumenPerWattSymbol;
     FName       : rsLumenPerWattName;
     FPluralName : rsLumenPerWattPluralName;
@@ -5436,7 +5456,7 @@ resourcestring
 
 const
   ReciprocalMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalMoleSymbol;
     FName       : rsReciprocalMoleName;
     FPluralName : rsReciprocalMolePluralName;
@@ -5452,7 +5472,7 @@ resourcestring
 
 const
   AmperePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmperePerSquareMeterSymbol;
     FName       : rsAmperePerSquareMeterName;
     FPluralName : rsAmperePerSquareMeterPluralName;
@@ -5468,7 +5488,7 @@ resourcestring
 
 const
   MolePerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMolePerCubicMeterSymbol;
     FName       : rsMolePerCubicMeterName;
     FPluralName : rsMolePerCubicMeterPluralName;
@@ -5484,7 +5504,7 @@ resourcestring
 
 const
   CandelaPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsCandelaPerSquareMeterSymbol;
     FName       : rsCandelaPerSquareMeterName;
     FPluralName : rsCandelaPerSquareMeterPluralName;
@@ -5500,7 +5520,7 @@ resourcestring
 
 const
   CoulombPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCoulombPerCubicMeterSymbol;
     FName       : rsCoulombPerCubicMeterName;
     FPluralName : rsCoulombPerCubicMeterPluralName;
@@ -5516,7 +5536,7 @@ resourcestring
 
 const
   GrayPerSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsGrayPerSecondSymbol;
     FName       : rsGrayPerSecondName;
     FPluralName : rsGrayPerSecondPluralName;
@@ -5532,7 +5552,7 @@ resourcestring
 
 const
   SteradianHertzUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
     FSymbol     : rsSteradianHertzSymbol;
     FName       : rsSteradianHertzName;
     FPluralName : rsSteradianHertzPluralName;
@@ -5548,7 +5568,7 @@ resourcestring
 
 const
   MeterSteradianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
     FSymbol     : rsMeterSteradianSymbol;
     FName       : rsMeterSteradianName;
     FPluralName : rsMeterSteradianPluralName;
@@ -5564,7 +5584,7 @@ resourcestring
 
 const
   SquareMeterSteradianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
     FSymbol     : rsSquareMeterSteradianSymbol;
     FName       : rsSquareMeterSteradianName;
     FPluralName : rsSquareMeterSteradianPluralName;
@@ -5580,7 +5600,7 @@ resourcestring
 
 const
   CubicMeterSteradianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
     FSymbol     : rsCubicMeterSteradianSymbol;
     FName       : rsCubicMeterSteradianName;
     FPluralName : rsCubicMeterSteradianPluralName;
@@ -5596,7 +5616,7 @@ resourcestring
 
 const
   SquareMeterSteradianHertzUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
     FSymbol     : rsSquareMeterSteradianHertzSymbol;
     FName       : rsSquareMeterSteradianHertzName;
     FPluralName : rsSquareMeterSteradianHertzPluralName;
@@ -5612,7 +5632,7 @@ resourcestring
 
 const
   WattPerSteradianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
     FSymbol     : rsWattPerSteradianSymbol;
     FName       : rsWattPerSteradianName;
     FPluralName : rsWattPerSteradianPluralName;
@@ -5628,7 +5648,7 @@ resourcestring
 
 const
   WattPerSteradianPerHertzUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
     FSymbol     : rsWattPerSteradianPerHertzSymbol;
     FName       : rsWattPerSteradianPerHertzName;
     FPluralName : rsWattPerSteradianPerHertzPluralName;
@@ -5644,7 +5664,7 @@ resourcestring
 
 const
   WattPerMeterPerSteradianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
     FSymbol     : rsWattPerMeterPerSteradianSymbol;
     FName       : rsWattPerMeterPerSteradianName;
     FPluralName : rsWattPerMeterPerSteradianPluralName;
@@ -5660,7 +5680,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerSteradianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
     FSymbol     : rsWattPerSquareMeterPerSteradianSymbol;
     FName       : rsWattPerSquareMeterPerSteradianName;
     FPluralName : rsWattPerSquareMeterPerSteradianPluralName;
@@ -5676,7 +5696,7 @@ resourcestring
 
 const
   WattPerCubicMeterPerSteradianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
     FSymbol     : rsWattPerCubicMeterPerSteradianSymbol;
     FName       : rsWattPerCubicMeterPerSteradianName;
     FPluralName : rsWattPerCubicMeterPerSteradianPluralName;
@@ -5692,7 +5712,7 @@ resourcestring
 
 const
   WattPerSquareMeterPerSteradianPerHertzUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
     FSymbol     : rsWattPerSquareMeterPerSteradianPerHertzSymbol;
     FName       : rsWattPerSquareMeterPerSteradianPerHertzName;
     FPluralName : rsWattPerSquareMeterPerSteradianPerHertzPluralName;
@@ -5708,7 +5728,7 @@ resourcestring
 
 const
   KatalPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKatalPerCubicMeterSymbol;
     FName       : rsKatalPerCubicMeterName;
     FPluralName : rsKatalPerCubicMeterPluralName;
@@ -5724,7 +5744,7 @@ resourcestring
 
 const
   CoulombPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 60; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCoulombPerMoleSymbol;
     FName       : rsCoulombPerMoleName;
     FPluralName : rsCoulombPerMolePluralName;
@@ -5740,7 +5760,7 @@ resourcestring
 
 const
   ReciprocalNewtonUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalNewtonSymbol;
     FName       : rsReciprocalNewtonName;
     FPluralName : rsReciprocalNewtonPluralName;
@@ -5756,7 +5776,7 @@ resourcestring
 
 const
   ReciprocalTeslaUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalTeslaSymbol;
     FName       : rsReciprocalTeslaName;
     FPluralName : rsReciprocalTeslaPluralName;
@@ -5772,7 +5792,7 @@ resourcestring
 
 const
   ReciprocalPascalUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalPascalSymbol;
     FName       : rsReciprocalPascalName;
     FPluralName : rsReciprocalPascalPluralName;
@@ -5788,7 +5808,7 @@ resourcestring
 
 const
   ReciprocalWeberUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalWeberSymbol;
     FName       : rsReciprocalWeberName;
     FPluralName : rsReciprocalWeberPluralName;
@@ -5804,7 +5824,7 @@ resourcestring
 
 const
   ReciprocalWattUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalWattSymbol;
     FName       : rsReciprocalWattName;
     FPluralName : rsReciprocalWattPluralName;
@@ -5820,7 +5840,7 @@ resourcestring
 
 const
   ReciprocalRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalRadianSymbol;
     FName       : rsReciprocalRadianName;
     FPluralName : rsReciprocalRadianPluralName;
@@ -5836,7 +5856,7 @@ resourcestring
 
 const
   MeterPerVoltUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerVoltSymbol;
     FName       : rsMeterPerVoltName;
     FPluralName : rsMeterPerVoltPluralName;
@@ -5852,7 +5872,7 @@ resourcestring
 
 const
   SecondPerRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSecondPerRadianSymbol;
     FName       : rsSecondPerRadianName;
     FPluralName : rsSecondPerRadianPluralName;
@@ -5868,7 +5888,7 @@ resourcestring
 
 const
   SexticRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 10; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 10; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticRootKilogramSymbol;
     FName       : rsSexticRootKilogramName;
     FPluralName : rsSexticRootKilogramPluralName;
@@ -5884,7 +5904,7 @@ resourcestring
 
 const
   QuinticRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 12; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 12; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticRootKilogramSymbol;
     FName       : rsQuinticRootKilogramName;
     FPluralName : rsQuinticRootKilogramPluralName;
@@ -5900,7 +5920,7 @@ resourcestring
 
 const
   QuarticRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 15; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 15; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootKilogramSymbol;
     FName       : rsQuarticRootKilogramName;
     FPluralName : rsQuarticRootKilogramPluralName;
@@ -5916,7 +5936,7 @@ resourcestring
 
 const
   CubicRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 20; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 20; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicRootKilogramSymbol;
     FName       : rsCubicRootKilogramName;
     FPluralName : rsCubicRootKilogramPluralName;
@@ -5932,7 +5952,7 @@ resourcestring
 
 const
   SquareRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 30; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 30; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootKilogramSymbol;
     FName       : rsSquareRootKilogramName;
     FPluralName : rsSquareRootKilogramPluralName;
@@ -5948,7 +5968,7 @@ resourcestring
 
 const
   QuarticRootCubicKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 45; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 45; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootCubicKilogramSymbol;
     FName       : rsQuarticRootCubicKilogramName;
     FPluralName : rsQuarticRootCubicKilogramPluralName;
@@ -5964,7 +5984,7 @@ resourcestring
 
 const
   SquareRootCubicKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 90; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 90; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootCubicKilogramSymbol;
     FName       : rsSquareRootCubicKilogramName;
     FPluralName : rsSquareRootCubicKilogramPluralName;
@@ -5980,7 +6000,7 @@ resourcestring
 
 const
   SquareRootQuinticKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 150; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 150; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootQuinticKilogramSymbol;
     FName       : rsSquareRootQuinticKilogramName;
     FPluralName : rsSquareRootQuinticKilogramPluralName;
@@ -5996,7 +6016,7 @@ resourcestring
 
 const
   CubicKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 180; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 180; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicKilogramSymbol;
     FName       : rsCubicKilogramName;
     FPluralName : rsCubicKilogramPluralName;
@@ -6012,7 +6032,7 @@ resourcestring
 
 const
   QuarticKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 240; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 240; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticKilogramSymbol;
     FName       : rsQuarticKilogramName;
     FPluralName : rsQuarticKilogramPluralName;
@@ -6028,7 +6048,7 @@ resourcestring
 
 const
   QuinticKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 300; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 300; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticKilogramSymbol;
     FName       : rsQuinticKilogramName;
     FPluralName : rsQuinticKilogramPluralName;
@@ -6044,7 +6064,7 @@ resourcestring
 
 const
   SexticKilogramUnit : TUnit = (
-    FDim        : (FKilogram: 360; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 360; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticKilogramSymbol;
     FName       : rsSexticKilogramName;
     FPluralName : rsSexticKilogramPluralName;
@@ -6060,7 +6080,7 @@ resourcestring
 
 const
   SexticRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 10; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 10; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticRootMeterSymbol;
     FName       : rsSexticRootMeterName;
     FPluralName : rsSexticRootMeterPluralName;
@@ -6076,7 +6096,7 @@ resourcestring
 
 const
   QuinticRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 12; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 12; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticRootMeterSymbol;
     FName       : rsQuinticRootMeterName;
     FPluralName : rsQuinticRootMeterPluralName;
@@ -6092,7 +6112,7 @@ resourcestring
 
 const
   QuarticRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 15; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 15; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootMeterSymbol;
     FName       : rsQuarticRootMeterName;
     FPluralName : rsQuarticRootMeterPluralName;
@@ -6108,7 +6128,7 @@ resourcestring
 
 const
   CubicRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 20; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 20; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicRootMeterSymbol;
     FName       : rsCubicRootMeterName;
     FPluralName : rsCubicRootMeterPluralName;
@@ -6124,7 +6144,7 @@ resourcestring
 
 const
   QuarticRootCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 45; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 45; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootCubicMeterSymbol;
     FName       : rsQuarticRootCubicMeterName;
     FPluralName : rsQuarticRootCubicMeterPluralName;
@@ -6140,7 +6160,7 @@ resourcestring
 
 const
   SquareRootCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 90; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 90; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootCubicMeterSymbol;
     FName       : rsSquareRootCubicMeterName;
     FPluralName : rsSquareRootCubicMeterPluralName;
@@ -6156,7 +6176,7 @@ resourcestring
 
 const
   SquareRootQuinticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 150; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 150; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootQuinticMeterSymbol;
     FName       : rsSquareRootQuinticMeterName;
     FPluralName : rsSquareRootQuinticMeterPluralName;
@@ -6172,7 +6192,7 @@ resourcestring
 
 const
   SexticRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 10; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 10; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticRootSecondSymbol;
     FName       : rsSexticRootSecondName;
     FPluralName : rsSexticRootSecondPluralName;
@@ -6188,7 +6208,7 @@ resourcestring
 
 const
   QuinticRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 12; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 12; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticRootSecondSymbol;
     FName       : rsQuinticRootSecondName;
     FPluralName : rsQuinticRootSecondPluralName;
@@ -6204,7 +6224,7 @@ resourcestring
 
 const
   QuarticRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 15; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 15; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootSecondSymbol;
     FName       : rsQuarticRootSecondName;
     FPluralName : rsQuarticRootSecondPluralName;
@@ -6220,7 +6240,7 @@ resourcestring
 
 const
   CubicRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 20; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 20; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicRootSecondSymbol;
     FName       : rsCubicRootSecondName;
     FPluralName : rsCubicRootSecondPluralName;
@@ -6236,7 +6256,7 @@ resourcestring
 
 const
   SquareRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 30; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 30; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootSecondSymbol;
     FName       : rsSquareRootSecondName;
     FPluralName : rsSquareRootSecondPluralName;
@@ -6252,7 +6272,7 @@ resourcestring
 
 const
   QuarticRootCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 45; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 45; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootCubicSecondSymbol;
     FName       : rsQuarticRootCubicSecondName;
     FPluralName : rsQuarticRootCubicSecondPluralName;
@@ -6268,7 +6288,7 @@ resourcestring
 
 const
   SquareRootCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 90; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 90; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootCubicSecondSymbol;
     FName       : rsSquareRootCubicSecondName;
     FPluralName : rsSquareRootCubicSecondPluralName;
@@ -6284,7 +6304,7 @@ resourcestring
 
 const
   SquareRootQuinticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 150; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 150; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootQuinticSecondSymbol;
     FName       : rsSquareRootQuinticSecondName;
     FPluralName : rsSquareRootQuinticSecondPluralName;
@@ -6300,7 +6320,7 @@ resourcestring
 
 const
   SexticRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 10; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 10; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticRootAmpereSymbol;
     FName       : rsSexticRootAmpereName;
     FPluralName : rsSexticRootAmperePluralName;
@@ -6316,7 +6336,7 @@ resourcestring
 
 const
   QuinticRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 12; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 12; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticRootAmpereSymbol;
     FName       : rsQuinticRootAmpereName;
     FPluralName : rsQuinticRootAmperePluralName;
@@ -6332,7 +6352,7 @@ resourcestring
 
 const
   QuarticRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 15; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 15; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootAmpereSymbol;
     FName       : rsQuarticRootAmpereName;
     FPluralName : rsQuarticRootAmperePluralName;
@@ -6348,7 +6368,7 @@ resourcestring
 
 const
   CubicRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 20; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 20; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicRootAmpereSymbol;
     FName       : rsCubicRootAmpereName;
     FPluralName : rsCubicRootAmperePluralName;
@@ -6364,7 +6384,7 @@ resourcestring
 
 const
   SquareRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 30; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 30; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootAmpereSymbol;
     FName       : rsSquareRootAmpereName;
     FPluralName : rsSquareRootAmperePluralName;
@@ -6380,7 +6400,7 @@ resourcestring
 
 const
   QuarticRootCubicAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 45; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 45; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootCubicAmpereSymbol;
     FName       : rsQuarticRootCubicAmpereName;
     FPluralName : rsQuarticRootCubicAmperePluralName;
@@ -6396,7 +6416,7 @@ resourcestring
 
 const
   SquareRootCubicAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 90; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 90; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootCubicAmpereSymbol;
     FName       : rsSquareRootCubicAmpereName;
     FPluralName : rsSquareRootCubicAmperePluralName;
@@ -6412,7 +6432,7 @@ resourcestring
 
 const
   SquareRootQuinticAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 150; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 150; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootQuinticAmpereSymbol;
     FName       : rsSquareRootQuinticAmpereName;
     FPluralName : rsSquareRootQuinticAmperePluralName;
@@ -6428,7 +6448,7 @@ resourcestring
 
 const
   CubicAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 180; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 180; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicAmpereSymbol;
     FName       : rsCubicAmpereName;
     FPluralName : rsCubicAmperePluralName;
@@ -6444,7 +6464,7 @@ resourcestring
 
 const
   QuarticAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 240; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 240; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticAmpereSymbol;
     FName       : rsQuarticAmpereName;
     FPluralName : rsQuarticAmperePluralName;
@@ -6460,7 +6480,7 @@ resourcestring
 
 const
   QuinticAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 300; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 300; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticAmpereSymbol;
     FName       : rsQuinticAmpereName;
     FPluralName : rsQuinticAmperePluralName;
@@ -6476,7 +6496,7 @@ resourcestring
 
 const
   SexticAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 360; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 360; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticAmpereSymbol;
     FName       : rsSexticAmpereName;
     FPluralName : rsSexticAmperePluralName;
@@ -6492,7 +6512,7 @@ resourcestring
 
 const
   SexticRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 10; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 10; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticRootKelvinSymbol;
     FName       : rsSexticRootKelvinName;
     FPluralName : rsSexticRootKelvinPluralName;
@@ -6508,7 +6528,7 @@ resourcestring
 
 const
   QuinticRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 12; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 12; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticRootKelvinSymbol;
     FName       : rsQuinticRootKelvinName;
     FPluralName : rsQuinticRootKelvinPluralName;
@@ -6524,7 +6544,7 @@ resourcestring
 
 const
   QuarticRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 15; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 15; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootKelvinSymbol;
     FName       : rsQuarticRootKelvinName;
     FPluralName : rsQuarticRootKelvinPluralName;
@@ -6540,7 +6560,7 @@ resourcestring
 
 const
   CubicRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 20; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 20; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicRootKelvinSymbol;
     FName       : rsCubicRootKelvinName;
     FPluralName : rsCubicRootKelvinPluralName;
@@ -6556,7 +6576,7 @@ resourcestring
 
 const
   SquareRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 30; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 30; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootKelvinSymbol;
     FName       : rsSquareRootKelvinName;
     FPluralName : rsSquareRootKelvinPluralName;
@@ -6572,7 +6592,7 @@ resourcestring
 
 const
   QuarticRootCubicKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 45; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 45; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootCubicKelvinSymbol;
     FName       : rsQuarticRootCubicKelvinName;
     FPluralName : rsQuarticRootCubicKelvinPluralName;
@@ -6588,7 +6608,7 @@ resourcestring
 
 const
   SquareRootCubicKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 90; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 90; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootCubicKelvinSymbol;
     FName       : rsSquareRootCubicKelvinName;
     FPluralName : rsSquareRootCubicKelvinPluralName;
@@ -6604,7 +6624,7 @@ resourcestring
 
 const
   SquareRootQuinticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 150; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 150; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootQuinticKelvinSymbol;
     FName       : rsSquareRootQuinticKelvinName;
     FPluralName : rsSquareRootQuinticKelvinPluralName;
@@ -6620,7 +6640,7 @@ resourcestring
 
 const
   QuinticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 300; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 300; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticKelvinSymbol;
     FName       : rsQuinticKelvinName;
     FPluralName : rsQuinticKelvinPluralName;
@@ -6636,7 +6656,7 @@ resourcestring
 
 const
   SexticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 360; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 360; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticKelvinSymbol;
     FName       : rsSexticKelvinName;
     FPluralName : rsSexticKelvinPluralName;
@@ -6652,7 +6672,7 @@ resourcestring
 
 const
   SexticRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 10; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 10; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticRootMoleSymbol;
     FName       : rsSexticRootMoleName;
     FPluralName : rsSexticRootMolePluralName;
@@ -6668,7 +6688,7 @@ resourcestring
 
 const
   QuinticRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 12; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 12; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticRootMoleSymbol;
     FName       : rsQuinticRootMoleName;
     FPluralName : rsQuinticRootMolePluralName;
@@ -6684,7 +6704,7 @@ resourcestring
 
 const
   QuarticRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 15; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 15; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootMoleSymbol;
     FName       : rsQuarticRootMoleName;
     FPluralName : rsQuarticRootMolePluralName;
@@ -6700,7 +6720,7 @@ resourcestring
 
 const
   CubicRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 20; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 20; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicRootMoleSymbol;
     FName       : rsCubicRootMoleName;
     FPluralName : rsCubicRootMolePluralName;
@@ -6716,7 +6736,7 @@ resourcestring
 
 const
   SquareRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 30; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 30; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootMoleSymbol;
     FName       : rsSquareRootMoleName;
     FPluralName : rsSquareRootMolePluralName;
@@ -6732,7 +6752,7 @@ resourcestring
 
 const
   QuarticRootCubicMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 45; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 45; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticRootCubicMoleSymbol;
     FName       : rsQuarticRootCubicMoleName;
     FPluralName : rsQuarticRootCubicMolePluralName;
@@ -6748,7 +6768,7 @@ resourcestring
 
 const
   SquareRootCubicMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 90; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 90; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootCubicMoleSymbol;
     FName       : rsSquareRootCubicMoleName;
     FPluralName : rsSquareRootCubicMolePluralName;
@@ -6764,7 +6784,7 @@ resourcestring
 
 const
   SquareMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 120; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 120; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMoleSymbol;
     FName       : rsSquareMoleName;
     FPluralName : rsSquareMolePluralName;
@@ -6780,7 +6800,7 @@ resourcestring
 
 const
   SquareRootQuinticMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 150; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 150; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareRootQuinticMoleSymbol;
     FName       : rsSquareRootQuinticMoleName;
     FPluralName : rsSquareRootQuinticMolePluralName;
@@ -6796,7 +6816,7 @@ resourcestring
 
 const
   CubicMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 180; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 180; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMoleSymbol;
     FName       : rsCubicMoleName;
     FPluralName : rsCubicMolePluralName;
@@ -6812,7 +6832,7 @@ resourcestring
 
 const
   QuarticMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 240; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 240; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMoleSymbol;
     FName       : rsQuarticMoleName;
     FPluralName : rsQuarticMolePluralName;
@@ -6828,7 +6848,7 @@ resourcestring
 
 const
   QuinticMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 300; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 300; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticMoleSymbol;
     FName       : rsQuinticMoleName;
     FPluralName : rsQuinticMolePluralName;
@@ -6844,7 +6864,7 @@ resourcestring
 
 const
   SexticMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 360; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 360; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticMoleSymbol;
     FName       : rsSexticMoleName;
     FPluralName : rsSexticMolePluralName;
@@ -6860,7 +6880,7 @@ resourcestring
 
 const
   SexticRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 10; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 10; FSteradian: 0);
     FSymbol     : rsSexticRootCandelaSymbol;
     FName       : rsSexticRootCandelaName;
     FPluralName : rsSexticRootCandelaPluralName;
@@ -6876,7 +6896,7 @@ resourcestring
 
 const
   QuinticRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 12; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 12; FSteradian: 0);
     FSymbol     : rsQuinticRootCandelaSymbol;
     FName       : rsQuinticRootCandelaName;
     FPluralName : rsQuinticRootCandelaPluralName;
@@ -6892,7 +6912,7 @@ resourcestring
 
 const
   QuarticRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 15; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 15; FSteradian: 0);
     FSymbol     : rsQuarticRootCandelaSymbol;
     FName       : rsQuarticRootCandelaName;
     FPluralName : rsQuarticRootCandelaPluralName;
@@ -6908,7 +6928,7 @@ resourcestring
 
 const
   CubicRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 20; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 20; FSteradian: 0);
     FSymbol     : rsCubicRootCandelaSymbol;
     FName       : rsCubicRootCandelaName;
     FPluralName : rsCubicRootCandelaPluralName;
@@ -6924,7 +6944,7 @@ resourcestring
 
 const
   SquareRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 30; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 30; FSteradian: 0);
     FSymbol     : rsSquareRootCandelaSymbol;
     FName       : rsSquareRootCandelaName;
     FPluralName : rsSquareRootCandelaPluralName;
@@ -6940,7 +6960,7 @@ resourcestring
 
 const
   QuarticRootCubicCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 45; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 45; FSteradian: 0);
     FSymbol     : rsQuarticRootCubicCandelaSymbol;
     FName       : rsQuarticRootCubicCandelaName;
     FPluralName : rsQuarticRootCubicCandelaPluralName;
@@ -6956,7 +6976,7 @@ resourcestring
 
 const
   SquareRootCubicCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 90; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 90; FSteradian: 0);
     FSymbol     : rsSquareRootCubicCandelaSymbol;
     FName       : rsSquareRootCubicCandelaName;
     FPluralName : rsSquareRootCubicCandelaPluralName;
@@ -6972,7 +6992,7 @@ resourcestring
 
 const
   SquareCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 120; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 120; FSteradian: 0);
     FSymbol     : rsSquareCandelaSymbol;
     FName       : rsSquareCandelaName;
     FPluralName : rsSquareCandelaPluralName;
@@ -6988,7 +7008,7 @@ resourcestring
 
 const
   SquareRootQuinticCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 150; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 150; FSteradian: 0);
     FSymbol     : rsSquareRootQuinticCandelaSymbol;
     FName       : rsSquareRootQuinticCandelaName;
     FPluralName : rsSquareRootQuinticCandelaPluralName;
@@ -7004,7 +7024,7 @@ resourcestring
 
 const
   CubicCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 180; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 180; FSteradian: 0);
     FSymbol     : rsCubicCandelaSymbol;
     FName       : rsCubicCandelaName;
     FPluralName : rsCubicCandelaPluralName;
@@ -7020,7 +7040,7 @@ resourcestring
 
 const
   QuarticCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 240; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 240; FSteradian: 0);
     FSymbol     : rsQuarticCandelaSymbol;
     FName       : rsQuarticCandelaName;
     FPluralName : rsQuarticCandelaPluralName;
@@ -7036,7 +7056,7 @@ resourcestring
 
 const
   QuinticCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 300; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 300; FSteradian: 0);
     FSymbol     : rsQuinticCandelaSymbol;
     FName       : rsQuinticCandelaName;
     FPluralName : rsQuinticCandelaPluralName;
@@ -7052,202 +7072,218 @@ resourcestring
 
 const
   SexticCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 360; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 360; FSteradian: 0);
     FSymbol     : rsSexticCandelaSymbol;
     FName       : rsSexticCandelaName;
     FPluralName : rsSexticCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (6));
 
-{ TSexticRootRadian }
+{ TSexticRootSteradian }
 
 resourcestring
-  rsSexticRootRadianSymbol = '⁶√rad';
-  rsSexticRootRadianName = 'sextic root radian';
-  rsSexticRootRadianPluralName = 'sextic root radians';
+  rsSexticRootSteradianSymbol = '⁶√sr';
+  rsSexticRootSteradianName = 'sextic root steradian';
+  rsSexticRootSteradianPluralName = 'sextic root steradians';
 
 const
-  SexticRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 10);
-    FSymbol     : rsSexticRootRadianSymbol;
-    FName       : rsSexticRootRadianName;
-    FPluralName : rsSexticRootRadianPluralName;
+  SexticRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 10);
+    FSymbol     : rsSexticRootSteradianSymbol;
+    FName       : rsSexticRootSteradianName;
+    FPluralName : rsSexticRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TQuinticRootRadian }
+{ TQuinticRootSteradian }
 
 resourcestring
-  rsQuinticRootRadianSymbol = '⁵√rad';
-  rsQuinticRootRadianName = 'quintic root radian';
-  rsQuinticRootRadianPluralName = 'quintic root radians';
+  rsQuinticRootSteradianSymbol = '⁵√sr';
+  rsQuinticRootSteradianName = 'quintic root steradian';
+  rsQuinticRootSteradianPluralName = 'quintic root steradians';
 
 const
-  QuinticRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 12);
-    FSymbol     : rsQuinticRootRadianSymbol;
-    FName       : rsQuinticRootRadianName;
-    FPluralName : rsQuinticRootRadianPluralName;
+  QuinticRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 12);
+    FSymbol     : rsQuinticRootSteradianSymbol;
+    FName       : rsQuinticRootSteradianName;
+    FPluralName : rsQuinticRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TQuarticRootRadian }
+{ TQuarticRootSteradian }
 
 resourcestring
-  rsQuarticRootRadianSymbol = '∜rad';
-  rsQuarticRootRadianName = 'quartic root radian';
-  rsQuarticRootRadianPluralName = 'quartic root radians';
+  rsQuarticRootSteradianSymbol = '∜sr';
+  rsQuarticRootSteradianName = 'quartic root steradian';
+  rsQuarticRootSteradianPluralName = 'quartic root steradians';
 
 const
-  QuarticRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 15);
-    FSymbol     : rsQuarticRootRadianSymbol;
-    FName       : rsQuarticRootRadianName;
-    FPluralName : rsQuarticRootRadianPluralName;
+  QuarticRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 15);
+    FSymbol     : rsQuarticRootSteradianSymbol;
+    FName       : rsQuarticRootSteradianName;
+    FPluralName : rsQuarticRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TCubicRootRadian }
+{ TCubicRootSteradian }
 
 resourcestring
-  rsCubicRootRadianSymbol = '∛rad';
-  rsCubicRootRadianName = 'cubic root radian';
-  rsCubicRootRadianPluralName = 'cubic root radians';
+  rsCubicRootSteradianSymbol = '∛sr';
+  rsCubicRootSteradianName = 'cubic root steradian';
+  rsCubicRootSteradianPluralName = 'cubic root steradians';
 
 const
-  CubicRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 20);
-    FSymbol     : rsCubicRootRadianSymbol;
-    FName       : rsCubicRootRadianName;
-    FPluralName : rsCubicRootRadianPluralName;
+  CubicRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 20);
+    FSymbol     : rsCubicRootSteradianSymbol;
+    FName       : rsCubicRootSteradianName;
+    FPluralName : rsCubicRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TSquareRootRadian }
+{ TSquareRootSteradian }
 
 resourcestring
-  rsSquareRootRadianSymbol = '√rad';
-  rsSquareRootRadianName = 'square root radian';
-  rsSquareRootRadianPluralName = 'square root radians';
+  rsSquareRootSteradianSymbol = '√sr';
+  rsSquareRootSteradianName = 'square root steradian';
+  rsSquareRootSteradianPluralName = 'square root steradians';
 
 const
-  SquareRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 30);
-    FSymbol     : rsSquareRootRadianSymbol;
-    FName       : rsSquareRootRadianName;
-    FPluralName : rsSquareRootRadianPluralName;
+  SquareRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 30);
+    FSymbol     : rsSquareRootSteradianSymbol;
+    FName       : rsSquareRootSteradianName;
+    FPluralName : rsSquareRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TQuarticRootCubicRadian }
+{ TQuarticRootCubicSteradian }
 
 resourcestring
-  rsQuarticRootCubicRadianSymbol = '∜rad³';
-  rsQuarticRootCubicRadianName = 'quartic root cubic radian';
-  rsQuarticRootCubicRadianPluralName = 'quartic root cubic radians';
+  rsQuarticRootCubicSteradianSymbol = '∜sr³';
+  rsQuarticRootCubicSteradianName = 'quartic root cubic steradian';
+  rsQuarticRootCubicSteradianPluralName = 'quartic root cubic steradians';
 
 const
-  QuarticRootCubicRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 45);
-    FSymbol     : rsQuarticRootCubicRadianSymbol;
-    FName       : rsQuarticRootCubicRadianName;
-    FPluralName : rsQuarticRootCubicRadianPluralName;
+  QuarticRootCubicSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 45);
+    FSymbol     : rsQuarticRootCubicSteradianSymbol;
+    FName       : rsQuarticRootCubicSteradianName;
+    FPluralName : rsQuarticRootCubicSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TSquareRootCubicRadian }
+{ TSquareRootCubicSteradian }
 
 resourcestring
-  rsSquareRootCubicRadianSymbol = '√rad³';
-  rsSquareRootCubicRadianName = 'square root cubic radian';
-  rsSquareRootCubicRadianPluralName = 'square root cubic radians';
+  rsSquareRootCubicSteradianSymbol = '√sr³';
+  rsSquareRootCubicSteradianName = 'square root cubic steradian';
+  rsSquareRootCubicSteradianPluralName = 'square root cubic steradians';
 
 const
-  SquareRootCubicRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 90);
-    FSymbol     : rsSquareRootCubicRadianSymbol;
-    FName       : rsSquareRootCubicRadianName;
-    FPluralName : rsSquareRootCubicRadianPluralName;
+  SquareRootCubicSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 90);
+    FSymbol     : rsSquareRootCubicSteradianSymbol;
+    FName       : rsSquareRootCubicSteradianName;
+    FPluralName : rsSquareRootCubicSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TSquareRootQuinticRadian }
+{ TSquareSteradian }
 
 resourcestring
-  rsSquareRootQuinticRadianSymbol = '√rad⁵';
-  rsSquareRootQuinticRadianName = 'square root quintic radian';
-  rsSquareRootQuinticRadianPluralName = 'square root quintic radians';
+  rsSquareSteradianSymbol = 'sr²';
+  rsSquareSteradianName = 'square steradian';
+  rsSquareSteradianPluralName = 'square steradians';
 
 const
-  SquareRootQuinticRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 150);
-    FSymbol     : rsSquareRootQuinticRadianSymbol;
-    FName       : rsSquareRootQuinticRadianName;
-    FPluralName : rsSquareRootQuinticRadianPluralName;
+  SquareSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 120);
+    FSymbol     : rsSquareSteradianSymbol;
+    FName       : rsSquareSteradianName;
+    FPluralName : rsSquareSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TCubicRadian }
+{ TSquareRootQuinticSteradian }
 
 resourcestring
-  rsCubicRadianSymbol = 'rad³';
-  rsCubicRadianName = 'cubic radian';
-  rsCubicRadianPluralName = 'cubic radians';
+  rsSquareRootQuinticSteradianSymbol = '√sr⁵';
+  rsSquareRootQuinticSteradianName = 'square root quintic steradian';
+  rsSquareRootQuinticSteradianPluralName = 'square root quintic steradians';
 
 const
-  CubicRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 180);
-    FSymbol     : rsCubicRadianSymbol;
-    FName       : rsCubicRadianName;
-    FPluralName : rsCubicRadianPluralName;
+  SquareRootQuinticSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 150);
+    FSymbol     : rsSquareRootQuinticSteradianSymbol;
+    FName       : rsSquareRootQuinticSteradianName;
+    FPluralName : rsSquareRootQuinticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TQuarticRadian }
+{ TCubicSteradian }
 
 resourcestring
-  rsQuarticRadianSymbol = 'rad⁴';
-  rsQuarticRadianName = 'quartic radian';
-  rsQuarticRadianPluralName = 'quartic radians';
+  rsCubicSteradianSymbol = 'sr³';
+  rsCubicSteradianName = 'cubic steradian';
+  rsCubicSteradianPluralName = 'cubic steradians';
 
 const
-  QuarticRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 240);
-    FSymbol     : rsQuarticRadianSymbol;
-    FName       : rsQuarticRadianName;
-    FPluralName : rsQuarticRadianPluralName;
+  CubicSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 180);
+    FSymbol     : rsCubicSteradianSymbol;
+    FName       : rsCubicSteradianName;
+    FPluralName : rsCubicSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TQuinticRadian }
+{ TQuarticSteradian }
 
 resourcestring
-  rsQuinticRadianSymbol = 'rad⁵';
-  rsQuinticRadianName = 'quintic radian';
-  rsQuinticRadianPluralName = 'quintic radians';
+  rsQuarticSteradianSymbol = 'sr⁴';
+  rsQuarticSteradianName = 'quartic steradian';
+  rsQuarticSteradianPluralName = 'quartic steradians';
 
 const
-  QuinticRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 300);
-    FSymbol     : rsQuinticRadianSymbol;
-    FName       : rsQuinticRadianName;
-    FPluralName : rsQuinticRadianPluralName;
+  QuarticSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 240);
+    FSymbol     : rsQuarticSteradianSymbol;
+    FName       : rsQuarticSteradianName;
+    FPluralName : rsQuarticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TSexticRadian }
+{ TQuinticSteradian }
 
 resourcestring
-  rsSexticRadianSymbol = 'rad⁶';
-  rsSexticRadianName = 'sextic radian';
-  rsSexticRadianPluralName = 'sextic radians';
+  rsQuinticSteradianSymbol = 'sr⁵';
+  rsQuinticSteradianName = 'quintic steradian';
+  rsQuinticSteradianPluralName = 'quintic steradians';
 
 const
-  SexticRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 360);
-    FSymbol     : rsSexticRadianSymbol;
-    FName       : rsSexticRadianName;
-    FPluralName : rsSexticRadianPluralName;
+  QuinticSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 300);
+    FSymbol     : rsQuinticSteradianSymbol;
+    FName       : rsQuinticSteradianName;
+    FPluralName : rsQuinticSteradianPluralName;
+    FPrefixes   : ();
+    FExponents  : ());
+
+{ TSexticSteradian }
+
+resourcestring
+  rsSexticSteradianSymbol = 'sr⁶';
+  rsSexticSteradianName = 'sextic steradian';
+  rsSexticSteradianPluralName = 'sextic steradians';
+
+const
+  SexticSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 360);
+    FSymbol     : rsSexticSteradianSymbol;
+    FName       : rsSexticSteradianName;
+    FPluralName : rsSexticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
@@ -7260,7 +7296,7 @@ resourcestring
 
 const
   ReciprocalCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicSecondSymbol;
     FName       : rsReciprocalCubicSecondName;
     FPluralName : rsReciprocalCubicSecondPluralName;
@@ -7276,7 +7312,7 @@ resourcestring
 
 const
   ReciprocalQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticSecondSymbol;
     FName       : rsReciprocalQuarticSecondName;
     FPluralName : rsReciprocalQuarticSecondPluralName;
@@ -7292,7 +7328,7 @@ resourcestring
 
 const
   ReciprocalQuinticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticSecondSymbol;
     FName       : rsReciprocalQuinticSecondName;
     FPluralName : rsReciprocalQuinticSecondPluralName;
@@ -7308,7 +7344,7 @@ resourcestring
 
 const
   ReciprocalSexticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticSecondSymbol;
     FName       : rsReciprocalSexticSecondName;
     FPluralName : rsReciprocalSexticSecondPluralName;
@@ -7324,7 +7360,7 @@ resourcestring
 
 const
   SquareKilogramSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramSquareMeterSymbol;
     FName       : rsSquareKilogramSquareMeterName;
     FPluralName : rsSquareKilogramSquareMeterPluralName;
@@ -7340,7 +7376,7 @@ resourcestring
 
 const
   SquareMeterPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerQuarticSecondSymbol;
     FName       : rsSquareMeterPerQuarticSecondName;
     FPluralName : rsSquareMeterPerQuarticSecondPluralName;
@@ -7356,7 +7392,7 @@ resourcestring
 
 const
   SquareKilogramPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 0; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 0; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramPerQuarticSecondSymbol;
     FName       : rsSquareKilogramPerQuarticSecondName;
     FPluralName : rsSquareKilogramPerQuarticSecondPluralName;
@@ -7372,7 +7408,7 @@ resourcestring
 
 const
   ReciprocalMeterSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalMeterSquareSecondSymbol;
     FName       : rsReciprocalMeterSquareSecondName;
     FPluralName : rsReciprocalMeterSquareSecondPluralName;
@@ -7388,7 +7424,7 @@ resourcestring
 
 const
   MeterAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterAmpereSymbol;
     FName       : rsMeterAmpereName;
     FPluralName : rsMeterAmperePluralName;
@@ -7404,7 +7440,7 @@ resourcestring
 
 const
   SquareMeterPerCubicSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerCubicSecondPerAmpereSymbol;
     FName       : rsSquareMeterPerCubicSecondPerAmpereName;
     FPluralName : rsSquareMeterPerCubicSecondPerAmperePluralName;
@@ -7420,7 +7456,7 @@ resourcestring
 
 const
   KilogramPerCubicSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerCubicSecondPerAmpereSymbol;
     FName       : rsKilogramPerCubicSecondPerAmpereName;
     FPluralName : rsKilogramPerCubicSecondPerAmperePluralName;
@@ -7436,7 +7472,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerAmpereSymbol;
     FName       : rsKilogramSquareMeterPerAmpereName;
     FPluralName : rsKilogramSquareMeterPerAmperePluralName;
@@ -7452,7 +7488,7 @@ resourcestring
 
 const
   QuarticMeterPerSexticSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMeterPerSexticSecondPerSquareAmpereSymbol;
     FName       : rsQuarticMeterPerSexticSecondPerSquareAmpereName;
     FPluralName : rsQuarticMeterPerSexticSecondPerSquareAmperePluralName;
@@ -7468,7 +7504,7 @@ resourcestring
 
 const
   SquareKilogramPerSexticSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 0; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 0; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramPerSexticSecondPerSquareAmpereSymbol;
     FName       : rsSquareKilogramPerSexticSecondPerSquareAmpereName;
     FPluralName : rsSquareKilogramPerSexticSecondPerSquareAmperePluralName;
@@ -7484,7 +7520,7 @@ resourcestring
 
 const
   SquareKilogramQuarticMeterPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 240; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramQuarticMeterPerSquareAmpereSymbol;
     FName       : rsSquareKilogramQuarticMeterPerSquareAmpereName;
     FPluralName : rsSquareKilogramQuarticMeterPerSquareAmperePluralName;
@@ -7500,7 +7536,7 @@ resourcestring
 
 const
   SquareKilogramQuarticMeterPerSexticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramQuarticMeterPerSexticSecondSymbol;
     FName       : rsSquareKilogramQuarticMeterPerSexticSecondName;
     FPluralName : rsSquareKilogramQuarticMeterPerSexticSecondPluralName;
@@ -7516,7 +7552,7 @@ resourcestring
 
 const
   QuarticSecondSquareAmperePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondSquareAmperePerSquareMeterSymbol;
     FName       : rsQuarticSecondSquareAmperePerSquareMeterName;
     FPluralName : rsQuarticSecondSquareAmperePerSquareMeterPluralName;
@@ -7532,7 +7568,7 @@ resourcestring
 
 const
   QuarticSecondSquareAmperePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondSquareAmperePerKilogramSymbol;
     FName       : rsQuarticSecondSquareAmperePerKilogramName;
     FPluralName : rsQuarticSecondSquareAmperePerKilogramPluralName;
@@ -7548,7 +7584,7 @@ resourcestring
 
 const
   SquareAmperePerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerKilogramPerSquareMeterSymbol;
     FName       : rsSquareAmperePerKilogramPerSquareMeterName;
     FPluralName : rsSquareAmperePerKilogramPerSquareMeterPluralName;
@@ -7564,7 +7600,7 @@ resourcestring
 
 const
   QuarticSecondPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerKilogramPerSquareMeterSymbol;
     FName       : rsQuarticSecondPerKilogramPerSquareMeterName;
     FPluralName : rsQuarticSecondPerKilogramPerSquareMeterPluralName;
@@ -7580,7 +7616,7 @@ resourcestring
 
 const
   SquareMeterPerCubicSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerCubicSecondPerSquareAmpereSymbol;
     FName       : rsSquareMeterPerCubicSecondPerSquareAmpereName;
     FPluralName : rsSquareMeterPerCubicSecondPerSquareAmperePluralName;
@@ -7596,7 +7632,7 @@ resourcestring
 
 const
   KilogramPerCubicSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerCubicSecondPerSquareAmpereSymbol;
     FName       : rsKilogramPerCubicSecondPerSquareAmpereName;
     FPluralName : rsKilogramPerCubicSecondPerSquareAmperePluralName;
@@ -7612,7 +7648,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerSquareAmpereSymbol;
     FName       : rsKilogramSquareMeterPerSquareAmpereName;
     FPluralName : rsKilogramSquareMeterPerSquareAmperePluralName;
@@ -7628,7 +7664,7 @@ resourcestring
 
 const
   CubicSecondSquareAmperePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondSquareAmperePerSquareMeterSymbol;
     FName       : rsCubicSecondSquareAmperePerSquareMeterName;
     FPluralName : rsCubicSecondSquareAmperePerSquareMeterPluralName;
@@ -7644,7 +7680,7 @@ resourcestring
 
 const
   CubicSecondSquareAmperePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondSquareAmperePerKilogramSymbol;
     FName       : rsCubicSecondSquareAmperePerKilogramName;
     FPluralName : rsCubicSecondSquareAmperePerKilogramPluralName;
@@ -7660,7 +7696,7 @@ resourcestring
 
 const
   CubicSecondSquareAmperePerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondSquareAmperePerCubicMeterSymbol;
     FName       : rsCubicSecondSquareAmperePerCubicMeterName;
     FPluralName : rsCubicSecondSquareAmperePerCubicMeterPluralName;
@@ -7676,7 +7712,7 @@ resourcestring
 
 const
   SquareAmperePerKilogramPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerKilogramPerCubicMeterSymbol;
     FName       : rsSquareAmperePerKilogramPerCubicMeterName;
     FPluralName : rsSquareAmperePerKilogramPerCubicMeterPluralName;
@@ -7692,7 +7728,7 @@ resourcestring
 
 const
   CubicSecondPerKilogramPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondPerKilogramPerCubicMeterSymbol;
     FName       : rsCubicSecondPerKilogramPerCubicMeterName;
     FPluralName : rsCubicSecondPerKilogramPerCubicMeterPluralName;
@@ -7708,7 +7744,7 @@ resourcestring
 
 const
   ReciprocalSquareSecondAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareSecondAmpereSymbol;
     FName       : rsReciprocalSquareSecondAmpereName;
     FPluralName : rsReciprocalSquareSecondAmperePluralName;
@@ -7724,7 +7760,7 @@ resourcestring
 
 const
   KilogramPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerAmpereSymbol;
     FName       : rsKilogramPerAmpereName;
     FPluralName : rsKilogramPerAmperePluralName;
@@ -7740,7 +7776,7 @@ resourcestring
 
 const
   SquareMeterPerSquareSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSquareSecondPerAmpereSymbol;
     FName       : rsSquareMeterPerSquareSecondPerAmpereName;
     FPluralName : rsSquareMeterPerSquareSecondPerAmperePluralName;
@@ -7756,7 +7792,7 @@ resourcestring
 
 const
   SquareSecondSquareAmperePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondSquareAmperePerSquareMeterSymbol;
     FName       : rsSquareSecondSquareAmperePerSquareMeterName;
     FPluralName : rsSquareSecondSquareAmperePerSquareMeterPluralName;
@@ -7772,7 +7808,7 @@ resourcestring
 
 const
   SquareSecondSquareAmperePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondSquareAmperePerKilogramSymbol;
     FName       : rsSquareSecondSquareAmperePerKilogramName;
     FPluralName : rsSquareSecondSquareAmperePerKilogramPluralName;
@@ -7788,26 +7824,26 @@ resourcestring
 
 const
   SquareSecondPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerKilogramPerSquareMeterSymbol;
     FName       : rsSquareSecondPerKilogramPerSquareMeterName;
     FPluralName : rsSquareSecondPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -2));
 
-{ TSecondSquareRadian }
+{ TSecondSteradian }
 
 resourcestring
-  rsSecondSquareRadianSymbol = '%ss∙rad²';
-  rsSecondSquareRadianName = '%ssecond square radian';
-  rsSecondSquareRadianPluralName = '%sseconds square radians';
+  rsSecondSteradianSymbol = '%ss∙sr';
+  rsSecondSteradianName = '%ssecond steradian';
+  rsSecondSteradianPluralName = '%sseconds steradians';
 
 const
-  SecondSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSecondSquareRadianSymbol;
-    FName       : rsSecondSquareRadianName;
-    FPluralName : rsSecondSquareRadianPluralName;
+  SecondSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSecondSteradianSymbol;
+    FName       : rsSecondSteradianName;
+    FPluralName : rsSecondSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
 
@@ -7820,42 +7856,42 @@ resourcestring
 
 const
   SecondCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsSecondCandelaSymbol;
     FName       : rsSecondCandelaName;
     FPluralName : rsSecondCandelaPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
-{ TCandelaSquareRadianPerCubicMeter }
+{ TCandelaSteradianPerCubicMeter }
 
 resourcestring
-  rsCandelaSquareRadianPerCubicMeterSymbol = '%scd∙rad²/%sm³';
-  rsCandelaSquareRadianPerCubicMeterName = '%scandela square radian per cubic %smeter';
-  rsCandelaSquareRadianPerCubicMeterPluralName = '%scandelas square radians per cubic %smeter';
+  rsCandelaSteradianPerCubicMeterSymbol = '%scd∙sr/%sm³';
+  rsCandelaSteradianPerCubicMeterName = '%scandela steradian per cubic %smeter';
+  rsCandelaSteradianPerCubicMeterPluralName = '%scandelas steradians per cubic %smeter';
 
 const
-  CandelaSquareRadianPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
-    FSymbol     : rsCandelaSquareRadianPerCubicMeterSymbol;
-    FName       : rsCandelaSquareRadianPerCubicMeterName;
-    FPluralName : rsCandelaSquareRadianPerCubicMeterPluralName;
+  CandelaSteradianPerCubicMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
+    FSymbol     : rsCandelaSteradianPerCubicMeterSymbol;
+    FName       : rsCandelaSteradianPerCubicMeterName;
+    FPluralName : rsCandelaSteradianPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
-{ TSecondSquareRadianPerCubicMeter }
+{ TSecondSteradianPerCubicMeter }
 
 resourcestring
-  rsSecondSquareRadianPerCubicMeterSymbol = '%ss∙rad²/%sm³';
-  rsSecondSquareRadianPerCubicMeterName = '%ssecond square radian per cubic %smeter';
-  rsSecondSquareRadianPerCubicMeterPluralName = '%sseconds square radians per cubic %smeter';
+  rsSecondSteradianPerCubicMeterSymbol = '%ss∙sr/%sm³';
+  rsSecondSteradianPerCubicMeterName = '%ssecond steradian per cubic %smeter';
+  rsSecondSteradianPerCubicMeterPluralName = '%sseconds steradians per cubic %smeter';
 
 const
-  SecondSquareRadianPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSecondSquareRadianPerCubicMeterSymbol;
-    FName       : rsSecondSquareRadianPerCubicMeterName;
-    FPluralName : rsSecondSquareRadianPerCubicMeterPluralName;
+  SecondSteradianPerCubicMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSecondSteradianPerCubicMeterSymbol;
+    FName       : rsSecondSteradianPerCubicMeterName;
+    FPluralName : rsSecondSteradianPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
@@ -7868,42 +7904,42 @@ resourcestring
 
 const
   SecondCandelaPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsSecondCandelaPerCubicMeterSymbol;
     FName       : rsSecondCandelaPerCubicMeterName;
     FPluralName : rsSecondCandelaPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -3));
 
-{ TSquareRadianPerSquareMeter }
+{ TSteradianPerSquareMeter }
 
 resourcestring
-  rsSquareRadianPerSquareMeterSymbol = 'rad²/%sm²';
-  rsSquareRadianPerSquareMeterName = 'square radian per square %smeter';
-  rsSquareRadianPerSquareMeterPluralName = 'square radians per square %smeter';
+  rsSteradianPerSquareMeterSymbol = 'sr/%sm²';
+  rsSteradianPerSquareMeterName = 'steradian per square %smeter';
+  rsSteradianPerSquareMeterPluralName = 'steradians per square %smeter';
 
 const
-  SquareRadianPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareRadianPerSquareMeterSymbol;
-    FName       : rsSquareRadianPerSquareMeterName;
-    FPluralName : rsSquareRadianPerSquareMeterPluralName;
+  SteradianPerSquareMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSteradianPerSquareMeterSymbol;
+    FName       : rsSteradianPerSquareMeterName;
+    FPluralName : rsSteradianPerSquareMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
 
-{ TSecondSquareRadianPerSquareMeter }
+{ TSecondSteradianPerSquareMeter }
 
 resourcestring
-  rsSecondSquareRadianPerSquareMeterSymbol = '%ss∙rad²/%sm²';
-  rsSecondSquareRadianPerSquareMeterName = '%ssecond square radian per square %smeter';
-  rsSecondSquareRadianPerSquareMeterPluralName = '%sseconds square radians per square %smeter';
+  rsSecondSteradianPerSquareMeterSymbol = '%ss∙sr/%sm²';
+  rsSecondSteradianPerSquareMeterName = '%ssecond steradian per square %smeter';
+  rsSecondSteradianPerSquareMeterPluralName = '%sseconds steradians per square %smeter';
 
 const
-  SecondSquareRadianPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSecondSquareRadianPerSquareMeterSymbol;
-    FName       : rsSecondSquareRadianPerSquareMeterName;
-    FPluralName : rsSecondSquareRadianPerSquareMeterPluralName;
+  SecondSteradianPerSquareMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSecondSteradianPerSquareMeterSymbol;
+    FName       : rsSecondSteradianPerSquareMeterName;
+    FPluralName : rsSecondSteradianPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
@@ -7916,7 +7952,7 @@ resourcestring
 
 const
   SecondCandelaPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsSecondCandelaPerSquareMeterSymbol;
     FName       : rsSecondCandelaPerSquareMeterName;
     FPluralName : rsSecondCandelaPerSquareMeterPluralName;
@@ -7932,7 +7968,7 @@ resourcestring
 
 const
   ReciprocalSquareMeterSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareMeterSquareSecondSymbol;
     FName       : rsReciprocalSquareMeterSquareSecondName;
     FPluralName : rsReciprocalSquareMeterSquareSecondPluralName;
@@ -7948,7 +7984,7 @@ resourcestring
 
 const
   ReciprocalMeterSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalMeterSecondSymbol;
     FName       : rsReciprocalMeterSecondName;
     FPluralName : rsReciprocalMeterSecondPluralName;
@@ -7964,7 +8000,7 @@ resourcestring
 
 const
   ReciprocalQuarticMeterSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -240; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -240; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticMeterSecondSymbol;
     FName       : rsReciprocalQuarticMeterSecondName;
     FPluralName : rsReciprocalQuarticMeterSecondPluralName;
@@ -7980,7 +8016,7 @@ resourcestring
 
 const
   ReciprocalKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalKilogramSymbol;
     FName       : rsReciprocalKilogramName;
     FPluralName : rsReciprocalKilogramPluralName;
@@ -7996,7 +8032,7 @@ resourcestring
 
 const
   KilogramCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramCubicMeterSymbol;
     FName       : rsKilogramCubicMeterName;
     FPluralName : rsKilogramCubicMeterPluralName;
@@ -8012,7 +8048,7 @@ resourcestring
 
 const
   QuarticMeterPerSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 240; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMeterPerSquareSecondSymbol;
     FName       : rsQuarticMeterPerSquareSecondName;
     FPluralName : rsQuarticMeterPerSquareSecondPluralName;
@@ -8028,7 +8064,7 @@ resourcestring
 
 const
   KilogramQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramQuarticMeterSymbol;
     FName       : rsKilogramQuarticMeterName;
     FPluralName : rsKilogramQuarticMeterPluralName;
@@ -8044,7 +8080,7 @@ resourcestring
 
 const
   ReciprocalKilogramSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalKilogramSquareSecondSymbol;
     FName       : rsReciprocalKilogramSquareSecondName;
     FPluralName : rsReciprocalKilogramSquareSecondPluralName;
@@ -8060,7 +8096,7 @@ resourcestring
 
 const
   MeterPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerKilogramSymbol;
     FName       : rsMeterPerKilogramName;
     FPluralName : rsMeterPerKilogramPluralName;
@@ -8076,7 +8112,7 @@ resourcestring
 
 const
   ReciprocalSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareKilogramSymbol;
     FName       : rsReciprocalSquareKilogramName;
     FPluralName : rsReciprocalSquareKilogramPluralName;
@@ -8092,7 +8128,7 @@ resourcestring
 
 const
   KilogramPerSquareSecondPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerSquareSecondPerKelvinSymbol;
     FName       : rsKilogramPerSquareSecondPerKelvinName;
     FPluralName : rsKilogramPerSquareSecondPerKelvinPluralName;
@@ -8108,7 +8144,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerKelvinSymbol;
     FName       : rsKilogramSquareMeterPerKelvinName;
     FPluralName : rsKilogramSquareMeterPerKelvinPluralName;
@@ -8124,7 +8160,7 @@ resourcestring
 
 const
   ReciprocalSquareSecondKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareSecondKelvinSymbol;
     FName       : rsReciprocalSquareSecondKelvinName;
     FPluralName : rsReciprocalSquareSecondKelvinPluralName;
@@ -8140,7 +8176,7 @@ resourcestring
 
 const
   SquareMeterPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerKelvinSymbol;
     FName       : rsSquareMeterPerKelvinName;
     FPluralName : rsSquareMeterPerKelvinPluralName;
@@ -8156,7 +8192,7 @@ resourcestring
 
 const
   ReciprocalMeterCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalMeterCubicSecondSymbol;
     FName       : rsReciprocalMeterCubicSecondName;
     FPluralName : rsReciprocalMeterCubicSecondPluralName;
@@ -8172,7 +8208,7 @@ resourcestring
 
 const
   SquareMeterPerCubicSecondPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerCubicSecondPerKelvinSymbol;
     FName       : rsSquareMeterPerCubicSecondPerKelvinName;
     FPluralName : rsSquareMeterPerCubicSecondPerKelvinPluralName;
@@ -8188,7 +8224,7 @@ resourcestring
 
 const
   MeterPerCubicSecondPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerCubicSecondPerKelvinSymbol;
     FName       : rsMeterPerCubicSecondPerKelvinName;
     FPluralName : rsMeterPerCubicSecondPerKelvinPluralName;
@@ -8204,7 +8240,7 @@ resourcestring
 
 const
   KilogramMeterPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramMeterPerKelvinSymbol;
     FName       : rsKilogramMeterPerKelvinName;
     FPluralName : rsKilogramMeterPerKelvinPluralName;
@@ -8220,7 +8256,7 @@ resourcestring
 
 const
   CubicSecondKelvinPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondKelvinPerSquareMeterSymbol;
     FName       : rsCubicSecondKelvinPerSquareMeterName;
     FPluralName : rsCubicSecondKelvinPerSquareMeterPluralName;
@@ -8236,7 +8272,7 @@ resourcestring
 
 const
   CubicSecondKelvinPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondKelvinPerKilogramSymbol;
     FName       : rsCubicSecondKelvinPerKilogramName;
     FPluralName : rsCubicSecondKelvinPerKilogramPluralName;
@@ -8252,7 +8288,7 @@ resourcestring
 
 const
   KelvinPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinPerKilogramPerSquareMeterSymbol;
     FName       : rsKelvinPerKilogramPerSquareMeterName;
     FPluralName : rsKelvinPerKilogramPerSquareMeterPluralName;
@@ -8268,7 +8304,7 @@ resourcestring
 
 const
   CubicSecondPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondPerMeterSymbol;
     FName       : rsCubicSecondPerMeterName;
     FPluralName : rsCubicSecondPerMeterPluralName;
@@ -8284,7 +8320,7 @@ resourcestring
 
 const
   CubicSecondPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondPerKilogramSymbol;
     FName       : rsCubicSecondPerKilogramName;
     FPluralName : rsCubicSecondPerKilogramPluralName;
@@ -8300,7 +8336,7 @@ resourcestring
 
 const
   ReciprocalKilogramMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalKilogramMeterSymbol;
     FName       : rsReciprocalKilogramMeterName;
     FPluralName : rsReciprocalKilogramMeterPluralName;
@@ -8316,7 +8352,7 @@ resourcestring
 
 const
   CubicSecondKelvinPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondKelvinPerMeterSymbol;
     FName       : rsCubicSecondKelvinPerMeterName;
     FPluralName : rsCubicSecondKelvinPerMeterPluralName;
@@ -8332,7 +8368,7 @@ resourcestring
 
 const
   KelvinPerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinPerKilogramPerMeterSymbol;
     FName       : rsKelvinPerKilogramPerMeterName;
     FPluralName : rsKelvinPerKilogramPerMeterPluralName;
@@ -8348,7 +8384,7 @@ resourcestring
 
 const
   ReciprocalCubicSecondKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicSecondKelvinSymbol;
     FName       : rsReciprocalCubicSecondKelvinName;
     FPluralName : rsReciprocalCubicSecondKelvinPluralName;
@@ -8364,7 +8400,7 @@ resourcestring
 
 const
   KilogramPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerKelvinSymbol;
     FName       : rsKilogramPerKelvinName;
     FPluralName : rsKilogramPerKelvinPluralName;
@@ -8380,7 +8416,7 @@ resourcestring
 
 const
   SquareMeterPerCubicSecondPerQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerCubicSecondPerQuarticKelvinSymbol;
     FName       : rsSquareMeterPerCubicSecondPerQuarticKelvinName;
     FPluralName : rsSquareMeterPerCubicSecondPerQuarticKelvinPluralName;
@@ -8396,7 +8432,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerQuarticKelvinSymbol;
     FName       : rsKilogramSquareMeterPerQuarticKelvinName;
     FPluralName : rsKilogramSquareMeterPerQuarticKelvinPluralName;
@@ -8412,7 +8448,7 @@ resourcestring
 
 const
   ReciprocalCubicSecondQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicSecondQuarticKelvinSymbol;
     FName       : rsReciprocalCubicSecondQuarticKelvinName;
     FPluralName : rsReciprocalCubicSecondQuarticKelvinPluralName;
@@ -8428,7 +8464,7 @@ resourcestring
 
 const
   KilogramPerQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerQuarticKelvinSymbol;
     FName       : rsKilogramPerQuarticKelvinName;
     FPluralName : rsKilogramPerQuarticKelvinPluralName;
@@ -8444,7 +8480,7 @@ resourcestring
 
 const
   SquareMeterPerSquareSecondPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSquareSecondPerMoleSymbol;
     FName       : rsSquareMeterPerSquareSecondPerMoleName;
     FPluralName : rsSquareMeterPerSquareSecondPerMolePluralName;
@@ -8460,7 +8496,7 @@ resourcestring
 
 const
   KilogramPerSquareSecondPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerSquareSecondPerMoleSymbol;
     FName       : rsKilogramPerSquareSecondPerMoleName;
     FPluralName : rsKilogramPerSquareSecondPerMolePluralName;
@@ -8476,7 +8512,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerMoleSymbol;
     FName       : rsKilogramSquareMeterPerMoleName;
     FPluralName : rsKilogramSquareMeterPerMolePluralName;
@@ -8492,7 +8528,7 @@ resourcestring
 
 const
   SquareMeterPerSquareSecondPerKelvinPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSquareSecondPerKelvinPerMoleSymbol;
     FName       : rsSquareMeterPerSquareSecondPerKelvinPerMoleName;
     FPluralName : rsSquareMeterPerSquareSecondPerKelvinPerMolePluralName;
@@ -8508,7 +8544,7 @@ resourcestring
 
 const
   KilogramPerSquareSecondPerKelvinPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerSquareSecondPerKelvinPerMoleSymbol;
     FName       : rsKilogramPerSquareSecondPerKelvinPerMoleName;
     FPluralName : rsKilogramPerSquareSecondPerKelvinPerMolePluralName;
@@ -8524,7 +8560,7 @@ resourcestring
 
 const
   KilogramSquareMeterPerKelvinPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerKelvinPerMoleSymbol;
     FName       : rsKilogramSquareMeterPerKelvinPerMoleName;
     FPluralName : rsKilogramSquareMeterPerKelvinPerMolePluralName;
@@ -8540,7 +8576,7 @@ resourcestring
 
 const
   CubicMeterPerCubicSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerCubicSecondPerSquareAmpereSymbol;
     FName       : rsCubicMeterPerCubicSecondPerSquareAmpereName;
     FPluralName : rsCubicMeterPerCubicSecondPerSquareAmperePluralName;
@@ -8556,7 +8592,7 @@ resourcestring
 
 const
   KilogramCubicMeterPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramCubicMeterPerSquareAmpereSymbol;
     FName       : rsKilogramCubicMeterPerSquareAmpereName;
     FPluralName : rsKilogramCubicMeterPerSquareAmperePluralName;
@@ -8572,7 +8608,7 @@ resourcestring
 
 const
   KilogramCubicMeterPerCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramCubicMeterPerCubicSecondSymbol;
     FName       : rsKilogramCubicMeterPerCubicSecondName;
     FPluralName : rsKilogramCubicMeterPerCubicSecondPluralName;
@@ -8588,7 +8624,7 @@ resourcestring
 
 const
   MeterPerCubicSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerCubicSecondPerAmpereSymbol;
     FName       : rsMeterPerCubicSecondPerAmpereName;
     FPluralName : rsMeterPerCubicSecondPerAmperePluralName;
@@ -8604,7 +8640,7 @@ resourcestring
 
 const
   KilogramMeterPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramMeterPerAmpereSymbol;
     FName       : rsKilogramMeterPerAmpereName;
     FPluralName : rsKilogramMeterPerAmperePluralName;
@@ -8620,7 +8656,7 @@ resourcestring
 
 const
   SquareAmperePerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerMeterSymbol;
     FName       : rsSquareAmperePerMeterName;
     FPluralName : rsSquareAmperePerMeterPluralName;
@@ -8636,7 +8672,7 @@ resourcestring
 
 const
   SquareSecondPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerMeterSymbol;
     FName       : rsSquareSecondPerMeterName;
     FPluralName : rsSquareSecondPerMeterPluralName;
@@ -8652,7 +8688,7 @@ resourcestring
 
 const
   SecondPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSecondPerSquareMeterSymbol;
     FName       : rsSecondPerSquareMeterName;
     FPluralName : rsSecondPerSquareMeterPluralName;
@@ -8668,7 +8704,7 @@ resourcestring
 
 const
   ReciprocalSquareSecondSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareSecondSquareAmpereSymbol;
     FName       : rsReciprocalSquareSecondSquareAmpereName;
     FPluralName : rsReciprocalSquareSecondSquareAmperePluralName;
@@ -8684,7 +8720,7 @@ resourcestring
 
 const
   SquareMeterPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSquareAmpereSymbol;
     FName       : rsSquareMeterPerSquareAmpereName;
     FPluralName : rsSquareMeterPerSquareAmperePluralName;
@@ -8700,7 +8736,7 @@ resourcestring
 
 const
   MeterPerQuarticSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerQuarticSecondPerSquareAmpereSymbol;
     FName       : rsMeterPerQuarticSecondPerSquareAmpereName;
     FPluralName : rsMeterPerQuarticSecondPerSquareAmperePluralName;
@@ -8716,7 +8752,7 @@ resourcestring
 
 const
   KilogramPerQuarticSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerQuarticSecondPerSquareAmpereSymbol;
     FName       : rsKilogramPerQuarticSecondPerSquareAmpereName;
     FPluralName : rsKilogramPerQuarticSecondPerSquareAmperePluralName;
@@ -8732,7 +8768,7 @@ resourcestring
 
 const
   KilogramMeterPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramMeterPerSquareAmpereSymbol;
     FName       : rsKilogramMeterPerSquareAmpereName;
     FPluralName : rsKilogramMeterPerSquareAmperePluralName;
@@ -8748,7 +8784,7 @@ resourcestring
 
 const
   KilogramMeterPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramMeterPerQuarticSecondSymbol;
     FName       : rsKilogramMeterPerQuarticSecondName;
     FPluralName : rsKilogramMeterPerQuarticSecondPluralName;
@@ -8764,7 +8800,7 @@ resourcestring
 
 const
   CubicMeterPerQuarticSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerQuarticSecondPerSquareAmpereSymbol;
     FName       : rsCubicMeterPerQuarticSecondPerSquareAmpereName;
     FPluralName : rsCubicMeterPerQuarticSecondPerSquareAmperePluralName;
@@ -8780,7 +8816,7 @@ resourcestring
 
 const
   KilogramCubicMeterPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramCubicMeterPerQuarticSecondSymbol;
     FName       : rsKilogramCubicMeterPerQuarticSecondName;
     FPluralName : rsKilogramCubicMeterPerQuarticSecondPluralName;
@@ -8796,7 +8832,7 @@ resourcestring
 
 const
   CubicMeterPerCubicSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerCubicSecondPerAmpereSymbol;
     FName       : rsCubicMeterPerCubicSecondPerAmpereName;
     FPluralName : rsCubicMeterPerCubicSecondPerAmperePluralName;
@@ -8812,7 +8848,7 @@ resourcestring
 
 const
   KilogramCubicMeterPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 180; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 180; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramCubicMeterPerAmpereSymbol;
     FName       : rsKilogramCubicMeterPerAmpereName;
     FPluralName : rsKilogramCubicMeterPerAmperePluralName;
@@ -8828,7 +8864,7 @@ resourcestring
 
 const
   CubicMeterPerQuarticSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerQuarticSecondPerAmpereSymbol;
     FName       : rsCubicMeterPerQuarticSecondPerAmpereName;
     FPluralName : rsCubicMeterPerQuarticSecondPerAmperePluralName;
@@ -8844,7 +8880,7 @@ resourcestring
 
 const
   KilogramPerQuarticSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerQuarticSecondPerAmpereSymbol;
     FName       : rsKilogramPerQuarticSecondPerAmpereName;
     FPluralName : rsKilogramPerQuarticSecondPerAmperePluralName;
@@ -8860,7 +8896,7 @@ resourcestring
 
 const
   QuarticSecondSquareAmperePerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondSquareAmperePerCubicMeterSymbol;
     FName       : rsQuarticSecondSquareAmperePerCubicMeterName;
     FPluralName : rsQuarticSecondSquareAmperePerCubicMeterPluralName;
@@ -8876,7 +8912,7 @@ resourcestring
 
 const
   QuarticSecondPerKilogramPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerKilogramPerCubicMeterSymbol;
     FName       : rsQuarticSecondPerKilogramPerCubicMeterName;
     FPluralName : rsQuarticSecondPerKilogramPerCubicMeterPluralName;
@@ -8892,7 +8928,7 @@ resourcestring
 
 const
   ReciprocalAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalAmpereSymbol;
     FName       : rsReciprocalAmpereName;
     FPluralName : rsReciprocalAmperePluralName;
@@ -8908,7 +8944,7 @@ resourcestring
 
 const
   MeterPerSquareSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerSquareSecondPerAmpereSymbol;
     FName       : rsMeterPerSquareSecondPerAmpereName;
     FPluralName : rsMeterPerSquareSecondPerAmperePluralName;
@@ -8924,7 +8960,7 @@ resourcestring
 
 const
   KilogramPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerSquareAmpereSymbol;
     FName       : rsKilogramPerSquareAmpereName;
     FPluralName : rsKilogramPerSquareAmperePluralName;
@@ -8940,7 +8976,7 @@ resourcestring
 
 const
   MeterPerSquareSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -120; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerSquareSecondPerSquareAmpereSymbol;
     FName       : rsMeterPerSquareSecondPerSquareAmpereName;
     FPluralName : rsMeterPerSquareSecondPerSquareAmperePluralName;
@@ -8956,7 +8992,7 @@ resourcestring
 
 const
   QuarticMeterPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMeterPerQuarticSecondSymbol;
     FName       : rsQuarticMeterPerQuarticSecondName;
     FPluralName : rsQuarticMeterPerQuarticSecondPluralName;
@@ -8972,7 +9008,7 @@ resourcestring
 
 const
   SquareKilogramQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramQuarticMeterSymbol;
     FName       : rsSquareKilogramQuarticMeterName;
     FPluralName : rsSquareKilogramQuarticMeterPluralName;
@@ -8988,7 +9024,7 @@ resourcestring
 
 const
   AmperePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmperePerKilogramSymbol;
     FName       : rsAmperePerKilogramName;
     FPluralName : rsAmperePerKilogramPluralName;
@@ -9004,74 +9040,74 @@ resourcestring
 
 const
   SecondPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSecondPerKilogramSymbol;
     FName       : rsSecondPerKilogramName;
     FPluralName : rsSecondPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
-{ TCubicSecondCandelaSquareRadianPerSquareMeter }
+{ TCubicSecondCandelaSteradianPerSquareMeter }
 
 resourcestring
-  rsCubicSecondCandelaSquareRadianPerSquareMeterSymbol = '%ss³∙%scd∙rad²/%sm²';
-  rsCubicSecondCandelaSquareRadianPerSquareMeterName = 'cubic %ssecond %scandela square radian per square %smeter';
-  rsCubicSecondCandelaSquareRadianPerSquareMeterPluralName = 'cubic %sseconds %scandelas square radians per square %smeter';
+  rsCubicSecondCandelaSteradianPerSquareMeterSymbol = '%ss³∙%scd∙sr/%sm²';
+  rsCubicSecondCandelaSteradianPerSquareMeterName = 'cubic %ssecond %scandela steradian per square %smeter';
+  rsCubicSecondCandelaSteradianPerSquareMeterPluralName = 'cubic %sseconds %scandelas steradians per square %smeter';
 
 const
-  CubicSecondCandelaSquareRadianPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
-    FSymbol     : rsCubicSecondCandelaSquareRadianPerSquareMeterSymbol;
-    FName       : rsCubicSecondCandelaSquareRadianPerSquareMeterName;
-    FPluralName : rsCubicSecondCandelaSquareRadianPerSquareMeterPluralName;
+  CubicSecondCandelaSteradianPerSquareMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
+    FSymbol     : rsCubicSecondCandelaSteradianPerSquareMeterSymbol;
+    FName       : rsCubicSecondCandelaSteradianPerSquareMeterName;
+    FPluralName : rsCubicSecondCandelaSteradianPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -2));
 
-{ TCubicSecondCandelaSquareRadianPerKilogram }
+{ TCubicSecondCandelaSteradianPerKilogram }
 
 resourcestring
-  rsCubicSecondCandelaSquareRadianPerKilogramSymbol = '%ss³∙%scd∙rad²/%skg';
-  rsCubicSecondCandelaSquareRadianPerKilogramName = 'cubic %ssecond %scandela square radian per %skilogram';
-  rsCubicSecondCandelaSquareRadianPerKilogramPluralName = 'cubic %sseconds %scandelas square radians per %skilogram';
+  rsCubicSecondCandelaSteradianPerKilogramSymbol = '%ss³∙%scd∙sr/%skg';
+  rsCubicSecondCandelaSteradianPerKilogramName = 'cubic %ssecond %scandela steradian per %skilogram';
+  rsCubicSecondCandelaSteradianPerKilogramPluralName = 'cubic %sseconds %scandelas steradians per %skilogram';
 
 const
-  CubicSecondCandelaSquareRadianPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
-    FSymbol     : rsCubicSecondCandelaSquareRadianPerKilogramSymbol;
-    FName       : rsCubicSecondCandelaSquareRadianPerKilogramName;
-    FPluralName : rsCubicSecondCandelaSquareRadianPerKilogramPluralName;
+  CubicSecondCandelaSteradianPerKilogramUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
+    FSymbol     : rsCubicSecondCandelaSteradianPerKilogramSymbol;
+    FName       : rsCubicSecondCandelaSteradianPerKilogramName;
+    FPluralName : rsCubicSecondCandelaSteradianPerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -1));
 
-{ TCandelaSquareRadianPerKilogramPerSquareMeter }
+{ TCandelaSteradianPerKilogramPerSquareMeter }
 
 resourcestring
-  rsCandelaSquareRadianPerKilogramPerSquareMeterSymbol = '%scd∙rad²/%skg/%sm²';
-  rsCandelaSquareRadianPerKilogramPerSquareMeterName = '%scandela square radian per %skilogram per square %smeter';
-  rsCandelaSquareRadianPerKilogramPerSquareMeterPluralName = '%scandelas square radians per %skilogram per square %smeter';
+  rsCandelaSteradianPerKilogramPerSquareMeterSymbol = '%scd∙sr/%skg/%sm²';
+  rsCandelaSteradianPerKilogramPerSquareMeterName = '%scandela steradian per %skilogram per square %smeter';
+  rsCandelaSteradianPerKilogramPerSquareMeterPluralName = '%scandelas steradians per %skilogram per square %smeter';
 
 const
-  CandelaSquareRadianPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
-    FSymbol     : rsCandelaSquareRadianPerKilogramPerSquareMeterSymbol;
-    FName       : rsCandelaSquareRadianPerKilogramPerSquareMeterName;
-    FPluralName : rsCandelaSquareRadianPerKilogramPerSquareMeterPluralName;
+  CandelaSteradianPerKilogramPerSquareMeterUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
+    FSymbol     : rsCandelaSteradianPerKilogramPerSquareMeterSymbol;
+    FName       : rsCandelaSteradianPerKilogramPerSquareMeterName;
+    FPluralName : rsCandelaSteradianPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -2));
 
-{ TCubicSecondSquareRadianPerKilogramPerSquareMeter }
+{ TCubicSecondSteradianPerKilogramPerSquareMeter }
 
 resourcestring
-  rsCubicSecondSquareRadianPerKilogramPerSquareMeterSymbol = '%ss³∙rad²/%skg/%sm²';
-  rsCubicSecondSquareRadianPerKilogramPerSquareMeterName = 'cubic %ssecond square radian per %skilogram per square %smeter';
-  rsCubicSecondSquareRadianPerKilogramPerSquareMeterPluralName = 'cubic %sseconds square radians per %skilogram per square %smeter';
+  rsCubicSecondSteradianPerKilogramPerSquareMeterSymbol = '%ss³∙sr/%skg/%sm²';
+  rsCubicSecondSteradianPerKilogramPerSquareMeterName = 'cubic %ssecond steradian per %skilogram per square %smeter';
+  rsCubicSecondSteradianPerKilogramPerSquareMeterPluralName = 'cubic %sseconds steradians per %skilogram per square %smeter';
 
 const
-  CubicSecondSquareRadianPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsCubicSecondSquareRadianPerKilogramPerSquareMeterSymbol;
-    FName       : rsCubicSecondSquareRadianPerKilogramPerSquareMeterName;
-    FPluralName : rsCubicSecondSquareRadianPerKilogramPerSquareMeterPluralName;
+  CubicSecondSteradianPerKilogramPerSquareMeterUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsCubicSecondSteradianPerKilogramPerSquareMeterSymbol;
+    FName       : rsCubicSecondSteradianPerKilogramPerSquareMeterName;
+    FPluralName : rsCubicSecondSteradianPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -2));
 
@@ -9084,7 +9120,7 @@ resourcestring
 
 const
   CubicSecondCandelaPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsCubicSecondCandelaPerKilogramPerSquareMeterSymbol;
     FName       : rsCubicSecondCandelaPerKilogramPerSquareMeterName;
     FPluralName : rsCubicSecondCandelaPerKilogramPerSquareMeterPluralName;
@@ -9100,7 +9136,7 @@ resourcestring
 
 const
   AmperePerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmperePerCubicMeterSymbol;
     FName       : rsAmperePerCubicMeterName;
     FPluralName : rsAmperePerCubicMeterPluralName;
@@ -9116,170 +9152,170 @@ resourcestring
 
 const
   SecondPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSecondPerCubicMeterSymbol;
     FName       : rsSecondPerCubicMeterName;
     FPluralName : rsSecondPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
-{ TSquareMeterPerCubicSecondPerSquareRadian }
+{ TSquareMeterPerCubicSecondPerSteradian }
 
 resourcestring
-  rsSquareMeterPerCubicSecondPerSquareRadianSymbol = '%sm²/%ss³/rad²';
-  rsSquareMeterPerCubicSecondPerSquareRadianName = 'square %smeter per cubic %ssecond per square radian';
-  rsSquareMeterPerCubicSecondPerSquareRadianPluralName = 'square %smeters per cubic %ssecond per square radian';
+  rsSquareMeterPerCubicSecondPerSteradianSymbol = '%sm²/%ss³/sr';
+  rsSquareMeterPerCubicSecondPerSteradianName = 'square %smeter per cubic %ssecond per steradian';
+  rsSquareMeterPerCubicSecondPerSteradianPluralName = 'square %smeters per cubic %ssecond per steradian';
 
 const
-  SquareMeterPerCubicSecondPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsSquareMeterPerCubicSecondPerSquareRadianSymbol;
-    FName       : rsSquareMeterPerCubicSecondPerSquareRadianName;
-    FPluralName : rsSquareMeterPerCubicSecondPerSquareRadianPluralName;
+  SquareMeterPerCubicSecondPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsSquareMeterPerCubicSecondPerSteradianSymbol;
+    FName       : rsSquareMeterPerCubicSecondPerSteradianName;
+    FPluralName : rsSquareMeterPerCubicSecondPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -3));
 
-{ TKilogramSquareMeterPerSquareRadian }
+{ TKilogramSquareMeterPerSteradian }
 
 resourcestring
-  rsKilogramSquareMeterPerSquareRadianSymbol = '%skg∙%sm²/rad²';
-  rsKilogramSquareMeterPerSquareRadianName = '%skilogram square %smeter per square radian';
-  rsKilogramSquareMeterPerSquareRadianPluralName = '%skilograms square %smeters per square radian';
+  rsKilogramSquareMeterPerSteradianSymbol = '%skg∙%sm²/sr';
+  rsKilogramSquareMeterPerSteradianName = '%skilogram square %smeter per steradian';
+  rsKilogramSquareMeterPerSteradianPluralName = '%skilograms square %smeters per steradian';
 
 const
-  KilogramSquareMeterPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsKilogramSquareMeterPerSquareRadianSymbol;
-    FName       : rsKilogramSquareMeterPerSquareRadianName;
-    FPluralName : rsKilogramSquareMeterPerSquareRadianPluralName;
+  KilogramSquareMeterPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsKilogramSquareMeterPerSteradianSymbol;
+    FName       : rsKilogramSquareMeterPerSteradianName;
+    FPluralName : rsKilogramSquareMeterPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 2));
 
-{ TSquareMeterPerSquareSecondPerSquareRadian }
+{ TSquareMeterPerSquareSecondPerSteradian }
 
 resourcestring
-  rsSquareMeterPerSquareSecondPerSquareRadianSymbol = '%sm²/%ss²/rad²';
-  rsSquareMeterPerSquareSecondPerSquareRadianName = 'square %smeter per square %ssecond per square radian';
-  rsSquareMeterPerSquareSecondPerSquareRadianPluralName = 'square %smeters per square %ssecond per square radian';
+  rsSquareMeterPerSquareSecondPerSteradianSymbol = '%sm²/%ss²/sr';
+  rsSquareMeterPerSquareSecondPerSteradianName = 'square %smeter per square %ssecond per steradian';
+  rsSquareMeterPerSquareSecondPerSteradianPluralName = 'square %smeters per square %ssecond per steradian';
 
 const
-  SquareMeterPerSquareSecondPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsSquareMeterPerSquareSecondPerSquareRadianSymbol;
-    FName       : rsSquareMeterPerSquareSecondPerSquareRadianName;
-    FPluralName : rsSquareMeterPerSquareSecondPerSquareRadianPluralName;
+  SquareMeterPerSquareSecondPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsSquareMeterPerSquareSecondPerSteradianSymbol;
+    FName       : rsSquareMeterPerSquareSecondPerSteradianName;
+    FPluralName : rsSquareMeterPerSquareSecondPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
 
-{ TMeterPerCubicSecondPerSquareRadian }
+{ TMeterPerCubicSecondPerSteradian }
 
 resourcestring
-  rsMeterPerCubicSecondPerSquareRadianSymbol = '%sm/%ss³/rad²';
-  rsMeterPerCubicSecondPerSquareRadianName = '%smeter per cubic %ssecond per square radian';
-  rsMeterPerCubicSecondPerSquareRadianPluralName = '%smeters per cubic %ssecond per square radian';
+  rsMeterPerCubicSecondPerSteradianSymbol = '%sm/%ss³/sr';
+  rsMeterPerCubicSecondPerSteradianName = '%smeter per cubic %ssecond per steradian';
+  rsMeterPerCubicSecondPerSteradianPluralName = '%smeters per cubic %ssecond per steradian';
 
 const
-  MeterPerCubicSecondPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsMeterPerCubicSecondPerSquareRadianSymbol;
-    FName       : rsMeterPerCubicSecondPerSquareRadianName;
-    FPluralName : rsMeterPerCubicSecondPerSquareRadianPluralName;
+  MeterPerCubicSecondPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsMeterPerCubicSecondPerSteradianSymbol;
+    FName       : rsMeterPerCubicSecondPerSteradianName;
+    FPluralName : rsMeterPerCubicSecondPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
-{ TKilogramMeterPerSquareRadian }
+{ TKilogramMeterPerSteradian }
 
 resourcestring
-  rsKilogramMeterPerSquareRadianSymbol = '%skg∙%sm/rad²';
-  rsKilogramMeterPerSquareRadianName = '%skilogram %smeter per square radian';
-  rsKilogramMeterPerSquareRadianPluralName = '%skilograms %smeters per square radian';
+  rsKilogramMeterPerSteradianSymbol = '%skg∙%sm/sr';
+  rsKilogramMeterPerSteradianName = '%skilogram %smeter per steradian';
+  rsKilogramMeterPerSteradianPluralName = '%skilograms %smeters per steradian';
 
 const
-  KilogramMeterPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsKilogramMeterPerSquareRadianSymbol;
-    FName       : rsKilogramMeterPerSquareRadianName;
-    FPluralName : rsKilogramMeterPerSquareRadianPluralName;
+  KilogramMeterPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsKilogramMeterPerSteradianSymbol;
+    FName       : rsKilogramMeterPerSteradianName;
+    FPluralName : rsKilogramMeterPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
-{ TReciprocalCubicSecondSquareRadian }
+{ TReciprocalCubicSecondSteradian }
 
 resourcestring
-  rsReciprocalCubicSecondSquareRadianSymbol = '1/%ss³/rad²';
-  rsReciprocalCubicSecondSquareRadianName = 'reciprocal cubic %ssecond square radian';
-  rsReciprocalCubicSecondSquareRadianPluralName = 'reciprocal cubic %ssecond square radian';
+  rsReciprocalCubicSecondSteradianSymbol = '1/%ss³/sr';
+  rsReciprocalCubicSecondSteradianName = 'reciprocal cubic %ssecond steradian';
+  rsReciprocalCubicSecondSteradianPluralName = 'reciprocal cubic %ssecond steradian';
 
 const
-  ReciprocalCubicSecondSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsReciprocalCubicSecondSquareRadianSymbol;
-    FName       : rsReciprocalCubicSecondSquareRadianName;
-    FPluralName : rsReciprocalCubicSecondSquareRadianPluralName;
+  ReciprocalCubicSecondSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsReciprocalCubicSecondSteradianSymbol;
+    FName       : rsReciprocalCubicSecondSteradianName;
+    FPluralName : rsReciprocalCubicSecondSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
-{ TKilogramPerSquareRadian }
+{ TKilogramPerSteradian }
 
 resourcestring
-  rsKilogramPerSquareRadianSymbol = '%skg/rad²';
-  rsKilogramPerSquareRadianName = '%skilogram per square radian';
-  rsKilogramPerSquareRadianPluralName = '%skilograms per square radian';
+  rsKilogramPerSteradianSymbol = '%skg/sr';
+  rsKilogramPerSteradianName = '%skilogram per steradian';
+  rsKilogramPerSteradianPluralName = '%skilograms per steradian';
 
 const
-  KilogramPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsKilogramPerSquareRadianSymbol;
-    FName       : rsKilogramPerSquareRadianName;
-    FPluralName : rsKilogramPerSquareRadianPluralName;
+  KilogramPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsKilogramPerSteradianSymbol;
+    FName       : rsKilogramPerSteradianName;
+    FPluralName : rsKilogramPerSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
 
-{ TReciprocalMeterCubicSecondSquareRadian }
+{ TReciprocalMeterCubicSecondSteradian }
 
 resourcestring
-  rsReciprocalMeterCubicSecondSquareRadianSymbol = '1/%sm/%ss³/rad²';
-  rsReciprocalMeterCubicSecondSquareRadianName = 'reciprocal %smeter cubic %ssecond square radian';
-  rsReciprocalMeterCubicSecondSquareRadianPluralName = 'reciprocal %smeter cubic %ssecond square radian';
+  rsReciprocalMeterCubicSecondSteradianSymbol = '1/%sm/%ss³/sr';
+  rsReciprocalMeterCubicSecondSteradianName = 'reciprocal %smeter cubic %ssecond steradian';
+  rsReciprocalMeterCubicSecondSteradianPluralName = 'reciprocal %smeter cubic %ssecond steradian';
 
 const
-  ReciprocalMeterCubicSecondSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsReciprocalMeterCubicSecondSquareRadianSymbol;
-    FName       : rsReciprocalMeterCubicSecondSquareRadianName;
-    FPluralName : rsReciprocalMeterCubicSecondSquareRadianPluralName;
+  ReciprocalMeterCubicSecondSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsReciprocalMeterCubicSecondSteradianSymbol;
+    FName       : rsReciprocalMeterCubicSecondSteradianName;
+    FPluralName : rsReciprocalMeterCubicSecondSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -3));
 
-{ TKilogramPerMeterPerSquareRadian }
+{ TKilogramPerMeterPerSteradian }
 
 resourcestring
-  rsKilogramPerMeterPerSquareRadianSymbol = '%skg/%sm/rad²';
-  rsKilogramPerMeterPerSquareRadianName = '%skilogram per %smeter per square radian';
-  rsKilogramPerMeterPerSquareRadianPluralName = '%skilograms per %smeter per square radian';
+  rsKilogramPerMeterPerSteradianSymbol = '%skg/%sm/sr';
+  rsKilogramPerMeterPerSteradianName = '%skilogram per %smeter per steradian';
+  rsKilogramPerMeterPerSteradianPluralName = '%skilograms per %smeter per steradian';
 
 const
-  KilogramPerMeterPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsKilogramPerMeterPerSquareRadianSymbol;
-    FName       : rsKilogramPerMeterPerSquareRadianName;
-    FPluralName : rsKilogramPerMeterPerSquareRadianPluralName;
+  KilogramPerMeterPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsKilogramPerMeterPerSteradianSymbol;
+    FName       : rsKilogramPerMeterPerSteradianName;
+    FPluralName : rsKilogramPerMeterPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
-{ TReciprocalSquareSecondSquareRadian }
+{ TReciprocalSquareSecondSteradian }
 
 resourcestring
-  rsReciprocalSquareSecondSquareRadianSymbol = '1/%ss²/rad²';
-  rsReciprocalSquareSecondSquareRadianName = 'reciprocal square %ssecond square radian';
-  rsReciprocalSquareSecondSquareRadianPluralName = 'reciprocal square %ssecond square radian';
+  rsReciprocalSquareSecondSteradianSymbol = '1/%ss²/sr';
+  rsReciprocalSquareSecondSteradianName = 'reciprocal square %ssecond steradian';
+  rsReciprocalSquareSecondSteradianPluralName = 'reciprocal square %ssecond steradian';
 
 const
-  ReciprocalSquareSecondSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsReciprocalSquareSecondSquareRadianSymbol;
-    FName       : rsReciprocalSquareSecondSquareRadianName;
-    FPluralName : rsReciprocalSquareSecondSquareRadianPluralName;
+  ReciprocalSquareSecondSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsReciprocalSquareSecondSteradianSymbol;
+    FName       : rsReciprocalSquareSecondSteradianName;
+    FPluralName : rsReciprocalSquareSecondSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
 
@@ -9292,7 +9328,7 @@ resourcestring
 
 const
   ReciprocalCubicMeterSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicMeterSecondSymbol;
     FName       : rsReciprocalCubicMeterSecondName;
     FPluralName : rsReciprocalCubicMeterSecondPluralName;
@@ -9308,7 +9344,7 @@ resourcestring
 
 const
   AmperePerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmperePerMoleSymbol;
     FName       : rsAmperePerMoleName;
     FPluralName : rsAmperePerMolePluralName;
@@ -9324,7 +9360,7 @@ resourcestring
 
 const
   SecondPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSecondPerMoleSymbol;
     FName       : rsSecondPerMoleName;
     FPluralName : rsSecondPerMolePluralName;
@@ -9340,7 +9376,7 @@ resourcestring
 
 const
   SquareSecondPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerKilogramSymbol;
     FName       : rsSquareSecondPerKilogramName;
     FPluralName : rsSquareSecondPerKilogramPluralName;
@@ -9356,7 +9392,7 @@ resourcestring
 
 const
   SquareSecondAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondAmpereSymbol;
     FName       : rsSquareSecondAmpereName;
     FPluralName : rsSquareSecondAmperePluralName;
@@ -9372,7 +9408,7 @@ resourcestring
 
 const
   MeterSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterSquareSecondSymbol;
     FName       : rsMeterSquareSecondName;
     FPluralName : rsMeterSquareSecondPluralName;
@@ -9388,7 +9424,7 @@ resourcestring
 
 const
   SquareSecondAmperePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondAmperePerSquareMeterSymbol;
     FName       : rsSquareSecondAmperePerSquareMeterName;
     FPluralName : rsSquareSecondAmperePerSquareMeterPluralName;
@@ -9404,7 +9440,7 @@ resourcestring
 
 const
   AmperePerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmperePerKilogramPerSquareMeterSymbol;
     FName       : rsAmperePerKilogramPerSquareMeterName;
     FPluralName : rsAmperePerKilogramPerSquareMeterPluralName;
@@ -9420,7 +9456,7 @@ resourcestring
 
 const
   CubicSecondPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondPerSquareMeterSymbol;
     FName       : rsCubicSecondPerSquareMeterName;
     FPluralName : rsCubicSecondPerSquareMeterPluralName;
@@ -9436,7 +9472,7 @@ resourcestring
 
 const
   ReciprocalKilogramSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalKilogramSquareMeterSymbol;
     FName       : rsReciprocalKilogramSquareMeterName;
     FPluralName : rsReciprocalKilogramSquareMeterPluralName;
@@ -9452,7 +9488,7 @@ resourcestring
 
 const
   CubicSecondAmperePerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondAmperePerMeterSymbol;
     FName       : rsCubicSecondAmperePerMeterName;
     FPluralName : rsCubicSecondAmperePerMeterPluralName;
@@ -9468,7 +9504,7 @@ resourcestring
 
 const
   CubicSecondAmperePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondAmperePerKilogramSymbol;
     FName       : rsCubicSecondAmperePerKilogramName;
     FPluralName : rsCubicSecondAmperePerKilogramPluralName;
@@ -9484,7 +9520,7 @@ resourcestring
 
 const
   AmperePerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmperePerKilogramPerMeterSymbol;
     FName       : rsAmperePerKilogramPerMeterName;
     FPluralName : rsAmperePerKilogramPerMeterPluralName;
@@ -9500,7 +9536,7 @@ resourcestring
 
 const
   ReciprocalCubicSecondAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicSecondAmpereSymbol;
     FName       : rsReciprocalCubicSecondAmpereName;
     FPluralName : rsReciprocalCubicSecondAmperePluralName;
@@ -9516,7 +9552,7 @@ resourcestring
 
 const
   SquareMeterPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerAmpereSymbol;
     FName       : rsSquareMeterPerAmpereName;
     FPluralName : rsSquareMeterPerAmperePluralName;
@@ -9532,7 +9568,7 @@ resourcestring
 
 const
   ReciprocalSexticSecondSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticSecondSquareAmpereSymbol;
     FName       : rsReciprocalSexticSecondSquareAmpereName;
     FPluralName : rsReciprocalSexticSecondSquareAmperePluralName;
@@ -9548,7 +9584,7 @@ resourcestring
 
 const
   QuarticMeterPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMeterPerSquareAmpereSymbol;
     FName       : rsQuarticMeterPerSquareAmpereName;
     FPluralName : rsQuarticMeterPerSquareAmperePluralName;
@@ -9564,7 +9600,7 @@ resourcestring
 
 const
   QuarticMeterPerSexticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 240; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 240; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMeterPerSexticSecondSymbol;
     FName       : rsQuarticMeterPerSexticSecondName;
     FPluralName : rsQuarticMeterPerSexticSecondPluralName;
@@ -9580,7 +9616,7 @@ resourcestring
 
 const
   SquareKilogramPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramPerSquareAmpereSymbol;
     FName       : rsSquareKilogramPerSquareAmpereName;
     FPluralName : rsSquareKilogramPerSquareAmperePluralName;
@@ -9596,7 +9632,7 @@ resourcestring
 
 const
   SquareKilogramPerSexticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 120; FMeter: 0; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 120; FMeter: 0; FSecond: -360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareKilogramPerSexticSecondSymbol;
     FName       : rsSquareKilogramPerSexticSecondName;
     FPluralName : rsSquareKilogramPerSexticSecondPluralName;
@@ -9612,7 +9648,7 @@ resourcestring
 
 const
   QuarticSecondSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondSquareAmpereSymbol;
     FName       : rsQuarticSecondSquareAmpereName;
     FPluralName : rsQuarticSecondSquareAmperePluralName;
@@ -9628,7 +9664,7 @@ resourcestring
 
 const
   SquareAmperePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerSquareMeterSymbol;
     FName       : rsSquareAmperePerSquareMeterName;
     FPluralName : rsSquareAmperePerSquareMeterPluralName;
@@ -9644,7 +9680,7 @@ resourcestring
 
 const
   QuarticSecondPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerSquareMeterSymbol;
     FName       : rsQuarticSecondPerSquareMeterName;
     FPluralName : rsQuarticSecondPerSquareMeterPluralName;
@@ -9660,7 +9696,7 @@ resourcestring
 
 const
   SquareAmperePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerKilogramSymbol;
     FName       : rsSquareAmperePerKilogramName;
     FPluralName : rsSquareAmperePerKilogramPluralName;
@@ -9676,7 +9712,7 @@ resourcestring
 
 const
   QuarticSecondPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerKilogramSymbol;
     FName       : rsQuarticSecondPerKilogramName;
     FPluralName : rsQuarticSecondPerKilogramPluralName;
@@ -9692,7 +9728,7 @@ resourcestring
 
 const
   ReciprocalCubicSecondSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicSecondSquareAmpereSymbol;
     FName       : rsReciprocalCubicSecondSquareAmpereName;
     FPluralName : rsReciprocalCubicSecondSquareAmperePluralName;
@@ -9708,7 +9744,7 @@ resourcestring
 
 const
   CubicSecondSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondSquareAmpereSymbol;
     FName       : rsCubicSecondSquareAmpereName;
     FPluralName : rsCubicSecondSquareAmperePluralName;
@@ -9724,7 +9760,7 @@ resourcestring
 
 const
   SquareAmperePerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerCubicMeterSymbol;
     FName       : rsSquareAmperePerCubicMeterName;
     FPluralName : rsSquareAmperePerCubicMeterPluralName;
@@ -9740,7 +9776,7 @@ resourcestring
 
 const
   CubicSecondPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondPerCubicMeterSymbol;
     FName       : rsCubicSecondPerCubicMeterName;
     FPluralName : rsCubicSecondPerCubicMeterPluralName;
@@ -9756,26 +9792,26 @@ resourcestring
 
 const
   ReciprocalKilogramCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalKilogramCubicMeterSymbol;
     FName       : rsReciprocalKilogramCubicMeterName;
     FPluralName : rsReciprocalKilogramCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -3));
 
-{ TSquareRadianPerCubicMeter }
+{ TSteradianPerCubicMeter }
 
 resourcestring
-  rsSquareRadianPerCubicMeterSymbol = 'rad²/%sm³';
-  rsSquareRadianPerCubicMeterName = 'square radian per cubic %smeter';
-  rsSquareRadianPerCubicMeterPluralName = 'square radians per cubic %smeter';
+  rsSteradianPerCubicMeterSymbol = 'sr/%sm³';
+  rsSteradianPerCubicMeterName = 'steradian per cubic %smeter';
+  rsSteradianPerCubicMeterPluralName = 'steradians per cubic %smeter';
 
 const
-  SquareRadianPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareRadianPerCubicMeterSymbol;
-    FName       : rsSquareRadianPerCubicMeterName;
-    FPluralName : rsSquareRadianPerCubicMeterPluralName;
+  SteradianPerCubicMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSteradianPerCubicMeterSymbol;
+    FName       : rsSteradianPerCubicMeterName;
+    FPluralName : rsSteradianPerCubicMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
@@ -9788,7 +9824,7 @@ resourcestring
 
 const
   CandelaPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsCandelaPerCubicMeterSymbol;
     FName       : rsCandelaPerCubicMeterName;
     FPluralName : rsCandelaPerCubicMeterPluralName;
@@ -9804,7 +9840,7 @@ resourcestring
 
 const
   MeterPerKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerKelvinSymbol;
     FName       : rsMeterPerKelvinName;
     FPluralName : rsMeterPerKelvinPluralName;
@@ -9820,7 +9856,7 @@ resourcestring
 
 const
   CubicSecondKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondKelvinSymbol;
     FName       : rsCubicSecondKelvinName;
     FPluralName : rsCubicSecondKelvinPluralName;
@@ -9836,7 +9872,7 @@ resourcestring
 
 const
   KelvinPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinPerSquareMeterSymbol;
     FName       : rsKelvinPerSquareMeterName;
     FPluralName : rsKelvinPerSquareMeterPluralName;
@@ -9852,7 +9888,7 @@ resourcestring
 
 const
   KelvinPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinPerKilogramSymbol;
     FName       : rsKelvinPerKilogramName;
     FPluralName : rsKelvinPerKilogramPluralName;
@@ -9868,7 +9904,7 @@ resourcestring
 
 const
   SquareMeterPerQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerQuarticKelvinSymbol;
     FName       : rsSquareMeterPerQuarticKelvinName;
     FPluralName : rsSquareMeterPerQuarticKelvinPluralName;
@@ -9884,7 +9920,7 @@ resourcestring
 
 const
   ReciprocalQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticKelvinSymbol;
     FName       : rsReciprocalQuarticKelvinName;
     FPluralName : rsReciprocalQuarticKelvinPluralName;
@@ -9900,7 +9936,7 @@ resourcestring
 
 const
   ReciprocalSquareSecondMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareSecondMoleSymbol;
     FName       : rsReciprocalSquareSecondMoleName;
     FPluralName : rsReciprocalSquareSecondMolePluralName;
@@ -9916,7 +9952,7 @@ resourcestring
 
 const
   SquareMeterPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerMoleSymbol;
     FName       : rsSquareMeterPerMoleName;
     FPluralName : rsSquareMeterPerMolePluralName;
@@ -9932,7 +9968,7 @@ resourcestring
 
 const
   KilogramPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerMoleSymbol;
     FName       : rsKilogramPerMoleName;
     FPluralName : rsKilogramPerMolePluralName;
@@ -9948,7 +9984,7 @@ resourcestring
 
 const
   ReciprocalSquareSecondKelvinMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareSecondKelvinMoleSymbol;
     FName       : rsReciprocalSquareSecondKelvinMoleName;
     FPluralName : rsReciprocalSquareSecondKelvinMolePluralName;
@@ -9964,7 +10000,7 @@ resourcestring
 
 const
   SquareMeterPerKelvinPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerKelvinPerMoleSymbol;
     FName       : rsSquareMeterPerKelvinPerMoleName;
     FPluralName : rsSquareMeterPerKelvinPerMolePluralName;
@@ -9980,7 +10016,7 @@ resourcestring
 
 const
   KilogramPerKelvinPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerKelvinPerMoleSymbol;
     FName       : rsKilogramPerKelvinPerMoleName;
     FPluralName : rsKilogramPerKelvinPerMolePluralName;
@@ -9996,7 +10032,7 @@ resourcestring
 
 const
   CubicMeterPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerSquareAmpereSymbol;
     FName       : rsCubicMeterPerSquareAmpereName;
     FPluralName : rsCubicMeterPerSquareAmperePluralName;
@@ -10012,7 +10048,7 @@ resourcestring
 
 const
   CubicMeterPerCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerCubicSecondSymbol;
     FName       : rsCubicMeterPerCubicSecondName;
     FPluralName : rsCubicMeterPerCubicSecondPluralName;
@@ -10028,7 +10064,7 @@ resourcestring
 
 const
   ReciprocalSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareAmpereSymbol;
     FName       : rsReciprocalSquareAmpereName;
     FPluralName : rsReciprocalSquareAmperePluralName;
@@ -10044,7 +10080,7 @@ resourcestring
 
 const
   ReciprocalQuarticSecondSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticSecondSquareAmpereSymbol;
     FName       : rsReciprocalQuarticSecondSquareAmpereName;
     FPluralName : rsReciprocalQuarticSecondSquareAmperePluralName;
@@ -10060,7 +10096,7 @@ resourcestring
 
 const
   MeterPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerSquareAmpereSymbol;
     FName       : rsMeterPerSquareAmpereName;
     FPluralName : rsMeterPerSquareAmperePluralName;
@@ -10076,7 +10112,7 @@ resourcestring
 
 const
   KilogramPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerQuarticSecondSymbol;
     FName       : rsKilogramPerQuarticSecondName;
     FPluralName : rsKilogramPerQuarticSecondPluralName;
@@ -10092,7 +10128,7 @@ resourcestring
 
 const
   CubicMeterPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerQuarticSecondSymbol;
     FName       : rsCubicMeterPerQuarticSecondName;
     FPluralName : rsCubicMeterPerQuarticSecondPluralName;
@@ -10108,7 +10144,7 @@ resourcestring
 
 const
   CubicMeterPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerAmpereSymbol;
     FName       : rsCubicMeterPerAmpereName;
     FPluralName : rsCubicMeterPerAmperePluralName;
@@ -10124,7 +10160,7 @@ resourcestring
 
 const
   ReciprocalQuarticSecondAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -240; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticSecondAmpereSymbol;
     FName       : rsReciprocalQuarticSecondAmpereName;
     FPluralName : rsReciprocalQuarticSecondAmperePluralName;
@@ -10140,42 +10176,42 @@ resourcestring
 
 const
   QuarticSecondPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerCubicMeterSymbol;
     FName       : rsQuarticSecondPerCubicMeterName;
     FPluralName : rsQuarticSecondPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -3));
 
-{ TCubicSecondCandelaSquareRadian }
+{ TCubicSecondCandelaSteradian }
 
 resourcestring
-  rsCubicSecondCandelaSquareRadianSymbol = '%ss³∙%scd∙rad²';
-  rsCubicSecondCandelaSquareRadianName = 'cubic %ssecond %scandela square radian';
-  rsCubicSecondCandelaSquareRadianPluralName = 'cubic %sseconds %scandelas square radians';
+  rsCubicSecondCandelaSteradianSymbol = '%ss³∙%scd∙sr';
+  rsCubicSecondCandelaSteradianName = 'cubic %ssecond %scandela steradian';
+  rsCubicSecondCandelaSteradianPluralName = 'cubic %sseconds %scandelas steradians';
 
 const
-  CubicSecondCandelaSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
-    FSymbol     : rsCubicSecondCandelaSquareRadianSymbol;
-    FName       : rsCubicSecondCandelaSquareRadianName;
-    FPluralName : rsCubicSecondCandelaSquareRadianPluralName;
+  CubicSecondCandelaSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
+    FSymbol     : rsCubicSecondCandelaSteradianSymbol;
+    FName       : rsCubicSecondCandelaSteradianName;
+    FPluralName : rsCubicSecondCandelaSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, 1));
 
-{ TCubicSecondSquareRadianPerSquareMeter }
+{ TCubicSecondSteradianPerSquareMeter }
 
 resourcestring
-  rsCubicSecondSquareRadianPerSquareMeterSymbol = '%ss³∙rad²/%sm²';
-  rsCubicSecondSquareRadianPerSquareMeterName = 'cubic %ssecond square radian per square %smeter';
-  rsCubicSecondSquareRadianPerSquareMeterPluralName = 'cubic %sseconds square radians per square %smeter';
+  rsCubicSecondSteradianPerSquareMeterSymbol = '%ss³∙sr/%sm²';
+  rsCubicSecondSteradianPerSquareMeterName = 'cubic %ssecond steradian per square %smeter';
+  rsCubicSecondSteradianPerSquareMeterPluralName = 'cubic %sseconds steradians per square %smeter';
 
 const
-  CubicSecondSquareRadianPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsCubicSecondSquareRadianPerSquareMeterSymbol;
-    FName       : rsCubicSecondSquareRadianPerSquareMeterName;
-    FPluralName : rsCubicSecondSquareRadianPerSquareMeterPluralName;
+  CubicSecondSteradianPerSquareMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsCubicSecondSteradianPerSquareMeterSymbol;
+    FName       : rsCubicSecondSteradianPerSquareMeterName;
+    FPluralName : rsCubicSecondSteradianPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -2));
 
@@ -10188,42 +10224,42 @@ resourcestring
 
 const
   CubicSecondCandelaPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsCubicSecondCandelaPerSquareMeterSymbol;
     FName       : rsCubicSecondCandelaPerSquareMeterName;
     FPluralName : rsCubicSecondCandelaPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -2));
 
-{ TCandelaSquareRadianPerKilogram }
+{ TCandelaSteradianPerKilogram }
 
 resourcestring
-  rsCandelaSquareRadianPerKilogramSymbol = '%scd∙rad²/%skg';
-  rsCandelaSquareRadianPerKilogramName = '%scandela square radian per %skilogram';
-  rsCandelaSquareRadianPerKilogramPluralName = '%scandelas square radians per %skilogram';
+  rsCandelaSteradianPerKilogramSymbol = '%scd∙sr/%skg';
+  rsCandelaSteradianPerKilogramName = '%scandela steradian per %skilogram';
+  rsCandelaSteradianPerKilogramPluralName = '%scandelas steradians per %skilogram';
 
 const
-  CandelaSquareRadianPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 120);
-    FSymbol     : rsCandelaSquareRadianPerKilogramSymbol;
-    FName       : rsCandelaSquareRadianPerKilogramName;
-    FPluralName : rsCandelaSquareRadianPerKilogramPluralName;
+  CandelaSteradianPerKilogramUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 60);
+    FSymbol     : rsCandelaSteradianPerKilogramSymbol;
+    FName       : rsCandelaSteradianPerKilogramName;
+    FPluralName : rsCandelaSteradianPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
-{ TCubicSecondSquareRadianPerKilogram }
+{ TCubicSecondSteradianPerKilogram }
 
 resourcestring
-  rsCubicSecondSquareRadianPerKilogramSymbol = '%ss³∙rad²/%skg';
-  rsCubicSecondSquareRadianPerKilogramName = 'cubic %ssecond square radian per %skilogram';
-  rsCubicSecondSquareRadianPerKilogramPluralName = 'cubic %sseconds square radians per %skilogram';
+  rsCubicSecondSteradianPerKilogramSymbol = '%ss³∙sr/%skg';
+  rsCubicSecondSteradianPerKilogramName = 'cubic %ssecond steradian per %skilogram';
+  rsCubicSecondSteradianPerKilogramPluralName = 'cubic %sseconds steradians per %skilogram';
 
 const
-  CubicSecondSquareRadianPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsCubicSecondSquareRadianPerKilogramSymbol;
-    FName       : rsCubicSecondSquareRadianPerKilogramName;
-    FPluralName : rsCubicSecondSquareRadianPerKilogramPluralName;
+  CubicSecondSteradianPerKilogramUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsCubicSecondSteradianPerKilogramSymbol;
+    FName       : rsCubicSecondSteradianPerKilogramName;
+    FPluralName : rsCubicSecondSteradianPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
 
@@ -10236,26 +10272,26 @@ resourcestring
 
 const
   CubicSecondCandelaPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsCubicSecondCandelaPerKilogramSymbol;
     FName       : rsCubicSecondCandelaPerKilogramName;
     FPluralName : rsCubicSecondCandelaPerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -1));
 
-{ TSquareRadianPerKilogramPerSquareMeter }
+{ TSteradianPerKilogramPerSquareMeter }
 
 resourcestring
-  rsSquareRadianPerKilogramPerSquareMeterSymbol = 'rad²/%skg/%sm²';
-  rsSquareRadianPerKilogramPerSquareMeterName = 'square radian per %skilogram per square %smeter';
-  rsSquareRadianPerKilogramPerSquareMeterPluralName = 'square radians per %skilogram per square %smeter';
+  rsSteradianPerKilogramPerSquareMeterSymbol = 'sr/%skg/%sm²';
+  rsSteradianPerKilogramPerSquareMeterName = 'steradian per %skilogram per square %smeter';
+  rsSteradianPerKilogramPerSquareMeterPluralName = 'steradians per %skilogram per square %smeter';
 
 const
-  SquareRadianPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareRadianPerKilogramPerSquareMeterSymbol;
-    FName       : rsSquareRadianPerKilogramPerSquareMeterName;
-    FPluralName : rsSquareRadianPerKilogramPerSquareMeterPluralName;
+  SteradianPerKilogramPerSquareMeterUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSteradianPerKilogramPerSquareMeterSymbol;
+    FName       : rsSteradianPerKilogramPerSquareMeterName;
+    FPluralName : rsSteradianPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -2));
 
@@ -10268,74 +10304,74 @@ resourcestring
 
 const
   CandelaPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsCandelaPerKilogramPerSquareMeterSymbol;
     FName       : rsCandelaPerKilogramPerSquareMeterName;
     FPluralName : rsCandelaPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -2));
 
-{ TSquareMeterPerSquareRadian }
+{ TSquareMeterPerSteradian }
 
 resourcestring
-  rsSquareMeterPerSquareRadianSymbol = '%sm²/rad²';
-  rsSquareMeterPerSquareRadianName = 'square %smeter per square radian';
-  rsSquareMeterPerSquareRadianPluralName = 'square %smeters per square radian';
+  rsSquareMeterPerSteradianSymbol = '%sm²/sr';
+  rsSquareMeterPerSteradianName = 'square %smeter per steradian';
+  rsSquareMeterPerSteradianPluralName = 'square %smeters per steradian';
 
 const
-  SquareMeterPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsSquareMeterPerSquareRadianSymbol;
-    FName       : rsSquareMeterPerSquareRadianName;
-    FPluralName : rsSquareMeterPerSquareRadianPluralName;
+  SquareMeterPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsSquareMeterPerSteradianSymbol;
+    FName       : rsSquareMeterPerSteradianName;
+    FPluralName : rsSquareMeterPerSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (2));
 
-{ TMeterPerSquareRadian }
+{ TMeterPerSteradian }
 
 resourcestring
-  rsMeterPerSquareRadianSymbol = '%sm/rad²';
-  rsMeterPerSquareRadianName = '%smeter per square radian';
-  rsMeterPerSquareRadianPluralName = '%smeters per square radian';
+  rsMeterPerSteradianSymbol = '%sm/sr';
+  rsMeterPerSteradianName = '%smeter per steradian';
+  rsMeterPerSteradianPluralName = '%smeters per steradian';
 
 const
-  MeterPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsMeterPerSquareRadianSymbol;
-    FName       : rsMeterPerSquareRadianName;
-    FPluralName : rsMeterPerSquareRadianPluralName;
+  MeterPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsMeterPerSteradianSymbol;
+    FName       : rsMeterPerSteradianName;
+    FPluralName : rsMeterPerSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
 
-{ TReciprocalSquareRadian }
+{ TReciprocalSteradian }
 
 resourcestring
-  rsReciprocalSquareRadianSymbol = '1/rad²';
-  rsReciprocalSquareRadianName = 'reciprocal square radian';
-  rsReciprocalSquareRadianPluralName = 'reciprocal square radian';
+  rsReciprocalSteradianSymbol = '1/sr';
+  rsReciprocalSteradianName = 'reciprocal steradian';
+  rsReciprocalSteradianPluralName = 'reciprocal steradian';
 
 const
-  ReciprocalSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsReciprocalSquareRadianSymbol;
-    FName       : rsReciprocalSquareRadianName;
-    FPluralName : rsReciprocalSquareRadianPluralName;
+  ReciprocalSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsReciprocalSteradianSymbol;
+    FName       : rsReciprocalSteradianName;
+    FPluralName : rsReciprocalSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalMeterSquareRadian }
+{ TReciprocalMeterSteradian }
 
 resourcestring
-  rsReciprocalMeterSquareRadianSymbol = '1/%sm/rad²';
-  rsReciprocalMeterSquareRadianName = 'reciprocal %smeter square radian';
-  rsReciprocalMeterSquareRadianPluralName = 'reciprocal %smeter square radian';
+  rsReciprocalMeterSteradianSymbol = '1/%sm/sr';
+  rsReciprocalMeterSteradianName = 'reciprocal %smeter steradian';
+  rsReciprocalMeterSteradianPluralName = 'reciprocal %smeter steradian';
 
 const
-  ReciprocalMeterSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsReciprocalMeterSquareRadianSymbol;
-    FName       : rsReciprocalMeterSquareRadianName;
-    FPluralName : rsReciprocalMeterSquareRadianPluralName;
+  ReciprocalMeterSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsReciprocalMeterSteradianSymbol;
+    FName       : rsReciprocalMeterSteradianName;
+    FPluralName : rsReciprocalMeterSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
@@ -10348,7 +10384,7 @@ resourcestring
 
 const
   CubicSecondAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondAmpereSymbol;
     FName       : rsCubicSecondAmpereName;
     FPluralName : rsCubicSecondAmperePluralName;
@@ -10364,26 +10400,26 @@ resourcestring
 
 const
   ReciprocalKelvinMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalKelvinMoleSymbol;
     FName       : rsReciprocalKelvinMoleName;
     FPluralName : rsReciprocalKelvinMolePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
 
-{ TCubicSecondSquareRadian }
+{ TCubicSecondSteradian }
 
 resourcestring
-  rsCubicSecondSquareRadianSymbol = '%ss³∙rad²';
-  rsCubicSecondSquareRadianName = 'cubic %ssecond square radian';
-  rsCubicSecondSquareRadianPluralName = 'cubic %sseconds square radians';
+  rsCubicSecondSteradianSymbol = '%ss³∙sr';
+  rsCubicSecondSteradianName = 'cubic %ssecond steradian';
+  rsCubicSecondSteradianPluralName = 'cubic %sseconds steradians';
 
 const
-  CubicSecondSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsCubicSecondSquareRadianSymbol;
-    FName       : rsCubicSecondSquareRadianName;
-    FPluralName : rsCubicSecondSquareRadianPluralName;
+  CubicSecondSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsCubicSecondSteradianSymbol;
+    FName       : rsCubicSecondSteradianName;
+    FPluralName : rsCubicSecondSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
 
@@ -10396,26 +10432,26 @@ resourcestring
 
 const
   CubicSecondCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsCubicSecondCandelaSymbol;
     FName       : rsCubicSecondCandelaName;
     FPluralName : rsCubicSecondCandelaPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, 1));
 
-{ TSquareRadianPerKilogram }
+{ TSteradianPerKilogram }
 
 resourcestring
-  rsSquareRadianPerKilogramSymbol = 'rad²/%skg';
-  rsSquareRadianPerKilogramName = 'square radian per %skilogram';
-  rsSquareRadianPerKilogramPluralName = 'square radians per %skilogram';
+  rsSteradianPerKilogramSymbol = 'sr/%skg';
+  rsSteradianPerKilogramName = 'steradian per %skilogram';
+  rsSteradianPerKilogramPluralName = 'steradians per %skilogram';
 
 const
-  SquareRadianPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareRadianPerKilogramSymbol;
-    FName       : rsSquareRadianPerKilogramName;
-    FPluralName : rsSquareRadianPerKilogramPluralName;
+  SteradianPerKilogramUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSteradianPerKilogramSymbol;
+    FName       : rsSteradianPerKilogramName;
+    FPluralName : rsSteradianPerKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
@@ -10428,7 +10464,7 @@ resourcestring
 
 const
   CandelaPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 60; FSteradian: 0);
     FSymbol     : rsCandelaPerKilogramSymbol;
     FName       : rsCandelaPerKilogramName;
     FPluralName : rsCandelaPerKilogramPluralName;
@@ -10444,7 +10480,7 @@ resourcestring
 
 const
   ReciprocalQuinticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticMeterSymbol;
     FName       : rsReciprocalQuinticMeterName;
     FPluralName : rsReciprocalQuinticMeterPluralName;
@@ -10460,7 +10496,7 @@ resourcestring
 
 const
   ReciprocalSexticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticMeterSymbol;
     FName       : rsReciprocalSexticMeterName;
     FPluralName : rsReciprocalSexticMeterPluralName;
@@ -10476,7 +10512,7 @@ resourcestring
 
 const
   ReciprocalSquareKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -120; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -120; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareKelvinSymbol;
     FName       : rsReciprocalSquareKelvinName;
     FPluralName : rsReciprocalSquareKelvinPluralName;
@@ -10492,7 +10528,7 @@ resourcestring
 
 const
   ReciprocalCubicKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -180; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -180; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicKelvinSymbol;
     FName       : rsReciprocalCubicKelvinName;
     FPluralName : rsReciprocalCubicKelvinPluralName;
@@ -10508,26 +10544,26 @@ resourcestring
 
 const
   ReciprocalCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsReciprocalCandelaSymbol;
     FName       : rsReciprocalCandelaName;
     FPluralName : rsReciprocalCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
-{ TSquareSecondPerSquareRadian }
+{ TSquareSecondPerSteradian }
 
 resourcestring
-  rsSquareSecondPerSquareRadianSymbol = '%ss²/rad²';
-  rsSquareSecondPerSquareRadianName = 'square %ssecond per square radian';
-  rsSquareSecondPerSquareRadianPluralName = 'square %sseconds per square radian';
+  rsSquareSecondPerSteradianSymbol = '%ss²/sr';
+  rsSquareSecondPerSteradianName = 'square %ssecond per steradian';
+  rsSquareSecondPerSteradianPluralName = 'square %sseconds per steradian';
 
 const
-  SquareSecondPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsSquareSecondPerSquareRadianSymbol;
-    FName       : rsSquareSecondPerSquareRadianName;
-    FPluralName : rsSquareSecondPerSquareRadianPluralName;
+  SquareSecondPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsSquareSecondPerSteradianSymbol;
+    FName       : rsSquareSecondPerSteradianName;
+    FPluralName : rsSquareSecondPerSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (2));
 
@@ -10540,7 +10576,7 @@ resourcestring
 
 const
   QuarticSecondPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerMeterSymbol;
     FName       : rsQuarticSecondPerMeterName;
     FPluralName : rsQuarticSecondPerMeterPluralName;
@@ -10556,7 +10592,7 @@ resourcestring
 
 const
   QuinticSecondPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuinticSecondPerMeterSymbol;
     FName       : rsQuinticSecondPerMeterName;
     FPluralName : rsQuinticSecondPerMeterPluralName;
@@ -10572,7 +10608,7 @@ resourcestring
 
 const
   SexticSecondPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticSecondPerMeterSymbol;
     FName       : rsSexticSecondPerMeterName;
     FPluralName : rsSexticSecondPerMeterPluralName;
@@ -10588,7 +10624,7 @@ resourcestring
 
 const
   SecondPerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSecondPerKilogramPerMeterSymbol;
     FName       : rsSecondPerKilogramPerMeterName;
     FPluralName : rsSecondPerKilogramPerMeterPluralName;
@@ -10604,7 +10640,7 @@ resourcestring
 
 const
   SquareSecondPerSquareKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerSquareKilogramPerSquareMeterSymbol;
     FName       : rsSquareSecondPerSquareKilogramPerSquareMeterName;
     FPluralName : rsSquareSecondPerSquareKilogramPerSquareMeterPluralName;
@@ -10620,7 +10656,7 @@ resourcestring
 
 const
   SecondPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSecondPerKilogramPerSquareMeterSymbol;
     FName       : rsSecondPerKilogramPerSquareMeterName;
     FPluralName : rsSecondPerKilogramPerSquareMeterPluralName;
@@ -10636,7 +10672,7 @@ resourcestring
 
 const
   SquareMeterPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerKilogramSymbol;
     FName       : rsSquareMeterPerKilogramName;
     FPluralName : rsSquareMeterPerKilogramPluralName;
@@ -10652,7 +10688,7 @@ resourcestring
 
 const
   QuarticSecondPerSquareKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: -120; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: -120; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerSquareKilogramPerSquareMeterSymbol;
     FName       : rsQuarticSecondPerSquareKilogramPerSquareMeterName;
     FPluralName : rsQuarticSecondPerSquareKilogramPerSquareMeterPluralName;
@@ -10668,7 +10704,7 @@ resourcestring
 
 const
   ReciprocalSecondAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSecondAmpereSymbol;
     FName       : rsReciprocalSecondAmpereName;
     FPluralName : rsReciprocalSecondAmperePluralName;
@@ -10684,7 +10720,7 @@ resourcestring
 
 const
   ReciprocalMeterSecondAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalMeterSecondAmpereSymbol;
     FName       : rsReciprocalMeterSecondAmpereName;
     FPluralName : rsReciprocalMeterSecondAmperePluralName;
@@ -10700,7 +10736,7 @@ resourcestring
 
 const
   CubicSecondAmperePerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondAmperePerKilogramPerSquareMeterSymbol;
     FName       : rsCubicSecondAmperePerKilogramPerSquareMeterName;
     FPluralName : rsCubicSecondAmperePerKilogramPerSquareMeterPluralName;
@@ -10716,7 +10752,7 @@ resourcestring
 
 const
   SexticSecondSquareAmperePerSquareKilogramPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 360; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 360; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticSecondSquareAmperePerSquareKilogramPerQuarticMeterSymbol;
     FName       : rsSexticSecondSquareAmperePerSquareKilogramPerQuarticMeterName;
     FPluralName : rsSexticSecondSquareAmperePerSquareKilogramPerQuarticMeterPluralName;
@@ -10732,90 +10768,90 @@ resourcestring
 
 const
   KilogramSquareMeterPerQuarticSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerQuarticSecondPerSquareAmpereSymbol;
     FName       : rsKilogramSquareMeterPerQuarticSecondPerSquareAmpereName;
     FPluralName : rsKilogramSquareMeterPerQuarticSecondPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (1, 2, -4, -2));
 
-{ TReciprocalCandelaSquareRadian }
+{ TReciprocalCandelaSteradian }
 
 resourcestring
-  rsReciprocalCandelaSquareRadianSymbol = '1/%scd/rad²';
-  rsReciprocalCandelaSquareRadianName = 'reciprocal %scandela square radian';
-  rsReciprocalCandelaSquareRadianPluralName = 'reciprocal %scandela square radian';
+  rsReciprocalCandelaSteradianSymbol = '1/%scd/sr';
+  rsReciprocalCandelaSteradianName = 'reciprocal %scandela steradian';
+  rsReciprocalCandelaSteradianPluralName = 'reciprocal %scandela steradian';
 
 const
-  ReciprocalCandelaSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsReciprocalCandelaSquareRadianSymbol;
-    FName       : rsReciprocalCandelaSquareRadianName;
-    FPluralName : rsReciprocalCandelaSquareRadianPluralName;
+  ReciprocalCandelaSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsReciprocalCandelaSteradianSymbol;
+    FName       : rsReciprocalCandelaSteradianName;
+    FPluralName : rsReciprocalCandelaSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
-{ TReciprocalSecondCandelaSquareRadian }
+{ TReciprocalSecondCandelaSteradian }
 
 resourcestring
-  rsReciprocalSecondCandelaSquareRadianSymbol = '1/%ss/%scd/rad²';
-  rsReciprocalSecondCandelaSquareRadianName = 'reciprocal %ssecond %scandela square radian';
-  rsReciprocalSecondCandelaSquareRadianPluralName = 'reciprocal %ssecond %scandela square radian';
+  rsReciprocalSecondCandelaSteradianSymbol = '1/%ss/%scd/sr';
+  rsReciprocalSecondCandelaSteradianName = 'reciprocal %ssecond %scandela steradian';
+  rsReciprocalSecondCandelaSteradianPluralName = 'reciprocal %ssecond %scandela steradian';
 
 const
-  ReciprocalSecondCandelaSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsReciprocalSecondCandelaSquareRadianSymbol;
-    FName       : rsReciprocalSecondCandelaSquareRadianName;
-    FPluralName : rsReciprocalSecondCandelaSquareRadianPluralName;
+  ReciprocalSecondCandelaSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsReciprocalSecondCandelaSteradianSymbol;
+    FName       : rsReciprocalSecondCandelaSteradianName;
+    FPluralName : rsReciprocalSecondCandelaSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
 
-{ TCubicMeterPerSecondPerCandelaPerSquareRadian }
+{ TCubicMeterPerSecondPerCandelaPerSteradian }
 
 resourcestring
-  rsCubicMeterPerSecondPerCandelaPerSquareRadianSymbol = '%sm³/%ss/%scd/rad²';
-  rsCubicMeterPerSecondPerCandelaPerSquareRadianName = 'cubic %smeter per %ssecond per %scandela per square radian';
-  rsCubicMeterPerSecondPerCandelaPerSquareRadianPluralName = 'cubic %smeters per %ssecond per %scandela per square radian';
+  rsCubicMeterPerSecondPerCandelaPerSteradianSymbol = '%sm³/%ss/%scd/sr';
+  rsCubicMeterPerSecondPerCandelaPerSteradianName = 'cubic %smeter per %ssecond per %scandela per steradian';
+  rsCubicMeterPerSecondPerCandelaPerSteradianPluralName = 'cubic %smeters per %ssecond per %scandela per steradian';
 
 const
-  CubicMeterPerSecondPerCandelaPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsCubicMeterPerSecondPerCandelaPerSquareRadianSymbol;
-    FName       : rsCubicMeterPerSecondPerCandelaPerSquareRadianName;
-    FPluralName : rsCubicMeterPerSecondPerCandelaPerSquareRadianPluralName;
+  CubicMeterPerSecondPerCandelaPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsCubicMeterPerSecondPerCandelaPerSteradianSymbol;
+    FName       : rsCubicMeterPerSecondPerCandelaPerSteradianName;
+    FPluralName : rsCubicMeterPerSecondPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -1));
 
-{ TSquareMeterPerCandelaPerSquareRadian }
+{ TSquareMeterPerCandelaPerSteradian }
 
 resourcestring
-  rsSquareMeterPerCandelaPerSquareRadianSymbol = '%sm²/%scd/rad²';
-  rsSquareMeterPerCandelaPerSquareRadianName = 'square %smeter per %scandela per square radian';
-  rsSquareMeterPerCandelaPerSquareRadianPluralName = 'square %smeters per %scandela per square radian';
+  rsSquareMeterPerCandelaPerSteradianSymbol = '%sm²/%scd/sr';
+  rsSquareMeterPerCandelaPerSteradianName = 'square %smeter per %scandela per steradian';
+  rsSquareMeterPerCandelaPerSteradianPluralName = 'square %smeters per %scandela per steradian';
 
 const
-  SquareMeterPerCandelaPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsSquareMeterPerCandelaPerSquareRadianSymbol;
-    FName       : rsSquareMeterPerCandelaPerSquareRadianName;
-    FPluralName : rsSquareMeterPerCandelaPerSquareRadianPluralName;
+  SquareMeterPerCandelaPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsSquareMeterPerCandelaPerSteradianSymbol;
+    FName       : rsSquareMeterPerCandelaPerSteradianName;
+    FPluralName : rsSquareMeterPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
-{ TSquareMeterPerSecondPerCandelaPerSquareRadian }
+{ TSquareMeterPerSecondPerCandelaPerSteradian }
 
 resourcestring
-  rsSquareMeterPerSecondPerCandelaPerSquareRadianSymbol = '%sm²/%ss/%scd/rad²';
-  rsSquareMeterPerSecondPerCandelaPerSquareRadianName = 'square %smeter per %ssecond per %scandela per square radian';
-  rsSquareMeterPerSecondPerCandelaPerSquareRadianPluralName = 'square %smeters per %ssecond per %scandela per square radian';
+  rsSquareMeterPerSecondPerCandelaPerSteradianSymbol = '%sm²/%ss/%scd/sr';
+  rsSquareMeterPerSecondPerCandelaPerSteradianName = 'square %smeter per %ssecond per %scandela per steradian';
+  rsSquareMeterPerSecondPerCandelaPerSteradianPluralName = 'square %smeters per %ssecond per %scandela per steradian';
 
 const
-  SquareMeterPerSecondPerCandelaPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsSquareMeterPerSecondPerCandelaPerSquareRadianSymbol;
-    FName       : rsSquareMeterPerSecondPerCandelaPerSquareRadianName;
-    FPluralName : rsSquareMeterPerSecondPerCandelaPerSquareRadianPluralName;
+  SquareMeterPerSecondPerCandelaPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsSquareMeterPerSecondPerCandelaPerSteradianSymbol;
+    FName       : rsSquareMeterPerSecondPerCandelaPerSteradianName;
+    FPluralName : rsSquareMeterPerSecondPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -1));
 
@@ -10828,7 +10864,7 @@ resourcestring
 
 const
   SquareMeterSquareSecondPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterSquareSecondPerKilogramSymbol;
     FName       : rsSquareMeterSquareSecondPerKilogramName;
     FPluralName : rsSquareMeterSquareSecondPerKilogramPluralName;
@@ -10844,7 +10880,7 @@ resourcestring
 
 const
   MeterSecondPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterSecondPerKilogramSymbol;
     FName       : rsMeterSecondPerKilogramName;
     FPluralName : rsMeterSecondPerKilogramPluralName;
@@ -10860,7 +10896,7 @@ resourcestring
 
 const
   QuarticMeterPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMeterPerKilogramSymbol;
     FName       : rsQuarticMeterPerKilogramName;
     FPluralName : rsQuarticMeterPerKilogramPluralName;
@@ -10876,7 +10912,7 @@ resourcestring
 
 const
   QuarticMeterSecondPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 240; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 240; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticMeterSecondPerKilogramSymbol;
     FName       : rsQuarticMeterSecondPerKilogramName;
     FPluralName : rsQuarticMeterSecondPerKilogramPluralName;
@@ -10892,7 +10928,7 @@ resourcestring
 
 const
   SquareSecondPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerCubicMeterSymbol;
     FName       : rsSquareSecondPerCubicMeterName;
     FPluralName : rsSquareSecondPerCubicMeterPluralName;
@@ -10908,7 +10944,7 @@ resourcestring
 
 const
   SquareSecondPerKilogramPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerKilogramPerCubicMeterSymbol;
     FName       : rsSquareSecondPerKilogramPerCubicMeterName;
     FPluralName : rsSquareSecondPerKilogramPerCubicMeterPluralName;
@@ -10924,7 +10960,7 @@ resourcestring
 
 const
   SquareSecondPerKilogramPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -240; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -240; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerKilogramPerQuarticMeterSymbol;
     FName       : rsSquareSecondPerKilogramPerQuarticMeterName;
     FPluralName : rsSquareSecondPerKilogramPerQuarticMeterPluralName;
@@ -10940,7 +10976,7 @@ resourcestring
 
 const
   KilogramSquareSecondPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareSecondPerMeterSymbol;
     FName       : rsKilogramSquareSecondPerMeterName;
     FPluralName : rsKilogramSquareSecondPerMeterPluralName;
@@ -10956,7 +10992,7 @@ resourcestring
 
 const
   MeterPerSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerSquareKilogramSymbol;
     FName       : rsMeterPerSquareKilogramName;
     FPluralName : rsMeterPerSquareKilogramPluralName;
@@ -10972,7 +11008,7 @@ resourcestring
 
 const
   KilogramSquareSecondPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: -180; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: -180; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareSecondPerCubicMeterSymbol;
     FName       : rsKilogramSquareSecondPerCubicMeterName;
     FPluralName : rsKilogramSquareSecondPerCubicMeterPluralName;
@@ -10988,7 +11024,7 @@ resourcestring
 
 const
   ReciprocalKilogramKelvinUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalKilogramKelvinSymbol;
     FName       : rsReciprocalKilogramKelvinName;
     FPluralName : rsReciprocalKilogramKelvinPluralName;
@@ -11004,7 +11040,7 @@ resourcestring
 
 const
   SquareSecondKelvinPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondKelvinPerKilogramPerSquareMeterSymbol;
     FName       : rsSquareSecondKelvinPerKilogramPerSquareMeterName;
     FPluralName : rsSquareSecondKelvinPerKilogramPerSquareMeterPluralName;
@@ -11020,7 +11056,7 @@ resourcestring
 
 const
   SquareSecondKelvinPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondKelvinPerSquareMeterSymbol;
     FName       : rsSquareSecondKelvinPerSquareMeterName;
     FPluralName : rsSquareSecondKelvinPerSquareMeterPluralName;
@@ -11036,7 +11072,7 @@ resourcestring
 
 const
   ReciprocalMeterKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalMeterKelvinSymbol;
     FName       : rsReciprocalMeterKelvinName;
     FPluralName : rsReciprocalMeterKelvinPluralName;
@@ -11052,7 +11088,7 @@ resourcestring
 
 const
   MeterCubicSecondPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterCubicSecondPerKilogramSymbol;
     FName       : rsMeterCubicSecondPerKilogramName;
     FPluralName : rsMeterCubicSecondPerKilogramPluralName;
@@ -11068,7 +11104,7 @@ resourcestring
 
 const
   ReciprocalSquareMeterKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: -60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareMeterKelvinSymbol;
     FName       : rsReciprocalSquareMeterKelvinName;
     FPluralName : rsReciprocalSquareMeterKelvinPluralName;
@@ -11084,7 +11120,7 @@ resourcestring
 
 const
   ReciprocalSquareMeterQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: -240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareMeterQuarticKelvinSymbol;
     FName       : rsReciprocalSquareMeterQuarticKelvinName;
     FPluralName : rsReciprocalSquareMeterQuarticKelvinPluralName;
@@ -11100,7 +11136,7 @@ resourcestring
 
 const
   CubicSecondQuarticKelvinPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondQuarticKelvinPerKilogramPerSquareMeterSymbol;
     FName       : rsCubicSecondQuarticKelvinPerKilogramPerSquareMeterName;
     FPluralName : rsCubicSecondQuarticKelvinPerKilogramPerSquareMeterPluralName;
@@ -11116,7 +11152,7 @@ resourcestring
 
 const
   CubicSecondQuarticKelvinPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondQuarticKelvinPerKilogramSymbol;
     FName       : rsCubicSecondQuarticKelvinPerKilogramName;
     FPluralName : rsCubicSecondQuarticKelvinPerKilogramPluralName;
@@ -11132,7 +11168,7 @@ resourcestring
 
 const
   SquareSecondMolePerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondMolePerKilogramPerSquareMeterSymbol;
     FName       : rsSquareSecondMolePerKilogramPerSquareMeterName;
     FPluralName : rsSquareSecondMolePerKilogramPerSquareMeterPluralName;
@@ -11148,7 +11184,7 @@ resourcestring
 
 const
   SquareSecondKelvinMolePerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondKelvinMolePerKilogramPerSquareMeterSymbol;
     FName       : rsSquareSecondKelvinMolePerKilogramPerSquareMeterName;
     FPluralName : rsSquareSecondKelvinMolePerKilogramPerSquareMeterPluralName;
@@ -11164,7 +11200,7 @@ resourcestring
 
 const
   MeterPerSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterPerSecondPerAmpereSymbol;
     FName       : rsMeterPerSecondPerAmpereName;
     FPluralName : rsMeterPerSecondPerAmperePluralName;
@@ -11180,7 +11216,7 @@ resourcestring
 
 const
   SquareMeterPerSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSecondPerAmpereSymbol;
     FName       : rsSquareMeterPerSecondPerAmpereName;
     FPluralName : rsSquareMeterPerSecondPerAmperePluralName;
@@ -11196,7 +11232,7 @@ resourcestring
 
 const
   QuarticSecondSquareAmperePerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondSquareAmperePerKilogramPerMeterSymbol;
     FName       : rsQuarticSecondSquareAmperePerKilogramPerMeterName;
     FPluralName : rsQuarticSecondSquareAmperePerKilogramPerMeterPluralName;
@@ -11212,7 +11248,7 @@ resourcestring
 
 const
   CubicSecondAmperePerKilogramPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondAmperePerKilogramPerCubicMeterSymbol;
     FName       : rsCubicSecondAmperePerKilogramPerCubicMeterName;
     FPluralName : rsCubicSecondAmperePerKilogramPerCubicMeterPluralName;
@@ -11228,7 +11264,7 @@ resourcestring
 
 const
   QuarticSecondAmperePerKilogramPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 240; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 240; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondAmperePerKilogramPerCubicMeterSymbol;
     FName       : rsQuarticSecondAmperePerKilogramPerCubicMeterName;
     FPluralName : rsQuarticSecondAmperePerKilogramPerCubicMeterPluralName;
@@ -11244,7 +11280,7 @@ resourcestring
 
 const
   SquareSecondAmperePerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondAmperePerKilogramPerMeterSymbol;
     FName       : rsSquareSecondAmperePerKilogramPerMeterName;
     FPluralName : rsSquareSecondAmperePerKilogramPerMeterPluralName;
@@ -11260,28 +11296,12 @@ resourcestring
 
 const
   SquareSecondSquareAmperePerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondSquareAmperePerKilogramPerMeterSymbol;
     FName       : rsSquareSecondSquareAmperePerKilogramPerMeterName;
     FPluralName : rsSquareSecondSquareAmperePerKilogramPerMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (2, 2, -1, -1));
-
-{ TMeterPerRadian }
-
-resourcestring
-  rsMeterPerRadianSymbol = '%sm/rad';
-  rsMeterPerRadianName = '%smeter per radian';
-  rsMeterPerRadianPluralName = '%smeters per radian';
-
-const
-  MeterPerRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -60);
-    FSymbol     : rsMeterPerRadianSymbol;
-    FName       : rsMeterPerRadianName;
-    FPluralName : rsMeterPerRadianPluralName;
-    FPrefixes   : (pNone);
-    FExponents  : (1));
 
 { TSquareSecondPerSquareKilogram }
 
@@ -11292,7 +11312,7 @@ resourcestring
 
 const
   SquareSecondPerSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerSquareKilogramSymbol;
     FName       : rsSquareSecondPerSquareKilogramName;
     FPluralName : rsSquareSecondPerSquareKilogramPluralName;
@@ -11308,7 +11328,7 @@ resourcestring
 
 const
   QuarticSecondPerSquareKilogramPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerSquareKilogramPerQuarticMeterSymbol;
     FName       : rsQuarticSecondPerSquareKilogramPerQuarticMeterName;
     FPluralName : rsQuarticSecondPerSquareKilogramPerQuarticMeterPluralName;
@@ -11324,7 +11344,7 @@ resourcestring
 
 const
   SquareSecondPerSquareKilogramPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerSquareKilogramPerQuarticMeterSymbol;
     FName       : rsSquareSecondPerSquareKilogramPerQuarticMeterName;
     FPluralName : rsSquareSecondPerSquareKilogramPerQuarticMeterPluralName;
@@ -11340,7 +11360,7 @@ resourcestring
 
 const
   KilogramPerSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramPerSecondPerAmpereSymbol;
     FName       : rsKilogramPerSecondPerAmpereName;
     FPluralName : rsKilogramPerSecondPerAmperePluralName;
@@ -11356,26 +11376,26 @@ resourcestring
 
 const
   ReciprocalSquareMeterAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareMeterAmpereSymbol;
     FName       : rsReciprocalSquareMeterAmpereName;
     FPluralName : rsReciprocalSquareMeterAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -1));
 
-{ TKilogramSquareMeterPerCubicSecondPerCandelaPerSquareRadian }
+{ TKilogramSquareMeterPerCubicSecondPerCandelaPerSteradian }
 
 resourcestring
-  rsKilogramSquareMeterPerCubicSecondPerCandelaPerSquareRadianSymbol = '%skg∙%sm²/%ss³/%scd/rad²';
-  rsKilogramSquareMeterPerCubicSecondPerCandelaPerSquareRadianName = '%skilogram square %smeter per cubic %ssecond per %scandela per square radian';
-  rsKilogramSquareMeterPerCubicSecondPerCandelaPerSquareRadianPluralName = '%skilograms square %smeters per cubic %ssecond per %scandela per square radian';
+  rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianSymbol = '%skg∙%sm²/%ss³/%scd/sr';
+  rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianName = '%skilogram square %smeter per cubic %ssecond per %scandela per steradian';
+  rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianPluralName = '%skilograms square %smeters per cubic %ssecond per %scandela per steradian';
 
 const
-  KilogramSquareMeterPerCubicSecondPerCandelaPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsKilogramSquareMeterPerCubicSecondPerCandelaPerSquareRadianSymbol;
-    FName       : rsKilogramSquareMeterPerCubicSecondPerCandelaPerSquareRadianName;
-    FPluralName : rsKilogramSquareMeterPerCubicSecondPerCandelaPerSquareRadianPluralName;
+  KilogramSquareMeterPerCubicSecondPerCandelaPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianSymbol;
+    FName       : rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianName;
+    FPluralName : rsKilogramSquareMeterPerCubicSecondPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (1, 2, -3, -1));
 
@@ -11388,7 +11408,7 @@ resourcestring
 
 const
   CubicMeterPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerMoleSymbol;
     FName       : rsCubicMeterPerMoleName;
     FPluralName : rsCubicMeterPerMolePluralName;
@@ -11404,7 +11424,7 @@ resourcestring
 
 const
   SquareMeterPerCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsSquareMeterPerCandelaSymbol;
     FName       : rsSquareMeterPerCandelaName;
     FPluralName : rsSquareMeterPerCandelaPluralName;
@@ -11420,138 +11440,138 @@ resourcestring
 
 const
   CubicMeterPerSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterPerSecondPerAmpereSymbol;
     FName       : rsCubicMeterPerSecondPerAmpereName;
     FPluralName : rsCubicMeterPerSecondPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -1));
 
-{ TSecondPerSquareRadian }
+{ TSecondPerSteradian }
 
 resourcestring
-  rsSecondPerSquareRadianSymbol = '%ss/rad²';
-  rsSecondPerSquareRadianName = '%ssecond per square radian';
-  rsSecondPerSquareRadianPluralName = '%sseconds per square radian';
+  rsSecondPerSteradianSymbol = '%ss/sr';
+  rsSecondPerSteradianName = '%ssecond per steradian';
+  rsSecondPerSteradianPluralName = '%sseconds per steradian';
 
 const
-  SecondPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsSecondPerSquareRadianSymbol;
-    FName       : rsSecondPerSquareRadianName;
-    FPluralName : rsSecondPerSquareRadianPluralName;
+  SecondPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsSecondPerSteradianSymbol;
+    FName       : rsSecondPerSteradianName;
+    FPluralName : rsSecondPerSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
 
-{ TReciprocalSquareMeterSquareRadian }
+{ TReciprocalSquareMeterSteradian }
 
 resourcestring
-  rsReciprocalSquareMeterSquareRadianSymbol = '1/%sm²/rad²';
-  rsReciprocalSquareMeterSquareRadianName = 'reciprocal square %smeter square radian';
-  rsReciprocalSquareMeterSquareRadianPluralName = 'reciprocal square %smeter square radian';
+  rsReciprocalSquareMeterSteradianSymbol = '1/%sm²/sr';
+  rsReciprocalSquareMeterSteradianName = 'reciprocal square %smeter steradian';
+  rsReciprocalSquareMeterSteradianPluralName = 'reciprocal square %smeter steradian';
 
 const
-  ReciprocalSquareMeterSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsReciprocalSquareMeterSquareRadianSymbol;
-    FName       : rsReciprocalSquareMeterSquareRadianName;
-    FPluralName : rsReciprocalSquareMeterSquareRadianPluralName;
+  ReciprocalSquareMeterSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsReciprocalSquareMeterSteradianSymbol;
+    FName       : rsReciprocalSquareMeterSteradianName;
+    FPluralName : rsReciprocalSquareMeterSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
 
-{ TReciprocalCubicMeterSquareRadian }
+{ TReciprocalCubicMeterSteradian }
 
 resourcestring
-  rsReciprocalCubicMeterSquareRadianSymbol = '1/%sm³/rad²';
-  rsReciprocalCubicMeterSquareRadianName = 'reciprocal cubic %smeter square radian';
-  rsReciprocalCubicMeterSquareRadianPluralName = 'reciprocal cubic %smeter square radian';
+  rsReciprocalCubicMeterSteradianSymbol = '1/%sm³/sr';
+  rsReciprocalCubicMeterSteradianName = 'reciprocal cubic %smeter steradian';
+  rsReciprocalCubicMeterSteradianPluralName = 'reciprocal cubic %smeter steradian';
 
 const
-  ReciprocalCubicMeterSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsReciprocalCubicMeterSquareRadianSymbol;
-    FName       : rsReciprocalCubicMeterSquareRadianName;
-    FPluralName : rsReciprocalCubicMeterSquareRadianPluralName;
+  ReciprocalCubicMeterSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsReciprocalCubicMeterSteradianSymbol;
+    FName       : rsReciprocalCubicMeterSteradianName;
+    FPluralName : rsReciprocalCubicMeterSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
-{ TSecondPerSquareMeterPerSquareRadian }
+{ TSecondPerSquareMeterPerSteradian }
 
 resourcestring
-  rsSecondPerSquareMeterPerSquareRadianSymbol = '%ss/%sm²/rad²';
-  rsSecondPerSquareMeterPerSquareRadianName = '%ssecond per square %smeter per square radian';
-  rsSecondPerSquareMeterPerSquareRadianPluralName = '%sseconds per square %smeter per square radian';
+  rsSecondPerSquareMeterPerSteradianSymbol = '%ss/%sm²/sr';
+  rsSecondPerSquareMeterPerSteradianName = '%ssecond per square %smeter per steradian';
+  rsSecondPerSquareMeterPerSteradianPluralName = '%sseconds per square %smeter per steradian';
 
 const
-  SecondPerSquareMeterPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsSecondPerSquareMeterPerSquareRadianSymbol;
-    FName       : rsSecondPerSquareMeterPerSquareRadianName;
-    FPluralName : rsSecondPerSquareMeterPerSquareRadianPluralName;
+  SecondPerSquareMeterPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsSecondPerSquareMeterPerSteradianSymbol;
+    FName       : rsSecondPerSquareMeterPerSteradianName;
+    FPluralName : rsSecondPerSquareMeterPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
-{ TSquareSecondSquareRadianPerKilogramPerSquareMeter }
+{ TSquareSecondSteradianPerKilogramPerSquareMeter }
 
 resourcestring
-  rsSquareSecondSquareRadianPerKilogramPerSquareMeterSymbol = '%ss²∙rad²/%skg/%sm²';
-  rsSquareSecondSquareRadianPerKilogramPerSquareMeterName = 'square %ssecond square radian per %skilogram per square %smeter';
-  rsSquareSecondSquareRadianPerKilogramPerSquareMeterPluralName = 'square %sseconds square radians per %skilogram per square %smeter';
+  rsSquareSecondSteradianPerKilogramPerSquareMeterSymbol = '%ss²∙sr/%skg/%sm²';
+  rsSquareSecondSteradianPerKilogramPerSquareMeterName = 'square %ssecond steradian per %skilogram per square %smeter';
+  rsSquareSecondSteradianPerKilogramPerSquareMeterPluralName = 'square %sseconds steradians per %skilogram per square %smeter';
 
 const
-  SquareSecondSquareRadianPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareSecondSquareRadianPerKilogramPerSquareMeterSymbol;
-    FName       : rsSquareSecondSquareRadianPerKilogramPerSquareMeterName;
-    FPluralName : rsSquareSecondSquareRadianPerKilogramPerSquareMeterPluralName;
+  SquareSecondSteradianPerKilogramPerSquareMeterUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSquareSecondSteradianPerKilogramPerSquareMeterSymbol;
+    FName       : rsSquareSecondSteradianPerKilogramPerSquareMeterName;
+    FPluralName : rsSquareSecondSteradianPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -2));
 
-{ TCubicSecondSquareRadianPerKilogramPerMeter }
+{ TCubicSecondSteradianPerKilogramPerMeter }
 
 resourcestring
-  rsCubicSecondSquareRadianPerKilogramPerMeterSymbol = '%ss³∙rad²/%skg/%sm';
-  rsCubicSecondSquareRadianPerKilogramPerMeterName = 'cubic %ssecond square radian per %skilogram per %smeter';
-  rsCubicSecondSquareRadianPerKilogramPerMeterPluralName = 'cubic %sseconds square radians per %skilogram per %smeter';
+  rsCubicSecondSteradianPerKilogramPerMeterSymbol = '%ss³∙sr/%skg/%sm';
+  rsCubicSecondSteradianPerKilogramPerMeterName = 'cubic %ssecond steradian per %skilogram per %smeter';
+  rsCubicSecondSteradianPerKilogramPerMeterPluralName = 'cubic %sseconds steradians per %skilogram per %smeter';
 
 const
-  CubicSecondSquareRadianPerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsCubicSecondSquareRadianPerKilogramPerMeterSymbol;
-    FName       : rsCubicSecondSquareRadianPerKilogramPerMeterName;
-    FPluralName : rsCubicSecondSquareRadianPerKilogramPerMeterPluralName;
+  CubicSecondSteradianPerKilogramPerMeterUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsCubicSecondSteradianPerKilogramPerMeterSymbol;
+    FName       : rsCubicSecondSteradianPerKilogramPerMeterName;
+    FPluralName : rsCubicSecondSteradianPerKilogramPerMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -1));
 
-{ TMeterCubicSecondSquareRadianPerKilogram }
+{ TMeterCubicSecondSteradianPerKilogram }
 
 resourcestring
-  rsMeterCubicSecondSquareRadianPerKilogramSymbol = '%sm∙%ss³∙rad²/%skg';
-  rsMeterCubicSecondSquareRadianPerKilogramName = '%smeter cubic %ssecond square radian per %skilogram';
-  rsMeterCubicSecondSquareRadianPerKilogramPluralName = '%smeters cubic %sseconds square radians per %skilogram';
+  rsMeterCubicSecondSteradianPerKilogramSymbol = '%sm∙%ss³∙sr/%skg';
+  rsMeterCubicSecondSteradianPerKilogramName = '%smeter cubic %ssecond steradian per %skilogram';
+  rsMeterCubicSecondSteradianPerKilogramPluralName = '%smeters cubic %sseconds steradians per %skilogram';
 
 const
-  MeterCubicSecondSquareRadianPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsMeterCubicSecondSquareRadianPerKilogramSymbol;
-    FName       : rsMeterCubicSecondSquareRadianPerKilogramName;
-    FPluralName : rsMeterCubicSecondSquareRadianPerKilogramPluralName;
+  MeterCubicSecondSteradianPerKilogramUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsMeterCubicSecondSteradianPerKilogramSymbol;
+    FName       : rsMeterCubicSecondSteradianPerKilogramName;
+    FPluralName : rsMeterCubicSecondSteradianPerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 3, -1));
 
-{ TSquareSecondSquareRadianPerKilogram }
+{ TSquareSecondSteradianPerKilogram }
 
 resourcestring
-  rsSquareSecondSquareRadianPerKilogramSymbol = '%ss²∙rad²/%skg';
-  rsSquareSecondSquareRadianPerKilogramName = 'square %ssecond square radian per %skilogram';
-  rsSquareSecondSquareRadianPerKilogramPluralName = 'square %sseconds square radians per %skilogram';
+  rsSquareSecondSteradianPerKilogramSymbol = '%ss²∙sr/%skg';
+  rsSquareSecondSteradianPerKilogramName = 'square %ssecond steradian per %skilogram';
+  rsSquareSecondSteradianPerKilogramPluralName = 'square %sseconds steradians per %skilogram';
 
 const
-  SquareSecondSquareRadianPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareSecondSquareRadianPerKilogramSymbol;
-    FName       : rsSquareSecondSquareRadianPerKilogramName;
-    FPluralName : rsSquareSecondSquareRadianPerKilogramPluralName;
+  SquareSecondSteradianPerKilogramUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSquareSecondSteradianPerKilogramSymbol;
+    FName       : rsSquareSecondSteradianPerKilogramName;
+    FPluralName : rsSquareSecondSteradianPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
@@ -11564,7 +11584,7 @@ resourcestring
 
 const
   CubicMeterSecondPerMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: -60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterSecondPerMoleSymbol;
     FName       : rsCubicMeterSecondPerMoleName;
     FPluralName : rsCubicMeterSecondPerMolePluralName;
@@ -11580,7 +11600,7 @@ resourcestring
 
 const
   MolePerSecondPerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: -60; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMolePerSecondPerAmpereSymbol;
     FName       : rsMolePerSecondPerAmpereName;
     FPluralName : rsMolePerSecondPerAmperePluralName;
@@ -11596,7 +11616,7 @@ resourcestring
 
 const
   ReciprocalSexticRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -10; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -10; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticRootKilogramSymbol;
     FName       : rsReciprocalSexticRootKilogramName;
     FPluralName : rsReciprocalSexticRootKilogramPluralName;
@@ -11612,7 +11632,7 @@ resourcestring
 
 const
   ReciprocalQuinticRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -12; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -12; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticRootKilogramSymbol;
     FName       : rsReciprocalQuinticRootKilogramName;
     FPluralName : rsReciprocalQuinticRootKilogramPluralName;
@@ -11628,7 +11648,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -15; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -15; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootKilogramSymbol;
     FName       : rsReciprocalQuarticRootKilogramName;
     FPluralName : rsReciprocalQuarticRootKilogramPluralName;
@@ -11644,7 +11664,7 @@ resourcestring
 
 const
   ReciprocalCubicRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -20; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -20; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicRootKilogramSymbol;
     FName       : rsReciprocalCubicRootKilogramName;
     FPluralName : rsReciprocalCubicRootKilogramPluralName;
@@ -11660,7 +11680,7 @@ resourcestring
 
 const
   ReciprocalSquareRootKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -30; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -30; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootKilogramSymbol;
     FName       : rsReciprocalSquareRootKilogramName;
     FPluralName : rsReciprocalSquareRootKilogramPluralName;
@@ -11676,7 +11696,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootCubicKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -45; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -45; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootCubicKilogramSymbol;
     FName       : rsReciprocalQuarticRootCubicKilogramName;
     FPluralName : rsReciprocalQuarticRootCubicKilogramPluralName;
@@ -11692,7 +11712,7 @@ resourcestring
 
 const
   ReciprocalSquareRootCubicKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -90; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -90; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootCubicKilogramSymbol;
     FName       : rsReciprocalSquareRootCubicKilogramName;
     FPluralName : rsReciprocalSquareRootCubicKilogramPluralName;
@@ -11708,7 +11728,7 @@ resourcestring
 
 const
   ReciprocalSquareRootQuinticKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -150; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -150; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootQuinticKilogramSymbol;
     FName       : rsReciprocalSquareRootQuinticKilogramName;
     FPluralName : rsReciprocalSquareRootQuinticKilogramPluralName;
@@ -11724,7 +11744,7 @@ resourcestring
 
 const
   ReciprocalCubicKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -180; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -180; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicKilogramSymbol;
     FName       : rsReciprocalCubicKilogramName;
     FPluralName : rsReciprocalCubicKilogramPluralName;
@@ -11740,7 +11760,7 @@ resourcestring
 
 const
   ReciprocalQuarticKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -240; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -240; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticKilogramSymbol;
     FName       : rsReciprocalQuarticKilogramName;
     FPluralName : rsReciprocalQuarticKilogramPluralName;
@@ -11756,7 +11776,7 @@ resourcestring
 
 const
   ReciprocalQuinticKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -300; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -300; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticKilogramSymbol;
     FName       : rsReciprocalQuinticKilogramName;
     FPluralName : rsReciprocalQuinticKilogramPluralName;
@@ -11772,7 +11792,7 @@ resourcestring
 
 const
   ReciprocalSexticKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -360; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -360; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticKilogramSymbol;
     FName       : rsReciprocalSexticKilogramName;
     FPluralName : rsReciprocalSexticKilogramPluralName;
@@ -11788,7 +11808,7 @@ resourcestring
 
 const
   ReciprocalSexticRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -10; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -10; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticRootMeterSymbol;
     FName       : rsReciprocalSexticRootMeterName;
     FPluralName : rsReciprocalSexticRootMeterPluralName;
@@ -11804,7 +11824,7 @@ resourcestring
 
 const
   ReciprocalQuinticRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -12; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -12; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticRootMeterSymbol;
     FName       : rsReciprocalQuinticRootMeterName;
     FPluralName : rsReciprocalQuinticRootMeterPluralName;
@@ -11820,7 +11840,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -15; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -15; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootMeterSymbol;
     FName       : rsReciprocalQuarticRootMeterName;
     FPluralName : rsReciprocalQuarticRootMeterPluralName;
@@ -11836,7 +11856,7 @@ resourcestring
 
 const
   ReciprocalCubicRootMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -20; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -20; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicRootMeterSymbol;
     FName       : rsReciprocalCubicRootMeterName;
     FPluralName : rsReciprocalCubicRootMeterPluralName;
@@ -11852,7 +11872,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -45; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -45; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootCubicMeterSymbol;
     FName       : rsReciprocalQuarticRootCubicMeterName;
     FPluralName : rsReciprocalQuarticRootCubicMeterPluralName;
@@ -11868,7 +11888,7 @@ resourcestring
 
 const
   ReciprocalSquareRootQuinticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -150; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -150; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootQuinticMeterSymbol;
     FName       : rsReciprocalSquareRootQuinticMeterName;
     FPluralName : rsReciprocalSquareRootQuinticMeterPluralName;
@@ -11884,7 +11904,7 @@ resourcestring
 
 const
   ReciprocalSexticRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -10; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -10; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticRootSecondSymbol;
     FName       : rsReciprocalSexticRootSecondName;
     FPluralName : rsReciprocalSexticRootSecondPluralName;
@@ -11900,7 +11920,7 @@ resourcestring
 
 const
   ReciprocalQuinticRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -12; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -12; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticRootSecondSymbol;
     FName       : rsReciprocalQuinticRootSecondName;
     FPluralName : rsReciprocalQuinticRootSecondPluralName;
@@ -11916,7 +11936,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -15; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -15; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootSecondSymbol;
     FName       : rsReciprocalQuarticRootSecondName;
     FPluralName : rsReciprocalQuarticRootSecondPluralName;
@@ -11932,7 +11952,7 @@ resourcestring
 
 const
   ReciprocalCubicRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -20; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -20; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicRootSecondSymbol;
     FName       : rsReciprocalCubicRootSecondName;
     FPluralName : rsReciprocalCubicRootSecondPluralName;
@@ -11948,7 +11968,7 @@ resourcestring
 
 const
   ReciprocalSquareRootSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -30; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -30; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootSecondSymbol;
     FName       : rsReciprocalSquareRootSecondName;
     FPluralName : rsReciprocalSquareRootSecondPluralName;
@@ -11964,7 +11984,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -45; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -45; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootCubicSecondSymbol;
     FName       : rsReciprocalQuarticRootCubicSecondName;
     FPluralName : rsReciprocalQuarticRootCubicSecondPluralName;
@@ -11980,7 +12000,7 @@ resourcestring
 
 const
   ReciprocalSquareRootCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -90; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -90; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootCubicSecondSymbol;
     FName       : rsReciprocalSquareRootCubicSecondName;
     FPluralName : rsReciprocalSquareRootCubicSecondPluralName;
@@ -11996,7 +12016,7 @@ resourcestring
 
 const
   ReciprocalSquareRootQuinticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -150; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -150; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootQuinticSecondSymbol;
     FName       : rsReciprocalSquareRootQuinticSecondName;
     FPluralName : rsReciprocalSquareRootQuinticSecondPluralName;
@@ -12012,7 +12032,7 @@ resourcestring
 
 const
   ReciprocalSexticRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -10; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -10; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticRootAmpereSymbol;
     FName       : rsReciprocalSexticRootAmpereName;
     FPluralName : rsReciprocalSexticRootAmperePluralName;
@@ -12028,7 +12048,7 @@ resourcestring
 
 const
   ReciprocalQuinticRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -12; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -12; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticRootAmpereSymbol;
     FName       : rsReciprocalQuinticRootAmpereName;
     FPluralName : rsReciprocalQuinticRootAmperePluralName;
@@ -12044,7 +12064,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -15; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -15; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootAmpereSymbol;
     FName       : rsReciprocalQuarticRootAmpereName;
     FPluralName : rsReciprocalQuarticRootAmperePluralName;
@@ -12060,7 +12080,7 @@ resourcestring
 
 const
   ReciprocalCubicRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -20; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -20; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicRootAmpereSymbol;
     FName       : rsReciprocalCubicRootAmpereName;
     FPluralName : rsReciprocalCubicRootAmperePluralName;
@@ -12076,7 +12096,7 @@ resourcestring
 
 const
   ReciprocalSquareRootAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -30; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -30; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootAmpereSymbol;
     FName       : rsReciprocalSquareRootAmpereName;
     FPluralName : rsReciprocalSquareRootAmperePluralName;
@@ -12092,7 +12112,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootCubicAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -45; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -45; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootCubicAmpereSymbol;
     FName       : rsReciprocalQuarticRootCubicAmpereName;
     FPluralName : rsReciprocalQuarticRootCubicAmperePluralName;
@@ -12108,7 +12128,7 @@ resourcestring
 
 const
   ReciprocalSquareRootCubicAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -90; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -90; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootCubicAmpereSymbol;
     FName       : rsReciprocalSquareRootCubicAmpereName;
     FPluralName : rsReciprocalSquareRootCubicAmperePluralName;
@@ -12124,7 +12144,7 @@ resourcestring
 
 const
   ReciprocalSquareRootQuinticAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -150; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -150; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootQuinticAmpereSymbol;
     FName       : rsReciprocalSquareRootQuinticAmpereName;
     FPluralName : rsReciprocalSquareRootQuinticAmperePluralName;
@@ -12140,7 +12160,7 @@ resourcestring
 
 const
   ReciprocalCubicAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -180; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -180; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicAmpereSymbol;
     FName       : rsReciprocalCubicAmpereName;
     FPluralName : rsReciprocalCubicAmperePluralName;
@@ -12156,7 +12176,7 @@ resourcestring
 
 const
   ReciprocalQuarticAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -240; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -240; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticAmpereSymbol;
     FName       : rsReciprocalQuarticAmpereName;
     FPluralName : rsReciprocalQuarticAmperePluralName;
@@ -12172,7 +12192,7 @@ resourcestring
 
 const
   ReciprocalQuinticAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -300; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -300; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticAmpereSymbol;
     FName       : rsReciprocalQuinticAmpereName;
     FPluralName : rsReciprocalQuinticAmperePluralName;
@@ -12188,7 +12208,7 @@ resourcestring
 
 const
   ReciprocalSexticAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -360; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -360; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticAmpereSymbol;
     FName       : rsReciprocalSexticAmpereName;
     FPluralName : rsReciprocalSexticAmperePluralName;
@@ -12204,7 +12224,7 @@ resourcestring
 
 const
   ReciprocalSexticRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -10; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -10; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticRootKelvinSymbol;
     FName       : rsReciprocalSexticRootKelvinName;
     FPluralName : rsReciprocalSexticRootKelvinPluralName;
@@ -12220,7 +12240,7 @@ resourcestring
 
 const
   ReciprocalQuinticRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -12; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -12; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticRootKelvinSymbol;
     FName       : rsReciprocalQuinticRootKelvinName;
     FPluralName : rsReciprocalQuinticRootKelvinPluralName;
@@ -12236,7 +12256,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -15; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -15; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootKelvinSymbol;
     FName       : rsReciprocalQuarticRootKelvinName;
     FPluralName : rsReciprocalQuarticRootKelvinPluralName;
@@ -12252,7 +12272,7 @@ resourcestring
 
 const
   ReciprocalCubicRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -20; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -20; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicRootKelvinSymbol;
     FName       : rsReciprocalCubicRootKelvinName;
     FPluralName : rsReciprocalCubicRootKelvinPluralName;
@@ -12268,7 +12288,7 @@ resourcestring
 
 const
   ReciprocalSquareRootKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -30; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -30; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootKelvinSymbol;
     FName       : rsReciprocalSquareRootKelvinName;
     FPluralName : rsReciprocalSquareRootKelvinPluralName;
@@ -12284,7 +12304,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootCubicKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -45; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -45; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootCubicKelvinSymbol;
     FName       : rsReciprocalQuarticRootCubicKelvinName;
     FPluralName : rsReciprocalQuarticRootCubicKelvinPluralName;
@@ -12300,7 +12320,7 @@ resourcestring
 
 const
   ReciprocalSquareRootCubicKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -90; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -90; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootCubicKelvinSymbol;
     FName       : rsReciprocalSquareRootCubicKelvinName;
     FPluralName : rsReciprocalSquareRootCubicKelvinPluralName;
@@ -12316,7 +12336,7 @@ resourcestring
 
 const
   ReciprocalSquareRootQuinticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -150; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -150; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootQuinticKelvinSymbol;
     FName       : rsReciprocalSquareRootQuinticKelvinName;
     FPluralName : rsReciprocalSquareRootQuinticKelvinPluralName;
@@ -12332,7 +12352,7 @@ resourcestring
 
 const
   ReciprocalQuinticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -300; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -300; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticKelvinSymbol;
     FName       : rsReciprocalQuinticKelvinName;
     FPluralName : rsReciprocalQuinticKelvinPluralName;
@@ -12348,7 +12368,7 @@ resourcestring
 
 const
   ReciprocalSexticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -360; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: -360; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticKelvinSymbol;
     FName       : rsReciprocalSexticKelvinName;
     FPluralName : rsReciprocalSexticKelvinPluralName;
@@ -12364,7 +12384,7 @@ resourcestring
 
 const
   ReciprocalSexticRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -10; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -10; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticRootMoleSymbol;
     FName       : rsReciprocalSexticRootMoleName;
     FPluralName : rsReciprocalSexticRootMolePluralName;
@@ -12380,7 +12400,7 @@ resourcestring
 
 const
   ReciprocalQuinticRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -12; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -12; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticRootMoleSymbol;
     FName       : rsReciprocalQuinticRootMoleName;
     FPluralName : rsReciprocalQuinticRootMolePluralName;
@@ -12396,7 +12416,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -15; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -15; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootMoleSymbol;
     FName       : rsReciprocalQuarticRootMoleName;
     FPluralName : rsReciprocalQuarticRootMolePluralName;
@@ -12412,7 +12432,7 @@ resourcestring
 
 const
   ReciprocalCubicRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -20; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -20; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicRootMoleSymbol;
     FName       : rsReciprocalCubicRootMoleName;
     FPluralName : rsReciprocalCubicRootMolePluralName;
@@ -12428,7 +12448,7 @@ resourcestring
 
 const
   ReciprocalSquareRootMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -30; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -30; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootMoleSymbol;
     FName       : rsReciprocalSquareRootMoleName;
     FPluralName : rsReciprocalSquareRootMolePluralName;
@@ -12444,7 +12464,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootCubicMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -45; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -45; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootCubicMoleSymbol;
     FName       : rsReciprocalQuarticRootCubicMoleName;
     FPluralName : rsReciprocalQuarticRootCubicMolePluralName;
@@ -12460,7 +12480,7 @@ resourcestring
 
 const
   ReciprocalSquareRootCubicMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -90; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -90; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootCubicMoleSymbol;
     FName       : rsReciprocalSquareRootCubicMoleName;
     FPluralName : rsReciprocalSquareRootCubicMolePluralName;
@@ -12476,7 +12496,7 @@ resourcestring
 
 const
   ReciprocalSquareMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -120; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -120; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareMoleSymbol;
     FName       : rsReciprocalSquareMoleName;
     FPluralName : rsReciprocalSquareMolePluralName;
@@ -12492,7 +12512,7 @@ resourcestring
 
 const
   ReciprocalSquareRootQuinticMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -150; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -150; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootQuinticMoleSymbol;
     FName       : rsReciprocalSquareRootQuinticMoleName;
     FPluralName : rsReciprocalSquareRootQuinticMolePluralName;
@@ -12508,7 +12528,7 @@ resourcestring
 
 const
   ReciprocalCubicMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -180; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -180; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalCubicMoleSymbol;
     FName       : rsReciprocalCubicMoleName;
     FPluralName : rsReciprocalCubicMolePluralName;
@@ -12524,7 +12544,7 @@ resourcestring
 
 const
   ReciprocalQuarticMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -240; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -240; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticMoleSymbol;
     FName       : rsReciprocalQuarticMoleName;
     FPluralName : rsReciprocalQuarticMolePluralName;
@@ -12540,7 +12560,7 @@ resourcestring
 
 const
   ReciprocalQuinticMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -300; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -300; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticMoleSymbol;
     FName       : rsReciprocalQuinticMoleName;
     FPluralName : rsReciprocalQuinticMolePluralName;
@@ -12556,7 +12576,7 @@ resourcestring
 
 const
   ReciprocalSexticMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -360; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: -360; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSexticMoleSymbol;
     FName       : rsReciprocalSexticMoleName;
     FPluralName : rsReciprocalSexticMolePluralName;
@@ -12572,7 +12592,7 @@ resourcestring
 
 const
   ReciprocalSexticRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -10; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -10; FSteradian: 0);
     FSymbol     : rsReciprocalSexticRootCandelaSymbol;
     FName       : rsReciprocalSexticRootCandelaName;
     FPluralName : rsReciprocalSexticRootCandelaPluralName;
@@ -12588,7 +12608,7 @@ resourcestring
 
 const
   ReciprocalQuinticRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -12; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -12; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticRootCandelaSymbol;
     FName       : rsReciprocalQuinticRootCandelaName;
     FPluralName : rsReciprocalQuinticRootCandelaPluralName;
@@ -12604,7 +12624,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -15; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -15; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootCandelaSymbol;
     FName       : rsReciprocalQuarticRootCandelaName;
     FPluralName : rsReciprocalQuarticRootCandelaPluralName;
@@ -12620,7 +12640,7 @@ resourcestring
 
 const
   ReciprocalCubicRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -20; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -20; FSteradian: 0);
     FSymbol     : rsReciprocalCubicRootCandelaSymbol;
     FName       : rsReciprocalCubicRootCandelaName;
     FPluralName : rsReciprocalCubicRootCandelaPluralName;
@@ -12636,7 +12656,7 @@ resourcestring
 
 const
   ReciprocalSquareRootCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -30; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -30; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootCandelaSymbol;
     FName       : rsReciprocalSquareRootCandelaName;
     FPluralName : rsReciprocalSquareRootCandelaPluralName;
@@ -12652,7 +12672,7 @@ resourcestring
 
 const
   ReciprocalQuarticRootCubicCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -45; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -45; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticRootCubicCandelaSymbol;
     FName       : rsReciprocalQuarticRootCubicCandelaName;
     FPluralName : rsReciprocalQuarticRootCubicCandelaPluralName;
@@ -12668,7 +12688,7 @@ resourcestring
 
 const
   ReciprocalSquareRootCubicCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -90; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -90; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootCubicCandelaSymbol;
     FName       : rsReciprocalSquareRootCubicCandelaName;
     FPluralName : rsReciprocalSquareRootCubicCandelaPluralName;
@@ -12684,7 +12704,7 @@ resourcestring
 
 const
   ReciprocalSquareCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -120; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -120; FSteradian: 0);
     FSymbol     : rsReciprocalSquareCandelaSymbol;
     FName       : rsReciprocalSquareCandelaName;
     FPluralName : rsReciprocalSquareCandelaPluralName;
@@ -12700,7 +12720,7 @@ resourcestring
 
 const
   ReciprocalSquareRootQuinticCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -150; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -150; FSteradian: 0);
     FSymbol     : rsReciprocalSquareRootQuinticCandelaSymbol;
     FName       : rsReciprocalSquareRootQuinticCandelaName;
     FPluralName : rsReciprocalSquareRootQuinticCandelaPluralName;
@@ -12716,7 +12736,7 @@ resourcestring
 
 const
   ReciprocalCubicCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -180; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -180; FSteradian: 0);
     FSymbol     : rsReciprocalCubicCandelaSymbol;
     FName       : rsReciprocalCubicCandelaName;
     FPluralName : rsReciprocalCubicCandelaPluralName;
@@ -12732,7 +12752,7 @@ resourcestring
 
 const
   ReciprocalQuarticCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -240; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -240; FSteradian: 0);
     FSymbol     : rsReciprocalQuarticCandelaSymbol;
     FName       : rsReciprocalQuarticCandelaName;
     FPluralName : rsReciprocalQuarticCandelaPluralName;
@@ -12748,7 +12768,7 @@ resourcestring
 
 const
   ReciprocalQuinticCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -300; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -300; FSteradian: 0);
     FSymbol     : rsReciprocalQuinticCandelaSymbol;
     FName       : rsReciprocalQuinticCandelaName;
     FPluralName : rsReciprocalQuinticCandelaPluralName;
@@ -12764,202 +12784,218 @@ resourcestring
 
 const
   ReciprocalSexticCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -360; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -360; FSteradian: 0);
     FSymbol     : rsReciprocalSexticCandelaSymbol;
     FName       : rsReciprocalSexticCandelaName;
     FPluralName : rsReciprocalSexticCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-6));
 
-{ TReciprocalSexticRootRadian }
+{ TReciprocalSexticRootSteradian }
 
 resourcestring
-  rsReciprocalSexticRootRadianSymbol = '1/⁶√rad';
-  rsReciprocalSexticRootRadianName = 'reciprocal sextic root radian';
-  rsReciprocalSexticRootRadianPluralName = 'reciprocal sextic root radian';
+  rsReciprocalSexticRootSteradianSymbol = '1/⁶√sr';
+  rsReciprocalSexticRootSteradianName = 'reciprocal sextic root steradian';
+  rsReciprocalSexticRootSteradianPluralName = 'reciprocal sextic root steradian';
 
 const
-  ReciprocalSexticRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -10);
-    FSymbol     : rsReciprocalSexticRootRadianSymbol;
-    FName       : rsReciprocalSexticRootRadianName;
-    FPluralName : rsReciprocalSexticRootRadianPluralName;
+  ReciprocalSexticRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -10);
+    FSymbol     : rsReciprocalSexticRootSteradianSymbol;
+    FName       : rsReciprocalSexticRootSteradianName;
+    FPluralName : rsReciprocalSexticRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalQuinticRootRadian }
+{ TReciprocalQuinticRootSteradian }
 
 resourcestring
-  rsReciprocalQuinticRootRadianSymbol = '1/⁵√rad';
-  rsReciprocalQuinticRootRadianName = 'reciprocal quintic root radian';
-  rsReciprocalQuinticRootRadianPluralName = 'reciprocal quintic root radian';
+  rsReciprocalQuinticRootSteradianSymbol = '1/⁵√sr';
+  rsReciprocalQuinticRootSteradianName = 'reciprocal quintic root steradian';
+  rsReciprocalQuinticRootSteradianPluralName = 'reciprocal quintic root steradian';
 
 const
-  ReciprocalQuinticRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -12);
-    FSymbol     : rsReciprocalQuinticRootRadianSymbol;
-    FName       : rsReciprocalQuinticRootRadianName;
-    FPluralName : rsReciprocalQuinticRootRadianPluralName;
+  ReciprocalQuinticRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -12);
+    FSymbol     : rsReciprocalQuinticRootSteradianSymbol;
+    FName       : rsReciprocalQuinticRootSteradianName;
+    FPluralName : rsReciprocalQuinticRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalQuarticRootRadian }
+{ TReciprocalQuarticRootSteradian }
 
 resourcestring
-  rsReciprocalQuarticRootRadianSymbol = '1/∜rad';
-  rsReciprocalQuarticRootRadianName = 'reciprocal quartic root radian';
-  rsReciprocalQuarticRootRadianPluralName = 'reciprocal quartic root radian';
+  rsReciprocalQuarticRootSteradianSymbol = '1/∜sr';
+  rsReciprocalQuarticRootSteradianName = 'reciprocal quartic root steradian';
+  rsReciprocalQuarticRootSteradianPluralName = 'reciprocal quartic root steradian';
 
 const
-  ReciprocalQuarticRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -15);
-    FSymbol     : rsReciprocalQuarticRootRadianSymbol;
-    FName       : rsReciprocalQuarticRootRadianName;
-    FPluralName : rsReciprocalQuarticRootRadianPluralName;
+  ReciprocalQuarticRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -15);
+    FSymbol     : rsReciprocalQuarticRootSteradianSymbol;
+    FName       : rsReciprocalQuarticRootSteradianName;
+    FPluralName : rsReciprocalQuarticRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalCubicRootRadian }
+{ TReciprocalCubicRootSteradian }
 
 resourcestring
-  rsReciprocalCubicRootRadianSymbol = '1/∛rad';
-  rsReciprocalCubicRootRadianName = 'reciprocal cubic root radian';
-  rsReciprocalCubicRootRadianPluralName = 'reciprocal cubic root radian';
+  rsReciprocalCubicRootSteradianSymbol = '1/∛sr';
+  rsReciprocalCubicRootSteradianName = 'reciprocal cubic root steradian';
+  rsReciprocalCubicRootSteradianPluralName = 'reciprocal cubic root steradian';
 
 const
-  ReciprocalCubicRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -20);
-    FSymbol     : rsReciprocalCubicRootRadianSymbol;
-    FName       : rsReciprocalCubicRootRadianName;
-    FPluralName : rsReciprocalCubicRootRadianPluralName;
+  ReciprocalCubicRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -20);
+    FSymbol     : rsReciprocalCubicRootSteradianSymbol;
+    FName       : rsReciprocalCubicRootSteradianName;
+    FPluralName : rsReciprocalCubicRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalSquareRootRadian }
+{ TReciprocalSquareRootSteradian }
 
 resourcestring
-  rsReciprocalSquareRootRadianSymbol = '1/√rad';
-  rsReciprocalSquareRootRadianName = 'reciprocal square root radian';
-  rsReciprocalSquareRootRadianPluralName = 'reciprocal square root radian';
+  rsReciprocalSquareRootSteradianSymbol = '1/√sr';
+  rsReciprocalSquareRootSteradianName = 'reciprocal square root steradian';
+  rsReciprocalSquareRootSteradianPluralName = 'reciprocal square root steradian';
 
 const
-  ReciprocalSquareRootRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -30);
-    FSymbol     : rsReciprocalSquareRootRadianSymbol;
-    FName       : rsReciprocalSquareRootRadianName;
-    FPluralName : rsReciprocalSquareRootRadianPluralName;
+  ReciprocalSquareRootSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -30);
+    FSymbol     : rsReciprocalSquareRootSteradianSymbol;
+    FName       : rsReciprocalSquareRootSteradianName;
+    FPluralName : rsReciprocalSquareRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalQuarticRootCubicRadian }
+{ TReciprocalQuarticRootCubicSteradian }
 
 resourcestring
-  rsReciprocalQuarticRootCubicRadianSymbol = '1/∜rad³';
-  rsReciprocalQuarticRootCubicRadianName = 'reciprocal quartic root cubic radian';
-  rsReciprocalQuarticRootCubicRadianPluralName = 'reciprocal quartic root cubic radian';
+  rsReciprocalQuarticRootCubicSteradianSymbol = '1/∜sr³';
+  rsReciprocalQuarticRootCubicSteradianName = 'reciprocal quartic root cubic steradian';
+  rsReciprocalQuarticRootCubicSteradianPluralName = 'reciprocal quartic root cubic steradian';
 
 const
-  ReciprocalQuarticRootCubicRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -45);
-    FSymbol     : rsReciprocalQuarticRootCubicRadianSymbol;
-    FName       : rsReciprocalQuarticRootCubicRadianName;
-    FPluralName : rsReciprocalQuarticRootCubicRadianPluralName;
+  ReciprocalQuarticRootCubicSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -45);
+    FSymbol     : rsReciprocalQuarticRootCubicSteradianSymbol;
+    FName       : rsReciprocalQuarticRootCubicSteradianName;
+    FPluralName : rsReciprocalQuarticRootCubicSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalSquareRootCubicRadian }
+{ TReciprocalSquareRootCubicSteradian }
 
 resourcestring
-  rsReciprocalSquareRootCubicRadianSymbol = '1/√rad³';
-  rsReciprocalSquareRootCubicRadianName = 'reciprocal square root cubic radian';
-  rsReciprocalSquareRootCubicRadianPluralName = 'reciprocal square root cubic radian';
+  rsReciprocalSquareRootCubicSteradianSymbol = '1/√sr³';
+  rsReciprocalSquareRootCubicSteradianName = 'reciprocal square root cubic steradian';
+  rsReciprocalSquareRootCubicSteradianPluralName = 'reciprocal square root cubic steradian';
 
 const
-  ReciprocalSquareRootCubicRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -90);
-    FSymbol     : rsReciprocalSquareRootCubicRadianSymbol;
-    FName       : rsReciprocalSquareRootCubicRadianName;
-    FPluralName : rsReciprocalSquareRootCubicRadianPluralName;
+  ReciprocalSquareRootCubicSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -90);
+    FSymbol     : rsReciprocalSquareRootCubicSteradianSymbol;
+    FName       : rsReciprocalSquareRootCubicSteradianName;
+    FPluralName : rsReciprocalSquareRootCubicSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalSquareRootQuinticRadian }
+{ TReciprocalSquareSteradian }
 
 resourcestring
-  rsReciprocalSquareRootQuinticRadianSymbol = '1/√rad⁵';
-  rsReciprocalSquareRootQuinticRadianName = 'reciprocal square root quintic radian';
-  rsReciprocalSquareRootQuinticRadianPluralName = 'reciprocal square root quintic radian';
+  rsReciprocalSquareSteradianSymbol = '1/sr²';
+  rsReciprocalSquareSteradianName = 'reciprocal square steradian';
+  rsReciprocalSquareSteradianPluralName = 'reciprocal square steradian';
 
 const
-  ReciprocalSquareRootQuinticRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -150);
-    FSymbol     : rsReciprocalSquareRootQuinticRadianSymbol;
-    FName       : rsReciprocalSquareRootQuinticRadianName;
-    FPluralName : rsReciprocalSquareRootQuinticRadianPluralName;
+  ReciprocalSquareSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -120);
+    FSymbol     : rsReciprocalSquareSteradianSymbol;
+    FName       : rsReciprocalSquareSteradianName;
+    FPluralName : rsReciprocalSquareSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalCubicRadian }
+{ TReciprocalSquareRootQuinticSteradian }
 
 resourcestring
-  rsReciprocalCubicRadianSymbol = '1/rad³';
-  rsReciprocalCubicRadianName = 'reciprocal cubic radian';
-  rsReciprocalCubicRadianPluralName = 'reciprocal cubic radian';
+  rsReciprocalSquareRootQuinticSteradianSymbol = '1/√sr⁵';
+  rsReciprocalSquareRootQuinticSteradianName = 'reciprocal square root quintic steradian';
+  rsReciprocalSquareRootQuinticSteradianPluralName = 'reciprocal square root quintic steradian';
 
 const
-  ReciprocalCubicRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -180);
-    FSymbol     : rsReciprocalCubicRadianSymbol;
-    FName       : rsReciprocalCubicRadianName;
-    FPluralName : rsReciprocalCubicRadianPluralName;
+  ReciprocalSquareRootQuinticSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -150);
+    FSymbol     : rsReciprocalSquareRootQuinticSteradianSymbol;
+    FName       : rsReciprocalSquareRootQuinticSteradianName;
+    FPluralName : rsReciprocalSquareRootQuinticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalQuarticRadian }
+{ TReciprocalCubicSteradian }
 
 resourcestring
-  rsReciprocalQuarticRadianSymbol = '1/rad⁴';
-  rsReciprocalQuarticRadianName = 'reciprocal quartic radian';
-  rsReciprocalQuarticRadianPluralName = 'reciprocal quartic radian';
+  rsReciprocalCubicSteradianSymbol = '1/sr³';
+  rsReciprocalCubicSteradianName = 'reciprocal cubic steradian';
+  rsReciprocalCubicSteradianPluralName = 'reciprocal cubic steradian';
 
 const
-  ReciprocalQuarticRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -240);
-    FSymbol     : rsReciprocalQuarticRadianSymbol;
-    FName       : rsReciprocalQuarticRadianName;
-    FPluralName : rsReciprocalQuarticRadianPluralName;
+  ReciprocalCubicSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -180);
+    FSymbol     : rsReciprocalCubicSteradianSymbol;
+    FName       : rsReciprocalCubicSteradianName;
+    FPluralName : rsReciprocalCubicSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalQuinticRadian }
+{ TReciprocalQuarticSteradian }
 
 resourcestring
-  rsReciprocalQuinticRadianSymbol = '1/rad⁵';
-  rsReciprocalQuinticRadianName = 'reciprocal quintic radian';
-  rsReciprocalQuinticRadianPluralName = 'reciprocal quintic radian';
+  rsReciprocalQuarticSteradianSymbol = '1/sr⁴';
+  rsReciprocalQuarticSteradianName = 'reciprocal quartic steradian';
+  rsReciprocalQuarticSteradianPluralName = 'reciprocal quartic steradian';
 
 const
-  ReciprocalQuinticRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -300);
-    FSymbol     : rsReciprocalQuinticRadianSymbol;
-    FName       : rsReciprocalQuinticRadianName;
-    FPluralName : rsReciprocalQuinticRadianPluralName;
+  ReciprocalQuarticSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -240);
+    FSymbol     : rsReciprocalQuarticSteradianSymbol;
+    FName       : rsReciprocalQuarticSteradianName;
+    FPluralName : rsReciprocalQuarticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
-{ TReciprocalSexticRadian }
+{ TReciprocalQuinticSteradian }
 
 resourcestring
-  rsReciprocalSexticRadianSymbol = '1/rad⁶';
-  rsReciprocalSexticRadianName = 'reciprocal sextic radian';
-  rsReciprocalSexticRadianPluralName = 'reciprocal sextic radian';
+  rsReciprocalQuinticSteradianSymbol = '1/sr⁵';
+  rsReciprocalQuinticSteradianName = 'reciprocal quintic steradian';
+  rsReciprocalQuinticSteradianPluralName = 'reciprocal quintic steradian';
 
 const
-  ReciprocalSexticRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -360);
-    FSymbol     : rsReciprocalSexticRadianSymbol;
-    FName       : rsReciprocalSexticRadianName;
-    FPluralName : rsReciprocalSexticRadianPluralName;
+  ReciprocalQuinticSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -300);
+    FSymbol     : rsReciprocalQuinticSteradianSymbol;
+    FName       : rsReciprocalQuinticSteradianName;
+    FPluralName : rsReciprocalQuinticSteradianPluralName;
+    FPrefixes   : ();
+    FExponents  : ());
+
+{ TReciprocalSexticSteradian }
+
+resourcestring
+  rsReciprocalSexticSteradianSymbol = '1/sr⁶';
+  rsReciprocalSexticSteradianName = 'reciprocal sextic steradian';
+  rsReciprocalSexticSteradianPluralName = 'reciprocal sextic steradian';
+
+const
+  ReciprocalSexticSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -360);
+    FSymbol     : rsReciprocalSexticSteradianSymbol;
+    FName       : rsReciprocalSexticSteradianName;
+    FPluralName : rsReciprocalSexticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
 
@@ -12972,7 +13008,7 @@ resourcestring
 
 const
   ReciprocalSquareKilogramSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareKilogramSquareMeterSymbol;
     FName       : rsReciprocalSquareKilogramSquareMeterName;
     FPluralName : rsReciprocalSquareKilogramSquareMeterPluralName;
@@ -12988,7 +13024,7 @@ resourcestring
 
 const
   QuarticSecondPerSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerSquareKilogramSymbol;
     FName       : rsQuarticSecondPerSquareKilogramName;
     FPluralName : rsQuarticSecondPerSquareKilogramPluralName;
@@ -13004,7 +13040,7 @@ resourcestring
 
 const
   ReciprocalMeterAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalMeterAmpereSymbol;
     FName       : rsReciprocalMeterAmpereName;
     FPluralName : rsReciprocalMeterAmperePluralName;
@@ -13020,7 +13056,7 @@ resourcestring
 
 const
   CubicSecondAmperePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondAmperePerSquareMeterSymbol;
     FName       : rsCubicSecondAmperePerSquareMeterName;
     FPluralName : rsCubicSecondAmperePerSquareMeterPluralName;
@@ -13036,7 +13072,7 @@ resourcestring
 
 const
   SexticSecondSquareAmperePerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 360; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 360; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticSecondSquareAmperePerQuarticMeterSymbol;
     FName       : rsSexticSecondSquareAmperePerQuarticMeterName;
     FPluralName : rsSexticSecondSquareAmperePerQuarticMeterPluralName;
@@ -13052,7 +13088,7 @@ resourcestring
 
 const
   SexticSecondSquareAmperePerSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 360; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 360; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticSecondSquareAmperePerSquareKilogramSymbol;
     FName       : rsSexticSecondSquareAmperePerSquareKilogramName;
     FPluralName : rsSexticSecondSquareAmperePerSquareKilogramPluralName;
@@ -13068,7 +13104,7 @@ resourcestring
 
 const
   SquareAmperePerSquareKilogramPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerSquareKilogramPerQuarticMeterSymbol;
     FName       : rsSquareAmperePerSquareKilogramPerQuarticMeterName;
     FPluralName : rsSquareAmperePerSquareKilogramPerQuarticMeterPluralName;
@@ -13084,7 +13120,7 @@ resourcestring
 
 const
   SexticSecondPerSquareKilogramPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticSecondPerSquareKilogramPerQuarticMeterSymbol;
     FName       : rsSexticSecondPerSquareKilogramPerQuarticMeterName;
     FPluralName : rsSexticSecondPerSquareKilogramPerQuarticMeterPluralName;
@@ -13100,7 +13136,7 @@ resourcestring
 
 const
   SquareMeterPerQuarticSecondPerSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -240; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterPerQuarticSecondPerSquareAmpereSymbol;
     FName       : rsSquareMeterPerQuarticSecondPerSquareAmpereName;
     FPluralName : rsSquareMeterPerQuarticSecondPerSquareAmperePluralName;
@@ -13116,26 +13152,26 @@ resourcestring
 
 const
   KilogramSquareMeterPerQuarticSecondUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerQuarticSecondSymbol;
     FName       : rsKilogramSquareMeterPerQuarticSecondName;
     FPluralName : rsKilogramSquareMeterPerQuarticSecondPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -4));
 
-{ TReciprocalSecondSquareRadian }
+{ TReciprocalSecondSteradian }
 
 resourcestring
-  rsReciprocalSecondSquareRadianSymbol = '1/%ss/rad²';
-  rsReciprocalSecondSquareRadianName = 'reciprocal %ssecond square radian';
-  rsReciprocalSecondSquareRadianPluralName = 'reciprocal %ssecond square radian';
+  rsReciprocalSecondSteradianSymbol = '1/%ss/sr';
+  rsReciprocalSecondSteradianName = 'reciprocal %ssecond steradian';
+  rsReciprocalSecondSteradianPluralName = 'reciprocal %ssecond steradian';
 
 const
-  ReciprocalSecondSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsReciprocalSecondSquareRadianSymbol;
-    FName       : rsReciprocalSecondSquareRadianName;
-    FPluralName : rsReciprocalSecondSquareRadianPluralName;
+  ReciprocalSecondSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsReciprocalSecondSteradianSymbol;
+    FName       : rsReciprocalSecondSteradianName;
+    FPluralName : rsReciprocalSecondSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
@@ -13148,42 +13184,42 @@ resourcestring
 
 const
   ReciprocalSecondCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsReciprocalSecondCandelaSymbol;
     FName       : rsReciprocalSecondCandelaName;
     FPluralName : rsReciprocalSecondCandelaPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
 
-{ TCubicMeterPerCandelaPerSquareRadian }
+{ TCubicMeterPerCandelaPerSteradian }
 
 resourcestring
-  rsCubicMeterPerCandelaPerSquareRadianSymbol = '%sm³/%scd/rad²';
-  rsCubicMeterPerCandelaPerSquareRadianName = 'cubic %smeter per %scandela per square radian';
-  rsCubicMeterPerCandelaPerSquareRadianPluralName = 'cubic %smeters per %scandela per square radian';
+  rsCubicMeterPerCandelaPerSteradianSymbol = '%sm³/%scd/sr';
+  rsCubicMeterPerCandelaPerSteradianName = 'cubic %smeter per %scandela per steradian';
+  rsCubicMeterPerCandelaPerSteradianPluralName = 'cubic %smeters per %scandela per steradian';
 
 const
-  CubicMeterPerCandelaPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsCubicMeterPerCandelaPerSquareRadianSymbol;
-    FName       : rsCubicMeterPerCandelaPerSquareRadianName;
-    FPluralName : rsCubicMeterPerCandelaPerSquareRadianPluralName;
+  CubicMeterPerCandelaPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsCubicMeterPerCandelaPerSteradianSymbol;
+    FName       : rsCubicMeterPerCandelaPerSteradianName;
+    FPluralName : rsCubicMeterPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
 
-{ TCubicMeterPerSecondPerSquareRadian }
+{ TCubicMeterPerSecondPerSteradian }
 
 resourcestring
-  rsCubicMeterPerSecondPerSquareRadianSymbol = '%sm³/%ss/rad²';
-  rsCubicMeterPerSecondPerSquareRadianName = 'cubic %smeter per %ssecond per square radian';
-  rsCubicMeterPerSecondPerSquareRadianPluralName = 'cubic %smeters per %ssecond per square radian';
+  rsCubicMeterPerSecondPerSteradianSymbol = '%sm³/%ss/sr';
+  rsCubicMeterPerSecondPerSteradianName = 'cubic %smeter per %ssecond per steradian';
+  rsCubicMeterPerSecondPerSteradianPluralName = 'cubic %smeters per %ssecond per steradian';
 
 const
-  CubicMeterPerSecondPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsCubicMeterPerSecondPerSquareRadianSymbol;
-    FName       : rsCubicMeterPerSecondPerSquareRadianName;
-    FPluralName : rsCubicMeterPerSecondPerSquareRadianPluralName;
+  CubicMeterPerSecondPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsCubicMeterPerSecondPerSteradianSymbol;
+    FName       : rsCubicMeterPerSecondPerSteradianName;
+    FPluralName : rsCubicMeterPerSecondPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
 
@@ -13196,26 +13232,26 @@ resourcestring
 
 const
   CubicMeterPerSecondPerCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsCubicMeterPerSecondPerCandelaSymbol;
     FName       : rsCubicMeterPerSecondPerCandelaName;
     FPluralName : rsCubicMeterPerSecondPerCandelaPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -1));
 
-{ TSquareMeterPerSecondPerSquareRadian }
+{ TSquareMeterPerSecondPerSteradian }
 
 resourcestring
-  rsSquareMeterPerSecondPerSquareRadianSymbol = '%sm²/%ss/rad²';
-  rsSquareMeterPerSecondPerSquareRadianName = 'square %smeter per %ssecond per square radian';
-  rsSquareMeterPerSecondPerSquareRadianPluralName = 'square %smeters per %ssecond per square radian';
+  rsSquareMeterPerSecondPerSteradianSymbol = '%sm²/%ss/sr';
+  rsSquareMeterPerSecondPerSteradianName = 'square %smeter per %ssecond per steradian';
+  rsSquareMeterPerSecondPerSteradianPluralName = 'square %smeters per %ssecond per steradian';
 
 const
-  SquareMeterPerSecondPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsSquareMeterPerSecondPerSquareRadianSymbol;
-    FName       : rsSquareMeterPerSecondPerSquareRadianName;
-    FPluralName : rsSquareMeterPerSecondPerSquareRadianPluralName;
+  SquareMeterPerSecondPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsSquareMeterPerSecondPerSteradianSymbol;
+    FName       : rsSquareMeterPerSecondPerSteradianName;
+    FPluralName : rsSquareMeterPerSecondPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
@@ -13228,7 +13264,7 @@ resourcestring
 
 const
   SquareMeterPerSecondPerCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsSquareMeterPerSecondPerCandelaSymbol;
     FName       : rsSquareMeterPerSecondPerCandelaName;
     FPluralName : rsSquareMeterPerSecondPerCandelaPluralName;
@@ -13244,7 +13280,7 @@ resourcestring
 
 const
   SquareMeterSquareSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareMeterSquareSecondSymbol;
     FName       : rsSquareMeterSquareSecondName;
     FPluralName : rsSquareMeterSquareSecondPluralName;
@@ -13260,7 +13296,7 @@ resourcestring
 
 const
   SquareSecondPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondPerQuarticMeterSymbol;
     FName       : rsSquareSecondPerQuarticMeterName;
     FPluralName : rsSquareSecondPerQuarticMeterPluralName;
@@ -13276,7 +13312,7 @@ resourcestring
 
 const
   ReciprocalKilogramQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalKilogramQuarticMeterSymbol;
     FName       : rsReciprocalKilogramQuarticMeterName;
     FPluralName : rsReciprocalKilogramQuarticMeterPluralName;
@@ -13292,7 +13328,7 @@ resourcestring
 
 const
   SquareSecondKelvinPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondKelvinPerKilogramSymbol;
     FName       : rsSquareSecondKelvinPerKilogramName;
     FPluralName : rsSquareSecondKelvinPerKilogramPluralName;
@@ -13308,7 +13344,7 @@ resourcestring
 
 const
   SquareSecondKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondKelvinSymbol;
     FName       : rsSquareSecondKelvinName;
     FPluralName : rsSquareSecondKelvinPluralName;
@@ -13324,7 +13360,7 @@ resourcestring
 
 const
   MeterCubicSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMeterCubicSecondSymbol;
     FName       : rsMeterCubicSecondName;
     FPluralName : rsMeterCubicSecondPluralName;
@@ -13340,7 +13376,7 @@ resourcestring
 
 const
   CubicSecondQuarticKelvinPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 180; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondQuarticKelvinPerSquareMeterSymbol;
     FName       : rsCubicSecondQuarticKelvinPerSquareMeterName;
     FPluralName : rsCubicSecondQuarticKelvinPerSquareMeterPluralName;
@@ -13356,7 +13392,7 @@ resourcestring
 
 const
   QuarticKelvinPerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticKelvinPerKilogramPerSquareMeterSymbol;
     FName       : rsQuarticKelvinPerKilogramPerSquareMeterName;
     FPluralName : rsQuarticKelvinPerKilogramPerSquareMeterPluralName;
@@ -13372,7 +13408,7 @@ resourcestring
 
 const
   CubicSecondQuarticKelvinUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondQuarticKelvinSymbol;
     FName       : rsCubicSecondQuarticKelvinName;
     FPluralName : rsCubicSecondQuarticKelvinPluralName;
@@ -13388,7 +13424,7 @@ resourcestring
 
 const
   QuarticKelvinPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticKelvinPerKilogramSymbol;
     FName       : rsQuarticKelvinPerKilogramName;
     FPluralName : rsQuarticKelvinPerKilogramPluralName;
@@ -13404,7 +13440,7 @@ resourcestring
 
 const
   SquareSecondMolePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondMolePerSquareMeterSymbol;
     FName       : rsSquareSecondMolePerSquareMeterName;
     FPluralName : rsSquareSecondMolePerSquareMeterPluralName;
@@ -13420,7 +13456,7 @@ resourcestring
 
 const
   SquareSecondMolePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondMolePerKilogramSymbol;
     FName       : rsSquareSecondMolePerKilogramName;
     FPluralName : rsSquareSecondMolePerKilogramPluralName;
@@ -13436,7 +13472,7 @@ resourcestring
 
 const
   MolePerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMolePerKilogramPerSquareMeterSymbol;
     FName       : rsMolePerKilogramPerSquareMeterName;
     FPluralName : rsMolePerKilogramPerSquareMeterPluralName;
@@ -13452,7 +13488,7 @@ resourcestring
 
 const
   SquareSecondKelvinMolePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondKelvinMolePerSquareMeterSymbol;
     FName       : rsSquareSecondKelvinMolePerSquareMeterName;
     FPluralName : rsSquareSecondKelvinMolePerSquareMeterPluralName;
@@ -13468,7 +13504,7 @@ resourcestring
 
 const
   SquareSecondKelvinMolePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondKelvinMolePerKilogramSymbol;
     FName       : rsSquareSecondKelvinMolePerKilogramName;
     FPluralName : rsSquareSecondKelvinMolePerKilogramPluralName;
@@ -13484,7 +13520,7 @@ resourcestring
 
 const
   KelvinMolePerKilogramPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinMolePerKilogramPerSquareMeterSymbol;
     FName       : rsKelvinMolePerKilogramPerSquareMeterName;
     FPluralName : rsKelvinMolePerKilogramPerSquareMeterPluralName;
@@ -13500,7 +13536,7 @@ resourcestring
 
 const
   QuarticSecondSquareAmperePerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 240; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondSquareAmperePerMeterSymbol;
     FName       : rsQuarticSecondSquareAmperePerMeterName;
     FPluralName : rsQuarticSecondSquareAmperePerMeterPluralName;
@@ -13516,7 +13552,7 @@ resourcestring
 
 const
   SquareAmperePerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerKilogramPerMeterSymbol;
     FName       : rsSquareAmperePerKilogramPerMeterName;
     FPluralName : rsSquareAmperePerKilogramPerMeterPluralName;
@@ -13532,7 +13568,7 @@ resourcestring
 
 const
   QuarticSecondPerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerKilogramPerMeterSymbol;
     FName       : rsQuarticSecondPerKilogramPerMeterName;
     FPluralName : rsQuarticSecondPerKilogramPerMeterPluralName;
@@ -13548,7 +13584,7 @@ resourcestring
 
 const
   CubicSecondAmperePerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 180; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicSecondAmperePerCubicMeterSymbol;
     FName       : rsCubicSecondAmperePerCubicMeterName;
     FPluralName : rsCubicSecondAmperePerCubicMeterPluralName;
@@ -13564,7 +13600,7 @@ resourcestring
 
 const
   AmperePerKilogramPerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: -180; FSecond: 0; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsAmperePerKilogramPerCubicMeterSymbol;
     FName       : rsAmperePerKilogramPerCubicMeterName;
     FPluralName : rsAmperePerKilogramPerCubicMeterPluralName;
@@ -13580,7 +13616,7 @@ resourcestring
 
 const
   QuarticSecondAmperePerCubicMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 240; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -180; FSecond: 240; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondAmperePerCubicMeterSymbol;
     FName       : rsQuarticSecondAmperePerCubicMeterName;
     FPluralName : rsQuarticSecondAmperePerCubicMeterPluralName;
@@ -13596,7 +13632,7 @@ resourcestring
 
 const
   QuarticSecondAmperePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 240; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 240; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondAmperePerKilogramSymbol;
     FName       : rsQuarticSecondAmperePerKilogramName;
     FPluralName : rsQuarticSecondAmperePerKilogramPluralName;
@@ -13612,7 +13648,7 @@ resourcestring
 
 const
   SquareSecondAmperePerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 120; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondAmperePerMeterSymbol;
     FName       : rsSquareSecondAmperePerMeterName;
     FPluralName : rsSquareSecondAmperePerMeterPluralName;
@@ -13628,7 +13664,7 @@ resourcestring
 
 const
   QuarticSecondPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondPerQuarticMeterSymbol;
     FName       : rsQuarticSecondPerQuarticMeterName;
     FPluralName : rsQuarticSecondPerQuarticMeterPluralName;
@@ -13644,58 +13680,58 @@ resourcestring
 
 const
   ReciprocalSquareKilogramQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: -240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsReciprocalSquareKilogramQuarticMeterSymbol;
     FName       : rsReciprocalSquareKilogramQuarticMeterName;
     FPluralName : rsReciprocalSquareKilogramQuarticMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -4));
 
-{ TSquareMeterPerCubicSecondPerCandelaPerSquareRadian }
+{ TSquareMeterPerCubicSecondPerCandelaPerSteradian }
 
 resourcestring
-  rsSquareMeterPerCubicSecondPerCandelaPerSquareRadianSymbol = '%sm²/%ss³/%scd/rad²';
-  rsSquareMeterPerCubicSecondPerCandelaPerSquareRadianName = 'square %smeter per cubic %ssecond per %scandela per square radian';
-  rsSquareMeterPerCubicSecondPerCandelaPerSquareRadianPluralName = 'square %smeters per cubic %ssecond per %scandela per square radian';
+  rsSquareMeterPerCubicSecondPerCandelaPerSteradianSymbol = '%sm²/%ss³/%scd/sr';
+  rsSquareMeterPerCubicSecondPerCandelaPerSteradianName = 'square %smeter per cubic %ssecond per %scandela per steradian';
+  rsSquareMeterPerCubicSecondPerCandelaPerSteradianPluralName = 'square %smeters per cubic %ssecond per %scandela per steradian';
 
 const
-  SquareMeterPerCubicSecondPerCandelaPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsSquareMeterPerCubicSecondPerCandelaPerSquareRadianSymbol;
-    FName       : rsSquareMeterPerCubicSecondPerCandelaPerSquareRadianName;
-    FPluralName : rsSquareMeterPerCubicSecondPerCandelaPerSquareRadianPluralName;
+  SquareMeterPerCubicSecondPerCandelaPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsSquareMeterPerCubicSecondPerCandelaPerSteradianSymbol;
+    FName       : rsSquareMeterPerCubicSecondPerCandelaPerSteradianName;
+    FPluralName : rsSquareMeterPerCubicSecondPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -3, -1));
 
-{ TKilogramPerCubicSecondPerCandelaPerSquareRadian }
+{ TKilogramPerCubicSecondPerCandelaPerSteradian }
 
 resourcestring
-  rsKilogramPerCubicSecondPerCandelaPerSquareRadianSymbol = '%skg/%ss³/%scd/rad²';
-  rsKilogramPerCubicSecondPerCandelaPerSquareRadianName = '%skilogram per cubic %ssecond per %scandela per square radian';
-  rsKilogramPerCubicSecondPerCandelaPerSquareRadianPluralName = '%skilograms per cubic %ssecond per %scandela per square radian';
+  rsKilogramPerCubicSecondPerCandelaPerSteradianSymbol = '%skg/%ss³/%scd/sr';
+  rsKilogramPerCubicSecondPerCandelaPerSteradianName = '%skilogram per cubic %ssecond per %scandela per steradian';
+  rsKilogramPerCubicSecondPerCandelaPerSteradianPluralName = '%skilograms per cubic %ssecond per %scandela per steradian';
 
 const
-  KilogramPerCubicSecondPerCandelaPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsKilogramPerCubicSecondPerCandelaPerSquareRadianSymbol;
-    FName       : rsKilogramPerCubicSecondPerCandelaPerSquareRadianName;
-    FPluralName : rsKilogramPerCubicSecondPerCandelaPerSquareRadianPluralName;
+  KilogramPerCubicSecondPerCandelaPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsKilogramPerCubicSecondPerCandelaPerSteradianSymbol;
+    FName       : rsKilogramPerCubicSecondPerCandelaPerSteradianName;
+    FPluralName : rsKilogramPerCubicSecondPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -3, -1));
 
-{ TKilogramSquareMeterPerCandelaPerSquareRadian }
+{ TKilogramSquareMeterPerCandelaPerSteradian }
 
 resourcestring
-  rsKilogramSquareMeterPerCandelaPerSquareRadianSymbol = '%skg∙%sm²/%scd/rad²';
-  rsKilogramSquareMeterPerCandelaPerSquareRadianName = '%skilogram square %smeter per %scandela per square radian';
-  rsKilogramSquareMeterPerCandelaPerSquareRadianPluralName = '%skilograms square %smeters per %scandela per square radian';
+  rsKilogramSquareMeterPerCandelaPerSteradianSymbol = '%skg∙%sm²/%scd/sr';
+  rsKilogramSquareMeterPerCandelaPerSteradianName = '%skilogram square %smeter per %scandela per steradian';
+  rsKilogramSquareMeterPerCandelaPerSteradianPluralName = '%skilograms square %smeters per %scandela per steradian';
 
 const
-  KilogramSquareMeterPerCandelaPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsKilogramSquareMeterPerCandelaPerSquareRadianSymbol;
-    FName       : rsKilogramSquareMeterPerCandelaPerSquareRadianName;
-    FPluralName : rsKilogramSquareMeterPerCandelaPerSquareRadianPluralName;
+  KilogramSquareMeterPerCandelaPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsKilogramSquareMeterPerCandelaPerSteradianSymbol;
+    FName       : rsKilogramSquareMeterPerCandelaPerSteradianName;
+    FPluralName : rsKilogramSquareMeterPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -1));
 
@@ -13708,106 +13744,106 @@ resourcestring
 
 const
   KilogramSquareMeterPerCubicSecondPerCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerCubicSecondPerCandelaSymbol;
     FName       : rsKilogramSquareMeterPerCubicSecondPerCandelaName;
     FPluralName : rsKilogramSquareMeterPerCubicSecondPerCandelaPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (1, 2, -3, -1));
 
-{ TSquareSecondSquareRadianPerSquareMeter }
+{ TSquareSecondSteradianPerSquareMeter }
 
 resourcestring
-  rsSquareSecondSquareRadianPerSquareMeterSymbol = '%ss²∙rad²/%sm²';
-  rsSquareSecondSquareRadianPerSquareMeterName = 'square %ssecond square radian per square %smeter';
-  rsSquareSecondSquareRadianPerSquareMeterPluralName = 'square %sseconds square radians per square %smeter';
+  rsSquareSecondSteradianPerSquareMeterSymbol = '%ss²∙sr/%sm²';
+  rsSquareSecondSteradianPerSquareMeterName = 'square %ssecond steradian per square %smeter';
+  rsSquareSecondSteradianPerSquareMeterPluralName = 'square %sseconds steradians per square %smeter';
 
 const
-  SquareSecondSquareRadianPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareSecondSquareRadianPerSquareMeterSymbol;
-    FName       : rsSquareSecondSquareRadianPerSquareMeterName;
-    FPluralName : rsSquareSecondSquareRadianPerSquareMeterPluralName;
+  SquareSecondSteradianPerSquareMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSquareSecondSteradianPerSquareMeterSymbol;
+    FName       : rsSquareSecondSteradianPerSquareMeterName;
+    FPluralName : rsSquareSecondSteradianPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
 
-{ TCubicSecondSquareRadianPerMeter }
+{ TCubicSecondSteradianPerMeter }
 
 resourcestring
-  rsCubicSecondSquareRadianPerMeterSymbol = '%ss³∙rad²/%sm';
-  rsCubicSecondSquareRadianPerMeterName = 'cubic %ssecond square radian per %smeter';
-  rsCubicSecondSquareRadianPerMeterPluralName = 'cubic %sseconds square radians per %smeter';
+  rsCubicSecondSteradianPerMeterSymbol = '%ss³∙sr/%sm';
+  rsCubicSecondSteradianPerMeterName = 'cubic %ssecond steradian per %smeter';
+  rsCubicSecondSteradianPerMeterPluralName = 'cubic %sseconds steradians per %smeter';
 
 const
-  CubicSecondSquareRadianPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsCubicSecondSquareRadianPerMeterSymbol;
-    FName       : rsCubicSecondSquareRadianPerMeterName;
-    FPluralName : rsCubicSecondSquareRadianPerMeterPluralName;
+  CubicSecondSteradianPerMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsCubicSecondSteradianPerMeterSymbol;
+    FName       : rsCubicSecondSteradianPerMeterName;
+    FPluralName : rsCubicSecondSteradianPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
 
-{ TSquareRadianPerKilogramPerMeter }
+{ TSteradianPerKilogramPerMeter }
 
 resourcestring
-  rsSquareRadianPerKilogramPerMeterSymbol = 'rad²/%skg/%sm';
-  rsSquareRadianPerKilogramPerMeterName = 'square radian per %skilogram per %smeter';
-  rsSquareRadianPerKilogramPerMeterPluralName = 'square radians per %skilogram per %smeter';
+  rsSteradianPerKilogramPerMeterSymbol = 'sr/%skg/%sm';
+  rsSteradianPerKilogramPerMeterName = 'steradian per %skilogram per %smeter';
+  rsSteradianPerKilogramPerMeterPluralName = 'steradians per %skilogram per %smeter';
 
 const
-  SquareRadianPerKilogramPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareRadianPerKilogramPerMeterSymbol;
-    FName       : rsSquareRadianPerKilogramPerMeterName;
-    FPluralName : rsSquareRadianPerKilogramPerMeterPluralName;
+  SteradianPerKilogramPerMeterUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSteradianPerKilogramPerMeterSymbol;
+    FName       : rsSteradianPerKilogramPerMeterName;
+    FPluralName : rsSteradianPerKilogramPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
 
-{ TMeterCubicSecondSquareRadian }
+{ TMeterCubicSecondSteradian }
 
 resourcestring
-  rsMeterCubicSecondSquareRadianSymbol = '%sm∙%ss³∙rad²';
-  rsMeterCubicSecondSquareRadianName = '%smeter cubic %ssecond square radian';
-  rsMeterCubicSecondSquareRadianPluralName = '%smeters cubic %sseconds square radians';
+  rsMeterCubicSecondSteradianSymbol = '%sm∙%ss³∙sr';
+  rsMeterCubicSecondSteradianName = '%smeter cubic %ssecond steradian';
+  rsMeterCubicSecondSteradianPluralName = '%smeters cubic %sseconds steradians';
 
 const
-  MeterCubicSecondSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsMeterCubicSecondSquareRadianSymbol;
-    FName       : rsMeterCubicSecondSquareRadianName;
-    FPluralName : rsMeterCubicSecondSquareRadianPluralName;
+  MeterCubicSecondSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsMeterCubicSecondSteradianSymbol;
+    FName       : rsMeterCubicSecondSteradianName;
+    FPluralName : rsMeterCubicSecondSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 3));
 
-{ TMeterSquareRadianPerKilogram }
+{ TMeterSteradianPerKilogram }
 
 resourcestring
-  rsMeterSquareRadianPerKilogramSymbol = '%sm∙rad²/%skg';
-  rsMeterSquareRadianPerKilogramName = '%smeter square radian per %skilogram';
-  rsMeterSquareRadianPerKilogramPluralName = '%smeters square radians per %skilogram';
+  rsMeterSteradianPerKilogramSymbol = '%sm∙sr/%skg';
+  rsMeterSteradianPerKilogramName = '%smeter steradian per %skilogram';
+  rsMeterSteradianPerKilogramPluralName = '%smeters steradians per %skilogram';
 
 const
-  MeterSquareRadianPerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsMeterSquareRadianPerKilogramSymbol;
-    FName       : rsMeterSquareRadianPerKilogramName;
-    FPluralName : rsMeterSquareRadianPerKilogramPluralName;
+  MeterSteradianPerKilogramUnit : TUnit = (
+    FDim        : (FKilogram: -60; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsMeterSteradianPerKilogramSymbol;
+    FName       : rsMeterSteradianPerKilogramName;
+    FPluralName : rsMeterSteradianPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
-{ TSquareSecondSquareRadian }
+{ TSquareSecondSteradian }
 
 resourcestring
-  rsSquareSecondSquareRadianSymbol = '%ss²∙rad²';
-  rsSquareSecondSquareRadianName = 'square %ssecond square radian';
-  rsSquareSecondSquareRadianPluralName = 'square %sseconds square radians';
+  rsSquareSecondSteradianSymbol = '%ss²∙sr';
+  rsSquareSecondSteradianName = 'square %ssecond steradian';
+  rsSquareSecondSteradianPluralName = 'square %sseconds steradians';
 
 const
-  SquareSecondSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareSecondSquareRadianSymbol;
-    FName       : rsSquareSecondSquareRadianName;
-    FPluralName : rsSquareSecondSquareRadianPluralName;
+  SquareSecondSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSquareSecondSteradianSymbol;
+    FName       : rsSquareSecondSteradianName;
+    FPluralName : rsSquareSecondSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (2));
 
@@ -13820,7 +13856,7 @@ resourcestring
 
 const
   CubicMeterSecondUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsCubicMeterSecondSymbol;
     FName       : rsCubicMeterSecondName;
     FPluralName : rsCubicMeterSecondPluralName;
@@ -13836,7 +13872,7 @@ resourcestring
 
 const
   MolePerAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: -60; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMolePerAmpereSymbol;
     FName       : rsMolePerAmpereName;
     FPluralName : rsMolePerAmperePluralName;
@@ -13852,7 +13888,7 @@ resourcestring
 
 const
   SexticSecondSquareAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticSecondSquareAmpereSymbol;
     FName       : rsSexticSecondSquareAmpereName;
     FPluralName : rsSexticSecondSquareAmperePluralName;
@@ -13868,7 +13904,7 @@ resourcestring
 
 const
   SquareAmperePerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerQuarticMeterSymbol;
     FName       : rsSquareAmperePerQuarticMeterName;
     FPluralName : rsSquareAmperePerQuarticMeterPluralName;
@@ -13884,7 +13920,7 @@ resourcestring
 
 const
   SexticSecondPerQuarticMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -240; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticSecondPerQuarticMeterSymbol;
     FName       : rsSexticSecondPerQuarticMeterName;
     FPluralName : rsSexticSecondPerQuarticMeterPluralName;
@@ -13900,7 +13936,7 @@ resourcestring
 
 const
   SquareAmperePerSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareAmperePerSquareKilogramSymbol;
     FName       : rsSquareAmperePerSquareKilogramName;
     FPluralName : rsSquareAmperePerSquareKilogramPluralName;
@@ -13916,26 +13952,26 @@ resourcestring
 
 const
   SexticSecondPerSquareKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -120; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSexticSecondPerSquareKilogramSymbol;
     FName       : rsSexticSecondPerSquareKilogramName;
     FPluralName : rsSexticSecondPerSquareKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (6, -2));
 
-{ TCubicMeterPerSquareRadian }
+{ TCubicMeterPerSteradian }
 
 resourcestring
-  rsCubicMeterPerSquareRadianSymbol = '%sm³/rad²';
-  rsCubicMeterPerSquareRadianName = 'cubic %smeter per square radian';
-  rsCubicMeterPerSquareRadianPluralName = 'cubic %smeters per square radian';
+  rsCubicMeterPerSteradianSymbol = '%sm³/sr';
+  rsCubicMeterPerSteradianName = 'cubic %smeter per steradian';
+  rsCubicMeterPerSteradianPluralName = 'cubic %smeters per steradian';
 
 const
-  CubicMeterPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: -120);
-    FSymbol     : rsCubicMeterPerSquareRadianSymbol;
-    FName       : rsCubicMeterPerSquareRadianName;
-    FPluralName : rsCubicMeterPerSquareRadianPluralName;
+  CubicMeterPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: -60);
+    FSymbol     : rsCubicMeterPerSteradianSymbol;
+    FName       : rsCubicMeterPerSteradianName;
+    FPluralName : rsCubicMeterPerSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
 
@@ -13948,7 +13984,7 @@ resourcestring
 
 const
   CubicMeterPerCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsCubicMeterPerCandelaSymbol;
     FName       : rsCubicMeterPerCandelaName;
     FPluralName : rsCubicMeterPerCandelaPluralName;
@@ -13964,7 +14000,7 @@ resourcestring
 
 const
   QuarticKelvinPerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 240; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticKelvinPerSquareMeterSymbol;
     FName       : rsQuarticKelvinPerSquareMeterName;
     FPluralName : rsQuarticKelvinPerSquareMeterPluralName;
@@ -13980,7 +14016,7 @@ resourcestring
 
 const
   SquareSecondMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondMoleSymbol;
     FName       : rsSquareSecondMoleName;
     FPluralName : rsSquareSecondMolePluralName;
@@ -13996,7 +14032,7 @@ resourcestring
 
 const
   MolePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMolePerSquareMeterSymbol;
     FName       : rsMolePerSquareMeterName;
     FPluralName : rsMolePerSquareMeterPluralName;
@@ -14012,7 +14048,7 @@ resourcestring
 
 const
   MolePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsMolePerKilogramSymbol;
     FName       : rsMolePerKilogramName;
     FPluralName : rsMolePerKilogramPluralName;
@@ -14028,7 +14064,7 @@ resourcestring
 
 const
   SquareSecondKelvinMoleUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsSquareSecondKelvinMoleSymbol;
     FName       : rsSquareSecondKelvinMoleName;
     FPluralName : rsSquareSecondKelvinMolePluralName;
@@ -14044,7 +14080,7 @@ resourcestring
 
 const
   KelvinMolePerSquareMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: -120; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinMolePerSquareMeterSymbol;
     FName       : rsKelvinMolePerSquareMeterName;
     FPluralName : rsKelvinMolePerSquareMeterPluralName;
@@ -14060,7 +14096,7 @@ resourcestring
 
 const
   KelvinMolePerKilogramUnit : TUnit = (
-    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: -60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 60; FMole: 60; FCandela: 0; FSteradian: 0);
     FSymbol     : rsKelvinMolePerKilogramSymbol;
     FName       : rsKelvinMolePerKilogramName;
     FPluralName : rsKelvinMolePerKilogramPluralName;
@@ -14076,26 +14112,26 @@ resourcestring
 
 const
   QuarticSecondAmpereUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 60; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsQuarticSecondAmpereSymbol;
     FName       : rsQuarticSecondAmpereName;
     FPluralName : rsQuarticSecondAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, 1));
 
-{ TReciprocalCubicSecondCandelaSquareRadian }
+{ TReciprocalCubicSecondCandelaSteradian }
 
 resourcestring
-  rsReciprocalCubicSecondCandelaSquareRadianSymbol = '1/%ss³/%scd/rad²';
-  rsReciprocalCubicSecondCandelaSquareRadianName = 'reciprocal cubic %ssecond %scandela square radian';
-  rsReciprocalCubicSecondCandelaSquareRadianPluralName = 'reciprocal cubic %ssecond %scandela square radian';
+  rsReciprocalCubicSecondCandelaSteradianSymbol = '1/%ss³/%scd/sr';
+  rsReciprocalCubicSecondCandelaSteradianName = 'reciprocal cubic %ssecond %scandela steradian';
+  rsReciprocalCubicSecondCandelaSteradianPluralName = 'reciprocal cubic %ssecond %scandela steradian';
 
 const
-  ReciprocalCubicSecondCandelaSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsReciprocalCubicSecondCandelaSquareRadianSymbol;
-    FName       : rsReciprocalCubicSecondCandelaSquareRadianName;
-    FPluralName : rsReciprocalCubicSecondCandelaSquareRadianPluralName;
+  ReciprocalCubicSecondCandelaSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsReciprocalCubicSecondCandelaSteradianSymbol;
+    FName       : rsReciprocalCubicSecondCandelaSteradianName;
+    FPluralName : rsReciprocalCubicSecondCandelaSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-3, -1));
 
@@ -14108,26 +14144,26 @@ resourcestring
 
 const
   SquareMeterPerCubicSecondPerCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 120; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsSquareMeterPerCubicSecondPerCandelaSymbol;
     FName       : rsSquareMeterPerCubicSecondPerCandelaName;
     FPluralName : rsSquareMeterPerCubicSecondPerCandelaPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -3, -1));
 
-{ TKilogramPerCandelaPerSquareRadian }
+{ TKilogramPerCandelaPerSteradian }
 
 resourcestring
-  rsKilogramPerCandelaPerSquareRadianSymbol = '%skg/%scd/rad²';
-  rsKilogramPerCandelaPerSquareRadianName = '%skilogram per %scandela per square radian';
-  rsKilogramPerCandelaPerSquareRadianPluralName = '%skilograms per %scandela per square radian';
+  rsKilogramPerCandelaPerSteradianSymbol = '%skg/%scd/sr';
+  rsKilogramPerCandelaPerSteradianName = '%skilogram per %scandela per steradian';
+  rsKilogramPerCandelaPerSteradianPluralName = '%skilograms per %scandela per steradian';
 
 const
-  KilogramPerCandelaPerSquareRadianUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: -120);
-    FSymbol     : rsKilogramPerCandelaPerSquareRadianSymbol;
-    FName       : rsKilogramPerCandelaPerSquareRadianName;
-    FPluralName : rsKilogramPerCandelaPerSquareRadianPluralName;
+  KilogramPerCandelaPerSteradianUnit : TUnit = (
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: -60);
+    FSymbol     : rsKilogramPerCandelaPerSteradianSymbol;
+    FName       : rsKilogramPerCandelaPerSteradianName;
+    FPluralName : rsKilogramPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
@@ -14140,7 +14176,7 @@ resourcestring
 
 const
   KilogramPerCubicSecondPerCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsKilogramPerCubicSecondPerCandelaSymbol;
     FName       : rsKilogramPerCubicSecondPerCandelaName;
     FPluralName : rsKilogramPerCubicSecondPerCandelaPluralName;
@@ -14156,26 +14192,26 @@ resourcestring
 
 const
   KilogramSquareMeterPerCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsKilogramSquareMeterPerCandelaSymbol;
     FName       : rsKilogramSquareMeterPerCandelaName;
     FPluralName : rsKilogramSquareMeterPerCandelaPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -1));
 
-{ TSquareRadianPerMeter }
+{ TSteradianPerMeter }
 
 resourcestring
-  rsSquareRadianPerMeterSymbol = 'rad²/%sm';
-  rsSquareRadianPerMeterName = 'square radian per %smeter';
-  rsSquareRadianPerMeterPluralName = 'square radians per %smeter';
+  rsSteradianPerMeterSymbol = 'sr/%sm';
+  rsSteradianPerMeterName = 'steradian per %smeter';
+  rsSteradianPerMeterPluralName = 'steradians per %smeter';
 
 const
-  SquareRadianPerMeterUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FRadian: 120);
-    FSymbol     : rsSquareRadianPerMeterSymbol;
-    FName       : rsSquareRadianPerMeterName;
-    FPluralName : rsSquareRadianPerMeterPluralName;
+  SteradianPerMeterUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: -60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 60);
+    FSymbol     : rsSteradianPerMeterSymbol;
+    FName       : rsSteradianPerMeterName;
+    FPluralName : rsSteradianPerMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
@@ -14188,7 +14224,7 @@ resourcestring
 
 const
   ReciprocalCubicSecondCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsReciprocalCubicSecondCandelaSymbol;
     FName       : rsReciprocalCubicSecondCandelaName;
     FPluralName : rsReciprocalCubicSecondCandelaPluralName;
@@ -14204,7 +14240,7 @@ resourcestring
 
 const
   KilogramPerCandelaUnit : TUnit = (
-    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FRadian: 0);
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: -60; FSteradian: 0);
     FSymbol     : rsKilogramPerCandelaSymbol;
     FName       : rsKilogramPerCandelaName;
     FPluralName : rsKilogramPerCandelaPluralName;
@@ -14263,30 +14299,30 @@ function GreaterThanZero(const AQuantity: TQuantity): boolean;
 { Constants }
 
 const
-  AvogadroConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole: -60; FCandela: 0; FRadian: 0); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
-  BohrMagneton                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond:    0; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
-  BohrRadius                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
-  BoltzmannConstant              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole:   0; FCandela: 0; FRadian: 0); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
-  ComptonWaveLength              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
-  CoulombConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -240; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
-  DeuteronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
-  ElectricPermittivity           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -180; FSecond:  240; FAmpere:  120; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
-  ElectronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
-  ElectronCharge                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:   60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
-  FineStructureConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
-  InverseFineStructureConstant   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
-  MagneticPermeability           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
-  MolarGasConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FRadian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
-  NeutronMass                    : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
-  NewtonianConstantOfGravitation : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter:  180; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
-  PlanckConstant                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
-  ProtonMass                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
-  RydbergConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
-  SpeedOfLight                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
-  SquaredSpeedOfLight            : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
-  StandardAccelerationOfGravity  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
-  ReducedPlanckConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
-  UnifiedAtomicMassUnit          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FRadian: 0); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
+  AvogadroConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole: -60; FCandela: 0; FSteradian: 0); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
+  BohrMagneton                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond:    0; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
+  BohrRadius                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
+  BoltzmannConstant              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole:   0; FCandela: 0; FSteradian: 0); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
+  ComptonWaveLength              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
+  CoulombConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -240; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
+  DeuteronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
+  ElectricPermittivity           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -180; FSecond:  240; FAmpere:  120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
+  ElectronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
+  ElectronCharge                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:   60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
+  FineStructureConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
+  InverseFineStructureConstant   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
+  MagneticPermeability           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
+  MolarGasConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
+  NeutronMass                    : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+  NewtonianConstantOfGravitation : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter:  180; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
+  PlanckConstant                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
+  ProtonMass                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+  RydbergConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
+  SpeedOfLight                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
+  SquaredSpeedOfLight            : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
+  StandardAccelerationOfGravity  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
+  ReducedPlanckConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
+  UnifiedAtomicMassUnit          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
 
 { Prefix Table }
 
@@ -14366,16 +14402,16 @@ end;
 function DimToShortString(AValue: smallint; const ASymbol: string): string;
 begin
   AValue := System.Abs(AValue);
-  if (AValue = 10 ) then result := Format('√[6]{%s}',   [ASymbol]) else
-  if (AValue = 12 ) then result := Format('√[5]{%s}',   [ASymbol]) else
-  if (AValue = 15 ) then result := '∜'  + Format('%s' , [ASymbol]) else
-  if (AValue = 20 ) then result := '∛'  + Format('%s' , [ASymbol]) else
-  if (AValue = 30 ) then result := '√'  + Format('%s' , [ASymbol]) else
-  if (AValue = 45 ) then result := '∜'  + Format('%s3', [ASymbol]) else
+  if (AValue = 10 ) then result := '⁶√' + Format('%s',  [ASymbol]) else
+  if (AValue = 12 ) then result := '⁵√' + Format('%s',  [ASymbol]) else
+  if (AValue = 15 ) then result :=  '∜' + Format('%s' , [ASymbol]) else
+  if (AValue = 20 ) then result :=  '∛' + Format('%s' , [ASymbol]) else
+  if (AValue = 30 ) then result :=  '√' + Format('%s' , [ASymbol]) else
+  if (AValue = 45 ) then result :=  '∜' + Format('%s3', [ASymbol]) else
   if (AValue = 60 ) then result :=        Format('%s' , [ASymbol]) else
-  if (AValue = 90 ) then result := '√'  + Format('%s3', [ASymbol]) else
+  if (AValue = 90 ) then result :=  '√' + Format('%s3', [ASymbol]) else
   if (AValue = 120) then result :=        Format('%s2', [ASymbol]) else
-  if (AValue = 150) then result := '√'  + Format('%s5', [ASymbol]) else
+  if (AValue = 150) then result :=  '√' + Format('%s5', [ASymbol]) else
   if (AValue = 180) then result :=        Format('%s3', [ASymbol]) else
   if (AValue = 240) then result :=        Format('%s4', [ASymbol]) else
   if (AValue = 300) then result :=        Format('%s5', [ASymbol]) else
@@ -14388,26 +14424,26 @@ var
   Num, Denom: string;
 begin
   Num := '';
-  if AValue.FKilogram > 0 then Num := Num + '.' + DimToShortString(AValue.FKilogram, '%skg');
-  if AValue.FMeter    > 0 then Num := Num + '.' + DimToShortString(AValue.FMeter,     '%sm');
-  if AValue.FSecond   > 0 then Num := Num + '.' + DimToShortString(AValue.FSecond,    '%ss');
-  if AValue.FAmpere   > 0 then Num := Num + '.' + DimToShortString(AValue.FAmpere,    '%sA');
-  if AValue.FKelvin   > 0 then Num := Num + '.' + DimToShortString(AValue.FKelvin,    '%sK');
-  if AValue.FMole     > 0 then Num := Num + '.' + DimToShortString(AValue.FMole,    '%smol');
-  if AValue.FCandela  > 0 then Num := Num + '.' + DimToShortString(AValue.FCandela,  '%scd');
-  if AValue.FRadian   > 0 then Num := Num + '.' + DimToShortString(AValue.FRadian,    'rad');
+  if AValue.FKilogram  > 0 then Num := Num + '.' + DimToShortString(AValue.FKilogram, '%skg');
+  if AValue.FMeter     > 0 then Num := Num + '.' + DimToShortString(AValue.FMeter,     '%sm');
+  if AValue.FSecond    > 0 then Num := Num + '.' + DimToShortString(AValue.FSecond,    '%ss');
+  if AValue.FAmpere    > 0 then Num := Num + '.' + DimToShortString(AValue.FAmpere,    '%sA');
+  if AValue.FKelvin    > 0 then Num := Num + '.' + DimToShortString(AValue.FKelvin,    '%sK');
+  if AValue.FMole      > 0 then Num := Num + '.' + DimToShortString(AValue.FMole,    '%smol');
+  if AValue.FCandela   > 0 then Num := Num + '.' + DimToShortString(AValue.FCandela,  '%scd');
+  if AValue.FSteradian > 0 then Num := Num + '.' + DimToShortString(AValue.FSteradian,  'sr');
 
   if (Length(Num) > 0) then Delete(Num, 1, 1);
 
   Denom := '';
-  if AValue.FKilogram < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKilogram, '%skg');
-  if AValue.FMeter    < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMeter,     '%sm');
-  if AValue.FSecond   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FSecond,    '%ss');
-  if AValue.FAmpere   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FAmpere,    '%sA');
-  if AValue.FKelvin   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKelvin,    '%sK');
-  if AValue.FMole     < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMole,    '%smol');
-  if AValue.FCandela  < 0 then Denom := Denom + '/' + DimToShortString(AValue.FCandela,  '%scd');
-  if AValue.FRadian   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FRadian,     'sr');
+  if AValue.FKilogram  < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKilogram, '%skg');
+  if AValue.FMeter     < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMeter,     '%sm');
+  if AValue.FSecond    < 0 then Denom := Denom + '/' + DimToShortString(AValue.FSecond,    '%ss');
+  if AValue.FAmpere    < 0 then Denom := Denom + '/' + DimToShortString(AValue.FAmpere,    '%sA');
+  if AValue.FKelvin    < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKelvin,    '%sK');
+  if AValue.FMole      < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMole,    '%smol');
+  if AValue.FCandela   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FCandela,  '%scd');
+  if AValue.FSteradian < 0 then Denom := Denom + '/' + DimToShortString(AValue.FSteradian,  'sr');
 
   if Num = '' then
   begin
