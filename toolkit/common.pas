@@ -27,7 +27,7 @@ uses
   Classes, SysUtils;
 
 type
-  TExponents = array [1..8] of longint;
+  TExponents = array [0..7] of longint;
 
 const
   TExponentValues : array[0..13] of longint = (10, 12, 15, 20, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360);
@@ -180,15 +180,8 @@ end;
 
 function GetUnitID(const ADim: TExponents): string;
 begin
-  result := Format('(FKilogram: %d; FMeter: %d; FSecond: %d; FAmpere: %d; FKelvin: %d; FMole: %d; FCandela: %d; FRadian: %d)', [
-    ADim[1],
-    ADim[2],
-    ADim[3],
-    ADim[4],
-    ADim[5],
-    ADim[6],
-    ADim[7],
-    ADim[8]]);
+  result := Format('(FKilogram: %d; FMeter: %d; FSecond: %d; FAmpere: %d; FKelvin: %d; FMole: %d; FCandela: %d; FSteradian: %d)', [
+    ADim[0], ADim[1], ADim[2], ADim[3], ADim[4], ADim[5], ADim[6], ADim[7]]);
 end;
 
 function StringToDimensions(const S: string): TExponents;
@@ -236,28 +229,28 @@ begin
   end;
   List2 := nil;
 
-  result[1] := GetExponent(  'kg');
-  result[2] := GetExponent(   'm');
-  result[3] := GetExponent(   's');
-  result[4] := GetExponent(   'A');
-  result[5] := GetExponent(   'K');
-  result[6] := GetExponent( 'mol');
-  result[7] := GetExponent(  'cd');
-  result[8] := GetExponent( 'rad');
+  result[0] := GetExponent(  'kg');
+  result[1] := GetExponent(   'm');
+  result[2] := GetExponent(   's');
+  result[3] := GetExponent(   'A');
+  result[4] := GetExponent(   'K');
+  result[5] := GetExponent( 'mol');
+  result[6] := GetExponent(  'cd');
+  result[7] := GetExponent(  'sr');
   List1.Destroy;
 end;
 
 function DimensionToString(const ADim: TExponents): string;
 begin
   result := '';
-  if (ADim[1] <> 0) then result := result + Format('kg%0.2f ',  [ADim[1]/TExponentBase]);
-  if (ADim[2] <> 0) then result := result + Format('m%0.2f ',   [ADim[2]/TExponentBase]);
-  if (ADim[3] <> 0) then result := result + Format('s%0.2f ',   [ADim[3]/TExponentBase]);
-  if (ADim[4] <> 0) then result := result + Format('A%0.2f ',   [ADim[4]/TExponentBase]);
-  if (ADim[5] <> 0) then result := result + Format('K%0.2f ',   [ADim[5]/TExponentBase]);
-  if (ADim[6] <> 0) then result := result + Format('mol%0.2f ', [ADim[6]/TExponentBase]);
-  if (ADim[7] <> 0) then result := result + Format('cd%0.2f ',  [ADim[7]/TExponentBase]);
-  if (ADim[8] <> 0) then result := result + Format('rad%0.2f ', [ADim[8]/TExponentBase]);
+  if (ADim[0] <> 0) then result := result + Format('kg%0.2f ',  [ADim[0]/TExponentBase]);
+  if (ADim[1] <> 0) then result := result + Format('m%0.2f ',   [ADim[1]/TExponentBase]);
+  if (ADim[2] <> 0) then result := result + Format('s%0.2f ',   [ADim[2]/TExponentBase]);
+  if (ADim[3] <> 0) then result := result + Format('A%0.2f ',   [ADim[3]/TExponentBase]);
+  if (ADim[4] <> 0) then result := result + Format('K%0.2f ',   [ADim[4]/TExponentBase]);
+  if (ADim[5] <> 0) then result := result + Format('mol%0.2f ', [ADim[5]/TExponentBase]);
+  if (ADim[6] <> 0) then result := result + Format('cd%0.2f ',  [ADim[6]/TExponentBase]);
+  if (ADim[7] <> 0) then result := result + Format('sr%0.2f ',  [ADim[7]/TExponentBase]);
 
   if result <> '' then
     SetLength(result, Length(result) -1);
@@ -312,24 +305,24 @@ var
   Num, Denom: string;
 begin
   Num := '';
-  if ADim[1] > 0 then Num := Num + DimensionToLongString(ADim[1], '%sKilogram? ');
-  if ADim[2] > 0 then Num := Num + DimensionToLongString(ADim[2], '%sMeter? '   );
-  if ADim[3] > 0 then Num := Num + DimensionToLongString(ADim[3], '%sSecond? '  );
-  if ADim[4] > 0 then Num := Num + DimensionToLongString(ADim[4], '%sAmpere? '  );
-  if ADim[5] > 0 then Num := Num + DimensionToLongString(ADim[5], '%sKelvin? '  );
-  if ADim[6] > 0 then Num := Num + DimensionToLongString(ADim[6], '%sMole? '    );
-  if ADim[7] > 0 then Num := Num + DimensionToLongString(ADim[7], '%sCandela? ' );
-  if ADim[8] > 0 then Num := Num + DimensionToLongString(ADim[8], 'Radian? '  );
+  if ADim[0] > 0 then Num := Num + DimensionToLongString(ADim[0], '%sKilogram? ');
+  if ADim[1] > 0 then Num := Num + DimensionToLongString(ADim[1], '%sMeter? '   );
+  if ADim[2] > 0 then Num := Num + DimensionToLongString(ADim[2], '%sSecond? '  );
+  if ADim[3] > 0 then Num := Num + DimensionToLongString(ADim[3], '%sAmpere? '  );
+  if ADim[4] > 0 then Num := Num + DimensionToLongString(ADim[4], '%sKelvin? '  );
+  if ADim[5] > 0 then Num := Num + DimensionToLongString(ADim[5], '%sMole? '    );
+  if ADim[6] > 0 then Num := Num + DimensionToLongString(ADim[6], '%sCandela? ' );
+  if ADim[7] > 0 then Num := Num + DimensionToLongString(ADim[7], 'Steradian? ' );
 
   Denom := '';
-  if ADim[1] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[1], '%sKilogram ');
-  if ADim[2] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[2], '%sMeter '   );
-  if ADim[3] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[3], '%sSecond '  );
-  if ADim[4] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[4], '%sAmpere '  );
-  if ADim[5] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[5], '%sKelvin '  );
-  if ADim[6] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[6], '%sMole '    );
-  if ADim[7] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[7], '%sCandela ' );
-  if ADim[8] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[8], 'Radian '  );
+  if ADim[0] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[0], '%sKilogram ');
+  if ADim[1] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[1], '%sMeter '   );
+  if ADim[2] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[2], '%sSecond '  );
+  if ADim[3] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[3], '%sAmpere '  );
+  if ADim[4] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[4], '%sKelvin '  );
+  if ADim[5] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[5], '%sMole '    );
+  if ADim[6] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[6], '%sCandela ' );
+  if ADim[7] < 0 then Denom := Denom + 'Per ' + DimensionToLongString(ADim[7], 'Steradian ' );
 
   if Num = '' then
   begin
@@ -371,26 +364,26 @@ var
   Num, Denom: string;
 begin
   Num := '';
-  if ADim[1] > 0 then Num := Num + '.' + DimensionToShortString(ADim[1], '%skg' );
-  if ADim[2] > 0 then Num := Num + '.' + DimensionToShortString(ADim[2], '%sm'  );
-  if ADim[3] > 0 then Num := Num + '.' + DimensionToShortString(ADim[3], '%ss'  );
-  if ADim[4] > 0 then Num := Num + '.' + DimensionToShortString(ADim[4], '%sA'  );
-  if ADim[5] > 0 then Num := Num + '.' + DimensionToShortString(ADim[5], '%sK'  );
-  if ADim[6] > 0 then Num := Num + '.' + DimensionToShortString(ADim[6], '%smol');
-  if ADim[7] > 0 then Num := Num + '.' + DimensionToShortString(ADim[7], '%scd' );
-  if ADim[8] > 0 then Num := Num + '.' + DimensionToShortString(ADim[8], 'rad');
+  if ADim[0] > 0 then Num := Num + '.' + DimensionToShortString(ADim[0], '%skg' );
+  if ADim[1] > 0 then Num := Num + '.' + DimensionToShortString(ADim[1], '%sm'  );
+  if ADim[2] > 0 then Num := Num + '.' + DimensionToShortString(ADim[2], '%ss'  );
+  if ADim[3] > 0 then Num := Num + '.' + DimensionToShortString(ADim[3], '%sA'  );
+  if ADim[4] > 0 then Num := Num + '.' + DimensionToShortString(ADim[4], '%sK'  );
+  if ADim[5] > 0 then Num := Num + '.' + DimensionToShortString(ADim[5], '%smol');
+  if ADim[6] > 0 then Num := Num + '.' + DimensionToShortString(ADim[6], '%scd' );
+  if ADim[7] > 0 then Num := Num + '.' + DimensionToShortString(ADim[7], 'sr'   );
 
   if (Length(Num) > 0) then Delete(Num, 1, 1);
 
   Denom := '';
-  if ADim[1] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[1], '%skg' );
-  if ADim[2] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[2], '%sm'  );
-  if ADim[3] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[3], '%ss'  );
-  if ADim[4] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[4], '%sA'  );
-  if ADim[5] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[5], '%sK'  );
-  if ADim[6] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[6], '%smol');
-  if ADim[7] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[7], '%scd' );
-  if ADim[8] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[8], 'rad');
+  if ADim[0] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[0], '%skg' );
+  if ADim[1] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[1], '%sm'  );
+  if ADim[2] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[2], '%ss'  );
+  if ADim[3] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[3], '%sA'  );
+  if ADim[4] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[4], '%sK'  );
+  if ADim[5] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[5], '%smol');
+  if ADim[6] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[6], '%scd' );
+  if ADim[7] < 0 then Denom := Denom + '/' + DimensionToShortString(ADim[7], 'sr'   );
 
   if Num = '' then
   begin
@@ -414,6 +407,7 @@ end;
 
 function SumDim(const ADim1, ADim2: TExponents): TExponents;
 begin
+  result[0] := ADim1[0] + ADim2[0];
   result[1] := ADim1[1] + ADim2[1];
   result[2] := ADim1[2] + ADim2[2];
   result[3] := ADim1[3] + ADim2[3];
@@ -421,11 +415,11 @@ begin
   result[5] := ADim1[5] + ADim2[5];
   result[6] := ADim1[6] + ADim2[6];
   result[7] := ADim1[7] + ADim2[7];
-  result[8] := ADim1[8] + ADim2[8];
 end;
 
 function SubDim(const ADim1, ADim2: TExponents): TExponents;
 begin
+  result[0] := ADim1[0] - ADim2[0];
   result[1] := ADim1[1] - ADim2[1];
   result[2] := ADim1[2] - ADim2[2];
   result[3] := ADim1[3] - ADim2[3];
@@ -433,7 +427,6 @@ begin
   result[5] := ADim1[5] - ADim2[5];
   result[6] := ADim1[6] - ADim2[6];
   result[7] := ADim1[7] - ADim2[7];
-  result[8] := ADim1[8] - ADim2[8];
 end;
 
 function GetReciprocal(const AExponents: TExponents): TExponents;
