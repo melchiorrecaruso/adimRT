@@ -26,16 +26,16 @@ end;
 function DimToShortString(AValue: smallint; const ASymbol: string): string;
 begin
   AValue := System.Abs(AValue);
-  if (AValue = 10 ) then result := Format('√[6]{%s}',   [ASymbol]) else
-  if (AValue = 12 ) then result := Format('√[5]{%s}',   [ASymbol]) else
-  if (AValue = 15 ) then result := '∜'  + Format('%s' , [ASymbol]) else
-  if (AValue = 20 ) then result := '∛'  + Format('%s' , [ASymbol]) else
-  if (AValue = 30 ) then result := '√'  + Format('%s' , [ASymbol]) else
-  if (AValue = 45 ) then result := '∜'  + Format('%s3', [ASymbol]) else
+  if (AValue = 10 ) then result := '⁶√' + Format('%s',  [ASymbol]) else
+  if (AValue = 12 ) then result := '⁵√' + Format('%s',  [ASymbol]) else
+  if (AValue = 15 ) then result :=  '∜' + Format('%s' , [ASymbol]) else
+  if (AValue = 20 ) then result :=  '∛' + Format('%s' , [ASymbol]) else
+  if (AValue = 30 ) then result :=  '√' + Format('%s' , [ASymbol]) else
+  if (AValue = 45 ) then result :=  '∜' + Format('%s3', [ASymbol]) else
   if (AValue = 60 ) then result :=        Format('%s' , [ASymbol]) else
-  if (AValue = 90 ) then result := '√'  + Format('%s3', [ASymbol]) else
+  if (AValue = 90 ) then result :=  '√' + Format('%s3', [ASymbol]) else
   if (AValue = 120) then result :=        Format('%s2', [ASymbol]) else
-  if (AValue = 150) then result := '√'  + Format('%s5', [ASymbol]) else
+  if (AValue = 150) then result :=  '√' + Format('%s5', [ASymbol]) else
   if (AValue = 180) then result :=        Format('%s3', [ASymbol]) else
   if (AValue = 240) then result :=        Format('%s4', [ASymbol]) else
   if (AValue = 300) then result :=        Format('%s5', [ASymbol]) else
@@ -48,26 +48,26 @@ var
   Num, Denom: string;
 begin
   Num := '';
-  if AValue.FKilogram > 0 then Num := Num + '.' + DimToShortString(AValue.FKilogram, '%skg');
-  if AValue.FMeter    > 0 then Num := Num + '.' + DimToShortString(AValue.FMeter,     '%sm');
-  if AValue.FSecond   > 0 then Num := Num + '.' + DimToShortString(AValue.FSecond,    '%ss');
-  if AValue.FAmpere   > 0 then Num := Num + '.' + DimToShortString(AValue.FAmpere,    '%sA');
-  if AValue.FKelvin   > 0 then Num := Num + '.' + DimToShortString(AValue.FKelvin,    '%sK');
-  if AValue.FMole     > 0 then Num := Num + '.' + DimToShortString(AValue.FMole,    '%smol');
-  if AValue.FCandela  > 0 then Num := Num + '.' + DimToShortString(AValue.FCandela,  '%scd');
-  if AValue.FRadian   > 0 then Num := Num + '.' + DimToShortString(AValue.FRadian,    'rad');
+  if AValue.FKilogram  > 0 then Num := Num + '.' + DimToShortString(AValue.FKilogram, '%skg');
+  if AValue.FMeter     > 0 then Num := Num + '.' + DimToShortString(AValue.FMeter,     '%sm');
+  if AValue.FSecond    > 0 then Num := Num + '.' + DimToShortString(AValue.FSecond,    '%ss');
+  if AValue.FAmpere    > 0 then Num := Num + '.' + DimToShortString(AValue.FAmpere,    '%sA');
+  if AValue.FKelvin    > 0 then Num := Num + '.' + DimToShortString(AValue.FKelvin,    '%sK');
+  if AValue.FMole      > 0 then Num := Num + '.' + DimToShortString(AValue.FMole,    '%smol');
+  if AValue.FCandela   > 0 then Num := Num + '.' + DimToShortString(AValue.FCandela,  '%scd');
+  if AValue.FSteradian > 0 then Num := Num + '.' + DimToShortString(AValue.FSteradian,  'sr');
 
   if (Length(Num) > 0) then Delete(Num, 1, 1);
 
   Denom := '';
-  if AValue.FKilogram < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKilogram, '%skg');
-  if AValue.FMeter    < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMeter,     '%sm');
-  if AValue.FSecond   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FSecond,    '%ss');
-  if AValue.FAmpere   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FAmpere,    '%sA');
-  if AValue.FKelvin   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKelvin,    '%sK');
-  if AValue.FMole     < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMole,    '%smol');
-  if AValue.FCandela  < 0 then Denom := Denom + '/' + DimToShortString(AValue.FCandela,  '%scd');
-  if AValue.FRadian   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FRadian,     'sr');
+  if AValue.FKilogram  < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKilogram, '%skg');
+  if AValue.FMeter     < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMeter,     '%sm');
+  if AValue.FSecond    < 0 then Denom := Denom + '/' + DimToShortString(AValue.FSecond,    '%ss');
+  if AValue.FAmpere    < 0 then Denom := Denom + '/' + DimToShortString(AValue.FAmpere,    '%sA');
+  if AValue.FKelvin    < 0 then Denom := Denom + '/' + DimToShortString(AValue.FKelvin,    '%sK');
+  if AValue.FMole      < 0 then Denom := Denom + '/' + DimToShortString(AValue.FMole,    '%smol');
+  if AValue.FCandela   < 0 then Denom := Denom + '/' + DimToShortString(AValue.FCandela,  '%scd');
+  if AValue.FSteradian < 0 then Denom := Denom + '/' + DimToShortString(AValue.FSteradian,  'sr');
 
   if Num = '' then
   begin
