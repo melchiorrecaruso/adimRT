@@ -876,14 +876,14 @@ begin
     Item := TToolKitItem(FList[i]);
     if Item.FBase = '' then
     begin
-      if (Item.FExponents[1] = ADim[1]) and
+      if (Item.FExponents[0] = ADim[0]) and
+         (Item.FExponents[1] = ADim[1]) and
          (Item.FExponents[2] = ADim[2]) and
          (Item.FExponents[3] = ADim[3]) and
          (Item.FExponents[4] = ADim[4]) and
          (Item.FExponents[5] = ADim[5]) and
          (Item.FExponents[6] = ADim[6]) and
-         (Item.FExponents[7] = ADim[7]) and
-         (Item.FExponents[8] = ADim[8]) then Exit(i);
+         (Item.FExponents[7] = ADim[7]) then Exit(i);
     end;
   end;
   result := -1;
@@ -899,14 +899,14 @@ begin
     Item := TToolKitItem(FList[i]);
     if Item.FBase = '' then
     begin
-      if (Item.FExponents[1] = ADim[1]) and
+      if (Item.FExponents[0] = ADim[0]) and
+         (Item.FExponents[1] = ADim[1]) and
          (Item.FExponents[2] = ADim[2]) and
          (Item.FExponents[3] = ADim[3]) and
          (Item.FExponents[4] = ADim[4]) and
          (Item.FExponents[5] = ADim[5]) and
          (Item.FExponents[6] = ADim[6]) and
-         (Item.FExponents[7] = ADim[7]) and
-         (Item.FExponents[8] = ADim[8]) then Exit(i);
+         (Item.FExponents[7] = ADim[7]) then Exit(i);
     end;
   end;
   result := -1;
@@ -920,8 +920,7 @@ begin
             (ADim1[4] = ADim2[4]) and
             (ADim1[5] = ADim2[5]) and
             (ADim1[6] = ADim2[6]) and
-            (ADim1[7] = ADim2[7]) and
-            (ADim1[8] = ADim2[8]);
+            (ADim1[7] = ADim2[7]);
 end;
 
 procedure TToolKitList.SaveToFile(const AFileName: string);
