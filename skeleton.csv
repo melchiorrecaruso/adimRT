@@ -1,7 +1,8 @@
 ;TScalar;;;;;;;;;clLime
-;TRadian?;rad;radian?;rad;rad;;;;;clYellow
-;TDegree?;;degree?;°;deg;TRadian?;Pi/180;;;clWhite
-;TSteradian?;rad2;steradian?;sr;sr;;;;;clLime
+;TRadian?;;radian?;rad;rad;TScalar;;;;clYellow
+;TDegree?;;degree?;deg;deg;TScalar;Pi/180;;;clYellow
+;TSteradian?;sr;steradian?;sr;sr;;;;;clLime
+;TSquareDegree?;;square degree?;deg2;deg2;TSteradian?;Pi*Pi/32400;;;clWhite
 ;TSecond?;s;%ssecond?;%ss;s;;;------------SSSSSS------;;clLime
 ;TDay?;;day?;d;day;TSecond?;86400;;;clWhite
 ;THour?;;hour?;h;hr;TSecond?;3600;;;clWhite
@@ -57,11 +58,11 @@
 ;TCandela?;cd;%scandela?;%scd;cd;;;;;clLime
 ;THertz;s-1;%shertz;%sHz;Hz;;;------SSSS--------------;;clLime
 ;TReciprocalSecond?;;reciprocal %ssecond?;1/%ss;;THertz;;;;clWhite
-;TRadian?PerSecond;rad s-1;radian? per %ssecond;rad/%ss;;;;;;clFuchsia
+;TRadian?PerSecond;;radian? per %ssecond;rad/%ss;;THertz;;;;clYellow
 ;TSquareHertz;s-2;square %shertz;%sHz2;Hz2;;;------SSSS--------------;;clLime
 ;TReciprocalSquareSecond?;;reciprocal square %ssecond?;1/%ss2;;TSquareHertz;;;;clWhite
 ;TRadian?PerSquareSecond;;radian? per square %ssecond;rad/%ss2;;TSquareHertz;;;;clYellow
-;TSteradian?PerSquareSecond;rad2 s-2;steradian? per square %ssecond;sr/%ss2;;;;;;clYellow
+;TSteradian?PerSquareSecond;sr s-2;steradian? per square %ssecond;sr/%ss2;;;;;;clYellow
 Mechanics;TMeter?PerSecond;m s-1;%smeter? per %ssecond;%sm/%ss;;;;;unit of measurement for speed.;clLime
 ;TMeter?PerHour;;%smeter? per hour;%sm/h;;TMeter?PerSecond;1/3600;;;clWhite
 ;TMile?PerHour;;mile? per hour;mi/h;;TMeter?PerSecond;0.44704;;;clWhite
@@ -122,11 +123,11 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;TCalorie?;;%scalorie?;%scal;cal;TJoule?;4.184;--------SS--------------;;clWhite
 ;TKilogramSquareMeter?PerSquareSecond;;%sgram square %smeter? per square %ssecond;%sg.%sm2/%ss2;;TJoule?;;;;clWhite
 ;TJoule?PerRadian;;%sjoule? per radian;%sJ/rad;;TJoule?;;;;clYellow
-;TJoule?PerDegree;;%sjoule? per degree;%sJ/°;;TJoule?;180/Pi;;;clYellow
+;TJoule?PerDegree;;%sjoule? per degree;%sJ/deg;;TJoule?;180/Pi;;;clYellow
 ;TNewtonMeter?PerRadian;;%snewton %smeter? per radian;%sN.%sm/rad;;TJoule?;;;;clYellow
-;TNewtonMeter?PerDegree;;%snewton %smeter? per degree;%sN.%sm/°;;TJoule?;180/Pi;;;clYellow
+;TNewtonMeter?PerDegree;;%snewton %smeter? per degree;%sN.%sm/deg;;TJoule?;180/Pi;;;clYellow
 ;TPoundForceInch!PerRadian;;pound-force inch! per radian;lbf.in/rad;;TJoule?;0.112984829027617;;;clYellow
-;TPoundForceInch!PerDegree;;pound-force inch! per degree;lbf.in/°;;TJoule?;6.47355385228963;;;clYellow
+;TPoundForceInch!PerDegree;;pound-force inch! per degree;lbf.in/deg;;TJoule?;6.47355385228963;;;clYellow
 ;TKilogramSquareMeter?PerSquareSecondPerRadian;;%sgram square %smeter? per square %ssecond per radian;%sg.%sm2/%ss2/rad;;TJoule?;;;;clYellow
 ;TWatt?;kg m2 s-3;%swatt?;%sW;W;;;------SSSS----L---------;;clLime
 ;TKilogramSquareMeter?PerCubicSecond;;%sgram square %smeter? per cubic %ssecond;%sg.%sm2/%ss3;;TWatt?;;;;clWhite
@@ -157,13 +158,13 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;THenry!;kg m2 s-2 A-2;%shenry!;%sH;H;;;--------------SSS-------;;clLime
 ;TKilogramSquareMeter?PerSquareAmperePerSquareSecond;;%sgram square %smeter? per square %sampere per square %ssecond;%sg.%sm2/%sA2/%ss2;;THenry!;;;;clWhite
 ;TReciprocalHenry!;s2 A2 kg-1 m-2;reciprocal %shenry!;1/%sH;;;;;;clLime
-;TLumen?;cd rad2;%slumen?;%slm;lm;;;;;clYellow
+;TLumen?;cd sr;%slumen?;%slm;lm;;;;;clYellow
 ;TCandelaSteradian?;;%scandela %ssteradian?;%scd.%ssr;;TLumen?;;;;clWhite
-;TLumenSecond?;cd rad2 s;%slumen %ssecond?;%slm.%ss;;;;;;clYellow
-;TLumenSecond?PerCubicMeter;cd rad2 s m-3;%slumen %ssecond? per cubic meter;%slm.%ss/%sm3;;;;;;clYellow
-;TLux;cd rad2 m-2;%slux;%slx;lx;;;;;clYellow
+;TLumenSecond?;cd sr s;%slumen %ssecond?;%slm.%ss;;;;;;clYellow
+;TLumenSecond?PerCubicMeter;cd sr s m-3;%slumen %ssecond? per cubic meter;%slm.%ss/%sm3;;;;;;clYellow
+;TLux;cd sr m-2;%slux;%slx;lx;;;;;clYellow
 ;TCandelaSteradian?PerSquareMeter;;%scandela %ssteradian? per square %smeter;%scd.%ssr/%sm2;;TLux;;;;clWhite
-;TLuxSecond?;cd rad2 s m-2;%slux %ssecond?;%slx.%ss;;;;;;clYellow
+;TLuxSecond?;cd sr s m-2;%slux %ssecond?;%slx.%ss;;;;;;clYellow
 ;TBequerel?;;%sbequerel?;%sBq;Bq;THertz;;---------S----SSSS------;;clWhite
 ;TKatal?;mol s-1;%skatal?;%skat;kat;;;;;clLime
 ;TMole?PerSecond;;%smole? per %ssecond;%smol/%ss;;TKatal?;;;;clWhite
@@ -247,7 +248,7 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;THenry!PerMeter;kg m s-2 A-2;%shenry! per %smeter;%sH/%sm;;;;;;clLime
 ;TTeslaMeter?PerAmpere;;%stesla %smeter? per %sampere;%sT.%sm/%sA;;THenry!PerMeter;;;;clWhite
 ;TNewton?PerSquareAmpere;;%snewton? per square %sampere;%sN/%sA2;;THenry!PerMeter;;;;clWhite
-;TRadian?PerMeter;rad m-1;radian? per %smeter;rad/%sm;;;;;;clYellow
+;TRadian?PerMeter;;radian? per %smeter;rad/%sm;;TReciprocalMeter?;;;;clYellow
 ;TSquareKilogram?PerSquareSecond;kg2 s-2;square %sgram? per square %ssecond;%sg2/%ss2;;;;;;clLime
 ;TSquareSecond?PerSquareMeter;s2 m-2;square %ssecond? per square %smeter;%ss2/%sm2;;;;;;clLime
 ;TSquareJoule?;kg2 m4 s-4;square %sjoule?;%sJ2;J2;;;------SSSS--------------;;clLime
@@ -259,24 +260,24 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;TCoulomb?PerKilogram;s A kg-1;%scoulomb? per %sgram;%sC/%sg;;;;;;clLime
 ;TSquareMeterAmpere?;m2 A;square %smeter %sampere?;%sm2.%sA;;;;;;clLime
 ;TJoule?PerTesla;;%sjoule? per %stesla;%sJ/%sT;;TSquareMeterAmpere?;;;;clWhite
-;TLumen?PerWatt;s3 cd rad2 kg-1 m-2;%slumen? per %swatt;%slm/%sW;;;;;;clYellow
+;TLumen?PerWatt;s3 cd sr kg-1 m-2;%slumen? per %swatt;%slm/%sW;;;;;;clYellow
 ;TReciprocalMole?;mol-1;reciprocal %smole?;1/%smol;;;;;;clLime
 ;TAmpere?PerSquareMeter;A m-2;%sampere? per square %smeter;%sA/%sm2;;;;;;clLime
 ;TMole?PerCubicMeter;mol m-3;%smole? per cubic %smeter;%smol/%sm3;;;;;;clLime
 ;TCandela?PerSquareMeter;cd m-2;%scandela? per square %smeter;%scd/%sm2;;;;;;clLime
 ;TCoulomb?PerCubicMeter;s A m-3;%scoulomb? per cubic %smeter;%sC/%sm3;;;;;;clLime
 ;TGray?PerSecond;m2 s-3;%sgray? per %ssecond;%sGy/%ss;;;;;;clLime
-;TSteradianHertz;rad2 s-1;steradian %shertz;sr.%sHz;;;;;;clYellow
-;TMeterSteradian?;m rad2;%smeter steradian?;%sm.sr;;;;;;clYellow
-;TSquareMeterSteradian?;m2 rad2;square %smeter steradian?;%sm2.sr;;;;;;clYellow
-;TCubicMeterSteradian?;m3 rad2;cubic %smeter steradian?;%sm3.sr;;;;;;clYellow
-;TSquareMeterSteradianHertz;m2 rad2 s-1;square %smeter steradian %shertz;%sm2.sr.%shertz;;;;;;clYellow
-;TWatt?PerSteradian;kg m2 s-3 rad-2;%swatt? per steradian;%sW/sr;;;;;;clYellow
-;TWatt?PerSteradianPerHertz;kg m2 s-2 rad-2;%swatt? per steradian per %shertz;%sW/sr/%sHz;;;;;;clYellow
-;TWatt?PerMeterPerSteradian;kg m s-3 rad-2;%swatt? per steradian per %smeter;%sW/sr/%sm;;;;;;clYellow
-;TWatt?PerSquareMeterPerSteradian;kg s-3 rad-2;%swatt? per square %smeter per steradian;%sW/%sm2/sr;;;;;;clYellow
-;TWatt?PerCubicMeterPerSteradian;kg s-3 m-1 rad-2;%swatt? per cubic %smeter per steradian;%sW/%sm3/sr;;;;;;clYellow
-;TWatt?PerSquareMeterPerSteradianPerHertz;kg s-2 rad-2;%swatt? per square %smeter per steradian per %shertz;%sW/%sm2/sr/%sHz;;;;;;clYellow
+;TSteradianHertz;sr s-1;steradian %shertz;sr.%sHz;;;;;;clYellow
+;TMeterSteradian?;m sr;%smeter steradian?;%sm.sr;;;;;;clYellow
+;TSquareMeterSteradian?;m2 sr;square %smeter steradian?;%sm2.sr;;;;;;clYellow
+;TCubicMeterSteradian?;m3 sr;cubic %smeter steradian?;%sm3.sr;;;;;;clYellow
+;TSquareMeterSteradianHertz;m2 sr s-1;square %smeter steradian %shertz;%sm2.sr.%shertz;;;;;;clYellow
+;TWatt?PerSteradian;kg m2 s-3 sr-1;%swatt? per steradian;%sW/sr;;;;;;clYellow
+;TWatt?PerSteradianPerHertz;kg m2 s-2 sr-1;%swatt? per steradian per %shertz;%sW/sr/%sHz;;;;;;clYellow
+;TWatt?PerMeterPerSteradian;kg m s-3 sr-1;%swatt? per steradian per %smeter;%sW/sr/%sm;;;;;;clYellow
+;TWatt?PerSquareMeterPerSteradian;kg s-3 sr-1;%swatt? per square %smeter per steradian;%sW/%sm2/sr;;;;;;clYellow
+;TWatt?PerCubicMeterPerSteradian;kg s-3 m-1 sr-1;%swatt? per cubic %smeter per steradian;%sW/%sm3/sr;;;;;;clYellow
+;TWatt?PerSquareMeterPerSteradianPerHertz;kg s-2 sr-1;%swatt? per square %smeter per steradian per %shertz;%sW/%sm2/sr/%sHz;;;;;;clYellow
 ;TKatal?PerCubicMeter;mol m-3 s-1;%skatal? per cubic %smeter;%skat/%sm3;;;;;;clLime
 ;TCoulomb?PerMole;s A mol-1;%scoulomb? per %smole;%sC/%smol;;;;;;clLime
 ;TReciprocalNewton?;s2 kg-1 m-1;reciprocal %snewton?;1/%sN;;;;;;clAqua
@@ -284,6 +285,6 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;TReciprocalPascal?;s2 m kg-1;reciprocal %spascal?;1/%sPa;;;;;;clAqua
 ;TReciprocalWeber?;"s2 A kg-1 m-2 ";reciprocal %sweber?;1/%sWb;;;;;;clAqua
 ;TReciprocalWatt?;s3 kg-1 m-2;reciprocal %swatt?;1/%sW;;;;;;clAqua
-;TReciprocalRadian?;rad-1;reciprocal %sradian?;1/%srad;;;;;;clAqua
+;TReciprocalRadian?;rad-1;reciprocal %sradian?;1/%srad;;TScalar;;;;clAqua
 ;TMeter?PerVolt;A s3 kg-1 m-1;%smeter? per %svolt;%sm/%sV;;;;;;clAqua
-;TSecond?PerRadian;s rad-1;%ssecond? per radian;%ss/rad;;;;;;clFuchsia
+;TSecond?PerRadian;;%ssecond? per radian;%ss/rad;;TSecond?;;;;clFuchsia
