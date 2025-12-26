@@ -77,10 +77,6 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ADimCL3"/>
       </Unit>
-      <Unit>
-        <Filename Value="baseprocs.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
