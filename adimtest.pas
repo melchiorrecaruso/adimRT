@@ -1417,12 +1417,6 @@ begin
   if Abs(ScalarUnit.ToFloat(a_ - InverseFineStructureConstant)) > 1E-10 then Halt(1);
   writeln('* TEST-610: PASSED');
 
-
-  omega := 10*rad/s;
-  radius := 5*mm;
-
-  writeln(SquareMeterPerSecondUnit.ToString(omega*radius));
-
   writeln;
   writeln('ADIM-TEST DONE.');
 end.
