@@ -1,7 +1,8 @@
 ;TScalar;;;;;;;;;clLime
 ;TRadian?;;radian?;rad;rad;TScalar;;;;clYellow
-;TDegree?;;degree?;°;deg;TScalar;Pi/180;;;clYellow
+;TDegree?;;degree?;deg;deg;TScalar;Pi/180;;;clYellow
 ;TSteradian?;sr;steradian?;sr;sr;;;;;clLime
+;TSquareDegree?;;square degree?;deg2;deg2;TSteradian?;Pi*Pi/32400;;;clWhite
 ;TSecond?;s;%ssecond?;%ss;s;;;------------SSSSSS------;;clLime
 ;TDay?;;day?;d;day;TSecond?;86400;;;clWhite
 ;THour?;;hour?;h;hr;TSecond?;3600;;;clWhite
@@ -122,11 +123,11 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;TCalorie?;;%scalorie?;%scal;cal;TJoule?;4.184;--------SS--------------;;clWhite
 ;TKilogramSquareMeter?PerSquareSecond;;%sgram square %smeter? per square %ssecond;%sg.%sm2/%ss2;;TJoule?;;;;clWhite
 ;TJoule?PerRadian;;%sjoule? per radian;%sJ/rad;;TJoule?;;;;clYellow
-;TJoule?PerDegree;;%sjoule? per degree;%sJ/°;;TJoule?;180/Pi;;;clYellow
+;TJoule?PerDegree;;%sjoule? per degree;%sJ/deg;;TJoule?;180/Pi;;;clYellow
 ;TNewtonMeter?PerRadian;;%snewton %smeter? per radian;%sN.%sm/rad;;TJoule?;;;;clYellow
-;TNewtonMeter?PerDegree;;%snewton %smeter? per degree;%sN.%sm/°;;TJoule?;180/Pi;;;clYellow
+;TNewtonMeter?PerDegree;;%snewton %smeter? per degree;%sN.%sm/deg;;TJoule?;180/Pi;;;clYellow
 ;TPoundForceInch!PerRadian;;pound-force inch! per radian;lbf.in/rad;;TJoule?;0.112984829027617;;;clYellow
-;TPoundForceInch!PerDegree;;pound-force inch! per degree;lbf.in/°;;TJoule?;6.47355385228963;;;clYellow
+;TPoundForceInch!PerDegree;;pound-force inch! per degree;lbf.in/deg;;TJoule?;6.47355385228963;;;clYellow
 ;TKilogramSquareMeter?PerSquareSecondPerRadian;;%sgram square %smeter? per square %ssecond per radian;%sg.%sm2/%ss2/rad;;TJoule?;;;;clYellow
 ;TWatt?;kg m2 s-3;%swatt?;%sW;W;;;------SSSS----L---------;;clLime
 ;TKilogramSquareMeter?PerCubicSecond;;%sgram square %smeter? per cubic %ssecond;%sg.%sm2/%ss3;;TWatt?;;;;clWhite

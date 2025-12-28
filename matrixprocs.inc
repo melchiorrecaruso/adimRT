@@ -440,13 +440,13 @@ end;
 {$IFNDEF ADIMOFF}
 procedure TRMatrixQuantity.Put(ARow, ACol: longint; AQuantity: TQuantity);
 begin
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FValue[ARow, ACol] := AQuantity.FValue;
 end;
 
 function TRMatrixQuantity.Get(ARow, ACol: longint): TQuantity;
 begin
-  result.FID := FID;
+  result.FDim := FDim;
   result.FValue := FValue[ARow, ACol];
 end;
 
@@ -454,7 +454,7 @@ class operator TRMatrixQuantity.:=(const AMatrix: TRMatrix): TRMatrixQuantity;
 var
   i, j: longint;
 begin
-  result.FID := ScalarID;
+  result.FDim := ScalarUnit.FDim;
   for i := 1 to TSpace.N do
     for j := 1 to TSpace.N do
       result.FValue[i, j] := AMatrix[i, j];
@@ -462,49 +462,49 @@ end;
 
 class operator TRMatrixQuantity.<>(const ALeft, ARight: TRMatrixQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TRMatrixQuantity.=(const ALeft, ARight: TRMatrixQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TRMatrixQuantity.+(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
 begin
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TRMatrixQuantity.-(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
 begin
-  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TRMatrixQuantity.*(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TRMatrixQuantity.*(const ALeft: TQuantity; const ARight: TRMatrixQuantity): TRMatrixQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TRMatrixQuantity.*(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TRMatrixQuantity./(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 {$ENDIF}
@@ -514,13 +514,13 @@ end;
 {$IFNDEF ADIMOFF}
 procedure TCMatrixQuantity.Put(ARow, ACol: longint; AQuantity: TComplexQuantity);
 begin
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FValue[ARow, ACol] := AQuantity.FValue;
 end;
 
 function TCMatrixQuantity.Get(ARow, ACol: longint): TComplexQuantity;
 begin
-  result.FID := FID;
+  result.FDim := FDim;
   result.FValue := FValue[ARow, ACol];
 end;
 
@@ -528,7 +528,7 @@ class operator TCMatrixQuantity.:=(const AMatrix: TCMatrix): TCMatrixQuantity;
 var
   i, j: longint;
 begin
-  result.FID := ScalarID;
+  result.FDim := ScalarUnit.FDim;
   for i := 1 to TSpace.N do
     for j := 1 to TSpace.N do
       result.FValue[i, j] := AMatrix[i, j];
@@ -536,49 +536,49 @@ end;
 
 class operator TCMatrixQuantity.<>(const ALeft, ARight: TCMatrixQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TCMatrixQuantity.=(const ALeft, ARight: TCMatrixQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TCMatrixQuantity.+(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
 begin
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TCMatrixQuantity.-(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
 begin
-  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TCMatrixQuantity.*(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TCMatrixQuantity.*(const ALeft: TComplexQuantity; const ARight: TCMatrixQuantity): TCMatrixQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TCMatrixQuantity.*(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TCMatrixQuantity./(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 {$ENDIF}
@@ -586,73 +586,73 @@ end;
 {$IFNDEF ADIMOFF}
 operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue * ARight;
 end;
 
 operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
 begin
-  result.FID := ARight.FID;
+  result.FDim := ARight.FDim;
   result.FValue := ALeft * ARight.FValue;
 end;
 
 operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue * ARight;
 end;
 
 operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
 begin
-  result.FID := ARight.FID;
+  result.FDim := ARight.FDim;
   result.FValue := ALeft * ARight.FValue;
 end;
 
 operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue * ARight;
 end;
 
 operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
 begin
-  result.FID := ARight.FID;
+  result.FDim := ARight.FDim;
   result.FValue := ALeft * ARight.FValue;
 end;
 
 operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue * ARight;
 end;
 
 operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
 begin
-  result.FID := ARight.FID;
+  result.FDim := ARight.FDim;
   result.FValue := ALeft * ARight.FValue;
 end;
 
 operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue * ARight;
 end;
 
 operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
 begin
-  result.FID := ARight.FID;
+  result.FDim := ARight.FDim;
   result.FValue := ALeft * ARight.FValue;
 end;
 
 operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue * ARight;
 end;
 
 operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
 begin
-  result.FID := ARight.FID;
+  result.FDim := ARight.FDim;
   result.FValue := ALeft * ARight.FValue;
 end;
 {$ENDIF}

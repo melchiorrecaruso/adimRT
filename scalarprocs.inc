@@ -3,109 +3,109 @@
 {$IFNDEF ADIMOFF}
 function TQuantity.Reciprocal: TQuantity;
 begin
-  result.FID := CheckDiv(ScalarID, FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
   result.FValue := 1/FValue;
 end;
 
 class operator TQuantity.+(const ASelf: TQuantity): TQuantity;
 begin
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := ASelf.FValue;
 end;
 
 class operator TQuantity.-(const ASelf: TQuantity): TQuantity;
 begin
-  result.FID := ASelf.FID;
+  result.FDim := ASelf.FDim;
   result.FValue := -ASelf.FValue;
 end;
 
 class operator TQuantity.+(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TQuantity.-(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TQuantity.*(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TQuantity./(const ALeft, ARight: TQuantity): TQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TQuantity.*(const ALeft: double; const ARight: TQuantity): TQuantity;
 begin
-  result.FID := ARight.FID;
+  result.FDim := ARight.FDim;
   result.FValue:= ALeft * ARight.FValue;
 end;
 
 class operator TQuantity.*(const ALeft: TQuantity; const ARight: double): TQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FDim := ALeft.FDim;
   result.FValue:= ALeft.FValue * ARight;
 end;
 
 class operator TQuantity./(const ALeft: double; const ARight: TQuantity): TQuantity;
 begin
-  result.FID := CheckDiv(ScalarId, ARight.FID);
+  result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
   result.FValue:= ALeft / ARight.FValue;
 end;
 
 class operator TQuantity./(const ALeft: TQuantity; const ARight: double): TQuantity;
 begin
-  result.FID := ALeft.FID;
+  result.FDim := ALeft.FDim;
   result.FValue:= ALeft.FValue / ARight;
 end;
 
 class operator TQuantity.=(const ALeft, ARight: TQuantity): boolean; inline;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TQuantity.<(const ALeft, ARight: TQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue < ARight.FValue;
 end;
 
 class operator TQuantity.>(const ALeft, ARight: TQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue > ARight.FValue;
 end;
 
 class operator TQuantity.<=(const ALeft, ARight: TQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue <= ARight.FValue;
 end;
 
 class operator TQuantity.>=(const ALeft, ARight: TQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue >= ARight.FValue;
 end;
 
 class operator TQuantity.<>(const ALeft, ARight: TQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TQuantity.:=(const AValue: double): TQuantity;
 begin
-  result.FID := ScalarId;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := AValue;
 end;
 {$ENDIF}
