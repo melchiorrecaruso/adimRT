@@ -413,91 +413,91 @@ end;
 {$IFNDEF ADIMOFF}
 procedure TRVecQuantity.Put(ARow: longint; const AQuantity: TQuantity);
 begin
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FValue[ARow] := AQuantity.FValue;
 end;
 
 function TRVecQuantity.Get(ARow: longint): TQuantity;
 begin
-  result.FID := FID;
+  result.FDim := FDim;
   result.FValue := FValue[ARow];
 end;
 
 function TRVecQuantity.Normalize: TRVecQuantity;
 begin
-  result.FID := FID;
+  result.FDim := FDim;
   result.FValue := FValue / FValue.Norm;
 end;
 
 class operator TRVecQuantity.<>(const ALeft, ARight: TRVecQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID );
+  Check(ALeft.FDim, ARight.FDim );
   result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TRVecQuantity.=(const ALeft, ARight: TRVecQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID );
+  Check(ALeft.FDim, ARight.FDim );
   result := ALeft.FValue = ARight.FValue;
 end;
 
 class operator TRVecQuantity.+(const AValue: TRVecQuantity): TRVecQuantity;
 begin
-  result.FID := AValue.FID;
+  result.FDim := AValue.FDim;
   result.FValue := AValue.FValue;
 end;
 
 class operator TRVecQuantity.+(const ALeft, ARight: TRVecQuantity): TRVecQuantity;
 begin
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TRVecQuantity.-(const AValue: TRVecQuantity): TRVecQuantity;
 begin
-  result.FID := AValue.FID;
+  result.FDim := AValue.FDim;
   result.FValue := -AValue.FValue;
 end;
 
 class operator TRVecQuantity.-(const ALeft, ARight: TRVecQuantity): TRVecQuantity;
 begin
-  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TRVecQuantity.*(const ALeft: TRMatrixQuantity; const ARight: TRVecQuantity): TRVecQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TRVecQuantity.*(const ALeft, ARight: TRVecQuantity): TQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TRVecQuantity.*(const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TRVecQuantity.*(const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TRVecQuantity./(const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TRVecQuantity./(const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 {$ENDIF}
@@ -507,111 +507,111 @@ end;
 {$IFNDEF ADIMOFF}
 function TCVecQuantity.Get(ARow: longint): TComplexQuantity;
 begin
-  result.FID := FID;
+  result.FDim := FDim;
   result.FValue := FValue[ARow];
 end;
 
 procedure TCVecQuantity.Put(ARow: longint; const AQuantity: TComplexQuantity);
 begin
-  Check(FID, AQuantity.FID);
+  Check(FDim, AQuantity.FDim);
   FValue[ARow] := AQuantity.FValue;
 end;
 
 function TCVecQuantity.Normalize: TCVecQuantity;
 begin
-  result.FID := FID;
+  result.FDim := FDim;
   result.FValue := FValue / FValue.Norm;
 end;
 
 class operator TCVecQuantity.:=(const AValue: TCVector): TCVecQuantity;
 begin
-  result.FID := ScalarID;
+  result.FDim := ScalarUnit.FDim;
   result.FValue := AValue;
 end;
 
 class operator TCVecQuantity.<>(const ALeft, ARight: TCVecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then Exit(True);
+  if ALeft.FDim <> ARight.FDim then Exit(True);
   if ALeft.FValue <> ARight.FValue then Exit(True);
   result := False;
 end;
 
 class operator TCVecQuantity.=(const ALeft, ARight: TCVecQuantity): boolean;
 begin
-  if ALeft.FID <> ARight.FID then Exit(False);
+  if ALeft.FDim <> ARight.FDim then Exit(False);
   if ALeft.FValue <> ARight.FValue then Exit(False);
   result := True;
 end;
 
 class operator TCVecQuantity.+(const AValue: TCVecQuantity): TCVecQuantity;
 begin
-  result.FID := AValue.FID;
+  result.FDim := AValue.FDim;
   result.FValue := AValue.FValue;
 end;
 
 class operator TCVecQuantity.+(const ALeft, ARight: TCVecQuantity): TCVecQuantity;
 begin
-  result.FID := CheckSum(ALeft.FID, ARight.FID);
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
 class operator TCVecQuantity.-(const AValue: TCVecQuantity): TCVecQuantity;
 begin
-  result.FID := AValue.FID;
+  result.FDim := AValue.FDim;
   result.FValue := -AValue.FValue;
 end;
 
 class operator TCVecQuantity.-(const ALeft, ARight: TCVecQuantity): TCVecQuantity;
 begin
-  result.FID := CheckSub(ALeft.FID, ARight.FID);
+  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
 class operator TCVecQuantity.*(const ALeft, ARight: TCVecQuantity): TComplexQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TCVecQuantity.*(const ALeft: TCVecQuantity; const ARight: TCMatrixQuantity): TCVecQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TCVecQuantity.*(const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TCVecQuantity.*(const ALeft: TCVector; const ARight: TCVecQuantity): TComplexQuantity;
 begin
-  result.FID := CheckMul(ScalarID, ARight.FID);
+  result.FDim := CheckMul(ScalarUnit.FDim, ARight.FDim);
   result.FValue := ALeft * ARight.FValue;
 end;
 
 class operator TCVecQuantity.*(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TCVecQuantity.*(const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
 begin
-  result.FID := CheckMul(ALeft.FID, ARight.FID);
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
 class operator TCVecQuantity./(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
 class operator TCVecQuantity./(const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
 begin
-  result.FID := CheckDiv(ALeft.FID, ARight.FID);
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 {$ENDIF}

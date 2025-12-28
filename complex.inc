@@ -47,7 +47,7 @@ type
   {$IFNDEF ADIMOFF}
   TComplexQuantity = record
   private
-    FID: longint;
+    FDim: TDimension;
     FValue: TComplex;
   public
     class operator:=(const AQuantity: TQuantity): TComplexQuantity;

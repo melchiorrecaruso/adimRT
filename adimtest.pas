@@ -250,6 +250,8 @@ var
 
   coeff: TC2ArrayOfQuantity;
 
+  a_: TQuantity;
+
 const
   x1 : TR3Versor1 = ();
   x2 : TR3Versor2 = ();
@@ -1333,7 +1335,7 @@ begin
   magneticflux    := magneticfield__.dot(area__);
   magneticfield__ := magneticflux/area__;
   area__          := magneticflux/magneticfield__;
-  if WeberUnit.ToString(magneticflux)   <> '50 Wb'     then halt(1);
+  if WeberUnit.ToString(magneticflux)    <> '50 Wb'     then halt(1);
   if TeslaUnit.ToString(magneticfield__) <> '(+10e1) T' then halt(2);
   if SquareMeterUnit.ToString(area__)    <> '(+5e1) m²' then halt(3);
   writeln('* TEST-606: PASSED');
@@ -1409,6 +1411,11 @@ begin
   if eV.ToString(ComplexSquarePower(coeff[1])*EigenValues[1] +
                  ComplexSquarePower(coeff[2])*EigenValues[2]) <> '(0.00012734439857522) eV' then halt(3);
   writeln('* TEST-609: PASSED');
+
+  // TEST-610: Fine-structure constant
+  a_ := (2*ElectricPermittivity*PlanckConstant*SpeedOfLight)/SquarePower(ElectronCharge);
+  if Abs(ScalarUnit.ToFloat(a_ - InverseFineStructureConstant)) > 1E-10 then Halt(1);
+  writeln('* TEST-610: PASSED');
 
   writeln;
   writeln('ADIM-TEST DONE.');

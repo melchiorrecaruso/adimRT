@@ -141,19 +141,19 @@ end;
 {$IFNDEF ADIMOFF}
 function ComplexSquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
 begin
-  result.FID := 2 * AQuantity.FID;
+  result.FDim := 2 * AQuantity.FDim;
   result.FValue := AQuantity.FValue*AQuantity.FValue;
 end;
 
 function ComplexCubicPower(const AQuantity: TComplexQuantity): TComplexQuantity;
 begin
-  result.FID := 3 * AQuantity.FID;
+  result.FDim := 3 * AQuantity.FDim;
   result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
 end;
 
 function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
 begin
-  result.FID := 4 * AQuantity.FID;
+  result.FDim := 4 * AQuantity.FDim;
   result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
 end;
 {$ENDIF}
@@ -199,7 +199,7 @@ end;
 {$IFNDEF ADIMOFF}
 function SameValueEx(const ALeft, ARight: TQuantity): boolean;
 begin
-  Check(ALeft.FID, ARight.FID);
+  Check(ALeft.FDim, ARight.FDim);
   result := SameValueEx(ALeft.FValue, ARight.FValue);
 end;
 {$ENDIF}

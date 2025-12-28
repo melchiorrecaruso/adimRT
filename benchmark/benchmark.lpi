@@ -12,7 +12,7 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <BuildModes Active="Debug">
+    <BuildModes Active="Release">
       <Item Name="Debug" Default="True"/>
       <Item Name="Release">
         <CompilerOptions>
@@ -41,7 +41,7 @@
         </CompilerOptions>
       </Item>
       <SharedMatrixOptions Count="1">
-        <Item1 ID="939830620237" Modes="Debug" Value="-dADIMDEBUG"/>
+        <Item1 ID="939830620237" Modes="Release" Value="-dADIMOFF"/>
       </SharedMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Debug,Release"/>
@@ -54,15 +54,15 @@
     </RunParams>
     <RequiredPackages>
       <Item>
-        <PackageName Value="adimpk"/>
+        <PackageName Value="ADimPack"/>
       </Item>
     </RequiredPackages>
     <Units>
       <Unit>
         <Filename Value="benchmark.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="33" Y="16"/>
-        <UsageCount Value="39"/>
+        <CursorPos X="17" Y="18"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -113,9 +113,8 @@
         <Filename Value="../adim.pas"/>
         <UnitName Value="ADim"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="18"/>
-        <CursorPos X="8" Y="37"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="91" Y="26"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
@@ -130,7 +129,7 @@
       <Unit>
         <Filename Value="../../lazarus/packager/registration/lazaruspackageintf.pas"/>
         <UnitName Value="LazarusPackageIntf"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="104"/>
         <CursorPos X="10" Y="118"/>
         <UsageCount Value="11"/>
@@ -139,97 +138,95 @@
       <Unit>
         <Filename Value="adimpas.pas"/>
         <UnitName Value="ADim"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="13" Y="28"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../complex.inc"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="38"/>
+        <CursorPos X="56" Y="38"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../base.inc"/>
+        <EditorIndex Value="8"/>
+        <CursorPos X="63" Y="8"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../baseprocs.inc"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="9"/>
+        <CursorPos X="55" Y="9"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../scalar.inc"/>
+        <EditorIndex Value="10"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../matrix.inc"/>
+        <EditorIndex Value="12"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../vector.inc"/>
+        <EditorIndex Value="13"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../cl3.inc"/>
+        <EditorIndex Value="14"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../scalarprocs.inc"/>
+        <EditorIndex Value="6"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../helperprocs.inc"/>
+        <EditorIndex Value="7"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../complexprocs.inc"/>
+        <EditorIndex Value="2"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../matrixprocs.inc"/>
+        <EditorIndex Value="3"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../vectorprocs.inc"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../cl3procs.inc"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="46" Column="15" TopLine="8"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="44" Column="19" TopLine="6"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="45" Column="16" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="46" Column="18" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="44" Column="14"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="11" Column="3"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="20" Column="15" TopLine="6"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="24" Column="7" TopLine="19"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="58" Column="25" TopLine="24"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="58" Column="58" TopLine="31"/>
-      </Position>
-      <Position>
-        <Filename Value="../adim.pas"/>
-        <Caret Line="7751" Column="21" TopLine="7745"/>
-      </Position>
-      <Position>
-        <Filename Value="../adim.pas"/>
-        <Caret Line="7757" Column="23" TopLine="7745"/>
-      </Position>
-      <Position>
-        <Filename Value="../adim.pas"/>
-        <Caret Line="7760" Column="10" TopLine="7745"/>
-      </Position>
-      <Position>
-        <Filename Value="../adim.pas"/>
-        <Caret Line="59" Column="5" TopLine="44"/>
-      </Position>
-      <Position>
-        <Filename Value="../adim.pas"/>
-        <Caret Line="7759" Column="14" TopLine="7745"/>
-      </Position>
-      <Position>
-        <Filename Value="../adim.pas"/>
-        <Caret Line="40" Column="6" TopLine="25"/>
-      </Position>
-      <Position>
-        <Filename Value="../adim.pas"/>
-        <Caret Line="78" Column="21" TopLine="55"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="45" Column="17"/>
-      </Position>
-      <Position>
-        <Filename Value="benchmark.lpr"/>
-        <Caret Line="11" Column="14"/>
-      </Position>
-      <Position>
-        <Filename Value="../adim.pas"/>
-        <Caret Line="78" Column="12" TopLine="58"/>
-      </Position>
-      <Position>
-        <Filename Value="../adim.pas"/>
-        <Caret Line="28" Column="3" TopLine="22"/>
-      </Position>
       <Position>
         <Filename Value="../adim.pas"/>
         <Caret Line="55" Column="12" TopLine="52"/>
@@ -251,10 +248,6 @@
         <Caret Line="11" Column="3"/>
       </Position>
       <Position>
-        <Filename Value="adimpas.pas"/>
-        <Caret Line="28" Column="13"/>
-      </Position>
-      <Position>
         <Filename Value="../adim.pas"/>
         <Caret Line="52" Column="21" TopLine="46"/>
       </Position>
@@ -265,6 +258,94 @@
       <Position>
         <Filename Value="../adim.pas"/>
         <Caret Line="87" Column="13" TopLine="54"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="37" Column="8" TopLine="18"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="11" Column="7"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="20" Column="17"/>
+      </Position>
+      <Position>
+        <Filename Value="benchmark.lpr"/>
+        <Caret Line="44" Column="55"/>
+      </Position>
+      <Position>
+        <Filename Value="../base.inc"/>
+        <Caret Line="2" Column="13"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="68" Column="9" TopLine="34"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="60" Column="50" TopLine="34"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="630" Column="10" TopLine="602"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="646" Column="18" TopLine="618"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="5855" Column="15" TopLine="5799"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="665" Column="19" TopLine="637"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="171" Column="6" TopLine="141"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="1756" Column="17" TopLine="1728"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="273" Column="9" TopLine="243"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="6696" Column="27" TopLine="6668"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="6706" Column="53" TopLine="6678"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="6718" Column="33"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="12319" Column="108" TopLine="12291"/>
+      </Position>
+      <Position>
+        <Filename Value="../base.inc"/>
+        <Caret Line="10" Column="25"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="12936" Column="98" TopLine="12898"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="12805" Column="171" TopLine="12766"/>
+      </Position>
+      <Position>
+        <Filename Value="../adim.pas"/>
+        <Caret Line="27" Column="11"/>
       </Position>
     </JumpHistory>
   </ProjectOptions>
