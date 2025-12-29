@@ -134,14 +134,14 @@ var
   Num, Denom: string;
 begin
   Num := '';
-  if FKilogram  > 0 then Num := Num + '.' + SymbolToString(FKilogram, '%skg');
-  if FMeter     > 0 then Num := Num + '.' + SymbolToString(FMeter,     '%sm');
-  if FSecond    > 0 then Num := Num + '.' + SymbolToString(FSecond,    '%ss');
-  if FAmpere    > 0 then Num := Num + '.' + SymbolToString(FAmpere,    '%sA');
-  if FKelvin    > 0 then Num := Num + '.' + SymbolToString(FKelvin,    '%sK');
-  if FMole      > 0 then Num := Num + '.' + SymbolToString(FMole,    '%smol');
-  if FCandela   > 0 then Num := Num + '.' + SymbolToString(FCandela,  '%scd');
-  if FSteradian > 0 then Num := Num + '.' + SymbolToString(FSteradian,  'sr');
+  if FKilogram  > 0 then Num := Num + '.' + SymbolToString(FKilogram,  'kg');
+  if FMeter     > 0 then Num := Num + '.' + SymbolToString(FMeter,      'm');
+  if FSecond    > 0 then Num := Num + '.' + SymbolToString(FSecond,     's');
+  if FAmpere    > 0 then Num := Num + '.' + SymbolToString(FAmpere,     'A');
+  if FKelvin    > 0 then Num := Num + '.' + SymbolToString(FKelvin,     'K');
+  if FMole      > 0 then Num := Num + '.' + SymbolToString(FMole,     'mol');
+  if FCandela   > 0 then Num := Num + '.' + SymbolToString(FCandela,   'cd');
+  if FSteradian > 0 then Num := Num + '.' + SymbolToString(FSteradian, 'sr');
 
   if (Length(Num) > 0) then Delete(Num, 1, 1);
 
@@ -183,36 +183,24 @@ end;
 
 procedure Check(ALeft, ARight: TDimension);
 begin
-  if ALeft <> ARight then
-  begin
-    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
-  end;
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
 end;
 
 function CheckEqual(ALeft, ARight: TDimension): TDimension;
 begin
-  if ALeft <> ARight then
-  begin
-    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
-  end;
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
   result := ALeft;
 end;
 
 function CheckSum(ALeft, ARight: TDimension): TDimension;
 begin
-  if ALeft <> ARight then
-  begin
-    Assert(FALSE, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
-  end;
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
   result := ALeft;
 end;
 
 function CheckSub(ALeft, ARight: TDimension): TDimension;
 begin
-  if ALeft <> ARight then
-  begin
-    Assert(FALSE, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [ALeft.ToString, ARight.ToString]));
-  end;
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [ALeft.ToString, ARight.ToString]));
   result := ALeft;
 end;
 
