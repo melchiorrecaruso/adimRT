@@ -146,14 +146,14 @@ begin
   if (Length(Num) > 0) then Delete(Num, 1, 1);
 
   Denom := '';
-  if FKilogram  < 0 then Denom := Denom + '/' + SymbolToString(FKilogram, '%skg');
-  if FMeter     < 0 then Denom := Denom + '/' + SymbolToString(FMeter,     '%sm');
-  if FSecond    < 0 then Denom := Denom + '/' + SymbolToString(FSecond,    '%ss');
-  if FAmpere    < 0 then Denom := Denom + '/' + SymbolToString(FAmpere,    '%sA');
-  if FKelvin    < 0 then Denom := Denom + '/' + SymbolToString(FKelvin,    '%sK');
-  if FMole      < 0 then Denom := Denom + '/' + SymbolToString(FMole,    '%smol');
-  if FCandela   < 0 then Denom := Denom + '/' + SymbolToString(FCandela,  '%scd');
-  if FSteradian < 0 then Denom := Denom + '/' + SymbolToString(FSteradian,  'sr');
+  if FKilogram  < 0 then Denom := Denom + '/' + SymbolToString(FKilogram,  'kg');
+  if FMeter     < 0 then Denom := Denom + '/' + SymbolToString(FMeter,      'm');
+  if FSecond    < 0 then Denom := Denom + '/' + SymbolToString(FSecond,     's');
+  if FAmpere    < 0 then Denom := Denom + '/' + SymbolToString(FAmpere,     'A');
+  if FKelvin    < 0 then Denom := Denom + '/' + SymbolToString(FKelvin,     'K');
+  if FMole      < 0 then Denom := Denom + '/' + SymbolToString(FMole,     'mol');
+  if FCandela   < 0 then Denom := Denom + '/' + SymbolToString(FCandela,   'cd');
+  if FSteradian < 0 then Denom := Denom + '/' + SymbolToString(FSteradian, 'sr');
 
   if Num = '' then
   begin
