@@ -73,6 +73,10 @@
         <Filename Value="baseprocs.inc"/>
         <Type Value="Include"/>
       </Item>
+      <Item>
+        <Filename Value="vectorprocs.inc"/>
+        <Type Value="Include"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>
