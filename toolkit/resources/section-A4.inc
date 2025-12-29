@@ -114,12 +114,3 @@ var
 
   DefaultEpsilon : double = 1E-12;
 
-{ Internal routines }
-
-procedure Check(ALeft, ARight: TDimension); inline;
-function CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
-function CheckSum(ALeft, ARight: TDimension): TDimension; inline;
-function CheckSub(ALeft, ARight: TDimension): TDimension; inline;
-function CheckMul(ALeft, ARight: TDimension): TDimension; inline;
-function CheckDiv(ALeft, ARight: TDimension): TDimension; inline;
-  
