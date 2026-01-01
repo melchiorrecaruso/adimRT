@@ -24,7 +24,7 @@ unit Common;
 interface
 
 uses
-  Classes, SysUtils;
+  Dialogs, Classes, SysUtils;
 
 type
   TExponents = array [0..7] of longint;
@@ -70,8 +70,9 @@ function GetUnitIdentifier(const S: string): string;
 
 function  CleanSingleSpaces(const S: string): string;
 function  CleanDoubleSpaces(const S: string): string;
-procedure CleanDocument(S: TStringList);
+procedure CleanDocument(S: TStrings);
 
+procedure RemoveIncludeDirectives(S: TStrings);
 
 implementation
 
@@ -543,7 +544,7 @@ begin
   end;
 end;
 
-procedure CleanDocument(S: TStringList);
+procedure CleanDocument(S: TStrings);
 var
   i: longint;
 begin
@@ -566,6 +567,49 @@ begin
     end else
       inc(i);
   end;
+end;
+
+procedure RemoveIncludeDirectives(S: TStrings);
+var
+  i, j: longint;
+  Line: string;
+  Lines, IncludeLines: TStringList;
+begin
+  Lines := TStringList.Create;
+  for i := 0 to S.Count -1 do
+  begin
+    Line := S[i];
+    if Pos('{$I ', Line) <> 0 then
+    begin
+      Line := StringReplace(Line, '{$I', '', [rfReplaceAll]);
+      Line := StringReplace(Line, '}',   '', [rfReplaceAll]);
+      Line := StringReplace(Line, ' ',   '', [rfReplaceAll]);
+      if FileExists(Line) then
+      begin
+        IncludeLines := TStringList.Create;
+        IncludeLines.LoadFromFile(Line);
+        for j := 0 to IncludeLines.Count -1 do
+        begin
+          Lines.Add(IncludeLines[j]);
+        end;
+        IncludeLines.Destroy;
+      end else
+      begin
+        Lines.Add(S[i]);
+      end;
+    end else
+    begin
+      Lines.Add(S[i]);
+    end;
+  end;
+
+  S.Clear;
+  for i := 0 to Lines.Count -1 do
+  begin
+    S.Add(Lines[i]);
+  end;
+  CleanDocument(S);
+  Lines.Destroy;
 end;
 
 end.

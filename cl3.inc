@@ -1,14 +1,11 @@
-{ CL3 interface }
 
-type
+  { TMultivectorComponents }
 
-  // TMultivectorComponents
-  
   TCL3MultivectorComponent  = (mcm0, mcm1, mcm2, mcm3, mcm12, mcm13, mcm23, mcm123);
   TCL3MultivectorComponents = set of TCL3MultivectorComponent;
 
-  // TCL3Multivector
-  
+  { TCL3Multivector }
+
   TCL3Multivector = record
   private
     fm0: double;
@@ -48,8 +45,8 @@ type
     class operator / (const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
   end;
 
-  // TCL3Trivector
-  
+  { TCL3Trivector }
+
   TCL3Trivector = record
   private
     fm123: double;
@@ -90,8 +87,8 @@ type
     class operator / (const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
   end;
 
-  // TCL3Bivector
-  
+  { TCL3Bivector }
+
   TCL3Bivector = record
   private
     fm12: double;
@@ -142,8 +139,8 @@ type
     class operator / (const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
   end;
 
-  // TCL3Vector
-  
+  { TCL3Vector }
+
   TCL3Vector = record
   private
     fm1: double;
@@ -202,7 +199,7 @@ type
     class operator / (const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
   end;
 
-  // TCL3MultivectorHelper
+  { TCL3MultivectorHelper }
 
   TCL3MultivectorHelper = record helper for TCL3Multivector
     function Dual: TCL3Multivector;
@@ -271,7 +268,7 @@ type
     function ToString: string;
   end;
 
-  // TCL3TrivectorHelper
+  { TCL3TrivectorHelper }
 
   TCL3TrivectorHelper = record helper for TCL3Trivector
     function Dual: double;
@@ -321,7 +318,7 @@ type
     function ToString: string;
   end;
 
-  // TCL3BivectorHelper
+  { TCL3BivectorHelper }
 
   TCL3BivectorHelper = record helper for TCL3Bivector
     function Dual: TCL3Vector;
@@ -373,7 +370,7 @@ type
     function ToString: string;
   end;
 
-  // TCL3VectorHelper
+  { TCL3VectorHelper }
 
   TCL3VectorHelper = record helper for TCL3Vector
     function Dual: TCL3Bivector;
@@ -427,20 +424,20 @@ type
     function ToString: string;
   end;
 
-  // TCL3Versor
-  
+  { TCL3Versor }
+
   TCL3Versor1 = record class operator *(const AValue: double; const ASelf: TCL3Versor1): TCL3Vector; end;
   TCL3Versor2 = record class operator *(const AValue: double; const ASelf: TCL3Versor2): TCL3Vector; end;
   TCL3Versor3 = record class operator *(const AValue: double; const ASelf: TCL3Versor3): TCL3Vector; end;
 
-  // TCL3Biversor
-  
+  { TCL3Biversor }
+
   TCL3Biversor12 = record class operator *(const AValue: double; const ASelf: TCL3Biversor12): TCL3Bivector; end;
   TCL3Biversor13 = record class operator *(const AValue: double; const ASelf: TCL3Biversor13): TCL3Bivector; end;
   TCL3Biversor23 = record class operator *(const AValue: double; const ASelf: TCL3Biversor23): TCL3Bivector; end;
 
-  // TCL3Triversor
-  
+  { TCL3Triversor }
+
   TCL3Triversor123 = record class operator *(const AValue: double; const ASelf: TCL3Triversor123): TCL3Trivector; end;
 
   { TCL3MultivecQuantity }
@@ -668,5 +665,7 @@ const
   CL3NullTrivector   : TCL3Trivector   = (fm123:0.0);
   CL3NullBivector    : TCL3Bivector    = (fm12:0.0; fm13:0.0; fm23:0.0);
   CL3NullVector      : TCL3Vector      = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
-  CL3NullScalar      : double       = (0.0);
+  CL3NullScalar      : double          = (0.0);
+
+type
   

@@ -1,4 +1,3 @@
-{ Vector implementation }
 
 // TRVector
 

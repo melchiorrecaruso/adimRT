@@ -1,4 +1,5 @@
-{ TQuantity implementation }
+
+// TQuantity
 
 {$IFNDEF ADIMOFF}
 function TQuantity.Reciprocal: TQuantity;

@@ -1,4 +1,3 @@
-{ Complex numbers implementation }
 
 // TComplex
 

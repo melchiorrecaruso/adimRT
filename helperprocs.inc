@@ -1,4 +1,6 @@
 
+// TComplexQuantityHelper
+
 {$IFNDEF ADIMOFF}
 function TComplexQuantityHelper.Conjugate: TComplexQuantity;
 begin
@@ -24,6 +26,8 @@ begin
   result.FValue := FValue.SquaredNorm;
 end;
 {$ENDIF}
+
+// TC2MatrixQuantityHelper
 
 {$IFNDEF ADIMOFF}
 function TC2MatrixQuantityHelper.Diagonalize(const AEigenvalues: TC2ArrayOfQuantity): TC2MatrixQuantity;
@@ -91,7 +95,7 @@ begin
 end;
 {$ENDIF}
 
-{ TC2VecQuantityHelper }
+// TC2VecQuantityHelper
 
 {$IFNDEF ADIMOFF}
 function TC2VecQuantityHelper.Dot(const AVector: TC2VecQuantity): TComplexQuantity;
@@ -107,7 +111,7 @@ begin
 end;
 {$ENDIF}
 
-{ TC3VecQuantityHelper }
+// TC3VecQuantityHelper
 
 {$IFNDEF ADIMOFF}
 function TC3VecQuantityHelper.Dot(const AVector: TC3VecQuantity): TComplexQuantity;
@@ -123,7 +127,7 @@ begin
 end;
 {$ENDIF}
 
-{ TC4VecQuantityHelper }
+// TC4VecQuantityHelper
 
 {$IFNDEF ADIMOFF}
 function TC4VecQuantityHelper.Dot(const AVector: TC4VecQuantity): TComplexQuantity;
@@ -139,7 +143,7 @@ begin
 end;
 {$ENDIF}
 
-{ TR2VecQuantityHelper }
+// TR2VecQuantityHelper
 
 {$IFNDEF ADIMOFF}
 function TR2VecQuantityHelper.Dot(const AVector: TR2VecQuantity): TQuantity;
@@ -149,7 +153,7 @@ begin
 end;
 {$ENDIF}
 
-{ TR3VecQuantityHelper }
+// TR3VecQuantityHelper
 
 {$IFNDEF ADIMOFF}
 function TR3VecQuantityHelper.Dot(const AVector: TR3VecQuantity): TQuantity;
@@ -165,7 +169,7 @@ begin
 end;
 {$ENDIF}
 
-{ TR4VecQuantityHelper }
+// TR4VecQuantityHelper
 
 {$IFNDEF ADIMOFF}
 function TR4VecQuantityHelper.Dot(const AVector: TR4VecQuantity): TQuantity;

@@ -1,11 +1,11 @@
-{ Matrix interface }
 
-type
+  { TxDSpace }
+
   T2DSpace = record const N = 2; end;
   T3DSpace = record const N = 3; end;
   T4DSpace = record const N = 4; end;
 
-  // TRMatrix
+  { TRMatrix }
 
   generic TRMatrix<TSpace> = record
   private
@@ -32,7 +32,7 @@ type
     property a[ARow, ACol: longint]: double read Get write Put; default;
   end;
 
-  // TCMatrix
+  { TCMatrix }
 
   generic TCMatrix<TSpace> = record
   type
@@ -70,6 +70,8 @@ type
   TC3Matrix = specialize TCMatrix<T3DSpace>;
   TC4Matrix = specialize TCMatrix<T4DSpace>;
 
+  { TRMatrixQuantity }
+
   {$IFNDEF ADIMOFF}
   generic TRMatrixQuantity<TSpace> = record
   type
@@ -91,6 +93,8 @@ type
     class operator *(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
     class operator /(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
   end;
+
+  { TCMatrixQuantity }
 
   generic TCMatrixQuantity<TSpace> = record
   type
@@ -130,21 +134,5 @@ type
   TC2MatrixQuantity = specialize TCMatrix<T2DSpace>;
   TC3MatrixQuantity = specialize TCMatrix<T3DSpace>;
   TC4MatrixQuantity = specialize TCMatrix<T4DSpace>;
-  {$ENDIF}
-
-  {$IFNDEF ADIMOFF}
-  operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
-  operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
-  operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
-  operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
-  operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
-  operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
-
-  operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
-  operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
-  operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
-  operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
-  operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
-  operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
   {$ENDIF}
 

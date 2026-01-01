@@ -5,17 +5,18 @@ uses
   SysUtils;
 
 type
-  { Prefix }
+  { TPrefix }
+
   TPrefix = (pQuetta, pRonna, pYotta, pZetta, pExa, pPeta, pTera, pGiga, pMega, pKilo, pHecto, pDeca, 
     pNone, pDeci, pCenti, pMilli, pMicro, pNano, pPico, pFemto, pAtto, pZepto, pYocto, pRonto, pQuecto);
 
-  { Prefixes } 
+  { TPrefixes }
+
   TPrefixes = array of TPrefix; 
 
-  { Exponents } 
-  TExponents = array of longint;
+  { TExponents }
 
-  { TQuantities } 
+  TExponents = array of longint;
 
   {$I base.inc}
   {$I scalar.inc}
@@ -24,9 +25,6 @@ type
   {$I vector.inc}
   {$I cl3.inc}
   {$I helper.inc}
-  {$I extra.inc} 
-
-type
 
   { TUnit }
 

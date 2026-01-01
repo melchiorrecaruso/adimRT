@@ -1,8 +1,5 @@
-{ Quantity interface }
 
-type
-
-  // TQuantity
+  { TQuantity }
 
   {$IFNDEF ADIMOFF}
   TQuantity = record
