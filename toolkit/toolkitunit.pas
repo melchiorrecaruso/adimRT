@@ -725,6 +725,7 @@ begin
 
   FDocument.Add('');
   FDocument.Add('end.');
+//RemoveIncludeDirectives(FDocument);
   CleanDocument(FDocument);
 
   SectionB4 .Destroy;

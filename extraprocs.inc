@@ -1,4 +1,3 @@
-{ Extra routines implementation }
 
 // Versors
 
@@ -66,6 +65,82 @@ begin
   result[3] := 0;
   result[4] := AValue;
 end;
+
+// External operators
+
+{$IFNDEF ADIMOFF}
+operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
+begin
+  result.FDim := ALeft.FDim;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
+begin
+  result.FDim := ARight.FDim;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
+begin
+  result.FDim := ALeft.FDim;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
+begin
+  result.FDim := ARight.FDim;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
+begin
+  result.FDim := ALeft.FDim;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
+begin
+  result.FDim := ARight.FDim;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
+begin
+  result.FDim := ALeft.FDim;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
+begin
+  result.FDim := ARight.FDim;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
+begin
+  result.FDim := ALeft.FDim;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
+begin
+  result.FDim := ARight.FDim;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
+begin
+  result.FDim := ALeft.FDim;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
+operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
+begin
+  result.FDim := ARight.FDim;
+  result.FValue := ALeft * ARight.FValue;
+end;
+{$ENDIF}
 
 // Power and root functions
 
@@ -498,5 +573,44 @@ begin
     result[3] := (v3[1] -a)/4;
     result[4] := (v3[2] -a)/4;
   end;
+end;
+
+// Internal check routines
+
+{$IFNDEF ADIMOFF}
+  {$ASSERTIONS ON}
+{$ENDIF}
+
+procedure Check(ALeft, ARight: TDimension);
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+end;
+
+function CheckEqual(ALeft, ARight: TDimension): TDimension;
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+  result := ALeft;
+end;
+
+function CheckSum(ALeft, ARight: TDimension): TDimension;
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+  result := ALeft;
+end;
+
+function CheckSub(ALeft, ARight: TDimension): TDimension;
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [ALeft.ToString, ARight.ToString]));
+  result := ALeft;
+end;
+
+function CheckMul(ALeft, ARight: TDimension): TDimension;
+begin
+  result := ALeft + ARight;
+end;
+
+function CheckDiv(ALeft, ARight: TDimension): TDimension;
+begin
+  result := ALeft - ARight;
 end;
 

@@ -15,7 +15,7 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <BuildModes Active="Release">
+    <BuildModes Active="Debug">
       <Item Name="Debug" Default="True"/>
       <Item Name="Release">
         <CompilerOptions>
@@ -64,9 +64,18 @@
       <Unit>
         <Filename Value="benchmark.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <CursorPos X="17" Y="18"/>
+        <CursorPos Y="9"/>
         <UsageCount Value="41"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../adim.pas"/>
+        <UnitName Value="ADim"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="370"/>
+        <CursorPos X="61" Y="302"/>
+        <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>

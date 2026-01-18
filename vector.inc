@@ -1,8 +1,5 @@
-{ Vector interface }
 
-type
-
-  // TRVector
+  { TRVector }
 
   generic TRVector<TSpace> = record
   type
@@ -35,7 +32,7 @@ type
     property a[ARow: longint]: double read Get write Put; default;
   end;
 
-  // TCVector
+  { TCVector }
 
   generic TCVector<TSpace> = record
   type
@@ -92,7 +89,7 @@ type
 
   {$IFNDEF ADIMOFF}
 
-  // TRVecQuantity
+  { TRVecQuantity }
 
   generic TRVecQuantity<TSpace> = record
   type
@@ -124,7 +121,7 @@ type
     property a[ARow: longint]: TQuantity read Get write Put; default;
   end;
 
-  // TCVecQuantity
+  { TCVecQuantity }
 
   generic TCVecQuantity<TSpace> = record
   type
@@ -168,7 +165,9 @@ type
   TC2VecQuantity = specialize TCVecQuantity<T2DSpace>;
   TC3VecQuantity = specialize TCVecQuantity<T3DSpace>;
   TC4VecQuantity = specialize TCVecQuantity<T4DSpace>;
+
   {$ELSE}
+
   TR2VecQuantity = specialize TRVector<T2DSpace>;
   TR3VecQuantity = specialize TRVector<T3DSpace>;
   TR4VecQuantity = specialize TRVector<T4DSpace>;
@@ -176,9 +175,10 @@ type
   TC2VecQuantity = specialize TCVector<T2DSpace>;
   TC3VecQuantity = specialize TCVector<T3DSpace>;
   TC4VecQuantity = specialize TCVector<T4DSpace>;
+
   {$ENDIF}
 
-  // Helpers
+  { TR2MatrixHelper }
 
   TR2MatrixHelper = record helper for TR2Matrix
     function Determinant: double;
@@ -188,6 +188,8 @@ type
     function Transpose: TR2Matrix;
   end;
 
+  { TR3MatrixHelper }
+
   TR3MatrixHelper = record helper for TR3Matrix
     function Determinant: double;
     function Reciprocal(const ADeterminant: double): TR3Matrix;
@@ -196,6 +198,8 @@ type
     function Transpose: TR3Matrix;
   end;
 
+  { TR4MatrixHelper }
+
   TR4MatrixHelper = record helper for TR4Matrix
     function Determinant: double;
     function Reciprocal(const ADeterminant: double): TR4Matrix;
@@ -203,6 +207,8 @@ type
     function ToString(APrecision, ADigits: integer): string;
     function Transpose: TR4Matrix;
   end;
+
+  { TC2MatrixHelper }
 
   TC2MatrixHelper = record helper for TC2Matrix
     function Conjugate: TC2Matrix;
@@ -217,6 +223,8 @@ type
     function TransposeConjugate: TC2Matrix;
   end;
 
+  { TC3MatrixHelper }
+
   TC3MatrixHelper = record helper for TC3Matrix
     function Conjugate: TC3Matrix;
     function Determinant: TComplex;
@@ -229,6 +237,8 @@ type
     function Transpose: TC3Matrix;
     function TransposeConjugate: TC3Matrix;
   end;
+
+  { TC4MatrixHelper }
 
   TC4MatrixHelper = record helper for TC4Matrix
     function Conjugate: TC4Matrix;
@@ -243,12 +253,16 @@ type
     function TransposeConjugate: TC4Matrix;
   end;
 
+  { TC2VectorHelper }
+
   TC2VectorHelper = record helper for TC2Vector
     function Conjugate: TC2Vector;
     function Dot(const AVector: TC2Vector): TComplex;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
   end;
+
+  { TC3VectorHelper }
 
   TC3VectorHelper = record helper for TC3Vector
     function Conjugate: TC3Vector;
@@ -257,6 +271,8 @@ type
     function ToString(APrecision, ADigits: integer): string;
   end;
 
+  { TC4VectorHelper }
+
   TC4VectorHelper = record helper for TC4Vector
     function Conjugate: TC4Vector;
     function Dot(const AVector: TC4Vector): TComplex;
@@ -264,11 +280,15 @@ type
     function ToString(APrecision, ADigits: integer): string;
   end;
 
+  { TR2VectorHelper }
+
   TR2VectorHelper = record helper for TR2Vector
     function Dot(const AVector: TR2Vector): double;
     function ToString: string;
     function ToString(APrecision, ADigits: longint): string;
   end;
+
+  { TR3VectorHelper }
 
   TR3VectorHelper = record helper for TR3Vector
     function Dot(const AVector: TR3Vector): double;
@@ -277,10 +297,11 @@ type
     function ToString(APrecision, ADigits: longint): string;
   end;
 
+  { TR4VectorHelper }
+
   TR4VectorHelper = record helper for TR4Vector
     function Dot(const AVector: TR4Vector): double;
     function ToString: string;
     function ToString(APrecision, ADigits: longint): string;
   end;
-
 

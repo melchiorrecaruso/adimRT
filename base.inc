@@ -1,4 +1,6 @@
-type
+
+  { TDimension }
+
   TDimension = record
   private
     FKilogram:  smallint;
@@ -21,13 +23,4 @@ type
     class operator  <>(const ALeft, ARight: TDimension): boolean;
     class operator   =(const ALeft, ARight: TDimension): boolean;
   end;
-
-  { Check routines }
-
-  procedure Check(ALeft, ARight: TDimension); inline;
-  function CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
-  function CheckSum(ALeft, ARight: TDimension): TDimension; inline;
-  function CheckSub(ALeft, ARight: TDimension): TDimension; inline;
-  function CheckMul(ALeft, ARight: TDimension): TDimension; inline;
-  function CheckDiv(ALeft, ARight: TDimension): TDimension; inline;
 

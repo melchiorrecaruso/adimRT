@@ -57,6 +57,11 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
+    <RequiredPackages>
+      <Item>
+        <PackageName Value="ADimPack"/>
+      </Item>
+    </RequiredPackages>
     <Units>
       <Unit>
         <Filename Value="adimtest.pas"/>
@@ -76,6 +81,11 @@
         <Filename Value="adimcl3.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ADimCL3"/>
+      </Unit>
+      <Unit>
+        <Filename Value="adim.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ADim"/>
       </Unit>
     </Units>
   </ProjectOptions>

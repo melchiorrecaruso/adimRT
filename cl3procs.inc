@@ -1,4 +1,3 @@
-{ CL3 implementation }
 
 // TCL3Multivector
 

@@ -1,7 +1,7 @@
-{ Extra routines interface }
 
 type
-  // Versors
+  { Versors }
+
   TR2Versor1 = record class operator *(const AValue: double; const ASelf: TR2Versor1): TR2Vector; end;
   TR2Versor2 = record class operator *(const AValue: double; const ASelf: TR2Versor2): TR2Vector; end;
 
@@ -14,7 +14,25 @@ type
   TR4Versor3 = record class operator *(const AValue: double; const ASelf: TR4Versor3): TR4Vector; end;
   TR4Versor4 = record class operator *(const AValue: double; const ASelf: TR4Versor4): TR4Vector; end;
 
-// Power and root functions
+{ External operators }
+
+{$IFNDEF ADIMOFF}
+operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
+operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
+operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
+operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
+operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
+operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
+
+operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
+operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
+operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
+operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
+operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
+operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
+{$ENDIF}
+
+{ Power and root functions }
 
 function ComplexSquarePower (const AValue: TComplex): TComplex;
 function ComplexCubicPower  (const AValue: TComplex): TComplex;
@@ -30,7 +48,7 @@ function ComplexSquareRoot (const AValue: TComplex): TC2ArrayOfComplex;
 function ComplexCubicRoot  (const AValue: TComplex): TC3ArrayOfComplex;
 function ComplexQuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
 
-// Usefull routines
+{ Usefull routines }
 
 function Abs(const AValue: double): double;
 function Abs(const AValue: TComplex): double;
@@ -63,11 +81,20 @@ function C2IdMatrix: TC2Matrix;
 function C3IdMatrix: TC3Matrix;
 function C4IdMatrix: TC4Matrix;
 
-// Solvers for linear, quadratic, cubic and quartic equation
+{ Solvers for linear, quadratic, cubic and quartic equation }
 
 function SolveEquation(const a: double): double;
 function SolveEquation(const a: TComplex): TComplex;
 function SolveEquation(const a, b: TComplex): TC2ArrayOfComplex;
 function SolveEquation(const a, b, c: TComplex): TC3ArrayOfComplex;
 function SolveEquation(const a, b, c, d: TComplex): TC4ArrayOfComplex;
+
+{ Internal check routines }
+
+procedure Check(ALeft, ARight: TDimension); inline;
+function CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
+function CheckSum(ALeft, ARight: TDimension): TDimension; inline;
+function CheckSub(ALeft, ARight: TDimension): TDimension; inline;
+function CheckMul(ALeft, ARight: TDimension): TDimension; inline;
+function CheckDiv(ALeft, ARight: TDimension): TDimension; inline;
 

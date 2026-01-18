@@ -1,8 +1,5 @@
-{ Complex number interface }
 
-type
-
-  // TComplex
+  { TComplex }
 
   TComplex = record
   private
@@ -42,7 +39,7 @@ type
     property Im: double read fIm write fIm;
   end;
 
-  // TComplexQuantity
+  { TComplexQuantity }
 
   {$IFNDEF ADIMOFF}
   TComplexQuantity = record
@@ -77,7 +74,7 @@ type
   TComplexQuantity = TComplex;
   {$ENDIF}
 
-  // TImaginaryNumber
+  { TImaginaryNumber }
 
   TImaginaryNumber = record
   public

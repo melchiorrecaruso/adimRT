@@ -17,8 +17,6 @@ begin
     result := '+' + FloatToStrF(AValue, ffGeneral, APrecision, ADigits);
 end;
 
-{ TQuantities }
-
 {$I baseprocs.inc}
 {$I scalarprocs.inc}
 {$I complexprocs.inc}
@@ -28,9 +26,7 @@ end;
 {$I helperprocs.inc}
 {$I extraprocs.inc} 
 
-{ TUnit }
-
-// Real numbers
+// TUnit
 
 class operator TUnit.*(const AValue: double; const ASelf: TUnit): TQuantity; inline;
 begin
@@ -52,8 +48,6 @@ begin
 {$ENDIF}
 end;
 
-// Complex numbers
-
 class operator TUnit.*(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
@@ -73,8 +67,6 @@ begin
   result := AValue;
 {$ENDIF}
 end;
-
-// Real vector space
 
 class operator TUnit.*(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
 begin
@@ -136,8 +128,6 @@ begin
 {$ENDIF}
 end;
 
-// Complex vector space
-
 class operator TUnit.*(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
@@ -197,8 +187,6 @@ begin
   result := AVector;
 {$ENDIF}
 end;
-
-// Real matrixes
 
 class operator TUnit.*(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
 begin
@@ -260,8 +248,6 @@ begin
 {$ENDIF}
 end;
 
-// Complex matrixes
-
 class operator TUnit.*(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
@@ -321,8 +307,6 @@ begin
   result := AMatrix;
 {$ENDIF}
 end;
-
-// CL3 vector space, Clifford algebra
 
 class operator TUnit.*(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
@@ -406,8 +390,6 @@ end;
 
 {$IFNDEF ADIMOFF}
 
-// Real numbers
-
 class operator TUnit.*(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
@@ -419,8 +401,6 @@ begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
-
-// Complex numbers
 
 class operator TUnit.*(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
 begin
@@ -445,8 +425,6 @@ begin
   result.FDim := CheckDiv(ASelf.FDim, AQuantity.FDim);
   result.FValue := AQuantity.FValue.Reciprocal;
 end;
-
-// Real space vector
 
 class operator TUnit.*(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
 begin
@@ -484,8 +462,6 @@ begin
   result.FValue := AQuantity.FValue;
 end;
 
-// Complex space vector
-
 class operator TUnit.*(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
@@ -521,8 +497,6 @@ begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
-
-// Real matrixes
 
 class operator TUnit.*(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
 begin
@@ -560,8 +534,6 @@ begin
   result.FValue := AQuantity.FValue;
 end;
 
-// Complex matrixes
-
 class operator TUnit.*(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
@@ -597,8 +569,6 @@ begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
-
-// CL3 vector space, Clifford algebra
 
 class operator TUnit.*(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
 begin
@@ -649,9 +619,7 @@ begin
 end;
 {$ENDIF}
 
-{ TFactoredUnit }
-
-// Real numbers
+// TFactoredUnit
 
 class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
@@ -673,8 +641,6 @@ begin
 {$ENDIF}
 end;
 
-// Complex numbers
-
 class operator TFactoredUnit.*(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
@@ -694,8 +660,6 @@ begin
   result := AValue / ASelf.FFactor;
 {$ENDIF}
 end;
-
-// Real vector space
 
 class operator TFactoredUnit.*(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
 begin
@@ -757,8 +721,6 @@ begin
 {$ENDIF}
 end;
 
-// Complex vector space
-
 class operator TFactoredUnit.*(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
@@ -818,8 +780,6 @@ begin
   result := AVector / ASelf.FFactor;
 {$ENDIF}
 end;
-
-// Real matrixes
 
 class operator TFactoredUnit.*(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
 begin
@@ -881,8 +841,6 @@ begin
 {$ENDIF}
 end;
 
-// Complex matrixes
-
 class operator TFactoredUnit.*(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
@@ -942,8 +900,6 @@ begin
   result := AMatrix / ASelf.FFactor;
 {$ENDIF}
 end;
-
-// CL3 vector space, Clifford algebra
 
 class operator TFactoredUnit.*(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
@@ -1027,8 +983,6 @@ end;
 
 {$IFNDEF ADIMOFF}
 
-// Real numbers
-
 class operator TFactoredUnit.*(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
@@ -1041,8 +995,6 @@ begin
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-// Complex numbers
-
 class operator TFactoredUnit.*(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
@@ -1054,8 +1006,6 @@ begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
-
-// Real vector space
 
 class operator TFactoredUnit.*(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
 begin
@@ -1093,8 +1043,6 @@ begin
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-// Complex vector space
-
 class operator TFactoredUnit.*(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
@@ -1130,8 +1078,6 @@ begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
-
-// Real matrixes
 
 class operator TFactoredUnit.*(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
 begin
@@ -1169,8 +1115,6 @@ begin
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-// Complex matrixes
-
 class operator TFactoredUnit.*(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
@@ -1206,8 +1150,6 @@ begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
-
-// CL3 vector space, Clifford algebra
 
 class operator TFactoredUnit.*(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
 begin
@@ -1259,7 +1201,7 @@ end;
 
 {$ENDIF}
 
-{ TDegreeCelsiusUnit }
+// TDegreeCelsiusUnit
 
 class operator TDegreeCelsiusUnit.*(const AValue: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
 begin
@@ -1271,7 +1213,7 @@ begin
 {$ENDIF}
 end;
 
-{ TDegreeFahrenheitUnit }
+// TDegreeFahrenheitUnit
 
 class operator TDegreeFahrenheitUnit.*(const AValue: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
 begin
@@ -1283,7 +1225,7 @@ begin
 {$ENDIF}
 end;
 
-{ TUnitHelper }
+// TUnitHelper
 
 function TUnitHelper.GetName(Prefixes: TPrefixes): string;
 begin
@@ -1518,8 +1460,6 @@ begin
   result.fm123 := GetValue(AQuantity.fm123, APrefixes);
 end;
 
-// Real numbers
-
 function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
@@ -1702,8 +1642,6 @@ begin
   end;
 end;
 
-// Complex numbers
-
 function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
 begin
 {$IFNDEF ADIMOFF}
@@ -1811,8 +1749,6 @@ begin
   else
     result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetSymbol(APrefixes);
 end;
-
-// Real vector space
 
 function TUnitHelper.ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
 begin
@@ -2036,8 +1972,6 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
-// Complex vector space
-
 function TUnitHelper.ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
@@ -2259,8 +2193,6 @@ begin
   else
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
-
-// Real matrixes
 
 function TUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
 begin
@@ -2484,8 +2416,6 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
-// Complex matrixes
-
 function TUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
@@ -2708,8 +2638,6 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
-// CL3 vector space, Clifford algebra
-
 function TUnitHelper.ToString(const AQuantity: TCL3VecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
@@ -2894,7 +2822,7 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-{ TFactoredUnitHelper }
+// TFactoredUnitHelper
 
 function TFactoredUnitHelper.GetName(Prefixes: TPrefixes): string;
 begin
@@ -3135,8 +3063,6 @@ begin
   result.fm123 := GetValue(AQuantity.fm123, APrefixes);
 end;
 
-// Real numbers
-
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
 begin
 {$IFNDEF ADIMOFF}
@@ -3320,8 +3246,6 @@ begin
   end;
 end;
 
-// Complex numbers
-
 function TFactoredUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
 begin
 {$IFNDEF ADIMOFF}
@@ -3435,8 +3359,6 @@ begin
   else
     result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetPluralName(APrefixes);
 end;
-
-// Real vector space
 
 function TFactoredUnitHelper.ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
 begin
@@ -3666,8 +3588,6 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
 
-// Complex vector space
-
 function TFactoredUnitHelper.ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
 begin
 {$IFNDEF ADIMOFF}
@@ -3895,8 +3815,6 @@ begin
   else
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
-
-// Real matrixes
 
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
 begin
@@ -4126,8 +4044,6 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
 
-// Complex matrixes
-
 function TFactoredUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
 begin
 {$IFNDEF ADIMOFF}
@@ -4356,8 +4272,6 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
 
-// CL3 vector space, Cliffor algebra
-
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3VecQuantity): string;
 var
   FactoredValue: TCL3Vector;
@@ -4566,7 +4480,7 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-{ TDegreeCelsiusUnitHelper }
+// TDegreeCelsiusUnitHelper
 
 function TDegreeCelsiusUnitHelper.GetName(const Prefixes: TPrefixes): string;
 var
@@ -4839,7 +4753,7 @@ begin
   end;
 end;
 
-{ TDegreeFahrenheitUnitHelper }
+// TDegreeFahrenheitUnitHelper
 
 function TDegreeFahrenheitUnitHelper.GetName(const Prefixes: TPrefixes): string;
 var

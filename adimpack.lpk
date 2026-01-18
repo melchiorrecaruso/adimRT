@@ -77,6 +77,18 @@
         <Filename Value="vectorprocs.inc"/>
         <Type Value="Include"/>
       </Item>
+      <Item>
+        <Filename Value="adimc.pas"/>
+        <UnitName Value="ADimC"/>
+      </Item>
+      <Item>
+        <Filename Value="adimcl3.pas"/>
+        <UnitName Value="ADimCL3"/>
+      </Item>
+      <Item>
+        <Filename Value="adimr3.pas"/>
+        <UnitName Value="ADimR3"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>

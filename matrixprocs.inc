@@ -1,4 +1,3 @@
-{ Matrix implementation }
 
 // TRMatrix
 
@@ -580,80 +579,6 @@ class operator TCMatrixQuantity./(const ALeft: TCMatrixQuantity; const ARight: T
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
-end;
-{$ENDIF}
-
-{$IFNDEF ADIMOFF}
-operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
 end;
 {$ENDIF}
 

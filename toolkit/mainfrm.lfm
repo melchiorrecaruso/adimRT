@@ -1,13 +1,13 @@
 object MainForm: TMainForm
-  Left = 1135
-  Height = 577
-  Top = 404
+  Left = 153
+  Height = 619
+  Top = 83
   Width = 989
   Caption = 'ADimPas Toolkit-v2'
-  ClientHeight = 577
+  ClientHeight = 619
   ClientWidth = 989
   Position = poMainFormCenter
-  LCLVersion = '4.0.0.2'
+  LCLVersion = '4.99.0.0'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -19,7 +19,7 @@ object MainForm: TMainForm
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 0
-    Height = 523
+    Height = 565
     Top = 54
     Width = 989
     ActivePage = TabSheet4
@@ -30,8 +30,8 @@ object MainForm: TMainForm
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Unit of measurement'
-      ClientHeight = 490
-      ClientWidth = 979
+      ClientHeight = 537
+      ClientWidth = 981
       object StringGrid: TStringGrid
         AnchorSideLeft.Control = TabSheet1
         AnchorSideTop.Control = AddBtn
@@ -41,9 +41,9 @@ object MainForm: TMainForm
         AnchorSideBottom.Control = TabSheet1
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 442
+        Height = 489
         Top = 48
-        Width = 979
+        Width = 981
         Anchors = [akTop, akLeft, akRight, akBottom]
         AutoFillColumns = True
         BorderSpacing.Top = 6
@@ -51,43 +51,43 @@ object MainForm: TMainForm
         Columns = <        
           item
             Title.Caption = 'Field'
-            Width = 98
+            Width = 96
           end        
           item
             Title.Caption = 'Quantity'
-            Width = 98
+            Width = 96
           end        
           item
             Title.Caption = 'Dimension'
-            Width = 98
+            Width = 96
           end        
           item
             Title.Caption = 'Long string'
-            Width = 98
+            Width = 96
           end        
           item
             Title.Caption = 'Short string'
-            Width = 98
+            Width = 96
           end        
           item
             Title.Caption = 'Identifier'
-            Width = 98
+            Width = 96
           end        
           item
             Title.Caption = 'Base quantity'
-            Width = 98
+            Width = 96
           end        
           item
             Title.Caption = 'Factor'
-            Width = 97
+            Width = 96
           end        
           item
             Title.Caption = 'Prefixes'
-            Width = 97
+            Width = 96
           end        
           item
             Title.Caption = 'Comment'
-            Width = 97
+            Width = 96
           end>
         FixedCols = 0
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goAutoAddRows, goRowSelect, goSmoothScroll]
@@ -96,16 +96,16 @@ object MainForm: TMainForm
         OnDblClick = StringGridDblClick
         OnPrepareCanvas = StringGridPrepareCanvas
         ColWidths = (
-          98
-          98
-          98
-          98
-          98
-          98
-          98
-          97
-          97
-          97
+          96
+          96
+          96
+          96
+          96
+          96
+          96
+          96
+          96
+          96
         )
       end
       object AddBtn: TBitBtn
@@ -191,19 +191,20 @@ object MainForm: TMainForm
     end
     object TabSheet2: TTabSheet
       Caption = 'Unit Source Code'
-      ClientHeight = 490
-      ClientWidth = 979
+      ClientHeight = 537
+      ClientWidth = 981
       inline SynEdit: TSynEdit
         Left = 0
-        Height = 490
+        Height = 537
         Top = 0
-        Width = 979
+        Width = 981
         Align = alClient
         Anchors = []
         Font.Height = -13
         Font.Name = 'Courier New'
         Font.Pitch = fpFixed
         Font.Quality = fqCleartype
+        Font.Style = [fsBold]
         ParentColor = False
         ParentFont = False
         TabOrder = 0
@@ -638,39 +639,41 @@ object MainForm: TMainForm
         MouseSelActions = <>
         VisibleSpecialChars = [vscSpace, vscTabAtLast]
         ReadOnly = True
-        SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
+        SelectedColor.BackPriority = 50
         SelectedColor.FramePriority = 50
         SelectedColor.BoldPriority = 50
         SelectedColor.ItalicPriority = 50
         SelectedColor.UnderlinePriority = 50
         SelectedColor.StrikeOutPriority = 50
+        SelectedColor.ExtendPastEol = True
+        IncrementColor.ExtendPastEol = False
         BracketHighlightStyle = sbhsBoth
-        BracketMatchColor.Background = clNone
         BracketMatchColor.Foreground = clNone
+        BracketMatchColor.Background = clNone
         BracketMatchColor.Style = [fsBold]
-        FoldedCodeColor.Background = clNone
         FoldedCodeColor.Foreground = clGray
+        FoldedCodeColor.Background = clNone
         FoldedCodeColor.FrameColor = clGray
-        MouseLinkColor.Background = clNone
         MouseLinkColor.Foreground = clBlue
-        LineHighlightColor.Background = clNone
+        MouseLinkColor.Background = clNone
         LineHighlightColor.Foreground = clNone
+        LineHighlightColor.Background = clNone
         inline SynLeftGutterPartList1: TSynGutterPartList
         end
       end
     end
     object TabSheet3: TTabSheet
       Caption = 'Messages'
-      ClientHeight = 490
-      ClientWidth = 979
+      ClientHeight = 537
+      ClientWidth = 981
       object Memo: TMemo
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 490
+        Height = 537
         Top = 0
-        Width = 979
+        Width = 981
         Align = alClient
         Anchors = []
         Font.Height = -13
@@ -684,13 +687,13 @@ object MainForm: TMainForm
     end
     object TabSheet4: TTabSheet
       Caption = 'Details'
-      ClientHeight = 490
-      ClientWidth = 979
+      ClientHeight = 537
+      ClientWidth = 981
       object Details: TMemo
         Left = 0
-        Height = 490
+        Height = 537
         Top = 0
-        Width = 979
+        Width = 981
         Align = alClient
         ScrollBars = ssAutoBoth
         TabOrder = 0
@@ -921,10 +924,16 @@ object MainForm: TMainForm
   object SynPasSyn: TSynPasSyn
     Enabled = False
     CommentAttri.Foreground = clHighlight
+    CommentAttri.ExtendPastEol = True
+    CommentAnsiAttri.ExtendPastEol = True
+    CommentCurlyAttri.ExtendPastEol = True
+    CommentSlashAttri.ExtendPastEol = False
+    IDEDirectiveAttri.ExtendPastEol = True
+    StringAttri.ExtendPastEol = False
+    DirectiveAttri.ExtendPastEol = True
     CompilerMode = pcmFPC
-    NestedComments = True
-    TypeHelpers = False
     StringMultilineMode = []
+    NestedBracketAttribs = <>
     Left = 48
     Top = 176
   end

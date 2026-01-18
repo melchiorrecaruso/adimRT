@@ -85,7 +85,7 @@ var
 implementation
 
 uses
-  InsertForm;
+  InsertForm, Common;
 
 {$R *.lfm}
 
@@ -114,6 +114,8 @@ begin
   OpenDialog.Filter := 'CSV Document|*.csv;';
   if OpenDialog.Execute then
   begin
+    SetCurrentDir(ExtractFileDir(OpenDialog.FileName));
+
     FList.Clear;
     FList.LoadFromFile(OpenDialog.FileName);
     UpdateGrid;

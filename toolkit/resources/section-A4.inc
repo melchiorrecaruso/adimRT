@@ -1,4 +1,5 @@
-﻿
+﻿{$I extra.inc}
+
 { Power functions }
 
 function SquarePower(const AQuantity: TQuantity): TQuantity;
@@ -113,4 +114,6 @@ const
 var
 
   DefaultEpsilon : double = 1E-12;
+
+
 
