@@ -2,7 +2,7 @@
 interface
 
 uses
-  SysUtils;
+  ADimTypes, SysUtils;
 
 type
   { TPrefix }
@@ -18,7 +18,6 @@ type
 
   TExponents = array of longint;
 
-  {$I base.inc}
   {$I scalar.inc}
   {$I complex.inc}
   {$I matrix.inc}
