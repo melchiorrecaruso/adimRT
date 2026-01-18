@@ -17,7 +17,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
-program adimtest;
+program ADimTest;
 
 uses
   ADim, ADimR3, ADimC, ADimCL3, Math, SysUtils;
