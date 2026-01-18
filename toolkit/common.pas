@@ -608,7 +608,6 @@ begin
   begin
     S.Add(Lines[i]);
   end;
-  CleanDocument(S);
   Lines.Destroy;
 end;
 
