@@ -61,6 +61,7 @@
       <Unit>
         <Filename Value="adimtest.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="ADimTest"/>
       </Unit>
       <Unit>
         <Filename Value="adimr3.pas"/>

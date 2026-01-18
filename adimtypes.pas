@@ -1,3 +1,62 @@
+{
+  Description: ADim record types and data structures.
+
+  Copyright (C) 2025-2026 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+}
+
+unit ADimTypes;
+
+{$H+}{$J-}
+{$modeswitch advancedrecords}
+{$WARN 5024 OFF} // Suppress warning for unused routine parameter.
+{$WARN 5033 OFF} // Suppress warning for unassigned function's return value.
+{$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
+
+interface
+
+uses
+  SysUtils;
+
+type
+  { TDimension }
+
+  TDimension = record
+  private
+    FKilogram:  smallint;
+    FMeter:     smallint;
+    FSecond:    smallint;
+    FAmpere:    smallint;
+    FKelvin:    smallint;
+    FMole:      smallint;
+    FCandela:   smallint;
+    FSteradian: smallint;
+  public
+    function ToString: string;
+    class operator   +(const ASelf: TDimension): TDimension;
+    class operator   -(const ASelf: TDimension): TDimension;
+    class operator   +(const ALeft, ARight: TDimension): TDimension;
+    class operator   -(const ALeft, ARight: TDimension): TDimension;
+    class operator   *(const ALeft: longint; ARight: TDimension): TDimension;
+    class operator   *(const ALeft: TDimension; ARight: longint): TDimension;
+    class operator div(const ALeft: TDimension; ARight: longint): TDimension;
+    class operator  <>(const ALeft, ARight: TDimension): boolean;
+    class operator   =(const ALeft, ARight: TDimension): boolean;
+  end;
+
+implementation
 
 // TDimension
 
@@ -174,4 +233,6 @@ begin
   result := StringReplace(result, '//', '/', [rfReplaceAll]);
   result := StringReplace(result, '  ', ' ', [rfReplaceAll]);
 end;
+
+end.
 

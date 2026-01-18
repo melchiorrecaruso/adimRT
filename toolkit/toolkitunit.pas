@@ -81,6 +81,7 @@ type
     FFactoredUnits: TStringList;
     FIdentifiers: TStringList;
     FDocument: TStringList;
+    FExpandIncludes: boolean;
 
     FMessage: string;
     FOnMessage: TThreadMethod;
@@ -122,6 +123,7 @@ type
     property BaseUnits: TStringList read FBaseUnits;
     property FactoredUnits: TStringList read FFactoredUnits;
     property Identifiers: TStringList read FIdentifiers;
+    property ExpandIncludes: boolean write FExpandIncludes;
 
     property Message: string read FMessage;
     property OnMessage: TThreadMethod read FOnMessage write FOnMessage;
@@ -725,7 +727,8 @@ begin
 
   FDocument.Add('');
   FDocument.Add('end.');
-//RemoveIncludeDirectives(FDocument);
+  if FExpandIncludes then
+    RemoveIncludeDirectives(FDocument);
   CleanDocument(FDocument);
 
   SectionB4 .Destroy;

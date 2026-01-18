@@ -17,7 +17,6 @@ begin
     result := '+' + FloatToStrF(AValue, ffGeneral, APrecision, ADigits);
 end;
 
-{$I baseprocs.inc}
 {$I scalarprocs.inc}
 {$I complexprocs.inc}
 {$I matrixprocs.inc}

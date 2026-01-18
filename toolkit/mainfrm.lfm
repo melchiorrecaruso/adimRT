@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 153
+  Left = 703
   Height = 619
-  Top = 83
+  Top = 376
   Width = 989
   Caption = 'ADimPas Toolkit-v2'
   ClientHeight = 619
@@ -30,8 +30,8 @@ object MainForm: TMainForm
     TabOrder = 0
     object TabSheet1: TTabSheet
       Caption = 'Unit of measurement'
-      ClientHeight = 537
-      ClientWidth = 981
+      ClientHeight = 532
+      ClientWidth = 979
       object StringGrid: TStringGrid
         AnchorSideLeft.Control = TabSheet1
         AnchorSideTop.Control = AddBtn
@@ -41,9 +41,9 @@ object MainForm: TMainForm
         AnchorSideBottom.Control = TabSheet1
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 489
+        Height = 484
         Top = 48
-        Width = 981
+        Width = 979
         Anchors = [akTop, akLeft, akRight, akBottom]
         AutoFillColumns = True
         BorderSpacing.Top = 6
@@ -51,43 +51,43 @@ object MainForm: TMainForm
         Columns = <        
           item
             Title.Caption = 'Field'
-            Width = 96
+            Width = 98
           end        
           item
             Title.Caption = 'Quantity'
-            Width = 96
+            Width = 98
           end        
           item
             Title.Caption = 'Dimension'
-            Width = 96
+            Width = 98
           end        
           item
             Title.Caption = 'Long string'
-            Width = 96
+            Width = 98
           end        
           item
             Title.Caption = 'Short string'
-            Width = 96
+            Width = 98
           end        
           item
             Title.Caption = 'Identifier'
-            Width = 96
+            Width = 97
           end        
           item
             Title.Caption = 'Base quantity'
-            Width = 96
+            Width = 97
           end        
           item
             Title.Caption = 'Factor'
-            Width = 96
+            Width = 97
           end        
           item
             Title.Caption = 'Prefixes'
-            Width = 96
+            Width = 97
           end        
           item
             Title.Caption = 'Comment'
-            Width = 96
+            Width = 97
           end>
         FixedCols = 0
         Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goAutoAddRows, goRowSelect, goSmoothScroll]
@@ -96,16 +96,16 @@ object MainForm: TMainForm
         OnDblClick = StringGridDblClick
         OnPrepareCanvas = StringGridPrepareCanvas
         ColWidths = (
-          96
-          96
-          96
-          96
-          96
-          96
-          96
-          96
-          96
-          96
+          98
+          98
+          98
+          98
+          98
+          97
+          97
+          97
+          97
+          97
         )
       end
       object AddBtn: TBitBtn
@@ -191,13 +191,13 @@ object MainForm: TMainForm
     end
     object TabSheet2: TTabSheet
       Caption = 'Unit Source Code'
-      ClientHeight = 537
-      ClientWidth = 981
+      ClientHeight = 532
+      ClientWidth = 979
       inline SynEdit: TSynEdit
         Left = 0
-        Height = 537
+        Height = 532
         Top = 0
-        Width = 981
+        Width = 979
         Align = alClient
         Anchors = []
         Font.Height = -13
@@ -665,15 +665,15 @@ object MainForm: TMainForm
     end
     object TabSheet3: TTabSheet
       Caption = 'Messages'
-      ClientHeight = 537
-      ClientWidth = 981
+      ClientHeight = 532
+      ClientWidth = 979
       object Memo: TMemo
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 537
+        Height = 532
         Top = 0
-        Width = 981
+        Width = 979
         Align = alClient
         Anchors = []
         Font.Height = -13
@@ -687,13 +687,13 @@ object MainForm: TMainForm
     end
     object TabSheet4: TTabSheet
       Caption = 'Details'
-      ClientHeight = 537
-      ClientWidth = 981
+      ClientHeight = 532
+      ClientWidth = 979
       object Details: TMemo
         Left = 0
-        Height = 537
+        Height = 532
         Top = 0
-        Width = 981
+        Width = 979
         Align = alClient
         ScrollBars = ssAutoBoth
         TabOrder = 0
@@ -913,6 +913,20 @@ object MainForm: TMainForm
     TabOrder = 4
     OnClick = SaveBtnClick
   end
+  object ExpandIncludesCheckBox: TCheckBox
+    AnchorSideTop.Control = ExportBtn
+    AnchorSideRight.Control = ExportBtn
+    AnchorSideBottom.Control = ExportBtn
+    AnchorSideBottom.Side = asrBottom
+    Left = 482
+    Height = 36
+    Top = 8
+    Width = 225
+    Anchors = [akTop, akRight, akBottom]
+    BorderSpacing.Right = 24
+    Caption = 'Include contents of .inc files'
+    TabOrder = 5
+  end
   object SaveDialog: TSaveDialog
     Left = 120
     Top = 176
@@ -932,6 +946,7 @@ object MainForm: TMainForm
     StringAttri.ExtendPastEol = False
     DirectiveAttri.ExtendPastEol = True
     CompilerMode = pcmFPC
+    ModeSwitches = [pcsNestedComments]
     StringMultilineMode = []
     NestedBracketAttribs = <>
     Left = 48
