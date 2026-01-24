@@ -1235,7 +1235,7 @@ begin
     if Length(Prefixes) <> Length(FPrefixes) then
       raise Exception.Create('Wrong number of prefixes.');
 
-  case Length(FPrefixes) of
+  case Length(Prefixes) of
     0: result := FName;
     1: result := Format(FName, [
          PrefixTable[Prefixes[0]].Name]);
@@ -1246,6 +1246,32 @@ begin
          PrefixTable[Prefixes[0]].Name,
          PrefixTable[Prefixes[1]].Name,
          PrefixTable[Prefixes[2]].Name]);
+    4: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name]);
+    5: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name]);
+    6: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name,
+         PrefixTable[Prefixes[5]].Name]);
+    7: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name,
+         PrefixTable[Prefixes[5]].Name,
+         PrefixTable[Prefixes[6]].Name]);
   else raise Exception.Create('Wrong number of prefixes.');
   end;
 end;
@@ -1270,6 +1296,32 @@ begin
          PrefixTable[Prefixes[0]].Name,
          PrefixTable[Prefixes[1]].Name,
          PrefixTable[Prefixes[2]].Name]);
+    4: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name]);
+    5: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name]);
+    6: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name,
+         PrefixTable[Prefixes[5]].Name]);
+    7: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name,
+         PrefixTable[Prefixes[5]].Name,
+         PrefixTable[Prefixes[6]].Name]);
   else raise Exception.Create('Wrong number of prefixes.');
   end;
 end;
@@ -1284,16 +1336,42 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 
   case Length(Prefixes) of
-    0:  result := FSymbol;
-    1:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol]);
-    2:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol]);
-    3:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol,
-          PrefixTable[Prefixes[2]].Symbol]);
+    0: result := FSymbol;
+    1: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol]);
+    2: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol]);
+    3: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol]);
+    4: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol,
+         PrefixTable[Prefixes[3]].Symbol]);
+    5: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol,
+         PrefixTable[Prefixes[3]].Symbol,
+         PrefixTable[Prefixes[4]].Symbol]);
+    6: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol,
+         PrefixTable[Prefixes[3]].Symbol,
+         PrefixTable[Prefixes[4]].Symbol,
+         PrefixTable[Prefixes[5]].Symbol]);
+    7: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol,
+         PrefixTable[Prefixes[3]].Symbol,
+         PrefixTable[Prefixes[4]].Symbol,
+         PrefixTable[Prefixes[5]].Symbol,
+         PrefixTable[Prefixes[6]].Symbol]);
   else raise Exception.Create('Wrong number of prefixes.');
   end;
 end;
@@ -2833,16 +2911,42 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 
   case Length(Prefixes) of
-    0:  result := FName;
-    1:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
+    0: result := FName;
+    1: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name]);
+    2: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name]);
+    3: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name]);
+    4: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name]);
+    5: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name]);
+    6: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name,
+         PrefixTable[Prefixes[5]].Name]);
+    7: result := Format(FName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name,
+         PrefixTable[Prefixes[5]].Name,
+         PrefixTable[Prefixes[6]].Name]);
   else raise Exception.Create('Wrong number of prefixes.');
   end;
 end;
@@ -2857,16 +2961,42 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 
   case Length(Prefixes) of
-    0:  result := FPluralName;
-    1:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
+    0: result := FPluralName;
+    1: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name]);
+    2: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name]);
+    3: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name]);
+    4: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name]);
+    5: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name]);
+    6: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name,
+         PrefixTable[Prefixes[5]].Name]);
+    7: result := Format(FPluralName, [
+         PrefixTable[Prefixes[0]].Name,
+         PrefixTable[Prefixes[1]].Name,
+         PrefixTable[Prefixes[2]].Name,
+         PrefixTable[Prefixes[3]].Name,
+         PrefixTable[Prefixes[4]].Name,
+         PrefixTable[Prefixes[5]].Name,
+         PrefixTable[Prefixes[6]].Name]);
   else raise Exception.Create('Wrong number of prefixes.');
   end;
 end;
@@ -2881,16 +3011,42 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 
   case Length(Prefixes) of
-    0:  result := FSymbol;
-    1:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol]);
-    2:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol]);
-    3:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol,
-          PrefixTable[Prefixes[2]].Symbol]);
+    0: result := FSymbol;
+    1: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol]);
+    2: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol]);
+    3: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol]);
+    4: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol,
+         PrefixTable[Prefixes[3]].Symbol]);
+    5: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol,
+         PrefixTable[Prefixes[3]].Symbol,
+         PrefixTable[Prefixes[4]].Symbol]);
+    6: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol,
+         PrefixTable[Prefixes[3]].Symbol,
+         PrefixTable[Prefixes[4]].Symbol,
+         PrefixTable[Prefixes[5]].Symbol]);
+    7: result := Format(FSymbol, [
+         PrefixTable[Prefixes[0]].Symbol,
+         PrefixTable[Prefixes[1]].Symbol,
+         PrefixTable[Prefixes[2]].Symbol,
+         PrefixTable[Prefixes[3]].Symbol,
+         PrefixTable[Prefixes[4]].Symbol,
+         PrefixTable[Prefixes[5]].Symbol,
+         PrefixTable[Prefixes[6]].Symbol]);
   else raise Exception.Create('Wrong number of prefixes.');
   end;
 end;
@@ -4490,13 +4646,6 @@ begin
     0:  result := FName;
     1:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
    else raise Exception.Create('Wrong number of prefixes.');
    end;
 end;
@@ -4510,13 +4659,6 @@ begin
     0:  result := FPluralName;
     1:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
    else raise Exception.Create('Wrong number of prefixes.');
    end;
 end;
@@ -4530,13 +4672,6 @@ begin
     0:  result := FSymbol;
     1:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol]);
-    2:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol]);
-    3:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol,
-          PrefixTable[Prefixes[2]].Symbol]);
   else raise Exception.Create('Wrong number of prefixes.');
   end;
 end;
@@ -4763,13 +4898,6 @@ begin
     0:  result := FName;
     1:  result := Format(FName, [
           PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
    else raise Exception.Create('Wrong number of prefixes.');
    end;
 end;
@@ -4783,13 +4911,6 @@ begin
     0:  result := FPluralName;
     1:  result := Format(FPluralName, [
           PrefixTable[Prefixes[0]].Name]);
-    2:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name]);
-    3:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name,
-          PrefixTable[Prefixes[1]].Name,
-          PrefixTable[Prefixes[2]].Name]);
    else raise Exception.Create('Wrong number of prefixes.');
    end;
 end;
@@ -4803,13 +4924,6 @@ begin
     0:  result := FSymbol;
     1:  result := Format(FSymbol, [
           PrefixTable[Prefixes[0]].Symbol]);
-    2:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol]);
-    3:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol,
-          PrefixTable[Prefixes[1]].Symbol,
-          PrefixTable[Prefixes[2]].Symbol]);
   else raise Exception.Create('Wrong number of prefixes.');
   end;
 end;
