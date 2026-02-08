@@ -1,7 +1,7 @@
 ;TScalar;;;;;;;;;clLime
 ;TRadian?;;radian?;rad;rad;TScalar;;;;clYellow
 ;TDegree?;;degree?;deg;deg;TScalar;Pi/180;;;clYellow
-;TDecibel?;;decibel?;dB;dB;TScalar?;1;;;clWhite
+;TDecibel?;;decibel?;dB;dB;TScalar;;;;clYellow
 ;TSteradian?;sr;steradian?;sr;sr;;;;;clLime
 ;TSquareDegree?;;square degree?;deg2;deg2;TSteradian?;Pi*Pi/32400;;;clWhite
 ;TSecond?;s;%ssecond?;%ss;s;;;------------SSSSSS------;;clLime
@@ -24,7 +24,7 @@
 ;TMile?;;mile?;mi;mi;TMeter?;1609.344;;;clWhite
 ;TNauticalMile?;;nautical mile?;nmi;nmi;TMeter?;1852;;;clWhite
 ;TAngstrom?;;%sangstrom?;%sÅ;angstrom;TMeter?;1E-10;;;clWhite
-;TParsec?;;%sparsec?;%spc;pc;TMeter?;3.08567758149137E+16;;;clWhite
+;TParsec?;;%sparsec?;%spc;parsec;TMeter?;3.08567758149137E+16;;;clYellow
 ;TLightYear?;;%slight year?;%sly;ly;TMeter?;9.4607304725808E+15;;;clWhite
 ;TSquareRootMeter?;m0.5;square root %smeter?;√%sm;;;;;;clLime
 ;TSquareMeter?;m2;square %smeter?;%sm2;m2;;;---------S--SSSSSS------;;clLime
@@ -47,7 +47,7 @@
 ;TOunce?;;ounce?;oz;oz;TKilogram?;0.028349523125;;;clWhite
 ;TStone?;;stone?;st;st;TKilogram?;6.35029318;;;clWhite
 ;TTon?;;ton?;ton;ton;TKilogram?;907.18474;;;clWhite
-;TDalton?;;%sDalton?;%Da;Da;TKilogram?;1.660538862800000E-27;;;clWhite
+;TDalton?;;%sdalton?;%Da;dalton;TKilogram?;1.660538862800000E-27;;;clYellow
 ;TElectronvolt?PerSquareSpeedOfLight;;%selectronvolt? per squared speed of light;%seV/c2;;TKilogram?;1.7826619216279E-36;;;clWhite
 ;TSquareKilogram?;kg2;square %sgram?;%sg2;kg2;;;;;clLime
 ;TAmpere?;A;%sampere?;%sA;A;;;---------SSSSSSSSL------;;clLime

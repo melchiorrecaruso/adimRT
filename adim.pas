@@ -2228,17 +2228,16 @@ resourcestring
   rsDecibelPluralName = 'decibels';
 
 const
-  DecibelUnit : TFactoredUnit = (
+  DecibelUnit : TUnit = (
     FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsDecibelSymbol;
     FName       : rsDecibelName;
     FPluralName : rsDecibelPluralName;
     FPrefixes   : ();
-    FExponents  : ();
-    FFactor     : (1));
+    FExponents  : ());
 
 var
-  dB : TFactoredUnit absolute DecibelUnit;
+  dB : TUnit absolute DecibelUnit;
 
 { TSteradian }
 
@@ -2747,7 +2746,7 @@ const
     FFactor     : (3.08567758149137E+16));
 
 var
-  pc : TFactoredUnit absolute ParsecUnit;
+  parsec : TFactoredUnit absolute ParsecUnit;
 
 { TLightYear }
 
@@ -3249,8 +3248,8 @@ var
 
 resourcestring
   rsDaltonSymbol = '%Da';
-  rsDaltonName = '%sDalton';
-  rsDaltonPluralName = '%sDaltons';
+  rsDaltonName = '%sdalton';
+  rsDaltonPluralName = '%sdaltons';
 
 const
   DaltonUnit : TFactoredUnit = (
@@ -3263,7 +3262,7 @@ const
     FFactor     : (1.660538862800000E-27));
 
 var
-  Da : TFactoredUnit absolute DaltonUnit;
+  dalton : TFactoredUnit absolute DaltonUnit;
 
 { TElectronvoltPerSquareSpeedOfLight }
 
