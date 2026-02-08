@@ -193,6 +193,21 @@ msgstr ""
 msgid "au"
 msgstr ""
 
+#: adim.rsatmospherename
+#, object-pascal-format
+msgid "%satmosphere"
+msgstr ""
+
+#: adim.rsatmospherepluralname
+#, object-pascal-format
+msgid "%satmospheres"
+msgstr ""
+
+#: adim.rsatmospheresymbol
+#, object-pascal-format
+msgid "%satm"
+msgstr ""
+
 #: adim.rsbarname
 #, object-pascal-format
 msgctxt "adim.rsbarname"
@@ -1680,6 +1695,21 @@ msgstr ""
 msgid "yd³"
 msgstr ""
 
+#: adim.rsdaltonname
+#, object-pascal-format
+msgid "%sdalton"
+msgstr ""
+
+#: adim.rsdaltonpluralname
+#, object-pascal-format
+msgid "%sdaltons"
+msgstr ""
+
+#: adim.rsdaltonsymbol
+#, object-pascal-format
+msgid "%Da"
+msgstr ""
+
 #: adim.rsdayname
 msgid "day"
 msgstr ""
@@ -1690,6 +1720,18 @@ msgstr ""
 
 #: adim.rsdaysymbol
 msgid "d"
+msgstr ""
+
+#: adim.rsdecibelname
+msgid "decibel"
+msgstr ""
+
+#: adim.rsdecibelpluralname
+msgid "decibels"
+msgstr ""
+
+#: adim.rsdecibelsymbol
+msgid "dB"
 msgstr ""
 
 #: adim.rsdegreecelsiusname
@@ -3579,6 +3621,21 @@ msgstr ""
 msgid "%sg"
 msgstr ""
 
+#: adim.rslightyearname
+#, object-pascal-format
+msgid "%slight year"
+msgstr ""
+
+#: adim.rslightyearpluralname
+#, object-pascal-format
+msgid "%slight years"
+msgstr ""
+
+#: adim.rslightyearsymbol
+#, object-pascal-format
+msgid "%sly"
+msgstr ""
+
 #: adim.rslitrename
 #, object-pascal-format
 msgid "%slitre"
@@ -4791,6 +4848,21 @@ msgstr ""
 
 #: adim.rsouncesymbol
 msgid "oz"
+msgstr ""
+
+#: adim.rsparsecname
+#, object-pascal-format
+msgid "%sparsec"
+msgstr ""
+
+#: adim.rsparsecpluralname
+#, object-pascal-format
+msgid "%sparsecs"
+msgstr ""
+
+#: adim.rsparsecsymbol
+#, object-pascal-format
+msgid "%spc"
 msgstr ""
 
 #: adim.rspascalname
@@ -11914,6 +11986,21 @@ msgstr ""
 #: adim.rstonsymbol
 msgctxt "adim.rstonsymbol"
 msgid "ton"
+msgstr ""
+
+#: adim.rstorrname
+#, object-pascal-format
+msgid "%storr"
+msgstr ""
+
+#: adim.rstorrpluralname
+#, object-pascal-format
+msgid "%storrs"
+msgstr ""
+
+#: adim.rstorrsymbol
+#, object-pascal-format
+msgid "%sTorr"
 msgstr ""
 
 #: adim.rsvoltmetername
