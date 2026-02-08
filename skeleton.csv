@@ -1,6 +1,7 @@
 ;TScalar;;;;;;;;;clLime
 ;TRadian?;;radian?;rad;rad;TScalar;;;;clYellow
 ;TDegree?;;degree?;deg;deg;TScalar;Pi/180;;;clYellow
+;TDecibel?;;decibel?;dB;dB;TScalar?;1;;;clWhite
 ;TSteradian?;sr;steradian?;sr;sr;;;;;clLime
 ;TSquareDegree?;;square degree?;deg2;deg2;TSteradian?;Pi*Pi/32400;;;clWhite
 ;TSecond?;s;%ssecond?;%ss;s;;;------------SSSSSS------;;clLime
@@ -23,6 +24,8 @@
 ;TMile?;;mile?;mi;mi;TMeter?;1609.344;;;clWhite
 ;TNauticalMile?;;nautical mile?;nmi;nmi;TMeter?;1852;;;clWhite
 ;TAngstrom?;;%sangstrom?;%sÅ;angstrom;TMeter?;1E-10;;;clWhite
+;TParsec?;;%sparsec?;%spc;pc;TMeter?;3.08567758149137E+16;;;clWhite
+;TLightYear?;;%slight year?;%sly;ly;TMeter?;9.4607304725808E+15;;;clWhite
 ;TSquareRootMeter?;m0.5;square root %smeter?;√%sm;;;;;;clLime
 ;TSquareMeter?;m2;square %smeter?;%sm2;m2;;;---------S--SSSSSS------;;clLime
 ;TSquareInch!;;square inch!;in2;inch2;TSquareMeter?;0.00064516;;;clWhite
@@ -44,6 +47,7 @@
 ;TOunce?;;ounce?;oz;oz;TKilogram?;0.028349523125;;;clWhite
 ;TStone?;;stone?;st;st;TKilogram?;6.35029318;;;clWhite
 ;TTon?;;ton?;ton;ton;TKilogram?;907.18474;;;clWhite
+;TDalton?;;%sDalton?;%Da;Da;TKilogram?;1.660538862800000E-27;;;clWhite
 ;TElectronvolt?PerSquareSpeedOfLight;;%selectronvolt? per squared speed of light;%seV/c2;;TKilogram?;1.7826619216279E-36;;;clWhite
 ;TSquareKilogram?;kg2;square %sgram?;%sg2;kg2;;;;;clLime
 ;TAmpere?;A;%sampere?;%sA;A;;;---------SSSSSSSSL------;;clLime
@@ -112,6 +116,8 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;TPound?PerSquareInch;;%spound? per square inch;%spsi;psi;TPascal?;6894.75729316836;---------S--------------;;clWhite
 ;TJoule?PerCubicMeter;;%sjoule? per cubic %smeter;%sJ/%sm3;;TPascal?;;;;clWhite
 ;TKilogram?PerMeterPerSquareSecond;;%sgram? per %smeter per square %ssecond;%sg/%sm/%ss2;;TPascal?;;;;clWhite
+;TAtmosphere?;;%satmosphere?;%satm;atm;TPascal?;101325;;;clWhite
+;TTorr;;%storr?;%sTorr;Torr;TPascal?;133.322368421053;;;clWhite
 ;TJoule?;kg m2 s-2;%sjoule?;%sJ;J;;;------SSSS--------------;;clLime
 ;TWattHour?;;%swatt hour?;%sW.h;;TJoule?;3600;;;clWhite
 ;TWattSecond?;;%swatt %ssecond?;%sW.%ss;;TJoule?;;;;clWhite

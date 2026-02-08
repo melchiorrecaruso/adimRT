@@ -26,10 +26,10 @@ unit ADim;
 {$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
 
 {
-  ADim Run-time library built on 24-01-2026.
+  ADim Run-time library built on 08-02-2026.
 
   Number of base units: 687
-  Number of factored units: 126
+  Number of factored units: 132
 }
 
 interface
@@ -2220,6 +2220,26 @@ const
 var
   deg : TFactoredUnit absolute DegreeUnit;
 
+{ TDecibel }
+
+resourcestring
+  rsDecibelSymbol = 'dB';
+  rsDecibelName = 'decibel';
+  rsDecibelPluralName = 'decibels';
+
+const
+  DecibelUnit : TFactoredUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FSymbol     : rsDecibelSymbol;
+    FName       : rsDecibelName;
+    FPluralName : rsDecibelPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (1));
+
+var
+  dB : TFactoredUnit absolute DecibelUnit;
+
 { TSteradian }
 
 resourcestring
@@ -2709,6 +2729,46 @@ const
 var
   angstrom : TFactoredUnit absolute AngstromUnit;
 
+{ TParsec }
+
+resourcestring
+  rsParsecSymbol = '%spc';
+  rsParsecName = '%sparsec';
+  rsParsecPluralName = '%sparsecs';
+
+const
+  ParsecUnit : TFactoredUnit = (
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FSymbol     : rsParsecSymbol;
+    FName       : rsParsecName;
+    FPluralName : rsParsecPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (3.08567758149137E+16));
+
+var
+  pc : TFactoredUnit absolute ParsecUnit;
+
+{ TLightYear }
+
+resourcestring
+  rsLightYearSymbol = '%sly';
+  rsLightYearName = '%slight year';
+  rsLightYearPluralName = '%slight years';
+
+const
+  LightYearUnit : TFactoredUnit = (
+    FDim        : (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FSymbol     : rsLightYearSymbol;
+    FName       : rsLightYearName;
+    FPluralName : rsLightYearPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (9.4607304725808E+15));
+
+var
+  ly : TFactoredUnit absolute LightYearUnit;
+
 { TSquareRootMeter }
 
 resourcestring
@@ -3184,6 +3244,26 @@ const
 
 var
   ton : TFactoredUnit absolute TonUnit;
+
+{ TDalton }
+
+resourcestring
+  rsDaltonSymbol = '%Da';
+  rsDaltonName = '%sDalton';
+  rsDaltonPluralName = '%sDaltons';
+
+const
+  DaltonUnit : TFactoredUnit = (
+    FDim        : (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FSymbol     : rsDaltonSymbol;
+    FName       : rsDaltonName;
+    FPluralName : rsDaltonPluralName;
+    FPrefixes   : ();
+    FExponents  : ();
+    FFactor     : (1.660538862800000E-27));
+
+var
+  Da : TFactoredUnit absolute DaltonUnit;
 
 { TElectronvoltPerSquareSpeedOfLight }
 
@@ -4433,6 +4513,46 @@ const
     FPluralName : rsKilogramPerMeterPerSquareSecondPluralName;
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, -1, -2));
+
+{ TAtmosphere }
+
+resourcestring
+  rsAtmosphereSymbol = '%satm';
+  rsAtmosphereName = '%satmosphere';
+  rsAtmospherePluralName = '%satmospheres';
+
+const
+  AtmosphereUnit : TFactoredUnit = (
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FSymbol     : rsAtmosphereSymbol;
+    FName       : rsAtmosphereName;
+    FPluralName : rsAtmospherePluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (101325));
+
+var
+  atm : TFactoredUnit absolute AtmosphereUnit;
+
+{ TTorr }
+
+resourcestring
+  rsTorrSymbol = '%sTorr';
+  rsTorrName = '%storr';
+  rsTorrPluralName = '%storrs';
+
+const
+  TorrUnit : TFactoredUnit = (
+    FDim        : (FKilogram: 60; FMeter: -60; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FSymbol     : rsTorrSymbol;
+    FName       : rsTorrName;
+    FPluralName : rsTorrPluralName;
+    FPrefixes   : (pNone);
+    FExponents  : (1);
+    FFactor     : (133.322368421053));
+
+var
+  Torr : TFactoredUnit absolute TorrUnit;
 
 { TJoule }
 
