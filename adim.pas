@@ -26,10 +26,10 @@ unit ADim;
 {$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
 
 {
-  ADim Run-time library built on 08-02-2026.
+  ADim Run-time library built on 21-02-2026.
 
   Number of base units: 687
-  Number of factored units: 132
+  Number of factored units: 133
 }
 
 interface
@@ -2748,6 +2748,9 @@ const
 var
   parsec : TFactoredUnit absolute ParsecUnit;
 
+const
+  megaparsec : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 3.08567758149137E+16 * 1E+06); {$ELSE} (3.08567758149137E+16 * 1E+06); {$ENDIF}
+
 { TLightYear }
 
 resourcestring
@@ -3584,6 +3587,23 @@ const
     FPluralName : rsRadianPerSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+{ TMeterPerSecondPerParsec }
+
+resourcestring
+  rsMeterPerSecondPerParsecSymbol = '%sm/%ss/%spc';
+  rsMeterPerSecondPerParsecName = '%smeter per %ssecond per %sparsec';
+  rsMeterPerSecondPerParsecPluralName = '%smeters per %ssecond per %sparsec';
+
+const
+  MeterPerSecondPerParsecUnit : TFactoredUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: -60; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FSymbol     : rsMeterPerSecondPerParsecSymbol;
+    FName       : rsMeterPerSecondPerParsecName;
+    FPluralName : rsMeterPerSecondPerParsecPluralName;
+    FPrefixes   : (pNone, pNone, pNone);
+    FExponents  : (1, -1, -1);
+    FFactor     : (3.24077928944436E-17));
 
 { TSquareHertz }
 
