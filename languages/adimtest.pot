@@ -4068,6 +4068,21 @@ msgstr ""
 msgid "%sm/%ss/%sA"
 msgstr ""
 
+#: adim.rsmeterpersecondperparsecname
+#, object-pascal-format
+msgid "%smeter per %ssecond per %sparsec"
+msgstr ""
+
+#: adim.rsmeterpersecondperparsecpluralname
+#, object-pascal-format
+msgid "%smeters per %ssecond per %sparsec"
+msgstr ""
+
+#: adim.rsmeterpersecondperparsecsymbol
+#, object-pascal-format
+msgid "%sm/%ss/%spc"
+msgstr ""
+
 #: adim.rsmeterpersecondpersecondname
 #, object-pascal-format
 msgid "%smeter per %ssecond per %ssecond"

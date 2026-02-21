@@ -24,7 +24,7 @@
 ;TMile?;;mile?;mi;mi;TMeter?;1609.344;;;clWhite
 ;TNauticalMile?;;nautical mile?;nmi;nmi;TMeter?;1852;;;clWhite
 ;TAngstrom?;;%sangstrom?;%sÅ;angstrom;TMeter?;1E-10;;;clWhite
-;TParsec?;;%sparsec?;%spc;parsec;TMeter?;3.08567758149137E+16;;;clYellow
+;TParsec?;;%sparsec?;%spc;parsec;TMeter?;3.08567758149137E+16;--------L---------------;;clYellow
 ;TLightYear?;;%slight year?;%sly;ly;TMeter?;9.4607304725808E+15;;;clWhite
 ;TSquareRootMeter?;m0.5;square root %smeter?;√%sm;;;;;;clLime
 ;TSquareMeter?;m2;square %smeter?;%sm2;m2;;;---------S--SSSSSS------;;clLime
@@ -63,6 +63,7 @@
 ;THertz;s-1;%shertz;%sHz;Hz;;;------SSSS--------------;;clLime
 ;TReciprocalSecond?;;reciprocal %ssecond?;1/%ss;;THertz;;;;clWhite
 ;TRadian?PerSecond;;radian? per %ssecond;rad/%ss;;THertz;;;;clYellow
+Astronomic;TMeter?PerSecondPerParsec;;%smeter? per %ssecond per %sparsec;%sm/%ss/%spc;;THertz;3.24077928944436E-17;;;clFuchsia
 ;TSquareHertz;s-2;square %shertz;%sHz2;Hz2;;;------SSSS--------------;;clLime
 ;TReciprocalSquareSecond?;;reciprocal square %ssecond?;1/%ss2;;TSquareHertz;;;;clWhite
 ;TRadian?PerSquareSecond;;radian? per square %ssecond;rad/%ss2;;TSquareHertz;;;;clYellow

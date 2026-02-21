@@ -251,6 +251,7 @@ var
   coeff: TC2ArrayOfQuantity;
 
   a_: TQuantity;
+  H0: TQuantity;
 
 const
   x1 : TR3Versor1 = ();
@@ -1416,6 +1417,10 @@ begin
   a_ := (2*ElectricPermittivity*PlanckConstant*SpeedOfLight)/SquarePower(ElectronCharge);
   if Abs(ScalarUnit.ToFloat(a_ - InverseFineStructureConstant)) > 1E-10 then Halt(1);
   writeln('* TEST-610: PASSED');
+
+  // TEST-611: Hubble constant
+  H0 := 67.4*km/s/megaparsec;
+  if MeterPerSecondPerParsecUnit.ToString(H0, [pKilo, pNone, pMega]) <> '67.4 km/s/Mpc' then halt(1);
 
   writeln;
   writeln('ADIM-TEST DONE.');
