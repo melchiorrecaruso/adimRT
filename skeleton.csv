@@ -25,7 +25,7 @@
 ;TNauticalMile?;;nautical mile?;nmi;nmi;TMeter?;1852;;;clWhite
 ;TAngstrom?;;%sangstrom?;%sÅ;angstrom;TMeter?;1E-10;;;clWhite
 ;TParsec?;;%sparsec?;%spc;parsec;TMeter?;3.08567758149137E+16;--------L---------------;;clYellow
-;TLightYear?;;%slight year?;%sly;ly;TMeter?;9.4607304725808E+15;;;clWhite
+;TLightYear?;;%slight year?;%sly;ly;TMeter?;9.4607304725808E+15;--------S---------------;;clYellow
 ;TSquareRootMeter?;m0.5;square root %smeter?;√%sm;;;;;;clLime
 ;TSquareMeter?;m2;square %smeter?;%sm2;m2;;;---------S--SSSSSS------;;clLime
 ;TSquareInch!;;square inch!;in2;inch2;TSquareMeter?;0.00064516;;;clWhite
