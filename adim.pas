@@ -26,7 +26,7 @@ unit ADim;
 {$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
 
 {
-  ADim Run-time library built on 21-02-2026.
+  ADim Run-time library built on 22-02-2026.
 
   Number of base units: 687
   Number of factored units: 133
@@ -2770,6 +2770,9 @@ const
 
 var
   ly : TFactoredUnit absolute LightYearUnit;
+
+const
+  Mly        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 60; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 9.4607304725808E+15 * 1E+06); {$ELSE} (9.4607304725808E+15 * 1E+06); {$ENDIF}
 
 { TSquareRootMeter }
 
