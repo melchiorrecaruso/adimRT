@@ -1,6 +1,7 @@
-# <center>adimRT Library</center>
+# <center>ADimRT Library</center>
 
-Another library for type checking of dimensioned quantities at run-time in FreePascal. From a [circular's](https://github.com/circular17/DimPas) idea.
+
+A FreePascal library for performing dimensional analysis of quantities at debug time. From a [circular's](https://github.com/circular17/DimPas) idea.
 
 [<center>![Actions Status](https://github.com/melchiorrecaruso/ADimRT/workflows/build-test/badge.svg)</center>](https://github.com/melchiorrecaruso/ADimRT/actions)
 
@@ -8,7 +9,7 @@ Another library for type checking of dimensioned quantities at run-time in FreeP
 
 Ensuring coherence of physical dimensions in physical equations or mathematical relationships involving various variables is crucial. Dimensional analysis provides a fundamental tool to verify this coherence and correct any errors in the expressions.
 
-The adimRT library allows defining variables and constants in terms of quantity and units of measurement, automating dimensional analysis at run-time.
+The ADimRT library allows defining variables and constants in terms of quantity and units of measurement, automating dimensional analysis at run-time.
 
 ## <u>How to use</u>
 
