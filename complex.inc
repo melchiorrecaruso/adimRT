@@ -1,4 +1,3 @@
-
   (**
     Represents a complex number in Cartesian form: @code(z = Re + i·Im).
 
@@ -74,7 +73,7 @@
       Implicit conversion from a real value to a complex number.
       The resulting complex number has @code(Im = 0).
     *)
-    class operator :=(const AValue: double): TComplex;
+    class operator := (const AValue: double): TComplex;
 
     (** Returns @true if both the real and imaginary parts of the two operands are equal. *)
     class operator =(const ALeft, ARight: TComplex): boolean; inline;
@@ -151,7 +150,7 @@
     FValue: TComplex;
   public
     (** Implicit conversion from a real @link(TQuantity) to a complex quantity. The imaginary part is set to zero. *)
-    class operator :=(const AQuantity: TQuantity): TComplexQuantity;
+    class operator := (const AQuantity: TQuantity): TComplexQuantity;
 
     (** Returns @true if both operands have the same dimension and equal complex values. *)
     class operator =(const ALeft, ARight: TComplexQuantity): boolean; inline;
@@ -175,16 +174,20 @@
     class operator *(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
 
     (** Returns the product of a dimensionless real scalar and a complex quantity. *)
-    class operator *(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator *(const ALeft: double;
+      const ARight: TComplexQuantity): TComplexQuantity; inline;
 
     (** Returns the product of a complex quantity and a dimensionless real scalar. *)
-    class operator *(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity; inline;
+    class operator *(const ALeft: TComplexQuantity;
+      const ARight: double): TComplexQuantity; inline;
 
     (** Returns the product of a real quantity and a complex quantity. The resulting dimension is the product of the two dimensions. *)
-    class operator *(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator *(const ALeft: TQuantity;
+      const ARight: TComplexQuantity): TComplexQuantity; inline;
 
     (** Returns the product of a complex quantity and a real quantity. The resulting dimension is the product of the two dimensions. *)
-    class operator *(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+    class operator *(const ALeft: TComplexQuantity;
+      const ARight: TQuantity): TComplexQuantity; inline;
 
     (**
       Returns the quotient of two complex quantities.
@@ -194,28 +197,36 @@
     class operator /(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
 
     (** Returns the quotient of a dimensionless real scalar divided by a complex quantity. *)
-    class operator /(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator /(const ALeft: double;
+      const ARight: TComplexQuantity): TComplexQuantity; inline;
 
     (** Returns the quotient of a complex quantity divided by a dimensionless real scalar. *)
-    class operator /(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity; inline;
+    class operator /(const ALeft: TComplexQuantity;
+      const ARight: double): TComplexQuantity; inline;
 
     (** Returns the quotient of a real quantity divided by a complex quantity. The resulting dimension is the ratio of the two dimensions. *)
-    class operator /(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator /(const ALeft: TQuantity;
+      const ARight: TComplexQuantity): TComplexQuantity; inline;
 
     (** Returns the quotient of a complex quantity divided by a real quantity. The resulting dimension is the ratio of the two dimensions. *)
-    class operator /(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+    class operator /(const ALeft: TComplexQuantity;
+      const ARight: TQuantity): TComplexQuantity; inline;
 
     (** Returns the sum of a real quantity and a complex quantity. Both operands must have the same dimension. *)
-    class operator +(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator +(const ALeft: TQuantity;
+      const ARight: TComplexQuantity): TComplexQuantity; inline;
 
     (** Returns the sum of a complex quantity and a real quantity. Both operands must have the same dimension. *)
-    class operator +(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+    class operator +(const ALeft: TComplexQuantity;
+      const ARight: TQuantity): TComplexQuantity; inline;
 
     (** Returns the difference of a real quantity and a complex quantity. Both operands must have the same dimension. *)
-    class operator -(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+    class operator -(const ALeft: TQuantity;
+      const ARight: TComplexQuantity): TComplexQuantity; inline;
 
     (** Returns the difference of a complex quantity and a real quantity. Both operands must have the same dimension. *)
-    class operator -(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+    class operator -(const ALeft: TComplexQuantity;
+      const ARight: TQuantity): TComplexQuantity; inline;
   end;
   {$ELSE}
   TComplexQuantity = TComplex;
@@ -238,7 +249,7 @@
     Implicit conversion of the imaginary unit to a @link(TComplex) number.
       Returns @code(TComplex(Re=0, Im=1)).
     *)
-    class operator :=(const ASelf: TImaginaryUnit): TComplex;
+    class operator := (const ASelf: TImaginaryUnit): TComplex;
 
     (**
       Returns the product of the imaginary unit with itself: @code(i·i = -1).
@@ -314,16 +325,19 @@
 
     {$IFNDEF ADIMOFF}
     (** Returns the product of a dimensional quantity and the imaginary unit. The dimension is preserved. *)
-    class operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+    class operator *(const ALeft: TQuantity;
+      const ARight: TImaginaryUnit): TComplexQuantity;
 
     (** Returns the product of the imaginary unit and a dimensional quantity. The dimension is preserved. *)
-    class operator *(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
+    class operator *(const ALeft: TImaginaryUnit;
+      const ARight: TQuantity): TComplexQuantity;
 
     (** Returns the quotient of the imaginary unit divided by a dimensional quantity. The resulting dimension is the inverse of @code(ARight). *)
-    class operator /(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
+    class operator /(const ALeft: TImaginaryUnit;
+      const ARight: TQuantity): TComplexQuantity;
 
     (** Returns the quotient of a dimensional quantity divided by the imaginary unit. The dimension is preserved. *)
-    class operator /(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+    class operator /(const ALeft: TQuantity;
+      const ARight: TImaginaryUnit): TComplexQuantity;
     {$ENDIF}
   end;
-
