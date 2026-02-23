@@ -27,7 +27,7 @@ uses
   ADim;
 
 var
-  img: TImaginaryNumber;
+  img: TImaginaryUnit;
 
   function Complex(const ARe, AIm: double): TComplex;
 

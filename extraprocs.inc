@@ -174,7 +174,7 @@ end;
 
 function ComplexCubicRoot(const AValue: TComplex): TC3ArrayOfComplex;
 const
-  i: TImaginaryNumber = ();
+  i: TImaginaryUnit = ();
 var
   theta, rootModulus, rootArgument: double;
 begin
@@ -193,7 +193,7 @@ end;
 
 function ComplexQuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
 const
-  i: TImaginaryNumber = ();
+  i: TImaginaryUnit = ();
 var
   theta, rootModulus, rootArgument: double;
 begin
