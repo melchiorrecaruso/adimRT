@@ -1,6 +1,11 @@
 
 // TComplex
 
+function TComplex.Arg: double;
+begin
+  result := atan2(fIm, fRe);
+end;
+
 function TComplex.Conjugate: TComplex;
 begin
   result.fRe :=  fRe;
