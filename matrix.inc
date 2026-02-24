@@ -2,19 +2,31 @@
     Tag record representing a 2-dimensional space.
     Used as a generic parameter to instantiate 2×2 matrix types.
   *)
-  T2DSpace = record const N = 2; end;
+  T2DSpace = record
+  private
+  const
+    N = 2;
+  end;
 
   (**
     Tag record representing a 3-dimensional space.
     Used as a generic parameter to instantiate 3×3 matrix types.
   *)
-  T3DSpace = record const N = 3; end;
+  T3DSpace = record
+  private
+  const
+    N = 3;
+  end;
 
   (**
     Tag record representing a 4-dimensional space.
     Used as a generic parameter to instantiate 4×4 matrix types.
   *)
-  T4DSpace = record const N = 4; end;
+  T4DSpace = record
+  private
+  const
+    N = 4;
+  end;
 
   (**
     Generic square matrix of real values (@code(double)) with dimension @code(TSpace.N × TSpace.N).
@@ -146,7 +158,7 @@
       Implicit conversion from a real matrix to a complex matrix.
       Each element @code(a[i,j]) is converted to @code(TComplex(Re=a[i,j], Im=0)).
     *)
-    class operator :=(const AMatrix: TRMatrix): TCMatrix;
+    class operator := (const AMatrix: TRMatrix): TCMatrix;
 
     (** Returns @true if the two matrices differ in at least one element. *)
     class operator <>(const ALeft, ARight: TCMatrix): boolean;
@@ -223,7 +235,7 @@
       Implicit conversion from a dimensionless real matrix to a quantity matrix.
       The resulting matrix has a scalar (dimensionless) dimension.
     *)
-    class operator :=(const AMatrix: TRMatrix): TRMatrixQuantity;
+    class operator := (const AMatrix: TRMatrix): TRMatrixQuantity;
 
     (** Returns @true if the two matrices differ in dimension or in at least one element. *)
     class operator <>(const ALeft, ARight: TRMatrixQuantity): boolean;
@@ -247,19 +259,22 @@
       Returns the product of a real quantity scalar and a quantity matrix.
       The resulting dimension is the product of the two dimensions.
     *)
-    class operator *(const ALeft: TQuantity; const ARight: TRMatrixQuantity): TRMatrixQuantity;
+    class operator *(const ALeft: TQuantity;
+      const ARight: TRMatrixQuantity): TRMatrixQuantity;
 
     (**
       Returns the product of a quantity matrix and a real quantity scalar.
       The resulting dimension is the product of the two dimensions.
     *)
-    class operator *(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
+    class operator *(const ALeft: TRMatrixQuantity;
+      const ARight: TQuantity): TRMatrixQuantity;
 
     (**
       Returns the quantity matrix divided by a real quantity scalar.
       The resulting dimension is the ratio of the two dimensions.
     *)
-    class operator /(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
+    class operator /(const ALeft: TRMatrixQuantity;
+      const ARight: TQuantity): TRMatrixQuantity;
   end;
 
 
@@ -288,7 +303,7 @@
       Implicit conversion from a complex matrix to a complex quantity matrix.
       The resulting matrix has a scalar (dimensionless) dimension.
     *)
-    class operator :=(const AMatrix: TCMatrix): TCMatrixQuantity;
+    class operator := (const AMatrix: TCMatrix): TCMatrixQuantity;
 
     (** Returns @true if the two matrices differ in dimension or in at least one element. *)
     class operator <>(const ALeft, ARight: TCMatrixQuantity): boolean;
@@ -312,19 +327,22 @@
       Returns the product of a complex quantity scalar and a complex quantity matrix.
       The resulting dimension is the product of the two dimensions.
     *)
-    class operator *(const ALeft: TComplexQuantity; const ARight: TCMatrixQuantity): TCMatrixQuantity;
+    class operator *(const ALeft: TComplexQuantity;
+      const ARight: TCMatrixQuantity): TCMatrixQuantity;
 
     (**
       Returns the product of a complex quantity matrix and a complex quantity scalar.
       The resulting dimension is the product of the two dimensions.
     *)
-    class operator *(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
+    class operator *(const ALeft: TCMatrixQuantity;
+      const ARight: TComplexQuantity): TCMatrixQuantity;
 
     (**
       Returns the complex quantity matrix divided by a complex quantity scalar.
       The resulting dimension is the ratio of the two dimensions.
     *)
-    class operator /(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
+    class operator /(const ALeft: TCMatrixQuantity;
+      const ARight: TComplexQuantity): TCMatrixQuantity;
 
   public
     (**
@@ -356,4 +374,3 @@
   TC3MatrixQuantity = specialize TCMatrix<T3DSpace>;
   TC4MatrixQuantity = specialize TCMatrix<T4DSpace>;
   {$ENDIF}
-
