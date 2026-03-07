@@ -72,7 +72,7 @@ function  CleanSingleSpaces(const S: string): string;
 function  CleanDoubleSpaces(const S: string): string;
 procedure CleanDocument(S: TStrings);
 
-procedure RemoveIncludeDirectives(S: TStrings);
+procedure RemoveIncludeDirective(ASource, ADest: TStrings; const ADirective: string);
 
 implementation
 
@@ -569,44 +569,32 @@ begin
   end;
 end;
 
-procedure RemoveIncludeDirectives(S: TStrings);
+procedure RemoveIncludeDirective(ASource, ADest: TStrings; const ADirective: string);
 var
   i, j: longint;
   Line: string;
-  Lines, IncludeLines: TStringList;
+  Lines: TStringList;
 begin
   Lines := TStringList.Create;
-  for i := 0 to S.Count -1 do
+  for i := 0 to ADest.Count -1 do
   begin
-    Line := S[i];
-    if Pos('{$I ', Line) <> 0 then
+    Line := ADest[i];
+    if Pos(ADirective, Line) > 0 then
     begin
-      Line := StringReplace(Line, '{$I', '', [rfReplaceAll]);
-      Line := StringReplace(Line, '}',   '', [rfReplaceAll]);
-      Line := StringReplace(Line, ' ',   '', [rfReplaceAll]);
-      if FileExists(Line) then
+      for j := 0 to ASource.Count -1 do
       begin
-        IncludeLines := TStringList.Create;
-        IncludeLines.LoadFromFile(Line);
-        for j := 0 to IncludeLines.Count -1 do
-        begin
-          Lines.Add(IncludeLines[j]);
-        end;
-        IncludeLines.Destroy;
-      end else
-      begin
-        Lines.Add(S[i]);
+        Lines.Add(ASource[j]);
       end;
     end else
     begin
-      Lines.Add(S[i]);
+      Lines.Add(ADest[i]);
     end;
   end;
 
-  S.Clear;
+  ADest.Clear;
   for i := 0 to Lines.Count -1 do
   begin
-    S.Add(Lines[i]);
+    ADest.Add(Lines[i]);
   end;
   Lines.Destroy;
 end;

@@ -33,7 +33,6 @@ type
 
   TMainForm = class(TForm)
     AddBtn: TBitBtn;
-    ExpandIncludesCheckBox: TCheckBox;
     Details: TMemo;
     MoveDownBtn: TBitBtn;
     MoveUtBtn: TBitBtn;
@@ -286,7 +285,6 @@ procedure TMainForm.RunBtnClick(Sender: TObject);
 begin
   UpdateButton(False);
   Builder := TToolKitBuilder.Create(FList);
-  Builder.ExpandIncludes := ExpandIncludesCheckBox.Checked;
   Builder.OnMessage := @OnMessage;
   Builder.OnStart := @OnStart;
   Builder.OnStop := @OnStop;
