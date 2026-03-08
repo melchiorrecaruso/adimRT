@@ -1617,13 +1617,53 @@ type
     function ToString(APrecision, ADigits: longint): string;
   end;
 
-  { TMultivectorComponents }
+  { Enumeration of the eight basis blade components of a multivector in the
+    Clifford algebra @code(Cl(3,0)) over @code(R3).
 
-  TCL3MultivectorComponent  = (mcm0, mcm1, mcm2, mcm3, mcm12, mcm13, mcm23, mcm123);
+    The basis blades are:
+    @unorderedList(
+      @item(@code(mcm0)   — scalar part: @code(1))
+      @item(@code(mcm1)   — vector basis blade: @code(e1))
+      @item(@code(mcm2)   — vector basis blade: @code(e2))
+      @item(@code(mcm3)   — vector basis blade: @code(e3))
+      @item(@code(mcm12)  — bivector basis blade: @code(e1∧e2))
+      @item(@code(mcm13)  — bivector basis blade: @code(e1∧e3))
+      @item(@code(mcm23)  — bivector basis blade: @code(e2∧e3))
+      @item(@code(mcm123) — pseudoscalar (trivector) basis blade: @code(e1∧e2∧e3))
+    )
+    The algebra satisfies @code(e1·e1 = +1) for all @code(i), and
+    @code(e1·e2 = -e2·e1) for @code(i ≠ j).
+  }
+  TCL3MultivectorComponent = (mcm0, mcm1, mcm2, mcm3, mcm12, mcm13, mcm23, mcm123);
+
+  { A set of @link(TCL3MultivectorComponent) values.
+    Used to identify which components of a multivector are non-zero,
+    e.g. to select or test specific grades.
+  }
   TCL3MultivectorComponents = set of TCL3MultivectorComponent;
 
-  { TCL3Multivector }
+  { Represents a general multivector in the Clifford algebra @code(Cl(3,0)) over @code(R3).
 
+    A multivector is the most general element of the algebra and is expressed as:
+    @code(M = m0 + m1·e1 + m2·e2 + m3·e3 + m12·e12 + m13·e13 + m23·e23 + m123·e123)
+
+    where:
+    @unorderedList(
+      @item(@code(m0) is the scalar part (grade 0))
+      @item(@code(m1, m2, m3) are the vector components (grade 1))
+      @item(@code(m12, m13, m23) are the bivector components (grade 2))
+      @item(@code(m123) is the pseudoscalar component (grade 3))
+    )
+
+    The geometric product @code(·) is the fundamental product of the algebra,
+    from which the inner product and outer (wedge) product can be derived.
+    The algebra satisfies:
+    @unorderedList(
+      @item(@code(ei² = +1) for @code(i = 1, 2, 3))
+      @item(@code(ei·ej = -ej·ei) for @code(i ≠ j))
+      @item(@code(e1·e2·e3 = e123) — the unit pseudoscalar)
+    )
+  }
   TCL3Multivector = record
   private
     fm0: double;
@@ -1635,129 +1675,491 @@ type
     fm23: double;
     fm123: double;
   public
+    { Implicit conversion from a real scalar to a multivector.
+      All components are set to zero except the scalar part @code(m0 = AValue).
+    }
     class operator :=(const AValue: double): TCL3Multivector;
+
+    { Implicit conversion from a multivector to a real scalar.
+      Returns the scalar part @code(m0). All other components are discarded.
+      Use with care: this conversion is only meaningful for pure-scalar multivectors.
+    }
     class operator :=(const AValue: TCL3Multivector): double;
+
+    { Returns @true if the two multivectors differ in at least one component. }
     class operator <>(const ALeft, ARight: TCL3Multivector): boolean;
+
+    { Returns @true if the multivector differs from the scalar @code(ARight) in any component. }
     class operator <>(const ALeft: TCL3Multivector; const ARight: double): boolean;
+
+    { Returns @true if the multivector @code(ARight) differs from the scalar @code(ALeft) in any component. }
     class operator <>(const ALeft: double; const ARight: TCL3Multivector): boolean;
 
-    class operator = (const ALeft, ARight: TCL3Multivector): boolean;
-    class operator = (const ALeft: TCL3Multivector; const ARight: double): boolean;
-    class operator = (const ALeft: double; const ARight: TCL3Multivector): boolean;
+    { Returns @true if all corresponding components of the two multivectors are equal. }
+    class operator =(const ALeft, ARight: TCL3Multivector): boolean;
 
-    class operator + (const ALeft, ARight: TCL3Multivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
-    class operator + (const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
+    { Returns @true if the multivector equals the scalar @code(ARight), i.e. all non-scalar components are zero. }
+    class operator =(const ALeft: TCL3Multivector; const ARight: double): boolean;
 
-    class operator - (const ASelf: TCL3Multivector): TCL3Multivector;
-    class operator - (const ALeft, ARight: TCL3Multivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
-    class operator - (const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
+    { Returns @true if the multivector @code(ARight) equals the scalar @code(ALeft), i.e. all non-scalar components are zero. }
+    class operator =(const ALeft: double; const ARight: TCL3Multivector): boolean;
 
-    class operator * (const ALeft, ARight: TCL3Multivector): TCL3Multivector;
-    class operator * (const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
-    class operator * (const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
+    { Returns the component-wise sum of two multivectors. }
+    class operator +(const ALeft, ARight: TCL3Multivector): TCL3Multivector;
 
-    class operator / (const ALeft, ARight: TCL3Multivector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
-    class operator / (const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
+    { Returns the sum of a multivector and a real scalar. Only the scalar component is affected. }
+    class operator +(const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
+
+    { Returns the sum of a real scalar and a multivector. Only the scalar component is affected. }
+    class operator +(const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Unary minus. Returns the negation of the multivector.
+      Each component @code(mₖ) becomes @code(-mₖ).
+    }
+    class operator -(const ASelf: TCL3Multivector): TCL3Multivector;
+
+    { Returns the component-wise difference of two multivectors. }
+    class operator -(const ALeft, ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the difference of a multivector and a real scalar. Only the scalar component is affected. }
+    class operator -(const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
+
+    { Returns the difference of a real scalar and a multivector. Only the scalar component is affected. }
+    class operator -(const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric product of two multivectors.
+      This is the fundamental product of the Clifford algebra @code(Cl(3,0)).
+      It combines the inner (dot) and outer (wedge) products:
+      @code(AB = A·B + A∧B).
+      The geometric product is associative but generally non-commutative.
+    }
+    class operator *(const ALeft, ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric product of a multivector and a real scalar.
+      Each component is scaled by @code(ARight).
+    }
+    class operator *(const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
+
+    { Returns the geometric product of a real scalar and a multivector.
+      Each component is scaled by @code(ALeft).
+    }
+    class operator *(const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric quotient of two multivectors: @code(ALeft / ARight).
+      The inverse @code(1/ARight) is computed using the reverse and the scalar norm.
+      Not all multivectors are invertible; behaviour is undefined if @code(ARight)
+      has no inverse.
+    }
+    class operator /(const ALeft, ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric quotient of a multivector divided by a real scalar.
+      Each component is divided by @code(ARight).
+    }
+    class operator /(const ALeft: TCL3Multivector; const ARight: double): TCL3Multivector;
+
+    { Returns the geometric quotient of a real scalar divided by a multivector: @code(ALeft / ARight). }
+    class operator /(const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
   end;
 
-  { TCL3Trivector }
+  { Represents a pure trivector (pseudoscalar) in the Clifford algebra @code(Cl(3,0)).
 
+    A trivector is a grade-3 element of the algebra, expressed as:
+    @code(T = m123·e1∧e2∧e3)
+
+    In @code(Cl(3,0)) the pseudoscalar @code(e123 = e1∧e2∧e3) satisfies:
+    @code(e123² = -1), making it analogous to the imaginary unit in complex algebra.
+    The pseudoscalar commutes with all elements of @code(Cl(3,0)) and generates
+    the duality transformation between vectors and bivectors.
+
+    When combined with elements of other grades the result is a full
+    @link(TCL3Multivector). Operations between two trivectors produce a real
+    scalar, since @code((m123·e123)·(n123·e123) = -m123·n123).
+  }
   TCL3Trivector = record
   private
     fm123: double;
   public
+    { Implicit conversion from a trivector to a full multivector.
+      All components of the result are zero except @code(m123).
+    }
     class operator :=(const AValue: TCL3Trivector): TCL3Multivector;
+
+    { Implicit conversion from a multivector to a trivector.
+      Returns only the grade-3 component @code(m123). All other components are discarded.
+      Use with care: this conversion is only meaningful for pure-trivector multivectors.
+    }
     class operator :=(const AValue: TCL3Multivector): TCL3Trivector;
+
+    { Returns @true if the two trivectors have different @code(m123) coefficients. }
     class operator <>(const ALeft, ARight: TCL3Trivector): boolean;
+
+    { Returns @true if the trivector and the multivector differ in any component. }
     class operator <>(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): boolean;
+
+    { Returns @true if the multivector and the trivector differ in any component. }
     class operator <>(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): boolean;
 
-    class operator = (const ALeft, ARight: TCL3Trivector): boolean;
-    class operator = (const ALeft: TCL3Trivector; const ARight: TCL3Multivector): boolean;
-    class operator = (const ALeft: TCL3Multivector; const ARight: TCL3Trivector): boolean;
+    { Returns @true if the two trivectors have equal @code(m123) coefficients. }
+    class operator =(const ALeft, ARight: TCL3Trivector): boolean;
 
-    class operator + (const ALeft, ARight: TCL3Trivector): TCL3Trivector;
-    class operator + (const ALeft: TCL3Trivector; const ARight: double): TCL3Multivector;
-    class operator + (const ALeft: double; const ARight: TCL3Trivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
+    { Returns @true if the trivector equals the multivector,
+      i.e. all non-trivector components of @code(ARight) are zero.
+    }
+    class operator =(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): boolean;
 
-    class operator - (const ASelf: TCL3Trivector): TCL3Trivector;
-    class operator - (const ALeft, ARight: TCL3Trivector): TCL3Trivector;
-    class operator - (const ALeft: TCL3Trivector; const ARight: double): TCL3Multivector;
-    class operator - (const ALeft: double; const ARight: TCL3Trivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
+    { Returns @true if the multivector equals the trivector,
+      i.e. all non-trivector components of @code(ALeft) are zero.
+    }
+    class operator =(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): boolean;
 
-    class operator * (const ALeft, ARight: TCL3Trivector): double;
-    class operator * (const ALeft: double; const ARight: TCL3Trivector): TCL3Trivector;
-    class operator * (const ALeft: TCL3Trivector; const ARight: double): TCL3Trivector;
-    class operator * (const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator * (const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
+    { Returns the sum of two trivectors. The result is a pure trivector. }
+    class operator +(const ALeft, ARight: TCL3Trivector): TCL3Trivector;
 
-    class operator / (const ALeft, ARight: TCL3Trivector): double;
-    class operator / (const ALeft: TCL3Trivector; const ARight: double): TCL3Trivector;
-    class operator / (const ALeft: double; const ARight: TCL3Trivector): TCL3Trivector;
-    class operator / (const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
+    { Returns the sum of a trivector and a real scalar.
+      The result is a full multivector with @code(m0 = ARight) and @code(m123 = ALeft.m123).
+    }
+    class operator +(const ALeft: TCL3Trivector; const ARight: double): TCL3Multivector;
+
+    { Returns the sum of a real scalar and a trivector.
+      The result is a full multivector with @code(m0 = ALeft) and @code(m123 = ARight.m123).
+    }
+    class operator +(const ALeft: double; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the sum of a trivector and a multivector.
+      The trivector contributes only to the grade-3 component.
+    }
+    class operator +(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the sum of a multivector and a trivector.
+      The trivector contributes only to the grade-3 component.
+    }
+    class operator +(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Unary minus. Returns the negation of the trivector.
+      The coefficient @code(m123) becomes @code(-m123).
+    }
+    class operator -(const ASelf: TCL3Trivector): TCL3Trivector;
+
+    { Returns the difference of two trivectors. The result is a pure trivector. }
+    class operator -(const ALeft, ARight: TCL3Trivector): TCL3Trivector;
+
+    { Returns the difference of a trivector and a real scalar.
+      The result is a full multivector with @code(m0 = -ARight) and @code(m123 = ALeft.m123).
+    }
+    class operator -(const ALeft: TCL3Trivector; const ARight: double): TCL3Multivector;
+
+    { Returns the difference of a real scalar and a trivector.
+      The result is a full multivector with @code(m0 = ALeft) and @code(m123 = -ARight.m123).
+    }
+    class operator -(const ALeft: double; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the difference of a trivector and a multivector.
+      The trivector contributes only to the grade-3 component.
+    }
+    class operator -(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the difference of a multivector and a trivector.
+      The trivector contributes only to the grade-3 component.
+    }
+    class operator -(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the geometric product of two trivectors as a real scalar.
+      Since @code(e123² = -1), the result is:
+      @code((m123·e123)·(n123·e123) = -m123·n123).
+    }
+    class operator *(const ALeft, ARight: TCL3Trivector): double;
+
+    { Returns the geometric product of a real scalar and a trivector.
+      The coefficient @code(m123) is scaled by @code(ALeft).
+    }
+    class operator *(const ALeft: double; const ARight: TCL3Trivector): TCL3Trivector;
+
+    { Returns the geometric product of a trivector and a real scalar.
+      The coefficient @code(m123) is scaled by @code(ARight).
+    }
+    class operator *(const ALeft: TCL3Trivector; const ARight: double): TCL3Trivector;
+
+    { Returns the geometric product of a trivector and a multivector.
+      The result is a full multivector. Grade mixing occurs according to the
+      Clifford multiplication rules of @code(Cl(3,0)).
+    }
+    class operator *(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric product of a multivector and a trivector.
+      The result is a full multivector. Grade mixing occurs according to the
+      Clifford multiplication rules of @code(Cl(3,0)).
+    }
+    class operator *(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the geometric quotient of two trivectors as a real scalar.
+      Computed as @code(ALeft / ARight). Since @code(e123² = -1),
+      the result is: @code(m123 / (-n123) = -m123/n123).
+    }
+    class operator /(const ALeft, ARight: TCL3Trivector): double;
+
+    { Returns the geometric quotient of a trivector divided by a real scalar.
+      The coefficient @code(m123) is divided by @code(ARight).
+    }
+    class operator /(const ALeft: TCL3Trivector; const ARight: double): TCL3Trivector;
+
+    { Returns the geometric quotient of a real scalar divided by a trivector: @code(ALeft / ARight).
+      The inverse of a trivector @code(T = m123·e123) is @code(T⁻¹ = -e123/m123).
+    }
+    class operator /(const ALeft: double; const ARight: TCL3Trivector): TCL3Trivector;
+
+    { Returns the geometric quotient of a trivector divided by a multivector: @code(ALeft / ARight).
+      The result is a full multivector.
+    }
+    class operator /(const ALeft: TCL3Trivector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric quotient of a multivector divided by a trivector: @code(ALeft / ARight).
+      The result is a full multivector.
+    }
+    class operator /(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
   end;
 
-  { TCL3Bivector }
+  { Represents a pure bivector (grade-2 element) in the Clifford algebra @code(Cl(3,0)).
 
+    A bivector is expressed as:
+    @code(B = m12·e1∧e2 + m13·e1∧e3 + m23·e1∧e3)
+
+    Geometrically, a bivector represents an oriented plane segment in @code(R3).
+    In @code(Cl(3,0)) the basis bivectors satisfy:
+    @unorderedList(
+      @item(@code((e1∧e2)² = -1))
+      @item(@code((e1∧e3)² = -1))
+      @item(@code((e2∧e3)² = -1))
+    )
+    making bivectors analogous to quaternion basis elements @code(i, j, k).
+    The subalgebra of even-grade elements (scalars and bivectors) is in fact
+    isomorphic to the quaternion algebra @code(ℍ).
+
+    The geometric product of two bivectors produces a mixed-grade result
+    (scalar + bivector), hence the return type @link(TCL3Multivector).
+    When combined with elements of other grades the result is always
+    a full @link(TCL3Multivector).
+  }
   TCL3Bivector = record
   private
     fm12: double;
     fm13: double;
     fm23: double;
   public
+    { Implicit conversion from a bivector to a full multivector.
+      All components of the result are zero except @code(m12), @code(m13), @code(m23).
+    }
     class operator :=(const AValue: TCL3Bivector): TCL3Multivector;
+
+    { Implicit conversion from a multivector to a bivector.
+      Returns only the grade-2 components @code(m12), @code(m13), @code(m23).
+      All other components are discarded.
+
+      Use with care: this conversion is only meaningful for pure-bivector multivectors.
+    }
     class operator :=(const AValue: TCL3Multivector): TCL3Bivector;
+
+    { Returns @true if the two bivectors differ in at least one component. }
     class operator <>(const ALeft, ARight: TCL3Bivector): boolean;
+
+    { Returns @true if the bivector and the multivector differ in any component. }
     class operator <>(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): boolean;
+
+    { Returns @true if the multivector and the bivector differ in any component. }
     class operator <>(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): boolean;
 
-    class operator = (const ALeft, ARight: TCL3Bivector): boolean;
-    class operator = (const ALeft: TCL3Bivector; const ARight: TCL3Multivector): boolean;
-    class operator = (const ALeft: TCL3Multivector; const ARight: TCL3Bivector): boolean;
+    { Returns @true if all corresponding components of the two bivectors are equal. }
+    class operator =(const ALeft, ARight: TCL3Bivector): boolean;
 
-    class operator + (const ALeft, ARight: TCL3Bivector): TCL3Bivector;
-    class operator + (const ALeft: TCL3Bivector; const ARight: double): TCL3Multivector;
-    class operator + (const ALeft: double; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
+    { Returns @true if the bivector equals the multivector,
+      i.e. all non-bivector components of @code(ARight) are zero.
+    }
+    class operator =(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): boolean;
 
-    class operator - (const ASelf: TCL3Bivector): TCL3Bivector;
-    class operator - (const ALeft, ARight: TCL3Bivector): TCL3Bivector;
-    class operator - (const ALeft: TCL3Bivector; const ARight: double): TCL3Multivector;
-    class operator - (const ALeft: double; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
+    { Returns @true if the multivector equals the bivector,
+      i.e. all non-bivector components of @code(ALeft) are zero.
+    }
+    class operator =(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): boolean;
 
-    class operator * (const ALeft, ARight: TCL3Bivector): TCL3Multivector;
-    class operator * (const ALeft: double; const ARight: TCL3Bivector): TCL3Bivector;
-    class operator * (const ALeft: TCL3Bivector; const ARight: double): TCL3Bivector;
-    class operator * (const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator * (const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
-    class operator * (const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator * (const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
+    { Returns the component-wise sum of two bivectors.
+      The result is a pure bivector.
+    }
+    class operator +(const ALeft, ARight: TCL3Bivector): TCL3Bivector;
 
-    class operator / (const ALeft, ARight: TCL3Bivector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Bivector; const ARight: double): TCL3Bivector;
-    class operator / (const ALeft: double; const ARight: TCL3Bivector): TCL3Bivector;
-    class operator / (const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
+    { Returns the sum of a bivector and a real scalar.
+      The result is a full multivector with @code(m0 = ARight) and the bivector components of @code(ALeft).
+    }
+    class operator +(const ALeft: TCL3Bivector; const ARight: double): TCL3Multivector;
+
+    { Returns the sum of a real scalar and a bivector.
+      The result is a full multivector with @code(m0 = ALeft) and the bivector components of @code(ARight).
+    }
+    class operator +(const ALeft: double; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the sum of a bivector and a trivector.
+      The result is a full multivector with grade-2 components from @code(ALeft)
+      and grade-3 component from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the sum of a trivector and a bivector.
+      The result is a full multivector with grade-3 component from @code(ALeft)
+      and grade-2 components from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the sum of a bivector and a multivector.
+      The bivector contributes only to the grade-2 components.
+    }
+    class operator +(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the sum of a multivector and a bivector.
+      The bivector contributes only to the grade-2 components.
+    }
+    class operator +(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Unary minus. Returns the negation of the bivector.
+      Each component @code(mₖ) becomes @code(-mₖ).
+    }
+    class operator -(const ASelf: TCL3Bivector): TCL3Bivector;
+
+    { Returns the component-wise difference of two bivectors.
+      The result is a pure bivector.
+    }
+    class operator -(const ALeft, ARight: TCL3Bivector): TCL3Bivector;
+
+    { Returns the difference of a bivector and a real scalar.
+      The result is a full multivector with @code(m0 = -ARight) and the bivector components of @code(ALeft).
+    }
+    class operator -(const ALeft: TCL3Bivector; const ARight: double): TCL3Multivector;
+
+    { Returns the difference of a real scalar and a bivector.
+      The result is a full multivector with @code(m0 = ALeft) and negated bivector components of @code(ARight).
+    }
+    class operator -(const ALeft: double; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the difference of a bivector and a trivector.
+      The result is a full multivector with grade-2 components from @code(ALeft)
+      and negated grade-3 component from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the difference of a trivector and a bivector.
+      The result is a full multivector with grade-3 component from @code(ALeft)
+      and negated grade-2 components from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the difference of a bivector and a multivector.
+      The bivector contributes only to the grade-2 components.
+    }
+    class operator -(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the difference of a multivector and a bivector.
+      The bivector contributes only to the grade-2 components.
+    }
+    class operator -(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the geometric product of two bivectors.
+      The result is a mixed-grade element (scalar + bivector), hence a full @link(TCL3Multivector).
+      For example: @code((e₁∧e₂)·(e₁∧e₂) = -1) and @code((e₁∧e₂)·(e₁∧e₃) = -e₂∧e₃).
+    }
+    class operator *(const ALeft, ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the geometric product of a real scalar and a bivector.
+      Each component is scaled by @code(ALeft).
+    }
+    class operator *(const ALeft: double; const ARight: TCL3Bivector): TCL3Bivector;
+
+    { Returns the geometric product of a bivector and a real scalar.
+      Each component is scaled by @code(ARight).
+    }
+    class operator *(const ALeft: TCL3Bivector; const ARight: double): TCL3Bivector;
+
+    { Returns the geometric product of a bivector and a multivector.
+      Grade mixing occurs according to the Clifford multiplication rules of @code(Cl(3,0)).
+    }
+    class operator *(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric product of a bivector and a trivector.
+      Since @code((e₁∧e₂)·(e₁∧e₂∧e₃) = e₃), the result mixes grades and
+      is returned as a full @link(TCL3Multivector).
+    }
+    class operator *(const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the geometric product of a trivector and a bivector.
+      Grade mixing occurs according to the Clifford multiplication rules of @code(Cl(3,0)).
+    }
+    class operator *(const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the geometric product of a multivector and a bivector.
+      Grade mixing occurs according to the Clifford multiplication rules of @code(Cl(3,0)).
+    }
+    class operator *(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the geometric quotient of two bivectors: @code(ALeft / ARight).
+      The result is a mixed-grade element, hence a full @link(TCL3Multivector).
+      The inverse of a bivector @code(B) is @code(1/B = -B / |B|²) since @code(B² ≤ 0)
+      for pure bivectors in @code(Cl(3,0)).
+    }
+    class operator /(const ALeft, ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the geometric quotient of a bivector divided by a real scalar.
+      Each component is divided by @code(ARight).
+    }
+    class operator /(const ALeft: TCL3Bivector; const ARight: double): TCL3Bivector;
+
+    { Returns the geometric quotient of a real scalar divided by a bivector: @code(ALeft / ARight).
+      The inverse of a bivector @code(B) is @code(1/B = -B / |B|²).
+    }
+    class operator /(const ALeft: double; const ARight: TCL3Bivector): TCL3Bivector;
+
+    { Returns the geometric quotient of a bivector divided by a trivector: @code(ALeft / ARight).
+      The result is a full @link(TCL3Multivector).
+    }
+    class operator /(const ALeft: TCL3Bivector; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the geometric quotient of a trivector divided by a bivector: @code(ALeft / ARight).
+      The result is a full @link(TCL3Multivector).
+    }
+    class operator /(const ALeft: TCL3Trivector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the geometric quotient of a bivector divided by a multivector: @code(ALeft / ARight).
+      The result is a full @link(TCL3Multivector).
+    }
+    class operator /(const ALeft: TCL3Bivector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric quotient of a multivector divided by a bivector: @code(ALeft / ARight).
+      The result is a full @link(TCL3Multivector).
+    }
+    class operator /(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
   end;
 
-  { TCL3Vector }
+  { Represents a pure vector (grade-1 element) in the Clifford algebra @code(Cl(3,0)).
+
+    A vector is expressed as:
+    @code(v = m1·e₁ + m2·e₂ + m3·e₃)
+
+    Geometrically, a vector represents an oriented line segment in @code(R3).
+    The basis vectors satisfy the fundamental Clifford relations:
+    @unorderedList(
+      @item(@code(ei² = +1) for @code(i = 1, 2, 3))
+      @item(@code(ei·ej = -ej·ei) for @code(i ≠ j))
+    )
+
+    The geometric product of two vectors decomposes into a scalar (inner product)
+    and a bivector (outer product):
+    @code(uv = u·v + u∧v)
+    where @code(u·v = Σ ui·vi) is the symmetric part and
+    @code(u∧v) is the antisymmetric part, hence the return type @link(TCL3Multivector).
+
+    Notable special products:
+    @unorderedList(
+      @item(@code(v · e₁₂₃ = v · (e₁∧e₂∧e₃)) maps a vector to a bivector (left dual))
+      @item(@code(e₁₂₃ · v) maps a vector to a bivector (right dual))
+    )
+    These are reflected in the return type @link(TCL3Bivector) for products
+    involving a @link(TCL3Trivector).
+  }
 
   TCL3Vector = record
   private
@@ -1765,726 +2167,3175 @@ type
     fm2: double;
     fm3: double;
   public
+    { Implicit conversion from a vector to a full multivector.
+      All components of the result are zero except @code(m1), @code(m2), @code(m3).
+    }
     class operator :=(const AValue: TCL3Vector): TCL3Multivector;
+
+    { Implicit conversion from a multivector to a vector.
+      Returns only the grade-1 components @code(m1), @code(m2), @code(m3).
+      All other components are discarded.
+      Use with care: this conversion is only meaningful for pure-vector multivectors.
+    }
     class operator :=(const AValue: TCL3Multivector): TCL3Vector;
+
+    { Returns @true if the two vectors differ in at least one component. }
     class operator <>(const ALeft, ARight: TCL3Vector): boolean;
+
+    { Returns @true if the vector and the multivector differ in any component. }
     class operator <>(const ALeft: TCL3Vector; const ARight: TCL3Multivector): boolean;
+
+    { Returns @true if the multivector and the vector differ in any component. }
     class operator <>(const ALeft: TCL3Multivector; const ARight: TCL3Vector): boolean;
 
-    class operator = (const ALeft, ARight: TCL3Vector): boolean;
-    class operator = (const ALeft: TCL3Vector; const ARight: TCL3Multivector): boolean;
-    class operator = (const ALeft: TCL3Multivector; const ARight: TCL3Vector): boolean;
+    { Returns @true if all corresponding components of the two vectors are equal. }
+    class operator =(const ALeft, ARight: TCL3Vector): boolean;
 
-    class operator + (const ALeft, ARight: TCL3Vector): TCL3Vector;
-    class operator + (const ALeft: TCL3Vector; const ARight: double): TCL3Multivector;
-    class operator + (const ALeft: double; const ARight: TCL3Vector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Vector; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Bivector; const ARight: TCL3Vector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Vector; const ARight: TCL3Trivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Trivector; const ARight: TCL3Vector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Vector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator + (const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
+    { Returns @true if the vector equals the multivector, i.e. all non-vector components of @code(ARight) are zero. }
+    class operator =(const ALeft: TCL3Vector; const ARight: TCL3Multivector): boolean;
 
-    class operator - (const ASelf: TCL3Vector): TCL3Vector;
-    class operator - (const ALeft, ARight: TCL3Vector): TCL3Vector;
-    class operator - (const ALeft: TCL3Vector; const ARight: double): TCL3Multivector;
-    class operator - (const ALeft: double; const ARight: TCL3Vector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Vector; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Bivector; const ARight: TCL3Vector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Vector; const ARight: TCL3Trivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Trivector; const ARight: TCL3Vector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Vector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator - (const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
+    { Returns @true if the multivector equals the vector, i.e. all non-vector components of @code(ALeft) are zero. }
+    class operator =(const ALeft: TCL3Multivector; const ARight: TCL3Vector): boolean;
 
-    class operator * (const ALeft, ARight: TCL3Vector): TCL3Multivector;
-    class operator * (const ALeft: double; const ARight: TCL3Vector): TCL3Vector;
-    class operator * (const ALeft: TCL3Vector; const ARight: double): TCL3Vector;
-    class operator * (const ALeft: TCL3Vector; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator * (const ALeft: TCL3Vector; const ARight: TCL3Trivector): TCL3Bivector;
-    class operator * (const ALeft: TCL3Vector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator * (const ALeft: TCL3Bivector; const ARight: TCL3Vector): TCL3Multivector;
-    class operator * (const ALeft: TCL3Trivector; const ARight: TCL3Vector): TCL3Bivector;
-    class operator * (const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
+    { Returns the component-wise sum of two vectors. The result is a pure vector. }
+    class operator +(const ALeft, ARight: TCL3Vector): TCL3Vector;
 
-    class operator / (const ALeft: double; const ARight: TCL3Vector): TCL3Vector;
-    class operator / (const ALeft: TCL3Vector; const ARight: double): TCL3Vector;
-    class operator / (const ALeft, ARight: TCL3Vector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Vector; const ARight: TCL3Bivector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Vector; const ARight: TCL3Trivector): TCL3Bivector;
-    class operator / (const ALeft: TCL3Vector; const ARight: TCL3Multivector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Bivector; const ARight: TCL3Vector): TCL3Multivector;
-    class operator / (const ALeft: TCL3Trivector; const ARight: TCL3Vector): TCL3Bivector;
-    class operator / (const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
+    { Returns the sum of a vector and a real scalar.
+      The result is a full multivector with @code(m0 = ARight) and
+      the vector components of @code(ALeft).
+    }
+    class operator +(const ALeft: TCL3Vector; const ARight: double): TCL3Multivector;
+
+    { Returns the sum of a real scalar and a vector.
+      The result is a full multivector with @code(m0 = ALeft) and
+      the vector components of @code(ARight).
+    }
+    class operator +(const ALeft: double; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the sum of a vector and a bivector.
+      The result is a full multivector with grade-1 components from @code(ALeft)
+      and grade-2 components from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3Vector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the sum of a bivector and a vector.
+      The result is a full multivector with grade-2 components from @code(ALeft)
+      and grade-1 components from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3Bivector; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the sum of a vector and a trivector.
+      The result is a full multivector with grade-1 components from @code(ALeft)
+      and grade-3 component from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3Vector; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the sum of a trivector and a vector.
+      The result is a full multivector with grade-3 component from @code(ALeft)
+      and grade-1 components from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3Trivector; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the sum of a vector and a multivector. The vector contributes only to the grade-1 components. }
+    class operator +(const ALeft: TCL3Vector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the sum of a multivector and a vector. The vector contributes only to the grade-1 components. }
+    class operator +(const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Unary minus. Returns the negation of the vector.
+      Each component @code(mₖ) becomes @code(-mₖ).
+    }
+    class operator -(const ASelf: TCL3Vector): TCL3Vector;
+
+    { Returns the component-wise difference of two vectors.
+      The result is a pure vector.
+    }
+    class operator -(const ALeft, ARight: TCL3Vector): TCL3Vector;
+
+    { Returns the difference of a vector and a real scalar.
+      The result is a full multivector with @code(m0 = -ARight) and
+      the vector components of @code(ALeft).
+    }
+    class operator -(const ALeft: TCL3Vector; const ARight: double): TCL3Multivector;
+
+    { fference of a real scalar and a vector.
+      The result is a full multivector with @code(m0 = ALeft) and
+      negated vector components of @code(ARight).
+    }
+    class operator -(const ALeft: double; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the difference of a vector and a bivector.
+      The result is a full multivector with grade-1 components from @code(ALeft)
+      and negated grade-2 components from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3Vector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the difference of a bivector and a vector.
+      The result is a full multivector with grade-2 components from @code(ALeft)
+      and negated grade-1 components from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3Bivector; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the difference of a vector and a trivector.
+      The result is a full multivector with grade-1 components from @code(ALeft)
+      and negated grade-3 component from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3Vector; const ARight: TCL3Trivector): TCL3Multivector;
+
+    { Returns the difference of a trivector and a vector.
+      The result is a full multivector with grade-3 component from @code(ALeft)
+      and negated grade-1 components from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3Trivector; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the difference of a vector and a multivector.
+      The vector contributes only to the grade-1 components.
+    }
+    class operator -(const ALeft: TCL3Vector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the difference of a multivector and a vector.
+      The vector contributes only to the grade-1 components.
+    }
+    class operator -(const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the geometric product of two vectors.
+      The result decomposes into a scalar and a bivector:
+      @code(uv = u·v + u∧v)
+      hence the return type is a full @link(TCL3Multivector).
+    }
+    class operator *(const ALeft, ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the geometric product of a real scalar and a vector.
+      Each component is scaled by @code(ALeft).
+    }
+    class operator *(const ALeft: double; const ARight: TCL3Vector): TCL3Vector;
+
+    { Returns the geometric product of a vector and a real scalar.
+      Each component is scaled by @code(ARight).
+    }
+    class operator *(const ALeft: TCL3Vector; const ARight: double): TCL3Vector;
+
+    { Returns the geometric product of a vector and a bivector.
+      The result mixes grades (scalar and trivector parts may appear),
+      hence the return type is a full @link(TCL3Multivector).
+    }
+    class operator *(const ALeft: TCL3Vector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the geometric product of a vector and the pseudoscalar @code(e₁₂₃).
+      Since @code(v · e₁₂₃) maps each basis vector to its complementary bivector
+      (e.g. @code(e₁·e₁₂₃ = e₂₃)), the result is a pure @link(TCL3Bivector).
+      This operation corresponds to the left Hodge dual of the vector.
+    }
+    class operator *(const ALeft: TCL3Vector; const ARight: TCL3Trivector): TCL3Bivector;
+
+    { Returns the geometric product of a vector and a full multivector.
+      Grade mixing occurs according to the Clifford multiplication rules of @code(Cl(3,0)).
+    }
+    class operator *(const ALeft: TCL3Vector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric product of a bivector and a vector.
+      The result mixes grades, hence the return type is a full @link(TCL3Multivector).
+    }
+    class operator *(const ALeft: TCL3Bivector; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the geometric product of the pseudoscalar @code(e₁₂₃) and a vector.
+      Since @code(e₁₂₃ · v) maps each basis vector to its complementary bivector
+      (e.g. @code(e₁₂₃·e₁ = e₂₃)), the result is a pure @link(TCL3Bivector).
+      This operation corresponds to the right Hodge dual of the vector.
+    }
+    class operator *(const ALeft: TCL3Trivector; const ARight: TCL3Vector): TCL3Bivector;
+
+    { Returns the geometric product of a full multivector and a vector.
+      Grade mixing occurs according to the Clifford multiplication rules of @code(Cl(3,0)).
+    }
+    class operator *(const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the geometric quotient of a real scalar divided by a vector: @code(ALeft / ARight).
+      The inverse of a vector @code(v) in @code(Cl(3,0)) is @code(1/v = v / |v|²),
+      since @code(v² = |v|²) for vectors with positive norm.
+      The result is a pure vector.
+    }
+    class operator /(const ALeft: double; const ARight: TCL3Vector): TCL3Vector;
+
+    { Returns the geometric quotient of a vector divided by a real scalar.
+      Each component is divided by @code(ARight).
+    }
+    class operator /(const ALeft: TCL3Vector; const ARight: double): TCL3Vector;
+
+    { Returns the geometric quotient of two vectors: @code(ALeft / ARight).
+      The result is a mixed-grade element (scalar + bivector),
+      hence the return type is a full @link(TCL3Multivector).
+    }
+    class operator /(const ALeft, ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the geometric quotient of a vector divided by a bivector: @code(ALeft / ARight).
+      The result is a full @link(TCL3Multivector).
+    }
+    class operator /(const ALeft: TCL3Vector; const ARight: TCL3Bivector): TCL3Multivector;
+
+    { Returns the geometric quotient of a vector divided by the pseudoscalar: @code(ALeft / ARight).
+      Since the inverse of @code(e₁₂₃) is @code(-e₁₂₃), this maps the vector
+      to its complementary bivector, returning a pure @link(TCL3Bivector).
+      This corresponds to the Hodge dual of the vector.
+    }
+    class operator /(const ALeft: TCL3Vector; const ARight: TCL3Trivector): TCL3Bivector;
+
+    { Returns the geometric quotient of a vector divided by a full multivector: @code(ALeft / ARight).
+      The result is a full @link(TCL3Multivector).
+    }
+    class operator /(const ALeft: TCL3Vector; const ARight: TCL3Multivector): TCL3Multivector;
+
+    { Returns the geometric quotient of a bivector divided by a vector: @code(ALeft / ARight).
+      The result is a full @link(TCL3Multivector).
+    }
+    class operator /(const ALeft: TCL3Bivector; const ARight: TCL3Vector): TCL3Multivector;
+
+    { Returns the geometric quotient of the pseudoscalar divided by a vector: @code(ALeft / ARight).
+      Since @code(e₁₂₃ · v⁻¹) maps the vector to its complementary bivector,
+      the result is a pure @link(TCL3Bivector).
+    }
+    class operator /(const ALeft: TCL3Trivector; const ARight: TCL3Vector): TCL3Bivector;
+
+    { Returns the geometric quotient of a full multivector divided by a vector: @code(ALeft / ARight).
+      The result is a full @link(TCL3Multivector).
+    }
+    class operator /(const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
   end;
 
-  { TCL3MultivectorHelper }
+  { Record helper for @link(TCL3Multivector) providing the full set of geometric algebra
+    operations for @code(Cl(3,0)).
 
+    Extends @link(TCL3Multivector) with grade-aware operations including duality,
+    reversion, conjugation, projection, rejection, reflection, and rotation,
+    as well as utility functions for grade testing, component extraction, and
+    string conversion.
+  }
   TCL3MultivectorHelper = record helper for TCL3Multivector
+
+    { Returns the Hodge dual of the multivector.
+      In @code(Cl(3,0)) the dual is defined as @code(M* = M · e₁₂₃⁻¹).
+      The dual exchanges grade @code(k) elements with grade @code(3-k) elements:
+      scalars ↔ trivector, vectors ↔ bivectors.
+    }
     function Dual: TCL3Multivector;
+
+    { Returns the inverse of the multivector: @code(1/M) such that @code(M · M⁻¹ = 1).
+      Not all multivectors are invertible. Behaviour is undefined if the
+      multivector has no inverse.
+    }
     function Inverse: TCL3Multivector;
+
+    { Returns the reverse of the multivector.
+      The reverse @code(M†) is obtained by reversing the order of basis vectors
+      in each blade: @code((ei∧ej)† = ei∧ej = -ej∧ei).
+      Grade-@code(k) components are multiplied by @code((-1)^(k(k-1)/2)):
+      @unorderedList(
+        @item(Grade 0 and 1: unchanged)
+        @item(Grade 2: negated)
+        @item(Grade 3: negated)
+      )
+    }
     function Reverse: TCL3Multivector;
+
+    { Returns the Clifford conjugate of the multivector.
+      The conjugate combines reversion and grade involution.
+      Grade-@code(k) components are multiplied by @code((-1)^(k(k+1)/2)):
+      @unorderedList(
+        @item(Grade 0: unchanged)
+        @item(Grade 1: negated)
+        @item(Grade 2: negated)
+        @item(Grade 3: unchanged)
+      )
+    }
     function Conjugate: TCL3Multivector;
+
+    { Returns the right reciprocal of the multivector: @code(M⁻¹) such that @code(M · M⁻¹ = 1).
+      Computed as @code(Reverse / SquaredNorm) when the multivector is
+      norm-invertible. Equivalent to @link(Inverse) for versors.
+    }
     function Reciprocal: TCL3Multivector;
+
+    { Returns the left reciprocal of the multivector: @code(M⁻¹) such that @code(M⁻¹ · M = 1).
+      For non-symmetric multivectors the left and right reciprocals may differ.
+    }
     function LeftReciprocal: TCL3Multivector;
+
+    { Returns the unit multivector in the same direction.
+      Each component is divided by @link(Norm).
+      The result satisfies @code(|Normalized| = 1).
+    }
     function Normalized: TCL3Multivector;
+
+    { Returns the norm of the multivector.
+      Defined as @code(|M| = √|M · Reverse(M)|).
+    }
     function Norm: double;
+
+    { Returns the squared norm of the multivector.
+      Defined as @code(|M|² = |M · Reverse(M)|).
+      Avoids the square root computation of @link(Norm).
+    }
     function SquaredNorm: double;
 
+    { Returns the inner (dot) product of the multivector with a vector.
+      The inner product extracts the grade @code(|p-q|) part of the geometric product,
+      contracting the two operands.
+      @param(AVector The right-hand vector operand.)
+    }
     function Dot(const AVector: TCL3Vector): TCL3Multivector; overload;
+
+    { Returns the inner (dot) product of the multivector with a bivector.
+      @param(AVector The right-hand bivector operand.)
+    }
     function Dot(const AVector: TCL3Bivector): TCL3Multivector; overload;
+
+    { Returns the inner (dot) product of the multivector with a trivector.
+      @param(AVector The right-hand trivector operand.)
+    }
     function Dot(const AVector: TCL3Trivector): TCL3Multivector; overload;
+
+    { Returns the inner (dot) product of two multivectors.
+      @param(AVector The right-hand multivector operand.)
+    }
     function Dot(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the outer (wedge) product of the multivector with a vector.
+      The wedge product extracts the grade @code(p+q) part of the geometric product,
+      constructing a higher-grade blade from the two operands.
+      @param(AVector The right-hand vector operand.)
+    }
     function Wedge(const AVector: TCL3Vector): TCL3Multivector; overload;
+
+    { Returns the outer (wedge) product of the multivector with a bivector.
+      @param(AVector The right-hand bivector operand.)
+    }
     function Wedge(const AVector: TCL3Bivector): TCL3Multivector; overload;
+
+    { Returns the outer (wedge) product of the multivector with a trivector.
+      Since @code(e₁₂₃) is the highest-grade element in @code(Cl(3,0)),
+      the result is a pure @link(TCL3Trivector) (only the scalar part of the
+      multivector contributes).
+      @param(AVector The right-hand trivector operand.)
+    }
     function Wedge(const AVector: TCL3Trivector): TCL3Trivector; overload;
+
+    { Returns the outer (wedge) product of two multivectors.
+      @param(AVector The right-hand multivector operand.)
+    }
     function Wedge(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the projection of the multivector onto a vector subspace.
+      Defined as @code(Proj_v(M) = (M · v) · v⁻¹).
+      @param(AVector The vector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Vector): TCL3Multivector; overload;
+
+    { Returns the projection of the multivector onto a bivector subspace.
+      Defined as @code(Proj_B(M) = (M · B) · B⁻¹).
+      @param(AVector The bivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Bivector): TCL3Multivector; overload;
+
+    { Returns the projection of the multivector onto the trivector subspace.
+      Since the trivector spans the entire space in @code(Cl(3,0)), the
+      projection returns the full multivector scaled accordingly.
+      @param(AVector The trivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Trivector): TCL3Multivector; overload;
+
+    { Returns the projection of the multivector onto a general multivector subspace.
+      @param(AVector The multivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the rejection of the multivector from a vector subspace.
+      Defined as @code(Rej_v(M) = (M ∧ v) · v⁻¹).
+      The rejection is the component of @code(M) orthogonal to @code(v):
+      @code(M = Projection + Rejection).
+      @param(AVector The vector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Vector): TCL3Multivector; overload;
+
+    { Returns the rejection of the multivector from a bivector subspace.
+      Defined as @code(Rej_B(M) = (M ∧ B) · B⁻¹).
+      @param(AVector The bivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Bivector): TCL3Multivector; overload;
+
+    { Returns the rejection of the multivector from the trivector subspace as a scalar.
+      Since the trivector spans the entire space, the rejection reduces to a
+      scalar coefficient.
+      @param(AVector The trivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Trivector): double; overload;
+
+    { Returns the rejection of the multivector from a general multivector subspace.
+      @param(AVector The multivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the reflection of the multivector through a vector hyperplane.
+      Defined as @code(v · M · v⁻¹), which reflects all components of @code(M)
+      through the hyperplane perpendicular to @code(v).
+      @param(AVector The vector defining the hyperplane of reflection.)
+    }
     function Reflection(const AVector: TCL3Vector): TCL3Multivector; overload;
+
+    { Returns the reflection of the multivector through a bivector subspace.
+      Defined as @code(B · M · B⁻¹).
+      @param(AVector The bivector defining the subspace of reflection.)
+    }
     function Reflection(const AVector: TCL3Bivector): TCL3Multivector; overload;
+
+    { Returns the reflection of the multivector through the trivector subspace.
+      Defined as @code(e₁₂₃ · M · e₁₂₃⁻¹).
+      @param(AVector The trivector defining the subspace of reflection.)
+    }
     function Reflection(const AVector: TCL3Trivector): TCL3Multivector; overload;
+
+    { Returns the reflection of the multivector through a general multivector subspace.
+      Defined as @code(N · M · N⁻¹).
+      @param(AVector The multivector defining the subspace of reflection.)
+    }
     function Reflection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the rotation of the multivector in the plane defined by two vectors.
+      The rotation is performed by the versor @code(R = v₁·v₂), applied as
+      @code(R · M · R⁻¹). The rotation angle is twice the angle between
+      @code(AVector1) and @code(AVector2).
+      @param(AVector1 The first vector defining the rotation plane.)
+      @param(AVector2 The second vector defining the rotation plane.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Vector): TCL3Multivector; overload;
+
+    { Returns the rotation of the multivector using a bivector rotor sandwich product.
+      Applied as @code(R · M · R⁻¹) where @code(R = AVector1 · AVector2).
+      @param(AVector1 The first bivector operand of the rotor.)
+      @param(AVector2 The second bivector operand of the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Multivector; overload;
+
+    { Returns the rotation of the multivector using a trivector rotor sandwich product.
+      Applied as @code(R · M · R⁻¹) where @code(R = AVector1 · AVector2).
+      @param(AVector1 The first trivector operand of the rotor.)
+      @param(AVector2 The second trivector operand of the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Multivector; overload;
-    function Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector;overload;
 
-    function SameValue(const AValue: TCL3Multivector): boolean;
-    function SameValue(const AValue: TCL3Trivector): boolean;
-    function SameValue(const AValue: TCL3Bivector): boolean;
-    function SameValue(const AValue: TCL3Vector): boolean;
-    function SameValue(const AValue: double): boolean;
+    { Returns the rotation of the multivector using a general multivector rotor.
+      Applied as @code(R · M · R⁻¹) where @code(R = AVector1 · AVector2).
+      @param(AVector1 The first multivector operand of the rotor.)
+      @param(AVector2 The second multivector operand of the rotor.)
+    }
+    function Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns @true if all components of the multivector are numerically close
+      to the corresponding components of @code(AValue), within floating point tolerance.
+      @param(AValue The multivector to compare against.)
+    }
+    function SameValue(const AValue: TCL3Multivector): boolean; overload;
+
+    { Returns @true if the multivector is numerically close to the trivector @code(AValue),
+      i.e. all non-trivector components are negligible.
+      @param(AValue The trivector to compare against.)
+    }
+    function SameValue(const AValue: TCL3Trivector): boolean; overload;
+
+    { Returns @true if the multivector is numerically close to the bivector @code(AValue),
+      i.e. all non-bivector components are negligible.
+      @param(AValue The bivector to compare against.)
+    }
+    function SameValue(const AValue: TCL3Bivector): boolean; overload;
+
+    { Returns @true if the multivector is numerically close to the vector @code(AValue),
+      i.e. all non-vector components are negligible.
+      @param(AValue The vector to compare against.)
+    }
+    function SameValue(const AValue: TCL3Vector): boolean; overload;
+
+    { Returns @true if the multivector is numerically close to the scalar @code(AValue),
+      i.e. all non-scalar components are negligible.
+      @param(AValue The scalar to compare against.)
+    }
+    function SameValue(const AValue: double): boolean; overload;
+
+    { Extracts selected components from the multivector as a @link(TCL3Multivector).
+      Only the components specified in @code(AComponents) are retained;
+      all others are set to zero.
+      @param(AComponents The set of components to extract.)
+    }
     function ExtractMultivector(AComponents: TCL3MultivectorComponents): TCL3Multivector;
-    function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
-    function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3Vector;
 
+    { Extracts selected bivector components from the multivector.
+      Only grade-2 components present in @code(AComponents) are retained.
+      @param(AComponents The set of components to extract.)
+    }
+    function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3Bivector; overload;
+
+    { Extracts selected vector components from the multivector.
+      Only grade-1 components present in @code(AComponents) are retained.
+      @param(AComponents The set of components to extract.)
+    }
+    function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3Vector; overload;
+
+    { Extracts the grade-3 (pseudoscalar) component of the multivector.
+      All other components are discarded.
+    }
     function ExtractTrivector: TCL3Trivector;
-    function ExtractBivector: TCL3Bivector;
-    function ExtractVector: TCL3Vector;
+
+    { Extracts all grade-2 (bivector) components of the multivector.
+      All other components are discarded.
+    }
+    function ExtractBivector: TCL3Bivector; overload;
+
+    { Extracts all grade-1 (vector) components of the multivector.
+      All other components are discarded.
+    }
+    function ExtractVector: TCL3Vector; overload;
+
+    { Extracts the grade-0 (scalar) component of the multivector.
+      All other components are discarded.
+    }
     function ExtractScalar: double;
 
+    { Returns @true if all components of the multivector are zero or numerically negligible. }
     function IsNull: boolean;
+
+    { Returns @true if the multivector is a pure scalar, i.e. all non-scalar components are zero. }
     function IsScalar: boolean;
+
+    { Returns @true if the multivector is a pure vector (grade 1), i.e. only grade-1 components are non-zero. }
     function IsVector: boolean;
+
+    { Returns @true if the multivector is a pure bivector (grade 2), i.e. only grade-2 components are non-zero. }
     function IsBiVector: boolean;
+
+    { Returns @true if the multivector is a pure trivector (grade 3), i.e. only the grade-3 component is non-zero. }
     function IsTrivector: boolean;
+
+    { Returns a string identifying the grade structure of the multivector.
+      Examples of possible return values: @code('scalar'), @code('vector'),
+      @code('bivector'), @code('trivector'), @code('multivector').
+    }
     function IsA: string;
 
+    { Converts the multivector to a formatted string with controlled precision.
+      Only non-zero components are included in the output.
+      @param(APrecision Number of significant digits.)
+      @param(ADigits    Minimum number of digits in the output.)
+    }
     function ToString(APrecision, ADigits: longint): string;
+
+    { Converts the multivector to its default string representation.
+      Only non-zero components are included in the output.
+    }
     function ToString: string;
   end;
 
-  { TCL3TrivectorHelper }
+  { Record helper for @link(TCL3Trivector) providing geometric operations
+    specific to grade-3 elements of @code(Cl(3,0)).
 
+    All operations follow the conventions of Clifford algebra over @code(ℝ³):
+    @unorderedList(
+      @item(The geometric product is the fundamental product of the algebra.)
+      @item(The inner (dot) product lowers the grade of the result.)
+      @item(The outer (wedge) product raises the grade of the result.)
+      @item(The dual maps a grade-@code(k) element to a grade-@code(3-k) element
+            via multiplication by @code(e₁₂₃⁻¹).)
+      @item(Projection, rejection, reflection and rotation are defined via the
+            geometric product and its inverse.)
+    )
+  }
   TCL3TrivectorHelper = record helper for TCL3Trivector
+
+    { Returns the dual of the trivector with respect to the pseudoscalar @code(e₁₂₃).
+      For @code(T = m123·e₁₂₃), the dual is the scalar:
+      @code(T* = T · e₁₂₃⁻¹ = -m123).
+      The dual maps grade-3 elements to grade-0 (scalar) elements.
+    }
     function Dual: double;
+
+    { Returns the inverse of the trivector under the geometric product.
+      For @code(T = m123·e₁₂₃):
+      @code(T⁻¹ = -e₁₂₃ / m123), since @code(e₁₂₃² = -1).
+    }
     function Inverse: TCL3Trivector;
+
+    { Returns the reverse of the trivector.
+      The reverse of a grade-@code(k) blade changes sign by @code((-1)^(k·(k-1)/2)).
+      For a trivector (@code(k = 3)): @code(T̃ = -T).
+    }
     function Reverse: TCL3Trivector;
+
+    { Returns the Clifford conjugate of the trivector.
+      The conjugate combines reversion and grade involution.
+      For a trivector (@code(k = 3)): @code(T† = -T).
+    }
     function Conjugate: TCL3Trivector;
+
+    { Returns the reciprocal of the trivector: @code(T̃ / (T · T̃)).
+      Equivalent to @link(Inverse) for non-zero trivectors.
+    }
     function Reciprocal: TCL3Trivector;
+
+    { Returns the unit trivector in the same direction.
+      The coefficient @code(m123) is divided by @link(Norm).
+    }
     function Normalized: TCL3Trivector;
+
+    { Returns the norm of the trivector: @code(|T| = |m123|).
+      Defined as the square root of @code(T · T̃).
+    }
     function Norm: double;
+
+    { Returns the squared norm of the trivector: @code(|T|² = m123²).
+      Avoids the square root computation of @link(Norm).
+    }
     function SquaredNorm: double;
 
+    { Returns the inner (dot) product of the trivector and a vector.
+      Lowers the grade: @code(grade(3) · grade(1) → grade(2) = bivector).
+      @param(AVector The grade-1 right operand.)
+    }
     function Dot(const AVector: TCL3Vector): TCL3Bivector; overload;
+
+    { Returns the inner (dot) product of the trivector and a bivector.
+      Lowers the grade: @code(grade(3) · grade(2) → grade(1) = vector).
+      @param(AVector The grade-2 right operand.)
+    }
     function Dot(const AVector: TCL3Bivector): TCL3Vector; overload;
+
+    { Returns the inner (dot) product of two trivectors.
+      Lowers the grade: @code(grade(3) · grade(3) → grade(0) = scalar).
+      Result: @code(T₁ · T₂ = -m123₁ · m123₂).
+      @param(AVector The grade-3 right operand.)
+    }
     function Dot(const AVector: TCL3Trivector): double; overload;
+
+    { Returns the inner (dot) product of the trivector and a multivector.
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The right operand.)
+    }
     function Dot(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the outer (wedge) product of the trivector and a vector.
+      Always zero in @code(ℝ³): @code(grade(3) ∧ grade(1) → grade(4) = 0).
+      @param(AVector The grade-1 right operand.)
+    }
     function Wedge(const AVector: TCL3Vector): double; overload;
+
+    { Returns the outer (wedge) product of the trivector and a bivector.
+      Always zero in @code(ℝ³): @code(grade(3) ∧ grade(2) → grade(5) = 0).
+      @param(AVector The grade-2 right operand.)
+    }
     function Wedge(const AVector: TCL3Bivector): double; overload;
+
+    { Returns the outer (wedge) product of two trivectors.
+      Always zero in @code(ℝ³): @code(grade(3) ∧ grade(3) → grade(6) = 0).
+      @param(AVector The grade-3 right operand.)
+    }
     function Wedge(const AVector: TCL3Trivector): double; overload;
+
+    { Returns the outer (wedge) product of the trivector and a multivector.
+      Only the scalar part of @code(AVector) contributes to a non-zero result,
+      since any higher-grade wedge product vanishes in @code(ℝ³).
+      @param(AVector The right operand.)
+    }
     function Wedge(const AVector: TCL3Multivector): TCL3Trivector; overload;
 
+    { Returns the projection of the trivector onto a vector subspace.
+      Defined as: @code(proj(T, v) = (T · v⁻¹) ∧ v).
+      @param(AVector The vector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Vector): TCL3Trivector; overload;
+
+    { Returns the projection of the trivector onto a bivector subspace.
+      Defined as: @code(proj(T, B) = (T · B⁻¹) ∧ B).
+      @param(AVector The bivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Bivector): TCL3Trivector; overload;
+
+    { Returns the projection of the trivector onto a trivector subspace.
+      Defined as: @code(proj(T₁, T₂) = (T₁ · T₂⁻¹) ∧ T₂).
+      @param(AVector The trivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Trivector): TCL3Trivector; overload;
+
+    { Returns the projection of the trivector onto a multivector subspace.
+      Defined as: @code(proj(T, M) = (T · M⁻¹) ∧ M).
+      @param(AVector The multivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Multivector): TCL3Trivector; overload;
 
+    { Returns the rejection of the trivector from a vector subspace.
+      Defined as: @code(rej(T, v) = T - proj(T, v)).
+      In @code(ℝ³) the rejection of a trivector from a vector is a scalar.
+      @param(AVector The vector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Vector): double; overload;
+
+    { Returns the rejection of the trivector from a bivector subspace.
+      Defined as: @code(rej(T, B) = T - proj(T, B)).
+      In @code(ℝ³) the rejection of a trivector from a bivector is a scalar.
+      @param(AVector The bivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Bivector): double; overload;
+
+    { Returns the rejection of the trivector from another trivector subspace.
+      Defined as: @code(rej(T₁, T₂) = T₁ - proj(T₁, T₂)).
+      In @code(ℝ³) the rejection of a trivector from a trivector is a scalar.
+      @param(AVector The trivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Trivector): double; overload;
+
+    { Returns the rejection of the trivector from a multivector subspace.
+      Defined as: @code(rej(T, M) = T - proj(T, M)).
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The multivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the reflection of the trivector through a vector.
+      Defined as: @code(reflect(T, v) = -v · T · v⁻¹).
+      Since the trivector is the pseudoscalar up to a scalar factor, the
+      reflection preserves the grade-3 part.
+      @param(AVector The vector defining the reflection hyperplane normal.)
+    }
     function Reflection(const AVector: TCL3Vector): TCL3Trivector; overload;
+
+    { Returns the reflection of the trivector through a bivector.
+      Defined as: @code(reflect(T, B) = -B · T · B⁻¹).
+      @param(AVector The bivector defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3Bivector): TCL3Trivector; overload;
+
+    { Returns the reflection of the trivector through another trivector.
+      Defined as: @code(reflect(T₁, T₂) = -T₂ · T₁ · T₂⁻¹).
+      @param(AVector The trivector defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3Trivector): TCL3Trivector; overload;
+
+    { Returns the reflection of the trivector through a multivector.
+      Defined as: @code(reflect(T, M) = -M · T · M⁻¹).
+      @param(AVector The multivector defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3Multivector): TCL3Trivector; overload;
 
+    { Returns the trivector rotated by the rotor defined by two vectors.
+      The rotor is constructed as @code(R = AVector2 · AVector1)
+      (normalised to a unit rotor). The rotation is applied as:
+      @code(T' = R · T · R⁻¹).
+      @param(AVector1 The first vector defining the rotation plane.)
+      @param(AVector2 The second vector defining the rotation plane.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Vector): TCL3Trivector; overload;
+
+    { Returns the trivector rotated by the rotor defined by two bivectors.
+      The rotation is applied as: @code(T' = R · T · R⁻¹).
+      @param(AVector1 The first bivector defining the rotor.)
+      @param(AVector2 The second bivector defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Trivector; overload;
+
+    { Returns the trivector rotated by the rotor defined by two trivectors.
+      The rotation is applied as: @code(T' = R · T · R⁻¹).
+      @param(AVector1 The first trivector defining the rotor.)
+      @param(AVector2 The second trivector defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Trivector; overload;
+
+    { Returns the trivector rotated by the rotor defined by two multivectors.
+      The rotation is applied as: @code(T' = R · T · R⁻¹).
+      @param(AVector1 The first multivector defining the rotor.)
+      @param(AVector2 The second multivector defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Trivector; overload;
 
+    { Returns @true if the trivector is numerically equal to the given multivector
+      within the default floating point tolerance.
+      All non-trivector components of @code(AValue) must be negligible.
+      @param(AValue The multivector to compare against.)
+    }
     function SameValue(const AValue: TCL3Multivector): boolean;
+
+    { Returns @true if the two trivectors are numerically equal
+      within the default floating point tolerance.
+      @param(AValue The trivector to compare against.)
+    }
     function SameValue(const AValue: TCL3Trivector): boolean;
 
+    { Converts the trivector to a full @link(TCL3Multivector).
+      All components are zero except @code(m123).
+    }
     function ToMultivector: TCL3Multivector;
+
+    { Converts the trivector to a formatted string with controlled precision.
+      The format is @code(m123·e₁₂₃).
+      @param(APrecision Number of significant digits.)
+      @param(ADigits    Minimum number of digits in the output.)
+    }
     function ToString(APrecision, ADigits: longint): string;
+
+    { Converts the trivector to its default string representation.
+      The format is @code(m123·e₁₂₃).
+    }
     function ToString: string;
   end;
 
-  { TCL3BivectorHelper }
+  { Record helper for @link(TCL3Bivector) providing geometric operations
+    specific to grade-2 elements of @code(Cl(3,0)).
 
+    All operations follow the conventions of Clifford algebra over @code(ℝ³):
+    @unorderedList(
+      @item(The geometric product is the fundamental product of the algebra.)
+      @item(The inner (dot) product lowers the grade of the result.)
+      @item(The outer (wedge) product raises the grade of the result.)
+      @item(The dual maps a grade-@code(k) element to a grade-@code(3-k) element
+            via multiplication by @code(e₁₂₃⁻¹).)
+      @item(Projection, rejection, reflection and rotation are defined via the
+            geometric product and its inverse.)
+    )
+  }
   TCL3BivectorHelper = record helper for TCL3Bivector
+
+    { Returns the dual of the bivector with respect to the pseudoscalar @code(e₁₂₃).
+      The dual maps grade-2 elements to grade-1 (vector) elements:
+      @code(B* = B · e₁₂₃⁻¹).
+      For example: @code((e₁∧e₂)* = -e₃),  @code((e₁∧e₃)* = e₂),  @code((e₂∧e₃)* = -e₁).
+    }
     function Dual: TCL3Vector;
+
+    { Returns the inverse of the bivector under the geometric product.
+      For a pure bivector @code(B), the inverse is:
+      @code(B⁻¹ = -B / |B|²), since @code(B² ≤ 0) in @code(Cl(3,0)).
+    }
     function Inverse: TCL3Bivector;
+
+    { Returns the reverse of the bivector.
+      The reverse of a grade-@code(k) blade changes sign by @code((-1)^(k·(k-1)/2)).
+      For a bivector (@code(k = 2)): @code(B̃ = -B).
+    }
     function Reverse: TCL3Bivector;
+
+    { Returns the Clifford conjugate of the bivector.
+      The conjugate combines reversion and grade involution.
+      For a bivector (@code(k = 2)): @code(B† = -B).
+    }
     function Conjugate: TCL3Bivector;
+
+    {
+      Returns the reciprocal of the bivector: @code(B̃ / (B · B̃)).
+      Equivalent to @link(Inverse) for non-zero bivectors.
+    }
     function Reciprocal: TCL3Bivector;
+
+    { Returns the unit bivector in the same orientation.
+      Each component is divided by @link(Norm).
+    }
     function Normalized: TCL3Bivector;
+
+    { Returns the norm of the bivector: @code(|B| = √(m12² + m13² + m23²)).
+      Defined as the square root of @code(-B²) since @code(B² ≤ 0) for pure bivectors.
+    }
     function Norm: double;
+
+    { Returns the squared norm of the bivector: @code(|B|² = m12² + m13² + m23²).
+      Avoids the square root computation of @link(Norm).
+    }
     function SquaredNorm: double;
 
+    { Returns the inner (dot) product of the bivector and a vector.
+      Lowers the grade: @code(grade(2) · grade(1) → grade(1) = vector).
+      @param(AVector The grade-1 right operand.)
+    }
     function Dot(const AVector: TCL3Vector): TCL3Vector; overload;
+
+    { Returns the inner (dot) product of two bivectors.
+      Lowers the grade: @code(grade(2) · grade(2) → grade(0) = scalar).
+      Result: @code(B₁ · B₂ = -(m12₁·m12₂ + m13₁·m13₂ + m23₁·m23₂)).
+      @param(AVector The grade-2 right operand.)
+    }
     function Dot(const AVector: TCL3Bivector): double; overload;
+
+    { Returns the inner (dot) product of the bivector and a trivector.
+      Lowers the grade: @code(grade(2) · grade(3) → grade(1) = vector).
+      @param(AVector The grade-3 right operand.)
+    }
     function Dot(const AVector: TCL3Trivector): TCL3Vector; overload;
+
+    { Returns the inner (dot) product of the bivector and a multivector.
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The right operand.)
+    }
     function Dot(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the outer (wedge) product of the bivector and a vector.
+      Raises the grade: @code(grade(2) ∧ grade(1) → grade(3) = trivector).
+      @param(AVector The grade-1 right operand.)
+    }
     function Wedge(const AVector: TCL3Vector): TCL3Trivector; overload;
+
+    { Returns the outer (wedge) product of two bivectors.
+      Always zero in @code(ℝ³): @code(grade(2) ∧ grade(2) → grade(4) = 0).
+      @param(AVector The grade-2 right operand.)
+    }
     function Wedge(const AVector: TCL3Bivector): double; overload;
+
+    { Returns the outer (wedge) product of the bivector and a trivector.
+      Always zero in @code(ℝ³): @code(grade(2) ∧ grade(3) → grade(5) = 0).
+      @param(AVector The grade-3 right operand.)
+    }
     function Wedge(const AVector: TCL3Trivector): double; overload;
+
+    { Returns the outer (wedge) product of the bivector and a multivector.
+      Only the scalar and vector parts of @code(AVector) contribute to a
+      non-zero result; higher-grade wedge products vanish in @code(ℝ³).
+      @param(AVector The right operand.)
+    }
     function Wedge(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the projection of the bivector onto a vector subspace.
+      Defined as: @code(proj(B, v) = (B · v⁻¹) ∧ v).
+      The result is the component of @code(B) that lies in the plane
+      containing @code(v).
+      @param(AVector The vector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Vector): TCL3Bivector; overload;
+
+    { Returns the projection of the bivector onto another bivector subspace.
+      Defined as: @code(proj(B₁, B₂) = (B₁ · B₂⁻¹) ∧ B₂).
+      @param(AVector The bivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Bivector): TCL3Bivector; overload;
+
+    { Returns the projection of the bivector onto a trivector subspace.
+      Defined as: @code(proj(B, T) = (B · T⁻¹) ∧ T).
+      Since the trivector spans all of @code(ℝ³), the projection of any
+      bivector onto it returns the bivector unchanged.
+      @param(AVector The trivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Trivector): TCL3Bivector; overload;
+
+    { Returns the projection of the bivector onto a multivector subspace.
+      Defined as: @code(proj(B, M) = (B · M⁻¹) ∧ M).
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The multivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the rejection of the bivector from a vector subspace.
+      Defined as: @code(rej(B, v) = B - proj(B, v)).
+      The result is the component of @code(B) orthogonal to @code(v).
+      @param(AVector The vector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Vector): TCL3Bivector; overload;
+
+    { Returns the rejection of the bivector from another bivector subspace.
+      Defined as: @code(rej(B₁, B₂) = B₁ - proj(B₁, B₂)).
+      In @code(ℝ³) the rejection of a bivector from a bivector is a scalar.
+      @param(AVector The bivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Bivector): double; overload;
+
+    { Returns the rejection of the bivector from a trivector subspace.
+      Defined as: @code(rej(B, T) = B - proj(B, T)).
+      In @code(ℝ³) the rejection of a bivector from a trivector is a scalar.
+      @param(AVector The trivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Trivector): double; overload;
+
+    { Returns the rejection of the bivector from a multivector subspace.
+      Defined as: @code(rej(B, M) = B - proj(B, M)).
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The multivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the reflection of the bivector through a vector.
+      Defined as: @code(reflect(B, v) = -v · B · v⁻¹).
+      Reflects the oriented plane of @code(B) through the hyperplane
+      orthogonal to @code(v).
+      @param(AVector The vector defining the reflection hyperplane normal.)
+    }
     function Reflection(const AVector: TCL3Vector): TCL3Bivector; overload;
+
+    { Returns the reflection of the bivector through another bivector.
+      Defined as: @code(reflect(B₁, B₂) = -B₂ · B₁ · B₂⁻¹).
+      @param(AVector The bivector defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3Bivector): TCL3Bivector; overload;
+
+    { Returns the reflection of the bivector through a trivector.
+      Defined as: @code(reflect(B, T) = -T · B · T⁻¹).
+      Since the pseudoscalar commutes with all even-grade elements, the
+      reflection through a trivector returns the bivector unchanged.
+      @param(AVector The trivector defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3Trivector): TCL3Bivector; overload;
+
+    { Returns the reflection of the bivector through a multivector.
+      Defined as: @code(reflect(B, M) = -M · B · M⁻¹).
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The multivector defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the bivector rotated by the rotor defined by two vectors.
+      The rotor is constructed as @code(R = AVector2 · AVector1)
+      (normalised to a unit rotor). The rotation is applied as:
+      @code(B' = R · B · R⁻¹).
+      @param(AVector1 The first vector defining the rotation plane.)
+      @param(AVector2 The second vector defining the rotation plane.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Vector): TCL3Bivector; overload;
+
+    { Returns the bivector rotated by the rotor defined by two bivectors.
+      The rotation is applied as: @code(B' = R · B · R⁻¹).
+      @param(AVector1 The first bivector defining the rotor.)
+      @param(AVector2 The second bivector defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Bivector; overload;
+
+    { Returns the bivector rotated by the rotor defined by two trivectors.
+      The rotation is applied as: @code(B' = R · B · R⁻¹).
+      @param(AVector1 The first trivector defining the rotor.)
+      @param(AVector2 The second trivector defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Bivector; overload;
+
+    { Returns the bivector rotated by the rotor defined by two multivectors.
+      The rotation is applied as: @code(B' = R · B · R⁻¹).
+      The result is a full @link(TCL3Multivector) due to potential grade mixing.
+      @param(AVector1 The first multivector defining the rotor.)
+      @param(AVector2 The second multivector defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns @true if the bivector is numerically equal to the given multivector
+      within the default floating point tolerance.
+      All non-bivector components of @code(AValue) must be negligible.
+      @param(AValue The multivector to compare against.)
+    }
     function SameValue(const AValue: TCL3Multivector): boolean;
+
+    { Returns @true if the two bivectors are numerically equal
+      within the default floating point tolerance.
+      @param(AValue The bivector to compare against.)
+    }
     function SameValue(const AValue: TCL3Bivector): boolean;
 
+    { Returns a new bivector containing only the components specified by @code(AComponents).
+      Components not present in @code(AComponents) are set to zero.
+      Useful for extracting specific basis blade contributions from a bivector.
+      @param(AComponents A set of @link(TCL3MultivectorComponent) values identifying
+                         the components to retain. Valid values are @code(mcm12),
+                         @code(mcm13), @code(mcm23).)
+    }
     function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
 
+    { Converts the bivector to a full @link(TCL3Multivector).
+      All components are zero except @code(m12), @code(m13), @code(m23).
+    }
     function ToMultivector: TCL3Multivector;
+
+    { Converts the bivector to a formatted string with controlled precision.
+      The format is @code(m12·e₁₂ + m13·e₁₃ + m23·e₂₃).
+      @param(APrecision Number of significant digits.)
+      @param(ADigits    Minimum number of digits in the output.)
+    }
     function ToString(APrecision, ADigits: longint): string;
+
+    { Converts the bivector to its default string representation.
+      The format is @code(m12·e₁₂ + m13·e₁₃ + m23·e₂₃).
+    }
     function ToString: string;
   end;
 
-  { TCL3VectorHelper }
+  { Record helper for @link(TCL3Vector) providing geometric operations
+    specific to grade-1 elements of @code(Cl(3,0)).
 
+    All operations follow the conventions of Clifford algebra over @code(R3):
+    @unorderedList(
+      @item(The geometric product is the fundamental product of the algebra.)
+      @item(The inner (dot) product lowers the grade of the result.)
+      @item(The outer (wedge) product raises the grade of the result.)
+      @item(The dual maps a grade-@code(k) element to a grade-@code(3-k) element
+            via multiplication by @code(e₁₂₃⁻¹)* )
+      @item(The cross product is the dual of the wedge product:
+            @code(u × v = (u ∧ v)* ) and is specific to @code(ℝ³).)
+      @item(Projection, rejection, reflection and rotation are defined via the
+            geometric product and its inverse.)
+    )
+  }
   TCL3VectorHelper = record helper for TCL3Vector
+
+    { Returns the dual of the vector with respect to the pseudoscalar @code(e₁₂₃).
+      The dual maps grade-1 elements to grade-2 (bivector) elements:
+      @code(v* = v · e₁₂₃⁻¹).
+      For example: @code(e₁* = -e₂∧e₃), @code(e₂* = e₁∧e₃), @code(e₃* = -e₁∧e₂).
+    }
     function Dual: TCL3Bivector;
+
+    { Returns the inverse of the vector under the geometric product.
+      For a non-zero vector @code(v):
+      @code(v⁻¹ = v / |v|²), since @code(v² = |v|² > 0) in @code(Cl(3,0)).
+    }
     function Inverse: TCL3Vector;
+
+    { Returns the reverse of the vector.
+      The reverse of a grade-@code(k) blade changes sign by @code((-1)^(k·(k-1)/2)).
+      For a vector (@code(k = 1)): @code(ṽ = v) (unchanged).
+    }
     function Reverse: TCL3Vector;
+
+    { Returns the Clifford conjugate of the vector.
+      The conjugate combines reversion and grade involution.
+      For a vector (@code(k = 1)): @code(v† = -v).
+    }
     function Conjugate: TCL3Vector;
+
+    { Returns the reciprocal of the vector: @code(ṽ / (v · ṽ)).
+      Equivalent to @link(Inverse) for non-zero vectors.
+    }
     function Reciprocal: TCL3Vector;
+
+    { Returns the unit vector in the same direction.
+      Each component is divided by @link(Norm).
+    }
     function Normalized: TCL3Vector;
+
+    { Returns the Euclidean norm of the vector: @code(|v| = √(m1² + m2² + m3²)).
+      Defined as the square root of @code(v · ṽ = v²) since @code(v² ≥ 0)
+      for vectors in @code(Cl(3,0)).
+    }
     function Norm: double;
+
+    { Returns the squared Euclidean norm of the vector:
+      @code(|v|² = m1² + m2² + m3²).
+      Avoids the square root computation of @link(Norm).
+    }
     function SquaredNorm: double;
 
+    { Returns the inner (dot) product of two vectors.
+      Lowers the grade: @code(grade(1) · grade(1) → grade(0) = scalar).
+      Result: @code(u · v = m1₁·m1₂ + m2₁·m2₂ + m3₁·m3₂).
+      @param(AVector The grade-1 right operand.)
+    }
     function Dot(const AVector: TCL3Vector): double; overload;
+
+    { Returns the inner (dot) product of a vector and a bivector.
+      Lowers the grade: @code(grade(1) · grade(2) → grade(1) = vector).
+      @param(AVector The grade-2 right operand.)
+    }
     function Dot(const AVector: TCL3Bivector): TCL3Vector; overload;
+
+    { Returns the inner (dot) product of a vector and a trivector.
+      Lowers the grade: @code(grade(1) · grade(3) → grade(2) = bivector).
+      @param(AVector The grade-3 right operand.)
+    }
     function Dot(const AVector: TCL3Trivector): TCL3Bivector; overload;
+
+    { Returns the inner (dot) product of a vector and a multivector.
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The right operand.)
+    }
     function Dot(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the outer (wedge) product of two vectors.
+      Raises the grade: @code(grade(1) ∧ grade(1) → grade(2) = bivector).
+      The result represents the oriented plane spanned by the two vectors.
+      @param(AVector The grade-1 right operand.)
+    }
     function Wedge(const AVector: TCL3Vector): TCL3Bivector; overload;
+
+    { Returns the outer (wedge) product of a vector and a bivector.
+      Raises the grade: @code(grade(1) ∧ grade(2) → grade(3) = trivector).
+      The result represents the oriented volume spanned by the vector and the bivector.
+      @param(AVector The grade-2 right operand.)
+    }
     function Wedge(const AVector: TCL3Bivector): TCL3Trivector; overload;
+
+    { Returns the outer (wedge) product of a vector and a trivector.
+      Always zero in @code(ℝ³): @code(grade(1) ∧ grade(3) → grade(4) = 0).
+      @param(AVector The grade-3 right operand.)
+    }
     function Wedge(const AVector: TCL3Trivector): double; overload;
+
+    { Returns the outer (wedge) product of a vector and a multivector.
+      Only components of @code(AVector) up to grade 2 contribute to a non-zero result.
+      @param(AVector The right operand.)
+    }
     function Wedge(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the cross product of two vectors.
+      The cross product is the dual of the wedge product:
+      @code(u × v = (u ∧ v)* = -(u ∧ v) · e₁₂₃⁻¹).
+      The result is a vector perpendicular to both operands with magnitude
+      @code(|u||v|sin(θ)), specific to @code(ℝ³).
+      @param(AVector The right operand.)
+    }
     function Cross(const AVector: TCL3Vector): TCL3Vector;
 
+    { Returns the projection of the vector onto another vector.
+      Defined as: @code(proj(u, v) = (u · v⁻¹) ∧ v = (u · v / |v|²) · v).
+      The result is the component of @code(u) parallel to @code(v).
+      @param(AVector The vector defining the direction to project onto.)
+    }
     function Projection(const AVector: TCL3Vector): TCL3Vector; overload;
+
+    { Returns the projection of the vector onto a bivector subspace.
+      Defined as: @code(proj(v, B) = (v · B⁻¹) ∧ B).
+      The result is the component of @code(v) lying in the plane of @code(B).
+      @param(AVector The bivector defining the plane to project onto.)
+    }
     function Projection(const AVector: TCL3Bivector): TCL3Vector; overload;
+
+    { Returns the projection of the vector onto a trivector subspace.
+      Defined as: @code(proj(v, T) = (v · T⁻¹) ∧ T).
+      Since the trivector spans all of @code(ℝ³), the projection of any
+      vector onto it returns the vector unchanged.
+      @param(AVector The trivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Trivector): TCL3Vector; overload;
+
+    { Returns the projection of the vector onto a multivector subspace.
+      Defined as: @code(proj(v, M) = (v · M⁻¹) ∧ M).
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The multivector defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the rejection of the vector from another vector.
+      Defined as: @code(rej(u, v) = u - proj(u, v)).
+      The result is the component of @code(u) perpendicular to @code(v).
+      @param(AVector The vector defining the direction to reject from.)
+    }
     function Rejection(const AVector: TCL3Vector): TCL3Vector; overload;
+
+    { Returns the rejection of the vector from a bivector subspace.
+      Defined as: @code(rej(v, B) = v - proj(v, B)).
+      The result is the component of @code(v) perpendicular to the plane of @code(B).
+      @param(AVector The bivector defining the plane to reject from.)
+    }
     function Rejection(const AVector: TCL3Bivector): TCL3Vector; overload;
+
+    { Returns the rejection of the vector from a trivector subspace.
+      Defined as: @code(rej(v, T) = v - proj(v, T)).
+      In @code(ℝ³) the rejection of a vector from a trivector is always zero,
+      returned as a scalar @code(0).
+      @param(AVector The trivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Trivector): double; overload;
+
+    { Returns the rejection of the vector from a multivector subspace.
+      Defined as: @code(rej(v, M) = v - proj(v, M)).
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The multivector defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the reflection of the vector through another vector.
+      Defined as: @code(reflect(u, v) = v · u · v⁻¹).
+      Reflects @code(u) through the line defined by @code(v),
+      reversing the perpendicular component and preserving the parallel one.
+      @param(AVector The vector defining the reflection axis.)
+    }
     function Reflection(const AVector: TCL3Vector): TCL3Vector; overload;
+
+    { Returns the reflection of the vector through a bivector.
+      Defined as: @code(reflect(v, B) = B · v · B⁻¹).
+      Reflects @code(v) through the plane represented by @code(B),
+      reversing the normal component and preserving the in-plane component.
+      @param(AVector The bivector defining the reflection plane.)
+    }
     function Reflection(const AVector: TCL3Bivector): TCL3Vector; overload;
+
+    { Returns the reflection of the vector through a trivector.
+      Defined as: @code(reflect(v, T) = T · v · T⁻¹).
+      Since the pseudoscalar commutes with odd-grade elements up to a sign,
+      the reflection through a trivector negates the vector: @code(T·v·T⁻¹ = -v).
+      @param(AVector The trivector defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3Trivector): TCL3Vector; overload;
+
+    { Returns the reflection of the vector through a multivector.
+      Defined as: @code(reflect(v, M) = M · v · M⁻¹).
+      The result is a full @link(TCL3Multivector) due to grade mixing.
+      @param(AVector The multivector defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns the vector rotated by the rotor defined by two vectors.
+      The rotor is constructed as @code(R = AVector2 · AVector1)
+      (normalised to a unit rotor). The rotation is applied as:
+      @code(v' = R · v · R⁻¹).
+      The rotation is in the plane spanned by @code(AVector1) and @code(AVector2),
+      by twice the angle between them.
+      @param(AVector1 The first vector defining the rotation plane.)
+      @param(AVector2 The second vector defining the rotation plane.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Vector): TCL3Vector; overload;
+
+    { Returns the vector rotated by the rotor defined by two bivectors.
+      The rotation is applied as: @code(v' = R · v · R⁻¹).
+      @param(AVector1 The first bivector defining the rotor.)
+      @param(AVector2 The second bivector defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Bivector): TCL3Vector; overload;
+
+    { Returns the vector rotated by the rotor defined by two trivectors.
+      The rotation is applied as: @code(v' = R · v · R⁻¹).
+      @param(AVector1 The first trivector defining the rotor.)
+      @param(AVector2 The second trivector defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Trivector): TCL3Vector; overload;
+
+    { Returns the vector rotated by the rotor defined by two multivectors.
+      The rotation is applied as: @code(v' = R · v · R⁻¹).
+      The result is a full @link(TCL3Multivector) due to potential grade mixing.
+      @param(AVector1 The first multivector defining the rotor.)
+      @param(AVector2 The second multivector defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3Multivector): TCL3Multivector; overload;
 
+    { Returns @true if the vector is numerically equal to the given multivector
+      within the default floating point tolerance.
+      All non-vector components of @code(AValue) must be negligible.
+      @param(AValue The multivector to compare against.)
+    }
     function SameValue(const AValue: TCL3Multivector): boolean;
+
+    { Returns @true if the two vectors are numerically equal
+      within the default floating point tolerance.
+      @param(AValue The vector to compare against.)
+    }
     function SameValue(const AValue: TCL3Vector): boolean;
 
+    { Returns a new vector containing only the components specified by @code(AComponents).
+      Components not present in @code(AComponents) are set to zero.
+      Useful for extracting specific basis blade contributions from a vector.
+      @param(AComponents A set of @link(TCL3MultivectorComponent) values identifying
+                         the components to retain. Valid values are @code(mcm1),
+                         @code(mcm2), @code(mcm3).)
+    }
     function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3Vector;
 
+    { Converts the vector to a full @link(TCL3Multivector).
+      All components are zero except @code(m1), @code(m2), @code(m3).
+    }
     function ToMultivector: TCL3Multivector;
+
+    { Converts the vector to a formatted string with controlled precision.
+      The format is @code(m1·e₁ + m2·e₂ + m3·e₃).
+      @param(APrecision Number of significant digits.)
+      @param(ADigits    Minimum number of digits in the output.)
+    }
     function ToString(APrecision, ADigits: longint): string;
+
+    { Converts the vector to its default string representation.
+      The format is @code(m1·e₁ + m2·e₂ + m3·e₃).
+    }
     function ToString: string;
   end;
 
-  { TCL3Versor }
+  { Represents the basis vector @code(e₁) of @code(Cl(3,0)).
+    Acts as a compile-time constant unit vector along the first axis.
+    Multiplying a scalar by this record yields a grade-1 vector scaled along @code(e₁).
+  }
+  TCL3Versor1 = record
+    { Returns the vector @code(AValue · e₁).
+      @code(AValue * e₁ = (0, AValue, 0, 0, ...))
+    }
+    class operator *(const AValue: double; const ASelf: TCL3Versor1): TCL3Vector;
+  end;
 
-  TCL3Versor1 = record class operator *(const AValue: double; const ASelf: TCL3Versor1): TCL3Vector; end;
-  TCL3Versor2 = record class operator *(const AValue: double; const ASelf: TCL3Versor2): TCL3Vector; end;
-  TCL3Versor3 = record class operator *(const AValue: double; const ASelf: TCL3Versor3): TCL3Vector; end;
+  { Represents the basis vector @code(e₂) of @code(Cl(3,0)).
+    Acts as a compile-time constant unit vector along the second axis.
+    Multiplying a scalar by this record yields a grade-1 vector scaled along @code(e₂).
+  }
+  TCL3Versor2 = record
+    { Returns the vector @code(AValue · e₂).
+      @code(AValue * e₂ = (0, 0, AValue, 0, ...))
+    }
+    class operator *(const AValue: double; const ASelf: TCL3Versor2): TCL3Vector;
+  end;
 
-  { TCL3Biversor }
+  { Represents the basis vector @code(e₃) of @code(Cl(3,0)).
+    Acts as a compile-time constant unit vector along the third axis.
+    Multiplying a scalar by this record yields a grade-1 vector scaled along @code(e₃).
+  }
+  TCL3Versor3 = record
+    { Returns the vector @code(AValue · e₃).
+      @code(AValue * e₃ = (0, 0, 0, AValue, ...))
+    }
+    class operator *(const AValue: double; const ASelf: TCL3Versor3): TCL3Vector;
+  end;
 
-  TCL3Biversor12 = record class operator *(const AValue: double; const ASelf: TCL3Biversor12): TCL3Bivector; end;
-  TCL3Biversor13 = record class operator *(const AValue: double; const ASelf: TCL3Biversor13): TCL3Bivector; end;
-  TCL3Biversor23 = record class operator *(const AValue: double; const ASelf: TCL3Biversor23): TCL3Bivector; end;
+  { Represents the basis bivector @code(e₁∧e₂) of @code(Cl(3,0)).
+    Acts as a compile-time constant unit bivector in the @code(e₁e₂) plane.
+    Multiplying a scalar by this record yields a grade-2 bivector scaled along @code(e₁∧e₂).
+    Satisfies @code((e₁∧e₂)² = -1).
+  }
+  TCL3Biversor12 = record
+    { Returns the bivector @code(AValue · e₁∧e₂).
+      @code(AValue * e₁₂ = (0, ..., AValue, 0, 0, 0))
+    }
+    class operator *(const AValue: double; const ASelf: TCL3Biversor12): TCL3Bivector;
+  end;
 
-  { TCL3Triversor }
+  { Represents the basis bivector @code(e₁∧e₃) of @code(Cl(3,0)).
+    Acts as a compile-time constant unit bivector in the @code(e₁e₃) plane.
+    Multiplying a scalar by this record yields a grade-2 bivector scaled along @code(e₁∧e₃).
+    Satisfies @code((e₁∧e₃)² = -1).
+  }
+  TCL3Biversor13 = record
+    { Returns the bivector @code(AValue · e₁∧e₃).
+      @code(AValue * e₁₃ = (0, ..., 0, AValue, 0, 0))
+    }
+    class operator *(const AValue: double; const ASelf: TCL3Biversor13): TCL3Bivector;
+  end;
 
-  TCL3Triversor123 = record class operator *(const AValue: double; const ASelf: TCL3Triversor123): TCL3Trivector; end;
+  { Represents the basis bivector @code(e₂∧e₃) of @code(Cl(3,0)).
+    Acts as a compile-time constant unit bivector in the @code(e₂e₃) plane.
+    Multiplying a scalar by this record yields a grade-2 bivector scaled along @code(e₂∧e₃).
+    Satisfies @code((e₂∧e₃)² = -1).
+  }
+  TCL3Biversor23 = record
+    { Returns the bivector @code(AValue · e₂∧e₃).
+      @code(AValue * e₂₃ = (0, ..., 0, 0, AValue, 0))
+    }
+    class operator *(const AValue: double; const ASelf: TCL3Biversor23): TCL3Bivector;
+  end;
 
-  { TCL3MultivecQuantity }
+  { Represents the unit pseudoscalar @code(e₁∧e₂∧e₃) of @code(Cl(3,0)).
+    Acts as a compile-time constant unit trivector (the oriented unit volume of @code(ℝ³)).
+    Multiplying a scalar by this record yields a grade-3 trivector scaled along @code(e₁∧e₂∧e₃).
+    Satisfies @code((e₁∧e₂∧e₃)² = -1).
+    The pseudoscalar commutes with all elements of @code(Cl(3,0)) and generates
+    the duality transformation between vectors and bivectors.
+  }
+  TCL3Triversor123 = record
+    { Returns the trivector @code(AValue · e₁∧e₂∧e₃).
+      @code(AValue * e₁₂₃ = (0, ..., AValue))
+    }
+    class operator *(const AValue: double; const ASelf: TCL3Triversor123): TCL3Trivector;
+  end;
 
+  { Represents a general multivector of @code(Cl(3,0)) with physical dimensions.
+
+    Combines a @link(TCL3Multivector) value with a @link(TDimension), supporting
+    the full geometric algebra arithmetic while preserving dimensional consistency.
+    All eight grades (scalar, vector, bivector, trivector) are present simultaneously,
+    each carrying the same physical dimension stored in @code(FDim).
+
+    Arithmetic operations follow both the rules of @code(Cl(3,0)) and the rules
+    of dimensional analysis: incompatible dimensions raise an exception at runtime.
+    When the symbol @code(ADIMOFF) is defined, this type degenerates to
+    @link(TCL3Multivector) and all dimension checking is disabled.
+  }
   {$IFNDEF ADIMOFF}
   TCL3MultivecQuantity = record
   private
     FDim: TDimension;
     FValue: TCL3Multivector;
   public
+    { Returns @true if the two multivector quantities differ in dimension or in any component. }
     class operator <>(const ALeft, ARight: TCL3MultivecQuantity): boolean;
-    class operator = (const ALeft, ARight: TCL3MultivecQuantity): boolean;
-    class operator + (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ASelf: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: double; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: double): TCL3MultivecQuantity;
 
+    { Returns @true if both multivector quantities have the same dimension and all components are equal. }
+    class operator =(const ALeft, ARight: TCL3MultivecQuantity): boolean;
+
+    { Returns the component-wise sum of two multivector quantities.
+      Both operands must have the same dimension.
+    }
+    class operator +(const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Unary minus. Returns the negation of the multivector quantity.
+      Each component @code(mₖ) becomes @code(-mₖ).
+    }
+    class operator -(const ASelf: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the component-wise difference of two multivector quantities.
+      Both operands must have the same dimension.
+    }
+    class operator -(const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of two multivector quantities.
+      The resulting dimension is the product of the two dimensions.
+      The geometric product follows the full @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of two multivector quantities: @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft, ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a dimensionless real scalar divided by a multivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the inverse of @code(ARight).
+    }
+    class operator /(const ALeft: double; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a multivector quantity divided by a dimensionless real scalar.
+      Each component is divided by @code(ARight). The dimension is preserved.
+    }
+    class operator /(const ALeft: TCL3MultivecQuantity; const ARight: double): TCL3MultivecQuantity;
+
+    { Returns @true if the multivector quantity and the real quantity differ in dimension or in any component. }
     class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+
+    { Returns @true if the real quantity and the multivector quantity differ in dimension or in any component. }
     class operator <>(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
-    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
-    class operator = (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
-    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns @true if the multivector quantity equals the real quantity,
+      i.e. all non-scalar components are negligible.
+    }
+    class operator =(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+
+    { Returns @true if the real quantity equals the multivector quantity,
+      i.e. all non-scalar components are negligible.
+    }
+    class operator =(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
+
+    { Returns the sum of a multivector quantity and a real quantity.
+      Both operands must have the same dimension.
+    }
+    class operator +(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the sum of a real quantity and a multivector quantity.
+      Both operands must have the same dimension.
+    }
+    class operator +(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a multivector quantity and a real quantity.
+      Both operands must have the same dimension.
+    }
+    class operator -(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a real quantity and a multivector quantity.
+      Both operands must have the same dimension.
+    }
+    class operator -(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a multivector quantity and a real quantity.
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a real quantity and a multivector quantity.
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a multivector quantity divided by a real quantity: @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a real quantity divided by a multivector quantity: @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
   TCL3MultivecQuantity = TCL3Multivector;
   {$ENDIF}
 
-  { TCL3TrivecQuantity }
+  { Represents a pure trivector (grade-3 element) of @code(Cl(3,0)) with physical dimensions.
 
+    Combines a @link(TCL3Trivector) value with a @link(TDimension), supporting
+    geometric algebra arithmetic while preserving dimensional consistency.
+    The physical dimension is stored in @code(FDim) and shared by the single
+    pseudoscalar component @code(m123·e₁∧e₂∧e₃).
+
+    When combined with elements of other grades the result is promoted to a full
+    @link(TCL3MultivecQuantity). When the symbol @code(ADIMOFF) is defined, this
+    type degenerates to @link(TCL3Trivector) and all dimension checking is disabled.
+  }
   {$IFNDEF ADIMOFF}
   TCL3TrivecQuantity = record
   private
     FDim: TDimension;
     FValue: TCL3Trivector;
   public
+    { Implicit conversion from a trivector quantity to a full multivector quantity.
+      All components of the result are zero except @code(m123).
+      The dimension is preserved.
+    }
     class operator :=(const AValue: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    { Returns @true if the two trivector quantities differ in dimension or in their @code(m123) coefficient. }
     class operator <>(const ALeft, ARight: TCL3TrivecQuantity): boolean;
+
+    { Returns @true if the trivector quantity and the multivector quantity differ in dimension or in any component. }
     class operator <>(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+
+    { Returns @true if the multivector quantity and the trivector quantity differ in dimension or in any component. }
     class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
 
-    class operator = (const ALeft, ARight: TCL3TrivecQuantity): boolean;
-    class operator = (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
-    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
+    { Returns @true if both trivector quantities have the same dimension and equal @code(m123) coefficients. }
+    class operator =(const ALeft, ARight: TCL3TrivecQuantity): boolean;
 
-    class operator + (const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    { Returns @true if the trivector quantity equals the multivector quantity,
+      i.e. all non-trivector components of @code(ARight) are negligible.
+    }
+    class operator =(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
 
-    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    { Returns @true if the multivector quantity equals the trivector quantity,
+      i.e. all non-trivector components of @code(ALeft) are negligible.
+    }
+    class operator =(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): boolean;
 
-    class operator - (const ASelf: TCL3TrivecQuantity): TCL3TrivecQuantity;
-    class operator - (const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    { Returns the sum of two trivector quantities. Both operands must have the same dimension.
+      The result is a pure trivector quantity.
+    }
+    class operator +(const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 
-    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a trivector quantity and a multivector quantity.
+      Both operands must have the same dimension.
+    }
+    class operator +(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
-    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a multivector quantity and a trivector quantity.
+      Both operands must have the same dimension.
+    }
+    class operator +(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft: double; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
-    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: double): TCL3TrivecQuantity;
+    { Unary minus. Returns the negation of the trivector quantity.
+      The coefficient @code(m123) becomes @code(-m123).
+    }
+    class operator -(const ASelf: TCL3TrivecQuantity): TCL3TrivecQuantity;
 
-    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    { Returns the difference of two trivector quantities. Both operands must have the same dimension.
+      The result is a pure trivector quantity.
+    }
+    class operator -(const ALeft, ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 
-    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
-    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
-    class operator / (const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
-    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    { Returns the difference of a trivector quantity and a multivector quantity.
+      Both operands must have the same dimension.
+    }
+    class operator -(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a multivector quantity and a trivector quantity.
+      Both operands must have the same dimension.
+    }
+    class operator -(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a trivector quantity and a multivector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a multivector quantity and a trivector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of two trivector quantities.
+      Since @code(e₁₂₃² = -1), the result is a scalar quantity:
+      @code((m123₁·e₁₂₃) · (m123₂·e₁₂₃) = -m123₁·m123₂).
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+
+    { Returns the geometric product of a real quantity scalar and a trivector quantity.
+      The coefficient @code(m123) is scaled by @code(ALeft).
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+
+    { Returns the geometric product of a trivector quantity and a real quantity scalar.
+      The coefficient @code(m123) is scaled by @code(ARight).
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+
+    { Returns the geometric quotient of two trivector quantities: @code(ALeft * ARight⁻¹).
+      Since @code(e₁₂₃² = -1), the result is a scalar quantity:
+      @code((m123₁·e₁₂₃) / (m123₂·e₁₂₃) = -m123₁/m123₂).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+
+    { Returns the geometric quotient of a dimensionless real scalar divided by a trivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the inverse of @code(ARight).
+    }
+    class operator /(const ALeft: double; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+
+    { Returns the geometric quotient of a trivector quantity divided by a dimensionless real scalar.
+      The coefficient @code(m123) is divided by @code(ARight). The dimension is preserved.
+    }
+    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: double): TCL3TrivecQuantity;
+
+    { Returns the geometric quotient of a trivector quantity divided by a multivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a multivector quantity divided by a trivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3MultivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a trivector quantity divided by a real quantity scalar:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+
+    { Returns the geometric quotient of a real quantity scalar divided by a trivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+
+    { Returns the sum of a trivector quantity and a real quantity. Both operands must have the same dimension.
+      The result is a full multivector quantity with the scalar part from @code(ARight) and grade-3 part from @code(ALeft).
+    }
+    class operator +(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the sum of a real quantity and a trivector quantity. Both operands must have the same dimension.
+      The result is a full multivector quantity with the scalar part from @code(ALeft) and grade-3 part from @code(ARight).
+    }
+    class operator +(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a trivector quantity and a real quantity. Both operands must have the same dimension.
+      The result is a full multivector quantity with negated scalar part from @code(ARight) and grade-3 part from @code(ALeft).
+    }
+    class operator -(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a real quantity and a trivector quantity. Both operands must have the same dimension.
+      The result is a full multivector quantity with scalar part from @code(ALeft) and negated grade-3 part from @code(ARight).
+    }
+    class operator -(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
   TCL3TrivecQuantity = TCL3Trivector;
   {$ENDIF}
 
-  { TCL3BivecQuantity }
+  { Represents a pure bivector (grade-2 element) of @code(Cl(3,0)) with physical dimensions.
 
+    Combines a @link(TCL3Bivector) value with a @link(TDimension), supporting
+    geometric algebra arithmetic while preserving dimensional consistency.
+    The physical dimension is stored in @code(FDim) and shared by the three
+    bivector components @code(m12·e₁∧e₂ + m13·e₁∧e₃ + m23·e₂∧e₃).
+
+    When combined with elements of other grades the result is promoted to a full
+    @link(TCL3MultivecQuantity). The geometric product of two bivector quantities
+    produces a mixed-grade result (scalar + bivector), hence a full
+    @link(TCL3MultivecQuantity). When the symbol @code(ADIMOFF) is defined, this
+    type degenerates to @link(TCL3Bivector) and all dimension checking is disabled.
+  }
   {$IFNDEF ADIMOFF}
   TCL3BivecQuantity = record
   private
     FDim: TDimension;
     FValue: TCL3Bivector;
   public
+    { Implicit conversion from a bivector quantity to a full multivector quantity.
+      All components of the result are zero except @code(m12), @code(m13), @code(m23).
+      The dimension is preserved.
+    }
     class operator :=(const AValue: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns @true if the two bivector quantities differ in dimension or in any bivector component. }
     class operator <>(const ALeft, ARight: TCL3BivecQuantity): boolean;
+
+    { Returns @true if the bivector quantity and the multivector quantity differ in dimension or in any component. }
     class operator <>(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+
+    { Returns @true if the multivector quantity and the bivector quantity differ in dimension or in any component. }
     class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): boolean;
 
-    class operator = (const ALeft, ARight: TCL3BivecQuantity): boolean;
-    class operator = (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
-    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): boolean;
+    { Returns @true if both bivector quantities have the same dimension and all corresponding components are equal. }
+    class operator =(const ALeft, ARight: TCL3BivecQuantity): boolean;
 
-    class operator + (const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    { Returns @true if the bivector quantity equals the multivector quantity,
+      i.e. all non-bivector components of @code(ARight) are negligible.
+    }
+    class operator =(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): boolean;
 
-    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    { Returns @true if the multivector quantity equals the bivector quantity,
+      i.e. all non-bivector components of @code(ALeft) are negligible.
+    }
+    class operator =(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): boolean;
 
-    class operator - (const ASelf: TCL3BivecQuantity): TCL3BivecQuantity;
-    class operator - (const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    { Returns the component-wise sum of two bivector quantities. Both operands must have the same dimension.
+      The result is a pure bivector quantity.
+    }
+    class operator +(const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 
-    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a bivector quantity and a trivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-2 components from @code(ALeft) and grade-3 component from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 
-    class operator * (const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a trivector quantity and a bivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-3 component from @code(ALeft) and grade-2 components from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 
-    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a bivector quantity and a multivector quantity. Both operands must have the same dimension.
+      The bivector contributes only to the grade-2 components.
+    }
+    class operator +(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a multivector quantity and a bivector quantity. Both operands must have the same dimension.
+      The bivector contributes only to the grade-2 components.
+    }
+    class operator +(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft: double; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
-    class operator / (const ALeft: TCL3BivecQuantity; const ARight: double): TCL3BivecQuantity;
+    { Unary minus. Returns the negation of the bivector quantity.
+      Each component @code(mₖ) becomes @code(-mₖ).
+    }
+    class operator -(const ASelf: TCL3BivecQuantity): TCL3BivecQuantity;
 
-    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    { Returns the component-wise difference of two bivector quantities. Both operands must have the same dimension.
+      The result is a pure bivector quantity.
+    }
+    class operator -(const ALeft, ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 
-    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
-    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
-    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    { Returns the difference of a bivector quantity and a trivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-2 components from @code(ALeft) and negated grade-3 component from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a trivector quantity and a bivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-3 component from @code(ALeft) and negated grade-2 components from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a bivector quantity and a multivector quantity. Both operands must have the same dimension.
+      The bivector contributes only to the grade-2 components.
+    }
+    class operator -(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a multivector quantity and a bivector quantity. Both operands must have the same dimension.
+      The bivector contributes only to the grade-2 components.
+    }
+    class operator -(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of two bivector quantities.
+      The result is a mixed-grade element (scalar + bivector), hence a full @link(TCL3MultivecQuantity).
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a bivector quantity and a multivector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a bivector quantity and a trivector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a trivector quantity and a bivector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a multivector quantity and a bivector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a real quantity scalar and a bivector quantity.
+      Each component is scaled by @code(ALeft).
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+
+    { Returns the geometric product of a bivector quantity and a real quantity scalar.
+      Each component is scaled by @code(ARight).
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+
+    { Returns the geometric quotient of two bivector quantities: @code(ALeft * ARight⁻¹).
+      The result is a mixed-grade element, hence a full @link(TCL3MultivecQuantity).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft, ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a dimensionless real scalar divided by a bivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The inverse of a bivector @code(B) is @code(B⁻¹ = -B / |B|²).
+      The resulting dimension is the inverse of @code(ARight).
+    }
+    class operator /(const ALeft: double; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+
+    { Returns the geometric quotient of a bivector quantity divided by a dimensionless real scalar.
+      Each component is divided by @code(ARight). The dimension is preserved.
+    }
+    class operator /(const ALeft: TCL3BivecQuantity; const ARight: double): TCL3BivecQuantity;
+
+    { Returns the geometric quotient of a bivector quantity divided by a trivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3BivecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a trivector quantity divided by a bivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a bivector quantity divided by a multivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3BivecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a multivector quantity divided by a bivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3MultivecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a bivector quantity divided by a real quantity scalar:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+
+    { Returns the geometric quotient of a real quantity scalar divided by a bivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+
+    { Returns the sum of a bivector quantity and a real quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with @code(m0 = ARight) and the bivector components of @code(ALeft).
+    }
+    class operator +(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the sum of a real quantity and a bivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with @code(m0 = ALeft) and the bivector components of @code(ARight).
+    }
+    class operator +(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a bivector quantity and a real quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with @code(m0 = -ARight) and the bivector components of @code(ALeft).
+    }
+    class operator -(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a real quantity and a bivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with @code(m0 = ALeft) and negated bivector components of @code(ARight).
+    }
+    class operator -(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
   TCL3BivecQuantity = TCL3Bivector;
   {$ENDIF}
 
-  { TCL3VecQuantity }
+  { Represents a pure vector (grade-1 element) of @code(Cl(3,0)) with physical dimensions.
 
+    Combines a @link(TCL3Vector) value with a @link(TDimension), supporting
+    geometric algebra arithmetic while preserving dimensional consistency.
+    The physical dimension is stored in @code(FDim) and shared by the three
+    vector components @code(m1·e₁ + m2·e₂ + m3·e₃).
+
+    When combined with elements of other grades the result is generally promoted
+    to a full @link(TCL3MultivecQuantity), with the following notable exceptions:
+    @unorderedList(
+      @item(The geometric product @code(v * T) and @code(T * v) with a trivector
+            returns a @link(TCL3BivecQuantity), since @code(eᵢ · e₁₂₃ = ±eⱼ∧eₖ).)
+      @item(The geometric quotient @code(v / T) and @code(T / v) analogously
+            returns a @link(TCL3BivecQuantity).)
+    )
+    When the symbol @code(ADIMOFF) is defined, this type degenerates to
+    @link(TCL3Vector) and all dimension checking is disabled.
+  }
   {$IFNDEF ADIMOFF}
   TCL3VecQuantity = record
   private
     FDim: TDimension;
     FValue: TCL3Vector;
   public
+    { Implicit conversion from a vector quantity to a full multivector quantity.
+      All components of the result are zero except @code(m1), @code(m2), @code(m3).
+      The dimension is preserved.
+    }
     class operator :=(const AValue: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns @true if the two vector quantities differ in dimension or in any vector component. }
     class operator <>(const ALeft, ARight: TCL3VecQuantity): boolean;
+
+    { Returns @true if the vector quantity and the multivector quantity differ in dimension or in any component. }
     class operator <>(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
+
+    { Returns @true if the multivector quantity and the vector quantity differ in dimension or in any component. }
     class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): boolean;
 
-    class operator = (const ALeft, ARight: TCL3VecQuantity): boolean;
-    class operator = (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
-    class operator = (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): boolean;
+    { Returns @true if both vector quantities have the same dimension and all corresponding components are equal. }
+    class operator =(const ALeft, ARight: TCL3VecQuantity): boolean;
 
-    class operator + (const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
+    { Returns @true if the vector quantity equals the multivector quantity,
+      i.e. all non-vector components of @code(ARight) are negligible.
+    }
+    class operator =(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): boolean;
 
-    class operator + (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    { Returns @true if the multivector quantity equals the vector quantity,
+      i.e. all non-vector components of @code(ALeft) are negligible.
+    }
+    class operator =(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): boolean;
 
-    class operator - (const ASelf: TCL3VecQuantity): TCL3VecQuantity;
-    class operator - (const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
+    { Returns the component-wise sum of two vector quantities. Both operands must have the same dimension.
+      The result is a pure vector quantity.
+    }
+    class operator +(const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
 
-    class operator - (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a vector quantity and a bivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-1 components from @code(ALeft) and grade-2 components from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 
-    class operator * (const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a bivector quantity and a vector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-2 components from @code(ALeft) and grade-1 components from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 
-    class operator * (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
-    class operator * (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
-    class operator * (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a vector quantity and a trivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-1 components from @code(ALeft) and grade-3 component from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a trivector quantity and a vector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-3 component from @code(ALeft) and grade-1 components from @code(ARight).
+    }
+    class operator +(const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft: double; const ARight: TCL3VecQuantity): TCL3VecQuantity;
-    class operator / (const ALeft: TCL3VecQuantity; const ARight: double): TCL3VecQuantity;
+    { Returns the sum of a vector quantity and a multivector quantity. Both operands must have the same dimension.
+      The vector contributes only to the grade-1 components.
+    }
+    class operator +(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
-    class operator / (const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
-    class operator / (const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
-    class operator / (const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
-    class operator / (const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    { Returns the sum of a multivector quantity and a vector quantity. Both operands must have the same dimension.
+      The vector contributes only to the grade-1 components.
+    }
+    class operator +(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 
-    class operator + (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator + (const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
-    class operator - (const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
-    class operator * (const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
-    class operator * (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
-    class operator / (const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
-    class operator / (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+    { Unary minus. Returns the negation of the vector quantity.
+      Each component @code(mₖ) becomes @code(-mₖ).
+    }
+    class operator -(const ASelf: TCL3VecQuantity): TCL3VecQuantity;
+
+    { Returns the component-wise difference of two vector quantities. Both operands must have the same dimension.
+      The result is a pure vector quantity.
+    }
+    class operator -(const ALeft, ARight: TCL3VecQuantity): TCL3VecQuantity;
+
+    { Returns the difference of a vector quantity and a bivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-1 components from @code(ALeft) and negated grade-2 components from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a bivector quantity and a vector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-2 components from @code(ALeft) and negated grade-1 components from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a vector quantity and a trivector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-1 components from @code(ALeft) and negated grade-3 component from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a trivector quantity and a vector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with grade-3 component from @code(ALeft) and negated grade-1 components from @code(ARight).
+    }
+    class operator -(const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a vector quantity and a multivector quantity. Both operands must have the same dimension.
+       The vector contributes only to the grade-1 components.
+    }
+    class operator -(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a multivector quantity and a vector quantity. Both operands must have the same dimension.
+      The vector contributes only to the grade-1 components.
+    }
+    class operator -(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of two vector quantities.
+      The result is a mixed-grade element (scalar + bivector), hence a full @link(TCL3MultivecQuantity).
+      @code((u·v) = (u·v)_scalar + (u∧v)_bivector).
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a vector quantity and a bivector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a vector quantity and a trivector quantity.
+      Since @code(eᵢ · e₁₂₃ = ±eⱼ∧eₖ), the result is a pure bivector quantity.
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
+
+    { Returns the geometric product of a vector quantity and a multivector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a bivector quantity and a vector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a trivector quantity and a vector quantity.
+      Since @code(e₁₂₃ · eᵢ = ±eⱼ∧eₖ), the result is a pure bivector quantity.
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
+
+    { Returns the geometric product of a multivector quantity and a vector quantity.
+      The resulting dimension is the product of the two dimensions.
+      Grade mixing occurs according to the @code(Cl(3,0)) multiplication rules.
+    }
+    class operator *(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric product of a real quantity scalar and a vector quantity.
+      Each component is scaled by @code(ALeft).
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+
+    { Returns the geometric product of a vector quantity and a real quantity scalar.
+      Each component is scaled by @code(ARight).
+      The resulting dimension is the product of the two dimensions.
+    }
+    class operator *(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+
+    { Returns the geometric quotient of two vector quantities: @code(ALeft * ARight⁻¹).
+      The result is a mixed-grade element (scalar + bivector), hence a full @link(TCL3MultivecQuantity).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft, ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a dimensionless real scalar divided by a vector quantity:
+      @code(ALeft * ARight⁻¹).
+      The inverse of a vector @code(v) is @code(v⁻¹ = v / |v|²).
+      The resulting dimension is the inverse of @code(ARight).
+    }
+    class operator /(const ALeft: double; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+
+    { Returns the geometric quotient of a vector quantity divided by a dimensionless real scalar.
+      Each component is divided by @code(ARight). The dimension is preserved.
+    }
+    class operator /(const ALeft: TCL3VecQuantity; const ARight: double): TCL3VecQuantity;
+
+    { Returns the geometric quotient of a vector quantity divided by a bivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3VecQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a vector quantity divided by a trivector quantity:
+      @code(ALeft * ARight⁻¹).
+      Since @code(eᵢ · e₁₂₃⁻¹ = ±eⱼ∧eₖ), the result is a pure bivector quantity.
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3VecQuantity; const ARight: TCL3TrivecQuantity): TCL3BivecQuantity;
+
+    { Returns the geometric quotient of a vector quantity divided by a multivector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3VecQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a bivector quantity divided by a vector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3BivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a trivector quantity divided by a vector quantity:
+      @code(ALeft * ARight⁻¹).
+      Since @code(e₁₂₃ · eᵢ⁻¹ = ±eⱼ∧eₖ), the result is a pure bivector quantity.
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: TCL3VecQuantity): TCL3BivecQuantity;
+
+    { Returns the geometric quotient of a multivector quantity divided by a vector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3MultivecQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the geometric quotient of a vector quantity divided by a real quantity scalar:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+
+    { Returns the geometric quotient of a real quantity scalar divided by a vector quantity:
+      @code(ALeft * ARight⁻¹).
+      The resulting dimension is the ratio of the two dimensions.
+    }
+    class operator /(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+
+    { Returns the sum of a vector quantity and a real quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with @code(m0 = ARight) and the vector components of @code(ALeft).
+    }
+    class operator +(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the sum of a real quantity and a vector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with @code(m0 = ALeft) and the vector components of @code(ARight).
+    }
+    class operator +(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a vector quantity and a real quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with @code(m0 = -ARight) and the vector components of @code(ALeft).
+    }
+    class operator -(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+
+    { Returns the difference of a real quantity and a vector quantity.
+      Both operands must have the same dimension. The result is a full multivector
+      quantity with @code(m0 = ALeft) and negated vector components of @code(ARight).
+    }
+    class operator -(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
   TCL3VecQuantity = TCL3Vector;
   {$ENDIF}
 
 const
+  { The zero multivector of @code(Cl(3,0)).
+    All eight grade components are set to zero:
+    @code(0 = 0 + 0·e₁ + 0·e₂ + 0·e₃ + 0·e₁₂ + 0·e₁₃ + 0·e₂₃ + 0·e₁₂₃).
+    Useful as a neutral element for addition or as an initial accumulator
+    in multivector summations.
+  }
   CL3NullMultivector : TCL3Multivector = (fm0:0.0; fm1:0.0; fm2:0.0; fm3:0.0; fm12:0.0; fm13:0.0; fm23:0.0; fm123:0.0);
-  CL3NullTrivector   : TCL3Trivector   = (fm123:0.0);
-  CL3NullBivector    : TCL3Bivector    = (fm12:0.0; fm13:0.0; fm23:0.0);
-  CL3NullVector      : TCL3Vector      = (fm1: 0.0; fm2: 0.0; fm3: 0.0);
-  CL3NullScalar      : double          = (0.0);
+
+  { The zero trivector of @code(Cl(3,0)).
+    The pseudoscalar coefficient is zero: @code(0·e₁∧e₂∧e₃).
+    Useful as a neutral element for trivector addition.
+  }
+  CL3NullTrivector : TCL3Trivector = (fm123:0.0);
+
+  { The zero bivector of @code(Cl(3,0)).
+    All three bivector coefficients are zero:
+    @code(0·e₁∧e₂ + 0·e₁∧e₃ + 0·e₂∧e₃).
+    Useful as a neutral element for bivector addition.
+  }
+  CL3NullBivector : TCL3Bivector = (fm12:0.0; fm13:0.0; fm23:0.0);
+
+  { The zero vector of @code(Cl(3,0)).
+    All three vector coefficients are zero:
+    @code(0·e₁ + 0·e₂ + 0·e₃).
+    Useful as a neutral element for vector addition.
+  }
+  CL3NullVector : TCL3Vector = (fm1:0.0; fm2:0.0; fm3:0.0);
+
+  { The zero scalar of @code(Cl(3,0)).
+    Equivalent to the real number @code(0.0).
+    Useful as a neutral element for scalar addition or as a default
+    return value for operations that yield a dimensionless zero.
+  }
+  CL3NullScalar : double = (0.0);
 
 type
-
-  { TComplexQuantityHelper }
-
+  { Record helper for @link(TComplexQuantity) providing additional operations
+    on complex physical quantities.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TComplexQuantityHelper = record helper for TComplexQuantity
+
+    { Returns the complex conjugate of the quantity.
+      If @code(z = (a + i·b) [dim]* ), the conjugate is @code(z* = (a - i·b) [dim]).
+      The physical dimension is preserved.
+    }
     function Conjugate: TComplexQuantity;
+
+    { Returns the reciprocal of the complex quantity: @code(1 / z).
+      The resulting dimension is the inverse of the original dimension.
+    }
     function Reciprocal: TComplexQuantity;
+
+    { Returns the modulus (magnitude) of the complex quantity as a real quantity.
+      Defined as @code(|z| = √(Re² + Im²)).
+      The resulting dimension equals the dimension of the original quantity.
+    }
     function Norm: TQuantity;
+
+    { Returns the squared modulus of the complex quantity as a real quantity.
+      Defined as @code(|z|² = Re² + Im²).
+      The resulting dimension is the square of the dimension of the original quantity.
+      Avoids the square root computation of @link(Norm).
+    }
     function SquaredNorm: TQuantity;
   end;
   {$ENDIF}
 
+  { Fixed-size array of 2 complex quantities.
+    Used to store eigenvalues of @link(TC2MatrixQuantity) or other
+    2-element collections of @link(TComplexQuantity).
+  }
   TC2ArrayOfQuantity = array[1..T2DSpace.N] of TComplexQuantity;
+
+  { Fixed-size array of 3 complex quantities.
+    Used to store eigenvalues of @link(TC3MatrixQuantity) or other
+    3-element collections of @link(TComplexQuantity).
+  }
   TC3ArrayOfQuantity = array[1..T3DSpace.N] of TComplexQuantity;
+
+  { Fixed-size array of 4 complex quantities.
+    Used to store eigenvalues of @link(TC4MatrixQuantity) or other
+    4-element collections of @link(TComplexQuantity).
+  }
   TC4ArrayOfQuantity = array[1..T4DSpace.N] of TComplexQuantity;
 
+  { Fixed-size array of 2 complex quantity vectors (@link(TC2VecQuantity)).
+    Used to store eigenvectors of @link(TC2MatrixQuantity).
+  }
   TC2ArrayOfVecQuantity = array[1..T2DSpace.N] of TC2VecQuantity;
+
+  { Fixed-size array of 3 complex quantity vectors (@link(TC3VecQuantity)).
+    Used to store eigenvectors of @link(TC3MatrixQuantity).
+  }
   TC3ArrayOfVecQuantity = array[1..T3DSpace.N] of TC3VecQuantity;
+
+  { Fixed-size array of 4 complex quantity vectors (@link(TC4VecQuantity)).
+    Used to store eigenvectors of @link(TC4MatrixQuantity).
+  }
   TC4ArrayOfVecQuantity = array[1..T4DSpace.N] of TC4VecQuantity;
 
   { TC2MatrixQuantityHelper }
 
+  { Record helper for @link(TC2MatrixQuantity) providing additional operations
+    specific to 2×2 complex quantity matrices.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TC2MatrixQuantityHelper = record helper for TC2MatrixQuantity
+
+    { Returns the diagonal matrix built from the given eigenvalues.
+      The result is a 2×2 diagonal @link(TC2MatrixQuantity) with the
+      eigenvalues on the main diagonal and zeros elsewhere.
+      @param(AEigenvalues The eigenvalues, typically computed via @link(Eigenvalues).)
+    }
     function Diagonalize(const AEigenvalues: TC2ArrayOfQuantity): TC2MatrixQuantity;
+
+    { Returns the element-wise complex conjugate of the matrix.
+      Each element @code(a[i,j] = (x + i·y) [dim]) becomes @code((x - i·y) [dim]).
+      The physical dimension of each element is preserved.
+    }
     function Conjugate: TC2MatrixQuantity;
+
+    { Returns the determinant of the 2×2 complex quantity matrix.
+      Defined as @code(det(A) = a₁₁·a₂₂ - a₁₂·a₂₁).
+      The resulting dimension is the square of the element dimension.
+    }
     function Determinant: TComplexQuantity;
+
+    { Returns the eigenvalues of the 2×2 complex quantity matrix
+      as a fixed-size array of @link(TComplexQuantity).
+      The eigenvalues carry the same dimension as the matrix elements.
+    }
     function Eigenvalues: TC2ArrayOfQuantity;
+
+    { Returns the eigenvectors of the 2×2 complex quantity matrix
+      corresponding to the given eigenvalues, as a fixed-size array
+      of dimensionless @link(TC2Vector).
+      @param(AEigenValues The eigenvalues, computed via @link(Eigenvalues).)
+    }
     function Eigenvectors(const AEigenValues: TC2ArrayOfQuantity): TC2ArrayOfVector;
+
+    { Returns the inverse of the matrix given its precomputed determinant.
+      The resulting dimension is the inverse of the element dimension.
+      @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
+    }
     function Reciprocal(const ADeterminant: TComplexQuantity): TC2MatrixQuantity;
+
+    { Returns the conjugate transpose (Hermitian adjoint) of the matrix: @code(A† = (Aᵀ)* ).
+      Each element @code([i,j]) of the result is the complex conjugate of @code([j,i])
+      of the original. The physical dimension of each element is preserved.
+    }
     function TransposeConjugate: TC2MatrixQuantity;
   end;
   {$ENDIF}
 
-  { TC2VecQuantityHelper }
-
+  { Record helper for @link(TC2VecQuantity) providing additional operations
+    specific to 2-component complex quantity vectors.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TC2VecQuantityHelper = record helper for TC2VecQuantity
+
+    { Returns the Hermitian inner product of two 2-component complex quantity vectors.
+      Defined as @code(〈u, v〉 = Σ conj(uᵢ) · vᵢ).
+      The conjugate of the left operand is used, consistent with the
+      physics convention for Hermitian inner products.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right-hand operand.)
+    }
     function Dot(const AVector: TC2VecQuantity): TComplexQuantity;
+
+    { Returns the element-wise complex conjugate of the vector.
+      Each component @code(vᵢ = (a + i·b) [dim]) becomes @code((a - i·b) [dim]).
+      The physical dimension of each component is preserved.
+    }
     function Conjugate: TC2VecQuantity;
   end;
   {$ENDIF}
 
-  { TC3VecQuantityHelper }
-
+  { Record helper for @link(TC3VecQuantity) providing additional operations
+    specific to 3-component complex quantity vectors.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TC3VecQuantityHelper = record helper for TC3VecQuantity
+
+    { Returns the Hermitian inner product of two 3-component complex quantity vectors.
+      Defined as @code(〈u, v〉 = Σ conj(uᵢ) · vᵢ).
+      The conjugate of the left operand is used, consistent with the
+      physics convention for Hermitian inner products.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right-hand operand.)
+    }
     function Dot(const AVector: TC3VecQuantity): TComplexQuantity;
+
+    { Returns the element-wise complex conjugate of the vector.
+      Each component @code(vᵢ = (a + i·b) [dim]) becomes @code((a - i·b) [dim]).
+      The physical dimension of each component is preserved.
+    }
     function Conjugate: TC3VecQuantity;
   end;
   {$ENDIF}
 
-  { TC4VecQuantityHelper }
-
+  { Record helper for @link(TC4VecQuantity) providing additional operations
+    specific to 4-component complex quantity vectors.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TC4VecQuantityHelper = record helper for TC4VecQuantity
+
+    { Returns the Hermitian inner product of two 4-component complex quantity vectors.
+      Defined as @code(〈u, v〉 = Σ conj(uᵢ) · vᵢ).
+      The conjugate of the left operand is used, consistent with the
+      physics convention for Hermitian inner products.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right-hand operand.)
+    }
     function Dot(const AVector: TC4VecQuantity): TComplexQuantity;
+
+    { Returns the element-wise complex conjugate of the vector.
+      Each component @code(vᵢ = (a + i·b) [dim]) becomes @code((a - i·b) [dim]).
+      The physical dimension of each component is preserved.
+    }
     function Conjugate: TC4VecQuantity;
   end;
   {$ENDIF}
 
-  { TR2VecQuantityHelper }
-
+  { Record helper for @link(TR2VecQuantity) providing additional operations
+    specific to 2-component real quantity vectors.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TR2VecQuantityHelper = record helper for TR2VecQuantity
+
+    { Returns the dot product of two 2-component real quantity vectors.
+      Defined as @code(u·v = u₁v₁ + u₂v₂).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right-hand operand.)
+    }
     function Dot(const AVector: TR2VecQuantity): TQuantity;
   end;
   {$ENDIF}
 
-  { TR3VecQuantityHelper }
-
+  { Record helper for @link(TR3VecQuantity) providing additional operations
+    specific to 3-component real quantity vectors.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TR3VecQuantityHelper = record helper for TR3VecQuantity
+
+    { Returns the dot product of two 3-component real quantity vectors.
+      Defined as @code(u·v = u₁v₁ + u₂v₂ + u₃v₃).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right-hand operand.)
+    }
     function Dot(const AVector: TR3VecQuantity): TQuantity;
+
+    { Returns the cross product of two 3-component real quantity vectors.
+      Defined as @code(u×v = (u₂v₃ - u₃v₂, u₃v₁ - u₁v₃, u₁v₂ - u₂v₁)).
+      The result is a vector perpendicular to both operands with magnitude
+      @code(|u||v|sin(θ)).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right-hand operand.)
+    }
     function Cross(const AVector: TR3VecQuantity): TR3VecQuantity;
   end;
   {$ENDIF}
 
-  { TR4VecQuantityHelper }
-
+  { Record helper for @link(TR4VecQuantity) providing additional operations
+    specific to 4-component real quantity vectors.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TR4VecQuantityHelper = record helper for TR4VecQuantity
+
+    { Returns the dot product of two 4-component real quantity vectors.
+      Defined as @code(u·v = u₁v₁ + u₂v₂ + u₃v₃ + u₄v₄).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right-hand operand.)
+    }
     function Dot(const AVector: TR4VecQuantity): TQuantity;
   end;
   {$ENDIF}
 
-  { TCL3MultivecQuantityHelper }
+  { Record helper for @link(TCL3MultivecQuantity) providing the full set of
+    geometric algebra operations on multivector quantities of @code(Cl(3,0)).
 
+    All operations follow the conventions of Clifford algebra over @code(ℝ³)
+    with dimensional analysis. Incompatible dimensions raise an exception at runtime.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TCL3MultivecQuantityHelper = record helper for TCL3MultivecQuantity
+
+    { Returns the dual of the multivector quantity with respect to the pseudoscalar @code(e₁₂₃).
+      Defined as @code(M* = M · e₁₂₃⁻¹).
+      Maps grade-@code(k) components to grade-@code(3-k) components.
+      The physical dimension is preserved.
+    }
     function Dual: TCL3MultivecQuantity;
+
+    { Returns the inverse of the multivector quantity under the geometric product.
+      Defined as @code(M⁻¹) such that @code(M · M⁻¹ = 1).
+      The resulting dimension is the inverse of the original dimension.
+      Not all multivectors are invertible; behaviour is undefined if @code(M)
+      has no inverse.
+    }
     function Inverse: TCL3MultivecQuantity;
+
+    { Returns the reverse of the multivector quantity.
+      The reverse of a grade-@code(k) blade changes sign by @code((-1)^(k·(k-1)/2)).
+      For a general multivector: @code(M̃ = m0 + m1·e₁ + m2·e₂ + m3·e₃
+      - m12·e₁₂ - m13·e₁₃ - m23·e₂₃ - m123·e₁₂₃).
+      The physical dimension is preserved.
+    }
     function Reverse: TCL3MultivecQuantity;
+
+    { Returns the Clifford conjugate of the multivector quantity.
+      Combines reversion and grade involution:
+      @code(M† = m0 - m1·e₁ - m2·e₂ - m3·e₃ - m12·e₁₂ - m13·e₁₃ - m23·e₂₃ + m123·e₁₂₃).
+      The physical dimension is preserved.
+    }
     function Conjugate: TCL3MultivecQuantity;
+
+    { Returns the right reciprocal of the multivector quantity: @code(M̃ / (M · M̃)).
+      Satisfies @code(M · Reciprocal(M) = 1).
+      The resulting dimension is the inverse of the original dimension.
+    }
     function Reciprocal: TCL3MultivecQuantity;
+
+    { Returns the left reciprocal of the multivector quantity: @code(M̃ / (M̃ · M)).
+      Satisfies @code(LeftReciprocal(M) · M = 1).
+      For non-degenerate multivectors, left and right reciprocals coincide.
+      The resulting dimension is the inverse of the original dimension.
+    }
     function LeftReciprocal: TCL3MultivecQuantity;
+
+    { Returns the unit multivector in the same direction.
+      Each component is divided by @link(Norm).
+      The physical dimension is preserved.
+    }
     function Normalized: TCL3MultivecQuantity;
+
+    { Returns the norm of the multivector quantity: @code(|M| = √(M · M̃)).
+      The resulting dimension equals the dimension of the original quantity.
+    }
     function Norm: TQuantity;
+
+    { Returns the squared norm of the multivector quantity: @code(|M|² = M · M̃).
+      The resulting dimension is the square of the original dimension.
+      Avoids the square root computation of @link(Norm).
+    }
     function SquaredNorm: TQuantity;
 
+    { Returns the inner (dot) product of the multivector quantity and a vector quantity.
+      Lowers the grade of each component by 1.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-1 right operand.)
+    }
     function Dot(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the inner (dot) product of the multivector quantity and a bivector quantity.
+      Lowers the grade of each component by 2.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-2 right operand.)
+    }
     function Dot(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the inner (dot) product of the multivector quantity and a trivector quantity.
+      Lowers the grade of each component by 3.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-3 right operand.)
+    }
     function Dot(const AVector: TCL3TrivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the inner (dot) product of two multivector quantities.
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right operand.)
+    }
     function Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the outer (wedge) product of the multivector quantity and a vector quantity.
+      Raises the grade of each component by 1.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-1 right operand.)
+    }
     function Wedge(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the outer (wedge) product of the multivector quantity and a bivector quantity.
+      Raises the grade of each component by 2. Components of grade ≥ 2 contribute zero.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-2 right operand.)
+    }
     function Wedge(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the outer (wedge) product of the multivector quantity and a trivector quantity.
+      Only the scalar part of the multivector contributes to a non-zero result.
+      The result is a pure @link(TCL3TrivecQuantity).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-3 right operand.)
+    }
     function Wedge(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the outer (wedge) product of two multivector quantities.
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right operand.)
+    }
     function Wedge(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the projection of the multivector quantity onto a vector quantity subspace.
+      Defined as: @code(proj(M, v) = (M · v⁻¹) ∧ v).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The vector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the projection of the multivector quantity onto a bivector quantity subspace.
+      Defined as: @code(proj(M, B) = (M · B⁻¹) ∧ B).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The bivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the projection of the multivector quantity onto a trivector quantity subspace.
+      Defined as: @code(proj(M, T) = (M · T⁻¹) ∧ T).
+      Since the trivector spans all of @code(ℝ³), the projection returns the
+      multivector quantity unchanged.
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The trivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3TrivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the projection of the multivector quantity onto a multivector quantity subspace.
+      Defined as: @code(proj(M₁, M₂) = (M₁ · M₂⁻¹) ∧ M₂).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The multivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the rejection of the multivector quantity from a vector quantity subspace.
+      Defined as: @code(rej(M, v) = M - proj(M, v)).
+      The result is the component of @code(M) orthogonal to @code(v).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The vector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the rejection of the multivector quantity from a bivector quantity subspace.
+      Defined as: @code(rej(M, B) = M - proj(M, B)).
+      The result is the component of @code(M) orthogonal to @code(B).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The bivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the rejection of the multivector quantity from a trivector quantity subspace.
+      Defined as: @code(rej(M, T) = M - proj(M, T)).
+      In @code(ℝ³) the rejection of a general multivector from a trivector
+      reduces to a scalar quantity.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The trivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+
+    { Returns the rejection of the multivector quantity from a multivector quantity subspace.
+      Defined as: @code(rej(M₁, M₂) = M₁ - proj(M₁, M₂)).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The multivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the reflection of the multivector quantity through a vector quantity.
+      Defined as: @code(reflect(M, v) = -v · M · v⁻¹).
+      The physical dimension is preserved.
+      @param(AVector The vector quantity defining the reflection hyperplane normal.)
+    }
     function Reflection(const AVector: TCL3VecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the reflection of the multivector quantity through a bivector quantity.
+      Defined as: @code(reflect(M, B) = -B · M · B⁻¹).
+      The physical dimension is preserved.
+      @param(AVector The bivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the reflection of the multivector quantity through a trivector quantity.
+      Defined as: @code(reflect(M, T) = -T · M · T⁻¹).
+      The physical dimension is preserved.
+      @param(AVector The trivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3TrivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the reflection of the multivector quantity through a multivector quantity.
+      Defined as: @code(reflect(M₁, M₂) = -M₂ · M₁ · M₂⁻¹).
+      The physical dimension is preserved.
+      @param(AVector The multivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the multivector quantity rotated by the rotor defined by two vector quantities.
+      The rotor is constructed as @code(R = AVector2 · AVector1) (normalised to a unit rotor).
+      The rotation is applied as: @code(M' = R · M · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first vector quantity defining the rotation plane.)
+      @param(AVector2 The second vector quantity defining the rotation plane.)
+    }
     function Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3MultivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3MultivecQuantity; overload;
-    function Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity;overload;
 
+    { Returns the multivector quantity rotated by the rotor defined by two bivector quantities.
+      The rotation is applied as: @code(M' = R · M · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first bivector quantity defining the rotor.)
+      @param(AVector2 The second bivector quantity defining the rotor.)
+    }
+    function Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the multivector quantity rotated by the rotor defined by two trivector quantities.
+      The rotation is applied as: @code(M' = R · M · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first trivector quantity defining the rotor.)
+      @param(AVector2 The second trivector quantity defining the rotor.)
+    }
+    function Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns the multivector quantity rotated by the rotor defined by two multivector quantities.
+      The rotation is applied as: @code(M' = R · M · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first multivector quantity defining the rotor.)
+      @param(AVector2 The second multivector quantity defining the rotor.)
+    }
+    function Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
+
+    { Returns @true if the multivector quantity is numerically equal to the given
+      multivector quantity within the default floating point tolerance.
+      @param(AVector The multivector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3MultivecQuantity): boolean;
+
+    { Returns @true if the multivector quantity is numerically equal to the given
+      trivector quantity within the default floating point tolerance.
+      All non-trivector components must be negligible.
+      @param(AVector The trivector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3TrivecQuantity): boolean;
+
+    { Returns @true if the multivector quantity is numerically equal to the given
+      bivector quantity within the default floating point tolerance.
+      All non-bivector components must be negligible.
+      @param(AVector The bivector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3BivecQuantity): boolean;
+
+    { Returns @true if the multivector quantity is numerically equal to the given
+      vector quantity within the default floating point tolerance.
+      All non-vector components must be negligible.
+      @param(AVector The vector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3VecQuantity): boolean;
+
+    { Returns @true if the multivector quantity is numerically equal to the given
+      real quantity within the default floating point tolerance.
+      All non-scalar components must be negligible.
+      @param(AVector The real quantity to compare against.)
+    }
     function SameValue(const AVector: TQuantity): boolean;
 
+    { Returns a new multivector quantity containing only the components specified
+      by @code(AComponents). Components not present in @code(AComponents) are set to zero.
+      @param(AComponents A set of @link(TCL3MultivectorComponent) values identifying
+                         the components to retain.)
+    }
     function ExtractMultivector(AComponents: TCL3MultivectorComponents): TCL3MultivecQuantity;
+
+    { Returns the grade-2 components of the multivector quantity specified by
+      @code(AComponents) as a @link(TCL3BivecQuantity).
+      Components not present in @code(AComponents) are set to zero.
+      @param(AComponents A set of @link(TCL3MultivectorComponent) values. Valid values
+                         are @code(mcm12), @code(mcm13), @code(mcm23).)
+    }
     function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
+
+    { Returns the grade-1 components of the multivector quantity specified by
+      @code(AComponents) as a @link(TCL3VecQuantity).
+      Components not present in @code(AComponents) are set to zero.
+      @param(AComponents A set of @link(TCL3MultivectorComponent) values. Valid values
+                         are @code(mcm1), @code(mcm2), @code(mcm3).)
+    }
     function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
 
+    { Returns all grade-3 components of the multivector quantity as a @link(TCL3TrivecQuantity).
+      All other grade components are discarded.
+    }
     function ExtractTrivector: TCL3TrivecQuantity;
+
+    { Returns all grade-2 components of the multivector quantity as a @link(TCL3BivecQuantity).
+      All other grade components are discarded.
+    }
     function ExtractBivector: TCL3BivecQuantity;
+
+    { Returns all grade-1 components of the multivector quantity as a @link(TCL3VecQuantity).
+      All other grade components are discarded.
+    }
     function ExtractVector: TCL3VecQuantity;
+
+    { Returns the grade-0 (scalar) component of the multivector quantity as a @link(TQuantity).
+      All other grade components are discarded.
+    }
     function ExtractScalar: TQuantity;
 
+    { Returns @true if all components of the multivector quantity are zero
+      within the default floating point tolerance.
+    }
     function IsNull: boolean;
+
+    { Returns @true if the multivector quantity is a pure scalar,
+      i.e. all components except @code(m0) are negligible.
+    }
     function IsScalar: boolean;
+
+    { Returns @true if the multivector quantity is a pure vector (grade-1),
+      i.e. only @code(m1), @code(m2), @code(m3) are non-negligible.
+    }
     function IsVector: boolean;
+
+    { Returns @true if the multivector quantity is a pure bivector (grade-2),
+      i.e. only @code(m12), @code(m13), @code(m23) are non-negligible.
+    }
     function IsBiVector: boolean;
+
+    { Returns @true if the multivector quantity is a pure trivector (grade-3),
+      i.e. only @code(m123) is non-negligible.
+    }
     function IsTrivector: boolean;
+
+    { Returns a string identifying the dominant grade of the multivector quantity.
+      Useful for diagnostics and debugging. Possible return values include
+      @code('scalar'), @code('vector'), @code('bivector'), @code('trivector'),
+      and @code('multivector') for mixed-grade elements.
+    }
     function IsA: string;
   end;
   {$ENDIF}
 
-  { TCL3TrivecQuantityHelper }
+  { Record helper for @link(TCL3TrivecQuantity) providing geometric operations
+    specific to grade-3 elements of @code(Cl(3,0)) with physical dimensions.
 
+    All operations follow the conventions of Clifford algebra over @code(ℝ³)
+    with dimensional analysis. Incompatible dimensions raise an exception at runtime.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TCL3TrivecQuantityHelper = record helper for TCL3TrivecQuantity
+
+    { Returns the dual of the trivector quantity with respect to the pseudoscalar @code(e₁₂₃).
+      For @code(T = m123·e₁₂₃ [dim]), the dual is the scalar quantity:
+      @code(T* = T · e₁₂₃⁻¹ = -m123 [dim]).
+      The physical dimension is preserved.
+    }
     function Dual: TQuantity;
+
+    { Returns the inverse of the trivector quantity under the geometric product.
+      For @code(T = m123·e₁₂₃ [dim]):
+      @code(T⁻¹ = -e₁₂₃ / m123 [dim⁻¹]), since @code(e₁₂₃² = -1).
+    }
     function Inverse: TCL3TrivecQuantity;
+
+    { Returns the reverse of the trivector quantity.
+      For a trivector (@code(k = 3)): @code(T̃ = -T).
+      The physical dimension is preserved.
+    }
     function Reverse: TCL3TrivecQuantity;
+
+    { Returns the Clifford conjugate of the trivector quantity.
+      For a trivector (@code(k = 3)): @code(T† = -T).
+      The physical dimension is preserved.
+    }
     function Conjugate: TCL3TrivecQuantity;
+
+    { Returns the reciprocal of the trivector quantity: @code(T̃ / (T · T̃)).
+      Equivalent to @link(Inverse) for non-zero trivector quantities.
+      The resulting dimension is the inverse of the original dimension.
+    }
     function Reciprocal: TCL3TrivecQuantity;
+
+    { Returns the unit trivector quantity in the same direction.
+      The coefficient @code(m123) is divided by @link(Norm).
+      The physical dimension is preserved.
+    }
     function Normalized: TCL3TrivecQuantity;
+
+    { Returns the norm of the trivector quantity: @code(|T| = |m123| [dim]).
+      The resulting dimension equals the dimension of the original quantity.
+    }
     function Norm: TQuantity;
+
+    { Returns the squared norm of the trivector quantity: @code(|T|² = m123² [dim²]).
+      The resulting dimension is the square of the original dimension.
+      Avoids the square root computation of @link(Norm).
+    }
     function SquaredNorm: TQuantity;
 
+    { Returns the inner (dot) product of the trivector quantity and a vector quantity.
+      Lowers the grade: @code(grade(3) · grade(1) → grade(2) = bivector quantity).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-1 right operand.)
+    }
     function Dot(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the inner (dot) product of the trivector quantity and a bivector quantity.
+      Lowers the grade: @code(grade(3) · grade(2) → grade(1) = vector quantity).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-2 right operand.)
+    }
     function Dot(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the inner (dot) product of two trivector quantities.
+      Lowers the grade: @code(grade(3) · grade(3) → grade(0) = scalar quantity).
+      Result: @code(T₁ · T₂ = -m123₁ · m123₂ [dim₁·dim₂]).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-3 right operand.)
+    }
     function Dot(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+
+    { Returns the inner (dot) product of the trivector quantity and a multivector quantity.
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right operand.)
+    }
     function Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the outer (wedge) product of the trivector quantity and a vector quantity.
+      Always zero in @code(ℝ³): @code(grade(3) ∧ grade(1) → grade(4) = 0).
+      The result is a scalar quantity equal to zero.
+      @param(AVector The grade-1 right operand.)
+    }
     function Wedge(const AVector: TCL3VecQuantity): TQuantity; overload;
+
+    { Returns the outer (wedge) product of the trivector quantity and a bivector quantity.
+      Always zero in @code(ℝ³): @code(grade(3) ∧ grade(2) → grade(5) = 0).
+      The result is a scalar quantity equal to zero.
+      @param(AVector The grade-2 right operand.)
+    }
     function Wedge(const AVector: TCL3BivecQuantity): TQuantity; overload;
+
+    { Returns the outer (wedge) product of two trivector quantities.
+      Always zero in @code(ℝ³): @code(grade(3) ∧ grade(3) → grade(6) = 0).
+      The result is a scalar quantity equal to zero.
+      @param(AVector The grade-3 right operand.)
+    }
     function Wedge(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+
+    { Returns the outer (wedge) product of the trivector quantity and a multivector quantity.
+      Only the scalar part of @code(AVector) contributes to a non-zero result.
+      The result is a pure @link(TCL3TrivecQuantity).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right operand.)
+    }
     function Wedge(const AVector: TCL3MultivecQuantity): TCL3TrivecQuantity; overload;
 
+    { Returns the projection of the trivector quantity onto a vector quantity subspace.
+      Defined as: @code(proj(T, v) = (T · v⁻¹) ∧ v).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The vector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3VecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the projection of the trivector quantity onto a bivector quantity subspace.
+      Defined as: @code(proj(T, B) = (T · B⁻¹) ∧ B).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The bivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3BivecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the projection of the trivector quantity onto another trivector quantity subspace.
+      Defined as: @code(proj(T₁, T₂) = (T₁ · T₂⁻¹) ∧ T₂).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The trivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the projection of the trivector quantity onto a multivector quantity subspace.
+      Defined as: @code(proj(T, M) = (T · M⁻¹) ∧ M).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The multivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3MultivecQuantity): TCL3TrivecQuantity; overload;
 
+    { Returns the rejection of the trivector quantity from a vector quantity subspace.
+      Defined as: @code(rej(T, v) = T - proj(T, v)).
+      In @code(ℝ³) the rejection of a trivector from a vector is a scalar quantity.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The vector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3VecQuantity): TQuantity; overload;
+
+    { Returns the rejection of the trivector quantity from a bivector quantity subspace.
+      Defined as: @code(rej(T, B) = T - proj(T, B)).
+      In @code(ℝ³) the rejection of a trivector from a bivector is a scalar quantity.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The bivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3BivecQuantity): TQuantity; overload;
+
+    { Returns the rejection of the trivector quantity from another trivector quantity subspace.
+      Defined as: @code(rej(T₁, T₂) = T₁ - proj(T₁, T₂)).
+      In @code(ℝ³) the rejection of a trivector from a trivector is a scalar quantity.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The trivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+
+    { Returns the rejection of the trivector quantity from a multivector quantity subspace.
+      Defined as: @code(rej(T, M) = T - proj(T, M)).
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The multivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the reflection of the trivector quantity through a vector quantity.
+      Defined as: @code(reflect(T, v) = -v · T · v⁻¹).
+      The physical dimension is preserved.
+      @param(AVector The vector quantity defining the reflection hyperplane normal.)
+    }
     function Reflection(const AVector: TCL3VecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the reflection of the trivector quantity through a bivector quantity.
+      Defined as: @code(reflect(T, B) = -B · T · B⁻¹).
+      The physical dimension is preserved.
+      @param(AVector The bivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3BivecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the reflection of the trivector quantity through another trivector quantity.
+      Defined as: @code(reflect(T₁, T₂) = -T₂ · T₁ · T₂⁻¹).
+      The physical dimension is preserved.
+      @param(AVector The trivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3TrivecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the reflection of the trivector quantity through a multivector quantity.
+      Defined as: @code(reflect(T, M) = -M · T · M⁻¹).
+      The physical dimension is preserved.
+      @param(AVector The multivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3MultivecQuantity): TCL3TrivecQuantity; overload;
 
+    { Returns the trivector quantity rotated by the rotor defined by two vector quantities.
+      The rotor is constructed as @code(R = AVector2 · AVector1) (normalised to a unit rotor).
+      The rotation is applied as: @code(T' = R · T · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first vector quantity defining the rotation plane.)
+      @param(AVector2 The second vector quantity defining the rotation plane.)
+    }
     function Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the trivector quantity rotated by the rotor defined by two bivector quantities.
+      The rotation is applied as: @code(T' = R · T · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first bivector quantity defining the rotor.)
+      @param(AVector2 The second bivector quantity defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the trivector quantity rotated by the rotor defined by two trivector quantities.
+      The rotation is applied as: @code(T' = R · T · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first trivector quantity defining the rotor.)
+      @param(AVector2 The second trivector quantity defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the trivector quantity rotated by the rotor defined by two multivector quantities.
+      The rotation is applied as: @code(T' = R · T · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first multivector quantity defining the rotor.)
+      @param(AVector2 The second multivector quantity defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3TrivecQuantity; overload;
 
+    { Returns @true if the trivector quantity is numerically equal to the given
+      multivector quantity within the default floating point tolerance.
+      All non-trivector components of @code(AVector) must be negligible.
+      @param(AVector The multivector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3MultivecQuantity): boolean;
+
+    { Returns @true if the two trivector quantities are numerically equal
+      within the default floating point tolerance.
+      @param(AVector The trivector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3TrivecQuantity): boolean;
 
+    { Converts the trivector quantity to a full @link(TCL3MultivecQuantity).
+      All components are zero except @code(m123). The dimension is preserved.
+    }
     function ToMultivector: TCL3MultivecQuantity;
   end;
   {$ENDIF}
