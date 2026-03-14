@@ -5345,114 +5345,597 @@ type
   end;
   {$ENDIF}
 
-  { TCL3BivecQuantityHelper }
+  { Record helper for @link(TCL3BivecQuantity) providing geometric operations
+    specific to grade-2 elements of @code(Cl(3,0)) with physical dimensions.
 
+    All operations follow the conventions of Clifford algebra over @code(ℝ³)
+    with dimensional analysis. Incompatible dimensions raise an exception at runtime.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TCL3BivecQuantityHelper = record helper for TCL3BivecQuantity
+
+    { Returns the dual of the bivector quantity with respect to the pseudoscalar @code(e₁₂₃).
+      The dual maps grade-2 elements to grade-1 (vector) elements:
+      @code(B* = B · e₁₂₃⁻¹).
+      For example: @code((e₁∧e₂)* = -e₃), @code((e₁∧e₃)* = e₂), @code((e₂∧e₃)* = -e₁).
+      The physical dimension is preserved.
+    }
     function Dual: TCL3VecQuantity;
+
+    { Returns the inverse of the bivector quantity under the geometric product.
+      For a pure bivector @code(B): @code(B⁻¹ = -B / |B|²), since @code(B² ≤ 0).
+      The resulting dimension is the inverse of the original dimension.
+    }
     function Inverse: TCL3BivecQuantity;
+
+    { Returns the reverse of the bivector quantity.
+      For a bivector (@code(k = 2)): @code(B̃ = -B).
+      The physical dimension is preserved.
+    }
     function Reverse: TCL3BivecQuantity;
+
+    { Returns the Clifford conjugate of the bivector quantity.
+      For a bivector (@code(k = 2)): @code(B† = -B).
+      The physical dimension is preserved.
+    }
     function Conjugate: TCL3BivecQuantity;
+
+    { Returns the reciprocal of the bivector quantity: @code(B̃ / (B · B̃)).
+      Equivalent to @link(Inverse) for non-zero bivector quantities.
+      The resulting dimension is the inverse of the original dimension.
+    }
     function Reciprocal: TCL3BivecQuantity;
+
+    { Returns the unit bivector quantity in the same orientation.
+      Each component is divided by @link(Norm).
+      The physical dimension is preserved.
+    }
     function Normalized: TCL3BivecQuantity;
+
+    { Returns the norm of the bivector quantity:
+      @code(|B| = √(m12² + m13² + m23²) [dim]).
+      The resulting dimension equals the dimension of the original quantity.
+    }
     function Norm: TQuantity;
+
+    { Returns the squared norm of the bivector quantity:
+      @code(|B|² = m12² + m13² + m23² [dim²]).
+      The resulting dimension is the square of the original dimension.
+      Avoids the square root computation of @link(Norm).
+    }
     function SquaredNorm: TQuantity;
 
+    { Returns the inner (dot) product of the bivector quantity and a vector quantity.
+      Lowers the grade: @code(grade(2) · grade(1) → grade(1) = vector quantity).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-1 right operand.)
+    }
     function Dot(const AVector: TCL3VecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the inner (dot) product of two bivector quantities.
+      Lowers the grade: @code(grade(2) · grade(2) → grade(0) = scalar quantity).
+      Result: @code(B₁ · B₂ = -(m12₁·m12₂ + m13₁·m13₂ + m23₁·m23₂) [dim₁·dim₂]).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-2 right operand.)
+    }
     function Dot(const AVector: TCL3BivecQuantity): TQuantity; overload;
+
+    { Returns the inner (dot) product of the bivector quantity and a trivector quantity.
+      Lowers the grade: @code(grade(2) · grade(3) → grade(1) = vector quantity).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-3 right operand.)
+    }
     function Dot(const AVector: TCL3TrivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the inner (dot) product of the bivector quantity and a multivector quantity.
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right operand.)
+    }
     function Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the outer (wedge) product of the bivector quantity and a vector quantity.
+      Raises the grade: @code(grade(2) ∧ grade(1) → grade(3) = trivector quantity).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-1 right operand.)
+    }
     function Wedge(const AVector: TCL3VecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the outer (wedge) product of two bivector quantities.
+      Always zero in @code(ℝ³): @code(grade(2) ∧ grade(2) → grade(4) = 0).
+      The result is a scalar quantity equal to zero.
+      @param(AVector The grade-2 right operand.)
+    }
     function Wedge(const AVector: TCL3BivecQuantity): TQuantity; overload;
+
+    { Returns the outer (wedge) product of the bivector quantity and a trivector quantity.
+      Always zero in @code(ℝ³): @code(grade(2) ∧ grade(3) → grade(5) = 0).
+      The result is a scalar quantity equal to zero.
+      @param(AVector The grade-3 right operand.)
+    }
     function Wedge(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+
+    { Returns the outer (wedge) product of the bivector quantity and a multivector quantity.
+      Only the scalar and vector parts of @code(AVector) contribute to a non-zero result.
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right operand.)
+    }
     function Wedge(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the projection of the bivector quantity onto a vector quantity subspace.
+      Defined as: @code(proj(B, v) = (B · v⁻¹) ∧ v).
+      The result is the component of @code(B) lying in the plane containing @code(v).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The vector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the projection of the bivector quantity onto another bivector quantity subspace.
+      Defined as: @code(proj(B₁, B₂) = (B₁ · B₂⁻¹) ∧ B₂).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The bivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3BivecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the projection of the bivector quantity onto a trivector quantity subspace.
+      Defined as: @code(proj(B, T) = (B · T⁻¹) ∧ T).
+      Since the trivector spans all of @code(ℝ³), the projection returns the
+      bivector quantity unchanged.
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The trivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3TrivecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the projection of the bivector quantity onto a multivector quantity subspace.
+      Defined as: @code(proj(B, M) = (B · M⁻¹) ∧ M).
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The multivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the rejection of the bivector quantity from a vector quantity subspace.
+      Defined as: @code(rej(B, v) = B - proj(B, v)).
+      The result is the component of @code(B) orthogonal to @code(v).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The vector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the rejection of the bivector quantity from another bivector quantity subspace.
+      Defined as: @code(rej(B₁, B₂) = B₁ - proj(B₁, B₂)).
+      In @code(ℝ³) the rejection of a bivector from a bivector is a scalar quantity.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The bivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3BivecQuantity): TQuantity; overload;
+
+    { Returns the rejection of the bivector quantity from a trivector quantity subspace.
+      Defined as: @code(rej(B, T) = B - proj(B, T)).
+      In @code(ℝ³) the rejection of a bivector from a trivector is a scalar quantity.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The trivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+
+    { Returns the rejection of the bivector quantity from a multivector quantity subspace.
+      Defined as: @code(rej(B, M) = B - proj(B, M)).
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The multivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the reflection of the bivector quantity through a vector quantity.
+      Defined as: @code(reflect(B, v) = -v · B · v⁻¹).
+      Reflects the oriented plane of @code(B) through the hyperplane orthogonal to @code(v).
+      The physical dimension is preserved.
+      @param(AVector The vector quantity defining the reflection hyperplane normal.)
+    }
     function Reflection(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the reflection of the bivector quantity through another bivector quantity.
+      Defined as: @code(reflect(B₁, B₂) = -B₂ · B₁ · B₂⁻¹).
+      The physical dimension is preserved.
+      @param(AVector The bivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3BivecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the reflection of the bivector quantity through a trivector quantity.
+      Defined as: @code(reflect(B, T) = -T · B · T⁻¹).
+      Since the pseudoscalar commutes with all even-grade elements, the reflection
+      through a trivector returns the bivector quantity unchanged.
+      The physical dimension is preserved.
+      @param(AVector The trivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3TrivecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the reflection of the bivector quantity through a multivector quantity.
+      Defined as: @code(reflect(B, M) = -M · B · M⁻¹).
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The physical dimension is preserved.
+      @param(AVector The multivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the bivector quantity rotated by the rotor defined by two vector quantities.
+      The rotor is constructed as @code(R = AVector2 · AVector1) (normalised to a unit rotor).
+      The rotation is applied as: @code(B' = R · B · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first vector quantity defining the rotation plane.)
+      @param(AVector2 The second vector quantity defining the rotation plane.)
+    }
     function Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the bivector quantity rotated by the rotor defined by two bivector quantities.
+      The rotation is applied as: @code(B' = R · B · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first bivector quantity defining the rotor.)
+      @param(AVector2 The second bivector quantity defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the bivector quantity rotated by the rotor defined by two trivector quantities.
+      The rotation is applied as: @code(B' = R · B · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first trivector quantity defining the rotor.)
+      @param(AVector2 The second trivector quantity defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the bivector quantity rotated by the rotor defined by two multivector quantities.
+      The rotation is applied as: @code(B' = R · B · R⁻¹).
+      The result is a full @link(TCL3MultivecQuantity) due to potential grade mixing.
+      The physical dimension is preserved.
+      @param(AVector1 The first multivector quantity defining the rotor.)
+      @param(AVector2 The second multivector quantity defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns @true if the bivector quantity is numerically equal to the given
+      multivector quantity within the default floating point tolerance.
+      All non-bivector components of @code(AVector) must be negligible.
+      @param(AVector The multivector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3MultivecQuantity): boolean;
+
+    { Returns @true if the two bivector quantities are numerically equal
+      within the default floating point tolerance.
+      @param(AVector The bivector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3BivecQuantity): boolean;
 
+    { Returns a new bivector quantity containing only the components specified
+      by @code(AComponents). Components not present in @code(AComponents) are set to zero.
+      @param(AComponents A set of @link(TCL3MultivectorComponent) values identifying
+                         the components to retain. Valid values are @code(mcm12),
+                         @code(mcm13), @code(mcm23).)
+    }
     function ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3BivecQuantity;
 
+    { Converts the bivector quantity to a full @link(TCL3MultivecQuantity).
+      All components are zero except @code(m12), @code(m13), @code(m23).
+      The dimension is preserved.
+    }
     function ToMultivector: TCL3MultivecQuantity;
   end;
   {$ENDIF}
 
-  { TCL3VecQuantityHelper }
+  { Record helper for @link(TCL3VecQuantity) providing geometric operations
+    specific to grade-1 elements of @code(Cl(3,0)) with physical dimensions.
 
+    All operations follow the conventions of Clifford algebra over @code(ℝ³)
+    with dimensional analysis. Incompatible dimensions raise an exception at runtime.
+    Only available when @code(ADIMOFF) is not defined.
+  }
   {$IFNDEF ADIMOFF}
   TCL3VecQuantityHelper = record helper for TCL3VecQuantity
+
+    { Returns the dual of the vector quantity with respect to the pseudoscalar @code(e₁₂₃).
+      The dual maps grade-1 elements to grade-2 (bivector) elements:
+      @code(v* = v · e₁₂₃⁻¹).
+      For example: @code(e₁* = -e₂∧e₃), @code(e₂* = e₁∧e₃), @code(e₃* = -e₁∧e₂).
+      The physical dimension is preserved.
+    }
     function Dual: TCL3BivecQuantity;
+
+    { Returns the inverse of the vector quantity under the geometric product.
+      For a non-zero vector @code(v): @code(v⁻¹ = v / |v|²), since @code(v² > 0).
+      The resulting dimension is the inverse of the original dimension.
+    }
     function Inverse: TCL3VecQuantity;
+
+    { Returns the reverse of the vector quantity.
+      For a vector (@code(k = 1)): @code(ṽ = v) (unchanged).
+      The physical dimension is preserved.
+    }
     function Reverse: TCL3VecQuantity;
+
+    { Returns the Clifford conjugate of the vector quantity.
+      For a vector (@code(k = 1)): @code(v† = -v).
+      The physical dimension is preserved.
+    }
     function Conjugate: TCL3VecQuantity;
+
+    { Returns the reciprocal of the vector quantity: @code(ṽ / (v · ṽ)).
+      Equivalent to @link(Inverse) for non-zero vector quantities.
+      The resulting dimension is the inverse of the original dimension.
+    }
     function Reciprocal: TCL3VecQuantity;
+
+    { Returns the unit vector quantity in the same direction.
+      Each component is divided by @link(Norm).
+      The physical dimension is preserved.
+    }
     function Normalized: TCL3VecQuantity;
+
+    { Returns the Euclidean norm of the vector quantity:
+      @code(|v| = √(m1² + m2² + m3²) [dim]).
+      The resulting dimension equals the dimension of the original quantity.
+    }
     function Norm: TQuantity;
+
+    { Returns the squared Euclidean norm of the vector quantity:
+      @code(|v|² = m1² + m2² + m3² [dim²]).
+      The resulting dimension is the square of the original dimension.
+      Avoids the square root computation of @link(Norm).
+    }
     function SquaredNorm: TQuantity;
 
+    { Returns the inner (dot) product of two vector quantities.
+      Lowers the grade: @code(grade(1) · grade(1) → grade(0) = scalar quantity).
+      Result: @code(u · v = m1₁·m1₂ + m2₁·m2₂ + m3₁·m3₂ [dim₁·dim₂]).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-1 right operand.)
+    }
     function Dot(const AVector: TCL3VecQuantity): TQuantity; overload;
+
+    { Returns the inner (dot) product of a vector quantity and a bivector quantity.
+      Lowers the grade: @code(grade(1) · grade(2) → grade(1) = vector quantity).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-2 right operand.)
+    }
     function Dot(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the inner (dot) product of a vector quantity and a trivector quantity.
+      Lowers the grade: @code(grade(1) · grade(3) → grade(2) = bivector quantity).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-3 right operand.)
+    }
     function Dot(const AVector: TCL3TrivecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the inner (dot) product of a vector quantity and a multivector quantity.
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right operand.)
+    }
     function Dot(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the outer (wedge) product of two vector quantities.
+      Raises the grade: @code(grade(1) ∧ grade(1) → grade(2) = bivector quantity).
+      The result represents the oriented plane spanned by the two vectors.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-1 right operand.)
+    }
     function Wedge(const AVector: TCL3VecQuantity): TCL3BivecQuantity; overload;
+
+    { Returns the outer (wedge) product of a vector quantity and a bivector quantity.
+      Raises the grade: @code(grade(1) ∧ grade(2) → grade(3) = trivector quantity).
+      The result represents the oriented volume spanned by the vector and the bivector.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The grade-2 right operand.)
+    }
     function Wedge(const AVector: TCL3BivecQuantity): TCL3TrivecQuantity; overload;
+
+    { Returns the outer (wedge) product of a vector quantity and a trivector quantity.
+      Always zero in @code(ℝ³): @code(grade(1) ∧ grade(3) → grade(4) = 0).
+      The result is a scalar quantity equal to zero.
+      @param(AVector The grade-3 right operand.)
+    }
     function Wedge(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+
+    { Returns the outer (wedge) product of a vector quantity and a multivector quantity.
+      Only components of @code(AVector) up to grade 2 contribute to a non-zero result.
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right operand.)
+    }
     function Wedge(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the cross product of two vector quantities.
+      The cross product is the dual of the wedge product:
+      @code(u × v = (u ∧ v)* = -(u ∧ v) · e₁₂₃⁻¹).
+      The result is a vector quantity perpendicular to both operands with magnitude
+      @code(|u||v|sin(θ)), specific to @code(ℝ³).
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The right operand.)
+    }
     function Cross(const AVector: TCL3VecQuantity): TCL3VecQuantity;
 
+    { Returns the projection of the vector quantity onto another vector quantity.
+      Defined as: @code(proj(u, v) = (u · v⁻¹) ∧ v = (u · v / |v|²) · v).
+      The result is the component of @code(u) parallel to @code(v).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The vector quantity defining the direction to project onto.)
+    }
     function Projection(const AVector: TCL3VecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the projection of the vector quantity onto a bivector quantity subspace.
+      Defined as: @code(proj(v, B) = (v · B⁻¹) ∧ B).
+      The result is the component of @code(v) lying in the plane of @code(B).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The bivector quantity defining the plane to project onto.)
+    }
     function Projection(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the projection of the vector quantity onto a trivector quantity subspace.
+      Defined as: @code(proj(v, T) = (v · T⁻¹) ∧ T).
+      Since the trivector spans all of @code(ℝ³), the projection returns the
+      vector quantity unchanged.
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The trivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3TrivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the projection of the vector quantity onto a multivector quantity subspace.
+      Defined as: @code(proj(v, M) = (v · M⁻¹) ∧ M).
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The multivector quantity defining the subspace to project onto.)
+    }
     function Projection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the rejection of the vector quantity from another vector quantity.
+      Defined as: @code(rej(u, v) = u - proj(u, v)).
+      The result is the component of @code(u) perpendicular to @code(v).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The vector quantity defining the direction to reject from.)
+    }
     function Rejection(const AVector: TCL3VecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the rejection of the vector quantity from a bivector quantity subspace.
+      Defined as: @code(rej(v, B) = v - proj(v, B)).
+      The result is the component of @code(v) perpendicular to the plane of @code(B).
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The bivector quantity defining the plane to reject from.)
+    }
     function Rejection(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the rejection of the vector quantity from a trivector quantity subspace.
+      Defined as: @code(rej(v, T) = v - proj(v, T)).
+      In @code(ℝ³) the rejection of a vector from a trivector is always zero,
+      returned as a scalar quantity equal to zero.
+      The resulting dimension is the product of the two operand dimensions.
+      @param(AVector The trivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+
+    { Returns the rejection of the vector quantity from a multivector quantity subspace.
+      Defined as: @code(rej(v, M) = v - proj(v, M)).
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The resulting dimension is the dimension of the original quantity.
+      @param(AVector The multivector quantity defining the subspace to reject from.)
+    }
     function Rejection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the reflection of the vector quantity through another vector quantity.
+      Defined as: @code(reflect(u, v) = v · u · v⁻¹).
+      Reflects @code(u) through the line defined by @code(v), reversing the
+      perpendicular component and preserving the parallel one.
+      The physical dimension is preserved.
+      @param(AVector The vector quantity defining the reflection axis.)
+    }
     function Reflection(const AVector: TCL3VecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the reflection of the vector quantity through a bivector quantity.
+      Defined as: @code(reflect(v, B) = B · v · B⁻¹).
+      Reflects @code(v) through the plane represented by @code(B), reversing the
+      normal component and preserving the in-plane component.
+      The physical dimension is preserved.
+      @param(AVector The bivector quantity defining the reflection plane.)
+    }
     function Reflection(const AVector: TCL3BivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the reflection of the vector quantity through a trivector quantity.
+      Defined as: @code(reflect(v, T) = T · v · T⁻¹).
+      Since the pseudoscalar anticommutes with vectors in @code(Cl(3,0)),
+      the result is @code(-v).
+      The physical dimension is preserved.
+      @param(AVector The trivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3TrivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the reflection of the vector quantity through a multivector quantity.
+      Defined as: @code(reflect(v, M) = M · v · M⁻¹).
+      The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
+      The physical dimension is preserved.
+      @param(AVector The multivector quantity defining the reflection element.)
+    }
     function Reflection(const AVector: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns the vector quantity rotated by the rotor defined by two vector quantities.
+      The rotor is constructed as @code(R = AVector2 · AVector1) (normalised to a unit rotor).
+      The rotation is applied as: @code(v' = R · v · R⁻¹).
+      The rotation is in the plane spanned by @code(AVector1) and @code(AVector2),
+      by twice the angle between them. The physical dimension is preserved.
+      @param(AVector1 The first vector quantity defining the rotation plane.)
+      @param(AVector2 The second vector quantity defining the rotation plane.)
+    }
     function Rotation(const AVector1, AVector2: TCL3VecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the vector quantity rotated by the rotor defined by two bivector quantities.
+      The rotation is applied as: @code(v' = R · v · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first bivector quantity defining the rotor.)
+      @param(AVector2 The second bivector quantity defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3BivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the vector quantity rotated by the rotor defined by two trivector quantities.
+      The rotation is applied as: @code(v' = R · v · R⁻¹).
+      The physical dimension is preserved.
+      @param(AVector1 The first trivector quantity defining the rotor.)
+      @param(AVector2 The second trivector quantity defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3TrivecQuantity): TCL3VecQuantity; overload;
+
+    { Returns the vector quantity rotated by the rotor defined by two multivector quantities.
+      The rotation is applied as: @code(v' = R · v · R⁻¹).
+      The result is a full @link(TCL3MultivecQuantity) due to potential grade mixing.
+      The physical dimension is preserved.
+      @param(AVector1 The first multivector quantity defining the rotor.)
+      @param(AVector2 The second multivector quantity defining the rotor.)
+    }
     function Rotation(const AVector1, AVector2: TCL3MultivecQuantity): TCL3MultivecQuantity; overload;
 
+    { Returns @true if the vector quantity is numerically equal to the given
+      multivector quantity within the default floating point tolerance.
+      All non-vector components of @code(AVector) must be negligible.
+      @param(AVector The multivector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3MultivecQuantity): boolean;
+
+    { Returns @true if the two vector quantities are numerically equal
+      within the default floating point tolerance.
+      @param(AVector The vector quantity to compare against.)
+    }
     function SameValue(const AVector: TCL3VecQuantity): boolean;
 
+    { Returns a new vector quantity containing only the components specified
+      by @code(AComponents). Components not present in @code(AComponents) are set to zero.
+      @param(AComponents A set of @link(TCL3MultivectorComponent) values identifying
+                         the components to retain. Valid values are @code(mcm1),
+                         @code(mcm2), @code(mcm3).)
+    }
     function ExtractVector(AComponents: TCL3MultivectorComponents): TCL3VecQuantity;
 
+    { Converts the vector quantity to a full @link(TCL3MultivecQuantity).
+      All components are zero except @code(m1), @code(m2), @code(m3).
+      The dimension is preserved.
+    }
     function ToMultivector: TCL3MultivecQuantity;
   end;
   {$ENDIF}
 
-  { TUnit }
+  { Represents a physical unit of measurement with its dimensional signature,
+    symbol, name and prefix information.
 
+    @code(TUnit) is the central type for attaching physical dimensions to
+    numerical values. Multiplying or dividing any supported numerical type
+    (real scalar, complex number, vector, matrix, or Clifford algebra element)
+    by a @code(TUnit) instance produces the corresponding dimensioned quantity type.
+
+    Example idiomatic usage:
+    @code(var v: TQuantity := 9.81 * MetrePerSquareSecond;)
+    @code(var z: TComplexQuantity := (1 + 2*i) * Ohm;)
+    @code(var F: TR3VecQuantity := TR3Vector(...) * Newton;)
+
+    When the symbol @code(ADIMOFF) is defined, all operators that accept or
+    return quantity types are disabled and the corresponding raw numerical types
+    are used directly.
+  }
   TUnit = record
   private
     FDim: TDimension;
@@ -5462,100 +5945,254 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
-    // Real numbers
+    { Returns the real quantity @code(AValue [unit]). }
     class operator *(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+
+    { Returns the real quantity @code(AValue / [unit]), with inverted dimension. }
     class operator /(const AValue: double; const ASelf: TUnit): TQuantity; inline;
-    // Complex numbers
+
+    { Returns the complex quantity @code(AValue [unit]). }
     class operator *(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
+
+    { Returns the complex quantity @code(AValue / [unit]), with inverted dimension. }
     class operator /(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
-    // Real vector space
+
+    { Returns the 2-component real vector quantity @code(AVector [unit]). }
     class operator *(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
+
+    { Returns the 3-component real vector quantity @code(AVector [unit]). }
     class operator *(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
-    class operator *(const AVector: TR4Vector; const ASelf: TUnit): TR4vecQuantity; inline;
+
+    { Returns the 4-component real vector quantity @code(AVector [unit]). }
+    class operator *(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
+
+    { Returns the 2-component real vector quantity @code(AVector / [unit]), with inverted dimension. }
     class operator /(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
+
+    { Returns the 3-component real vector quantity @code(AVector / [unit]), with inverted dimension. }
     class operator /(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
-    class operator /(const AVector: TR4Vector; const ASelf: TUnit): TR4vecQuantity; inline;
-    // Complex vector space
+
+    { Returns the 4-component real vector quantity @code(AVector / [unit]), with inverted dimension. }
+    class operator /(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
+
+    { Returns the 2-component complex vector quantity @code(AVector [unit]). }
     class operator *(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
+
+    { Returns the 3-component complex vector quantity @code(AVector [unit]). }
     class operator *(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
-    class operator *(const AVector: TC4Vector; const ASelf: TUnit): TC4vecQuantity; inline;
+
+    { Returns the 4-component complex vector quantity @code(AVector [unit]). }
+    class operator *(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
+
+    { Returns the 2-component complex vector quantity @code(AVector / [unit]), with inverted dimension. }
     class operator /(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
+
+    { Returns the 3-component complex vector quantity @code(AVector / [unit]), with inverted dimension. }
     class operator /(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
-    class operator /(const AVector: TC4Vector; const ASelf: TUnit): TC4vecQuantity; inline;
-    // Real matrixes
+
+    { Returns the 4-component complex vector quantity @code(AVector / [unit]), with inverted dimension. }
+    class operator /(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
+
+    { Returns the 2×2 real matrix quantity @code(AMatrix [unit]). }
     class operator *(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
+
+    { Returns the 3×3 real matrix quantity @code(AMatrix [unit]). }
     class operator *(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
+
+    { Returns the 4×4 real matrix quantity @code(AMatrix [unit]). }
     class operator *(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
+
+    { Returns the 2×2 real matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
     class operator /(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
+
+    { Returns the 3×3 real matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
     class operator /(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
+
+    { Returns the 4×4 real matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
     class operator /(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
-    // Complex matrixes
+
+    { Returns the 2×2 complex matrix quantity @code(AMatrix [unit]). }
     class operator *(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
+
+    { Returns the 3×3 complex matrix quantity @code(AMatrix [unit]). }
     class operator *(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
+
+    { Returns the 4×4 complex matrix quantity @code(AMatrix [unit]). }
     class operator *(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
+
+    { Returns the 2×2 complex matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
     class operator /(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
+
+    { Returns the 3×3 complex matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
     class operator /(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
+
+    { Returns the 4×4 complex matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
     class operator /(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
-    // CL3 vector space, Clifford algebra
+
+    { Returns the @code(Cl(3,0)) vector quantity @code(AVector [unit]). }
     class operator *(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) bivector quantity @code(ABivector [unit]). }
     class operator *(const ABivector: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) trivector quantity @code(ATrivector [unit]). }
     class operator *(const ATrivector: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) multivector quantity @code(AMultivector [unit]). }
     class operator *(const AMultivector: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) vector quantity @code(AVector / [unit]), with inverted dimension. }
     class operator /(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) bivector quantity @code(ABivector / [unit]), with inverted dimension. }
     class operator /(const ABivector: TCL3Bivector; const ASelf: TUnit): TCL3BivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) trivector quantity @code(ATrivector / [unit]), with inverted dimension. }
     class operator /(const ATrivector: TCL3Trivector; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) multivector quantity @code(AMultivector / [unit]), with inverted dimension. }
     class operator /(const AMultivector: TCL3Multivector; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+
   {$IFNDEF ADIMOFF}
-    // Real numbers
+    { Returns the real quantity with dimension scaled by @code([unit]).
+      Used for unit conversion: @code(1.0*km * (1/Metre) = 1000).
+    }
     class operator *(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
+
+    { Returns the real quantity with dimension divided by @code([unit]).
+      Used for unit conversion: @code(1000.0*m / km = 1).
+    }
     class operator /(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
-    // Complex numbers
+
+    { Returns the complex quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
+
+    { Returns the complex quantity with dimension scaled by @code([unit]) (unit on the left). }
     class operator *(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
+
+    { Returns the complex quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
+
+    { Returns the complex quantity with dimension inverted relative to @code([unit]). }
     class operator /(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
-    // Real vector space
+
+    { Returns the 2-component real vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
+
+    { Returns the 3-component real vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
+
+    { Returns the 4-component real vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
+
+    { Returns the 2-component real vector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
+
+    { Returns the 3-component real vector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
+
+    { Returns the 4-component real vector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
-    // Complex vector space
+
+    { Returns the 2-component complex vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
+
+    { Returns the 3-component complex vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
+
+    { Returns the 4-component complex vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
+
+    { Returns the 2-component complex vector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
+
+    { Returns the 3-component complex vector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
+
+    { Returns the 4-component complex vector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
-    // Real matrixes
+
+    { Returns the 2×2 real matrix quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
+
+    { Returns the 3×3 real matrix quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
+
+    { Returns the 4×4 real matrix quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
+
+    { Returns the 2×2 real matrix quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
+
+    { Returns the 3×3 real matrix quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
+
+    { Returns the 4×4 real matrix quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
-    // Complex matrixes
+
+    { Returns the 2×2 complex matrix quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
+
+    { Returns the 3×3 complex matrix quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
+
+    { Returns the 4×4 complex matrix quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
+
+    { Returns the 2×2 complex matrix quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
+
+    { Returns the 3×3 complex matrix quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
+
+    { Returns the 4×4 complex matrix quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
-    // CL3 vector space, Clifford algebra
+
+    { Returns the @code(Cl(3,0)) vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) bivector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) trivector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TCL3TrivecQuantity; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) multivector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TCL3MultivecQuantity; const ASelf: TUnit): TCL3MultivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) vector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) bivector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TCL3BivecQuantity; const ASelf: TUnit): TCL3BivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) trivector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TCL3TrivecQuantity; const ASelf: TUnit): TCL3TrivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) multivector quantity with dimension divided by @code([unit]). }
     class operator /(const AQuantity: TCL3MultivecQuantity; const ASelf: TUnit): TCL3MultivecQuantity; inline;
   {$ENDIF}
   end;
 
-  { TFactoredUnit }
+  { Represents a physical unit of measurement with a conversion factor relative
+    to the corresponding SI base unit.
 
+    @code(TFactoredUnit) extends the role of @link(TUnit) to cover units that
+    are not SI base or derived units but are related to them by a fixed numerical
+    factor stored in @code(FFactor). Examples include kilometres (@code(FFactor = 1000)),
+    degrees (@code(FFactor = π/180)), electronvolts, and similar.
+
+    When multiplying or dividing a numerical value by a @code(TFactoredUnit),
+    the value is automatically scaled by @code(FFactor) so that the resulting
+    @link(TQuantity) is always expressed in SI base units internally.
+
+    Example idiomatic usage:
+    @code(var d: TQuantity := 5.0 * Kilometre;   // stores 5000.0 m internally)
+    @code(var a: TQuantity := 90.0 * Degree;     // stores π/2 rad internally)
+
+    When the symbol @code(ADIMOFF) is defined, all operators that accept or
+    return quantity types are disabled and raw numerical types are used directly.
+  }
   TFactoredUnit = record
   private
     FDim: TDimension;
@@ -5566,98 +6203,253 @@ type
     FExponents: TExponents;
     FFactor: double;
   public
-    // Real numbers
+    {
+      Returns the real quantity @code(AValue * FFactor [dim]).
+      The value is converted to SI base units using @code(FFactor).
+    }
     class operator *(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+
+    { Returns the real quantity @code(AValue / FFactor [dim⁻¹]).
+      The value is converted to SI base units using @code(FFactor).
+    }
     class operator /(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
-    // Complex numbers
+
+    { Returns the complex quantity @code(AValue * FFactor [dim]).
+      Each component is scaled by @code(FFactor).
+    }
     class operator *(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
+
+    { Returns the complex quantity @code(AValue / FFactor [dim⁻¹]).
+      Each component is scaled by @code(1/FFactor).
+    }
     class operator /(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
-    // Real vector space
+
+    { Returns the 2-component real vector quantity @code(AVector * FFactor [dim]). }
     class operator *(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+
+    { Returns the 3-component real vector quantity @code(AVector * FFactor [dim]). }
     class operator *(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
-    class operator *(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4vecQuantity; inline;
+
+    { Returns the 4-component real vector quantity @code(AVector * FFactor [dim]). }
+    class operator *(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+
+    { Returns the 2-component real vector quantity @code(AVector / FFactor [dim⁻¹]). }
     class operator /(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+
+    { Returns the 3-component real vector quantity @code(AVector / FFactor [dim⁻¹]). }
     class operator /(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
-    class operator /(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4vecQuantity; inline;
-    // Complex vector space
+
+    { Returns the 4-component real vector quantity @code(AVector / FFactor [dim⁻¹]). }
+    class operator /(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+
+    { Returns the 2-component complex vector quantity @code(AVector * FFactor [dim]). }
     class operator *(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
+
+    { Returns the 3-component complex vector quantity @code(AVector * FFactor [dim]). }
     class operator *(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-    class operator *(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4vecQuantity; inline;
+
+    { Returns the 4-component complex vector quantity @code(AVector * FFactor [dim]). }
+    class operator *(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+
+    { Returns the 2-component complex vector quantity @code(AVector / FFactor [dim⁻¹]). }
     class operator /(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
+
+    { Returns the 3-component complex vector quantity @code(AVector / FFactor [dim⁻¹]). }
     class operator /(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-    class operator /(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4vecQuantity; inline;
-    // Real matrixes
+
+    { Returns the 4-component complex vector quantity @code(AVector / FFactor [dim⁻¹]). }
+    class operator /(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+
+    { Returns the 2×2 real matrix quantity @code(AMatrix * FFactor [dim]). }
     class operator *(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+
+    { Returns the 3×3 real matrix quantity @code(AMatrix * FFactor [dim]). }
     class operator *(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
+
+    { Returns the 4×4 real matrix quantity @code(AMatrix * FFactor [dim]). }
     class operator *(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+
+    { Returns the 2×2 real matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
     class operator /(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+
+    { Returns the 3×3 real matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
     class operator /(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
+
+    { Returns the 4×4 real matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
     class operator /(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
-    // Complex matrixes
+
+    { Returns the 2×2 complex matrix quantity @code(AMatrix * FFactor [dim]). }
     class operator *(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
+
+    { Returns the 3×3 complex matrix quantity @code(AMatrix * FFactor [dim]). }
     class operator *(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
+
+    { Returns the 4×4 complex matrix quantity @code(AMatrix * FFactor [dim]). }
     class operator *(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+
+    { Returns the 2×2 complex matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
     class operator /(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
+
+    { Returns the 3×3 complex matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
     class operator /(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
+
+    { Returns the 4×4 complex matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
     class operator /(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
-    // CL3 vector space, Clifford algebra
+
+    { Returns the @code(Cl(3,0)) vector quantity @code(AQuantity * FFactor [dim]). }
     class operator *(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) bivector quantity @code(AQuantity * FFactor [dim]). }
     class operator *(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) trivector quantity @code(AQuantity * FFactor [dim]). }
     class operator *(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) multivector quantity @code(AQuantity * FFactor [dim]). }
     class operator *(const AQuantity: TCL3Multivector; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) vector quantity @code(AQuantity / FFactor [dim⁻¹]). }
     class operator /(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) bivector quantity @code(AQuantity / FFactor [dim⁻¹]). }
     class operator /(const AQuantity: TCL3Bivector; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) trivector quantity @code(AQuantity / FFactor [dim⁻¹]). }
     class operator /(const AQuantity: TCL3Trivector; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) multivector quantity @code(AQuantity / FFactor [dim⁻¹]). }
     class operator /(const AQuantity: TCL3Multivector; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
+
   {$IFNDEF ADIMOFF}
-    // Real numbers
+    { Returns the real quantity with dimension and value rescaled by @code(FFactor).
+      Used for unit conversion between factored units:
+      @code(5.0*km * (1/Mile) → distance in miles).
+    }
     class operator *(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+
+    { Returns the real quantity with dimension and value rescaled by @code(1/FFactor).
+      Used for unit conversion: @code(5000.0*m / km → 5.0).
+    }
     class operator /(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
-    // Complex numbers
+
+    { Returns the complex quantity with dimension and value rescaled by @code(FFactor). }
     class operator *(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
+
+    { Returns the complex quantity with dimension and value rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
-    // Real vector space
+
+    { Returns the 2-component real vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+
+    { Returns the 3-component real vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
+
+    { Returns the 4-component real vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+
+    { Returns the 2-component real vector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+
+    { Returns the 3-component real vector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
+
+    { Returns the 4-component real vector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
-    // Complex vector space
+
+    { Returns the 2-component complex vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
+
+    { Returns the 3-component complex vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
+
+    { Returns the 4-component complex vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+
+    { Returns the 2-component complex vector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
+
+    { Returns the 3-component complex vector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
+
+    { Returns the 4-component complex vector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
-    // Real matrixes
+
+    { Returns the 2×2 real matrix quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+
+    { Returns the 3×3 real matrix quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
+
+    { Returns the 4×4 real matrix quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+
+    { Returns the 2×2 real matrix quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+
+    { Returns the 3×3 real matrix quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
+
+    { Returns the 4×4 real matrix quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
-    // Complex matrixes
+
+    { Returns the 2×2 complex matrix quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
+
+    { Returns the 3×3 complex matrix quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
+
+    { Returns the 4×4 complex matrix quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+
+    { Returns the 2×2 complex matrix quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
+
+    { Returns the 3×3 complex matrix quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
+
+    { Returns the 4×4 complex matrix quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
-    // CL3 vector space, Clifford algebra
+
+    { Returns the @code(Cl(3,0)) vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) bivector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) trivector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) multivector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TCL3MultivecQuantity; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) vector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) bivector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TCL3BivecQuantity; const ASelf: TFactoredUnit): TCL3BivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) trivector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TCL3TrivecQuantity; const ASelf: TFactoredUnit): TCL3TrivecQuantity; inline;
+
+    { Returns the @code(Cl(3,0)) multivector quantity rescaled by @code(1/FFactor). }
     class operator /(const AQuantity: TCL3MultivecQuantity; const ASelf: TFactoredUnit): TCL3MultivecQuantity; inline;
   {$ENDIF}
   end;
 
-  { TDegreeCelsiusUnit }
+  { Represents the degree Celsius temperature unit (@code(°C)).
 
+    Unlike SI base units, the Celsius scale has an offset relative to the
+    SI base unit of temperature (kelvin): @code(T[K] = T[°C] + 273.15).
+    The multiplication operator applies this offset conversion, so that
+    the resulting @link(TQuantity) is always expressed in kelvin internally.
+
+    Example:
+    @code(var T: TQuantity := 100.0 * DegreeCelsius;  // stores 373.15 K internally)
+
+    Note: because of the additive offset, Celsius degrees cannot be used
+    directly in multiplications or divisions to express temperature differences
+    without care. For temperature differences, use kelvin directly.
+  }
   TDegreeCelsiusUnit = record
   private
     FDim: TDimension;
@@ -5667,11 +6459,27 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
+    { Converts a temperature value in degrees Celsius to a @link(TQuantity) in kelvin.
+      Applies the offset: @code(T[K] = AValue + 273.15).
+      The resulting quantity has the thermodynamic temperature dimension @code([K]).
+    }
     class operator *(const AValue: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
   end;
 
-  { TDegreeFahrenheitUnit }
+  { Represents the degree Fahrenheit temperature unit (@code(°F)).
 
+    The Fahrenheit scale has both a scale factor and an offset relative to kelvin:
+    @code(T[K] = (T[°F] + 459.67) × 5/9).
+    The multiplication operator applies this full conversion, so that
+    the resulting @link(TQuantity) is always expressed in kelvin internally.
+
+    Example:
+    @code(var T: TQuantity := 212.0 * DegreeFahrenheit;  // stores 373.15 K internally)
+
+    Note: because of the additive offset, Fahrenheit degrees cannot be used
+    directly in multiplications or divisions to express temperature differences
+    without care. For temperature differences, use kelvin directly.
+  }
   TDegreeFahrenheitUnit = record
   private
     FDim: TDimension;
@@ -5681,147 +6489,547 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
+    { Converts a temperature value in degrees Fahrenheit to a @link(TQuantity) in kelvin.
+      Applies the affine conversion: @code(T[K] = (AValue + 459.67) × 5/9).
+      The resulting quantity has the thermodynamic temperature dimension @code([K]).
+    }
     class operator *(const AValue: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
   end;
 
- { TUnitHelper }
+  { Record helper for @link(TUnit) providing conversion and formatting operations
+    for all supported quantity types.
 
+    This helper centralises the logic for:
+    @unorderedList(
+      @item(Extracting the raw numerical value of a quantity expressed in a
+            given unit and prefix, via the @code(ToFloat), @code(ToComplex),
+            @code(ToVector) and @code(ToMatrix) family of methods.)
+      @item(Formatting a quantity as a compact string with unit symbol,
+            via the @code(ToString) family of methods.)
+      @item(Formatting a quantity as a verbose string with full unit name,
+            via the @code(ToVerboseString) family of methods.)
+      @item(Computing the scaled numerical value of a raw dimensionless type
+            for a given prefix, via the @code(GetValue) family of methods.)
+    )
+    All methods that accept @code(APrefixes) apply the corresponding SI prefix
+    scaling factor to the numerical value before returning or formatting.
+  }
   TUnitHelper = record helper for TUnit
   public
+    { Returns the singular name of the unit with the given prefix applied.
+      Example: @code(GetName([pKilo])) on the metre unit returns @code('kilometre').
+      @param(Prefixes The list of SI prefixes to prepend to the unit name.)
+    }
     function GetName(Prefixes: TPrefixes): string;
+
+    { Returns the plural name of the unit with the given prefix applied.
+      Example: @code(GetPluralName([pKilo])) on the metre unit returns @code('kilometres').
+      @param(Prefixes The list of SI prefixes to prepend to the unit plural name.)
+    }
     function GetPluralName(Prefixes: TPrefixes): string;
+
+    { Returns the symbol of the unit with the given prefix applied.
+      Example: @code(GetSymbol([pKilo])) on the metre unit returns @code('km').
+      @param(Prefixes The list of SI prefixes to prepend to the unit symbol.)
+    }
     function GetSymbol(Prefixes: TPrefixes): string;
+
+    { Returns the real scalar value scaled for the given prefix.
+      @param(AQuantity The dimensionless real value to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+
+    { Returns the complex value scaled for the given prefix.
+      @param(AQuantity The dimensionless complex value to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
+
+    { Returns the 2-component real vector scaled for the given prefix.
+      @param(AQuantity The dimensionless vector to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TR2Vector; const APrefixes: TPrefixes): TR2Vector;
+
+    { Returns the 3-component real vector scaled for the given prefix.
+      @param(AQuantity The dimensionless vector to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TR3Vector; const APrefixes: TPrefixes): TR3Vector;
+
+    { Returns the 4-component real vector scaled for the given prefix.
+      @param(AQuantity The dimensionless vector to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TR4Vector; const APrefixes: TPrefixes): TR4Vector;
+
+    { Returns the 2-component complex vector scaled for the given prefix.
+      @param(AQuantity The dimensionless complex vector to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TC2Vector; const APrefixes: TPrefixes): TC2Vector;
+
+    { Returns the 3-component complex vector scaled for the given prefix.
+      @param(AQuantity The dimensionless complex vector to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TC3Vector; const APrefixes: TPrefixes): TC3Vector;
+
+    { Returns the 4-component complex vector scaled for the given prefix.
+      @param(AQuantity The dimensionless complex vector to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TC4Vector; const APrefixes: TPrefixes): TC4Vector;
+
+    { Returns the 2×2 real matrix scaled for the given prefix.
+      @param(AQuantity The dimensionless matrix to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
+
+    { Returns the 3×3 real matrix scaled for the given prefix.
+      @param(AQuantity The dimensionless matrix to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
+
+    { Returns the 4×4 real matrix scaled for the given prefix.
+      @param(AQuantity The dimensionless matrix to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
+
+    { Returns the 2×2 complex matrix scaled for the given prefix.
+      @param(AQuantity The dimensionless complex matrix to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
+
+    { Returns the 3×3 complex matrix scaled for the given prefix.
+      @param(AQuantity The dimensionless complex matrix to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
+
+    { Returns the 4×4 complex matrix scaled for the given prefix.
+      @param(AQuantity The dimensionless complex matrix to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
+
+    { Returns the @code(Cl(3,0)) vector scaled for the given prefix.
+      @param(AQuantity The dimensionless @link(TCL3Vector) to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TCL3Vector; const APrefixes: TPrefixes): TCL3Vector;
+
+    { Returns the @code(Cl(3,0)) bivector scaled for the given prefix.
+      @param(AQuantity The dimensionless @link(TCL3Bivector) to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TCL3Bivector; const APrefixes: TPrefixes): TCL3Bivector;
+
+    { Returns the @code(Cl(3,0)) trivector scaled for the given prefix.
+      @param(AQuantity The dimensionless @link(TCL3Trivector) to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TCL3Trivector; const APrefixes: TPrefixes): TCL3Trivector;
+
+    { Returns the @code(Cl(3,0)) multivector scaled for the given prefix.
+      @param(AQuantity The dimensionless @link(TCL3Multivector) to scale.)
+      @param(APrefixes  The SI prefixes defining the scaling factor.)
+    }
     function GetValue(const AQuantity: TCL3Multivector; const APrefixes: TPrefixes): TCL3Multivector;
+
   public
-    // Real numbers
+    { Returns the numerical value of the real quantity expressed in this unit.
+      The value is converted from the internal SI representation.
+      @param(AQuantity The real quantity to extract the value from.)
+    }
     function ToFloat(const AQuantity: TQuantity): double;
+
+    { Returns the numerical value of the real quantity expressed in this unit
+      with the given prefix applied.
+      @param(AQuantity  The real quantity to extract the value from.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+
+    { Returns a compact string representation of the real quantity in this unit.
+      Format: @code('<value> <symbol>'), e.g. @code('9.81 m/s²').
+      @param(AQuantity The real quantity to format.)
+    }
     function ToString(const AQuantity: TQuantity): string;
+
+    { Returns a compact string representation of the real quantity in this unit
+      with the given prefix applied.
+      @param(AQuantity  The real quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the real quantity with controlled precision.
+      @param(AQuantity   The real quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the real quantity with a tolerance range.
+      Format: @code('<value> ± <tolerance> <symbol>').
+      @param(AQuantity   The central real quantity to format.)
+      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the real quantity in this unit.
+      Format: @code('<value> <plural name>'), e.g. @code('9.81 metres per square second').
+      @param(AQuantity The real quantity to format.)
+    }
     function ToVerboseString(const AQuantity: TQuantity): string;
+
+    { Returns a verbose string representation of the real quantity with the given prefix.
+      @param(AQuantity  The real quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the real quantity with controlled precision.
+      @param(AQuantity   The real quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the real quantity with a tolerance range.
+      Format: @code('<value> ± <tolerance> <plural name>').
+      @param(AQuantity   The central real quantity to format.)
+      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    // Complex numbers
+
+    { Returns the dimensionless @link(TComplex) value of the complex quantity expressed in this unit.
+      @param(AQuantity The complex quantity to extract the value from.)
+    }
     function ToComplex(const AQuantity: TComplexQuantity): TComplex;
+
+    { Returns the dimensionless @link(TComplex) value of the complex quantity
+      with the given prefix applied.
+      @param(AQuantity  The complex quantity to extract the value from.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToComplex(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): TComplex;
+
+    { Returns a compact string representation of the complex quantity in this unit.
+      Format: @code('<Re> ± <Im>i <symbol>').
+      @param(AQuantity The complex quantity to format.)
+    }
     function ToString(const AQuantity: TComplexQuantity): string;
+
+    { Returns a compact string representation of the complex quantity with the given prefix.
+      @param(AQuantity  The complex quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the complex quantity with controlled precision.
+      @param(AQuantity   The complex quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the complex quantity in this unit.
+      @param(AQuantity The complex quantity to format.)
+    }
     function ToVerboseString(const AQuantity: TComplexQuantity): string;
+
+    { Returns a verbose string representation of the complex quantity with the given prefix.
+      @param(AQuantity  The complex quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the complex quantity with controlled precision.
+      @param(AQuantity   The complex quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    // Real vector space
+
+    { Returns the dimensionless @link(TR2Vector) of the 2-component real vector quantity expressed in this unit. }
     function ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
+
+    { Returns the dimensionless @link(TR3Vector) of the 3-component real vector quantity expressed in this unit. }
     function ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
+
+    { Returns the dimensionless @link(TR4Vector) of the 4-component real vector quantity expressed in this unit. }
     function ToVector(const AQuantity: TR4VecQuantity): TR4Vector;
+
+    { Returns the dimensionless @link(TR2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
+
+    { Returns the dimensionless @link(TR3Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
+
+    { Returns the dimensionless @link(TR4Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
+
+    { Returns a compact string representation of the 2-component real vector quantity in this unit. }
     function ToString(const AQuantity: TR2VecQuantity): string;
+
+    { Returns a compact string representation of the 3-component real vector quantity in this unit. }
     function ToString(const AQuantity: TR3VecQuantity): string;
+
+    { Returns a compact string representation of the 4-component real vector quantity in this unit. }
     function ToString(const AQuantity: TR4VecQuantity): string;
+
+    { Returns a compact string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 3-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 4-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 2-component real vector quantity in this unit. }
     function ToVerboseString(const AQuantity: TR2VecQuantity): string;
+
+    { Returns a verbose string representation of the 3-component real vector quantity in this unit. }
     function ToVerboseString(const AQuantity: TR3VecQuantity): string;
+
+    { Returns a verbose string representation of the 4-component real vector quantity in this unit. }
     function ToVerboseString(const AQuantity: TR4VecQuantity): string;
+
+    { Returns a verbose string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 3-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 4-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
-    // Complex vector space
+
+    { Returns the dimensionless @link(TC2Vector) of the 2-component complex vector quantity expressed in this unit. }
     function ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
+
+    { Returns the dimensionless @link(TC3Vector) of the 3-component complex vector quantity expressed in this unit. }
     function ToVector(const AQuantity: TC3VecQuantity): TC3Vector;
+
+    { Returns the dimensionless @link(TC4Vector) of the 4-component complex vector quantity expressed in this unit. }
     function ToVector(const AQuantity: TC4VecQuantity): TC4Vector;
+
+    { Returns the dimensionless @link(TC2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): TC2Vector;
+
+    { Returns the dimensionless @link(TC3Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): TC3Vector;
+
+    { Returns the dimensionless @link(TC4Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): TC4Vector;
+
+    { Returns a compact string representation of the 2-component complex vector quantity in this unit. }
     function ToString(const AQuantity: TC2VecQuantity): string;
+
+    { Returns a compact string representation of the 3-component complex vector quantity in this unit. }
     function ToString(const AQuantity: TC3VecQuantity): string;
+
+    { Returns a compact string representation of the 4-component complex vector quantity in this unit. }
     function ToString(const AQuantity: TC4VecQuantity): string;
+
+    { Returns a compact string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 3-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 4-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 2-component complex vector quantity in this unit. }
     function ToVerboseString(const AQuantity: TC2VecQuantity): string;
+
+    { Returns a verbose string representation of the 3-component complex vector quantity in this unit. }
     function ToVerboseString(const AQuantity: TC3VecQuantity): string;
+
+    { Returns a verbose string representation of the 4-component complex vector quantity in this unit. }
     function ToVerboseString(const AQuantity: TC4VecQuantity): string;
+
+    { Returns a verbose string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 3-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 4-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
-    // Real matrixes
+
+    { Returns the dimensionless @link(TR2Matrix) of the 2×2 real matrix quantity expressed in this unit. }
     function ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
+
+    { Returns the dimensionless @link(TR3Matrix) of the 3×3 real matrix quantity expressed in this unit. }
     function ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
+
+    { Returns the dimensionless @link(TR4Matrix) of the 4×4 real matrix quantity expressed in this unit. }
     function ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
+
+    { Returns the dimensionless @link(TR2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
+
+    { Returns the dimensionless @link(TR3Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
+
+    { Returns the dimensionless @link(TR4Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
+
+    { Returns a compact string representation of the 2×2 real matrix quantity in this unit. }
     function ToString(const AQuantity: TR2MatrixQuantity): string;
+
+    { Returns a compact string representation of the 3×3 real matrix quantity in this unit. }
     function ToString(const AQuantity: TR3MatrixQuantity): string;
+
+    { Returns a compact string representation of the 4×4 real matrix quantity in this unit. }
     function ToString(const AQuantity: TR4MatrixQuantity): string;
+
+    { Returns a compact string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 3×3 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 4×4 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 2×2 real matrix quantity in this unit. }
     function ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 3×3 real matrix quantity in this unit. }
     function ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 4×4 real matrix quantity in this unit. }
     function ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 3×3 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 4×4 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
-    // Complex matrixes
+
+    { Returns the dimensionless @link(TC2Matrix) of the 2×2 complex matrix quantity expressed in this unit. }
     function ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
+
+    { Returns the dimensionless @link(TC3Matrix) of the 3×3 complex matrix quantity expressed in this unit. }
     function ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
+
+    { Returns the dimensionless @link(TC4Matrix) of the 4×4 complex matrix quantity expressed in this unit. }
     function ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
+
+    { Returns the dimensionless @link(TC2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
+
+    { Returns the dimensionless @link(TC3Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
+
+    { Returns the dimensionless @link(TC4Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
+
+    { Returns a compact string representation of the 2×2 complex matrix quantity in this unit. }
     function ToString(const AQuantity: TC2MatrixQuantity): string;
+
+    { Returns a compact string representation of the 3×3 complex matrix quantity in this unit. }
     function ToString(const AQuantity: TC3MatrixQuantity): string;
+
+    { Returns a compact string representation of the 4×4 complex matrix quantity in this unit. }
     function ToString(const AQuantity: TC4MatrixQuantity): string;
+
+    { Returns a compact string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 3×3 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 4×4 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 2×2 complex matrix quantity in this unit. }
     function ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 3×3 complex matrix quantity in this unit. }
     function ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 4×4 complex matrix quantity in this unit. }
     function ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 3×3 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 4×4 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
-    // CL3 vector space, Clifford algebra
+
+    { Returns a compact string representation of the @code(Cl(3,0)) vector quantity in this unit. }
     function ToString(const AQuantity: TCL3VecQuantity): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) bivector quantity in this unit. }
     function ToString(const AQuantity: TCL3BivecQuantity): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) trivector quantity in this unit. }
     function ToString(const AQuantity: TCL3TrivecQuantity): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) multivector quantity in this unit. }
     function ToString(const AQuantity: TCL3MultivecQuantity): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) bivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) trivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) multivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) vector quantity in this unit. }
     function ToVerboseString(const AQuantity: TCL3VecQuantity): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) bivector quantity in this unit. }
     function ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) trivector quantity in this unit. }
     function ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) multivector quantity in this unit. }
     function ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) bivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) trivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) multivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
   end;
 
