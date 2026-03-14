@@ -7033,186 +7033,755 @@ type
     function ToVerboseString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
   end;
 
- { TFactoredUnitHelper }
+  { Record helper for @link(TFactoredUnit) providing conversion and formatting
+    operations for all supported quantity types.
 
+    This helper mirrors the interface of @link(TUnitHelper) but applies the
+    conversion factor @code(FFactor) stored in @link(TFactoredUnit) to all
+    extraction and formatting operations. All @code(ToFloat), @code(ToComplex),
+    @code(ToVector) and @code(ToMatrix) methods return values expressed in the
+    factored unit (e.g. kilometres, degrees) rather than in SI base units.
+
+    All @code(ToString) and @code(ToVerboseString) methods produce output with
+    the factored unit symbol or name (e.g. @code('5 km'), @code('90 degrees'))
+    rather than the SI base unit.
+
+    All methods that accept @code(APrefixes) apply the corresponding SI prefix
+    scaling factor on top of @code(FFactor).
+  }
   TFactoredUnitHelper = record helper for TFactoredUnit
   public
+    { Returns the singular name of the factored unit with the given prefix applied.
+      Example: @code(GetName([pMilli])) on the gram unit returns @code('milligram').
+      @param(Prefixes The list of SI prefixes to prepend to the unit name.)
+    }
     function GetName(Prefixes: TPrefixes): string;
+
+    { Returns the plural name of the factored unit with the given prefix applied.
+      Example: @code(GetPluralName([pMilli])) on the gram unit returns @code('milligrams').
+      @param(Prefixes The list of SI prefixes to prepend to the unit plural name.)
+    }
     function GetPluralName(Prefixes: TPrefixes): string;
+
+    { Returns the symbol of the factored unit with the given prefix applied.
+      Example: @code(GetSymbol([pMilli])) on the gram unit returns @code('mg').
+      @param(Prefixes The list of SI prefixes to prepend to the unit symbol.)
+    }
     function GetSymbol(Prefixes: TPrefixes): string;
+
+    { Returns the real scalar value scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless real value to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+
+    { Returns the complex value scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless complex value to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
+
+    { Returns the 2-component real vector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless vector to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TR2Vector; const APrefixes: TPrefixes): TR2Vector;
+
+    { Returns the 3-component real vector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless vector to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TR3Vector; const APrefixes: TPrefixes): TR3Vector;
+
+    { Returns the 4-component real vector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless vector to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TR4Vector; const APrefixes: TPrefixes): TR4Vector;
+
+    { Returns the 2-component complex vector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless complex vector to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TC2Vector; const APrefixes: TPrefixes): TC2Vector;
+
+    { Returns the 3-component complex vector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless complex vector to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TC3Vector; const APrefixes: TPrefixes): TC3Vector;
+
+    { Returns the 4-component complex vector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless complex vector to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TC4Vector; const APrefixes: TPrefixes): TC4Vector;
+
+    { Returns the 2×2 real matrix scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless matrix to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
+
+    { Returns the 3×3 real matrix scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless matrix to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
+
+    { Returns the 4×4 real matrix scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless matrix to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
+
+    { Returns the 2×2 complex matrix scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless complex matrix to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
+
+    { Returns the 3×3 complex matrix scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless complex matrix to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
+
+    { Returns the 4×4 complex matrix scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless complex matrix to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
+
+    { Returns the @code(Cl(3,0)) vector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless @link(TCL3Vector) to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TCL3Vector; const APrefixes: TPrefixes): TCL3Vector;
+
+    { Returns the @code(Cl(3,0)) bivector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless @link(TCL3Bivector) to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TCL3Bivector; const APrefixes: TPrefixes): TCL3Bivector;
+
+    { Returns the @code(Cl(3,0)) trivector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless @link(TCL3Trivector) to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TCL3Trivector; const APrefixes: TPrefixes): TCL3Trivector;
+
+    { Returns the @code(Cl(3,0)) multivector scaled by @code(FFactor) and the given prefix.
+      @param(AQuantity The dimensionless @link(TCL3Multivector) to scale.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: TCL3Multivector; const APrefixes: TPrefixes): TCL3Multivector;
+
   public
-    // Real numbers
+    { Returns the numerical value of the real quantity expressed in this factored unit.
+      The SI base value is divided by @code(FFactor).
+      @param(AQuantity The real quantity to extract the value from.)
+    }
     function ToFloat(const AQuantity: TQuantity): double;
+
+    { Returns the numerical value of the real quantity expressed in this factored unit
+      with the given prefix applied.
+      @param(AQuantity  The real quantity to extract the value from.)
+      @param(APrefixes  The SI prefixes defining additional output scaling.)
+    }
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+
+    { Returns a compact string representation of the real quantity in this factored unit.
+      Format: @code('<value> <symbol>'), e.g. @code('5 km'), @code('90 °').
+      @param(AQuantity The real quantity to format.)
+    }
     function ToString(const AQuantity: TQuantity): string;
+
+    { Returns a compact string representation of the real quantity in this factored unit
+      with the given prefix applied.
+      @param(AQuantity  The real quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the real quantity with controlled precision.
+      @param(AQuantity   The real quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the real quantity with a tolerance range.
+      Format: @code('<value> ± <tolerance> <symbol>').
+      @param(AQuantity   The central real quantity to format.)
+      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the real quantity in this factored unit.
+      Format: @code('<value> <plural name>'), e.g. @code('5 kilometres').
+      @param(AQuantity The real quantity to format.)
+    }
     function ToVerboseString(const AQuantity: TQuantity): string;
+
+    { Returns a verbose string representation of the real quantity with the given prefix.
+      @param(AQuantity  The real quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the real quantity with controlled precision.
+      @param(AQuantity   The real quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the real quantity with a tolerance range.
+      Format: @code('<value> ± <tolerance> <plural name>').
+      @param(AQuantity   The central real quantity to format.)
+      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    // Complex numbers
+
+    { Returns the dimensionless @link(TComplex) value of the complex quantity
+      expressed in this factored unit. The SI base value is divided by @code(FFactor).
+      @param(AQuantity The complex quantity to extract the value from.)
+    }
     function ToComplex(const AQuantity: TComplexQuantity): TComplex;
+
+    { Returns the dimensionless @link(TComplex) value with the given prefix applied.
+      @param(AQuantity  The complex quantity to extract the value from.)
+      @param(APrefixes  The SI prefixes defining additional output scaling.)
+    }
     function ToComplex(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): TComplex;
+
+    { Returns a compact string representation of the complex quantity in this factored unit. @param(AQuantity The complex quantity to format.) }
     function ToString(const AQuantity: TComplexQuantity): string;
+
+    { Returns a compact string representation of the complex quantity with the given prefix. @param(AQuantity The complex quantity to format.) @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the complex quantity with controlled precision.
+      @param(AQuantity   The complex quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the complex quantity in this factored unit. @param(AQuantity The complex quantity to format.) }
     function ToVerboseString(const AQuantity: TComplexQuantity): string;
+
+    { Returns a verbose string representation of the complex quantity with the given prefix. @param(AQuantity The complex quantity to format.) @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TComplexQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the complex quantity with controlled precision.
+      @param(AQuantity   The complex quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
-    // Real vector space
+
+    { Returns the dimensionless @link(TR2Vector) of the 2-component real vector quantity expressed in this factored unit. }
     function ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
+
+    { Returns the dimensionless @link(TR3Vector) of the 3-component real vector quantity expressed in this factored unit. }
     function ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
+
+    { Returns the dimensionless @link(TR4Vector) of the 4-component real vector quantity expressed in this factored unit. }
     function ToVector(const AQuantity: TR4VecQuantity): TR4Vector;
+
+    { Returns the dimensionless @link(TR2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
+
+    { Returns the dimensionless @link(TR3Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
+
+    { Returns the dimensionless @link(TR4Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
+
+    { Returns a compact string representation of the 2-component real vector quantity in this factored unit. }
     function ToString(const AQuantity: TR2VecQuantity): string;
+
+    { Returns a compact string representation of the 3-component real vector quantity in this factored unit. }
     function ToString(const AQuantity: TR3VecQuantity): string;
+
+    { Returns a compact string representation of the 4-component real vector quantity in this factored unit. }
     function ToString(const AQuantity: TR4VecQuantity): string;
+
+    { Returns a compact string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 3-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 4-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 2-component real vector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TR2VecQuantity): string;
+
+    { Returns a verbose string representation of the 3-component real vector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TR3VecQuantity): string;
+
+    { Returns a verbose string representation of the 4-component real vector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TR4VecQuantity): string;
+
+    { Returns a verbose string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 3-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 4-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
-    // Complex vector space
+
+    { Returns the dimensionless @link(TC2Vector) of the 2-component complex vector quantity expressed in this factored unit. }
     function ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
+
+    { Returns the dimensionless @link(TC3Vector) of the 3-component complex vector quantity expressed in this factored unit. }
     function ToVector(const AQuantity: TC3VecQuantity): TC3Vector;
+
+    { Returns the dimensionless @link(TC4Vector) of the 4-component complex vector quantity expressed in this factored unit. }
     function ToVector(const AQuantity: TC4VecQuantity): TC4Vector;
+
+    { Returns the dimensionless @link(TC2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): TC2Vector;
+
+    { Returns the dimensionless @link(TC3Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): TC3Vector;
+
+    { Returns the dimensionless @link(TC4Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVector(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): TC4Vector;
+
+    { Returns a compact string representation of the 2-component complex vector quantity in this factored unit. }
     function ToString(const AQuantity: TC2VecQuantity): string;
+
+    { Returns a compact string representation of the 3-component complex vector quantity in this factored unit. }
     function ToString(const AQuantity: TC3VecQuantity): string;
+
+    { Returns a compact string representation of the 4-component complex vector quantity in this factored unit. }
     function ToString(const AQuantity: TC4VecQuantity): string;
+
+    { Returns a compact string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 3-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 4-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 2-component complex vector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TC2VecQuantity): string;
+
+    { Returns a verbose string representation of the 3-component complex vector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TC3VecQuantity): string;
+
+    { Returns a verbose string representation of the 4-component complex vector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TC4VecQuantity): string;
+
+    { Returns a verbose string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 3-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 4-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
-    // Real matrixes
+
+    { Returns the dimensionless @link(TR2Matrix) of the 2×2 real matrix quantity expressed in this factored unit. }
     function ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
+
+    { Returns the dimensionless @link(TR3Matrix) of the 3×3 real matrix quantity expressed in this factored unit. }
     function ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
+
+    { Returns the dimensionless @link(TR4Matrix) of the 4×4 real matrix quantity expressed in this factored unit. }
     function ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
+
+    { Returns the dimensionless @link(TR2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
+
+    { Returns the dimensionless @link(TR3Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
+
+    { Returns the dimensionless @link(TR4Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
+
+    { Returns a compact string representation of the 2×2 real matrix quantity in this factored unit. }
     function ToString(const AQuantity: TR2MatrixQuantity): string;
+
+    { Returns a compact string representation of the 3×3 real matrix quantity in this factored unit. }
     function ToString(const AQuantity: TR3MatrixQuantity): string;
+
+    { Returns a compact string representation of the 4×4 real matrix quantity in this factored unit. }
     function ToString(const AQuantity: TR4MatrixQuantity): string;
+
+    { Returns a compact string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 3×3 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 4×4 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 2×2 real matrix quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 3×3 real matrix quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 4×4 real matrix quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 3×3 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 4×4 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
-    // Complex matrixes
+
+    { Returns the dimensionless @link(TC2Matrix) of the 2×2 complex matrix quantity expressed in this factored unit. }
     function ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
+
+    { Returns the dimensionless @link(TC3Matrix) of the 3×3 complex matrix quantity expressed in this factored unit. }
     function ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
+
+    { Returns the dimensionless @link(TC4Matrix) of the 4×4 complex matrix quantity expressed in this factored unit. }
     function ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
+
+    { Returns the dimensionless @link(TC2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
+
+    { Returns the dimensionless @link(TC3Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
+
+    { Returns the dimensionless @link(TC4Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
+
+    { Returns a compact string representation of the 2×2 complex matrix quantity in this factored unit. }
     function ToString(const AQuantity: TC2MatrixQuantity): string;
+
+    { Returns a compact string representation of the 3×3 complex matrix quantity in this factored unit. }
     function ToString(const AQuantity: TC3MatrixQuantity): string;
+
+    { Returns a compact string representation of the 4×4 complex matrix quantity in this factored unit. }
     function ToString(const AQuantity: TC4MatrixQuantity): string;
+
+    { Returns a compact string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 3×3 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the 4×4 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 2×2 complex matrix quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 3×3 complex matrix quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 4×4 complex matrix quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
+
+    { Returns a verbose string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 3×3 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the 4×4 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
-    // CL3 vector space, Clifford algebra
+
+    { Returns a compact string representation of the @code(Cl(3,0)) vector quantity in this factored unit. }
     function ToString(const AQuantity: TCL3VecQuantity): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) bivector quantity in this factored unit. }
     function ToString(const AQuantity: TCL3BivecQuantity): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) trivector quantity in this factored unit. }
     function ToString(const AQuantity: TCL3TrivecQuantity): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) multivector quantity in this factored unit. }
     function ToString(const AQuantity: TCL3MultivecQuantity): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) bivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) trivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the @code(Cl(3,0)) multivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) vector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TCL3VecQuantity): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) bivector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TCL3BivecQuantity): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) trivector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TCL3TrivecQuantity): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) multivector quantity in this factored unit. }
     function ToVerboseString(const AQuantity: TCL3MultivecQuantity): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TCL3VecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) bivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) trivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the @code(Cl(3,0)) multivector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
     function ToVerboseString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
   end;
 
- { TDegreeCelsiusUnitHelper }
+  { Record helper for @link(TDegreeCelsiusUnit) providing conversion and
+    formatting operations for temperatures expressed in degrees Celsius.
 
+    All extraction methods apply the inverse of the Celsius offset conversion,
+    so that a quantity stored internally in kelvin is correctly displayed in @code(°C):
+    @code(T[°C] = T[K] - 273.15).
+
+    All @code(ToString) and @code(ToVerboseString) methods produce output with
+    the Celsius symbol @code('°C') or name @code('degree Celsius') / @code('degrees Celsius').
+  }
   TDegreeCelsiusUnitHelper = record helper for TDegreeCelsiusUnit
   public
+    { Returns the singular name of the unit with the given prefix applied.
+      For the Celsius unit this is typically @code('degree Celsius') without prefix.
+      @param(Prefixes The list of SI prefixes to prepend to the unit name.)
+    }
     function GetName(const Prefixes: TPrefixes): string;
+
+    { Returns the plural name of the unit with the given prefix applied.
+      For the Celsius unit this is typically @code('degrees Celsius') without prefix.
+      @param(Prefixes The list of SI prefixes to prepend to the unit plural name.)
+    }
     function GetPluralName(const Prefixes: TPrefixes): string;
+
+    { Returns the symbol of the unit with the given prefix applied.
+      For the Celsius unit this is typically @code('°C') without prefix.
+      @param(Prefixes The list of SI prefixes to prepend to the unit symbol.)
+    }
     function GetSymbol(const Prefixes: TPrefixes): string;
+
+    { Returns the real scalar value scaled for the given prefix, expressed in degrees Celsius.
+      Applies the inverse offset: @code(T[°C] = AQuantity - 273.15).
+      @param(AQuantity The dimensionless real value in SI base units (kelvin) to convert.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+
   public
+
+    { Returns the numerical value of the real quantity expressed in degrees Celsius.
+      Applies the inverse offset conversion: @code(T[°C] = T[K] - 273.15).
+      @param(AQuantity The real temperature quantity stored internally in kelvin.)
+    }
     function ToFloat(const AQuantity: TQuantity): double;
+
+    { Returns the numerical value of the real quantity expressed in degrees Celsius
+      with the given prefix applied.
+      @param(AQuantity  The real temperature quantity stored internally in kelvin.)
+      @param(APrefixes  The SI prefixes defining additional output scaling.)
+    }
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+
+    { Returns a compact string representation of the temperature quantity in degrees Celsius.
+      Format: @code('<value> °C'), e.g. @code('100 °C').
+      @param(AQuantity The real temperature quantity to format.)
+    }
     function ToString(const AQuantity: TQuantity): string;
+
+    { Returns a compact string representation of the temperature quantity in degrees Celsius
+      with the given prefix applied.
+      @param(AQuantity  The real temperature quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the temperature quantity with controlled precision.
+      @param(AQuantity   The real temperature quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the temperature quantity with a tolerance range.
+      Format: @code('<value> ± <tolerance> °C').
+      @param(AQuantity   The central temperature quantity to format.)
+      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the temperature quantity in degrees Celsius.
+      Format: @code('<value> degrees Celsius'), e.g. @code('100 degrees Celsius').
+      @param(AQuantity The real temperature quantity to format.)
+    }
     function ToVerboseString(const AQuantity: TQuantity): string;
+
+    { Returns a verbose string representation of the temperature quantity with the given prefix.
+      @param(AQuantity  The real temperature quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the temperature quantity with controlled precision.
+      @param(AQuantity   The real temperature quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the temperature quantity with a tolerance range.
+      Format: @code('<value> ± <tolerance> degrees Celsius').
+      @param(AQuantity   The central temperature quantity to format.)
+      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
 
- { TDegreeFahrenheitUnitHelper }
+  { Record helper for @link(TDegreeFahrenheitUnit) providing conversion and
+    formatting operations for temperatures expressed in degrees Fahrenheit.
 
+    All extraction methods apply the inverse of the Fahrenheit affine conversion,
+    so that a quantity stored internally in kelvin is correctly displayed in @code(°F):
+    @code(T[°F] = T[K] × 9/5 - 459.67).
+
+    All @code(ToString) and @code(ToVerboseString) methods produce output with
+    the Fahrenheit symbol @code('°F') or name @code('degree Fahrenheit') / @code('degrees Fahrenheit').
+  }
   TDegreeFahrenheitUnitHelper = record helper for TDegreeFahrenheitUnit
   public
+    { Returns the singular name of the unit with the given prefix applied.
+      For the Fahrenheit unit this is typically @code('degree Fahrenheit') without prefix.
+      @param(Prefixes The list of SI prefixes to prepend to the unit name.)
+    }
     function GetName(const Prefixes: TPrefixes): string;
+
+    { Returns the plural name of the unit with the given prefix applied.
+      For the Fahrenheit unit this is typically @code('degrees Fahrenheit') without prefix.
+      @param(Prefixes The list of SI prefixes to prepend to the unit plural name.)
+    }
     function GetPluralName(const Prefixes: TPrefixes): string;
+
+    { Returns the symbol of the unit with the given prefix applied.
+      For the Fahrenheit unit this is typically @code('°F') without prefix.
+      @param(Prefixes The list of SI prefixes to prepend to the unit symbol.)
+    }
     function GetSymbol(const Prefixes: TPrefixes): string;
+
+    { Returns the real scalar value scaled for the given prefix, expressed in degrees Fahrenheit.
+      Applies the inverse affine conversion: @code(T[°F] = T[K] × 9/5 - 459.67).
+      @param(AQuantity The dimensionless real value in SI base units (kelvin) to convert.)
+      @param(APrefixes  The SI prefixes defining additional scaling.)
+    }
     function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+
   public
+
+    { Returns the numerical value of the real quantity expressed in degrees Fahrenheit.
+      Applies the inverse affine conversion: @code(T[°F] = T[K] × 9/5 - 459.67).
+      @param(AQuantity The real temperature quantity stored internally in kelvin.)
+    }
     function ToFloat(const AQuantity: TQuantity): double;
+
+    { Returns the numerical value of the real quantity expressed in degrees Fahrenheit
+      with the given prefix applied.
+      @param(AQuantity  The real temperature quantity stored internally in kelvin.)
+      @param(APrefixes  The SI prefixes defining additional output scaling.)
+    }
     function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+
+    { eturns a compact string representation of the temperature quantity in degrees Fahrenheit.
+      Format: @code('<value> °F'), e.g. @code('212 °F').
+      @param(AQuantity The real temperature quantity to format.)
+    }
     function ToString(const AQuantity: TQuantity): string;
+
+    { Returns a compact string representation of the temperature quantity in degrees Fahrenheit
+      with the given prefix applied.
+      @param(AQuantity  The real temperature quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the temperature quantity with controlled precision.
+      @param(AQuantity   The real temperature quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a compact string representation of the temperature quantity with a tolerance range.
+      Format: @code('<value> ± <tolerance> °F').
+      @param(AQuantity   The central temperature quantity to format.)
+      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the temperature quantity in degrees Fahrenheit.
+      Format: @code('<value> degrees Fahrenheit'), e.g. @code('212 degrees Fahrenheit').
+      @param(AQuantity The real temperature quantity to format.)
+    }
     function ToVerboseString(const AQuantity: TQuantity): string;
+
+    { Returns a verbose string representation of the temperature quantity with the given prefix.
+      @param(AQuantity  The real temperature quantity to format.)
+      @param(APrefixes  The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the temperature quantity with controlled precision.
+      @param(AQuantity   The real temperature quantity to format.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+
+    { Returns a verbose string representation of the temperature quantity with a tolerance range.
+      Format: @code('<value> ± <tolerance> degrees Fahrenheit').
+      @param(AQuantity   The central temperature quantity to format.)
+      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(APrecision  Number of significant digits.)
+      @param(ADigits     Minimum number of digits in the output.)
+      @param(APrefixes   The SI prefixes defining the output scaling.)
+    }
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
 
@@ -20988,37 +21557,141 @@ const
     FExponents  : (1, -1));
 
 type
-  { Versors }
+  { Represents the basis vector @code(e₁) of @code(ℝ²).
+    Acts as a compile-time constant unit vector along the first axis of the 2D real space.
+    Multiplying a scalar by this record yields a @link(TR2Vector) scaled along @code(e₁).
+  }
+  TR2Versor1 = record
+    { Returns the vector @code(AValue · e₁) in @code(ℝ²). }
+    class operator *(const AValue: double; const ASelf: TR2Versor1): TR2Vector;
+  end;
 
-  TR2Versor1 = record class operator *(const AValue: double; const ASelf: TR2Versor1): TR2Vector; end;
-  TR2Versor2 = record class operator *(const AValue: double; const ASelf: TR2Versor2): TR2Vector; end;
+  { Represents the basis vector @code(e₂) of @code(ℝ²).
+    Acts as a compile-time constant unit vector along the second axis of the 2D real space.
+    Multiplying a scalar by this record yields a @link(TR2Vector) scaled along @code(e₂).
+  }
+  TR2Versor2 = record
+    { Returns the vector @code(AValue · e₂) in @code(ℝ²). }
+    class operator *(const AValue: double; const ASelf: TR2Versor2): TR2Vector;
+  end;
 
-  TR3Versor1 = record class operator *(const AValue: double; const ASelf: TR3Versor1): TR3Vector; end;
-  TR3Versor2 = record class operator *(const AValue: double; const ASelf: TR3Versor2): TR3Vector; end;
-  TR3Versor3 = record class operator *(const AValue: double; const ASelf: TR3Versor3): TR3Vector; end;
+  { Represents the basis vector @code(e₁) of @code(ℝ³).
+    Acts as a compile-time constant unit vector along the first axis of the 3D real space.
+    Multiplying a scalar by this record yields a @link(TR3Vector) scaled along @code(e₁).
+  }
+  TR3Versor1 = record
+    { Returns the vector @code(AValue · e₁) in @code(ℝ³). }
+    class operator *(const AValue: double; const ASelf: TR3Versor1): TR3Vector;
+  end;
 
-  TR4Versor1 = record class operator *(const AValue: double; const ASelf: TR4Versor1): TR4Vector; end;
-  TR4Versor2 = record class operator *(const AValue: double; const ASelf: TR4Versor2): TR4Vector; end;
-  TR4Versor3 = record class operator *(const AValue: double; const ASelf: TR4Versor3): TR4Vector; end;
-  TR4Versor4 = record class operator *(const AValue: double; const ASelf: TR4Versor4): TR4Vector; end;
+  { Represents the basis vector @code(e₂) of @code(ℝ³).
+    Acts as a compile-time constant unit vector along the second axis of the 3D real space.
+    Multiplying a scalar by this record yields a @link(TR3Vector) scaled along @code(e₂).
+  }
+  TR3Versor2 = record
+    { Returns the vector @code(AValue · e₂) in @code(ℝ³). }
+    class operator *(const AValue: double; const ASelf: TR3Versor2): TR3Vector;
+  end;
 
-{ External operators }
+  { Represents the basis vector @code(e₃) of @code(ℝ³).
+    Acts as a compile-time constant unit vector along the third axis of the 3D real space.
+    Multiplying a scalar by this record yields a @link(TR3Vector) scaled along @code(e₃).
+  }
+  TR3Versor3 = record
+    { Returns the vector @code(AValue · e₃) in @code(ℝ³). }
+    class operator *(const AValue: double; const ASelf: TR3Versor3): TR3Vector;
+  end;
 
-{$IFNDEF ADIMOFF}
-operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
-operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
-operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
-operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
-operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
-operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
+  { Represents the basis vector @code(e₁) of @code(ℝ⁴).
+    Acts as a compile-time constant unit vector along the first axis of the 4D real space.
+    Multiplying a scalar by this record yields a @link(TR4Vector) scaled along @code(e₁).
+  }
+  TR4Versor1 = record
+    { Returns the vector @code(AValue · e₁) in @code(ℝ⁴). }
+    class operator *(const AValue: double; const ASelf: TR4Versor1): TR4Vector;
+  end;
 
-operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
-operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
-operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
-operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
-operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
-operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
-{$ENDIF}
+  { Represents the basis vector @code(e₂) of @code(ℝ⁴).
+    Acts as a compile-time constant unit vector along the second axis of the 4D real space.
+    Multiplying a scalar by this record yields a @link(TR4Vector) scaled along @code(e₂).
+  }
+  TR4Versor2 = record
+    { Returns the vector @code(AValue · e₂) in @code(ℝ⁴). }
+    class operator *(const AValue: double; const ASelf: TR4Versor2): TR4Vector;
+  end;
+
+  { Represents the basis vector @code(e₃) of @code(ℝ⁴).
+    Acts as a compile-time constant unit vector along the third axis of the 4D real space.
+    Multiplying a scalar by this record yields a @link(TR4Vector) scaled along @code(e₃).
+  }
+  TR4Versor3 = record
+    { Returns the vector @code(AValue · e₃) in @code(ℝ⁴). }
+    class operator *(const AValue: double; const ASelf: TR4Versor3): TR4Vector;
+  end;
+
+  { Represents the basis vector @code(e₄) of @code(ℝ⁴).
+    Acts as a compile-time constant unit vector along the fourth axis of the 4D real space.
+    Multiplying a scalar by this record yields a @link(TR4Vector) scaled along @code(e₄).
+  }
+  TR4Versor4 = record
+    { Returns the vector @code(AValue · e₄) in @code(ℝ⁴). }
+    class operator *(const AValue: double; const ASelf: TR4Versor4): TR4Vector;
+  end;
+
+  { External operator overloads for multiplying @link(TQuantity) scalars with
+    dimensionless matrix types, producing the corresponding matrix quantity types.
+
+    These operators are necessary because Free Pascal does not allow operator
+    overloads between two different record types to be defined inside either record
+    when neither owns the other. They bridge @link(TQuantity) (defined in the
+    dimensional analysis layer) with the generic matrix types (defined in the
+    linear algebra layer).
+
+    All operators follow the rule: the resulting dimension equals the dimension
+    of the @link(TQuantity) operand, and the numerical values of the matrix
+    elements are scaled accordingly.
+
+    Only available when @code(ADIMOFF) is not defined.
+  }
+  {$IFNDEF ADIMOFF}
+
+  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
+
+  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
+
+  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
+
+  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
+
+  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
+
+  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
+
+  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
+
+  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
+
+  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
+
+  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
+
+  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
+
+  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
+
+  {$ENDIF}
 
 { Power and root functions }
 
