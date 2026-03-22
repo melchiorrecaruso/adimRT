@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADim: Record TC4VectorHelper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<nav class="navbar d-md-none sticky-top bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">ADim Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarNav" aria-controls="sidebarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="offcanvas-md offcanvas-start navigation" tabindex="-1" id="sidebarNav" data-bs-scroll="true">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">ADim Library</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarNav" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body py-2">
+<h2><a href="index.html">ADim Library</a></h2><ul class="nav flex-column px-3"><li class="nav-item"><a class="nav-link px-2 py-1" href="AllUnits.html">Units</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="ClassHierarchy.html">Class Hierarchy</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllTypes.html">Types</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllVariables.html">Variables</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllConstants.html">Constants</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllFunctions.html">Functions and Procedures</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllIdentifiers.html">Identifiers</a></li></ul></div></div>
+<main class="pasdoc-content content">
+<div class="container-fluid py-3 px-4">
+<span id="TC4VectorHelper"></span><h1 class="cio">Record TC4VectorHelper</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADim.html">ADim</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TC4VectorHelper = record helper for TC4Vector</code></p>
+<h2 class="description">Description</h2>
+<p>
+Record helper for <a class="normal" href="ADim.html#TC4Vector">TC4Vector</a> providing additional operations specific to 4-component complex vectors.</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#Dot-TC4Vector-">Dot</a></strong>(const AVector: <a href="ADim.html#TC4Vector">TC4Vector</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#ToString">ToString</a></strong>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#ToString-integer-integer-">ToString</a></strong>(APrecision, ADigits: integer): string;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element-wise complex conjugate of the vector.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TC4Vector-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.html#TC4Vector">TC4Vector</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the Hermitian inner product of two complex vectors. <code>〈u,v〉 = Σ conj(uᵢ)·vᵢ</code> Unlike the <code>&quot;*&quot;</code> operator, this uses the conjugate of the left operand. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The right-hand operand.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToString"></span><code>function <strong>ToString</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the vector to its default string representation.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToString-integer-integer-"></span><code>function <strong>ToString</strong>(APrecision, ADigits: integer): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the vector to a formatted string with controlled precision.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>APrecision</dt>
+<dd>Number of significant digits.</dd>
+<dt>ADigits</dt>
+<dd>Minimum number of digits in the output.</dd>
+</dl>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+</span>
+</div></main>
+<script src="bootstrap.bundle.min.js"></script>
+</body></html>

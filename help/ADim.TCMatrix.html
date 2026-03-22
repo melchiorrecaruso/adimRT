@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADim: Record TCMatrix</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<div class="container"><div class="navigation">
+<h2><a href="index.html">ADim Library</a></h2><ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li></ul></div><div class="content">
+<span id="TCMatrix"></span><h1 class="cio">Record TCMatrix</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-NestedTypes">Nested Types</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADim.html">ADim</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type generic TCMatrix&lt;TSpace&gt; = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Generic square matrix of complex values (<a class="normal" href="ADim.TComplex.html">TComplex</a>) with dimension <code>TSpace.N × TSpace.N</code>.
+
+<p>Extends the functionality of <a class="normal" href="ADim.TCMatrix.html#TRMatrix">TRMatrix</a> to the complex domain. Supports implicit conversion from a real matrix. Use the default array property <code>a[row, col]</code> to read and write individual elements. Concrete types are provided as <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a>, <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a>, and <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a>.</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-NestedTypes"></span><h3 class="summary">Nested Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="ADim.TCMatrix.html#TRMatrix">TRMatrix</a></strong> = specialize <a href="ADim.TCMatrix.html#TRMatrix">TRMatrix</a>&lt;TSpace&gt;;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCMatrix.html#IsNull">IsNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCMatrix.html#IsNotNull">IsNotNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCMatrix.html#RowReduction">RowReduction</a></strong>: <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="ADim.TCMatrix.html#Swap">Swap</a></strong>(ARow1, ARow2: longint);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCMatrix.html#Trace">Trace</a></strong>: <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCMatrix.html#Transpose">Transpose</a></strong>: <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator := (const AMatrix: <a href="ADim.TCMatrix.html#TRMatrix">TRMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCMatrix.html">TCMatrix</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCMatrix.html">TCMatrix</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="ADim.TCMatrix.html#a">a</a></strong>[ARow,ACol:longint]: <a href="ADim.TComplex.html">TComplex</a> read Get write Put;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Nested Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TRMatrix"></span><code><strong>TRMatrix</strong> = specialize <a href="ADim.TCMatrix.html#TRMatrix">TRMatrix</a>&lt;TSpace&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsNull"></span><code>function <strong>IsNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if all elements of the matrix are zero.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsNotNull"></span><code>function <strong>IsNotNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if at least one element of the matrix is non-zero.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="RowReduction"></span><code>function <strong>RowReduction</strong>: <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the row-reduced echelon form of the matrix (Gauss elimination). The original matrix is not modified.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Swap"></span><code>procedure <strong>Swap</strong>(ARow1, ARow2: longint);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Swaps rows <code>ARow1</code> and <code>ARow2</code> in place.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Trace"></span><code>function <strong>Trace</strong>: <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the trace of the matrix, i.e. the sum of the diagonal elements: <code>tr(A) = Σ A[i,i]</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Transpose"></span><code>function <strong>Transpose</strong>: <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the transpose of the matrix. Element <code>[i,j]</code> of the result equals element <code>[j,i]</code> of the original.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id=":="></span><code>class operator := (const AMatrix: <a href="ADim.TCMatrix.html#TRMatrix">TRMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Implicit conversion from a real matrix to a complex matrix. Each element <code>a[i,j]</code> is converted to <code>TComplex(Re=a[i,j], Im=0)</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="<"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two matrices differ in at least one element.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="="></span><code>class operator =(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if all corresponding elements of the two matrices are equal.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="+"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element-wise sum of two complex matrices of the same size.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element-wise difference of two complex matrices of the same size.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the matrix product of two complex matrices. <code>(A·B)[i,j] = Σ_k A[i,k] · B[k,j]</code></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TCMatrix.html">TCMatrix</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a complex scalar and a matrix. Each element is multiplied by <code>ALeft</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: <a href="ADim.TCMatrix.html">TCMatrix</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a complex matrix and a complex scalar. Each element is multiplied by <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="/"></span><code>class operator /(const ALeft: <a href="ADim.TCMatrix.html">TCMatrix</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TCMatrix.html">TCMatrix</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the complex matrix divided by a complex scalar. Each element is divided by <code>ARight</code>.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="a"></span><code>property <strong>a</strong>[ARow,ACol:longint]: <a href="ADim.TComplex.html">TComplex</a> read Get write Put;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Provides access to individual complex matrix elements using 1-based row and column indices. <code>a[1,1]</code> is the top-left element.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0</a>. </em>
+</span>
+</div></div></body></html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADimTypes: Record TDimension</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<nav class="navbar d-md-none sticky-top bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">ADim Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarNav" aria-controls="sidebarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="offcanvas-md offcanvas-start navigation" tabindex="-1" id="sidebarNav" data-bs-scroll="true">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">ADim Library</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarNav" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body py-2">
+<h2><a href="index.html">ADim Library</a></h2><ul class="nav flex-column px-3"><li class="nav-item"><a class="nav-link px-2 py-1" href="AllUnits.html">Units</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="ClassHierarchy.html">Class Hierarchy</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllTypes.html">Types</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllVariables.html">Variables</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllConstants.html">Constants</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllFunctions.html">Functions and Procedures</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllIdentifiers.html">Identifiers</a></li></ul></div></div>
+<main class="pasdoc-content content">
+<div class="container-fluid py-3 px-4">
+<span id="TDimension"></span><h1 class="cio">Record TDimension</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADimTypes.html">ADimTypes</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TDimension = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Represents the physical dimension of a quantity using the SI base units.
+
+<p>Each field stores the integer exponent of the corresponding SI base unit. For example, a velocity has dimension <code>m¹·s⁻¹</code>, represented as <code>FMeter=1, FSecond=-1</code> with all other exponents equal to zero. A dimensionless quantity has all exponents equal to zero.
+
+<p>Dimension arithmetic follows the rules of dimensional analysis: </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Multiplication of quantities → addition of exponents</p></li>
+  <li><p>Division of quantities → subtraction of exponents</p></li>
+  <li><p>Power of a quantity → multiplication of exponents by an integer</p></li>
+  <li><p>Root of a quantity → division of exponents by an integer</p></li>
+</ul>
+
+<p></p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADimTypes.TDimension.html#ToString">ToString</a></strong>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ASelf: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ASelf: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: longint; ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADimTypes.TDimension.html">TDimension</a>; ARight: longint): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator <strong><a href="ADimTypes.TDimension.html#div-TDimension-longint-">div</a></strong>(const ALeft: <a href="ADimTypes.TDimension.html">TDimension</a>; ARight: longint): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToString"></span><code>function <strong>ToString</strong>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns a human-readable string representation of the dimension. Exponents equal to zero are omitted. Positive exponents are listed first, followed by negative ones with a <code>/</code> separator. Example: <code>kg·m²·s⁻³·A⁻¹</code> for the dimension of electric potential.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TDimension-"></span><code>class operator +(const ASelf: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary plus. Returns the dimension unchanged.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TDimension-"></span><code>class operator -(const ASelf: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary minus. Returns the inverse dimension. Each exponent is negated: used to represent the dimension of a reciprocal quantity.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TDimension-TDimension-"></span><code>class operator +(const ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of two dimensions, i.e. the dimension resulting from multiplying two physical quantities. Each exponent of the result equals the sum of the corresponding exponents.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TDimension-TDimension-"></span><code>class operator -(const ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two dimensions, i.e. the dimension resulting from dividing two physical quantities. Each exponent of the result equals the difference of the corresponding exponents.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-longint-TDimension-"></span><code>class operator *(const ALeft: longint; ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the dimension scaled by an integer exponent. Each exponent is multiplied by <code>ALeft</code>. Used to represent the dimension of a quantity raised to an integer power, e.g. <code>3 * [m] = [m³]</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TDimension-longint-"></span><code>class operator *(const ALeft: <a href="ADimTypes.TDimension.html">TDimension</a>; ARight: longint): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the dimension scaled by an integer exponent. Each exponent is multiplied by <code>ARight</code>. Used to represent the dimension of a quantity raised to an integer power, e.g. <code>[m] * 3 = [m³]</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="div-TDimension-longint-"></span><code>class operator <strong>div</strong>(const ALeft: <a href="ADimTypes.TDimension.html">TDimension</a>; ARight: longint): <a href="ADimTypes.TDimension.html">TDimension</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the dimension divided by an integer. Each exponent is divided by <code>ARight</code>. Used to represent the dimension of an integer root of a quantity, e.g. <code>[m²] div 2 = [m]</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<-TDimension-TDimension-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two dimensions differ in at least one exponent. Used internally to detect dimensional incompatibility between quantities.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TDimension-TDimension-"></span><code>class operator =(const ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if all corresponding exponents of the two dimensions are equal. Two quantities are dimensionally compatible if and only if their dimensions are equal.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+</span>
+</div></main>
+<script src="bootstrap.bundle.min.js"></script>
+</body></html>

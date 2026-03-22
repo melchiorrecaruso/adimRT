@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADim: Record TCL3Bivector</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<nav class="navbar d-md-none sticky-top bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">ADim Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarNav" aria-controls="sidebarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="offcanvas-md offcanvas-start navigation" tabindex="-1" id="sidebarNav" data-bs-scroll="true">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">ADim Library</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarNav" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body py-2">
+<h2><a href="index.html">ADim Library</a></h2><ul class="nav flex-column px-3"><li class="nav-item"><a class="nav-link px-2 py-1" href="AllUnits.html">Units</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="ClassHierarchy.html">Class Hierarchy</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllTypes.html">Types</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllVariables.html">Variables</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllConstants.html">Constants</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllFunctions.html">Functions and Procedures</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllIdentifiers.html">Identifiers</a></li></ul></div></div>
+<main class="pasdoc-content content">
+<div class="container-fluid py-3 px-4">
+<span id="TCL3Bivector"></span><h1 class="cio">Record TCL3Bivector</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADim.html">ADim</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TCL3Bivector = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Represents a pure bivector (grade-2 element) in the Clifford algebra <code>Cl(3,0)</code>.
+
+<p>A bivector is expressed as: <code>B = m12·e1∧e2 + m13·e1∧e3 + m23·e1∧e3</code>
+
+<p>Geometrically, a bivector represents an oriented plane segment in <code>R3</code>. In <code>Cl(3,0)</code> the basis bivectors satisfy: </p>
+
+<ul class="paragraph_spacing">
+  <li><p><code>(e1∧e2)² = -1</code></p></li>
+  <li><p><code>(e1∧e3)² = -1</code></p></li>
+  <li><p><code>(e2∧e3)² = -1</code></p></li>
+</ul>
+
+<p> making bivectors analogous to quaternion basis elements <code>i, j, k</code>. The subalgebra of even-grade elements (scalars and bivectors) is in fact isomorphic to the quaternion algebra <code>ℍ</code>.
+
+<p>The geometric product of two bivectors produces a mixed-grade result (scalar + bivector), hence the return type <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>. When combined with elements of other grades the result is always a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>.</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator :=(const AValue: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator :=(const AValue: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: double): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: double; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ASelf: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: double): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: double; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: double): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: double): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id=":=-TCL3Bivector-"></span><code>class operator :=(const AValue: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Implicit conversion from a bivector to a full multivector. All components of the result are zero except <code>m12</code>, <code>m13</code>, <code>m23</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id=":=-TCL3Multivector-"></span><code>class operator :=(const AValue: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Implicit conversion from a multivector to a bivector. Returns only the grade-2 components <code>m12</code>, <code>m13</code>, <code>m23</code>. All other components are discarded.
+
+<p>Use with care: this conversion is only meaningful for pure-bivector multivectors.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<-TCL3Bivector-TCL3Bivector-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two bivectors differ in at least one component.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<-TCL3Bivector-TCL3Multivector-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the bivector and the multivector differ in any component.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<-TCL3Multivector-TCL3Bivector-"></span><code>class operator &lt;&gt;(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the multivector and the bivector differ in any component.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TCL3Bivector-TCL3Bivector-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if all corresponding components of the two bivectors are equal.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TCL3Bivector-TCL3Multivector-"></span><code>class operator =(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the bivector equals the multivector, i.e. all non-bivector components of <code>ARight</code> are zero.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TCL3Multivector-TCL3Bivector-"></span><code>class operator =(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the multivector equals the bivector, i.e. all non-bivector components of <code>ALeft</code> are zero.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3Bivector-TCL3Bivector-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the component-wise sum of two bivectors. The result is a pure bivector.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3Bivector-double-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: double): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of a bivector and a real scalar. The result is a full multivector with <code>m0 = ARight</code> and the bivector components of <code>ALeft</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-double-TCL3Bivector-"></span><code>class operator +(const ALeft: double; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of a real scalar and a bivector. The result is a full multivector with <code>m0 = ALeft</code> and the bivector components of <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3Bivector-TCL3Trivector-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of a bivector and a trivector. The result is a full multivector with grade-2 components from <code>ALeft</code> and grade-3 component from <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3Trivector-TCL3Bivector-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of a trivector and a bivector. The result is a full multivector with grade-3 component from <code>ALeft</code> and grade-2 components from <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3Bivector-TCL3Multivector-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of a bivector and a multivector. The bivector contributes only to the grade-2 components.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TCL3Multivector-TCL3Bivector-"></span><code>class operator +(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of a multivector and a bivector. The bivector contributes only to the grade-2 components.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3Bivector-"></span><code>class operator -(const ASelf: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary minus. Returns the negation of the bivector. Each component <code>mₖ</code> becomes <code>-mₖ</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3Bivector-TCL3Bivector-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the component-wise difference of two bivectors. The result is a pure bivector.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3Bivector-double-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: double): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of a bivector and a real scalar. The result is a full multivector with <code>m0 = -ARight</code> and the bivector components of <code>ALeft</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--double-TCL3Bivector-"></span><code>class operator -(const ALeft: double; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of a real scalar and a bivector. The result is a full multivector with <code>m0 = ALeft</code> and negated bivector components of <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3Bivector-TCL3Trivector-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of a bivector and a trivector. The result is a full multivector with grade-2 components from <code>ALeft</code> and negated grade-3 component from <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3Trivector-TCL3Bivector-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of a trivector and a bivector. The result is a full multivector with grade-3 component from <code>ALeft</code> and negated grade-2 components from <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3Bivector-TCL3Multivector-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of a bivector and a multivector. The bivector contributes only to the grade-2 components.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TCL3Multivector-TCL3Bivector-"></span><code>class operator -(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of a multivector and a bivector. The bivector contributes only to the grade-2 components.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3Bivector-TCL3Bivector-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product of two bivectors. The result is a mixed-grade element (scalar + bivector), hence a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>. For example: <code>(e₁∧e₂)·(e₁∧e₂) = -1</code> and <code>(e₁∧e₂)·(e₁∧e₃) = -e₂∧e₃</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-double-TCL3Bivector-"></span><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product of a real scalar and a bivector. Each component is scaled by <code>ALeft</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3Bivector-double-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: double): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product of a bivector and a real scalar. Each component is scaled by <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3Bivector-TCL3Multivector-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product of a bivector and a multivector. Grade mixing occurs according to the Clifford multiplication rules of <code>Cl(3,0)</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3Bivector-TCL3Trivector-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product of a bivector and a trivector. Since <code>(e₁∧e₂)·(e₁∧e₂∧e₃) = e₃</code>, the result mixes grades and is returned as a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3Trivector-TCL3Bivector-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product of a trivector and a bivector. Grade mixing occurs according to the Clifford multiplication rules of <code>Cl(3,0)</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TCL3Multivector-TCL3Bivector-"></span><code>class operator *(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric product of a multivector and a bivector. Grade mixing occurs according to the Clifford multiplication rules of <code>Cl(3,0)</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3Bivector-TCL3Bivector-"></span><code>class operator /(const ALeft, ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient of two bivectors: <code>ALeft / ARight</code>. The result is a mixed-grade element, hence a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>. The inverse of a bivector <code>B</code> is <code>1/B = -B / |B|²</code> since <code>B² ≤ 0</code> for pure bivectors in <code>Cl(3,0)</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3Bivector-double-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: double): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient of a bivector divided by a real scalar. Each component is divided by <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-double-TCL3Bivector-"></span><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient of a real scalar divided by a bivector: <code>ALeft / ARight</code>. The inverse of a bivector <code>B</code> is <code>1/B = -B / |B|²</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3Bivector-TCL3Trivector-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient of a bivector divided by a trivector: <code>ALeft / ARight</code>. The result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3Trivector-TCL3Bivector-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient of a trivector divided by a bivector: <code>ALeft / ARight</code>. The result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3Bivector-TCL3Multivector-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>; const ARight: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient of a bivector divided by a multivector: <code>ALeft / ARight</code>. The result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TCL3Multivector-TCL3Bivector-"></span><code>class operator /(const ALeft: <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>; const ARight: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a>): <a href="ADim.TCL3Multivector.html">TCL3Multivector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the geometric quotient of a multivector divided by a bivector: <code>ALeft / ARight</code>. The result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+</span>
+</div></main>
+<script src="bootstrap.bundle.min.js"></script>
+</body></html>

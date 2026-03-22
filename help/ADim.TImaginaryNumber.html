@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADim: Record TImaginaryNumber</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<nav class="navbar d-md-none sticky-top bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">ADim Library</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarNav" aria-controls="sidebarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+</nav>
+<div class="offcanvas-md offcanvas-start navigation" tabindex="-1" id="sidebarNav" data-bs-scroll="true">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">ADim Library</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarNav" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body py-2">
+<h2><a href="index.html">ADim Library</a></h2><ul class="nav flex-column px-3"><li class="nav-item"><a class="nav-link px-2 py-1" href="AllUnits.html">Units</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="ClassHierarchy.html">Class Hierarchy</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllTypes.html">Types</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllVariables.html">Variables</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllConstants.html">Constants</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllFunctions.html">Functions and Procedures</a></li><li class="nav-item"><a class="nav-link px-2 py-1" href="AllIdentifiers.html">Identifiers</a></li></ul></div></div>
+<main class="pasdoc-content content">
+<div class="container-fluid py-3 px-4">
+<span id="TImaginaryNumber"></span><h1 class="cio">Record TImaginaryNumber</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADim.html">ADim</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TImaginaryNumber = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Represents a purely imaginary number: z = i⋅b
+
+<p>Only the imaginary part is non-zero.
+
+<p>Supports arithmetic operations with real numbers, complex numbers, and optionally with quantities (TQuantity/TComplexQuantity).</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator :=(const ASelf: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: double; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: double; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id=":=-TImaginaryNumber-"></span><code>class operator :=(const ASelf: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Implicit conversion to a complex number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-double-TImaginaryNumber-"></span><code>class operator +(const ALeft: double; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Addition of a real number and an imaginary number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TImaginaryNumber-double-"></span><code>class operator +(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Addition of an imaginary number and a real number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--double-TImaginaryNumber-"></span><code>class operator -(const ALeft: double; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Subtraction of an imaginary number from a real number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TImaginaryNumber-double-"></span><code>class operator -(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Subtraction of a real number from an imaginary number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TComplex-TImaginaryNumber-"></span><code>class operator +(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Addition of a complex number and an imaginary number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TImaginaryNumber-TComplex-"></span><code>class operator +(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Addition of an imaginary number and a complex number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TComplex-TImaginaryNumber-"></span><code>class operator -(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Subtraction of an imaginary number from a complex number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TImaginaryNumber-TComplex-"></span><code>class operator -(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Subtraction of a complex number from an imaginary number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-double-TImaginaryNumber-"></span><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplication of a real number and an imaginary number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TImaginaryNumber-double-"></span><code>class operator *(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplication of an imaginary number and a real number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TComplex-TImaginaryNumber-"></span><code>class operator *(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplication of a complex number and an imaginary number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TImaginaryNumber-TComplex-"></span><code>class operator *(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplication of an imaginary number and a complex number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-double-TImaginaryNumber-"></span><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Division of a real number by an imaginary number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TImaginaryNumber-double-"></span><code>class operator /(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Division of an imaginary number by a real number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TComplex-TImaginaryNumber-"></span><code>class operator /(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Division of a complex number by an imaginary number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TImaginaryNumber-TComplex-"></span><code>class operator /(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Division of an imaginary number by a complex number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TQuantity-TImaginaryNumber-"></span><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplication of a quantity and an imaginary number.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TImaginaryNumber-TQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Multiplication of an imaginary number and a quantity.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TImaginaryNumber-TQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Division of an imaginary number by a quantity.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TQuantity-TImaginaryNumber-"></span><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TImaginaryNumber.html">TImaginaryNumber</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Division of a quantity by an imaginary number.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+</span>
+</div></main>
+<script src="bootstrap.bundle.min.js"></script>
+</body></html>
