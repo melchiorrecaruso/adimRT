@@ -185,6 +185,12 @@ type
     }
     function ToString(APrecision, ADigits: integer): string;
 
+    { Sets the complex number to zero.
+      After this call @code(Re = 0.0) and @code(Im = 0.0).
+      Useful to reset a complex number before accumulating sums.
+    }
+    procedure Zero;
+
     { Implicit conversion from a real value to a complex number.
       The resulting complex number has @code(Im = 0).
     }
@@ -469,29 +475,17 @@ type
   { Tag record representing a 2-dimensional space.
     Used as a generic parameter to instantiate 2×2 matrix types.
   }
-  T2DSpace = record
-  private
-  const
-    N = 2;
-  end;
+  T2DSpace = record private const N = 2; end;
 
   { Tag record representing a 3-dimensional space.
     Used as a generic parameter to instantiate 3×3 matrix types.
   }
-  T3DSpace = record
-  private
-  const
-    N = 3;
-  end;
+  T3DSpace = record private const N = 3; end;
 
   { Tag record representing a 4-dimensional space.
     Used as a generic parameter to instantiate 4×4 matrix types.
   }
-  T4DSpace = record
-  private
-  const
-    N = 4;
-  end;
+  T4DSpace = record private const N = 4; end;
 
   { Generic square matrix of real values (@code(double)) with dimension @code(TSpace.N × TSpace.N).
 
@@ -713,20 +707,17 @@ type
     { Returns the product of a real quantity scalar and a quantity matrix.
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TQuantity;
-      const ARight: TRMatrixQuantity): TRMatrixQuantity;
+    class operator *(const ALeft: TQuantity; const ARight: TRMatrixQuantity): TRMatrixQuantity;
 
     { Returns the product of a quantity matrix and a real quantity scalar.
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TRMatrixQuantity;
-      const ARight: TQuantity): TRMatrixQuantity;
+    class operator *(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
 
     { Returns the quantity matrix divided by a real quantity scalar.
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TRMatrixQuantity;
-      const ARight: TQuantity): TRMatrixQuantity;
+    class operator /(const ALeft: TRMatrixQuantity;  const ARight: TQuantity): TRMatrixQuantity;
   end;
 
   { Generic square matrix of complex physical quantities (@link(TComplexQuantity)) with dimension @code(TSpace.N × TSpace.N).
@@ -778,20 +769,17 @@ type
     { Returns the product of a complex quantity scalar and a complex quantity matrix.
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TComplexQuantity;
-      const ARight: TCMatrixQuantity): TCMatrixQuantity;
+    class operator *(const ALeft: TComplexQuantity; const ARight: TCMatrixQuantity): TCMatrixQuantity;
 
     { Returns the product of a complex quantity matrix and a complex quantity scalar.
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TCMatrixQuantity;
-      const ARight: TComplexQuantity): TCMatrixQuantity;
+    class operator *(const ALeft: TCMatrixQuantity;  const ARight: TComplexQuantity): TCMatrixQuantity;
 
     { Returns the complex quantity matrix divided by a complex quantity scalar.
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TCMatrixQuantity;
-      const ARight: TComplexQuantity): TCMatrixQuantity;
+    class operator /(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
 
   public
     { Provides access to individual complex quantity matrix elements using 1-based row and column indices.
@@ -7880,7 +7868,6 @@ type
     Only available when @code(ADIMOFF) is not defined.
   }
   {$IFNDEF ADIMOFF}
-
   { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
   operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
 
@@ -7915,152 +7902,611 @@ type
   operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
 
   { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
-  operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
 
+  operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
   {$ENDIF}
 
-{ Power and root functions }
+  { Returns the square of the complex number @code(AValue).
+    Defined as @code(z² = (Re² - Im²) + 2·Re·Im·i).
+    @param(AValue The complex number to square.)
+  }
+  function ComplexSquarePower(const AValue: TComplex): TComplex;
 
-function ComplexSquarePower (const AValue: TComplex): TComplex;
-function ComplexCubicPower  (const AValue: TComplex): TComplex;
-function ComplexQuarticPower(const AValue: TComplex): TComplex;
+  { Returns the cube of the complex number @code(AValue).
+    Defined as @code(z³ = z² · z).
+    @param(AValue The complex number to cube.)
+  }
+  function ComplexCubicPower(const AValue: TComplex): TComplex;
 
-{$IFNDEF ADIMOFF}
-function ComplexSquarePower (const AQuantity: TComplexQuantity): TComplexQuantity;
-function ComplexCubicPower  (const AQuantity: TComplexQuantity): TComplexQuantity;
-function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
-{$ENDIF}
+  { Returns the fourth power of the complex number @code(AValue).
+    Defined as @code(z⁴ = (z²)²).
+    @param(AValue The complex number to raise to the fourth power.)
+  }
+  function ComplexQuarticPower(const AValue: TComplex): TComplex;
 
-function ComplexSquareRoot (const AValue: TComplex): TC2ArrayOfComplex;
-function ComplexCubicRoot  (const AValue: TComplex): TC3ArrayOfComplex;
-function ComplexQuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
+  {$IFNDEF ADIMOFF}
+  { Returns the square of the complex quantity @code(AQuantity).
+    The resulting dimension is the square of the original dimension.
+    @param(AQuantity The complex quantity to square.)
+  }
+  function ComplexSquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
 
-{ Usefull routines }
+  { Returns the cube of the complex quantity @code(AQuantity).
+    The resulting dimension is the cube of the original dimension.
+    @param(AQuantity The complex quantity to cube.)
+  }
+  function ComplexCubicPower(const AQuantity: TComplexQuantity): TComplexQuantity;
 
-function Abs(const AValue: double): double;
-function Abs(const AValue: TComplex): double;
+  { Returns the fourth power of the complex quantity @code(AQuantity).
+    The resulting dimension is the fourth power of the original dimension.
+    @param(AQuantity The complex quantity to raise to the fourth power.)
+  }
+  function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+  {$ENDIF}
 
-function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
-function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
-function Commutator(const ALeft, ARight: TC4Matrix): TC4Matrix;
+  { Returns all square roots of the complex number @code(AValue) as a fixed-size array.
+    A non-zero complex number has exactly 2 square roots, equally spaced in argument
+    by @code(π): @code(z^(1/2) = |z|^(1/2) · e^(i·(φ + 2kπ)/2)) for @code(k = 0, 1).
+    @param(AValue The complex number whose square roots are computed.)
+  }
+  function ComplexSquareRoot(const AValue: TComplex): TC2ArrayOfComplex;
 
-function SameValueEx(const AValue1, AValue2: double): boolean;
-function SameValueEx(const AValue1, AValue2: TComplex): boolean;
-function SameValueEx(const AValue1, AValue2: TC2Vector): boolean;
-function SameValueEx(const AValue1, AValue2: TC3Vector): boolean;
-function SameValueEx(const AValue1, AValue2: TC4Vector): boolean;
-function SameValueEx(const AValue1, AValue2: TC2Matrix): boolean;
-function SameValueEx(const AValue1, AValue2: TC3Matrix): boolean;
-function SameValueEx(const AValue1, AValue2: TC4Matrix): boolean;
-{$IFNDEF ADIMOFF}
-function SameValueEx(const ALeft, ARight: TQuantity): boolean;
-{$ENDIF}
+  { Returns all cube roots of the complex number @code(AValue) as a fixed-size array.
+    A non-zero complex number has exactly 3 cube roots, equally spaced in argument
+    by @code(2π/3): @code(z^(1/3) = |z|^(1/3) · e^(i·(φ + 2kπ)/3)) for @code(k = 0, 1, 2).
+    @param(AValue The complex number whose cube roots are computed.)
+  }
+  function ComplexCubicRoot(const AValue: TComplex): TC3ArrayOfComplex;
 
-function C2NullVector: TC2Vector;
-function C3NullVector: TC3Vector;
-function C4NullVector: TC4Vector;
+  { Returns all fourth roots of the complex number @code(AValue) as a fixed-size array.
+    A non-zero complex number has exactly 4 fourth roots, equally spaced in argument
+    by @code(π/2): @code(z^(1/4) = |z|^(1/4) · e^(i·(φ + 2kπ)/4)) for @code(k = 0, 1, 2, 3).
+    @param(AValue The complex number whose fourth roots are computed.)
+  }
+  function ComplexQuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
 
-function C2NullMatrix: TC2Matrix;
-function C3NullMatrix: TC3Matrix;
-function C4NullMatrix: TC4Matrix;
+  { Returns the absolute value of a real number.
+    Equivalent to the standard @code(System.Abs) but provided for
+    consistency with the overloaded complex version.
+    @param(AValue The real number.)
+  }
+  function Abs(const AValue: double): double;
 
-function C2IdMatrix: TC2Matrix;
-function C3IdMatrix: TC3Matrix;
-function C4IdMatrix: TC4Matrix;
+  { Returns the modulus (magnitude) of a complex number.
+    Defined as @code(|z| = √(Re² + Im²)).
+    @param(AValue The complex number.)
+  }
+  function Abs(const AValue: TComplex): double;
 
-{ Solvers for linear, quadratic, cubic and quartic equation }
+  { Returns the commutator of two 2×2 complex matrices.
+    Defined as @code([A, B] = A·B - B·A).
+    The commutator is zero if and only if the two matrices commute.
+    @param(ALeft  The left-hand matrix operand.)
+    @param(ARight The right-hand matrix operand.)
+  }
+  function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
 
-function SolveEquation(const a: double): double;
-function SolveEquation(const a: TComplex): TComplex;
-function SolveEquation(const a, b: TComplex): TC2ArrayOfComplex;
-function SolveEquation(const a, b, c: TComplex): TC3ArrayOfComplex;
-function SolveEquation(const a, b, c, d: TComplex): TC4ArrayOfComplex;
+  { Returns the commutator of two 3×3 complex matrices.
+    Defined as @code([A, B] = A·B - B·A).
+    The commutator is zero if and only if the two matrices commute.
+    @param(ALeft  The left-hand matrix operand.)
+    @param(ARight The right-hand matrix operand.)
+  }
+  function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
 
-{ Internal check routines }
+  { Returns the commutator of two 4×4 complex matrices.
+    Defined as @code([A, B] = A·B - B·A).
+    The commutator is zero if and only if the two matrices commute.
+    @param(ALeft  The left-hand matrix operand.)
+    @param(ARight The right-hand matrix operand.)
+  }
+  function Commutator(const ALeft, ARight: TC4Matrix): TC4Matrix;
 
-procedure Check(ALeft, ARight: TDimension); inline;
-function CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
-function CheckSum(ALeft, ARight: TDimension): TDimension; inline;
-function CheckSub(ALeft, ARight: TDimension): TDimension; inline;
-function CheckMul(ALeft, ARight: TDimension): TDimension; inline;
-function CheckDiv(ALeft, ARight: TDimension): TDimension; inline;
+  { Returns @true if two real numbers are equal within the default floating point tolerance.
+    Uses an epsilon-based comparison to account for floating point rounding errors.
+    @param(AValue1 The first real number.)
+    @param(AValue2 The second real number.)
+  }
+  function SameValueEx(const AValue1, AValue2: double): boolean;
 
-{ Power functions }
+  { Returns @true if two complex numbers are equal within the default floating point tolerance.
+    Both the real and imaginary parts must be within tolerance.
+    @param(AValue1 The first complex number.)
+    @param(AValue2 The second complex number.)
+  }
+  function SameValueEx(const AValue1, AValue2: TComplex): boolean;
 
-function SquarePower(const AQuantity: TQuantity): TQuantity;
-function CubicPower(const AQuantity: TQuantity): TQuantity;
-function QuarticPower(const AQuantity: TQuantity): TQuantity;
-function QuinticPower(const AQuantity: TQuantity): TQuantity;
-function SexticPower(const AQuantity: TQuantity): TQuantity;
-function SquareRoot(const AQuantity: TQuantity): TQuantity;
-function CubicRoot(const AQuantity: TQuantity): TQuantity;
-function QuarticRoot(const AQuantity: TQuantity): TQuantity;
-function QuinticRoot(const AQuantity: TQuantity): TQuantity;
-function SexticRoot(const AQuantity: TQuantity): TQuantity;
+  { Returns @true if two 2-component complex vectors are equal within the default floating point tolerance.
+    All corresponding components must be within tolerance.
+    @param(AValue1 The first complex vector.)
+    @param(AValue2 The second complex vector.)
+  }
+  function SameValueEx(const AValue1, AValue2: TC2Vector): boolean;
 
-{ Trigonometric functions }
+  { Returns @true if two 3-component complex vectors are equal within the default floating point tolerance.
+    All corresponding components must be within tolerance.
+    @param(AValue1 The first complex vector.)
+    @param(AValue2 The second complex vector.)
+  }
+  function SameValueEx(const AValue1, AValue2: TC3Vector): boolean;
 
-function Cos(const AQuantity: TQuantity): double;
-function Sin(const AQuantity: TQuantity): double;
-function Tan(const AQuantity: TQuantity): double;
-function Cotan(const AQuantity: TQuantity): double;
-function Secant(const AQuantity: TQuantity): double;
-function Cosecant(const AQuantity: TQuantity): double;
+  { Returns @true if two 4-component complex vectors are equal within the default floating point tolerance.
+    All corresponding components must be within tolerance.
+    @param(AValue1 The first complex vector.)
+    @param(AValue2 The second complex vector.)
+  }
+  function SameValueEx(const AValue1, AValue2: TC4Vector): boolean;
 
-function ArcCos(const AValue: double): TQuantity;
-function ArcSin(const AValue: double): TQuantity;
-function ArcTan(const AValue: double): TQuantity;
-function ArcTan2(const x, y: double): TQuantity;
+  { Returns @true if two 2×2 complex matrices are equal within the default floating point tolerance.
+    All corresponding elements must be within tolerance.
+    @param(AValue1 The first complex matrix.)
+    @param(AValue2 The second complex matrix.)
+  }
+  function SameValueEx(const AValue1, AValue2: TC2Matrix): boolean;
 
-{ Math functions }
+  { Returns @true if two 3×3 complex matrices are equal within the default floating point tolerance.
+    All corresponding elements must be within tolerance.
+    @param(AValue1 The first complex matrix.)
+    @param(AValue2 The second complex matrix.)
+  }
+  function SameValueEx(const AValue1, AValue2: TC3Matrix): boolean;
 
-function Min(const ALeft, ARight: TQuantity): TQuantity;
-function Max(const ALeft, ARight: TQuantity): TQuantity;
-function Exp(const AQuantity: TQuantity): TQuantity;
+  { Returns @true if two 4×4 complex matrices are equal within the default floating point tolerance.
+    All corresponding elements must be within tolerance.
+    @param(AValue1 The first complex matrix.)
+    @param(AValue2 The second complex matrix.)
+  }
+  function SameValueEx(const AValue1, AValue2: TC4Matrix): boolean;
 
-function Log10(const AQuantity : TQuantity) : double;
-function Log2(const AQuantity : TQuantity) : double;
-function LogN(ABase: longint; const AQuantity: TQuantity): double;
-function LogN(const ABase, AQuantity: TQuantity): double;
+  {$IFNDEF ADIMOFF}
+  { Returns @true if two real physical quantities are equal within the default floating point tolerance.
+    Both operands must have the same dimension; an exception is raised if they differ.
+    @param(ALeft  The first quantity.)
+    @param(ARight The second quantity.)
+  }
+  function SameValueEx(const ALeft, ARight: TQuantity): boolean;
+  {$ENDIF}
 
-function Power(const ABase: TQuantity; AExponent: double): double;
+  { Solves the linear equation @code(a·x = 0) over the reals.
+    Returns @code(x = 0) for any non-zero @code(a), or raises an exception if @code(a = 0).
+    @param(a The coefficient of the linear term.)
+  }
+  function SolveEquation(const a: double): double;
 
-{ Helper functions }
+  { Solves the linear equation @code(a·z = 0) over the complex numbers.
+    Returns @code(z = 0) for any non-zero @code(a), or raises an exception if @code(a = 0).
+    @param(a The complex coefficient of the linear term.)
+  }
+  function SolveEquation(const a: TComplex): TComplex;
 
-function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
-function LessThanZero(const AQuantity: TQuantity): boolean;
-function EqualToZero(const AQuantity: TQuantity): boolean;
-function NotEqualToZero(const AQuantity: TQuantity): boolean;
-function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
-function GreaterThanZero(const AQuantity: TQuantity): boolean;
+  { Solves the linear equation @code(a·z + b = 0) over the complex numbers.
+    Returns the single root @code(z = -b/a) as a @link(TC2ArrayOfComplex).
+    @raises(Exception if @code(a = 0).)
+    @param(a The complex coefficient of the linear term.)
+    @param(b The complex constant term.)
+  }
+  function SolveEquation(const a, b: TComplex): TC2ArrayOfComplex;
 
-{ Constants }
+  { Solves the quadratic equation @code(a·z² + b·z + c = 0) over the complex numbers.
+    Returns both roots (including repeated roots) as a @link(TC3ArrayOfComplex).
+    @raises(Exception if @code(a = 0).)
+    @param(a The complex coefficient of the quadratic term.)
+    @param(b The complex coefficient of the linear term.)
+    @param(c The complex constant term.)
+  }
+  function SolveEquation(const a, b, c: TComplex): TC3ArrayOfComplex;
+
+  { Solves the cubic equation @code(a·z³ + b·z² + c·z + d = 0) over the complex numbers
+    using Cardano's method. Returns all three roots as a @link(TC4ArrayOfComplex).
+    @raises(Exception if @code(a = 0).)
+    @param(a The complex coefficient of the cubic term.)
+    @param(b The complex coefficient of the quadratic term.)
+    @param(c The complex coefficient of the linear term.)
+    @param(d The complex constant term.)
+  }
+  function SolveEquation(const a, b, c, d: TComplex): TC4ArrayOfComplex;
+
+  { Checks that two dimensions are equal and raises an exception if they differ.
+    Used internally to validate operands of addition, subtraction, and comparison operators.
+    @param(ALeft  The dimension of the left operand.)
+    @param(ARight The dimension of the right operand.)
+  }
+  procedure Check(ALeft, ARight: TDimension); inline;
+
+  { Checks that two dimensions are equal and returns the common dimension.
+    @raises(Exception if the two dimensions differ.)
+    @param(ALeft  The dimension of the left operand.)
+    @param(ARight The dimension of the right operand.)
+  }
+  function CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
+
+  { Validates that two dimensions are compatible for addition and returns the common dimension.
+    @raises(Exception if the two dimensions differ.)
+    @param(ALeft  The dimension of the left operand.)
+    @param(ARight The dimension of the right operand.)
+  }
+  function CheckSum(ALeft, ARight: TDimension): TDimension; inline;
+
+  { Validates that two dimensions are compatible for subtraction and returns the common dimension.
+    @raises(Exception if the two dimensions differ.)
+    @param(ALeft  The dimension of the left operand.)
+    @param(ARight The dimension of the right operand.)
+  }
+  function CheckSub(ALeft, ARight: TDimension): TDimension; inline;
+
+  { Returns the dimension resulting from multiplying two quantities.
+    The result is the sum of the two dimension exponent vectors.
+    @param(ALeft  The dimension of the left operand.)
+    @param(ARight The dimension of the right operand.)
+  }
+  function CheckMul(ALeft, ARight: TDimension): TDimension; inline;
+
+  { Returns the dimension resulting from dividing two quantities.
+    The result is the difference of the two dimension exponent vectors.
+    @param(ALeft  The dimension of the numerator.)
+    @param(ARight The dimension of the denominator.)
+  }
+  function CheckDiv(ALeft, ARight: TDimension): TDimension; inline;
+
+  { Returns the square of the quantity: @code(AQuantity²).
+    The resulting dimension is the square of the original dimension.
+    @param(AQuantity The quantity to square.)
+  }
+  function SquarePower(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the cube of the quantity: @code(AQuantity³).
+    The resulting dimension is the cube of the original dimension.
+    @param(AQuantity The quantity to cube.)
+  }
+  function CubicPower(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the fourth power of the quantity: @code(AQuantity⁴).
+    The resulting dimension is the fourth power of the original dimension.
+    @param(AQuantity The quantity to raise to the fourth power.)
+  }
+  function QuarticPower(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the fifth power of the quantity: @code(AQuantity⁵).
+    The resulting dimension is the fifth power of the original dimension.
+    @param(AQuantity The quantity to raise to the fifth power.)
+  }
+  function QuinticPower(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the sixth power of the quantity: @code(AQuantity⁶).
+    The resulting dimension is the sixth power of the original dimension.
+    @param(AQuantity The quantity to raise to the sixth power.)
+  }
+  function SexticPower(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the square root of the quantity: @code(AQuantity^(1/2)).
+    The resulting dimension has all exponents halved.
+    @raises(Exception if any dimension exponent is odd.)
+    @param(AQuantity The quantity whose square root is computed.)
+  }
+  function SquareRoot(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the cube root of the quantity: @code(AQuantity^(1/3)).
+    The resulting dimension has all exponents divided by 3.
+    @raises(Exception if any dimension exponent is not divisible by 3.)
+    @param(AQuantity The quantity whose cube root is computed.)
+  }
+  function CubicRoot(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the fourth root of the quantity: @code(AQuantity^(1/4)).
+    The resulting dimension has all exponents divided by 4.
+    @raises(Exception if any dimension exponent is not divisible by 4.)
+    @param(AQuantity The quantity whose fourth root is computed.)
+  }
+  function QuarticRoot(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the fifth root of the quantity: @code(AQuantity^(1/5)).
+    The resulting dimension has all exponents divided by 5.
+    @raises(Exception if any dimension exponent is not divisible by 5.)
+    @param(AQuantity The quantity whose fifth root is computed.)
+  }
+  function QuinticRoot(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the sixth root of the quantity: @code(AQuantity^(1/6)).
+    The resulting dimension has all exponents divided by 6.
+    @raises(Exception if any dimension exponent is not divisible by 6.)
+    @param(AQuantity The quantity whose sixth root is computed.)
+  }
+  function SexticRoot(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the cosine of the angle quantity.
+    The quantity must have the dimension of an angle (radians).
+    The result is a dimensionless @code(double).
+    @param(AQuantity The angle quantity in radians.)
+  }
+  function Cos(const AQuantity: TQuantity): double;
+
+  { Returns the sine of the angle quantity.
+    The quantity must have the dimension of an angle (radians).
+    The result is a dimensionless @code(double).
+    @param(AQuantity The angle quantity in radians.)
+  }
+  function Sin(const AQuantity: TQuantity): double;
+
+  { Returns the tangent of the angle quantity.
+    The quantity must have the dimension of an angle (radians).
+    The result is a dimensionless @code(double).
+    @param(AQuantity The angle quantity in radians.)
+  }
+  function Tan(const AQuantity: TQuantity): double;
+
+  { Returns the cotangent of the angle quantity: @code(cos(θ)/sin(θ)).
+    The quantity must have the dimension of an angle (radians).
+    The result is a dimensionless @code(double).
+    @param(AQuantity The angle quantity in radians.)
+  }
+  function Cotan(const AQuantity: TQuantity): double;
+
+  { Returns the secant of the angle quantity: @code(1/cos(θ)).
+    The quantity must have the dimension of an angle (radians).
+    The result is a dimensionless @code(double).
+    @param(AQuantity The angle quantity in radians.)
+  }
+  function Secant(const AQuantity: TQuantity): double;
+
+  { Returns the cosecant of the angle quantity: @code(1/sin(θ)).
+    The quantity must have the dimension of an angle (radians).
+    The result is a dimensionless @code(double).
+    @param(AQuantity The angle quantity in radians.)
+  }
+  function Cosecant(const AQuantity: TQuantity): double;
+
+  { Returns the arc cosine of @code(AValue) as an angle quantity in radians.
+    @code(AValue) must be in the range @code([-1, 1]).
+    The result has the dimension of an angle (radians).
+    @param(AValue The dimensionless cosine value.)
+  }
+  function ArcCos(const AValue: double): TQuantity;
+
+  { Returns the arc sine of @code(AValue) as an angle quantity in radians.
+    @code(AValue) must be in the range @code([-1, 1]).
+    The result has the dimension of an angle (radians).
+    @param(AValue The dimensionless sine value.)
+  }
+  function ArcSin(const AValue: double): TQuantity;
+
+  { Returns the arc tangent of @code(AValue) as an angle quantity in radians.
+    The result is in the range @code((-π/2, π/2)).
+    The result has the dimension of an angle (radians).
+    @param(AValue The dimensionless tangent value.)
+  }
+  function ArcTan(const AValue: double): TQuantity;
+
+  { Returns the arc tangent of @code(y/x) as an angle quantity in radians,
+    using the signs of both arguments to determine the correct quadrant.
+    The result is in the range @code((-π, π]).
+    The result has the dimension of an angle (radians).
+    @param(x The dimensionless x-coordinate.)
+    @param(y The dimensionless y-coordinate.)
+  }
+  function ArcTan2(const x, y: double): TQuantity;
+
+  { Returns the smaller of two quantities.
+    Both operands must have the same dimension.
+    @param(ALeft  The first quantity.)
+    @param(ARight The second quantity.)
+  }
+  function Min(const ALeft, ARight: TQuantity): TQuantity;
+
+  { Returns the larger of two quantities.
+    Both operands must have the same dimension.
+    @param(ALeft  The first quantity.)
+    @param(ARight The second quantity.)
+  }
+  function Max(const ALeft, ARight: TQuantity): TQuantity;
+
+  { Returns @code(e^AQuantity) as a dimensioned quantity.
+    The argument must be dimensionless; the result has the same dimension as the argument.
+    @param(AQuantity The dimensionless exponent quantity.)
+  }
+  function Exp(const AQuantity: TQuantity): TQuantity;
+
+  { Returns the base-10 logarithm of the quantity as a dimensionless @code(double).
+    The argument must be dimensionless and positive.
+    @param(AQuantity The dimensionless positive quantity.)
+  }
+  function Log10(const AQuantity: TQuantity): double;
+
+  { Returns the base-2 logarithm of the quantity as a dimensionless @code(double).
+    The argument must be dimensionless and positive.
+    @param(AQuantity The dimensionless positive quantity.)
+  }
+  function Log2(const AQuantity: TQuantity): double;
+
+  { Returns the base-@code(ABase) logarithm of the quantity as a dimensionless @code(double).
+    The argument must be dimensionless and positive.
+    @param(ABase     The integer logarithm base.)
+    @param(AQuantity The dimensionless positive quantity.)
+  }
+  function LogN(ABase: longint; const AQuantity: TQuantity): double;
+
+  { Returns the logarithm of @code(AQuantity) in the base @code(ABase) as a dimensionless @code(double).
+    Both arguments must be dimensionless and positive.
+    @param(ABase     The dimensionless base quantity.)
+    @param(AQuantity The dimensionless positive quantity.)
+  }
+  function LogN(const ABase, AQuantity: TQuantity): double;
+
+  { Returns @code(ABase^AExponent) as a dimensionless @code(double).
+    The base must be dimensionless. Used for fractional or real exponents
+    where dimensional consistency cannot be verified at compile time.
+    @param(ABase     The dimensionless base quantity.)
+    @param(AExponent The real exponent.)
+  }
+  function Power(const ABase: TQuantity; AExponent: double): double;
+
+  { Returns @true if the quantity is less than or equal to zero.
+    The quantity must be dimensionless or the comparison must be meaningful
+    within its dimension context.
+    @param(AQuantity The quantity to test.)
+  }
+  function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+
+  { Returns @true if the quantity is strictly less than zero.
+    @param(AQuantity The quantity to test.)
+  }
+  function LessThanZero(const AQuantity: TQuantity): boolean;
+
+  { Returns @true if the quantity is equal to zero within the default floating point tolerance.
+    @param(AQuantity The quantity to test.)
+  }
+  function EqualToZero(const AQuantity: TQuantity): boolean;
+
+  { Returns @true if the quantity is not equal to zero within the default floating point tolerance.
+    @param(AQuantity The quantity to test.)
+  }
+  function NotEqualToZero(const AQuantity: TQuantity): boolean;
+
+  { Returns @true if the quantity is greater than or equal to zero.
+    @param(AQuantity The quantity to test.)
+  }
+  function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+
+  { Returns @true if the quantity is strictly greater than zero.
+    @param(AQuantity The quantity to test.)
+  }
+  function GreaterThanZero(const AQuantity: TQuantity): boolean;
+
+  { Returns the zero vector of @code(ℂ²). All 2 components are set to @code(TComplex(Re=0, Im=0)). }
+  function C2NullVector: TC2Vector;
+
+  { Returns the zero vector of @code(ℂ³). All 3 components are set to @code(TComplex(Re=0, Im=0)). }
+  function C3NullVector: TC3Vector;
+
+  { Returns the zero vector of @code(ℂ⁴). All 4 components are set to @code(TComplex(Re=0, Im=0)). }
+  function C4NullVector: TC4Vector;
+
+  { Returns the 2×2 zero matrix over @code(ℂ). All elements are set to @code(TComplex(Re=0, Im=0)). }
+  function C2NullMatrix: TC2Matrix;
+
+  { Returns the 3×3 zero matrix over @code(ℂ). All elements are set to @code(TComplex(Re=0, Im=0)). }
+  function C3NullMatrix: TC3Matrix;
+
+  { Returns the 4×4 zero matrix over @code(ℂ). All elements are set to @code(TComplex(Re=0, Im=0)). }
+  function C4NullMatrix: TC4Matrix;
+
+  { Returns the 2×2 identity matrix over @code(ℂ).
+    Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
+    Satisfies @code(I·A = A·I = A) for any conforming 2×2 complex matrix @code(A).
+  }
+  function C2IdentityMatrix: TC2Matrix;
+
+  { Returns the 3×3 identity matrix over @code(ℂ).
+    Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
+    Satisfies @code(I·A = A·I = A) for any conforming 3×3 complex matrix @code(A).
+  }
+  function C3IdentityMatrix: TC3Matrix;
+
+  { Returns the 4×4 identity matrix over @code(ℂ).
+    Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
+    Satisfies @code(I·A = A·I = A) for any conforming 4×4 complex matrix @code(A).
+  }
+  function C4IdentityMatrix: TC4Matrix;
 
 const
+  { Avogadro constant @code(Nₐ = 6.02214076 × 10²³ mol⁻¹).
+    Number of constituent particles per mole of substance. }
   AvogadroConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole: -60; FCandela: 0; FSteradian: 0); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
+
+  { Bohr magneton @code(μB = 9.2740100657 × 10⁻²⁴ J·T⁻¹).
+    Natural unit of electronic magnetic dipole moment. }
   BohrMagneton                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond:    0; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
+
+  { Bohr radius @code(a₀ = 5.29177210903 × 10⁻¹¹ m).
+    Most probable distance between the electron and nucleus in a hydrogen atom ground state. }
   BohrRadius                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
+
+  { Boltzmann constant @code(kB = 1.380649 × 10⁻²³ J·K⁻¹).
+    Relates the average kinetic energy of particles in a gas to the thermodynamic temperature. }
   BoltzmannConstant              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole:   0; FCandela: 0; FSteradian: 0); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
+
+  { Compton wavelength @code(λC = 2.42631023867 × 10⁻¹² m).
+    Quantum mechanical property of the electron; sets the scale at which quantum field effects become significant. }
   ComptonWaveLength              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
+
+  { Coulomb constant @code(ke = 8.9875517923 × 10⁹ N·m²·C⁻²).
+    Proportionality constant in Coulomb's law of electrostatic force. }
   CoulombConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  180; FSecond: -240; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
+
+  { Deuteron mass @code(m_d = 3.3435837768 × 10⁻²⁷ kg).
+    Rest mass of the deuteron (nucleus of deuterium, one proton and one neutron). }
   DeuteronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
+
+  { Electric permittivity of free space @code(ε₀ = 8.8541878188 × 10⁻¹² F·m⁻¹).
+    Relates electric field to electric displacement field in a vacuum. }
   ElectricPermittivity           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -180; FSecond:  240; FAmpere:  120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
+
+  { Electron rest mass @code(m_e = 9.1093837015 × 10⁻³¹ kg).
+    Rest mass of the electron. }
   ElectronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
+
+  { Elementary charge @code(e = 1.602176634 × 10⁻¹⁹ C).
+      Electric charge carried by a single proton; the fundamental unit of electric charge. }
   ElectronCharge                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:   60; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
+
+  { Fine-structure constant @code(α = 7.2973525643 × 10⁻³) (dimensionless).
+    Characterises the strength of the electromagnetic interaction between elementary charged particles. }
   FineStructureConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
+
+  { Inverse fine-structure constant @code(α⁻¹ = 137.035999177) (dimensionless).
+    Reciprocal of the fine-structure constant; often used in quantum electrodynamics. }
   InverseFineStructureConstant   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
+
+  { Magnetic permeability of free space @code(μ₀ = 1.25663706212 × 10⁻⁶ H·m⁻¹).
+    Relates magnetic field intensity to magnetic flux density in a vacuum. }
   MagneticPermeability           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:   60; FSecond: -120; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
+
+  { Molar gas constant @code(R = 8.314462618 J·mol⁻¹·K⁻¹).
+    Relates energy to temperature and amount of substance in the ideal gas law. }
   MolarGasConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
-  NeutronMass                    : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+
+  { Neutron rest mass @code(m_n = 1.67492750056 × 10⁻²⁷ kg).
+    Rest mass of the neutron. }
+  NeutronRestMass                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+
+  { Newtonian constant of gravitation @code(G = 6.67430 × 10⁻¹¹ m³·kg⁻¹·s⁻²).
+    Proportionality constant in Newton's law of universal gravitation. }
   NewtonianConstantOfGravitation : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter:  180; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
+
+  { Planck constant @code(h = 6.62607015 × 10⁻³⁴ J·s).
+    Relates the energy of a photon to its frequency; fundamental constant of quantum mechanics. }
   PlanckConstant                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
+
+  { Proton rest mass @code(m_p = 1.67262192595 × 10⁻²⁷ kg).
+    Rest mass of the proton. }
   ProtonMass                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+
+  { Rydberg constant @code(R∞ = 10973731.568157 m⁻¹).
+    Relates the wavelengths of spectral lines of the hydrogen atom. }
   RydbergConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
+
+  { Speed of light in vacuum @code(c = 299792458 m·s⁻¹).
+    Exact defined value; maximum speed of propagation of any physical interaction. }
   SpeedOfLight                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
+
+  { Squared speed of light in vacuum @code(c² = 8.98755178736818 × 10¹⁶ m²·s⁻²).
+    Appears in the mass-energy equivalence relation @code(E = mc²). }
   SquaredSpeedOfLight            : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
+
+  { Standard acceleration of gravity @code(g = 9.80665 m·s⁻²).
+    Conventional standard value of the acceleration due to Earth's gravity at sea level. }
   StandardAccelerationOfGravity  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
+
+  { Reduced Planck constant @code(ℏ = h / (2π) = 1.054571817 × 10⁻³⁴ J·s).
+    Also called the Dirac constant; appears in quantum mechanics wherever angular frequency is used. }
   ReducedPlanckConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
+
+  { Unified atomic mass unit @code(u = 1.66053906892 × 10⁻²⁷ kg).
+    Defined as one twelfth of the mass of a carbon-12 atom at rest. }
   UnifiedAtomicMassUnit          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
+
+  { Reference sound intensity @code(I₀ = 10⁻¹² W·m⁻²).
+    Conventional threshold of human hearing at 1 kHz; used as the reference level
+    for the decibel scale of sound intensity. }
   SoundIntensityReference        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond: -180; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:                1E-12); {$ELSE} (               1E-12); {$ENDIF}
 
 { Prefix Table }
@@ -8170,7 +8616,7 @@ end;
 
 class operator TQuantity.*(const ALeft: double; const ARight: TQuantity): TQuantity;
 begin
-  result.FDim := ARight.FDim;
+  result.FDim := CheckMul(ScalarUnit.FDim, ARight.FDim);
   result.FValue:= ALeft * ARight.FValue;
 end;
 
@@ -8182,7 +8628,7 @@ end;
 
 class operator TQuantity./(const ALeft: double; const ARight: TQuantity): TQuantity;
 begin
-  result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
+  result.FDim := -ARight.FDim;
   result.FValue:= ALeft / ARight.FValue;
 end;
 
@@ -8229,8 +8675,10 @@ begin
 end;
 
 class operator TQuantity.:=(const AValue: double): TQuantity;
+const
+  Scalar : TDimension = (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
 begin
-  result.FDim := ScalarUnit.FDim;
+  result.FDim := Scalar;
   result.FValue := AValue;
 end;
 {$ENDIF}
@@ -8327,6 +8775,12 @@ begin
           result := Format('%s∙i', [FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
       end else
         result := '0';
+end;
+
+procedure TComplex.Zero;
+begin
+  fRe := 0;
+  fIm := 0;
 end;
 
 class operator TComplex.:=(const AValue: double): TComplex;
@@ -8482,13 +8936,13 @@ end;
 
 class operator TComplexQuantity.*(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity;
 begin
-  result.FDim := CheckMul(ScalarUnit.FDim, ARight.FDim);
+  result.FDim := ARight.FDim;
   result.FValue := ALeft * ARight.FValue;
 end;
 
 class operator TComplexQuantity.*(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity;
 begin
-  result.FDim := CheckMul(ALeft.FDim, ScalarUnit.FDim);
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue * ARight;
 end;
 
@@ -8500,13 +8954,13 @@ end;
 
 class operator TComplexQuantity./(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity;
 begin
-  result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
+  result.FDim := -ARight.FDim;
   result.FValue := ALeft / ARight.FValue;
 end;
 
 class operator TComplexQuantity./(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity;
 begin
-  result.FDim := CheckDiv(ALeft.FDim, ScalarUnit.FDim);
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue / ARight;
 end;
 
@@ -8693,7 +9147,7 @@ class operator TImaginaryUnit.*(const ALeft: TQuantity; const ARight: TImaginary
 const
   i: TImaginaryUnit = ();
 begin
-  result.FDim := CheckMul(ALeft.FDim, ScalarUnit.FDim);
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue * i;
 end;
 
@@ -8701,7 +9155,7 @@ class operator TImaginaryUnit.*(const ALeft: TImaginaryUnit; const ARight: TQuan
 const
   i: TImaginaryUnit = ();
 begin
-  result.FDim := CheckMul(ScalarUnit.FDim, ARight.FDim);
+  result.FDim := ARight.FDim;
   result.FValue := ARight.FValue * i;
 end;
 
@@ -8709,7 +9163,7 @@ class operator TImaginaryUnit./(const ALeft: TQuantity; const ARight: TImaginary
 const
   i: TImaginaryUnit = ();
 begin
-  result.FDim := CheckDiv(ALeft.FDim, ScalarUnit.FDim);
+  result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue / i;
 end;
 
@@ -8717,7 +9171,7 @@ class operator TImaginaryUnit./(const ALeft: TImaginaryUnit; const ARight: TQuan
 const
   i: TImaginaryUnit = ();
 begin
-  result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
+  result.FDim := -ARight.FDim;
   result.FValue := i / ARight.FValue;
 end;
 {$ENDIF}
@@ -10182,7 +10636,7 @@ var
 begin
   for i := Low(result) to High(result) do
   begin
-    A := (Self - AEigenvalues[i]*C2IdMatrix).RowReduction;
+    A := (Self - AEigenvalues[i] * C2IdentityMatrix).RowReduction;
 
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
@@ -10305,7 +10759,7 @@ var
 begin
   for i := Low(AEigenvalues) to High(AEigenvalues) do
   begin
-    A := (Self - AEigenvalues[i] * C3IdMatrix).RowReduction;
+    A := (Self - AEigenvalues[i] * C3IdentityMatrix).RowReduction;
 
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
@@ -10463,7 +10917,7 @@ var
 begin
   for i := Low(AEigenvalues) to High(AEigenvalues) do
   begin
-    A := (Self - AEigenvalues[i] * C4IdMatrix).RowReduction;
+    A := (Self - AEigenvalues[i] * C4IdentityMatrix).RowReduction;
 
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
@@ -16113,124 +16567,6 @@ begin
             SameValueEx(AValue1.fm[4,4], AValue2.fm[4,4]);
 end;
 
-function NullComplex: TComplex;
-begin
-  result.FRe := 0;
-  result.FIm := 0;
-end;
-
-function C2NullVector: TC2Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-end;
-
-function C3NullVector: TC3Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-  result[3] := 0;
-end;
-
-function C4NullVector: TC4Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-  result[3] := 0;
-  result[4] := 0;
-end;
-
-function C2NullMatrix: TC2Matrix;
-begin
-  result[1,1] := 0;
-  result[1,2] := 0;
-  result[2,1] := 0;
-  result[2,2] := 0;
-end;
-
-function C3NullMatrix: TC3Matrix;
-begin
-  result[1,1] := 0;
-  result[1,2] := 0;
-  result[1,3] := 0;
-  result[2,1] := 0;
-  result[2,2] := 0;
-  result[2,3] := 0;
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 0;
-end;
-
-function C4NullMatrix: TC4Matrix;
-begin
-  result[1,1] := 0;
-  result[1,2] := 0;
-  result[1,3] := 0;
-  result[1,4] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 0;
-  result[2,3] := 0;
-  result[2,4] := 0;
-
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 0;
-  result[3,4] := 0;
-
-  result[4,1] := 0;
-  result[4,2] := 0;
-  result[4,3] := 0;
-  result[4,4] := 0;
-end;
-
-function C2IdMatrix: TC2Matrix;
-begin
-  result[1,1] := 1;
-  result[1,2] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 1;
-end;
-
-function C3IdMatrix: TC3Matrix;
-begin
-  result[1,1] := 1;
-  result[1,2] := 0;
-  result[1,3] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 1;
-  result[2,3] := 0;
-
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 1;
-end;
-
-function C4IdMatrix: TC4Matrix;
-begin
-  result[1,1] := 1;
-  result[1,2] := 0;
-  result[1,3] := 0;
-  result[1,4] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 1;
-  result[2,3] := 0;
-  result[2,4] := 0;
-
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 1;
-  result[3,4] := 0;
-
-  result[4,1] := 0;
-  result[4,2] := 0;
-  result[4,3] := 0;
-  result[4,4] := 1;
-end;
-
 // Solvers for linear, quadratic, cubic and quartic equation
 
 function SolveEquation(const a: double): double;
@@ -21829,6 +22165,127 @@ begin
 {$ELSE}
   result := AQuantity > 0;
 {$ENDIF}
+end;
+
+function NullComplex: TComplex;
+begin
+  result.FRe := 0;
+  result.FIm := 0;
+end;
+
+function C2NullVector: TC2Vector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+end;
+
+function C3NullVector: TC3Vector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+  result[3] := 0;
+end;
+
+function C4NullVector: TC4Vector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+
+  result[3] := 0;
+  result[4] := 0;
+end;
+
+function C2NullMatrix: TC2Matrix;
+begin
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[2,1] := 0;
+  result[2,2] := 0;
+end;
+
+function C3NullMatrix: TC3Matrix;
+begin
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[1,3] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 0;
+  result[2,3] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 0;
+end;
+
+function C4NullMatrix: TC4Matrix;
+begin
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[1,3] := 0;
+  result[1,4] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 0;
+  result[2,3] := 0;
+  result[2,4] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 0;
+  result[3,4] := 0;
+
+  result[4,1] := 0;
+  result[4,2] := 0;
+  result[4,3] := 0;
+  result[4,4] := 0;
+end;
+
+function C2IdentityMatrix: TC2Matrix;
+begin
+  result[1,1] := 1;
+  result[1,2] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 1;
+end;
+
+function C3IdentityMatrix: TC3Matrix;
+begin
+  result[1,1] := 1;
+  result[1,2] := 0;
+  result[1,3] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 1;
+  result[2,3] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 1;
+end;
+
+function C4IdentityMatrix: TC4Matrix;
+begin
+  result[1,1] := 1;
+  result[1,2] := 0;
+  result[1,3] := 0;
+  result[1,4] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 1;
+  result[2,3] := 0;
+  result[2,4] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 1;
+  result[3,4] := 0;
+
+  result[4,1] := 0;
+  result[4,2] := 0;
+  result[4,3] := 0;
+  result[4,4] := 1;
 end;
 
 end.
