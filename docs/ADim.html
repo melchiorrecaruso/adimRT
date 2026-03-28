@@ -372,28 +372,10 @@ Description: ADim Run-time library.
 <td class="itemcode"><code>function <strong><a href="ADim.html#C2IdentityMatrix">C2IdentityMatrix</a></strong>: <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#C2NullMatrix">C2NullMatrix</a></strong>: <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#C2NullVector">C2NullVector</a></strong>: <a href="ADim.html#TC2Vector">TC2Vector</a>;</code></td>
-</tr>
-<tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#C3IdentityMatrix">C3IdentityMatrix</a></strong>: <a href="ADim.html#TC3Matrix">TC3Matrix</a>;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#C3NullMatrix">C3NullMatrix</a></strong>: <a href="ADim.html#TC3Matrix">TC3Matrix</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#C3NullVector">C3NullVector</a></strong>: <a href="ADim.html#TC3Vector">TC3Vector</a>;</code></td>
-</tr>
-<tr class="list">
 <td class="itemcode"><code>function <strong><a href="ADim.html#C4IdentityMatrix">C4IdentityMatrix</a></strong>: <a href="ADim.html#TC4Matrix">TC4Matrix</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#C4NullMatrix">C4NullMatrix</a></strong>: <a href="ADim.html#TC4Matrix">TC4Matrix</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#C4NullVector">C4NullVector</a></strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code>procedure <strong><a href="ADim.html#Check-TDimension-TDimension-">Check</a></strong>(ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>); inline;</code></td>
@@ -414,13 +396,13 @@ Description: ADim Run-time library.
 <td class="itemcode"><code>function <strong><a href="ADim.html#CheckSum-TDimension-TDimension-">CheckSum</a></strong>(ALeft, ARight: <a href="ADimTypes.TDimension.html">TDimension</a>): <a href="ADimTypes.TDimension.html">TDimension</a>; inline;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#Commutator-TC2Matrix-TC2Matrix-">Commutator</a></strong>(const ALeft, ARight: <a href="ADim.html#TC2Matrix">TC2Matrix</a>): <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
-</tr>
-<tr class="list">
 <td class="itemcode"><code>function <strong><a href="ADim.html#Commutator-TC3Matrix-TC3Matrix-">Commutator</a></strong>(const ALeft, ARight: <a href="ADim.html#TC3Matrix">TC3Matrix</a>): <a href="ADim.html#TC3Matrix">TC3Matrix</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list">
 <td class="itemcode"><code>function <strong><a href="ADim.html#Commutator-TC4Matrix-TC4Matrix-">Commutator</a></strong>(const ALeft, ARight: <a href="ADim.html#TC4Matrix">TC4Matrix</a>): <a href="ADim.html#TC4Matrix">TC4Matrix</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="ADim.html#Commutator-TC2Matrix-TC2Matrix-">Commutator</a></strong>(const ALeft, ARight: <a href="ADim.html#TC2Matrix">TC2Matrix</a>): <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code>function <strong><a href="ADim.html#Cos-TQuantity-">Cos</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): double;</code></td>
@@ -432,19 +414,19 @@ Description: ADim Run-time library.
 <td class="itemcode"><code>function <strong><a href="ADim.html#Cotan-TQuantity-">Cotan</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): double;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#CubicPower-TQuantity-">CubicPower</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#CubicPower-TComplex-">CubicPower</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#CubicPower-TComplex-">CubicPower</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#CubicPower-TQuantity-">CubicPower</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#CubicPower-TComplexQuantity-">CubicPower</a></strong>(const AQuantity: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#CubicRoot-TQuantity-">CubicRoot</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#CubicRoot-TComplex-">CubicRoot</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC3ArrayOfComplex">TC3ArrayOfComplex</a>;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#CubicRoot-TComplex-">CubicRoot</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC3ArrayOfComplex">TC3ArrayOfComplex</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#CubicRoot-TQuantity-">CubicRoot</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code>function <strong><a href="ADim.html#EqualToZero-TQuantity-">EqualToZero</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
@@ -489,19 +471,19 @@ Description: ADim Run-time library.
 <td class="itemcode"><code>function <strong><a href="ADim.html#Power-TQuantity-double-">Power</a></strong>(const ABase: <a href="ADim.TQuantity.html">TQuantity</a>; AExponent: double): double;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#QuarticPower-TQuantity-">QuarticPower</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#QuarticPower-TComplex-">QuarticPower</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#QuarticPower-TComplexQuantity-">QuarticPower</a></strong>(const AQuantity: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#QuarticPower-TComplex-">QuarticPower</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#QuarticPower-TQuantity-">QuarticPower</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#QuarticRoot-TComplex-">QuarticRoot</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC4ArrayOfComplex">TC4ArrayOfComplex</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#QuarticRoot-TQuantity-">QuarticRoot</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#QuarticRoot-TQuantity-">QuarticRoot</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#QuarticRoot-TComplex-">QuarticRoot</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC4ArrayOfComplex">TC4ArrayOfComplex</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#QuinticPower-TQuantity-">QuinticPower</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
@@ -510,31 +492,31 @@ Description: ADim Run-time library.
 <td class="itemcode"><code>function <strong><a href="ADim.html#QuinticRoot-TQuantity-">QuinticRoot</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-double-double-">SameValueEx</a></strong>(const AValue1, AValue2: double): boolean;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TQuantity-TQuantity-">SameValueEx</a></strong>(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TC4Vector-TC4Vector-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.html#TC4Vector">TC4Vector</a>): boolean;</code></td>
-</tr>
-<tr class="list">
 <td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TC2Matrix-TC2Matrix-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.html#TC2Matrix">TC2Matrix</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TC4Vector-TC4Vector-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.html#TC4Vector">TC4Vector</a>): boolean;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TC3Vector-TC3Vector-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.html#TC3Vector">TC3Vector</a>): boolean;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TComplex-TComplex-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.TComplex.html">TComplex</a>): boolean;</code></td>
-</tr>
-<tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TC3Matrix-TC3Matrix-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.html#TC3Matrix">TC3Matrix</a>): boolean;</code></td>
-</tr>
-<tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TC2Vector-TC2Vector-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.html#TC2Vector">TC2Vector</a>): boolean;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TC4Matrix-TC4Matrix-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.html#TC4Matrix">TC4Matrix</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TQuantity-TQuantity-">SameValueEx</a></strong>(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TC2Vector-TC2Vector-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.html#TC2Vector">TC2Vector</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-double-double-">SameValueEx</a></strong>(const AValue1, AValue2: double): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <strong><a href="ADim.html#SameValueEx-TComplex-TComplex-">SameValueEx</a></strong>(const AValue1, AValue2: <a href="ADim.TComplex.html">TComplex</a>): boolean;</code></td>
 </tr>
 <tr class="list">
 <td class="itemcode"><code>function <strong><a href="ADim.html#Secant-TQuantity-">Secant</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): double;</code></td>
@@ -549,13 +531,13 @@ Description: ADim Run-time library.
 <td class="itemcode"><code>function <strong><a href="ADim.html#Sin-TQuantity-">Sin</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): double;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#SolveEquation-TComplex-TComplex-">SolveEquation</a></strong>(const a, b: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>;</code></td>
-</tr>
-<tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#SolveEquation-TComplex-TComplex-TComplex-">SolveEquation</a></strong>(const a, b, c: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC3ArrayOfComplex">TC3ArrayOfComplex</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#SolveEquation-TComplex-TComplex-TComplex-TComplex-">SolveEquation</a></strong>(const a, b, c, d: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC4ArrayOfComplex">TC4ArrayOfComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="ADim.html#SolveEquation-TComplex-TComplex-">SolveEquation</a></strong>(const a, b: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#SolveEquation-double-">SolveEquation</a></strong>(const a: double): double;</code></td>
@@ -564,16 +546,16 @@ Description: ADim Run-time library.
 <td class="itemcode"><code>function <strong><a href="ADim.html#SolveEquation-TComplex-">SolveEquation</a></strong>(const a: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#SquarePower-TComplexQuantity-">SquarePower</a></strong>(const AQuantity: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
-</tr>
-<tr class="list">
 <td class="itemcode"><code>function <strong><a href="ADim.html#SquarePower-TComplex-">SquarePower</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
+<tr class="list">
+<td class="itemcode"><code>function <strong><a href="ADim.html#SquarePower-TComplexQuantity-">SquarePower</a></strong>(const AQuantity: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
 <tr class="list2">
-<td class="itemcode"><code>function <strong><a href="ADim.html#SquareRoot-TQuantity-">SquareRoot</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#SquareRoot-TComplex-">SquareRoot</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>;</code></td>
 </tr>
 <tr class="list">
-<td class="itemcode"><code>function <strong><a href="ADim.html#SquareRoot-TComplex-">SquareRoot</a></strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.html#SquareRoot-TQuantity-">SquareRoot</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="itemcode"><code>function <strong><a href="ADim.html#Tan-TQuantity-">Tan</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): double;</code></td>
@@ -16704,24 +16686,6 @@ Returns the 2×2 identity matrix over <code>ℂ</code>. Diagonal elements are <c
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="C2NullMatrix"></span><code>function <strong>C2NullMatrix</strong>: <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the 2×2 zero matrix over <code>ℂ</code>. All elements are set to <code>TComplex(Re=0, Im=0)</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="C2NullVector"></span><code>function <strong>C2NullVector</strong>: <a href="ADim.html#TC2Vector">TC2Vector</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the zero vector of <code>ℂ²</code>. All 2 components are set to <code>TComplex(Re=0, Im=0)</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
 <td class="itemcode"><span id="C3IdentityMatrix"></span><code>function <strong>C3IdentityMatrix</strong>: <a href="ADim.html#TC3Matrix">TC3Matrix</a>;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -16731,47 +16695,11 @@ Returns the 3×3 identity matrix over <code>ℂ</code>. Diagonal elements are <c
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="C3NullMatrix"></span><code>function <strong>C3NullMatrix</strong>: <a href="ADim.html#TC3Matrix">TC3Matrix</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the 3×3 zero matrix over <code>ℂ</code>. All elements are set to <code>TComplex(Re=0, Im=0)</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="C3NullVector"></span><code>function <strong>C3NullVector</strong>: <a href="ADim.html#TC3Vector">TC3Vector</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the zero vector of <code>ℂ³</code>. All 3 components are set to <code>TComplex(Re=0, Im=0)</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
 <td class="itemcode"><span id="C4IdentityMatrix"></span><code>function <strong>C4IdentityMatrix</strong>: <a href="ADim.html#TC4Matrix">TC4Matrix</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
 Returns the 4×4 identity matrix over <code>ℂ</code>. Diagonal elements are <code>TComplex(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·A = A·I = A</code> for any conforming 4×4 complex matrix <code>A</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="C4NullMatrix"></span><code>function <strong>C4NullMatrix</strong>: <a href="ADim.html#TC4Matrix">TC4Matrix</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the 4×4 zero matrix over <code>ℂ</code>. All elements are set to <code>TComplex(Re=0, Im=0)</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="C4NullVector"></span><code>function <strong>C4NullVector</strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the zero vector of <code>ℂ⁴</code>. All 4 components are set to <code>TComplex(Re=0, Im=0)</code>.</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
@@ -16818,22 +16746,6 @@ Returns the zero vector of <code>ℂ⁴</code>. All 4 components are set to <cod
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="Commutator-TC2Matrix-TC2Matrix-"></span><code>function <strong>Commutator</strong>(const ALeft, ARight: <a href="ADim.html#TC2Matrix">TC2Matrix</a>): <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the commutator of two 2×2 complex matrices. Defined as <code>[A, B] = A·B - B·A</code>. The commutator is zero if and only if the two matrices commute.  </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>ALeft</dt>
-<dd>The left-hand matrix operand.</dd>
-<dt>ARight</dt>
-<dd>The right-hand matrix operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
 <td class="itemcode"><span id="Commutator-TC3Matrix-TC3Matrix-"></span><code>function <strong>Commutator</strong>(const ALeft, ARight: <a href="ADim.html#TC3Matrix">TC3Matrix</a>): <a href="ADim.html#TC3Matrix">TC3Matrix</a>;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -16855,6 +16767,22 @@ Returns the commutator of two 3×3 complex matrices. Defined as <code>[A, B] = A
 <tr><td colspan="1">
 <p>
 Returns the commutator of two 4×4 complex matrices. Defined as <code>[A, B] = A·B - B·A</code>. The commutator is zero if and only if the two matrices commute.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ALeft</dt>
+<dd>The left-hand matrix operand.</dd>
+<dt>ARight</dt>
+<dd>The right-hand matrix operand.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="Commutator-TC2Matrix-TC2Matrix-"></span><code>function <strong>Commutator</strong>(const ALeft, ARight: <a href="ADim.html#TC2Matrix">TC2Matrix</a>): <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns the commutator of two 2×2 complex matrices. Defined as <code>[A, B] = A·B - B·A</code>. The commutator is zero if and only if the two matrices commute.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ALeft</dt>
@@ -16908,20 +16836,6 @@ Returns the cotangent of the angle quantity: <code>cos(θ)/sin(θ)</code>. The q
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="CubicPower-TQuantity-"></span><code>function <strong>CubicPower</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the cube of the quantity: <code>AQuantity³</code>. The resulting dimension is the cube of the original dimension. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AQuantity</dt>
-<dd>The quantity to cube.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
 <td class="itemcode"><span id="CubicPower-TComplex-"></span><code>function <strong>CubicPower</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -16931,6 +16845,20 @@ Returns the cube of the complex number <code>AValue</code>. Defined as <code>z³
 <dl class="parameters">
 <dt>AValue</dt>
 <dd>The complex number to cube.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="CubicPower-TQuantity-"></span><code>function <strong>CubicPower</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns the cube of the quantity: <code>AQuantity³</code>. The resulting dimension is the cube of the original dimension. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AQuantity</dt>
+<dd>The quantity to cube.</dd>
 </dl>
 </td></tr>
 </table>
@@ -16950,6 +16878,20 @@ Returns the cube of the complex quantity <code>AQuantity</code>. The resulting d
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="CubicRoot-TComplex-"></span><code>function <strong>CubicRoot</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC3ArrayOfComplex">TC3ArrayOfComplex</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns all cube roots of the complex number <code>AValue</code> as a fixed-size array. A non-zero complex number has exactly 3 cube roots, equally spaced in argument by <code>2π/3</code>: <code>z&circ;(1/3) = |z|&circ;(1/3) · e&circ;(i·(φ + 2kπ)/3)</code> for <code>k = 0, 1, 2</code>. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AValue</dt>
+<dd>The complex number whose cube roots are computed.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="CubicRoot-TQuantity-"></span><code>function <strong>CubicRoot</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -16964,20 +16906,6 @@ Returns the cube root of the quantity: <code>AQuantity&circ;(1/3)</code>. The re
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
 <dd>if any dimension exponent is not divisible by 3.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="CubicRoot-TComplex-"></span><code>function <strong>CubicRoot</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC3ArrayOfComplex">TC3ArrayOfComplex</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns all cube roots of the complex number <code>AValue</code> as a fixed-size array. A non-zero complex number has exactly 3 cube roots, equally spaced in argument by <code>2π/3</code>: <code>z&circ;(1/3) = |z|&circ;(1/3) · e&circ;(i·(φ + 2kπ)/3)</code> for <code>k = 0, 1, 2</code>. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AValue</dt>
-<dd>The complex number whose cube roots are computed.</dd>
 </dl>
 </td></tr>
 </table>
@@ -17189,15 +17117,15 @@ Returns <code>ABase&circ;AExponent</code> as a dimensionless <code>double</code>
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="QuarticPower-TQuantity-"></span><code>function <strong>QuarticPower</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><span id="QuarticPower-TComplex-"></span><code>function <strong>QuarticPower</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the fourth power of the quantity: <code>AQuantity⁴</code>. The resulting dimension is the fourth power of the original dimension. </p>
+Returns the fourth power of the complex number <code>AValue</code>. Defined as <code>z⁴ = (z²)²</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
-<dt>AQuantity</dt>
-<dd>The quantity to raise to the fourth power.</dd>
+<dt>AValue</dt>
+<dd>The complex number to raise to the fourth power.</dd>
 </dl>
 </td></tr>
 </table>
@@ -17217,29 +17145,15 @@ Returns the fourth power of the complex quantity <code>AQuantity</code>. The res
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="QuarticPower-TComplex-"></span><code>function <strong>QuarticPower</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+<td class="itemcode"><span id="QuarticPower-TQuantity-"></span><code>function <strong>QuarticPower</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the fourth power of the complex number <code>AValue</code>. Defined as <code>z⁴ = (z²)²</code>. </p>
+Returns the fourth power of the quantity: <code>AQuantity⁴</code>. The resulting dimension is the fourth power of the original dimension. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
-<dt>AValue</dt>
-<dd>The complex number to raise to the fourth power.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="QuarticRoot-TComplex-"></span><code>function <strong>QuarticRoot</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC4ArrayOfComplex">TC4ArrayOfComplex</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns all fourth roots of the complex number <code>AValue</code> as a fixed-size array. A non-zero complex number has exactly 4 fourth roots, equally spaced in argument by <code>π/2</code>: <code>z&circ;(1/4) = |z|&circ;(1/4) · e&circ;(i·(φ + 2kπ)/4)</code> for <code>k = 0, 1, 2, 3</code>. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AValue</dt>
-<dd>The complex number whose fourth roots are computed.</dd>
+<dt>AQuantity</dt>
+<dd>The quantity to raise to the fourth power.</dd>
 </dl>
 </td></tr>
 </table>
@@ -17259,6 +17173,20 @@ Returns the fourth root of the quantity: <code>AQuantity&circ;(1/4)</code>. The 
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
 <dd>if any dimension exponent is not divisible by 4.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="QuarticRoot-TComplex-"></span><code>function <strong>QuarticRoot</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC4ArrayOfComplex">TC4ArrayOfComplex</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns all fourth roots of the complex number <code>AValue</code> as a fixed-size array. A non-zero complex number has exactly 4 fourth roots, equally spaced in argument by <code>π/2</code>: <code>z&circ;(1/4) = |z|&circ;(1/4) · e&circ;(i·(φ + 2kπ)/4)</code> for <code>k = 0, 1, 2, 3</code>. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AValue</dt>
+<dd>The complex number whose fourth roots are computed.</dd>
 </dl>
 </td></tr>
 </table>
@@ -17297,33 +17225,17 @@ Returns the fifth root of the quantity: <code>AQuantity&circ;(1/5)</code>. The r
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="SameValueEx-double-double-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: double): boolean;</code></td>
+<td class="itemcode"><span id="SameValueEx-TC2Matrix-TC2Matrix-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: <a href="ADim.html#TC2Matrix">TC2Matrix</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>True</code> if two real numbers are equal within the default floating point tolerance. Uses an epsilon-based comparison to account for floating point rounding errors.  </p>
+Returns <code>True</code> if two 2×2 complex matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue1</dt>
-<dd>The first real number.</dd>
+<dd>The first complex matrix.</dd>
 <dt>AValue2</dt>
-<dd>The second real number.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="SameValueEx-TQuantity-TQuantity-"></span><code>function <strong>SameValueEx</strong>(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns <code>True</code> if two real physical quantities are equal within the default floating point tolerance. Both operands must have the same dimension; an exception is raised if they differ.  </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>ALeft</dt>
-<dd>The first quantity.</dd>
-<dt>ARight</dt>
-<dd>The second quantity.</dd>
+<dd>The second complex matrix.</dd>
 </dl>
 </td></tr>
 </table>
@@ -17345,22 +17257,6 @@ Returns <code>True</code> if two 4-component complex vectors are equal within th
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="SameValueEx-TC2Matrix-TC2Matrix-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: <a href="ADim.html#TC2Matrix">TC2Matrix</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns <code>True</code> if two 2×2 complex matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AValue1</dt>
-<dd>The first complex matrix.</dd>
-<dt>AValue2</dt>
-<dd>The second complex matrix.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
 <td class="itemcode"><span id="SameValueEx-TC3Vector-TC3Vector-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: <a href="ADim.html#TC3Vector">TC3Vector</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -17372,22 +17268,6 @@ Returns <code>True</code> if two 3-component complex vectors are equal within th
 <dd>The first complex vector.</dd>
 <dt>AValue2</dt>
 <dd>The second complex vector.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="SameValueEx-TComplex-TComplex-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: <a href="ADim.TComplex.html">TComplex</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns <code>True</code> if two complex numbers are equal within the default floating point tolerance. Both the real and imaginary parts must be within tolerance.  </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AValue1</dt>
-<dd>The first complex number.</dd>
-<dt>AValue2</dt>
-<dd>The second complex number.</dd>
 </dl>
 </td></tr>
 </table>
@@ -17409,6 +17289,38 @@ Returns <code>True</code> if two 3×3 complex matrices are equal within the defa
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="SameValueEx-TC4Matrix-TC4Matrix-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: <a href="ADim.html#TC4Matrix">TC4Matrix</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns <code>True</code> if two 4×4 complex matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AValue1</dt>
+<dd>The first complex matrix.</dd>
+<dt>AValue2</dt>
+<dd>The second complex matrix.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SameValueEx-TQuantity-TQuantity-"></span><code>function <strong>SameValueEx</strong>(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns <code>True</code> if two real physical quantities are equal within the default floating point tolerance. Both operands must have the same dimension; an exception is raised if they differ.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ALeft</dt>
+<dd>The first quantity.</dd>
+<dt>ARight</dt>
+<dd>The second quantity.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="SameValueEx-TC2Vector-TC2Vector-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: <a href="ADim.html#TC2Vector">TC2Vector</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -17425,17 +17337,33 @@ Returns <code>True</code> if two 2-component complex vectors are equal within th
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="SameValueEx-TC4Matrix-TC4Matrix-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: <a href="ADim.html#TC4Matrix">TC4Matrix</a>): boolean;</code></td>
+<td class="itemcode"><span id="SameValueEx-double-double-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: double): boolean;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>True</code> if two 4×4 complex matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
+Returns <code>True</code> if two real numbers are equal within the default floating point tolerance. Uses an epsilon-based comparison to account for floating point rounding errors.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue1</dt>
-<dd>The first complex matrix.</dd>
+<dd>The first real number.</dd>
 <dt>AValue2</dt>
-<dd>The second complex matrix.</dd>
+<dd>The second real number.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="SameValueEx-TComplex-TComplex-"></span><code>function <strong>SameValueEx</strong>(const AValue1, AValue2: <a href="ADim.TComplex.html">TComplex</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns <code>True</code> if two complex numbers are equal within the default floating point tolerance. Both the real and imaginary parts must be within tolerance.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AValue1</dt>
+<dd>The first complex number.</dd>
+<dt>AValue2</dt>
+<dd>The second complex number.</dd>
 </dl>
 </td></tr>
 </table>
@@ -17502,27 +17430,6 @@ Returns the sine of the angle quantity. The quantity must have the dimension of 
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="SolveEquation-TComplex-TComplex-"></span><code>function <strong>SolveEquation</strong>(const a, b: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Solves the linear equation <code>a·z + b = 0</code> over the complex numbers. Returns the single root <code>z = -b/a</code> as a <a class="normal" href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>.   </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>a</dt>
-<dd>The complex coefficient of the linear term.</dd>
-<dt>b</dt>
-<dd>The complex constant term.</dd>
-</dl>
-<h6 class="description_section">Exceptions raised</h6>
-<dl class="exceptions_raised">
-<dt><code>Exception</code></dt>
-<dd>if <code>a = 0</code>.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
 <td class="itemcode"><span id="SolveEquation-TComplex-TComplex-TComplex-"></span><code>function <strong>SolveEquation</strong>(const a, b, c: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC3ArrayOfComplex">TC3ArrayOfComplex</a>;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -17571,6 +17478,27 @@ Solves the cubic equation <code>a·z³ + b·z² + c·z + d = 0</code> over the c
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="SolveEquation-TComplex-TComplex-"></span><code>function <strong>SolveEquation</strong>(const a, b: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Solves the linear equation <code>a·z + b = 0</code> over the complex numbers. Returns the single root <code>z = -b/a</code> as a <a class="normal" href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>.   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>a</dt>
+<dd>The complex coefficient of the linear term.</dd>
+<dt>b</dt>
+<dd>The complex constant term.</dd>
+</dl>
+<h6 class="description_section">Exceptions raised</h6>
+<dl class="exceptions_raised">
+<dt><code>Exception</code></dt>
+<dd>if <code>a = 0</code>.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="SolveEquation-double-"></span><code>function <strong>SolveEquation</strong>(const a: double): double;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -17599,6 +17527,20 @@ Solves the linear equation <code>a·z = 0</code> over the complex numbers. Retur
 </table>
 <table class="detail wide_list">
 <tr class="list">
+<td class="itemcode"><span id="SquarePower-TComplex-"></span><code>function <strong>SquarePower</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns the square of the complex number <code>AValue</code>. Defined as <code>z² = (Re² - Im²) + 2·Re·Im·i</code>. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AValue</dt>
+<dd>The complex number to square.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
 <td class="itemcode"><span id="SquarePower-TComplexQuantity-"></span><code>function <strong>SquarePower</strong>(const AQuantity: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -17613,15 +17555,15 @@ Returns the square of the complex quantity <code>AQuantity</code>. The resulting
 </table>
 <table class="detail wide_list">
 <tr class="list">
-<td class="itemcode"><span id="SquarePower-TComplex-"></span><code>function <strong>SquarePower</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+<td class="itemcode"><span id="SquareRoot-TComplex-"></span><code>function <strong>SquareRoot</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>;</code></td>
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the square of the complex number <code>AValue</code>. Defined as <code>z² = (Re² - Im²) + 2·Re·Im·i</code>. </p>
+Returns all square roots of the complex number <code>AValue</code> as a fixed-size array. A non-zero complex number has exactly 2 square roots, equally spaced in argument by <code>π</code>: <code>z&circ;(1/2) = |z|&circ;(1/2) · e&circ;(i·(φ + 2kπ)/2)</code> for <code>k = 0, 1</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
-<dd>The complex number to square.</dd>
+<dd>The complex number whose square roots are computed.</dd>
 </dl>
 </td></tr>
 </table>
@@ -17641,20 +17583,6 @@ Returns the square root of the quantity: <code>AQuantity&circ;(1/2)</code>. The 
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
 <dd>if any dimension exponent is odd.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="itemcode"><span id="SquareRoot-TComplex-"></span><code>function <strong>SquareRoot</strong>(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns all square roots of the complex number <code>AValue</code> as a fixed-size array. A non-zero complex number has exactly 2 square roots, equally spaced in argument by <code>π</code>: <code>z&circ;(1/2) = |z|&circ;(1/2) · e&circ;(i·(φ + 2kπ)/2)</code> for <code>k = 0, 1</code>. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AValue</dt>
-<dd>The complex number whose square roots are computed.</dd>
 </dl>
 </td></tr>
 </table>

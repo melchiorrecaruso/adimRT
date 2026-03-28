@@ -43,33 +43,27 @@ Record helper for <a class="normal" href="ADim.html#TC4Vector">TC4Vector</a> pro
 <table class="summary wide_list">
 <tr class="list">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#Dot-TC4Vector-">Dot</a></strong>(const AVector: <a href="ADim.html#TC4Vector">TC4Vector</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#Dot-TC4Vector-">Dot</a></strong>(const AVector: <a href="ADim.html#TC4Vector">TC4Vector</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
 </tr>
 <tr class="list">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#ToString">ToString</a></strong>: string;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#NullVector">NullVector</a></strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#ToString">ToString</a></strong>: string;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC4VectorHelper.html#ToString-integer-integer-">ToString</a></strong>(APrecision, ADigits: integer): string;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the element-wise complex conjugate of the vector.</p>
-</td></tr>
-</table>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
@@ -83,6 +77,26 @@ Returns the Hermitian inner product of two complex vectors. <code>〈u,v〉 = Σ
 <dt>AVector</dt>
 <dd>The right-hand operand.</dd>
 </dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element-wise complex conjugate of the vector.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="NullVector"></span><code>function <strong>NullVector</strong>: <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the zero vector of <code>ℂ⁴</code>. All 4 components are set to <code>TComplex(Re=0, Im=0)</code>.</p>
 </td></tr>
 </table>
 <table class="detail wide_list">
