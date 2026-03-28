@@ -1,0 +1,111 @@
+[OPTIONS]
+Binary TOC=Yes
+Compatibility=1.1 or later
+Compiled file=docs.chm
+Contents file=docs.hhc
+Default Window=Default
+Default topic=AllUnits.html
+Display compile progress=Yes
+Error log file=docs.log
+Full-text search=Yes
+Index file=docs.hhk
+Title=ADim Library
+
+[WINDOWS]
+Default="ADim Library","docs.hhc","docs.hhk",,,,,,,0x23520,,0x300e,,,,,,,,0
+
+[FILES]
+Legend.html
+AllUnits.html
+ClassHierarchy.html
+AllClasses.html
+AllTypes.html
+AllVariables.html
+AllConstants.html
+AllFunctions.html
+AllIdentifiers.html
+ADim.html
+ADim.TQuantity.html
+ADim.TComplex.html
+ADim.TComplexQuantity.html
+ADim.TImaginaryUnit.html
+ADim.T2DSpace.html
+ADim.T3DSpace.html
+ADim.T4DSpace.html
+ADim.TRMatrix.html
+ADim.TCMatrix.html
+ADim.TRMatrixQuantity.html
+ADim.TCMatrixQuantity.html
+ADim.TRVector.html
+ADim.TCVector.html
+ADim.TRVecQuantity.html
+ADim.TCVecQuantity.html
+ADim.TR2MatrixHelper.html
+ADim.TR3MatrixHelper.html
+ADim.TR4MatrixHelper.html
+ADim.TC2MatrixHelper.html
+ADim.TC3MatrixHelper.html
+ADim.TC4MatrixHelper.html
+ADim.TC2VectorHelper.html
+ADim.TC3VectorHelper.html
+ADim.TC4VectorHelper.html
+ADim.TR2VectorHelper.html
+ADim.TR3VectorHelper.html
+ADim.TR4VectorHelper.html
+ADim.TCL3Multivector.html
+ADim.TCL3Trivector.html
+ADim.TCL3Bivector.html
+ADim.TCL3Vector.html
+ADim.TCL3MultivectorHelper.html
+ADim.TCL3TrivectorHelper.html
+ADim.TCL3BivectorHelper.html
+ADim.TCL3VectorHelper.html
+ADim.TCL3Versor1.html
+ADim.TCL3Versor2.html
+ADim.TCL3Versor3.html
+ADim.TCL3Biversor12.html
+ADim.TCL3Biversor13.html
+ADim.TCL3Biversor23.html
+ADim.TCL3Triversor123.html
+ADim.TCL3MultivecQuantity.html
+ADim.TCL3TrivecQuantity.html
+ADim.TCL3BivecQuantity.html
+ADim.TCL3VecQuantity.html
+ADim.TComplexQuantityHelper.html
+ADim.TC2MatrixQuantityHelper.html
+ADim.TC2VecQuantityHelper.html
+ADim.TC3VecQuantityHelper.html
+ADim.TC4VecQuantityHelper.html
+ADim.TR2VecQuantityHelper.html
+ADim.TR3VecQuantityHelper.html
+ADim.TR4VecQuantityHelper.html
+ADim.TCL3MultivecQuantityHelper.html
+ADim.TCL3TrivecQuantityHelper.html
+ADim.TCL3BivecQuantityHelper.html
+ADim.TCL3VecQuantityHelper.html
+ADim.TUnit.html
+ADim.TFactoredUnit.html
+ADim.TDegreeCelsiusUnit.html
+ADim.TDegreeFahrenheitUnit.html
+ADim.TUnitHelper.html
+ADim.TFactoredUnitHelper.html
+ADim.TDegreeCelsiusUnitHelper.html
+ADim.TDegreeFahrenheitUnitHelper.html
+ADim.TR2Versor1.html
+ADim.TR2Versor2.html
+ADim.TR3Versor1.html
+ADim.TR3Versor2.html
+ADim.TR3Versor3.html
+ADim.TR4Versor1.html
+ADim.TR4Versor2.html
+ADim.TR4Versor3.html
+ADim.TR4Versor4.html
+ADimC.html
+ADimCL3.html
+ADimR3.html
+ADimTypes.html
+ADimTypes.TDimension.html
+
+[INFOTYPES]
+
+[MERGE FILES]
