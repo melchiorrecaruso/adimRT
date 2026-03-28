@@ -66,8 +66,7 @@ type
     FValue: double;
   public
     { Returns the reciprocal of the quantity: @code(1 / self).
-      The resulting dimension is the inverse of the original dimension.
-    }
+      The resulting dimension is the inverse of the original dimension. }
     function Reciprocal: TQuantity;
 
     { Unary plus. Returns the quantity unchanged. }
@@ -95,8 +94,7 @@ type
     class operator /(const ALeft, ARight: TQuantity): TQuantity;
 
     { Returns the quotient of a dimensionless real scalar divided by a quantity.
-      The resulting dimension is the inverse of @code(ARight).
-    }
+      The resulting dimension is the inverse of @code(ARight). }
     class operator /(const ALeft: double; const ARight: TQuantity): TQuantity;
 
     { Returns the quotient of a quantity divided by a dimensionless real scalar. The dimension is preserved. }
@@ -121,8 +119,7 @@ type
     class operator <>(const ALeft, ARight: TQuantity): boolean;
 
     { Implicit conversion from a dimensionless real value to a @link(TQuantity).
-      The resulting quantity has a scalar (dimensionless) dimension.
-    }
+      The resulting quantity has a scalar (dimensionless) dimension. }
     class operator :=(const AValue: double): TQuantity;
   end;
   {$ELSE}
@@ -21680,6 +21677,19 @@ type
   operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
   {$ENDIF}
 
+  { Returns the absolute value of a real number.
+    Equivalent to the standard @code(System.Abs) but provided for
+    consistency with the overloaded complex version.
+    @param(AValue The real number.)
+  }
+  function Abs(const AValue: double): double;
+
+  { Returns the modulus (magnitude) of a complex number.
+    Defined as @code(|z| = √(Re² + Im²)).
+    @param(AValue The complex number.)
+  }
+  function Abs(const AValue: TComplex): double;
+
   { Returns the square of the complex number @code(AValue).
     Defined as @code(z² = (Re² - Im²) + 2·Re·Im·i).
     @param(AValue The complex number to square.)
@@ -21738,19 +21748,6 @@ type
     @param(AValue The complex number whose fourth roots are computed.)
   }
   function QuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
-
-  { Returns the absolute value of a real number.
-    Equivalent to the standard @code(System.Abs) but provided for
-    consistency with the overloaded complex version.
-    @param(AValue The real number.)
-  }
-  function Abs(const AValue: double): double;
-
-  { Returns the modulus (magnitude) of a complex number.
-    Defined as @code(|z| = √(Re² + Im²)).
-    @param(AValue The complex number.)
-  }
-  function Abs(const AValue: TComplex): double;
 
   { Returns the commutator of two 2×2 complex matrices.
     Defined as @code([A, B] = A·B - B·A).
@@ -21880,51 +21877,10 @@ type
   }
   function SolveEquation(const a, b, c, d: TComplex): TC4ArrayOfComplex;
 
-  { Checks that two dimensions are equal and raises an exception if they differ.
-    Used internally to validate operands of addition, subtraction, and comparison operators.
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  procedure Check(ALeft, ARight: TDimension); inline;
-
-  { Checks that two dimensions are equal and returns the common dimension.
-    @raises(Exception if the two dimensions differ.)
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  function CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
-
-  { Validates that two dimensions are compatible for addition and returns the common dimension.
-    @raises(Exception if the two dimensions differ.)
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  function CheckSum(ALeft, ARight: TDimension): TDimension; inline;
-
-  { Validates that two dimensions are compatible for subtraction and returns the common dimension.
-    @raises(Exception if the two dimensions differ.)
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  function CheckSub(ALeft, ARight: TDimension): TDimension; inline;
-
-  { Returns the dimension resulting from multiplying two quantities.
-    The result is the sum of the two dimension exponent vectors.
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  function CheckMul(ALeft, ARight: TDimension): TDimension; inline;
-
-  { Returns the dimension resulting from dividing two quantities.
-    The result is the difference of the two dimension exponent vectors.
-    @param(ALeft  The dimension of the numerator.)
-    @param(ARight The dimension of the denominator.)
-  }
-  function CheckDiv(ALeft, ARight: TDimension): TDimension; inline;
-
   { Returns the square of the quantity: @code(AQuantity²).
     The resulting dimension is the square of the original dimension.
     @param(AQuantity The quantity to square.)
+    @exclude
   }
   function SquarePower(const AQuantity: TQuantity): TQuantity;
 
@@ -22320,6 +22276,13 @@ const
 var
 
   DefaultEpsilon : double = 1E-12;
+
+function  CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
+function  CheckSum  (ALeft, ARight: TDimension): TDimension; inline;
+function  CheckSub  (ALeft, ARight: TDimension): TDimension; inline;
+function  CheckMul  (ALeft, ARight: TDimension): TDimension; inline;
+function  CheckDiv  (ALeft, ARight: TDimension): TDimension; inline;
+procedure Check     (ALeft, ARight: TDimension); inline;
 
 implementation
 
@@ -30130,7 +30093,15 @@ begin
 end;
 {$ENDIF}
 
-// Power and root functions
+function Abs(const AValue: double): double;
+begin
+  result := System.Abs(AValue);
+end;
+
+function Abs(const AValue: TComplex): double;
+begin
+  result := AValue.Norm;
+end;
 
 function SquarePower(const AValue: TComplex): TComplex;
 begin
@@ -30220,24 +30191,6 @@ begin
   result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
 end;
 {$ENDIF}
-
-// Usefull routines
-
-function ToComplex(const AValue: double): TComplex;
-begin
-  result.FRe := AValue;
-  result.FIm := 0;
-end;
-
-function Abs(const AValue: double): double;
-begin
-  result := System.Abs(AValue);
-end;
-
-function Abs(const AValue: TComplex): double;
-begin
-  result := AValue.Norm;
-end;
 
 function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
 begin
@@ -30341,8 +30294,6 @@ begin
             SameValueEx(AValue1.fm[4,4], AValue2.fm[4,4]);
 end;
 
-// Solvers for linear, quadratic, cubic and quartic equation
-
 function SolveEquation(const a: double): double;
 begin
   result := -a;
@@ -30445,44 +30396,9 @@ begin
   end;
 end;
 
-// Internal check routines
-
 {$IFNDEF ADIMOFF}
   {$ASSERTIONS ON}
 {$ENDIF}
-
-procedure Check(ALeft, ARight: TDimension);
-begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
-end;
-
-function CheckEqual(ALeft, ARight: TDimension): TDimension;
-begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
-  result := ALeft;
-end;
-
-function CheckSum(ALeft, ARight: TDimension): TDimension;
-begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
-  result := ALeft;
-end;
-
-function CheckSub(ALeft, ARight: TDimension): TDimension;
-begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [ALeft.ToString, ARight.ToString]));
-  result := ALeft;
-end;
-
-function CheckMul(ALeft, ARight: TDimension): TDimension;
-begin
-  result := ALeft + ARight;
-end;
-
-function CheckDiv(ALeft, ARight: TDimension): TDimension;
-begin
-  result := ALeft - ARight;
-end;
 
 // TUnit
 
@@ -36060,6 +35976,39 @@ begin
   result[4,2] := 0;
   result[4,3] := 0;
   result[4,4] := 1;
+end;
+
+function CheckEqual(ALeft, ARight: TDimension): TDimension;
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+  result := ALeft;
+end;
+
+function CheckSum(ALeft, ARight: TDimension): TDimension;
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+  result := ALeft;
+end;
+
+function CheckSub(ALeft, ARight: TDimension): TDimension;
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [ALeft.ToString, ARight.ToString]));
+  result := ALeft;
+end;
+
+function CheckMul(ALeft, ARight: TDimension): TDimension;
+begin
+  result := ALeft + ARight;
+end;
+
+function CheckDiv(ALeft, ARight: TDimension): TDimension;
+begin
+  result := ALeft - ARight;
+end;
+
+procedure Check(ALeft, ARight: TDimension);
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
 end;
 
 end.
