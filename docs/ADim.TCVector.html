@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADim: Record TCVector</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCVector"></span><h1 class="cio">Record TCVector</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-NestedTypes">Nested Types</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADim.html">ADim</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type generic TCVector&lt;TSpace&gt; = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Generic column vector of complex values (<a class="normal" href="ADim.TComplex.html">TComplex</a>) with <code>TSpace.N</code> components.
+
+<p>Extends <a class="normal" href="ADim.TCVector.html#TRVector">TRVector</a> to the complex domain. Supports implicit conversion from a real vector. Use the default array property <code>a[row]</code> to read and write individual components. Concrete types are provided as <a class="normal" href="ADim.html#TC2Vector">TC2Vector</a>, <a class="normal" href="ADim.html#TC3Vector">TC3Vector</a>, and <a class="normal" href="ADim.html#TC4Vector">TC4Vector</a>.</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-NestedTypes"></span><h3 class="summary">Nested Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="ADim.TCVector.html#TCMatrix">TCMatrix</a></strong> = specialize <a href="ADim.TCVector.html#TCMatrix">TCMatrix</a>&lt;TSpace&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="ADim.TCVector.html#TRVector">TRVector</a></strong> = specialize <a href="ADim.TCVector.html#TRVector">TRVector</a>&lt;TSpace&gt;;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCVector.html#IsNull">IsNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCVector.html#IsNotNull">IsNotNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCVector.html#Norm">Norm</a></strong>: double;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCVector.html#Normalize">Normalize</a></strong>: <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCVector.html#Reciprocal">Reciprocal</a></strong>: <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCVector.html#SquaredNorm">SquaredNorm</a></strong>: double;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator :=(const ASelf: <a href="ADim.TCVector.html#TRVector">TRVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator +(const ASelf: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator -(const ASelf: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: double): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: <a href="ADim.TCVector.html#TCMatrix">TCMatrix</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCVector.html#TCMatrix">TCMatrix</a>; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: double): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="ADim.TCVector.html#a">a</a></strong>[ARow:longint]: <a href="ADim.TComplex.html">TComplex</a> read Get write Put;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Nested Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TCMatrix"></span><code><strong>TCMatrix</strong> = specialize <a href="ADim.TCVector.html#TCMatrix">TCMatrix</a>&lt;TSpace&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TRVector"></span><code><strong>TRVector</strong> = specialize <a href="ADim.TCVector.html#TRVector">TRVector</a>&lt;TSpace&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsNull"></span><code>function <strong>IsNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if all components are zero.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="IsNotNull"></span><code>function <strong>IsNotNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if at least one component is non-zero.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the Euclidean norm (magnitude) of the complex vector. <code>|v| = √(Σ |vᵢ|²)</code></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Normalize"></span><code>function <strong>Normalize</strong>: <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the unit vector in the same direction. Each component is divided by <a class="normal" href="ADim.TCVector.html#Norm">Norm</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Reciprocal"></span><code>function <strong>Reciprocal</strong>: <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element-wise reciprocal of the vector. Each component <code>vᵢ</code> is replaced by <code>1/vᵢ</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the squared Euclidean norm of the complex vector. <code>|v|² = Σ |vᵢ|²</code>. Avoids the square root of <a class="normal" href="ADim.TCVector.html#Norm">Norm</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id=":="></span><code>class operator :=(const ASelf: <a href="ADim.TCVector.html#TRVector">TRVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Implicit conversion from a real vector to a complex vector. Each component <code>vᵢ</code> is converted to <code>TComplex(Re=vᵢ, Im=0)</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="<"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two vectors differ in at least one component.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="="></span><code>class operator =(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if all corresponding components of the two vectors are equal.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="+"></span><code>class operator +(const ASelf: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary plus. Returns the vector unchanged.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="+"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the component-wise sum of two complex vectors.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="-"></span><code>class operator -(const ASelf: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary minus. Returns the negation of the vector: each component <code>vᵢ</code> becomes <code>-vᵢ</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the component-wise difference of two complex vectors.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the dot product (inner product) of two complex vectors. <code>u·v = Σ uᵢ·vᵢ</code> Note: this is the bilinear dot product, not the Hermitian inner product. Use <a class="normal" href="ADim.TC2VectorHelper.html#Dot">TC2VectorHelper.Dot</a> for the conjugate-linear inner product.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a real scalar and a complex vector. Each component is multiplied by <code>ALeft</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: double): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a complex vector and a real scalar. Each component is multiplied by <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a complex scalar and a complex vector. Each component is multiplied by <code>ALeft</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a complex vector and a complex scalar. Each component is multiplied by <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: <a href="ADim.TCVector.html#TCMatrix">TCMatrix</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a row complex vector and a square complex matrix: <code>v' = v·A</code>. The result is a row vector.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: <a href="ADim.TCVector.html#TCMatrix">TCMatrix</a>; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a square complex matrix and a column complex vector: <code>v' = A·v</code>. The result is a column vector.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="/"></span><code>class operator /(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: double): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the complex vector divided by a real scalar. Each component is divided by <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="/"></span><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element-wise quotient of a real scalar divided by a complex vector: each component becomes <code>ALeft/vᵢ</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="/"></span><code>class operator /(const ALeft: <a href="ADim.TCVector.html">TCVector</a>; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the complex vector divided by a complex scalar. Each component is divided by <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="/"></span><code>class operator /(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: <a href="ADim.TCVector.html">TCVector</a>): <a href="ADim.TCVector.html">TCVector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element-wise quotient of a complex scalar divided by a complex vector: each component becomes <code>ALeft/vᵢ</code>.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="a"></span><code>property <strong>a</strong>[ARow:longint]: <a href="ADim.TComplex.html">TComplex</a> read Get write Put;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Provides access to individual complex vector components using a 1-based index. <code>a[1]</code> is the first component.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0</a>. </em>
+</span>
+</body></html>

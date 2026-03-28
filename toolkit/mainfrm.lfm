@@ -913,20 +913,6 @@ object MainForm: TMainForm
     TabOrder = 4
     OnClick = SaveBtnClick
   end
-  object ExpandIncludesCheckBox: TCheckBox
-    AnchorSideTop.Control = ExportBtn
-    AnchorSideRight.Control = ExportBtn
-    AnchorSideBottom.Control = ExportBtn
-    AnchorSideBottom.Side = asrBottom
-    Left = 482
-    Height = 36
-    Top = 8
-    Width = 225
-    Anchors = [akTop, akRight, akBottom]
-    BorderSpacing.Right = 24
-    Caption = 'Include contents of .inc files'
-    TabOrder = 5
-  end
   object SaveDialog: TSaveDialog
     Left = 120
     Top = 176
@@ -944,9 +930,12 @@ object MainForm: TMainForm
     CommentSlashAttri.ExtendPastEol = False
     IDEDirectiveAttri.ExtendPastEol = True
     StringAttri.ExtendPastEol = False
+    StringSingleAttri.ExtendPastEol = False
+    StringHashAttri.ExtendPastEol = False
+    StringCaretAttri.ExtendPastEol = False
+    StringBacktickAttri.ExtendPastEol = True
     DirectiveAttri.ExtendPastEol = True
     CompilerMode = pcmFPC
-    ModeSwitches = [pcsNestedComments]
     StringMultilineMode = []
     NestedBracketAttribs = <>
     Left = 48

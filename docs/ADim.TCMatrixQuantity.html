@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>ADim Library: ADim: Record TCMatrixQuantity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<span id="TCMatrixQuantity"></span><h1 class="cio">Record TCMatrixQuantity</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Hierarchy</div><div class="one_section"><a class="section" href="#PasDoc-NestedTypes">Nested Types</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="ADim.html">ADim</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type generic TCMatrixQuantity&lt;TSpace&gt; = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Generic square matrix of complex physical quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>) with dimension <code>TSpace.N × TSpace.N</code>.
+
+<p>Each element carries the same physical dimension, stored in <code>FDim</code>. Supports arithmetic operations with dimensional consistency checking. When <code>ADIMOFF</code> is defined, degenerates to the corresponding <a class="normal" href="ADim.TCMatrixQuantity.html#TCMatrix">TCMatrix</a> specialization. Concrete types are provided as <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>, <a class="normal" href="ADim.html#TC3MatrixQuantity">TC3MatrixQuantity</a>, and <a class="normal" href="ADim.html#TC4MatrixQuantity">TC4MatrixQuantity</a>.</p>
+<h2 class="overview">Overview</h2>
+<span id="PasDoc-NestedTypes"></span><h3 class="summary">Nested Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><strong><a href="ADim.TCMatrixQuantity.html#TCMatrix">TCMatrix</a></strong> = specialize <a href="ADim.TCMatrixQuantity.html#TCMatrix">TCMatrix</a>&lt;TSpace&gt;;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator := (const AMatrix: <a href="ADim.TCMatrixQuantity.html#TCMatrix">TCMatrix</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="ADim.TCMatrixQuantity.html#a">a</a></strong>[ARow,ACol:longint]: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a> read Get write Put;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Nested Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="TCMatrix"></span><code><strong>TCMatrix</strong> = specialize <a href="ADim.TCMatrixQuantity.html#TCMatrix">TCMatrix</a>&lt;TSpace&gt;;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id=":="></span><code>class operator := (const AMatrix: <a href="ADim.TCMatrixQuantity.html#TCMatrix">TCMatrix</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Implicit conversion from a complex matrix to a complex quantity matrix. The resulting matrix has a scalar (dimensionless) dimension.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="<"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the two matrices differ in dimension or in at least one element.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="="></span><code>class operator =(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if both matrices have the same dimension and all corresponding elements are equal.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="+"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element-wise sum of two complex quantity matrices. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element-wise difference of two complex quantity matrices. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the matrix product of two complex quantity matrices. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a complex quantity scalar and a complex quantity matrix. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="*"></span><code>class operator *(const ALeft: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of a complex quantity matrix and a complex quantity scalar. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="/"></span><code>class operator /(const ALeft: <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TCMatrixQuantity.html">TCMatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the complex quantity matrix divided by a complex quantity scalar. The resulting dimension is the ratio of the two dimensions.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="a"></span><code>property <strong>a</strong>[ARow,ACol:longint]: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a> read Get write Put;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Provides access to individual complex quantity matrix elements using 1-based row and column indices. <code>a[1,1]</code> is the top-left element.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0</a>. </em>
+</span>
+</body></html>

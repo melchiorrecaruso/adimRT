@@ -81,31 +81,18 @@ type
     FFactoredUnits: TStringList;
     FIdentifiers: TStringList;
     FDocument: TStringList;
-    FExpandIncludes: boolean;
 
     FMessage: string;
     FOnMessage: TThreadMethod;
     FOnStart: TThreadMethod;
     FOnStop: TThreadMethod;
 
-    SectionA0:  TStringList;
-    SectionA1:  TStringList;
-    SectionA2:  TStringList;
-    SectionA3:  TStringList;
-    SectionA4:  TStringList;
-
-    SectionB0:  TStringList;
-    SectionB1:  TStringList;
-    SectionB2:  TStringList;
-    SectionB3:  TStringList;
-    SectionB4:  TStringList;
-
     function  SearchLine(const ALine: string; ASection: TStringList): longint;
   public
     constructor Create(const AList: TToolKitList);
     destructor Destroy; override;
 
-    procedure AddUnits(const SectionA, SectionB: TStringList);
+    procedure AddUnits(const ASection: TStringList);
     procedure AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
@@ -123,7 +110,6 @@ type
     property BaseUnits: TStringList read FBaseUnits;
     property FactoredUnits: TStringList read FFactoredUnits;
     property Identifiers: TStringList read FIdentifiers;
-    property ExpandIncludes: boolean write FExpandIncludes;
 
     property Message: string read FMessage;
     property OnMessage: TThreadMethod read FOnMessage write FOnMessage;
@@ -191,7 +177,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TToolKitBuilder.AddUnits(const SectionA, SectionB: TStringList);
+procedure TToolKitBuilder.AddUnits(const ASection: TStringList);
 var
   i, j: longint;
 begin
@@ -215,23 +201,23 @@ begin
   begin
     if (FList[i].FBase = '') then
     begin
-      AddUnit(FList[i], SectionA);
-      AddSymbols(FList[i], SectionA);
+      AddUnit(FList[i], ASection);
+      AddSymbols(FList[i], ASection);
     end else
     begin
       if (FList[i].FFactor = '') then
       begin
-        AddClonedUnit(FList[i], SectionA);
-        AddSymbols(FList[i], SectionA);
+        AddClonedUnit(FList[i], ASection);
+        AddSymbols(FList[i], ASection);
       end else
         if Pos('%s', FList[i].FFactor) = 0 then
         begin
-          AddFactoredUnit(FList[i], SectionA);
-          AddSymbols(FList[i], SectionA);
+          AddFactoredUnit(FList[i], ASection);
+          AddSymbols(FList[i], ASection);
         end else
         begin
-          AddFactoredUnit(FList[i], SectionA);
-          AddSymbols(FList[i], SectionA);
+          AddFactoredUnit(FList[i], ASection);
+          AddSymbols(FList[i], ASection);
         end;
     end;
   end;
@@ -637,112 +623,44 @@ end;
 procedure TToolKitBuilder.Execute;
 var
   i: longint;
-  Stream: TResourceStream;
+  Section0: TStringList;
+  Section1: TStringList;
 begin
   if Assigned(FOnStart) then
     Synchronize(FOnStart);
-  SectionA0 := TStringList.Create;
-  SectionA1 := TStringList.Create;
-  SectionA2 := TStringList.Create;
-  SectionA3 := TStringList.Create;
-  SectionA4 := TStringList.Create;
-  SectionB0 := TStringList.Create;
-  SectionB1 := TStringList.Create;
-  SectionB2 := TStringList.Create;
-  SectionB3 := TStringList.Create;
-  SectionB4 := TStringList.Create;
-
-  Stream := TResourceStream.Create(HInstance, 'Section-A0', RT_RCDATA);
-  SectionA0.LoadFromStream(Stream);
-  SectionA0.Insert(0, '');
-  SectionA0.Append('');
-  Stream.Destroy;
-
-  Stream := TResourceStream.Create(HInstance, 'Section-B0', RT_RCDATA);
-  SectionB0.LoadFromStream(Stream);
-  SectionB0.Insert(0, '');
-  SectionB0.Append('');
-  Stream.Destroy;
-
-  Stream := TResourceStream.Create(HInstance, 'Section-A1', RT_RCDATA);
-  SectionA1.LoadFromStream(Stream);
-  SectionA1.Insert(0, '');
-  SectionA1.Append('');
-  Stream.Destroy;
-
-  Stream := TResourceStream.Create(HInstance, 'Section-B1', RT_RCDATA);
-  SectionB1.LoadFromStream(Stream);
-  SectionB1.Insert(0, '');
-  SectionB1.Append('');
-  Stream.Destroy;
 
   FBaseUnits.Clear;
   FFactoredUnits.Clear;
   FIdentifiers.Clear;
   FDocument.Clear;
-  AddUnits(SectionA3, SectionB3);
 
-  Stream := TResourceStream.Create(HInstance, 'Section-A4', RT_RCDATA);
-  SectionA4.LoadFromStream(Stream);
-  SectionA4.Insert(0, '');
-  SectionA4.Append('');
-  Stream.Destroy;
+  Section0 := TStringList.Create;
+  AddUnits(Section0);
 
-  Stream := TResourceStream.Create(HInstance, 'Section-B4', RT_RCDATA);
-  SectionB4.LoadFromStream(Stream);
-  SectionB4.Insert(0, '');
-  SectionB4.Append('');
-  Stream.Destroy;
+  Section1 := TStringList.Create;
+  Section1.Append('{');
+  Section1.Append(Format('  ADim Run-time library built on %s.', [FormatDateTime('DD/MM/YYYY', Now)]));
+  Section1.Append('');
 
-  SectionA0.Append('');
-  SectionA0.Append('unit ADim;');
-  SectionA0.Append('');
-  SectionA0.Append('{$H+}{$J-}');
-  SectionA0.Append('{$modeswitch advancedrecords}');
-  SectionA0.Append('{$WARN 5024 OFF} // Suppress warning for unused routine parameter.');
-  SectionA0.Append('{$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.');
-  SectionA0.Append('{$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.');
-  SectionA0.Append('');
+  Section1.Append(Format('  Number of base units: %d', [FBaseUnits.Count]));
+  Section1.Append(Format('  Number of factored units: %d', [FFactoredUnits.Count]));
+  Section1.Append('}');
+  Section1.Append('');
 
-  SectionA0.Append('{');
-  SectionA0.Append(Format('  ADim Run-time library built on %s.', [FormatDateTime('DD/MM/YYYY', Now)]));
-  SectionA0.Append('');
+  FDocument.LoadFromFile('skeleton.pas');
+  for i := 0 to  FDocument.Count -1 do
+  begin
+    if CompareText(FDocument[i], 'unit skeleton;') = 0 then
+    begin
+      FDocument[i] := 'unit ADim;';
+    end;
+  end;
+  RemoveIncludeDirective(Section1, FDocument, '{#HEADER}');
+  RemoveIncludeDirective(Section0, FDocument, '{#UNITSOFMEASUREMENT}');
 
-  SectionA0.Append(Format('  Number of base units: %d', [FBaseUnits.Count]));
-  SectionA0.Append(Format('  Number of factored units: %d', [FFactoredUnits.Count]));
-  SectionA0.Append('}');
-  SectionA0.Append('');
-
-  for I := 0 to SectionA0 .Count -1 do FDocument.Append(SectionA0 [I]);
-  for I := 0 to SectionA1 .Count -1 do FDocument.Append(SectionA1 [I]);
-  for I := 0 to SectionA2 .Count -1 do FDocument.Append(SectionA2 [I]);
-  for I := 0 to SectionA3 .Count -1 do FDocument.Append(SectionA3 [I]);
-  for I := 0 to SectionA4 .Count -1 do FDocument.Append(SectionA4 [I]);
-
-  for I := 0 to SectionB0 .Count -1 do FDocument.Append(SectionB0 [I]);
-  for I := 0 to SectionB1 .Count -1 do FDocument.Append(SectionB1 [I]);
-  for I := 0 to SectionB2 .Count -1 do FDocument.Append(SectionB2 [I]);
-  for I := 0 to SectionB3 .Count -1 do FDocument.Append(SectionB3 [I]);
-  for I := 0 to SectionB4 .Count -1 do FDocument.Append(SectionB4 [I]);
-
-  FDocument.Add('');
-  FDocument.Add('end.');
-  if FExpandIncludes then
-    RemoveIncludeDirectives(FDocument);
   CleanDocument(FDocument);
-
-  SectionB4 .Destroy;
-  SectionB3 .Destroy;
-  SectionB2 .Destroy;
-  SectionB1 .Destroy;
-  SectionB0 .Destroy;
-
-  SectionA4 .Destroy;
-  SectionA3 .Destroy;
-  SectionA2 .Destroy;
-  SectionA1 .Destroy;
-  SectionA0 .Destroy;
-
+  Section0.Destroy;
+  Section1.Destroy;
   if Assigned(FOnStop) then
     Synchronize(FOnStop);
 end;

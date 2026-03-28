@@ -1,6 +1,0 @@
-
-implementation
-
-uses Math;
-
-

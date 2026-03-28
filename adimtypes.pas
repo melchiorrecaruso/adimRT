@@ -21,9 +21,9 @@ unit ADimTypes;
 
 {$H+}{$J-}
 {$modeswitch advancedrecords}
-{$WARN 5024 OFF} // Suppress warning for unused routine parameter.
-{$WARN 5033 OFF} // Suppress warning for unassigned function's return value.
-{$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
+{$WARN 5024 OFF}// Suppress warning for unused routine parameter.
+{$WARN 5033 OFF}// Suppress warning for unassigned function's return value.
+{$WARN 6058 OFF}// Suppress warning for function marked as inline that cannot be inlined.
 
 interface
 
@@ -31,29 +31,118 @@ uses
   SysUtils;
 
 type
-  { TDimension }
+  {
+    Represents the physical dimension of a quantity using the SI base units.
 
+    Each field stores the integer exponent of the corresponding SI base unit.
+    For example, a velocity has dimension @code(m¹·s⁻¹), represented as
+    @code(FMeter=1, FSecond=-1) with all other exponents equal to zero.
+    A dimensionless quantity has all exponents equal to zero.
+
+    Dimension arithmetic follows the rules of dimensional analysis:
+    @unorderedList(
+      @item(Multiplication of quantities → addition of exponents)
+      @item(Division of quantities → subtraction of exponents)
+      @item(Power of a quantity → multiplication of exponents by an integer)
+      @item(Root of a quantity → division of exponents by an integer)
+    )
+  }
   TDimension = record
   private
-    FKilogram:  smallint;
-    FMeter:     smallint;
-    FSecond:    smallint;
-    FAmpere:    smallint;
-    FKelvin:    smallint;
-    FMole:      smallint;
-    FCandela:   smallint;
+    { Exponent of the SI base unit kilogram @code([kg]). Mass dimension. }
+    FKilogram: smallint;
+
+    { Exponent of the SI base unit metre @code([m]). Length dimension. }
+    FMeter: smallint;
+
+    { Exponent of the SI base unit second @code([s]). Time dimension. }
+    FSecond: smallint;
+
+    { Exponent of the SI base unit ampere @code([A]). Electric current dimension. }
+    FAmpere: smallint;
+
+    { Exponent of the SI base unit kelvin @code([K]). Thermodynamic temperature dimension. }
+    FKelvin: smallint;
+
+    { Exponent of the SI base unit mole @code([mol]). Amount of substance dimension. }
+    FMole: smallint;
+
+    { Exponent of the SI base unit candela @code([cd]). Luminous intensity dimension. }
+    FCandela: smallint;
+
+    {
+      Exponent of the SI derived unit steradian @code([sr]).
+      Used to track solid angle dimensionality independently from dimensionless quantities.
+    }
     FSteradian: smallint;
+
   public
+    {
+      Returns a human-readable string representation of the dimension.
+      Exponents equal to zero are omitted. Positive exponents are listed first,
+      followed by negative ones with a @code(/) separator.
+      Example: @code(kg·m²·s⁻³·A⁻¹) for the dimension of electric potential.
+    }
     function ToString: string;
-    class operator   +(const ASelf: TDimension): TDimension;
-    class operator   -(const ASelf: TDimension): TDimension;
-    class operator   +(const ALeft, ARight: TDimension): TDimension;
-    class operator   -(const ALeft, ARight: TDimension): TDimension;
-    class operator   *(const ALeft: longint; ARight: TDimension): TDimension;
-    class operator   *(const ALeft: TDimension; ARight: longint): TDimension;
+
+    { Unary plus. Returns the dimension unchanged. }
+    class operator +(const ASelf: TDimension): TDimension;
+
+    {
+      Unary minus. Returns the inverse dimension.
+      Each exponent is negated: used to represent the dimension of a reciprocal quantity.
+    }
+    class operator -(const ASelf: TDimension): TDimension;
+
+    {
+      Returns the sum of two dimensions, i.e. the dimension resulting from
+      multiplying two physical quantities.
+      Each exponent of the result equals the sum of the corresponding exponents.
+    }
+    class operator +(const ALeft, ARight: TDimension): TDimension;
+
+    {
+      Returns the difference of two dimensions, i.e. the dimension resulting from
+      dividing two physical quantities.
+      Each exponent of the result equals the difference of the corresponding exponents.
+    }
+    class operator -(const ALeft, ARight: TDimension): TDimension;
+
+    {
+      Returns the dimension scaled by an integer exponent.
+      Each exponent is multiplied by @code(ALeft).
+      Used to represent the dimension of a quantity raised to an integer power,
+      e.g. @code(3 * [m] = [m³]).
+    }
+    class operator *(const ALeft: longint; ARight: TDimension): TDimension;
+
+    {
+      Returns the dimension scaled by an integer exponent.
+      Each exponent is multiplied by @code(ARight).
+      Used to represent the dimension of a quantity raised to an integer power,
+      e.g. @code([m] * 3 = [m³]).
+    }
+    class operator *(const ALeft: TDimension; ARight: longint): TDimension;
+
+    {
+      Returns the dimension divided by an integer.
+      Each exponent is divided by @code(ARight).
+      Used to represent the dimension of an integer root of a quantity,
+      e.g. @code([m²] div 2 = [m]).
+    }
     class operator div(const ALeft: TDimension; ARight: longint): TDimension;
-    class operator  <>(const ALeft, ARight: TDimension): boolean;
-    class operator   =(const ALeft, ARight: TDimension): boolean;
+
+    {
+      Returns @true if the two dimensions differ in at least one exponent.
+      Used internally to detect dimensional incompatibility between quantities.
+    }
+    class operator <>(const ALeft, ARight: TDimension): boolean;
+
+    {
+      Returns @true if all corresponding exponents of the two dimensions are equal.
+      Two quantities are dimensionally compatible if and only if their dimensions are equal.
+    }
+    class operator =(const ALeft, ARight: TDimension): boolean;
   end;
 
 implementation
@@ -62,129 +151,129 @@ implementation
 
 class operator TDimension.+(const ASelf: TDimension): TDimension;
 begin
-  result.FKilogram  := ASelf.FKilogram;
-  result.FMeter     := ASelf.FMeter;
-  result.FSecond    := ASelf.FSecond;
-  result.FAmpere    := ASelf.FAmpere;
-  result.FKelvin    := ASelf.FKelvin;
-  result.FMole      := ASelf.FMole;
-  result.FCandela   := ASelf.FCandela;
-  result.FSteradian := ASelf.FSteradian;
+  Result.FKilogram  := ASelf.FKilogram;
+  Result.FMeter     := ASelf.FMeter;
+  Result.FSecond    := ASelf.FSecond;
+  Result.FAmpere    := ASelf.FAmpere;
+  Result.FKelvin    := ASelf.FKelvin;
+  Result.FMole      := ASelf.FMole;
+  Result.FCandela   := ASelf.FCandela;
+  Result.FSteradian := ASelf.FSteradian;
 end;
 
 class operator TDimension.-(const ASelf: TDimension): TDimension;
 begin
-  result.FKilogram  := -ASelf.FKilogram;
-  result.FMeter     := -ASelf.FMeter;
-  result.FSecond    := -ASelf.FSecond;
-  result.FAmpere    := -ASelf.FAmpere;
-  result.FKelvin    := -ASelf.FKelvin;
-  result.FMole      := -ASelf.FMole;
-  result.FCandela   := -ASelf.FCandela;
-  result.FSteradian := -ASelf.FSteradian;
+  Result.FKilogram  := -ASelf.FKilogram;
+  Result.FMeter     := -ASelf.FMeter;
+  Result.FSecond    := -ASelf.FSecond;
+  Result.FAmpere    := -ASelf.FAmpere;
+  Result.FKelvin    := -ASelf.FKelvin;
+  Result.FMole      := -ASelf.FMole;
+  Result.FCandela   := -ASelf.FCandela;
+  Result.FSteradian := -ASelf.FSteradian;
 end;
 
 class operator TDimension.+(const ALeft, ARight: TDimension): TDimension;
 begin
-  result.FKilogram  := ALeft.FKilogram  + ARight.FKilogram;
-  result.FMeter     := ALeft.FMeter     + ARight.FMeter;
-  result.FSecond    := ALeft.FSecond    + ARight.FSecond;
-  result.FAmpere    := ALeft.FAmpere    + ARight.FAmpere;
-  result.FKelvin    := ALeft.FKelvin    + ARight.FKelvin;
-  result.FMole      := ALeft.FMole      + ARight.FMole;
-  result.FCandela   := ALeft.FCandela   + ARight.FCandela;
-  result.FSteradian := ALeft.FSteradian + ARight.FSteradian;
+  Result.FKilogram  := ALeft.FKilogram  + ARight.FKilogram;
+  Result.FMeter     := ALeft.FMeter     + ARight.FMeter;
+  Result.FSecond    := ALeft.FSecond    + ARight.FSecond;
+  Result.FAmpere    := ALeft.FAmpere    + ARight.FAmpere;
+  Result.FKelvin    := ALeft.FKelvin    + ARight.FKelvin;
+  Result.FMole      := ALeft.FMole      + ARight.FMole;
+  Result.FCandela   := ALeft.FCandela   + ARight.FCandela;
+  Result.FSteradian := ALeft.FSteradian + ARight.FSteradian;
 end;
 
 class operator TDimension.-(const ALeft, ARight: TDimension): TDimension;
 begin
-  result.FKilogram  := ALeft.FKilogram  - ARight.FKilogram;
-  result.FMeter     := ALeft.FMeter     - ARight.FMeter;
-  result.FSecond    := ALeft.FSecond    - ARight.FSecond;
-  result.FAmpere    := ALeft.FAmpere    - ARight.FAmpere;
-  result.FKelvin    := ALeft.FKelvin    - ARight.FKelvin;
-  result.FMole      := ALeft.FMole      - ARight.FMole;
-  result.FCandela   := ALeft.FCandela   - ARight.FCandela;
-  result.FSteradian := ALeft.FSteradian - ARight.FSteradian;
+  Result.FKilogram  := ALeft.FKilogram  - ARight.FKilogram;
+  Result.FMeter     := ALeft.FMeter     - ARight.FMeter;
+  Result.FSecond    := ALeft.FSecond    - ARight.FSecond;
+  Result.FAmpere    := ALeft.FAmpere    - ARight.FAmpere;
+  Result.FKelvin    := ALeft.FKelvin    - ARight.FKelvin;
+  Result.FMole      := ALeft.FMole      - ARight.FMole;
+  Result.FCandela   := ALeft.FCandela   - ARight.FCandela;
+  Result.FSteradian := ALeft.FSteradian - ARight.FSteradian;
 end;
 
 class operator TDimension.*(const ALeft: longint; ARight: TDimension): TDimension;
 begin
-  result.FKilogram  := ALeft * ARight.FKilogram;
-  result.FMeter     := ALeft * ARight.FMeter;
-  result.FSecond    := ALeft * ARight.FSecond;
-  result.FAmpere    := ALeft * ARight.FAmpere;
-  result.FKelvin    := ALeft * ARight.FKelvin;
-  result.FMole      := ALeft * ARight.FMole;
-  result.FCandela   := ALeft * ARight.FCandela;
-  result.FSteradian := ALeft * ARight.FSteradian;
+  Result.FKilogram  := ALeft * ARight.FKilogram;
+  Result.FMeter     := ALeft * ARight.FMeter;
+  Result.FSecond    := ALeft * ARight.FSecond;
+  Result.FAmpere    := ALeft * ARight.FAmpere;
+  Result.FKelvin    := ALeft * ARight.FKelvin;
+  Result.FMole      := ALeft * ARight.FMole;
+  Result.FCandela   := ALeft * ARight.FCandela;
+  Result.FSteradian := ALeft * ARight.FSteradian;
 end;
 
 class operator TDimension.*(const ALeft: TDimension; ARight: longint): TDimension;
 begin
-  result.FKilogram  := ALeft.FKilogram  * ARight;
-  result.FMeter     := ALeft.FMeter     * ARight;
-  result.FSecond    := ALeft.FSecond    * ARight;
-  result.FAmpere    := ALeft.FAmpere    * ARight;
-  result.FKelvin    := ALeft.FKelvin    * ARight;
-  result.FMole      := ALeft.FMole      * ARight;
-  result.FCandela   := ALeft.FCandela   * ARight;
-  result.FSteradian := ALeft.FSteradian * ARight;
+  Result.FKilogram  := ALeft.FKilogram  * ARight;
+  Result.FMeter     := ALeft.FMeter     * ARight;
+  Result.FSecond    := ALeft.FSecond    * ARight;
+  Result.FAmpere    := ALeft.FAmpere    * ARight;
+  Result.FKelvin    := ALeft.FKelvin    * ARight;
+  Result.FMole      := ALeft.FMole      * ARight;
+  Result.FCandela   := ALeft.FCandela   * ARight;
+  Result.FSteradian := ALeft.FSteradian * ARight;
 end;
 
 class operator TDimension.div(const ALeft: TDimension; ARight: longint): TDimension;
 begin
-  result.FKilogram  := ALeft.FKilogram  div ARight;
-  result.FMeter     := ALeft.FMeter     div ARight;
-  result.FSecond    := ALeft.FSecond    div ARight;
-  result.FAmpere    := ALeft.FAmpere    div ARight;
-  result.FKelvin    := ALeft.FKelvin    div ARight;
-  result.FMole      := ALeft.FMole      div ARight;
-  result.FCandela   := ALeft.FCandela   div ARight;
-  result.FSteradian := ALeft.FSteradian div ARight;
+  Result.FKilogram  := ALeft.FKilogram  div ARight;
+  Result.FMeter     := ALeft.FMeter     div ARight;
+  Result.FSecond    := ALeft.FSecond    div ARight;
+  Result.FAmpere    := ALeft.FAmpere    div ARight;
+  Result.FKelvin    := ALeft.FKelvin    div ARight;
+  Result.FMole      := ALeft.FMole      div ARight;
+  Result.FCandela   := ALeft.FCandela   div ARight;
+  Result.FSteradian := ALeft.FSteradian div ARight;
 end;
 
 class operator TDimension.<>(const ALeft, ARight: TDimension): boolean;
 begin
-  result := (ALeft.FKilogram  <> ARight.FKilogram ) or
-            (ALeft.FMeter     <> ARight.FMeter    ) or
-            (ALeft.FSecond    <> ARight.FSecond   ) or
-            (ALeft.FAmpere    <> ARight.FAmpere   ) or
-            (ALeft.FKelvin    <> ARight.FKelvin   ) or
-            (ALeft.FMole      <> ARight.FMole     ) or
-            (ALeft.FCandela   <> ARight.FCandela  ) or
-            (ALeft.FSteradian <> ARight.FSteradian);
+  Result := (ALeft.FKilogram <> ARight.FKilogram) or
+    (ALeft.FMeter     <> ARight.FMeter    ) or
+    (ALeft.FSecond    <> ARight.FSecond   ) or
+    (ALeft.FAmpere    <> ARight.FAmpere   ) or
+    (ALeft.FKelvin    <> ARight.FKelvin   ) or
+    (ALeft.FMole      <> ARight.FMole     ) or
+    (ALeft.FCandela   <> ARight.FCandela  ) or
+    (ALeft.FSteradian <> ARight.FSteradian);
 end;
 
 class operator TDimension.=(const ALeft, ARight: TDimension): boolean;
 begin
-  result := (ALeft.FKilogram  = ARight.FKilogram ) and
-            (ALeft.FMeter     = ARight.FMeter    ) and
-            (ALeft.FSecond    = ARight.FSecond   ) and
-            (ALeft.FAmpere    = ARight.FAmpere   ) and
-            (ALeft.FKelvin    = ARight.FKelvin   ) and
-            (ALeft.FMole      = ARight.FMole     ) and
-            (ALeft.FCandela   = ARight.FCandela  ) and
-            (ALeft.FSteradian = ARight.FSteradian);
+  Result := (ALeft.FKilogram = ARight.FKilogram) and
+    (ALeft.FMeter     = ARight.FMeter    ) and
+    (ALeft.FSecond    = ARight.FSecond   ) and
+    (ALeft.FAmpere    = ARight.FAmpere   ) and
+    (ALeft.FKelvin    = ARight.FKelvin   ) and
+    (ALeft.FMole      = ARight.FMole     ) and
+    (ALeft.FCandela   = ARight.FCandela  ) and
+    (ALeft.FSteradian = ARight.FSteradian);
 end;
 
 function SymbolToString(AExponent: smallint; const ASymbol: string): string; inline;
 begin
   AExponent := System.Abs(AExponent);
-  if (AExponent = 10 ) then result := '⁶√' + Format('%s',  [ASymbol]) else
-  if (AExponent = 12 ) then result := '⁵√' + Format('%s',  [ASymbol]) else
-  if (AExponent = 15 ) then result :=  '∜' + Format('%s' , [ASymbol]) else
-  if (AExponent = 20 ) then result :=  '∛' + Format('%s' , [ASymbol]) else
-  if (AExponent = 30 ) then result :=  '√' + Format('%s' , [ASymbol]) else
-  if (AExponent = 45 ) then result :=  '∜' + Format('%s3', [ASymbol]) else
-  if (AExponent = 60 ) then result :=        Format('%s' , [ASymbol]) else
-  if (AExponent = 90 ) then result :=  '√' + Format('%s3', [ASymbol]) else
-  if (AExponent = 120) then result :=        Format('%s2', [ASymbol]) else
-  if (AExponent = 150) then result :=  '√' + Format('%s5', [ASymbol]) else
-  if (AExponent = 180) then result :=        Format('%s3', [ASymbol]) else
-  if (AExponent = 240) then result :=        Format('%s4', [ASymbol]) else
-  if (AExponent = 300) then result :=        Format('%s5', [ASymbol]) else
-  if (AExponent = 360) then result :=        Format('%s6', [ASymbol]) else
+  if (AExponent =  10) then Result := '⁶√' + Format('%s',  [ASymbol]) else
+  if (AExponent =  12) then Result := '⁵√' + Format('%s',  [ASymbol]) else
+  if (AExponent =  15) then Result := '∜'  + Format('%s',  [ASymbol]) else
+  if (AExponent =  20) then Result := '∛'  + Format('%s',  [ASymbol]) else
+  if (AExponent =  30) then Result := '√'  + Format('%s',  [ASymbol]) else
+  if (AExponent =  45) then Result := '∜'  + Format('%s3', [ASymbol]) else
+  if (AExponent =  60) then Result :=        Format('%s',  [ASymbol]) else
+  if (AExponent =  90) then Result := '√'  + Format('%s3', [ASymbol]) else
+  if (AExponent = 120) then Result :=        Format('%s2', [ASymbol]) else
+  if (AExponent = 150) then Result := '√'  + Format('%s5', [ASymbol]) else
+  if (AExponent = 180) then Result :=        Format('%s3', [ASymbol]) else
+  if (AExponent = 240) then Result :=        Format('%s4', [ASymbol]) else
+  if (AExponent = 300) then Result :=        Format('%s5', [ASymbol]) else
+  if (AExponent = 360) then Result :=        Format('%s6', [ASymbol]) else
     raise Exception.CreateFmt('ERROR: SymbolToString (%s)', [AExponent.ToString]);
 end;
 
@@ -217,22 +306,22 @@ begin
   if Num = '' then
   begin
     if Denom = '' then
-      result := ''
+      Result := ''
     else
-      result := '1' + Denom;
+      Result := '1' + Denom;
   end else
   begin
     if Denom = '' then
-      result := Num
+      Result := Num
     else
-      result := Num + Denom
+      Result := Num + Denom;
   end;
 
-  while (Length(result) > 0) and (result[Low (result)] = ' ') do Delete(result, Low (result), 1);
-  while (Length(result) > 0) and (result[High(result)] = ' ') do Delete(result, High(result), 1);
-  result := StringReplace(result, '//', '/', [rfReplaceAll]);
-  result := StringReplace(result, '  ', ' ', [rfReplaceAll]);
+  while (Length(Result) > 0) and (Result[Low(Result)]  = ' ') do Delete(Result, Low(Result),  1);
+  while (Length(Result) > 0) and (Result[High(Result)] = ' ') do Delete(Result, High(Result), 1);
+
+  Result := StringReplace(Result, '//', '/', [rfReplaceAll]);
+  Result := StringReplace(Result, '  ', ' ', [rfReplaceAll]);
 end;
 
 end.
-
