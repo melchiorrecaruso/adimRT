@@ -1,7 +1,7 @@
 [Main]
 StoreRelativePaths=0
 Language=en
-OutputDir=/home/quacquero/Documenti/GitHub/adimRT/help
+OutputDir=/home/quacquero/Documenti/GitHub/adimRT/docs
 GenerateFormat=0
 ProjectName=
 Verbosity=2
@@ -16,7 +16,7 @@ ClassMembers_7=0
 ImplicitVisibility=0
 Sorting_0=0
 Sorting_1=0
-Sorting_2=0
+Sorting_2=1
 Sorting_3=0
 Sorting_4=0
 Sorting_5=0
