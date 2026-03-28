@@ -26,7 +26,7 @@ unit ADim;
 {$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
 
 {
-  ADim Run-time library built on 22-03-2026.
+  ADim Run-time library built on 23-03-2026.
 
   Number of base units: 687
   Number of factored units: 133
@@ -21642,40 +21642,40 @@ type
     Only available when @code(ADIMOFF) is not defined.
   }
   {$IFNDEF ADIMOFF}
-  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
   operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
 
-  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
   operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
 
-  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
   operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
 
-  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
   operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
 
-  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
   operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
 
-  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
   operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
 
-  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
   operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
 
-  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
   operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
 
-  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
   operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
 
-  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
   operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
 
-  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). }
+  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
   operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
 
-  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). }
+  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
 
   operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
   {$ENDIF}
