@@ -7768,6 +7768,22 @@ type
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
 
+{ TScalar }
+
+resourcestring
+  rsScalarSymbol = '';
+  rsScalarName = '';
+  rsScalarPluralName = '';
+
+const
+  ScalarUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FSymbol     : rsScalarSymbol;
+    FName       : rsScalarName;
+    FPluralName : rsScalarPluralName;
+    FPrefixes   : ();
+    FExponents  : ());
+
 {#UNITSOFMEASUREMENT}
 
 type
@@ -7910,38 +7926,38 @@ type
     Defined as @code(z² = (Re² - Im²) + 2·Re·Im·i).
     @param(AValue The complex number to square.)
   }
-  function ComplexSquarePower(const AValue: TComplex): TComplex;
+  function SquarePower(const AValue: TComplex): TComplex;
 
   { Returns the cube of the complex number @code(AValue).
     Defined as @code(z³ = z² · z).
     @param(AValue The complex number to cube.)
   }
-  function ComplexCubicPower(const AValue: TComplex): TComplex;
+  function CubicPower(const AValue: TComplex): TComplex;
 
   { Returns the fourth power of the complex number @code(AValue).
     Defined as @code(z⁴ = (z²)²).
     @param(AValue The complex number to raise to the fourth power.)
   }
-  function ComplexQuarticPower(const AValue: TComplex): TComplex;
+  function QuarticPower(const AValue: TComplex): TComplex;
 
   {$IFNDEF ADIMOFF}
   { Returns the square of the complex quantity @code(AQuantity).
     The resulting dimension is the square of the original dimension.
     @param(AQuantity The complex quantity to square.)
   }
-  function ComplexSquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
+  function SquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
 
   { Returns the cube of the complex quantity @code(AQuantity).
     The resulting dimension is the cube of the original dimension.
     @param(AQuantity The complex quantity to cube.)
   }
-  function ComplexCubicPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+  function CubicPower(const AQuantity: TComplexQuantity): TComplexQuantity;
 
   { Returns the fourth power of the complex quantity @code(AQuantity).
     The resulting dimension is the fourth power of the original dimension.
     @param(AQuantity The complex quantity to raise to the fourth power.)
   }
-  function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+  function QuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
   {$ENDIF}
 
   { Returns all square roots of the complex number @code(AValue) as a fixed-size array.
@@ -7949,21 +7965,21 @@ type
     by @code(π): @code(z^(1/2) = |z|^(1/2) · e^(i·(φ + 2kπ)/2)) for @code(k = 0, 1).
     @param(AValue The complex number whose square roots are computed.)
   }
-  function ComplexSquareRoot(const AValue: TComplex): TC2ArrayOfComplex;
+  function SquareRoot(const AValue: TComplex): TC2ArrayOfComplex;
 
   { Returns all cube roots of the complex number @code(AValue) as a fixed-size array.
     A non-zero complex number has exactly 3 cube roots, equally spaced in argument
     by @code(2π/3): @code(z^(1/3) = |z|^(1/3) · e^(i·(φ + 2kπ)/3)) for @code(k = 0, 1, 2).
     @param(AValue The complex number whose cube roots are computed.)
   }
-  function ComplexCubicRoot(const AValue: TComplex): TC3ArrayOfComplex;
+  function CubicRoot(const AValue: TComplex): TC3ArrayOfComplex;
 
   { Returns all fourth roots of the complex number @code(AValue) as a fixed-size array.
     A non-zero complex number has exactly 4 fourth roots, equally spaced in argument
     by @code(π/2): @code(z^(1/4) = |z|^(1/4) · e^(i·(φ + 2kπ)/4)) for @code(k = 0, 1, 2, 3).
     @param(AValue The complex number whose fourth roots are computed.)
   }
-  function ComplexQuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
+  function QuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
 
   { Returns the absolute value of a real number.
     Equivalent to the standard @code(System.Abs) but provided for
@@ -10623,10 +10639,10 @@ var
 begin
   detA := Determinant;
   TrA  := fm[1,1] + fm[2,2];
-  TrA2 := ComplexSquarePower(TrA);
+  TrA2 := SquarePower(TrA);
 
-  result[1] := 0.5*(TrA+ComplexSquareRoot(TrA2-4*detA)[1]);
-  result[2] := 0.5*(TrA+ComplexSquareRoot(TrA2-4*detA)[2]);
+  result[1] := 0.5*(TrA+SquareRoot(TrA2-4*detA)[1]);
+  result[2] := 0.5*(TrA+SquareRoot(TrA2-4*detA)[2]);
 end;
 
 function TC2MatrixHelper.Eigenvectors(const AEigenValues: TC2ArrayOfComplex): TC2ArrayOfVector;
@@ -16358,22 +16374,22 @@ end;
 
 // Power and root functions
 
-function ComplexSquarePower(const AValue: TComplex): TComplex;
+function SquarePower(const AValue: TComplex): TComplex;
 begin
   result := AValue*AValue;
 end;
 
-function ComplexCubicPower(const AValue: TComplex): TComplex;
+function CubicPower(const AValue: TComplex): TComplex;
 begin
   result := AValue*AValue*AValue;
 end;
 
-function ComplexQuarticPower(const AValue: TComplex): TComplex;
+function QuarticPower(const AValue: TComplex): TComplex;
 begin
   result := AValue*AValue*AValue*AValue;
 end;
 
-function ComplexSquareRoot(const AValue: TComplex): TC2ArrayOfComplex;
+function SquareRoot(const AValue: TComplex): TC2ArrayOfComplex;
 var
   norm: double;
 begin
@@ -16386,7 +16402,7 @@ begin
   result[2] := -result[1];
 end;
 
-function ComplexCubicRoot(const AValue: TComplex): TC3ArrayOfComplex;
+function CubicRoot(const AValue: TComplex): TC3ArrayOfComplex;
 const
   i: TImaginaryUnit = ();
 var
@@ -16405,7 +16421,7 @@ begin
   result[3] := rootModulus*(Cos(rootArgument) + Sin(rootArgument)*i);
 end;
 
-function ComplexQuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
+function QuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
 const
   i: TImaginaryUnit = ();
 var
@@ -16428,19 +16444,19 @@ begin
 end;
 
 {$IFNDEF ADIMOFF}
-function ComplexSquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
+function SquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
 begin
   result.FDim := 2 * AQuantity.FDim;
   result.FValue := AQuantity.FValue*AQuantity.FValue;
 end;
 
-function ComplexCubicPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+function CubicPower(const AQuantity: TComplexQuantity): TComplexQuantity;
 begin
   result.FDim := 3 * AQuantity.FDim;
   result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
 end;
 
-function ComplexQuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
+function QuarticPower(const AQuantity: TComplexQuantity): TComplexQuantity;
 begin
   result.FDim := 4 * AQuantity.FDim;
   result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
@@ -16583,7 +16599,7 @@ function SolveEquation(const a, b: TComplex): TC2ArrayOfComplex;
 var
   delta: TComplex;
 begin
-  delta := ComplexSquareRoot(ComplexSquarePower(a) - 4*b)[1];
+  delta := SquareRoot(SquarePower(a) - 4*b)[1];
   result[1] := (-a + delta)/2;
   result[2] := (-a - delta)/2;
 end;
@@ -16595,14 +16611,14 @@ var
   u: TC3ArrayOfComplex;
   v: TC2ArrayOfComplex;
 begin
-  p := 9*b -3*ComplexSquarePower(a);
-  q := 27*c -9*a*b +2*ComplexCubicPower(a);
+  p := 9*b -3*SquarePower(a);
+  q := 27*c -9*a*b +2*CubicPower(a);
 
   if p.IsNotNull and q.IsNotNull then
   begin
-    s1 := -q/2 + ComplexSquareRoot(ComplexSquarePower(q)/4 + ComplexCubicPower(p)/27)[1];
-  //s2 := -q/2 - ComplexSquareRoot(ComplexSquarePower(q)/4 + ComplexCubicPower(p)/27)[2];
-    u := ComplexCubicRoot(s1);
+    s1 := -q/2 + SquareRoot(SquarePower(q)/4 + CubicPower(p)/27)[1];
+  //s2 := -q/2 - SquareRoot(SquarePower(q)/4 + CubicPower(p)/27)[2];
+    u := CubicRoot(s1);
     t := u[1] - p/(3*u[1]); result[1] := (t - a)/3;
     t := u[2] - p/(3*u[2]); result[2] := (t - a)/3;
     t := u[3] - p/(3*u[3]); result[3] := (t - a)/3;
@@ -16615,13 +16631,13 @@ begin
     end else
       if q.IsNull then
       begin
-        v := ComplexSquareRoot(p);
+        v := SquareRoot(p);
         result[1] := 0;
         result[2] := v[1];
         result[3] := v[2];
       end else
       begin
-        u := ComplexCubicRoot(q);
+        u := CubicRoot(q);
         result[1] := u[1];
         result[2] := u[2];
         result[3] := u[3];
@@ -16639,15 +16655,15 @@ var
   beta: TComplex;
   gamma: Tcomplex;
 begin
-  p := 16*b -6*ComplexSquarePower(a);
-  q := 64*c -32*a*b +8*ComplexCubicPower(a);
-  r := 256*d -64*a*c +16*b*ComplexSquarePower(a) -3*ComplexQuarticPower(a);
+  p := 16*b -6*SquarePower(a);
+  q := 64*c -32*a*b +8*CubicPower(a);
+  r := 256*d -64*a*c +16*b*SquarePower(a) -3*QuarticPower(a);
 
   if q.IsNull then
   begin
     u1 := SolveEquation(p, r);
-    u2 := ComplexSquareRoot(u1[1]);
-    u3 := ComplexSquareRoot(u1[2]);
+    u2 := SquareRoot(u1[1]);
+    u3 := SquareRoot(u1[2]);
 
     result[1] := (u2[1] -a)/4;
     result[2] := (u2[2] -a)/4;
@@ -16655,9 +16671,9 @@ begin
     result[4] := (u3[2] -a)/4;
   end else
   begin
-    v1 := SolveEquation(2*p, ComplexSquarePower(p)-4*r, -ComplexSquarePower(q));
+    v1 := SolveEquation(2*p, SquarePower(p)-4*r, -SquarePower(q));
 
-    alpha := ComplexSquareRoot(v1[1])[1];
+    alpha := SquareRoot(v1[1])[1];
     beta  := ((alpha*alpha*alpha)+p*alpha-q)/(2*alpha);
     gamma := ((alpha*alpha*alpha)+p*alpha+q)/(2*alpha);
 
