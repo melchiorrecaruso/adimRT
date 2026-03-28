@@ -1369,6 +1369,11 @@ type
     }
     function Eigenvectors(const AEigenValues: TC2ArrayOfComplex): TC2ArrayOfVector;
 
+    { Returns the 2×2 zero matrix over @code(ℂ).
+      All elements are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullMatrix: TC2Matrix;
+
     { Returns the inverse of the matrix given its precomputed determinant.
       @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
     }
@@ -1412,6 +1417,11 @@ type
       @param(AEigenValues The eigenvalues, computed via @link(Eigenvalues).)
     }
     function Eigenvectors(const AEigenValues: TC3ArrayOfComplex): TC3ArrayOfVector;
+
+    { Returns the 3×3 zero matrix over @code(ℂ).
+      All elements are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullMatrix: TC3Matrix;
 
     { Returns the inverse of the matrix given its precomputed determinant.
       @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
@@ -1457,6 +1467,11 @@ type
     }
     function Eigenvectors(const AEigenValues: TC4ArrayOfComplex): TC4ArrayOfVector;
 
+    { Returns the 4×4 zero matrix over @code(ℂ).
+      All elements are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullMatrix: TC4Matrix;
+
     { Returns the inverse of the matrix given its precomputed determinant.
       @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
     }
@@ -1482,15 +1497,20 @@ type
 
   { Record helper for @link(TC2Vector) providing additional operations specific to 2-component complex vectors. }
   TC2VectorHelper = record helper for TC2Vector
-    { Returns the element-wise complex conjugate of the vector. }
-    function Conjugate: TC2Vector;
-
     { Returns the Hermitian inner product of two complex vectors.
       @code(〈u,v〉 = Σ conj(uᵢ)·vᵢ)
       Unlike the @code("*") operator, this uses the conjugate of the left operand.
       @param(AVector The right-hand operand.)
     }
     function Dot(const AVector: TC2Vector): TComplex;
+
+    { Returns the element-wise complex conjugate of the vector. }
+    function Conjugate: TC2Vector;
+
+    { Returns the zero vector of @code(ℂ²).
+      All 2 components are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullVector: TC2Vector;
 
     { Converts the vector to its default string representation. }
     function ToString: string;
@@ -1504,15 +1524,20 @@ type
 
   { Record helper for @link(TC3Vector) providing additional operations specific to 3-component complex vectors. }
   TC3VectorHelper = record helper for TC3Vector
-    { Returns the element-wise complex conjugate of the vector. }
-    function Conjugate: TC3Vector;
-
     { Returns the Hermitian inner product of two complex vectors.
       @code(〈u,v〉 = Σ conj(uᵢ)·vᵢ)
       Unlike the @code("*") operator, this uses the conjugate of the left operand.
       @param(AVector The right-hand operand.)
     }
     function Dot(const AVector: TC3Vector): TComplex;
+
+    { Returns the element-wise complex conjugate of the vector. }
+    function Conjugate: TC3Vector;
+
+    { Returns the zero vector of @code(ℂ³).
+      All 3 components are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullVector: TC3Vector;
 
     { Converts the vector to its default string representation. }
     function ToString: string;
@@ -1526,15 +1551,20 @@ type
 
   { Record helper for @link(TC4Vector) providing additional operations specific to 4-component complex vectors. }
   TC4VectorHelper = record helper for TC4Vector
-    { Returns the element-wise complex conjugate of the vector. }
-    function Conjugate: TC4Vector;
-
     { Returns the Hermitian inner product of two complex vectors.
       @code(〈u,v〉 = Σ conj(uᵢ)·vᵢ)
       Unlike the @code("*") operator, this uses the conjugate of the left operand.
       @param(AVector The right-hand operand.)
     }
     function Dot(const AVector: TC4Vector): TComplex;
+
+    { Returns the element-wise complex conjugate of the vector. }
+    function Conjugate: TC4Vector;
+
+    { Returns the zero vector of @code(ℂ⁴).
+      All 4 components are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullVector: TC4Vector;
 
     { Converts the vector to its default string representation. }
     function ToString: string;
@@ -22101,24 +22131,6 @@ type
   }
   function GreaterThanZero(const AQuantity: TQuantity): boolean;
 
-  { Returns the zero vector of @code(ℂ²). All 2 components are set to @code(TComplex(Re=0, Im=0)). }
-  function C2NullVector: TC2Vector;
-
-  { Returns the zero vector of @code(ℂ³). All 3 components are set to @code(TComplex(Re=0, Im=0)). }
-  function C3NullVector: TC3Vector;
-
-  { Returns the zero vector of @code(ℂ⁴). All 4 components are set to @code(TComplex(Re=0, Im=0)). }
-  function C4NullVector: TC4Vector;
-
-  { Returns the 2×2 zero matrix over @code(ℂ). All elements are set to @code(TComplex(Re=0, Im=0)). }
-  function C2NullMatrix: TC2Matrix;
-
-  { Returns the 3×3 zero matrix over @code(ℂ). All elements are set to @code(TComplex(Re=0, Im=0)). }
-  function C3NullMatrix: TC3Matrix;
-
-  { Returns the 4×4 zero matrix over @code(ℂ). All elements are set to @code(TComplex(Re=0, Im=0)). }
-  function C4NullMatrix: TC4Matrix;
-
   { Returns the 2×2 identity matrix over @code(ℂ).
     Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
     Satisfies @code(I·A = A·I = A) for any conforming 2×2 complex matrix @code(A).
@@ -24402,6 +24414,14 @@ begin
   end;
 end;
 
+function TC2MatrixHelper.NullMatrix: TC2Matrix;
+begin
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[2,1] := 0;
+  result[2,2] := 0;
+end;
+
 function TC2MatrixHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s, %s)', [
@@ -24530,6 +24550,21 @@ begin
         result[i].fm[2] := -(A[1,3] * result[i].fm[3]) / A[1,2];
       end;
   end;
+end;
+
+function TC3MatrixHelper.NullMatrix: TC3Matrix;
+begin
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[1,3] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 0;
+  result[2,3] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 0;
 end;
 
 function TC3MatrixHelper.Reciprocal(const ADeterminant: TComplex): TC3Matrix;
@@ -24703,6 +24738,29 @@ begin
   end;
 end;
 
+function TC4MatrixHelper.NullMatrix: TC4Matrix;
+begin
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[1,3] := 0;
+  result[1,4] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 0;
+  result[2,3] := 0;
+  result[2,4] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 0;
+  result[3,4] := 0;
+
+  result[4,1] := 0;
+  result[4,2] := 0;
+  result[4,3] := 0;
+  result[4,4] := 0;
+end;
+
 function TC4MatrixHelper.Reciprocal(const ADeterminant: TComplex): TC4Matrix;
 begin
   result[1,1]:= (fm[2,2]*(fm[3,3]*fm[4,4]-fm[3,4]*fm[4,3])+
@@ -24814,6 +24872,12 @@ begin
     result[i] := fm[i].Conjugate;
 end;
 
+function TC2VectorHelper.NullVector: TC2Vector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+end;
+
 function TC2VectorHelper.ToString: string;
 begin
   result := Format('(%s, %s)', [
@@ -24830,6 +24894,15 @@ end;
 
 // TC3VectorHelper
 
+function TC3VectorHelper.Dot(const AVector: TC3Vector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to 3 do
+    result := result + fm[i] * AVector[i];
+end;
+
 function TC3VectorHelper.Conjugate: TC3Vector;
 var
   i: longint;
@@ -24838,13 +24911,11 @@ begin
     result[i] := fm[i].Conjugate;
 end;
 
-function TC3VectorHelper.Dot(const AVector: TC3Vector): TComplex;
-var
-  i: longint;
+function TC3VectorHelper.NullVector: TC3Vector;
 begin
-  result := 0;
-  for i := 1 to 3 do
-    result := result + fm[i] * AVector[i];
+  result[1] := 0;
+  result[2] := 0;
+  result[3] := 0;
 end;
 
 function TC3VectorHelper.ToString: string;
@@ -24865,6 +24936,15 @@ end;
 
 // TC4VectorHelper
 
+function TC4VectorHelper.Dot(const AVector: TC4Vector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to 4 do
+    result := result + fm[i] * AVector[i];
+end;
+
 function TC4VectorHelper.Conjugate: TC4Vector;
 var
   i: longint;
@@ -24873,13 +24953,12 @@ begin
     result[i] := fm[i].Conjugate;
 end;
 
-function TC4VectorHelper.Dot(const AVector: TC4Vector): TComplex;
-var
-  i: longint;
+function TC4VectorHelper.NullVector: TC4Vector;
 begin
-  result := 0;
-  for i := 1 to 4 do
-    result := result + fm[i] * AVector[i];
+  result[1] := 0;
+  result[2] := 0;
+  result[3] := 0;
+  result[4] := 0;
 end;
 
 function TC4VectorHelper.ToString: string;
@@ -35863,12 +35942,6 @@ begin
   result.FIm := 0;
 end;
 
-function C2NullVector: TC2Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-end;
-
 function C3NullVector: TC3Vector;
 begin
   result[1] := 0;
@@ -35883,52 +35956,6 @@ begin
 
   result[3] := 0;
   result[4] := 0;
-end;
-
-function C2NullMatrix: TC2Matrix;
-begin
-  result[1,1] := 0;
-  result[1,2] := 0;
-  result[2,1] := 0;
-  result[2,2] := 0;
-end;
-
-function C3NullMatrix: TC3Matrix;
-begin
-  result[1,1] := 0;
-  result[1,2] := 0;
-  result[1,3] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 0;
-  result[2,3] := 0;
-
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 0;
-end;
-
-function C4NullMatrix: TC4Matrix;
-begin
-  result[1,1] := 0;
-  result[1,2] := 0;
-  result[1,3] := 0;
-  result[1,4] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 0;
-  result[2,3] := 0;
-  result[2,4] := 0;
-
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 0;
-  result[3,4] := 0;
-
-  result[4,1] := 0;
-  result[4,2] := 0;
-  result[4,3] := 0;
-  result[4,4] := 0;
 end;
 
 function C2IdentityMatrix: TC2Matrix;
