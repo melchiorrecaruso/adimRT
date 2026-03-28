@@ -1055,9 +1055,9 @@ begin
 
   y               := SquareRoot(mass*omega/ReducedPlanckConstant)*x;
 
-  PsiValues[1]    := A0*(  SquareRoot(2)*(  y         ))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
-  PsiValues[2]    := A0*(1/SquareRoot(2)*(2*y*y   -1  ))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
-  PsiValues[3]    := A0*(1/SquareRoot(3)*(2*y*y*y -3*y))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
+  PsiValues[1]    := A0*(  Sqr(2.0)*(  y         ))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
+  PsiValues[2]    := A0*(1/Sqr(2)*(2*y*y   -1  ))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
+  PsiValues[3]    := A0*(1/Sqr(3)*(2*y*y*y -3*y))*QuarticRoot(mass*omega/pi/ReducedPlanckConstant);
   writeln('* TEST-104: PASSED');
 
   // TEST-105 : STEN-GERLACH EXPERIMENT
@@ -1409,8 +1409,8 @@ begin
   coeff[1] := EigenVectors[1].Conjugate*State;
   coeff[2] := EigenVectors[2].Conjugate*State;
 
-  if eV.ToString(ComplexSquarePower(coeff[1])*EigenValues[1] +
-                 ComplexSquarePower(coeff[2])*EigenValues[2]) <> '(0.00012734439857522) eV' then halt(3);
+  if eV.ToString(SquarePower(coeff[1])*EigenValues[1] +
+                 SquarePower(coeff[2])*EigenValues[2]) <> '(0.00012734439857522) eV' then halt(3);
   writeln('* TEST-609: PASSED');
 
   // TEST-610: Fine-structure constant
