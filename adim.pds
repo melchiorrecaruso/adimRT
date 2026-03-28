@@ -38,7 +38,7 @@ HandleMacros=0
 UseTipueSearch=0
 OpenHTML=1
 LineBreakQuality=0
-SpecialMarkerTreatment=0
+SpecialMarkerTreatment=1
 Title=ADim Library
 VizGraphClasses=0
 VizGraphUses=0
@@ -80,7 +80,7 @@ Count=0
 
 [SpecialMarkers]
 Count=1
-Item_0=
+Item_0=@exclude
 
 [IgnoreWords]
 Count=0
