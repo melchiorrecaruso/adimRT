@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TDegreeCelsiusUnitHelper</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -39,73 +39,73 @@
 <p>
 Record helper for <a class="normal" href="ADim.TDegreeCelsiusUnit.html">TDegreeCelsiusUnit</a> providing conversion and formatting operations for temperatures expressed in degrees Celsius.
 
-<p>All extraction methods apply the inverse of the Celsius offset conversion, so that a quantity stored internally in kelvin is correctly displayed in <code>°C</code>: <code>T[°C] = T[K] - 273.15</code>.
+<p>All extraction methods apply the inverse of the Celsius offset conversion, so that <a class="normal" href="ADim.html#A">a</a> quantity stored internally in kelvin is correctly displayed in <code>°<a class="normal" href="ADim.html#C">C</a></code>: <code><a class="normal" href="ADim.html#T">T</a>[°<a class="normal" href="ADim.html#C">C</a>] = <a class="normal" href="ADim.html#T">T</a>[<a class="normal" href="ADim.html#K">K</a>] - 273.15</code>.
 
-<p>All <code>ToString</code> and <code>ToVerboseString</code> methods produce output with the Celsius symbol <code>'°C'</code> or name <code>'degree Celsius'</code> / <code>'degrees Celsius'</code>.</p>
+<p>All <code><a class="normal" href="ADim.TDegreeCelsiusUnitHelper.html#ToString-TQuantity-TQuantity-longint-longint-TPrefixes-">ToString</a></code> and <code><a class="normal" href="ADim.TDegreeCelsiusUnitHelper.html#ToVerboseString-TQuantity-TQuantity-longint-longint-TPrefixes-">ToVerboseString</a></code> methods produce output with the Celsius symbol <code>'°<a class="normal" href="ADim.html#C">C</a>'</code> or name <code>'degree Celsius'</code> / <code>'degrees Celsius'</code>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#GetName-TPrefixes-">GetName</a></strong>(const Prefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#GetPluralName-TPrefixes-">GetPluralName</a></strong>(const Prefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#GetSymbol-TPrefixes-">GetSymbol</a></strong>(const Prefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#GetValue-double-TPrefixes-">GetValue</a></strong>(const AQuantity: double; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): double;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToFloat-TQuantity-">ToFloat</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): double;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToFloat-TQuantity-TPrefixes-">ToFloat</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): double;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToString-TQuantity-">ToString</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): string;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToString-TQuantity-TPrefixes-">ToString</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
-</tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToString-TQuantity-longint-longint-TPrefixes-">ToString</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; APrecision, ADigits: longint; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToString-TQuantity-TPrefixes-">ToString</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToString-TQuantity-TQuantity-longint-longint-TPrefixes-">ToString</a></strong>(const AQuantity, ATolerance: <a href="ADim.TQuantity.html">TQuantity</a>; APrecision, ADigits: longint; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToVerboseString-TQuantity-">ToVerboseString</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): string;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToVerboseString-TQuantity-TPrefixes-">ToVerboseString</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
-</tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToVerboseString-TQuantity-longint-longint-TPrefixes-">ToVerboseString</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; APrecision, ADigits: longint; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToVerboseString-TQuantity-TPrefixes-">ToVerboseString</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TDegreeCelsiusUnitHelper.html#ToVerboseString-TQuantity-TQuantity-longint-longint-TPrefixes-">ToVerboseString</a></strong>(const AQuantity, ATolerance: <a href="ADim.TQuantity.html">TQuantity</a>; APrecision, ADigits: longint; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetName-TPrefixes-"></span><code>function <strong>GetName</strong>(const Prefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
@@ -119,8 +119,8 @@ Returns the singular name of the unit with the given prefix applied. For the Cel
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetPluralName-TPrefixes-"></span><code>function <strong>GetPluralName</strong>(const Prefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
@@ -134,14 +134,14 @@ Returns the plural name of the unit with the given prefix applied. For the Celsi
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetSymbol-TPrefixes-"></span><code>function <strong>GetSymbol</strong>(const Prefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the symbol of the unit with the given prefix applied. For the Celsius unit this is typically <code>'°C'</code> without prefix. </p>
+Returns the symbol of the unit with the given prefix applied. For the Celsius unit this is typically <code>'°<a class="normal" href="ADim.html#C">C</a>'</code> without prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>Prefixes</dt>
@@ -149,14 +149,14 @@ Returns the symbol of the unit with the given prefix applied. For the Celsius un
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="GetValue-double-TPrefixes-"></span><code>function <strong>GetValue</strong>(const AQuantity: double; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): double;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the real scalar value scaled for the given prefix, expressed in degrees Celsius. Applies the inverse offset: <code>T[°C] = AQuantity - 273.15</code>.  </p>
+Returns the real scalar value scaled for the given prefix, expressed in degrees Celsius. Applies the inverse offset: <code><a class="normal" href="ADim.html#T">T</a>[°<a class="normal" href="ADim.html#C">C</a>] = AQuantity - 273.15</code>.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -166,14 +166,14 @@ Returns the real scalar value scaled for the given prefix, expressed in degrees 
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToFloat-TQuantity-"></span><code>function <strong>ToFloat</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): double;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the numerical value of the real quantity expressed in degrees Celsius. Applies the inverse offset conversion: <code>T[°C] = T[K] - 273.15</code>. </p>
+Returns the numerical value of the real quantity expressed in degrees Celsius. Applies the inverse offset conversion: <code><a class="normal" href="ADim.html#T">T</a>[°<a class="normal" href="ADim.html#C">C</a>] = <a class="normal" href="ADim.html#T">T</a>[<a class="normal" href="ADim.html#K">K</a>] - 273.15</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -181,8 +181,8 @@ Returns the numerical value of the real quantity expressed in degrees Celsius. A
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToFloat-TQuantity-TPrefixes-"></span><code>function <strong>ToFloat</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): double;</code></td>
 </tr>
@@ -198,14 +198,14 @@ Returns the numerical value of the real quantity expressed in degrees Celsius wi
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString-TQuantity-"></span><code>function <strong>ToString</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns a compact string representation of the temperature quantity in degrees Celsius. Format: <code>'&lt;value&gt; °C'</code>, e.g. <code>'100 °C'</code>. </p>
+Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the temperature quantity in degrees Celsius. Format: <code>'&lt;value&gt; °<a class="normal" href="ADim.html#C">C</a>'</code>, e.g. <code>'100 °<a class="normal" href="ADim.html#C">C</a>'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -213,31 +213,14 @@ Returns a compact string representation of the temperature quantity in degrees C
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="ToString-TQuantity-TPrefixes-"></span><code>function <strong>ToString</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns a compact string representation of the temperature quantity in degrees Celsius with the given prefix applied.  </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AQuantity</dt>
-<dd>The real temperature quantity to format.</dd>
-<dt>APrefixes</dt>
-<dd>The SI prefixes defining the output scaling.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString-TQuantity-longint-longint-TPrefixes-"></span><code>function <strong>ToString</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; APrecision, ADigits: longint; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns a compact string representation of the temperature quantity with controlled precision.    </p>
+Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the temperature quantity with controlled precision.    </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -251,14 +234,31 @@ Returns a compact string representation of the temperature quantity with control
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToString-TQuantity-TPrefixes-"></span><code>function <strong>ToString</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the temperature quantity in degrees Celsius with the given prefix applied.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AQuantity</dt>
+<dd>The real temperature quantity to format.</dd>
+<dt>APrefixes</dt>
+<dd>The SI prefixes defining the output scaling.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString-TQuantity-TQuantity-longint-longint-TPrefixes-"></span><code>function <strong>ToString</strong>(const AQuantity, ATolerance: <a href="ADim.TQuantity.html">TQuantity</a>; APrecision, ADigits: longint; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns a compact string representation of the temperature quantity with a tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; °C'</code>.     </p>
+Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the temperature quantity with <a class="normal" href="ADim.html#A">a</a> tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; °<a class="normal" href="ADim.html#C">C</a>'</code>.     </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -274,14 +274,14 @@ Returns a compact string representation of the temperature quantity with a toler
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToVerboseString-TQuantity-"></span><code>function <strong>ToVerboseString</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns a verbose string representation of the temperature quantity in degrees Celsius. Format: <code>'&lt;value&gt; degrees Celsius'</code>, e.g. <code>'100 degrees Celsius'</code>. </p>
+Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the temperature quantity in degrees Celsius. Format: <code>'&lt;value&gt; degrees Celsius'</code>, e.g. <code>'100 degrees Celsius'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -289,31 +289,14 @@ Returns a verbose string representation of the temperature quantity in degrees C
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="ToVerboseString-TQuantity-TPrefixes-"></span><code>function <strong>ToVerboseString</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns a verbose string representation of the temperature quantity with the given prefix.  </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AQuantity</dt>
-<dd>The real temperature quantity to format.</dd>
-<dt>APrefixes</dt>
-<dd>The SI prefixes defining the output scaling.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToVerboseString-TQuantity-longint-longint-TPrefixes-"></span><code>function <strong>ToVerboseString</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; APrecision, ADigits: longint; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns a verbose string representation of the temperature quantity with controlled precision.    </p>
+Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the temperature quantity with controlled precision.    </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -327,14 +310,31 @@ Returns a verbose string representation of the temperature quantity with control
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ToVerboseString-TQuantity-TPrefixes-"></span><code>function <strong>ToVerboseString</strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the temperature quantity with the given prefix.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AQuantity</dt>
+<dd>The real temperature quantity to format.</dd>
+<dt>APrefixes</dt>
+<dd>The SI prefixes defining the output scaling.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToVerboseString-TQuantity-TQuantity-longint-longint-TPrefixes-"></span><code>function <strong>ToVerboseString</strong>(const AQuantity, ATolerance: <a href="ADim.TQuantity.html">TQuantity</a>; APrecision, ADigits: longint; const APrefixes: <a href="ADim.html#TPrefixes">TPrefixes</a>): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns a verbose string representation of the temperature quantity with a tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; degrees Celsius'</code>.     </p>
+Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the temperature quantity with <a class="normal" href="ADim.html#A">a</a> tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; degrees Celsius'</code>.     </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -350,7 +350,7 @@ Returns a verbose string representation of the temperature quantity with a toler
 </dl>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>

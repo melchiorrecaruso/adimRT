@@ -1,7 +1,7 @@
 [Main]
 StoreRelativePaths=0
 Language=en
-OutputDir=/home/quacquero/Documenti/GitHub/adimRT/help
+OutputDir=/home/quacquero/Documenti/GitHub/adimRT/docs
 GenerateFormat=0
 ProjectName=
 Verbosity=2
@@ -22,8 +22,8 @@ Sorting_4=0
 Sorting_5=0
 Sorting_6=0
 Sorting_7=0
-Sorting_8=0
-Sorting_9=0
+Sorting_8=1
+Sorting_9=1
 CssFileName=
 IntroductionFileName=
 ConclusionFileName=
@@ -33,7 +33,7 @@ HtmlBodyEnd=
 ExternalDescriptions=
 WriteUsesList=0
 AutoAbstract=1
-AutoLink=0
+AutoLink=1
 HandleMacros=0
 UseTipueSearch=0
 OpenHTML=1
@@ -45,8 +45,10 @@ VizGraphUses=0
 CheckSpelling=0
 LatexGraphicsPackage=0
 ImplementationComments=0
-Markdown=1
+Markdown=0
 AutoBackComments=0
+InheritedMembers=0
+Bootstrap=1
 
 [Defines]
 Count=0

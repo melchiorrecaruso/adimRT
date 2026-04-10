@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TRVecQuantity</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -37,95 +37,95 @@
 <code>type generic TRVecQuantity&lt;TSpace&gt; = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Generic column vector of real physical quantities (<a class="normal" href="ADim.TQuantity.html">TQuantity</a>) with <code>TSpace.N</code> components.
+Generic column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> of real physical quantities (<a class="normal" href="ADim.TQuantity.html">TQuantity</a>) with <code>TSpace.N</code> components.
 
 <p>Each component carries the same physical dimension, stored in <code>FDim</code>. Supports arithmetic operations with dimensional consistency checking. When <code>ADIMOFF</code> is defined, degenerates to the corresponding <a class="normal" href="ADim.TRVecQuantity.generic.html#TRVector">TRVector</a> specialization. Concrete types are provided as <a class="normal" href="ADim.html#TR2VecQuantity">TR2VecQuantity</a>, <a class="normal" href="ADim.html#TR3VecQuantity">TR3VecQuantity</a>, and <a class="normal" href="ADim.html#TR4VecQuantity">TR4VecQuantity</a>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-NestedTypes"></span><h3 class="summary">Nested Types</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="ADim.TRVecQuantity.generic.html#TRMatrixQuantity">TRMatrixQuantity</a></strong> = specialize <a href="ADim.TRVecQuantity.generic.html#TRMatrixQuantity">TRMatrixQuantity</a>&lt;TSpace&gt;;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code><strong><a href="ADim.TRVecQuantity.generic.html#TRVector">TRVector</a></strong> = specialize <a href="ADim.TRVecQuantity.generic.html#TRVector">TRVector</a>&lt;TSpace&gt;;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TRVecQuantity.generic.html#Normalize">Normalize</a></strong>: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): boolean;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): boolean;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const AValue: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const AValue: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TRVecQuantity.generic.html#TRMatrixQuantity">TRMatrixQuantity</a>; const ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const AValue: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const AValue: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): boolean;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>property <strong><a href="ADim.TRVecQuantity.generic.html#a">a</a></strong>[ARow: longint]: <a href="ADim.TQuantity.html">TQuantity</a> read Get write Put;</code></td>
+<td class="itemcode"><code>property <strong><a href="ADim.TRVecQuantity.generic.html#a">a</a></strong>[ARow: longint]: <a href="ADim.TQuantity.html">TQuantity</a> read Get write Put; default;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Nested Types</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="TRMatrixQuantity"></span><code><strong>TRMatrixQuantity</strong> = specialize <a href="ADim.TRVecQuantity.generic.html#TRMatrixQuantity">TRMatrixQuantity</a>&lt;TSpace&gt;;</code></td>
 </tr>
 <tr><td colspan="2">
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="TRVector"></span><code><strong>TRVector</strong> = specialize <a href="ADim.TRVecQuantity.generic.html#TRVector">TRVector</a>&lt;TSpace&gt;;</code></td>
 </tr>
@@ -133,48 +133,68 @@ Generic column vector of real physical quantities (<a class="normal" href="ADim.
 <p class="nodescription">This item has no description.</p></td></tr>
 </table>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Normalize"></span><code>function <strong>Normalize</strong>: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the unit vector in the same direction. The dimension is preserved; only the numerical values are normalized.</p>
+Returns the unit <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> in the same direction. The dimension is preserved; only the numerical values are normalized.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<-TRVecQuantity-TRVecQuantity-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><span id="*-TQuantity-TRVecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the two vectors differ in dimension or in at least one component.</p>
+Returns the product of <a class="normal" href="ADim.TRVecQuantity.generic.html#a">a</a> real quantity scalar and <a class="normal" href="ADim.TRVecQuantity.generic.html#a">a</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="=-TRVecQuantity-TRVecQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><span id="*-TRMatrixQuantity-TRVecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TRVecQuantity.generic.html#TRMatrixQuantity">TRMatrixQuantity</a>; const ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if both vectors have the same dimension and all corresponding components are equal.</p>
+Returns the product of <a class="normal" href="ADim.TRVecQuantity.generic.html#a">a</a> real quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> and <a class="normal" href="ADim.TRVecQuantity.generic.html#a">a</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>: <code><a class="normal" href="ADim.html#V">v</a>' = <a class="normal" href="ADim.TRVecQuantity.generic.html#a">A</a>·<a class="normal" href="ADim.html#V">v</a></code>. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TRVecQuantity-TQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of <a class="normal" href="ADim.TRVecQuantity.generic.html#a">a</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.TRVecQuantity.generic.html#a">a</a> real quantity scalar. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TRVecQuantity-TRVecQuantity-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the dot product of two quantity vectors. <code>u·<a class="normal" href="ADim.html#V">v</a> = Σ uᵢ·<a class="normal" href="ADim.html#V">v</a>ᵢ</code>. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="+-TRVecQuantity-"></span><code>class operator +(const AValue: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Unary plus. Returns the quantity vector unchanged.</p>
+Unary plus. Returns the quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> unchanged.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="+-TRVecQuantity-TRVecQuantity-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
@@ -183,18 +203,18 @@ Unary plus. Returns the quantity vector unchanged.</p>
 Returns the component-wise sum of two quantity vectors. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="--TRVecQuantity-"></span><code>class operator -(const AValue: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Unary minus. Returns the negation of the quantity vector.</p>
+Unary minus. Returns the negation of the quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="--TRVecQuantity-TRVecQuantity-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
@@ -203,78 +223,58 @@ Unary minus. Returns the negation of the quantity vector.</p>
 Returns the component-wise difference of two quantity vectors. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TQuantity-TRVecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the product of a real quantity scalar and a quantity vector. The resulting dimension is the product of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TRVecQuantity-TQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the product of a quantity vector and a real quantity scalar. The resulting dimension is the product of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TRMatrixQuantity-TRVecQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TRVecQuantity.generic.html#TRMatrixQuantity">TRMatrixQuantity</a>; const ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the product of a real quantity matrix and a quantity vector: <code>v' = A·v</code>. The resulting dimension is the product of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TRVecQuantity-TRVecQuantity-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the dot product of two quantity vectors. <code>u·v = Σ uᵢ·vᵢ</code>. The resulting dimension is the product of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="/-TQuantity-TRVecQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of a real quantity scalar divided by a quantity vector. Each component becomes <code>ALeft/vᵢ</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the quotient of <a class="normal" href="ADim.TRVecQuantity.generic.html#a">a</a> real quantity scalar divided by <a class="normal" href="ADim.TRVecQuantity.generic.html#a">a</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Each component becomes <code>ALeft/<a class="normal" href="ADim.html#V">v</a>ᵢ</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="/-TRVecQuantity-TQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quantity vector divided by a real quantity scalar. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> divided by <a class="normal" href="ADim.TRVecQuantity.generic.html#a">a</a> real quantity scalar. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
-<h3 class="detail">Properties</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="a"></span><code>property <strong>a</strong>[ARow: longint]: <a href="ADim.TQuantity.html">TQuantity</a> read Get write Put;</code></td>
+<td class="itemcode"><span id="<-TRVecQuantity-TRVecQuantity-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Provides access to individual vector components using a 1-based index. Each component is returned as a <a class="normal" href="ADim.TQuantity.html">TQuantity</a> carrying the vector's dimension.</p>
+Returns <code>True</code> if the two vectors differ in dimension or in at least one component.</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TRVecQuantity-TRVecQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if both vectors have the same dimension and all corresponding components are equal.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="a"></span><code>property <strong>a</strong>[ARow: longint]: <a href="ADim.TQuantity.html">TQuantity</a> read Get write Put; default;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Provides access to individual <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components using <code>a</code> 1-based index. Each component is returned as <code>a</code> <a class="normal" href="ADim.TQuantity.html">TQuantity</a> carrying the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>'<a class="normal" href="ADim.html#s">s</a> dimension.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>

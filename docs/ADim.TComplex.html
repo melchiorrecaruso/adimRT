@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TComplex</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -37,234 +37,234 @@
 <code>type TComplex = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents a complex number in Cartesian form: <code>z = Re + i·Im</code>.
+Represents <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number in Cartesian form: <code>z = <a class="normal" href="ADim.TComplex.html#Re">Re</a> + i·<a class="normal" href="ADim.TComplex.html#Im">Im</a></code>.
 
-<p>A complex number consists of: </p>
+<p><a class="normal" href="ADim.html#A">A</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number consists of: </p>
 
 <ul class="paragraph_spacing">
-  <li><p><strong>Re</strong>: the real part</p></li>
-  <li><p><strong>Im</strong>: the imaginary part</p></li>
+  <li><p><strong><a class="normal" href="ADim.TComplex.html#Re">Re</a></strong>: the real part</p></li>
+  <li><p><strong><a class="normal" href="ADim.TComplex.html#Im">Im</a></strong>: the imaginary part</p></li>
 </ul>
 
-<p> The imaginary unit <code>i</code> is defined by <code>i² = -1</code>. All arithmetic operations follow standard complex number algebra.</p>
+<p> The imaginary unit <code>i</code> is defined by <code>i² = -1</code>. All arithmetic operations follow standard <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number algebra.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#Arg">Arg</a></strong>: double;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#Conjugate">Conjugate</a></strong>: <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#IsNull">IsNull</a></strong>: boolean;</code></td>
-</tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#IsNotNull">IsNotNull</a></strong>: boolean;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#IsNull">IsNull</a></strong>: boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#Norm">Norm</a></strong>: double;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#SquaredNorm">SquaredNorm</a></strong>: double;</code></td>
-</tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#Reciprocal">Reciprocal</a></strong>: <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#SquaredNorm">SquaredNorm</a></strong>: double;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#ToString">ToString</a></strong>: string;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TComplex.html#ToString-integer-integer-">ToString</a></strong>(APrecision, ADigits: integer): string;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>procedure <strong><a href="ADim.TComplex.html#Zero">Zero</a></strong>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator := (const AValue: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): boolean; inline;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): boolean; inline;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator :=(const AValue: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): boolean; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): boolean; inline;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>property <strong><a href="ADim.TComplex.html#Re">Re</a></strong>: double read fRe write fRe;</code></td>
-</tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>property <strong><a href="ADim.TComplex.html#Im">Im</a></strong>: double read fIm write fIm;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>property <strong><a href="ADim.TComplex.html#Re">Re</a></strong>: double read fRe write fRe;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Arg"></span><code>function <strong>Arg</strong>: double;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the argument (phase angle) of the complex number, in radians. The argument is defined as <code>φ = arctan(Im / Re)</code>, adjusted for quadrant. Returns a value in the range <code></code>((-π, π]).</p>
+Returns the argument (phase angle) of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number, in radians. The argument is defined as <code>φ = <a class="normal" href="ADim.html#ArcTan-double-">arctan</a>(<a class="normal" href="ADim.TComplex.html#Im">Im</a> / <a class="normal" href="ADim.TComplex.html#Re">Re</a>)</code>, adjusted for quadrant. Returns <a class="normal" href="ADim.html#A">a</a> value in the range <code></code>((-π, π]).</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the complex conjugate of the number. If <code>z = a + i·b</code>, the conjugate is <code>z* = a - i·b</code>.</p>
+Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <code>conjugate</code> of the number. If <code>z = <a class="normal" href="ADim.html#A">a</a> + i·b</code>, the <code>conjugate</code> is <code>z* = <a class="normal" href="ADim.html#A">a</a> - i·b</code>.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="IsNull"></span><code>function <strong>IsNull</strong>: boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if the complex number is zero, i.e. both <code>Re = 0</code> and <code>Im = 0</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="IsNotNull"></span><code>function <strong>IsNotNull</strong>: boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the complex number is not zero, i.e. at least one of <code>Re</code> or <code>Im</code> is non-zero.</p>
+Returns <code>True</code> if the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number is not <a class="normal" href="ADim.TComplex.html#Zero">zero</a>, i.e. at least one of <code><a class="normal" href="ADim.TComplex.html#Re">Re</a></code> or <code><a class="normal" href="ADim.TComplex.html#Im">Im</a></code> is non-<a class="normal" href="ADim.TComplex.html#Zero">zero</a>.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="IsNull"></span><code>function <strong>IsNull</strong>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number is <a class="normal" href="ADim.TComplex.html#Zero">zero</a>, i.e. both <code><a class="normal" href="ADim.TComplex.html#Re">Re</a> = 0</code> and <code><a class="normal" href="ADim.TComplex.html#Im">Im</a> = 0</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: double;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the modulus (magnitude) of the complex number. Defined as <code>|z| = √(Re² + Im²)</code>.</p>
+Returns the modulus (magnitude) of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number. Defined as <code>|z| = √(<a class="normal" href="ADim.TComplex.html#Re">Re</a>² + <a class="normal" href="ADim.TComplex.html#Im">Im</a>²)</code>.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: double;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the squared modulus of the complex number. Defined as <code>|z|² = Re² + Im²</code>. Avoids the square root computation of <a class="normal" href="ADim.TComplex.html#Norm">Norm</a>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Reciprocal"></span><code>function <strong>Reciprocal</strong>: <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the reciprocal of the complex number: <code>1 / z</code>. </p>
+Returns the <code>reciprocal</code> of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number: <code>1 / z</code>. </p>
 <h6 class="description_section">Exceptions raised</h6>
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
-<dd>if the number is zero, i.e. <code>|z| = 0</code>.</dd>
+<dd>if the number is <a class="normal" href="ADim.TComplex.html#Zero">zero</a>, i.e. <code>|z| = 0</code>.</dd>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the squared modulus of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number. Defined as <code>|z|² = <a class="normal" href="ADim.TComplex.html#Re">Re</a>² + <a class="normal" href="ADim.TComplex.html#Im">Im</a>²</code>. Avoids the square root computation of <a class="normal" href="ADim.TComplex.html#Norm">Norm</a>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString"></span><code>function <strong>ToString</strong>: string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the complex number to its default string representation. The format is <code>a + bi</code> or <code>a - bi</code>.</p>
+Converts the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number to its default string representation. The format is <code><a class="normal" href="ADim.html#A">a</a> + bi</code> or <code><a class="normal" href="ADim.html#A">a</a> - bi</code>.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString-integer-integer-"></span><code>function <strong>ToString</strong>(APrecision, ADigits: integer): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the complex number to a formatted string with controlled precision.  </p>
+Converts the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number to <a class="normal" href="ADim.html#A">a</a> formatted string with controlled precision.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrecision</dt>
@@ -274,38 +274,173 @@ Converts the complex number to a formatted string with controlled precision.  </
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Zero"></span><code>procedure <strong>Zero</strong>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Sets the complex number to zero. After this call <code>Re = 0.0</code> and <code>Im = 0.0</code>. Useful to reset a complex number before accumulating sums.</p>
+Sets the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number to <code>zero</code>. After this call <code><a class="normal" href="ADim.TComplex.html#Re">Re</a> = 0.0</code> and <code><a class="normal" href="ADim.TComplex.html#Im">Im</a> = 0.0</code>. Useful to reset <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number before accumulating sums.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id=":=-double-"></span><code>class operator := (const AValue: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+<td class="itemcode"><span id="*-double-TComplex-"></span><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from a real value to a complex number. The resulting complex number has <code>Im = 0</code>.</p>
+Returns the product of <a class="normal" href="ADim.html#A">a</a> real number and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="=-TComplex-TComplex-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): boolean; inline;</code></td>
+<td class="itemcode"><span id="*-TComplex-double-"></span><code>class operator *(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if both the real and imaginary parts of the two operands are equal.</p>
+Returns the product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number and <a class="normal" href="ADim.html#A">a</a> real number.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TComplex-TComplex-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers. <code>(<a class="normal" href="ADim.html#A">a</a>+bi)·(<a class="normal" href="ADim.html#C">c</a>+di) = (ac - bd) + (ad + bc)i</code></p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-double-TComplex-"></span><code>class operator +(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of <a class="normal" href="ADim.html#A">a</a> real number and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TComplex-"></span><code>class operator +(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary plus. Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number unchanged.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TComplex-double-"></span><code>class operator +(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number and <a class="normal" href="ADim.html#A">a</a> real number.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TComplex-TComplex-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers: <code>(<a class="normal" href="ADim.html#A">a</a>+bi) + (<a class="normal" href="ADim.html#C">c</a>+di) = (<a class="normal" href="ADim.html#A">a</a>+<a class="normal" href="ADim.html#C">c</a>) + (b+d)i</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--double-TComplex-"></span><code>class operator -(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of <a class="normal" href="ADim.html#A">a</a> real number and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TComplex-"></span><code>class operator -(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary minus. Returns the negation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number: <code>-(<a class="normal" href="ADim.html#A">a</a>+bi) = -<a class="normal" href="ADim.html#A">a</a> - bi</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TComplex-double-"></span><code>class operator -(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number and <a class="normal" href="ADim.html#A">a</a> real number.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TComplex-TComplex-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers: <code>(<a class="normal" href="ADim.html#A">a</a>+bi) - (<a class="normal" href="ADim.html#C">c</a>+di) = (<a class="normal" href="ADim.html#A">a</a>-<a class="normal" href="ADim.html#C">c</a>) + (b-d)i</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-double-TComplex-"></span><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the quotient of <a class="normal" href="ADim.html#A">a</a> real number divided by <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TComplex-double-"></span><code>class operator /(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the quotient of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number divided by <a class="normal" href="ADim.html#A">a</a> real number.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TComplex-TComplex-"></span><code>class operator /(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the quotient of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers. </p>
+<h6 class="description_section">Exceptions raised</h6>
+<dl class="exceptions_raised">
+<dt><code>Exception</code></dt>
+<dd>if the divisor is <a class="normal" href="ADim.TComplex.html#Zero">zero</a>, i.e. <code>|ARight| = 0</code>.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id=":=-double-"></span><code>class operator :=(const AValue: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Implicit conversion from <a class="normal" href="ADim.html#A">a</a> real value to <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number. The resulting <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number has <code><a class="normal" href="ADim.TComplex.html#Im">Im</a> = 0</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="<-TComplex-TComplex-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): boolean; inline;</code></td>
 </tr>
@@ -314,173 +449,38 @@ Returns <code>True</code> if both the real and imaginary parts of the two operan
 Returns <code>True</code> if the real or imaginary parts of the two operands differ.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TComplex-"></span><code>class operator +(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
+<td class="itemcode"><span id="=-TComplex-TComplex-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): boolean; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Unary plus. Returns the complex number unchanged.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TComplex-TComplex-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the sum of two complex numbers: <code>(a+bi) + (c+di) = (a+c) + (b+d)i</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-double-TComplex-"></span><code>class operator +(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the sum of a real number and a complex number.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TComplex-double-"></span><code>class operator +(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the sum of a complex number and a real number.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TComplex-"></span><code>class operator -(const AValue: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Unary minus. Returns the negation of the complex number: <code>-(a+bi) = -a - bi</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TComplex-TComplex-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the difference of two complex numbers: <code>(a+bi) - (c+di) = (a-c) + (b-d)i</code>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--double-TComplex-"></span><code>class operator -(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the difference of a real number and a complex number.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TComplex-double-"></span><code>class operator -(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the difference of a complex number and a real number.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TComplex-TComplex-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the product of two complex numbers. <code>(a+bi)·(c+di) = (ac - bd) + (ad + bc)i</code></p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-double-TComplex-"></span><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the product of a real number and a complex number.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TComplex-double-"></span><code>class operator *(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the product of a complex number and a real number.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TComplex-TComplex-"></span><code>class operator /(const ALeft, ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the quotient of two complex numbers. </p>
-<h6 class="description_section">Exceptions raised</h6>
-<dl class="exceptions_raised">
-<dt><code>Exception</code></dt>
-<dd>if the divisor is zero, i.e. <code>|ARight| = 0</code>.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-double-TComplex-"></span><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the quotient of a real number divided by a complex number.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TComplex-double-"></span><code>class operator /(const ALeft: <a href="ADim.TComplex.html">TComplex</a>; const ARight: double): <a href="ADim.TComplex.html">TComplex</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the quotient of a complex number divided by a real number.</p>
+Returns <code>True</code> if both the real and imaginary parts of the two operands are equal.</p>
 </td></tr>
 </table>
 <h3 class="detail">Properties</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Re"></span><code>property <strong>Re</strong>: double read fRe write fRe;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Real part of the complex number.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Im"></span><code>property <strong>Im</strong>: double read fIm write fIm;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Imaginary part of the complex number.</p>
+Imaginary part of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Re"></span><code>property <strong>Re</strong>: double read fRe write fRe;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Real part of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>

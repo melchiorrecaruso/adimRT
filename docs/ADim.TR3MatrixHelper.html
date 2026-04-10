@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TR3MatrixHelper</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -41,72 +41,72 @@ Record helper for <a class="normal" href="ADim.html#TR3Matrix">TR3Matrix</a> pro
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TR3MatrixHelper.html#Determinant">Determinant</a></strong>: double;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TR3MatrixHelper.html#Reciprocal-double-">Reciprocal</a></strong>(const ADeterminant: double): <a href="ADim.html#TR3Matrix">TR3Matrix</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TR3MatrixHelper.html#ToString">ToString</a></strong>: string;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TR3MatrixHelper.html#ToString-integer-integer-">ToString</a></strong>(APrecision, ADigits: integer): string;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TR3MatrixHelper.html#Transpose">Transpose</a></strong>: <a href="ADim.html#TR3Matrix">TR3Matrix</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Determinant"></span><code>function <strong>Determinant</strong>: double;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the determinant of the 3×3 matrix using cofactor expansion.</p>
+Returns the <code>determinant</code> of the 3×3 <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> using cofactor expansion.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Reciprocal-double-"></span><code>function <strong>Reciprocal</strong>(const ADeterminant: double): <a href="ADim.html#TR3Matrix">TR3Matrix</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inverse of the matrix given its precomputed determinant. </p>
+Returns the inverse of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> given its precomputed <a class="normal" href="ADim.TR3MatrixHelper.html#Determinant">determinant</a>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ADeterminant</dt>
-<dd>The determinant of the matrix, computed via <a class="normal" href="ADim.TR3MatrixHelper.html#Determinant">Determinant</a>.</dd>
+<dd>The <a class="normal" href="ADim.TR3MatrixHelper.html#Determinant">determinant</a> of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>, computed via <a class="normal" href="ADim.TR3MatrixHelper.html#Determinant">Determinant</a>.</dd>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString"></span><code>function <strong>ToString</strong>: string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the matrix to its default string representation.</p>
+Converts the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to its default string representation.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString-integer-integer-"></span><code>function <strong>ToString</strong>(APrecision, ADigits: integer): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the matrix to a formatted string with controlled precision.  </p>
+Converts the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to <a class="normal" href="ADim.html#A">a</a> formatted string with controlled precision.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrecision</dt>
@@ -116,17 +116,17 @@ Converts the matrix to a formatted string with controlled precision.  </p>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Transpose"></span><code>function <strong>Transpose</strong>: <a href="ADim.html#TR3Matrix">TR3Matrix</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the transpose of the 3×3 matrix.</p>
+Returns the <code>transpose</code> of the 3×3 <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>.</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>

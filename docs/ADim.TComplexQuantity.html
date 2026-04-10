@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TComplexQuantity</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -37,227 +37,257 @@
 <code>type TComplexQuantity = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents a complex quantity with physical dimensions.
+Represents <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity with physical dimensions.
 
-<p>Combines a <a class="normal" href="ADim.TComplex.html">TComplex</a> value with a <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, supporting arithmetic operations while preserving dimensional consistency. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <a class="normal" href="ADim.TComplex.html">TComplex</a>.</p>
+<p>Combines <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.TComplex.html">TComplex</a> value with <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, supporting arithmetic operations while preserving dimensional consistency. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <a class="normal" href="ADim.TComplex.html">TComplex</a>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator := (const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): boolean; inline;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): boolean; inline;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const AValue: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const AValue: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: double): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator +(const AValue: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: double): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const AValue: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: double): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator :=(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): boolean; inline;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): boolean; inline;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id=":=-TQuantity-"></span><code>class operator := (const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Implicit conversion from a real <a class="normal" href="ADim.TQuantity.html">TQuantity</a> to a complex quantity. The imaginary part is set to zero.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="=-TComplexQuantity-TComplexQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): boolean; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if both operands have the same dimension and equal complex values.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<-TComplexQuantity-TComplexQuantity-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): boolean; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if the operands differ in dimension or in complex value.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TComplexQuantity-"></span><code>class operator +(const AValue: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Unary plus. Returns the complex quantity unchanged.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TComplexQuantity-"></span><code>class operator -(const AValue: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Unary minus. Returns the negation of the complex quantity.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TComplexQuantity-TComplexQuantity-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the sum of two complex quantities. Both operands must have the same dimension.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TComplexQuantity-TComplexQuantity-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the difference of two complex quantities. Both operands must have the same dimension.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TComplexQuantity-TComplexQuantity-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the product of two complex quantities. The resulting dimension is the product of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="*-double-TComplexQuantity-"></span><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of a dimensionless real scalar and a complex quantity.</p>
+Returns the product of <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="*-TComplexQuantity-double-"></span><code>class operator *(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: double): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of a complex quantity and a dimensionless real scalar.</p>
+Returns the product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity and <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TQuantity-TComplexQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="*-TComplexQuantity-TComplexQuantity-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of a real quantity and a complex quantity. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantities. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="*-TComplexQuantity-TQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of a complex quantity and a real quantity. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity and <a class="normal" href="ADim.html#A">a</a> real quantity. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="*-TQuantity-TComplexQuantity-"></span><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the product of <a class="normal" href="ADim.html#A">a</a> real quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity. The resulting dimension is the product of the two dimensions.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TComplexQuantity-"></span><code>class operator +(const AValue: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary plus. Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity unchanged.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TComplexQuantity-TComplexQuantity-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TComplexQuantity-TQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity and <a class="normal" href="ADim.html#A">a</a> real quantity. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="+-TQuantity-TComplexQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the sum of <a class="normal" href="ADim.html#A">a</a> real quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TComplexQuantity-"></span><code>class operator -(const AValue: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary minus. Returns the negation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TComplexQuantity-TComplexQuantity-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TComplexQuantity-TQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity and <a class="normal" href="ADim.html#A">a</a> real quantity. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TQuantity-TComplexQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of <a class="normal" href="ADim.html#A">a</a> real quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-double-TComplexQuantity-"></span><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the quotient of <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar divided by <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TComplexQuantity-double-"></span><code>class operator /(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: double): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the quotient of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity divided by <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="/-TComplexQuantity-TComplexQuantity-"></span><code>class operator /(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of two complex quantities. The resulting dimension is the ratio of the two dimensions. </p>
+Returns the quotient of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantities. The resulting dimension is the ratio of the two dimensions. </p>
 <h6 class="description_section">Exceptions raised</h6>
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
@@ -265,87 +295,57 @@ Returns the quotient of two complex quantities. The resulting dimension is the r
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-double-TComplexQuantity-"></span><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the quotient of a dimensionless real scalar divided by a complex quantity.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TComplexQuantity-double-"></span><code>class operator /(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: double): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the quotient of a complex quantity divided by a dimensionless real scalar.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TQuantity-TComplexQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the quotient of a real quantity divided by a complex quantity. The resulting dimension is the ratio of the two dimensions.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="/-TComplexQuantity-TQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of a complex quantity divided by a real quantity. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the quotient of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity divided by <a class="normal" href="ADim.html#A">a</a> real quantity. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TQuantity-TComplexQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="/-TQuantity-TComplexQuantity-"></span><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a real quantity and a complex quantity. Both operands must have the same dimension.</p>
+Returns the quotient of <a class="normal" href="ADim.html#A">a</a> real quantity divided by <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TComplexQuantity-TQuantity-"></span><code>class operator +(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id=":=-TQuantity-"></span><code>class operator :=(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of a complex quantity and a real quantity. Both operands must have the same dimension.</p>
+Implicit conversion from <a class="normal" href="ADim.html#A">a</a> real <a class="normal" href="ADim.TQuantity.html">TQuantity</a> to <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity. The imaginary part is set to zero.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TQuantity-TComplexQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="<-TComplexQuantity-TComplexQuantity-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): boolean; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of a real quantity and a complex quantity. Both operands must have the same dimension.</p>
+Returns <code>True</code> if the operands differ in dimension or in <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> value.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TComplexQuantity-TQuantity-"></span><code>class operator -(const ALeft: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>; inline;</code></td>
+<td class="itemcode"><span id="=-TComplexQuantity-TComplexQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): boolean; inline;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of a complex quantity and a real quantity. Both operands must have the same dimension.</p>
+Returns <code>True</code> if both operands have the same dimension and equal <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> values.</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>

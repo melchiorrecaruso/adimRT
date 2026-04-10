@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TQuantity</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -37,139 +37,119 @@
 <code>type TQuantity = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents a physical quantity with dimension checking at runtime.
+Represents <a class="normal" href="ADim.html#A">a</a> physical quantity with dimension checking at runtime.
 
-<p>Combines a <code>double</code> value with a <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, ensuring that arithmetic operations are dimensionally consistent. Incompatible dimensions raise an exception at runtime. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <code>double</code> and all dimension checking is disabled.</p>
+<p>Combines <a class="normal" href="ADim.html#A">a</a> <code>double</code> value with <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, ensuring that arithmetic operations are dimensionally consistent. Incompatible dimensions raise an exception at runtime. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <code>double</code> and all dimension checking is disabled.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TQuantity.html#Reciprocal">Reciprocal</a></strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ASelf: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ASelf: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator /(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator *(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ASelf: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator +(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ASelf: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator -(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator /(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &lt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+<td class="itemcode"><code>class operator :=(const AValue: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &gt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &lt;=(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator &gt;=(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>class operator :=(const AValue: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><code>class operator &lt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &lt;=(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator =(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &gt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>class operator &gt;=(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Reciprocal"></span><code>function <strong>Reciprocal</strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the reciprocal of the quantity: <code>1 / self</code>. The resulting dimension is the inverse of the original dimension.</p>
+Returns the <code>reciprocal</code> of the quantity: <code>1 / self</code>. The resulting dimension is the inverse of the original dimension.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TQuantity-"></span><code>class operator +(const ASelf: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><span id="*-double-TQuantity-"></span><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Unary plus. Returns the quantity unchanged.</p>
+Returns the product of <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar and <a class="normal" href="ADim.html#A">a</a> quantity. The dimension is preserved.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TQuantity-"></span><code>class operator -(const ASelf: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><span id="*-TQuantity-double-"></span><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Unary minus. Returns the negation of the quantity.</p>
+Returns the product of <a class="normal" href="ADim.html#A">a</a> quantity and <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar. The dimension is preserved.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="+-TQuantity-TQuantity-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the sum of two quantities. Both operands must have the same dimension.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="--TQuantity-TQuantity-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the difference of two quantities. Both operands must have the same dimension.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="*-TQuantity-TQuantity-"></span><code>class operator *(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
@@ -178,28 +158,68 @@ Returns the difference of two quantities. Both operands must have the same dimen
 Returns the product of two quantities. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-double-TQuantity-"></span><code>class operator *(const ALeft: double; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><span id="+-TQuantity-"></span><code>class operator +(const ASelf: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of a dimensionless real scalar and a quantity. The dimension is preserved.</p>
+Unary plus. Returns the quantity unchanged.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="*-TQuantity-double-"></span><code>class operator *(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><span id="+-TQuantity-TQuantity-"></span><code>class operator +(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of a quantity and a dimensionless real scalar. The dimension is preserved.</p>
+Returns the sum of two quantities. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TQuantity-"></span><code>class operator -(const ASelf: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Unary minus. Returns the negation of the quantity.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="--TQuantity-TQuantity-"></span><code>class operator -(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the difference of two quantities. Both operands must have the same dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-double-TQuantity-"></span><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the quotient of <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar divided by <a class="normal" href="ADim.html#A">a</a> quantity. The resulting dimension is the inverse of <code>ARight</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="/-TQuantity-double-"></span><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the quotient of <a class="normal" href="ADim.html#A">a</a> quantity divided by <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar. The dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="/-TQuantity-TQuantity-"></span><code>class operator /(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
@@ -208,78 +228,18 @@ Returns the product of a quantity and a dimensionless real scalar. The dimension
 Returns the quotient of two quantities. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-double-TQuantity-"></span><code>class operator /(const ALeft: double; const ARight: <a href="ADim.TQuantity.html">TQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><span id=":=-double-"></span><code>class operator :=(const AValue: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of a dimensionless real scalar divided by a quantity. The resulting dimension is the inverse of <code>ARight</code>.</p>
+Implicit conversion from <a class="normal" href="ADim.html#A">a</a> dimensionless real value to <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.TQuantity.html">TQuantity</a>. The resulting quantity has <a class="normal" href="ADim.html#A">a</a> scalar (dimensionless) dimension.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="/-TQuantity-double-"></span><code>class operator /(const ALeft: <a href="ADim.TQuantity.html">TQuantity</a>; const ARight: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the quotient of a quantity divided by a dimensionless real scalar. The dimension is preserved.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="=-TQuantity-TQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if both operands have the same dimension and equal values.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<-TQuantity-TQuantity-"></span><code>class operator &lt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if <code>ALeft</code> is dimensionally compatible with <code>ARight</code> and its value is strictly less.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id=">-TQuantity-TQuantity-"></span><code>class operator &gt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if <code>ALeft</code> is dimensionally compatible with <code>ARight</code> and its value is strictly greater.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="<=-TQuantity-TQuantity-"></span><code>class operator &lt;=(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if <code>ALeft</code> is dimensionally compatible with <code>ARight</code> and its value is less than or equal.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id=">=-TQuantity-TQuantity-"></span><code>class operator &gt;=(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns <code>True</code> if <code>ALeft</code> is dimensionally compatible with <code>ARight</code> and its value is greater than or equal.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="<-TQuantity-TQuantity-"></span><code>class operator &lt;&gt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
 </tr>
@@ -288,17 +248,57 @@ Returns <code>True</code> if <code>ALeft</code> is dimensionally compatible with
 Returns <code>True</code> if the operands differ in dimension or in value.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id=":=-double-"></span><code>class operator :=(const AValue: double): <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+<td class="itemcode"><span id="<-TQuantity-TQuantity-"></span><code>class operator &lt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from a dimensionless real value to a <a class="normal" href="ADim.TQuantity.html">TQuantity</a>. The resulting quantity has a scalar (dimensionless) dimension.</p>
+Returns <code>True</code> if <code>ALeft</code> is dimensionally compatible with <code>ARight</code> and its value is strictly less.</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="<=-TQuantity-TQuantity-"></span><code>class operator &lt;=(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if <code>ALeft</code> is dimensionally compatible with <code>ARight</code> and its value is less than or equal.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="=-TQuantity-TQuantity-"></span><code>class operator =(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if both operands have the same dimension and equal values.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id=">-TQuantity-TQuantity-"></span><code>class operator &gt;(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if <code>ALeft</code> is dimensionally compatible with <code>ARight</code> and its value is strictly greater.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id=">=-TQuantity-TQuantity-"></span><code>class operator &gt;=(const ALeft, ARight: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <code>True</code> if <code>ALeft</code> is dimensionally compatible with <code>ARight</code> and its value is greater than or equal.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>

@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TR3VectorHelper</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -41,48 +41,33 @@ Record helper for <a class="normal" href="ADim.html#TR3Vector">TR3Vector</a> pro
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TR3VectorHelper.html#Dot-TR3Vector-">Dot</a></strong>(const AVector: <a href="ADim.html#TR3Vector">TR3Vector</a>): double;</code></td>
-</tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TR3VectorHelper.html#Cross-TR3Vector-">Cross</a></strong>(const AVector: <a href="ADim.html#TR3Vector">TR3Vector</a>): <a href="ADim.html#TR3Vector">TR3Vector</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TR3VectorHelper.html#Dot-TR3Vector-">Dot</a></strong>(const AVector: <a href="ADim.html#TR3Vector">TR3Vector</a>): double;</code></td>
+</tr>
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TR3VectorHelper.html#ToString">ToString</a></strong>: string;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TR3VectorHelper.html#ToString-longint-longint-">ToString</a></strong>(APrecision, ADigits: longint): string;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Dot-TR3Vector-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.html#TR3Vector">TR3Vector</a>): double;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the dot product of two 3-component real vectors. <code>u·v = u₁v₁ + u₂v₂ + u₃v₃</code> </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The right-hand operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Cross-TR3Vector-"></span><code>function <strong>Cross</strong>(const AVector: <a href="ADim.html#TR3Vector">TR3Vector</a>): <a href="ADim.html#TR3Vector">TR3Vector</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the cross product of two 3-component real vectors. <code>u×v = (u₂v₃ - u₃v₂, u₃v₁ - u₁v₃, u₁v₂ - u₂v₁)</code> The result is a vector perpendicular to both operands. </p>
+Returns the <code>cross</code> product of two 3-component real vectors. <code>u×<a class="normal" href="ADim.html#V">v</a> = (u₂<a class="normal" href="ADim.html#V">v</a>₃ - u₃<a class="normal" href="ADim.html#V">v</a>₂, u₃<a class="normal" href="ADim.html#V">v</a>₁ - u₁<a class="normal" href="ADim.html#V">v</a>₃, u₁<a class="normal" href="ADim.html#V">v</a>₂ - u₂<a class="normal" href="ADim.html#V">v</a>₁)</code> The result is <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> perpendicular to both operands. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -90,24 +75,39 @@ Returns the cross product of two 3-component real vectors. <code>u×v = (u₂v�
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TR3Vector-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.html#TR3Vector">TR3Vector</a>): double;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>dot</code> product of two 3-component real vectors. <code>u·<a class="normal" href="ADim.html#V">v</a> = u₁<a class="normal" href="ADim.html#V">v</a>₁ + u₂<a class="normal" href="ADim.html#V">v</a>₂ + u₃<a class="normal" href="ADim.html#V">v</a>₃</code> </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The right-hand operand.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString"></span><code>function <strong>ToString</strong>: string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the vector to its default string representation.</p>
+Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to its default string representation.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString-longint-longint-"></span><code>function <strong>ToString</strong>(APrecision, ADigits: longint): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the vector to a formatted string with controlled precision.  </p>
+Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to <a class="normal" href="ADim.html#A">a</a> formatted string with controlled precision.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrecision</dt>
@@ -117,7 +117,7 @@ Converts the vector to a formatted string with controlled precision.  </p>
 </dl>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>

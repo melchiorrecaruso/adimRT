@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TC2MatrixQuantityHelper</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -37,127 +37,127 @@
 <code>type TC2MatrixQuantityHelper = record helper for TC2MatrixQuantity</code></p>
 <h2 class="description">Description</h2>
 <p>
-Record helper for <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a> providing additional operations specific to 2×2 complex quantity matrices. Only available when <code>ADIMOFF</code> is not defined.</p>
+Record helper for <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a> providing additional operations specific to 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity matrices. Only available when <code>ADIMOFF</code> is not defined.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TC2MatrixQuantityHelper.html#Diagonalize-TC2ArrayOfQuantity-">Diagonalize</a></strong>(const AEigenvalues: <a href="ADim.html#TC2ArrayOfQuantity">TC2ArrayOfQuantity</a>): <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2MatrixQuantityHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2MatrixQuantityHelper.html#Determinant">Determinant</a></strong>: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC2MatrixQuantityHelper.html#Diagonalize-TC2ArrayOfQuantity-">Diagonalize</a></strong>(const AEigenvalues: <a href="ADim.html#TC2ArrayOfQuantity">TC2ArrayOfQuantity</a>): <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">Eigenvalues</a></strong>: <a href="ADim.html#TC2ArrayOfQuantity">TC2ArrayOfQuantity</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2MatrixQuantityHelper.html#Eigenvectors-TC2ArrayOfQuantity-">Eigenvectors</a></strong>(const AEigenValues: <a href="ADim.html#TC2ArrayOfQuantity">TC2ArrayOfQuantity</a>): <a href="ADim.html#TC2ArrayOfVector">TC2ArrayOfVector</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2MatrixQuantityHelper.html#Reciprocal-TComplexQuantity-">Reciprocal</a></strong>(const ADeterminant: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2MatrixQuantityHelper.html#TransposeConjugate">TransposeConjugate</a></strong>: <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Diagonalize-TC2ArrayOfQuantity-"></span><code>function <strong>Diagonalize</strong>(const AEigenvalues: <a href="ADim.html#TC2ArrayOfQuantity">TC2ArrayOfQuantity</a>): <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the diagonal matrix built from the given eigenvalues. The result is a 2×2 diagonal <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a> with the eigenvalues on the main diagonal and zeros elsewhere. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AEigenvalues</dt>
-<dd>The eigenvalues, typically computed via <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">Eigenvalues</a>.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the element-wise complex conjugate of the matrix. Each element <code>a[i,j] = (x + i·y) [dim]</code> becomes <code>(x - i·y) [dim]</code>. The physical dimension of each element is preserved.</p>
+Returns the element-wise <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <code>conjugate</code> of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Each element <code><a class="normal" href="ADim.html#A">a</a>[i,<a class="normal" href="ADim.html#J">j</a>] = (x + i·y) [dim]</code> becomes <code>(x - i·y) [dim]</code>. The physical dimension of each element is preserved.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Determinant"></span><code>function <strong>Determinant</strong>: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the determinant of the 2×2 complex quantity matrix. Defined as <code>det(A) = a₁₁·a₂₂ - a₁₂·a₂₁</code>. The resulting dimension is the square of the element dimension.</p>
+Returns the <code>determinant</code> of the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Defined as <code>det(<a class="normal" href="ADim.html#A">A</a>) = <a class="normal" href="ADim.html#A">a</a>₁₁·<a class="normal" href="ADim.html#A">a</a>₂₂ - <a class="normal" href="ADim.html#A">a</a>₁₂·<a class="normal" href="ADim.html#A">a</a>₂₁</code>. The resulting dimension is the square of the element dimension.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Diagonalize-TC2ArrayOfQuantity-"></span><code>function <strong>Diagonalize</strong>(const AEigenvalues: <a href="ADim.html#TC2ArrayOfQuantity">TC2ArrayOfQuantity</a>): <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the diagonal <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> built from the given <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">eigenvalues</a>. The result is <a class="normal" href="ADim.html#A">a</a> 2×2 diagonal <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a> with the <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">eigenvalues</a> on the main diagonal and zeros elsewhere. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AEigenvalues</dt>
+<dd>The <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">eigenvalues</a>, typically computed via <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">Eigenvalues</a>.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Eigenvalues"></span><code>function <strong>Eigenvalues</strong>: <a href="ADim.html#TC2ArrayOfQuantity">TC2ArrayOfQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the eigenvalues of the 2×2 complex quantity matrix as a fixed-size array of <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>. The eigenvalues carry the same dimension as the matrix elements.</p>
+Returns the <code>eigenvalues</code> of the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> as <a class="normal" href="ADim.html#A">a</a> fixed-size array of <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>. The <code>eigenvalues</code> carry the same dimension as the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> elements.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Eigenvectors-TC2ArrayOfQuantity-"></span><code>function <strong>Eigenvectors</strong>(const AEigenValues: <a href="ADim.html#TC2ArrayOfQuantity">TC2ArrayOfQuantity</a>): <a href="ADim.html#TC2ArrayOfVector">TC2ArrayOfVector</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the eigenvectors of the 2×2 complex quantity matrix corresponding to the given eigenvalues, as a fixed-size array of dimensionless <a class="normal" href="ADim.html#TC2Vector">TC2Vector</a>. </p>
+Returns the <code>eigenvectors</code> of the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> corresponding to the given <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">eigenvalues</a>, as <a class="normal" href="ADim.html#A">a</a> fixed-size array of dimensionless <a class="normal" href="ADim.html#TC2Vector">TC2Vector</a>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AEigenValues</dt>
-<dd>The eigenvalues, computed via <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">Eigenvalues</a>.</dd>
+<dd>The <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">eigenvalues</a>, computed via <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Eigenvalues">Eigenvalues</a>.</dd>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Reciprocal-TComplexQuantity-"></span><code>function <strong>Reciprocal</strong>(const ADeterminant: <a href="ADim.TComplexQuantity.html">TComplexQuantity</a>): <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inverse of the matrix given its precomputed determinant. The resulting dimension is the inverse of the element dimension. </p>
+Returns the inverse of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> given its precomputed <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Determinant">determinant</a>. The resulting dimension is the inverse of the element dimension. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ADeterminant</dt>
-<dd>The determinant of the matrix, computed via <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Determinant">Determinant</a>.</dd>
+<dd>The <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Determinant">determinant</a> of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>, computed via <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Determinant">Determinant</a>.</dd>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="TransposeConjugate"></span><code>function <strong>TransposeConjugate</strong>: <a href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the conjugate transpose (Hermitian adjoint) of the matrix: <code>A† = (Aᵀ)* </code>. Each element <code>[i,j]</code> of the result is the complex conjugate of <code>[j,i]</code> of the original. The physical dimension of each element is preserved.</p>
+Returns the <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Conjugate">conjugate</a> transpose (Hermitian adjoint) of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>: <code><a class="normal" href="ADim.html#A">A</a>† = (<a class="normal" href="ADim.html#A">A</a>ᵀ)* </code>. Each element <code>[i,<a class="normal" href="ADim.html#J">j</a>]</code> of the result is the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADim.TC2MatrixQuantityHelper.html#Conjugate">conjugate</a> of <code>[<a class="normal" href="ADim.html#J">j</a>,i]</code> of the original. The physical dimension of each element is preserved.</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>

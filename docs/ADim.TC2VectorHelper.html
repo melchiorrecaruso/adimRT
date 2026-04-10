@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TC2VectorHelper</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -37,47 +37,51 @@
 <code>type TC2VectorHelper = record helper for TC2Vector</code></p>
 <h2 class="description">Description</h2>
 <p>
-Record helper for <a class="normal" href="ADim.html#TC2Vector">TC2Vector</a> providing additional operations specific to 2-component complex vectors.</p>
+Record helper for <a class="normal" href="ADim.html#TC2Vector">TC2Vector</a> providing additional operations specific to 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2VectorHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADim.html#TC2Vector">TC2Vector</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2VectorHelper.html#Dot-TC2Vector-">Dot</a></strong>(const AVector: <a href="ADim.html#TC2Vector">TC2Vector</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
-<tr class="list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TC2VectorHelper.html#NullVector">NullVector</a></strong>: <a href="ADim.html#TC2Vector">TC2Vector</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2VectorHelper.html#ToString">ToString</a></strong>: string;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TC2VectorHelper.html#ToString-integer-integer-">ToString</a></strong>(APrecision, ADigits: integer): string;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.html#TC2Vector">TC2Vector</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the element-wise complex conjugate of the vector.</p>
+Returns the element-wise <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <code>conjugate</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Dot-TC2Vector-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.html#TC2Vector">TC2Vector</a>): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the Hermitian inner product of two complex vectors. <code>〈u,v〉 = Σ conj(uᵢ)·vᵢ</code> Unlike the <code>&quot;*&quot;</code> operator, this uses the conjugate of the left operand. </p>
+Returns the Hermitian inner product of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors. <code>〈u,<a class="normal" href="ADim.html#V">v</a>〉 = Σ conj(uᵢ)·<a class="normal" href="ADim.html#V">v</a>ᵢ</code> Unlike the <code>&quot;*&quot;</code> operator, this uses the <a class="normal" href="ADim.TC2VectorHelper.html#Conjugate">conjugate</a> of the left operand. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -85,24 +89,34 @@ Returns the Hermitian inner product of two complex vectors. <code>〈u,v〉 = Σ
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="NullVector"></span><code>function <strong>NullVector</strong>: <a href="ADim.html#TC2Vector">TC2Vector</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the zero <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> of <code>ℂ²</code>. All 2 components are set to <code><a class="normal" href="ADim.TComplex.html">TComplex</a>(Re=0, Im=0)</code>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString"></span><code>function <strong>ToString</strong>: string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the vector to its default string representation.</p>
+Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to its default string representation.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToString-integer-integer-"></span><code>function <strong>ToString</strong>(APrecision, ADigits: integer): string;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the vector to a formatted string with controlled precision.  </p>
+Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to <a class="normal" href="ADim.html#A">a</a> formatted string with controlled precision.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrecision</dt>
@@ -112,7 +126,7 @@ Converts the vector to a formatted string with controlled precision.  </p>
 </dl>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>

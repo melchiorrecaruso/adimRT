@@ -61,8 +61,7 @@ type
     FValue: double;
   public
     { Returns the reciprocal of the quantity: @code(1 / self).
-      The resulting dimension is the inverse of the original dimension.
-    }
+      The resulting dimension is the inverse of the original dimension. }
     function Reciprocal: TQuantity;
 
     { Unary plus. Returns the quantity unchanged. }
@@ -90,8 +89,7 @@ type
     class operator /(const ALeft, ARight: TQuantity): TQuantity;
 
     { Returns the quotient of a dimensionless real scalar divided by a quantity.
-      The resulting dimension is the inverse of @code(ARight).
-    }
+      The resulting dimension is the inverse of @code(ARight). }
     class operator /(const ALeft: double; const ARight: TQuantity): TQuantity;
 
     { Returns the quotient of a quantity divided by a dimensionless real scalar. The dimension is preserved. }
@@ -116,8 +114,7 @@ type
     class operator <>(const ALeft, ARight: TQuantity): boolean;
 
     { Implicit conversion from a dimensionless real value to a @link(TQuantity).
-      The resulting quantity has a scalar (dimensionless) dimension.
-    }
+      The resulting quantity has a scalar (dimensionless) dimension. }
     class operator :=(const AValue: double): TQuantity;
   end;
   {$ELSE}
@@ -1367,6 +1364,11 @@ type
     }
     function Eigenvectors(const AEigenValues: TC2ArrayOfComplex): TC2ArrayOfVector;
 
+    { Returns the 2×2 zero matrix over @code(ℂ).
+      All elements are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullMatrix: TC2Matrix;
+
     { Returns the inverse of the matrix given its precomputed determinant.
       @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
     }
@@ -1410,6 +1412,11 @@ type
       @param(AEigenValues The eigenvalues, computed via @link(Eigenvalues).)
     }
     function Eigenvectors(const AEigenValues: TC3ArrayOfComplex): TC3ArrayOfVector;
+
+    { Returns the 3×3 zero matrix over @code(ℂ).
+      All elements are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullMatrix: TC3Matrix;
 
     { Returns the inverse of the matrix given its precomputed determinant.
       @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
@@ -1455,6 +1462,11 @@ type
     }
     function Eigenvectors(const AEigenValues: TC4ArrayOfComplex): TC4ArrayOfVector;
 
+    { Returns the 4×4 zero matrix over @code(ℂ).
+      All elements are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullMatrix: TC4Matrix;
+
     { Returns the inverse of the matrix given its precomputed determinant.
       @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
     }
@@ -1480,15 +1492,20 @@ type
 
   { Record helper for @link(TC2Vector) providing additional operations specific to 2-component complex vectors. }
   TC2VectorHelper = record helper for TC2Vector
-    { Returns the element-wise complex conjugate of the vector. }
-    function Conjugate: TC2Vector;
-
     { Returns the Hermitian inner product of two complex vectors.
       @code(〈u,v〉 = Σ conj(uᵢ)·vᵢ)
       Unlike the @code("*") operator, this uses the conjugate of the left operand.
       @param(AVector The right-hand operand.)
     }
     function Dot(const AVector: TC2Vector): TComplex;
+
+    { Returns the element-wise complex conjugate of the vector. }
+    function Conjugate: TC2Vector;
+
+    { Returns the zero vector of @code(ℂ²).
+      All 2 components are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullVector: TC2Vector;
 
     { Converts the vector to its default string representation. }
     function ToString: string;
@@ -1502,15 +1519,20 @@ type
 
   { Record helper for @link(TC3Vector) providing additional operations specific to 3-component complex vectors. }
   TC3VectorHelper = record helper for TC3Vector
-    { Returns the element-wise complex conjugate of the vector. }
-    function Conjugate: TC3Vector;
-
     { Returns the Hermitian inner product of two complex vectors.
       @code(〈u,v〉 = Σ conj(uᵢ)·vᵢ)
       Unlike the @code("*") operator, this uses the conjugate of the left operand.
       @param(AVector The right-hand operand.)
     }
     function Dot(const AVector: TC3Vector): TComplex;
+
+    { Returns the element-wise complex conjugate of the vector. }
+    function Conjugate: TC3Vector;
+
+    { Returns the zero vector of @code(ℂ³).
+      All 3 components are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullVector: TC3Vector;
 
     { Converts the vector to its default string representation. }
     function ToString: string;
@@ -1524,15 +1546,20 @@ type
 
   { Record helper for @link(TC4Vector) providing additional operations specific to 4-component complex vectors. }
   TC4VectorHelper = record helper for TC4Vector
-    { Returns the element-wise complex conjugate of the vector. }
-    function Conjugate: TC4Vector;
-
     { Returns the Hermitian inner product of two complex vectors.
       @code(〈u,v〉 = Σ conj(uᵢ)·vᵢ)
       Unlike the @code("*") operator, this uses the conjugate of the left operand.
       @param(AVector The right-hand operand.)
     }
     function Dot(const AVector: TC4Vector): TComplex;
+
+    { Returns the element-wise complex conjugate of the vector. }
+    function Conjugate: TC4Vector;
+
+    { Returns the zero vector of @code(ℂ⁴).
+      All 4 components are set to @code(TComplex(Re=0, Im=0)).
+    }
+    function NullVector: TC4Vector;
 
     { Converts the vector to its default string representation. }
     function ToString: string;
@@ -7884,43 +7911,56 @@ type
     Only available when @code(ADIMOFF) is not defined.
   }
   {$IFNDEF ADIMOFF}
-  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
+  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
   operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
 
-  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
+  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
   operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
 
-  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
+  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
   operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
 
-  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
+  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
   operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
 
-  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
+  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
   operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
 
-  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
+  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
   operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
 
-  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
+  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
   operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
 
-  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
+  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
   operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
 
-  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
+  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
   operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
 
-  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
+  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
   operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
 
-  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). @exclude }
+  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
   operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
 
-  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). @exclude }
+  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
 
   operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
   {$ENDIF}
+
+  { Returns the absolute value of a real number.
+    Equivalent to the standard @code(System.Abs) but provided for
+    consistency with the overloaded complex version.
+    @param(AValue The real number.)
+  }
+  function Abs(const AValue: double): double;
+
+  { Returns the modulus (magnitude) of a complex number.
+    Defined as @code(|z| = √(Re² + Im²)).
+    @param(AValue The complex number.)
+  }
+  function Abs(const AValue: TComplex): double;
 
   { Returns the square of the complex number @code(AValue).
     Defined as @code(z² = (Re² - Im²) + 2·Re·Im·i).
@@ -7980,19 +8020,6 @@ type
     @param(AValue The complex number whose fourth roots are computed.)
   }
   function QuarticRoot(const AValue: TComplex): TC4ArrayOfComplex;
-
-  { Returns the absolute value of a real number.
-    Equivalent to the standard @code(System.Abs) but provided for
-    consistency with the overloaded complex version.
-    @param(AValue The real number.)
-  }
-  function Abs(const AValue: double): double;
-
-  { Returns the modulus (magnitude) of a complex number.
-    Defined as @code(|z| = √(Re² + Im²)).
-    @param(AValue The complex number.)
-  }
-  function Abs(const AValue: TComplex): double;
 
   { Returns the commutator of two 2×2 complex matrices.
     Defined as @code([A, B] = A·B - B·A).
@@ -8122,51 +8149,10 @@ type
   }
   function SolveEquation(const a, b, c, d: TComplex): TC4ArrayOfComplex;
 
-  { Checks that two dimensions are equal and raises an exception if they differ.
-    Used internally to validate operands of addition, subtraction, and comparison operators.
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  procedure Check(ALeft, ARight: TDimension); inline;
-
-  { Checks that two dimensions are equal and returns the common dimension.
-    @raises(Exception if the two dimensions differ.)
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  function CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
-
-  { Validates that two dimensions are compatible for addition and returns the common dimension.
-    @raises(Exception if the two dimensions differ.)
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  function CheckSum(ALeft, ARight: TDimension): TDimension; inline;
-
-  { Validates that two dimensions are compatible for subtraction and returns the common dimension.
-    @raises(Exception if the two dimensions differ.)
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  function CheckSub(ALeft, ARight: TDimension): TDimension; inline;
-
-  { Returns the dimension resulting from multiplying two quantities.
-    The result is the sum of the two dimension exponent vectors.
-    @param(ALeft  The dimension of the left operand.)
-    @param(ARight The dimension of the right operand.)
-  }
-  function CheckMul(ALeft, ARight: TDimension): TDimension; inline;
-
-  { Returns the dimension resulting from dividing two quantities.
-    The result is the difference of the two dimension exponent vectors.
-    @param(ALeft  The dimension of the numerator.)
-    @param(ARight The dimension of the denominator.)
-  }
-  function CheckDiv(ALeft, ARight: TDimension): TDimension; inline;
-
   { Returns the square of the quantity: @code(AQuantity²).
     The resulting dimension is the square of the original dimension.
     @param(AQuantity The quantity to square.)
+    @exclude
   }
   function SquarePower(const AQuantity: TQuantity): TQuantity;
 
@@ -8387,24 +8373,6 @@ type
   }
   function GreaterThanZero(const AQuantity: TQuantity): boolean;
 
-  { Returns the zero vector of @code(ℂ²). All 2 components are set to @code(TComplex(Re=0, Im=0)). }
-  function C2NullVector: TC2Vector;
-
-  { Returns the zero vector of @code(ℂ³). All 3 components are set to @code(TComplex(Re=0, Im=0)). }
-  function C3NullVector: TC3Vector;
-
-  { Returns the zero vector of @code(ℂ⁴). All 4 components are set to @code(TComplex(Re=0, Im=0)). }
-  function C4NullVector: TC4Vector;
-
-  { Returns the 2×2 zero matrix over @code(ℂ). All elements are set to @code(TComplex(Re=0, Im=0)). }
-  function C2NullMatrix: TC2Matrix;
-
-  { Returns the 3×3 zero matrix over @code(ℂ). All elements are set to @code(TComplex(Re=0, Im=0)). }
-  function C3NullMatrix: TC3Matrix;
-
-  { Returns the 4×4 zero matrix over @code(ℂ). All elements are set to @code(TComplex(Re=0, Im=0)). }
-  function C4NullMatrix: TC4Matrix;
-
   { Returns the 2×2 identity matrix over @code(ℂ).
     Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
     Satisfies @code(I·A = A·I = A) for any conforming 2×2 complex matrix @code(A).
@@ -8425,109 +8393,134 @@ type
 
 const
   { Avogadro constant @code(Nₐ = 6.02214076 × 10²³ mol⁻¹).
-    Number of constituent particles per mole of substance. }
+    Number of constituent particles per mole of substance.
+  }
   AvogadroConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole: -60; FCandela: 0; FSteradian: 0); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
 
   { Bohr magneton @code(μB = 9.2740100657 × 10⁻²⁴ J·T⁻¹).
-    Natural unit of electronic magnetic dipole moment. }
+    Natural unit of electronic magnetic dipole moment.
+  }
   BohrMagneton                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond:    0; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
 
   { Bohr radius @code(a₀ = 5.29177210903 × 10⁻¹¹ m).
-    Most probable distance between the electron and nucleus in a hydrogen atom ground state. }
+    Most probable distance between the electron and nucleus in a hydrogen atom ground state.
+  }
   BohrRadius                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
 
   { Boltzmann constant @code(kB = 1.380649 × 10⁻²³ J·K⁻¹).
-    Relates the average kinetic energy of particles in a gas to the thermodynamic temperature. }
+    Relates the average kinetic energy of particles in a gas to the thermodynamic temperature.
+  }
   BoltzmannConstant              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole:   0; FCandela: 0; FSteradian: 0); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
 
   { Compton wavelength @code(λC = 2.42631023867 × 10⁻¹² m).
-    Quantum mechanical property of the electron; sets the scale at which quantum field effects become significant. }
+    Quantum mechanical property of the electron; sets the scale at which quantum field effects become significant.
+  }
   ComptonWaveLength              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
 
   { Coulomb constant @code(ke = 8.9875517923 × 10⁹ N·m²·C⁻²).
-    Proportionality constant in Coulomb's law of electrostatic force. }
+    Proportionality constant in Coulomb's law of electrostatic force.
+  }
   CoulombConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  180; FSecond: -240; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
 
   { Deuteron mass @code(m_d = 3.3435837768 × 10⁻²⁷ kg).
-    Rest mass of the deuteron (nucleus of deuterium, one proton and one neutron). }
+    Rest mass of the deuteron (nucleus of deuterium, one proton and one neutron).
+  }
   DeuteronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
 
   { Electric permittivity of free space @code(ε₀ = 8.8541878188 × 10⁻¹² F·m⁻¹).
-    Relates electric field to electric displacement field in a vacuum. }
+    Relates electric field to electric displacement field in a vacuum.
+  }
   ElectricPermittivity           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -180; FSecond:  240; FAmpere:  120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
 
   { Electron rest mass @code(m_e = 9.1093837015 × 10⁻³¹ kg).
-    Rest mass of the electron. }
+    Rest mass of the electron.
+  }
   ElectronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
 
   { Elementary charge @code(e = 1.602176634 × 10⁻¹⁹ C).
-      Electric charge carried by a single proton; the fundamental unit of electric charge. }
+      Electric charge carried by a single proton; the fundamental unit of electric charge.
+  }
   ElectronCharge                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:   60; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
 
   { Fine-structure constant @code(α = 7.2973525643 × 10⁻³) (dimensionless).
-    Characterises the strength of the electromagnetic interaction between elementary charged particles. }
+    Characterises the strength of the electromagnetic interaction between elementary charged particles.
+  }
   FineStructureConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
 
   { Inverse fine-structure constant @code(α⁻¹ = 137.035999177) (dimensionless).
-    Reciprocal of the fine-structure constant; often used in quantum electrodynamics. }
+    Reciprocal of the fine-structure constant; often used in quantum electrodynamics.
+  }
   InverseFineStructureConstant   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
 
   { Magnetic permeability of free space @code(μ₀ = 1.25663706212 × 10⁻⁶ H·m⁻¹).
-    Relates magnetic field intensity to magnetic flux density in a vacuum. }
+    Relates magnetic field intensity to magnetic flux density in a vacuum.
+  }
   MagneticPermeability           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:   60; FSecond: -120; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
 
   { Molar gas constant @code(R = 8.314462618 J·mol⁻¹·K⁻¹).
-    Relates energy to temperature and amount of substance in the ideal gas law. }
+    Relates energy to temperature and amount of substance in the ideal gas law.
+  }
   MolarGasConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
 
   { Neutron rest mass @code(m_n = 1.67492750056 × 10⁻²⁷ kg).
-    Rest mass of the neutron. }
+    Rest mass of the neutron.
+  }
   NeutronRestMass                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
 
   { Newtonian constant of gravitation @code(G = 6.67430 × 10⁻¹¹ m³·kg⁻¹·s⁻²).
-    Proportionality constant in Newton's law of universal gravitation. }
+    Proportionality constant in Newton's law of universal gravitation.
+  }
   NewtonianConstantOfGravitation : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter:  180; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
 
   { Planck constant @code(h = 6.62607015 × 10⁻³⁴ J·s).
-    Relates the energy of a photon to its frequency; fundamental constant of quantum mechanics. }
+    Relates the energy of a photon to its frequency; fundamental constant of quantum mechanics.
+  }
   PlanckConstant                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
 
   { Proton rest mass @code(m_p = 1.67262192595 × 10⁻²⁷ kg).
-    Rest mass of the proton. }
-  ProtonMass                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+    Rest mass of the proton.
+  }
+  ProtonRestMass                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
 
   { Rydberg constant @code(R∞ = 10973731.568157 m⁻¹).
-    Relates the wavelengths of spectral lines of the hydrogen atom. }
+    Relates the wavelengths of spectral lines of the hydrogen atom.
+  }
   RydbergConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
 
   { Speed of light in vacuum @code(c = 299792458 m·s⁻¹).
-    Exact defined value; maximum speed of propagation of any physical interaction. }
+    Exact defined value; maximum speed of propagation of any physical interaction.
+  }
   SpeedOfLight                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
 
   { Squared speed of light in vacuum @code(c² = 8.98755178736818 × 10¹⁶ m²·s⁻²).
-    Appears in the mass-energy equivalence relation @code(E = mc²). }
+    Appears in the mass-energy equivalence relation @code(E = mc²).
+  }
   SquaredSpeedOfLight            : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
 
   { Standard acceleration of gravity @code(g = 9.80665 m·s⁻²).
-    Conventional standard value of the acceleration due to Earth's gravity at sea level. }
+    Conventional standard value of the acceleration due to Earth's gravity at sea level.
+  }
   StandardAccelerationOfGravity  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
 
   { Reduced Planck constant @code(ℏ = h / (2π) = 1.054571817 × 10⁻³⁴ J·s).
-    Also called the Dirac constant; appears in quantum mechanics wherever angular frequency is used. }
+    Also called the Dirac constant; appears in quantum mechanics wherever angular frequency is used.
+  }
   ReducedPlanckConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
 
   { Unified atomic mass unit @code(u = 1.66053906892 × 10⁻²⁷ kg).
-    Defined as one twelfth of the mass of a carbon-12 atom at rest. }
+    Defined as one twelfth of the mass of a carbon-12 atom at rest.
+  }
   UnifiedAtomicMassUnit          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
 
   { Reference sound intensity @code(I₀ = 10⁻¹² W·m⁻²).
     Conventional threshold of human hearing at 1 kHz; used as the reference level
-    for the decibel scale of sound intensity. }
+    for the decibel scale of sound intensity.
+  }
   SoundIntensityReference        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond: -180; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:                1E-12); {$ELSE} (               1E-12); {$ENDIF}
 
-{ Prefix Table }
-
 const
+  { Prefix Table } { @exclude }
+  
   PrefixTable: array[pQuetta..pQuecto] of
     record  Symbol, Name: string; Exponent: longint end = (
     (Symbol: 'Q';   Name: 'quetta';  Exponent: +30),
@@ -8557,11 +8550,17 @@ const
     (Symbol: 'q';   Name: 'quecto';  Exponent: -30)
   );
 
-{ Default Epsilon }
 
 var
-
+  { Default Epsilon } { @exclude } 
   DefaultEpsilon : double = 1E-12;
+
+{ @exclude } function  CheckEqual(ALeft, ARight: TDimension): TDimension; inline; 
+{ @exclude } function  CheckSum  (ALeft, ARight: TDimension): TDimension; inline;
+{ @exclude } function  CheckSub  (ALeft, ARight: TDimension): TDimension; inline;
+{ @exclude } function  CheckMul  (ALeft, ARight: TDimension): TDimension; inline;
+{ @exclude } function  CheckDiv  (ALeft, ARight: TDimension): TDimension; inline;
+{ @exclude } procedure Check     (ALeft, ARight: TDimension); inline;
 
 implementation
 
@@ -10681,6 +10680,14 @@ begin
   end;
 end;
 
+function TC2MatrixHelper.NullMatrix: TC2Matrix;
+begin
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[2,1] := 0;
+  result[2,2] := 0;
+end;
+
 function TC2MatrixHelper.ToString: string;
 begin
   result := Format('(%s, %s, %s, %s)', [
@@ -10809,6 +10816,21 @@ begin
         result[i].fm[2] := -(A[1,3] * result[i].fm[3]) / A[1,2];
       end;
   end;
+end;
+
+function TC3MatrixHelper.NullMatrix: TC3Matrix;
+begin
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[1,3] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 0;
+  result[2,3] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 0;
 end;
 
 function TC3MatrixHelper.Reciprocal(const ADeterminant: TComplex): TC3Matrix;
@@ -10982,6 +11004,29 @@ begin
   end;
 end;
 
+function TC4MatrixHelper.NullMatrix: TC4Matrix;
+begin
+  result[1,1] := 0;
+  result[1,2] := 0;
+  result[1,3] := 0;
+  result[1,4] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 0;
+  result[2,3] := 0;
+  result[2,4] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 0;
+  result[3,4] := 0;
+
+  result[4,1] := 0;
+  result[4,2] := 0;
+  result[4,3] := 0;
+  result[4,4] := 0;
+end;
+
 function TC4MatrixHelper.Reciprocal(const ADeterminant: TComplex): TC4Matrix;
 begin
   result[1,1]:= (fm[2,2]*(fm[3,3]*fm[4,4]-fm[3,4]*fm[4,3])+
@@ -11093,6 +11138,12 @@ begin
     result[i] := fm[i].Conjugate;
 end;
 
+function TC2VectorHelper.NullVector: TC2Vector;
+begin
+  result[1] := 0;
+  result[2] := 0;
+end;
+
 function TC2VectorHelper.ToString: string;
 begin
   result := Format('(%s, %s)', [
@@ -11109,6 +11160,15 @@ end;
 
 // TC3VectorHelper
 
+function TC3VectorHelper.Dot(const AVector: TC3Vector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to 3 do
+    result := result + fm[i] * AVector[i];
+end;
+
 function TC3VectorHelper.Conjugate: TC3Vector;
 var
   i: longint;
@@ -11117,13 +11177,11 @@ begin
     result[i] := fm[i].Conjugate;
 end;
 
-function TC3VectorHelper.Dot(const AVector: TC3Vector): TComplex;
-var
-  i: longint;
+function TC3VectorHelper.NullVector: TC3Vector;
 begin
-  result := 0;
-  for i := 1 to 3 do
-    result := result + fm[i] * AVector[i];
+  result[1] := 0;
+  result[2] := 0;
+  result[3] := 0;
 end;
 
 function TC3VectorHelper.ToString: string;
@@ -11144,6 +11202,15 @@ end;
 
 // TC4VectorHelper
 
+function TC4VectorHelper.Dot(const AVector: TC4Vector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 1 to 4 do
+    result := result + fm[i] * AVector[i];
+end;
+
 function TC4VectorHelper.Conjugate: TC4Vector;
 var
   i: longint;
@@ -11152,13 +11219,12 @@ begin
     result[i] := fm[i].Conjugate;
 end;
 
-function TC4VectorHelper.Dot(const AVector: TC4Vector): TComplex;
-var
-  i: longint;
+function TC4VectorHelper.NullVector: TC4Vector;
 begin
-  result := 0;
-  for i := 1 to 4 do
-    result := result + fm[i] * AVector[i];
+  result[1] := 0;
+  result[2] := 0;
+  result[3] := 0;
+  result[4] := 0;
 end;
 
 function TC4VectorHelper.ToString: string;
@@ -16372,7 +16438,15 @@ begin
 end;
 {$ENDIF}
 
-// Power and root functions
+function Abs(const AValue: double): double;
+begin
+  result := System.Abs(AValue);
+end;
+
+function Abs(const AValue: TComplex): double;
+begin
+  result := AValue.Norm;
+end;
 
 function SquarePower(const AValue: TComplex): TComplex;
 begin
@@ -16462,24 +16536,6 @@ begin
   result.FValue := AQuantity.FValue*AQuantity.FValue*AQuantity.FValue*AQuantity.FValue;
 end;
 {$ENDIF}
-
-// Usefull routines
-
-function ToComplex(const AValue: double): TComplex;
-begin
-  result.FRe := AValue;
-  result.FIm := 0;
-end;
-
-function Abs(const AValue: double): double;
-begin
-  result := System.Abs(AValue);
-end;
-
-function Abs(const AValue: TComplex): double;
-begin
-  result := AValue.Norm;
-end;
 
 function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
 begin
@@ -16583,8 +16639,6 @@ begin
             SameValueEx(AValue1.fm[4,4], AValue2.fm[4,4]);
 end;
 
-// Solvers for linear, quadratic, cubic and quartic equation
-
 function SolveEquation(const a: double): double;
 begin
   result := -a;
@@ -16687,44 +16741,9 @@ begin
   end;
 end;
 
-// Internal check routines
-
 {$IFNDEF ADIMOFF}
   {$ASSERTIONS ON}
 {$ENDIF}
-
-procedure Check(ALeft, ARight: TDimension);
-begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
-end;
-
-function CheckEqual(ALeft, ARight: TDimension): TDimension;
-begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
-  result := ALeft;
-end;
-
-function CheckSum(ALeft, ARight: TDimension): TDimension;
-begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
-  result := ALeft;
-end;
-
-function CheckSub(ALeft, ARight: TDimension): TDimension;
-begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [ALeft.ToString, ARight.ToString]));
-  result := ALeft;
-end;
-
-function CheckMul(ALeft, ARight: TDimension): TDimension;
-begin
-  result := ALeft + ARight;
-end;
-
-function CheckDiv(ALeft, ARight: TDimension): TDimension;
-begin
-  result := ALeft - ARight;
-end;
 
 // TUnit
 
@@ -22189,12 +22208,6 @@ begin
   result.FIm := 0;
 end;
 
-function C2NullVector: TC2Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-end;
-
 function C3NullVector: TC3Vector;
 begin
   result[1] := 0;
@@ -22209,52 +22222,6 @@ begin
 
   result[3] := 0;
   result[4] := 0;
-end;
-
-function C2NullMatrix: TC2Matrix;
-begin
-  result[1,1] := 0;
-  result[1,2] := 0;
-  result[2,1] := 0;
-  result[2,2] := 0;
-end;
-
-function C3NullMatrix: TC3Matrix;
-begin
-  result[1,1] := 0;
-  result[1,2] := 0;
-  result[1,3] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 0;
-  result[2,3] := 0;
-
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 0;
-end;
-
-function C4NullMatrix: TC4Matrix;
-begin
-  result[1,1] := 0;
-  result[1,2] := 0;
-  result[1,3] := 0;
-  result[1,4] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 0;
-  result[2,3] := 0;
-  result[2,4] := 0;
-
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 0;
-  result[3,4] := 0;
-
-  result[4,1] := 0;
-  result[4,2] := 0;
-  result[4,3] := 0;
-  result[4,4] := 0;
 end;
 
 function C2IdentityMatrix: TC2Matrix;
@@ -22302,6 +22269,39 @@ begin
   result[4,2] := 0;
   result[4,3] := 0;
   result[4,4] := 1;
+end;
+
+function CheckEqual(ALeft, ARight: TDimension): TDimension;
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+  result := ALeft;
+end;
+
+function CheckSum(ALeft, ARight: TDimension): TDimension;
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+  result := ALeft;
+end;
+
+function CheckSub(ALeft, ARight: TDimension): TDimension;
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [ALeft.ToString, ARight.ToString]));
+  result := ALeft;
+end;
+
+function CheckMul(ALeft, ARight: TDimension): TDimension;
+begin
+  result := ALeft + ARight;
+end;
+
+function CheckDiv(ALeft, ARight: TDimension): TDimension;
+begin
+  result := ALeft - ARight;
+end;
+
+procedure Check(ALeft, ARight: TDimension);
+begin
+  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
 end;
 
 end.

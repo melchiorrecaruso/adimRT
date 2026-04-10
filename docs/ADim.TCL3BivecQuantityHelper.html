@@ -3,7 +3,7 @@
 <head>
 <title>ADim Library: ADim: Record TCL3BivecQuantityHelper</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="PasDoc 0.17.0.snapshot">
+<meta name="generator" content="PasDoc 1.0.4">
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link rel="StyleSheet" type="text/css" href="bootstrap.min.css">
 <link rel="StyleSheet" type="text/css" href="pasdoc.css">
@@ -37,211 +37,276 @@
 <code>type TCL3BivecQuantityHelper = record helper for TCL3BivecQuantity</code></p>
 <h2 class="description">Description</h2>
 <p>
-Record helper for <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a> providing geometric operations specific to grade-2 elements of <code>Cl(3,0)</code> with physical dimensions.
+Record helper for <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a> providing geometric operations specific to grade-2 elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.
 
 <p>All operations follow the conventions of Clifford algebra over <code>ℝ³</code> with dimensional analysis. Incompatible dimensions raise an exception at runtime. Only available when <code>ADIMOFF</code> is not defined.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Dual">Dual</a></strong>: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Inverse">Inverse</a></strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reverse">Reverse</a></strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Conjugate">Conjugate</a></strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reciprocal">Reciprocal</a></strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Normalized">Normalized</a></strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Norm">Norm</a></strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#SquaredNorm">SquaredNorm</a></strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Dot-TCL3VecQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Dot-TCL3BivecQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
 </tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Dot-TCL3TrivecQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Dot-TCL3MultivecQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3VecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; overload;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Dot-TCL3TrivecQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; overload;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3BivecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Dot-TCL3VecQuantity-">Dot</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; overload;</code></td>
 </tr>
-<tr class="list">
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3TrivecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Dual">Dual</a></strong>: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3MultivecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3VecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3BivecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3TrivecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3MultivecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3VecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3BivecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3TrivecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3VecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3BivecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3TrivecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3VecQuantity-TCL3VecQuantity-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3BivecQuantity-TCL3BivecQuantity-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3TrivecQuantity-TCL3TrivecQuantity-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
-</tr>
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#SameValue-TCL3MultivecQuantity-">SameValue</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
-</tr>
-<tr class="list2">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#SameValue-TCL3BivecQuantity-">SameValue</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
-</tr>
-<tr class="list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#ExtractBivector-TCL3MultivectorComponents-">ExtractBivector</a></strong>(AComponents: <a href="ADim.html#TCL3MultivectorComponents">TCL3MultivectorComponents</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
-<tr class="list2">
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Inverse">Inverse</a></strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Norm">Norm</a></strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Normalized">Normalized</a></strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3BivecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3MultivecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3TrivecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3VecQuantity-">Projection</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reciprocal">Reciprocal</a></strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3BivecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3TrivecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3VecQuantity-">Reflection</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3BivecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3TrivecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3VecQuantity-">Rejection</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Reverse">Reverse</a></strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3BivecQuantity-TCL3BivecQuantity-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3TrivecQuantity-TCL3TrivecQuantity-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3VecQuantity-TCL3VecQuantity-">Rotation</a></strong>(const AVector1, AVector2: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#SameValue-TCL3BivecQuantity-">SameValue</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#SameValue-TCL3MultivecQuantity-">SameValue</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#SquaredNorm">SquaredNorm</a></strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr class="list2 visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#ToMultivector">ToMultivector</a></strong>: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3BivecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3MultivecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3TrivecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
+</tr>
+<tr class="list2 visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><code>function <strong><a href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3VecQuantity-">Wedge</a></strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; overload;</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
 <h3 class="detail">Methods</h3>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Dual"></span><code>function <strong>Dual</strong>: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the dual of the bivector quantity with respect to the pseudoscalar <code>e₁₂₃</code>. The dual maps grade-2 elements to grade-1 (vector) elements: <code>B* = B · e₁₂₃⁻¹</code>. For example: <code>(e₁∧e₂)* = -e₃</code>, <code>(e₁∧e₃)* = e₂</code>, <code>(e₂∧e₃)* = -e₁</code>. The physical dimension is preserved.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Inverse"></span><code>function <strong>Inverse</strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the inverse of the bivector quantity under the geometric product. For a pure bivector <code>B</code>: <code>B⁻¹ = -B / |B|²</code>, since <code>B² ≤ 0</code>. The resulting dimension is the inverse of the original dimension.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Reverse"></span><code>function <strong>Reverse</strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the reverse of the bivector quantity. For a bivector (<code>k = 2</code>): <code>B̃ = -B</code>. The physical dimension is preserved.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Conjugate"></span><code>function <strong>Conjugate</strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the Clifford conjugate of the bivector quantity. For a bivector (<code>k = 2</code>): <code>B† = -B</code>. The physical dimension is preserved.</p>
+Returns the Clifford <code>conjugate</code> of the bivector quantity. For <a class="normal" href="ADim.html#A">a</a> bivector (<code><a class="normal" href="ADim.html#K">k</a> = 2</code>): <code>B† = -B</code>. The physical dimension is preserved.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Reciprocal"></span><code>function <strong>Reciprocal</strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="Dot-TCL3BivecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the reciprocal of the bivector quantity: <code>B̃ / (B · B̃)</code>. Equivalent to <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Inverse">Inverse</a> for non-zero bivector quantities. The resulting dimension is the inverse of the original dimension.</p>
+Returns the inner (<a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Dot-TCL3MultivecQuantity-">dot</a>) product of two bivector quantities. Lowers the grade: <code>grade(2) · grade(2) → grade(0) = scalar quantity</code>. Result: <code>B₁ · B₂ = -(m12₁·m12₂ + m13₁·m13₂ + m23₁·m23₂) [dim₁·dim₂]</code>. The resulting dimension is the product of the two operand dimensions. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The grade-2 right operand.</dd>
+</dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL3MultivecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the inner (<code>dot</code>) product of the bivector quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the product of the two operand dimensions. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The right operand.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL3TrivecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the inner (<a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Dot-TCL3MultivecQuantity-">dot</a>) product of the bivector quantity and <a class="normal" href="ADim.html#A">a</a> trivector quantity. Lowers the grade: <code>grade(2) · grade(3) → grade(1) = <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The grade-3 right operand.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dot-TCL3VecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the inner (<a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Dot-TCL3MultivecQuantity-">dot</a>) product of the bivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Lowers the grade: <code>grade(2) · grade(1) → grade(1) = <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The grade-1 right operand.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Dual"></span><code>function <strong>Dual</strong>: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>dual</code> of the bivector quantity with respect to the pseudoscalar <code>e₁₂₃</code>. The <code>dual</code> maps grade-2 elements to grade-1 (<a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>) elements: <code>B* = B · e₁₂₃⁻¹</code>. For example: <code>(e₁∧e₂)* = -e₃</code>, <code>(e₁∧e₃)* = e₂</code>, <code>(e₂∧e₃)* = -e₁</code>. The physical dimension is preserved.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="ExtractBivector-TCL3MultivectorComponents-"></span><code>function <strong>ExtractBivector</strong>(AComponents: <a href="ADim.html#TCL3MultivectorComponents">TCL3MultivectorComponents</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns <a class="normal" href="ADim.html#A">a</a> new bivector quantity containing only the components specified by <code>AComponents</code>. Components not present in <code>AComponents</code> are set to zero. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AComponents</dt>
+<dd><a class="normal" href="ADim.html#A">A</a> set of <a class="normal" href="ADim.html#TCL3MultivectorComponent">TCL3MultivectorComponent</a> values identifying the components to retain. Valid values are <code><a class="normal" href="ADim.html#mcm12">mcm12</a></code>, <code><a class="normal" href="ADim.html#mcm13">mcm13</a></code>, <code><a class="normal" href="ADim.html#mcm23">mcm23</a></code>.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Inverse"></span><code>function <strong>Inverse</strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>inverse</code> of the bivector quantity under the geometric product. For <a class="normal" href="ADim.html#A">a</a> pure bivector <code>B</code>: <code>B⁻¹ = -B / |B|²</code>, since <code>B² ≤ 0</code>. The resulting dimension is the <code>inverse</code> of the original dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>norm</code> of the bivector quantity: <code>|B| = √(m12² + m13² + m23²) [dim]</code>. The resulting dimension equals the dimension of the original quantity.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Normalized"></span><code>function <strong>Normalized</strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
@@ -250,169 +315,14 @@ Returns the reciprocal of the bivector quantity: <code>B̃ / (B · B̃)</code>. 
 Returns the unit bivector quantity in the same orientation. Each component is divided by <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Norm">Norm</a>. The physical dimension is preserved.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Norm"></span><code>function <strong>Norm</strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the norm of the bivector quantity: <code>|B| = √(m12² + m13² + m23²) [dim]</code>. The resulting dimension equals the dimension of the original quantity.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the squared norm of the bivector quantity: <code>|B|² = m12² + m13² + m23² [dim²]</code>. The resulting dimension is the square of the original dimension. Avoids the square root computation of <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Norm">Norm</a>.</p>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Dot-TCL3VecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the inner (dot) product of the bivector quantity and a vector quantity. Lowers the grade: <code>grade(2) · grade(1) → grade(1) = vector quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The grade-1 right operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Dot-TCL3BivecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the inner (dot) product of two bivector quantities. Lowers the grade: <code>grade(2) · grade(2) → grade(0) = scalar quantity</code>. Result: <code>B₁ · B₂ = -(m12₁·m12₂ + m13₁·m13₂ + m23₁·m23₂) [dim₁·dim₂]</code>. The resulting dimension is the product of the two operand dimensions. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The grade-2 right operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Dot-TCL3TrivecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the inner (dot) product of the bivector quantity and a trivector quantity. Lowers the grade: <code>grade(2) · grade(3) → grade(1) = vector quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The grade-3 right operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Dot-TCL3MultivecQuantity-"></span><code>function <strong>Dot</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the inner (dot) product of the bivector quantity and a multivector quantity. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the product of the two operand dimensions. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The right operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Wedge-TCL3VecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the outer (wedge) product of the bivector quantity and a vector quantity. Raises the grade: <code>grade(2) ∧ grade(1) → grade(3) = trivector quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The grade-1 right operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Wedge-TCL3BivecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the outer (wedge) product of two bivector quantities. Always zero in <code>ℝ³</code>: <code>grade(2) ∧ grade(2) → grade(4) = 0</code>. The result is a scalar quantity equal to zero. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The grade-2 right operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Wedge-TCL3TrivecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the outer (wedge) product of the bivector quantity and a trivector quantity. Always zero in <code>ℝ³</code>: <code>grade(2) ∧ grade(3) → grade(5) = 0</code>. The result is a scalar quantity equal to zero. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The grade-3 right operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Wedge-TCL3MultivecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the outer (wedge) product of the bivector quantity and a multivector quantity. Only the scalar and vector parts of <code>AVector</code> contribute to a non-zero result. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the product of the two operand dimensions. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The right operand.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Projection-TCL3VecQuantity-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the projection of the bivector quantity onto a vector quantity subspace. Defined as: <code>proj(B, v) = (B · v⁻¹) ∧ v</code>. The result is the component of <code>B</code> lying in the plane containing <code>v</code>. The resulting dimension is the dimension of the original quantity. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The vector quantity defining the subspace to project onto.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Projection-TCL3BivecQuantity-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the projection of the bivector quantity onto another bivector quantity subspace. Defined as: <code>proj(B₁, B₂) = (B₁ · B₂⁻¹) ∧ B₂</code>. The resulting dimension is the dimension of the original quantity. </p>
+Returns the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3MultivecQuantity-">projection</a> of the bivector quantity onto another bivector quantity subspace. Defined as: <code>proj(B₁, B₂) = (B₁ · B₂⁻¹) ∧ B₂</code>. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -420,29 +330,14 @@ Returns the projection of the bivector quantity onto another bivector quantity s
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Projection-TCL3TrivecQuantity-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the projection of the bivector quantity onto a trivector quantity subspace. Defined as: <code>proj(B, T) = (B · T⁻¹) ∧ T</code>. Since the trivector spans all of <code>ℝ³</code>, the projection returns the bivector quantity unchanged. The resulting dimension is the dimension of the original quantity. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The trivector quantity defining the subspace to project onto.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Projection-TCL3MultivecQuantity-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the projection of the bivector quantity onto a multivector quantity subspace. Defined as: <code>proj(B, M) = (B · M⁻¹) ∧ M</code>. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the dimension of the original quantity. </p>
+Returns the <code>projection</code> of the bivector quantity onto <a class="normal" href="ADim.html#A">a</a> multivector quantity subspace. Defined as: <code>proj(B, <a class="normal" href="ADim.html#m">M</a>) = (B · <a class="normal" href="ADim.html#m">M</a>⁻¹) ∧ <a class="normal" href="ADim.html#m">M</a></code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -450,29 +345,114 @@ Returns the projection of the bivector quantity onto a multivector quantity subs
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Rejection-TCL3VecQuantity-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+<td class="itemcode"><span id="Projection-TCL3TrivecQuantity-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the rejection of the bivector quantity from a vector quantity subspace. Defined as: <code>rej(B, v) = B - proj(B, v)</code>. The result is the component of <code>B</code> orthogonal to <code>v</code>. The resulting dimension is the dimension of the original quantity. </p>
+Returns the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3MultivecQuantity-">projection</a> of the bivector quantity onto <a class="normal" href="ADim.html#A">a</a> trivector quantity subspace. Defined as: <code>proj(B, <a class="normal" href="ADim.html#T">T</a>) = (B · <a class="normal" href="ADim.html#T">T</a>⁻¹) ∧ <a class="normal" href="ADim.html#T">T</a></code>. Since the trivector spans all of <code>ℝ³</code>, the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3MultivecQuantity-">projection</a> returns the bivector quantity unchanged. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The vector quantity defining the subspace to reject from.</dd>
+<dd>The trivector quantity defining the subspace to project onto.</dd>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Projection-TCL3VecQuantity-"></span><code>function <strong>Projection</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Projection-TCL3MultivecQuantity-">projection</a> of the bivector quantity onto <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity subspace. Defined as: <code>proj(B, <a class="normal" href="ADim.html#V">v</a>) = (B · <a class="normal" href="ADim.html#V">v</a>⁻¹) ∧ <a class="normal" href="ADim.html#V">v</a></code>. The result is the component of <code>B</code> lying in the plane containing <code><a class="normal" href="ADim.html#V">v</a></code>. The resulting dimension is the dimension of the original quantity. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the subspace to project onto.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reciprocal"></span><code>function <strong>Reciprocal</strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>reciprocal</code> of the bivector quantity: <code>B̃ / (B · B̃)</code>. Equivalent to <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Inverse">Inverse</a> for non-zero bivector quantities. The resulting dimension is the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Inverse">inverse</a> of the original dimension.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL3BivecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> of the bivector quantity through another bivector quantity. Defined as: <code>reflect(B₁, B₂) = -B₂ · B₁ · B₂⁻¹</code>. The physical dimension is preserved. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The bivector quantity defining the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> element.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL3MultivecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <code>reflection</code> of the bivector quantity through <a class="normal" href="ADim.html#A">a</a> multivector quantity. Defined as: <code>reflect(B, <a class="normal" href="ADim.html#m">M</a>) = -<a class="normal" href="ADim.html#m">M</a> · B · <a class="normal" href="ADim.html#m">M</a>⁻¹</code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The physical dimension is preserved. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The multivector quantity defining the <code>reflection</code> element.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL3TrivecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> of the bivector quantity through <a class="normal" href="ADim.html#A">a</a> trivector quantity. Defined as: <code>reflect(B, <a class="normal" href="ADim.html#T">T</a>) = -<a class="normal" href="ADim.html#T">T</a> · B · <a class="normal" href="ADim.html#T">T</a>⁻¹</code>. Since the pseudoscalar commutes with all even-grade elements, the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> through <a class="normal" href="ADim.html#A">a</a> trivector returns the bivector quantity unchanged. The physical dimension is preserved. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The trivector quantity defining the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> element.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Reflection-TCL3VecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> of the bivector quantity through <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Defined as: <code>reflect(B, <a class="normal" href="ADim.html#V">v</a>) = -<a class="normal" href="ADim.html#V">v</a> · B · <a class="normal" href="ADim.html#V">v</a>⁻¹</code>. Reflects the oriented plane of <code>B</code> through the hyperplane orthogonal to <code><a class="normal" href="ADim.html#V">v</a></code>. The physical dimension is preserved. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> hyperplane normal.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Rejection-TCL3BivecQuantity-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the rejection of the bivector quantity from another bivector quantity subspace. Defined as: <code>rej(B₁, B₂) = B₁ - proj(B₁, B₂)</code>. In <code>ℝ³</code> the rejection of a bivector from a bivector is a scalar quantity. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">rejection</a> of the bivector quantity from another bivector quantity subspace. Defined as: <code>rej(B₁, B₂) = B₁ - proj(B₁, B₂)</code>. In <code>ℝ³</code> the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">rejection</a> of <a class="normal" href="ADim.html#A">a</a> bivector from <a class="normal" href="ADim.html#A">a</a> bivector is <a class="normal" href="ADim.html#A">a</a> scalar quantity. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -480,29 +460,14 @@ Returns the rejection of the bivector quantity from another bivector quantity su
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Rejection-TCL3TrivecQuantity-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the rejection of the bivector quantity from a trivector quantity subspace. Defined as: <code>rej(B, T) = B - proj(B, T)</code>. In <code>ℝ³</code> the rejection of a bivector from a trivector is a scalar quantity. The resulting dimension is the product of the two operand dimensions. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The trivector quantity defining the subspace to reject from.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Rejection-TCL3MultivecQuantity-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the rejection of the bivector quantity from a multivector quantity subspace. Defined as: <code>rej(B, M) = B - proj(B, M)</code>. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the dimension of the original quantity. </p>
+Returns the <code>rejection</code> of the bivector quantity from <a class="normal" href="ADim.html#A">a</a> multivector quantity subspace. Defined as: <code>rej(B, <a class="normal" href="ADim.html#m">M</a>) = B - proj(B, <a class="normal" href="ADim.html#m">M</a>)</code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -510,91 +475,54 @@ Returns the rejection of the bivector quantity from a multivector quantity subsp
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Reflection-TCL3VecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+<td class="itemcode"><span id="Rejection-TCL3TrivecQuantity-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the reflection of the bivector quantity through a vector quantity. Defined as: <code>reflect(B, v) = -v · B · v⁻¹</code>. Reflects the oriented plane of <code>B</code> through the hyperplane orthogonal to <code>v</code>. The physical dimension is preserved. </p>
+Returns the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">rejection</a> of the bivector quantity from <a class="normal" href="ADim.html#A">a</a> trivector quantity subspace. Defined as: <code>rej(B, <a class="normal" href="ADim.html#T">T</a>) = B - proj(B, <a class="normal" href="ADim.html#T">T</a>)</code>. In <code>ℝ³</code> the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">rejection</a> of <a class="normal" href="ADim.html#A">a</a> bivector from <a class="normal" href="ADim.html#A">a</a> trivector is <a class="normal" href="ADim.html#A">a</a> scalar quantity. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The vector quantity defining the reflection hyperplane normal.</dd>
+<dd>The trivector quantity defining the subspace to reject from.</dd>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Reflection-TCL3BivecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+<td class="itemcode"><span id="Rejection-TCL3VecQuantity-"></span><code>function <strong>Rejection</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the reflection of the bivector quantity through another bivector quantity. Defined as: <code>reflect(B₁, B₂) = -B₂ · B₁ · B₂⁻¹</code>. The physical dimension is preserved. </p>
+Returns the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">rejection</a> of the bivector quantity from <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity subspace. Defined as: <code>rej(B, <a class="normal" href="ADim.html#V">v</a>) = B - proj(B, <a class="normal" href="ADim.html#V">v</a>)</code>. The result is the component of <code>B</code> orthogonal to <code><a class="normal" href="ADim.html#V">v</a></code>. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The bivector quantity defining the reflection element.</dd>
+<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the subspace to reject from.</dd>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Reflection-TCL3TrivecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+<td class="itemcode"><span id="Reverse"></span><code>function <strong>Reverse</strong>: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the reflection of the bivector quantity through a trivector quantity. Defined as: <code>reflect(B, T) = -T · B · T⁻¹</code>. Since the pseudoscalar commutes with all even-grade elements, the reflection through a trivector returns the bivector quantity unchanged. The physical dimension is preserved. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The trivector quantity defining the reflection element.</dd>
-</dl>
+Returns the <code>reverse</code> of the bivector quantity. For <a class="normal" href="ADim.html#A">a</a> bivector (<code><a class="normal" href="ADim.html#K">k</a> = 2</code>): <code>B̃ = -B</code>. The physical dimension is preserved.</p>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Reflection-TCL3MultivecQuantity-"></span><code>function <strong>Reflection</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the reflection of the bivector quantity through a multivector quantity. Defined as: <code>reflect(B, M) = -M · B · M⁻¹</code>. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The physical dimension is preserved. </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector</dt>
-<dd>The multivector quantity defining the reflection element.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Rotation-TCL3VecQuantity-TCL3VecQuantity-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the bivector quantity rotated by the rotor defined by two vector quantities. The rotor is constructed as <code>R = AVector2 · AVector1</code> (normalised to a unit rotor). The rotation is applied as: <code>B' = R · B · R⁻¹</code>. The physical dimension is preserved.  </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector1</dt>
-<dd>The first vector quantity defining the rotation plane.</dd>
-<dt>AVector2</dt>
-<dd>The second vector quantity defining the rotation plane.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Rotation-TCL3BivecQuantity-TCL3BivecQuantity-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the bivector quantity rotated by the rotor defined by two bivector quantities. The rotation is applied as: <code>B' = R · B · R⁻¹</code>. The physical dimension is preserved.  </p>
+Returns the bivector quantity rotated by the rotor defined by two bivector quantities. The <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> is applied as: <code>B' = R · B · R⁻¹</code>. The physical dimension is preserved.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
@@ -604,31 +532,14 @@ Returns the bivector quantity rotated by the rotor defined by two bivector quant
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
-<td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="Rotation-TCL3TrivecQuantity-TCL3TrivecQuantity-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
-</tr>
-<tr><td colspan="2">
-<p>
-Returns the bivector quantity rotated by the rotor defined by two trivector quantities. The rotation is applied as: <code>B' = R · B · R⁻¹</code>. The physical dimension is preserved.  </p>
-<h6 class="description_section">Parameters</h6>
-<dl class="parameters">
-<dt>AVector1</dt>
-<dd>The first trivector quantity defining the rotor.</dd>
-<dt>AVector2</dt>
-<dd>The second trivector quantity defining the rotor.</dd>
-</dl>
-</td></tr>
-</table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the bivector quantity rotated by the rotor defined by two multivector quantities. The rotation is applied as: <code>B' = R · B · R⁻¹</code>. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to potential grade mixing. The physical dimension is preserved.  </p>
+Returns the bivector quantity rotated by the rotor defined by two multivector quantities. The <code>rotation</code> is applied as: <code>B' = R · B · R⁻¹</code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to potential grade mixing. The physical dimension is preserved.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
@@ -638,23 +549,42 @@ Returns the bivector quantity rotated by the rotor defined by two multivector qu
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="SameValue-TCL3MultivecQuantity-"></span><code>function <strong>SameValue</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
+<td class="itemcode"><span id="Rotation-TCL3TrivecQuantity-TCL3TrivecQuantity-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the bivector quantity is numerically equal to the given multivector quantity within the default floating point tolerance. All non-bivector components of <code>AVector</code> must be negligible. </p>
+Returns the bivector quantity rotated by the rotor defined by two trivector quantities. The <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> is applied as: <code>B' = R · B · R⁻¹</code>. The physical dimension is preserved.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
-<dt>AVector</dt>
-<dd>The multivector quantity to compare against.</dd>
+<dt>AVector1</dt>
+<dd>The first trivector quantity defining the rotor.</dd>
+<dt>AVector2</dt>
+<dd>The second trivector quantity defining the rotor.</dd>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Rotation-TCL3VecQuantity-TCL3VecQuantity-"></span><code>function <strong>Rotation</strong>(const AVector1, AVector2: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the bivector quantity rotated by the rotor defined by two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities. The rotor is constructed as <code>R = AVector2 · AVector1</code> (normalised to <a class="normal" href="ADim.html#A">a</a> unit rotor). The <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> is applied as: <code>B' = R · B · R⁻¹</code>. The physical dimension is preserved.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector1</dt>
+<dd>The first <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> plane.</dd>
+<dt>AVector2</dt>
+<dd>The second <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> plane.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="SameValue-TCL3BivecQuantity-"></span><code>function <strong>SameValue</strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): boolean;</code></td>
 </tr>
@@ -668,32 +598,102 @@ Returns <code>True</code> if the two bivector quantities are numerically equal w
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
-<td class="itemcode"><span id="ExtractBivector-TCL3MultivectorComponents-"></span><code>function <strong>ExtractBivector</strong>(AComponents: <a href="ADim.html#TCL3MultivectorComponents">TCL3MultivectorComponents</a>): <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>;</code></td>
+<td class="itemcode"><span id="SameValue-TCL3MultivecQuantity-"></span><code>function <strong>SameValue</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): boolean;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns a new bivector quantity containing only the components specified by <code>AComponents</code>. Components not present in <code>AComponents</code> are set to zero. </p>
+Returns <code>True</code> if the bivector quantity is numerically equal to the given multivector quantity within the default floating point tolerance. All non-bivector components of <code>AVector</code> must be negligible. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
-<dt>AComponents</dt>
-<dd>A set of <a class="normal" href="ADim.html#TCL3MultivectorComponent">TCL3MultivectorComponent</a> values identifying the components to retain. Valid values are <code>mcm12</code>, <code>mcm13</code>, <code>mcm23</code>.</dd>
+<dt>AVector</dt>
+<dd>The multivector quantity to compare against.</dd>
 </dl>
 </td></tr>
 </table>
-<table class="detail wide_list">
-<tr class="list">
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="SquaredNorm"></span><code>function <strong>SquaredNorm</strong>: <a href="ADim.TQuantity.html">TQuantity</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the squared <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Norm">norm</a> of the bivector quantity: <code>|B|² = m12² + m13² + m23² [dim²]</code>. The resulting dimension is the square of the original dimension. Avoids the square root computation of <a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Norm">Norm</a>.</p>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
 <td class="visibility"><span class="badge vis-public">Public</span></td>
 <td class="itemcode"><span id="ToMultivector"></span><code>function <strong>ToMultivector</strong>: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the bivector quantity to a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. All components are zero except <code>m12</code>, <code>m13</code>, <code>m23</code>. The dimension is preserved.</p>
+Converts the bivector quantity to <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. All components are zero except <code>m12</code>, <code>m13</code>, <code>m23</code>. The dimension is preserved.</p>
 </td></tr>
 </table>
-<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.17.0.snapshot</a>. </em>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL3BivecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the outer (<a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3MultivecQuantity-">wedge</a>) product of two bivector quantities. Always zero in <code>ℝ³</code>: <code>grade(2) ∧ grade(2) → grade(4) = 0</code>. The result is <a class="normal" href="ADim.html#A">a</a> scalar quantity equal to zero. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The grade-2 right operand.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL3MultivecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>): <a href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the outer (<code>wedge</code>) product of the bivector quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. Only the scalar and <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> parts of <code>AVector</code> contribute to <a class="normal" href="ADim.html#A">a</a> non-zero result. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the product of the two operand dimensions. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The right operand.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL3TrivecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>): <a href="ADim.TQuantity.html">TQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the outer (<a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3MultivecQuantity-">wedge</a>) product of the bivector quantity and <a class="normal" href="ADim.html#A">a</a> trivector quantity. Always zero in <code>ℝ³</code>: <code>grade(2) ∧ grade(3) → grade(5) = 0</code>. The result is <a class="normal" href="ADim.html#A">a</a> scalar quantity equal to zero. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The grade-3 right operand.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail visibility-public wide_list">
+<tr class="list visibility-public">
+<td class="visibility"><span class="badge vis-public">Public</span></td>
+<td class="itemcode"><span id="Wedge-TCL3VecQuantity-"></span><code>function <strong>Wedge</strong>(const AVector: <a href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a>): <a href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a>; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the outer (<a class="normal" href="ADim.TCL3BivecQuantityHelper.html#Wedge-TCL3MultivecQuantity-">wedge</a>) product of the bivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Raises the grade: <code>grade(2) ∧ grade(1) → grade(3) = trivector quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>AVector</dt>
+<dd>The grade-1 right operand.</dd>
+</dl>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
 <script src="bootstrap.bundle.min.js"></script>
