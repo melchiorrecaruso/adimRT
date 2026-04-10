@@ -4450,42 +4450,6 @@ type
   TCL3VecQuantity = TCL3Vector;
   {$ENDIF}
 
-const
-  { The zero multivector of @code(Cl(3,0)).
-    All eight grade components are set to zero:
-    @code(0 = 0 + 0·e₁ + 0·e₂ + 0·e₃ + 0·e₁₂ + 0·e₁₃ + 0·e₂₃ + 0·e₁₂₃).
-    Useful as a neutral element for addition or as an initial accumulator
-    in multivector summations.
-  }
-  CL3NullMultivector : TCL3Multivector = (fm0:0.0; fm1:0.0; fm2:0.0; fm3:0.0; fm12:0.0; fm13:0.0; fm23:0.0; fm123:0.0);
-
-  { The zero trivector of @code(Cl(3,0)).
-    The pseudoscalar coefficient is zero: @code(0·e₁∧e₂∧e₃).
-    Useful as a neutral element for trivector addition.
-  }
-  CL3NullTrivector : TCL3Trivector = (fm123:0.0);
-
-  { The zero bivector of @code(Cl(3,0)).
-    All three bivector coefficients are zero:
-    @code(0·e₁∧e₂ + 0·e₁∧e₃ + 0·e₂∧e₃).
-    Useful as a neutral element for bivector addition.
-  }
-  CL3NullBivector : TCL3Bivector = (fm12:0.0; fm13:0.0; fm23:0.0);
-
-  { The zero vector of @code(Cl(3,0)).
-    All three vector coefficients are zero:
-    @code(0·e₁ + 0·e₂ + 0·e₃).
-    Useful as a neutral element for vector addition.
-  }
-  CL3NullVector : TCL3Vector = (fm1:0.0; fm2:0.0; fm3:0.0);
-
-  { The zero scalar of @code(Cl(3,0)).
-    Equivalent to the real number @code(0.0).
-    Useful as a neutral element for scalar addition or as a default
-    return value for operations that yield a dimensionless zero.
-  }
-  CL3NullScalar : double = (0.0);
-
 type
   { Record helper for @link(TComplexQuantity) providing additional operations
     on complex physical quantities.
@@ -13334,31 +13298,28 @@ end;
 
 function TCL3MultivectorHelper.ExtractMultivector(AComponents: TCL3MultivectorComponents): TCL3Multivector;
 begin
-  Result := CL3NullMultivector;
-  if mcm0   in AComponents then result.fm0   := fm0;
-  if mcm1   in AComponents then result.fm1   := fm1;
-  if mcm2   in AComponents then result.fm2   := fm2;
-  if mcm3   in AComponents then result.fm3   := fm3;
-  if mcm12  in AComponents then result.fm12  := fm12;
-  if mcm13  in AComponents then result.fm13  := fm13;
-  if mcm23  in AComponents then result.fm23  := fm23;
-  if mcm123 in AComponents then result.fm123 := fm123;
+  if mcm0   in AComponents then result.fm0   := fm0   else result.fm0   := 0;
+  if mcm1   in AComponents then result.fm1   := fm1   else result.fm1   := 0;
+  if mcm2   in AComponents then result.fm2   := fm2   else result.fm2   := 0;
+  if mcm3   in AComponents then result.fm3   := fm3   else result.fm3   := 0;
+  if mcm12  in AComponents then result.fm12  := fm12  else result.fm12  := 0;
+  if mcm13  in AComponents then result.fm13  := fm13  else result.fm13  := 0;
+  if mcm23  in AComponents then result.fm23  := fm23  else result.fm23  := 0;
+  if mcm123 in AComponents then result.fm123 := fm123 else result.fm123 := 0;
 end;
 
 function TCL3MultivectorHelper.ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
 begin
-  Result := CL3NullBivector;
-  if mcm12 in AComponents then result.fm12 := fm12;
-  if mcm13 in AComponents then result.fm13 := fm13;
-  if mcm23 in AComponents then result.fm23 := fm23;
+  if mcm12 in AComponents then result.fm12 := fm12 else result.fm12 := 0;
+  if mcm13 in AComponents then result.fm13 := fm13 else result.fm13 := 0;
+  if mcm23 in AComponents then result.fm23 := fm23 else result.fm23 := 0;
 end;
 
 function TCL3MultivectorHelper.ExtractVector(AComponents: TCL3MultivectorComponents): TCL3Vector;
 begin
-  Result := CL3NullVector;
-  if mcm1 in AComponents then result.fm1 := fm1;
-  if mcm2 in AComponents then result.fm2 := fm2;
-  if mcm3 in AComponents then result.fm3 := fm3;
+  if mcm1 in AComponents then result.fm1 := fm1 else result.fm1 := 0;
+  if mcm2 in AComponents then result.fm2 := fm2 else result.fm2 := 0;
+  if mcm3 in AComponents then result.fm3 := fm3 else result.fm3 := 0;
 end;
 
 function TCL3MultivectorHelper.ExtractTrivector: TCL3Trivector;
@@ -13387,7 +13348,14 @@ end;
 
 function TCL3MultivectorHelper.IsNull: boolean;
 begin
-  result := SameValue(CL3NullMultivector);
+  result := (SameValueEx(fm0,   0.0)) and
+            (SameValueEx(fm1,   0.0)) and
+            (SameValueEx(fm2,   0.0)) and
+            (SameValueEx(fm3,   0.0)) and
+            (SameValueEx(fm12,  0.0)) and
+            (SameValueEx(fm23,  0.0)) and
+            (SameValueEx(fm13,  0.0)) and
+            (SameValueEx(fm123, 0.0));
 end;
 
 function TCL3MultivectorHelper.IsScalar: boolean;
@@ -13917,10 +13885,9 @@ end;
 
 function TCL3BivectorHelper.ExtractBivector(AComponents: TCL3MultivectorComponents): TCL3Bivector;
 begin
-  Result := CL3NullBivector;
-  if mcm12 in AComponents then result.fm12 := fm12;
-  if mcm13 in AComponents then result.fm13 := fm13;
-  if mcm23 in AComponents then result.fm23 := fm23;
+  if mcm12 in AComponents then result.fm12 := fm12 else result.fm12 := 0;
+  if mcm13 in AComponents then result.fm13 := fm13 else result.fm13 := 0;
+  if mcm23 in AComponents then result.fm23 := fm23 else result.fm23 := 0;
 end;
 
 function TCL3BivectorHelper.ToString(APrecision, ADigits: longint): string;
@@ -14229,10 +14196,9 @@ end;
 
 function TCL3VectorHelper.ExtractVector(AComponents: TCL3MultivectorComponents): TCL3Vector;
 begin
-  Result := CL3NullVector;
-  if mcm1 in AComponents then result.fm1 := fm1;
-  if mcm2 in AComponents then result.fm2 := fm2;
-  if mcm3 in AComponents then result.fm3 := fm3;
+  if mcm1 in AComponents then result.fm1 := fm1 else result.fm1 := 0;
+  if mcm2 in AComponents then result.fm2 := fm2 else result.fm2 := 0;
+  if mcm3 in AComponents then result.fm3 := fm3 else result.fm3 := 0;
 end;
 
 function TCL3VectorHelper.ToString(APrecision, ADigits: longint): string;
@@ -15612,7 +15578,7 @@ end;
 
 function TCL3MultivecQuantityHelper.IsNull: boolean;
 begin
-  result := FValue.SameValue(CL3NullMultivector);
+  result := FValue.IsNull;
 end;
 
 function TCL3MultivecQuantityHelper.IsScalar: boolean;
