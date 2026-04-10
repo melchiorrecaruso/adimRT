@@ -241,12 +241,13 @@ begin
 
   ASection.Add('');
   ASection.Add('resourcestring');
-  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
   ASection.Add('');
-  ASection.Add('const');
 
+  ASection.Add('const');
+  ASection.Add('  { @exclude }');
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -268,11 +269,13 @@ begin
 
   ASection.Add('');
   ASection.Add('resourcestring');
-  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
   ASection.Add('');
+
   ASection.Add('const');
+  ASection.Add('  { @exclude }');
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -304,11 +307,13 @@ begin
 
       ASection.Add('');
       ASection.Add('resourcestring');
-      ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-      ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-      ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+      ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+      ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+      ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
       ASection.Add('');
+
       ASection.Add('const');
+      ASection.Add('  { @exclude }');
       ASection.Add('  %sUnit : TFactoredUnit = (', [GetUnitID(AItem.FQuantity)]);
       ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
       ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -333,11 +338,13 @@ begin
 
   ASection.Add('');
   ASection.Add('resourcestring');
-  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
   ASection.Add('');
+
   ASection.Add('const');
+  ASection.Add('  { @exclude }');
   ASection.Add('  %sUnit : TDegreeCelsiusUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -359,11 +366,13 @@ begin
 
   ASection.Add('');
   ASection.Add('resourcestring');
-  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+  ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
   ASection.Add('');
+
   ASection.Add('const');
+  ASection.Add('  { @exclude }');
   ASection.Add('  %sUnit : TDegreeFahrenheitUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FDim               : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol            : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
