@@ -30,7 +30,7 @@ unit Skeleton;
 interface
 
 uses
-  ADimTypes, SysUtils;
+  ADimRes, ADimTypes, SysUtils;
 
 type
   { TPrefix }
@@ -7761,13 +7761,7 @@ type
 
 { TScalar }
 
-resourcestring
-  { @exclude } rsScalarSymbol = '';
-  { @exclude } rsScalarName = '';
-  { @exclude } rsScalarPluralName = '';
-
-const
-  { @exclude }
+const { @exclude }
   ScalarUnit : TUnit = (
     FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsScalarSymbol;
