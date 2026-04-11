@@ -533,15 +533,6 @@ Description: ADim Run-time library.
 <tr class="list visibility-published">
 <td class="itemcode"><code>function <strong><a href="ADim.html#GreaterThanZero-TQuantity-">GreaterThanZero</a></strong>(const AQuantity: <a href="ADim.TQuantity.html">TQuantity</a>): boolean;</code></td>
 </tr>
-<tr class="list2 visibility-published">
-<td class="itemcode"><code>function <strong><a href="ADim.html#C2IdentityMatrix">C2IdentityMatrix</a></strong>: <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
-</tr>
-<tr class="list visibility-published">
-<td class="itemcode"><code>function <strong><a href="ADim.html#C3IdentityMatrix">C3IdentityMatrix</a></strong>: <a href="ADim.html#TC3Matrix">TC3Matrix</a>;</code></td>
-</tr>
-<tr class="list2 visibility-published">
-<td class="itemcode"><code>function <strong><a href="ADim.html#C4IdentityMatrix">C4IdentityMatrix</a></strong>: <a href="ADim.html#TC4Matrix">TC4Matrix</a>;</code></td>
-</tr>
 </table>
 <span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
 <table class="summary wide_list">
@@ -2646,33 +2637,6 @@ Returns <code>True</code> if the quantity is strictly greater than zero. </p>
 <dt>AQuantity</dt>
 <dd>The quantity to test.</dd>
 </dl>
-</td></tr>
-</table>
-<table class="detail visibility-published wide_list">
-<tr class="list visibility-published">
-<td class="itemcode"><span id="C2IdentityMatrix"></span><code>function <strong>C2IdentityMatrix</strong>: <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the 2×2 identity matrix over <code>ℂ</code>. Diagonal elements are <code>TComplex(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·A = A·I = A</code> for any conforming 2×2 complex matrix <code>A</code>.</p>
-</td></tr>
-</table>
-<table class="detail visibility-published wide_list">
-<tr class="list visibility-published">
-<td class="itemcode"><span id="C3IdentityMatrix"></span><code>function <strong>C3IdentityMatrix</strong>: <a href="ADim.html#TC3Matrix">TC3Matrix</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the 3×3 identity matrix over <code>ℂ</code>. Diagonal elements are <code>TComplex(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·A = A·I = A</code> for any conforming 3×3 complex matrix <code>A</code>.</p>
-</td></tr>
-</table>
-<table class="detail visibility-published wide_list">
-<tr class="list visibility-published">
-<td class="itemcode"><span id="C4IdentityMatrix"></span><code>function <strong>C4IdentityMatrix</strong>: <a href="ADim.html#TC4Matrix">TC4Matrix</a>;</code></td>
-</tr>
-<tr><td colspan="1">
-<p>
-Returns the 4×4 identity matrix over <code>ℂ</code>. Diagonal elements are <code>TComplex(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·A = A·I = A</code> for any conforming 4×4 complex matrix <code>A</code>.</p>
 </td></tr>
 </table>
 <h3 class="detail">Types</h3>
