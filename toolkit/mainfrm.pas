@@ -41,6 +41,7 @@ type
     SaveBtn: TBitBtn;
     Memo: TMemo;
     StringGrid: TStringGrid;
+    SynEdit1: TSynEdit;
     TabSheet3: TTabSheet;
     ExportBtn: TBitBtn;
     LoadBtn: TBitBtn;
@@ -53,12 +54,14 @@ type
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     TabSheet4: TTabSheet;
+    TabSheet5: TTabSheet;
     procedure AddBtnClick(Sender: TObject);
     procedure DeleteBtnClick(Sender: TObject);
     procedure EditBtnClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure MoveDownBtnClick(Sender: TObject);
     procedure MoveUtBtnClick(Sender: TObject);
+    procedure PageControlChange(Sender: TObject);
     procedure SaveBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -98,6 +101,8 @@ begin
   PageControl.TabIndex   := 0;
   WindowState            := wsNormal;
   StringGrid.SaveOptions := [soDesign, soPosition, soAttributes, soContent];
+
+  PageControlChange(nil);
 end;
 
 procedure TMainForm.FormDestroy(Sender: TObject);
@@ -236,6 +241,15 @@ begin
   UpdateGrid;
 end;
 
+procedure TMainForm.PageControlChange(Sender: TObject);
+begin
+  case PageControl.TabIndex of
+    1: ExportBtn.Enabled := True;
+    2: ExportBtn.Enabled := True;
+  else ExportBtn.Enabled := False;
+  end;
+end;
+
 procedure TMainForm.UpdateGrid;
 var
   i: longint;
@@ -275,10 +289,16 @@ end;
 procedure TMainForm.ExportBtnClick(Sender: TObject);
 begin
   SaveDialog.Filter := 'FreePascal unit|*.pas;';
-  if SaveDialog.Execute then
+  if PageControl.TabIndex = 1 then
   begin
-    SynEdit.Lines.SaveToFile(SaveDialog.FileName);
-  end;
+    if SaveDialog.Execute then
+      SynEdit.Lines.SaveToFile(SaveDialog.FileName);
+  end else
+    if PageControl.TabIndex = 2 then
+    begin
+      if SaveDialog.Execute then
+        SynEdit1.Lines.SaveToFile(SaveDialog.FileName);
+    end;
 end;
 
 procedure TMainForm.RunBtnClick(Sender: TObject);
@@ -344,6 +364,12 @@ begin
   for i := 0 to Builder.Document.Count -1 do
     SynEdit.Append(Builder.Document[i]);
   SynEdit.EndUpdate;
+  UpdateButton(True);
+
+  SynEdit1.BeginUpdate(True);
+  for i := 0 to Builder.Resources.Count -1 do
+    SynEdit1.Append(Builder.Resources[i]);
+  SynEdit1.EndUpdate;
   UpdateButton(True);
 
   UnitList := TStringList.Create;

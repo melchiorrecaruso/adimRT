@@ -81,6 +81,7 @@ type
     FFactoredUnits: TStringList;
     FIdentifiers: TStringList;
     FDocument: TStringList;
+    FResources: TStringList;
 
     FMessage: string;
     FOnMessage: TThreadMethod;
@@ -99,6 +100,9 @@ type
     procedure AddDegreeCelsiusUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddDegreeFahrenheitUnit(const AItem: TToolKitItem; const ASection: TStringList);
 
+    procedure AddResources(const ASection: TStringList);
+    procedure AddResource(const AItem: TToolKitItem; const ASection: TStringList);
+
     procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
 
@@ -110,6 +114,7 @@ type
     property BaseUnits: TStringList read FBaseUnits;
     property FactoredUnits: TStringList read FFactoredUnits;
     property Identifiers: TStringList read FIdentifiers;
+    property Resources: TStringList read FResources;
 
     property Message: string read FMessage;
     property OnMessage: TThreadMethod read FOnMessage write FOnMessage;
@@ -165,6 +170,7 @@ begin
   FFactoredUnits := TStringList.Create;
   FIdentifiers   := TStringList.Create;
   FDocument      := TStringList.Create;
+  FResources     := TStringList.Create;
 end;
 
 destructor TToolKitBuilder.Destroy;
@@ -172,6 +178,7 @@ begin
   FBaseUnits.Destroy;
   FFactoredUnits.Destroy;
   FIdentifiers.Destroy;
+  FResources.Destroy;
   FDocument.Destroy;
   FList.Destroy;
   inherited Destroy;
@@ -184,16 +191,16 @@ begin
   for i := 0 to FList.Count -1 do
   begin;
     if FList[i].FBase = '' then
-     begin
-       FList[i].FExponents := StringToDimensions(FList[i].FDimension);
-     end else
-     begin
-       j := FList.Search(FList[i].FBase, 1);
-       if j <> -1 then
-       begin
-         FList[i].FExponents := FList[j].FExponents;
-       end;
-     end;
+    begin
+      FList[i].FExponents := StringToDimensions(FList[i].FDimension);
+    end else
+    begin
+      j := FList.Search(FList[i].FBase, 1);
+      if j <> -1 then
+      begin
+        FList[i].FExponents := FList[j].FExponents;
+      end;
+    end;
   end;
 
   ExpandUnits;
@@ -223,6 +230,32 @@ begin
   end;
 end;
 
+procedure TToolKitBuilder.AddResources(const ASection: TStringList);
+var
+  i: longint;
+begin
+  for i := 0 to FList.Count -1 do
+  begin
+    if (FList[i].FBase = '') then
+    begin
+      AddResource(FList[i], ASection);
+    end else
+    begin
+      if (FList[i].FFactor = '') then
+      begin
+        AddResource(FList[i], ASection);
+      end else
+        if Pos('%s', FList[i].FFactor) = 0 then
+        begin
+          AddResource(FList[i], ASection);
+        end else
+        begin
+          AddResource(FList[i], ASection);
+        end;
+    end;
+  end;
+end;
+
 function GetDescription(const S: string): string;
 begin
   result := S;
@@ -235,19 +268,12 @@ begin
   FBaseUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
   if AItem.FComment <> '' then
-    ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+    ASection.Add('{ T%s, %s } { @exclude }', [GetUnitID(AItem.FQuantity), AItem.FComment])
   else
-    ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+    ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
 
   ASection.Add('');
-  ASection.Add('resourcestring');
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
-  ASection.Add('');
-
   ASection.Add('const');
-  ASection.Add('  { @exclude }');
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -263,19 +289,12 @@ begin
   FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
   if AItem.FComment <> '' then
-    ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+    ASection.Add('{ T%s, %s } { @exclude }', [GetUnitID(AItem.FQuantity), AItem.FComment])
   else
-    ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+    ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
 
   ASection.Add('');
-  ASection.Add('resourcestring');
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
-  ASection.Add('');
-
   ASection.Add('const');
-  ASection.Add('  { @exclude }');
   ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -301,19 +320,12 @@ begin
       FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
       if AItem.FComment <> '' then
-        ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+        ASection.Add('{ T%s, %s } { @exclude }', [GetUnitID(AItem.FQuantity), AItem.FComment])
       else
-        ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+        ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
 
       ASection.Add('');
-      ASection.Add('resourcestring');
-      ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-      ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-      ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
-      ASection.Add('');
-
       ASection.Add('const');
-      ASection.Add('  { @exclude }');
       ASection.Add('  %sUnit : TFactoredUnit = (', [GetUnitID(AItem.FQuantity)]);
       ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
       ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -332,19 +344,12 @@ begin
   FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
   if AItem.FComment <> '' then
-    ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+    ASection.Add('{ T%s, %s } { @exclude }', [GetUnitID(AItem.FQuantity), AItem.FComment])
   else
-    ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+    ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
 
   ASection.Add('');
-  ASection.Add('resourcestring');
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
-  ASection.Add('');
-
   ASection.Add('const');
-  ASection.Add('  { @exclude }');
   ASection.Add('  %sUnit : TDegreeCelsiusUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -360,19 +365,12 @@ begin
   FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
 
   if AItem.FComment <> '' then
-    ASection.Add('{ T%s, %s }', [GetUnitID(AItem.FQuantity), AItem.FComment])
+    ASection.Add('{ T%s, %s } { @exclude }', [GetUnitID(AItem.FQuantity), AItem.FComment])
   else
-    ASection.Add('{ T%s }', [GetUnitID(AItem.FQuantity)]);
+    ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
 
   ASection.Add('');
-  ASection.Add('resourcestring');
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  { @exclude } %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
-  ASection.Add('');
-
   ASection.Add('const');
-  ASection.Add('  { @exclude }');
   ASection.Add('  %sUnit : TDegreeFahrenheitUnit = (', [GetUnitID(AItem.FQuantity)]);
   ASection.Add('    FDim               : %s;', [GetUnitID(AItem.FExponents)]);
   ASection.Add('    FSymbol            : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
@@ -381,6 +379,13 @@ begin
   ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
   ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
   ASection.Add('');
+end;
+
+procedure TToolKitBuilder.AddResource(const AItem: TToolKitItem; const ASection: TStringList);
+begin
+  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
+  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
+  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
 end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
@@ -634,6 +639,7 @@ var
   i: longint;
   Section0: TStringList;
   Section1: TStringList;
+  Section2: TStringList;
 begin
   if Assigned(FOnStart) then
     Synchronize(FOnStart);
@@ -642,6 +648,7 @@ begin
   FFactoredUnits.Clear;
   FIdentifiers.Clear;
   FDocument.Clear;
+  FResources.Clear;
 
   Section0 := TStringList.Create;
   AddUnits(Section0);
@@ -666,10 +673,26 @@ begin
   end;
   RemoveIncludeDirective(Section1, FDocument, '{#HEADER}');
   RemoveIncludeDirective(Section0, FDocument, '{#UNITSOFMEASUREMENT}');
-
   CleanDocument(FDocument);
+
+
+  Section2 := TStringList.Create;
+  AddResources(Section2);
+
+  FResources.LoadFromFile('skeletonres.pas');
+  for i := 0 to  FResources.Count -1 do
+  begin
+    if CompareText(FResources[i], 'unit skeletonres;') = 0 then
+    begin
+      FResources[i] := 'unit ADimRes;';
+    end;
+  end;
+  RemoveIncludeDirective(Section2, FResources, '{#RESOURCESTRINGS}');
+  CleanDocument(FResources);
+
   Section0.Destroy;
   Section1.Destroy;
+  Section2.Destroy;
   if Assigned(FOnStop) then
     Synchronize(FOnStop);
 end;
