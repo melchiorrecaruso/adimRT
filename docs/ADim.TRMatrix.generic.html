@@ -37,9 +37,9 @@
 <code>type generic TRMatrix&lt;TSpace&gt; = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> of real values (<code>double</code>) with dimension <code>TSpace.N × TSpace.N</code>.
+Generic square matrix of real values (<code>double</code>) with dimension <code>TSpace.N × TSpace.N</code>.
 
-<p>The <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> elements are stored in <a class="normal" href="ADim.TRMatrix.generic.html#a">a</a> 1-based 2D array. Use the default array property <code><a class="normal" href="ADim.TRMatrix.generic.html#a">a</a>[row, col]</code> to read and write individual elements. Concrete types are provided as <a class="normal" href="ADim.html#TR2Matrix">TR2Matrix</a>, <a class="normal" href="ADim.html#TR3Matrix">TR3Matrix</a>, and <a class="normal" href="ADim.html#TR4Matrix">TR4Matrix</a>.</p>
+<p>The matrix elements are stored in a 1-based 2D array. Use the default array property <code>a[row, col]</code> to read and write individual elements. Concrete types are provided as <a class="normal" href="ADim.html#TR2Matrix">TR2Matrix</a>, <a class="normal" href="ADim.html#TR3Matrix">TR3Matrix</a>, and <a class="normal" href="ADim.html#TR4Matrix">TR4Matrix</a>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -116,7 +116,7 @@ Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if at least one element of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> is non-zero.</p>
+Returns <code>True</code> if at least one element of the matrix is non-zero.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -126,7 +126,7 @@ Returns <code>True</code> if at least one element of the <a class="normal" href=
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if all elements of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> are zero.</p>
+Returns <code>True</code> if all elements of the matrix are zero.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -136,7 +136,7 @@ Returns <code>True</code> if all elements of the <a class="normal" href="ADimC.h
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the row-reduced echelon form of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> (Gauss elimination). The original <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> is not modified.</p>
+Returns the row-reduced echelon form of the matrix (Gauss elimination). The original matrix is not modified.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -146,7 +146,7 @@ Returns the row-reduced echelon form of the <a class="normal" href="ADimC.html#M
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>trace</code> of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>, i.e. the sum of the diagonal elements: <code>tr(<a class="normal" href="ADim.TRMatrix.generic.html#a">A</a>) = Σ <a class="normal" href="ADim.TRMatrix.generic.html#a">A</a>[i,i]</code>.</p>
+Returns the trace of the matrix, i.e. the sum of the diagonal elements: <code>tr(A) = Σ A[i,i]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -156,7 +156,7 @@ Returns the <code>trace</code> of the <a class="normal" href="ADimC.html#Matrix-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>transpose</code> of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Element <code>[i,<a class="normal" href="ADim.html#J">j</a>]</code> of the result equals element <code>[<a class="normal" href="ADim.html#J">j</a>,i]</code> of the original.</p>
+Returns the transpose of the matrix. Element <code>[i,j]</code> of the result equals element <code>[j,i]</code> of the original.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -176,7 +176,7 @@ Swaps rows <code>ARow1</code> and <code>ARow2</code> in place.</p>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TRMatrix.generic.html#a">a</a> real scalar and <a class="normal" href="ADim.TRMatrix.generic.html#a">a</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Each element is multiplied by <code>ALeft</code>.</p>
+Returns the product of a real scalar and a matrix. Each element is multiplied by <code>ALeft</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -186,7 +186,7 @@ Returns the product of <a class="normal" href="ADim.TRMatrix.generic.html#a">a</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TRMatrix.generic.html#a">a</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> and <a class="normal" href="ADim.TRMatrix.generic.html#a">a</a> real scalar. Each element is multiplied by <code>ARight</code>.</p>
+Returns the product of a matrix and a real scalar. Each element is multiplied by <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -196,7 +196,7 @@ Returns the product of <a class="normal" href="ADim.TRMatrix.generic.html#a">a</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> product of two matrices. <code>(<a class="normal" href="ADim.TRMatrix.generic.html#a">A</a>·B)[i,<a class="normal" href="ADim.html#J">j</a>] = Σ_k <a class="normal" href="ADim.TRMatrix.generic.html#a">A</a>[i,<a class="normal" href="ADim.html#K">k</a>] · B[<a class="normal" href="ADim.html#K">k</a>,<a class="normal" href="ADim.html#J">j</a>]</code></p>
+Returns the matrix product of two matrices. <code>(A·B)[i,j] = Σ_k A[i,k] · B[k,j]</code></p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -226,7 +226,7 @@ Returns the element-wise difference of two matrices of the same size.</p>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> divided by <a class="normal" href="ADim.TRMatrix.generic.html#a">a</a> real scalar. Each element is divided by <code>ARight</code>.</p>
+Returns the matrix divided by a real scalar. Each element is divided by <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -257,7 +257,7 @@ Returns <code>True</code> if all corresponding elements of the two matrices are 
 </tr>
 <tr><td colspan="2">
 <p>
-Provides access to individual <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> elements using 1-based row and column indices. <code><code>a</code>[1,1]</code> is the top-left element.</p>
+Provides access to individual matrix elements using 1-based row and column indices. <code>a[1,1]</code> is the top-left element.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

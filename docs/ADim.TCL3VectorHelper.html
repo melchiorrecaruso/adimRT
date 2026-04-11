@@ -37,17 +37,17 @@
 <code>type TCL3VectorHelper = record helper for TCL3Vector</code></p>
 <h2 class="description">Description</h2>
 <p>
-Record helper for <a class="normal" href="ADim.TCL3Vector.html">TCL3Vector</a> providing geometric operations specific to grade-1 elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.
+Record helper for <a class="normal" href="ADim.TCL3Vector.html">TCL3Vector</a> providing geometric operations specific to grade-1 elements of <code>Cl(3,0)</code>.
 
 <p>All operations follow the conventions of Clifford algebra over <code>R3</code>: </p>
 
 <ul class="paragraph_spacing">
   <li><p>The geometric product is the fundamental product of the algebra.</p></li>
-  <li><p>The inner (<a class="normal" href="ADim.TCL3VectorHelper.html#Dot-TCL3Multivector-">dot</a>) product lowers the grade of the result.</p></li>
-  <li><p>The outer (<a class="normal" href="ADim.TCL3VectorHelper.html#Wedge-TCL3Multivector-">wedge</a>) product raises the grade of the result.</p></li>
-  <li><p>The <a class="normal" href="ADim.TCL3VectorHelper.html#Dual">dual</a> maps <a class="normal" href="ADim.html#A">a</a> grade-<code><a class="normal" href="ADim.html#K">k</a></code> element to <a class="normal" href="ADim.html#A">a</a> grade-<code>3-<a class="normal" href="ADim.html#K">k</a></code> element via multiplication by <code>e₁₂₃⁻¹</code>* </p></li>
-  <li><p>The <a class="normal" href="ADim.TCL3VectorHelper.html#Cross-TCL3Vector-">cross</a> product is the <a class="normal" href="ADim.TCL3VectorHelper.html#Dual">dual</a> of the <a class="normal" href="ADim.TCL3VectorHelper.html#Wedge-TCL3Multivector-">wedge</a> product: <code>u × <a class="normal" href="ADim.html#V">v</a> = (u ∧ <a class="normal" href="ADim.html#V">v</a>)* </code> and is specific to <code>ℝ³</code>.</p></li>
-  <li><p><a class="normal" href="ADim.TCL3VectorHelper.html#Projection-TCL3Multivector-">Projection</a>, <a class="normal" href="ADim.TCL3VectorHelper.html#Rejection-TCL3Multivector-">rejection</a>, <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Multivector-">reflection</a> and <a class="normal" href="ADim.TCL3VectorHelper.html#Rotation-TCL3Multivector-TCL3Multivector-">rotation</a> are defined via the geometric product and its <a class="normal" href="ADim.TCL3VectorHelper.html#Inverse">inverse</a>.</p></li>
+  <li><p>The inner (dot) product lowers the grade of the result.</p></li>
+  <li><p>The outer (wedge) product raises the grade of the result.</p></li>
+  <li><p>The dual maps a grade-<code>k</code> element to a grade-<code>3-k</code> element via multiplication by <code>e₁₂₃⁻¹</code>* </p></li>
+  <li><p>The cross product is the dual of the wedge product: <code>u × v = (u ∧ v)* </code> and is specific to <code>ℝ³</code>.</p></li>
+  <li><p>Projection, rejection, reflection and rotation are defined via the geometric product and its inverse.</p></li>
 </ul>
 
 <p></p>
@@ -220,7 +220,7 @@ Record helper for <a class="normal" href="ADim.TCL3Vector.html">TCL3Vector</a> p
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the Clifford <code>conjugate</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. The <code>conjugate</code> combines reversion and grade involution. For <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> (<code><a class="normal" href="ADim.html#K">k</a> = 1</code>): <code><a class="normal" href="ADim.html#V">v</a>† = -<a class="normal" href="ADim.html#V">v</a></code>.</p>
+Returns the Clifford conjugate of the vector. The conjugate combines reversion and grade involution. For a vector (<code>k = 1</code>): <code>v† = -v</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -230,7 +230,7 @@ Returns the Clifford <code>conjugate</code> of the <a class="normal" href="ADimC
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>cross</code> product of two vectors. The <code>cross</code> product is the <a class="normal" href="ADim.TCL3VectorHelper.html#Dual">dual</a> of the <a class="normal" href="ADim.TCL3VectorHelper.html#Wedge-TCL3Multivector-">wedge</a> product: <code>u × <a class="normal" href="ADim.html#V">v</a> = (u ∧ <a class="normal" href="ADim.html#V">v</a>)* = -(u ∧ <a class="normal" href="ADim.html#V">v</a>) · e₁₂₃⁻¹</code>. The result is <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> perpendicular to both operands with magnitude <code>|u||<a class="normal" href="ADim.html#V">v</a>|<a class="normal" href="ADim.html#Sin-TQuantity-">sin</a>(θ)</code>, specific to <code>ℝ³</code>. </p>
+Returns the cross product of two vectors. The cross product is the dual of the wedge product: <code>u × v = (u ∧ v)* = -(u ∧ v) · e₁₂₃⁻¹</code>. The result is a vector perpendicular to both operands with magnitude <code>|u||v|sin(θ)</code>, specific to <code>ℝ³</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -245,7 +245,7 @@ Returns the <code>cross</code> product of two vectors. The <code>cross</code> pr
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inner (<a class="normal" href="ADim.TCL3VectorHelper.html#Dot-TCL3Multivector-">dot</a>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.html#A">a</a> bivector. Lowers the grade: <code>grade(1) · grade(2) → grade(1) = <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a></code>. </p>
+Returns the inner (dot) product of a vector and a bivector. Lowers the grade: <code>grade(1) · grade(2) → grade(1) = vector</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -260,7 +260,7 @@ Returns the inner (<a class="normal" href="ADim.TCL3VectorHelper.html#Dot-TCL3Mu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inner (<code>dot</code>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.html#A">a</a> multivector. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to grade mixing. </p>
+Returns the inner (dot) product of a vector and a multivector. The result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to grade mixing. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -275,7 +275,7 @@ Returns the inner (<code>dot</code>) product of <a class="normal" href="ADim.htm
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inner (<a class="normal" href="ADim.TCL3VectorHelper.html#Dot-TCL3Multivector-">dot</a>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.html#A">a</a> trivector. Lowers the grade: <code>grade(1) · grade(3) → grade(2) = bivector</code>. </p>
+Returns the inner (dot) product of a vector and a trivector. Lowers the grade: <code>grade(1) · grade(3) → grade(2) = bivector</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -290,7 +290,7 @@ Returns the inner (<a class="normal" href="ADim.TCL3VectorHelper.html#Dot-TCL3Mu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inner (<a class="normal" href="ADim.TCL3VectorHelper.html#Dot-TCL3Multivector-">dot</a>) product of two vectors. Lowers the grade: <code>grade(1) · grade(1) → grade(0) = scalar</code>. Result: <code>u · <a class="normal" href="ADim.html#V">v</a> = m1₁·m1₂ + <a class="normal" href="ADim.html#m2">m2</a>₁·<a class="normal" href="ADim.html#m2">m2</a>₂ + <a class="normal" href="ADim.html#m3">m3</a>₁·<a class="normal" href="ADim.html#m3">m3</a>₂</code>. </p>
+Returns the inner (dot) product of two vectors. Lowers the grade: <code>grade(1) · grade(1) → grade(0) = scalar</code>. Result: <code>u · v = m1₁·m1₂ + m2₁·m2₂ + m3₁·m3₂</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -305,7 +305,7 @@ Returns the inner (<a class="normal" href="ADim.TCL3VectorHelper.html#Dot-TCL3Mu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>dual</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> with respect to the pseudoscalar <code>e₁₂₃</code>. The <code>dual</code> maps grade-1 elements to grade-2 (bivector) elements: <code><a class="normal" href="ADim.html#V">v</a>* = <a class="normal" href="ADim.html#V">v</a> · e₁₂₃⁻¹</code>. For example: <code>e₁* = -e₂∧e₃</code>, <code>e₂* = e₁∧e₃</code>, <code>e₃* = -e₁∧e₂</code>.</p>
+Returns the dual of the vector with respect to the pseudoscalar <code>e₁₂₃</code>. The dual maps grade-1 elements to grade-2 (bivector) elements: <code>v* = v · e₁₂₃⁻¹</code>. For example: <code>e₁* = -e₂∧e₃</code>, <code>e₂* = e₁∧e₃</code>, <code>e₃* = -e₁∧e₂</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -315,11 +315,11 @@ Returns the <code>dual</code> of the <a class="normal" href="ADimC.html#Vector-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> new <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> containing only the components specified by <code>AComponents</code>. Components not present in <code>AComponents</code> are set to zero. Useful for extracting specific basis blade contributions from <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. </p>
+Returns a new vector containing only the components specified by <code>AComponents</code>. Components not present in <code>AComponents</code> are set to zero. Useful for extracting specific basis blade contributions from a vector. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AComponents</dt>
-<dd><a class="normal" href="ADim.html#A">A</a> set of <a class="normal" href="ADim.html#TCL3MultivectorComponent">TCL3MultivectorComponent</a> values identifying the components to retain. Valid values are <code><a class="normal" href="ADim.html#mcm1">mcm1</a></code>, <code><a class="normal" href="ADim.html#mcm2">mcm2</a></code>, <code><a class="normal" href="ADim.html#mcm3">mcm3</a></code>.</dd>
+<dd>A set of <a class="normal" href="ADim.html#TCL3MultivectorComponent">TCL3MultivectorComponent</a> values identifying the components to retain. Valid values are <code>mcm1</code>, <code>mcm2</code>, <code>mcm3</code>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -330,7 +330,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> new <a class="normal" href="A
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>inverse</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> under the geometric product. For <a class="normal" href="ADim.html#A">a</a> non-zero <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code><a class="normal" href="ADim.html#V">v</a></code>: <code><a class="normal" href="ADim.html#V">v</a>⁻¹ = <a class="normal" href="ADim.html#V">v</a> / |<a class="normal" href="ADim.html#V">v</a>|²</code>, since <code><a class="normal" href="ADim.html#V">v</a>² = |<a class="normal" href="ADim.html#V">v</a>|² &gt; 0</code> in <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</p>
+Returns the inverse of the vector under the geometric product. For a non-zero vector <code>v</code>: <code>v⁻¹ = v / |v|²</code>, since <code>v² = |v|² &gt; 0</code> in <code>Cl(3,0)</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -340,7 +340,7 @@ Returns the <code>inverse</code> of the <a class="normal" href="ADimC.html#Vecto
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the Euclidean <code>norm</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>: <code>|<a class="normal" href="ADim.html#V">v</a>| = √(m1² + <a class="normal" href="ADim.html#m2">m2</a>² + <a class="normal" href="ADim.html#m3">m3</a>²)</code>. Defined as the square root of <code><a class="normal" href="ADim.html#V">v</a> · ṽ = <a class="normal" href="ADim.html#V">v</a>²</code> since <code><a class="normal" href="ADim.html#V">v</a>² ≥ 0</code> for vectors in <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</p>
+Returns the Euclidean norm of the vector: <code>|v| = √(m1² + m2² + m3²)</code>. Defined as the square root of <code>v · ṽ = v²</code> since <code>v² ≥ 0</code> for vectors in <code>Cl(3,0)</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -350,7 +350,7 @@ Returns the Euclidean <code>norm</code> of the <a class="normal" href="ADimC.htm
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the unit <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> in the same direction. Each component is divided by <a class="normal" href="ADim.TCL3VectorHelper.html#Norm">Norm</a>.</p>
+Returns the unit vector in the same direction. Each component is divided by <a class="normal" href="ADim.TCL3VectorHelper.html#Norm">Norm</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -360,7 +360,7 @@ Returns the unit <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TCo
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Projection-TCL3Multivector-">projection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> onto <a class="normal" href="ADim.html#A">a</a> bivector subspace. Defined as: <code>proj(<a class="normal" href="ADim.html#V">v</a>, B) = (<a class="normal" href="ADim.html#V">v</a> · B⁻¹) ∧ B</code>. The result is the component of <code><a class="normal" href="ADim.html#V">v</a></code> lying in the plane of <code>B</code>. </p>
+Returns the projection of the vector onto a bivector subspace. Defined as: <code>proj(v, B) = (v · B⁻¹) ∧ B</code>. The result is the component of <code>v</code> lying in the plane of <code>B</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -375,7 +375,7 @@ Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Projection-TCL3Mu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>projection</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> onto <a class="normal" href="ADim.html#A">a</a> multivector subspace. Defined as: <code>proj(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#m">M</a>) = (<a class="normal" href="ADim.html#V">v</a> · <a class="normal" href="ADim.html#m">M</a>⁻¹) ∧ <a class="normal" href="ADim.html#m">M</a></code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to grade mixing. </p>
+Returns the projection of the vector onto a multivector subspace. Defined as: <code>proj(v, M) = (v · M⁻¹) ∧ M</code>. The result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to grade mixing. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -390,7 +390,7 @@ Returns the <code>projection</code> of the <a class="normal" href="ADimC.html#Ve
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Projection-TCL3Multivector-">projection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> onto <a class="normal" href="ADim.html#A">a</a> trivector subspace. Defined as: <code>proj(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#T">T</a>) = (<a class="normal" href="ADim.html#V">v</a> · <a class="normal" href="ADim.html#T">T</a>⁻¹) ∧ <a class="normal" href="ADim.html#T">T</a></code>. Since the trivector spans all of <code>ℝ³</code>, the <a class="normal" href="ADim.TCL3VectorHelper.html#Projection-TCL3Multivector-">projection</a> of any <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> onto it returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> unchanged. </p>
+Returns the projection of the vector onto a trivector subspace. Defined as: <code>proj(v, T) = (v · T⁻¹) ∧ T</code>. Since the trivector spans all of <code>ℝ³</code>, the projection of any vector onto it returns the vector unchanged. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -405,11 +405,11 @@ Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Projection-TCL3Mu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Projection-TCL3Multivector-">projection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> onto another <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Defined as: <code>proj(u, <a class="normal" href="ADim.html#V">v</a>) = (u · <a class="normal" href="ADim.html#V">v</a>⁻¹) ∧ <a class="normal" href="ADim.html#V">v</a> = (u · <a class="normal" href="ADim.html#V">v</a> / |<a class="normal" href="ADim.html#V">v</a>|²) · <a class="normal" href="ADim.html#V">v</a></code>. The result is the component of <code>u</code> parallel to <code><a class="normal" href="ADim.html#V">v</a></code>. </p>
+Returns the projection of the vector onto another vector. Defined as: <code>proj(u, v) = (u · v⁻¹) ∧ v = (u · v / |v|²) · v</code>. The result is the component of <code>u</code> parallel to <code>v</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> defining the direction to project onto.</dd>
+<dd>The vector defining the direction to project onto.</dd>
 </dl>
 </td></tr>
 </table>
@@ -420,7 +420,7 @@ Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Projection-TCL3Mu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>reciprocal</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>: <code>ṽ / (<a class="normal" href="ADim.html#V">v</a> · ṽ)</code>. Equivalent to <a class="normal" href="ADim.TCL3VectorHelper.html#Inverse">Inverse</a> for non-zero vectors.</p>
+Returns the reciprocal of the vector: <code>ṽ / (v · ṽ)</code>. Equivalent to <a class="normal" href="ADim.TCL3VectorHelper.html#Inverse">Inverse</a> for non-zero vectors.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -430,11 +430,11 @@ Returns the <code>reciprocal</code> of the <a class="normal" href="ADimC.html#Ve
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Multivector-">reflection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> through <a class="normal" href="ADim.html#A">a</a> bivector. Defined as: <code>reflect(<a class="normal" href="ADim.html#V">v</a>, B) = B · <a class="normal" href="ADim.html#V">v</a> · B⁻¹</code>. Reflects <code><a class="normal" href="ADim.html#V">v</a></code> through the plane represented by <code>B</code>, reversing the normal component and preserving the in-plane component. </p>
+Returns the reflection of the vector through a bivector. Defined as: <code>reflect(v, B) = B · v · B⁻¹</code>. Reflects <code>v</code> through the plane represented by <code>B</code>, reversing the normal component and preserving the in-plane component. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The bivector defining the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Multivector-">reflection</a> plane.</dd>
+<dd>The bivector defining the reflection plane.</dd>
 </dl>
 </td></tr>
 </table>
@@ -445,11 +445,11 @@ Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Mu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>reflection</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> through <a class="normal" href="ADim.html#A">a</a> multivector. Defined as: <code>reflect(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#m">M</a>) = <a class="normal" href="ADim.html#m">M</a> · <a class="normal" href="ADim.html#V">v</a> · <a class="normal" href="ADim.html#m">M</a>⁻¹</code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to grade mixing. </p>
+Returns the reflection of the vector through a multivector. Defined as: <code>reflect(v, M) = M · v · M⁻¹</code>. The result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to grade mixing. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The multivector defining the <code>reflection</code> element.</dd>
+<dd>The multivector defining the reflection element.</dd>
 </dl>
 </td></tr>
 </table>
@@ -460,11 +460,11 @@ Returns the <code>reflection</code> of the <a class="normal" href="ADimC.html#Ve
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Multivector-">reflection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> through <a class="normal" href="ADim.html#A">a</a> trivector. Defined as: <code>reflect(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#T">T</a>) = <a class="normal" href="ADim.html#T">T</a> · <a class="normal" href="ADim.html#V">v</a> · <a class="normal" href="ADim.html#T">T</a>⁻¹</code>. Since the pseudoscalar commutes with odd-grade elements up to <a class="normal" href="ADim.html#A">a</a> sign, the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Multivector-">reflection</a> through <a class="normal" href="ADim.html#A">a</a> trivector negates the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>: <code><a class="normal" href="ADim.html#T">T</a>·<a class="normal" href="ADim.html#V">v</a>·<a class="normal" href="ADim.html#T">T</a>⁻¹ = -<a class="normal" href="ADim.html#V">v</a></code>. </p>
+Returns the reflection of the vector through a trivector. Defined as: <code>reflect(v, T) = T · v · T⁻¹</code>. Since the pseudoscalar commutes with odd-grade elements up to a sign, the reflection through a trivector negates the vector: <code>T·v·T⁻¹ = -v</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The trivector defining the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Multivector-">reflection</a> element.</dd>
+<dd>The trivector defining the reflection element.</dd>
 </dl>
 </td></tr>
 </table>
@@ -475,11 +475,11 @@ Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Mu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Multivector-">reflection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> through another <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Defined as: <code>reflect(u, <a class="normal" href="ADim.html#V">v</a>) = <a class="normal" href="ADim.html#V">v</a> · u · <a class="normal" href="ADim.html#V">v</a>⁻¹</code>. Reflects <code>u</code> through the line defined by <code><a class="normal" href="ADim.html#V">v</a></code>, reversing the perpendicular component and preserving the parallel one. </p>
+Returns the reflection of the vector through another vector. Defined as: <code>reflect(u, v) = v · u · v⁻¹</code>. Reflects <code>u</code> through the line defined by <code>v</code>, reversing the perpendicular component and preserving the parallel one. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> defining the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Multivector-">reflection</a> axis.</dd>
+<dd>The vector defining the reflection axis.</dd>
 </dl>
 </td></tr>
 </table>
@@ -490,7 +490,7 @@ Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Reflection-TCL3Mu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Rejection-TCL3Multivector-">rejection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> from <a class="normal" href="ADim.html#A">a</a> bivector subspace. Defined as: <code>rej(<a class="normal" href="ADim.html#V">v</a>, B) = <a class="normal" href="ADim.html#V">v</a> - proj(<a class="normal" href="ADim.html#V">v</a>, B)</code>. The result is the component of <code><a class="normal" href="ADim.html#V">v</a></code> perpendicular to the plane of <code>B</code>. </p>
+Returns the rejection of the vector from a bivector subspace. Defined as: <code>rej(v, B) = v - proj(v, B)</code>. The result is the component of <code>v</code> perpendicular to the plane of <code>B</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -505,7 +505,7 @@ Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Rejection-TCL3Mul
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>rejection</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> from <a class="normal" href="ADim.html#A">a</a> multivector subspace. Defined as: <code>rej(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#m">M</a>) = <a class="normal" href="ADim.html#V">v</a> - proj(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#m">M</a>)</code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to grade mixing. </p>
+Returns the rejection of the vector from a multivector subspace. Defined as: <code>rej(v, M) = v - proj(v, M)</code>. The result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to grade mixing. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -520,7 +520,7 @@ Returns the <code>rejection</code> of the <a class="normal" href="ADimC.html#Vec
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Rejection-TCL3Multivector-">rejection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> from <a class="normal" href="ADim.html#A">a</a> trivector subspace. Defined as: <code>rej(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#T">T</a>) = <a class="normal" href="ADim.html#V">v</a> - proj(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#T">T</a>)</code>. In <code>ℝ³</code> the <a class="normal" href="ADim.TCL3VectorHelper.html#Rejection-TCL3Multivector-">rejection</a> of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> from <a class="normal" href="ADim.html#A">a</a> trivector is always zero, returned as <a class="normal" href="ADim.html#A">a</a> scalar <code>0</code>. </p>
+Returns the rejection of the vector from a trivector subspace. Defined as: <code>rej(v, T) = v - proj(v, T)</code>. In <code>ℝ³</code> the rejection of a vector from a trivector is always zero, returned as a scalar <code>0</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -535,11 +535,11 @@ Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Rejection-TCL3Mul
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Rejection-TCL3Multivector-">rejection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> from another <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Defined as: <code>rej(u, <a class="normal" href="ADim.html#V">v</a>) = u - proj(u, <a class="normal" href="ADim.html#V">v</a>)</code>. The result is the component of <code>u</code> perpendicular to <code><a class="normal" href="ADim.html#V">v</a></code>. </p>
+Returns the rejection of the vector from another vector. Defined as: <code>rej(u, v) = u - proj(u, v)</code>. The result is the component of <code>u</code> perpendicular to <code>v</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> defining the direction to reject from.</dd>
+<dd>The vector defining the direction to reject from.</dd>
 </dl>
 </td></tr>
 </table>
@@ -550,7 +550,7 @@ Returns the <a class="normal" href="ADim.TCL3VectorHelper.html#Rejection-TCL3Mul
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>reverse</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. The <code>reverse</code> of <a class="normal" href="ADim.html#A">a</a> grade-<code><a class="normal" href="ADim.html#K">k</a></code> blade changes sign by <code>(-1)&circ;(<a class="normal" href="ADim.html#K">k</a>·(<a class="normal" href="ADim.html#K">k</a>-1)/2)</code>. For <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> (<code><a class="normal" href="ADim.html#K">k</a> = 1</code>): <code>ṽ = <a class="normal" href="ADim.html#V">v</a></code> (unchanged).</p>
+Returns the reverse of the vector. The reverse of a grade-<code>k</code> blade changes sign by <code>(-1)&circ;(k·(k-1)/2)</code>. For a vector (<code>k = 1</code>): <code>ṽ = v</code> (unchanged).</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -560,7 +560,7 @@ Returns the <code>reverse</code> of the <a class="normal" href="ADimC.html#Vecto
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> rotated by the rotor defined by two bivectors. The <a class="normal" href="ADim.TCL3VectorHelper.html#Rotation-TCL3Multivector-TCL3Multivector-">rotation</a> is applied as: <code><a class="normal" href="ADim.html#V">v</a>' = R · <a class="normal" href="ADim.html#V">v</a> · R⁻¹</code>.  </p>
+Returns the vector rotated by the rotor defined by two bivectors. The rotation is applied as: <code>v' = R · v · R⁻¹</code>.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
@@ -577,7 +577,7 @@ Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> rotated by the rotor defined by two multivectors. The <code>rotation</code> is applied as: <code><a class="normal" href="ADim.html#V">v</a>' = R · <a class="normal" href="ADim.html#V">v</a> · R⁻¹</code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to potential grade mixing.  </p>
+Returns the vector rotated by the rotor defined by two multivectors. The rotation is applied as: <code>v' = R · v · R⁻¹</code>. The result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> due to potential grade mixing.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
@@ -594,7 +594,7 @@ Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> rotated by the rotor defined by two trivectors. The <a class="normal" href="ADim.TCL3VectorHelper.html#Rotation-TCL3Multivector-TCL3Multivector-">rotation</a> is applied as: <code><a class="normal" href="ADim.html#V">v</a>' = R · <a class="normal" href="ADim.html#V">v</a> · R⁻¹</code>.  </p>
+Returns the vector rotated by the rotor defined by two trivectors. The rotation is applied as: <code>v' = R · v · R⁻¹</code>.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
@@ -611,13 +611,13 @@ Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> rotated by the rotor defined by two vectors. The rotor is constructed as <code>R = AVector2 · AVector1</code> (normalised to <a class="normal" href="ADim.html#A">a</a> unit rotor). The <a class="normal" href="ADim.TCL3VectorHelper.html#Rotation-TCL3Multivector-TCL3Multivector-">rotation</a> is applied as: <code><a class="normal" href="ADim.html#V">v</a>' = R · <a class="normal" href="ADim.html#V">v</a> · R⁻¹</code>. The <a class="normal" href="ADim.TCL3VectorHelper.html#Rotation-TCL3Multivector-TCL3Multivector-">rotation</a> is in the plane spanned by <code>AVector1</code> and <code>AVector2</code>, by twice the angle between them.  </p>
+Returns the vector rotated by the rotor defined by two vectors. The rotor is constructed as <code>R = AVector2 · AVector1</code> (normalised to a unit rotor). The rotation is applied as: <code>v' = R · v · R⁻¹</code>. The rotation is in the plane spanned by <code>AVector1</code> and <code>AVector2</code>, by twice the angle between them.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
-<dd>The first <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> defining the <a class="normal" href="ADim.TCL3VectorHelper.html#Rotation-TCL3Multivector-TCL3Multivector-">rotation</a> plane.</dd>
+<dd>The first vector defining the rotation plane.</dd>
 <dt>AVector2</dt>
-<dd>The second <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> defining the <a class="normal" href="ADim.TCL3VectorHelper.html#Rotation-TCL3Multivector-TCL3Multivector-">rotation</a> plane.</dd>
+<dd>The second vector defining the rotation plane.</dd>
 </dl>
 </td></tr>
 </table>
@@ -628,7 +628,7 @@ Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> is numerically equal to the given multivector within the default floating point tolerance. All non-<a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components of <code>AValue</code> must be negligible. </p>
+Returns <code>True</code> if the vector is numerically equal to the given multivector within the default floating point tolerance. All non-vector components of <code>AValue</code> must be negligible. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
@@ -647,7 +647,7 @@ Returns <code>True</code> if the two vectors are numerically equal within the de
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
-<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to compare against.</dd>
+<dd>The vector to compare against.</dd>
 </dl>
 </td></tr>
 </table>
@@ -658,7 +658,7 @@ Returns <code>True</code> if the two vectors are numerically equal within the de
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the squared Euclidean <a class="normal" href="ADim.TCL3VectorHelper.html#Norm">norm</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>: <code>|<a class="normal" href="ADim.html#V">v</a>|² = m1² + <a class="normal" href="ADim.html#m2">m2</a>² + <a class="normal" href="ADim.html#m3">m3</a>²</code>. Avoids the square root computation of <a class="normal" href="ADim.TCL3VectorHelper.html#Norm">Norm</a>.</p>
+Returns the squared Euclidean norm of the vector: <code>|v|² = m1² + m2² + m3²</code>. Avoids the square root computation of <a class="normal" href="ADim.TCL3VectorHelper.html#Norm">Norm</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -668,7 +668,7 @@ Returns the squared Euclidean <a class="normal" href="ADim.TCL3VectorHelper.html
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>. All components are zero except <code>m1</code>, <code><a class="normal" href="ADim.html#m2">m2</a></code>, <code><a class="normal" href="ADim.html#m3">m3</a></code>.</p>
+Converts the vector to a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>. All components are zero except <code>m1</code>, <code>m2</code>, <code>m3</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -678,7 +678,7 @@ Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to its default string representation. The format is <code>m1·e₁ + <a class="normal" href="ADim.html#m2">m2</a>·e₂ + <a class="normal" href="ADim.html#m3">m3</a>·e₃</code>.</p>
+Converts the vector to its default string representation. The format is <code>m1·e₁ + m2·e₂ + m3·e₃</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -688,7 +688,7 @@ Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to <a class="normal" href="ADim.html#A">a</a> formatted string with controlled precision. The format is <code>m1·e₁ + <a class="normal" href="ADim.html#m2">m2</a>·e₂ + <a class="normal" href="ADim.html#m3">m3</a>·e₃</code>.  </p>
+Converts the vector to a formatted string with controlled precision. The format is <code>m1·e₁ + m2·e₂ + m3·e₃</code>.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrecision</dt>
@@ -705,7 +705,7 @@ Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the outer (<a class="normal" href="ADim.TCL3VectorHelper.html#Wedge-TCL3Multivector-">wedge</a>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.html#A">a</a> bivector. Raises the grade: <code>grade(1) ∧ grade(2) → grade(3) = trivector</code>. The result represents the oriented volume spanned by the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and the bivector. </p>
+Returns the outer (wedge) product of a vector and a bivector. Raises the grade: <code>grade(1) ∧ grade(2) → grade(3) = trivector</code>. The result represents the oriented volume spanned by the vector and the bivector. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -720,7 +720,7 @@ Returns the outer (<a class="normal" href="ADim.TCL3VectorHelper.html#Wedge-TCL3
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the outer (<code>wedge</code>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.html#A">a</a> multivector. Only components of <code>AVector</code> up to grade 2 contribute to <a class="normal" href="ADim.html#A">a</a> non-zero result. </p>
+Returns the outer (wedge) product of a vector and a multivector. Only components of <code>AVector</code> up to grade 2 contribute to a non-zero result. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -735,7 +735,7 @@ Returns the outer (<code>wedge</code>) product of <a class="normal" href="ADim.h
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the outer (<a class="normal" href="ADim.TCL3VectorHelper.html#Wedge-TCL3Multivector-">wedge</a>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.html#A">a</a> trivector. Always zero in <code>ℝ³</code>: <code>grade(1) ∧ grade(3) → grade(4) = 0</code>. </p>
+Returns the outer (wedge) product of a vector and a trivector. Always zero in <code>ℝ³</code>: <code>grade(1) ∧ grade(3) → grade(4) = 0</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -750,7 +750,7 @@ Returns the outer (<a class="normal" href="ADim.TCL3VectorHelper.html#Wedge-TCL3
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the outer (<a class="normal" href="ADim.TCL3VectorHelper.html#Wedge-TCL3Multivector-">wedge</a>) product of two vectors. Raises the grade: <code>grade(1) ∧ grade(1) → grade(2) = bivector</code>. The result represents the oriented plane spanned by the two vectors. </p>
+Returns the outer (wedge) product of two vectors. Raises the grade: <code>grade(1) ∧ grade(1) → grade(2) = bivector</code>. The result represents the oriented plane spanned by the two vectors. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>

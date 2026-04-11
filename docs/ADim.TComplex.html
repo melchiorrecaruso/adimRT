@@ -37,16 +37,16 @@
 <code>type TComplex = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number in Cartesian form: <code>z = <a class="normal" href="ADim.TComplex.html#Re">Re</a> + i·<a class="normal" href="ADim.TComplex.html#Im">Im</a></code>.
+Represents a complex number in Cartesian form: <code>z = Re + i·Im</code>.
 
-<p><a class="normal" href="ADim.html#A">A</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number consists of: </p>
+<p>A complex number consists of: </p>
 
 <ul class="paragraph_spacing">
-  <li><p><strong><a class="normal" href="ADim.TComplex.html#Re">Re</a></strong>: the real part</p></li>
-  <li><p><strong><a class="normal" href="ADim.TComplex.html#Im">Im</a></strong>: the imaginary part</p></li>
+  <li><p><strong>Re</strong>: the real part</p></li>
+  <li><p><strong>Im</strong>: the imaginary part</p></li>
 </ul>
 
-<p> The imaginary unit <code>i</code> is defined by <code>i² = -1</code>. All arithmetic operations follow standard <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number algebra.</p>
+<p> The imaginary unit <code>i</code> is defined by <code>i² = -1</code>. All arithmetic operations follow standard complex number algebra.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -179,7 +179,7 @@ Represents <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="AD
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the argument (phase angle) of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number, in radians. The argument is defined as <code>φ = <a class="normal" href="ADim.html#ArcTan-double-">arctan</a>(<a class="normal" href="ADim.TComplex.html#Im">Im</a> / <a class="normal" href="ADim.TComplex.html#Re">Re</a>)</code>, adjusted for quadrant. Returns <a class="normal" href="ADim.html#A">a</a> value in the range <code></code>((-π, π]).</p>
+Returns the argument (phase angle) of the complex number, in radians. The argument is defined as <code>φ = arctan(Im / Re)</code>, adjusted for quadrant. Returns a value in the range <code>[-π, π]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -189,7 +189,7 @@ Returns the argument (phase angle) of the <a class="normal" href="ADimC.html#Com
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <code>conjugate</code> of the number. If <code>z = <a class="normal" href="ADim.html#A">a</a> + i·b</code>, the <code>conjugate</code> is <code>z* = <a class="normal" href="ADim.html#A">a</a> - i·b</code>.</p>
+Returns the complex conjugate of the number. If <code>z = a + i·b</code>, the conjugate is <code>z* = a - i·b</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -199,7 +199,7 @@ Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number is not <a class="normal" href="ADim.TComplex.html#Zero">zero</a>, i.e. at least one of <code><a class="normal" href="ADim.TComplex.html#Re">Re</a></code> or <code><a class="normal" href="ADim.TComplex.html#Im">Im</a></code> is non-<a class="normal" href="ADim.TComplex.html#Zero">zero</a>.</p>
+Returns <code>True</code> if the complex number is not zero, i.e. at least one of <code>Re</code> or <code>Im</code> is non-zero.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -209,7 +209,7 @@ Returns <code>True</code> if the <a class="normal" href="ADimC.html#Complex-doub
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number is <a class="normal" href="ADim.TComplex.html#Zero">zero</a>, i.e. both <code><a class="normal" href="ADim.TComplex.html#Re">Re</a> = 0</code> and <code><a class="normal" href="ADim.TComplex.html#Im">Im</a> = 0</code>.</p>
+Returns <code>True</code> if the complex number is zero, i.e. both <code>Re = 0</code> and <code>Im = 0</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -219,7 +219,7 @@ Returns <code>True</code> if the <a class="normal" href="ADimC.html#Complex-doub
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the modulus (magnitude) of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number. Defined as <code>|z| = √(<a class="normal" href="ADim.TComplex.html#Re">Re</a>² + <a class="normal" href="ADim.TComplex.html#Im">Im</a>²)</code>.</p>
+Returns the modulus (magnitude) of the complex number. Defined as <code>|z| = √(Re² + Im²)</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -229,11 +229,11 @@ Returns the modulus (magnitude) of the <a class="normal" href="ADimC.html#Comple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>reciprocal</code> of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number: <code>1 / z</code>. </p>
+Returns the reciprocal of the complex number: <code>1 / z</code>. </p>
 <h6 class="description_section">Exceptions raised</h6>
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
-<dd>if the number is <a class="normal" href="ADim.TComplex.html#Zero">zero</a>, i.e. <code>|z| = 0</code>.</dd>
+<dd>if the number is zero, i.e. <code>|z| = 0</code>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -244,7 +244,7 @@ Returns the <code>reciprocal</code> of the <a class="normal" href="ADimC.html#Co
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the squared modulus of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number. Defined as <code>|z|² = <a class="normal" href="ADim.TComplex.html#Re">Re</a>² + <a class="normal" href="ADim.TComplex.html#Im">Im</a>²</code>. Avoids the square root computation of <a class="normal" href="ADim.TComplex.html#Norm">Norm</a>.</p>
+Returns the squared modulus of the complex number. Defined as <code>|z|² = Re² + Im²</code>. Avoids the square root computation of <a class="normal" href="ADim.TComplex.html#Norm">Norm</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -254,7 +254,7 @@ Returns the squared modulus of the <a class="normal" href="ADimC.html#Complex-do
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number to its default string representation. The format is <code><a class="normal" href="ADim.html#A">a</a> + bi</code> or <code><a class="normal" href="ADim.html#A">a</a> - bi</code>.</p>
+Converts the complex number to its default string representation. The format is <code>a + bi</code> or <code>a - bi</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -264,7 +264,7 @@ Converts the <a class="normal" href="ADimC.html#Complex-double-double-">complex<
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number to <a class="normal" href="ADim.html#A">a</a> formatted string with controlled precision.  </p>
+Converts the complex number to a formatted string with controlled precision.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrecision</dt>
@@ -281,7 +281,7 @@ Converts the <a class="normal" href="ADimC.html#Complex-double-double-">complex<
 </tr>
 <tr><td colspan="2">
 <p>
-Sets the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number to <code>zero</code>. After this call <code><a class="normal" href="ADim.TComplex.html#Re">Re</a> = 0.0</code> and <code><a class="normal" href="ADim.TComplex.html#Im">Im</a> = 0.0</code>. Useful to reset <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number before accumulating sums.</p>
+Sets the complex number to zero. After this call <code>Re = 0.0</code> and <code>Im = 0.0</code>. Useful to reset a complex number before accumulating sums.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -291,7 +291,7 @@ Sets the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.html#A">a</a> real number and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+Returns the product of a real number and a complex number.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -301,7 +301,7 @@ Returns the product of <a class="normal" href="ADim.html#A">a</a> real number an
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number and <a class="normal" href="ADim.html#A">a</a> real number.</p>
+Returns the product of a complex number and a real number.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -311,7 +311,7 @@ Returns the product of <a class="normal" href="ADim.html#A">a</a> <a class="norm
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers. <code>(<a class="normal" href="ADim.html#A">a</a>+bi)·(<a class="normal" href="ADim.html#C">c</a>+di) = (ac - bd) + (ad + bc)i</code></p>
+Returns the product of two complex numbers. <code>(a+bi)·(c+di) = (ac - bd) + (ad + bc)i</code></p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -321,7 +321,7 @@ Returns the product of two <a class="normal" href="ADimC.html#Complex-double-dou
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> real number and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+Returns the sum of a real number and a complex number.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -331,7 +331,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> real number and <a
 </tr>
 <tr><td colspan="2">
 <p>
-Unary plus. Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number unchanged.</p>
+Unary plus. Returns the complex number unchanged.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -341,7 +341,7 @@ Unary plus. Returns the <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number and <a class="normal" href="ADim.html#A">a</a> real number.</p>
+Returns the sum of a complex number and a real number.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -351,7 +351,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers: <code>(<a class="normal" href="ADim.html#A">a</a>+bi) + (<a class="normal" href="ADim.html#C">c</a>+di) = (<a class="normal" href="ADim.html#A">a</a>+<a class="normal" href="ADim.html#C">c</a>) + (b+d)i</code>.</p>
+Returns the sum of two complex numbers: <code>(a+bi) + (c+di) = (a+c) + (b+d)i</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -361,7 +361,7 @@ Returns the sum of two <a class="normal" href="ADimC.html#Complex-double-double-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> real number and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+Returns the difference of a real number and a complex number.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -371,7 +371,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> real number
 </tr>
 <tr><td colspan="2">
 <p>
-Unary minus. Returns the negation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number: <code>-(<a class="normal" href="ADim.html#A">a</a>+bi) = -<a class="normal" href="ADim.html#A">a</a> - bi</code>.</p>
+Unary minus. Returns the negation of the complex number: <code>-(a+bi) = -a - bi</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -381,7 +381,7 @@ Unary minus. Returns the negation of the <a class="normal" href="ADimC.html#Comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number and <a class="normal" href="ADim.html#A">a</a> real number.</p>
+Returns the difference of a complex number and a real number.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -391,7 +391,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="n
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers: <code>(<a class="normal" href="ADim.html#A">a</a>+bi) - (<a class="normal" href="ADim.html#C">c</a>+di) = (<a class="normal" href="ADim.html#A">a</a>-<a class="normal" href="ADim.html#C">c</a>) + (b-d)i</code>.</p>
+Returns the difference of two complex numbers: <code>(a+bi) - (c+di) = (a-c) + (b-d)i</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -401,7 +401,7 @@ Returns the difference of two <a class="normal" href="ADimC.html#Complex-double-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of <a class="normal" href="ADim.html#A">a</a> real number divided by <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+Returns the quotient of a real number divided by a complex number.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -411,7 +411,7 @@ Returns the quotient of <a class="normal" href="ADim.html#A">a</a> real number d
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number divided by <a class="normal" href="ADim.html#A">a</a> real number.</p>
+Returns the quotient of a complex number divided by a real number.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -421,11 +421,11 @@ Returns the quotient of <a class="normal" href="ADim.html#A">a</a> <a class="nor
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers. </p>
+Returns the quotient of two complex numbers. </p>
 <h6 class="description_section">Exceptions raised</h6>
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
-<dd>if the divisor is <a class="normal" href="ADim.TComplex.html#Zero">zero</a>, i.e. <code>|ARight| = 0</code>.</dd>
+<dd>if the divisor is zero, i.e. <code>|ARight| = 0</code>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -436,7 +436,7 @@ Returns the quotient of two <a class="normal" href="ADimC.html#Complex-double-do
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from <a class="normal" href="ADim.html#A">a</a> real value to <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number. The resulting <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number has <code><a class="normal" href="ADim.TComplex.html#Im">Im</a> = 0</code>.</p>
+Implicit conversion from a real value to a complex number. The resulting complex number has <code>Im = 0</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -467,7 +467,7 @@ Returns <code>True</code> if both the real and imaginary parts of the two operan
 </tr>
 <tr><td colspan="2">
 <p>
-Imaginary part of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+Imaginary part of the complex number.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -477,7 +477,7 @@ Imaginary part of the <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="2">
 <p>
-Real part of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</p>
+Real part of the complex number.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

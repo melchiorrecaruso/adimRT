@@ -37,7 +37,7 @@
 <code>type generic TRMatrixQuantity&lt;TSpace&gt; = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> of real physical quantities (<a class="normal" href="ADim.TQuantity.html">TQuantity</a>) with dimension <code>TSpace.N × TSpace.N</code>.
+Generic square matrix of real physical quantities (<a class="normal" href="ADim.TQuantity.html">TQuantity</a>) with dimension <code>TSpace.N × TSpace.N</code>.
 
 <p>Each element carries the same physical dimension, stored in <code>FDim</code>. Supports arithmetic operations with dimensional consistency checking. When <code>ADIMOFF</code> is defined, degenerates to the corresponding <a class="normal" href="ADim.TRMatrixQuantity.generic.html#TRMatrix">TRMatrix</a> specialization. Concrete types are provided as <a class="normal" href="ADim.html#TR2MatrixQuantity">TR2MatrixQuantity</a>, <a class="normal" href="ADim.html#TR3MatrixQuantity">TR3MatrixQuantity</a>, and <a class="normal" href="ADim.html#TR4MatrixQuantity">TR4MatrixQuantity</a>.</p>
 <h2 class="overview">Overview</h2>
@@ -105,7 +105,7 @@ Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.html#A">a</a> real quantity scalar and <a class="normal" href="ADim.html#A">a</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of a real quantity scalar and a quantity matrix. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -115,7 +115,7 @@ Returns the product of <a class="normal" href="ADim.html#A">a</a> real quantity 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.html#A">a</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> and <a class="normal" href="ADim.html#A">a</a> real quantity scalar. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of a quantity matrix and a real quantity scalar. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -125,7 +125,7 @@ Returns the product of <a class="normal" href="ADim.html#A">a</a> quantity <a cl
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> product of two quantity matrices. The resulting dimension is the product of the two dimensions.</p>
+Returns the matrix product of two quantity matrices. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -155,7 +155,7 @@ Returns the element-wise difference of two quantity matrices. Both operands must
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> divided by <a class="normal" href="ADim.html#A">a</a> real quantity scalar. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the quantity matrix divided by a real quantity scalar. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -165,7 +165,7 @@ Returns the quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from <a class="normal" href="ADim.html#A">a</a> dimensionless real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to <a class="normal" href="ADim.html#A">a</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. The resulting <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> has <a class="normal" href="ADim.html#A">a</a> scalar (dimensionless) dimension.</p>
+Implicit conversion from a dimensionless real matrix to a quantity matrix. The resulting matrix has a scalar (dimensionless) dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

@@ -37,13 +37,13 @@
 <code>type TCL3Trivector = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents <a class="normal" href="ADim.html#A">a</a> pure trivector (pseudoscalar) in the Clifford algebra <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.
+Represents a pure trivector (pseudoscalar) in the Clifford algebra <code>Cl(3,0)</code>.
 
-<p><a class="normal" href="ADim.html#A">A</a> trivector is <a class="normal" href="ADim.html#A">a</a> grade-3 element of the algebra, expressed as: <code><a class="normal" href="ADim.html#T">T</a> = m123·<a class="normal" href="ADimCL3.html#e1">e1</a>∧<a class="normal" href="ADimCL3.html#e2">e2</a>∧<a class="normal" href="ADimCL3.html#e3">e3</a></code>
+<p>A trivector is a grade-3 element of the algebra, expressed as: <code>T = m123·e1∧e2∧e3</code>
 
-<p>In <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> the pseudoscalar <code><a class="normal" href="ADimCL3.html#e123">e123</a> = <a class="normal" href="ADimCL3.html#e1">e1</a>∧<a class="normal" href="ADimCL3.html#e2">e2</a>∧<a class="normal" href="ADimCL3.html#e3">e3</a></code> satisfies: <code><a class="normal" href="ADimCL3.html#e123">e123</a>² = -1</code>, making it analogous to the imaginary unit in <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> algebra. The pseudoscalar commutes with all elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> and generates the duality transformation between vectors and bivectors.
+<p>In <code>Cl(3,0)</code> the pseudoscalar <code>e123 = e1∧e2∧e3</code> satisfies: <code>e123² = -1</code>, making it analogous to the imaginary unit in complex algebra. The pseudoscalar commutes with all elements of <code>Cl(3,0)</code> and generates the duality transformation between vectors and bivectors.
 
-<p>When combined with elements of other grades the result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>. Operations between two trivectors produce <a class="normal" href="ADim.html#A">a</a> real scalar, since <code>(m123·<a class="normal" href="ADimCL3.html#e123">e123</a>)·(n123·<a class="normal" href="ADimCL3.html#e123">e123</a>) = -m123·n123</code>.</p>
+<p>When combined with elements of other grades the result is a full <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a>. Operations between two trivectors produce a real scalar, since <code>(m123·e123)·(n123·e123) = -m123·n123</code>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -173,7 +173,7 @@ Represents <a class="normal" href="ADim.html#A">a</a> pure trivector (pseudoscal
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> real scalar and <a class="normal" href="ADim.html#A">a</a> trivector. The coefficient <code>m123</code> is scaled by <code>ALeft</code>.</p>
+Returns the geometric product of a real scalar and a trivector. The coefficient <code>m123</code> is scaled by <code>ALeft</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -183,7 +183,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> real
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> multivector and <a class="normal" href="ADim.html#A">a</a> trivector. The result is <a class="normal" href="ADim.html#A">a</a> full multivector. Grade mixing occurs according to the Clifford multiplication rules of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</p>
+Returns the geometric product of a multivector and a trivector. The result is a full multivector. Grade mixing occurs according to the Clifford multiplication rules of <code>Cl(3,0)</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -193,7 +193,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> mult
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> trivector and <a class="normal" href="ADim.html#A">a</a> real scalar. The coefficient <code>m123</code> is scaled by <code>ARight</code>.</p>
+Returns the geometric product of a trivector and a real scalar. The coefficient <code>m123</code> is scaled by <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -203,7 +203,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> triv
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> trivector and <a class="normal" href="ADim.html#A">a</a> multivector. The result is <a class="normal" href="ADim.html#A">a</a> full multivector. Grade mixing occurs according to the Clifford multiplication rules of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</p>
+Returns the geometric product of a trivector and a multivector. The result is a full multivector. Grade mixing occurs according to the Clifford multiplication rules of <code>Cl(3,0)</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -213,7 +213,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> triv
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of two trivectors as <a class="normal" href="ADim.html#A">a</a> real scalar. Since <code><a class="normal" href="ADimCL3.html#e123">e123</a>² = -1</code>, the result is: <code>(m123·<a class="normal" href="ADimCL3.html#e123">e123</a>)·(n123·<a class="normal" href="ADimCL3.html#e123">e123</a>) = -m123·n123</code>.</p>
+Returns the geometric product of two trivectors as a real scalar. Since <code>e123² = -1</code>, the result is: <code>(m123·e123)·(n123·e123) = -m123·n123</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -223,7 +223,7 @@ Returns the geometric product of two trivectors as <a class="normal" href="ADim.
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> real scalar and <a class="normal" href="ADim.html#A">a</a> trivector. The result is <a class="normal" href="ADim.html#A">a</a> full multivector with <code>m0 = ALeft</code> and <code>m123 = ARight.m123</code>.</p>
+Returns the sum of a real scalar and a trivector. The result is a full multivector with <code>m0 = ALeft</code> and <code>m123 = ARight.m123</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -233,7 +233,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> real scalar and <a
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> multivector and <a class="normal" href="ADim.html#A">a</a> trivector. The trivector contributes only to the grade-3 component.</p>
+Returns the sum of a multivector and a trivector. The trivector contributes only to the grade-3 component.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -243,7 +243,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> multivector and <a
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> trivector and <a class="normal" href="ADim.html#A">a</a> real scalar. The result is <a class="normal" href="ADim.html#A">a</a> full multivector with <code>m0 = ARight</code> and <code>m123 = ALeft.m123</code>.</p>
+Returns the sum of a trivector and a real scalar. The result is a full multivector with <code>m0 = ARight</code> and <code>m123 = ALeft.m123</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -253,7 +253,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> trivector and <a c
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> trivector and <a class="normal" href="ADim.html#A">a</a> multivector. The trivector contributes only to the grade-3 component.</p>
+Returns the sum of a trivector and a multivector. The trivector contributes only to the grade-3 component.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -263,7 +263,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> trivector and <a c
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of two trivectors. The result is <a class="normal" href="ADim.html#A">a</a> pure trivector.</p>
+Returns the sum of two trivectors. The result is a pure trivector.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -273,7 +273,7 @@ Returns the sum of two trivectors. The result is <a class="normal" href="ADim.ht
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> real scalar and <a class="normal" href="ADim.html#A">a</a> trivector. The result is <a class="normal" href="ADim.html#A">a</a> full multivector with <code>m0 = ALeft</code> and <code>m123 = -ARight.m123</code>.</p>
+Returns the difference of a real scalar and a trivector. The result is a full multivector with <code>m0 = ALeft</code> and <code>m123 = -ARight.m123</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -283,7 +283,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> real scalar
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> multivector and <a class="normal" href="ADim.html#A">a</a> trivector. The trivector contributes only to the grade-3 component.</p>
+Returns the difference of a multivector and a trivector. The trivector contributes only to the grade-3 component.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -303,7 +303,7 @@ Unary minus. Returns the negation of the trivector. The coefficient <code>m123</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> trivector and <a class="normal" href="ADim.html#A">a</a> real scalar. The result is <a class="normal" href="ADim.html#A">a</a> full multivector with <code>m0 = -ARight</code> and <code>m123 = ALeft.m123</code>.</p>
+Returns the difference of a trivector and a real scalar. The result is a full multivector with <code>m0 = -ARight</code> and <code>m123 = ALeft.m123</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -313,7 +313,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> trivector a
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> trivector and <a class="normal" href="ADim.html#A">a</a> multivector. The trivector contributes only to the grade-3 component.</p>
+Returns the difference of a trivector and a multivector. The trivector contributes only to the grade-3 component.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -323,7 +323,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> trivector a
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of two trivectors. The result is <a class="normal" href="ADim.html#A">a</a> pure trivector.</p>
+Returns the difference of two trivectors. The result is a pure trivector.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -333,7 +333,7 @@ Returns the difference of two trivectors. The result is <a class="normal" href="
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> real scalar divided by <a class="normal" href="ADim.html#A">a</a> trivector: <code>ALeft / ARight</code>. The inverse of <a class="normal" href="ADim.html#A">a</a> trivector <code><a class="normal" href="ADim.html#T">T</a> = m123·<a class="normal" href="ADimCL3.html#e123">e123</a></code> is <code><a class="normal" href="ADim.html#T">T</a>⁻¹ = -<a class="normal" href="ADimCL3.html#e123">e123</a>/m123</code>.</p>
+Returns the geometric quotient of a real scalar divided by a trivector: <code>ALeft / ARight</code>. The inverse of a trivector <code>T = m123·e123</code> is <code>T⁻¹ = -e123/m123</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -343,7 +343,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> rea
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> multivector divided by <a class="normal" href="ADim.html#A">a</a> trivector: <code>ALeft / ARight</code>. The result is <a class="normal" href="ADim.html#A">a</a> full multivector.</p>
+Returns the geometric quotient of a multivector divided by a trivector: <code>ALeft / ARight</code>. The result is a full multivector.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -353,7 +353,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> mul
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> trivector divided by <a class="normal" href="ADim.html#A">a</a> real scalar. The coefficient <code>m123</code> is divided by <code>ARight</code>.</p>
+Returns the geometric quotient of a trivector divided by a real scalar. The coefficient <code>m123</code> is divided by <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -363,7 +363,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> tri
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> trivector divided by <a class="normal" href="ADim.html#A">a</a> multivector: <code>ALeft / ARight</code>. The result is <a class="normal" href="ADim.html#A">a</a> full multivector.</p>
+Returns the geometric quotient of a trivector divided by a multivector: <code>ALeft / ARight</code>. The result is a full multivector.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -373,7 +373,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> tri
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of two trivectors as <a class="normal" href="ADim.html#A">a</a> real scalar. Computed as <code>ALeft / ARight</code>. Since <code><a class="normal" href="ADimCL3.html#e123">e123</a>² = -1</code>, the result is: <code>m123 / (-n123) = -m123/n123</code>.</p>
+Returns the geometric quotient of two trivectors as a real scalar. Computed as <code>ALeft / ARight</code>. Since <code>e123² = -1</code>, the result is: <code>m123 / (-n123) = -m123/n123</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -383,7 +383,7 @@ Returns the geometric quotient of two trivectors as <a class="normal" href="ADim
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from <a class="normal" href="ADim.html#A">a</a> multivector to <a class="normal" href="ADim.html#A">a</a> trivector. Returns only the grade-3 component <code>m123</code>. All other components are discarded. Use with care: this conversion is only meaningful for pure-trivector multivectors.</p>
+Implicit conversion from a multivector to a trivector. Returns only the grade-3 component <code>m123</code>. All other components are discarded. Use with care: this conversion is only meaningful for pure-trivector multivectors.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -393,7 +393,7 @@ Implicit conversion from <a class="normal" href="ADim.html#A">a</a> multivector 
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from <a class="normal" href="ADim.html#A">a</a> trivector to <a class="normal" href="ADim.html#A">a</a> full multivector. All components of the result are zero except <code>m123</code>.</p>
+Implicit conversion from a trivector to a full multivector. All components of the result are zero except <code>m123</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

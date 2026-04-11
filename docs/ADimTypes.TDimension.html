@@ -37,17 +37,17 @@
 <code>type TDimension = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents the physical dimension of <a class="normal" href="ADim.html#A">a</a> quantity using the SI base units.
+Represents the physical dimension of a quantity using the SI base units.
 
-<p>Each field stores the integer exponent of the corresponding SI base unit. For example, <a class="normal" href="ADim.html#A">a</a> velocity has dimension <code><a class="normal" href="ADim.html#m">m</a>¹·<a class="normal" href="ADim.html#s">s</a>⁻¹</code>, represented as <code>FMeter=1, FSecond=-1</code> with all other exponents equal to zero. <a class="normal" href="ADim.html#A">A</a> dimensionless quantity has all exponents equal to zero.
+<p>Each field stores the integer exponent of the corresponding SI base unit. For example, a velocity has dimension <code>m¹·s⁻¹</code>, represented as <code>FMeter=1, FSecond=-1</code> with all other exponents equal to zero. A dimensionless quantity has all exponents equal to zero.
 
 <p>Dimension arithmetic follows the rules of dimensional analysis: </p>
 
 <ul class="paragraph_spacing">
   <li><p>Multiplication of quantities → addition of exponents</p></li>
   <li><p>Division of quantities → subtraction of exponents</p></li>
-  <li><p><a class="normal" href="ADim.html#Power-TQuantity-double-">Power</a> of <a class="normal" href="ADim.html#A">a</a> quantity → multiplication of exponents by an integer</p></li>
-  <li><p>Root of <a class="normal" href="ADim.html#A">a</a> quantity → division of exponents by an integer</p></li>
+  <li><p>Power of a quantity → multiplication of exponents by an integer</p></li>
+  <li><p>Root of a quantity → division of exponents by an integer</p></li>
 </ul>
 
 <p></p>
@@ -104,7 +104,7 @@ Represents the physical dimension of <a class="normal" href="ADim.html#A">a</a> 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> human-readable string representation of the dimension. Exponents equal to zero are omitted. Positive exponents are listed first, followed by negative ones with <a class="normal" href="ADim.html#A">a</a> <code>/</code> separator. Example: <code><a class="normal" href="ADim.html#kg">kg</a>·<a class="normal" href="ADim.html#m">m</a>²·<a class="normal" href="ADim.html#s">s</a>⁻³·<a class="normal" href="ADim.html#A">A</a>⁻¹</code> for the dimension of electric potential.</p>
+Returns a human-readable string representation of the dimension. Exponents equal to zero are omitted. Positive exponents are listed first, followed by negative ones with a <code>/</code> separator. Example: <code>kg·m²·s⁻³·A⁻¹</code> for the dimension of electric potential.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -114,7 +114,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> human-readable string represe
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimension scaled by an integer exponent. Each exponent is multiplied by <code>ALeft</code>. Used to represent the dimension of <a class="normal" href="ADim.html#A">a</a> quantity raised to an integer <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a>, e.g. <code>3 * [<a class="normal" href="ADim.html#m">m</a>] = [<a class="normal" href="ADim.html#m">m</a>³]</code>.</p>
+Returns the dimension scaled by an integer exponent. Each exponent is multiplied by <code>ALeft</code>. Used to represent the dimension of a quantity raised to an integer power, e.g. <code>3 * [m] = [m³]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -124,7 +124,7 @@ Returns the dimension scaled by an integer exponent. Each exponent is multiplied
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimension scaled by an integer exponent. Each exponent is multiplied by <code>ARight</code>. Used to represent the dimension of <a class="normal" href="ADim.html#A">a</a> quantity raised to an integer <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a>, e.g. <code>[<a class="normal" href="ADim.html#m">m</a>] * 3 = [<a class="normal" href="ADim.html#m">m</a>³]</code>.</p>
+Returns the dimension scaled by an integer exponent. Each exponent is multiplied by <code>ARight</code>. Used to represent the dimension of a quantity raised to an integer power, e.g. <code>[m] * 3 = [m³]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -154,7 +154,7 @@ Returns the sum of two dimensions, i.e. the dimension resulting from multiplying
 </tr>
 <tr><td colspan="2">
 <p>
-Unary minus. Returns the inverse dimension. Each exponent is negated: used to represent the dimension of <a class="normal" href="ADim.html#A">a</a> reciprocal quantity.</p>
+Unary minus. Returns the inverse dimension. Each exponent is negated: used to represent the dimension of a reciprocal quantity.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -194,7 +194,7 @@ Returns <code>True</code> if all corresponding exponents of the two dimensions a
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimension divided by an integer. Each exponent is divided by <code>ARight</code>. Used to represent the dimension of an integer root of <a class="normal" href="ADim.html#A">a</a> quantity, e.g. <code>[<a class="normal" href="ADim.html#m">m</a>²] <code>div</code> 2 = [<a class="normal" href="ADim.html#m">m</a>]</code>.</p>
+Returns the dimension divided by an integer. Each exponent is divided by <code>ARight</code>. Used to represent the dimension of an integer root of a quantity, e.g. <code>[m²] div 2 = [m]</code>.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

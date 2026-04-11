@@ -37,13 +37,13 @@
 <code>type TFactoredUnit = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents <a class="normal" href="ADim.html#A">a</a> physical unit of measurement with <a class="normal" href="ADim.html#A">a</a> conversion factor relative to the corresponding SI base unit.
+Represents a physical unit of measurement with a conversion factor relative to the corresponding SI base unit.
 
-<p><code><code>TFactoredUnit</code></code> extends the role of <a class="normal" href="ADim.TUnit.html">TUnit</a> to cover units that are not SI base or derived units but are related to them by <a class="normal" href="ADim.html#A">a</a> fixed numerical factor stored in <code>FFactor</code>. Examples include kilometres (<code>FFactor = 1000</code>), degrees (<code>FFactor = π/180</code>), electronvolts, and similar.
+<p><code>TFactoredUnit</code> extends the role of <a class="normal" href="ADim.TUnit.html">TUnit</a> to cover units that are not SI base or derived units but are related to them by a fixed numerical factor stored in <code>FFactor</code>. Examples include kilometres (<code>FFactor = 1000</code>), degrees (<code>FFactor = π/180</code>), electronvolts, and similar.
 
-<p>When multiplying or dividing <a class="normal" href="ADim.html#A">a</a> numerical value by <a class="normal" href="ADim.html#A">a</a> <code><code>TFactoredUnit</code></code>, the value is automatically scaled by <code>FFactor</code> so that the resulting <a class="normal" href="ADim.TQuantity.html">TQuantity</a> is always expressed in SI base units internally.
+<p>When multiplying or dividing a numerical value by a <code>TFactoredUnit</code>, the value is automatically scaled by <code>FFactor</code> so that the resulting <a class="normal" href="ADim.TQuantity.html">TQuantity</a> is always expressed in SI base units internally.
 
-<p>Example idiomatic usage: <code>var d: <a class="normal" href="ADim.TQuantity.html">TQuantity</a> := 5.0 * Kilometre; // stores 5000.0 <a class="normal" href="ADim.html#m">m</a> internally</code> <code>var <a class="normal" href="ADim.html#A">a</a>: <a class="normal" href="ADim.TQuantity.html">TQuantity</a> := 90.0 * Degree; // stores π/2 <a class="normal" href="ADim.html#rad">rad</a> internally</code>
+<p>Example idiomatic usage: <code>var d: TQuantity := 5.0 * Kilometre; // stores 5000.0 m internally</code> <code>var a: TQuantity := 90.0 * Degree; // stores π/2 rad internally</code>
 
 <p>When the symbol <code>ADIMOFF</code> is defined, all operators that accept or return quantity types are disabled and raw numerical types are used directly.</p>
 <h2 class="overview">Overview</h2>
@@ -357,7 +357,7 @@ Returns the real quantity <code>AValue * FFactor [dim]</code>. The value is conv
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix * FFactor [dim]</code>.</p>
+Returns the 2×2 complex matrix quantity <code>AMatrix * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -367,7 +367,7 @@ Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 2×2 complex matrix quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -377,7 +377,7 @@ Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 2-component complex vector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -387,7 +387,7 @@ Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector * FFactor [dim]</code>.</p>
+Returns the 2-component complex vector quantity <code>AVector * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -397,7 +397,7 @@ Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix * FFactor [dim]</code>.</p>
+Returns the 3×3 complex matrix quantity <code>AMatrix * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -407,7 +407,7 @@ Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 3×3 complex matrix quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -417,7 +417,7 @@ Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 3-component complex vector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -427,7 +427,7 @@ Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector * FFactor [dim]</code>.</p>
+Returns the 3-component complex vector quantity <code>AVector * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -437,7 +437,7 @@ Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix * FFactor [dim]</code>.</p>
+Returns the 4×4 complex matrix quantity <code>AMatrix * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -447,7 +447,7 @@ Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 4×4 complex matrix quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -457,7 +457,7 @@ Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 4-component complex vector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -467,7 +467,7 @@ Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector * FFactor [dim]</code>.</p>
+Returns the 4-component complex vector quantity <code>AVector * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -477,7 +477,7 @@ Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivector quantity rescaled by <code>FFactor</code>.</p>
+Returns the <code>Cl(3,0)</code> bivector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -487,7 +487,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivec
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivector quantity <code>AQuantity * FFactor [dim]</code>.</p>
+Returns the <code>Cl(3,0)</code> bivector quantity <code>AQuantity * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -497,7 +497,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivec
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multivector quantity rescaled by <code>FFactor</code>.</p>
+Returns the <code>Cl(3,0)</code> multivector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -507,7 +507,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multi
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multivector quantity <code>AQuantity * FFactor [dim]</code>.</p>
+Returns the <code>Cl(3,0)</code> multivector quantity <code>AQuantity * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -517,7 +517,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multi
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trivector quantity rescaled by <code>FFactor</code>.</p>
+Returns the <code>Cl(3,0)</code> trivector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -527,7 +527,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trive
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trivector quantity <code>AQuantity * FFactor [dim]</code>.</p>
+Returns the <code>Cl(3,0)</code> trivector quantity <code>AQuantity * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -537,7 +537,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trive
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the <code>Cl(3,0)</code> vector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -547,7 +547,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a cl
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AQuantity * FFactor [dim]</code>.</p>
+Returns the <code>Cl(3,0)</code> vector quantity <code>AQuantity * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -557,7 +557,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a cl
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <code>AValue * FFactor [dim]</code>. Each component is scaled by <code>FFactor</code>.</p>
+Returns the complex quantity <code>AValue * FFactor [dim]</code>. Each component is scaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -567,7 +567,7 @@ Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity with dimension and value rescaled by <code>FFactor</code>.</p>
+Returns the complex quantity with dimension and value rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -577,7 +577,7 @@ Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the real quantity with dimension and value rescaled by <code>FFactor</code>. Used for unit conversion between factored units: <code>5.0*<a class="normal" href="ADim.html#km">km</a> * (1/Mile) → distance in miles</code>.</p>
+Returns the real quantity with dimension and value rescaled by <code>FFactor</code>. Used for unit conversion between factored units: <code>5.0*km * (1/Mile) → distance in miles</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -587,7 +587,7 @@ Returns the real quantity with dimension and value rescaled by <code>FFactor</co
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix * FFactor [dim]</code>.</p>
+Returns the 2×2 real matrix quantity <code>AMatrix * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -597,7 +597,7 @@ Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 2×2 real matrix quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -607,7 +607,7 @@ Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 2-component real vector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -617,7 +617,7 @@ Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector * FFactor [dim]</code>.</p>
+Returns the 2-component real vector quantity <code>AVector * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -627,7 +627,7 @@ Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix * FFactor [dim]</code>.</p>
+Returns the 3×3 real matrix quantity <code>AMatrix * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -637,7 +637,7 @@ Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 3×3 real matrix quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -647,7 +647,7 @@ Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 3-component real vector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -657,7 +657,7 @@ Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector * FFactor [dim]</code>.</p>
+Returns the 3-component real vector quantity <code>AVector * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -667,7 +667,7 @@ Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix * FFactor [dim]</code>.</p>
+Returns the 4×4 real matrix quantity <code>AMatrix * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -677,7 +677,7 @@ Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 4×4 real matrix quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -687,7 +687,7 @@ Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>FFactor</code>.</p>
+Returns the 4-component real vector quantity rescaled by <code>FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -697,7 +697,7 @@ Returns the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector * FFactor [dim]</code>.</p>
+Returns the 4-component real vector quantity <code>AVector * FFactor [dim]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -717,7 +717,7 @@ Returns the real quantity <code>AValue / FFactor [dim⁻¹]</code>. The value is
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
+Returns the 2×2 complex matrix quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -727,7 +727,7 @@ Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 2×2 complex matrix quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -737,7 +737,7 @@ Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 2-component complex vector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -747,7 +747,7 @@ Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
+Returns the 2-component complex vector quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -757,7 +757,7 @@ Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
+Returns the 3×3 complex matrix quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -767,7 +767,7 @@ Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 3×3 complex matrix quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -777,7 +777,7 @@ Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 3-component complex vector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -787,7 +787,7 @@ Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
+Returns the 3-component complex vector quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -797,7 +797,7 @@ Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
+Returns the 4×4 complex matrix quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -807,7 +807,7 @@ Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 4×4 complex matrix quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -817,7 +817,7 @@ Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 4-component complex vector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -827,7 +827,7 @@ Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
+Returns the 4-component complex vector quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -837,7 +837,7 @@ Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivector quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the <code>Cl(3,0)</code> bivector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -847,7 +847,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivec
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivector quantity <code>AQuantity / FFactor [dim⁻¹]</code>.</p>
+Returns the <code>Cl(3,0)</code> bivector quantity <code>AQuantity / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -857,7 +857,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivec
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multivector quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the <code>Cl(3,0)</code> multivector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -867,7 +867,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multi
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multivector quantity <code>AQuantity / FFactor [dim⁻¹]</code>.</p>
+Returns the <code>Cl(3,0)</code> multivector quantity <code>AQuantity / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -877,7 +877,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multi
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trivector quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the <code>Cl(3,0)</code> trivector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -887,7 +887,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trive
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trivector quantity <code>AQuantity / FFactor [dim⁻¹]</code>.</p>
+Returns the <code>Cl(3,0)</code> trivector quantity <code>AQuantity / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -897,7 +897,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trive
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the <code>Cl(3,0)</code> vector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -907,7 +907,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a cl
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AQuantity / FFactor [dim⁻¹]</code>.</p>
+Returns the <code>Cl(3,0)</code> vector quantity <code>AQuantity / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -917,7 +917,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a cl
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <code>AValue / FFactor [dim⁻¹]</code>. Each component is scaled by <code>1/FFactor</code>.</p>
+Returns the complex quantity <code>AValue / FFactor [dim⁻¹]</code>. Each component is scaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -927,7 +927,7 @@ Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity with dimension and value rescaled by <code>1/FFactor</code>.</p>
+Returns the complex quantity with dimension and value rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -937,7 +937,7 @@ Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the real quantity with dimension and value rescaled by <code>1/FFactor</code>. Used for unit conversion: <code>5000.0*<a class="normal" href="ADim.html#m">m</a> / <a class="normal" href="ADim.html#km">km</a> → 5.0</code>.</p>
+Returns the real quantity with dimension and value rescaled by <code>1/FFactor</code>. Used for unit conversion: <code>5000.0*m / km → 5.0</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -947,7 +947,7 @@ Returns the real quantity with dimension and value rescaled by <code>1/FFactor</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
+Returns the 2×2 real matrix quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -957,7 +957,7 @@ Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 2×2 real matrix quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -967,7 +967,7 @@ Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 2-component real vector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -977,7 +977,7 @@ Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
+Returns the 2-component real vector quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -987,7 +987,7 @@ Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
+Returns the 3×3 real matrix quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -997,7 +997,7 @@ Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 3×3 real matrix quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1007,7 +1007,7 @@ Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 3-component real vector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1017,7 +1017,7 @@ Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
+Returns the 3-component real vector quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1027,7 +1027,7 @@ Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
+Returns the 4×4 real matrix quantity <code>AMatrix / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1037,7 +1037,7 @@ Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 4×4 real matrix quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1047,7 +1047,7 @@ Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rescaled by <code>1/FFactor</code>.</p>
+Returns the 4-component real vector quantity rescaled by <code>1/FFactor</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1057,7 +1057,7 @@ Returns the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
+Returns the 4-component real vector quantity <code>AVector / FFactor [dim⁻¹]</code>.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

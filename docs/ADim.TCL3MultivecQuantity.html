@@ -37,11 +37,11 @@
 <code>type TCL3MultivecQuantity = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents <a class="normal" href="ADim.html#A">a</a> general multivector of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.
+Represents a general multivector of <code>Cl(3,0)</code> with physical dimensions.
 
-<p>Combines <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> value with <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, supporting the full geometric algebra arithmetic while preserving dimensional consistency. All eight grades (scalar, <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>, bivector, trivector) are present simultaneously, each carrying the same physical dimension stored in <code>FDim</code>.
+<p>Combines a <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> value with a <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, supporting the full geometric algebra arithmetic while preserving dimensional consistency. All eight grades (scalar, vector, bivector, trivector) are present simultaneously, each carrying the same physical dimension stored in <code>FDim</code>.
 
-<p>Arithmetic operations follow both the rules of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> and the rules of dimensional analysis: incompatible dimensions raise an exception at runtime. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> and all dimension checking is disabled.</p>
+<p>Arithmetic operations follow both the rules of <code>Cl(3,0)</code> and the rules of dimensional analysis: incompatible dimensions raise an exception at runtime. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> and all dimension checking is disabled.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -139,7 +139,7 @@ Represents <a class="normal" href="ADim.html#A">a</a> general multivector of <co
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of two multivector quantities. The resulting dimension is the product of the two dimensions. The geometric product follows the full <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multiplication rules.</p>
+Returns the geometric product of two multivector quantities. The resulting dimension is the product of the two dimensions. The geometric product follows the full <code>Cl(3,0)</code> multiplication rules.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -149,7 +149,7 @@ Returns the geometric product of two multivector quantities. The resulting dimen
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> multivector quantity and <a class="normal" href="ADim.html#A">a</a> real quantity. The resulting dimension is the product of the two dimensions.</p>
+Returns the geometric product of a multivector quantity and a real quantity. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -159,7 +159,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> mult
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> real quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. The resulting dimension is the product of the two dimensions.</p>
+Returns the geometric product of a real quantity and a multivector quantity. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -179,7 +179,7 @@ Returns the component-wise sum of two multivector quantities. Both operands must
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> multivector quantity and <a class="normal" href="ADim.html#A">a</a> real quantity. Both operands must have the same dimension.</p>
+Returns the sum of a multivector quantity and a real quantity. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -189,7 +189,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> multivector quanti
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> real quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. Both operands must have the same dimension.</p>
+Returns the sum of a real quantity and a multivector quantity. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -199,7 +199,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> real quantity and 
 </tr>
 <tr><td colspan="2">
 <p>
-Unary minus. Returns the negation of the multivector quantity. Each component <code><a class="normal" href="ADim.html#m">m</a>ₖ</code> becomes <code>-<a class="normal" href="ADim.html#m">m</a>ₖ</code>.</p>
+Unary minus. Returns the negation of the multivector quantity. Each component <code>mₖ</code> becomes <code>-mₖ</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -219,7 +219,7 @@ Returns the component-wise difference of two multivector quantities. Both operan
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> multivector quantity and <a class="normal" href="ADim.html#A">a</a> real quantity. Both operands must have the same dimension.</p>
+Returns the difference of a multivector quantity and a real quantity. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -229,7 +229,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> multivector
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> real quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. Both operands must have the same dimension.</p>
+Returns the difference of a real quantity and a multivector quantity. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -239,7 +239,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> real quanti
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar divided by <a class="normal" href="ADim.html#A">a</a> multivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the inverse of <code>ARight</code>.</p>
+Returns the geometric quotient of a dimensionless real scalar divided by a multivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the inverse of <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -249,7 +249,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> dim
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> multivector quantity divided by <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar. Each component is divided by <code>ARight</code>. The dimension is preserved.</p>
+Returns the geometric quotient of a multivector quantity divided by a dimensionless real scalar. Each component is divided by <code>ARight</code>. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -269,7 +269,7 @@ Returns the geometric quotient of two multivector quantities: <code>ALeft * ARig
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> multivector quantity divided by <a class="normal" href="ADim.html#A">a</a> real quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a multivector quantity divided by a real quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -279,7 +279,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> mul
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> real quantity divided by <a class="normal" href="ADim.html#A">a</a> multivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a real quantity divided by a multivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

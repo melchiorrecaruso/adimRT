@@ -37,9 +37,9 @@
 <code>type TQuantity = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents <a class="normal" href="ADim.html#A">a</a> physical quantity with dimension checking at runtime.
+Represents a physical quantity with dimension checking at runtime.
 
-<p>Combines <a class="normal" href="ADim.html#A">a</a> <code>double</code> value with <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, ensuring that arithmetic operations are dimensionally consistent. Incompatible dimensions raise an exception at runtime. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <code>double</code> and all dimension checking is disabled.</p>
+<p>Combines a <code>double</code> value with a <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, ensuring that arithmetic operations are dimensionally consistent. Incompatible dimensions raise an exception at runtime. When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <code>double</code> and all dimension checking is disabled.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -125,7 +125,7 @@ Represents <a class="normal" href="ADim.html#A">a</a> physical quantity with dim
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>reciprocal</code> of the quantity: <code>1 / self</code>. The resulting dimension is the inverse of the original dimension.</p>
+Returns the reciprocal of the quantity: <code>1 / self</code>. The resulting dimension is the inverse of the original dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -135,7 +135,7 @@ Returns the <code>reciprocal</code> of the quantity: <code>1 / self</code>. The 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar and <a class="normal" href="ADim.html#A">a</a> quantity. The dimension is preserved.</p>
+Returns the product of a dimensionless real scalar and a quantity. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -145,7 +145,7 @@ Returns the product of <a class="normal" href="ADim.html#A">a</a> dimensionless 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.html#A">a</a> quantity and <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar. The dimension is preserved.</p>
+Returns the product of a quantity and a dimensionless real scalar. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -205,7 +205,7 @@ Returns the difference of two quantities. Both operands must have the same dimen
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar divided by <a class="normal" href="ADim.html#A">a</a> quantity. The resulting dimension is the inverse of <code>ARight</code>.</p>
+Returns the quotient of a dimensionless real scalar divided by a quantity. The resulting dimension is the inverse of <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -215,7 +215,7 @@ Returns the quotient of <a class="normal" href="ADim.html#A">a</a> dimensionless
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of <a class="normal" href="ADim.html#A">a</a> quantity divided by <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar. The dimension is preserved.</p>
+Returns the quotient of a quantity divided by a dimensionless real scalar. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -235,7 +235,7 @@ Returns the quotient of two quantities. The resulting dimension is the ratio of 
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from <a class="normal" href="ADim.html#A">a</a> dimensionless real value to <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.TQuantity.html">TQuantity</a>. The resulting quantity has <a class="normal" href="ADim.html#A">a</a> scalar (dimensionless) dimension.</p>
+Implicit conversion from a dimensionless real value to a <a class="normal" href="ADim.TQuantity.html">TQuantity</a>. The resulting quantity has a scalar (dimensionless) dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">

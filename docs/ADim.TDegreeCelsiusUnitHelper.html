@@ -39,9 +39,9 @@
 <p>
 Record helper for <a class="normal" href="ADim.TDegreeCelsiusUnit.html">TDegreeCelsiusUnit</a> providing conversion and formatting operations for temperatures expressed in degrees Celsius.
 
-<p>All extraction methods apply the inverse of the Celsius offset conversion, so that <a class="normal" href="ADim.html#A">a</a> quantity stored internally in kelvin is correctly displayed in <code>°<a class="normal" href="ADim.html#C">C</a></code>: <code><a class="normal" href="ADim.html#T">T</a>[°<a class="normal" href="ADim.html#C">C</a>] = <a class="normal" href="ADim.html#T">T</a>[<a class="normal" href="ADim.html#K">K</a>] - 273.15</code>.
+<p>All extraction methods apply the inverse of the Celsius offset conversion, so that a quantity stored internally in kelvin is correctly displayed in <code>°C</code>: <code>T[°C] = T[K] - 273.15</code>.
 
-<p>All <code><a class="normal" href="ADim.TDegreeCelsiusUnitHelper.html#ToString-TQuantity-TQuantity-longint-longint-TPrefixes-">ToString</a></code> and <code><a class="normal" href="ADim.TDegreeCelsiusUnitHelper.html#ToVerboseString-TQuantity-TQuantity-longint-longint-TPrefixes-">ToVerboseString</a></code> methods produce output with the Celsius symbol <code>'°<a class="normal" href="ADim.html#C">C</a>'</code> or name <code>'degree Celsius'</code> / <code>'degrees Celsius'</code>.</p>
+<p>All <code>ToString</code> and <code>ToVerboseString</code> methods produce output with the Celsius symbol <code>'°C'</code> or name <code>'degree Celsius'</code> / <code>'degrees Celsius'</code>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -141,7 +141,7 @@ Returns the plural name of the unit with the given prefix applied. For the Celsi
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the symbol of the unit with the given prefix applied. For the Celsius unit this is typically <code>'°<a class="normal" href="ADim.html#C">C</a>'</code> without prefix. </p>
+Returns the symbol of the unit with the given prefix applied. For the Celsius unit this is typically <code>'°C'</code> without prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>Prefixes</dt>
@@ -156,7 +156,7 @@ Returns the symbol of the unit with the given prefix applied. For the Celsius un
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the real scalar value scaled for the given prefix, expressed in degrees Celsius. Applies the inverse offset: <code><a class="normal" href="ADim.html#T">T</a>[°<a class="normal" href="ADim.html#C">C</a>] = AQuantity - 273.15</code>.  </p>
+Returns the real scalar value scaled for the given prefix, expressed in degrees Celsius. Applies the inverse offset: <code>T[°C] = AQuantity - 273.15</code>.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -173,7 +173,7 @@ Returns the real scalar value scaled for the given prefix, expressed in degrees 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the numerical value of the real quantity expressed in degrees Celsius. Applies the inverse offset conversion: <code><a class="normal" href="ADim.html#T">T</a>[°<a class="normal" href="ADim.html#C">C</a>] = <a class="normal" href="ADim.html#T">T</a>[<a class="normal" href="ADim.html#K">K</a>] - 273.15</code>. </p>
+Returns the numerical value of the real quantity expressed in degrees Celsius. Applies the inverse offset conversion: <code>T[°C] = T[K] - 273.15</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -205,7 +205,7 @@ Returns the numerical value of the real quantity expressed in degrees Celsius wi
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the temperature quantity in degrees Celsius. Format: <code>'&lt;value&gt; °<a class="normal" href="ADim.html#C">C</a>'</code>, e.g. <code>'100 °<a class="normal" href="ADim.html#C">C</a>'</code>. </p>
+Returns a compact string representation of the temperature quantity in degrees Celsius. Format: <code>'&lt;value&gt; °C'</code>, e.g. <code>'100 °C'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -220,7 +220,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the temperature quantity with controlled precision.    </p>
+Returns a compact string representation of the temperature quantity with controlled precision.    </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -241,7 +241,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the temperature quantity in degrees Celsius with the given prefix applied.  </p>
+Returns a compact string representation of the temperature quantity in degrees Celsius with the given prefix applied.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -258,7 +258,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the temperature quantity with <a class="normal" href="ADim.html#A">a</a> tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; °<a class="normal" href="ADim.html#C">C</a>'</code>.     </p>
+Returns a compact string representation of the temperature quantity with a tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; °C'</code>.     </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -281,7 +281,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the temperature quantity in degrees Celsius. Format: <code>'&lt;value&gt; degrees Celsius'</code>, e.g. <code>'100 degrees Celsius'</code>. </p>
+Returns a verbose string representation of the temperature quantity in degrees Celsius. Format: <code>'&lt;value&gt; degrees Celsius'</code>, e.g. <code>'100 degrees Celsius'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -296,7 +296,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the temperature quantity with controlled precision.    </p>
+Returns a verbose string representation of the temperature quantity with controlled precision.    </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -317,7 +317,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the temperature quantity with the given prefix.  </p>
+Returns a verbose string representation of the temperature quantity with the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -334,7 +334,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the temperature quantity with <a class="normal" href="ADim.html#A">a</a> tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; degrees Celsius'</code>.     </p>
+Returns a verbose string representation of the temperature quantity with a tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; degrees Celsius'</code>.     </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>

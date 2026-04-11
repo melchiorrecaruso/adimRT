@@ -1,7 +1,7 @@
 {
   Description: ADim Run-time library.
 
-  Copyright (C) 2024-2026 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2024-2026 Melchiorre Caruso <@url(melchiorrecaruso@gmail.com)>
 
   This library is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -26,7 +26,7 @@ unit ADim;
 {$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
 
 {
-  ADim Run-time library built on 10-04-2026.
+  ADim Run-time library built on 11-04-2026.
 
   Number of base units: 687
   Number of factored units: 133
@@ -142,7 +142,7 @@ type
   public
     { Returns the argument (phase angle) of the complex number, in radians.
       The argument is defined as @code(φ = arctan(Im / Re)), adjusted for quadrant.
-      Returns a value in the range @code((-π, π]).
+      Returns a value in the range @code([-π, π]).
     }
     function Arg: double;
 
@@ -22822,7 +22822,7 @@ type
 
   { Returns the arc tangent of @code(y/x) as an angle quantity in radians,
     using the signs of both arguments to determine the correct quadrant.
-    The result is in the range @code((-π, π]).
+    The result is in the range @code([-π, π]).
     The result has the dimension of an angle (radians).
     @param(x The dimensionless x-coordinate.)
     @param(y The dimensionless y-coordinate.)

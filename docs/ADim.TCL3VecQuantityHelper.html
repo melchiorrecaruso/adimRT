@@ -37,7 +37,7 @@
 <code>type TCL3VecQuantityHelper = record helper for TCL3VecQuantity</code></p>
 <h2 class="description">Description</h2>
 <p>
-Record helper for <a class="normal" href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a> providing geometric operations specific to grade-1 elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.
+Record helper for <a class="normal" href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a> providing geometric operations specific to grade-1 elements of <code>Cl(3,0)</code> with physical dimensions.
 
 <p>All operations follow the conventions of Clifford algebra over <code>ℝ³</code> with dimensional analysis. Incompatible dimensions raise an exception at runtime. Only available when <code>ADIMOFF</code> is not defined.</p>
 <h2 class="overview">Overview</h2>
@@ -201,7 +201,7 @@ Record helper for <a class="normal" href="ADim.TCL3VecQuantity.html">TCL3VecQuan
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the Clifford <code>conjugate</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. For <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> (<code><a class="normal" href="ADim.html#K">k</a> = 1</code>): <code><a class="normal" href="ADim.html#V">v</a>† = -<a class="normal" href="ADim.html#V">v</a></code>. The physical dimension is preserved.</p>
+Returns the Clifford conjugate of the vector quantity. For a vector (<code>k = 1</code>): <code>v† = -v</code>. The physical dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -211,7 +211,7 @@ Returns the Clifford <code>conjugate</code> of the <a class="normal" href="ADimC
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>cross</code> product of two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities. The <code>cross</code> product is the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Dual">dual</a> of the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Wedge-TCL3MultivecQuantity-">wedge</a> product: <code>u × <a class="normal" href="ADim.html#V">v</a> = (u ∧ <a class="normal" href="ADim.html#V">v</a>)* = -(u ∧ <a class="normal" href="ADim.html#V">v</a>) · e₁₂₃⁻¹</code>. The result is <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity perpendicular to both operands with magnitude <code>|u||<a class="normal" href="ADim.html#V">v</a>|<a class="normal" href="ADim.html#Sin-TQuantity-">sin</a>(θ)</code>, specific to <code>ℝ³</code>. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the cross product of two vector quantities. The cross product is the dual of the wedge product: <code>u × v = (u ∧ v)* = -(u ∧ v) · e₁₂₃⁻¹</code>. The result is a vector quantity perpendicular to both operands with magnitude <code>|u||v|sin(θ)</code>, specific to <code>ℝ³</code>. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -226,7 +226,7 @@ Returns the <code>cross</code> product of two <a class="normal" href="ADimC.html
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inner (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Dot-TCL3MultivecQuantity-">dot</a>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> bivector quantity. Lowers the grade: <code>grade(1) · grade(2) → grade(1) = <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the inner (dot) product of a vector quantity and a bivector quantity. Lowers the grade: <code>grade(1) · grade(2) → grade(1) = vector quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -241,7 +241,7 @@ Returns the inner (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Dot-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inner (<code>dot</code>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the inner (dot) product of a vector quantity and a multivector quantity. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -256,7 +256,7 @@ Returns the inner (<code>dot</code>) product of <a class="normal" href="ADim.htm
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inner (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Dot-TCL3MultivecQuantity-">dot</a>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> trivector quantity. Lowers the grade: <code>grade(1) · grade(3) → grade(2) = bivector quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the inner (dot) product of a vector quantity and a trivector quantity. Lowers the grade: <code>grade(1) · grade(3) → grade(2) = bivector quantity</code>. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -271,7 +271,7 @@ Returns the inner (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Dot-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inner (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Dot-TCL3MultivecQuantity-">dot</a>) product of two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities. Lowers the grade: <code>grade(1) · grade(1) → grade(0) = scalar quantity</code>. Result: <code>u · <a class="normal" href="ADim.html#V">v</a> = m1₁·m1₂ + <a class="normal" href="ADim.html#m2">m2</a>₁·<a class="normal" href="ADim.html#m2">m2</a>₂ + <a class="normal" href="ADim.html#m3">m3</a>₁·<a class="normal" href="ADim.html#m3">m3</a>₂ [dim₁·dim₂]</code>. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the inner (dot) product of two vector quantities. Lowers the grade: <code>grade(1) · grade(1) → grade(0) = scalar quantity</code>. Result: <code>u · v = m1₁·m1₂ + m2₁·m2₂ + m3₁·m3₂ [dim₁·dim₂]</code>. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -286,7 +286,7 @@ Returns the inner (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Dot-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>dual</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with respect to the pseudoscalar <code>e₁₂₃</code>. The <code>dual</code> maps grade-1 elements to grade-2 (bivector) elements: <code><a class="normal" href="ADim.html#V">v</a>* = <a class="normal" href="ADim.html#V">v</a> · e₁₂₃⁻¹</code>. For example: <code>e₁* = -e₂∧e₃</code>, <code>e₂* = e₁∧e₃</code>, <code>e₃* = -e₁∧e₂</code>. The physical dimension is preserved.</p>
+Returns the dual of the vector quantity with respect to the pseudoscalar <code>e₁₂₃</code>. The dual maps grade-1 elements to grade-2 (bivector) elements: <code>v* = v · e₁₂₃⁻¹</code>. For example: <code>e₁* = -e₂∧e₃</code>, <code>e₂* = e₁∧e₃</code>, <code>e₃* = -e₁∧e₂</code>. The physical dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -296,11 +296,11 @@ Returns the <code>dual</code> of the <a class="normal" href="ADimC.html#Vector-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> new <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity containing only the components specified by <code>AComponents</code>. Components not present in <code>AComponents</code> are set to zero. </p>
+Returns a new vector quantity containing only the components specified by <code>AComponents</code>. Components not present in <code>AComponents</code> are set to zero. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AComponents</dt>
-<dd><a class="normal" href="ADim.html#A">A</a> set of <a class="normal" href="ADim.html#TCL3MultivectorComponent">TCL3MultivectorComponent</a> values identifying the components to retain. Valid values are <code><a class="normal" href="ADim.html#mcm1">mcm1</a></code>, <code><a class="normal" href="ADim.html#mcm2">mcm2</a></code>, <code><a class="normal" href="ADim.html#mcm3">mcm3</a></code>.</dd>
+<dd>A set of <a class="normal" href="ADim.html#TCL3MultivectorComponent">TCL3MultivectorComponent</a> values identifying the components to retain. Valid values are <code>mcm1</code>, <code>mcm2</code>, <code>mcm3</code>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -311,7 +311,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> new <a class="normal" href="A
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>inverse</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity under the geometric product. For <a class="normal" href="ADim.html#A">a</a> non-zero <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code><a class="normal" href="ADim.html#V">v</a></code>: <code><a class="normal" href="ADim.html#V">v</a>⁻¹ = <a class="normal" href="ADim.html#V">v</a> / |<a class="normal" href="ADim.html#V">v</a>|²</code>, since <code><a class="normal" href="ADim.html#V">v</a>² &gt; 0</code>. The resulting dimension is the <code>inverse</code> of the original dimension.</p>
+Returns the inverse of the vector quantity under the geometric product. For a non-zero vector <code>v</code>: <code>v⁻¹ = v / |v|²</code>, since <code>v² &gt; 0</code>. The resulting dimension is the inverse of the original dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -321,7 +321,7 @@ Returns the <code>inverse</code> of the <a class="normal" href="ADimC.html#Vecto
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the Euclidean <code>norm</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity: <code>|<a class="normal" href="ADim.html#V">v</a>| = √(m1² + <a class="normal" href="ADim.html#m2">m2</a>² + <a class="normal" href="ADim.html#m3">m3</a>²) [dim]</code>. The resulting dimension equals the dimension of the original quantity.</p>
+Returns the Euclidean norm of the vector quantity: <code>|v| = √(m1² + m2² + m3²) [dim]</code>. The resulting dimension equals the dimension of the original quantity.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -331,7 +331,7 @@ Returns the Euclidean <code>norm</code> of the <a class="normal" href="ADimC.htm
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the unit <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in the same direction. Each component is divided by <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Norm">Norm</a>. The physical dimension is preserved.</p>
+Returns the unit vector quantity in the same direction. Each component is divided by <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Norm">Norm</a>. The physical dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -341,7 +341,7 @@ Returns the unit <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TCo
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Projection-TCL3MultivecQuantity-">projection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity onto <a class="normal" href="ADim.html#A">a</a> bivector quantity subspace. Defined as: <code>proj(<a class="normal" href="ADim.html#V">v</a>, B) = (<a class="normal" href="ADim.html#V">v</a> · B⁻¹) ∧ B</code>. The result is the component of <code><a class="normal" href="ADim.html#V">v</a></code> lying in the plane of <code>B</code>. The resulting dimension is the dimension of the original quantity. </p>
+Returns the projection of the vector quantity onto a bivector quantity subspace. Defined as: <code>proj(v, B) = (v · B⁻¹) ∧ B</code>. The result is the component of <code>v</code> lying in the plane of <code>B</code>. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -356,7 +356,7 @@ Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Projection-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>projection</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity onto <a class="normal" href="ADim.html#A">a</a> multivector quantity subspace. Defined as: <code>proj(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#m">M</a>) = (<a class="normal" href="ADim.html#V">v</a> · <a class="normal" href="ADim.html#m">M</a>⁻¹) ∧ <a class="normal" href="ADim.html#m">M</a></code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the dimension of the original quantity. </p>
+Returns the projection of the vector quantity onto a multivector quantity subspace. Defined as: <code>proj(v, M) = (v · M⁻¹) ∧ M</code>. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -371,7 +371,7 @@ Returns the <code>projection</code> of the <a class="normal" href="ADimC.html#Ve
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Projection-TCL3MultivecQuantity-">projection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity onto <a class="normal" href="ADim.html#A">a</a> trivector quantity subspace. Defined as: <code>proj(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#T">T</a>) = (<a class="normal" href="ADim.html#V">v</a> · <a class="normal" href="ADim.html#T">T</a>⁻¹) ∧ <a class="normal" href="ADim.html#T">T</a></code>. Since the trivector spans all of <code>ℝ³</code>, the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Projection-TCL3MultivecQuantity-">projection</a> returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity unchanged. The resulting dimension is the dimension of the original quantity. </p>
+Returns the projection of the vector quantity onto a trivector quantity subspace. Defined as: <code>proj(v, T) = (v · T⁻¹) ∧ T</code>. Since the trivector spans all of <code>ℝ³</code>, the projection returns the vector quantity unchanged. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -386,11 +386,11 @@ Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Projection-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Projection-TCL3MultivecQuantity-">projection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity onto another <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Defined as: <code>proj(u, <a class="normal" href="ADim.html#V">v</a>) = (u · <a class="normal" href="ADim.html#V">v</a>⁻¹) ∧ <a class="normal" href="ADim.html#V">v</a> = (u · <a class="normal" href="ADim.html#V">v</a> / |<a class="normal" href="ADim.html#V">v</a>|²) · <a class="normal" href="ADim.html#V">v</a></code>. The result is the component of <code>u</code> parallel to <code><a class="normal" href="ADim.html#V">v</a></code>. The resulting dimension is the dimension of the original quantity. </p>
+Returns the projection of the vector quantity onto another vector quantity. Defined as: <code>proj(u, v) = (u · v⁻¹) ∧ v = (u · v / |v|²) · v</code>. The result is the component of <code>u</code> parallel to <code>v</code>. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the direction to project onto.</dd>
+<dd>The vector quantity defining the direction to project onto.</dd>
 </dl>
 </td></tr>
 </table>
@@ -401,7 +401,7 @@ Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Projection-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>reciprocal</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity: <code>ṽ / (<a class="normal" href="ADim.html#V">v</a> · ṽ)</code>. Equivalent to <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Inverse">Inverse</a> for non-zero <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities. The resulting dimension is the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Inverse">inverse</a> of the original dimension.</p>
+Returns the reciprocal of the vector quantity: <code>ṽ / (v · ṽ)</code>. Equivalent to <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Inverse">Inverse</a> for non-zero vector quantities. The resulting dimension is the inverse of the original dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -411,11 +411,11 @@ Returns the <code>reciprocal</code> of the <a class="normal" href="ADimC.html#Ve
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity through <a class="normal" href="ADim.html#A">a</a> bivector quantity. Defined as: <code>reflect(<a class="normal" href="ADim.html#V">v</a>, B) = B · <a class="normal" href="ADim.html#V">v</a> · B⁻¹</code>. Reflects <code><a class="normal" href="ADim.html#V">v</a></code> through the plane represented by <code>B</code>, reversing the normal component and preserving the in-plane component. The physical dimension is preserved. </p>
+Returns the reflection of the vector quantity through a bivector quantity. Defined as: <code>reflect(v, B) = B · v · B⁻¹</code>. Reflects <code>v</code> through the plane represented by <code>B</code>, reversing the normal component and preserving the in-plane component. The physical dimension is preserved. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The bivector quantity defining the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> plane.</dd>
+<dd>The bivector quantity defining the reflection plane.</dd>
 </dl>
 </td></tr>
 </table>
@@ -426,11 +426,11 @@ Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Reflection-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>reflection</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity through <a class="normal" href="ADim.html#A">a</a> multivector quantity. Defined as: <code>reflect(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#m">M</a>) = <a class="normal" href="ADim.html#m">M</a> · <a class="normal" href="ADim.html#V">v</a> · <a class="normal" href="ADim.html#m">M</a>⁻¹</code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The physical dimension is preserved. </p>
+Returns the reflection of the vector quantity through a multivector quantity. Defined as: <code>reflect(v, M) = M · v · M⁻¹</code>. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The physical dimension is preserved. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The multivector quantity defining the <code>reflection</code> element.</dd>
+<dd>The multivector quantity defining the reflection element.</dd>
 </dl>
 </td></tr>
 </table>
@@ -441,11 +441,11 @@ Returns the <code>reflection</code> of the <a class="normal" href="ADimC.html#Ve
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity through <a class="normal" href="ADim.html#A">a</a> trivector quantity. Defined as: <code>reflect(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#T">T</a>) = <a class="normal" href="ADim.html#T">T</a> · <a class="normal" href="ADim.html#V">v</a> · <a class="normal" href="ADim.html#T">T</a>⁻¹</code>. Since the pseudoscalar anticommutes with vectors in <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>, the result is <code>-<a class="normal" href="ADim.html#V">v</a></code>. The physical dimension is preserved. </p>
+Returns the reflection of the vector quantity through a trivector quantity. Defined as: <code>reflect(v, T) = T · v · T⁻¹</code>. Since the pseudoscalar anticommutes with vectors in <code>Cl(3,0)</code>, the result is <code>-v</code>. The physical dimension is preserved. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The trivector quantity defining the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> element.</dd>
+<dd>The trivector quantity defining the reflection element.</dd>
 </dl>
 </td></tr>
 </table>
@@ -456,11 +456,11 @@ Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Reflection-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity through another <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Defined as: <code>reflect(u, <a class="normal" href="ADim.html#V">v</a>) = <a class="normal" href="ADim.html#V">v</a> · u · <a class="normal" href="ADim.html#V">v</a>⁻¹</code>. Reflects <code>u</code> through the line defined by <code><a class="normal" href="ADim.html#V">v</a></code>, reversing the perpendicular component and preserving the parallel one. The physical dimension is preserved. </p>
+Returns the reflection of the vector quantity through another vector quantity. Defined as: <code>reflect(u, v) = v · u · v⁻¹</code>. Reflects <code>u</code> through the line defined by <code>v</code>, reversing the perpendicular component and preserving the parallel one. The physical dimension is preserved. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Reflection-TCL3MultivecQuantity-">reflection</a> axis.</dd>
+<dd>The vector quantity defining the reflection axis.</dd>
 </dl>
 </td></tr>
 </table>
@@ -471,7 +471,7 @@ Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Reflection-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">rejection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity from <a class="normal" href="ADim.html#A">a</a> bivector quantity subspace. Defined as: <code>rej(<a class="normal" href="ADim.html#V">v</a>, B) = <a class="normal" href="ADim.html#V">v</a> - proj(<a class="normal" href="ADim.html#V">v</a>, B)</code>. The result is the component of <code><a class="normal" href="ADim.html#V">v</a></code> perpendicular to the plane of <code>B</code>. The resulting dimension is the dimension of the original quantity. </p>
+Returns the rejection of the vector quantity from a bivector quantity subspace. Defined as: <code>rej(v, B) = v - proj(v, B)</code>. The result is the component of <code>v</code> perpendicular to the plane of <code>B</code>. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -486,7 +486,7 @@ Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rejection-TC
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>rejection</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity from <a class="normal" href="ADim.html#A">a</a> multivector quantity subspace. Defined as: <code>rej(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#m">M</a>) = <a class="normal" href="ADim.html#V">v</a> - proj(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#m">M</a>)</code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the dimension of the original quantity. </p>
+Returns the rejection of the vector quantity from a multivector quantity subspace. Defined as: <code>rej(v, M) = v - proj(v, M)</code>. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -501,7 +501,7 @@ Returns the <code>rejection</code> of the <a class="normal" href="ADimC.html#Vec
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">rejection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity from <a class="normal" href="ADim.html#A">a</a> trivector quantity subspace. Defined as: <code>rej(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#T">T</a>) = <a class="normal" href="ADim.html#V">v</a> - proj(<a class="normal" href="ADim.html#V">v</a>, <a class="normal" href="ADim.html#T">T</a>)</code>. In <code>ℝ³</code> the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">rejection</a> of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> from <a class="normal" href="ADim.html#A">a</a> trivector is always zero, returned as <a class="normal" href="ADim.html#A">a</a> scalar quantity equal to zero. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the rejection of the vector quantity from a trivector quantity subspace. Defined as: <code>rej(v, T) = v - proj(v, T)</code>. In <code>ℝ³</code> the rejection of a vector from a trivector is always zero, returned as a scalar quantity equal to zero. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -516,11 +516,11 @@ Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rejection-TC
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rejection-TCL3MultivecQuantity-">rejection</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity from another <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Defined as: <code>rej(u, <a class="normal" href="ADim.html#V">v</a>) = u - proj(u, <a class="normal" href="ADim.html#V">v</a>)</code>. The result is the component of <code>u</code> perpendicular to <code><a class="normal" href="ADim.html#V">v</a></code>. The resulting dimension is the dimension of the original quantity. </p>
+Returns the rejection of the vector quantity from another vector quantity. Defined as: <code>rej(u, v) = u - proj(u, v)</code>. The result is the component of <code>u</code> perpendicular to <code>v</code>. The resulting dimension is the dimension of the original quantity. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the direction to reject from.</dd>
+<dd>The vector quantity defining the direction to reject from.</dd>
 </dl>
 </td></tr>
 </table>
@@ -531,7 +531,7 @@ Returns the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rejection-TC
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>reverse</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. For <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> (<code><a class="normal" href="ADim.html#K">k</a> = 1</code>): <code>ṽ = <a class="normal" href="ADim.html#V">v</a></code> (unchanged). The physical dimension is preserved.</p>
+Returns the reverse of the vector quantity. For a vector (<code>k = 1</code>): <code>ṽ = v</code> (unchanged). The physical dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -541,7 +541,7 @@ Returns the <code>reverse</code> of the <a class="normal" href="ADimC.html#Vecto
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rotated by the rotor defined by two bivector quantities. The <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> is applied as: <code><a class="normal" href="ADim.html#V">v</a>' = R · <a class="normal" href="ADim.html#V">v</a> · R⁻¹</code>. The physical dimension is preserved.  </p>
+Returns the vector quantity rotated by the rotor defined by two bivector quantities. The rotation is applied as: <code>v' = R · v · R⁻¹</code>. The physical dimension is preserved.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
@@ -558,7 +558,7 @@ Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rotated by the rotor defined by two multivector quantities. The <code>rotation</code> is applied as: <code><a class="normal" href="ADim.html#V">v</a>' = R · <a class="normal" href="ADim.html#V">v</a> · R⁻¹</code>. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to potential grade mixing. The physical dimension is preserved.  </p>
+Returns the vector quantity rotated by the rotor defined by two multivector quantities. The rotation is applied as: <code>v' = R · v · R⁻¹</code>. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to potential grade mixing. The physical dimension is preserved.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
@@ -575,7 +575,7 @@ Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rotated by the rotor defined by two trivector quantities. The <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> is applied as: <code><a class="normal" href="ADim.html#V">v</a>' = R · <a class="normal" href="ADim.html#V">v</a> · R⁻¹</code>. The physical dimension is preserved.  </p>
+Returns the vector quantity rotated by the rotor defined by two trivector quantities. The rotation is applied as: <code>v' = R · v · R⁻¹</code>. The physical dimension is preserved.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
@@ -592,13 +592,13 @@ Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity rotated by the rotor defined by two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities. The rotor is constructed as <code>R = AVector2 · AVector1</code> (normalised to <a class="normal" href="ADim.html#A">a</a> unit rotor). The <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> is applied as: <code><a class="normal" href="ADim.html#V">v</a>' = R · <a class="normal" href="ADim.html#V">v</a> · R⁻¹</code>. The <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> is in the plane spanned by <code>AVector1</code> and <code>AVector2</code>, by twice the angle between them. The physical dimension is preserved.  </p>
+Returns the vector quantity rotated by the rotor defined by two vector quantities. The rotor is constructed as <code>R = AVector2 · AVector1</code> (normalised to a unit rotor). The rotation is applied as: <code>v' = R · v · R⁻¹</code>. The rotation is in the plane spanned by <code>AVector1</code> and <code>AVector2</code>, by twice the angle between them. The physical dimension is preserved.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector1</dt>
-<dd>The first <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> plane.</dd>
+<dd>The first vector quantity defining the rotation plane.</dd>
 <dt>AVector2</dt>
-<dd>The second <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity defining the <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Rotation-TCL3MultivecQuantity-TCL3MultivecQuantity-">rotation</a> plane.</dd>
+<dd>The second vector quantity defining the rotation plane.</dd>
 </dl>
 </td></tr>
 </table>
@@ -609,7 +609,7 @@ Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity is numerically equal to the given multivector quantity within the default floating point tolerance. All non-<a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components of <code>AVector</code> must be negligible. </p>
+Returns <code>True</code> if the vector quantity is numerically equal to the given multivector quantity within the default floating point tolerance. All non-vector components of <code>AVector</code> must be negligible. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -624,11 +624,11 @@ Returns <code>True</code> if the <a class="normal" href="ADimC.html#Vector-TComp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities are numerically equal within the default floating point tolerance. </p>
+Returns <code>True</code> if the two vector quantities are numerically equal within the default floating point tolerance. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
-<dd>The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity to compare against.</dd>
+<dd>The vector quantity to compare against.</dd>
 </dl>
 </td></tr>
 </table>
@@ -639,7 +639,7 @@ Returns <code>True</code> if the two <a class="normal" href="ADimC.html#Vector-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the squared Euclidean <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Norm">norm</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity: <code>|<a class="normal" href="ADim.html#V">v</a>|² = m1² + <a class="normal" href="ADim.html#m2">m2</a>² + <a class="normal" href="ADim.html#m3">m3</a>² [dim²]</code>. The resulting dimension is the square of the original dimension. Avoids the square root computation of <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Norm">Norm</a>.</p>
+Returns the squared Euclidean norm of the vector quantity: <code>|v|² = m1² + m2² + m3² [dim²]</code>. The resulting dimension is the square of the original dimension. Avoids the square root computation of <a class="normal" href="ADim.TCL3VecQuantityHelper.html#Norm">Norm</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -649,7 +649,7 @@ Returns the squared Euclidean <a class="normal" href="ADim.TCL3VecQuantityHelper
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity to <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. All components are zero except <code>m1</code>, <code><a class="normal" href="ADim.html#m2">m2</a></code>, <code><a class="normal" href="ADim.html#m3">m3</a></code>. The dimension is preserved.</p>
+Converts the vector quantity to a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. All components are zero except <code>m1</code>, <code>m2</code>, <code>m3</code>. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -659,7 +659,7 @@ Converts the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the outer (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Wedge-TCL3MultivecQuantity-">wedge</a>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> bivector quantity. Raises the grade: <code>grade(1) ∧ grade(2) → grade(3) = trivector quantity</code>. The result represents the oriented volume spanned by the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and the bivector. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the outer (wedge) product of a vector quantity and a bivector quantity. Raises the grade: <code>grade(1) ∧ grade(2) → grade(3) = trivector quantity</code>. The result represents the oriented volume spanned by the vector and the bivector. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -674,7 +674,7 @@ Returns the outer (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Wedge
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the outer (<code>wedge</code>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. Only components of <code>AVector</code> up to grade 2 contribute to <a class="normal" href="ADim.html#A">a</a> non-zero result. The result is <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the outer (wedge) product of a vector quantity and a multivector quantity. Only components of <code>AVector</code> up to grade 2 contribute to a non-zero result. The result is a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> due to grade mixing. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -689,7 +689,7 @@ Returns the outer (<code>wedge</code>) product of <a class="normal" href="ADim.h
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the outer (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Wedge-TCL3MultivecQuantity-">wedge</a>) product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> trivector quantity. Always zero in <code>ℝ³</code>: <code>grade(1) ∧ grade(3) → grade(4) = 0</code>. The result is <a class="normal" href="ADim.html#A">a</a> scalar quantity equal to zero. </p>
+Returns the outer (wedge) product of a vector quantity and a trivector quantity. Always zero in <code>ℝ³</code>: <code>grade(1) ∧ grade(3) → grade(4) = 0</code>. The result is a scalar quantity equal to zero. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -704,7 +704,7 @@ Returns the outer (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Wedge
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the outer (<a class="normal" href="ADim.TCL3VecQuantityHelper.html#Wedge-TCL3MultivecQuantity-">wedge</a>) product of two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities. Raises the grade: <code>grade(1) ∧ grade(1) → grade(2) = bivector quantity</code>. The result represents the oriented plane spanned by the two vectors. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the outer (wedge) product of two vector quantities. Raises the grade: <code>grade(1) ∧ grade(1) → grade(2) = bivector quantity</code>. The result represents the oriented plane spanned by the two vectors. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>

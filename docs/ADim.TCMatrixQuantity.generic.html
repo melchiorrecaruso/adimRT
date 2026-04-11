@@ -37,7 +37,7 @@
 <code>type generic TCMatrixQuantity&lt;TSpace&gt; = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> of <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> physical quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>) with dimension <code>TSpace.N × TSpace.N</code>.
+Generic square matrix of complex physical quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>) with dimension <code>TSpace.N × TSpace.N</code>.
 
 <p>Each element carries the same physical dimension, stored in <code>FDim</code>. Supports arithmetic operations with dimensional consistency checking. When <code>ADIMOFF</code> is defined, degenerates to the corresponding <a class="normal" href="ADim.TCMatrixQuantity.generic.html#TCMatrix">TCMatrix</a> specialization. Concrete types are provided as <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>, <a class="normal" href="ADim.html#TC3MatrixQuantity">TC3MatrixQuantity</a>, and <a class="normal" href="ADim.html#TC4MatrixQuantity">TC4MatrixQuantity</a>.</p>
 <h2 class="overview">Overview</h2>
@@ -112,7 +112,7 @@ Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> product of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity matrices. The resulting dimension is the product of the two dimensions.</p>
+Returns the matrix product of two complex quantity matrices. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -122,7 +122,7 @@ Returns the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TCMatrixQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> and <a class="normal" href="ADim.TCMatrixQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity scalar. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of a complex quantity matrix and a complex quantity scalar. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -132,7 +132,7 @@ Returns the product of <a class="normal" href="ADim.TCMatrixQuantity.generic.htm
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TCMatrixQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity scalar and <a class="normal" href="ADim.TCMatrixQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of a complex quantity scalar and a complex quantity matrix. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -142,7 +142,7 @@ Returns the product of <a class="normal" href="ADim.TCMatrixQuantity.generic.htm
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the element-wise sum of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity matrices. Both operands must have the same dimension.</p>
+Returns the element-wise sum of two complex quantity matrices. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -152,7 +152,7 @@ Returns the element-wise sum of two <a class="normal" href="ADimC.html#Complex-d
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the element-wise difference of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity matrices. Both operands must have the same dimension.</p>
+Returns the element-wise difference of two complex quantity matrices. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -162,7 +162,7 @@ Returns the element-wise difference of two <a class="normal" href="ADimC.html#Co
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> divided by <a class="normal" href="ADim.TCMatrixQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity scalar. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the complex quantity matrix divided by a complex quantity scalar. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -172,7 +172,7 @@ Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from <a class="normal" href="ADim.TCMatrixQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to <a class="normal" href="ADim.TCMatrixQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. The resulting <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> has <a class="normal" href="ADim.TCMatrixQuantity.generic.html#a">a</a> scalar (dimensionless) dimension.</p>
+Implicit conversion from a complex matrix to a complex quantity matrix. The resulting matrix has a scalar (dimensionless) dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -203,7 +203,7 @@ Returns <code>True</code> if both matrices have the same dimension and all corre
 </tr>
 <tr><td colspan="2">
 <p>
-Provides access to individual <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> elements using 1-based row and column indices. <code><code>a</code>[1,1]</code> is the top-left element.</p>
+Provides access to individual complex quantity matrix elements using 1-based row and column indices. <code>a[1,1]</code> is the top-left element.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

@@ -37,7 +37,7 @@
 <code>type generic TCVecQuantity&lt;TSpace&gt; = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Generic column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> of <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> physical quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>) with <code>TSpace.N</code> components.
+Generic column vector of complex physical quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>) with <code>TSpace.N</code> components.
 
 <p>Each component carries the same physical dimension, stored in <code>FDim</code>. Supports arithmetic operations with dimensional consistency checking. When <code>ADIMOFF</code> is defined, degenerates to the corresponding <a class="normal" href="ADim.TCVecQuantity.generic.html#TCVector">TCVector</a> specialization. Concrete types are provided as <a class="normal" href="ADim.html#TC2VecQuantity">TC2VecQuantity</a>, <a class="normal" href="ADim.html#TC3VecQuantity">TC3VecQuantity</a>, and <a class="normal" href="ADim.html#TC4VecQuantity">TC4VecQuantity</a>.</p>
 <h2 class="overview">Overview</h2>
@@ -152,7 +152,7 @@ Generic column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the unit <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> in the same direction. The dimension is preserved; only the numerical values are normalized.</p>
+Returns the unit vector in the same direction. The dimension is preserved; only the numerical values are normalized.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -162,7 +162,7 @@ Returns the unit <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TCo
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> and <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>: <code><a class="normal" href="ADim.html#V">v</a>' = <a class="normal" href="ADim.TCVecQuantity.generic.html#a">A</a>·<a class="normal" href="ADim.html#V">v</a></code>. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of a complex quantity matrix and a complex quantity vector: <code>v' = A·v</code>. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -172,7 +172,7 @@ Returns the product of <a class="normal" href="ADim.TCVecQuantity.generic.html#a
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>: <code><a class="normal" href="ADim.html#V">v</a>' = <a class="normal" href="ADim.html#V">v</a>·<a class="normal" href="ADim.TCVecQuantity.generic.html#a">A</a></code>. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of a complex quantity vector and a complex quantity matrix: <code>v' = v·A</code>. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -182,7 +182,7 @@ Returns the product of <a class="normal" href="ADim.TCVecQuantity.generic.html#a
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dot product of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors. <code>u·<a class="normal" href="ADim.html#V">v</a> = Σ uᵢ·<a class="normal" href="ADim.html#V">v</a>ᵢ</code>. The resulting dimension is the product of the two dimensions.</p>
+Returns the dot product of two complex quantity vectors. <code>u·v = Σ uᵢ·vᵢ</code>. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -192,7 +192,7 @@ Returns the dot product of two <a class="normal" href="ADimC.html#Complex-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> real quantity scalar. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of a complex quantity vector and a real quantity scalar. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -202,7 +202,7 @@ Returns the product of <a class="normal" href="ADim.TCVecQuantity.generic.html#a
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dot product of <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> dimensionless <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. <code>u·<a class="normal" href="ADim.html#V">v</a> = Σ uᵢ·<a class="normal" href="ADim.html#V">v</a>ᵢ</code>. The dimension of the result equals the dimension of <code>ARight</code>.</p>
+Returns the dot product of a dimensionless complex vector and a complex quantity vector. <code>u·v = Σ uᵢ·vᵢ</code>. The dimension of the result equals the dimension of <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -212,7 +212,7 @@ Returns the dot product of <a class="normal" href="ADim.TCVecQuantity.generic.ht
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> real quantity scalar and <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. The resulting dimension is the product of the two dimensions.</p>
+Returns the product of a real quantity scalar and a complex quantity vector. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -222,7 +222,7 @@ Returns the product of <a class="normal" href="ADim.TCVecQuantity.generic.html#a
 </tr>
 <tr><td colspan="2">
 <p>
-Unary plus. Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> unchanged.</p>
+Unary plus. Returns the complex quantity vector unchanged.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -232,7 +232,7 @@ Unary plus. Returns the <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the component-wise sum of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors. Both operands must have the same dimension.</p>
+Returns the component-wise sum of two complex quantity vectors. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -242,7 +242,7 @@ Returns the component-wise sum of two <a class="normal" href="ADimC.html#Complex
 </tr>
 <tr><td colspan="2">
 <p>
-Unary minus. Returns the negation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</p>
+Unary minus. Returns the negation of the complex quantity vector.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -252,7 +252,7 @@ Unary minus. Returns the negation of the <a class="normal" href="ADimC.html#Comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the component-wise difference of two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors. Both operands must have the same dimension.</p>
+Returns the component-wise difference of two complex quantity vectors. Both operands must have the same dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -262,7 +262,7 @@ Returns the component-wise difference of two <a class="normal" href="ADimC.html#
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> divided by <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> real quantity scalar. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the complex quantity vector divided by a real quantity scalar. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -272,7 +272,7 @@ Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the quotient of <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> real quantity scalar divided by <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Each component becomes <code>ALeft/<a class="normal" href="ADim.html#V">v</a>ᵢ</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the quotient of a real quantity scalar divided by a complex quantity vector. Each component becomes <code>ALeft/vᵢ</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -282,7 +282,7 @@ Returns the quotient of <a class="normal" href="ADim.TCVecQuantity.generic.html#
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> dimensionless <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. The resulting <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> has <a class="normal" href="ADim.TCVecQuantity.generic.html#a">a</a> scalar (dimensionless) dimension.</p>
+Implicit conversion from a dimensionless complex vector to a complex quantity vector. The resulting vector has a scalar (dimensionless) dimension.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -313,7 +313,7 @@ Returns <code>True</code> if both vectors have the same dimension and all corres
 </tr>
 <tr><td colspan="2">
 <p>
-Provides access to individual <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components using <code>a</code> 1-based index. Each component is returned as <code>a</code> <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a> carrying the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>'<a class="normal" href="ADim.html#s">s</a> dimension.</p>
+Provides access to individual vector components using a 1-based index. Each component is returned as a <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a> carrying the vector's dimension.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

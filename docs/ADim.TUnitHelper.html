@@ -42,10 +42,10 @@ Record helper for <a class="normal" href="ADim.TUnit.html">TUnit</a> providing c
 <p>This helper centralises the logic for: </p>
 
 <ul class="paragraph_spacing">
-  <li><p>Extracting the raw numerical value of <a class="normal" href="ADim.html#A">a</a> quantity expressed in <a class="normal" href="ADim.html#A">a</a> given unit and prefix, via the <code><a class="normal" href="ADim.TUnitHelper.html#ToFloat-TQuantity-TPrefixes-">ToFloat</a></code>, <code><a class="normal" href="ADim.TUnitHelper.html#ToComplex-TComplexQuantity-TPrefixes-">ToComplex</a></code>, <code><a class="normal" href="ADim.TUnitHelper.html#ToVector-TC4VecQuantity-TPrefixes-">ToVector</a></code> and <code><a class="normal" href="ADim.TUnitHelper.html#ToMatrix-TC4MatrixQuantity-TPrefixes-">ToMatrix</a></code> family of methods.</p></li>
-  <li><p>Formatting <a class="normal" href="ADim.html#A">a</a> quantity as <a class="normal" href="ADim.html#A">a</a> compact string with unit symbol, via the <code><a class="normal" href="ADim.TUnitHelper.html#ToString-TCL3MultivecQuantity-TPrefixes-">ToString</a></code> family of methods.</p></li>
-  <li><p>Formatting <a class="normal" href="ADim.html#A">a</a> quantity as <a class="normal" href="ADim.html#A">a</a> verbose string with full unit name, via the <code><a class="normal" href="ADim.TUnitHelper.html#ToVerboseString-TCL3MultivecQuantity-TPrefixes-">ToVerboseString</a></code> family of methods.</p></li>
-  <li><p>Computing the scaled numerical value of <a class="normal" href="ADim.html#A">a</a> raw dimensionless type for <a class="normal" href="ADim.html#A">a</a> given prefix, via the <code><a class="normal" href="ADim.TUnitHelper.html#GetValue-TCL3Multivector-TPrefixes-">GetValue</a></code> family of methods.</p></li>
+  <li><p>Extracting the raw numerical value of a quantity expressed in a given unit and prefix, via the <code>ToFloat</code>, <code>ToComplex</code>, <code>ToVector</code> and <code>ToMatrix</code> family of methods.</p></li>
+  <li><p>Formatting a quantity as a compact string with unit symbol, via the <code>ToString</code> family of methods.</p></li>
+  <li><p>Formatting a quantity as a verbose string with full unit name, via the <code>ToVerboseString</code> family of methods.</p></li>
+  <li><p>Computing the scaled numerical value of a raw dimensionless type for a given prefix, via the <code>GetValue</code> family of methods.</p></li>
 </ul>
 
 <p> All methods that accept <code>APrefixes</code> apply the corresponding SI prefix scaling factor to the numerical value before returning or formatting.</p>
@@ -570,7 +570,7 @@ Record helper for <a class="normal" href="ADim.TUnit.html">TUnit</a> providing c
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the singular name of the unit with the given prefix applied. Example: <code><code>GetName</code>([<a class="normal" href="ADim.html#pKilo">pKilo</a>])</code> on the metre unit returns <code>'kilometre'</code>. </p>
+Returns the singular name of the unit with the given prefix applied. Example: <code>GetName([pKilo])</code> on the metre unit returns <code>'kilometre'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>Prefixes</dt>
@@ -585,7 +585,7 @@ Returns the singular name of the unit with the given prefix applied. Example: <c
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the plural name of the unit with the given prefix applied. Example: <code><code>GetPluralName</code>([<a class="normal" href="ADim.html#pKilo">pKilo</a>])</code> on the metre unit returns <code>'kilometres'</code>. </p>
+Returns the plural name of the unit with the given prefix applied. Example: <code>GetPluralName([pKilo])</code> on the metre unit returns <code>'kilometres'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>Prefixes</dt>
@@ -600,7 +600,7 @@ Returns the plural name of the unit with the given prefix applied. Example: <cod
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the symbol of the unit with the given prefix applied. Example: <code><code>GetSymbol</code>([<a class="normal" href="ADim.html#pKilo">pKilo</a>])</code> on the metre unit returns <code>'<a class="normal" href="ADim.html#km">km</a>'</code>. </p>
+Returns the symbol of the unit with the given prefix applied. Example: <code>GetSymbol([pKilo])</code> on the metre unit returns <code>'km'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>Prefixes</dt>
@@ -632,11 +632,11 @@ Returns the real scalar value scaled for the given prefix.  </p>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> scaled for the given prefix.  </p>
+Returns the 2×2 complex matrix scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to scale.</dd>
+<dd>The dimensionless complex matrix to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -649,11 +649,11 @@ Returns the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> scaled for the given prefix.  </p>
+Returns the 2-component complex vector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to scale.</dd>
+<dd>The dimensionless complex vector to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -666,11 +666,11 @@ Returns the 2-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> scaled for the given prefix.  </p>
+Returns the 3×3 complex matrix scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to scale.</dd>
+<dd>The dimensionless complex matrix to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -683,11 +683,11 @@ Returns the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> scaled for the given prefix.  </p>
+Returns the 3-component complex vector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to scale.</dd>
+<dd>The dimensionless complex vector to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -700,11 +700,11 @@ Returns the 3-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> scaled for the given prefix.  </p>
+Returns the 4×4 complex matrix scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to scale.</dd>
+<dd>The dimensionless complex matrix to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -717,11 +717,11 @@ Returns the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">comp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> scaled for the given prefix.  </p>
+Returns the 4-component complex vector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to scale.</dd>
+<dd>The dimensionless complex vector to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -734,7 +734,7 @@ Returns the 4-component <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivector scaled for the given prefix.  </p>
+Returns the <code>Cl(3,0)</code> bivector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -751,7 +751,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivec
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multivector scaled for the given prefix.  </p>
+Returns the <code>Cl(3,0)</code> multivector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -768,7 +768,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multi
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trivector scaled for the given prefix.  </p>
+Returns the <code>Cl(3,0)</code> trivector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -785,7 +785,7 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trive
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> scaled for the given prefix.  </p>
+Returns the <code>Cl(3,0)</code> vector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -802,11 +802,11 @@ Returns the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a cl
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> value scaled for the given prefix.  </p>
+Returns the complex value scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> value to scale.</dd>
+<dd>The dimensionless complex value to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -819,11 +819,11 @@ Returns the <a class="normal" href="ADimC.html#Complex-double-double-">complex</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> scaled for the given prefix.  </p>
+Returns the 2×2 real matrix scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to scale.</dd>
+<dd>The dimensionless matrix to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -836,11 +836,11 @@ Returns the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> scaled for the given prefix.  </p>
+Returns the 2-component real vector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to scale.</dd>
+<dd>The dimensionless vector to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -853,11 +853,11 @@ Returns the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> scaled for the given prefix.  </p>
+Returns the 3×3 real matrix scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to scale.</dd>
+<dd>The dimensionless matrix to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -870,11 +870,11 @@ Returns the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> scaled for the given prefix.  </p>
+Returns the 3-component real vector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to scale.</dd>
+<dd>The dimensionless vector to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -887,11 +887,11 @@ Returns the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> scaled for the given prefix.  </p>
+Returns the 4×4 real matrix scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to scale.</dd>
+<dd>The dimensionless matrix to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -904,11 +904,11 @@ Returns the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> scaled for the given prefix.  </p>
+Returns the 4-component real vector scaled for the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The dimensionless <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> to scale.</dd>
+<dd>The dimensionless vector to scale.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the scaling factor.</dd>
 </dl>
@@ -921,11 +921,11 @@ Returns the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.TComplex.html">TComplex</a> value of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity expressed in this unit. </p>
+Returns the dimensionless <a class="normal" href="ADim.TComplex.html">TComplex</a> value of the complex quantity expressed in this unit. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to extract the value from.</dd>
+<dd>The complex quantity to extract the value from.</dd>
 </dl>
 </td></tr>
 </table>
@@ -936,11 +936,11 @@ Returns the dimensionless <a class="normal" href="ADim.TComplex.html">TComplex</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.TComplex.html">TComplex</a> value of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity with the given prefix applied.  </p>
+Returns the dimensionless <a class="normal" href="ADim.TComplex.html">TComplex</a> value of the complex quantity with the given prefix applied.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to extract the value from.</dd>
+<dd>The complex quantity to extract the value from.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the output scaling.</dd>
 </dl>
@@ -985,7 +985,7 @@ Returns the numerical value of the real quantity expressed in this unit with the
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a> of the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a> of the 2×2 complex matrix quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1010,7 +1010,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a> of the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a> of the 3×3 complex matrix quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1035,7 +1035,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a> of the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a> of the 4×4 complex matrix quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1060,7 +1060,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TR2Matrix">TR2Matrix</a> of the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TR2Matrix">TR2Matrix</a> of the 2×2 real matrix quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1085,7 +1085,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TR2Matrix">TR2Matrix
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TR3Matrix">TR3Matrix</a> of the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TR3Matrix">TR3Matrix</a> of the 3×3 real matrix quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1110,7 +1110,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TR3Matrix">TR3Matrix
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TR4Matrix">TR4Matrix</a> of the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TR4Matrix">TR4Matrix</a> of the 4×4 real matrix quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1135,7 +1135,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TR4Matrix">TR4Matrix
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a compact string representation of the 2×2 complex matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1145,7 +1145,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 2×2 complex matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1160,7 +1160,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a compact string representation of the 2-component complex vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1170,7 +1170,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 2-component complex vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1185,7 +1185,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a compact string representation of the 3×3 complex matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1195,7 +1195,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 3×3 complex matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1210,7 +1210,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a compact string representation of the 3-component complex vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1220,7 +1220,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 3-component complex vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1235,7 +1235,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a compact string representation of the 4×4 complex matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1245,7 +1245,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 4×4 complex matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1260,7 +1260,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a compact string representation of the 4-component complex vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1270,7 +1270,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 4-component complex vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1285,7 +1285,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivector quantity in this unit.</p>
+Returns a compact string representation of the <code>Cl(3,0)</code> bivector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1295,7 +1295,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivector quantity with the given prefix. </p>
+Returns a compact string representation of the <code>Cl(3,0)</code> bivector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1310,7 +1310,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multivector quantity in this unit.</p>
+Returns a compact string representation of the <code>Cl(3,0)</code> multivector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1320,7 +1320,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multivector quantity with the given prefix. </p>
+Returns a compact string representation of the <code>Cl(3,0)</code> multivector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1335,7 +1335,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trivector quantity in this unit.</p>
+Returns a compact string representation of the <code>Cl(3,0)</code> trivector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1345,7 +1345,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trivector quantity with the given prefix. </p>
+Returns a compact string representation of the <code>Cl(3,0)</code> trivector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1360,7 +1360,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a compact string representation of the <code>Cl(3,0)</code> vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1370,7 +1370,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a compact string representation of the <code>Cl(3,0)</code> vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1385,11 +1385,11 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity in this unit. Format: <code>'&lt;Re&gt; ± &lt;Im&gt;i &lt;symbol&gt;'</code>. </p>
+Returns a compact string representation of the complex quantity in this unit. Format: <code>'&lt;Re&gt; ± &lt;Im&gt;i &lt;symbol&gt;'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to format.</dd>
+<dd>The complex quantity to format.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1400,11 +1400,11 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity with controlled precision.    </p>
+Returns a compact string representation of the complex quantity with controlled precision.    </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to format.</dd>
+<dd>The complex quantity to format.</dd>
 <dt>APrecision</dt>
 <dd>Number of significant digits.</dd>
 <dt>ADigits</dt>
@@ -1421,11 +1421,11 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity with the given prefix.  </p>
+Returns a compact string representation of the complex quantity with the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to format.</dd>
+<dd>The complex quantity to format.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the output scaling.</dd>
 </dl>
@@ -1438,7 +1438,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the real quantity in this unit. Format: <code>'&lt;value&gt; &lt;symbol&gt;'</code>, e.g. <code>'9.81 <a class="normal" href="ADim.html#m">m</a>/<a class="normal" href="ADim.html#s">s</a>²'</code>. </p>
+Returns a compact string representation of the real quantity in this unit. Format: <code>'&lt;value&gt; &lt;symbol&gt;'</code>, e.g. <code>'9.81 m/s²'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -1453,7 +1453,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the real quantity with controlled precision.    </p>
+Returns a compact string representation of the real quantity with controlled precision.    </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -1474,7 +1474,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the real quantity in this unit with the given prefix applied.  </p>
+Returns a compact string representation of the real quantity in this unit with the given prefix applied.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -1491,7 +1491,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the real quantity with <a class="normal" href="ADim.html#A">a</a> tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; &lt;symbol&gt;'</code>.     </p>
+Returns a compact string representation of the real quantity with a tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; &lt;symbol&gt;'</code>.     </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -1514,7 +1514,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a compact string representation of the 2×2 real matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1524,7 +1524,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 2×2 real matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1539,7 +1539,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a compact string representation of the 2-component real vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1549,7 +1549,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 2-component real vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1564,7 +1564,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a compact string representation of the 3×3 real matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1574,7 +1574,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 3×3 real matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1589,7 +1589,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a compact string representation of the 3-component real vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1599,7 +1599,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 3-component real vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1614,7 +1614,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a compact string representation of the 4×4 real matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1624,7 +1624,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 4×4 real matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1639,7 +1639,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a compact string representation of the 4-component real vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1649,7 +1649,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> compact string representation of the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a compact string representation of the 4-component real vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1664,7 +1664,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> compact string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TC2Vector">TC2Vector</a> of the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TC2Vector">TC2Vector</a> of the 2-component complex vector quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1689,7 +1689,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TC2Vector">TC2Vector
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TC3Vector">TC3Vector</a> of the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TC3Vector">TC3Vector</a> of the 3-component complex vector quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1714,7 +1714,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TC3Vector">TC3Vector
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TC4Vector">TC4Vector</a> of the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TC4Vector">TC4Vector</a> of the 4-component complex vector quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1739,7 +1739,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TC4Vector">TC4Vector
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TR2Vector">TR2Vector</a> of the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TR2Vector">TR2Vector</a> of the 2-component real vector quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1764,7 +1764,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TR2Vector">TR2Vector
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TR3Vector">TR3Vector</a> of the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TR3Vector">TR3Vector</a> of the 3-component real vector quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1789,7 +1789,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TR3Vector">TR3Vector
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dimensionless <a class="normal" href="ADim.html#TR4Vector">TR4Vector</a> of the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity expressed in this unit.</p>
+Returns the dimensionless <a class="normal" href="ADim.html#TR4Vector">TR4Vector</a> of the 4-component real vector quantity expressed in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1814,7 +1814,7 @@ Returns the dimensionless <a class="normal" href="ADim.html#TR4Vector">TR4Vector
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a verbose string representation of the 2×2 complex matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1824,7 +1824,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 2×2 complex matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1839,7 +1839,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a verbose string representation of the 2-component complex vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1849,7 +1849,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 2-component complex vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1864,7 +1864,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a verbose string representation of the 3×3 complex matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1874,7 +1874,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 3×3 complex matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1889,7 +1889,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a verbose string representation of the 3-component complex vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1899,7 +1899,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 3-component complex vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1914,7 +1914,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a verbose string representation of the 4×4 complex matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1924,7 +1924,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 4×4 complex matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1939,7 +1939,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a verbose string representation of the 4-component complex vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1949,7 +1949,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 4-component complex vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1964,7 +1964,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivector quantity in this unit.</p>
+Returns a verbose string representation of the <code>Cl(3,0)</code> bivector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1974,7 +1974,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> bivector quantity with the given prefix. </p>
+Returns a verbose string representation of the <code>Cl(3,0)</code> bivector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -1989,7 +1989,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multivector quantity in this unit.</p>
+Returns a verbose string representation of the <code>Cl(3,0)</code> multivector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -1999,7 +1999,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multivector quantity with the given prefix. </p>
+Returns a verbose string representation of the <code>Cl(3,0)</code> multivector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -2014,7 +2014,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trivector quantity in this unit.</p>
+Returns a verbose string representation of the <code>Cl(3,0)</code> trivector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -2024,7 +2024,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> trivector quantity with the given prefix. </p>
+Returns a verbose string representation of the <code>Cl(3,0)</code> trivector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -2039,7 +2039,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a verbose string representation of the <code>Cl(3,0)</code> vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -2049,7 +2049,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the <code>Cl(3,0)</code> vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -2064,11 +2064,11 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity in this unit. </p>
+Returns a verbose string representation of the complex quantity in this unit. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to format.</dd>
+<dd>The complex quantity to format.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2079,11 +2079,11 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity with controlled precision.    </p>
+Returns a verbose string representation of the complex quantity with controlled precision.    </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to format.</dd>
+<dd>The complex quantity to format.</dd>
 <dt>APrecision</dt>
 <dd>Number of significant digits.</dd>
 <dt>ADigits</dt>
@@ -2100,11 +2100,11 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity with the given prefix.  </p>
+Returns a verbose string representation of the complex quantity with the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to format.</dd>
+<dd>The complex quantity to format.</dd>
 <dt>APrefixes</dt>
 <dd>The SI prefixes defining the output scaling.</dd>
 </dl>
@@ -2117,7 +2117,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the real quantity in this unit. Format: <code>'&lt;value&gt; &lt;plural name&gt;'</code>, e.g. <code>'9.81 metres per square second'</code>. </p>
+Returns a verbose string representation of the real quantity in this unit. Format: <code>'&lt;value&gt; &lt;plural name&gt;'</code>, e.g. <code>'9.81 metres per square second'</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2132,7 +2132,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the real quantity with controlled precision.    </p>
+Returns a verbose string representation of the real quantity with controlled precision.    </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2153,7 +2153,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the real quantity with the given prefix.  </p>
+Returns a verbose string representation of the real quantity with the given prefix.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2170,7 +2170,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the real quantity with <a class="normal" href="ADim.html#A">a</a> tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; &lt;plural name&gt;'</code>.     </p>
+Returns a verbose string representation of the real quantity with a tolerance range. Format: <code>'&lt;value&gt; ± &lt;tolerance&gt; &lt;plural name&gt;'</code>.     </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2193,7 +2193,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a verbose string representation of the 2×2 real matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -2203,7 +2203,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 2×2 real matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -2218,7 +2218,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a verbose string representation of the 2-component real vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -2228,7 +2228,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 2-component real vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -2243,7 +2243,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a verbose string representation of the 3×3 real matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -2253,7 +2253,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 3×3 real matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -2268,7 +2268,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a verbose string representation of the 3-component real vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -2278,7 +2278,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 3-component real vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -2293,7 +2293,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity in this unit.</p>
+Returns a verbose string representation of the 4×4 real matrix quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -2303,7 +2303,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 4×4 real matrix quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
@@ -2318,7 +2318,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity in this unit.</p>
+Returns a verbose string representation of the 4-component real vector quantity in this unit.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -2328,7 +2328,7 @@ Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <a class="normal" href="ADim.html#A">a</a> verbose string representation of the 4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity with the given prefix. </p>
+Returns a verbose string representation of the 4-component real vector quantity with the given prefix. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrefixes</dt>
