@@ -33,7 +33,6 @@ type
 
   TMainForm = class(TForm)
     AddBtn: TBitBtn;
-    Details: TMemo;
     MoveDownBtn: TBitBtn;
     MoveUtBtn: TBitBtn;
     DeleteBtn: TBitBtn;
@@ -53,7 +52,6 @@ type
     SynPasSyn: TSynPasSyn;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
-    TabSheet4: TTabSheet;
     TabSheet5: TTabSheet;
     procedure AddBtnClick(Sender: TObject);
     procedure DeleteBtnClick(Sender: TObject);
@@ -351,46 +349,25 @@ procedure TMainForm.OnStart;
 begin
   UpdateButton(False);
   SynEdit.Clear;
-  Details.Clear;
+  SynEdit1.Clear;
   Memo.Clear;
 end;
 
 procedure TMainForm.OnStop;
 var
   i: longint;
-  UnitList: TSTringList;
 begin
   SynEdit.BeginUpdate(True);
   for i := 0 to Builder.Document.Count -1 do
     SynEdit.Append(Builder.Document[i]);
   SynEdit.EndUpdate;
-  UpdateButton(True);
 
   SynEdit1.BeginUpdate(True);
   for i := 0 to Builder.Resources.Count -1 do
     SynEdit1.Append(Builder.Resources[i]);
   SynEdit1.EndUpdate;
+
   UpdateButton(True);
-
-  UnitList := TStringList.Create;
-  for i := 0 to Builder.BaseUnits.Count -1 do
-    UnitList.Add(Builder.BaseUnits[i]);
-  for i := 0 to Builder.FactoredUnits.Count -1 do
-    UnitList.Add(Builder.FactoredUnits[i]);
-  Details.Lines.Add('Unit:');
-  Details.Lines.Add('');
-  UnitList.Sort;
-  for i := 0 to UnitList.Count -1 do
-    Details.Lines.Add(UnitList[i]);
-  UnitList.Destroy;
-
-  Details.Lines.Add('');
-  Details.Lines.Add('Identifiers:');
-  Details.Lines.Add('');
-  Builder.Identifiers.Sort;
-  for i := 0 to Builder.Identifiers.Count -1 do
-    Details.Lines.Add(Builder.Identifiers[i]);
-
   Builder := nil;
 end;
 

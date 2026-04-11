@@ -35,7 +35,6 @@ const
 
   NullExponents  : TExponents = (0, 0, 0, 0, 0, 0, 0, 0);
 
-
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
 function GetPluralNameResourceString(const AClassName: string): string;
@@ -54,7 +53,6 @@ function GetReciprocal(const AExponents: TExponents): TExponents;
 function GetQuantity(const S: string): string;
 function GetUnitID(const S: string): string;
 function GetUnitID(const ADim: TExponents): string;
-
 
 function StringToDimensions(const S: string): TExponents;
 function DimensionToString(const ADim: TExponents): string;

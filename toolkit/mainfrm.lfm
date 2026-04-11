@@ -23,11 +23,11 @@ object MainForm: TMainForm
     Height = 573
     Top = 46
     Width = 989
-    ActivePage = TabSheet1
+    ActivePage = TabSheet3
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Top = 10
     ParentFont = False
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 0
     OnChange = PageControlChange
     object TabSheet1: TTabSheet
@@ -47,7 +47,6 @@ object MainForm: TMainForm
         Top = 48
         Width = 979
         Anchors = [akTop, akLeft, akRight, akBottom]
-        AutoFillColumns = True
         BorderSpacing.Top = 6
         ColCount = 10
         Columns = <        
@@ -92,7 +91,7 @@ object MainForm: TMainForm
             Width = 97
           end>
         FixedCols = 0
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goAutoAddRows, goRowSelect, goSmoothScroll]
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goAutoAddRows, goRowSelect, goSmoothScroll]
         RowCount = 1
         TabOrder = 0
         OnDblClick = StringGridDblClick
@@ -1161,20 +1160,6 @@ object MainForm: TMainForm
         WordWrap = False
       end
     end
-    object TabSheet4: TTabSheet
-      Caption = 'Details'
-      ClientHeight = 540
-      ClientWidth = 979
-      object Details: TMemo
-        Left = 0
-        Height = 540
-        Top = 0
-        Width = 979
-        Align = alClient
-        ScrollBars = ssAutoBoth
-        TabOrder = 0
-      end
-    end
   end
   object LoadBtn: TBitBtn
     AnchorSideLeft.Control = Owner
@@ -1390,11 +1375,11 @@ object MainForm: TMainForm
     OnClick = SaveBtnClick
   end
   object SaveDialog: TSaveDialog
-    Left = 120
+    Left = 136
     Top = 176
   end
   object OpenDialog: TOpenDialog
-    Left = 192
+    Left = 224
     Top = 176
   end
   object SynPasSyn: TSynPasSyn
