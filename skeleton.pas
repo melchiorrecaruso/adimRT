@@ -4746,15 +4746,15 @@ type
 
     { Returns the reverse of the multivector quantity.
       The reverse of a grade-@code(k) blade changes sign by @code((-1)^(k·(k-1)/2)).
-      For a general multivector: @code(M̃ = m0 + m1·e₁ + m2·e₂ + m3·e₃
-      - m12·e₁₂ - m13·e₁₃ - m23·e₂₃ - m123·e₁₂₃).
+      For a general multivector: @code(M̃ = m0 + m₁·e₁ + m₂·e₂ + m₃·e₃
+      - m₁₂·e₁₂ - m₁₃·e₁₃ - m₂₃·e₂₃ - m₁₂₃·e₁₂₃).
       The physical dimension is preserved.
     }
     function Reverse: TCL3MultivecQuantity;
 
     { Returns the Clifford conjugate of the multivector quantity.
       Combines reversion and grade involution:
-      @code(M† = m0 - m1·e₁ - m2·e₂ - m3·e₃ - m12·e₁₂ - m13·e₁₃ - m23·e₂₃ + m123·e₁₂₃).
+      @code(M† = m0 - m₁·e₁ - m₂·e₂ - m₃·e₃ - m₁₂·e₁₂ - m₁₃·e₁₃ - m₂₃·e₂₃ + m₁₂₃·e₁₂₃).
       The physical dimension is preserved.
     }
     function Conjugate: TCL3MultivecQuantity;

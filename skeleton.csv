@@ -1,149 +1,149 @@
-;TScalar;;;;;;;;;clLime
-;TRadian?;;radian?;rad;rad;TScalar;;;;clYellow
-;TDegree?;;degree?;deg;deg;TScalar;Pi/180;;;clYellow
-;TDecibel?;;decibel?;dB;dB;TScalar;;;;clYellow
-;TSteradian?;sr;steradian?;sr;sr;;;;;clLime
-;TSquareDegree?;;square degree?;deg2;deg2;TSteradian?;Pi*Pi/32400;;;clWhite
-;TSecond?;s;%ssecond?;%ss;s;;;------------SSSSSS------;;clLime
-;TDay?;;day?;d;day;TSecond?;86400;;;clWhite
-;THour?;;hour?;h;hr;TSecond?;3600;;;clWhite
-;TMinute?;;minute?;min;minute;TSecond?;60;;;clWhite
-;TSquareSecond?;s2;square %ssecond?;%ss2;s2;;;------------SSSSSS------;;clLime
-;TSquareDay?;;square day?;d2;day2;TSquareSecond?;7464960000;;;clWhite
-;TSquareHour?;;square hour?;h2;hr2;TSquareSecond?;12960000;;;clWhite
-;TSquareMinute?;;square minute?;min2;minute2;TSquareSecond?;3600;;;clWhite
-;TCubicSecond?;s3;cubic %ssecond?;%ss3;s3;;;------------SSSSSS------;;clLime
-;TQuarticSecond?;s4;quartic %ssecond?;%ss4;s4;;;------------SSSSSS------;;clLime
-;TQuinticSecond?;s5;quintic %ssecond?;%ss5;s5;;;------------SSSSSS------;;clLime
-;TSexticSecond?;s6;sextic %ssecond?;%ss6;s6;;;------------SSSSSS------;;clLime
-;TMeter?;m;%smeter?;%sm;m;;;---------S--SSSSSS------;;clLime
-;TAstronomical;;astronomical unit?;au;au;TMeter?;149597870691;;;clWhite
-;TInch!;;inch!;in;inch;TMeter?;0.0254;;;clWhite
-;TFoot!;;foot!;ft;ft;TMeter?;0.3048;;;clWhite
-;TYard?;;yard?;yd;yd;TMeter?;0.9144;;;clWhite
-;TMile?;;mile?;mi;mi;TMeter?;1609.344;;;clWhite
-;TNauticalMile?;;nautical mile?;nmi;nmi;TMeter?;1852;;;clWhite
-;TAngstrom?;;%sangstrom?;%sÅ;angstrom;TMeter?;1E-10;;;clWhite
-;TParsec?;;%sparsec?;%spc;parsec;TMeter?;3.08567758149137E+16;--------L---------------;;clYellow
-;TLightYear?;;%slight year?;%sly;ly;TMeter?;9.4607304725808E+15;--------S---------------;;clYellow
-;TSquareRootMeter?;m0.5;square root %smeter?;√%sm;;;;;;clLime
-;TSquareMeter?;m2;square %smeter?;%sm2;m2;;;---------S--SSSSSS------;;clLime
-;TSquareInch!;;square inch!;in2;inch2;TSquareMeter?;0.00064516;;;clWhite
-;TSquareFoot!;;square foot!;ft2;ft2;TSquareMeter?;0.09290304;;;clWhite
-;TSquareYard?;;square yard?;yd2;yd2;TSquareMeter?;0.83612736;;;clWhite
-;TSquareMile?;;square mile?;mi2;mi2;TSquareMeter?;2589988.110336;;;clWhite
-;TCubicMeter?;m3;cubic %smeter?;%sm3;m3;;;---------S--SSSSSS------;;clLime
-;TCubicInch!;;cubic inch!;in3;inch3;TCubicMeter?;0.000016387064;;;clWhite
-;TCubicFoot!;;cubic foot!;ft3;ft3;TCubicMeter?;0.028316846592;;;clWhite
-;TCubicYard?;;cubic yard?;yd3;yd3;TCubicMeter?;0.764554857984;;;clWhite
-;TLitre?;;%slitre?;%sL;L;TCubicMeter?;1E-03;------------SSS---------;;clWhite
-;TGallon?;;gallon?;gal;gal;TCubicMeter?;0.0037854119678;;;clWhite
-;TQuarticMeter?;m4;quartic %smeter?;%sm4;m4;;;---------S--SSSSSS------;;clLime
-;TQuinticMeter?;m5;quintic %smeter?;%sm5;m5;;;---------S--SSSSSS------;;clLime
-;TSexticMeter?;m6;sextic %smeter?;%sm6;m6;;;---------S--SSSSSS------;;clLime
-;TKilogram?;kg;%sgram?;%sg;kg;;;;;clLime
-;TTonne?;;%stonne?;%st;tonne;TKilogram?;1E+03;-------LLL--------------;;clWhite
-;TPound?;;pound?;lb;lb;TKilogram?;0.45359237;;;clWhite
-;TOunce?;;ounce?;oz;oz;TKilogram?;0.028349523125;;;clWhite
-;TStone?;;stone?;st;st;TKilogram?;6.35029318;;;clWhite
-;TTon?;;ton?;ton;ton;TKilogram?;907.18474;;;clWhite
-;TDalton?;;%sdalton?;%Da;dalton;TKilogram?;1.660538862800000E-27;;;clYellow
-;TElectronvolt?PerSquareSpeedOfLight;;%selectronvolt? per squared speed of light;%seV/c2;;TKilogram?;1.7826619216279E-36;;;clWhite
-;TSquareKilogram?;kg2;square %sgram?;%sg2;kg2;;;;;clLime
-;TAmpere?;A;%sampere?;%sA;A;;;---------SSSSSSSSL------;;clLime
-;TSquareAmpere?;A2;square %sampere?;%sA2;A2;;;---------SSSSSSSSL------;;clLime
-;TKelvin?;K;%skelvin?;%sK;K;;;;;clLime
-;TDegree?Celsius;;degree? Celsius;°C;degC;TKelvin?;Celsius;;;clWhite
-;TDegree?Fahrenheit;;degree? Fahrenheit;°F;degF;TKelvin?;Fahrenheit;;;clWhite
-;TSquareKelvin?;K2;square %skelvin?;%sK2;K2;;;;;clLime
-;TCubicKelvin?;K3;cubic %skelvin?;%sK3;K3;;;;;clLime
-;TQuarticKelvin?;K4;quartic %skelvin?;%sK4;K4;;;;;clLime
-;TMole?;mol;%smole?;%smol;mol;;;---------SSS------------;;clLime
-;TCandela?;cd;%scandela?;%scd;cd;;;;;clLime
-;THertz;s-1;%shertz;%sHz;Hz;;;------SSSS--------------;;clLime
-;TReciprocalSecond?;;reciprocal %ssecond?;1/%ss;;THertz;;;;clWhite
-;TRadian?PerSecond;;radian? per %ssecond;rad/%ss;;THertz;;;;clYellow
-Astronomic;TMeter?PerSecondPerParsec;;%smeter? per %ssecond per %sparsec;%sm/%ss/%spc;;THertz;3.24077928944436E-17;;;clFuchsia
-;TSquareHertz;s-2;square %shertz;%sHz2;Hz2;;;------SSSS--------------;;clLime
-;TReciprocalSquareSecond?;;reciprocal square %ssecond?;1/%ss2;;TSquareHertz;;;;clWhite
-;TRadian?PerSquareSecond;;radian? per square %ssecond;rad/%ss2;;TSquareHertz;;;;clYellow
-;TSteradian?PerSquareSecond;sr s-2;steradian? per square %ssecond;sr/%ss2;;;;;;clYellow
-Mechanics;TMeter?PerSecond;m s-1;%smeter? per %ssecond;%sm/%ss;;;;;unit of measurement for speed.;clLime
-;TMeter?PerHour;;%smeter? per hour;%sm/h;;TMeter?PerSecond;1/3600;;;clWhite
-;TMile?PerHour;;mile? per hour;mi/h;;TMeter?PerSecond;0.44704;;;clWhite
-;TNauticalMile?PerHour;;nautical mile? per hour;nmi/h;;TMeter?PerSecond;463/900;;;clWhite
-Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;;;unit of measurement for acceleration.;clLime
-;TMeter?PerSecondPerSecond;;%smeter? per %ssecond per %ssecond;%sm/%ss/%ss;;TMeter?PerSquareSecond;;;;clWhite
-;TMeter?PerHourPerSecond;;%smeter? per hour per %ssecond;%sm/h/%ss;;TMeter?PerSquareSecond;1/3600;;;clWhite
-;TMeter?PerCubicSecond;m s-3;%smeter? per cubic %ssecond;%sm/%ss3;;;;;;clLime
-;TMeter?PerQuarticSecond;m s-4;%smeter? per quartic %ssecond;%sm/%ss4;;;;;;clLime
-;TMeter?PerQuinticSecond;m s-5;%smeter? per quintic %ssecond;%sm/%ss5;;;;;;clLime
-;TMeter?PerSexticSecond;m s-6;%smeter? per sextic %ssecond;%sm/%ss6;;;;;;clLime
-;TSquareMeter?PerSquareSecond;m2 s-2;square %smeter? per square %ssecond;%sm2/%ss2;;;;;;clLime
-;TJoule?PerKilogram;;%sjoule? per %sgram;%sJ/%sg;;TSquareMeter?PerSquareSecond;;;;clWhite
-;TGray?;;%sgray?;%sGy;Gy;TSquareMeter?PerSquareSecond;;---------S----SSS-------;;clWhite
-;TSievert?;;%ssievert?;%sSv;Sv;TSquareMeter?PerSquareSecond;;---------S----SSS-------;;clWhite
-;TMeterSecond?;m s;%smeter %ssecond?;%sm.%ss;;;;;;clLime
-;TKilogramMeter?;kg m;%sgram %smeter?;%sg.%sm;;;;;;clLime
-;TKilogram?PerSecond;kg s-1;%sgram? per %ssecond;%sg/%ss;;;;;;clLime
-;TJoule?PerSquareMeterPerHertz;;%sjoule? per square %smeter per %shertz;%sJ/%sm2/%sHz;;TKilogram?PerSecond;;;;clWhite
-;TKilogramMeter?PerSecond;kg m s-1;%sgram %smeter? per %ssecond;%sg.%sm/%ss;;;;;;clLime
-;TNewtonSecond?;;%snewton %ssecond?;%sN.%ss;;TKilogramMeter?PerSecond;;;;clWhite
-;TSquareKilogramSquareMeter?PerSquareSecond;kg2 m2 s-2;square%sgram square%smeter? per square%ssecond;%sg2.%sm2/%ss2;;;;;;clLime
-;TReciprocalSquareRootMeter?;m-0.5;reciprocal square root %smeter?;1/√%sm;;;;;;clLime
-;TReciprocalMeter?;m-1;reciprocal %smeter?;1/%sm;;;;;;clLime
-;TDioptre?;;%sdioptre?;dpt;;TReciprocalMeter?;;;;clWhite
-;TReciprocalSquareRootCubicMeter?;m-1.5;reciprocal square root cubic %smeter?;1/√%sm3;;;;;;clLime
-;TReciprocalSquareMeter?;m-2;reciprocal square %smeter?;1/%sm2;;;;;;clLime
-;TReciprocalCubicMeter?;m-3;reciprocal cubic %smeter?;1/%sm3;;;;;;clLime
-;TReciprocalQuarticMeter?;m-4;reciprocal quartic %smeter?;1/%sm4;;;;;;clLime
-;TKilogramSquareMeter?;kg m2;%sgram square %smeter?;%sg.%sm2;;;;;;clLime
-;TKilogramSquareMeter?PerSecond;kg m2 s-1;%sgram square %smeter? per %ssecond;%sg.%sm2/%ss;;;;;;clLime
-;TNewtonMeterSecond?;;%snewton %smeter %ssecond?;%sN.%sm.%ss;;TKilogramSquareMeter?PerSecond;;;;clWhite
-;TSecond?PerMeter;s m-1;%ssecond? per %smeter;%ss/%sm;;;;;;clLime
-;TKilogram?PerMeter;kg m-1;%sgram? per %smeter;%sg/%sm;;;;;;clLime
-;TKilogram?PerSquareMeter;kg m-2;%sgram? per square %smeter;%sg/%sm2;;;;;;clLime
-;TKilogram?PerCubicMeter;kg m-3;%sgram? per cubic %smeter;%sg/%sm3;;;;;;clLime
-;TPound?PerCubicInch;;pound? per cubic inch;lb/in3;;TKilogram?PerCubicMeter;27679.9047102031;;;clWhite
-;TNewton?;kg m s-2;%snewton?;%sN;N;;;-------SSSSS------------;;clLime
-;TPound?Force;;pound?-force;lbf;lbf;TNewton?;4.4482216152605;;;clWhite
-;TKilogramMeter?PerSquareSecond;;%sgram %smeter? per square %ssecond;%sg.%sm/%ss2;;TNewton?;;;;clWhite
-;TNewtonRadian?;;%snewton %sradian?;%sN.%srad;;TNewton?;;;;clYellow
-;TSquareNewton?;kg2 m2 s-4;square %snewton?;%sN2;N2;;;-------SSSSS------------;;clLime
-;TSquareKilogramSquareMeter?PerQuarticSecond;;square %sgram square %smeter? per quartic %ssecond;%sg2.%sm2/%ss4;;TSquareNewton?;;;;clWhite
-;TPascal?;kg m-1 s-2;%spascal?;%sPa;Pa;;;------SSSS--------------;;clLime
-;TNewton?PerSquareMeter;;%snewton? per square %smeter;%sN/%sm2;;TPascal?;;;;clWhite
-;TBar?;;%sbar?;%sbar;bar;TPascal?;1E+05;---------S----S---------;;clWhite
-;TPound?PerSquareInch;;%spound? per square inch;%spsi;psi;TPascal?;6894.75729316836;---------S--------------;;clWhite
-;TJoule?PerCubicMeter;;%sjoule? per cubic %smeter;%sJ/%sm3;;TPascal?;;;;clWhite
-;TKilogram?PerMeterPerSquareSecond;;%sgram? per %smeter per square %ssecond;%sg/%sm/%ss2;;TPascal?;;;;clWhite
-;TAtmosphere?;;%satmosphere?;%satm;atm;TPascal?;101325;;;clWhite
-;TTorr;;%storr?;%sTorr;Torr;TPascal?;133.322368421053;;;clWhite
-;TJoule?;kg m2 s-2;%sjoule?;%sJ;J;;;------SSSS--------------;;clLime
-;TWattHour?;;%swatt hour?;%sW.h;;TJoule?;3600;;;clWhite
-;TWattSecond?;;%swatt %ssecond?;%sW.%ss;;TJoule?;;;;clWhite
-;TWatt?PerHertz;;%swatt? per %shertz;%sW/%shz;;TJoule?;;;;clWhite
-;TElectronvolt?;;%selectronvolt?;%seV;eV;TJoule?;1.602176634E-019;------SSSS--------------;;clWhite
-;TNewtonMeter?;;%snewton %smeter?;%sN.%sm;;TJoule?;;;;clWhite
-;TPoundForceInch!;;pound-force inch!;lbf.in;;TJoule?;0.112984829027617;;;clWhite
-;TRydberg?;;%srydberg?;%sRy;Ry;TJoule?;2.1798723611035E-18;;;clWhite
-;TCalorie?;;%scalorie?;%scal;cal;TJoule?;4.184;--------SS--------------;;clWhite
-;TKilogramSquareMeter?PerSquareSecond;;%sgram square %smeter? per square %ssecond;%sg.%sm2/%ss2;;TJoule?;;;;clWhite
-;TJoule?PerRadian;;%sjoule? per radian;%sJ/rad;;TJoule?;;;;clYellow
-;TJoule?PerDegree;;%sjoule? per degree;%sJ/deg;;TJoule?;180/Pi;;;clYellow
-;TNewtonMeter?PerRadian;;%snewton %smeter? per radian;%sN.%sm/rad;;TJoule?;;;;clYellow
-;TNewtonMeter?PerDegree;;%snewton %smeter? per degree;%sN.%sm/deg;;TJoule?;180/Pi;;;clYellow
-;TPoundForceInch!PerRadian;;pound-force inch! per radian;lbf.in/rad;;TJoule?;0.112984829027617;;;clYellow
-;TPoundForceInch!PerDegree;;pound-force inch! per degree;lbf.in/deg;;TJoule?;6.47355385228963;;;clYellow
-;TKilogramSquareMeter?PerSquareSecondPerRadian;;%sgram square %smeter? per square %ssecond per radian;%sg.%sm2/%ss2/rad;;TJoule?;;;;clYellow
-;TWatt?;kg m2 s-3;%swatt?;%sW;W;;;------SSSS----L---------;;clLime
-;TKilogramSquareMeter?PerCubicSecond;;%sgram square %smeter? per cubic %ssecond;%sg.%sm2/%ss3;;TWatt?;;;;clWhite
-;TCoulomb?;s A;%scoulomb?;%sC;C;;;---------SSSSSSSSS------;;clLime
-;TAmpereHour?;;%sampere hour?;%sA.h;;TCoulomb?;3600;;;clWhite
-;TAmpereSecond?;;%sampere %ssecond?;%sA.%ss;;TCoulomb?;;;;clWhite
-;TSquareCoulomb?;s2 A2;square %scoulomb?;%sC2;C2;;;---------SSSSSSSSS------;;clLime
-;TSquareAmpereSquareSecond?;;square %sampere square %ssecond?;%sA2.%ss2;;TSquareCoulomb?;;;;clWhite
-;TCoulombMeter?;m s A;%scoulomb %smeter?;%sC.%sm;;;;---------SSSSSSSSS------;;clLime
+;TScalar;;;;;;;;dimensionless real number.;clLime
+;TRadian?;;radian?;rad;rad;TScalar;;;rad - radian: SI derived unit of plane angle.;clYellow
+;TDegree?;;degree?;deg;deg;TScalar;Pi/180;;"deg - degree: unit of plane angle; 1° = π/180 rad.";clYellow
+;TDecibel?;;decibel?;dB;dB;TScalar;;;dB - decibel: logarithmic unit expressing the ratio of two quantities.;clYellow
+;TSteradian?;sr;steradian?;sr;sr;;;;sr - steradian: SI derived unit of solid angle.;clLime
+;TSquareDegree?;;square degree?;c;deg2;TSteradian?;Pi*Pi/32400;;"deg² - square degree: unit of solid angle; 1 deg² = (pi/180)² sr.";clWhite
+;TSecond?;s;%ssecond?;%ss;s;;;------------SSSSSS------;s - second: SI base unit of time.;clLime
+;TDay?;;day?;d;day;TSecond?;86400;;"day - day: unit of time; 1 day = 86400 s.";clWhite
+;THour?;;hour?;h;hr;TSecond?;3600;;"hr - hour: unit of time; 1 hr = 3600 s.";clWhite
+;TMinute?;;minute?;min;minute;TSecond?;60;;"min - minute: unit of time; 1 min = 60 s.";clWhite
+;TSquareSecond?;s2;square %ssecond?;%ss2;s2;;;------------SSSSSS------;s² - square second: unit of square time.;clLime
+;TSquareDay?;;square day?;d2;day2;TSquareSecond?;7464960000;;"day² - square day: unit of square time; 1 day² = 86400² s².";clWhite
+;TSquareHour?;;square hour?;h2;hr2;TSquareSecond?;12960000;;"hr² - square hour: unit of square time; 1 hr² = 3600² s².";clWhite
+;TSquareMinute?;;square minute?;min2;minute2;TSquareSecond?;3600;;"min² - square minute: unit of square time; 1 min² = 60² s².";clWhite
+;TCubicSecond?;s3;cubic %ssecond?;%ss3;s3;;;------------SSSSSS------;s³ - cubic second: SI unit of cubic time.;clLime
+;TQuarticSecond?;s4;quartic %ssecond?;%ss4;s4;;;------------SSSSSS------;s⁴ - quartic second: SI unit of quartic time.;clLime
+;TQuinticSecond?;s5;quintic %ssecond?;%ss5;s5;;;------------SSSSSS------;s⁵ - quintic second: SI unit of quintic time.;clLime
+;TSexticSecond?;s6;sextic %ssecond?;%ss6;s6;;;------------SSSSSS------;s⁶ - sextic second: SI unit of sextic time.;clLime
+;TMeter?;m;%smeter?;%sm;m;;;---------S--SSSSSS------;m - meter: SI base unit of length.;clLime
+;TAstronomical;;astronomical unit?;au;au;TMeter?;149597870691;;"au - astronomical unit: unit of length used in astronomy; 1 au = 149597870691 m.";clWhite
+;TInch!;;inch!;in;inch;TMeter?;0.0254;;"in - inch: imperal unit of length; 1 inch = 0.0254 m.";clWhite
+;TFoot!;;foot!;ft;ft;TMeter?;0.3048;;"ft - foot: imperial unit of length; 1 ft = 0.3048 m.";clWhite
+;TYard?;;yard?;yd;yd;TMeter?;0.9144;;"yd - yard: imperial unit of length; 1 yd = 0.9144 m.";clWhite
+;TMile?;;mile?;mi;mi;TMeter?;1609.344;;"mi - mile: imperial unit of length; 1 mi = 1609.344 m.";clWhite
+;TNauticalMile?;;nautical mile?;nmi;nmi;TMeter?;1852;;"nmi - nautical mile: unit of length used in navigation; 1 nmi = 1852 m.";clWhite
+;TAngstrom?;;%sangstrom?;%sÅ;angstrom;TMeter?;1E-10;;"angstrom - angstrom: unit of length used in atomic physics; 1 angstrom = 1E-10 m.";clWhite
+;TParsec?;;%sparsec?;%spc;parsec;TMeter?;3.08567758149137E+16;--------L---------------;"pc - parsec: unit of length used in astronomy; 1 pc = 3.085678E+16 m.";clYellow
+;TLightYear?;;%slight year?;%sly;ly;TMeter?;9.4607304725808E+15;--------S---------------;"ly - light year: unit of length used in astronomy; 1 ly = 9.460730E+15 m.";clYellow
+;TSquareRootMeter?;m0.5;square root %smeter?;√%sm;;;;;√m — square root meter: unit of square root of length.;clLime
+;TSquareMeter?;m2;square %smeter?;%sm2;m2;;;---------S--SSSSSS------;m² - square meter: SI unit of area.;clLime
+;TSquareInch!;;square inch!;in2;inch2;TSquareMeter?;0.00064516;;"in² - square inch: unit of area; 1 in² = 6.4516e-4 m².";clWhite
+;TSquareFoot!;;square foot!;ft2;ft2;TSquareMeter?;0.09290304;;"ft² - square foot: unit of area; 1 ft² = 0.09290304 m².";clWhite
+;TSquareYard?;;square yard?;yd2;yd2;TSquareMeter?;0.83612736;;"yd² - square yard: unit of area; 1 yd² = 0.83612736 m².";clWhite
+;TSquareMile?;;square mile?;mi2;mi2;TSquareMeter?;2589988.110336;;"mi² - square mile: unit of area; 1 mi² = 2589988.110336 m².";clWhite
+;TCubicMeter?;m3;cubic %smeter?;%sm3;m3;;;---------S--SSSSSS------;m³ - cubic meter: SI derived unit of volume.;clLime
+;TCubicInch!;;cubic inch!;in3;inch3;TCubicMeter?;0.000016387064;;"in³ - cubic inch: unit of volume; 1 in³ = 1.6387064e-5 m³.";clWhite
+;TCubicFoot!;;cubic foot!;ft3;ft3;TCubicMeter?;0.028316846592;;"ft³ - cubic foot: unit of volume; 1 ft³ = 0.028316846592 m³.";clWhite
+;TCubicYard?;;cubic yard?;yd3;yd3;TCubicMeter?;0.764554857984;;"yd³ - cubic yard: unit of volume; 1 yd³ = 0.764554857984 m³.";clWhite
+;TLitre?;;%slitre?;%sL;L;TCubicMeter?;1E-03;------------SSS---------;"L - litre: unit of volume; 1 L = 1e-3 m³.";clWhite
+;TGallon?;;gallon?;gal;gal;TCubicMeter?;0.0037854119678;;"gal - gallon: unit of volume; 1 gal = 3.785412e-3 m³.";clWhite
+;TQuarticMeter?;m4;quartic %smeter?;%sm4;m4;;;---------S--SSSSSS------;m⁴ - quartic meter: SI derived unit of second moment of area.;clLime
+;TQuinticMeter?;m5;quintic %smeter?;%sm5;m5;;;---------S--SSSSSS------;m⁵ - quintic meter: SI derived unit of quintic length.;clLime
+;TSexticMeter?;m6;sextic %smeter?;%sm6;m6;;;---------S--SSSSSS------;m⁶ - sextic meter: SI derived unit of sextic length.;clLime
+;TKilogram?;kg;%sgram?;%sg;kg;;;;kg - kilogram: SI base unit of mass.;clLime
+;TTonne?;;%stonne?;%st;tonne;TKilogram?;1E+03;-------LLL--------------;"t - tonne: unit of mass; 1 t = 1000 kg.";clWhite
+;TPound?;;pound?;lb;lb;TKilogram?;0.45359237;;"lb - pound: unit of mass; 1 lb = 0.45359237 kg.";clWhite
+;TOunce?;;ounce?;oz;oz;TKilogram?;0.028349523125;;"oz - ounce: unit of mass; 1 oz = 0.028349523125 kg.";clWhite
+;TStone?;;stone?;st;st;TKilogram?;6.35029318;;"st - stone: unit of mass; 1 st = 6.35029318 kg.";clWhite
+;TTon?;;ton?;ton;ton;TKilogram?;907.18474;;"ton - short ton: unit of mass; 1 ton = 907.18474 kg.";clWhite
+;TDalton?;;%sdalton?;%Da;dalton;TKilogram?;1.660538862800000E-27;;"Da - dalton: unit of mass; 1 Da = 1.6605389e-27 kg.";clYellow
+;TElectronvolt?PerSquareSpeedOfLight;;%selectronvolt? per squared speed of light;%seV/c2;;TKilogram?;1.7826619216279E-36;;"eV/c² - electronvolt per squared speed of light: unit of mass; 1 eV/c² = 1.7826619e-36 kg.";clWhite
+;TSquareKilogram?;kg2;square %sgram?;%sg2;kg2;;;;kg² - square kilogram: unit of square mass.;clLime
+;TAmpere?;A;%sampere?;%sA;A;;;---------SSSSSSSSL------;A - ampere: SI base unit of electric current.;clLime
+;TSquareAmpere?;A2;square %sampere?;%sA2;A2;;;---------SSSSSSSSL------;A² - square ampere: unit of square electric current.;clLime
+;TKelvin?;K;%skelvin?;%sK;K;;;;K - kelvin: SI base unit of thermodynamic temperature.;clLime
+;TDegree?Celsius;;degree? Celsius;°C;degC;TKelvin?;Celsius;;"°C - degree Celsius: unit of temperature; T(°C) = T(K) - 273.15.";clWhite
+;TDegree?Fahrenheit;;degree? Fahrenheit;°F;degF;TKelvin?;Fahrenheit;;"°F - degree Fahrenheit: unit of temperature; T(°F) = T(K) * 9/5 - 459.67.";clWhite
+;TSquareKelvin?;K2;square %skelvin?;%sK2;K2;;;;K² - square kelvin: unit of square temperature.;clLime
+;TCubicKelvin?;K3;cubic %skelvin?;%sK3;K3;;;;K³ - cubic kelvin: unit of cubic temperature.;clLime
+;TQuarticKelvin?;K4;quartic %skelvin?;%sK4;K4;;;;K⁴ - quartic kelvin: unit of quartic temperature.;clLime
+;TMole?;mol;%smole?;%smol;mol;;;---------SSS------------;mol - mole: SI base unit of amount of substance.;clLime
+;TCandela?;cd;%scandela?;%scd;cd;;;;cd - candela: SI base unit of luminous intensity.;clLime
+;THertz;s-1;%shertz;%sHz;Hz;;;------SSSS--------------;"Hz - hertz: SI derived unit of frequency; 1 Hz = 1/s.";clLime
+;TReciprocalSecond?;;reciprocal %ssecond?;1/%ss;;THertz;;;"1/s - reciprocal second: unit of frequency; equivalent to Hz.";clWhite
+;TRadian?PerSecond;;radian? per %ssecond;rad/%ss;;THertz;;;rad/s - radian per second: unit of angular frequency.;clYellow
+Astronomic;TMeter?PerSecondPerParsec;;%smeter? per %ssecond per %sparsec;%sm/%ss/%spc;;THertz;3.24077928944436E-17;;m/s/pc - meter per second per parsec: unit of specific expansion rate used in cosmology.;clFuchsia
+;TSquareHertz;s-2;square %shertz;%sHz2;Hz2;;;------SSSS--------------;"Hz² - square hertz: unit of square frequency; 1 Hz² = 1/s².";clLime
+;TReciprocalSquareSecond?;;reciprocal square %ssecond?;1/%ss2;;TSquareHertz;;;"1/s² - reciprocal square second: unit of square frequency; equivalent to Hz².";clWhite
+;TRadian?PerSquareSecond;;radian? per square %ssecond;rad/%ss2;;TSquareHertz;;;rad/s² - radian per square second: unit of angular acceleration.;clYellow
+;TSteradian?PerSquareSecond;sr s-2;steradian? per square %ssecond;sr/%ss2;;;;;sr/s² - steradian per square second: unit of solid angular acceleration.;clYellow
+Mechanics;TMeter?PerSecond;m s-1;%smeter? per %ssecond;%sm/%ss;;;;;m/s - meter per second: unit of speed.;clLime
+;TMeter?PerHour;;%smeter? per hour;%sm/h;;TMeter?PerSecond;1/3600;;"m/h - meter per hour: unit of speed; 1 m/h = 1/3600 m/s.";clWhite
+;TMile?PerHour;;mile? per hour;mi/h;;TMeter?PerSecond;0.44704;;"mi/h - mile per hour: imperial unit of speed; 1 mi/h = 0.44704 m/s.";clWhite
+;TNauticalMile?PerHour;;nautical mile? per hour;nmi/h;;TMeter?PerSecond;463/900;;"nmi/h - nautical mile per hour: unit of speed used in navigation; 1 nmi/h = 463/900 m/s.";clWhite
+Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;;;m/s² - meter per square second: SI derived unit of acceleration.;clLime
+;TMeter?PerSecondPerSecond;;%smeter? per %ssecond per %ssecond;%sm/%ss/%ss;;TMeter?PerSquareSecond;;;"m/s/s - meter per second per second: unit of acceleration; equivalent to m/s².";clWhite
+;TMeter?PerHourPerSecond;;%smeter? per hour per %ssecond;%sm/h/%ss;;TMeter?PerSquareSecond;1/3600;;"m/h/s - meter per hour per second: unit of acceleration; 1 m/h/s = 1/3600 m/s².";clWhite
+;TMeter?PerCubicSecond;m s-3;%smeter? per cubic %ssecond;%sm/%ss3;;;;;m/s³ - meter per cubic second: SI unit of jerk (rate of change of acceleration).;clLime
+;TMeter?PerQuarticSecond;m s-4;%smeter? per quartic %ssecond;%sm/%ss4;;;;;m/s⁴ - meter per quartic second: SI unit of snap (rate of change of jerk).;clLime
+;TMeter?PerQuinticSecond;m s-5;%smeter? per quintic %ssecond;%sm/%ss5;;;;;m/s⁵ - meter per quintic second: SI unit of crackle (rate of change of snap).;clLime
+;TMeter?PerSexticSecond;m s-6;%smeter? per sextic %ssecond;%sm/%ss6;;;;;m/s⁶ - meter per sextic second: SI unit of pop (rate of change of crackle).;clLime
+;TSquareMeter?PerSquareSecond;m2 s-2;square %smeter? per square %ssecond;%sm2/%ss2;;;;;m²/s² - square meter per square second: SI unit of specific energy.;clLime
+;TJoule?PerKilogram;;%sjoule? per %sgram;%sJ/%sg;;TSquareMeter?PerSquareSecond;;;"J/kg - joule per kilogram: SI unit of specific energy; equivalent to m²/s².";clWhite
+;TGray?;;%sgray?;%sGy;Gy;TSquareMeter?PerSquareSecond;;---------S----SSS-------;"Gy - gray: SI derived unit of absorbed radiation dose; 1 Gy = 1 J/kg.";clWhite
+;TSievert?;;%ssievert?;%sSv;Sv;TSquareMeter?PerSquareSecond;;---------S----SSS-------;"Sv - sievert: SI derived unit of radiation dose equivalent; 1 Sv = 1 J/kg.";clWhite
+;TMeterSecond?;m s;%smeter %ssecond?;%sm.%ss;;;;;m·s - meter second: SI unit of length-time product.;clLime
+;TKilogramMeter?;kg m;%sgram %smeter?;%sg.%sm;;;;;kg·m - kilogram meter: SI unit of first moment of mass.;clLime
+;TKilogram?PerSecond;kg s-1;%sgram? per %ssecond;%sg/%ss;;;;;kg/s - kilogram per second: SI unit of mass flow rate.;clLime
+;TJoule?PerSquareMeterPerHertz;;%sjoule? per square %smeter per %shertz;%sJ/%sm2/%sHz;;TKilogram?PerSecond;;;J/m²/Hz - joule per square meter per hertz: SI unit of spectral fluence.;clWhite
+;TKilogramMeter?PerSecond;kg m s-1;%sgram %smeter? per %ssecond;%sg.%sm/%ss;;;;;kg·m/s - kilogram meter per second: SI unit of linear momentum.;clLime
+;TNewtonSecond?;;%snewton %ssecond?;%sN.%ss;;TKilogramMeter?PerSecond;;;"N·s - newton second: SI unit of impulse; equivalent to kg·m/s.";clWhite
+;TSquareKilogramSquareMeter?PerSquareSecond;kg2 m2 s-2;square%sgram square%smeter? per square%ssecond;%sg2.%sm2/%ss2;;;;;kg²·m²/s² - square kilogram square meter per square second: SI unit of square momentum.;clLime
+;TReciprocalSquareRootMeter?;m-0.5;reciprocal square root %smeter?;1/√%sm;;;;;1/√m - reciprocal square root meter: SI unit of reciprocal square root of length.;clLime
+;TReciprocalMeter?;m-1;reciprocal %smeter?;1/%sm;;;;;1/m - reciprocal meter: SI unit of wavenumber.;clLime
+;TDioptre?;;%sdioptre?;dpt;;TReciprocalMeter?;;;"dpt - dioptre: SI unit of optical power; 1 dpt = 1/m.";clWhite
+;TReciprocalSquareRootCubicMeter?;m-1.5;reciprocal square root cubic %smeter?;1/√%sm3;;;;;1/√m³ - reciprocal square root cubic meter: SI unit of reciprocal square root of volume.;clLime
+;TReciprocalSquareMeter?;m-2;reciprocal square %smeter?;1/%sm2;;;;;1/m² - reciprocal square meter: SI unit of reciprocal area.;clLime
+;TReciprocalCubicMeter?;m-3;reciprocal cubic %smeter?;1/%sm3;;;;;1/m³ - reciprocal cubic meter: SI unit of number density.;clLime
+;TReciprocalQuarticMeter?;m-4;reciprocal quartic %smeter?;1/%sm4;;;;;1/m⁴ - reciprocal quartic meter: SI unit of reciprocal quartic length.;clLime
+;TKilogramSquareMeter?;kg m2;%sgram square %smeter?;%sg.%sm2;;;;;kg·m² - kilogram square meter: SI unit of moment of inertia.;clLime
+;TKilogramSquareMeter?PerSecond;kg m2 s-1;%sgram square %smeter? per %ssecond;%sg.%sm2/%ss;;;;;kg·m²/s - kilogram square meter per second: SI unit of angular momentum.;clLime
+;TNewtonMeterSecond?;;%snewton %smeter %ssecond?;%sN.%sm.%ss;;TKilogramSquareMeter?PerSecond;;;N·m·s - newton meter second: SI unit of angular impulse.;clWhite
+;TSecond?PerMeter;s m-1;%ssecond? per %smeter;%ss/%sm;;;;;s/m - second per meter: SI unit of slowness.;clLime
+;TKilogram?PerMeter;kg m-1;%sgram? per %smeter;%sg/%sm;;;;;kg/m - kilogram per meter: SI unit of linear mass density.;clLime
+;TKilogram?PerSquareMeter;kg m-2;%sgram? per square %smeter;%sg/%sm2;;;;;kg/m² - kilogram per square meter: SI unit of surface mass density.;clLime
+;TKilogram?PerCubicMeter;kg m-3;%sgram? per cubic %smeter;%sg/%sm3;;;;;kg/m³ - kilogram per cubic meter: SI unit of volumetric mass density.;clLime
+;TPound?PerCubicInch;;pound? per cubic inch;lb/in3;;TKilogram?PerCubicMeter;27679.9047102031;;"lb/in³ - pound per cubic inch: imperial unit of density; 1 lb/in³ = 27679.9047 kg/m³.";clWhite
+;TNewton?;kg m s-2;%snewton?;%sN;N;;;-------SSSSS------------;"N - newton: SI derived unit of force; 1 N = 1 kg·m/s².";clLime
+;TPound?Force;;pound?-force;lbf;lbf;TNewton?;4.4482216152605;;"lbf - pound-force: imperial unit of force; 1 lbf = 4.4482216152605 N.";clWhite
+;TKilogramMeter?PerSquareSecond;;%sgram %smeter? per square %ssecond;%sg.%sm/%ss2;;TNewton?;;;"kg·m/s² - kilogram meter per square second: SI unit of force; equivalent to N.";clWhite
+;TNewtonRadian?;;%snewton %sradian?;%sN.%srad;;TNewton?;;;N·rad - newton radian: SI unit of force per radian.;clYellow
+;TSquareNewton?;kg2 m2 s-4;square %snewton?;%sN2;N2;;;-------SSSSS------------;N² - square newton: SI unit of square force.;clLime
+;TSquareKilogramSquareMeter?PerQuarticSecond;;square %sgram square %smeter? per quartic %ssecond;%sg2.%sm2/%ss4;;TSquareNewton?;;;"kg²·m²/s⁴ - square kilogram square meter per quartic second: SI unit of square force; equivalent to N².";clWhite
+;TPascal?;kg m-1 s-2;%spascal?;%sPa;Pa;;;------SSSS--------------;"Pa - pascal: SI derived unit of pressure; 1 Pa = 1 N/m².";clLime
+;TNewton?PerSquareMeter;;%snewton? per square %smeter;%sN/%sm2;;TPascal?;;;"N/m² - newton per square meter: SI unit of pressure; equivalent to Pa.";clWhite
+;TBar?;;%sbar?;%sbar;bar;TPascal?;1E+05;---------S----S---------;"bar - bar: unit of pressure; 1 bar = 1e5 Pa.";clWhite
+;TPound?PerSquareInch;;%spound? per square inch;%spsi;psi;TPascal?;6894.75729316836;---------S--------------;"psi - pound per square inch: imperial unit of pressure; 1 psi = 6894.757 Pa.";clWhite
+;TJoule?PerCubicMeter;;%sjoule? per cubic %smeter;%sJ/%sm3;;TPascal?;;;"J/m³ - joule per cubic meter: SI unit of energy density; equivalent to Pa.";clWhite
+;TKilogram?PerMeterPerSquareSecond;;%sgram? per %smeter per square %ssecond;%sg/%sm/%ss2;;TPascal?;;;"kg/m/s² - kilogram per meter per square second: SI unit of pressure; equivalent to Pa.";clWhite
+;TAtmosphere?;;%satmosphere?;%satm;atm;TPascal?;101325;;"atm - atmosphere: unit of pressure; 1 atm = 101325 Pa.";clWhite
+;TTorr;;%storr?;%sTorr;Torr;TPascal?;133.322368421053;;"Torr - torr: unit of pressure; 1 Torr = 133.322 Pa.";clWhite
+;TJoule?;kg m2 s-2;%sjoule?;%sJ;J;;;------SSSS--------------;"J - joule: SI derived unit of energy; 1 J = 1 kg·m²/s².";clLime
+;TWattHour?;;%swatt hour?;%sW.h;;TJoule?;3600;;"W·h - watt hour: unit of energy; 1 W·h = 3600 J.";clWhite
+;TWattSecond?;;%swatt %ssecond?;%sW.%ss;;TJoule?;;;"W·s - watt second: unit of energy; equivalent to J.";clWhite
+;TWatt?PerHertz;;%swatt? per %shertz;%sW/%shz;;TJoule?;;;W/Hz - watt per hertz: SI unit of spectral energy density.;clWhite
+;TElectronvolt?;;%selectronvolt?;%seV;eV;TJoule?;1.602176634E-019;------SSSS--------------;"eV - electronvolt: unit of energy; 1 eV = 1.602176634e-19 J.";clWhite
+;TNewtonMeter?;;%snewton %smeter?;%sN.%sm;;TJoule?;;;"N·m - newton meter: SI unit of torque and energy; equivalent to J.";clWhite
+;TPoundForceInch!;;pound-force inch!;lbf.in;;TJoule?;0.112984829027617;;"lbf·in - pound-force inch: imperial unit of torque; 1 lbf·in = 0.112984829 N·m.";clWhite
+;TRydberg?;;%srydberg?;%sRy;Ry;TJoule?;2.1798723611035E-18;;"Ry - rydberg: unit of energy used in atomic physics; 1 Ry = 2.1798724e-18 J.";clWhite
+;TCalorie?;;%scalorie?;%scal;cal;TJoule?;4.184;--------SS--------------;"cal - calorie: unit of energy; 1 cal = 4.184 J.";clWhite
+;TKilogramSquareMeter?PerSquareSecond;;%sgram square %smeter? per square %ssecond;%sg.%sm2/%ss2;;TJoule?;;;"kg·m²/s² - kilogram square meter per square second: SI unit of energy; equivalent to J.";clWhite
+;TJoule?PerRadian;;%sjoule? per radian;%sJ/rad;;TJoule?;;;J/rad - joule per radian: SI unit of torque per radian.;clYellow
+;TJoule?PerDegree;;%sjoule? per degree;%sJ/deg;;TJoule?;180/Pi;;"J/deg - joule per degree: unit of torque per degree; 1 J/deg = 180/pi J/rad.";clYellow
+;TNewtonMeter?PerRadian;;%snewton %smeter? per radian;%sN.%sm/rad;;TJoule?;;;N·m/rad - newton meter per radian: SI unit of torsional stiffness.;clYellow
+;TNewtonMeter?PerDegree;;%snewton %smeter? per degree;%sN.%sm/deg;;TJoule?;180/Pi;;"N·m/deg - newton meter per degree: unit of torsional stiffness; 1 N·m/deg = 180/pi N·m/rad.";clYellow
+;TPoundForceInch!PerRadian;;pound-force inch! per radian;lbf.in/rad;;TJoule?;0.112984829027617;;"lbf·in/rad - pound-force inch per radian: imperial unit of torsional stiffness; 1 lbf·in/rad = 0.112984829 N·m/rad.";clYellow
+;TPoundForceInch!PerDegree;;pound-force inch! per degree;lbf.in/deg;;TJoule?;6.47355385228963;;"lbf·in/deg - pound-force inch per degree: imperial unit of torsional stiffness; 1 lbf·in/deg = 6.473554 N·m/rad.";clYellow
+;TKilogramSquareMeter?PerSquareSecondPerRadian;;%sgram square %smeter? per square %ssecond per radian;%sg.%sm2/%ss2/rad;;TJoule?;;;"kg·m²/s²/rad - kilogram square meter per square second per radian: SI unit of torsional stiffness; equivalent to N·m/rad.";clYellow
+;TWatt?;kg m2 s-3;%swatt?;%sW;W;;;------SSSS----L---------;"W - watt: SI derived unit of power; 1 W = 1 J/s.";clLime
+;TKilogramSquareMeter?PerCubicSecond;;%sgram square %smeter? per cubic %ssecond;%sg.%sm2/%ss3;;TWatt?;;;"kg·m²/s³ - kilogram square meter per cubic second: SI unit of power; equivalent to W.";clWhite
+;TCoulomb?;s A;%scoulomb?;%sC;C;;;---------SSSSSSSSS------;"C - coulomb: SI derived unit of electric charge; 1 C = 1 A·s.";clLime
+;TAmpereHour?;;%sampere hour?;%sA.h;;TCoulomb?;3600;;"A·h - ampere hour: unit of electric charge; 1 A·h = 3600 C.";clWhite
+;TAmpereSecond?;;%sampere %ssecond?;%sA.%ss;;TCoulomb?;;;"A·s - ampere second: SI unit of electric charge; equivalent to C.";clWhite
+;TSquareCoulomb?;s2 A2;square %scoulomb?;%sC2;C2;;;---------SSSSSSSSS------;C² - square coulomb: SI unit of square electric charge.;clLime
+;TSquareAmpereSquareSecond?;;square %sampere square %ssecond?;%sA2.%ss2;;TSquareCoulomb?;;;"A²·s² - square ampere square second: SI unit of square electric charge; equivalent to C².";clWhite
+;TCoulombMeter?;m s A;%scoulomb %smeter?;%sC.%sm;;;;---------SSSSSSSSS------;C·m - coulomb meter: SI unit of electric dipole moment.;clLime
 ;TVolt?;kg m2 s-3 A-1;%svolt?;%sV;V;;;---------S----S---------;;clLime
 ;TJoule?PerCoulomb;;%sJoule? per %scoulomb;%sJ/%sC;;TVolt?;;;;clWhite
 ;TKilogramSquareMeter?PerAmperePerCubicSecond;;%sgram square %smeter? per %sampere per cubic %ssecond;%sg.%sm2/%sA/%ss3;;TVolt?;;;;clWhite
