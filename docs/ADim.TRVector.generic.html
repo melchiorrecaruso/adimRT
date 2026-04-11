@@ -37,9 +37,9 @@
 <code>type generic TRVector&lt;TSpace&gt; = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Generic column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> of real values (<code>double</code>) with <code>TSpace.N</code> components.
+Generic column vector of real values (<code>double</code>) with <code>TSpace.N</code> components.
 
-<p>Components are stored in <a class="normal" href="ADim.TRVector.generic.html#a">a</a> 1-based array. Use the default array property <code><a class="normal" href="ADim.TRVector.generic.html#a">a</a>[row]</code> to read and write individual components. Concrete types are provided as <a class="normal" href="ADim.html#TR2Vector">TR2Vector</a>, <a class="normal" href="ADim.html#TR3Vector">TR3Vector</a>, and <a class="normal" href="ADim.html#TR4Vector">TR4Vector</a>.</p>
+<p>Components are stored in a 1-based array. Use the default array property <code>a[row]</code> to read and write individual components. Concrete types are provided as <a class="normal" href="ADim.html#TR2Vector">TR2Vector</a>, <a class="normal" href="ADim.html#TR3Vector">TR3Vector</a>, and <a class="normal" href="ADim.html#TR4Vector">TR4Vector</a>.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-NestedTypes"></span><h3 class="summary">Nested Types</h3>
 <table class="summary wide_list">
@@ -172,7 +172,7 @@ Returns <code>True</code> if all components are zero.</p>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the Euclidean <code>norm</code> (magnitude) of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. <code>|<a class="normal" href="ADim.html#V">v</a>| = √(Σ <a class="normal" href="ADim.html#V">v</a>ᵢ²)</code></p>
+Returns the Euclidean norm (magnitude) of the vector. <code>|v| = √(Σ vᵢ²)</code></p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -182,7 +182,7 @@ Returns the Euclidean <code>norm</code> (magnitude) of the <a class="normal" hre
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the unit <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> in the same direction. Each component is divided by <a class="normal" href="ADim.TRVector.generic.html#Norm">Norm</a>.</p>
+Returns the unit vector in the same direction. Each component is divided by <a class="normal" href="ADim.TRVector.generic.html#Norm">Norm</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -192,7 +192,7 @@ Returns the unit <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TCo
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the element-wise <code>reciprocal</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Each component <code><a class="normal" href="ADim.html#V">v</a>ᵢ</code> is replaced by <code>1/<a class="normal" href="ADim.html#V">v</a>ᵢ</code>.</p>
+Returns the element-wise reciprocal of the vector. Each component <code>vᵢ</code> is replaced by <code>1/vᵢ</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -202,7 +202,7 @@ Returns the element-wise <code>reciprocal</code> of the <a class="normal" href="
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the squared Euclidean <a class="normal" href="ADim.TRVector.generic.html#Norm">norm</a> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. <code>|<a class="normal" href="ADim.html#V">v</a>|² = Σ <a class="normal" href="ADim.html#V">v</a>ᵢ²</code>. Avoids the square root of <a class="normal" href="ADim.TRVector.generic.html#Norm">Norm</a>.</p>
+Returns the squared Euclidean norm of the vector. <code>|v|² = Σ vᵢ²</code>. Avoids the square root of <a class="normal" href="ADim.TRVector.generic.html#Norm">Norm</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -212,7 +212,7 @@ Returns the squared Euclidean <a class="normal" href="ADim.TRVector.generic.html
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TRVector.generic.html#a">a</a> real scalar and <a class="normal" href="ADim.TRVector.generic.html#a">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Each component is multiplied by <code>ALeft</code>.</p>
+Returns the product of a real scalar and a vector. Each component is multiplied by <code>ALeft</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -222,7 +222,7 @@ Returns the product of <a class="normal" href="ADim.TRVector.generic.html#a">a</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TRVector.generic.html#a">a</a> square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> and <a class="normal" href="ADim.TRVector.generic.html#a">a</a> column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>: <code><a class="normal" href="ADim.html#V">v</a>' = <a class="normal" href="ADim.TRVector.generic.html#a">A</a>·<a class="normal" href="ADim.html#V">v</a></code>. The result is <a class="normal" href="ADim.TRVector.generic.html#a">a</a> column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</p>
+Returns the product of a square matrix and a column vector: <code>v' = A·v</code>. The result is a column vector.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -232,7 +232,7 @@ Returns the product of <a class="normal" href="ADim.TRVector.generic.html#a">a</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TRVector.generic.html#a">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.TRVector.generic.html#a">a</a> real scalar. Each component is multiplied by <code>ARight</code>.</p>
+Returns the product of a vector and a real scalar. Each component is multiplied by <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -242,7 +242,7 @@ Returns the product of <a class="normal" href="ADim.TRVector.generic.html#a">a</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the product of <a class="normal" href="ADim.TRVector.generic.html#a">a</a> row <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> and <a class="normal" href="ADim.TRVector.generic.html#a">a</a> square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>: <code><a class="normal" href="ADim.html#V">v</a>' = <a class="normal" href="ADim.html#V">v</a>·<a class="normal" href="ADim.TRVector.generic.html#a">A</a></code>. The result is <a class="normal" href="ADim.TRVector.generic.html#a">a</a> row <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</p>
+Returns the product of a row vector and a square matrix: <code>v' = v·A</code>. The result is a row vector.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -252,7 +252,7 @@ Returns the product of <a class="normal" href="ADim.TRVector.generic.html#a">a</
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the dot product (inner product) of two vectors. <code>u·<a class="normal" href="ADim.html#V">v</a> = Σ uᵢ·<a class="normal" href="ADim.html#V">v</a>ᵢ</code></p>
+Returns the dot product (inner product) of two vectors. <code>u·v = Σ uᵢ·vᵢ</code></p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -262,7 +262,7 @@ Returns the dot product (inner product) of two vectors. <code>u·<a class="norma
 </tr>
 <tr><td colspan="2">
 <p>
-Unary plus. Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> unchanged.</p>
+Unary plus. Returns the vector unchanged.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -282,7 +282,7 @@ Returns the component-wise sum of two vectors.</p>
 </tr>
 <tr><td colspan="2">
 <p>
-Unary minus. Returns the negation of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>: each component <code><a class="normal" href="ADim.html#V">v</a>ᵢ</code> becomes <code>-<a class="normal" href="ADim.html#V">v</a>ᵢ</code>.</p>
+Unary minus. Returns the negation of the vector: each component <code>vᵢ</code> becomes <code>-vᵢ</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -302,7 +302,7 @@ Returns the component-wise difference of two vectors.</p>
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the element-wise quotient of <a class="normal" href="ADim.TRVector.generic.html#a">a</a> scalar divided by <a class="normal" href="ADim.TRVector.generic.html#a">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>: each component becomes <code>ALeft/<a class="normal" href="ADim.html#V">v</a>ᵢ</code>.</p>
+Returns the element-wise quotient of a scalar divided by a vector: each component becomes <code>ALeft/vᵢ</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -312,7 +312,7 @@ Returns the element-wise quotient of <a class="normal" href="ADim.TRVector.gener
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> divided by <a class="normal" href="ADim.TRVector.generic.html#a">a</a> real scalar. Each component is divided by <code>ARight</code>.</p>
+Returns the vector divided by a real scalar. Each component is divided by <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -343,7 +343,7 @@ Returns <code>True</code> if all corresponding components of the two vectors are
 </tr>
 <tr><td colspan="2">
 <p>
-Provides access to individual <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components using <code>a</code> 1-based index. <code><code>a</code>[1]</code> is the first component.</p>
+Provides access to individual vector components using a 1-based index. <code>a[1]</code> is the first component.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

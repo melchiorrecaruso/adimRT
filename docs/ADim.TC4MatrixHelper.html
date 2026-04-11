@@ -37,7 +37,7 @@
 <code>type TC4MatrixHelper = record helper for TC4Matrix</code></p>
 <h2 class="description">Description</h2>
 <p>
-Record helper for <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a> providing additional operations specific to 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices.</p>
+Record helper for <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a> providing additional operations specific to 4×4 complex matrices.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -95,7 +95,7 @@ Record helper for <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a> pro
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the element-wise <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <code>conjugate</code> of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>.</p>
+Returns the element-wise complex conjugate of the matrix.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -105,7 +105,7 @@ Returns the element-wise <a class="normal" href="ADimC.html#Complex-double-doubl
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>determinant</code> of the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> using cofactor expansion.</p>
+Returns the determinant of the 4×4 complex matrix using cofactor expansion.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -115,11 +115,11 @@ Returns the <code>determinant</code> of the 4×4 <a class="normal" href="ADimC.h
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the diagonal <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> built from the given <a class="normal" href="ADim.TC4MatrixHelper.html#Eigenvalues">eigenvalues</a>. </p>
+Returns the diagonal matrix built from the given eigenvalues. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AEigenValues</dt>
-<dd>The <a class="normal" href="ADim.TC4MatrixHelper.html#Eigenvalues">eigenvalues</a>, typically computed via <a class="normal" href="ADim.TC4MatrixHelper.html#Eigenvalues">Eigenvalues</a>.</dd>
+<dd>The eigenvalues, typically computed via <a class="normal" href="ADim.TC4MatrixHelper.html#Eigenvalues">Eigenvalues</a>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -130,7 +130,7 @@ Returns the diagonal <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>eigenvalues</code> of the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> as <a class="normal" href="ADim.html#A">a</a> fixed-size array.</p>
+Returns the eigenvalues of the 4×4 complex matrix as a fixed-size array.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -140,11 +140,11 @@ Returns the <code>eigenvalues</code> of the 4×4 <a class="normal" href="ADimC.h
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>eigenvectors</code> of the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> corresponding to the given <a class="normal" href="ADim.TC4MatrixHelper.html#Eigenvalues">eigenvalues</a>. </p>
+Returns the eigenvectors of the 4×4 complex matrix corresponding to the given eigenvalues. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AEigenValues</dt>
-<dd>The <a class="normal" href="ADim.TC4MatrixHelper.html#Eigenvalues">eigenvalues</a>, computed via <a class="normal" href="ADim.TC4MatrixHelper.html#Eigenvalues">Eigenvalues</a>.</dd>
+<dd>The eigenvalues, computed via <a class="normal" href="ADim.TC4MatrixHelper.html#Eigenvalues">Eigenvalues</a>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -155,7 +155,7 @@ Returns the <code>eigenvectors</code> of the 4×4 <a class="normal" href="ADimC.
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the 4×4 zero <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> over <code>ℂ</code>. All elements are set to <code><a class="normal" href="ADim.TComplex.html">TComplex</a>(Re=0, Im=0)</code>.</p>
+Returns the 4×4 zero matrix over <code>ℂ</code>. All elements are set to <code>TComplex(Re=0, Im=0)</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -165,11 +165,11 @@ Returns the 4×4 zero <a class="normal" href="ADimC.html#Matrix-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the inverse of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> given its precomputed <a class="normal" href="ADim.TC4MatrixHelper.html#Determinant">determinant</a>. </p>
+Returns the inverse of the matrix given its precomputed determinant. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ADeterminant</dt>
-<dd>The <a class="normal" href="ADim.TC4MatrixHelper.html#Determinant">determinant</a> of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>, computed via <a class="normal" href="ADim.TC4MatrixHelper.html#Determinant">Determinant</a>.</dd>
+<dd>The determinant of the matrix, computed via <a class="normal" href="ADim.TC4MatrixHelper.html#Determinant">Determinant</a>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -180,7 +180,7 @@ Returns the inverse of the <a class="normal" href="ADimC.html#Matrix-TComplex-TC
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to its default string representation.</p>
+Converts the matrix to its default string representation.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -190,7 +190,7 @@ Converts the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Converts the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> to <a class="normal" href="ADim.html#A">a</a> formatted string with controlled precision.  </p>
+Converts the matrix to a formatted string with controlled precision.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>APrecision</dt>
@@ -207,7 +207,7 @@ Converts the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComple
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>transpose</code> of the 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>.</p>
+Returns the transpose of the 4×4 complex matrix.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -217,7 +217,7 @@ Returns the <code>transpose</code> of the 4×4 <a class="normal" href="ADimC.htm
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <a class="normal" href="ADim.TC4MatrixHelper.html#Conjugate">conjugate</a> <a class="normal" href="ADim.TC4MatrixHelper.html#Transpose">transpose</a> (Hermitian adjoint) of the <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>: <code><a class="normal" href="ADim.html#A">A</a>† = (<a class="normal" href="ADim.html#A">A</a>ᵀ)&quot;*&quot;</code>. Each element <code>[i,<a class="normal" href="ADim.html#J">j</a>]</code> of the result is the <a class="normal" href="ADim.TC4MatrixHelper.html#Conjugate">conjugate</a> of <code>[<a class="normal" href="ADim.html#J">j</a>,i]</code> of the original.</p>
+Returns the conjugate transpose (Hermitian adjoint) of the matrix: <code>A† = (Aᵀ)&quot;*&quot;</code>. Each element <code>[i,j]</code> of the result is the conjugate of <code>[j,i]</code> of the original.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

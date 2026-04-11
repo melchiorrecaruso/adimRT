@@ -37,15 +37,15 @@
 <code>type TCL3VecQuantity = record</code></p>
 <h2 class="description">Description</h2>
 <p>
-Represents <a class="normal" href="ADim.html#A">a</a> pure <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> (grade-1 element) of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.
+Represents a pure vector (grade-1 element) of <code>Cl(3,0)</code> with physical dimensions.
 
-<p>Combines <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.TCL3Vector.html">TCL3Vector</a> value with <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, supporting geometric algebra arithmetic while preserving dimensional consistency. The physical dimension is stored in <code>FDim</code> and shared by the three <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components <code>m1·e₁ + <a class="normal" href="ADim.html#m2">m2</a>·e₂ + <a class="normal" href="ADim.html#m3">m3</a>·e₃</code>.
+<p>Combines a <a class="normal" href="ADim.TCL3Vector.html">TCL3Vector</a> value with a <a class="normal" href="ADimTypes.TDimension.html">TDimension</a>, supporting geometric algebra arithmetic while preserving dimensional consistency. The physical dimension is stored in <code>FDim</code> and shared by the three vector components <code>m1·e₁ + m2·e₂ + m3·e₃</code>.
 
-<p>When combined with elements of other grades the result is generally promoted to <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>, with the following notable exceptions: </p>
+<p>When combined with elements of other grades the result is generally promoted to a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>, with the following notable exceptions: </p>
 
 <ul class="paragraph_spacing">
-  <li><p>The geometric product <code><a class="normal" href="ADim.html#V">v</a> * <a class="normal" href="ADim.html#T">T</a></code> and <code><a class="normal" href="ADim.html#T">T</a> * <a class="normal" href="ADim.html#V">v</a></code> with <a class="normal" href="ADim.html#A">a</a> trivector returns <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>, since <code>eᵢ · e₁₂₃ = ±eⱼ∧eₖ</code>.</p></li>
-  <li><p>The geometric quotient <code><a class="normal" href="ADim.html#V">v</a> / <a class="normal" href="ADim.html#T">T</a></code> and <code><a class="normal" href="ADim.html#T">T</a> / <a class="normal" href="ADim.html#V">v</a></code> analogously returns <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>.</p></li>
+  <li><p>The geometric product <code>v * T</code> and <code>T * v</code> with a trivector returns a <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>, since <code>eᵢ · e₁₂₃ = ±eⱼ∧eₖ</code>.</p></li>
+  <li><p>The geometric quotient <code>v / T</code> and <code>T / v</code> analogously returns a <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a>.</p></li>
 </ul>
 
 <p> When the symbol <code>ADIMOFF</code> is defined, this type degenerates to <a class="normal" href="ADim.TCL3Vector.html">TCL3Vector</a> and all dimension checking is disabled.</p>
@@ -246,7 +246,7 @@ Represents <a class="normal" href="ADim.html#A">a</a> pure <a class="normal" hre
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> bivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multiplication rules.</p>
+Returns the geometric product of a bivector quantity and a vector quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code>Cl(3,0)</code> multiplication rules.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -256,7 +256,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> bive
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> multivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multiplication rules.</p>
+Returns the geometric product of a multivector quantity and a vector quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code>Cl(3,0)</code> multiplication rules.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -266,7 +266,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> mult
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> trivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Since <code>e₁₂₃ · eᵢ = ±eⱼ∧eₖ</code>, the result is <a class="normal" href="ADim.html#A">a</a> pure bivector quantity. The resulting dimension is the product of the two dimensions.</p>
+Returns the geometric product of a trivector quantity and a vector quantity. Since <code>e₁₂₃ · eᵢ = ±eⱼ∧eₖ</code>, the result is a pure bivector quantity. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -276,7 +276,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> triv
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> bivector quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multiplication rules.</p>
+Returns the geometric product of a vector quantity and a bivector quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code>Cl(3,0)</code> multiplication rules.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -286,7 +286,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> <a c
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> multiplication rules.</p>
+Returns the geometric product of a vector quantity and a multivector quantity. The resulting dimension is the product of the two dimensions. Grade mixing occurs according to the <code>Cl(3,0)</code> multiplication rules.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -296,7 +296,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> <a c
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> trivector quantity. Since <code>eᵢ · e₁₂₃ = ±eⱼ∧eₖ</code>, the result is <a class="normal" href="ADim.html#A">a</a> pure bivector quantity. The resulting dimension is the product of the two dimensions.</p>
+Returns the geometric product of a vector quantity and a trivector quantity. Since <code>eᵢ · e₁₂₃ = ±eⱼ∧eₖ</code>, the result is a pure bivector quantity. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -306,7 +306,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> <a c
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities. The result is <a class="normal" href="ADim.html#A">a</a> mixed-grade element (scalar + bivector), hence <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. <code>(u·<a class="normal" href="ADim.html#V">v</a>) = (u·<a class="normal" href="ADim.html#V">v</a>)_scalar + (u∧<a class="normal" href="ADim.html#V">v</a>)_bivector</code>. The resulting dimension is the product of the two dimensions.</p>
+Returns the geometric product of two vector quantities. The result is a mixed-grade element (scalar + bivector), hence a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. <code>(u·v) = (u·v)_scalar + (u∧v)_bivector</code>. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -316,7 +316,7 @@ Returns the geometric product of two <a class="normal" href="ADimC.html#Vector-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> real quantity scalar. Each component is scaled by <code>ARight</code>. The resulting dimension is the product of the two dimensions.</p>
+Returns the geometric product of a vector quantity and a real quantity scalar. Each component is scaled by <code>ARight</code>. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -326,7 +326,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> <a c
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> real quantity scalar and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Each component is scaled by <code>ALeft</code>. The resulting dimension is the product of the two dimensions.</p>
+Returns the geometric product of a real quantity scalar and a vector quantity. Each component is scaled by <code>ALeft</code>. The resulting dimension is the product of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -336,7 +336,7 @@ Returns the geometric product of <a class="normal" href="ADim.html#A">a</a> real
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> bivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with grade-2 components from <code>ALeft</code> and grade-1 components from <code>ARight</code>.</p>
+Returns the sum of a bivector quantity and a vector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-2 components from <code>ALeft</code> and grade-1 components from <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -346,7 +346,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> bivector quantity 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> multivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Both operands must have the same dimension. The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> contributes only to the grade-1 components.</p>
+Returns the sum of a multivector quantity and a vector quantity. Both operands must have the same dimension. The vector contributes only to the grade-1 components.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -356,7 +356,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> multivector quanti
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> trivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with grade-3 component from <code>ALeft</code> and grade-1 components from <code>ARight</code>.</p>
+Returns the sum of a trivector quantity and a vector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-3 component from <code>ALeft</code> and grade-1 components from <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -366,7 +366,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> trivector quantity
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> bivector quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with grade-1 components from <code>ALeft</code> and grade-2 components from <code>ARight</code>.</p>
+Returns the sum of a vector quantity and a bivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-1 components from <code>ALeft</code> and grade-2 components from <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -376,7 +376,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. Both operands must have the same dimension. The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> contributes only to the grade-1 components.</p>
+Returns the sum of a vector quantity and a multivector quantity. Both operands must have the same dimension. The vector contributes only to the grade-1 components.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -386,7 +386,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> trivector quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with grade-1 components from <code>ALeft</code> and grade-3 component from <code>ARight</code>.</p>
+Returns the sum of a vector quantity and a trivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-1 components from <code>ALeft</code> and grade-3 component from <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -396,7 +396,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the component-wise sum of two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> pure <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity.</p>
+Returns the component-wise sum of two vector quantities. Both operands must have the same dimension. The result is a pure vector quantity.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -406,7 +406,7 @@ Returns the component-wise sum of two <a class="normal" href="ADimC.html#Vector-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> real quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with <code>m0 = ARight</code> and the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components of <code>ALeft</code>.</p>
+Returns the sum of a vector quantity and a real quantity. Both operands must have the same dimension. The result is a full multivector quantity with <code>m0 = ARight</code> and the vector components of <code>ALeft</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -416,7 +416,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> <a class="normal" 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the sum of <a class="normal" href="ADim.html#A">a</a> real quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with <code>m0 = ALeft</code> and the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components of <code>ARight</code>.</p>
+Returns the sum of a real quantity and a vector quantity. Both operands must have the same dimension. The result is a full multivector quantity with <code>m0 = ALeft</code> and the vector components of <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -426,7 +426,7 @@ Returns the sum of <a class="normal" href="ADim.html#A">a</a> real quantity and 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> bivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with grade-2 components from <code>ALeft</code> and negated grade-1 components from <code>ARight</code>.</p>
+Returns the difference of a bivector quantity and a vector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-2 components from <code>ALeft</code> and negated grade-1 components from <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -436,7 +436,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> bivector qu
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> multivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Both operands must have the same dimension. The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> contributes only to the grade-1 components.</p>
+Returns the difference of a multivector quantity and a vector quantity. Both operands must have the same dimension. The vector contributes only to the grade-1 components.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -446,7 +446,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> multivector
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> trivector quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with grade-3 component from <code>ALeft</code> and negated grade-1 components from <code>ARight</code>.</p>
+Returns the difference of a trivector quantity and a vector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-3 component from <code>ALeft</code> and negated grade-1 components from <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -456,7 +456,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> trivector q
 </tr>
 <tr><td colspan="2">
 <p>
-Unary minus. Returns the negation of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Each component <code><a class="normal" href="ADim.html#m">m</a>ₖ</code> becomes <code>-<a class="normal" href="ADim.html#m">m</a>ₖ</code>.</p>
+Unary minus. Returns the negation of the vector quantity. Each component <code>mₖ</code> becomes <code>-mₖ</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -466,7 +466,7 @@ Unary minus. Returns the negation of the <a class="normal" href="ADimC.html#Vect
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> bivector quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with grade-1 components from <code>ALeft</code> and negated grade-2 components from <code>ARight</code>.</p>
+Returns the difference of a vector quantity and a bivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-1 components from <code>ALeft</code> and negated grade-2 components from <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -476,7 +476,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="n
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> multivector quantity. Both operands must have the same dimension. The <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> contributes only to the grade-1 components.</p>
+Returns the difference of a vector quantity and a multivector quantity. Both operands must have the same dimension. The vector contributes only to the grade-1 components.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -486,7 +486,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="n
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> trivector quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with grade-1 components from <code>ALeft</code> and negated grade-3 component from <code>ARight</code>.</p>
+Returns the difference of a vector quantity and a trivector quantity. Both operands must have the same dimension. The result is a full multivector quantity with grade-1 components from <code>ALeft</code> and negated grade-3 component from <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -496,7 +496,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="n
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the component-wise difference of two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> pure <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity.</p>
+Returns the component-wise difference of two vector quantities. Both operands must have the same dimension. The result is a pure vector quantity.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -506,7 +506,7 @@ Returns the component-wise difference of two <a class="normal" href="ADimC.html#
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and <a class="normal" href="ADim.html#A">a</a> real quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with <code>m0 = -ARight</code> and the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components of <code>ALeft</code>.</p>
+Returns the difference of a vector quantity and a real quantity. Both operands must have the same dimension. The result is a full multivector quantity with <code>m0 = -ARight</code> and the vector components of <code>ALeft</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -516,7 +516,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> <a class="n
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the difference of <a class="normal" href="ADim.html#A">a</a> real quantity and <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity. Both operands must have the same dimension. The result is <a class="normal" href="ADim.html#A">a</a> full multivector quantity with <code>m0 = ALeft</code> and negated <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components of <code>ARight</code>.</p>
+Returns the difference of a real quantity and a vector quantity. Both operands must have the same dimension. The result is a full multivector quantity with <code>m0 = ALeft</code> and negated vector components of <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -526,7 +526,7 @@ Returns the difference of <a class="normal" href="ADim.html#A">a</a> real quanti
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar divided by <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity: <code>ALeft * ARight⁻¹</code>. The inverse of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code><a class="normal" href="ADim.html#V">v</a></code> is <code><a class="normal" href="ADim.html#V">v</a>⁻¹ = <a class="normal" href="ADim.html#V">v</a> / |<a class="normal" href="ADim.html#V">v</a>|²</code>. The resulting dimension is the inverse of <code>ARight</code>.</p>
+Returns the geometric quotient of a dimensionless real scalar divided by a vector quantity: <code>ALeft * ARight⁻¹</code>. The inverse of a vector <code>v</code> is <code>v⁻¹ = v / |v|²</code>. The resulting dimension is the inverse of <code>ARight</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -536,7 +536,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> dim
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> bivector quantity divided by <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a bivector quantity divided by a vector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -546,7 +546,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> biv
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> multivector quantity divided by <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a multivector quantity divided by a vector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -556,7 +556,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> mul
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> trivector quantity divided by <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity: <code>ALeft * ARight⁻¹</code>. Since <code>e₁₂₃ · eᵢ⁻¹ = ±eⱼ∧eₖ</code>, the result is <a class="normal" href="ADim.html#A">a</a> pure bivector quantity. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a trivector quantity divided by a vector quantity: <code>ALeft * ARight⁻¹</code>. Since <code>e₁₂₃ · eᵢ⁻¹ = ±eⱼ∧eₖ</code>, the result is a pure bivector quantity. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -566,7 +566,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> tri
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity divided by <a class="normal" href="ADim.html#A">a</a> dimensionless real scalar. Each component is divided by <code>ARight</code>. The dimension is preserved.</p>
+Returns the geometric quotient of a vector quantity divided by a dimensionless real scalar. Each component is divided by <code>ARight</code>. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -576,7 +576,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity divided by <a class="normal" href="ADim.html#A">a</a> bivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a vector quantity divided by a bivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -586,7 +586,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity divided by <a class="normal" href="ADim.html#A">a</a> multivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a vector quantity divided by a multivector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -596,7 +596,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity divided by <a class="normal" href="ADim.html#A">a</a> trivector quantity: <code>ALeft * ARight⁻¹</code>. Since <code>eᵢ · e₁₂₃⁻¹ = ±eⱼ∧eₖ</code>, the result is <a class="normal" href="ADim.html#A">a</a> pure bivector quantity. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a vector quantity divided by a trivector quantity: <code>ALeft * ARight⁻¹</code>. Since <code>eᵢ · e₁₂₃⁻¹ = ±eⱼ∧eₖ</code>, the result is a pure bivector quantity. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -606,7 +606,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities: <code>ALeft * ARight⁻¹</code>. The result is <a class="normal" href="ADim.html#A">a</a> mixed-grade element (scalar + bivector), hence <a class="normal" href="ADim.html#A">a</a> full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of two vector quantities: <code>ALeft * ARight⁻¹</code>. The result is a mixed-grade element (scalar + bivector), hence a full <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -616,7 +616,7 @@ Returns the geometric quotient of two <a class="normal" href="ADimC.html#Vector-
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity divided by <a class="normal" href="ADim.html#A">a</a> real quantity scalar: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a vector quantity divided by a real quantity scalar: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -626,7 +626,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> <a 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> real quantity scalar divided by <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
+Returns the geometric quotient of a real quantity scalar divided by a vector quantity: <code>ALeft * ARight⁻¹</code>. The resulting dimension is the ratio of the two dimensions.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -636,7 +636,7 @@ Returns the geometric quotient of <a class="normal" href="ADim.html#A">a</a> rea
 </tr>
 <tr><td colspan="2">
 <p>
-Implicit conversion from <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity to <a class="normal" href="ADim.html#A">a</a> full multivector quantity. All components of the result are zero except <code>m1</code>, <code><a class="normal" href="ADim.html#m2">m2</a></code>, <code><a class="normal" href="ADim.html#m3">m3</a></code>. The dimension is preserved.</p>
+Implicit conversion from a vector quantity to a full multivector quantity. All components of the result are zero except <code>m1</code>, <code>m2</code>, <code>m3</code>. The dimension is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -646,7 +646,7 @@ Implicit conversion from <a class="normal" href="ADim.html#A">a</a> <a class="no
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the multivector quantity and the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity differ in dimension or in any component.</p>
+Returns <code>True</code> if the multivector quantity and the vector quantity differ in dimension or in any component.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -656,7 +656,7 @@ Returns <code>True</code> if the multivector quantity and the <a class="normal" 
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity and the multivector quantity differ in dimension or in any component.</p>
+Returns <code>True</code> if the vector quantity and the multivector quantity differ in dimension or in any component.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -666,7 +666,7 @@ Returns <code>True</code> if the <a class="normal" href="ADimC.html#Vector-TComp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the two <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities differ in dimension or in any <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> component.</p>
+Returns <code>True</code> if the two vector quantities differ in dimension or in any vector component.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -676,7 +676,7 @@ Returns <code>True</code> if the two <a class="normal" href="ADimC.html#Vector-T
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the multivector quantity equals the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity, i.e. all non-<a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components of <code>ALeft</code> are negligible.</p>
+Returns <code>True</code> if the multivector quantity equals the vector quantity, i.e. all non-vector components of <code>ALeft</code> are negligible.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -686,7 +686,7 @@ Returns <code>True</code> if the multivector quantity equals the <a class="norma
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantity equals the multivector quantity, i.e. all non-<a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> components of <code>ARight</code> are negligible.</p>
+Returns <code>True</code> if the vector quantity equals the multivector quantity, i.e. all non-vector components of <code>ARight</code> are negligible.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -696,7 +696,7 @@ Returns <code>True</code> if the <a class="normal" href="ADimC.html#Vector-TComp
 </tr>
 <tr><td colspan="2">
 <p>
-Returns <code>True</code> if both <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> quantities have the same dimension and all corresponding components are equal.</p>
+Returns <code>True</code> if both vector quantities have the same dimension and all corresponding components are equal.</p>
 </td></tr>
 </table>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>

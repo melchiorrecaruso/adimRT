@@ -37,7 +37,7 @@
 <code>type TC3VecQuantityHelper = record helper for TC3VecQuantity</code></p>
 <h2 class="description">Description</h2>
 <p>
-Record helper for <a class="normal" href="ADim.html#TC3VecQuantity">TC3VecQuantity</a> providing additional operations specific to 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors. Only available when <code>ADIMOFF</code> is not defined.</p>
+Record helper for <a class="normal" href="ADim.html#TC3VecQuantity">TC3VecQuantity</a> providing additional operations specific to 3-component complex quantity vectors. Only available when <code>ADIMOFF</code> is not defined.</p>
 <h2 class="overview">Overview</h2>
 <span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
 <table class="summary wide_list">
@@ -59,7 +59,7 @@ Record helper for <a class="normal" href="ADim.html#TC3VecQuantity">TC3VecQuanti
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the element-wise <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <code>conjugate</code> of the <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Each component <code><a class="normal" href="ADim.html#V">v</a>ᵢ = (<a class="normal" href="ADim.html#A">a</a> + i·b) [dim]</code> becomes <code>(<a class="normal" href="ADim.html#A">a</a> - i·b) [dim]</code>. The physical dimension of each component is preserved.</p>
+Returns the element-wise complex conjugate of the vector. Each component <code>vᵢ = (a + i·b) [dim]</code> becomes <code>(a - i·b) [dim]</code>. The physical dimension of each component is preserved.</p>
 </td></tr>
 </table>
 <table class="detail visibility-public wide_list">
@@ -69,7 +69,7 @@ Returns the element-wise <a class="normal" href="ADimC.html#Complex-double-doubl
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the Hermitian inner product of two 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors. Defined as <code>〈u, <a class="normal" href="ADim.html#V">v</a>〉 = Σ conj(uᵢ) · <a class="normal" href="ADim.html#V">v</a>ᵢ</code>. The <a class="normal" href="ADim.TC3VecQuantityHelper.html#Conjugate">conjugate</a> of the left operand is used, consistent with the physics convention for Hermitian inner products. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the Hermitian inner product of two 3-component complex quantity vectors. Defined as <code>〈u, v〉 = Σ conj(uᵢ) · vᵢ</code>. The conjugate of the left operand is used, consistent with the physics convention for Hermitian inner products. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>

@@ -59,7 +59,7 @@ Record helper for <a class="normal" href="ADim.html#TR3VecQuantity">TR3VecQuanti
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>cross</code> product of two 3-component real quantity vectors. Defined as <code>u×<a class="normal" href="ADim.html#V">v</a> = (u₂<a class="normal" href="ADim.html#V">v</a>₃ - u₃<a class="normal" href="ADim.html#V">v</a>₂, u₃<a class="normal" href="ADim.html#V">v</a>₁ - u₁<a class="normal" href="ADim.html#V">v</a>₃, u₁<a class="normal" href="ADim.html#V">v</a>₂ - u₂<a class="normal" href="ADim.html#V">v</a>₁)</code>. The result is <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> perpendicular to both operands with magnitude <code>|u||<a class="normal" href="ADim.html#V">v</a>|<a class="normal" href="ADim.html#Sin-TQuantity-">sin</a>(θ)</code>. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the cross product of two 3-component real quantity vectors. Defined as <code>u×v = (u₂v₃ - u₃v₂, u₃v₁ - u₁v₃, u₁v₂ - u₂v₁)</code>. The result is a vector perpendicular to both operands with magnitude <code>|u||v|sin(θ)</code>. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>
@@ -74,7 +74,7 @@ Returns the <code>cross</code> product of two 3-component real quantity vectors.
 </tr>
 <tr><td colspan="2">
 <p>
-Returns the <code>dot</code> product of two 3-component real quantity vectors. Defined as <code>u·<a class="normal" href="ADim.html#V">v</a> = u₁<a class="normal" href="ADim.html#V">v</a>₁ + u₂<a class="normal" href="ADim.html#V">v</a>₂ + u₃<a class="normal" href="ADim.html#V">v</a>₃</code>. The resulting dimension is the product of the two operand dimensions. </p>
+Returns the dot product of two 3-component real quantity vectors. Defined as <code>u·v = u₁v₁ + u₂v₂ + u₃v₃</code>. The resulting dimension is the product of the two operand dimensions. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AVector</dt>

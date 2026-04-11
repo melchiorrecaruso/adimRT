@@ -31,15 +31,15 @@
 <div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section"><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section"><a class="section" href="#PasDoc-Variables">Variables</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="description">Description</h2>
 <p>
-Description: <code>ADim</code> Run-time library.
+Description: ADim Run-time library.
 
-<p>Copyright (<a class="normal" href="ADim.html#C">C</a>) 2024-2026 Melchiorre Caruso &lt;melchiorrecaruso@gmail.com&gt;
+<p>Copyright (C) 2024-2026 Melchiorre Caruso &lt;<a href="mailto:melchiorrecaruso@gmail.com">melchiorrecaruso@gmail.com</a>&gt;
 
 <p>This library is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-<p>This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR <a class="normal" href="ADim.html#A">A</a> PARTICULAR PURPOSE. See the GNU General Public License for more details.
+<p>This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-<p>You should have received <a class="normal" href="ADim.html#A">a</a> copy of the GNU Lesser General Public License along with this program. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+<p>You should have received a copy of the GNU Lesser General Public License along with this program. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
 <span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
 <span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
 <table class="classestable wide_list">
@@ -49,15 +49,15 @@ Description: <code>ADim</code> Run-time library.
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TQuantity.html"><code>TQuantity</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> physical quantity with dimension checking at runtime.</td>
+<td class="itemdesc">Represents a physical quantity with dimension checking at runtime.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TComplex.html"><code>TComplex</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number in Cartesian form: <code>z = <a class="normal" href="ADim.TComplex.html#Re">Re</a> + i·<a class="normal" href="ADim.TComplex.html#Im">Im</a></code>.</td>
+<td class="itemdesc">Represents a complex number in Cartesian form: <code>z = Re + i·Im</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TComplexQuantity.html"><code>TComplexQuantity</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity with physical dimensions.</td>
+<td class="itemdesc">Represents a complex quantity with physical dimensions.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TImaginaryUnit.html"><code>TImaginaryUnit</code></a></td>
@@ -65,47 +65,47 @@ Description: <code>ADim</code> Run-time library.
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.T2DSpace.html"><code>T2DSpace</code></a></td>
-<td class="itemdesc">Tag record representing <a class="normal" href="ADim.html#A">a</a> 2-dimensional space.</td>
+<td class="itemdesc">Tag record representing a 2-dimensional space.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.T3DSpace.html"><code>T3DSpace</code></a></td>
-<td class="itemdesc">Tag record representing <a class="normal" href="ADim.html#A">a</a> 3-dimensional space.</td>
+<td class="itemdesc">Tag record representing a 3-dimensional space.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.T4DSpace.html"><code>T4DSpace</code></a></td>
-<td class="itemdesc">Tag record representing <a class="normal" href="ADim.html#A">a</a> 4-dimensional space.</td>
+<td class="itemdesc">Tag record representing a 4-dimensional space.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TRMatrix.generic.html"><code>TRMatrix</code></a></td>
-<td class="itemdesc">Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> of real values (<code>double</code>) with dimension <code>TSpace.N × TSpace.N</code>.</td>
+<td class="itemdesc">Generic square matrix of real values (<code>double</code>) with dimension <code>TSpace.N × TSpace.N</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCMatrix.generic.html"><code>TCMatrix</code></a></td>
-<td class="itemdesc">Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> of <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> values (<a class="normal" href="ADim.TComplex.html">TComplex</a>) with dimension <code>TSpace.N × TSpace.N</code>.</td>
+<td class="itemdesc">Generic square matrix of complex values (<a class="normal" href="ADim.TComplex.html">TComplex</a>) with dimension <code>TSpace.N × TSpace.N</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TRMatrixQuantity.generic.html"><code>TRMatrixQuantity</code></a></td>
-<td class="itemdesc">Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> of real physical quantities (<a class="normal" href="ADim.TQuantity.html">TQuantity</a>) with dimension <code>TSpace.N × TSpace.N</code>.</td>
+<td class="itemdesc">Generic square matrix of real physical quantities (<a class="normal" href="ADim.TQuantity.html">TQuantity</a>) with dimension <code>TSpace.N × TSpace.N</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCMatrixQuantity.generic.html"><code>TCMatrixQuantity</code></a></td>
-<td class="itemdesc">Generic square <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> of <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> physical quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>) with dimension <code>TSpace.N × TSpace.N</code>.</td>
+<td class="itemdesc">Generic square matrix of complex physical quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>) with dimension <code>TSpace.N × TSpace.N</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TRVector.generic.html"><code>TRVector</code></a></td>
-<td class="itemdesc">Generic column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> of real values (<code>double</code>) with <code>TSpace.N</code> components.</td>
+<td class="itemdesc">Generic column vector of real values (<code>double</code>) with <code>TSpace.N</code> components.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCVector.generic.html"><code>TCVector</code></a></td>
-<td class="itemdesc">Generic column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> of <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> values (<a class="normal" href="ADim.TComplex.html">TComplex</a>) with <code>TSpace.N</code> components.</td>
+<td class="itemdesc">Generic column vector of complex values (<a class="normal" href="ADim.TComplex.html">TComplex</a>) with <code>TSpace.N</code> components.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TRVecQuantity.generic.html"><code>TRVecQuantity</code></a></td>
-<td class="itemdesc">Generic column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> of real physical quantities (<a class="normal" href="ADim.TQuantity.html">TQuantity</a>) with <code>TSpace.N</code> components.</td>
+<td class="itemdesc">Generic column vector of real physical quantities (<a class="normal" href="ADim.TQuantity.html">TQuantity</a>) with <code>TSpace.N</code> components.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCVecQuantity.generic.html"><code>TCVecQuantity</code></a></td>
-<td class="itemdesc">Generic column <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> of <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> physical quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>) with <code>TSpace.N</code> components.</td>
+<td class="itemdesc">Generic column vector of complex physical quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>) with <code>TSpace.N</code> components.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR2MatrixHelper.html"><code>TR2MatrixHelper</code></a></td>
@@ -121,27 +121,27 @@ Description: <code>ADim</code> Run-time library.
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC2MatrixHelper.html"><code>TC2MatrixHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a> providing additional operations specific to 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a> providing additional operations specific to 2×2 complex matrices.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC3MatrixHelper.html"><code>TC3MatrixHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a> providing additional operations specific to 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a> providing additional operations specific to 3×3 complex matrices.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC4MatrixHelper.html"><code>TC4MatrixHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a> providing additional operations specific to 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a> providing additional operations specific to 4×4 complex matrices.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC2VectorHelper.html"><code>TC2VectorHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC2Vector">TC2Vector</a> providing additional operations specific to 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC2Vector">TC2Vector</a> providing additional operations specific to 2-component complex vectors.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC3VectorHelper.html"><code>TC3VectorHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC3Vector">TC3Vector</a> providing additional operations specific to 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC3Vector">TC3Vector</a> providing additional operations specific to 3-component complex vectors.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC4VectorHelper.html"><code>TC4VectorHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC4Vector">TC4Vector</a> providing additional operations specific to 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC4Vector">TC4Vector</a> providing additional operations specific to 4-component complex vectors.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR2VectorHelper.html"><code>TR2VectorHelper</code></a></td>
@@ -157,99 +157,99 @@ Description: <code>ADim</code> Run-time library.
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Multivector.html"><code>TCL3Multivector</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> general multivector in the Clifford algebra <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> over <code>R3</code>.</td>
+<td class="itemdesc">Represents a general multivector in the Clifford algebra <code>Cl(3,0)</code> over <code>R3</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Trivector.html"><code>TCL3Trivector</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> pure trivector (pseudoscalar) in the Clifford algebra <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents a pure trivector (pseudoscalar) in the Clifford algebra <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Bivector.html"><code>TCL3Bivector</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> pure bivector (grade-2 element) in the Clifford algebra <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents a pure bivector (grade-2 element) in the Clifford algebra <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Vector.html"><code>TCL3Vector</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> pure <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> (grade-1 element) in the Clifford algebra <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents a pure vector (grade-1 element) in the Clifford algebra <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3MultivectorHelper.html"><code>TCL3MultivectorHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> providing the full set of geometric algebra operations for <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3Multivector.html">TCL3Multivector</a> providing the full set of geometric algebra operations for <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3TrivectorHelper.html"><code>TCL3TrivectorHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3Trivector.html">TCL3Trivector</a> providing geometric operations specific to grade-3 elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3Trivector.html">TCL3Trivector</a> providing geometric operations specific to grade-3 elements of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3BivectorHelper.html"><code>TCL3BivectorHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3Bivector.html">TCL3Bivector</a> providing geometric operations specific to grade-2 elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3Bivector.html">TCL3Bivector</a> providing geometric operations specific to grade-2 elements of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3VectorHelper.html"><code>TCL3VectorHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3Vector.html">TCL3Vector</a> providing geometric operations specific to grade-1 elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3Vector.html">TCL3Vector</a> providing geometric operations specific to grade-1 elements of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Versor1.html"><code>TCL3Versor1</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₁</code> of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₁</code> of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Versor2.html"><code>TCL3Versor2</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₂</code> of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₂</code> of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Versor3.html"><code>TCL3Versor3</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₃</code> of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₃</code> of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Biversor12.html"><code>TCL3Biversor12</code></a></td>
-<td class="itemdesc">Represents the basis bivector <code>e₁∧e₂</code> of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents the basis bivector <code>e₁∧e₂</code> of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Biversor13.html"><code>TCL3Biversor13</code></a></td>
-<td class="itemdesc">Represents the basis bivector <code>e₁∧e₃</code> of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents the basis bivector <code>e₁∧e₃</code> of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Biversor23.html"><code>TCL3Biversor23</code></a></td>
-<td class="itemdesc">Represents the basis bivector <code>e₂∧e₃</code> of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents the basis bivector <code>e₂∧e₃</code> of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3Triversor123.html"><code>TCL3Triversor123</code></a></td>
-<td class="itemdesc">Represents the unit pseudoscalar <code>e₁∧e₂∧e₃</code> of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Represents the unit pseudoscalar <code>e₁∧e₂∧e₃</code> of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3MultivecQuantity.html"><code>TCL3MultivecQuantity</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> general multivector of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Represents a general multivector of <code>Cl(3,0)</code> with physical dimensions.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3TrivecQuantity.html"><code>TCL3TrivecQuantity</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> pure trivector (grade-3 element) of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Represents a pure trivector (grade-3 element) of <code>Cl(3,0)</code> with physical dimensions.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3BivecQuantity.html"><code>TCL3BivecQuantity</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> pure bivector (grade-2 element) of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Represents a pure bivector (grade-2 element) of <code>Cl(3,0)</code> with physical dimensions.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3VecQuantity.html"><code>TCL3VecQuantity</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> pure <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> (grade-1 element) of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Represents a pure vector (grade-1 element) of <code>Cl(3,0)</code> with physical dimensions.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TComplexQuantityHelper.html"><code>TComplexQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a> providing additional operations on <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> physical quantities.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a> providing additional operations on complex physical quantities.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC2MatrixQuantityHelper.html"><code>TC2MatrixQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a> providing additional operations specific to 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity matrices.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a> providing additional operations specific to 2×2 complex quantity matrices.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC2VecQuantityHelper.html"><code>TC2VecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC2VecQuantity">TC2VecQuantity</a> providing additional operations specific to 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC2VecQuantity">TC2VecQuantity</a> providing additional operations specific to 2-component complex quantity vectors.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC3VecQuantityHelper.html"><code>TC3VecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC3VecQuantity">TC3VecQuantity</a> providing additional operations specific to 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC3VecQuantity">TC3VecQuantity</a> providing additional operations specific to 3-component complex quantity vectors.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TC4VecQuantityHelper.html"><code>TC4VecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC4VecQuantity">TC4VecQuantity</a> providing additional operations specific to 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.html#TC4VecQuantity">TC4VecQuantity</a> providing additional operations specific to 4-component complex quantity vectors.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR2VecQuantityHelper.html"><code>TR2VecQuantityHelper</code></a></td>
@@ -265,35 +265,35 @@ Description: <code>ADim</code> Run-time library.
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3MultivecQuantityHelper.html"><code>TCL3MultivecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> providing the full set of geometric algebra operations on multivector quantities of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code>.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3MultivecQuantity.html">TCL3MultivecQuantity</a> providing the full set of geometric algebra operations on multivector quantities of <code>Cl(3,0)</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3TrivecQuantityHelper.html"><code>TCL3TrivecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a> providing geometric operations specific to grade-3 elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3TrivecQuantity.html">TCL3TrivecQuantity</a> providing geometric operations specific to grade-3 elements of <code>Cl(3,0)</code> with physical dimensions.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3BivecQuantityHelper.html"><code>TCL3BivecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a> providing geometric operations specific to grade-2 elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3BivecQuantity.html">TCL3BivecQuantity</a> providing geometric operations specific to grade-2 elements of <code>Cl(3,0)</code> with physical dimensions.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TCL3VecQuantityHelper.html"><code>TCL3VecQuantityHelper</code></a></td>
-<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a> providing geometric operations specific to grade-1 elements of <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> with physical dimensions.</td>
+<td class="itemdesc">Record helper for <a class="normal" href="ADim.TCL3VecQuantity.html">TCL3VecQuantity</a> providing geometric operations specific to grade-1 elements of <code>Cl(3,0)</code> with physical dimensions.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TUnit.html"><code>TUnit</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> physical unit of measurement with its dimensional signature, symbol, name and prefix information.</td>
+<td class="itemdesc">Represents a physical unit of measurement with its dimensional signature, symbol, name and prefix information.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TFactoredUnit.html"><code>TFactoredUnit</code></a></td>
-<td class="itemdesc">Represents <a class="normal" href="ADim.html#A">a</a> physical unit of measurement with <a class="normal" href="ADim.html#A">a</a> conversion factor relative to the corresponding SI base unit.</td>
+<td class="itemdesc">Represents a physical unit of measurement with a conversion factor relative to the corresponding SI base unit.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TDegreeCelsiusUnit.html"><code>TDegreeCelsiusUnit</code></a></td>
-<td class="itemdesc">Represents the degree Celsius temperature unit (<code>°<a class="normal" href="ADim.html#C">C</a></code>).</td>
+<td class="itemdesc">Represents the degree Celsius temperature unit (<code>°C</code>).</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TDegreeFahrenheitUnit.html"><code>TDegreeFahrenheitUnit</code></a></td>
-<td class="itemdesc">Represents the degree Fahrenheit temperature unit (<code>°<a class="normal" href="ADim.html#F">F</a></code>).</td>
+<td class="itemdesc">Represents the degree Fahrenheit temperature unit (<code>°F</code>).</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TUnitHelper.html"><code>TUnitHelper</code></a></td>
@@ -313,39 +313,39 @@ Description: <code>ADim</code> Run-time library.
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR2Versor1.html"><code>TR2Versor1</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₁</code> of <code>ℝ²</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₁</code> of <code>ℝ²</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR2Versor2.html"><code>TR2Versor2</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₂</code> of <code>ℝ²</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₂</code> of <code>ℝ²</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR3Versor1.html"><code>TR3Versor1</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₁</code> of <code>ℝ³</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₁</code> of <code>ℝ³</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR3Versor2.html"><code>TR3Versor2</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₂</code> of <code>ℝ³</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₂</code> of <code>ℝ³</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR3Versor3.html"><code>TR3Versor3</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₃</code> of <code>ℝ³</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₃</code> of <code>ℝ³</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR4Versor1.html"><code>TR4Versor1</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₁</code> of <code>ℝ⁴</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₁</code> of <code>ℝ⁴</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR4Versor2.html"><code>TR4Versor2</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₂</code> of <code>ℝ⁴</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₂</code> of <code>ℝ⁴</code>.</td>
 </tr>
 <tr class="list2">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR4Versor3.html"><code>TR4Versor3</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₃</code> of <code>ℝ⁴</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₃</code> of <code>ℝ⁴</code>.</td>
 </tr>
 <tr class="list">
 <td class="itemname">Record&nbsp;<a class="bold" href="ADim.TR4Versor4.html"><code>TR4Versor4</code></a></td>
-<td class="itemdesc">Represents the basis <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> <code>e₄</code> of <code>ℝ⁴</code>.</td>
+<td class="itemdesc">Represents the basis vector <code>e₄</code> of <code>ℝ⁴</code>.</td>
 </tr>
 </table>
 <span id="PasDoc-FuncsProcs"></span><h3 class="summary">Functions and Procedures</h3>
@@ -1712,7 +1712,7 @@ Description: <code>ADim</code> Run-time library.
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the absolute value of <a class="normal" href="ADim.html#A">a</a> real number. Equivalent to the standard <code>System.Abs</code> but provided for consistency with the overloaded <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> version. </p>
+Returns the absolute value of a real number. Equivalent to the standard <code>System.Abs</code> but provided for consistency with the overloaded complex version. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
@@ -1726,11 +1726,11 @@ Returns the absolute value of <a class="normal" href="ADim.html#A">a</a> real nu
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the modulus (magnitude) of <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number. Defined as <code>|z| = √(Re² + Im²)</code>. </p>
+Returns the modulus (magnitude) of a complex number. Defined as <code>|z| = √(Re² + Im²)</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</dd>
+<dd>The complex number.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1740,11 +1740,11 @@ Returns the modulus (magnitude) of <a class="normal" href="ADim.html#A">a</a> <a
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the square of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number <code>AValue</code>. Defined as <code>z² = (Re² - Im²) + 2·Re·Im·i</code>. </p>
+Returns the square of the complex number <code>AValue</code>. Defined as <code>z² = (Re² - Im²) + 2·Re·Im·i</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number to square.</dd>
+<dd>The complex number to square.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1754,11 +1754,11 @@ Returns the square of the <a class="normal" href="ADimC.html#Complex-double-doub
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the cube of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number <code>AValue</code>. Defined as <code>z³ = z² · z</code>. </p>
+Returns the cube of the complex number <code>AValue</code>. Defined as <code>z³ = z² · z</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number to cube.</dd>
+<dd>The complex number to cube.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1768,11 +1768,11 @@ Returns the cube of the <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a> of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number <code>AValue</code>. Defined as <code>z⁴ = (z²)²</code>. </p>
+Returns the fourth power of the complex number <code>AValue</code>. Defined as <code>z⁴ = (z²)²</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number to raise to the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a>.</dd>
+<dd>The complex number to raise to the fourth power.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1782,11 +1782,11 @@ Returns the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">po
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the square of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <code>AQuantity</code>. The resulting dimension is the square of the original dimension. </p>
+Returns the square of the complex quantity <code>AQuantity</code>. The resulting dimension is the square of the original dimension. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to square.</dd>
+<dd>The complex quantity to square.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1796,11 +1796,11 @@ Returns the square of the <a class="normal" href="ADimC.html#Complex-double-doub
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the cube of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <code>AQuantity</code>. The resulting dimension is the cube of the original dimension. </p>
+Returns the cube of the complex quantity <code>AQuantity</code>. The resulting dimension is the cube of the original dimension. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to cube.</dd>
+<dd>The complex quantity to cube.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1810,11 +1810,11 @@ Returns the cube of the <a class="normal" href="ADimC.html#Complex-double-double
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a> of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <code>AQuantity</code>. The resulting dimension is the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a> of the original dimension. </p>
+Returns the fourth power of the complex quantity <code>AQuantity</code>. The resulting dimension is the fourth power of the original dimension. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity to raise to the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a>.</dd>
+<dd>The complex quantity to raise to the fourth power.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1824,11 +1824,11 @@ Returns the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">po
 </tr>
 <tr><td colspan="1">
 <p>
-Returns all square roots of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number <code>AValue</code> as <a class="normal" href="ADim.html#A">a</a> fixed-size array. <a class="normal" href="ADim.html#A">A</a> non-zero <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number has exactly 2 square roots, equally spaced in argument by <code>π</code>: <code>z&circ;(1/2) = |z|&circ;(1/2) · e&circ;(i·(φ + 2kπ)/2)</code> for <code><a class="normal" href="ADim.html#K">k</a> = 0, 1</code>. </p>
+Returns all square roots of the complex number <code>AValue</code> as a fixed-size array. A non-zero complex number has exactly 2 square roots, equally spaced in argument by <code>π</code>: <code>z&circ;(1/2) = |z|&circ;(1/2) · e&circ;(i·(φ + 2kπ)/2)</code> for <code>k = 0, 1</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number whose square roots are computed.</dd>
+<dd>The complex number whose square roots are computed.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1838,11 +1838,11 @@ Returns all square roots of the <a class="normal" href="ADimC.html#Complex-doubl
 </tr>
 <tr><td colspan="1">
 <p>
-Returns all cube roots of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number <code>AValue</code> as <a class="normal" href="ADim.html#A">a</a> fixed-size array. <a class="normal" href="ADim.html#A">A</a> non-zero <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number has exactly 3 cube roots, equally spaced in argument by <code>2π/3</code>: <code>z&circ;(1/3) = |z|&circ;(1/3) · e&circ;(i·(φ + 2kπ)/3)</code> for <code><a class="normal" href="ADim.html#K">k</a> = 0, 1, 2</code>. </p>
+Returns all cube roots of the complex number <code>AValue</code> as a fixed-size array. A non-zero complex number has exactly 3 cube roots, equally spaced in argument by <code>2π/3</code>: <code>z&circ;(1/3) = |z|&circ;(1/3) · e&circ;(i·(φ + 2kπ)/3)</code> for <code>k = 0, 1, 2</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number whose cube roots are computed.</dd>
+<dd>The complex number whose cube roots are computed.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1852,11 +1852,11 @@ Returns all cube roots of the <a class="normal" href="ADimC.html#Complex-double-
 </tr>
 <tr><td colspan="1">
 <p>
-Returns all fourth roots of the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number <code>AValue</code> as <a class="normal" href="ADim.html#A">a</a> fixed-size array. <a class="normal" href="ADim.html#A">A</a> non-zero <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number has exactly 4 fourth roots, equally spaced in argument by <code>π/2</code>: <code>z&circ;(1/4) = |z|&circ;(1/4) · e&circ;(i·(φ + 2kπ)/4)</code> for <code><a class="normal" href="ADim.html#K">k</a> = 0, 1, 2, 3</code>. </p>
+Returns all fourth roots of the complex number <code>AValue</code> as a fixed-size array. A non-zero complex number has exactly 4 fourth roots, equally spaced in argument by <code>π/2</code>: <code>z&circ;(1/4) = |z|&circ;(1/4) · e&circ;(i·(φ + 2kπ)/4)</code> for <code>k = 0, 1, 2, 3</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number whose fourth roots are computed.</dd>
+<dd>The complex number whose fourth roots are computed.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1866,13 +1866,13 @@ Returns all fourth roots of the <a class="normal" href="ADimC.html#Complex-doubl
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the <a class="normal" href="ADim.html#Commutator-TC4Matrix-TC4Matrix-">commutator</a> of two 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices. Defined as <code>[<a class="normal" href="ADim.html#A">A</a>, B] = <a class="normal" href="ADim.html#A">A</a>·B - B·<a class="normal" href="ADim.html#A">A</a></code>. The <a class="normal" href="ADim.html#Commutator-TC4Matrix-TC4Matrix-">commutator</a> is zero if and only if the two matrices commute.  </p>
+Returns the commutator of two 2×2 complex matrices. Defined as <code>[A, B] = A·B - B·A</code>. The commutator is zero if and only if the two matrices commute.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ALeft</dt>
-<dd>The left-hand <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> operand.</dd>
+<dd>The left-hand matrix operand.</dd>
 <dt>ARight</dt>
-<dd>The right-hand <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> operand.</dd>
+<dd>The right-hand matrix operand.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1882,13 +1882,13 @@ Returns the <a class="normal" href="ADim.html#Commutator-TC4Matrix-TC4Matrix-">c
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the <a class="normal" href="ADim.html#Commutator-TC4Matrix-TC4Matrix-">commutator</a> of two 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices. Defined as <code>[<a class="normal" href="ADim.html#A">A</a>, B] = <a class="normal" href="ADim.html#A">A</a>·B - B·<a class="normal" href="ADim.html#A">A</a></code>. The <a class="normal" href="ADim.html#Commutator-TC4Matrix-TC4Matrix-">commutator</a> is zero if and only if the two matrices commute.  </p>
+Returns the commutator of two 3×3 complex matrices. Defined as <code>[A, B] = A·B - B·A</code>. The commutator is zero if and only if the two matrices commute.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ALeft</dt>
-<dd>The left-hand <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> operand.</dd>
+<dd>The left-hand matrix operand.</dd>
 <dt>ARight</dt>
-<dd>The right-hand <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> operand.</dd>
+<dd>The right-hand matrix operand.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1898,13 +1898,13 @@ Returns the <a class="normal" href="ADim.html#Commutator-TC4Matrix-TC4Matrix-">c
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the <code>commutator</code> of two 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices. Defined as <code>[<a class="normal" href="ADim.html#A">A</a>, B] = <a class="normal" href="ADim.html#A">A</a>·B - B·<a class="normal" href="ADim.html#A">A</a></code>. The <code>commutator</code> is zero if and only if the two matrices commute.  </p>
+Returns the commutator of two 4×4 complex matrices. Defined as <code>[A, B] = A·B - B·A</code>. The commutator is zero if and only if the two matrices commute.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ALeft</dt>
-<dd>The left-hand <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> operand.</dd>
+<dd>The left-hand matrix operand.</dd>
 <dt>ARight</dt>
-<dd>The right-hand <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> operand.</dd>
+<dd>The right-hand matrix operand.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1930,13 +1930,13 @@ Returns <code>True</code> if two real numbers are equal within the default float
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>True</code> if two <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers are equal within the default floating point tolerance. Both the real and imaginary parts must be within tolerance.  </p>
+Returns <code>True</code> if two complex numbers are equal within the default floating point tolerance. Both the real and imaginary parts must be within tolerance.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue1</dt>
-<dd>The first <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</dd>
+<dd>The first complex number.</dd>
 <dt>AValue2</dt>
-<dd>The second <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> number.</dd>
+<dd>The second complex number.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1946,13 +1946,13 @@ Returns <code>True</code> if two <a class="normal" href="ADimC.html#Complex-doub
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>True</code> if two 2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors are equal within the default floating point tolerance. All corresponding components must be within tolerance.  </p>
+Returns <code>True</code> if two 2-component complex vectors are equal within the default floating point tolerance. All corresponding components must be within tolerance.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue1</dt>
-<dd>The first <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</dd>
+<dd>The first complex vector.</dd>
 <dt>AValue2</dt>
-<dd>The second <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</dd>
+<dd>The second complex vector.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1962,13 +1962,13 @@ Returns <code>True</code> if two 2-component <a class="normal" href="ADimC.html#
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>True</code> if two 3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors are equal within the default floating point tolerance. All corresponding components must be within tolerance.  </p>
+Returns <code>True</code> if two 3-component complex vectors are equal within the default floating point tolerance. All corresponding components must be within tolerance.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue1</dt>
-<dd>The first <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</dd>
+<dd>The first complex vector.</dd>
 <dt>AValue2</dt>
-<dd>The second <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</dd>
+<dd>The second complex vector.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1978,13 +1978,13 @@ Returns <code>True</code> if two 3-component <a class="normal" href="ADimC.html#
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>True</code> if two 4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors are equal within the default floating point tolerance. All corresponding components must be within tolerance.  </p>
+Returns <code>True</code> if two 4-component complex vectors are equal within the default floating point tolerance. All corresponding components must be within tolerance.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue1</dt>
-<dd>The first <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</dd>
+<dd>The first complex vector.</dd>
 <dt>AValue2</dt>
-<dd>The second <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>.</dd>
+<dd>The second complex vector.</dd>
 </dl>
 </td></tr>
 </table>
@@ -1994,13 +1994,13 @@ Returns <code>True</code> if two 4-component <a class="normal" href="ADimC.html#
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>True</code> if two 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
+Returns <code>True</code> if two 2×2 complex matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue1</dt>
-<dd>The first <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>.</dd>
+<dd>The first complex matrix.</dd>
 <dt>AValue2</dt>
-<dd>The second <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>.</dd>
+<dd>The second complex matrix.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2010,13 +2010,13 @@ Returns <code>True</code> if two 2×2 <a class="normal" href="ADimC.html#Complex
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>True</code> if two 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
+Returns <code>True</code> if two 3×3 complex matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue1</dt>
-<dd>The first <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>.</dd>
+<dd>The first complex matrix.</dd>
 <dt>AValue2</dt>
-<dd>The second <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>.</dd>
+<dd>The second complex matrix.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2026,13 +2026,13 @@ Returns <code>True</code> if two 3×3 <a class="normal" href="ADimC.html#Complex
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>True</code> if two 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
+Returns <code>True</code> if two 4×4 complex matrices are equal within the default floating point tolerance. All corresponding elements must be within tolerance.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AValue1</dt>
-<dd>The first <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>.</dd>
+<dd>The first complex matrix.</dd>
 <dt>AValue2</dt>
-<dd>The second <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>.</dd>
+<dd>The second complex matrix.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2058,7 +2058,7 @@ Returns <code>True</code> if two real physical quantities are equal within the d
 </tr>
 <tr><td colspan="1">
 <p>
-Solves the linear equation <code><a class="normal" href="ADim.html#A">a</a>·x = 0</code> over the reals. Returns <code>x = 0</code> for any non-zero <code><a class="normal" href="ADim.html#A">a</a></code>, or raises an exception if <code><a class="normal" href="ADim.html#A">a</a> = 0</code>. </p>
+Solves the linear equation <code>a·x = 0</code> over the reals. Returns <code>x = 0</code> for any non-zero <code>a</code>, or raises an exception if <code>a = 0</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>a</dt>
@@ -2072,11 +2072,11 @@ Solves the linear equation <code><a class="normal" href="ADim.html#A">a</a>·x =
 </tr>
 <tr><td colspan="1">
 <p>
-Solves the linear equation <code><a class="normal" href="ADim.html#A">a</a>·z = 0</code> over the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers. Returns <code>z = 0</code> for any non-zero <code><a class="normal" href="ADim.html#A">a</a></code>, or raises an exception if <code><a class="normal" href="ADim.html#A">a</a> = 0</code>. </p>
+Solves the linear equation <code>a·z = 0</code> over the complex numbers. Returns <code>z = 0</code> for any non-zero <code>a</code>, or raises an exception if <code>a = 0</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>a</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> coefficient of the linear term.</dd>
+<dd>The complex coefficient of the linear term.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2086,18 +2086,18 @@ Solves the linear equation <code><a class="normal" href="ADim.html#A">a</a>·z =
 </tr>
 <tr><td colspan="1">
 <p>
-Solves the linear equation <code><a class="normal" href="ADim.html#A">a</a>·z + b = 0</code> over the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers. Returns the single root <code>z = -b/<a class="normal" href="ADim.html#A">a</a></code> as <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>.   </p>
+Solves the linear equation <code>a·z + b = 0</code> over the complex numbers. Returns the single root <code>z = -b/a</code> as a <a class="normal" href="ADim.html#TC2ArrayOfComplex">TC2ArrayOfComplex</a>.   </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>a</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> coefficient of the linear term.</dd>
+<dd>The complex coefficient of the linear term.</dd>
 <dt>b</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> constant term.</dd>
+<dd>The complex constant term.</dd>
 </dl>
 <h6 class="description_section">Exceptions raised</h6>
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
-<dd>if <code><a class="normal" href="ADim.html#A">a</a> = 0</code>.</dd>
+<dd>if <code>a = 0</code>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2107,20 +2107,20 @@ Solves the linear equation <code><a class="normal" href="ADim.html#A">a</a>·z +
 </tr>
 <tr><td colspan="1">
 <p>
-Solves the quadratic equation <code><a class="normal" href="ADim.html#A">a</a>·z² + b·z + <a class="normal" href="ADim.html#C">c</a> = 0</code> over the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers. Returns both roots (including repeated roots) as <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.html#TC3ArrayOfComplex">TC3ArrayOfComplex</a>.    </p>
+Solves the quadratic equation <code>a·z² + b·z + c = 0</code> over the complex numbers. Returns both roots (including repeated roots) as a <a class="normal" href="ADim.html#TC3ArrayOfComplex">TC3ArrayOfComplex</a>.    </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>a</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> coefficient of the quadratic term.</dd>
+<dd>The complex coefficient of the quadratic term.</dd>
 <dt>b</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> coefficient of the linear term.</dd>
+<dd>The complex coefficient of the linear term.</dd>
 <dt>c</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> constant term.</dd>
+<dd>The complex constant term.</dd>
 </dl>
 <h6 class="description_section">Exceptions raised</h6>
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
-<dd>if <code><a class="normal" href="ADim.html#A">a</a> = 0</code>.</dd>
+<dd>if <code>a = 0</code>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2130,22 +2130,22 @@ Solves the quadratic equation <code><a class="normal" href="ADim.html#A">a</a>·
 </tr>
 <tr><td colspan="1">
 <p>
-Solves the cubic equation <code><a class="normal" href="ADim.html#A">a</a>·z³ + b·z² + <a class="normal" href="ADim.html#C">c</a>·z + d = 0</code> over the <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> numbers using Cardano'<a class="normal" href="ADim.html#s">s</a> method. Returns all three roots as <a class="normal" href="ADim.html#A">a</a> <a class="normal" href="ADim.html#TC4ArrayOfComplex">TC4ArrayOfComplex</a>.     </p>
+Solves the cubic equation <code>a·z³ + b·z² + c·z + d = 0</code> over the complex numbers using Cardano's method. Returns all three roots as a <a class="normal" href="ADim.html#TC4ArrayOfComplex">TC4ArrayOfComplex</a>.     </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>a</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> coefficient of the cubic term.</dd>
+<dd>The complex coefficient of the cubic term.</dd>
 <dt>b</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> coefficient of the quadratic term.</dd>
+<dd>The complex coefficient of the quadratic term.</dd>
 <dt>c</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> coefficient of the linear term.</dd>
+<dd>The complex coefficient of the linear term.</dd>
 <dt>d</dt>
-<dd>The <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> constant term.</dd>
+<dd>The complex constant term.</dd>
 </dl>
 <h6 class="description_section">Exceptions raised</h6>
 <dl class="exceptions_raised">
 <dt><code>Exception</code></dt>
-<dd>if <code><a class="normal" href="ADim.html#A">a</a> = 0</code>.</dd>
+<dd>if <code>a = 0</code>.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2169,11 +2169,11 @@ Returns the cube of the quantity: <code>AQuantity³</code>. The resulting dimens
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a> of the quantity: <code>AQuantity⁴</code>. The resulting dimension is the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a> of the original dimension. </p>
+Returns the fourth power of the quantity: <code>AQuantity⁴</code>. The resulting dimension is the fourth power of the original dimension. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The quantity to raise to the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a>.</dd>
+<dd>The quantity to raise to the fourth power.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2183,11 +2183,11 @@ Returns the fourth <a class="normal" href="ADim.html#Power-TQuantity-double-">po
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the fifth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a> of the quantity: <code>AQuantity⁵</code>. The resulting dimension is the fifth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a> of the original dimension. </p>
+Returns the fifth power of the quantity: <code>AQuantity⁵</code>. The resulting dimension is the fifth power of the original dimension. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The quantity to raise to the fifth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a>.</dd>
+<dd>The quantity to raise to the fifth power.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2197,11 +2197,11 @@ Returns the fifth <a class="normal" href="ADim.html#Power-TQuantity-double-">pow
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the sixth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a> of the quantity: <code>AQuantity⁶</code>. The resulting dimension is the sixth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a> of the original dimension. </p>
+Returns the sixth power of the quantity: <code>AQuantity⁶</code>. The resulting dimension is the sixth power of the original dimension. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
-<dd>The quantity to raise to the sixth <a class="normal" href="ADim.html#Power-TQuantity-double-">power</a>.</dd>
+<dd>The quantity to raise to the sixth power.</dd>
 </dl>
 </td></tr>
 </table>
@@ -2306,7 +2306,7 @@ Returns the sixth root of the quantity: <code>AQuantity&circ;(1/6)</code>. The r
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the cosine of the angle quantity. The quantity must have the dimension of an angle (radians). The result is <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. </p>
+Returns the cosine of the angle quantity. The quantity must have the dimension of an angle (radians). The result is a dimensionless <code>double</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2320,7 +2320,7 @@ Returns the cosine of the angle quantity. The quantity must have the dimension o
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the sine of the angle quantity. The quantity must have the dimension of an angle (radians). The result is <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. </p>
+Returns the sine of the angle quantity. The quantity must have the dimension of an angle (radians). The result is a dimensionless <code>double</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2334,7 +2334,7 @@ Returns the sine of the angle quantity. The quantity must have the dimension of 
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the tangent of the angle quantity. The quantity must have the dimension of an angle (radians). The result is <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. </p>
+Returns the tangent of the angle quantity. The quantity must have the dimension of an angle (radians). The result is a dimensionless <code>double</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2348,7 +2348,7 @@ Returns the tangent of the angle quantity. The quantity must have the dimension 
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the cotangent of the angle quantity: <code><a class="normal" href="ADim.html#Cos-TQuantity-">cos</a>(θ)/<a class="normal" href="ADim.html#Sin-TQuantity-">sin</a>(θ)</code>. The quantity must have the dimension of an angle (radians). The result is <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. </p>
+Returns the cotangent of the angle quantity: <code>cos(θ)/sin(θ)</code>. The quantity must have the dimension of an angle (radians). The result is a dimensionless <code>double</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2362,7 +2362,7 @@ Returns the cotangent of the angle quantity: <code><a class="normal" href="ADim.
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the <code>secant</code> of the angle quantity: <code>1/<a class="normal" href="ADim.html#Cos-TQuantity-">cos</a>(θ)</code>. The quantity must have the dimension of an angle (radians). The result is <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. </p>
+Returns the secant of the angle quantity: <code>1/cos(θ)</code>. The quantity must have the dimension of an angle (radians). The result is a dimensionless <code>double</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2376,7 +2376,7 @@ Returns the <code>secant</code> of the angle quantity: <code>1/<a class="normal"
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the <code>cosecant</code> of the angle quantity: <code>1/<a class="normal" href="ADim.html#Sin-TQuantity-">sin</a>(θ)</code>. The quantity must have the dimension of an angle (radians). The result is <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. </p>
+Returns the cosecant of the angle quantity: <code>1/sin(θ)</code>. The quantity must have the dimension of an angle (radians). The result is a dimensionless <code>double</code>. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2432,7 +2432,7 @@ Returns the arc tangent of <code>AValue</code> as an angle quantity in radians. 
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the arc tangent of <code>y/x</code> as an angle quantity in radians, using the signs of both arguments to determine the correct quadrant. The result is in the range <code></code>((-π, π]). The result has the dimension of an angle (radians).  </p>
+Returns the arc tangent of <code>y/x</code> as an angle quantity in radians, using the signs of both arguments to determine the correct quadrant. The result is in the range <code>[-π, π]</code>. The result has the dimension of an angle (radians).  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>x</dt>
@@ -2480,7 +2480,7 @@ Returns the larger of two quantities. Both operands must have the same dimension
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>e&circ;AQuantity</code> as <a class="normal" href="ADim.html#A">a</a> dimensioned quantity. The argument must be dimensionless; the result has the same dimension as the argument. </p>
+Returns <code>e&circ;AQuantity</code> as a dimensioned quantity. The argument must be dimensionless; the result has the same dimension as the argument. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2494,7 +2494,7 @@ Returns <code>e&circ;AQuantity</code> as <a class="normal" href="ADim.html#A">a<
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the base-10 logarithm of the quantity as <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. The argument must be dimensionless and positive. </p>
+Returns the base-10 logarithm of the quantity as a dimensionless <code>double</code>. The argument must be dimensionless and positive. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2508,7 +2508,7 @@ Returns the base-10 logarithm of the quantity as <a class="normal" href="ADim.ht
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the base-2 logarithm of the quantity as <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. The argument must be dimensionless and positive. </p>
+Returns the base-2 logarithm of the quantity as a dimensionless <code>double</code>. The argument must be dimensionless and positive. </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>AQuantity</dt>
@@ -2522,7 +2522,7 @@ Returns the base-2 logarithm of the quantity as <a class="normal" href="ADim.htm
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the base-<code>ABase</code> logarithm of the quantity as <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. The argument must be dimensionless and positive.  </p>
+Returns the base-<code>ABase</code> logarithm of the quantity as a dimensionless <code>double</code>. The argument must be dimensionless and positive.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ABase</dt>
@@ -2538,7 +2538,7 @@ Returns the base-<code>ABase</code> logarithm of the quantity as <a class="norma
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the logarithm of <code>AQuantity</code> in the base <code>ABase</code> as <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. Both arguments must be dimensionless and positive.  </p>
+Returns the logarithm of <code>AQuantity</code> in the base <code>ABase</code> as a dimensionless <code>double</code>. Both arguments must be dimensionless and positive.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ABase</dt>
@@ -2554,7 +2554,7 @@ Returns the logarithm of <code>AQuantity</code> in the base <code>ABase</code> a
 </tr>
 <tr><td colspan="1">
 <p>
-Returns <code>ABase&circ;AExponent</code> as <a class="normal" href="ADim.html#A">a</a> dimensionless <code>double</code>. The base must be dimensionless. Used for fractional or real exponents where dimensional consistency cannot be verified at compile time.  </p>
+Returns <code>ABase&circ;AExponent</code> as a dimensionless <code>double</code>. The base must be dimensionless. Used for fractional or real exponents where dimensional consistency cannot be verified at compile time.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>ABase</dt>
@@ -2654,7 +2654,7 @@ Returns <code>True</code> if the quantity is strictly greater than zero. </p>
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the 2×2 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> over <code>ℂ</code>. Diagonal elements are <code><a class="normal" href="ADim.TComplex.html">TComplex</a>(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·<a class="normal" href="ADim.html#A">A</a> = <a class="normal" href="ADim.html#A">A</a>·I = <a class="normal" href="ADim.html#A">A</a></code> for any conforming 2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> <code><a class="normal" href="ADim.html#A">A</a></code>.</p>
+Returns the 2×2 identity matrix over <code>ℂ</code>. Diagonal elements are <code>TComplex(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·A = A·I = A</code> for any conforming 2×2 complex matrix <code>A</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2663,7 +2663,7 @@ Returns the 2×2 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the 3×3 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> over <code>ℂ</code>. Diagonal elements are <code><a class="normal" href="ADim.TComplex.html">TComplex</a>(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·<a class="normal" href="ADim.html#A">A</a> = <a class="normal" href="ADim.html#A">A</a>·I = <a class="normal" href="ADim.html#A">A</a></code> for any conforming 3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> <code><a class="normal" href="ADim.html#A">A</a></code>.</p>
+Returns the 3×3 identity matrix over <code>ℂ</code>. Diagonal elements are <code>TComplex(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·A = A·I = A</code> for any conforming 3×3 complex matrix <code>A</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2672,7 +2672,7 @@ Returns the 3×3 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> over <code>ℂ</code>. Diagonal elements are <code><a class="normal" href="ADim.TComplex.html">TComplex</a>(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·<a class="normal" href="ADim.html#A">A</a> = <a class="normal" href="ADim.html#A">A</a>·I = <a class="normal" href="ADim.html#A">A</a></code> for any conforming 4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a> <code><a class="normal" href="ADim.html#A">A</a></code>.</p>
+Returns the 4×4 identity matrix over <code>ℂ</code>. Diagonal elements are <code>TComplex(Re=1, Im=0)</code>; all off-diagonal elements are zero. Satisfies <code>I·A = A·I = A</code> for any conforming 4×4 complex matrix <code>A</code>.</p>
 </td></tr>
 </table>
 <h3 class="detail">Types</h3>
@@ -2682,7 +2682,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-<code>TPrefix</code></p>
+TPrefix</p>
 <h6 class="description_section">Values</h6>
 <ul>
 <li>
@@ -2744,7 +2744,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-<code>TPrefixes</code></p>
+TPrefixes</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2753,7 +2753,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-<code>TExponents</code></p>
+TExponents</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2762,7 +2762,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-2×2 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TRMatrix.generic.html">TRMatrix</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
+2×2 real matrix. Specialization of <a class="normal" href="ADim.TRMatrix.generic.html">TRMatrix</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2771,7 +2771,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-3×3 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TRMatrix.generic.html">TRMatrix</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
+3×3 real matrix. Specialization of <a class="normal" href="ADim.TRMatrix.generic.html">TRMatrix</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2780,7 +2780,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-4×4 real <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TRMatrix.generic.html">TRMatrix</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
+4×4 real matrix. Specialization of <a class="normal" href="ADim.TRMatrix.generic.html">TRMatrix</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2789,7 +2789,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TCMatrix.generic.html">TCMatrix</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
+2×2 complex matrix. Specialization of <a class="normal" href="ADim.TCMatrix.generic.html">TCMatrix</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2798,7 +2798,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TCMatrix.generic.html">TCMatrix</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
+3×3 complex matrix. Specialization of <a class="normal" href="ADim.TCMatrix.generic.html">TCMatrix</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2807,7 +2807,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TCMatrix.generic.html">TCMatrix</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
+4×4 complex matrix. Specialization of <a class="normal" href="ADim.TCMatrix.generic.html">TCMatrix</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2816,7 +2816,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-2×2 real quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TRMatrixQuantity.generic.html">TRMatrixQuantity</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
+2×2 real quantity matrix. Specialization of <a class="normal" href="ADim.TRMatrixQuantity.generic.html">TRMatrixQuantity</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2825,7 +2825,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-3×3 real quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TRMatrixQuantity.generic.html">TRMatrixQuantity</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
+3×3 real quantity matrix. Specialization of <a class="normal" href="ADim.TRMatrixQuantity.generic.html">TRMatrixQuantity</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2834,7 +2834,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-4×4 real quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TRMatrixQuantity.generic.html">TRMatrixQuantity</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
+4×4 real quantity matrix. Specialization of <a class="normal" href="ADim.TRMatrixQuantity.generic.html">TRMatrixQuantity</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2843,7 +2843,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-2×2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TCMatrixQuantity.generic.html">TCMatrixQuantity</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
+2×2 complex quantity matrix. Specialization of <a class="normal" href="ADim.TCMatrixQuantity.generic.html">TCMatrixQuantity</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2852,7 +2852,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-3×3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TCMatrixQuantity.generic.html">TCMatrixQuantity</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
+3×3 complex quantity matrix. Specialization of <a class="normal" href="ADim.TCMatrixQuantity.generic.html">TCMatrixQuantity</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2861,7 +2861,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-4×4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-">matrix</a>. Specialization of <a class="normal" href="ADim.TCMatrixQuantity.generic.html">TCMatrixQuantity</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
+4×4 complex quantity matrix. Specialization of <a class="normal" href="ADim.TCMatrixQuantity.generic.html">TCMatrixQuantity</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2870,7 +2870,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TCVector.generic.html">TCVector</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
+2-component complex vector. Specialization of <a class="normal" href="ADim.TCVector.generic.html">TCVector</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2879,7 +2879,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TCVector.generic.html">TCVector</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
+3-component complex vector. Specialization of <a class="normal" href="ADim.TCVector.generic.html">TCVector</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2888,7 +2888,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TCVector.generic.html">TCVector</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
+4-component complex vector. Specialization of <a class="normal" href="ADim.TCVector.generic.html">TCVector</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2897,7 +2897,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-2-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TRVector.generic.html">TRVector</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
+2-component real vector. Specialization of <a class="normal" href="ADim.TRVector.generic.html">TRVector</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2906,7 +2906,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-3-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TRVector.generic.html">TRVector</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
+3-component real vector. Specialization of <a class="normal" href="ADim.TRVector.generic.html">TRVector</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2915,7 +2915,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-4-component real <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TRVector.generic.html">TRVector</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
+4-component real vector. Specialization of <a class="normal" href="ADim.TRVector.generic.html">TRVector</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2924,7 +2924,7 @@ Returns the 4×4 identity <a class="normal" href="ADimC.html#Matrix-TComplex-TCo
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> values. Used to store eigenvalues of <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a>.</p>
+Fixed-size array of 2 complex values. Used to store eigenvalues of <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2933,7 +2933,7 @@ Fixed-size array of 2 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> values. Used to store eigenvalues of <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a>.</p>
+Fixed-size array of 3 complex values. Used to store eigenvalues of <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2942,7 +2942,7 @@ Fixed-size array of 3 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> values. Used to store eigenvalues of <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a>.</p>
+Fixed-size array of 4 complex values. Used to store eigenvalues of <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2951,7 +2951,7 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors. Used to store eigenvectors of <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a>.</p>
+Fixed-size array of 2 complex vectors. Used to store eigenvectors of <a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2960,7 +2960,7 @@ Fixed-size array of 2 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors. Used to store eigenvectors of <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a>.</p>
+Fixed-size array of 3 complex vectors. Used to store eigenvectors of <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2969,7 +2969,7 @@ Fixed-size array of 3 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> vectors. Used to store eigenvectors of <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a>.</p>
+Fixed-size array of 4 complex vectors. Used to store eigenvectors of <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2978,7 +2978,7 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-2-component real quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
+2-component real quantity vector. Specialization of <a class="normal" href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2987,7 +2987,7 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-3-component real quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
+3-component real quantity vector. Specialization of <a class="normal" href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -2996,7 +2996,7 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-4-component real quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
+4-component real quantity vector. Specialization of <a class="normal" href="ADim.TRVecQuantity.generic.html">TRVecQuantity</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3005,7 +3005,7 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-2-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TCVecQuantity.generic.html">TCVecQuantity</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
+2-component complex quantity vector. Specialization of <a class="normal" href="ADim.TCVecQuantity.generic.html">TCVecQuantity</a> for <a class="normal" href="ADim.T2DSpace.html">T2DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3014,7 +3014,7 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-3-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TCVecQuantity.generic.html">TCVecQuantity</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
+3-component complex quantity vector. Specialization of <a class="normal" href="ADim.TCVecQuantity.generic.html">TCVecQuantity</a> for <a class="normal" href="ADim.T3DSpace.html">T3DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3023,7 +3023,7 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-4-component <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a>. Specialization of <a class="normal" href="ADim.TCVecQuantity.generic.html">TCVecQuantity</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
+4-component complex quantity vector. Specialization of <a class="normal" href="ADim.TCVecQuantity.generic.html">TCVecQuantity</a> for <a class="normal" href="ADim.T4DSpace.html">T4DSpace</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3032,22 +3032,22 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Enumeration of the eight basis blade components of <a class="normal" href="ADim.html#A">a</a> multivector in the Clifford algebra <code><a class="normal" href="ADim.html#cL">Cl</a>(3,0)</code> over <code>R3</code>.
+Enumeration of the eight basis blade components of a multivector in the Clifford algebra <code>Cl(3,0)</code> over <code>R3</code>.
 
 <p>The basis blades are: </p>
 
 <ul class="paragraph_spacing">
-  <li><p><code><a class="normal" href="ADim.html#mcm0">mcm0</a></code> — scalar part: <code>1</code></p></li>
-  <li><p><code><a class="normal" href="ADim.html#mcm1">mcm1</a></code> — <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> basis blade: <code><a class="normal" href="ADimCL3.html#e1">e1</a></code></p></li>
-  <li><p><code><a class="normal" href="ADim.html#mcm2">mcm2</a></code> — <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> basis blade: <code><a class="normal" href="ADimCL3.html#e2">e2</a></code></p></li>
-  <li><p><code><a class="normal" href="ADim.html#mcm3">mcm3</a></code> — <a class="normal" href="ADimC.html#Vector-TComplex-TComplex-TComplex-TComplex-">vector</a> basis blade: <code><a class="normal" href="ADimCL3.html#e3">e3</a></code></p></li>
-  <li><p><code><a class="normal" href="ADim.html#mcm12">mcm12</a></code> — bivector basis blade: <code><a class="normal" href="ADimCL3.html#e1">e1</a>∧<a class="normal" href="ADimCL3.html#e2">e2</a></code></p></li>
-  <li><p><code><a class="normal" href="ADim.html#mcm13">mcm13</a></code> — bivector basis blade: <code><a class="normal" href="ADimCL3.html#e1">e1</a>∧<a class="normal" href="ADimCL3.html#e3">e3</a></code></p></li>
-  <li><p><code><a class="normal" href="ADim.html#mcm23">mcm23</a></code> — bivector basis blade: <code><a class="normal" href="ADimCL3.html#e2">e2</a>∧<a class="normal" href="ADimCL3.html#e3">e3</a></code></p></li>
-  <li><p><code><a class="normal" href="ADim.html#mcm123">mcm123</a></code> — pseudoscalar (trivector) basis blade: <code><a class="normal" href="ADimCL3.html#e1">e1</a>∧<a class="normal" href="ADimCL3.html#e2">e2</a>∧<a class="normal" href="ADimCL3.html#e3">e3</a></code></p></li>
+  <li><p><code>mcm0</code> — scalar part: <code>1</code></p></li>
+  <li><p><code>mcm1</code> — vector basis blade: <code>e1</code></p></li>
+  <li><p><code>mcm2</code> — vector basis blade: <code>e2</code></p></li>
+  <li><p><code>mcm3</code> — vector basis blade: <code>e3</code></p></li>
+  <li><p><code>mcm12</code> — bivector basis blade: <code>e1∧e2</code></p></li>
+  <li><p><code>mcm13</code> — bivector basis blade: <code>e1∧e3</code></p></li>
+  <li><p><code>mcm23</code> — bivector basis blade: <code>e2∧e3</code></p></li>
+  <li><p><code>mcm123</code> — pseudoscalar (trivector) basis blade: <code>e1∧e2∧e3</code></p></li>
 </ul>
 
-<p> The algebra satisfies <code><a class="normal" href="ADimCL3.html#e1">e1</a>·<a class="normal" href="ADimCL3.html#e1">e1</a> = +1</code> for all <code>i</code>, and <code><a class="normal" href="ADimCL3.html#e1">e1</a>·<a class="normal" href="ADimCL3.html#e2">e2</a> = -<a class="normal" href="ADimCL3.html#e2">e2</a>·<a class="normal" href="ADimCL3.html#e1">e1</a></code> for <code>i ≠ <a class="normal" href="ADim.html#J">j</a></code>.</p>
+<p> The algebra satisfies <code>e1·e1 = +1</code> for all <code>i</code>, and <code>e1·e2 = -e2·e1</code> for <code>i ≠ j</code>.</p>
 <h6 class="description_section">Values</h6>
 <ul>
 <li>
@@ -3075,7 +3075,7 @@ Enumeration of the eight basis blade components of <a class="normal" href="ADim.
 </tr>
 <tr><td colspan="1">
 <p>
-<a class="normal" href="ADim.html#A">A</a> set of <a class="normal" href="ADim.html#TCL3MultivectorComponent">TCL3MultivectorComponent</a> values. Used to identify which components of <a class="normal" href="ADim.html#A">a</a> multivector are non-zero, e.g. to select or test specific grades.</p>
+A set of <a class="normal" href="ADim.html#TCL3MultivectorComponent">TCL3MultivectorComponent</a> values. Used to identify which components of a multivector are non-zero, e.g. to select or test specific grades.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3084,7 +3084,7 @@ Enumeration of the eight basis blade components of <a class="normal" href="ADim.
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantities. Used to store eigenvalues of <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a> or other 2-element collections of <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>.</p>
+Fixed-size array of 2 complex quantities. Used to store eigenvalues of <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a> or other 2-element collections of <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3093,7 +3093,7 @@ Fixed-size array of 2 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantities. Used to store eigenvalues of <a class="normal" href="ADim.html#TC3MatrixQuantity">TC3MatrixQuantity</a> or other 3-element collections of <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>.</p>
+Fixed-size array of 3 complex quantities. Used to store eigenvalues of <a class="normal" href="ADim.html#TC3MatrixQuantity">TC3MatrixQuantity</a> or other 3-element collections of <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3102,7 +3102,7 @@ Fixed-size array of 3 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantities. Used to store eigenvalues of <a class="normal" href="ADim.html#TC4MatrixQuantity">TC4MatrixQuantity</a> or other 4-element collections of <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>.</p>
+Fixed-size array of 4 complex quantities. Used to store eigenvalues of <a class="normal" href="ADim.html#TC4MatrixQuantity">TC4MatrixQuantity</a> or other 4-element collections of <a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3111,7 +3111,7 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 2 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors (<a class="normal" href="ADim.html#TC2VecQuantity">TC2VecQuantity</a>). Used to store eigenvectors of <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>.</p>
+Fixed-size array of 2 complex quantity vectors (<a class="normal" href="ADim.html#TC2VecQuantity">TC2VecQuantity</a>). Used to store eigenvectors of <a class="normal" href="ADim.html#TC2MatrixQuantity">TC2MatrixQuantity</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3120,7 +3120,7 @@ Fixed-size array of 2 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 3 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors (<a class="normal" href="ADim.html#TC3VecQuantity">TC3VecQuantity</a>). Used to store eigenvectors of <a class="normal" href="ADim.html#TC3MatrixQuantity">TC3MatrixQuantity</a>.</p>
+Fixed-size array of 3 complex quantity vectors (<a class="normal" href="ADim.html#TC3VecQuantity">TC3VecQuantity</a>). Used to store eigenvectors of <a class="normal" href="ADim.html#TC3MatrixQuantity">TC3MatrixQuantity</a>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -3129,7 +3129,7 @@ Fixed-size array of 3 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-">complex</a> quantity vectors (<a class="normal" href="ADim.html#TC4VecQuantity">TC4VecQuantity</a>). Used to store eigenvectors of <a class="normal" href="ADim.html#TC4MatrixQuantity">TC4MatrixQuantity</a>.</p>
+Fixed-size array of 4 complex quantity vectors (<a class="normal" href="ADim.html#TC4VecQuantity">TC4VecQuantity</a>). Used to store eigenvectors of <a class="normal" href="ADim.html#TC4MatrixQuantity">TC4MatrixQuantity</a>.</p>
 </td></tr>
 </table>
 <h3 class="detail">Constants</h3>
@@ -4721,7 +4721,7 @@ Fixed-size array of 4 <a class="normal" href="ADimC.html#Complex-double-double-"
 </tr>
 <tr><td colspan="1">
 <p>
-Avogadro constant <code><a class="normal" href="ADim.html#N">N</a>ₐ = 6.02214076 × 10²³ <a class="normal" href="ADim.html#mol">mol</a>⁻¹</code>. Number of constituent particles per mole of substance.</p>
+Avogadro constant <code>Nₐ = 6.02214076 × 10²³ mol⁻¹</code>. Number of constituent particles per mole of substance.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4730,7 +4730,7 @@ Avogadro constant <code><a class="normal" href="ADim.html#N">N</a>ₐ = 6.022140
 </tr>
 <tr><td colspan="1">
 <p>
-Bohr magneton <code>μB = 9.2740100657 × 10⁻²⁴ <a class="normal" href="ADim.html#J">J</a>·<a class="normal" href="ADim.html#T">T</a>⁻¹</code>. Natural unit of electronic magnetic dipole moment.</p>
+Bohr magneton <code>μB = 9.2740100657 × 10⁻²⁴ J·T⁻¹</code>. Natural unit of electronic magnetic dipole moment.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4739,7 +4739,7 @@ Bohr magneton <code>μB = 9.2740100657 × 10⁻²⁴ <a class="normal" href="ADi
 </tr>
 <tr><td colspan="1">
 <p>
-Bohr radius <code><a class="normal" href="ADim.html#A">a</a>₀ = 5.29177210903 × 10⁻¹¹ <a class="normal" href="ADim.html#m">m</a></code>. Most probable distance between the electron and nucleus in <a class="normal" href="ADim.html#A">a</a> hydrogen atom ground state.</p>
+Bohr radius <code>a₀ = 5.29177210903 × 10⁻¹¹ m</code>. Most probable distance between the electron and nucleus in a hydrogen atom ground state.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4748,7 +4748,7 @@ Bohr radius <code><a class="normal" href="ADim.html#A">a</a>₀ = 5.29177210903 
 </tr>
 <tr><td colspan="1">
 <p>
-Boltzmann constant <code>kB = 1.380649 × 10⁻²³ <a class="normal" href="ADim.html#J">J</a>·<a class="normal" href="ADim.html#K">K</a>⁻¹</code>. Relates the average kinetic energy of particles in <a class="normal" href="ADim.html#A">a</a> gas to the thermodynamic temperature.</p>
+Boltzmann constant <code>kB = 1.380649 × 10⁻²³ J·K⁻¹</code>. Relates the average kinetic energy of particles in a gas to the thermodynamic temperature.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4757,7 +4757,7 @@ Boltzmann constant <code>kB = 1.380649 × 10⁻²³ <a class="normal" href="ADim
 </tr>
 <tr><td colspan="1">
 <p>
-Compton wavelength <code>λ<a class="normal" href="ADim.html#C">C</a> = 2.42631023867 × 10⁻¹² <a class="normal" href="ADim.html#m">m</a></code>. Quantum mechanical property of the electron; sets the scale at which quantum field effects become significant.</p>
+Compton wavelength <code>λC = 2.42631023867 × 10⁻¹² m</code>. Quantum mechanical property of the electron; sets the scale at which quantum field effects become significant.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4766,7 +4766,7 @@ Compton wavelength <code>λ<a class="normal" href="ADim.html#C">C</a> = 2.426310
 </tr>
 <tr><td colspan="1">
 <p>
-Coulomb constant <code>ke = 8.9875517923 × 10⁹ <a class="normal" href="ADim.html#N">N</a>·<a class="normal" href="ADim.html#m">m</a>²·<a class="normal" href="ADim.html#C">C</a>⁻²</code>. Proportionality constant in Coulomb'<a class="normal" href="ADim.html#s">s</a> law of electrostatic force.</p>
+Coulomb constant <code>ke = 8.9875517923 × 10⁹ N·m²·C⁻²</code>. Proportionality constant in Coulomb's law of electrostatic force.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4775,7 +4775,7 @@ Coulomb constant <code>ke = 8.9875517923 × 10⁹ <a class="normal" href="ADim.h
 </tr>
 <tr><td colspan="1">
 <p>
-Deuteron mass <code>m_d = 3.3435837768 × 10⁻²⁷ <a class="normal" href="ADim.html#kg">kg</a></code>. Rest mass of the deuteron (nucleus of deuterium, one proton and one neutron).</p>
+Deuteron mass <code>m_d = 3.3435837768 × 10⁻²⁷ kg</code>. Rest mass of the deuteron (nucleus of deuterium, one proton and one neutron).</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4784,7 +4784,7 @@ Deuteron mass <code>m_d = 3.3435837768 × 10⁻²⁷ <a class="normal" href="ADi
 </tr>
 <tr><td colspan="1">
 <p>
-Electric permittivity of free space <code>ε₀ = 8.8541878188 × 10⁻¹² <a class="normal" href="ADim.html#F">F</a>·<a class="normal" href="ADim.html#m">m</a>⁻¹</code>. Relates electric field to electric displacement field in <a class="normal" href="ADim.html#A">a</a> vacuum.</p>
+Electric permittivity of free space <code>ε₀ = 8.8541878188 × 10⁻¹² F·m⁻¹</code>. Relates electric field to electric displacement field in a vacuum.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4793,7 +4793,7 @@ Electric permittivity of free space <code>ε₀ = 8.8541878188 × 10⁻¹² <a c
 </tr>
 <tr><td colspan="1">
 <p>
-Electron rest mass <code>m_e = 9.1093837015 × 10⁻³¹ <a class="normal" href="ADim.html#kg">kg</a></code>. Rest mass of the electron.</p>
+Electron rest mass <code>m_e = 9.1093837015 × 10⁻³¹ kg</code>. Rest mass of the electron.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4802,7 +4802,7 @@ Electron rest mass <code>m_e = 9.1093837015 × 10⁻³¹ <a class="normal" href=
 </tr>
 <tr><td colspan="1">
 <p>
-Elementary charge <code>e = 1.602176634 × 10⁻¹⁹ <a class="normal" href="ADim.html#C">C</a></code>. Electric charge carried by <a class="normal" href="ADim.html#A">a</a> single proton; the fundamental unit of electric charge.</p>
+Elementary charge <code>e = 1.602176634 × 10⁻¹⁹ C</code>. Electric charge carried by a single proton; the fundamental unit of electric charge.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4829,7 +4829,7 @@ Inverse fine-structure constant <code>α⁻¹ = 137.035999177</code> (dimensionl
 </tr>
 <tr><td colspan="1">
 <p>
-Magnetic permeability of free space <code>μ₀ = 1.25663706212 × 10⁻⁶ <a class="normal" href="ADim.html#H">H</a>·<a class="normal" href="ADim.html#m">m</a>⁻¹</code>. Relates magnetic field intensity to magnetic flux density in <a class="normal" href="ADim.html#A">a</a> vacuum.</p>
+Magnetic permeability of free space <code>μ₀ = 1.25663706212 × 10⁻⁶ H·m⁻¹</code>. Relates magnetic field intensity to magnetic flux density in a vacuum.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4838,7 +4838,7 @@ Magnetic permeability of free space <code>μ₀ = 1.25663706212 × 10⁻⁶ <a c
 </tr>
 <tr><td colspan="1">
 <p>
-Molar gas constant <code>R = 8.314462618 <a class="normal" href="ADim.html#J">J</a>·<a class="normal" href="ADim.html#mol">mol</a>⁻¹·<a class="normal" href="ADim.html#K">K</a>⁻¹</code>. Relates energy to temperature and amount of substance in the ideal gas law.</p>
+Molar gas constant <code>R = 8.314462618 J·mol⁻¹·K⁻¹</code>. Relates energy to temperature and amount of substance in the ideal gas law.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4847,7 +4847,7 @@ Molar gas constant <code>R = 8.314462618 <a class="normal" href="ADim.html#J">J<
 </tr>
 <tr><td colspan="1">
 <p>
-Neutron rest mass <code>m_n = 1.67492750056 × 10⁻²⁷ <a class="normal" href="ADim.html#kg">kg</a></code>. Rest mass of the neutron.</p>
+Neutron rest mass <code>m_n = 1.67492750056 × 10⁻²⁷ kg</code>. Rest mass of the neutron.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4856,7 +4856,7 @@ Neutron rest mass <code>m_n = 1.67492750056 × 10⁻²⁷ <a class="normal" href
 </tr>
 <tr><td colspan="1">
 <p>
-Newtonian constant of gravitation <code><a class="normal" href="ADim.html#g">G</a> = 6.67430 × 10⁻¹¹ <a class="normal" href="ADim.html#m">m</a>³·<a class="normal" href="ADim.html#kg">kg</a>⁻¹·<a class="normal" href="ADim.html#s">s</a>⁻²</code>. Proportionality constant in Newton'<a class="normal" href="ADim.html#s">s</a> law of universal gravitation.</p>
+Newtonian constant of gravitation <code>G = 6.67430 × 10⁻¹¹ m³·kg⁻¹·s⁻²</code>. Proportionality constant in Newton's law of universal gravitation.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4865,7 +4865,7 @@ Newtonian constant of gravitation <code><a class="normal" href="ADim.html#g">G</
 </tr>
 <tr><td colspan="1">
 <p>
-Planck constant <code><a class="normal" href="ADim.html#H">h</a> = 6.62607015 × 10⁻³⁴ <a class="normal" href="ADim.html#J">J</a>·<a class="normal" href="ADim.html#s">s</a></code>. Relates the energy of <a class="normal" href="ADim.html#A">a</a> photon to its frequency; fundamental constant of quantum mechanics.</p>
+Planck constant <code>h = 6.62607015 × 10⁻³⁴ J·s</code>. Relates the energy of a photon to its frequency; fundamental constant of quantum mechanics.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4874,7 +4874,7 @@ Planck constant <code><a class="normal" href="ADim.html#H">h</a> = 6.62607015 ×
 </tr>
 <tr><td colspan="1">
 <p>
-Proton rest mass <code>m_p = 1.67262192595 × 10⁻²⁷ <a class="normal" href="ADim.html#kg">kg</a></code>. Rest mass of the proton.</p>
+Proton rest mass <code>m_p = 1.67262192595 × 10⁻²⁷ kg</code>. Rest mass of the proton.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4883,7 +4883,7 @@ Proton rest mass <code>m_p = 1.67262192595 × 10⁻²⁷ <a class="normal" href=
 </tr>
 <tr><td colspan="1">
 <p>
-Rydberg constant <code>R∞ = 10973731.568157 <a class="normal" href="ADim.html#m">m</a>⁻¹</code>. Relates the wavelengths of spectral lines of the hydrogen atom.</p>
+Rydberg constant <code>R∞ = 10973731.568157 m⁻¹</code>. Relates the wavelengths of spectral lines of the hydrogen atom.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4892,7 +4892,7 @@ Rydberg constant <code>R∞ = 10973731.568157 <a class="normal" href="ADim.html#
 </tr>
 <tr><td colspan="1">
 <p>
-Speed of light in vacuum <code><a class="normal" href="ADim.html#C">c</a> = 299792458 <a class="normal" href="ADim.html#m">m</a>·<a class="normal" href="ADim.html#s">s</a>⁻¹</code>. Exact defined value; maximum speed of propagation of any physical interaction.</p>
+Speed of light in vacuum <code>c = 299792458 m·s⁻¹</code>. Exact defined value; maximum speed of propagation of any physical interaction.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4901,7 +4901,7 @@ Speed of light in vacuum <code><a class="normal" href="ADim.html#C">c</a> = 2997
 </tr>
 <tr><td colspan="1">
 <p>
-Squared speed of light in vacuum <code><a class="normal" href="ADim.html#C">c</a>² = 8.98755178736818 × 10¹⁶ <a class="normal" href="ADim.html#m">m</a>²·<a class="normal" href="ADim.html#s">s</a>⁻²</code>. Appears in the mass-energy equivalence relation <code>E = <a class="normal" href="ADim.html#mC">mc</a>²</code>.</p>
+Squared speed of light in vacuum <code>c² = 8.98755178736818 × 10¹⁶ m²·s⁻²</code>. Appears in the mass-energy equivalence relation <code>E = mc²</code>.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4910,7 +4910,7 @@ Squared speed of light in vacuum <code><a class="normal" href="ADim.html#C">c</a
 </tr>
 <tr><td colspan="1">
 <p>
-Standard acceleration of gravity <code><a class="normal" href="ADim.html#g">g</a> = 9.80665 <a class="normal" href="ADim.html#m">m</a>·<a class="normal" href="ADim.html#s">s</a>⁻²</code>. Conventional standard value of the acceleration due to Earth'<a class="normal" href="ADim.html#s">s</a> gravity at sea level.</p>
+Standard acceleration of gravity <code>g = 9.80665 m·s⁻²</code>. Conventional standard value of the acceleration due to Earth's gravity at sea level.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4919,7 +4919,7 @@ Standard acceleration of gravity <code><a class="normal" href="ADim.html#g">g</a
 </tr>
 <tr><td colspan="1">
 <p>
-Reduced Planck constant <code>ℏ = <a class="normal" href="ADim.html#H">h</a> / (2π) = 1.054571817 × 10⁻³⁴ <a class="normal" href="ADim.html#J">J</a>·<a class="normal" href="ADim.html#s">s</a></code>. Also called the Dirac constant; appears in quantum mechanics wherever angular frequency is used.</p>
+Reduced Planck constant <code>ℏ = h / (2π) = 1.054571817 × 10⁻³⁴ J·s</code>. Also called the Dirac constant; appears in quantum mechanics wherever angular frequency is used.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4928,7 +4928,7 @@ Reduced Planck constant <code>ℏ = <a class="normal" href="ADim.html#H">h</a> /
 </tr>
 <tr><td colspan="1">
 <p>
-Unified atomic mass unit <code>u = 1.66053906892 × 10⁻²⁷ <a class="normal" href="ADim.html#kg">kg</a></code>. Defined as one twelfth of the mass of <a class="normal" href="ADim.html#A">a</a> carbon-12 atom at rest.</p>
+Unified atomic mass unit <code>u = 1.66053906892 × 10⁻²⁷ kg</code>. Defined as one twelfth of the mass of a carbon-12 atom at rest.</p>
 </td></tr>
 </table>
 <table class="detail visibility-published wide_list">
@@ -4937,7 +4937,7 @@ Unified atomic mass unit <code>u = 1.66053906892 × 10⁻²⁷ <a class="normal"
 </tr>
 <tr><td colspan="1">
 <p>
-Reference sound intensity <code>I₀ = 10⁻¹² <a class="normal" href="ADim.html#W">W</a>·<a class="normal" href="ADim.html#m">m</a>⁻²</code>. Conventional threshold of human hearing at 1 <a class="normal" href="ADim.html#kHz">kHz</a>; used as the reference level for the decibel scale of sound intensity.</p>
+Reference sound intensity <code>I₀ = 10⁻¹² W·m⁻²</code>. Conventional threshold of human hearing at 1 kHz; used as the reference level for the decibel scale of sound intensity.</p>
 </td></tr>
 </table>
 <h3 class="detail">Variables</h3>
