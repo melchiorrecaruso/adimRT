@@ -26,7 +26,7 @@ interface
 uses
   ADim;
 
-const
+var
   e1   : TCL3Versor1 = ();
   e2   : TCL3Versor2 = ();
   e3   : TCL3Versor3 = ();

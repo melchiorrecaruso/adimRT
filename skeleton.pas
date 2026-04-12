@@ -30,7 +30,7 @@ unit Skeleton;
 interface
 
 uses
-  ADimTypes, SysUtils;
+  ADimRes, ADimTypes, SysUtils;
 
 type
   { TPrefix }
@@ -1364,6 +1364,12 @@ type
     }
     function Eigenvectors(const AEigenValues: TC2ArrayOfComplex): TC2ArrayOfVector;
 
+    { Returns the 2×2 identity matrix over @code(ℂ).
+      Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
+      Satisfies @code(I·A = A·I = A) for any conforming 2×2 complex matrix @code(A).
+    }
+    function Identity: TC2Matrix;
+
     { Returns the 2×2 zero matrix over @code(ℂ).
       All elements are set to @code(TComplex(Re=0, Im=0)).
     }
@@ -1413,6 +1419,12 @@ type
     }
     function Eigenvectors(const AEigenValues: TC3ArrayOfComplex): TC3ArrayOfVector;
 
+    { Returns the 3×3 identity matrix over @code(ℂ).
+      Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
+      Satisfies @code(I·A = A·I = A) for any conforming 3×3 complex matrix @code(A).
+    }
+    function Identity: TC3Matrix;
+
     { Returns the 3×3 zero matrix over @code(ℂ).
       All elements are set to @code(TComplex(Re=0, Im=0)).
     }
@@ -1461,6 +1473,12 @@ type
       @param(AEigenValues The eigenvalues, computed via @link(Eigenvalues).)
     }
     function Eigenvectors(const AEigenValues: TC4ArrayOfComplex): TC4ArrayOfVector;
+
+    { Returns the 4×4 identity matrix over @code(ℂ).
+      Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
+      Satisfies @code(I·A = A·I = A) for any conforming 4×4 complex matrix @code(A).
+    }
+    function Identity: TC4Matrix;
 
     { Returns the 4×4 zero matrix over @code(ℂ).
       All elements are set to @code(TComplex(Re=0, Im=0)).
@@ -4728,15 +4746,15 @@ type
 
     { Returns the reverse of the multivector quantity.
       The reverse of a grade-@code(k) blade changes sign by @code((-1)^(k·(k-1)/2)).
-      For a general multivector: @code(M̃ = m0 + m1·e₁ + m2·e₂ + m3·e₃
-      - m12·e₁₂ - m13·e₁₃ - m23·e₂₃ - m123·e₁₂₃).
+      For a general multivector: @code(M̃ = m0 + m₁·e₁ + m₂·e₂ + m₃·e₃
+      - m₁₂·e₁₂ - m₁₃·e₁₃ - m₂₃·e₂₃ - m₁₂₃·e₁₂₃).
       The physical dimension is preserved.
     }
     function Reverse: TCL3MultivecQuantity;
 
     { Returns the Clifford conjugate of the multivector quantity.
       Combines reversion and grade involution:
-      @code(M† = m0 - m1·e₁ - m2·e₂ - m3·e₃ - m12·e₁₂ - m13·e₁₃ - m23·e₂₃ + m123·e₁₂₃).
+      @code(M† = m0 - m₁·e₁ - m₂·e₂ - m₃·e₃ - m₁₂·e₁₂ - m₁₃·e₁₃ - m₂₃·e₂₃ + m₁₂₃·e₁₂₃).
       The physical dimension is preserved.
     }
     function Conjugate: TCL3MultivecQuantity;
@@ -7759,15 +7777,9 @@ type
     function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
 
-{ TScalar }
-
-resourcestring
-  { @exclude } rsScalarSymbol = '';
-  { @exclude } rsScalarName = '';
-  { @exclude } rsScalarPluralName = '';
+{ TScalar } { @exclude }
 
 const
-  { @exclude }
   ScalarUnit : TUnit = (
     FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
     FSymbol     : rsScalarSymbol;
@@ -8337,24 +8349,6 @@ type
     @param(AQuantity The quantity to test.)
   }
   function GreaterThanZero(const AQuantity: TQuantity): boolean;
-
-  { Returns the 2×2 identity matrix over @code(ℂ).
-    Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
-    Satisfies @code(I·A = A·I = A) for any conforming 2×2 complex matrix @code(A).
-  }
-  function C2IdentityMatrix: TC2Matrix;
-
-  { Returns the 3×3 identity matrix over @code(ℂ).
-    Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
-    Satisfies @code(I·A = A·I = A) for any conforming 3×3 complex matrix @code(A).
-  }
-  function C3IdentityMatrix: TC3Matrix;
-
-  { Returns the 4×4 identity matrix over @code(ℂ).
-    Diagonal elements are @code(TComplex(Re=1, Im=0)); all off-diagonal elements are zero.
-    Satisfies @code(I·A = A·I = A) for any conforming 4×4 complex matrix @code(A).
-  }
-  function C4IdentityMatrix: TC4Matrix;
 
 const
   { Avogadro constant @code(Nₐ = 6.02214076 × 10²³ mol⁻¹).
@@ -10616,7 +10610,7 @@ var
 begin
   for i := Low(result) to High(result) do
   begin
-    A := (Self - AEigenvalues[i] * C2IdentityMatrix).RowReduction;
+    A := (Self - AEigenvalues[i] * A.Identity).RowReduction;
 
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
@@ -10643,6 +10637,15 @@ begin
       result[i].fm[1] := -(A[1,2]*result[i].fm[2])/A[1,1];
     end;
   end;
+end;
+
+function TC2MatrixHelper.Identity: TC2Matrix;
+begin
+  result[1,1] := 1;
+  result[1,2] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 1;
 end;
 
 function TC2MatrixHelper.NullMatrix: TC2Matrix;
@@ -10747,7 +10750,7 @@ var
 begin
   for i := Low(AEigenvalues) to High(AEigenvalues) do
   begin
-    A := (Self - AEigenvalues[i] * C3IdentityMatrix).RowReduction;
+    A := (Self - AEigenvalues[i] * A.Identity).RowReduction;
 
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
@@ -10781,6 +10784,21 @@ begin
         result[i].fm[2] := -(A[1,3] * result[i].fm[3]) / A[1,2];
       end;
   end;
+end;
+
+function TC3MatrixHelper.Identity: TC3Matrix;
+begin
+  result[1,1] := 1;
+  result[1,2] := 0;
+  result[1,3] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 1;
+  result[2,3] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 1;
 end;
 
 function TC3MatrixHelper.NullMatrix: TC3Matrix;
@@ -10920,7 +10938,7 @@ var
 begin
   for i := Low(AEigenvalues) to High(AEigenvalues) do
   begin
-    A := (Self - AEigenvalues[i] * C4IdentityMatrix).RowReduction;
+    A := (Self - AEigenvalues[i] * A.Identity).RowReduction;
 
     Multiplicity := 1;
     // Calculate algebraic multiplicity of eigenvalues
@@ -10967,6 +10985,29 @@ begin
           result[i].fm[3] := -(A[1,4] * result[i].fm[4]) / A[1,3];
         end;
   end;
+end;
+
+function TC4MatrixHelper.Identity: TC4Matrix;
+begin
+  result[1,1] := 1;
+  result[1,2] := 0;
+  result[1,3] := 0;
+  result[1,4] := 0;
+
+  result[2,1] := 0;
+  result[2,2] := 1;
+  result[2,3] := 0;
+  result[2,4] := 0;
+
+  result[3,1] := 0;
+  result[3,2] := 0;
+  result[3,3] := 1;
+  result[3,4] := 0;
+
+  result[4,1] := 0;
+  result[4,2] := 0;
+  result[4,3] := 0;
+  result[4,4] := 1;
 end;
 
 function TC4MatrixHelper.NullMatrix: TC4Matrix;
@@ -22189,53 +22230,6 @@ begin
 
   result[3] := 0;
   result[4] := 0;
-end;
-
-function C2IdentityMatrix: TC2Matrix;
-begin
-  result[1,1] := 1;
-  result[1,2] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 1;
-end;
-
-function C3IdentityMatrix: TC3Matrix;
-begin
-  result[1,1] := 1;
-  result[1,2] := 0;
-  result[1,3] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 1;
-  result[2,3] := 0;
-
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 1;
-end;
-
-function C4IdentityMatrix: TC4Matrix;
-begin
-  result[1,1] := 1;
-  result[1,2] := 0;
-  result[1,3] := 0;
-  result[1,4] := 0;
-
-  result[2,1] := 0;
-  result[2,2] := 1;
-  result[2,3] := 0;
-  result[2,4] := 0;
-
-  result[3,1] := 0;
-  result[3,2] := 0;
-  result[3,3] := 1;
-  result[3,4] := 0;
-
-  result[4,1] := 0;
-  result[4,2] := 0;
-  result[4,3] := 0;
-  result[4,4] := 1;
 end;
 
 function CheckEqual(ALeft, ARight: TDimension): TDimension;
