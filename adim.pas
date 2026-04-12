@@ -7968,22 +7968,22 @@ var
   s2 : TUnit absolute SquareSecondUnit;
 
 const
-  { ds² - decisquare second: submultiple of square second; 1 ds² = 1e-02 s². }
+  { ds² - square decisecond: submultiple of square second; 1 ds² = 1e-02 s². }
   ds2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-02); {$ELSE} (1e-02); {$ENDIF}
 
-  { cs² - centisquare second: submultiple of square second; 1 cs² = 1e-04 s². }
+  { cs² - square centisecond: submultiple of square second; 1 cs² = 1e-04 s². }
   cs2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-04); {$ELSE} (1e-04); {$ENDIF}
 
-  { ms² - millisquare second: submultiple of square second; 1 ms² = 1e-06 s². }
+  { ms² - square millisecond: submultiple of square second; 1 ms² = 1e-06 s². }
   ms2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { mis² - microsquare second: submultiple of square second; 1 mis² = 1e-12 s². }
+  { mis² - square microsecond: submultiple of square second; 1 mis² = 1e-12 s². }
   mis2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { ns² - nanosquare second: submultiple of square second; 1 ns² = 1e-18 s². }
+  { ns² - square nanosecond: submultiple of square second; 1 ns² = 1e-18 s². }
   ns2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-18); {$ELSE} (1e-18); {$ENDIF}
 
-  { ps² - picosquare second: submultiple of square second; 1 ps² = 1e-24 s². }
+  { ps² - square picosecond: submultiple of square second; 1 ps² = 1e-24 s². }
   ps2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-24); {$ELSE} (1e-24); {$ENDIF}
 
 { TSquareDay } { @exclude }
@@ -8050,22 +8050,22 @@ var
   s3 : TUnit absolute CubicSecondUnit;
 
 const
-  { ds³ - decicubic second: submultiple of cubic second; 1 ds³ = 1e-03 s³. }
+  { ds³ - cubic decisecond: submultiple of cubic second; 1 ds³ = 1e-03 s³. }
   ds3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-03); {$ELSE} (1e-03); {$ENDIF}
 
-  { cs³ - centicubic second: submultiple of cubic second; 1 cs³ = 1e-06 s³. }
+  { cs³ - cubic centisecond: submultiple of cubic second; 1 cs³ = 1e-06 s³. }
   cs3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { ms³ - millicubic second: submultiple of cubic second; 1 ms³ = 1e-09 s³. }
+  { ms³ - cubic millisecond: submultiple of cubic second; 1 ms³ = 1e-09 s³. }
   ms3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-09); {$ELSE} (1e-09); {$ENDIF}
 
-  { mis³ - microcubic second: submultiple of cubic second; 1 mis³ = 1e-18 s³. }
+  { mis³ - cubic microsecond: submultiple of cubic second; 1 mis³ = 1e-18 s³. }
   mis3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-18); {$ELSE} (1e-18); {$ENDIF}
 
-  { ns³ - nanocubic second: submultiple of cubic second; 1 ns³ = 1e-27 s³. }
+  { ns³ - cubic nanosecond: submultiple of cubic second; 1 ns³ = 1e-27 s³. }
   ns3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-27); {$ELSE} (1e-27); {$ENDIF}
 
-  { ps³ - picocubic second: submultiple of cubic second; 1 ps³ = 1e-36 s³. }
+  { ps³ - cubic picosecond: submultiple of cubic second; 1 ps³ = 1e-36 s³. }
   ps3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 180; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-36); {$ELSE} (1e-36); {$ENDIF}
 
 { TQuarticSecond } { @exclude }
@@ -8084,22 +8084,22 @@ var
   s4 : TUnit absolute QuarticSecondUnit;
 
 const
-  { ds⁴ - deciquartic second: submultiple of quartic second; 1 ds⁴ = 1e-04 s⁴. }
+  { ds⁴ - quartic decisecond: submultiple of quartic second; 1 ds⁴ = 1e-04 s⁴. }
   ds4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-04); {$ELSE} (1e-04); {$ENDIF}
 
-  { cs⁴ - centiquartic second: submultiple of quartic second; 1 cs⁴ = 1e-08 s⁴. }
+  { cs⁴ - quartic centisecond: submultiple of quartic second; 1 cs⁴ = 1e-08 s⁴. }
   cs4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-08); {$ELSE} (1e-08); {$ENDIF}
 
-  { ms⁴ - milliquartic second: submultiple of quartic second; 1 ms⁴ = 1e-12 s⁴. }
+  { ms⁴ - quartic millisecond: submultiple of quartic second; 1 ms⁴ = 1e-12 s⁴. }
   ms4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { mis⁴ - microquartic second: submultiple of quartic second; 1 mis⁴ = 1e-24 s⁴. }
+  { mis⁴ - quartic microsecond: submultiple of quartic second; 1 mis⁴ = 1e-24 s⁴. }
   mis4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-24); {$ELSE} (1e-24); {$ENDIF}
 
-  { ns⁴ - nanoquartic second: submultiple of quartic second; 1 ns⁴ = 1e-36 s⁴. }
+  { ns⁴ - quartic nanosecond: submultiple of quartic second; 1 ns⁴ = 1e-36 s⁴. }
   ns4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-36); {$ELSE} (1e-36); {$ENDIF}
 
-  { ps⁴ - picoquartic second: submultiple of quartic second; 1 ps⁴ = 1e-48 s⁴. }
+  { ps⁴ - quartic picosecond: submultiple of quartic second; 1 ps⁴ = 1e-48 s⁴. }
   ps4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-48); {$ELSE} (1e-48); {$ENDIF}
 
 { TQuinticSecond } { @exclude }
@@ -8118,22 +8118,22 @@ var
   s5 : TUnit absolute QuinticSecondUnit;
 
 const
-  { ds⁵ - deciquintic second: submultiple of quintic second; 1 ds⁵ = 1e-05 s⁵. }
+  { ds⁵ - quintic decisecond: submultiple of quintic second; 1 ds⁵ = 1e-05 s⁵. }
   ds5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-05); {$ELSE} (1e-05); {$ENDIF}
 
-  { cs⁵ - centiquintic second: submultiple of quintic second; 1 cs⁵ = 1e-10 s⁵. }
+  { cs⁵ - quintic centisecond: submultiple of quintic second; 1 cs⁵ = 1e-10 s⁵. }
   cs5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-10); {$ELSE} (1e-10); {$ENDIF}
 
-  { ms⁵ - milliquintic second: submultiple of quintic second; 1 ms⁵ = 1e-15 s⁵. }
+  { ms⁵ - quintic millisecond: submultiple of quintic second; 1 ms⁵ = 1e-15 s⁵. }
   ms5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-15); {$ELSE} (1e-15); {$ENDIF}
 
-  { mis⁵ - microquintic second: submultiple of quintic second; 1 mis⁵ = 1e-30 s⁵. }
+  { mis⁵ - quintic microsecond: submultiple of quintic second; 1 mis⁵ = 1e-30 s⁵. }
   mis5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-30); {$ELSE} (1e-30); {$ENDIF}
 
-  { ns⁵ - nanoquintic second: submultiple of quintic second; 1 ns⁵ = 1e-45 s⁵. }
+  { ns⁵ - quintic nanosecond: submultiple of quintic second; 1 ns⁵ = 1e-45 s⁵. }
   ns5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-45); {$ELSE} (1e-45); {$ENDIF}
 
-  { ps⁵ - picoquintic second: submultiple of quintic second; 1 ps⁵ = 1e-60 s⁵. }
+  { ps⁵ - quintic picosecond: submultiple of quintic second; 1 ps⁵ = 1e-60 s⁵. }
   ps5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 300; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-60); {$ELSE} (1e-60); {$ENDIF}
 
 { TSexticSecond } { @exclude }
@@ -8152,22 +8152,22 @@ var
   s6 : TUnit absolute SexticSecondUnit;
 
 const
-  { ds⁶ - decisextic second: submultiple of sextic second; 1 ds⁶ = 1e-06 s⁶. }
+  { ds⁶ - sextic decisecond: submultiple of sextic second; 1 ds⁶ = 1e-06 s⁶. }
   ds6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { cs⁶ - centisextic second: submultiple of sextic second; 1 cs⁶ = 1e-12 s⁶. }
+  { cs⁶ - sextic centisecond: submultiple of sextic second; 1 cs⁶ = 1e-12 s⁶. }
   cs6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { ms⁶ - millisextic second: submultiple of sextic second; 1 ms⁶ = 1e-18 s⁶. }
+  { ms⁶ - sextic millisecond: submultiple of sextic second; 1 ms⁶ = 1e-18 s⁶. }
   ms6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-18); {$ELSE} (1e-18); {$ENDIF}
 
-  { mis⁶ - microsextic second: submultiple of sextic second; 1 mis⁶ = 1e-36 s⁶. }
+  { mis⁶ - sextic microsecond: submultiple of sextic second; 1 mis⁶ = 1e-36 s⁶. }
   mis6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-36); {$ELSE} (1e-36); {$ENDIF}
 
-  { ns⁶ - nanosextic second: submultiple of sextic second; 1 ns⁶ = 1e-54 s⁶. }
+  { ns⁶ - sextic nanosecond: submultiple of sextic second; 1 ns⁶ = 1e-54 s⁶. }
   ns6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-54); {$ELSE} (1e-54); {$ENDIF}
 
-  { ps⁶ - picosextic second: submultiple of sextic second; 1 ps⁶ = 1e-72 s⁶. }
+  { ps⁶ - sextic picosecond: submultiple of sextic second; 1 ps⁶ = 1e-72 s⁶. }
   ps6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 360; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-72); {$ELSE} (1e-72); {$ENDIF}
 
 { TMeter } { @exclude }
@@ -8236,7 +8236,7 @@ const
     FFactor     : (0.0254));
 
 var
-  { in - inch: imperal unit of length; 1 inch = 0.0254 m. }
+  { in - inch: imperial unit of length; 1 inch = 0.0254 m. }
   inch : TFactoredUnit absolute InchUnit;
 
 { TFoot } { @exclude }
@@ -8386,25 +8386,25 @@ var
   m2 : TUnit absolute SquareMeterUnit;
 
 const
-  { km² - kilosquare meter: multiple of square meter; 1 km² = 1e+06 m². }
+  { km² - square kilometer: multiple of square meter; 1 km² = 1e+06 m². }
   km2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+06); {$ELSE} (1e+06); {$ENDIF}
 
-  { dm² - decisquare meter: submultiple of square meter; 1 dm² = 1e-02 m². }
+  { dm² - square decimeter: submultiple of square meter; 1 dm² = 1e-02 m². }
   dm2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-02); {$ELSE} (1e-02); {$ENDIF}
 
-  { cm² - centisquare meter: submultiple of square meter; 1 cm² = 1e-04 m². }
+  { cm² - square centimeter: submultiple of square meter; 1 cm² = 1e-04 m². }
   cm2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-04); {$ELSE} (1e-04); {$ENDIF}
 
-  { mm² - millisquare meter: submultiple of square meter; 1 mm² = 1e-06 m². }
+  { mm² - square millimeter: submultiple of square meter; 1 mm² = 1e-06 m². }
   mm2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { mim² - microsquare meter: submultiple of square meter; 1 mim² = 1e-12 m². }
+  { mim² - square micrometer: submultiple of square meter; 1 mim² = 1e-12 m². }
   mim2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { nm² - nanosquare meter: submultiple of square meter; 1 nm² = 1e-18 m². }
+  { nm² - square nanometer: submultiple of square meter; 1 nm² = 1e-18 m². }
   nm2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-18); {$ELSE} (1e-18); {$ENDIF}
 
-  { pm² - picosquare meter: submultiple of square meter; 1 pm² = 1e-24 m². }
+  { pm² - square picometer: submultiple of square meter; 1 pm² = 1e-24 m². }
   pm2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 120; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-24); {$ELSE} (1e-24); {$ENDIF}
 
 { TSquareInch } { @exclude }
@@ -8420,7 +8420,7 @@ const
     FFactor     : (0.00064516));
 
 var
-  { in² - square inch: unit of area; 1 in² = 6.4516e-4 m². }
+  { in² - square inch: imperial unit of area; 1 in² = 6.4516e-4 m². }
   inch2 : TFactoredUnit absolute SquareInchUnit;
 
 { TSquareFoot } { @exclude }
@@ -8436,7 +8436,7 @@ const
     FFactor     : (0.09290304));
 
 var
-  { ft² - square foot: unit of area; 1 ft² = 0.09290304 m². }
+  { ft² - square foot: imperial unit of area; 1 ft² = 0.09290304 m². }
   ft2 : TFactoredUnit absolute SquareFootUnit;
 
 { TSquareYard } { @exclude }
@@ -8452,7 +8452,7 @@ const
     FFactor     : (0.83612736));
 
 var
-  { yd² - square yard: unit of area; 1 yd² = 0.83612736 m². }
+  { yd² - square yard: imperial unit of area; 1 yd² = 0.83612736 m². }
   yd2 : TFactoredUnit absolute SquareYardUnit;
 
 { TSquareMile } { @exclude }
@@ -8468,7 +8468,7 @@ const
     FFactor     : (2589988.110336));
 
 var
-  { mi² - square mile: unit of area; 1 mi² = 2589988.110336 m². }
+  { mi² - square mile: imperial unit of area; 1 mi² = 2589988.110336 m². }
   mi2 : TFactoredUnit absolute SquareMileUnit;
 
 { TCubicMeter } { @exclude }
@@ -8487,25 +8487,25 @@ var
   m3 : TUnit absolute CubicMeterUnit;
 
 const
-  { km³ - kilocubic meter: multiple of cubic meter; 1 km³ = 1e+09 m³. }
+  { km³ - cubic kilometer: multiple of cubic meter; 1 km³ = 1e+09 m³. }
   km3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+09); {$ELSE} (1e+09); {$ENDIF}
 
-  { dm³ - decicubic meter: submultiple of cubic meter; 1 dm³ = 1e-03 m³. }
+  { dm³ - cubic decimeter: submultiple of cubic meter; 1 dm³ = 1e-03 m³. }
   dm3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-03); {$ELSE} (1e-03); {$ENDIF}
 
-  { cm³ - centicubic meter: submultiple of cubic meter; 1 cm³ = 1e-06 m³. }
+  { cm³ - cubic centimeter: submultiple of cubic meter; 1 cm³ = 1e-06 m³. }
   cm3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { mm³ - millicubic meter: submultiple of cubic meter; 1 mm³ = 1e-09 m³. }
+  { mm³ - cubic millimeter: submultiple of cubic meter; 1 mm³ = 1e-09 m³. }
   mm3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-09); {$ELSE} (1e-09); {$ENDIF}
 
-  { mim³ - microcubic meter: submultiple of cubic meter; 1 mim³ = 1e-18 m³. }
+  { mim³ - cubic micrometer: submultiple of cubic meter; 1 mim³ = 1e-18 m³. }
   mim3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-18); {$ELSE} (1e-18); {$ENDIF}
 
-  { nm³ - nanocubic meter: submultiple of cubic meter; 1 nm³ = 1e-27 m³. }
+  { nm³ - cubic nanometer: submultiple of cubic meter; 1 nm³ = 1e-27 m³. }
   nm3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-27); {$ELSE} (1e-27); {$ENDIF}
 
-  { pm³ - picocubic meter: submultiple of cubic meter; 1 pm³ = 1e-36 m³. }
+  { pm³ - cubic picometer: submultiple of cubic meter; 1 pm³ = 1e-36 m³. }
   pm3 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 180; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-36); {$ELSE} (1e-36); {$ENDIF}
 
 { TCubicInch } { @exclude }
@@ -8521,7 +8521,7 @@ const
     FFactor     : (0.000016387064));
 
 var
-  { in³ - cubic inch: unit of volume; 1 in³ = 1.6387064e-5 m³. }
+  { in³ - cubic inch: imperial unit of volume; 1 in³ = 1.6387064e-5 m³. }
   inch3 : TFactoredUnit absolute CubicInchUnit;
 
 { TCubicFoot } { @exclude }
@@ -8537,7 +8537,7 @@ const
     FFactor     : (0.028316846592));
 
 var
-  { ft³ - cubic foot: unit of volume; 1 ft³ = 0.028316846592 m³. }
+  { ft³ - cubic foot: imperial unit of volume; 1 ft³ = 0.028316846592 m³. }
   ft3 : TFactoredUnit absolute CubicFootUnit;
 
 { TCubicYard } { @exclude }
@@ -8553,7 +8553,7 @@ const
     FFactor     : (0.764554857984));
 
 var
-  { yd³ - cubic yard: unit of volume; 1 yd³ = 0.764554857984 m³. }
+  { yd³ - cubic yard: imperial unit of volume; 1 yd³ = 0.764554857984 m³. }
   yd3 : TFactoredUnit absolute CubicYardUnit;
 
 { TLitre } { @exclude }
@@ -8614,25 +8614,25 @@ var
   m4 : TUnit absolute QuarticMeterUnit;
 
 const
-  { km⁴ - kiloquartic meter: multiple of quartic meter; 1 km⁴ = 1e+12 m⁴. }
+  { km⁴ - quartic kilometer: multiple of quartic meter; 1 km⁴ = 1e+12 m⁴. }
   km4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+12); {$ELSE} (1e+12); {$ENDIF}
 
-  { dm⁴ - deciquartic meter: submultiple of quartic meter; 1 dm⁴ = 1e-04 m⁴. }
+  { dm⁴ - quartic decimeter: submultiple of quartic meter; 1 dm⁴ = 1e-04 m⁴. }
   dm4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-04); {$ELSE} (1e-04); {$ENDIF}
 
-  { cm⁴ - centiquartic meter: submultiple of quartic meter; 1 cm⁴ = 1e-08 m⁴. }
+  { cm⁴ - quartic centimeter: submultiple of quartic meter; 1 cm⁴ = 1e-08 m⁴. }
   cm4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-08); {$ELSE} (1e-08); {$ENDIF}
 
-  { mm⁴ - milliquartic meter: submultiple of quartic meter; 1 mm⁴ = 1e-12 m⁴. }
+  { mm⁴ - quartic millimeter: submultiple of quartic meter; 1 mm⁴ = 1e-12 m⁴. }
   mm4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { mim⁴ - microquartic meter: submultiple of quartic meter; 1 mim⁴ = 1e-24 m⁴. }
+  { mim⁴ - quartic micrometer: submultiple of quartic meter; 1 mim⁴ = 1e-24 m⁴. }
   mim4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-24); {$ELSE} (1e-24); {$ENDIF}
 
-  { nm⁴ - nanoquartic meter: submultiple of quartic meter; 1 nm⁴ = 1e-36 m⁴. }
+  { nm⁴ - quartic nanometer: submultiple of quartic meter; 1 nm⁴ = 1e-36 m⁴. }
   nm4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-36); {$ELSE} (1e-36); {$ENDIF}
 
-  { pm⁴ - picoquartic meter: submultiple of quartic meter; 1 pm⁴ = 1e-48 m⁴. }
+  { pm⁴ - quartic picometer: submultiple of quartic meter; 1 pm⁴ = 1e-48 m⁴. }
   pm4 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 240; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-48); {$ELSE} (1e-48); {$ENDIF}
 
 { TQuinticMeter } { @exclude }
@@ -8651,25 +8651,25 @@ var
   m5 : TUnit absolute QuinticMeterUnit;
 
 const
-  { km⁵ - kiloquintic meter: multiple of quintic meter; 1 km⁵ = 1e+15 m⁵. }
+  { km⁵ - quintic kilometer: multiple of quintic meter; 1 km⁵ = 1e+15 m⁵. }
   km5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+15); {$ELSE} (1e+15); {$ENDIF}
 
-  { dm⁵ - deciquintic meter: submultiple of quintic meter; 1 dm⁵ = 1e-05 m⁵. }
+  { dm⁵ - quintic decimeter: submultiple of quintic meter; 1 dm⁵ = 1e-05 m⁵. }
   dm5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-05); {$ELSE} (1e-05); {$ENDIF}
 
-  { cm⁵ - centiquintic meter: submultiple of quintic meter; 1 cm⁵ = 1e-10 m⁵. }
+  { cm⁵ - quintic centimeter: submultiple of quintic meter; 1 cm⁵ = 1e-10 m⁵. }
   cm5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-10); {$ELSE} (1e-10); {$ENDIF}
 
-  { mm⁵ - milliquintic meter: submultiple of quintic meter; 1 mm⁵ = 1e-15 m⁵. }
+  { mm⁵ - quintic millimeter: submultiple of quintic meter; 1 mm⁵ = 1e-15 m⁵. }
   mm5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-15); {$ELSE} (1e-15); {$ENDIF}
 
-  { mim⁵ - microquintic meter: submultiple of quintic meter; 1 mim⁵ = 1e-30 m⁵. }
+  { mim⁵ - quintic micrometer: submultiple of quintic meter; 1 mim⁵ = 1e-30 m⁵. }
   mim5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-30); {$ELSE} (1e-30); {$ENDIF}
 
-  { nm⁵ - nanoquintic meter: submultiple of quintic meter; 1 nm⁵ = 1e-45 m⁵. }
+  { nm⁵ - quintic nanometer: submultiple of quintic meter; 1 nm⁵ = 1e-45 m⁵. }
   nm5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-45); {$ELSE} (1e-45); {$ENDIF}
 
-  { pm⁵ - picoquintic meter: submultiple of quintic meter; 1 pm⁵ = 1e-60 m⁵. }
+  { pm⁵ - quintic picometer: submultiple of quintic meter; 1 pm⁵ = 1e-60 m⁵. }
   pm5 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 300; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-60); {$ELSE} (1e-60); {$ENDIF}
 
 { TSexticMeter } { @exclude }
@@ -8688,25 +8688,25 @@ var
   m6 : TUnit absolute SexticMeterUnit;
 
 const
-  { km⁶ - kilosextic meter: multiple of sextic meter; 1 km⁶ = 1e+18 m⁶. }
+  { km⁶ - sextic kilometer: multiple of sextic meter; 1 km⁶ = 1e+18 m⁶. }
   km6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+18); {$ELSE} (1e+18); {$ENDIF}
 
-  { dm⁶ - decisextic meter: submultiple of sextic meter; 1 dm⁶ = 1e-06 m⁶. }
+  { dm⁶ - sextic decimeter: submultiple of sextic meter; 1 dm⁶ = 1e-06 m⁶. }
   dm6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { cm⁶ - centisextic meter: submultiple of sextic meter; 1 cm⁶ = 1e-12 m⁶. }
+  { cm⁶ - sextic centimeter: submultiple of sextic meter; 1 cm⁶ = 1e-12 m⁶. }
   cm6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { mm⁶ - millisextic meter: submultiple of sextic meter; 1 mm⁶ = 1e-18 m⁶. }
+  { mm⁶ - sextic millimeter: submultiple of sextic meter; 1 mm⁶ = 1e-18 m⁶. }
   mm6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-18); {$ELSE} (1e-18); {$ENDIF}
 
-  { mim⁶ - microsextic meter: submultiple of sextic meter; 1 mim⁶ = 1e-36 m⁶. }
+  { mim⁶ - sextic micrometer: submultiple of sextic meter; 1 mim⁶ = 1e-36 m⁶. }
   mim6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-36); {$ELSE} (1e-36); {$ENDIF}
 
-  { nm⁶ - nanosextic meter: submultiple of sextic meter; 1 nm⁶ = 1e-54 m⁶. }
+  { nm⁶ - sextic nanometer: submultiple of sextic meter; 1 nm⁶ = 1e-54 m⁶. }
   nm6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-54); {$ELSE} (1e-54); {$ENDIF}
 
-  { pm⁶ - picosextic meter: submultiple of sextic meter; 1 pm⁶ = 1e-72 m⁶. }
+  { pm⁶ - sextic picometer: submultiple of sextic meter; 1 pm⁶ = 1e-72 m⁶. }
   pm6 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 360; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-72); {$ELSE} (1e-72); {$ENDIF}
 
 { TKilogram } { @exclude }
@@ -8724,31 +8724,31 @@ var
   { kg - kilogram: SI base unit of mass. }
   kg : TUnit absolute KilogramUnit;
 
-  { hg - hectogram: submultiple of kilogram; 1 hg = 1e-01 kg. }
+  { hg - kilogram: submultiple of kilogram; 1 hg = 1e-01 kg. }
   hg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-01); {$ELSE} (1e-01); {$ENDIF}
 
-  { dag - decagram: submultiple of kilogram; 1 dag = 1e-02 kg. }
+  { dag - kilogram: submultiple of kilogram; 1 dag = 1e-02 kg. }
   dag : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-02); {$ELSE} (1e-02); {$ENDIF}
 
-  { g - gram: submultiple of kilogram; 1 g = 1e-03 kg. }
+  { g - kilogram: submultiple of kilogram; 1 g = 1e-03 kg. }
   g : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-03); {$ELSE} (1e-03); {$ENDIF}
 
-  { dg - decigram: submultiple of kilogram; 1 dg = 1e-04 kg. }
+  { dg - kilogram: submultiple of kilogram; 1 dg = 1e-04 kg. }
   dg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-04); {$ELSE} (1e-04); {$ENDIF}
 
-  { cg - centigram: submultiple of kilogram; 1 cg = 1e-05 kg. }
+  { cg - kilogram: submultiple of kilogram; 1 cg = 1e-05 kg. }
   cg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-05); {$ELSE} (1e-05); {$ENDIF}
 
-  { mg - milligram: submultiple of kilogram; 1 mg = 1e-06 kg. }
+  { mg - kilogram: submultiple of kilogram; 1 mg = 1e-06 kg. }
   mg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { mig - microgram: submultiple of kilogram; 1 mig = 1e-09 kg. }
+  { mig - kilogram: submultiple of kilogram; 1 mig = 1e-09 kg. }
   mig : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-09); {$ELSE} (1e-09); {$ENDIF}
 
-  { ng - nanogram: submultiple of kilogram; 1 ng = 1e-12 kg. }
+  { ng - kilogram: submultiple of kilogram; 1 ng = 1e-12 kg. }
   ng : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { pg - picogram: submultiple of kilogram; 1 pg = 1e-15 kg. }
+  { pg - kilogram: submultiple of kilogram; 1 pg = 1e-15 kg. }
   pg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-15); {$ELSE} (1e-15); {$ENDIF}
 
 { TTonne } { @exclude }
@@ -8884,31 +8884,31 @@ var
   { kg² - square kilogram: unit of square mass. }
   kg2 : TUnit absolute SquareKilogramUnit;
 
-  { hg² - square hectogram: submultiple of square kilogram; 1 hg² = 1e-02 kg². }
+  { hg² - square kilogram: submultiple of square kilogram; 1 hg² = 1e-02 kg². }
   hg2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-02); {$ELSE} (1e-02); {$ENDIF}
 
-  { dag² - square decagram: submultiple of square kilogram; 1 dag² = 1e-04 kg². }
+  { dag² - square kilogram: submultiple of square kilogram; 1 dag² = 1e-04 kg². }
   dag2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-04); {$ELSE} (1e-04); {$ENDIF}
 
-  { g² - square gram: submultiple of square kilogram; 1 g² = 1e-06 kg². }
+  { g² - square kilogram: submultiple of square kilogram; 1 g² = 1e-06 kg². }
   g2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { dg² - square decigram: submultiple of square kilogram; 1 dg² = 1e-08 kg². }
+  { dg² - square kilogram: submultiple of square kilogram; 1 dg² = 1e-08 kg². }
   dg2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-08); {$ELSE} (1e-08); {$ENDIF}
 
-  { cg² - square centigram: submultiple of square kilogram; 1 cg² = 1e-10 kg². }
+  { cg² - square kilogram: submultiple of square kilogram; 1 cg² = 1e-10 kg². }
   cg2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-10); {$ELSE} (1e-10); {$ENDIF}
 
-  { mg² - square milligram: submultiple of square kilogram; 1 mg² = 1e-12 kg². }
+  { mg² - square kilogram: submultiple of square kilogram; 1 mg² = 1e-12 kg². }
   mg2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { mig² - square microgram: submultiple of square kilogram; 1 mig² = 1e-18 kg². }
+  { mig² - square kilogram: submultiple of square kilogram; 1 mig² = 1e-18 kg². }
   mig2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-18); {$ELSE} (1e-18); {$ENDIF}
 
-  { ng² - square nanogram: submultiple of square kilogram; 1 ng² = 1e-24 kg². }
+  { ng² - square kilogram: submultiple of square kilogram; 1 ng² = 1e-24 kg². }
   ng2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-24); {$ELSE} (1e-24); {$ENDIF}
 
-  { pg² - square picogram: submultiple of square kilogram; 1 pg² = 1e-30 kg². }
+  { pg² - square kilogram: submultiple of square kilogram; 1 pg² = 1e-30 kg². }
   pg2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-30); {$ELSE} (1e-30); {$ENDIF}
 
 { TAmpere } { @exclude }
@@ -8970,31 +8970,31 @@ var
   A2 : TUnit absolute SquareAmpereUnit;
 
 const
-  { kA² - kilosquare ampere: multiple of square ampere; 1 kA² = 1e+06 A². }
+  { kA² - square kiloampere: multiple of square ampere; 1 kA² = 1e+06 A². }
   kA2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+06); {$ELSE} (1e+06); {$ENDIF}
 
-  { hA² - hectosquare ampere: multiple of square ampere; 1 hA² = 1e+04 A². }
+  { hA² - square hectoampere: multiple of square ampere; 1 hA² = 1e+04 A². }
   hA2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+04); {$ELSE} (1e+04); {$ENDIF}
 
-  { daA² - decasquare ampere: multiple of square ampere; 1 daA² = 1e+02 A². }
+  { daA² - square decaampere: multiple of square ampere; 1 daA² = 1e+02 A². }
   daA2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+02); {$ELSE} (1e+02); {$ENDIF}
 
-  { dA² - decisquare ampere: submultiple of square ampere; 1 dA² = 1e-02 A². }
+  { dA² - square deciampere: submultiple of square ampere; 1 dA² = 1e-02 A². }
   dA2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-02); {$ELSE} (1e-02); {$ENDIF}
 
-  { cA² - centisquare ampere: submultiple of square ampere; 1 cA² = 1e-04 A². }
+  { cA² - square centiampere: submultiple of square ampere; 1 cA² = 1e-04 A². }
   cA2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-04); {$ELSE} (1e-04); {$ENDIF}
 
-  { mA² - millisquare ampere: submultiple of square ampere; 1 mA² = 1e-06 A². }
+  { mA² - square milliampere: submultiple of square ampere; 1 mA² = 1e-06 A². }
   mA2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { miA² - microsquare ampere: submultiple of square ampere; 1 miA² = 1e-12 A². }
+  { miA² - square microampere: submultiple of square ampere; 1 miA² = 1e-12 A². }
   miA2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { nA² - nanosquare ampere: submultiple of square ampere; 1 nA² = 1e-18 A². }
+  { nA² - square nanoampere: submultiple of square ampere; 1 nA² = 1e-18 A². }
   nA2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-18); {$ELSE} (1e-18); {$ENDIF}
 
-  { picoA² - picosquare ampere: submultiple of square ampere; 1 picoA² = 1e-24 A². }
+  { picoA² - square picoampere: submultiple of square ampere; 1 picoA² = 1e-24 A². }
   picoA2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-24); {$ELSE} (1e-24); {$ENDIF}
 
 { TKelvin } { @exclude }
@@ -9205,16 +9205,16 @@ var
   Hz2 : TUnit absolute SquareHertzUnit;
 
 const
-  { THz² - terasquare hertz: multiple of square hertz; 1 THz² = 1e+24 Hz². }
+  { THz² - square terahertz: multiple of square hertz; 1 THz² = 1e+24 Hz². }
   THz2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+24); {$ELSE} (1e+24); {$ENDIF}
 
-  { GHz² - gigasquare hertz: multiple of square hertz; 1 GHz² = 1e+18 Hz². }
+  { GHz² - square gigahertz: multiple of square hertz; 1 GHz² = 1e+18 Hz². }
   GHz2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+18); {$ELSE} (1e+18); {$ENDIF}
 
-  { MHz² - megasquare hertz: multiple of square hertz; 1 MHz² = 1e+12 Hz². }
+  { MHz² - square megahertz: multiple of square hertz; 1 MHz² = 1e+12 Hz². }
   MHz2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+12); {$ELSE} (1e+12); {$ENDIF}
 
-  { kHz² - kilosquare hertz: multiple of square hertz; 1 kHz² = 1e+06 Hz². }
+  { kHz² - square kilohertz: multiple of square hertz; 1 kHz² = 1e+06 Hz². }
   kHz2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: -120; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+06); {$ELSE} (1e+06); {$ENDIF}
 
 { TReciprocalSquareSecond } { @exclude }
@@ -9781,19 +9781,19 @@ var
   N2 : TUnit absolute SquareNewtonUnit;
 
 const
-  { GN² - gigasquare newton: multiple of square newton; 1 GN² = 1e+18 N². }
+  { GN² - square giganewton: multiple of square newton; 1 GN² = 1e+18 N². }
   GN2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+18); {$ELSE} (1e+18); {$ENDIF}
 
-  { MN² - megasquare newton: multiple of square newton; 1 MN² = 1e+12 N². }
+  { MN² - square meganewton: multiple of square newton; 1 MN² = 1e+12 N². }
   MN2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+12); {$ELSE} (1e+12); {$ENDIF}
 
-  { kN² - kilosquare newton: multiple of square newton; 1 kN² = 1e+06 N². }
+  { kN² - square kilonewton: multiple of square newton; 1 kN² = 1e+06 N². }
   kN2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+06); {$ELSE} (1e+06); {$ENDIF}
 
-  { hN² - hectosquare newton: multiple of square newton; 1 hN² = 1e+04 N². }
+  { hN² - square hectonewton: multiple of square newton; 1 hN² = 1e+04 N². }
   hN2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+04); {$ELSE} (1e+04); {$ENDIF}
 
-  { daN² - decasquare newton: multiple of square newton; 1 daN² = 1e+02 N². }
+  { daN² - square decanewton: multiple of square newton; 1 daN² = 1e+02 N². }
   daN2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 120; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+02); {$ELSE} (1e+02); {$ENDIF}
 
 { TSquareKilogramSquareMeterPerQuarticSecond } { @exclude }
@@ -10312,31 +10312,31 @@ var
   C2 : TUnit absolute SquareCoulombUnit;
 
 const
-  { kC² - kilosquare coulomb: multiple of square coulomb; 1 kC² = 1e+06 C². }
+  { kC² - square kilocoulomb: multiple of square coulomb; 1 kC² = 1e+06 C². }
   kC2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+06); {$ELSE} (1e+06); {$ENDIF}
 
-  { hC² - hectosquare coulomb: multiple of square coulomb; 1 hC² = 1e+04 C². }
+  { hC² - square hectocoulomb: multiple of square coulomb; 1 hC² = 1e+04 C². }
   hC2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+04); {$ELSE} (1e+04); {$ENDIF}
 
-  { daC² - decasquare coulomb: multiple of square coulomb; 1 daC² = 1e+02 C². }
+  { daC² - square decacoulomb: multiple of square coulomb; 1 daC² = 1e+02 C². }
   daC2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+02); {$ELSE} (1e+02); {$ENDIF}
 
-  { dC² - decisquare coulomb: submultiple of square coulomb; 1 dC² = 1e-02 C². }
+  { dC² - square decicoulomb: submultiple of square coulomb; 1 dC² = 1e-02 C². }
   dC2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-02); {$ELSE} (1e-02); {$ENDIF}
 
-  { cC² - centisquare coulomb: submultiple of square coulomb; 1 cC² = 1e-04 C². }
+  { cC² - square centicoulomb: submultiple of square coulomb; 1 cC² = 1e-04 C². }
   cC2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-04); {$ELSE} (1e-04); {$ENDIF}
 
-  { mC² - millisquare coulomb: submultiple of square coulomb; 1 mC² = 1e-06 C². }
+  { mC² - square millicoulomb: submultiple of square coulomb; 1 mC² = 1e-06 C². }
   mC2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { miC² - microsquare coulomb: submultiple of square coulomb; 1 miC² = 1e-12 C². }
+  { miC² - square microcoulomb: submultiple of square coulomb; 1 miC² = 1e-12 C². }
   miC2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { nC² - nanosquare coulomb: submultiple of square coulomb; 1 nC² = 1e-18 C². }
+  { nC² - square nanocoulomb: submultiple of square coulomb; 1 nC² = 1e-18 C². }
   nC2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-18); {$ELSE} (1e-18); {$ENDIF}
 
-  { pC² - picosquare coulomb: submultiple of square coulomb; 1 pC² = 1e-24 C². }
+  { pC² - square picocoulomb: submultiple of square coulomb; 1 pC² = 1e-24 C². }
   pC2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 0; FMeter: 0; FSecond: 120; FAmpere: 120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-24); {$ELSE} (1e-24); {$ENDIF}
 
 { TSquareAmpereSquareSecond } { @exclude }
@@ -10373,7 +10373,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { V - volt: SI derived unit of electric potential; 1 V = 1 J/C. }
   V : TUnit absolute VoltUnit;
 
 const
@@ -10417,14 +10417,14 @@ const
     FExponents  : (2));
 
 var
-  {  }
+  { V² - square volt: SI unit of square electric potential. }
   V2 : TUnit absolute SquareVoltUnit;
 
 const
-  { kV² - kilosquare volt: multiple of square volt; 1 kV² = 1e+06 V². }
+  { kV² - square kilovolt: multiple of square volt; 1 kV² = 1e+06 V². }
   kV2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+06); {$ELSE} (1e+06); {$ENDIF}
 
-  { mV² - millisquare volt: submultiple of square volt; 1 mV² = 1e-06 V². }
+  { mV² - square millivolt: submultiple of square volt; 1 mV² = 1e-06 V². }
   mV2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -360; FAmpere: -120; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
 { TSquareKilogramQuarticMeterPerSquareAmperePerSexticSecond } { @exclude }
@@ -10450,7 +10450,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { F - farad: SI derived unit of electric capacitance; 1 F = 1 C/V. }
   F : TUnit absolute FaradUnit;
 
 const
@@ -10500,7 +10500,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { Ω - ohm: SI derived unit of electric resistance; 1 Ω = 1 V/A. }
   ohm : TUnit absolute OhmUnit;
 
 const
@@ -10545,7 +10545,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { S - siemens: SI derived unit of electric conductance; 1 S = 1/Ω. }
   siemens : TUnit absolute SiemensUnit;
 
 const
@@ -10592,7 +10592,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { T - tesla: SI derived unit of magnetic flux density; 1 T = 1 Wb/m². }
   T : TUnit absolute TeslaUnit;
 
 const
@@ -10639,7 +10639,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { Wb - weber: SI derived unit of magnetic flux; 1 Wb = 1 V·s. }
   Wb : TUnit absolute WeberUnit;
 
 { TKilogramSquareMeterPerAmperePerSquareSecond } { @exclude }
@@ -10665,7 +10665,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { H - henry: SI derived unit of inductance; 1 H = 1 Wb/A. }
   H : TUnit absolute HenryUnit;
 
 const
@@ -10712,7 +10712,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { lm - lumen: SI derived unit of luminous flux; 1 lm = 1 cd·sr. }
   lm : TUnit absolute LumenUnit;
 
 { TCandelaSteradian } { @exclude }
@@ -10760,7 +10760,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { lx - lux: SI derived unit of illuminance; 1 lx = 1 lm/m². }
   lx : TUnit absolute LuxUnit;
 
 { TCandelaSteradianPerSquareMeter } { @exclude }
@@ -10797,7 +10797,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { Bq - becquerel: SI derived unit of radioactivity; 1 Bq = 1 decay/s. }
   Bq : TUnit absolute BequerelUnit;
 
 const
@@ -10828,7 +10828,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { kat - katal: SI derived unit of catalytic activity; 1 kat = 1 mol/s. }
   kat : TUnit absolute KatalUnit;
 
 { TMolePerSecond } { @exclude }
@@ -10954,7 +10954,7 @@ const
     FExponents  : (1));
 
 var
-  {  }
+  { Pl - poiseuille: SI unit of dynamic viscosity; 1 Pl = 1 Pa·s. }
   Pl : TUnit absolute PoiseuilleUnit;
 
 const
@@ -11782,20 +11782,20 @@ const
     FExponents  : (2));
 
 var
-  {  }
+  { J² - square joule. }
   J2 : TUnit absolute SquareJouleUnit;
 
 const
-  { TJ² - terasquare joule: multiple of square joule; 1 TJ² = 1e+24 J². }
+  { TJ² - square terajoule: multiple of square joule; 1 TJ² = 1e+24 J². }
   TJ2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+24); {$ELSE} (1e+24); {$ENDIF}
 
-  { GJ² - gigasquare joule: multiple of square joule; 1 GJ² = 1e+18 J². }
+  { GJ² - square gigajoule: multiple of square joule; 1 GJ² = 1e+18 J². }
   GJ2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+18); {$ELSE} (1e+18); {$ENDIF}
 
-  { MJ² - megasquare joule: multiple of square joule; 1 MJ² = 1e+12 J². }
+  { MJ² - square megajoule: multiple of square joule; 1 MJ² = 1e+12 J². }
   MJ2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+12); {$ELSE} (1e+12); {$ENDIF}
 
-  { kJ² - kilosquare joule: multiple of square joule; 1 kJ² = 1e+06 J². }
+  { kJ² - square kilojoule: multiple of square joule; 1 kJ² = 1e+06 J². }
   kJ2 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 120; FMeter: 240; FSecond: -240; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e+06); {$ELSE} (1e+06); {$ENDIF}
 
 { TJouleSecond } { @exclude }
