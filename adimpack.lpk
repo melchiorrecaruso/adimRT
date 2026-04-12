@@ -10,64 +10,8 @@
     </CompilerOptions>
     <Files>
       <Item>
-        <Filename Value="cl3.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="cl3procs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="complex.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="complexprocs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="scalar.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="vector.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
         <Filename Value="adim.pas"/>
         <UnitName Value="ADim"/>
-      </Item>
-      <Item>
-        <Filename Value="matrix.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="matrixprocs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="scalarprocs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="extra.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="extraprocs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="helper.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="helperprocs.inc"/>
-        <Type Value="Include"/>
-      </Item>
-      <Item>
-        <Filename Value="vectorprocs.inc"/>
-        <Type Value="Include"/>
       </Item>
       <Item>
         <Filename Value="adimc.pas"/>
@@ -80,6 +24,14 @@
       <Item>
         <Filename Value="adimr3.pas"/>
         <UnitName Value="ADimR3"/>
+      </Item>
+      <Item>
+        <Filename Value="adimres.pas"/>
+        <UnitName Value="ADimRes"/>
+      </Item>
+      <Item>
+        <Filename Value="adimtypes.pas"/>
+        <UnitName Value="ADimTypes"/>
       </Item>
     </Files>
     <RequiredPkgs>
