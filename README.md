@@ -67,15 +67,15 @@ Refer to the [adim test](adimtest.pas) source code for additional examples.
 
 ## <u>Supported mathematical formulae:<u>
 
-- [Mechanics](doc/mechanics.md)
-- [Fluid Mechanics](doc/fluidmechanics.md)
-- [Electricity and Magnetism](doc/electricityandmagnetism.md)
-- [Heat and Thermodynamics](doc/heatandthermodynamics.md)
-- [Waves and Hearing](doc/waves.md)
-- [Light and Vision](doc/lightandvision.md)
-- [Relativity](doc/relativity.md)
-- [Quantum Mechanics](doc/quantummechanics.md)
-- [Units of measurement](doc/unitsofmeasurement.md)
+- [Mechanics](help/mechanics.md)
+- [Fluid Mechanics](help/fluidmechanics.md)
+- [Electricity and Magnetism](help/electricityandmagnetism.md)
+- [Heat and Thermodynamics](help/heatandthermodynamics.md)
+- [Waves and Hearing](help/waves.md)
+- [Light and Vision](help/lightandvision.md)
+- [Relativity](help/relativity.md)
+- [Quantum Mechanics](help/quantummechanics.md)
+- [Units of measurement](help/unitsofmeasurement.md)
 
 ## References
 
