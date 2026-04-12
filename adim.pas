@@ -7806,6 +7806,9 @@ const
 
 var
   { rad - radian: SI derived unit of plane angle. }
+  Radian : TUnit absolute RadianUnit;
+
+  { rad - radian: SI derived unit of plane angle. }
   rad : TUnit absolute RadianUnit;
 
 { TDegree } { @exclude }
@@ -7822,6 +7825,10 @@ const
 
 var
   { deg - degree: unit of plane angle; 1° = π/180 rad. }
+  { deg - degree: unit of plane angle; 1° = π/180 rad. }
+  Degree : TFactoredUnit absolute DegreeUnit;
+
+  { deg - degree: unit of plane angle; 1° = π/180 rad. }
   deg : TFactoredUnit absolute DegreeUnit;
 
 { TDecibel } { @exclude }
@@ -7837,6 +7844,9 @@ const
 
 var
   { dB - decibel: logarithmic unit expressing the ratio of two quantities. }
+  Decibel : TUnit absolute DecibelUnit;
+
+  { dB - decibel: logarithmic unit expressing the ratio of two quantities. }
   dB : TUnit absolute DecibelUnit;
 
 { TSteradian } { @exclude }
@@ -7851,6 +7861,9 @@ const
     FExponents  : ());
 
 var
+  { sr - steradian: SI derived unit of solid angle. }
+  Steradian : TUnit absolute SteradianUnit;
+
   { sr - steradian: SI derived unit of solid angle. }
   sr : TUnit absolute SteradianUnit;
 
@@ -7868,6 +7881,10 @@ const
 
 var
   { deg² - square degree: unit of solid angle; 1 deg² = (pi/180)² sr. }
+  { deg² - square degree: unit of solid angle; 1 deg² = (pi/180)² sr. }
+  SquareDegree : TFactoredUnit absolute SquareDegreeUnit;
+
+  { deg² - square degree: unit of solid angle; 1 deg² = (pi/180)² sr. }
   deg2 : TFactoredUnit absolute SquareDegreeUnit;
 
 { TSecond } { @exclude }
@@ -7882,6 +7899,9 @@ const
     FExponents  : (1));
 
 var
+  { s - second: SI base unit of time. }
+  Second : TUnit absolute SecondUnit;
+
   { s - second: SI base unit of time. }
   s : TUnit absolute SecondUnit;
 
@@ -7918,6 +7938,7 @@ const
 
 var
   { day - day: unit of time; 1 day = 86400 s. }
+  { day - day: unit of time; 1 day = 86400 s. }
   day : TFactoredUnit absolute DayUnit;
 
 { THour } { @exclude }
@@ -7933,6 +7954,10 @@ const
     FFactor     : (3600));
 
 var
+  { hr - hour: unit of time; 1 hr = 3600 s. }
+  { hr - hour: unit of time; 1 hr = 3600 s. }
+  Hour : TFactoredUnit absolute HourUnit;
+
   { hr - hour: unit of time; 1 hr = 3600 s. }
   hr : TFactoredUnit absolute HourUnit;
 
@@ -7950,6 +7975,7 @@ const
 
 var
   { min - minute: unit of time; 1 min = 60 s. }
+  { min - minute: unit of time; 1 min = 60 s. }
   minute : TFactoredUnit absolute MinuteUnit;
 
 { TSquareSecond } { @exclude }
@@ -7964,6 +7990,9 @@ const
     FExponents  : (2));
 
 var
+  { s² - square second: unit of square time. }
+  SquareSecond : TUnit absolute SquareSecondUnit;
+
   { s² - square second: unit of square time. }
   s2 : TUnit absolute SquareSecondUnit;
 
@@ -8000,6 +8029,10 @@ const
 
 var
   { day² - square day: unit of square time; 1 day² = 86400² s². }
+  { day² - square day: unit of square time; 1 day² = 86400² s². }
+  SquareDay : TFactoredUnit absolute SquareDayUnit;
+
+  { day² - square day: unit of square time; 1 day² = 86400² s². }
   day2 : TFactoredUnit absolute SquareDayUnit;
 
 { TSquareHour } { @exclude }
@@ -8015,6 +8048,10 @@ const
     FFactor     : (12960000));
 
 var
+  { hr² - square hour: unit of square time; 1 hr² = 3600² s². }
+  { hr² - square hour: unit of square time; 1 hr² = 3600² s². }
+  SquareHour : TFactoredUnit absolute SquareHourUnit;
+
   { hr² - square hour: unit of square time; 1 hr² = 3600² s². }
   hr2 : TFactoredUnit absolute SquareHourUnit;
 
@@ -8032,6 +8069,10 @@ const
 
 var
   { min² - square minute: unit of square time; 1 min² = 60² s². }
+  { min² - square minute: unit of square time; 1 min² = 60² s². }
+  SquareMinute : TFactoredUnit absolute SquareMinuteUnit;
+
+  { min² - square minute: unit of square time; 1 min² = 60² s². }
   minute2 : TFactoredUnit absolute SquareMinuteUnit;
 
 { TCubicSecond } { @exclude }
@@ -8046,6 +8087,9 @@ const
     FExponents  : (3));
 
 var
+  { s³ - cubic second: SI unit of cubic time. }
+  CubicSecond : TUnit absolute CubicSecondUnit;
+
   { s³ - cubic second: SI unit of cubic time. }
   s3 : TUnit absolute CubicSecondUnit;
 
@@ -8081,6 +8125,9 @@ const
 
 var
   { s⁴ - quartic second: SI unit of quartic time. }
+  QuarticSecond : TUnit absolute QuarticSecondUnit;
+
+  { s⁴ - quartic second: SI unit of quartic time. }
   s4 : TUnit absolute QuarticSecondUnit;
 
 const
@@ -8114,6 +8161,9 @@ const
     FExponents  : (5));
 
 var
+  { s⁵ - quintic second: SI unit of quintic time. }
+  QuinticSecond : TUnit absolute QuinticSecondUnit;
+
   { s⁵ - quintic second: SI unit of quintic time. }
   s5 : TUnit absolute QuinticSecondUnit;
 
@@ -8149,6 +8199,9 @@ const
 
 var
   { s⁶ - sextic second: SI unit of sextic time. }
+  SexticSecond : TUnit absolute SexticSecondUnit;
+
+  { s⁶ - sextic second: SI unit of sextic time. }
   s6 : TUnit absolute SexticSecondUnit;
 
 const
@@ -8182,6 +8235,9 @@ const
     FExponents  : (1));
 
 var
+  { m - meter: SI base unit of length. }
+  Meter : TUnit absolute MeterUnit;
+
   { m - meter: SI base unit of length. }
   m : TUnit absolute MeterUnit;
 
@@ -8221,6 +8277,10 @@ const
 
 var
   { au - astronomical unit: unit of length used in astronomy; 1 au = 149597870691 m. }
+  { au - astronomical unit: unit of length used in astronomy; 1 au = 149597870691 m. }
+  Astronomical : TFactoredUnit absolute AstronomicalUnit;
+
+  { au - astronomical unit: unit of length used in astronomy; 1 au = 149597870691 m. }
   au : TFactoredUnit absolute AstronomicalUnit;
 
 { TInch } { @exclude }
@@ -8236,6 +8296,7 @@ const
     FFactor     : (0.0254));
 
 var
+  { in - inch: imperial unit of length; 1 inch = 0.0254 m. }
   { in - inch: imperial unit of length; 1 inch = 0.0254 m. }
   inch : TFactoredUnit absolute InchUnit;
 
@@ -8253,6 +8314,10 @@ const
 
 var
   { ft - foot: imperial unit of length; 1 ft = 0.3048 m. }
+  { ft - foot: imperial unit of length; 1 ft = 0.3048 m. }
+  Foot : TFactoredUnit absolute FootUnit;
+
+  { ft - foot: imperial unit of length; 1 ft = 0.3048 m. }
   ft : TFactoredUnit absolute FootUnit;
 
 { TYard } { @exclude }
@@ -8268,6 +8333,10 @@ const
     FFactor     : (0.9144));
 
 var
+  { yd - yard: imperial unit of length; 1 yd = 0.9144 m. }
+  { yd - yard: imperial unit of length; 1 yd = 0.9144 m. }
+  Yard : TFactoredUnit absolute YardUnit;
+
   { yd - yard: imperial unit of length; 1 yd = 0.9144 m. }
   yd : TFactoredUnit absolute YardUnit;
 
@@ -8285,6 +8354,10 @@ const
 
 var
   { mi - mile: imperial unit of length; 1 mi = 1609.344 m. }
+  { mi - mile: imperial unit of length; 1 mi = 1609.344 m. }
+  Mile : TFactoredUnit absolute MileUnit;
+
+  { mi - mile: imperial unit of length; 1 mi = 1609.344 m. }
   mi : TFactoredUnit absolute MileUnit;
 
 { TNauticalMile } { @exclude }
@@ -8300,6 +8373,10 @@ const
     FFactor     : (1852));
 
 var
+  { nmi - nautical mile: unit of length used in navigation; 1 nmi = 1852 m. }
+  { nmi - nautical mile: unit of length used in navigation; 1 nmi = 1852 m. }
+  NauticalMile : TFactoredUnit absolute NauticalMileUnit;
+
   { nmi - nautical mile: unit of length used in navigation; 1 nmi = 1852 m. }
   nmi : TFactoredUnit absolute NauticalMileUnit;
 
@@ -8317,6 +8394,7 @@ const
 
 var
   { angstrom - angstrom: unit of length used in atomic physics; 1 angstrom = 1E-10 m. }
+  { angstrom - angstrom: unit of length used in atomic physics; 1 angstrom = 1E-10 m. }
   angstrom : TFactoredUnit absolute AngstromUnit;
 
 { TParsec } { @exclude }
@@ -8332,6 +8410,7 @@ const
     FFactor     : (3.08567758149137E+16));
 
 var
+  { pc - parsec: unit of length used in astronomy; 1 pc = 3.085678E+16 m. }
   { pc - parsec: unit of length used in astronomy; 1 pc = 3.085678E+16 m. }
   parsec : TFactoredUnit absolute ParsecUnit;
 
@@ -8353,6 +8432,10 @@ const
 
 var
   { ly - light year: unit of length used in astronomy; 1 ly = 9.460730E+15 m. }
+  { ly - light year: unit of length used in astronomy; 1 ly = 9.460730E+15 m. }
+  LightYear : TFactoredUnit absolute LightYearUnit;
+
+  { ly - light year: unit of length used in astronomy; 1 ly = 9.460730E+15 m. }
   ly : TFactoredUnit absolute LightYearUnit;
 
 const
@@ -8370,6 +8453,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { √m — square root meter: unit of square root of length. }
+  SquareRootMeter : TUnit absolute SquareRootMeterUnit;
+
 { TSquareMeter } { @exclude }
 
 const
@@ -8382,6 +8469,9 @@ const
     FExponents  : (2));
 
 var
+  { m² - square meter: SI unit of area. }
+  SquareMeter : TUnit absolute SquareMeterUnit;
+
   { m² - square meter: SI unit of area. }
   m2 : TUnit absolute SquareMeterUnit;
 
@@ -8421,6 +8511,10 @@ const
 
 var
   { in² - square inch: imperial unit of area; 1 in² = 6.4516e-4 m². }
+  { in² - square inch: imperial unit of area; 1 in² = 6.4516e-4 m². }
+  SquareInch : TFactoredUnit absolute SquareInchUnit;
+
+  { in² - square inch: imperial unit of area; 1 in² = 6.4516e-4 m². }
   inch2 : TFactoredUnit absolute SquareInchUnit;
 
 { TSquareFoot } { @exclude }
@@ -8436,6 +8530,10 @@ const
     FFactor     : (0.09290304));
 
 var
+  { ft² - square foot: imperial unit of area; 1 ft² = 0.09290304 m². }
+  { ft² - square foot: imperial unit of area; 1 ft² = 0.09290304 m². }
+  SquareFoot : TFactoredUnit absolute SquareFootUnit;
+
   { ft² - square foot: imperial unit of area; 1 ft² = 0.09290304 m². }
   ft2 : TFactoredUnit absolute SquareFootUnit;
 
@@ -8453,6 +8551,10 @@ const
 
 var
   { yd² - square yard: imperial unit of area; 1 yd² = 0.83612736 m². }
+  { yd² - square yard: imperial unit of area; 1 yd² = 0.83612736 m². }
+  SquareYard : TFactoredUnit absolute SquareYardUnit;
+
+  { yd² - square yard: imperial unit of area; 1 yd² = 0.83612736 m². }
   yd2 : TFactoredUnit absolute SquareYardUnit;
 
 { TSquareMile } { @exclude }
@@ -8469,6 +8571,10 @@ const
 
 var
   { mi² - square mile: imperial unit of area; 1 mi² = 2589988.110336 m². }
+  { mi² - square mile: imperial unit of area; 1 mi² = 2589988.110336 m². }
+  SquareMile : TFactoredUnit absolute SquareMileUnit;
+
+  { mi² - square mile: imperial unit of area; 1 mi² = 2589988.110336 m². }
   mi2 : TFactoredUnit absolute SquareMileUnit;
 
 { TCubicMeter } { @exclude }
@@ -8483,6 +8589,9 @@ const
     FExponents  : (3));
 
 var
+  { m³ - cubic meter: SI derived unit of volume. }
+  CubicMeter : TUnit absolute CubicMeterUnit;
+
   { m³ - cubic meter: SI derived unit of volume. }
   m3 : TUnit absolute CubicMeterUnit;
 
@@ -8522,6 +8631,10 @@ const
 
 var
   { in³ - cubic inch: imperial unit of volume; 1 in³ = 1.6387064e-5 m³. }
+  { in³ - cubic inch: imperial unit of volume; 1 in³ = 1.6387064e-5 m³. }
+  CubicInch : TFactoredUnit absolute CubicInchUnit;
+
+  { in³ - cubic inch: imperial unit of volume; 1 in³ = 1.6387064e-5 m³. }
   inch3 : TFactoredUnit absolute CubicInchUnit;
 
 { TCubicFoot } { @exclude }
@@ -8537,6 +8650,10 @@ const
     FFactor     : (0.028316846592));
 
 var
+  { ft³ - cubic foot: imperial unit of volume; 1 ft³ = 0.028316846592 m³. }
+  { ft³ - cubic foot: imperial unit of volume; 1 ft³ = 0.028316846592 m³. }
+  CubicFoot : TFactoredUnit absolute CubicFootUnit;
+
   { ft³ - cubic foot: imperial unit of volume; 1 ft³ = 0.028316846592 m³. }
   ft3 : TFactoredUnit absolute CubicFootUnit;
 
@@ -8554,6 +8671,10 @@ const
 
 var
   { yd³ - cubic yard: imperial unit of volume; 1 yd³ = 0.764554857984 m³. }
+  { yd³ - cubic yard: imperial unit of volume; 1 yd³ = 0.764554857984 m³. }
+  CubicYard : TFactoredUnit absolute CubicYardUnit;
+
+  { yd³ - cubic yard: imperial unit of volume; 1 yd³ = 0.764554857984 m³. }
   yd3 : TFactoredUnit absolute CubicYardUnit;
 
 { TLitre } { @exclude }
@@ -8569,6 +8690,10 @@ const
     FFactor     : (1E-03));
 
 var
+  { L - litre: unit of volume; 1 L = 1e-3 m³. }
+  { L - litre: unit of volume; 1 L = 1e-3 m³. }
+  Litre : TFactoredUnit absolute LitreUnit;
+
   { L - litre: unit of volume; 1 L = 1e-3 m³. }
   L : TFactoredUnit absolute LitreUnit;
 
@@ -8596,6 +8721,10 @@ const
 
 var
   { gal - gallon: unit of volume; 1 gal = 3.785412e-3 m³. }
+  { gal - gallon: unit of volume; 1 gal = 3.785412e-3 m³. }
+  Gallon : TFactoredUnit absolute GallonUnit;
+
+  { gal - gallon: unit of volume; 1 gal = 3.785412e-3 m³. }
   gal : TFactoredUnit absolute GallonUnit;
 
 { TQuarticMeter } { @exclude }
@@ -8610,6 +8739,9 @@ const
     FExponents  : (4));
 
 var
+  { m⁴ - quartic meter: SI derived unit of second moment of area. }
+  QuarticMeter : TUnit absolute QuarticMeterUnit;
+
   { m⁴ - quartic meter: SI derived unit of second moment of area. }
   m4 : TUnit absolute QuarticMeterUnit;
 
@@ -8648,6 +8780,9 @@ const
 
 var
   { m⁵ - quintic meter: SI derived unit of quintic length. }
+  QuinticMeter : TUnit absolute QuinticMeterUnit;
+
+  { m⁵ - quintic meter: SI derived unit of quintic length. }
   m5 : TUnit absolute QuinticMeterUnit;
 
 const
@@ -8685,6 +8820,9 @@ const
 
 var
   { m⁶ - sextic meter: SI derived unit of sextic length. }
+  SexticMeter : TUnit absolute SexticMeterUnit;
+
+  { m⁶ - sextic meter: SI derived unit of sextic length. }
   m6 : TUnit absolute SexticMeterUnit;
 
 const
@@ -8721,6 +8859,9 @@ const
     FExponents  : (1));
 
 var
+  { kg - kilogram: SI base unit of mass. }
+  Kilogram : TUnit absolute KilogramUnit;
+
   { kg - kilogram: SI base unit of mass. }
   kg : TUnit absolute KilogramUnit;
 
@@ -8765,6 +8906,7 @@ const
 
 var
   { t - tonne: unit of mass; 1 t = 1000 kg. }
+  { t - tonne: unit of mass; 1 t = 1000 kg. }
   tonne : TFactoredUnit absolute TonneUnit;
 
 const
@@ -8791,6 +8933,10 @@ const
 
 var
   { lb - pound: unit of mass; 1 lb = 0.45359237 kg. }
+  { lb - pound: unit of mass; 1 lb = 0.45359237 kg. }
+  Pound : TFactoredUnit absolute PoundUnit;
+
+  { lb - pound: unit of mass; 1 lb = 0.45359237 kg. }
   lb : TFactoredUnit absolute PoundUnit;
 
 { TOunce } { @exclude }
@@ -8806,6 +8952,10 @@ const
     FFactor     : (0.028349523125));
 
 var
+  { oz - ounce: unit of mass; 1 oz = 0.028349523125 kg. }
+  { oz - ounce: unit of mass; 1 oz = 0.028349523125 kg. }
+  Ounce : TFactoredUnit absolute OunceUnit;
+
   { oz - ounce: unit of mass; 1 oz = 0.028349523125 kg. }
   oz : TFactoredUnit absolute OunceUnit;
 
@@ -8823,6 +8973,10 @@ const
 
 var
   { st - stone: unit of mass; 1 st = 6.35029318 kg. }
+  { st - stone: unit of mass; 1 st = 6.35029318 kg. }
+  Stone : TFactoredUnit absolute StoneUnit;
+
+  { st - stone: unit of mass; 1 st = 6.35029318 kg. }
   st : TFactoredUnit absolute StoneUnit;
 
 { TTon } { @exclude }
@@ -8839,6 +8993,7 @@ const
 
 var
   { ton - short ton: unit of mass; 1 ton = 907.18474 kg. }
+  { ton - short ton: unit of mass; 1 ton = 907.18474 kg. }
   ton : TFactoredUnit absolute TonUnit;
 
 { TDalton } { @exclude }
@@ -8854,6 +9009,7 @@ const
     FFactor     : (1.660538862800000E-27));
 
 var
+  { Da - dalton: unit of mass; 1 Da = 1.6605389e-27 kg. }
   { Da - dalton: unit of mass; 1 Da = 1.6605389e-27 kg. }
   dalton : TFactoredUnit absolute DaltonUnit;
 
@@ -8881,6 +9037,9 @@ const
     FExponents  : (2));
 
 var
+  { kg² - square kilogram: unit of square mass. }
+  SquareKilogram : TUnit absolute SquareKilogramUnit;
+
   { kg² - square kilogram: unit of square mass. }
   kg2 : TUnit absolute SquareKilogramUnit;
 
@@ -8923,6 +9082,9 @@ const
     FExponents  : (1));
 
 var
+  { A - ampere: SI base unit of electric current. }
+  Ampere : TUnit absolute AmpereUnit;
+
   { A - ampere: SI base unit of electric current. }
   A : TUnit absolute AmpereUnit;
 
@@ -8967,6 +9129,9 @@ const
 
 var
   { A² - square ampere: unit of square electric current. }
+  SquareAmpere : TUnit absolute SquareAmpereUnit;
+
+  { A² - square ampere: unit of square electric current. }
   A2 : TUnit absolute SquareAmpereUnit;
 
 const
@@ -9009,6 +9174,9 @@ const
     FExponents  : (1));
 
 var
+  { K - kelvin: SI base unit of thermodynamic temperature. }
+  Kelvin : TUnit absolute KelvinUnit;
+
   { K - kelvin: SI base unit of thermodynamic temperature. }
   K : TUnit absolute KelvinUnit;
 
@@ -9055,6 +9223,9 @@ const
 
 var
   { K² - square kelvin: unit of square temperature. }
+  SquareKelvin : TUnit absolute SquareKelvinUnit;
+
+  { K² - square kelvin: unit of square temperature. }
   K2 : TUnit absolute SquareKelvinUnit;
 
 { TCubicKelvin } { @exclude }
@@ -9069,6 +9240,9 @@ const
     FExponents  : (3));
 
 var
+  { K³ - cubic kelvin: unit of cubic temperature. }
+  CubicKelvin : TUnit absolute CubicKelvinUnit;
+
   { K³ - cubic kelvin: unit of cubic temperature. }
   K3 : TUnit absolute CubicKelvinUnit;
 
@@ -9085,6 +9259,9 @@ const
 
 var
   { K⁴ - quartic kelvin: unit of quartic temperature. }
+  QuarticKelvin : TUnit absolute QuarticKelvinUnit;
+
+  { K⁴ - quartic kelvin: unit of quartic temperature. }
   K4 : TUnit absolute QuarticKelvinUnit;
 
 { TMole } { @exclude }
@@ -9099,6 +9276,9 @@ const
     FExponents  : (1));
 
 var
+  { mol - mole: SI base unit of amount of substance. }
+  Mole : TUnit absolute MoleUnit;
+
   { mol - mole: SI base unit of amount of substance. }
   mol : TUnit absolute MoleUnit;
 
@@ -9125,6 +9305,9 @@ const
 
 var
   { cd - candela: SI base unit of luminous intensity. }
+  Candela : TUnit absolute CandelaUnit;
+
+  { cd - candela: SI base unit of luminous intensity. }
   cd : TUnit absolute CandelaUnit;
 
 { THertz } { @exclude }
@@ -9139,6 +9322,9 @@ const
     FExponents  : (1));
 
 var
+  { Hz - hertz: SI derived unit of frequency; 1 Hz = 1/s. }
+  Hertz : TUnit absolute HertzUnit;
+
   { Hz - hertz: SI derived unit of frequency; 1 Hz = 1/s. }
   Hz : TUnit absolute HertzUnit;
 
@@ -9166,6 +9352,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/s - reciprocal second: unit of frequency; equivalent to Hz. }
+  ReciprocalSecond : TUnit absolute ReciprocalSecondUnit;
+
 { TRadianPerSecond } { @exclude }
 
 const
@@ -9176,6 +9366,10 @@ const
     FPluralName : rsRadianPerSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { rad/s - radian per second: unit of angular frequency. }
+  RadianPerSecond : TUnit absolute RadianPerSecondUnit;
 
 { TMeterPerSecondPerParsec } { @exclude }
 
@@ -9201,6 +9395,9 @@ const
     FExponents  : (2));
 
 var
+  { Hz² - square hertz: unit of square frequency; 1 Hz² = 1/s². }
+  SquareHertz : TUnit absolute SquareHertzUnit;
+
   { Hz² - square hertz: unit of square frequency; 1 Hz² = 1/s². }
   Hz2 : TUnit absolute SquareHertzUnit;
 
@@ -9228,6 +9425,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-2));
 
+var
+  { 1/s² - reciprocal square second: unit of square frequency; equivalent to Hz². }
+  ReciprocalSquareSecond : TUnit absolute ReciprocalSquareSecondUnit;
+
 { TRadianPerSquareSecond } { @exclude }
 
 const
@@ -9238,6 +9439,10 @@ const
     FPluralName : rsRadianPerSquareSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
+
+var
+  { rad/s² - radian per square second: unit of angular acceleration. }
+  RadianPerSquareSecond : TUnit absolute RadianPerSquareSecondUnit;
 
 { TSteradianPerSquareSecond } { @exclude }
 
@@ -9250,6 +9455,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-2));
 
+var
+  { sr/s² - steradian per square second: unit of solid angular acceleration. }
+  SteradianPerSquareSecond : TUnit absolute SteradianPerSquareSecondUnit;
+
 { TMeterPerSecond } { @exclude }
 
 const
@@ -9260,6 +9469,10 @@ const
     FPluralName : rsMeterPerSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { m/s - meter per second: unit of speed. }
+  MeterPerSecond : TUnit absolute MeterPerSecondUnit;
 
 { TMeterPerHour } { @exclude }
 
@@ -9308,6 +9521,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { m/s² - meter per square second: SI derived unit of acceleration. }
+  MeterPerSquareSecond : TUnit absolute MeterPerSquareSecondUnit;
+
 { TMeterPerSecondPerSecond } { @exclude }
 
 const
@@ -9318,6 +9535,10 @@ const
     FPluralName : rsMeterPerSecondPerSecondPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
+
+var
+  { m/s/s - meter per second per second: unit of acceleration; equivalent to m/s². }
+  MeterPerSecondPerSecond : TUnit absolute MeterPerSecondPerSecondUnit;
 
 { TMeterPerHourPerSecond } { @exclude }
 
@@ -9342,6 +9563,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
+var
+  { m/s³ - meter per cubic second: SI unit of jerk (rate of change of acceleration). }
+  MeterPerCubicSecond : TUnit absolute MeterPerCubicSecondUnit;
+
 { TMeterPerQuarticSecond } { @exclude }
 
 const
@@ -9352,6 +9577,10 @@ const
     FPluralName : rsMeterPerQuarticSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -4));
+
+var
+  { m/s⁴ - meter per quartic second: SI unit of snap (rate of change of jerk). }
+  MeterPerQuarticSecond : TUnit absolute MeterPerQuarticSecondUnit;
 
 { TMeterPerQuinticSecond } { @exclude }
 
@@ -9364,6 +9593,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -5));
 
+var
+  { m/s⁵ - meter per quintic second: SI unit of crackle (rate of change of snap). }
+  MeterPerQuinticSecond : TUnit absolute MeterPerQuinticSecondUnit;
+
 { TMeterPerSexticSecond } { @exclude }
 
 const
@@ -9374,6 +9607,10 @@ const
     FPluralName : rsMeterPerSexticSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -6));
+
+var
+  { m/s⁶ - meter per sextic second: SI unit of pop (rate of change of crackle). }
+  MeterPerSexticSecond : TUnit absolute MeterPerSexticSecondUnit;
 
 { TSquareMeterPerSquareSecond } { @exclude }
 
@@ -9386,6 +9623,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
 
+var
+  { m²/s² - square meter per square second: SI unit of specific energy. }
+  SquareMeterPerSquareSecond : TUnit absolute SquareMeterPerSquareSecondUnit;
+
 { TJoulePerKilogram } { @exclude }
 
 const
@@ -9396,6 +9637,10 @@ const
     FPluralName : rsJoulePerKilogramPluralName;
     FPrefixes   : (pNone, pKilo);
     FExponents  : (1, -1));
+
+var
+  { J/kg - joule per kilogram: SI unit of specific energy; equivalent to m²/s². }
+  JoulePerKilogram : TUnit absolute JoulePerKilogramUnit;
 
 { TGray } { @exclude }
 
@@ -9409,6 +9654,9 @@ const
     FExponents  : (1));
 
 var
+  { Gy - gray: SI derived unit of absorbed radiation dose; 1 Gy = 1 J/kg. }
+  Gray : TUnit absolute GrayUnit;
+
   { Gy - gray: SI derived unit of absorbed radiation dose; 1 Gy = 1 J/kg. }
   Gy : TUnit absolute GrayUnit;
 
@@ -9438,6 +9686,9 @@ const
 
 var
   { Sv - sievert: SI derived unit of radiation dose equivalent; 1 Sv = 1 J/kg. }
+  Sievert : TUnit absolute SievertUnit;
+
+  { Sv - sievert: SI derived unit of radiation dose equivalent; 1 Sv = 1 J/kg. }
   Sv : TUnit absolute SievertUnit;
 
 const
@@ -9464,6 +9715,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { m·s - meter second. }
+  MeterSecond : TUnit absolute MeterSecondUnit;
+
 { TKilogramMeter } { @exclude }
 
 const
@@ -9474,6 +9729,10 @@ const
     FPluralName : rsKilogramMeterPluralName;
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, 1));
+
+var
+  { kg·m - kilogram meter. }
+  KilogramMeter : TUnit absolute KilogramMeterUnit;
 
 { TKilogramPerSecond } { @exclude }
 
@@ -9486,6 +9745,10 @@ const
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, -1));
 
+var
+  { kg/s - kilogram per second: SI unit of mass flow rate. }
+  KilogramPerSecond : TUnit absolute KilogramPerSecondUnit;
+
 { TJoulePerSquareMeterPerHertz } { @exclude }
 
 const
@@ -9496,6 +9759,10 @@ const
     FPluralName : rsJoulePerSquareMeterPerHertzPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -2, -1));
+
+var
+  { J/m²/Hz - joule per square meter per hertz: SI unit of spectral fluence. }
+  JoulePerSquareMeterPerHertz : TUnit absolute JoulePerSquareMeterPerHertzUnit;
 
 { TKilogramMeterPerSecond } { @exclude }
 
@@ -9508,6 +9775,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, 1, -1));
 
+var
+  { kg·m/s - kilogram meter per second: SI unit of linear momentum. }
+  KilogramMeterPerSecond : TUnit absolute KilogramMeterPerSecondUnit;
+
 { TNewtonSecond } { @exclude }
 
 const
@@ -9518,6 +9789,10 @@ const
     FPluralName : rsNewtonSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
+
+var
+  { N·s - newton second: SI unit of impulse; equivalent to kg·m/s. }
+  NewtonSecond : TUnit absolute NewtonSecondUnit;
 
 { TSquareKilogramSquareMeterPerSquareSecond } { @exclude }
 
@@ -9530,6 +9805,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (2, 2, -2));
 
+var
+  { kg²·m²/s² - square kilogram square meter per square second. }
+  SquareKilogramSquareMeterPerSquareSecond : TUnit absolute SquareKilogramSquareMeterPerSquareSecondUnit;
+
 { TReciprocalSquareRootMeter } { @exclude }
 
 const
@@ -9540,6 +9819,10 @@ const
     FPluralName : rsReciprocalSquareRootMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/√m - reciprocal square root meter: SI unit of reciprocal square root of length. }
+  ReciprocalSquareRootMeter : TUnit absolute ReciprocalSquareRootMeterUnit;
 
 { TReciprocalMeter } { @exclude }
 
@@ -9552,6 +9835,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/m - reciprocal meter: SI unit of wavenumber. }
+  ReciprocalMeter : TUnit absolute ReciprocalMeterUnit;
+
 { TDioptre } { @exclude }
 
 const
@@ -9562,6 +9849,10 @@ const
     FPluralName : rsDioptrePluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { dpt - dioptre: SI unit of optical power; 1 dpt = 1/m. }
+  Dioptre : TUnit absolute DioptreUnit;
 
 { TReciprocalSquareRootCubicMeter } { @exclude }
 
@@ -9574,6 +9865,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/√m³ - reciprocal square root cubic meter: SI unit of reciprocal square root of volume. }
+  ReciprocalSquareRootCubicMeter : TUnit absolute ReciprocalSquareRootCubicMeterUnit;
+
 { TReciprocalSquareMeter } { @exclude }
 
 const
@@ -9584,6 +9879,10 @@ const
     FPluralName : rsReciprocalSquareMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
+
+var
+  { 1/m² - reciprocal square meter: SI unit of reciprocal area. }
+  ReciprocalSquareMeter : TUnit absolute ReciprocalSquareMeterUnit;
 
 { TReciprocalCubicMeter } { @exclude }
 
@@ -9596,6 +9895,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/m³ - reciprocal cubic meter: SI unit of number density. }
+  ReciprocalCubicMeter : TUnit absolute ReciprocalCubicMeterUnit;
+
 { TReciprocalQuarticMeter } { @exclude }
 
 const
@@ -9606,6 +9909,10 @@ const
     FPluralName : rsReciprocalQuarticMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-4));
+
+var
+  { 1/m⁴ - reciprocal quartic meter: SI unit of reciprocal quartic length. }
+  ReciprocalQuarticMeter : TUnit absolute ReciprocalQuarticMeterUnit;
 
 { TKilogramSquareMeter } { @exclude }
 
@@ -9618,6 +9925,10 @@ const
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, 2));
 
+var
+  { kg·m² - kilogram square meter: SI unit of moment of inertia. }
+  KilogramSquareMeter : TUnit absolute KilogramSquareMeterUnit;
+
 { TKilogramSquareMeterPerSecond } { @exclude }
 
 const
@@ -9628,6 +9939,10 @@ const
     FPluralName : rsKilogramSquareMeterPerSecondPluralName;
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, 2, -1));
+
+var
+  { kg·m²/s - kilogram square meter per second: SI unit of angular momentum. }
+  KilogramSquareMeterPerSecond : TUnit absolute KilogramSquareMeterPerSecondUnit;
 
 { TNewtonMeterSecond } { @exclude }
 
@@ -9640,6 +9955,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, 1));
 
+var
+  { N·m·s - newton meter second: SI unit of angular impulse. }
+  NewtonMeterSecond : TUnit absolute NewtonMeterSecondUnit;
+
 { TSecondPerMeter } { @exclude }
 
 const
@@ -9650,6 +9969,10 @@ const
     FPluralName : rsSecondPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { s/m - second per meter: SI unit of slowness. }
+  SecondPerMeter : TUnit absolute SecondPerMeterUnit;
 
 { TKilogramPerMeter } { @exclude }
 
@@ -9662,6 +9985,10 @@ const
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, -1));
 
+var
+  { kg/m - kilogram per meter: SI unit of linear mass density. }
+  KilogramPerMeter : TUnit absolute KilogramPerMeterUnit;
+
 { TKilogramPerSquareMeter } { @exclude }
 
 const
@@ -9673,6 +10000,10 @@ const
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, -2));
 
+var
+  { kg/m² - kilogram per square meter: SI unit of surface mass density. }
+  KilogramPerSquareMeter : TUnit absolute KilogramPerSquareMeterUnit;
+
 { TKilogramPerCubicMeter } { @exclude }
 
 const
@@ -9683,6 +10014,10 @@ const
     FPluralName : rsKilogramPerCubicMeterPluralName;
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, -3));
+
+var
+  { kg/m³ - kilogram per cubic meter: SI unit of volumetric mass density. }
+  KilogramPerCubicMeter : TUnit absolute KilogramPerCubicMeterUnit;
 
 { TPoundPerCubicInch } { @exclude }
 
@@ -9708,6 +10043,9 @@ const
     FExponents  : (1));
 
 var
+  { N - newton: SI derived unit of force; 1 N = 1 kg·m/s². }
+  Newton : TUnit absolute NewtonUnit;
+
   { N - newton: SI derived unit of force; 1 N = 1 kg·m/s². }
   N : TUnit absolute NewtonUnit;
 
@@ -9741,6 +10079,10 @@ const
 
 var
   { lbf - pound-force: imperial unit of force; 1 lbf = 4.4482216152605 N. }
+  { lbf - pound-force: imperial unit of force; 1 lbf = 4.4482216152605 N. }
+  PoundForce : TFactoredUnit absolute PoundForceUnit;
+
+  { lbf - pound-force: imperial unit of force; 1 lbf = 4.4482216152605 N. }
   lbf : TFactoredUnit absolute PoundForceUnit;
 
 { TKilogramMeterPerSquareSecond } { @exclude }
@@ -9754,6 +10096,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, 1, -2));
 
+var
+  { kg·m/s² - kilogram meter per square second: SI unit of force; equivalent to N. }
+  KilogramMeterPerSquareSecond : TUnit absolute KilogramMeterPerSquareSecondUnit;
+
 { TNewtonRadian } { @exclude }
 
 const
@@ -9764,6 +10110,10 @@ const
     FPluralName : rsNewtonRadianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
+
+var
+  { N·rad - newton radian: SI unit of force per radian. }
+  NewtonRadian : TUnit absolute NewtonRadianUnit;
 
 { TSquareNewton } { @exclude }
 
@@ -9777,6 +10127,9 @@ const
     FExponents  : (2));
 
 var
+  { N² - square newton: SI unit of square force. }
+  SquareNewton : TUnit absolute SquareNewtonUnit;
+
   { N² - square newton: SI unit of square force. }
   N2 : TUnit absolute SquareNewtonUnit;
 
@@ -9807,6 +10160,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (2, 2, -4));
 
+var
+  { kg²·m²/s⁴ - square kilogram square meter per quartic second: SI unit of square force; equivalent to N². }
+  SquareKilogramSquareMeterPerQuarticSecond : TUnit absolute SquareKilogramSquareMeterPerQuarticSecondUnit;
+
 { TPascal } { @exclude }
 
 const
@@ -9819,6 +10176,9 @@ const
     FExponents  : (1));
 
 var
+  { Pa - pascal: SI derived unit of pressure; 1 Pa = 1 N/m². }
+  Pascal : TUnit absolute PascalUnit;
+
   { Pa - pascal: SI derived unit of pressure; 1 Pa = 1 N/m². }
   Pa : TUnit absolute PascalUnit;
 
@@ -9846,6 +10206,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { N/m² - newton per square meter: SI unit of pressure; equivalent to Pa. }
+  NewtonPerSquareMeter : TUnit absolute NewtonPerSquareMeterUnit;
+
 { TBar } { @exclude }
 
 const
@@ -9859,6 +10223,7 @@ const
     FFactor     : (1E+05));
 
 var
+  { bar - bar: unit of pressure; 1 bar = 1e5 Pa. }
   { bar - bar: unit of pressure; 1 bar = 1e5 Pa. }
   bar : TFactoredUnit absolute BarUnit;
 
@@ -9883,6 +10248,10 @@ const
 
 var
   { psi - pound per square inch: imperial unit of pressure; 1 psi = 6894.757 Pa. }
+  { psi - pound per square inch: imperial unit of pressure; 1 psi = 6894.757 Pa. }
+  PoundPerSquareInch : TFactoredUnit absolute PoundPerSquareInchUnit;
+
+  { psi - pound per square inch: imperial unit of pressure; 1 psi = 6894.757 Pa. }
   psi : TFactoredUnit absolute PoundPerSquareInchUnit;
 
 const
@@ -9900,6 +10269,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
+var
+  { J/m³ - joule per cubic meter: SI unit of energy density; equivalent to Pa. }
+  JoulePerCubicMeter : TUnit absolute JoulePerCubicMeterUnit;
+
 { TKilogramPerMeterPerSquareSecond } { @exclude }
 
 const
@@ -9910,6 +10283,10 @@ const
     FPluralName : rsKilogramPerMeterPerSquareSecondPluralName;
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, -1, -2));
+
+var
+  { kg/m/s² - kilogram per meter per square second: SI unit of pressure; equivalent to Pa. }
+  KilogramPerMeterPerSquareSecond : TUnit absolute KilogramPerMeterPerSquareSecondUnit;
 
 { TAtmosphere } { @exclude }
 
@@ -9924,6 +10301,10 @@ const
     FFactor     : (101325));
 
 var
+  { atm - atmosphere: unit of pressure; 1 atm = 101325 Pa. }
+  { atm - atmosphere: unit of pressure; 1 atm = 101325 Pa. }
+  Atmosphere : TFactoredUnit absolute AtmosphereUnit;
+
   { atm - atmosphere: unit of pressure; 1 atm = 101325 Pa. }
   atm : TFactoredUnit absolute AtmosphereUnit;
 
@@ -9941,6 +10322,7 @@ const
 
 var
   { Torr - torr: unit of pressure; 1 Torr = 133.322 Pa. }
+  { Torr - torr: unit of pressure; 1 Torr = 133.322 Pa. }
   Torr : TFactoredUnit absolute TorrUnit;
 
 { TJoule } { @exclude }
@@ -9955,6 +10337,9 @@ const
     FExponents  : (1));
 
 var
+  { J - joule: SI derived unit of energy; 1 J = 1 kg·m²/s². }
+  Joule : TUnit absolute JouleUnit;
+
   { J - joule: SI derived unit of energy; 1 J = 1 kg·m²/s². }
   J : TUnit absolute JouleUnit;
 
@@ -9994,6 +10379,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { W·s - watt second: unit of energy; equivalent to J. }
+  WattSecond : TUnit absolute WattSecondUnit;
+
 { TWattPerHertz } { @exclude }
 
 const
@@ -10004,6 +10393,10 @@ const
     FPluralName : rsWattPerHertzPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { W/Hz - watt per hertz: SI unit of spectral energy density. }
+  WattPerHertz : TUnit absolute WattPerHertzUnit;
 
 { TElectronvolt } { @exclude }
 
@@ -10018,6 +10411,10 @@ const
     FFactor     : (1.602176634E-019));
 
 var
+  { eV - electronvolt: unit of energy; 1 eV = 1.602176634e-19 J. }
+  { eV - electronvolt: unit of energy; 1 eV = 1.602176634e-19 J. }
+  Electronvolt : TFactoredUnit absolute ElectronvoltUnit;
+
   { eV - electronvolt: unit of energy; 1 eV = 1.602176634e-19 J. }
   eV : TFactoredUnit absolute ElectronvoltUnit;
 
@@ -10045,6 +10442,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { N·m - newton meter: SI unit of torque and energy; equivalent to J. }
+  NewtonMeter : TUnit absolute NewtonMeterUnit;
+
 { TPoundForceInch } { @exclude }
 
 const
@@ -10071,6 +10472,10 @@ const
 
 var
   { Ry - rydberg: unit of energy used in atomic physics; 1 Ry = 2.1798724e-18 J. }
+  { Ry - rydberg: unit of energy used in atomic physics; 1 Ry = 2.1798724e-18 J. }
+  Rydberg : TFactoredUnit absolute RydbergUnit;
+
+  { Ry - rydberg: unit of energy used in atomic physics; 1 Ry = 2.1798724e-18 J. }
   Ry : TFactoredUnit absolute RydbergUnit;
 
 { TCalorie } { @exclude }
@@ -10086,6 +10491,10 @@ const
     FFactor     : (4.184));
 
 var
+  { cal - calorie: unit of energy; 1 cal = 4.184 J. }
+  { cal - calorie: unit of energy; 1 cal = 4.184 J. }
+  Calorie : TFactoredUnit absolute CalorieUnit;
+
   { cal - calorie: unit of energy; 1 cal = 4.184 J. }
   cal : TFactoredUnit absolute CalorieUnit;
 
@@ -10107,6 +10516,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, 2, -2));
 
+var
+  { kg·m²/s² - kilogram square meter per square second: SI unit of energy; equivalent to J. }
+  KilogramSquareMeterPerSquareSecond : TUnit absolute KilogramSquareMeterPerSquareSecondUnit;
+
 { TJoulePerRadian } { @exclude }
 
 const
@@ -10117,6 +10530,10 @@ const
     FPluralName : rsJoulePerRadianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { J/rad - joule per radian: SI unit of torque per radian. }
+  JoulePerRadian : TUnit absolute JoulePerRadianUnit;
 
 { TJoulePerDegree } { @exclude }
 
@@ -10140,6 +10557,10 @@ const
     FPluralName : rsNewtonMeterPerRadianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
+
+var
+  { N·m/rad - newton meter per radian: SI unit of torsional stiffness. }
+  NewtonMeterPerRadian : TUnit absolute NewtonMeterPerRadianUnit;
 
 { TNewtonMeterPerDegree } { @exclude }
 
@@ -10188,6 +10609,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, 2, -2));
 
+var
+  { kg·m²/s²/rad - kilogram square meter per square second per radian: SI unit of torsional stiffness; equivalent to N·m/rad. }
+  KilogramSquareMeterPerSquareSecondPerRadian : TUnit absolute KilogramSquareMeterPerSquareSecondPerRadianUnit;
+
 { TWatt } { @exclude }
 
 const
@@ -10200,6 +10625,9 @@ const
     FExponents  : (1));
 
 var
+  { W - watt: SI derived unit of power; 1 W = 1 J/s. }
+  Watt : TUnit absolute WattUnit;
+
   { W - watt: SI derived unit of power; 1 W = 1 J/s. }
   W : TUnit absolute WattUnit;
 
@@ -10230,6 +10658,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, 2, -3));
 
+var
+  { kg·m²/s³ - kilogram square meter per cubic second: SI unit of power; equivalent to W. }
+  KilogramSquareMeterPerCubicSecond : TUnit absolute KilogramSquareMeterPerCubicSecondUnit;
+
 { TCoulomb } { @exclude }
 
 const
@@ -10242,6 +10674,9 @@ const
     FExponents  : (1));
 
 var
+  { C - coulomb: SI derived unit of electric charge; 1 C = 1 A·s. }
+  Coulomb : TUnit absolute CoulombUnit;
+
   { C - coulomb: SI derived unit of electric charge; 1 C = 1 A·s. }
   C : TUnit absolute CoulombUnit;
 
@@ -10296,6 +10731,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { A·s - ampere second: SI unit of electric charge; equivalent to C. }
+  AmpereSecond : TUnit absolute AmpereSecondUnit;
+
 { TSquareCoulomb } { @exclude }
 
 const
@@ -10308,6 +10747,9 @@ const
     FExponents  : (2));
 
 var
+  { C² - square coulomb: SI unit of square electric charge. }
+  SquareCoulomb : TUnit absolute SquareCoulombUnit;
+
   { C² - square coulomb: SI unit of square electric charge. }
   C2 : TUnit absolute SquareCoulombUnit;
 
@@ -10350,6 +10792,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 2));
 
+var
+  { A²·s² - square ampere square second: SI unit of square electric charge; equivalent to C². }
+  SquareAmpereSquareSecond : TUnit absolute SquareAmpereSquareSecondUnit;
+
 { TCoulombMeter } { @exclude }
 
 const
@@ -10360,6 +10806,10 @@ const
     FPluralName : rsCoulombMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
+
+var
+  { C·m - coulomb meter: SI unit of electric dipole moment. }
+  CoulombMeter : TUnit absolute CoulombMeterUnit;
 
 { TVolt } { @exclude }
 
@@ -10373,6 +10823,9 @@ const
     FExponents  : (1));
 
 var
+  { V - volt: SI derived unit of electric potential; 1 V = 1 J/C. }
+  Volt : TUnit absolute VoltUnit;
+
   { V - volt: SI derived unit of electric potential; 1 V = 1 J/C. }
   V : TUnit absolute VoltUnit;
 
@@ -10394,6 +10847,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { J/C - joule per coulomb: SI unit of electric potential; equivalent to V. }
+  JoulePerCoulomb : TUnit absolute JoulePerCoulombUnit;
+
 { TKilogramSquareMeterPerAmperePerCubicSecond } { @exclude }
 
 const
@@ -10404,6 +10861,10 @@ const
     FPluralName : rsKilogramSquareMeterPerAmperePerCubicSecondPluralName;
     FPrefixes   : (pKilo, pNone, pNone, pNone);
     FExponents  : (1, 2, -1, -3));
+
+var
+  { kg·m²/A/s³ - kilogram square meter per ampere per cubic second: SI unit of electric potential; equivalent to V. }
+  KilogramSquareMeterPerAmperePerCubicSecond : TUnit absolute KilogramSquareMeterPerAmperePerCubicSecondUnit;
 
 { TSquareVolt } { @exclude }
 
@@ -10417,6 +10878,9 @@ const
     FExponents  : (2));
 
 var
+  { V² - square volt: SI unit of square electric potential. }
+  SquareVolt : TUnit absolute SquareVoltUnit;
+
   { V² - square volt: SI unit of square electric potential. }
   V2 : TUnit absolute SquareVoltUnit;
 
@@ -10438,6 +10902,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone, pNone);
     FExponents  : (2, 3, -2, -6));
 
+var
+  { kg²·m⁴/A²/s⁶ - square kilogram quartic meter per square ampere per sextic second: SI unit of square electric potential; equivalent to V². }
+  SquareKilogramQuarticMeterPerSquareAmperePerSexticSecond : TUnit absolute SquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit;
+
 { TFarad } { @exclude }
 
 const
@@ -10450,6 +10918,9 @@ const
     FExponents  : (1));
 
 var
+  { F - farad: SI derived unit of electric capacitance; 1 F = 1 C/V. }
+  Farad : TUnit absolute FaradUnit;
+
   { F - farad: SI derived unit of electric capacitance; 1 F = 1 C/V. }
   F : TUnit absolute FaradUnit;
 
@@ -10477,6 +10948,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { C/V - coulomb per volt: SI unit of electric capacitance; equivalent to F. }
+  CoulombPerVolt : TUnit absolute CoulombPerVoltUnit;
+
 { TSquareAmpereQuarticSecondPerKilogramPerSquareMeter } { @exclude }
 
 const
@@ -10487,6 +10962,10 @@ const
     FPluralName : rsSquareAmpereQuarticSecondPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pKilo, pNone);
     FExponents  : (2, 4, -1, -2));
+
+var
+  { A²·s⁴/kg/m² - square ampere quartic second per kilogram per square meter: SI unit of electric capacitance; equivalent to F. }
+  SquareAmpereQuarticSecondPerKilogramPerSquareMeter : TUnit absolute SquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit;
 
 { TOhm } { @exclude }
 
@@ -10533,6 +11012,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone, pNone);
     FExponents  : (1, 2, -1, -3));
 
+var
+  { kg·m²/A²/s³ - kilogram square meter per square ampere per cubic second: SI unit of electric resistance; equivalent to Ω. }
+  KilogramSquareMeterPerSquareAmperePerCubicSecond : TUnit absolute KilogramSquareMeterPerSquareAmperePerCubicSecondUnit;
+
 { TSiemens } { @exclude }
 
 const
@@ -10569,6 +11052,10 @@ const
     FPrefixes   : (pNone, pNone, pKilo, pNone);
     FExponents  : (2, 3, -1, -2));
 
+var
+  { A²·s³/kg/m² - square ampere cubic second per kilogram per square meter: SI unit of electric conductance; equivalent to S. }
+  SquareAmpereCubicSecondPerKilogramPerSquareMeter : TUnit absolute SquareAmpereCubicSecondPerKilogramPerSquareMeterUnit;
+
 { TSiemensPerMeter } { @exclude }
 
 const
@@ -10579,6 +11066,10 @@ const
     FPluralName : rsSiemensPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { S/m - siemens per meter: SI unit of electric conductivity. }
+  SiemensPerMeter : TUnit absolute SiemensPerMeterUnit;
 
 { TTesla } { @exclude }
 
@@ -10592,6 +11083,9 @@ const
     FExponents  : (1));
 
 var
+  { T - tesla: SI derived unit of magnetic flux density; 1 T = 1 Wb/m². }
+  Tesla : TUnit absolute TeslaUnit;
+
   { T - tesla: SI derived unit of magnetic flux density; 1 T = 1 Wb/m². }
   T : TUnit absolute TeslaUnit;
 
@@ -10616,6 +11110,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { Wb/m² - weber per square meter: SI unit of magnetic flux density; equivalent to T. }
+  WeberPerSquareMeter : TUnit absolute WeberPerSquareMeterUnit;
+
 { TKilogramPerAmperePerSquareSecond } { @exclude }
 
 const
@@ -10626,6 +11124,10 @@ const
     FPluralName : rsKilogramPerAmperePerSquareSecondPluralName;
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, -1, -2));
+
+var
+  { kg/A/s² - kilogram per ampere per square second: SI unit of magnetic flux density; equivalent to T. }
+  KilogramPerAmperePerSquareSecond : TUnit absolute KilogramPerAmperePerSquareSecondUnit;
 
 { TWeber } { @exclude }
 
@@ -10640,6 +11142,9 @@ const
 
 var
   { Wb - weber: SI derived unit of magnetic flux; 1 Wb = 1 V·s. }
+  Weber : TUnit absolute WeberUnit;
+
+  { Wb - weber: SI derived unit of magnetic flux; 1 Wb = 1 V·s. }
   Wb : TUnit absolute WeberUnit;
 
 { TKilogramSquareMeterPerAmperePerSquareSecond } { @exclude }
@@ -10653,6 +11158,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone, pNone);
     FExponents  : (1, 2, -1, -2));
 
+var
+  { kg·m²/A/s² - kilogram square meter per ampere per square second: SI unit of magnetic flux; equivalent to Wb. }
+  KilogramSquareMeterPerAmperePerSquareSecond : TUnit absolute KilogramSquareMeterPerAmperePerSquareSecondUnit;
+
 { THenry } { @exclude }
 
 const
@@ -10665,6 +11174,9 @@ const
     FExponents  : (1));
 
 var
+  { H - henry: SI derived unit of inductance; 1 H = 1 Wb/A. }
+  Henry : TUnit absolute HenryUnit;
+
   { H - henry: SI derived unit of inductance; 1 H = 1 Wb/A. }
   H : TUnit absolute HenryUnit;
 
@@ -10689,6 +11201,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone, pNone);
     FExponents  : (1, 2, -2, -2));
 
+var
+  { kg·m²/A²/s² - kilogram square meter per square ampere per square second: SI unit of inductance; equivalent to H. }
+  KilogramSquareMeterPerSquareAmperePerSquareSecond : TUnit absolute KilogramSquareMeterPerSquareAmperePerSquareSecondUnit;
+
 { TReciprocalHenry } { @exclude }
 
 const
@@ -10699,6 +11215,10 @@ const
     FPluralName : rsReciprocalHenryPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/H - reciprocal henry: SI unit of magnetic reluctance. }
+  ReciprocalHenry : TUnit absolute ReciprocalHenryUnit;
 
 { TLumen } { @exclude }
 
@@ -10713,6 +11233,9 @@ const
 
 var
   { lm - lumen: SI derived unit of luminous flux; 1 lm = 1 cd·sr. }
+  Lumen : TUnit absolute LumenUnit;
+
+  { lm - lumen: SI derived unit of luminous flux; 1 lm = 1 cd·sr. }
   lm : TUnit absolute LumenUnit;
 
 { TCandelaSteradian } { @exclude }
@@ -10726,6 +11249,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { cd·sr - candela steradian: SI unit of luminous flux; equivalent to lm. }
+  CandelaSteradian : TUnit absolute CandelaSteradianUnit;
+
 { TLumenSecond } { @exclude }
 
 const
@@ -10737,6 +11264,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { lm·s - lumen second: SI unit of luminous energy. }
+  LumenSecond : TUnit absolute LumenSecondUnit;
+
 { TLumenSecondPerCubicMeter } { @exclude }
 
 const
@@ -10747,6 +11278,10 @@ const
     FPluralName : rsLumenSecondPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -3));
+
+var
+  { lm·s/m³ - lumen second per cubic meter: SI unit of luminous energy density. }
+  LumenSecondPerCubicMeter : TUnit absolute LumenSecondPerCubicMeterUnit;
 
 { TLux } { @exclude }
 
@@ -10761,6 +11296,9 @@ const
 
 var
   { lx - lux: SI derived unit of illuminance; 1 lx = 1 lm/m². }
+  Lux : TUnit absolute LuxUnit;
+
+  { lx - lux: SI derived unit of illuminance; 1 lx = 1 lm/m². }
   lx : TUnit absolute LuxUnit;
 
 { TCandelaSteradianPerSquareMeter } { @exclude }
@@ -10774,6 +11312,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -2));
 
+var
+  { cd·sr/m² - candela steradian per square meter: SI unit of illuminance; equivalent to lx. }
+  CandelaSteradianPerSquareMeter : TUnit absolute CandelaSteradianPerSquareMeterUnit;
+
 { TLuxSecond } { @exclude }
 
 const
@@ -10784,6 +11326,10 @@ const
     FPluralName : rsLuxSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
+
+var
+  { lx·s - lux second: SI unit of luminous exposure. }
+  LuxSecond : TUnit absolute LuxSecondUnit;
 
 { TBequerel } { @exclude }
 
@@ -10797,6 +11343,9 @@ const
     FExponents  : (1));
 
 var
+  { Bq - becquerel: SI derived unit of radioactivity; 1 Bq = 1 decay/s. }
+  Bequerel : TUnit absolute BequerelUnit;
+
   { Bq - becquerel: SI derived unit of radioactivity; 1 Bq = 1 decay/s. }
   Bq : TUnit absolute BequerelUnit;
 
@@ -10829,6 +11378,9 @@ const
 
 var
   { kat - katal: SI derived unit of catalytic activity; 1 kat = 1 mol/s. }
+  Katal : TUnit absolute KatalUnit;
+
+  { kat - katal: SI derived unit of catalytic activity; 1 kat = 1 mol/s. }
   kat : TUnit absolute KatalUnit;
 
 { TMolePerSecond } { @exclude }
@@ -10842,6 +11394,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { mol/s - mole per second: SI unit of catalytic activity; equivalent to kat. }
+  MolePerSecond : TUnit absolute MolePerSecondUnit;
+
 { TNewtonPerCubicMeter } { @exclude }
 
 const
@@ -10852,6 +11408,10 @@ const
     FPluralName : rsNewtonPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
+
+var
+  { N/m³ - newton per cubic meter: SI unit of force density. }
+  NewtonPerCubicMeter : TUnit absolute NewtonPerCubicMeterUnit;
 
 { TPascalPerMeter } { @exclude }
 
@@ -10864,6 +11424,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { Pa/m - pascal per meter: SI unit of pressure gradient. }
+  PascalPerMeter : TUnit absolute PascalPerMeterUnit;
+
 { TKilogramPerSquareMeterPerSquareSecond } { @exclude }
 
 const
@@ -10874,6 +11438,10 @@ const
     FPluralName : rsKilogramPerSquareMeterPerSquareSecondPluralName;
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, -2, -2));
+
+var
+  { kg/m²/s² - kilogram per square meter per square second: SI unit of pressure gradient; equivalent to Pa/m. }
+  KilogramPerSquareMeterPerSquareSecond : TUnit absolute KilogramPerSquareMeterPerSquareSecondUnit;
 
 { TNewtonPerMeter } { @exclude }
 
@@ -10886,6 +11454,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { N/m - newton per meter: SI unit of surface tension and stiffness. }
+  NewtonPerMeter : TUnit absolute NewtonPerMeterUnit;
+
 { TJoulePerSquareMeter } { @exclude }
 
 const
@@ -10897,6 +11469,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { J/m² - joule per square meter: SI unit of surface energy and fluence. }
+  JoulePerSquareMeter : TUnit absolute JoulePerSquareMeterUnit;
+
 { TWattPerSquareMeterPerHertz } { @exclude }
 
 const
@@ -10907,6 +11483,10 @@ const
     FPluralName : rsWattPerSquareMeterPerHertzPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -2, -1));
+
+var
+  { W/m²/Hz - watt per square meter per hertz: SI unit of spectral irradiance. }
+  WattPerSquareMeterPerHertz : TUnit absolute WattPerSquareMeterPerHertzUnit;
 
 { TPoundForcePerInch } { @exclude }
 
@@ -10931,6 +11511,10 @@ const
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, -2));
 
+var
+  { kg/s² - kilogram per square second: SI unit of surface tension; equivalent to N/m. }
+  KilogramPerSquareSecond : TUnit absolute KilogramPerSquareSecondUnit;
+
 { TCubicMeterPerSecond } { @exclude }
 
 const
@@ -10941,6 +11525,10 @@ const
     FPluralName : rsCubicMeterPerSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
+
+var
+  { m³/s - cubic meter per second: SI unit of volumetric flow rate. }
+  CubicMeterPerSecond : TUnit absolute CubicMeterPerSecondUnit;
 
 { TPoiseuille } { @exclude }
 
@@ -10954,6 +11542,9 @@ const
     FExponents  : (1));
 
 var
+  { Pl - poiseuille: SI unit of dynamic viscosity; 1 Pl = 1 Pa·s. }
+  Poiseuille : TUnit absolute PoiseuilleUnit;
+
   { Pl - poiseuille: SI unit of dynamic viscosity; 1 Pl = 1 Pa·s. }
   Pl : TUnit absolute PoiseuilleUnit;
 
@@ -10978,6 +11569,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { Pa·s - pascal second: SI unit of dynamic viscosity; equivalent to Pl. }
+  PascalSecond : TUnit absolute PascalSecondUnit;
+
 { TKilogramPerMeterPerSecond } { @exclude }
 
 const
@@ -10988,6 +11583,10 @@ const
     FPluralName : rsKilogramPerMeterPerSecondPluralName;
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, -1, -1));
+
+var
+  { kg/m/s - kilogram per meter per second: SI unit of dynamic viscosity; equivalent to Pl. }
+  KilogramPerMeterPerSecond : TUnit absolute KilogramPerMeterPerSecondUnit;
 
 { TSquareMeterPerSecond } { @exclude }
 
@@ -11000,6 +11599,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
+var
+  { m²/s - square meter per second: SI unit of kinematic viscosity. }
+  SquareMeterPerSecond : TUnit absolute SquareMeterPerSecondUnit;
+
 { TKilogramPerQuarticMeter } { @exclude }
 
 const
@@ -11010,6 +11613,10 @@ const
     FPluralName : rsKilogramPerQuarticMeterPluralName;
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, -4));
+
+var
+  { kg/m⁴ - kilogram per quartic meter: SI unit of mass per quartic length. }
+  KilogramPerQuarticMeter : TUnit absolute KilogramPerQuarticMeterUnit;
 
 { TQuarticMeterSecond } { @exclude }
 
@@ -11022,6 +11629,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, 1));
 
+var
+  { m⁴·s - quartic meter second. }
+  QuarticMeterSecond : TUnit absolute QuarticMeterSecondUnit;
+
 { TKilogramPerQuarticMeterPerSecond } { @exclude }
 
 const
@@ -11032,6 +11643,10 @@ const
     FPluralName : rsKilogramPerQuarticMeterPerSecondPluralName;
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, -4, -1));
+
+var
+  { kg/m⁴/s - kilogram per quartic meter per second: SI unit of mass flow per quartic length. }
+  KilogramPerQuarticMeterPerSecond : TUnit absolute KilogramPerQuarticMeterPerSecondUnit;
 
 { TCubicMeterPerKilogram } { @exclude }
 
@@ -11044,6 +11659,10 @@ const
     FPrefixes   : (pNone, pKilo);
     FExponents  : (3, -1));
 
+var
+  { m³/kg - cubic meter per kilogram: SI unit of specific volume. }
+  CubicMeterPerKilogram : TUnit absolute CubicMeterPerKilogramUnit;
+
 { TKilogramSquareSecond } { @exclude }
 
 const
@@ -11054,6 +11673,10 @@ const
     FPluralName : rsKilogramSquareSecondPluralName;
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, 2));
+
+var
+  { kg·s² - kilogram square second. }
+  KilogramSquareSecond : TUnit absolute KilogramSquareSecondUnit;
 
 { TCubicMeterPerSquareSecond } { @exclude }
 
@@ -11066,6 +11689,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -2));
 
+var
+  { m³/s² - cubic meter per square second. }
+  CubicMeterPerSquareSecond : TUnit absolute CubicMeterPerSquareSecondUnit;
+
 { TNewtonSquareMeter } { @exclude }
 
 const
@@ -11076,6 +11703,10 @@ const
     FPluralName : rsNewtonSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 2));
+
+var
+  { N·m² - newton square meter. }
+  NewtonSquareMeter : TUnit absolute NewtonSquareMeterUnit;
 
 { TKilogramCubicMeterPerSquareSecond } { @exclude }
 
@@ -11088,6 +11719,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, 3, -2));
 
+var
+  { kg·m³/s² - kilogram cubic meter per square second: SI unit of force-area product; equivalent to N·m². }
+  KilogramCubicMeterPerSquareSecond : TUnit absolute KilogramCubicMeterPerSquareSecondUnit;
+
 { TNewtonCubicMeter } { @exclude }
 
 const
@@ -11098,6 +11733,10 @@ const
     FPluralName : rsNewtonCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 3));
+
+var
+  { N·m³ - newton cubic meter. }
+  NewtonCubicMeter : TUnit absolute NewtonCubicMeterUnit;
 
 { TKilogramQuarticMeterPerSquareSecond } { @exclude }
 
@@ -11110,6 +11749,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, 4, -2));
 
+var
+  { kg·m⁴/s² - kilogram quartic meter per square second: SI unit of force-volume product; equivalent to N·m³. }
+  KilogramQuarticMeterPerSquareSecond : TUnit absolute KilogramQuarticMeterPerSquareSecondUnit;
+
 { TNewtonPerSquareKilogram } { @exclude }
 
 const
@@ -11120,6 +11763,10 @@ const
     FPluralName : rsNewtonPerSquareKilogramPluralName;
     FPrefixes   : (pNone, pKilo);
     FExponents  : (1, -2));
+
+var
+  { N/kg² - newton per square kilogram: SI unit of gravitational coupling. }
+  NewtonPerSquareKilogram : TUnit absolute NewtonPerSquareKilogramUnit;
 
 { TMeterPerKilogramPerSquareSecond } { @exclude }
 
@@ -11132,6 +11779,10 @@ const
     FPrefixes   : (pNone, pKilo, pNone);
     FExponents  : (1, -1, -2));
 
+var
+  { m/kg/s² - meter per kilogram per square second: SI unit of gravitational coupling; equivalent to N/kg². }
+  MeterPerKilogramPerSquareSecond : TUnit absolute MeterPerKilogramPerSquareSecondUnit;
+
 { TSquareKilogramPerMeter } { @exclude }
 
 const
@@ -11142,6 +11793,10 @@ const
     FPluralName : rsSquareKilogramPerMeterPluralName;
     FPrefixes   : (pKilo, pNone);
     FExponents  : (2, -1));
+
+var
+  { kg²/m - square kilogram per meter. }
+  SquareKilogramPerMeter : TUnit absolute SquareKilogramPerMeterUnit;
 
 { TSquareKilogramPerSquareMeter } { @exclude }
 
@@ -11154,6 +11809,10 @@ const
     FPrefixes   : (pKilo, pNone);
     FExponents  : (2, -2));
 
+var
+  { kg²/m² - square kilogram per square meter. }
+  SquareKilogramPerSquareMeter : TUnit absolute SquareKilogramPerSquareMeterUnit;
+
 { TSquareMeterPerSquareKilogram } { @exclude }
 
 const
@@ -11164,6 +11823,10 @@ const
     FPluralName : rsSquareMeterPerSquareKilogramPluralName;
     FPrefixes   : (pNone, pKilo);
     FExponents  : (2, -2));
+
+var
+  { m²/kg² - square meter per square kilogram. }
+  SquareMeterPerSquareKilogram : TUnit absolute SquareMeterPerSquareKilogramUnit;
 
 { TNewtonSquareMeterPerSquareKilogram } { @exclude }
 
@@ -11176,6 +11839,10 @@ const
     FPrefixes   : (pNone, pNone, pKilo);
     FExponents  : (1, 2, -2));
 
+var
+  { N·m²/kg² - newton square meter per square kilogram: SI unit of gravitational constant. }
+  NewtonSquareMeterPerSquareKilogram : TUnit absolute NewtonSquareMeterPerSquareKilogramUnit;
+
 { TCubicMeterPerKilogramPerSquareSecond } { @exclude }
 
 const
@@ -11186,6 +11853,10 @@ const
     FPluralName : rsCubicMeterPerKilogramPerSquareSecondPluralName;
     FPrefixes   : (pNone, pKilo, pNone);
     FExponents  : (3, -1, -2));
+
+var
+  { m³/kg/s² - cubic meter per kilogram per square second: SI unit of gravitational constant; equivalent to N·m²/kg². }
+  CubicMeterPerKilogramPerSquareSecond : TUnit absolute CubicMeterPerKilogramPerSquareSecondUnit;
 
 { TReciprocalKelvin } { @exclude }
 
@@ -11198,6 +11869,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/K - reciprocal kelvin: SI unit of thermal expansion coefficient. }
+  ReciprocalKelvin : TUnit absolute ReciprocalKelvinUnit;
+
 { TKilogramKelvin } { @exclude }
 
 const
@@ -11208,6 +11883,10 @@ const
     FPluralName : rsKilogramKelvinPluralName;
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, 1));
+
+var
+  { kg·K - kilogram kelvin. }
+  KilogramKelvin : TUnit absolute KilogramKelvinUnit;
 
 { TJoulePerKelvin } { @exclude }
 
@@ -11220,6 +11899,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { J/K - joule per kelvin: SI unit of heat capacity and entropy. }
+  JoulePerKelvin : TUnit absolute JoulePerKelvinUnit;
+
 { TKilogramSquareMeterPerSquareSecondPerKelvin } { @exclude }
 
 const
@@ -11230,6 +11913,10 @@ const
     FPluralName : rsKilogramSquareMeterPerSquareSecondPerKelvinPluralName;
     FPrefixes   : (pKilo, pNone, pNone, pNone);
     FExponents  : (1, 2, -2, -1));
+
+var
+  { kg·m²/s²/K - kilogram square meter per square second per kelvin: SI unit of heat capacity; equivalent to J/K. }
+  KilogramSquareMeterPerSquareSecondPerKelvin : TUnit absolute KilogramSquareMeterPerSquareSecondPerKelvinUnit;
 
 { TJoulePerKilogramPerKelvin } { @exclude }
 
@@ -11242,6 +11929,10 @@ const
     FPrefixes   : (pNone, pKilo, pNone);
     FExponents  : (1, -1, -1));
 
+var
+  { J/kg/K - joule per kilogram per kelvin: SI unit of specific heat capacity. }
+  JoulePerKilogramPerKelvin : TUnit absolute JoulePerKilogramPerKelvinUnit;
+
 { TSquareMeterPerSquareSecondPerKelvin } { @exclude }
 
 const
@@ -11252,6 +11943,10 @@ const
     FPluralName : rsSquareMeterPerSquareSecondPerKelvinPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -2, -1));
+
+var
+  { m²/s²/K - square meter per square second per kelvin: SI unit of specific heat capacity; equivalent to J/kg/K. }
+  SquareMeterPerSquareSecondPerKelvin : TUnit absolute SquareMeterPerSquareSecondPerKelvinUnit;
 
 { TMeterKelvin } { @exclude }
 
@@ -11264,6 +11959,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { m·K - meter kelvin. }
+  MeterKelvin : TUnit absolute MeterKelvinUnit;
+
 { TKelvinPerMeter } { @exclude }
 
 const
@@ -11274,6 +11973,10 @@ const
     FPluralName : rsKelvinPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { K/m - kelvin per meter: SI unit of temperature gradient. }
+  KelvinPerMeter : TUnit absolute KelvinPerMeterUnit;
 
 { TWattPerMeter } { @exclude }
 
@@ -11286,6 +11989,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { W/m - watt per meter: SI unit of linear power density. }
+  WattPerMeter : TUnit absolute WattPerMeterUnit;
+
 { TKilogramMeterPerCubicSecond } { @exclude }
 
 const
@@ -11296,6 +12003,10 @@ const
     FPluralName : rsKilogramMeterPerCubicSecondPluralName;
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, 1, -3));
+
+var
+  { kg·m/s³ - kilogram meter per cubic second: SI unit of linear power density; equivalent to W/m. }
+  KilogramMeterPerCubicSecond : TUnit absolute KilogramMeterPerCubicSecondUnit;
 
 { TWattPerSquareMeter } { @exclude }
 
@@ -11308,6 +12019,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { W/m² - watt per square meter: SI unit of irradiance and heat flux density. }
+  WattPerSquareMeter : TUnit absolute WattPerSquareMeterUnit;
+
 { TKilogramPerCubicSecond } { @exclude }
 
 const
@@ -11318,6 +12033,10 @@ const
     FPluralName : rsKilogramPerCubicSecondPluralName;
     FPrefixes   : (pKilo, pNone);
     FExponents  : (1, -3));
+
+var
+  { kg/s³ - kilogram per cubic second: SI unit of irradiance; equivalent to W/m². }
+  KilogramPerCubicSecond : TUnit absolute KilogramPerCubicSecondUnit;
 
 { TWattPerCubicMeter } { @exclude }
 
@@ -11330,6 +12049,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
+var
+  { W/m³ - watt per cubic meter: SI unit of volumetric power density. }
+  WattPerCubicMeter : TUnit absolute WattPerCubicMeterUnit;
+
 { TWattPerKelvin } { @exclude }
 
 const
@@ -11340,6 +12063,10 @@ const
     FPluralName : rsWattPerKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { W/K - watt per kelvin: SI unit of thermal conductance. }
+  WattPerKelvin : TUnit absolute WattPerKelvinUnit;
 
 { TKilogramSquareMeterPerCubicSecondPerKelvin } { @exclude }
 
@@ -11352,6 +12079,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone, pNone);
     FExponents  : (1, 2, -3, -1));
 
+var
+  { kg·m²/s³/K - kilogram square meter per cubic second per kelvin: SI unit of thermal conductance; equivalent to W/K. }
+  KilogramSquareMeterPerCubicSecondPerKelvin : TUnit absolute KilogramSquareMeterPerCubicSecondPerKelvinUnit;
+
 { TWattPerMeterPerKelvin } { @exclude }
 
 const
@@ -11362,6 +12093,10 @@ const
     FPluralName : rsWattPerMeterPerKelvinPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
+
+var
+  { W/m/K - watt per meter per kelvin: SI unit of thermal conductivity. }
+  WattPerMeterPerKelvin : TUnit absolute WattPerMeterPerKelvinUnit;
 
 { TKilogramMeterPerCubicSecondPerKelvin } { @exclude }
 
@@ -11374,6 +12109,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone, pNone);
     FExponents  : (1, 1, -3, -1));
 
+var
+  { kg·m/s³/K - kilogram meter per cubic second per kelvin: SI unit of thermal conductivity; equivalent to W/m/K. }
+  KilogramMeterPerCubicSecondPerKelvin : TUnit absolute KilogramMeterPerCubicSecondPerKelvinUnit;
+
 { TKelvinPerWatt } { @exclude }
 
 const
@@ -11384,6 +12123,10 @@ const
     FPluralName : rsKelvinPerWattPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { K/W - kelvin per watt: SI unit of thermal resistance. }
+  KelvinPerWatt : TUnit absolute KelvinPerWattUnit;
 
 { TMeterPerWatt } { @exclude }
 
@@ -11396,6 +12139,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { m/W - meter per watt: SI unit of thermal resistivity. }
+  MeterPerWatt : TUnit absolute MeterPerWattUnit;
+
 { TMeterKelvinPerWatt } { @exclude }
 
 const
@@ -11406,6 +12153,10 @@ const
     FPluralName : rsMeterKelvinPerWattPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -1));
+
+var
+  { K·m/W - kelvin meter per watt. }
+  MeterKelvinPerWatt : TUnit absolute MeterKelvinPerWattUnit;
 
 { TSquareMeterKelvin } { @exclude }
 
@@ -11418,6 +12169,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 1));
 
+var
+  { m²·K - square meter kelvin. }
+  SquareMeterKelvin : TUnit absolute SquareMeterKelvinUnit;
+
 { TWattPerSquareMeterPerKelvin } { @exclude }
 
 const
@@ -11428,6 +12183,10 @@ const
     FPluralName : rsWattPerSquareMeterPerKelvinPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -2, -1));
+
+var
+  { W/m²/K - watt per square meter per kelvin: SI unit of heat transfer coefficient. }
+  WattPerSquareMeterPerKelvin : TUnit absolute WattPerSquareMeterPerKelvinUnit;
 
 { TKilogramPerCubicSecondPerKelvin } { @exclude }
 
@@ -11440,6 +12199,10 @@ const
     FPrefixes   : (pKilo, pNone, pNone);
     FExponents  : (1, -3, -1));
 
+var
+  { kg/s³/K - kilogram per cubic second per kelvin: SI unit of heat transfer coefficient; equivalent to W/m²/K. }
+  KilogramPerCubicSecondPerKelvin : TUnit absolute KilogramPerCubicSecondPerKelvinUnit;
+
 { TSquareMeterQuarticKelvin } { @exclude }
 
 const
@@ -11450,6 +12213,10 @@ const
     FPluralName : rsSquareMeterQuarticKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 4));
+
+var
+  { m²·K⁴ - square meter quartic kelvin. }
+  SquareMeterQuarticKelvin : TUnit absolute SquareMeterQuarticKelvinUnit;
 
 { TWattPerQuarticKelvin } { @exclude }
 
@@ -11462,6 +12229,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -4));
 
+var
+  { W/K⁴ - watt per quartic kelvin. }
+  WattPerQuarticKelvin : TUnit absolute WattPerQuarticKelvinUnit;
+
 { TWattPerSquareMeterPerQuarticKelvin } { @exclude }
 
 const
@@ -11472,6 +12243,10 @@ const
     FPluralName : rsWattPerSquareMeterPerQuarticKelvinPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -2, -4));
+
+var
+  { W/m²/K⁴ - watt per square meter per quartic kelvin. }
+  WattPerSquareMeterPerQuarticKelvin : TUnit absolute WattPerSquareMeterPerQuarticKelvinUnit;
 
 { TJoulePerMole } { @exclude }
 
@@ -11484,6 +12259,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { J/mol - joule per mole: SI unit of molar energy. }
+  JoulePerMole : TUnit absolute JoulePerMoleUnit;
+
 { TMoleKelvin } { @exclude }
 
 const
@@ -11494,6 +12273,10 @@ const
     FPluralName : rsMoleKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
+
+var
+  { mol·K - mole kelvin. }
+  MoleKelvin : TUnit absolute MoleKelvinUnit;
 
 { TJoulePerMolePerKelvin } { @exclude }
 
@@ -11506,6 +12289,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
 
+var
+  { J/mol/K - joule per mole per kelvin: SI unit of molar heat capacity. }
+  JoulePerMolePerKelvin : TUnit absolute JoulePerMolePerKelvinUnit;
+
 { TOhmMeter } { @exclude }
 
 const
@@ -11516,6 +12303,10 @@ const
     FPluralName : rsOhmMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
+
+var
+  { Ω·m - ohm meter: SI unit of electric resistivity. }
+  OhmMeter : TUnit absolute OhmMeterUnit;
 
 { TVoltPerMeter } { @exclude }
 
@@ -11528,6 +12319,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { V/m - volt per meter: SI unit of electric field strength. }
+  VoltPerMeter : TUnit absolute VoltPerMeterUnit;
+
 { TNewtonPerCoulomb } { @exclude }
 
 const
@@ -11538,6 +12333,10 @@ const
     FPluralName : rsNewtonPerCoulombPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { N/C - newton per coulomb: SI unit of electric field strength; equivalent to V/m. }
+  NewtonPerCoulomb : TUnit absolute NewtonPerCoulombUnit;
 
 { TCoulombPerMeter } { @exclude }
 
@@ -11550,6 +12349,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { C/m - coulomb per meter: SI unit of linear charge density. }
+  CoulombPerMeter : TUnit absolute CoulombPerMeterUnit;
+
 { TSquareCoulombPerMeter } { @exclude }
 
 const
@@ -11560,6 +12363,10 @@ const
     FPluralName : rsSquareCoulombPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
+
+var
+  { C²/m - square coulomb per meter. }
+  SquareCoulombPerMeter : TUnit absolute SquareCoulombPerMeterUnit;
 
 { TCoulombPerSquareMeter } { @exclude }
 
@@ -11572,6 +12379,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { C/m² - coulomb per square meter: SI unit of surface charge density. }
+  CoulombPerSquareMeter : TUnit absolute CoulombPerSquareMeterUnit;
+
 { TSquareMeterPerSquareCoulomb } { @exclude }
 
 const
@@ -11582,6 +12393,10 @@ const
     FPluralName : rsSquareMeterPerSquareCoulombPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
+
+var
+  { m²/C² - square meter per square coulomb. }
+  SquareMeterPerSquareCoulomb : TUnit absolute SquareMeterPerSquareCoulombUnit;
 
 { TNewtonPerSquareCoulomb } { @exclude }
 
@@ -11594,6 +12409,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { N/C² - newton per square coulomb. }
+  NewtonPerSquareCoulomb : TUnit absolute NewtonPerSquareCoulombUnit;
+
 { TNewtonSquareMeterPerSquareCoulomb } { @exclude }
 
 const
@@ -11604,6 +12423,10 @@ const
     FPluralName : rsNewtonSquareMeterPerSquareCoulombPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -2));
+
+var
+  { N·m²/C² - newton square meter per square coulomb: SI unit of Coulomb constant. }
+  NewtonSquareMeterPerSquareCoulomb : TUnit absolute NewtonSquareMeterPerSquareCoulombUnit;
 
 { TVoltMeter } { @exclude }
 
@@ -11616,6 +12439,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { V·m - volt meter: SI unit of electric flux. }
+  VoltMeter : TUnit absolute VoltMeterUnit;
+
 { TNewtonSquareMeterPerCoulomb } { @exclude }
 
 const
@@ -11626,6 +12453,10 @@ const
     FPluralName : rsNewtonSquareMeterPerCoulombPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -1));
+
+var
+  { N·m²/C - newton square meter per coulomb: SI unit of electric flux; equivalent to V·m. }
+  NewtonSquareMeterPerCoulomb : TUnit absolute NewtonSquareMeterPerCoulombUnit;
 
 { TVoltMeterPerSecond } { @exclude }
 
@@ -11638,6 +12469,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -1));
 
+var
+  { V·m/s - volt meter per second: SI unit of rate of change of electric flux. }
+  VoltMeterPerSecond : TUnit absolute VoltMeterPerSecondUnit;
+
 { TFaradPerMeter } { @exclude }
 
 const
@@ -11648,6 +12483,10 @@ const
     FPluralName : rsFaradPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { F/m - farad per meter: SI unit of electric permittivity. }
+  FaradPerMeter : TUnit absolute FaradPerMeterUnit;
 
 { TAmperePerMeter } { @exclude }
 
@@ -11660,6 +12499,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { A/m - ampere per meter: SI unit of magnetic field strength. }
+  AmperePerMeter : TUnit absolute AmperePerMeterUnit;
+
 { TMeterPerAmpere } { @exclude }
 
 const
@@ -11670,6 +12513,10 @@ const
     FPluralName : rsMeterPerAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { m/A - meter per ampere. }
+  MeterPerAmpere : TUnit absolute MeterPerAmpereUnit;
 
 { TTeslaMeter } { @exclude }
 
@@ -11682,6 +12529,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { T·m - tesla meter: SI unit of magnetic rigidity. }
+  TeslaMeter : TUnit absolute TeslaMeterUnit;
+
 { TNewtonPerAmpere } { @exclude }
 
 const
@@ -11692,6 +12543,10 @@ const
     FPluralName : rsNewtonPerAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { N/A - newton per ampere: SI unit of magnetic rigidity; equivalent to T·m. }
+  NewtonPerAmpere : TUnit absolute NewtonPerAmpereUnit;
 
 { TTeslaPerAmpere } { @exclude }
 
@@ -11704,6 +12559,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { T/A - tesla per ampere: SI unit of magnetic flux density per current. }
+  TeslaPerAmpere : TUnit absolute TeslaPerAmpereUnit;
+
 { THenryPerMeter } { @exclude }
 
 const
@@ -11714,6 +12573,10 @@ const
     FPluralName : rsHenryPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { H/m - henry per meter: SI unit of magnetic permeability. }
+  HenryPerMeter : TUnit absolute HenryPerMeterUnit;
 
 { TTeslaMeterPerAmpere } { @exclude }
 
@@ -11726,6 +12589,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -1));
 
+var
+  { T·m/A - tesla meter per ampere: SI unit of magnetic permeability; equivalent to H/m. }
+  TeslaMeterPerAmpere : TUnit absolute TeslaMeterPerAmpereUnit;
+
 { TNewtonPerSquareAmpere } { @exclude }
 
 const
@@ -11736,6 +12603,10 @@ const
     FPluralName : rsNewtonPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
+
+var
+  { N/A² - newton per square ampere: SI unit of magnetic permeability; equivalent to H/m. }
+  NewtonPerSquareAmpere : TUnit absolute NewtonPerSquareAmpereUnit;
 
 { TRadianPerMeter } { @exclude }
 
@@ -11748,6 +12619,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { rad/m - radian per meter: SI unit of angular wavenumber. }
+  RadianPerMeter : TUnit absolute RadianPerMeterUnit;
+
 { TSquareKilogramPerSquareSecond } { @exclude }
 
 const
@@ -11759,6 +12634,10 @@ const
     FPrefixes   : (pKilo, pNone);
     FExponents  : (2, -2));
 
+var
+  { kg²/s² - square kilogram per square second. }
+  SquareKilogramPerSquareSecond : TUnit absolute SquareKilogramPerSquareSecondUnit;
+
 { TSquareSecondPerSquareMeter } { @exclude }
 
 const
@@ -11769,6 +12648,10 @@ const
     FPluralName : rsSquareSecondPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
+
+var
+  { s²/m² - square second per square meter. }
+  SquareSecondPerSquareMeter : TUnit absolute SquareSecondPerSquareMeterUnit;
 
 { TSquareJoule } { @exclude }
 
@@ -11782,6 +12665,9 @@ const
     FExponents  : (2));
 
 var
+  { J² - square joule. }
+  SquareJoule : TUnit absolute SquareJouleUnit;
+
   { J² - square joule. }
   J2 : TUnit absolute SquareJouleUnit;
 
@@ -11809,6 +12695,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { J·s - joule second: SI unit of action. }
+  JouleSecond : TUnit absolute JouleSecondUnit;
+
 { TJoulePerHertz } { @exclude }
 
 const
@@ -11819,6 +12709,10 @@ const
     FPluralName : rsJoulePerHertzPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { J/Hz - joule per hertz: SI unit of action; equivalent to J·s. }
+  JoulePerHertz : TUnit absolute JoulePerHertzUnit;
 
 { TElectronvoltSecond } { @exclude }
 
@@ -11855,6 +12749,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 2));
 
+var
+  { J²·s² - square joule square second. }
+  SquareJouleSquareSecond : TUnit absolute SquareJouleSquareSecondUnit;
+
 { TCoulombPerKilogram } { @exclude }
 
 const
@@ -11865,6 +12763,10 @@ const
     FPluralName : rsCoulombPerKilogramPluralName;
     FPrefixes   : (pNone, pKilo);
     FExponents  : (1, -1));
+
+var
+  { C/kg - coulomb per kilogram: SI unit of radiation exposure. }
+  CoulombPerKilogram : TUnit absolute CoulombPerKilogramUnit;
 
 { TSquareMeterAmpere } { @exclude }
 
@@ -11877,6 +12779,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 1));
 
+var
+  { m²·A - square meter ampere: SI unit of magnetic moment. }
+  SquareMeterAmpere : TUnit absolute SquareMeterAmpereUnit;
+
 { TJoulePerTesla } { @exclude }
 
 const
@@ -11887,6 +12793,10 @@ const
     FPluralName : rsJoulePerTeslaPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { J/T - joule per tesla: SI unit of magnetic moment; equivalent to m²·A. }
+  JoulePerTesla : TUnit absolute JoulePerTeslaUnit;
 
 { TLumenPerWatt } { @exclude }
 
@@ -11899,6 +12809,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { lm/W - lumen per watt: SI unit of luminous efficacy. }
+  LumenPerWatt : TUnit absolute LumenPerWattUnit;
+
 { TReciprocalMole } { @exclude }
 
 const
@@ -11909,6 +12823,10 @@ const
     FPluralName : rsReciprocalMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/mol - reciprocal mole: SI unit of reciprocal amount of substance. }
+  ReciprocalMole : TUnit absolute ReciprocalMoleUnit;
 
 { TAmperePerSquareMeter } { @exclude }
 
@@ -11921,6 +12839,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { A/m² - ampere per square meter: SI unit of current density. }
+  AmperePerSquareMeter : TUnit absolute AmperePerSquareMeterUnit;
+
 { TMolePerCubicMeter } { @exclude }
 
 const
@@ -11931,6 +12853,10 @@ const
     FPluralName : rsMolePerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
+
+var
+  { mol/m³ - mole per cubic meter: SI unit of molar concentration. }
+  MolePerCubicMeter : TUnit absolute MolePerCubicMeterUnit;
 
 { TCandelaPerSquareMeter } { @exclude }
 
@@ -11943,6 +12869,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { cd/m² - candela per square meter: SI unit of luminance. }
+  CandelaPerSquareMeter : TUnit absolute CandelaPerSquareMeterUnit;
+
 { TCoulombPerCubicMeter } { @exclude }
 
 const
@@ -11953,6 +12883,10 @@ const
     FPluralName : rsCoulombPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
+
+var
+  { C/m³ - coulomb per cubic meter: SI unit of charge density. }
+  CoulombPerCubicMeter : TUnit absolute CoulombPerCubicMeterUnit;
 
 { TGrayPerSecond } { @exclude }
 
@@ -11965,6 +12899,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { Gy/s - gray per second: SI unit of absorbed dose rate. }
+  GrayPerSecond : TUnit absolute GrayPerSecondUnit;
+
 { TSteradianHertz } { @exclude }
 
 const
@@ -11975,6 +12913,10 @@ const
     FPluralName : rsSteradianHertzPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { sr·Hz - steradian hertz. }
+  SteradianHertz : TUnit absolute SteradianHertzUnit;
 
 { TMeterSteradian } { @exclude }
 
@@ -11987,6 +12929,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { m·sr - meter steradian. }
+  MeterSteradian : TUnit absolute MeterSteradianUnit;
+
 { TSquareMeterSteradian } { @exclude }
 
 const
@@ -11997,6 +12943,10 @@ const
     FPluralName : rsSquareMeterSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (2));
+
+var
+  { m²·sr - square meter steradian. }
+  SquareMeterSteradian : TUnit absolute SquareMeterSteradianUnit;
 
 { TCubicMeterSteradian } { @exclude }
 
@@ -12009,6 +12959,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { m³·sr - cubic meter steradian. }
+  CubicMeterSteradian : TUnit absolute CubicMeterSteradianUnit;
+
 { TSquareMeterSteradianHertz } { @exclude }
 
 const
@@ -12019,6 +12973,10 @@ const
     FPluralName : rsSquareMeterSteradianHertzPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 1));
+
+var
+  { m²·sr·Hz - square meter steradian hertz. }
+  SquareMeterSteradianHertz : TUnit absolute SquareMeterSteradianHertzUnit;
 
 { TWattPerSteradian } { @exclude }
 
@@ -12031,6 +12989,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { W/sr - watt per steradian: SI unit of radiant intensity. }
+  WattPerSteradian : TUnit absolute WattPerSteradianUnit;
+
 { TWattPerSteradianPerHertz } { @exclude }
 
 const
@@ -12041,6 +13003,10 @@ const
     FPluralName : rsWattPerSteradianPerHertzPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { W/sr/Hz - watt per steradian per hertz. }
+  WattPerSteradianPerHertz : TUnit absolute WattPerSteradianPerHertzUnit;
 
 { TWattPerMeterPerSteradian } { @exclude }
 
@@ -12053,6 +13019,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { W/sr/m - watt per steradian per meter. }
+  WattPerMeterPerSteradian : TUnit absolute WattPerMeterPerSteradianUnit;
+
 { TWattPerSquareMeterPerSteradian } { @exclude }
 
 const
@@ -12063,6 +13033,10 @@ const
     FPluralName : rsWattPerSquareMeterPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
+
+var
+  { W/m²/sr - watt per square meter per steradian: SI unit of radiance. }
+  WattPerSquareMeterPerSteradian : TUnit absolute WattPerSquareMeterPerSteradianUnit;
 
 { TWattPerCubicMeterPerSteradian } { @exclude }
 
@@ -12075,6 +13049,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
+var
+  { W/m³/sr - watt per cubic meter per steradian. }
+  WattPerCubicMeterPerSteradian : TUnit absolute WattPerCubicMeterPerSteradianUnit;
+
 { TWattPerSquareMeterPerSteradianPerHertz } { @exclude }
 
 const
@@ -12085,6 +13063,10 @@ const
     FPluralName : rsWattPerSquareMeterPerSteradianPerHertzPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -2, -1));
+
+var
+  { W/m²/sr/Hz - watt per square meter per steradian per hertz: SI unit of spectral radiance. }
+  WattPerSquareMeterPerSteradianPerHertz : TUnit absolute WattPerSquareMeterPerSteradianPerHertzUnit;
 
 { TKatalPerCubicMeter } { @exclude }
 
@@ -12097,6 +13079,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
+var
+  { kat/m³ - katal per cubic meter: SI unit of catalytic activity concentration. }
+  KatalPerCubicMeter : TUnit absolute KatalPerCubicMeterUnit;
+
 { TCoulombPerMole } { @exclude }
 
 const
@@ -12107,6 +13093,10 @@ const
     FPluralName : rsCoulombPerMolePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { C/mol - coulomb per mole: SI unit of molar charge. }
+  CoulombPerMole : TUnit absolute CoulombPerMoleUnit;
 
 { TReciprocalNewton } { @exclude }
 
@@ -12119,6 +13109,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/N - reciprocal newton. }
+  ReciprocalNewton : TUnit absolute ReciprocalNewtonUnit;
+
 { TReciprocalTesla } { @exclude }
 
 const
@@ -12129,6 +13123,10 @@ const
     FPluralName : rsReciprocalTeslaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/T - reciprocal tesla. }
+  ReciprocalTesla : TUnit absolute ReciprocalTeslaUnit;
 
 { TReciprocalPascal } { @exclude }
 
@@ -12141,6 +13139,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/Pa - reciprocal pascal: SI unit of compressibility. }
+  ReciprocalPascal : TUnit absolute ReciprocalPascalUnit;
+
 { TReciprocalWeber } { @exclude }
 
 const
@@ -12151,6 +13153,10 @@ const
     FPluralName : rsReciprocalWeberPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/Wb - reciprocal weber. }
+  ReciprocalWeber : TUnit absolute ReciprocalWeberUnit;
 
 { TReciprocalWatt } { @exclude }
 
@@ -12163,6 +13169,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/W - reciprocal watt. }
+  ReciprocalWatt : TUnit absolute ReciprocalWattUnit;
+
 { TReciprocalRadian } { @exclude }
 
 const
@@ -12173,6 +13183,10 @@ const
     FPluralName : rsReciprocalRadianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/rad - reciprocal radian. }
+  ReciprocalRadian : TUnit absolute ReciprocalRadianUnit;
 
 { TMeterPerVolt } { @exclude }
 
@@ -12185,6 +13199,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { m/V - meter per volt. }
+  MeterPerVolt : TUnit absolute MeterPerVoltUnit;
+
 { TSecondPerRadian } { @exclude }
 
 const
@@ -12195,6 +13213,10 @@ const
     FPluralName : rsSecondPerRadianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { s/rad - second per radian. }
+  SecondPerRadian : TUnit absolute SecondPerRadianUnit;
 
 { TSexticRootKilogram } { @exclude }
 
@@ -12207,6 +13229,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ⁶√kg - sextic root kilogram. }
+  SexticRootKilogram : TUnit absolute SexticRootKilogramUnit;
+
 { TQuinticRootKilogram } { @exclude }
 
 const
@@ -12217,6 +13243,10 @@ const
     FPluralName : rsQuinticRootKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ⁵√kg - quintic root kilogram. }
+  QuinticRootKilogram : TUnit absolute QuinticRootKilogramUnit;
 
 { TQuarticRootKilogram } { @exclude }
 
@@ -12229,6 +13259,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ∜kg - quartic root kilogram. }
+  QuarticRootKilogram : TUnit absolute QuarticRootKilogramUnit;
+
 { TCubicRootKilogram } { @exclude }
 
 const
@@ -12239,6 +13273,10 @@ const
     FPluralName : rsCubicRootKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ∛kg - cubic root kilogram. }
+  CubicRootKilogram : TUnit absolute CubicRootKilogramUnit;
 
 { TSquareRootKilogram } { @exclude }
 
@@ -12251,6 +13289,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { √kg - square root kilogram. }
+  SquareRootKilogram : TUnit absolute SquareRootKilogramUnit;
+
 { TQuarticRootCubicKilogram } { @exclude }
 
 const
@@ -12261,6 +13303,10 @@ const
     FPluralName : rsQuarticRootCubicKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { ∜kg³ - quartic root cubic kilogram. }
+  QuarticRootCubicKilogram : TUnit absolute QuarticRootCubicKilogramUnit;
 
 { TSquareRootCubicKilogram } { @exclude }
 
@@ -12273,6 +13319,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { √kg³ - square root cubic kilogram. }
+  SquareRootCubicKilogram : TUnit absolute SquareRootCubicKilogramUnit;
+
 { TSquareRootQuinticKilogram } { @exclude }
 
 const
@@ -12283,6 +13333,10 @@ const
     FPluralName : rsSquareRootQuinticKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (5));
+
+var
+  { √kg⁵ - square root quintic kilogram. }
+  SquareRootQuinticKilogram : TUnit absolute SquareRootQuinticKilogramUnit;
 
 { TCubicKilogram } { @exclude }
 
@@ -12295,6 +13349,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { kg³ - cubic kilogram. }
+  CubicKilogram : TUnit absolute CubicKilogramUnit;
+
 { TQuarticKilogram } { @exclude }
 
 const
@@ -12305,6 +13363,10 @@ const
     FPluralName : rsQuarticKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (4));
+
+var
+  { kg⁴ - quartic kilogram. }
+  QuarticKilogram : TUnit absolute QuarticKilogramUnit;
 
 { TQuinticKilogram } { @exclude }
 
@@ -12317,6 +13379,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (5));
 
+var
+  { kg⁵ - quintic kilogram. }
+  QuinticKilogram : TUnit absolute QuinticKilogramUnit;
+
 { TSexticKilogram } { @exclude }
 
 const
@@ -12327,6 +13393,10 @@ const
     FPluralName : rsSexticKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (6));
+
+var
+  { kg⁶ - sextic kilogram. }
+  SexticKilogram : TUnit absolute SexticKilogramUnit;
 
 { TSexticRootMeter } { @exclude }
 
@@ -12339,6 +13409,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ⁶√m - sextic root meter. }
+  SexticRootMeter : TUnit absolute SexticRootMeterUnit;
+
 { TQuinticRootMeter } { @exclude }
 
 const
@@ -12349,6 +13423,10 @@ const
     FPluralName : rsQuinticRootMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ⁵√m - quintic root meter. }
+  QuinticRootMeter : TUnit absolute QuinticRootMeterUnit;
 
 { TQuarticRootMeter } { @exclude }
 
@@ -12361,6 +13439,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ∜m - quartic root meter. }
+  QuarticRootMeter : TUnit absolute QuarticRootMeterUnit;
+
 { TCubicRootMeter } { @exclude }
 
 const
@@ -12371,6 +13453,10 @@ const
     FPluralName : rsCubicRootMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ∛m - cubic root meter. }
+  CubicRootMeter : TUnit absolute CubicRootMeterUnit;
 
 { TQuarticRootCubicMeter } { @exclude }
 
@@ -12383,6 +13469,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { ∜m³ - quartic root cubic meter. }
+  QuarticRootCubicMeter : TUnit absolute QuarticRootCubicMeterUnit;
+
 { TSquareRootCubicMeter } { @exclude }
 
 const
@@ -12393,6 +13483,10 @@ const
     FPluralName : rsSquareRootCubicMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { √m³ - square root cubic meter. }
+  SquareRootCubicMeter : TUnit absolute SquareRootCubicMeterUnit;
 
 { TSquareRootQuinticMeter } { @exclude }
 
@@ -12405,6 +13499,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (5));
 
+var
+  { √m⁵ - square root quintic meter. }
+  SquareRootQuinticMeter : TUnit absolute SquareRootQuinticMeterUnit;
+
 { TSexticRootSecond } { @exclude }
 
 const
@@ -12415,6 +13513,10 @@ const
     FPluralName : rsSexticRootSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ⁶√s - sextic root second. }
+  SexticRootSecond : TUnit absolute SexticRootSecondUnit;
 
 { TQuinticRootSecond } { @exclude }
 
@@ -12427,6 +13529,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ⁵√s - quintic root second. }
+  QuinticRootSecond : TUnit absolute QuinticRootSecondUnit;
+
 { TQuarticRootSecond } { @exclude }
 
 const
@@ -12437,6 +13543,10 @@ const
     FPluralName : rsQuarticRootSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ∜s - quartic root second. }
+  QuarticRootSecond : TUnit absolute QuarticRootSecondUnit;
 
 { TCubicRootSecond } { @exclude }
 
@@ -12449,6 +13559,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ∛s - cubic root second. }
+  CubicRootSecond : TUnit absolute CubicRootSecondUnit;
+
 { TSquareRootSecond } { @exclude }
 
 const
@@ -12459,6 +13573,10 @@ const
     FPluralName : rsSquareRootSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { √s - square root second. }
+  SquareRootSecond : TUnit absolute SquareRootSecondUnit;
 
 { TQuarticRootCubicSecond } { @exclude }
 
@@ -12471,6 +13589,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { ∜s³ - quartic root cubic second. }
+  QuarticRootCubicSecond : TUnit absolute QuarticRootCubicSecondUnit;
+
 { TSquareRootCubicSecond } { @exclude }
 
 const
@@ -12481,6 +13603,10 @@ const
     FPluralName : rsSquareRootCubicSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { √s³ - square root cubic second. }
+  SquareRootCubicSecond : TUnit absolute SquareRootCubicSecondUnit;
 
 { TSquareRootQuinticSecond } { @exclude }
 
@@ -12493,6 +13619,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (5));
 
+var
+  { √s⁵ - square root quintic second. }
+  SquareRootQuinticSecond : TUnit absolute SquareRootQuinticSecondUnit;
+
 { TSexticRootAmpere } { @exclude }
 
 const
@@ -12503,6 +13633,10 @@ const
     FPluralName : rsSexticRootAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ⁶√A - sextic root ampere. }
+  SexticRootAmpere : TUnit absolute SexticRootAmpereUnit;
 
 { TQuinticRootAmpere } { @exclude }
 
@@ -12515,6 +13649,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ⁵√A - quintic root ampere. }
+  QuinticRootAmpere : TUnit absolute QuinticRootAmpereUnit;
+
 { TQuarticRootAmpere } { @exclude }
 
 const
@@ -12525,6 +13663,10 @@ const
     FPluralName : rsQuarticRootAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ∜A - quartic root ampere. }
+  QuarticRootAmpere : TUnit absolute QuarticRootAmpereUnit;
 
 { TCubicRootAmpere } { @exclude }
 
@@ -12537,6 +13679,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ∛A - cubic root ampere. }
+  CubicRootAmpere : TUnit absolute CubicRootAmpereUnit;
+
 { TSquareRootAmpere } { @exclude }
 
 const
@@ -12547,6 +13693,10 @@ const
     FPluralName : rsSquareRootAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { √A - square root ampere. }
+  SquareRootAmpere : TUnit absolute SquareRootAmpereUnit;
 
 { TQuarticRootCubicAmpere } { @exclude }
 
@@ -12559,6 +13709,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { ∜A³ - quartic root cubic ampere. }
+  QuarticRootCubicAmpere : TUnit absolute QuarticRootCubicAmpereUnit;
+
 { TSquareRootCubicAmpere } { @exclude }
 
 const
@@ -12569,6 +13723,10 @@ const
     FPluralName : rsSquareRootCubicAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { √A³ - square root cubic ampere. }
+  SquareRootCubicAmpere : TUnit absolute SquareRootCubicAmpereUnit;
 
 { TSquareRootQuinticAmpere } { @exclude }
 
@@ -12581,6 +13739,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (5));
 
+var
+  { √A⁵ - square root quintic ampere. }
+  SquareRootQuinticAmpere : TUnit absolute SquareRootQuinticAmpereUnit;
+
 { TCubicAmpere } { @exclude }
 
 const
@@ -12591,6 +13753,10 @@ const
     FPluralName : rsCubicAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { A³ - cubic ampere. }
+  CubicAmpere : TUnit absolute CubicAmpereUnit;
 
 { TQuarticAmpere } { @exclude }
 
@@ -12603,6 +13769,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (4));
 
+var
+  { A⁴ - quartic ampere. }
+  QuarticAmpere : TUnit absolute QuarticAmpereUnit;
+
 { TQuinticAmpere } { @exclude }
 
 const
@@ -12613,6 +13783,10 @@ const
     FPluralName : rsQuinticAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (5));
+
+var
+  { A⁵ - quintic ampere. }
+  QuinticAmpere : TUnit absolute QuinticAmpereUnit;
 
 { TSexticAmpere } { @exclude }
 
@@ -12625,6 +13799,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (6));
 
+var
+  { A⁶ - sextic ampere. }
+  SexticAmpere : TUnit absolute SexticAmpereUnit;
+
 { TSexticRootKelvin } { @exclude }
 
 const
@@ -12635,6 +13813,10 @@ const
     FPluralName : rsSexticRootKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ⁶√K - sextic root kelvin. }
+  SexticRootKelvin : TUnit absolute SexticRootKelvinUnit;
 
 { TQuinticRootKelvin } { @exclude }
 
@@ -12647,6 +13829,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ⁵√K - quintic root kelvin. }
+  QuinticRootKelvin : TUnit absolute QuinticRootKelvinUnit;
+
 { TQuarticRootKelvin } { @exclude }
 
 const
@@ -12657,6 +13843,10 @@ const
     FPluralName : rsQuarticRootKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ∜K - quartic root kelvin. }
+  QuarticRootKelvin : TUnit absolute QuarticRootKelvinUnit;
 
 { TCubicRootKelvin } { @exclude }
 
@@ -12669,6 +13859,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ∛K - cubic root kelvin. }
+  CubicRootKelvin : TUnit absolute CubicRootKelvinUnit;
+
 { TSquareRootKelvin } { @exclude }
 
 const
@@ -12679,6 +13873,10 @@ const
     FPluralName : rsSquareRootKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { √K - square root kelvin. }
+  SquareRootKelvin : TUnit absolute SquareRootKelvinUnit;
 
 { TQuarticRootCubicKelvin } { @exclude }
 
@@ -12691,6 +13889,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { ∜K³ - quartic root cubic kelvin. }
+  QuarticRootCubicKelvin : TUnit absolute QuarticRootCubicKelvinUnit;
+
 { TSquareRootCubicKelvin } { @exclude }
 
 const
@@ -12701,6 +13903,10 @@ const
     FPluralName : rsSquareRootCubicKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { √K³ - square root cubic kelvin. }
+  SquareRootCubicKelvin : TUnit absolute SquareRootCubicKelvinUnit;
 
 { TSquareRootQuinticKelvin } { @exclude }
 
@@ -12713,6 +13919,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (5));
 
+var
+  { √K⁵ - square root quintic kelvin. }
+  SquareRootQuinticKelvin : TUnit absolute SquareRootQuinticKelvinUnit;
+
 { TQuinticKelvin } { @exclude }
 
 const
@@ -12723,6 +13933,10 @@ const
     FPluralName : rsQuinticKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (5));
+
+var
+  { K⁵ - quintic kelvin. }
+  QuinticKelvin : TUnit absolute QuinticKelvinUnit;
 
 { TSexticKelvin } { @exclude }
 
@@ -12735,6 +13949,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (6));
 
+var
+  { K⁶ - sextic kelvin. }
+  SexticKelvin : TUnit absolute SexticKelvinUnit;
+
 { TSexticRootMole } { @exclude }
 
 const
@@ -12745,6 +13963,10 @@ const
     FPluralName : rsSexticRootMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ⁶√mol - sextic root mole. }
+  SexticRootMole : TUnit absolute SexticRootMoleUnit;
 
 { TQuinticRootMole } { @exclude }
 
@@ -12757,6 +13979,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ⁵√mol - quintic root mole. }
+  QuinticRootMole : TUnit absolute QuinticRootMoleUnit;
+
 { TQuarticRootMole } { @exclude }
 
 const
@@ -12767,6 +13993,10 @@ const
     FPluralName : rsQuarticRootMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ∜mol - quartic root mole. }
+  QuarticRootMole : TUnit absolute QuarticRootMoleUnit;
 
 { TCubicRootMole } { @exclude }
 
@@ -12779,6 +14009,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ∛mol - cubic root mole. }
+  CubicRootMole : TUnit absolute CubicRootMoleUnit;
+
 { TSquareRootMole } { @exclude }
 
 const
@@ -12789,6 +14023,10 @@ const
     FPluralName : rsSquareRootMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { √mol - square root mole. }
+  SquareRootMole : TUnit absolute SquareRootMoleUnit;
 
 { TQuarticRootCubicMole } { @exclude }
 
@@ -12801,6 +14039,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { ∜mol³ - quartic root cubic mole. }
+  QuarticRootCubicMole : TUnit absolute QuarticRootCubicMoleUnit;
+
 { TSquareRootCubicMole } { @exclude }
 
 const
@@ -12811,6 +14053,10 @@ const
     FPluralName : rsSquareRootCubicMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { √mol³ - square root cubic mole. }
+  SquareRootCubicMole : TUnit absolute SquareRootCubicMoleUnit;
 
 { TSquareMole } { @exclude }
 
@@ -12823,6 +14069,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (2));
 
+var
+  { mol² - square mole. }
+  SquareMole : TUnit absolute SquareMoleUnit;
+
 { TSquareRootQuinticMole } { @exclude }
 
 const
@@ -12833,6 +14083,10 @@ const
     FPluralName : rsSquareRootQuinticMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (5));
+
+var
+  { √mol⁵ - square root quintic mole. }
+  SquareRootQuinticMole : TUnit absolute SquareRootQuinticMoleUnit;
 
 { TCubicMole } { @exclude }
 
@@ -12845,6 +14099,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { mol³ - cubic mole. }
+  CubicMole : TUnit absolute CubicMoleUnit;
+
 { TQuarticMole } { @exclude }
 
 const
@@ -12855,6 +14113,10 @@ const
     FPluralName : rsQuarticMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (4));
+
+var
+  { mol⁴ - quartic mole. }
+  QuarticMole : TUnit absolute QuarticMoleUnit;
 
 { TQuinticMole } { @exclude }
 
@@ -12867,6 +14129,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (5));
 
+var
+  { mol⁵ - quintic mole. }
+  QuinticMole : TUnit absolute QuinticMoleUnit;
+
 { TSexticMole } { @exclude }
 
 const
@@ -12877,6 +14143,10 @@ const
     FPluralName : rsSexticMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (6));
+
+var
+  { mol⁶ - sextic mole. }
+  SexticMole : TUnit absolute SexticMoleUnit;
 
 { TSexticRootCandela } { @exclude }
 
@@ -12889,6 +14159,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ⁶√cd - sextic root candela. }
+  SexticRootCandela : TUnit absolute SexticRootCandelaUnit;
+
 { TQuinticRootCandela } { @exclude }
 
 const
@@ -12899,6 +14173,10 @@ const
     FPluralName : rsQuinticRootCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ⁵√cd - quintic root candela. }
+  QuinticRootCandela : TUnit absolute QuinticRootCandelaUnit;
 
 { TQuarticRootCandela } { @exclude }
 
@@ -12911,6 +14189,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { ∜cd - quartic root candela. }
+  QuarticRootCandela : TUnit absolute QuarticRootCandelaUnit;
+
 { TCubicRootCandela } { @exclude }
 
 const
@@ -12921,6 +14203,10 @@ const
     FPluralName : rsCubicRootCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { ∛cd - cubic root candela. }
+  CubicRootCandela : TUnit absolute CubicRootCandelaUnit;
 
 { TSquareRootCandela } { @exclude }
 
@@ -12933,6 +14219,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { √cd - square root candela. }
+  SquareRootCandela : TUnit absolute SquareRootCandelaUnit;
+
 { TQuarticRootCubicCandela } { @exclude }
 
 const
@@ -12943,6 +14233,10 @@ const
     FPluralName : rsQuarticRootCubicCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { ∜cd³ - quartic root cubic candela. }
+  QuarticRootCubicCandela : TUnit absolute QuarticRootCubicCandelaUnit;
 
 { TSquareRootCubicCandela } { @exclude }
 
@@ -12955,6 +14249,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (3));
 
+var
+  { √cd³ - square root cubic candela. }
+  SquareRootCubicCandela : TUnit absolute SquareRootCubicCandelaUnit;
+
 { TSquareCandela } { @exclude }
 
 const
@@ -12965,6 +14263,10 @@ const
     FPluralName : rsSquareCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (2));
+
+var
+  { cd² - square candela. }
+  SquareCandela : TUnit absolute SquareCandelaUnit;
 
 { TSquareRootQuinticCandela } { @exclude }
 
@@ -12977,6 +14279,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (5));
 
+var
+  { √cd⁵ - square root quintic candela. }
+  SquareRootQuinticCandela : TUnit absolute SquareRootQuinticCandelaUnit;
+
 { TCubicCandela } { @exclude }
 
 const
@@ -12987,6 +14293,10 @@ const
     FPluralName : rsCubicCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { cd³ - cubic candela. }
+  CubicCandela : TUnit absolute CubicCandelaUnit;
 
 { TQuarticCandela } { @exclude }
 
@@ -12999,6 +14309,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (4));
 
+var
+  { cd⁴ - quartic candela. }
+  QuarticCandela : TUnit absolute QuarticCandelaUnit;
+
 { TQuinticCandela } { @exclude }
 
 const
@@ -13009,6 +14323,10 @@ const
     FPluralName : rsQuinticCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (5));
+
+var
+  { cd⁵ - quintic candela. }
+  QuinticCandela : TUnit absolute QuinticCandelaUnit;
 
 { TSexticCandela } { @exclude }
 
@@ -13021,6 +14339,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (6));
 
+var
+  { cd⁶ - sextic candela. }
+  SexticCandela : TUnit absolute SexticCandelaUnit;
+
 { TSexticRootSteradian } { @exclude }
 
 const
@@ -13031,6 +14353,10 @@ const
     FPluralName : rsSexticRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { ⁶√sr - sextic root steradian. }
+  SexticRootSteradian : TUnit absolute SexticRootSteradianUnit;
 
 { TQuinticRootSteradian } { @exclude }
 
@@ -13043,6 +14369,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { ⁵√sr - quintic root steradian. }
+  QuinticRootSteradian : TUnit absolute QuinticRootSteradianUnit;
+
 { TQuarticRootSteradian } { @exclude }
 
 const
@@ -13053,6 +14383,10 @@ const
     FPluralName : rsQuarticRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { ∜sr - quartic root steradian. }
+  QuarticRootSteradian : TUnit absolute QuarticRootSteradianUnit;
 
 { TCubicRootSteradian } { @exclude }
 
@@ -13065,6 +14399,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { ∛sr - cubic root steradian. }
+  CubicRootSteradian : TUnit absolute CubicRootSteradianUnit;
+
 { TSquareRootSteradian } { @exclude }
 
 const
@@ -13075,6 +14413,10 @@ const
     FPluralName : rsSquareRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { √sr - square root steradian. }
+  SquareRootSteradian : TUnit absolute SquareRootSteradianUnit;
 
 { TQuarticRootCubicSteradian } { @exclude }
 
@@ -13087,6 +14429,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { ∜sr³ - quartic root cubic steradian. }
+  QuarticRootCubicSteradian : TUnit absolute QuarticRootCubicSteradianUnit;
+
 { TSquareRootCubicSteradian } { @exclude }
 
 const
@@ -13097,6 +14443,10 @@ const
     FPluralName : rsSquareRootCubicSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { √sr³ - square root cubic steradian. }
+  SquareRootCubicSteradian : TUnit absolute SquareRootCubicSteradianUnit;
 
 { TSquareSteradian } { @exclude }
 
@@ -13109,6 +14459,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { sr² - square steradian. }
+  SquareSteradian : TUnit absolute SquareSteradianUnit;
+
 { TSquareRootQuinticSteradian } { @exclude }
 
 const
@@ -13119,6 +14473,10 @@ const
     FPluralName : rsSquareRootQuinticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { √sr⁵ - square root quintic steradian. }
+  SquareRootQuinticSteradian : TUnit absolute SquareRootQuinticSteradianUnit;
 
 { TCubicSteradian } { @exclude }
 
@@ -13131,6 +14489,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { sr³ - cubic steradian. }
+  CubicSteradian : TUnit absolute CubicSteradianUnit;
+
 { TQuarticSteradian } { @exclude }
 
 const
@@ -13141,6 +14503,10 @@ const
     FPluralName : rsQuarticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { sr⁴ - quartic steradian. }
+  QuarticSteradian : TUnit absolute QuarticSteradianUnit;
 
 { TQuinticSteradian } { @exclude }
 
@@ -13153,6 +14519,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { sr⁵ - quintic steradian. }
+  QuinticSteradian : TUnit absolute QuinticSteradianUnit;
+
 { TSexticSteradian } { @exclude }
 
 const
@@ -13163,6 +14533,10 @@ const
     FPluralName : rsSexticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { sr⁶ - sextic steradian. }
+  SexticSteradian : TUnit absolute SexticSteradianUnit;
 
 { TReciprocalCubicSecond } { @exclude }
 
@@ -13175,6 +14549,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/s³ - reciprocal cubic second. }
+  ReciprocalCubicSecond : TUnit absolute ReciprocalCubicSecondUnit;
+
 { TReciprocalQuarticSecond } { @exclude }
 
 const
@@ -13185,6 +14563,10 @@ const
     FPluralName : rsReciprocalQuarticSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-4));
+
+var
+  { 1/s⁴ - reciprocal quartic second. }
+  ReciprocalQuarticSecond : TUnit absolute ReciprocalQuarticSecondUnit;
 
 { TReciprocalQuinticSecond } { @exclude }
 
@@ -13197,6 +14579,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-5));
 
+var
+  { 1/s⁵ - reciprocal quintic second. }
+  ReciprocalQuinticSecond : TUnit absolute ReciprocalQuinticSecondUnit;
+
 { TReciprocalSexticSecond } { @exclude }
 
 const
@@ -13207,6 +14593,10 @@ const
     FPluralName : rsReciprocalSexticSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-6));
+
+var
+  { 1/s⁶ - reciprocal sextic second. }
+  ReciprocalSexticSecond : TUnit absolute ReciprocalSexticSecondUnit;
 
 { TSquareKilogramSquareMeter } { @exclude }
 
@@ -13219,6 +14609,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 2));
 
+var
+  { kg².m² - square kilogram square meter. }
+  SquareKilogramSquareMeter : TUnit absolute SquareKilogramSquareMeterUnit;
+
 { TSquareMeterPerQuarticSecond } { @exclude }
 
 const
@@ -13229,6 +14623,10 @@ const
     FPluralName : rsSquareMeterPerQuarticSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -4));
+
+var
+  { m²/s⁴ - square meter per quartic second. }
+  SquareMeterPerQuarticSecond : TUnit absolute SquareMeterPerQuarticSecondUnit;
 
 { TSquareKilogramPerQuarticSecond } { @exclude }
 
@@ -13241,6 +14639,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -4));
 
+var
+  { kg²/s⁴ - square kilogram per quartic second. }
+  SquareKilogramPerQuarticSecond : TUnit absolute SquareKilogramPerQuarticSecondUnit;
+
 { TReciprocalMeterSquareSecond } { @exclude }
 
 const
@@ -13251,6 +14653,10 @@ const
     FPluralName : rsReciprocalMeterSquareSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -2));
+
+var
+  { 1/m/s² - reciprocal meter square second. }
+  ReciprocalMeterSquareSecond : TUnit absolute ReciprocalMeterSquareSecondUnit;
 
 { TMeterAmpere } { @exclude }
 
@@ -13263,6 +14669,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
 
+var
+  { m.A - meter ampere. }
+  MeterAmpere : TUnit absolute MeterAmpereUnit;
+
 { TSquareMeterPerCubicSecondPerAmpere } { @exclude }
 
 const
@@ -13273,6 +14683,10 @@ const
     FPluralName : rsSquareMeterPerCubicSecondPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -3, -1));
+
+var
+  { m²/s³/A - square meter per cubic second per ampere. }
+  SquareMeterPerCubicSecondPerAmpere : TUnit absolute SquareMeterPerCubicSecondPerAmpereUnit;
 
 { TKilogramPerCubicSecondPerAmpere } { @exclude }
 
@@ -13285,6 +14699,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -3, -1));
 
+var
+  { kg/s³/A - kilogram per cubic second per ampere. }
+  KilogramPerCubicSecondPerAmpere : TUnit absolute KilogramPerCubicSecondPerAmpereUnit;
+
 { TKilogramSquareMeterPerAmpere } { @exclude }
 
 const
@@ -13295,6 +14713,10 @@ const
     FPluralName : rsKilogramSquareMeterPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -1));
+
+var
+  { kg.m²/A - kilogram square meter per ampere. }
+  KilogramSquareMeterPerAmpere : TUnit absolute KilogramSquareMeterPerAmpereUnit;
 
 { TQuarticMeterPerSexticSecondPerSquareAmpere } { @exclude }
 
@@ -13307,6 +14729,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, -6, -2));
 
+var
+  { m⁴/s⁶/A² - quartic meter per sextic second per square ampere. }
+  QuarticMeterPerSexticSecondPerSquareAmpere : TUnit absolute QuarticMeterPerSexticSecondPerSquareAmpereUnit;
+
 { TSquareKilogramPerSexticSecondPerSquareAmpere } { @exclude }
 
 const
@@ -13317,6 +14743,10 @@ const
     FPluralName : rsSquareKilogramPerSexticSecondPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -6, -2));
+
+var
+  { kg²/s⁶/A² - square kilogram per sextic second per square ampere. }
+  SquareKilogramPerSexticSecondPerSquareAmpere : TUnit absolute SquareKilogramPerSexticSecondPerSquareAmpereUnit;
 
 { TSquareKilogramQuarticMeterPerSquareAmpere } { @exclude }
 
@@ -13329,6 +14759,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 4, -2));
 
+var
+  { kg².m⁴/A² - square kilogram quartic meter per square ampere. }
+  SquareKilogramQuarticMeterPerSquareAmpere : TUnit absolute SquareKilogramQuarticMeterPerSquareAmpereUnit;
+
 { TSquareKilogramQuarticMeterPerSexticSecond } { @exclude }
 
 const
@@ -13339,6 +14773,10 @@ const
     FPluralName : rsSquareKilogramQuarticMeterPerSexticSecondPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 4, -6));
+
+var
+  { kg².m⁴/s⁶ - square kilogram quartic meter per sextic second. }
+  SquareKilogramQuarticMeterPerSexticSecond : TUnit absolute SquareKilogramQuarticMeterPerSexticSecondUnit;
 
 { TQuarticSecondSquareAmperePerSquareMeter } { @exclude }
 
@@ -13351,6 +14789,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, 2, -2));
 
+var
+  { s⁴.A²/m² - quartic second square ampere per square meter. }
+  QuarticSecondSquareAmperePerSquareMeter : TUnit absolute QuarticSecondSquareAmperePerSquareMeterUnit;
+
 { TQuarticSecondSquareAmperePerKilogram } { @exclude }
 
 const
@@ -13361,6 +14803,10 @@ const
     FPluralName : rsQuarticSecondSquareAmperePerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, 2, -1));
+
+var
+  { s⁴.A²/kg - quartic second square ampere per kilogram. }
+  QuarticSecondSquareAmperePerKilogram : TUnit absolute QuarticSecondSquareAmperePerKilogramUnit;
 
 { TSquareAmperePerKilogramPerSquareMeter } { @exclude }
 
@@ -13373,6 +14819,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -2));
 
+var
+  { A²/kg/m² - square ampere per kilogram per square meter. }
+  SquareAmperePerKilogramPerSquareMeter : TUnit absolute SquareAmperePerKilogramPerSquareMeterUnit;
+
 { TQuarticSecondPerKilogramPerSquareMeter } { @exclude }
 
 const
@@ -13383,6 +14833,10 @@ const
     FPluralName : rsQuarticSecondPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, -1, -2));
+
+var
+  { s⁴/kg/m² - quartic second per kilogram per square meter. }
+  QuarticSecondPerKilogramPerSquareMeter : TUnit absolute QuarticSecondPerKilogramPerSquareMeterUnit;
 
 { TSquareMeterPerCubicSecondPerSquareAmpere } { @exclude }
 
@@ -13395,6 +14849,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -3, -2));
 
+var
+  { m²/s³/A² - square meter per cubic second per square ampere. }
+  SquareMeterPerCubicSecondPerSquareAmpere : TUnit absolute SquareMeterPerCubicSecondPerSquareAmpereUnit;
+
 { TKilogramPerCubicSecondPerSquareAmpere } { @exclude }
 
 const
@@ -13405,6 +14863,10 @@ const
     FPluralName : rsKilogramPerCubicSecondPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -3, -2));
+
+var
+  { kg/s³/A² - kilogram per cubic second per square ampere. }
+  KilogramPerCubicSecondPerSquareAmpere : TUnit absolute KilogramPerCubicSecondPerSquareAmpereUnit;
 
 { TKilogramSquareMeterPerSquareAmpere } { @exclude }
 
@@ -13417,6 +14879,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -2));
 
+var
+  { kg.m²/A² - kilogram square meter per square ampere. }
+  KilogramSquareMeterPerSquareAmpere : TUnit absolute KilogramSquareMeterPerSquareAmpereUnit;
+
 { TCubicSecondSquareAmperePerSquareMeter } { @exclude }
 
 const
@@ -13427,6 +14893,10 @@ const
     FPluralName : rsCubicSecondSquareAmperePerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 2, -2));
+
+var
+  { s³.A²/m² - cubic second square ampere per square meter. }
+  CubicSecondSquareAmperePerSquareMeter : TUnit absolute CubicSecondSquareAmperePerSquareMeterUnit;
 
 { TCubicSecondSquareAmperePerKilogram } { @exclude }
 
@@ -13439,6 +14909,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 2, -1));
 
+var
+  { s³.A²/kg - cubic second square ampere per kilogram. }
+  CubicSecondSquareAmperePerKilogram : TUnit absolute CubicSecondSquareAmperePerKilogramUnit;
+
 { TCubicSecondSquareAmperePerCubicMeter } { @exclude }
 
 const
@@ -13449,6 +14923,10 @@ const
     FPluralName : rsCubicSecondSquareAmperePerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 2, -3));
+
+var
+  { s³.A²/m³ - cubic second square ampere per cubic meter. }
+  CubicSecondSquareAmperePerCubicMeter : TUnit absolute CubicSecondSquareAmperePerCubicMeterUnit;
 
 { TSquareAmperePerKilogramPerCubicMeter } { @exclude }
 
@@ -13461,6 +14939,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -3));
 
+var
+  { A²/kg/m³ - square ampere per kilogram per cubic meter. }
+  SquareAmperePerKilogramPerCubicMeter : TUnit absolute SquareAmperePerKilogramPerCubicMeterUnit;
+
 { TCubicSecondPerKilogramPerCubicMeter } { @exclude }
 
 const
@@ -13471,6 +14953,10 @@ const
     FPluralName : rsCubicSecondPerKilogramPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -3));
+
+var
+  { s³/kg/m³ - cubic second per kilogram per cubic meter. }
+  CubicSecondPerKilogramPerCubicMeter : TUnit absolute CubicSecondPerKilogramPerCubicMeterUnit;
 
 { TReciprocalSquareSecondAmpere } { @exclude }
 
@@ -13483,6 +14969,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -1));
 
+var
+  { 1/s²/A - reciprocal square second ampere. }
+  ReciprocalSquareSecondAmpere : TUnit absolute ReciprocalSquareSecondAmpereUnit;
+
 { TKilogramPerAmpere } { @exclude }
 
 const
@@ -13493,6 +14983,10 @@ const
     FPluralName : rsKilogramPerAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { kg/A - kilogram per ampere. }
+  KilogramPerAmpere : TUnit absolute KilogramPerAmpereUnit;
 
 { TSquareMeterPerSquareSecondPerAmpere } { @exclude }
 
@@ -13505,6 +14999,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -2, -1));
 
+var
+  { m²/s²/A - square meter per square second per ampere. }
+  SquareMeterPerSquareSecondPerAmpere : TUnit absolute SquareMeterPerSquareSecondPerAmpereUnit;
+
 { TSquareSecondSquareAmperePerSquareMeter } { @exclude }
 
 const
@@ -13515,6 +15013,10 @@ const
     FPluralName : rsSquareSecondSquareAmperePerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 2, -2));
+
+var
+  { s².A²/m² - square second square ampere per square meter. }
+  SquareSecondSquareAmperePerSquareMeter : TUnit absolute SquareSecondSquareAmperePerSquareMeterUnit;
 
 { TSquareSecondSquareAmperePerKilogram } { @exclude }
 
@@ -13527,6 +15029,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 2, -1));
 
+var
+  { s².A²/kg - square second square ampere per kilogram. }
+  SquareSecondSquareAmperePerKilogram : TUnit absolute SquareSecondSquareAmperePerKilogramUnit;
+
 { TSquareSecondPerKilogramPerSquareMeter } { @exclude }
 
 const
@@ -13537,6 +15043,10 @@ const
     FPluralName : rsSquareSecondPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -2));
+
+var
+  { s²/kg/m² - square second per kilogram per square meter. }
+  SquareSecondPerKilogramPerSquareMeter : TUnit absolute SquareSecondPerKilogramPerSquareMeterUnit;
 
 { TSecondSteradian } { @exclude }
 
@@ -13549,6 +15059,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { s.sr - second steradian. }
+  SecondSteradian : TUnit absolute SecondSteradianUnit;
+
 { TSecondCandela } { @exclude }
 
 const
@@ -13559,6 +15073,10 @@ const
     FPluralName : rsSecondCandelaPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
+
+var
+  { s.cd - second candela. }
+  SecondCandela : TUnit absolute SecondCandelaUnit;
 
 { TCandelaSteradianPerCubicMeter } { @exclude }
 
@@ -13571,6 +15089,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
+var
+  { cd.sr/m³ - candela steradian per cubic meter. }
+  CandelaSteradianPerCubicMeter : TUnit absolute CandelaSteradianPerCubicMeterUnit;
+
 { TSecondSteradianPerCubicMeter } { @exclude }
 
 const
@@ -13581,6 +15103,10 @@ const
     FPluralName : rsSecondSteradianPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
+
+var
+  { s.sr/m³ - second steradian per cubic meter. }
+  SecondSteradianPerCubicMeter : TUnit absolute SecondSteradianPerCubicMeterUnit;
 
 { TSecondCandelaPerCubicMeter } { @exclude }
 
@@ -13593,6 +15119,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -3));
 
+var
+  { s.cd/m³ - second candela per cubic meter. }
+  SecondCandelaPerCubicMeter : TUnit absolute SecondCandelaPerCubicMeterUnit;
+
 { TSteradianPerSquareMeter } { @exclude }
 
 const
@@ -13603,6 +15133,10 @@ const
     FPluralName : rsSteradianPerSquareMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
+
+var
+  { sr/m² - steradian per square meter. }
+  SteradianPerSquareMeter : TUnit absolute SteradianPerSquareMeterUnit;
 
 { TSecondSteradianPerSquareMeter } { @exclude }
 
@@ -13615,6 +15149,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { s.sr/m² - second steradian per square meter. }
+  SecondSteradianPerSquareMeter : TUnit absolute SecondSteradianPerSquareMeterUnit;
+
 { TSecondCandelaPerSquareMeter } { @exclude }
 
 const
@@ -13625,6 +15163,10 @@ const
     FPluralName : rsSecondCandelaPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -2));
+
+var
+  { s.cd/m² - second candela per square meter. }
+  SecondCandelaPerSquareMeter : TUnit absolute SecondCandelaPerSquareMeterUnit;
 
 { TReciprocalSquareMeterSquareSecond } { @exclude }
 
@@ -13637,6 +15179,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -2));
 
+var
+  { 1/m²/s² - reciprocal square meter square second. }
+  ReciprocalSquareMeterSquareSecond : TUnit absolute ReciprocalSquareMeterSquareSecondUnit;
+
 { TReciprocalMeterSecond } { @exclude }
 
 const
@@ -13647,6 +15193,10 @@ const
     FPluralName : rsReciprocalMeterSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
+
+var
+  { 1/m/s - reciprocal meter second. }
+  ReciprocalMeterSecond : TUnit absolute ReciprocalMeterSecondUnit;
 
 { TReciprocalQuarticMeterSecond } { @exclude }
 
@@ -13659,6 +15209,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-4, -1));
 
+var
+  { 1/m⁴/s - reciprocal quartic meter second. }
+  ReciprocalQuarticMeterSecond : TUnit absolute ReciprocalQuarticMeterSecondUnit;
+
 { TReciprocalKilogram } { @exclude }
 
 const
@@ -13669,6 +15223,10 @@ const
     FPluralName : rsReciprocalKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/kg - reciprocal kilogram. }
+  ReciprocalKilogram : TUnit absolute ReciprocalKilogramUnit;
 
 { TKilogramCubicMeter } { @exclude }
 
@@ -13681,6 +15239,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 3));
 
+var
+  { kg.m³ - kilogram cubic meter. }
+  KilogramCubicMeter : TUnit absolute KilogramCubicMeterUnit;
+
 { TQuarticMeterPerSquareSecond } { @exclude }
 
 const
@@ -13691,6 +15253,10 @@ const
     FPluralName : rsQuarticMeterPerSquareSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -2));
+
+var
+  { m⁴/s² - quartic meter per square second. }
+  QuarticMeterPerSquareSecond : TUnit absolute QuarticMeterPerSquareSecondUnit;
 
 { TKilogramQuarticMeter } { @exclude }
 
@@ -13703,6 +15269,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 4));
 
+var
+  { kg.m⁴ - kilogram quartic meter. }
+  KilogramQuarticMeter : TUnit absolute KilogramQuarticMeterUnit;
+
 { TReciprocalKilogramSquareSecond } { @exclude }
 
 const
@@ -13713,6 +15283,10 @@ const
     FPluralName : rsReciprocalKilogramSquareSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -2));
+
+var
+  { 1/kg/s² - reciprocal kilogram square second. }
+  ReciprocalKilogramSquareSecond : TUnit absolute ReciprocalKilogramSquareSecondUnit;
 
 { TMeterPerKilogram } { @exclude }
 
@@ -13725,6 +15299,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { m/kg - meter per kilogram. }
+  MeterPerKilogram : TUnit absolute MeterPerKilogramUnit;
+
 { TReciprocalSquareKilogram } { @exclude }
 
 const
@@ -13735,6 +15313,10 @@ const
     FPluralName : rsReciprocalSquareKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
+
+var
+  { 1/kg² - reciprocal square kilogram. }
+  ReciprocalSquareKilogram : TUnit absolute ReciprocalSquareKilogramUnit;
 
 { TKilogramPerSquareSecondPerKelvin } { @exclude }
 
@@ -13747,6 +15329,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -2, -1));
 
+var
+  { kg/s²/K - kilogram per square second per kelvin. }
+  KilogramPerSquareSecondPerKelvin : TUnit absolute KilogramPerSquareSecondPerKelvinUnit;
+
 { TKilogramSquareMeterPerKelvin } { @exclude }
 
 const
@@ -13757,6 +15343,10 @@ const
     FPluralName : rsKilogramSquareMeterPerKelvinPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -1));
+
+var
+  { kg.m²/K - kilogram square meter per kelvin. }
+  KilogramSquareMeterPerKelvin : TUnit absolute KilogramSquareMeterPerKelvinUnit;
 
 { TReciprocalSquareSecondKelvin } { @exclude }
 
@@ -13769,6 +15359,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -1));
 
+var
+  { 1/s²/K - reciprocal square second kelvin. }
+  ReciprocalSquareSecondKelvin : TUnit absolute ReciprocalSquareSecondKelvinUnit;
+
 { TSquareMeterPerKelvin } { @exclude }
 
 const
@@ -13779,6 +15373,10 @@ const
     FPluralName : rsSquareMeterPerKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
+
+var
+  { m²/K - square meter per kelvin. }
+  SquareMeterPerKelvin : TUnit absolute SquareMeterPerKelvinUnit;
 
 { TReciprocalMeterCubicSecond } { @exclude }
 
@@ -13791,6 +15389,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -3));
 
+var
+  { 1/m/s³ - reciprocal meter cubic second. }
+  ReciprocalMeterCubicSecond : TUnit absolute ReciprocalMeterCubicSecondUnit;
+
 { TSquareMeterPerCubicSecondPerKelvin } { @exclude }
 
 const
@@ -13801,6 +15403,10 @@ const
     FPluralName : rsSquareMeterPerCubicSecondPerKelvinPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -3, -1));
+
+var
+  { m²/s³/K - square meter per cubic second per kelvin. }
+  SquareMeterPerCubicSecondPerKelvin : TUnit absolute SquareMeterPerCubicSecondPerKelvinUnit;
 
 { TMeterPerCubicSecondPerKelvin } { @exclude }
 
@@ -13813,6 +15419,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -3, -1));
 
+var
+  { m/s³/K - meter per cubic second per kelvin. }
+  MeterPerCubicSecondPerKelvin : TUnit absolute MeterPerCubicSecondPerKelvinUnit;
+
 { TKilogramMeterPerKelvin } { @exclude }
 
 const
@@ -13823,6 +15433,10 @@ const
     FPluralName : rsKilogramMeterPerKelvinPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -1));
+
+var
+  { kg.m/K - kilogram meter per kelvin. }
+  KilogramMeterPerKelvin : TUnit absolute KilogramMeterPerKelvinUnit;
 
 { TCubicSecondKelvinPerSquareMeter } { @exclude }
 
@@ -13835,6 +15449,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -2));
 
+var
+  { s³.K/m² - cubic second kelvin per square meter. }
+  CubicSecondKelvinPerSquareMeter : TUnit absolute CubicSecondKelvinPerSquareMeterUnit;
+
 { TCubicSecondKelvinPerKilogram } { @exclude }
 
 const
@@ -13845,6 +15463,10 @@ const
     FPluralName : rsCubicSecondKelvinPerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -1));
+
+var
+  { s³.K/kg - cubic second kelvin per kilogram. }
+  CubicSecondKelvinPerKilogram : TUnit absolute CubicSecondKelvinPerKilogramUnit;
 
 { TKelvinPerKilogramPerSquareMeter } { @exclude }
 
@@ -13857,6 +15479,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -2));
 
+var
+  { K/kg/m² - kelvin per kilogram per square meter. }
+  KelvinPerKilogramPerSquareMeter : TUnit absolute KelvinPerKilogramPerSquareMeterUnit;
+
 { TCubicSecondPerMeter } { @exclude }
 
 const
@@ -13867,6 +15493,10 @@ const
     FPluralName : rsCubicSecondPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
+
+var
+  { s³/m - cubic second per meter. }
+  CubicSecondPerMeter : TUnit absolute CubicSecondPerMeterUnit;
 
 { TCubicSecondPerKilogram } { @exclude }
 
@@ -13879,6 +15509,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
 
+var
+  { s³/kg - cubic second per kilogram. }
+  CubicSecondPerKilogram : TUnit absolute CubicSecondPerKilogramUnit;
+
 { TReciprocalKilogramMeter } { @exclude }
 
 const
@@ -13889,6 +15523,10 @@ const
     FPluralName : rsReciprocalKilogramMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
+
+var
+  { 1/kg/m - reciprocal kilogram meter. }
+  ReciprocalKilogramMeter : TUnit absolute ReciprocalKilogramMeterUnit;
 
 { TCubicSecondKelvinPerMeter } { @exclude }
 
@@ -13901,6 +15539,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -1));
 
+var
+  { s³.K/m - cubic second kelvin per meter. }
+  CubicSecondKelvinPerMeter : TUnit absolute CubicSecondKelvinPerMeterUnit;
+
 { TKelvinPerKilogramPerMeter } { @exclude }
 
 const
@@ -13911,6 +15553,10 @@ const
     FPluralName : rsKelvinPerKilogramPerMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
+
+var
+  { K/kg/m - kelvin per kilogram per meter. }
+  KelvinPerKilogramPerMeter : TUnit absolute KelvinPerKilogramPerMeterUnit;
 
 { TReciprocalCubicSecondKelvin } { @exclude }
 
@@ -13923,6 +15569,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-3, -1));
 
+var
+  { 1/s³/K - reciprocal cubic second kelvin. }
+  ReciprocalCubicSecondKelvin : TUnit absolute ReciprocalCubicSecondKelvinUnit;
+
 { TKilogramPerKelvin } { @exclude }
 
 const
@@ -13933,6 +15583,10 @@ const
     FPluralName : rsKilogramPerKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { kg/K - kilogram per kelvin. }
+  KilogramPerKelvin : TUnit absolute KilogramPerKelvinUnit;
 
 { TSquareMeterPerCubicSecondPerQuarticKelvin } { @exclude }
 
@@ -13945,6 +15599,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -3, -4));
 
+var
+  { m²/s³/K⁴ - square meter per cubic second per quartic kelvin. }
+  SquareMeterPerCubicSecondPerQuarticKelvin : TUnit absolute SquareMeterPerCubicSecondPerQuarticKelvinUnit;
+
 { TKilogramSquareMeterPerQuarticKelvin } { @exclude }
 
 const
@@ -13955,6 +15613,10 @@ const
     FPluralName : rsKilogramSquareMeterPerQuarticKelvinPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -4));
+
+var
+  { kg.m²/K⁴ - kilogram square meter per quartic kelvin. }
+  KilogramSquareMeterPerQuarticKelvin : TUnit absolute KilogramSquareMeterPerQuarticKelvinUnit;
 
 { TReciprocalCubicSecondQuarticKelvin } { @exclude }
 
@@ -13967,6 +15629,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-3, -4));
 
+var
+  { 1/s³/K⁴ - reciprocal cubic second quartic kelvin. }
+  ReciprocalCubicSecondQuarticKelvin : TUnit absolute ReciprocalCubicSecondQuarticKelvinUnit;
+
 { TKilogramPerQuarticKelvin } { @exclude }
 
 const
@@ -13977,6 +15643,10 @@ const
     FPluralName : rsKilogramPerQuarticKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -4));
+
+var
+  { kg/K⁴ - kilogram per quartic kelvin. }
+  KilogramPerQuarticKelvin : TUnit absolute KilogramPerQuarticKelvinUnit;
 
 { TSquareMeterPerSquareSecondPerMole } { @exclude }
 
@@ -13989,6 +15659,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -2, -1));
 
+var
+  { m²/s²/mol - square meter per square second per mole. }
+  SquareMeterPerSquareSecondPerMole : TUnit absolute SquareMeterPerSquareSecondPerMoleUnit;
+
 { TKilogramPerSquareSecondPerMole } { @exclude }
 
 const
@@ -13999,6 +15673,10 @@ const
     FPluralName : rsKilogramPerSquareSecondPerMolePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -2, -1));
+
+var
+  { kg/s²/mol - kilogram per square second per mole. }
+  KilogramPerSquareSecondPerMole : TUnit absolute KilogramPerSquareSecondPerMoleUnit;
 
 { TKilogramSquareMeterPerMole } { @exclude }
 
@@ -14011,6 +15689,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -1));
 
+var
+  { kg.m²/mol - kilogram square meter per mole. }
+  KilogramSquareMeterPerMole : TUnit absolute KilogramSquareMeterPerMoleUnit;
+
 { TSquareMeterPerSquareSecondPerKelvinPerMole } { @exclude }
 
 const
@@ -14021,6 +15703,10 @@ const
     FPluralName : rsSquareMeterPerSquareSecondPerKelvinPerMolePluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (2, -2, -1, -1));
+
+var
+  { m²/s²/K/mol - square meter per square second per kelvin per mole. }
+  SquareMeterPerSquareSecondPerKelvinPerMole : TUnit absolute SquareMeterPerSquareSecondPerKelvinPerMoleUnit;
 
 { TKilogramPerSquareSecondPerKelvinPerMole } { @exclude }
 
@@ -14033,6 +15719,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (1, -2, -1, -1));
 
+var
+  { kg/s²/K/mol - kilogram per square second per kelvin per mole. }
+  KilogramPerSquareSecondPerKelvinPerMole : TUnit absolute KilogramPerSquareSecondPerKelvinPerMoleUnit;
+
 { TKilogramSquareMeterPerKelvinPerMole } { @exclude }
 
 const
@@ -14043,6 +15733,10 @@ const
     FPluralName : rsKilogramSquareMeterPerKelvinPerMolePluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (1, 2, -1, -1));
+
+var
+  { kg.m²/K/mol - kilogram square meter per kelvin per mole. }
+  KilogramSquareMeterPerKelvinPerMole : TUnit absolute KilogramSquareMeterPerKelvinPerMoleUnit;
 
 { TCubicMeterPerCubicSecondPerSquareAmpere } { @exclude }
 
@@ -14055,6 +15749,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -3, -2));
 
+var
+  { m³/s³/A² - cubic meter per cubic second per square ampere. }
+  CubicMeterPerCubicSecondPerSquareAmpere : TUnit absolute CubicMeterPerCubicSecondPerSquareAmpereUnit;
+
 { TKilogramCubicMeterPerSquareAmpere } { @exclude }
 
 const
@@ -14065,6 +15763,10 @@ const
     FPluralName : rsKilogramCubicMeterPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 3, -2));
+
+var
+  { kg.m³/A² - kilogram cubic meter per square ampere. }
+  KilogramCubicMeterPerSquareAmpere : TUnit absolute KilogramCubicMeterPerSquareAmpereUnit;
 
 { TKilogramCubicMeterPerCubicSecond } { @exclude }
 
@@ -14077,6 +15779,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 3, -3));
 
+var
+  { kg.m³/s³ - kilogram cubic meter per cubic second. }
+  KilogramCubicMeterPerCubicSecond : TUnit absolute KilogramCubicMeterPerCubicSecondUnit;
+
 { TMeterPerCubicSecondPerAmpere } { @exclude }
 
 const
@@ -14087,6 +15793,10 @@ const
     FPluralName : rsMeterPerCubicSecondPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -3, -1));
+
+var
+  { m/s³/A - meter per cubic second per ampere. }
+  MeterPerCubicSecondPerAmpere : TUnit absolute MeterPerCubicSecondPerAmpereUnit;
 
 { TKilogramMeterPerAmpere } { @exclude }
 
@@ -14099,6 +15809,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -1));
 
+var
+  { kg.m/A - kilogram meter per ampere. }
+  KilogramMeterPerAmpere : TUnit absolute KilogramMeterPerAmpereUnit;
+
 { TSquareAmperePerMeter } { @exclude }
 
 const
@@ -14109,6 +15823,10 @@ const
     FPluralName : rsSquareAmperePerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
+
+var
+  { A²/m - square ampere per meter. }
+  SquareAmperePerMeter : TUnit absolute SquareAmperePerMeterUnit;
 
 { TSquareSecondPerMeter } { @exclude }
 
@@ -14121,6 +15839,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
+var
+  { s²/m - square second per meter. }
+  SquareSecondPerMeter : TUnit absolute SquareSecondPerMeterUnit;
+
 { TSecondPerSquareMeter } { @exclude }
 
 const
@@ -14131,6 +15853,10 @@ const
     FPluralName : rsSecondPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
+
+var
+  { s/m² - second per square meter. }
+  SecondPerSquareMeter : TUnit absolute SecondPerSquareMeterUnit;
 
 { TReciprocalSquareSecondSquareAmpere } { @exclude }
 
@@ -14143,6 +15869,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -2));
 
+var
+  { 1/s²/A² - reciprocal square second square ampere. }
+  ReciprocalSquareSecondSquareAmpere : TUnit absolute ReciprocalSquareSecondSquareAmpereUnit;
+
 { TSquareMeterPerSquareAmpere } { @exclude }
 
 const
@@ -14153,6 +15883,10 @@ const
     FPluralName : rsSquareMeterPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
+
+var
+  { m²/A² - square meter per square ampere. }
+  SquareMeterPerSquareAmpere : TUnit absolute SquareMeterPerSquareAmpereUnit;
 
 { TMeterPerQuarticSecondPerSquareAmpere } { @exclude }
 
@@ -14165,6 +15899,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -4, -2));
 
+var
+  { m/s⁴/A² - meter per quartic second per square ampere. }
+  MeterPerQuarticSecondPerSquareAmpere : TUnit absolute MeterPerQuarticSecondPerSquareAmpereUnit;
+
 { TKilogramPerQuarticSecondPerSquareAmpere } { @exclude }
 
 const
@@ -14175,6 +15913,10 @@ const
     FPluralName : rsKilogramPerQuarticSecondPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -4, -2));
+
+var
+  { kg/s⁴/A² - kilogram per quartic second per square ampere. }
+  KilogramPerQuarticSecondPerSquareAmpere : TUnit absolute KilogramPerQuarticSecondPerSquareAmpereUnit;
 
 { TKilogramMeterPerSquareAmpere } { @exclude }
 
@@ -14187,6 +15929,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -2));
 
+var
+  { kg.m/A² - kilogram meter per square ampere. }
+  KilogramMeterPerSquareAmpere : TUnit absolute KilogramMeterPerSquareAmpereUnit;
+
 { TKilogramMeterPerQuarticSecond } { @exclude }
 
 const
@@ -14197,6 +15943,10 @@ const
     FPluralName : rsKilogramMeterPerQuarticSecondPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -4));
+
+var
+  { kg.m/s⁴ - kilogram meter per quartic second. }
+  KilogramMeterPerQuarticSecond : TUnit absolute KilogramMeterPerQuarticSecondUnit;
 
 { TCubicMeterPerQuarticSecondPerSquareAmpere } { @exclude }
 
@@ -14209,6 +15959,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -4, -2));
 
+var
+  { m³/s⁴/A² - cubic meter per quartic second per square ampere. }
+  CubicMeterPerQuarticSecondPerSquareAmpere : TUnit absolute CubicMeterPerQuarticSecondPerSquareAmpereUnit;
+
 { TKilogramCubicMeterPerQuarticSecond } { @exclude }
 
 const
@@ -14219,6 +15973,10 @@ const
     FPluralName : rsKilogramCubicMeterPerQuarticSecondPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 3, -4));
+
+var
+  { kg.m³/s⁴ - kilogram cubic meter per quartic second. }
+  KilogramCubicMeterPerQuarticSecond : TUnit absolute KilogramCubicMeterPerQuarticSecondUnit;
 
 { TCubicMeterPerCubicSecondPerAmpere } { @exclude }
 
@@ -14231,6 +15989,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -3, -1));
 
+var
+  { m³/s³/A - cubic meter per cubic second per ampere. }
+  CubicMeterPerCubicSecondPerAmpere : TUnit absolute CubicMeterPerCubicSecondPerAmpereUnit;
+
 { TKilogramCubicMeterPerAmpere } { @exclude }
 
 const
@@ -14241,6 +16003,10 @@ const
     FPluralName : rsKilogramCubicMeterPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 3, -1));
+
+var
+  { kg.m³/A - kilogram cubic meter per ampere. }
+  KilogramCubicMeterPerAmpere : TUnit absolute KilogramCubicMeterPerAmpereUnit;
 
 { TCubicMeterPerQuarticSecondPerAmpere } { @exclude }
 
@@ -14253,6 +16019,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -4, -1));
 
+var
+  { m³/s⁴/A - cubic meter per quartic second per ampere. }
+  CubicMeterPerQuarticSecondPerAmpere : TUnit absolute CubicMeterPerQuarticSecondPerAmpereUnit;
+
 { TKilogramPerQuarticSecondPerAmpere } { @exclude }
 
 const
@@ -14263,6 +16033,10 @@ const
     FPluralName : rsKilogramPerQuarticSecondPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -4, -1));
+
+var
+  { kg/s⁴/A - kilogram per quartic second per ampere. }
+  KilogramPerQuarticSecondPerAmpere : TUnit absolute KilogramPerQuarticSecondPerAmpereUnit;
 
 { TQuarticSecondSquareAmperePerCubicMeter } { @exclude }
 
@@ -14275,6 +16049,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, 2, -3));
 
+var
+  { s⁴.A²/m³ - quartic second square ampere per cubic meter. }
+  QuarticSecondSquareAmperePerCubicMeter : TUnit absolute QuarticSecondSquareAmperePerCubicMeterUnit;
+
 { TQuarticSecondPerKilogramPerCubicMeter } { @exclude }
 
 const
@@ -14285,6 +16063,10 @@ const
     FPluralName : rsQuarticSecondPerKilogramPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, -1, -3));
+
+var
+  { s⁴/kg/m³ - quartic second per kilogram per cubic meter. }
+  QuarticSecondPerKilogramPerCubicMeter : TUnit absolute QuarticSecondPerKilogramPerCubicMeterUnit;
 
 { TReciprocalAmpere } { @exclude }
 
@@ -14297,6 +16079,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/A - reciprocal ampere. }
+  ReciprocalAmpere : TUnit absolute ReciprocalAmpereUnit;
+
 { TMeterPerSquareSecondPerAmpere } { @exclude }
 
 const
@@ -14307,6 +16093,10 @@ const
     FPluralName : rsMeterPerSquareSecondPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -2, -1));
+
+var
+  { m/s²/A - meter per square second per ampere. }
+  MeterPerSquareSecondPerAmpere : TUnit absolute MeterPerSquareSecondPerAmpereUnit;
 
 { TKilogramPerSquareAmpere } { @exclude }
 
@@ -14319,6 +16109,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
 
+var
+  { kg/A² - kilogram per square ampere. }
+  KilogramPerSquareAmpere : TUnit absolute KilogramPerSquareAmpereUnit;
+
 { TMeterPerSquareSecondPerSquareAmpere } { @exclude }
 
 const
@@ -14329,6 +16123,10 @@ const
     FPluralName : rsMeterPerSquareSecondPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -2, -2));
+
+var
+  { m/s²/A² - meter per square second per square ampere. }
+  MeterPerSquareSecondPerSquareAmpere : TUnit absolute MeterPerSquareSecondPerSquareAmpereUnit;
 
 { TQuarticMeterPerQuarticSecond } { @exclude }
 
@@ -14341,6 +16139,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -4));
 
+var
+  { m⁴/s⁴ - quartic meter per quartic second. }
+  QuarticMeterPerQuarticSecond : TUnit absolute QuarticMeterPerQuarticSecondUnit;
+
 { TSquareKilogramQuarticMeter } { @exclude }
 
 const
@@ -14351,6 +16153,10 @@ const
     FPluralName : rsSquareKilogramQuarticMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 4));
+
+var
+  { kg².m⁴ - square kilogram quartic meter. }
+  SquareKilogramQuarticMeter : TUnit absolute SquareKilogramQuarticMeterUnit;
 
 { TAmperePerKilogram } { @exclude }
 
@@ -14363,6 +16169,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { A/kg - ampere per kilogram. }
+  AmperePerKilogram : TUnit absolute AmperePerKilogramUnit;
+
 { TSecondPerKilogram } { @exclude }
 
 const
@@ -14373,6 +16183,10 @@ const
     FPluralName : rsSecondPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { s/kg - second per kilogram. }
+  SecondPerKilogram : TUnit absolute SecondPerKilogramUnit;
 
 { TCubicSecondCandelaSteradianPerSquareMeter } { @exclude }
 
@@ -14385,6 +16199,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -2));
 
+var
+  { s³.cd.sr/m² - cubic second candela steradian per square meter. }
+  CubicSecondCandelaSteradianPerSquareMeter : TUnit absolute CubicSecondCandelaSteradianPerSquareMeterUnit;
+
 { TCubicSecondCandelaSteradianPerKilogram } { @exclude }
 
 const
@@ -14395,6 +16213,10 @@ const
     FPluralName : rsCubicSecondCandelaSteradianPerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -1));
+
+var
+  { s³.cd.sr/kg - cubic second candela steradian per kilogram. }
+  CubicSecondCandelaSteradianPerKilogram : TUnit absolute CubicSecondCandelaSteradianPerKilogramUnit;
 
 { TCandelaSteradianPerKilogramPerSquareMeter } { @exclude }
 
@@ -14407,6 +16229,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -2));
 
+var
+  { cd.sr/kg/m² - candela steradian per kilogram per square meter. }
+  CandelaSteradianPerKilogramPerSquareMeter : TUnit absolute CandelaSteradianPerKilogramPerSquareMeterUnit;
+
 { TCubicSecondSteradianPerKilogramPerSquareMeter } { @exclude }
 
 const
@@ -14417,6 +16243,10 @@ const
     FPluralName : rsCubicSecondSteradianPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -2));
+
+var
+  { s³.sr/kg/m² - cubic second steradian per kilogram per square meter. }
+  CubicSecondSteradianPerKilogramPerSquareMeter : TUnit absolute CubicSecondSteradianPerKilogramPerSquareMeterUnit;
 
 { TCubicSecondCandelaPerKilogramPerSquareMeter } { @exclude }
 
@@ -14429,6 +16259,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (3, 1, -1, -2));
 
+var
+  { s³.cd/kg/m² - cubic second candela per kilogram per square meter. }
+  CubicSecondCandelaPerKilogramPerSquareMeter : TUnit absolute CubicSecondCandelaPerKilogramPerSquareMeterUnit;
+
 { TAmperePerCubicMeter } { @exclude }
 
 const
@@ -14439,6 +16273,10 @@ const
     FPluralName : rsAmperePerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
+
+var
+  { A/m³ - ampere per cubic meter. }
+  AmperePerCubicMeter : TUnit absolute AmperePerCubicMeterUnit;
 
 { TSecondPerCubicMeter } { @exclude }
 
@@ -14451,6 +16289,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
+var
+  { s/m³ - second per cubic meter. }
+  SecondPerCubicMeter : TUnit absolute SecondPerCubicMeterUnit;
+
 { TSquareMeterPerCubicSecondPerSteradian } { @exclude }
 
 const
@@ -14461,6 +16303,10 @@ const
     FPluralName : rsSquareMeterPerCubicSecondPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -3));
+
+var
+  { m²/s³/sr - square meter per cubic second per steradian. }
+  SquareMeterPerCubicSecondPerSteradian : TUnit absolute SquareMeterPerCubicSecondPerSteradianUnit;
 
 { TKilogramSquareMeterPerSteradian } { @exclude }
 
@@ -14473,6 +16319,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 2));
 
+var
+  { kg.m²/sr - kilogram square meter per steradian. }
+  KilogramSquareMeterPerSteradian : TUnit absolute KilogramSquareMeterPerSteradianUnit;
+
 { TSquareMeterPerSquareSecondPerSteradian } { @exclude }
 
 const
@@ -14483,6 +16333,10 @@ const
     FPluralName : rsSquareMeterPerSquareSecondPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
+
+var
+  { m²/s²/sr - square meter per square second per steradian. }
+  SquareMeterPerSquareSecondPerSteradian : TUnit absolute SquareMeterPerSquareSecondPerSteradianUnit;
 
 { TMeterPerCubicSecondPerSteradian } { @exclude }
 
@@ -14495,6 +16349,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
+var
+  { m/s³/sr - meter per cubic second per steradian. }
+  MeterPerCubicSecondPerSteradian : TUnit absolute MeterPerCubicSecondPerSteradianUnit;
+
 { TKilogramMeterPerSteradian } { @exclude }
 
 const
@@ -14505,6 +16363,10 @@ const
     FPluralName : rsKilogramMeterPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 1));
+
+var
+  { kg.m/sr - kilogram meter per steradian. }
+  KilogramMeterPerSteradian : TUnit absolute KilogramMeterPerSteradianUnit;
 
 { TReciprocalCubicSecondSteradian } { @exclude }
 
@@ -14517,6 +16379,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/s³/sr - reciprocal cubic second steradian. }
+  ReciprocalCubicSecondSteradian : TUnit absolute ReciprocalCubicSecondSteradianUnit;
+
 { TKilogramPerSteradian } { @exclude }
 
 const
@@ -14527,6 +16393,10 @@ const
     FPluralName : rsKilogramPerSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (1));
+
+var
+  { kg/sr - kilogram per steradian. }
+  KilogramPerSteradian : TUnit absolute KilogramPerSteradianUnit;
 
 { TReciprocalMeterCubicSecondSteradian } { @exclude }
 
@@ -14539,6 +16409,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -3));
 
+var
+  { 1/m/s³/sr - reciprocal meter cubic second steradian. }
+  ReciprocalMeterCubicSecondSteradian : TUnit absolute ReciprocalMeterCubicSecondSteradianUnit;
+
 { TKilogramPerMeterPerSteradian } { @exclude }
 
 const
@@ -14549,6 +16423,10 @@ const
     FPluralName : rsKilogramPerMeterPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { kg/m/sr - kilogram per meter per steradian. }
+  KilogramPerMeterPerSteradian : TUnit absolute KilogramPerMeterPerSteradianUnit;
 
 { TReciprocalSquareSecondSteradian } { @exclude }
 
@@ -14561,6 +16439,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-2));
 
+var
+  { 1/s²/sr - reciprocal square second steradian. }
+  ReciprocalSquareSecondSteradian : TUnit absolute ReciprocalSquareSecondSteradianUnit;
+
 { TReciprocalCubicMeterSecond } { @exclude }
 
 const
@@ -14571,6 +16453,10 @@ const
     FPluralName : rsReciprocalCubicMeterSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-3, -1));
+
+var
+  { 1/m³/s - reciprocal cubic meter second. }
+  ReciprocalCubicMeterSecond : TUnit absolute ReciprocalCubicMeterSecondUnit;
 
 { TAmperePerMole } { @exclude }
 
@@ -14583,6 +16469,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { A/mol - ampere per mole. }
+  AmperePerMole : TUnit absolute AmperePerMoleUnit;
+
 { TSecondPerMole } { @exclude }
 
 const
@@ -14593,6 +16483,10 @@ const
     FPluralName : rsSecondPerMolePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { s/mol - second per mole. }
+  SecondPerMole : TUnit absolute SecondPerMoleUnit;
 
 { TSquareSecondPerKilogram } { @exclude }
 
@@ -14605,6 +16499,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
+var
+  { s²/kg - square second per kilogram. }
+  SquareSecondPerKilogram : TUnit absolute SquareSecondPerKilogramUnit;
+
 { TSquareSecondAmpere } { @exclude }
 
 const
@@ -14615,6 +16513,10 @@ const
     FPluralName : rsSquareSecondAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 1));
+
+var
+  { s².A - square second ampere. }
+  SquareSecondAmpere : TUnit absolute SquareSecondAmpereUnit;
 
 { TMeterSquareSecond } { @exclude }
 
@@ -14627,6 +16529,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 2));
 
+var
+  { m.s² - meter square second. }
+  MeterSquareSecond : TUnit absolute MeterSquareSecondUnit;
+
 { TSquareSecondAmperePerSquareMeter } { @exclude }
 
 const
@@ -14637,6 +16543,10 @@ const
     FPluralName : rsSquareSecondAmperePerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 1, -2));
+
+var
+  { s².A/m² - square second ampere per square meter. }
+  SquareSecondAmperePerSquareMeter : TUnit absolute SquareSecondAmperePerSquareMeterUnit;
 
 { TAmperePerKilogramPerSquareMeter } { @exclude }
 
@@ -14649,6 +16559,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -2));
 
+var
+  { A/kg/m² - ampere per kilogram per square meter. }
+  AmperePerKilogramPerSquareMeter : TUnit absolute AmperePerKilogramPerSquareMeterUnit;
+
 { TCubicSecondPerSquareMeter } { @exclude }
 
 const
@@ -14659,6 +16573,10 @@ const
     FPluralName : rsCubicSecondPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -2));
+
+var
+  { s³/m² - cubic second per square meter. }
+  CubicSecondPerSquareMeter : TUnit absolute CubicSecondPerSquareMeterUnit;
 
 { TReciprocalKilogramSquareMeter } { @exclude }
 
@@ -14671,6 +16589,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -2));
 
+var
+  { 1/kg/m² - reciprocal kilogram square meter. }
+  ReciprocalKilogramSquareMeter : TUnit absolute ReciprocalKilogramSquareMeterUnit;
+
 { TCubicSecondAmperePerMeter } { @exclude }
 
 const
@@ -14681,6 +16603,10 @@ const
     FPluralName : rsCubicSecondAmperePerMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -1));
+
+var
+  { s³.A/m - cubic second ampere per meter. }
+  CubicSecondAmperePerMeter : TUnit absolute CubicSecondAmperePerMeterUnit;
 
 { TCubicSecondAmperePerKilogram } { @exclude }
 
@@ -14693,6 +16619,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -1));
 
+var
+  { s³.A/kg - cubic second ampere per kilogram. }
+  CubicSecondAmperePerKilogram : TUnit absolute CubicSecondAmperePerKilogramUnit;
+
 { TAmperePerKilogramPerMeter } { @exclude }
 
 const
@@ -14703,6 +16633,10 @@ const
     FPluralName : rsAmperePerKilogramPerMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
+
+var
+  { A/kg/m - ampere per kilogram per meter. }
+  AmperePerKilogramPerMeter : TUnit absolute AmperePerKilogramPerMeterUnit;
 
 { TReciprocalCubicSecondAmpere } { @exclude }
 
@@ -14715,6 +16649,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-3, -1));
 
+var
+  { 1/s³/A - reciprocal cubic second ampere. }
+  ReciprocalCubicSecondAmpere : TUnit absolute ReciprocalCubicSecondAmpereUnit;
+
 { TSquareMeterPerAmpere } { @exclude }
 
 const
@@ -14725,6 +16663,10 @@ const
     FPluralName : rsSquareMeterPerAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
+
+var
+  { m²/A - square meter per ampere. }
+  SquareMeterPerAmpere : TUnit absolute SquareMeterPerAmpereUnit;
 
 { TReciprocalSexticSecondSquareAmpere } { @exclude }
 
@@ -14737,6 +16679,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-6, -2));
 
+var
+  { 1/s⁶/A² - reciprocal sextic second square ampere. }
+  ReciprocalSexticSecondSquareAmpere : TUnit absolute ReciprocalSexticSecondSquareAmpereUnit;
+
 { TQuarticMeterPerSquareAmpere } { @exclude }
 
 const
@@ -14747,6 +16693,10 @@ const
     FPluralName : rsQuarticMeterPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -2));
+
+var
+  { m⁴/A² - quartic meter per square ampere. }
+  QuarticMeterPerSquareAmpere : TUnit absolute QuarticMeterPerSquareAmpereUnit;
 
 { TQuarticMeterPerSexticSecond } { @exclude }
 
@@ -14759,6 +16709,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -6));
 
+var
+  { m⁴/s⁶ - quartic meter per sextic second. }
+  QuarticMeterPerSexticSecond : TUnit absolute QuarticMeterPerSexticSecondUnit;
+
 { TSquareKilogramPerSquareAmpere } { @exclude }
 
 const
@@ -14769,6 +16723,10 @@ const
     FPluralName : rsSquareKilogramPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
+
+var
+  { kg²/A² - square kilogram per square ampere. }
+  SquareKilogramPerSquareAmpere : TUnit absolute SquareKilogramPerSquareAmpereUnit;
 
 { TSquareKilogramPerSexticSecond } { @exclude }
 
@@ -14781,6 +16739,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -6));
 
+var
+  { kg²/s⁶ - square kilogram per sextic second. }
+  SquareKilogramPerSexticSecond : TUnit absolute SquareKilogramPerSexticSecondUnit;
+
 { TQuarticSecondSquareAmpere } { @exclude }
 
 const
@@ -14791,6 +16753,10 @@ const
     FPluralName : rsQuarticSecondSquareAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, 2));
+
+var
+  { s⁴.A² - quartic second square ampere. }
+  QuarticSecondSquareAmpere : TUnit absolute QuarticSecondSquareAmpereUnit;
 
 { TSquareAmperePerSquareMeter } { @exclude }
 
@@ -14803,6 +16769,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
 
+var
+  { A²/m² - square ampere per square meter. }
+  SquareAmperePerSquareMeter : TUnit absolute SquareAmperePerSquareMeterUnit;
+
 { TQuarticSecondPerSquareMeter } { @exclude }
 
 const
@@ -14813,6 +16783,10 @@ const
     FPluralName : rsQuarticSecondPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -2));
+
+var
+  { s⁴/m² - quartic second per square meter. }
+  QuarticSecondPerSquareMeter : TUnit absolute QuarticSecondPerSquareMeterUnit;
 
 { TSquareAmperePerKilogram } { @exclude }
 
@@ -14825,6 +16799,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
+var
+  { A²/kg - square ampere per kilogram. }
+  SquareAmperePerKilogram : TUnit absolute SquareAmperePerKilogramUnit;
+
 { TQuarticSecondPerKilogram } { @exclude }
 
 const
@@ -14835,6 +16813,10 @@ const
     FPluralName : rsQuarticSecondPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -1));
+
+var
+  { s⁴/kg - quartic second per kilogram. }
+  QuarticSecondPerKilogram : TUnit absolute QuarticSecondPerKilogramUnit;
 
 { TReciprocalCubicSecondSquareAmpere } { @exclude }
 
@@ -14847,6 +16829,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-3, -2));
 
+var
+  { 1/s³/A² - reciprocal cubic second square ampere. }
+  ReciprocalCubicSecondSquareAmpere : TUnit absolute ReciprocalCubicSecondSquareAmpereUnit;
+
 { TCubicSecondSquareAmpere } { @exclude }
 
 const
@@ -14857,6 +16843,10 @@ const
     FPluralName : rsCubicSecondSquareAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, 2));
+
+var
+  { s³.A² - cubic second square ampere. }
+  CubicSecondSquareAmpere : TUnit absolute CubicSecondSquareAmpereUnit;
 
 { TSquareAmperePerCubicMeter } { @exclude }
 
@@ -14869,6 +16859,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -3));
 
+var
+  { A²/m³ - square ampere per cubic meter. }
+  SquareAmperePerCubicMeter : TUnit absolute SquareAmperePerCubicMeterUnit;
+
 { TCubicSecondPerCubicMeter } { @exclude }
 
 const
@@ -14879,6 +16873,10 @@ const
     FPluralName : rsCubicSecondPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -3));
+
+var
+  { s³/m³ - cubic second per cubic meter. }
+  CubicSecondPerCubicMeter : TUnit absolute CubicSecondPerCubicMeterUnit;
 
 { TReciprocalKilogramCubicMeter } { @exclude }
 
@@ -14891,6 +16889,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -3));
 
+var
+  { 1/kg/m³ - reciprocal kilogram cubic meter. }
+  ReciprocalKilogramCubicMeter : TUnit absolute ReciprocalKilogramCubicMeterUnit;
+
 { TSteradianPerCubicMeter } { @exclude }
 
 const
@@ -14901,6 +16903,10 @@ const
     FPluralName : rsSteradianPerCubicMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
+
+var
+  { sr/m³ - steradian per cubic meter. }
+  SteradianPerCubicMeter : TUnit absolute SteradianPerCubicMeterUnit;
 
 { TCandelaPerCubicMeter } { @exclude }
 
@@ -14913,6 +16919,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -3));
 
+var
+  { cd/m³ - candela per cubic meter. }
+  CandelaPerCubicMeter : TUnit absolute CandelaPerCubicMeterUnit;
+
 { TMeterPerKelvin } { @exclude }
 
 const
@@ -14923,6 +16933,10 @@ const
     FPluralName : rsMeterPerKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { m/K - meter per kelvin. }
+  MeterPerKelvin : TUnit absolute MeterPerKelvinUnit;
 
 { TCubicSecondKelvin } { @exclude }
 
@@ -14935,6 +16949,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, 1));
 
+var
+  { s³.K - cubic second kelvin. }
+  CubicSecondKelvin : TUnit absolute CubicSecondKelvinUnit;
+
 { TKelvinPerSquareMeter } { @exclude }
 
 const
@@ -14945,6 +16963,10 @@ const
     FPluralName : rsKelvinPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
+
+var
+  { K/m² - kelvin per square meter. }
+  KelvinPerSquareMeter : TUnit absolute KelvinPerSquareMeterUnit;
 
 { TKelvinPerKilogram } { @exclude }
 
@@ -14957,6 +16979,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { K/kg - kelvin per kilogram. }
+  KelvinPerKilogram : TUnit absolute KelvinPerKilogramUnit;
+
 { TSquareMeterPerQuarticKelvin } { @exclude }
 
 const
@@ -14967,6 +16993,10 @@ const
     FPluralName : rsSquareMeterPerQuarticKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -4));
+
+var
+  { m²/K⁴ - square meter per quartic kelvin. }
+  SquareMeterPerQuarticKelvin : TUnit absolute SquareMeterPerQuarticKelvinUnit;
 
 { TReciprocalQuarticKelvin } { @exclude }
 
@@ -14979,6 +17009,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-4));
 
+var
+  { 1/K⁴ - reciprocal quartic kelvin. }
+  ReciprocalQuarticKelvin : TUnit absolute ReciprocalQuarticKelvinUnit;
+
 { TReciprocalSquareSecondMole } { @exclude }
 
 const
@@ -14989,6 +17023,10 @@ const
     FPluralName : rsReciprocalSquareSecondMolePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -1));
+
+var
+  { 1/s²/mol - reciprocal square second mole. }
+  ReciprocalSquareSecondMole : TUnit absolute ReciprocalSquareSecondMoleUnit;
 
 { TSquareMeterPerMole } { @exclude }
 
@@ -15001,6 +17039,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
+var
+  { m²/mol - square meter per mole. }
+  SquareMeterPerMole : TUnit absolute SquareMeterPerMoleUnit;
+
 { TKilogramPerMole } { @exclude }
 
 const
@@ -15011,6 +17053,10 @@ const
     FPluralName : rsKilogramPerMolePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { kg/mol - kilogram per mole. }
+  KilogramPerMole : TUnit absolute KilogramPerMoleUnit;
 
 { TReciprocalSquareSecondKelvinMole } { @exclude }
 
@@ -15023,6 +17069,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (-2, -1, -1));
 
+var
+  { 1/s²/K/mol - reciprocal square second kelvin mole. }
+  ReciprocalSquareSecondKelvinMole : TUnit absolute ReciprocalSquareSecondKelvinMoleUnit;
+
 { TSquareMeterPerKelvinPerMole } { @exclude }
 
 const
@@ -15033,6 +17083,10 @@ const
     FPluralName : rsSquareMeterPerKelvinPerMolePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -1));
+
+var
+  { m²/K/mol - square meter per kelvin per mole. }
+  SquareMeterPerKelvinPerMole : TUnit absolute SquareMeterPerKelvinPerMoleUnit;
 
 { TKilogramPerKelvinPerMole } { @exclude }
 
@@ -15045,6 +17099,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
 
+var
+  { kg/K/mol - kilogram per kelvin per mole. }
+  KilogramPerKelvinPerMole : TUnit absolute KilogramPerKelvinPerMoleUnit;
+
 { TCubicMeterPerSquareAmpere } { @exclude }
 
 const
@@ -15055,6 +17113,10 @@ const
     FPluralName : rsCubicMeterPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -2));
+
+var
+  { m³/A² - cubic meter per square ampere. }
+  CubicMeterPerSquareAmpere : TUnit absolute CubicMeterPerSquareAmpereUnit;
 
 { TCubicMeterPerCubicSecond } { @exclude }
 
@@ -15067,6 +17129,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -3));
 
+var
+  { m³/s³ - cubic meter per cubic second. }
+  CubicMeterPerCubicSecond : TUnit absolute CubicMeterPerCubicSecondUnit;
+
 { TReciprocalSquareAmpere } { @exclude }
 
 const
@@ -15077,6 +17143,10 @@ const
     FPluralName : rsReciprocalSquareAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
+
+var
+  { 1/A² - reciprocal square ampere. }
+  ReciprocalSquareAmpere : TUnit absolute ReciprocalSquareAmpereUnit;
 
 { TReciprocalQuarticSecondSquareAmpere } { @exclude }
 
@@ -15089,6 +17159,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-4, -2));
 
+var
+  { 1/s⁴/A² - reciprocal quartic second square ampere. }
+  ReciprocalQuarticSecondSquareAmpere : TUnit absolute ReciprocalQuarticSecondSquareAmpereUnit;
+
 { TMeterPerSquareAmpere } { @exclude }
 
 const
@@ -15099,6 +17173,10 @@ const
     FPluralName : rsMeterPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
+
+var
+  { m/A² - meter per square ampere. }
+  MeterPerSquareAmpere : TUnit absolute MeterPerSquareAmpereUnit;
 
 { TKilogramPerQuarticSecond } { @exclude }
 
@@ -15111,6 +17189,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -4));
 
+var
+  { kg/s⁴ - kilogram per quartic second. }
+  KilogramPerQuarticSecond : TUnit absolute KilogramPerQuarticSecondUnit;
+
 { TCubicMeterPerQuarticSecond } { @exclude }
 
 const
@@ -15121,6 +17203,10 @@ const
     FPluralName : rsCubicMeterPerQuarticSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -4));
+
+var
+  { m³/s⁴ - cubic meter per quartic second. }
+  CubicMeterPerQuarticSecond : TUnit absolute CubicMeterPerQuarticSecondUnit;
 
 { TCubicMeterPerAmpere } { @exclude }
 
@@ -15133,6 +17219,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
 
+var
+  { m³/A - cubic meter per ampere. }
+  CubicMeterPerAmpere : TUnit absolute CubicMeterPerAmpereUnit;
+
 { TReciprocalQuarticSecondAmpere } { @exclude }
 
 const
@@ -15143,6 +17233,10 @@ const
     FPluralName : rsReciprocalQuarticSecondAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-4, -1));
+
+var
+  { 1/s⁴/A - reciprocal quartic second ampere. }
+  ReciprocalQuarticSecondAmpere : TUnit absolute ReciprocalQuarticSecondAmpereUnit;
 
 { TQuarticSecondPerCubicMeter } { @exclude }
 
@@ -15155,6 +17249,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -3));
 
+var
+  { s⁴/m³ - quartic second per cubic meter. }
+  QuarticSecondPerCubicMeter : TUnit absolute QuarticSecondPerCubicMeterUnit;
+
 { TCubicSecondCandelaSteradian } { @exclude }
 
 const
@@ -15165,6 +17263,10 @@ const
     FPluralName : rsCubicSecondCandelaSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, 1));
+
+var
+  { s³.cd.sr - cubic second candela steradian. }
+  CubicSecondCandelaSteradian : TUnit absolute CubicSecondCandelaSteradianUnit;
 
 { TCubicSecondSteradianPerSquareMeter } { @exclude }
 
@@ -15177,6 +17279,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -2));
 
+var
+  { s³.sr/m² - cubic second steradian per square meter. }
+  CubicSecondSteradianPerSquareMeter : TUnit absolute CubicSecondSteradianPerSquareMeterUnit;
+
 { TCubicSecondCandelaPerSquareMeter } { @exclude }
 
 const
@@ -15187,6 +17293,10 @@ const
     FPluralName : rsCubicSecondCandelaPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -2));
+
+var
+  { s³.cd/m² - cubic second candela per square meter. }
+  CubicSecondCandelaPerSquareMeter : TUnit absolute CubicSecondCandelaPerSquareMeterUnit;
 
 { TCandelaSteradianPerKilogram } { @exclude }
 
@@ -15199,6 +17309,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { cd.sr/kg - candela steradian per kilogram. }
+  CandelaSteradianPerKilogram : TUnit absolute CandelaSteradianPerKilogramUnit;
+
 { TCubicSecondSteradianPerKilogram } { @exclude }
 
 const
@@ -15209,6 +17323,10 @@ const
     FPluralName : rsCubicSecondSteradianPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
+
+var
+  { s³.sr/kg - cubic second steradian per kilogram. }
+  CubicSecondSteradianPerKilogram : TUnit absolute CubicSecondSteradianPerKilogramUnit;
 
 { TCubicSecondCandelaPerKilogram } { @exclude }
 
@@ -15221,6 +17339,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -1));
 
+var
+  { s³.cd/kg - cubic second candela per kilogram. }
+  CubicSecondCandelaPerKilogram : TUnit absolute CubicSecondCandelaPerKilogramUnit;
+
 { TSteradianPerKilogramPerSquareMeter } { @exclude }
 
 const
@@ -15231,6 +17353,10 @@ const
     FPluralName : rsSteradianPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -2));
+
+var
+  { sr/kg/m² - steradian per kilogram per square meter. }
+  SteradianPerKilogramPerSquareMeter : TUnit absolute SteradianPerKilogramPerSquareMeterUnit;
 
 { TCandelaPerKilogramPerSquareMeter } { @exclude }
 
@@ -15243,6 +17369,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -2));
 
+var
+  { cd/kg/m² - candela per kilogram per square meter. }
+  CandelaPerKilogramPerSquareMeter : TUnit absolute CandelaPerKilogramPerSquareMeterUnit;
+
 { TSquareMeterPerSteradian } { @exclude }
 
 const
@@ -15253,6 +17383,10 @@ const
     FPluralName : rsSquareMeterPerSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (2));
+
+var
+  { m²/sr - square meter per steradian. }
+  SquareMeterPerSteradian : TUnit absolute SquareMeterPerSteradianUnit;
 
 { TMeterPerSteradian } { @exclude }
 
@@ -15265,6 +17399,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { m/sr - meter per steradian. }
+  MeterPerSteradian : TUnit absolute MeterPerSteradianUnit;
+
 { TReciprocalSteradian } { @exclude }
 
 const
@@ -15275,6 +17413,10 @@ const
     FPluralName : rsReciprocalSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { 1/sr - reciprocal steradian. }
+  ReciprocalSteradian : TUnit absolute ReciprocalSteradianUnit;
 
 { TReciprocalMeterSteradian } { @exclude }
 
@@ -15287,6 +17429,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/m/sr - reciprocal meter steradian. }
+  ReciprocalMeterSteradian : TUnit absolute ReciprocalMeterSteradianUnit;
+
 { TCubicSecondAmpere } { @exclude }
 
 const
@@ -15297,6 +17443,10 @@ const
     FPluralName : rsCubicSecondAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, 1));
+
+var
+  { s³.A - cubic second ampere. }
+  CubicSecondAmpere : TUnit absolute CubicSecondAmpereUnit;
 
 { TReciprocalKelvinMole } { @exclude }
 
@@ -15309,6 +17459,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
 
+var
+  { 1/K/mol - reciprocal kelvin mole. }
+  ReciprocalKelvinMole : TUnit absolute ReciprocalKelvinMoleUnit;
+
 { TCubicSecondSteradian } { @exclude }
 
 const
@@ -15319,6 +17473,10 @@ const
     FPluralName : rsCubicSecondSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { s³.sr - cubic second steradian. }
+  CubicSecondSteradian : TUnit absolute CubicSecondSteradianUnit;
 
 { TCubicSecondCandela } { @exclude }
 
@@ -15331,6 +17489,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, 1));
 
+var
+  { s³.cd - cubic second candela. }
+  CubicSecondCandela : TUnit absolute CubicSecondCandelaUnit;
+
 { TSteradianPerKilogram } { @exclude }
 
 const
@@ -15341,6 +17503,10 @@ const
     FPluralName : rsSteradianPerKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { sr/kg - steradian per kilogram. }
+  SteradianPerKilogram : TUnit absolute SteradianPerKilogramUnit;
 
 { TCandelaPerKilogram } { @exclude }
 
@@ -15353,6 +17519,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { cd/kg - candela per kilogram. }
+  CandelaPerKilogram : TUnit absolute CandelaPerKilogramUnit;
+
 { TReciprocalQuinticMeter } { @exclude }
 
 const
@@ -15363,6 +17533,10 @@ const
     FPluralName : rsReciprocalQuinticMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-5));
+
+var
+  { 1/m⁵ - reciprocal quintic meter. }
+  ReciprocalQuinticMeter : TUnit absolute ReciprocalQuinticMeterUnit;
 
 { TReciprocalSexticMeter } { @exclude }
 
@@ -15375,6 +17549,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-6));
 
+var
+  { 1/m⁶ - reciprocal sextic meter. }
+  ReciprocalSexticMeter : TUnit absolute ReciprocalSexticMeterUnit;
+
 { TReciprocalSquareKelvin } { @exclude }
 
 const
@@ -15385,6 +17563,10 @@ const
     FPluralName : rsReciprocalSquareKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
+
+var
+  { 1/K² - reciprocal square kelvin. }
+  ReciprocalSquareKelvin : TUnit absolute ReciprocalSquareKelvinUnit;
 
 { TReciprocalCubicKelvin } { @exclude }
 
@@ -15397,6 +17579,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/K³ - reciprocal cubic kelvin. }
+  ReciprocalCubicKelvin : TUnit absolute ReciprocalCubicKelvinUnit;
+
 { TReciprocalCandela } { @exclude }
 
 const
@@ -15407,6 +17593,10 @@ const
     FPluralName : rsReciprocalCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/cd - reciprocal candela. }
+  ReciprocalCandela : TUnit absolute ReciprocalCandelaUnit;
 
 { TSquareSecondPerSteradian } { @exclude }
 
@@ -15419,6 +17609,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (2));
 
+var
+  { s²/sr - square second per steradian. }
+  SquareSecondPerSteradian : TUnit absolute SquareSecondPerSteradianUnit;
+
 { TQuarticSecondPerMeter } { @exclude }
 
 const
@@ -15429,6 +17623,10 @@ const
     FPluralName : rsQuarticSecondPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -1));
+
+var
+  { s⁴/m - quartic second per meter. }
+  QuarticSecondPerMeter : TUnit absolute QuarticSecondPerMeterUnit;
 
 { TQuinticSecondPerMeter } { @exclude }
 
@@ -15441,6 +17639,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (5, -1));
 
+var
+  { s⁵/m - quintic second per meter. }
+  QuinticSecondPerMeter : TUnit absolute QuinticSecondPerMeterUnit;
+
 { TSexticSecondPerMeter } { @exclude }
 
 const
@@ -15451,6 +17653,10 @@ const
     FPluralName : rsSexticSecondPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (6, -1));
+
+var
+  { s⁶/m - sextic second per meter. }
+  SexticSecondPerMeter : TUnit absolute SexticSecondPerMeterUnit;
 
 { TSecondPerKilogramPerMeter } { @exclude }
 
@@ -15463,6 +17669,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
 
+var
+  { s/kg/m - second per kilogram per meter. }
+  SecondPerKilogramPerMeter : TUnit absolute SecondPerKilogramPerMeterUnit;
+
 { TSquareSecondPerSquareKilogramPerSquareMeter } { @exclude }
 
 const
@@ -15473,6 +17683,10 @@ const
     FPluralName : rsSquareSecondPerSquareKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -2, -2));
+
+var
+  { s²/kg²/m² - square second per square kilogram per square meter. }
+  SquareSecondPerSquareKilogramPerSquareMeter : TUnit absolute SquareSecondPerSquareKilogramPerSquareMeterUnit;
 
 { TSecondPerKilogramPerSquareMeter } { @exclude }
 
@@ -15485,6 +17699,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -2));
 
+var
+  { s/kg/m² - second per kilogram per square meter. }
+  SecondPerKilogramPerSquareMeter : TUnit absolute SecondPerKilogramPerSquareMeterUnit;
+
 { TSquareMeterPerKilogram } { @exclude }
 
 const
@@ -15495,6 +17713,10 @@ const
     FPluralName : rsSquareMeterPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
+
+var
+  { m²/kg - square meter per kilogram. }
+  SquareMeterPerKilogram : TUnit absolute SquareMeterPerKilogramUnit;
 
 { TQuarticSecondPerSquareKilogramPerSquareMeter } { @exclude }
 
@@ -15507,6 +17729,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, -2, -2));
 
+var
+  { s⁴/kg²/m² - quartic second per square kilogram per square meter. }
+  QuarticSecondPerSquareKilogramPerSquareMeter : TUnit absolute QuarticSecondPerSquareKilogramPerSquareMeterUnit;
+
 { TReciprocalSecondAmpere } { @exclude }
 
 const
@@ -15517,6 +17743,10 @@ const
     FPluralName : rsReciprocalSecondAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
+
+var
+  { 1/s/A - reciprocal second ampere. }
+  ReciprocalSecondAmpere : TUnit absolute ReciprocalSecondAmpereUnit;
 
 { TReciprocalMeterSecondAmpere } { @exclude }
 
@@ -15529,6 +17759,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (-1, -1, -1));
 
+var
+  { 1/m/s/A - reciprocal meter second ampere. }
+  ReciprocalMeterSecondAmpere : TUnit absolute ReciprocalMeterSecondAmpereUnit;
+
 { TCubicSecondAmperePerKilogramPerSquareMeter } { @exclude }
 
 const
@@ -15539,6 +17773,10 @@ const
     FPluralName : rsCubicSecondAmperePerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (3, 1, -1, -2));
+
+var
+  { s³.A/kg/m² - cubic second ampere per kilogram per square meter. }
+  CubicSecondAmperePerKilogramPerSquareMeter : TUnit absolute CubicSecondAmperePerKilogramPerSquareMeterUnit;
 
 { TSexticSecondSquareAmperePerSquareKilogramPerQuarticMeter } { @exclude }
 
@@ -15551,6 +17789,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (6, 2, -2, -4));
 
+var
+  { s⁶.A²/kg²/m⁴ - sextic second square ampere per square kilogram per quartic meter. }
+  SexticSecondSquareAmperePerSquareKilogramPerQuarticMeter : TUnit absolute SexticSecondSquareAmperePerSquareKilogramPerQuarticMeterUnit;
+
 { TKilogramSquareMeterPerQuarticSecondPerSquareAmpere } { @exclude }
 
 const
@@ -15561,6 +17803,10 @@ const
     FPluralName : rsKilogramSquareMeterPerQuarticSecondPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (1, 2, -4, -2));
+
+var
+  { kg.m²/s⁴/A² - kilogram square meter per quartic second per square ampere. }
+  KilogramSquareMeterPerQuarticSecondPerSquareAmpere : TUnit absolute KilogramSquareMeterPerQuarticSecondPerSquareAmpereUnit;
 
 { TReciprocalCandelaSteradian } { @exclude }
 
@@ -15573,6 +17819,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/cd/sr - reciprocal candela steradian. }
+  ReciprocalCandelaSteradian : TUnit absolute ReciprocalCandelaSteradianUnit;
+
 { TReciprocalSecondCandelaSteradian } { @exclude }
 
 const
@@ -15583,6 +17833,10 @@ const
     FPluralName : rsReciprocalSecondCandelaSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
+
+var
+  { 1/s/cd/sr - reciprocal second candela steradian. }
+  ReciprocalSecondCandelaSteradian : TUnit absolute ReciprocalSecondCandelaSteradianUnit;
 
 { TCubicMeterPerSecondPerCandelaPerSteradian } { @exclude }
 
@@ -15595,6 +17849,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -1));
 
+var
+  { m³/s/cd/sr - cubic meter per second per candela per steradian. }
+  CubicMeterPerSecondPerCandelaPerSteradian : TUnit absolute CubicMeterPerSecondPerCandelaPerSteradianUnit;
+
 { TSquareMeterPerCandelaPerSteradian } { @exclude }
 
 const
@@ -15605,6 +17863,10 @@ const
     FPluralName : rsSquareMeterPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
+
+var
+  { m²/cd/sr - square meter per candela per steradian. }
+  SquareMeterPerCandelaPerSteradian : TUnit absolute SquareMeterPerCandelaPerSteradianUnit;
 
 { TSquareMeterPerSecondPerCandelaPerSteradian } { @exclude }
 
@@ -15617,6 +17879,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -1));
 
+var
+  { m²/s/cd/sr - square meter per second per candela per steradian. }
+  SquareMeterPerSecondPerCandelaPerSteradian : TUnit absolute SquareMeterPerSecondPerCandelaPerSteradianUnit;
+
 { TSquareMeterSquareSecondPerKilogram } { @exclude }
 
 const
@@ -15627,6 +17893,10 @@ const
     FPluralName : rsSquareMeterSquareSecondPerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 2, -1));
+
+var
+  { m².s²/kg - square meter square second per kilogram. }
+  SquareMeterSquareSecondPerKilogram : TUnit absolute SquareMeterSquareSecondPerKilogramUnit;
 
 { TMeterSecondPerKilogram } { @exclude }
 
@@ -15639,6 +17909,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -1));
 
+var
+  { m.s/kg - meter second per kilogram. }
+  MeterSecondPerKilogram : TUnit absolute MeterSecondPerKilogramUnit;
+
 { TQuarticMeterPerKilogram } { @exclude }
 
 const
@@ -15649,6 +17923,10 @@ const
     FPluralName : rsQuarticMeterPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -1));
+
+var
+  { m⁴/kg - quartic meter per kilogram. }
+  QuarticMeterPerKilogram : TUnit absolute QuarticMeterPerKilogramUnit;
 
 { TQuarticMeterSecondPerKilogram } { @exclude }
 
@@ -15661,6 +17939,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, 1, -1));
 
+var
+  { m⁴.s/kg - quartic meter second per kilogram. }
+  QuarticMeterSecondPerKilogram : TUnit absolute QuarticMeterSecondPerKilogramUnit;
+
 { TSquareSecondPerCubicMeter } { @exclude }
 
 const
@@ -15671,6 +17953,10 @@ const
     FPluralName : rsSquareSecondPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -3));
+
+var
+  { s²/m³ - square second per cubic meter. }
+  SquareSecondPerCubicMeter : TUnit absolute SquareSecondPerCubicMeterUnit;
 
 { TSquareSecondPerKilogramPerCubicMeter } { @exclude }
 
@@ -15683,6 +17969,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -3));
 
+var
+  { s²/kg/m³ - square second per kilogram per cubic meter. }
+  SquareSecondPerKilogramPerCubicMeter : TUnit absolute SquareSecondPerKilogramPerCubicMeterUnit;
+
 { TSquareSecondPerKilogramPerQuarticMeter } { @exclude }
 
 const
@@ -15693,6 +17983,10 @@ const
     FPluralName : rsSquareSecondPerKilogramPerQuarticMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -4));
+
+var
+  { s²/kg/m⁴ - square second per kilogram per quartic meter. }
+  SquareSecondPerKilogramPerQuarticMeter : TUnit absolute SquareSecondPerKilogramPerQuarticMeterUnit;
 
 { TKilogramSquareSecondPerMeter } { @exclude }
 
@@ -15705,6 +17999,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -1));
 
+var
+  { kg.s²/m - kilogram square second per meter. }
+  KilogramSquareSecondPerMeter : TUnit absolute KilogramSquareSecondPerMeterUnit;
+
 { TMeterPerSquareKilogram } { @exclude }
 
 const
@@ -15715,6 +18013,10 @@ const
     FPluralName : rsMeterPerSquareKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
+
+var
+  { m/kg² - meter per square kilogram. }
+  MeterPerSquareKilogram : TUnit absolute MeterPerSquareKilogramUnit;
 
 { TKilogramSquareSecondPerCubicMeter } { @exclude }
 
@@ -15727,6 +18029,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -3));
 
+var
+  { kg.s²/m³ - kilogram square second per cubic meter. }
+  KilogramSquareSecondPerCubicMeter : TUnit absolute KilogramSquareSecondPerCubicMeterUnit;
+
 { TReciprocalKilogramKelvin } { @exclude }
 
 const
@@ -15737,6 +18043,10 @@ const
     FPluralName : rsReciprocalKilogramKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
+
+var
+  { 1/kg/K - reciprocal kilogram kelvin. }
+  ReciprocalKilogramKelvin : TUnit absolute ReciprocalKilogramKelvinUnit;
 
 { TSquareSecondKelvinPerKilogramPerSquareMeter } { @exclude }
 
@@ -15749,6 +18059,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (2, 1, -1, -2));
 
+var
+  { s².K/kg/m² - square second kelvin per kilogram per square meter. }
+  SquareSecondKelvinPerKilogramPerSquareMeter : TUnit absolute SquareSecondKelvinPerKilogramPerSquareMeterUnit;
+
 { TSquareSecondKelvinPerSquareMeter } { @exclude }
 
 const
@@ -15759,6 +18073,10 @@ const
     FPluralName : rsSquareSecondKelvinPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 1, -2));
+
+var
+  { s².K/m² - square second kelvin per square meter. }
+  SquareSecondKelvinPerSquareMeter : TUnit absolute SquareSecondKelvinPerSquareMeterUnit;
 
 { TReciprocalMeterKelvin } { @exclude }
 
@@ -15771,6 +18089,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
 
+var
+  { 1/m/K - reciprocal meter kelvin. }
+  ReciprocalMeterKelvin : TUnit absolute ReciprocalMeterKelvinUnit;
+
 { TMeterCubicSecondPerKilogram } { @exclude }
 
 const
@@ -15781,6 +18103,10 @@ const
     FPluralName : rsMeterCubicSecondPerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 3, -1));
+
+var
+  { m.s³/kg - meter cubic second per kilogram. }
+  MeterCubicSecondPerKilogram : TUnit absolute MeterCubicSecondPerKilogramUnit;
 
 { TReciprocalSquareMeterKelvin } { @exclude }
 
@@ -15793,6 +18119,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -1));
 
+var
+  { 1/m²/K - reciprocal square meter kelvin. }
+  ReciprocalSquareMeterKelvin : TUnit absolute ReciprocalSquareMeterKelvinUnit;
+
 { TReciprocalSquareMeterQuarticKelvin } { @exclude }
 
 const
@@ -15803,6 +18133,10 @@ const
     FPluralName : rsReciprocalSquareMeterQuarticKelvinPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -4));
+
+var
+  { 1/m²/K⁴ - reciprocal square meter quartic kelvin. }
+  ReciprocalSquareMeterQuarticKelvin : TUnit absolute ReciprocalSquareMeterQuarticKelvinUnit;
 
 { TCubicSecondQuarticKelvinPerKilogramPerSquareMeter } { @exclude }
 
@@ -15815,6 +18149,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (3, 4, -1, -2));
 
+var
+  { s³.K⁴/kg/m² - cubic second quartic kelvin per kilogram per square meter. }
+  CubicSecondQuarticKelvinPerKilogramPerSquareMeter : TUnit absolute CubicSecondQuarticKelvinPerKilogramPerSquareMeterUnit;
+
 { TCubicSecondQuarticKelvinPerKilogram } { @exclude }
 
 const
@@ -15825,6 +18163,10 @@ const
     FPluralName : rsCubicSecondQuarticKelvinPerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 4, -1));
+
+var
+  { s³.K⁴/kg - cubic second quartic kelvin per kilogram. }
+  CubicSecondQuarticKelvinPerKilogram : TUnit absolute CubicSecondQuarticKelvinPerKilogramUnit;
 
 { TSquareSecondMolePerKilogramPerSquareMeter } { @exclude }
 
@@ -15837,6 +18179,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (2, 1, -1, -2));
 
+var
+  { s².mol/kg/m² - square second mole per kilogram per square meter. }
+  SquareSecondMolePerKilogramPerSquareMeter : TUnit absolute SquareSecondMolePerKilogramPerSquareMeterUnit;
+
 { TSquareSecondKelvinMolePerKilogramPerSquareMeter } { @exclude }
 
 const
@@ -15847,6 +18193,10 @@ const
     FPluralName : rsSquareSecondKelvinMolePerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone, pNone);
     FExponents  : (2, 1, 1, -1, -2));
+
+var
+  { s².K.mol/kg/m² - square second kelvin mole per kilogram per square meter. }
+  SquareSecondKelvinMolePerKilogramPerSquareMeter : TUnit absolute SquareSecondKelvinMolePerKilogramPerSquareMeterUnit;
 
 { TMeterPerSecondPerAmpere } { @exclude }
 
@@ -15859,6 +18209,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
 
+var
+  { m/s/A - meter per second per ampere. }
+  MeterPerSecondPerAmpere : TUnit absolute MeterPerSecondPerAmpereUnit;
+
 { TSquareMeterPerSecondPerAmpere } { @exclude }
 
 const
@@ -15869,6 +18223,10 @@ const
     FPluralName : rsSquareMeterPerSecondPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -1));
+
+var
+  { m²/s/A - square meter per second per ampere. }
+  SquareMeterPerSecondPerAmpere : TUnit absolute SquareMeterPerSecondPerAmpereUnit;
 
 { TQuarticSecondSquareAmperePerKilogramPerMeter } { @exclude }
 
@@ -15881,6 +18239,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (4, 2, -1, -1));
 
+var
+  { s⁴.A²/kg/m - quartic second square ampere per kilogram per meter. }
+  QuarticSecondSquareAmperePerKilogramPerMeter : TUnit absolute QuarticSecondSquareAmperePerKilogramPerMeterUnit;
+
 { TCubicSecondAmperePerKilogramPerCubicMeter } { @exclude }
 
 const
@@ -15891,6 +18253,10 @@ const
     FPluralName : rsCubicSecondAmperePerKilogramPerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (3, 1, -1, -3));
+
+var
+  { s³.A/kg/m³ - cubic second ampere per kilogram per cubic meter. }
+  CubicSecondAmperePerKilogramPerCubicMeter : TUnit absolute CubicSecondAmperePerKilogramPerCubicMeterUnit;
 
 { TQuarticSecondAmperePerKilogramPerCubicMeter } { @exclude }
 
@@ -15903,6 +18269,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (4, 1, -1, -3));
 
+var
+  { s⁴.A/kg/m³ - quartic second ampere per kilogram per cubic meter. }
+  QuarticSecondAmperePerKilogramPerCubicMeter : TUnit absolute QuarticSecondAmperePerKilogramPerCubicMeterUnit;
+
 { TSquareSecondAmperePerKilogramPerMeter } { @exclude }
 
 const
@@ -15913,6 +18283,10 @@ const
     FPluralName : rsSquareSecondAmperePerKilogramPerMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (2, 1, -1, -1));
+
+var
+  { s².A/kg/m - square second ampere per kilogram per meter. }
+  SquareSecondAmperePerKilogramPerMeter : TUnit absolute SquareSecondAmperePerKilogramPerMeterUnit;
 
 { TSquareSecondSquareAmperePerKilogramPerMeter } { @exclude }
 
@@ -15925,6 +18299,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (2, 2, -1, -1));
 
+var
+  { s².A²/kg/m - square second square ampere per kilogram per meter. }
+  SquareSecondSquareAmperePerKilogramPerMeter : TUnit absolute SquareSecondSquareAmperePerKilogramPerMeterUnit;
+
 { TSquareSecondPerSquareKilogram } { @exclude }
 
 const
@@ -15935,6 +18313,10 @@ const
     FPluralName : rsSquareSecondPerSquareKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
+
+var
+  { s²/kg² - square second per square kilogram. }
+  SquareSecondPerSquareKilogram : TUnit absolute SquareSecondPerSquareKilogramUnit;
 
 { TQuarticSecondPerSquareKilogramPerQuarticMeter } { @exclude }
 
@@ -15947,6 +18329,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, -2, -4));
 
+var
+  { s⁴/kg²/m⁴ - quartic second per square kilogram per quartic meter. }
+  QuarticSecondPerSquareKilogramPerQuarticMeter : TUnit absolute QuarticSecondPerSquareKilogramPerQuarticMeterUnit;
+
 { TSquareSecondPerSquareKilogramPerQuarticMeter } { @exclude }
 
 const
@@ -15957,6 +18343,10 @@ const
     FPluralName : rsSquareSecondPerSquareKilogramPerQuarticMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -2, -4));
+
+var
+  { s²/kg²/m⁴ - square second per square kilogram per quartic meter. }
+  SquareSecondPerSquareKilogramPerQuarticMeter : TUnit absolute SquareSecondPerSquareKilogramPerQuarticMeterUnit;
 
 { TKilogramPerSecondPerAmpere } { @exclude }
 
@@ -15969,6 +18359,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
 
+var
+  { kg/s/A - kilogram per second per ampere. }
+  KilogramPerSecondPerAmpere : TUnit absolute KilogramPerSecondPerAmpereUnit;
+
 { TReciprocalSquareMeterAmpere } { @exclude }
 
 const
@@ -15979,6 +18373,10 @@ const
     FPluralName : rsReciprocalSquareMeterAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -1));
+
+var
+  { 1/m²/A - reciprocal square meter ampere. }
+  ReciprocalSquareMeterAmpere : TUnit absolute ReciprocalSquareMeterAmpereUnit;
 
 { TKilogramSquareMeterPerCubicSecondPerCandelaPerSteradian } { @exclude }
 
@@ -15991,6 +18389,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (1, 2, -3, -1));
 
+var
+  { kg.m²/s³/cd/sr - kilogram square meter per cubic second per candela per steradian. }
+  KilogramSquareMeterPerCubicSecondPerCandelaPerSteradian : TUnit absolute KilogramSquareMeterPerCubicSecondPerCandelaPerSteradianUnit;
+
 { TCubicMeterPerMole } { @exclude }
 
 const
@@ -16001,6 +18403,10 @@ const
     FPluralName : rsCubicMeterPerMolePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
+
+var
+  { m³/mol - cubic meter per mole. }
+  CubicMeterPerMole : TUnit absolute CubicMeterPerMoleUnit;
 
 { TSquareMeterPerCandela } { @exclude }
 
@@ -16013,6 +18419,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
+var
+  { m²/cd - square meter per candela. }
+  SquareMeterPerCandela : TUnit absolute SquareMeterPerCandelaUnit;
+
 { TCubicMeterPerSecondPerAmpere } { @exclude }
 
 const
@@ -16023,6 +18433,10 @@ const
     FPluralName : rsCubicMeterPerSecondPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -1));
+
+var
+  { m³/s/A - cubic meter per second per ampere. }
+  CubicMeterPerSecondPerAmpere : TUnit absolute CubicMeterPerSecondPerAmpereUnit;
 
 { TSecondPerSteradian } { @exclude }
 
@@ -16035,6 +18449,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (1));
 
+var
+  { s/sr - second per steradian. }
+  SecondPerSteradian : TUnit absolute SecondPerSteradianUnit;
+
 { TReciprocalSquareMeterSteradian } { @exclude }
 
 const
@@ -16045,6 +18463,10 @@ const
     FPluralName : rsReciprocalSquareMeterSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
+
+var
+  { 1/m²/sr - reciprocal square meter steradian. }
+  ReciprocalSquareMeterSteradian : TUnit absolute ReciprocalSquareMeterSteradianUnit;
 
 { TReciprocalCubicMeterSteradian } { @exclude }
 
@@ -16057,6 +18479,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/m³/sr - reciprocal cubic meter steradian. }
+  ReciprocalCubicMeterSteradian : TUnit absolute ReciprocalCubicMeterSteradianUnit;
+
 { TSecondPerSquareMeterPerSteradian } { @exclude }
 
 const
@@ -16067,6 +18493,10 @@ const
     FPluralName : rsSecondPerSquareMeterPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
+
+var
+  { s/m²/sr - second per square meter per steradian. }
+  SecondPerSquareMeterPerSteradian : TUnit absolute SecondPerSquareMeterPerSteradianUnit;
 
 { TSquareSecondSteradianPerKilogramPerSquareMeter } { @exclude }
 
@@ -16079,6 +18509,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -2));
 
+var
+  { s².sr/kg/m² - square second steradian per kilogram per square meter. }
+  SquareSecondSteradianPerKilogramPerSquareMeter : TUnit absolute SquareSecondSteradianPerKilogramPerSquareMeterUnit;
+
 { TCubicSecondSteradianPerKilogramPerMeter } { @exclude }
 
 const
@@ -16089,6 +18523,10 @@ const
     FPluralName : rsCubicSecondSteradianPerKilogramPerMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -1));
+
+var
+  { s³.sr/kg/m - cubic second steradian per kilogram per meter. }
+  CubicSecondSteradianPerKilogramPerMeter : TUnit absolute CubicSecondSteradianPerKilogramPerMeterUnit;
 
 { TMeterCubicSecondSteradianPerKilogram } { @exclude }
 
@@ -16101,6 +18539,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 3, -1));
 
+var
+  { m.s³.sr/kg - meter cubic second steradian per kilogram. }
+  MeterCubicSecondSteradianPerKilogram : TUnit absolute MeterCubicSecondSteradianPerKilogramUnit;
+
 { TSquareSecondSteradianPerKilogram } { @exclude }
 
 const
@@ -16111,6 +18553,10 @@ const
     FPluralName : rsSquareSecondSteradianPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
+
+var
+  { s².sr/kg - square second steradian per kilogram. }
+  SquareSecondSteradianPerKilogram : TUnit absolute SquareSecondSteradianPerKilogramUnit;
 
 { TCubicMeterSecondPerMole } { @exclude }
 
@@ -16123,6 +18569,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -1));
 
+var
+  { m³.s/mol - cubic meter second per mole. }
+  CubicMeterSecondPerMole : TUnit absolute CubicMeterSecondPerMoleUnit;
+
 { TMolePerSecondPerAmpere } { @exclude }
 
 const
@@ -16133,6 +18583,10 @@ const
     FPluralName : rsMolePerSecondPerAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -1));
+
+var
+  { mol/s/A - mole per second per ampere. }
+  MolePerSecondPerAmpere : TUnit absolute MolePerSecondPerAmpereUnit;
 
 { TReciprocalSexticRootKilogram } { @exclude }
 
@@ -16145,6 +18599,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/⁶√kg - reciprocal sextic root kilogram. }
+  ReciprocalSexticRootKilogram : TUnit absolute ReciprocalSexticRootKilogramUnit;
+
 { TReciprocalQuinticRootKilogram } { @exclude }
 
 const
@@ -16155,6 +18613,10 @@ const
     FPluralName : rsReciprocalQuinticRootKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/⁵√kg - reciprocal quintic root kilogram. }
+  ReciprocalQuinticRootKilogram : TUnit absolute ReciprocalQuinticRootKilogramUnit;
 
 { TReciprocalQuarticRootKilogram } { @exclude }
 
@@ -16167,6 +18629,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/∜kg - reciprocal quartic root kilogram. }
+  ReciprocalQuarticRootKilogram : TUnit absolute ReciprocalQuarticRootKilogramUnit;
+
 { TReciprocalCubicRootKilogram } { @exclude }
 
 const
@@ -16177,6 +18643,10 @@ const
     FPluralName : rsReciprocalCubicRootKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/∛kg - reciprocal cubic root kilogram. }
+  ReciprocalCubicRootKilogram : TUnit absolute ReciprocalCubicRootKilogramUnit;
 
 { TReciprocalSquareRootKilogram } { @exclude }
 
@@ -16189,6 +18659,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/√kg - reciprocal square root kilogram. }
+  ReciprocalSquareRootKilogram : TUnit absolute ReciprocalSquareRootKilogramUnit;
+
 { TReciprocalQuarticRootCubicKilogram } { @exclude }
 
 const
@@ -16199,6 +18673,10 @@ const
     FPluralName : rsReciprocalQuarticRootCubicKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
+
+var
+  { 1/∜kg³ - reciprocal quartic root cubic kilogram. }
+  ReciprocalQuarticRootCubicKilogram : TUnit absolute ReciprocalQuarticRootCubicKilogramUnit;
 
 { TReciprocalSquareRootCubicKilogram } { @exclude }
 
@@ -16211,6 +18689,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/√kg³ - reciprocal square root cubic kilogram. }
+  ReciprocalSquareRootCubicKilogram : TUnit absolute ReciprocalSquareRootCubicKilogramUnit;
+
 { TReciprocalSquareRootQuinticKilogram } { @exclude }
 
 const
@@ -16221,6 +18703,10 @@ const
     FPluralName : rsReciprocalSquareRootQuinticKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-5));
+
+var
+  { 1/√kg⁵ - reciprocal square root quintic kilogram. }
+  ReciprocalSquareRootQuinticKilogram : TUnit absolute ReciprocalSquareRootQuinticKilogramUnit;
 
 { TReciprocalCubicKilogram } { @exclude }
 
@@ -16233,6 +18719,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/kg³ - reciprocal cubic kilogram. }
+  ReciprocalCubicKilogram : TUnit absolute ReciprocalCubicKilogramUnit;
+
 { TReciprocalQuarticKilogram } { @exclude }
 
 const
@@ -16243,6 +18733,10 @@ const
     FPluralName : rsReciprocalQuarticKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-4));
+
+var
+  { 1/kg⁴ - reciprocal quartic kilogram. }
+  ReciprocalQuarticKilogram : TUnit absolute ReciprocalQuarticKilogramUnit;
 
 { TReciprocalQuinticKilogram } { @exclude }
 
@@ -16255,6 +18749,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-5));
 
+var
+  { 1/kg⁵ - reciprocal quintic kilogram. }
+  ReciprocalQuinticKilogram : TUnit absolute ReciprocalQuinticKilogramUnit;
+
 { TReciprocalSexticKilogram } { @exclude }
 
 const
@@ -16265,6 +18763,10 @@ const
     FPluralName : rsReciprocalSexticKilogramPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-6));
+
+var
+  { 1/kg⁶ - reciprocal sextic kilogram. }
+  ReciprocalSexticKilogram : TUnit absolute ReciprocalSexticKilogramUnit;
 
 { TReciprocalSexticRootMeter } { @exclude }
 
@@ -16277,6 +18779,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/⁶√m - reciprocal sextic root meter. }
+  ReciprocalSexticRootMeter : TUnit absolute ReciprocalSexticRootMeterUnit;
+
 { TReciprocalQuinticRootMeter } { @exclude }
 
 const
@@ -16287,6 +18793,10 @@ const
     FPluralName : rsReciprocalQuinticRootMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/⁵√m - reciprocal quintic root meter. }
+  ReciprocalQuinticRootMeter : TUnit absolute ReciprocalQuinticRootMeterUnit;
 
 { TReciprocalQuarticRootMeter } { @exclude }
 
@@ -16299,6 +18809,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/∜m - reciprocal quartic root meter. }
+  ReciprocalQuarticRootMeter : TUnit absolute ReciprocalQuarticRootMeterUnit;
+
 { TReciprocalCubicRootMeter } { @exclude }
 
 const
@@ -16309,6 +18823,10 @@ const
     FPluralName : rsReciprocalCubicRootMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/∛m - reciprocal cubic root meter. }
+  ReciprocalCubicRootMeter : TUnit absolute ReciprocalCubicRootMeterUnit;
 
 { TReciprocalQuarticRootCubicMeter } { @exclude }
 
@@ -16321,6 +18839,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/∜m³ - reciprocal quartic root cubic meter. }
+  ReciprocalQuarticRootCubicMeter : TUnit absolute ReciprocalQuarticRootCubicMeterUnit;
+
 { TReciprocalSquareRootQuinticMeter } { @exclude }
 
 const
@@ -16331,6 +18853,10 @@ const
     FPluralName : rsReciprocalSquareRootQuinticMeterPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-5));
+
+var
+  { 1/√m⁵ - reciprocal square root quintic meter. }
+  ReciprocalSquareRootQuinticMeter : TUnit absolute ReciprocalSquareRootQuinticMeterUnit;
 
 { TReciprocalSexticRootSecond } { @exclude }
 
@@ -16343,6 +18869,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/⁶√s - reciprocal sextic root second. }
+  ReciprocalSexticRootSecond : TUnit absolute ReciprocalSexticRootSecondUnit;
+
 { TReciprocalQuinticRootSecond } { @exclude }
 
 const
@@ -16353,6 +18883,10 @@ const
     FPluralName : rsReciprocalQuinticRootSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/⁵√s - reciprocal quintic root second. }
+  ReciprocalQuinticRootSecond : TUnit absolute ReciprocalQuinticRootSecondUnit;
 
 { TReciprocalQuarticRootSecond } { @exclude }
 
@@ -16365,6 +18899,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/∜s - reciprocal quartic root second. }
+  ReciprocalQuarticRootSecond : TUnit absolute ReciprocalQuarticRootSecondUnit;
+
 { TReciprocalCubicRootSecond } { @exclude }
 
 const
@@ -16375,6 +18913,10 @@ const
     FPluralName : rsReciprocalCubicRootSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/∛s - reciprocal cubic root second. }
+  ReciprocalCubicRootSecond : TUnit absolute ReciprocalCubicRootSecondUnit;
 
 { TReciprocalSquareRootSecond } { @exclude }
 
@@ -16387,6 +18929,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/√s - reciprocal square root second. }
+  ReciprocalSquareRootSecond : TUnit absolute ReciprocalSquareRootSecondUnit;
+
 { TReciprocalQuarticRootCubicSecond } { @exclude }
 
 const
@@ -16397,6 +18943,10 @@ const
     FPluralName : rsReciprocalQuarticRootCubicSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
+
+var
+  { 1/∜s³ - reciprocal quartic root cubic second. }
+  ReciprocalQuarticRootCubicSecond : TUnit absolute ReciprocalQuarticRootCubicSecondUnit;
 
 { TReciprocalSquareRootCubicSecond } { @exclude }
 
@@ -16409,6 +18959,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/√s³ - reciprocal square root cubic second. }
+  ReciprocalSquareRootCubicSecond : TUnit absolute ReciprocalSquareRootCubicSecondUnit;
+
 { TReciprocalSquareRootQuinticSecond } { @exclude }
 
 const
@@ -16419,6 +18973,10 @@ const
     FPluralName : rsReciprocalSquareRootQuinticSecondPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-5));
+
+var
+  { 1/√s⁵ - reciprocal square root quintic second. }
+  ReciprocalSquareRootQuinticSecond : TUnit absolute ReciprocalSquareRootQuinticSecondUnit;
 
 { TReciprocalSexticRootAmpere } { @exclude }
 
@@ -16431,6 +18989,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/⁶√A - reciprocal sextic root ampere. }
+  ReciprocalSexticRootAmpere : TUnit absolute ReciprocalSexticRootAmpereUnit;
+
 { TReciprocalQuinticRootAmpere } { @exclude }
 
 const
@@ -16441,6 +19003,10 @@ const
     FPluralName : rsReciprocalQuinticRootAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/⁵√A - reciprocal quintic root ampere. }
+  ReciprocalQuinticRootAmpere : TUnit absolute ReciprocalQuinticRootAmpereUnit;
 
 { TReciprocalQuarticRootAmpere } { @exclude }
 
@@ -16453,6 +19019,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/∜A - reciprocal quartic root ampere. }
+  ReciprocalQuarticRootAmpere : TUnit absolute ReciprocalQuarticRootAmpereUnit;
+
 { TReciprocalCubicRootAmpere } { @exclude }
 
 const
@@ -16463,6 +19033,10 @@ const
     FPluralName : rsReciprocalCubicRootAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/∛A - reciprocal cubic root ampere. }
+  ReciprocalCubicRootAmpere : TUnit absolute ReciprocalCubicRootAmpereUnit;
 
 { TReciprocalSquareRootAmpere } { @exclude }
 
@@ -16475,6 +19049,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/√A - reciprocal square root ampere. }
+  ReciprocalSquareRootAmpere : TUnit absolute ReciprocalSquareRootAmpereUnit;
+
 { TReciprocalQuarticRootCubicAmpere } { @exclude }
 
 const
@@ -16485,6 +19063,10 @@ const
     FPluralName : rsReciprocalQuarticRootCubicAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
+
+var
+  { 1/∜A³ - reciprocal quartic root cubic ampere. }
+  ReciprocalQuarticRootCubicAmpere : TUnit absolute ReciprocalQuarticRootCubicAmpereUnit;
 
 { TReciprocalSquareRootCubicAmpere } { @exclude }
 
@@ -16497,6 +19079,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/√A³ - reciprocal square root cubic ampere. }
+  ReciprocalSquareRootCubicAmpere : TUnit absolute ReciprocalSquareRootCubicAmpereUnit;
+
 { TReciprocalSquareRootQuinticAmpere } { @exclude }
 
 const
@@ -16507,6 +19093,10 @@ const
     FPluralName : rsReciprocalSquareRootQuinticAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-5));
+
+var
+  { 1/√A⁵ - reciprocal square root quintic ampere. }
+  ReciprocalSquareRootQuinticAmpere : TUnit absolute ReciprocalSquareRootQuinticAmpereUnit;
 
 { TReciprocalCubicAmpere } { @exclude }
 
@@ -16519,6 +19109,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/A³ - reciprocal cubic ampere. }
+  ReciprocalCubicAmpere : TUnit absolute ReciprocalCubicAmpereUnit;
+
 { TReciprocalQuarticAmpere } { @exclude }
 
 const
@@ -16529,6 +19123,10 @@ const
     FPluralName : rsReciprocalQuarticAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-4));
+
+var
+  { 1/A⁴ - reciprocal quartic ampere. }
+  ReciprocalQuarticAmpere : TUnit absolute ReciprocalQuarticAmpereUnit;
 
 { TReciprocalQuinticAmpere } { @exclude }
 
@@ -16541,6 +19139,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-5));
 
+var
+  { 1/A⁵ - reciprocal quintic ampere. }
+  ReciprocalQuinticAmpere : TUnit absolute ReciprocalQuinticAmpereUnit;
+
 { TReciprocalSexticAmpere } { @exclude }
 
 const
@@ -16551,6 +19153,10 @@ const
     FPluralName : rsReciprocalSexticAmperePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-6));
+
+var
+  { 1/A⁶ - reciprocal sextic ampere. }
+  ReciprocalSexticAmpere : TUnit absolute ReciprocalSexticAmpereUnit;
 
 { TReciprocalSexticRootKelvin } { @exclude }
 
@@ -16563,6 +19169,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/⁶√K - reciprocal sextic root kelvin. }
+  ReciprocalSexticRootKelvin : TUnit absolute ReciprocalSexticRootKelvinUnit;
+
 { TReciprocalQuinticRootKelvin } { @exclude }
 
 const
@@ -16573,6 +19183,10 @@ const
     FPluralName : rsReciprocalQuinticRootKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/⁵√K - reciprocal quintic root kelvin. }
+  ReciprocalQuinticRootKelvin : TUnit absolute ReciprocalQuinticRootKelvinUnit;
 
 { TReciprocalQuarticRootKelvin } { @exclude }
 
@@ -16585,6 +19199,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/∜K - reciprocal quartic root kelvin. }
+  ReciprocalQuarticRootKelvin : TUnit absolute ReciprocalQuarticRootKelvinUnit;
+
 { TReciprocalCubicRootKelvin } { @exclude }
 
 const
@@ -16595,6 +19213,10 @@ const
     FPluralName : rsReciprocalCubicRootKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/∛K - reciprocal cubic root kelvin. }
+  ReciprocalCubicRootKelvin : TUnit absolute ReciprocalCubicRootKelvinUnit;
 
 { TReciprocalSquareRootKelvin } { @exclude }
 
@@ -16607,6 +19229,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/√K - reciprocal square root kelvin. }
+  ReciprocalSquareRootKelvin : TUnit absolute ReciprocalSquareRootKelvinUnit;
+
 { TReciprocalQuarticRootCubicKelvin } { @exclude }
 
 const
@@ -16617,6 +19243,10 @@ const
     FPluralName : rsReciprocalQuarticRootCubicKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
+
+var
+  { 1/∜K³ - reciprocal quartic root cubic kelvin. }
+  ReciprocalQuarticRootCubicKelvin : TUnit absolute ReciprocalQuarticRootCubicKelvinUnit;
 
 { TReciprocalSquareRootCubicKelvin } { @exclude }
 
@@ -16629,6 +19259,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/√K³ - reciprocal square root cubic kelvin. }
+  ReciprocalSquareRootCubicKelvin : TUnit absolute ReciprocalSquareRootCubicKelvinUnit;
+
 { TReciprocalSquareRootQuinticKelvin } { @exclude }
 
 const
@@ -16639,6 +19273,10 @@ const
     FPluralName : rsReciprocalSquareRootQuinticKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-5));
+
+var
+  { 1/√K⁵ - reciprocal square root quintic kelvin. }
+  ReciprocalSquareRootQuinticKelvin : TUnit absolute ReciprocalSquareRootQuinticKelvinUnit;
 
 { TReciprocalQuinticKelvin } { @exclude }
 
@@ -16651,6 +19289,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-5));
 
+var
+  { 1/K⁵ - reciprocal quintic kelvin. }
+  ReciprocalQuinticKelvin : TUnit absolute ReciprocalQuinticKelvinUnit;
+
 { TReciprocalSexticKelvin } { @exclude }
 
 const
@@ -16661,6 +19303,10 @@ const
     FPluralName : rsReciprocalSexticKelvinPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-6));
+
+var
+  { 1/K⁶ - reciprocal sextic kelvin. }
+  ReciprocalSexticKelvin : TUnit absolute ReciprocalSexticKelvinUnit;
 
 { TReciprocalSexticRootMole } { @exclude }
 
@@ -16673,6 +19319,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/⁶√mol - reciprocal sextic root mole. }
+  ReciprocalSexticRootMole : TUnit absolute ReciprocalSexticRootMoleUnit;
+
 { TReciprocalQuinticRootMole } { @exclude }
 
 const
@@ -16683,6 +19333,10 @@ const
     FPluralName : rsReciprocalQuinticRootMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/⁵√mol - reciprocal quintic root mole. }
+  ReciprocalQuinticRootMole : TUnit absolute ReciprocalQuinticRootMoleUnit;
 
 { TReciprocalQuarticRootMole } { @exclude }
 
@@ -16695,6 +19349,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/∜mol - reciprocal quartic root mole. }
+  ReciprocalQuarticRootMole : TUnit absolute ReciprocalQuarticRootMoleUnit;
+
 { TReciprocalCubicRootMole } { @exclude }
 
 const
@@ -16705,6 +19363,10 @@ const
     FPluralName : rsReciprocalCubicRootMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/∛mol - reciprocal cubic root mole. }
+  ReciprocalCubicRootMole : TUnit absolute ReciprocalCubicRootMoleUnit;
 
 { TReciprocalSquareRootMole } { @exclude }
 
@@ -16717,6 +19379,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/√mol - reciprocal square root mole. }
+  ReciprocalSquareRootMole : TUnit absolute ReciprocalSquareRootMoleUnit;
+
 { TReciprocalQuarticRootCubicMole } { @exclude }
 
 const
@@ -16727,6 +19393,10 @@ const
     FPluralName : rsReciprocalQuarticRootCubicMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
+
+var
+  { 1/∜mol³ - reciprocal quartic root cubic mole. }
+  ReciprocalQuarticRootCubicMole : TUnit absolute ReciprocalQuarticRootCubicMoleUnit;
 
 { TReciprocalSquareRootCubicMole } { @exclude }
 
@@ -16739,6 +19409,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/√mol³ - reciprocal square root cubic mole. }
+  ReciprocalSquareRootCubicMole : TUnit absolute ReciprocalSquareRootCubicMoleUnit;
+
 { TReciprocalSquareMole } { @exclude }
 
 const
@@ -16749,6 +19423,10 @@ const
     FPluralName : rsReciprocalSquareMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-2));
+
+var
+  { 1/mol² - reciprocal square mole. }
+  ReciprocalSquareMole : TUnit absolute ReciprocalSquareMoleUnit;
 
 { TReciprocalSquareRootQuinticMole } { @exclude }
 
@@ -16761,6 +19439,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-5));
 
+var
+  { 1/√mol⁵ - reciprocal square root quintic mole. }
+  ReciprocalSquareRootQuinticMole : TUnit absolute ReciprocalSquareRootQuinticMoleUnit;
+
 { TReciprocalCubicMole } { @exclude }
 
 const
@@ -16771,6 +19453,10 @@ const
     FPluralName : rsReciprocalCubicMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
+
+var
+  { 1/mol³ - reciprocal cubic mole. }
+  ReciprocalCubicMole : TUnit absolute ReciprocalCubicMoleUnit;
 
 { TReciprocalQuarticMole } { @exclude }
 
@@ -16783,6 +19469,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-4));
 
+var
+  { 1/mol⁴ - reciprocal quartic mole. }
+  ReciprocalQuarticMole : TUnit absolute ReciprocalQuarticMoleUnit;
+
 { TReciprocalQuinticMole } { @exclude }
 
 const
@@ -16793,6 +19483,10 @@ const
     FPluralName : rsReciprocalQuinticMolePluralName;
     FPrefixes   : (pNone);
     FExponents  : (-5));
+
+var
+  { 1/mol⁵ - reciprocal quintic mole. }
+  ReciprocalQuinticMole : TUnit absolute ReciprocalQuinticMoleUnit;
 
 { TReciprocalSexticMole } { @exclude }
 
@@ -16805,6 +19499,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-6));
 
+var
+  { 1/mol⁶ - reciprocal sextic mole. }
+  ReciprocalSexticMole : TUnit absolute ReciprocalSexticMoleUnit;
+
 { TReciprocalSexticRootCandela } { @exclude }
 
 const
@@ -16815,6 +19513,10 @@ const
     FPluralName : rsReciprocalSexticRootCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/⁶√cd - reciprocal sextic root candela. }
+  ReciprocalSexticRootCandela : TUnit absolute ReciprocalSexticRootCandelaUnit;
 
 { TReciprocalQuinticRootCandela } { @exclude }
 
@@ -16827,6 +19529,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/⁵√cd - reciprocal quintic root candela. }
+  ReciprocalQuinticRootCandela : TUnit absolute ReciprocalQuinticRootCandelaUnit;
+
 { TReciprocalQuarticRootCandela } { @exclude }
 
 const
@@ -16837,6 +19543,10 @@ const
     FPluralName : rsReciprocalQuarticRootCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/∜cd - reciprocal quartic root candela. }
+  ReciprocalQuarticRootCandela : TUnit absolute ReciprocalQuarticRootCandelaUnit;
 
 { TReciprocalCubicRootCandela } { @exclude }
 
@@ -16849,6 +19559,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { 1/∛cd - reciprocal cubic root candela. }
+  ReciprocalCubicRootCandela : TUnit absolute ReciprocalCubicRootCandelaUnit;
+
 { TReciprocalSquareRootCandela } { @exclude }
 
 const
@@ -16859,6 +19573,10 @@ const
     FPluralName : rsReciprocalSquareRootCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/√cd - reciprocal square root candela. }
+  ReciprocalSquareRootCandela : TUnit absolute ReciprocalSquareRootCandelaUnit;
 
 { TReciprocalQuarticRootCubicCandela } { @exclude }
 
@@ -16871,6 +19589,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/∜cd³ - reciprocal quartic root cubic candela. }
+  ReciprocalQuarticRootCubicCandela : TUnit absolute ReciprocalQuarticRootCubicCandelaUnit;
+
 { TReciprocalSquareRootCubicCandela } { @exclude }
 
 const
@@ -16881,6 +19603,10 @@ const
     FPluralName : rsReciprocalSquareRootCubicCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-3));
+
+var
+  { 1/√cd³ - reciprocal square root cubic candela. }
+  ReciprocalSquareRootCubicCandela : TUnit absolute ReciprocalSquareRootCubicCandelaUnit;
 
 { TReciprocalSquareCandela } { @exclude }
 
@@ -16893,6 +19619,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-2));
 
+var
+  { 1/cd² - reciprocal square candela. }
+  ReciprocalSquareCandela : TUnit absolute ReciprocalSquareCandelaUnit;
+
 { TReciprocalSquareRootQuinticCandela } { @exclude }
 
 const
@@ -16903,6 +19633,10 @@ const
     FPluralName : rsReciprocalSquareRootQuinticCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-5));
+
+var
+  { 1/√cd⁵ - reciprocal square root quintic candela. }
+  ReciprocalSquareRootQuinticCandela : TUnit absolute ReciprocalSquareRootQuinticCandelaUnit;
 
 { TReciprocalCubicCandela } { @exclude }
 
@@ -16915,6 +19649,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-3));
 
+var
+  { 1/cd³ - reciprocal cubic candela. }
+  ReciprocalCubicCandela : TUnit absolute ReciprocalCubicCandelaUnit;
+
 { TReciprocalQuarticCandela } { @exclude }
 
 const
@@ -16925,6 +19663,10 @@ const
     FPluralName : rsReciprocalQuarticCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-4));
+
+var
+  { 1/cd⁴ - reciprocal quartic candela. }
+  ReciprocalQuarticCandela : TUnit absolute ReciprocalQuarticCandelaUnit;
 
 { TReciprocalQuinticCandela } { @exclude }
 
@@ -16937,6 +19679,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-5));
 
+var
+  { 1/cd⁵ - reciprocal quintic candela. }
+  ReciprocalQuinticCandela : TUnit absolute ReciprocalQuinticCandelaUnit;
+
 { TReciprocalSexticCandela } { @exclude }
 
 const
@@ -16947,6 +19693,10 @@ const
     FPluralName : rsReciprocalSexticCandelaPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-6));
+
+var
+  { 1/cd⁶ - reciprocal sextic candela. }
+  ReciprocalSexticCandela : TUnit absolute ReciprocalSexticCandelaUnit;
 
 { TReciprocalSexticRootSteradian } { @exclude }
 
@@ -16959,6 +19709,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { 1/⁶√sr - reciprocal sextic root steradian. }
+  ReciprocalSexticRootSteradian : TUnit absolute ReciprocalSexticRootSteradianUnit;
+
 { TReciprocalQuinticRootSteradian } { @exclude }
 
 const
@@ -16969,6 +19723,10 @@ const
     FPluralName : rsReciprocalQuinticRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { 1/⁵√sr - reciprocal quintic root steradian. }
+  ReciprocalQuinticRootSteradian : TUnit absolute ReciprocalQuinticRootSteradianUnit;
 
 { TReciprocalQuarticRootSteradian } { @exclude }
 
@@ -16981,6 +19739,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { 1/∜sr - reciprocal quartic root steradian. }
+  ReciprocalQuarticRootSteradian : TUnit absolute ReciprocalQuarticRootSteradianUnit;
+
 { TReciprocalCubicRootSteradian } { @exclude }
 
 const
@@ -16991,6 +19753,10 @@ const
     FPluralName : rsReciprocalCubicRootSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { 1/∛sr - reciprocal cubic root steradian. }
+  ReciprocalCubicRootSteradian : TUnit absolute ReciprocalCubicRootSteradianUnit;
 
 { TReciprocalSquareRootSteradian } { @exclude }
 
@@ -17003,6 +19769,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { 1/√sr - reciprocal square root steradian. }
+  ReciprocalSquareRootSteradian : TUnit absolute ReciprocalSquareRootSteradianUnit;
+
 { TReciprocalQuarticRootCubicSteradian } { @exclude }
 
 const
@@ -17013,6 +19783,10 @@ const
     FPluralName : rsReciprocalQuarticRootCubicSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { 1/∜sr³ - reciprocal quartic root cubic steradian. }
+  ReciprocalQuarticRootCubicSteradian : TUnit absolute ReciprocalQuarticRootCubicSteradianUnit;
 
 { TReciprocalSquareRootCubicSteradian } { @exclude }
 
@@ -17025,6 +19799,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { 1/√sr³ - reciprocal square root cubic steradian. }
+  ReciprocalSquareRootCubicSteradian : TUnit absolute ReciprocalSquareRootCubicSteradianUnit;
+
 { TReciprocalSquareSteradian } { @exclude }
 
 const
@@ -17035,6 +19813,10 @@ const
     FPluralName : rsReciprocalSquareSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { 1/sr² - reciprocal square steradian. }
+  ReciprocalSquareSteradian : TUnit absolute ReciprocalSquareSteradianUnit;
 
 { TReciprocalSquareRootQuinticSteradian } { @exclude }
 
@@ -17047,6 +19829,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { 1/√sr⁵ - reciprocal square root quintic steradian. }
+  ReciprocalSquareRootQuinticSteradian : TUnit absolute ReciprocalSquareRootQuinticSteradianUnit;
+
 { TReciprocalCubicSteradian } { @exclude }
 
 const
@@ -17057,6 +19843,10 @@ const
     FPluralName : rsReciprocalCubicSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { 1/sr³ - reciprocal cubic steradian. }
+  ReciprocalCubicSteradian : TUnit absolute ReciprocalCubicSteradianUnit;
 
 { TReciprocalQuarticSteradian } { @exclude }
 
@@ -17069,6 +19859,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { 1/sr⁴ - reciprocal quartic steradian. }
+  ReciprocalQuarticSteradian : TUnit absolute ReciprocalQuarticSteradianUnit;
+
 { TReciprocalQuinticSteradian } { @exclude }
 
 const
@@ -17079,6 +19873,10 @@ const
     FPluralName : rsReciprocalQuinticSteradianPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+var
+  { 1/sr⁵ - reciprocal quintic steradian. }
+  ReciprocalQuinticSteradian : TUnit absolute ReciprocalQuinticSteradianUnit;
 
 { TReciprocalSexticSteradian } { @exclude }
 
@@ -17091,6 +19889,10 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
+var
+  { 1/sr⁶ - reciprocal sextic steradian. }
+  ReciprocalSexticSteradian : TUnit absolute ReciprocalSexticSteradianUnit;
+
 { TReciprocalSquareKilogramSquareMeter } { @exclude }
 
 const
@@ -17101,6 +19903,10 @@ const
     FPluralName : rsReciprocalSquareKilogramSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -2));
+
+var
+  { 1/kg²/m² - reciprocal square kilogram square meter. }
+  ReciprocalSquareKilogramSquareMeter : TUnit absolute ReciprocalSquareKilogramSquareMeterUnit;
 
 { TQuarticSecondPerSquareKilogram } { @exclude }
 
@@ -17113,6 +19919,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -2));
 
+var
+  { s⁴/kg² - quartic second per square kilogram. }
+  QuarticSecondPerSquareKilogram : TUnit absolute QuarticSecondPerSquareKilogramUnit;
+
 { TReciprocalMeterAmpere } { @exclude }
 
 const
@@ -17123,6 +19933,10 @@ const
     FPluralName : rsReciprocalMeterAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
+
+var
+  { 1/m/A - reciprocal meter ampere. }
+  ReciprocalMeterAmpere : TUnit absolute ReciprocalMeterAmpereUnit;
 
 { TCubicSecondAmperePerSquareMeter } { @exclude }
 
@@ -17135,6 +19949,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -2));
 
+var
+  { s³.A/m² - cubic second ampere per square meter. }
+  CubicSecondAmperePerSquareMeter : TUnit absolute CubicSecondAmperePerSquareMeterUnit;
+
 { TSexticSecondSquareAmperePerQuarticMeter } { @exclude }
 
 const
@@ -17145,6 +19963,10 @@ const
     FPluralName : rsSexticSecondSquareAmperePerQuarticMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (6, 2, -4));
+
+var
+  { s⁶.A²/m⁴ - sextic second square ampere per quartic meter. }
+  SexticSecondSquareAmperePerQuarticMeter : TUnit absolute SexticSecondSquareAmperePerQuarticMeterUnit;
 
 { TSexticSecondSquareAmperePerSquareKilogram } { @exclude }
 
@@ -17157,6 +19979,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (6, 2, -2));
 
+var
+  { s⁶.A²/kg² - sextic second square ampere per square kilogram. }
+  SexticSecondSquareAmperePerSquareKilogram : TUnit absolute SexticSecondSquareAmperePerSquareKilogramUnit;
+
 { TSquareAmperePerSquareKilogramPerQuarticMeter } { @exclude }
 
 const
@@ -17167,6 +19993,10 @@ const
     FPluralName : rsSquareAmperePerSquareKilogramPerQuarticMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -2, -4));
+
+var
+  { A²/kg²/m⁴ - square ampere per square kilogram per quartic meter. }
+  SquareAmperePerSquareKilogramPerQuarticMeter : TUnit absolute SquareAmperePerSquareKilogramPerQuarticMeterUnit;
 
 { TSexticSecondPerSquareKilogramPerQuarticMeter } { @exclude }
 
@@ -17179,6 +20009,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (6, -2, -4));
 
+var
+  { s⁶/kg²/m⁴ - sextic second per square kilogram per quartic meter. }
+  SexticSecondPerSquareKilogramPerQuarticMeter : TUnit absolute SexticSecondPerSquareKilogramPerQuarticMeterUnit;
+
 { TSquareMeterPerQuarticSecondPerSquareAmpere } { @exclude }
 
 const
@@ -17189,6 +20023,10 @@ const
     FPluralName : rsSquareMeterPerQuarticSecondPerSquareAmperePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -4, -2));
+
+var
+  { m²/s⁴/A² - square meter per quartic second per square ampere. }
+  SquareMeterPerQuarticSecondPerSquareAmpere : TUnit absolute SquareMeterPerQuarticSecondPerSquareAmpereUnit;
 
 { TKilogramSquareMeterPerQuarticSecond } { @exclude }
 
@@ -17201,6 +20039,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -4));
 
+var
+  { kg.m²/s⁴ - kilogram square meter per quartic second. }
+  KilogramSquareMeterPerQuarticSecond : TUnit absolute KilogramSquareMeterPerQuarticSecondUnit;
+
 { TReciprocalSecondSteradian } { @exclude }
 
 const
@@ -17211,6 +20053,10 @@ const
     FPluralName : rsReciprocalSecondSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (-1));
+
+var
+  { 1/s/sr - reciprocal second steradian. }
+  ReciprocalSecondSteradian : TUnit absolute ReciprocalSecondSteradianUnit;
 
 { TReciprocalSecondCandela } { @exclude }
 
@@ -17223,6 +20069,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
 
+var
+  { 1/s/cd - reciprocal second candela. }
+  ReciprocalSecondCandela : TUnit absolute ReciprocalSecondCandelaUnit;
+
 { TCubicMeterPerCandelaPerSteradian } { @exclude }
 
 const
@@ -17233,6 +20083,10 @@ const
     FPluralName : rsCubicMeterPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
+
+var
+  { m³/cd/sr - cubic meter per candela per steradian. }
+  CubicMeterPerCandelaPerSteradian : TUnit absolute CubicMeterPerCandelaPerSteradianUnit;
 
 { TCubicMeterPerSecondPerSteradian } { @exclude }
 
@@ -17245,6 +20099,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
 
+var
+  { m³/s/sr - cubic meter per second per steradian. }
+  CubicMeterPerSecondPerSteradian : TUnit absolute CubicMeterPerSecondPerSteradianUnit;
+
 { TCubicMeterPerSecondPerCandela } { @exclude }
 
 const
@@ -17255,6 +20113,10 @@ const
     FPluralName : rsCubicMeterPerSecondPerCandelaPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, -1, -1));
+
+var
+  { m³/s/cd - cubic meter per second per candela. }
+  CubicMeterPerSecondPerCandela : TUnit absolute CubicMeterPerSecondPerCandelaUnit;
 
 { TSquareMeterPerSecondPerSteradian } { @exclude }
 
@@ -17267,6 +20129,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -1));
 
+var
+  { m²/s/sr - square meter per second per steradian. }
+  SquareMeterPerSecondPerSteradian : TUnit absolute SquareMeterPerSecondPerSteradianUnit;
+
 { TSquareMeterPerSecondPerCandela } { @exclude }
 
 const
@@ -17277,6 +20143,10 @@ const
     FPluralName : rsSquareMeterPerSecondPerCandelaPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -1));
+
+var
+  { m²/s/cd - square meter per second per candela. }
+  SquareMeterPerSecondPerCandela : TUnit absolute SquareMeterPerSecondPerCandelaUnit;
 
 { TSquareMeterSquareSecond } { @exclude }
 
@@ -17289,6 +20159,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 2));
 
+var
+  { m².s² - square meter square second. }
+  SquareMeterSquareSecond : TUnit absolute SquareMeterSquareSecondUnit;
+
 { TSquareSecondPerQuarticMeter } { @exclude }
 
 const
@@ -17299,6 +20173,10 @@ const
     FPluralName : rsSquareSecondPerQuarticMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -4));
+
+var
+  { s²/m⁴ - square second per quartic meter. }
+  SquareSecondPerQuarticMeter : TUnit absolute SquareSecondPerQuarticMeterUnit;
 
 { TReciprocalKilogramQuarticMeter } { @exclude }
 
@@ -17311,6 +20189,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -4));
 
+var
+  { 1/kg/m⁴ - reciprocal kilogram quartic meter. }
+  ReciprocalKilogramQuarticMeter : TUnit absolute ReciprocalKilogramQuarticMeterUnit;
+
 { TSquareSecondKelvinPerKilogram } { @exclude }
 
 const
@@ -17321,6 +20203,10 @@ const
     FPluralName : rsSquareSecondKelvinPerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 1, -1));
+
+var
+  { s².K/kg - square second kelvin per kilogram. }
+  SquareSecondKelvinPerKilogram : TUnit absolute SquareSecondKelvinPerKilogramUnit;
 
 { TSquareSecondKelvin } { @exclude }
 
@@ -17333,6 +20219,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 1));
 
+var
+  { s².K - square second kelvin. }
+  SquareSecondKelvin : TUnit absolute SquareSecondKelvinUnit;
+
 { TMeterCubicSecond } { @exclude }
 
 const
@@ -17343,6 +20233,10 @@ const
     FPluralName : rsMeterCubicSecondPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 3));
+
+var
+  { m.s³ - meter cubic second. }
+  MeterCubicSecond : TUnit absolute MeterCubicSecondUnit;
 
 { TCubicSecondQuarticKelvinPerSquareMeter } { @exclude }
 
@@ -17355,6 +20249,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 4, -2));
 
+var
+  { s³.K⁴/m² - cubic second quartic kelvin per square meter. }
+  CubicSecondQuarticKelvinPerSquareMeter : TUnit absolute CubicSecondQuarticKelvinPerSquareMeterUnit;
+
 { TQuarticKelvinPerKilogramPerSquareMeter } { @exclude }
 
 const
@@ -17365,6 +20263,10 @@ const
     FPluralName : rsQuarticKelvinPerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, -1, -2));
+
+var
+  { K⁴/kg/m² - quartic kelvin per kilogram per square meter. }
+  QuarticKelvinPerKilogramPerSquareMeter : TUnit absolute QuarticKelvinPerKilogramPerSquareMeterUnit;
 
 { TCubicSecondQuarticKelvin } { @exclude }
 
@@ -17377,6 +20279,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, 4));
 
+var
+  { s³.K⁴ - cubic second quartic kelvin. }
+  CubicSecondQuarticKelvin : TUnit absolute CubicSecondQuarticKelvinUnit;
+
 { TQuarticKelvinPerKilogram } { @exclude }
 
 const
@@ -17387,6 +20293,10 @@ const
     FPluralName : rsQuarticKelvinPerKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -1));
+
+var
+  { K⁴/kg - quartic kelvin per kilogram. }
+  QuarticKelvinPerKilogram : TUnit absolute QuarticKelvinPerKilogramUnit;
 
 { TSquareSecondMolePerSquareMeter } { @exclude }
 
@@ -17399,6 +20309,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 1, -2));
 
+var
+  { s².mol/m² - square second mole per square meter. }
+  SquareSecondMolePerSquareMeter : TUnit absolute SquareSecondMolePerSquareMeterUnit;
+
 { TSquareSecondMolePerKilogram } { @exclude }
 
 const
@@ -17409,6 +20323,10 @@ const
     FPluralName : rsSquareSecondMolePerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 1, -1));
+
+var
+  { s².mol/kg - square second mole per kilogram. }
+  SquareSecondMolePerKilogram : TUnit absolute SquareSecondMolePerKilogramUnit;
 
 { TMolePerKilogramPerSquareMeter } { @exclude }
 
@@ -17421,6 +20339,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -2));
 
+var
+  { mol/kg/m² - mole per kilogram per square meter. }
+  MolePerKilogramPerSquareMeter : TUnit absolute MolePerKilogramPerSquareMeterUnit;
+
 { TSquareSecondKelvinMolePerSquareMeter } { @exclude }
 
 const
@@ -17431,6 +20353,10 @@ const
     FPluralName : rsSquareSecondKelvinMolePerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (2, 1, 1, -2));
+
+var
+  { s².K.mol/m² - square second kelvin mole per square meter. }
+  SquareSecondKelvinMolePerSquareMeter : TUnit absolute SquareSecondKelvinMolePerSquareMeterUnit;
 
 { TSquareSecondKelvinMolePerKilogram } { @exclude }
 
@@ -17443,6 +20369,10 @@ const
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (2, 1, 1, -1));
 
+var
+  { s².K.mol/kg - square second kelvin mole per kilogram. }
+  SquareSecondKelvinMolePerKilogram : TUnit absolute SquareSecondKelvinMolePerKilogramUnit;
+
 { TKelvinMolePerKilogramPerSquareMeter } { @exclude }
 
 const
@@ -17453,6 +20383,10 @@ const
     FPluralName : rsKelvinMolePerKilogramPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (1, 1, -1, -2));
+
+var
+  { K.mol/kg/m² - kelvin mole per kilogram per square meter. }
+  KelvinMolePerKilogramPerSquareMeter : TUnit absolute KelvinMolePerKilogramPerSquareMeterUnit;
 
 { TQuarticSecondSquareAmperePerMeter } { @exclude }
 
@@ -17465,6 +20399,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, 2, -1));
 
+var
+  { s⁴.A²/m - quartic second square ampere per meter. }
+  QuarticSecondSquareAmperePerMeter : TUnit absolute QuarticSecondSquareAmperePerMeterUnit;
+
 { TSquareAmperePerKilogramPerMeter } { @exclude }
 
 const
@@ -17475,6 +20413,10 @@ const
     FPluralName : rsSquareAmperePerKilogramPerMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -1, -1));
+
+var
+  { A²/kg/m - square ampere per kilogram per meter. }
+  SquareAmperePerKilogramPerMeter : TUnit absolute SquareAmperePerKilogramPerMeterUnit;
 
 { TQuarticSecondPerKilogramPerMeter } { @exclude }
 
@@ -17487,6 +20429,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, -1, -1));
 
+var
+  { s⁴/kg/m - quartic second per kilogram per meter. }
+  QuarticSecondPerKilogramPerMeter : TUnit absolute QuarticSecondPerKilogramPerMeterUnit;
+
 { TCubicSecondAmperePerCubicMeter } { @exclude }
 
 const
@@ -17497,6 +20443,10 @@ const
     FPluralName : rsCubicSecondAmperePerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (3, 1, -3));
+
+var
+  { s³.A/m³ - cubic second ampere per cubic meter. }
+  CubicSecondAmperePerCubicMeter : TUnit absolute CubicSecondAmperePerCubicMeterUnit;
 
 { TAmperePerKilogramPerCubicMeter } { @exclude }
 
@@ -17509,6 +20459,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -1, -3));
 
+var
+  { A/kg/m³ - ampere per kilogram per cubic meter. }
+  AmperePerKilogramPerCubicMeter : TUnit absolute AmperePerKilogramPerCubicMeterUnit;
+
 { TQuarticSecondAmperePerCubicMeter } { @exclude }
 
 const
@@ -17519,6 +20473,10 @@ const
     FPluralName : rsQuarticSecondAmperePerCubicMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, 1, -3));
+
+var
+  { s⁴.A/m³ - quartic second ampere per cubic meter. }
+  QuarticSecondAmperePerCubicMeter : TUnit absolute QuarticSecondAmperePerCubicMeterUnit;
 
 { TQuarticSecondAmperePerKilogram } { @exclude }
 
@@ -17531,6 +20489,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (4, 1, -1));
 
+var
+  { s⁴.A/kg - quartic second ampere per kilogram. }
+  QuarticSecondAmperePerKilogram : TUnit absolute QuarticSecondAmperePerKilogramUnit;
+
 { TSquareSecondAmperePerMeter } { @exclude }
 
 const
@@ -17541,6 +20503,10 @@ const
     FPluralName : rsSquareSecondAmperePerMeterPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 1, -1));
+
+var
+  { s².A/m - square second ampere per meter. }
+  SquareSecondAmperePerMeter : TUnit absolute SquareSecondAmperePerMeterUnit;
 
 { TQuarticSecondPerQuarticMeter } { @exclude }
 
@@ -17553,6 +20519,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -4));
 
+var
+  { s⁴/m⁴ - quartic second per quartic meter. }
+  QuarticSecondPerQuarticMeter : TUnit absolute QuarticSecondPerQuarticMeterUnit;
+
 { TReciprocalSquareKilogramQuarticMeter } { @exclude }
 
 const
@@ -17563,6 +20533,10 @@ const
     FPluralName : rsReciprocalSquareKilogramQuarticMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-2, -4));
+
+var
+  { 1/kg²/m⁴ - reciprocal square kilogram quartic meter. }
+  ReciprocalSquareKilogramQuarticMeter : TUnit absolute ReciprocalSquareKilogramQuarticMeterUnit;
 
 { TSquareMeterPerCubicSecondPerCandelaPerSteradian } { @exclude }
 
@@ -17575,6 +20549,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -3, -1));
 
+var
+  { m²/s³/cd/sr - square meter per cubic second per candela per steradian. }
+  SquareMeterPerCubicSecondPerCandelaPerSteradian : TUnit absolute SquareMeterPerCubicSecondPerCandelaPerSteradianUnit;
+
 { TKilogramPerCubicSecondPerCandelaPerSteradian } { @exclude }
 
 const
@@ -17585,6 +20563,10 @@ const
     FPluralName : rsKilogramPerCubicSecondPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -3, -1));
+
+var
+  { kg/s³/cd/sr - kilogram per cubic second per candela per steradian. }
+  KilogramPerCubicSecondPerCandelaPerSteradian : TUnit absolute KilogramPerCubicSecondPerCandelaPerSteradianUnit;
 
 { TKilogramSquareMeterPerCandelaPerSteradian } { @exclude }
 
@@ -17597,6 +20579,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -1));
 
+var
+  { kg.m²/cd/sr - kilogram square meter per candela per steradian. }
+  KilogramSquareMeterPerCandelaPerSteradian : TUnit absolute KilogramSquareMeterPerCandelaPerSteradianUnit;
+
 { TKilogramSquareMeterPerCubicSecondPerCandela } { @exclude }
 
 const
@@ -17607,6 +20593,10 @@ const
     FPluralName : rsKilogramSquareMeterPerCubicSecondPerCandelaPluralName;
     FPrefixes   : (pNone, pNone, pNone, pNone);
     FExponents  : (1, 2, -3, -1));
+
+var
+  { kg.m²/s³/cd - kilogram square meter per cubic second per candela. }
+  KilogramSquareMeterPerCubicSecondPerCandela : TUnit absolute KilogramSquareMeterPerCubicSecondPerCandelaUnit;
 
 { TSquareSecondSteradianPerSquareMeter } { @exclude }
 
@@ -17619,6 +20609,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
 
+var
+  { s².sr/m² - square second steradian per square meter. }
+  SquareSecondSteradianPerSquareMeter : TUnit absolute SquareSecondSteradianPerSquareMeterUnit;
+
 { TCubicSecondSteradianPerMeter } { @exclude }
 
 const
@@ -17629,6 +20623,10 @@ const
     FPluralName : rsCubicSecondSteradianPerMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
+
+var
+  { s³.sr/m - cubic second steradian per meter. }
+  CubicSecondSteradianPerMeter : TUnit absolute CubicSecondSteradianPerMeterUnit;
 
 { TSteradianPerKilogramPerMeter } { @exclude }
 
@@ -17641,6 +20639,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-1, -1));
 
+var
+  { sr/kg/m - steradian per kilogram per meter. }
+  SteradianPerKilogramPerMeter : TUnit absolute SteradianPerKilogramPerMeterUnit;
+
 { TMeterCubicSecondSteradian } { @exclude }
 
 const
@@ -17651,6 +20653,10 @@ const
     FPluralName : rsMeterCubicSecondSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, 3));
+
+var
+  { m.s³.sr - meter cubic second steradian. }
+  MeterCubicSecondSteradian : TUnit absolute MeterCubicSecondSteradianUnit;
 
 { TMeterSteradianPerKilogram } { @exclude }
 
@@ -17663,6 +20669,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { m.sr/kg - meter steradian per kilogram. }
+  MeterSteradianPerKilogram : TUnit absolute MeterSteradianPerKilogramUnit;
+
 { TSquareSecondSteradian } { @exclude }
 
 const
@@ -17673,6 +20683,10 @@ const
     FPluralName : rsSquareSecondSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (2));
+
+var
+  { s².sr - square second steradian. }
+  SquareSecondSteradian : TUnit absolute SquareSecondSteradianUnit;
 
 { TCubicMeterSecond } { @exclude }
 
@@ -17685,6 +20699,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, 1));
 
+var
+  { m³.s - cubic meter second. }
+  CubicMeterSecond : TUnit absolute CubicMeterSecondUnit;
+
 { TMolePerAmpere } { @exclude }
 
 const
@@ -17695,6 +20713,10 @@ const
     FPluralName : rsMolePerAmperePluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { mol/A - mole per ampere. }
+  MolePerAmpere : TUnit absolute MolePerAmpereUnit;
 
 { TSexticSecondSquareAmpere } { @exclude }
 
@@ -17707,6 +20729,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (6, 2));
 
+var
+  { s⁶.A² - sextic second square ampere. }
+  SexticSecondSquareAmpere : TUnit absolute SexticSecondSquareAmpereUnit;
+
 { TSquareAmperePerQuarticMeter } { @exclude }
 
 const
@@ -17717,6 +20743,10 @@ const
     FPluralName : rsSquareAmperePerQuarticMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -4));
+
+var
+  { A²/m⁴ - square ampere per quartic meter. }
+  SquareAmperePerQuarticMeter : TUnit absolute SquareAmperePerQuarticMeterUnit;
 
 { TSexticSecondPerQuarticMeter } { @exclude }
 
@@ -17729,6 +20759,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (6, -4));
 
+var
+  { s⁶/m⁴ - sextic second per quartic meter. }
+  SexticSecondPerQuarticMeter : TUnit absolute SexticSecondPerQuarticMeterUnit;
+
 { TSquareAmperePerSquareKilogram } { @exclude }
 
 const
@@ -17739,6 +20773,10 @@ const
     FPluralName : rsSquareAmperePerSquareKilogramPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, -2));
+
+var
+  { A²/kg² - square ampere per square kilogram. }
+  SquareAmperePerSquareKilogram : TUnit absolute SquareAmperePerSquareKilogramUnit;
 
 { TSexticSecondPerSquareKilogram } { @exclude }
 
@@ -17751,6 +20789,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (6, -2));
 
+var
+  { s⁶/kg² - sextic second per square kilogram. }
+  SexticSecondPerSquareKilogram : TUnit absolute SexticSecondPerSquareKilogramUnit;
+
 { TCubicMeterPerSteradian } { @exclude }
 
 const
@@ -17761,6 +20803,10 @@ const
     FPluralName : rsCubicMeterPerSteradianPluralName;
     FPrefixes   : (pNone);
     FExponents  : (3));
+
+var
+  { m³/sr - cubic meter per steradian. }
+  CubicMeterPerSteradian : TUnit absolute CubicMeterPerSteradianUnit;
 
 { TCubicMeterPerCandela } { @exclude }
 
@@ -17773,6 +20819,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (3, -1));
 
+var
+  { m³/cd - cubic meter per candela. }
+  CubicMeterPerCandela : TUnit absolute CubicMeterPerCandelaUnit;
+
 { TQuarticKelvinPerSquareMeter } { @exclude }
 
 const
@@ -17783,6 +20833,10 @@ const
     FPluralName : rsQuarticKelvinPerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, -2));
+
+var
+  { K⁴/m² - quartic kelvin per square meter. }
+  QuarticKelvinPerSquareMeter : TUnit absolute QuarticKelvinPerSquareMeterUnit;
 
 { TSquareSecondMole } { @exclude }
 
@@ -17795,6 +20849,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (2, 1));
 
+var
+  { s².mol - square second mole. }
+  SquareSecondMole : TUnit absolute SquareSecondMoleUnit;
+
 { TMolePerSquareMeter } { @exclude }
 
 const
@@ -17805,6 +20863,10 @@ const
     FPluralName : rsMolePerSquareMeterPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -2));
+
+var
+  { mol/m² - mole per square meter. }
+  MolePerSquareMeter : TUnit absolute MolePerSquareMeterUnit;
 
 { TMolePerKilogram } { @exclude }
 
@@ -17817,6 +20879,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
 
+var
+  { mol/kg - mole per kilogram. }
+  MolePerKilogram : TUnit absolute MolePerKilogramUnit;
+
 { TSquareSecondKelvinMole } { @exclude }
 
 const
@@ -17827,6 +20893,10 @@ const
     FPluralName : rsSquareSecondKelvinMolePluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, 1, 1));
+
+var
+  { s².K.mol - square second kelvin mole. }
+  SquareSecondKelvinMole : TUnit absolute SquareSecondKelvinMoleUnit;
 
 { TKelvinMolePerSquareMeter } { @exclude }
 
@@ -17839,6 +20909,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -2));
 
+var
+  { K.mol/m² - kelvin mole per square meter. }
+  KelvinMolePerSquareMeter : TUnit absolute KelvinMolePerSquareMeterUnit;
+
 { TKelvinMolePerKilogram } { @exclude }
 
 const
@@ -17849,6 +20923,10 @@ const
     FPluralName : rsKelvinMolePerKilogramPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 1, -1));
+
+var
+  { K.mol/kg - kelvin mole per kilogram. }
+  KelvinMolePerKilogram : TUnit absolute KelvinMolePerKilogramUnit;
 
 { TQuarticSecondAmpere } { @exclude }
 
@@ -17861,6 +20939,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (4, 1));
 
+var
+  { s⁴.A - quartic second ampere. }
+  QuarticSecondAmpere : TUnit absolute QuarticSecondAmpereUnit;
+
 { TReciprocalCubicSecondCandelaSteradian } { @exclude }
 
 const
@@ -17871,6 +20953,10 @@ const
     FPluralName : rsReciprocalCubicSecondCandelaSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (-3, -1));
+
+var
+  { 1/s³/cd/sr - reciprocal cubic second candela steradian. }
+  ReciprocalCubicSecondCandelaSteradian : TUnit absolute ReciprocalCubicSecondCandelaSteradianUnit;
 
 { TSquareMeterPerCubicSecondPerCandela } { @exclude }
 
@@ -17883,6 +20969,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (2, -3, -1));
 
+var
+  { m²/s³/cd - square meter per cubic second per candela. }
+  SquareMeterPerCubicSecondPerCandela : TUnit absolute SquareMeterPerCubicSecondPerCandelaUnit;
+
 { TKilogramPerCandelaPerSteradian } { @exclude }
 
 const
@@ -17893,6 +20983,10 @@ const
     FPluralName : rsKilogramPerCandelaPerSteradianPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { kg/cd/sr - kilogram per candela per steradian. }
+  KilogramPerCandelaPerSteradian : TUnit absolute KilogramPerCandelaPerSteradianUnit;
 
 { TKilogramPerCubicSecondPerCandela } { @exclude }
 
@@ -17905,6 +20999,10 @@ const
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, -3, -1));
 
+var
+  { kg/s³/cd - kilogram per cubic second per candela. }
+  KilogramPerCubicSecondPerCandela : TUnit absolute KilogramPerCubicSecondPerCandelaUnit;
+
 { TKilogramSquareMeterPerCandela } { @exclude }
 
 const
@@ -17915,6 +21013,10 @@ const
     FPluralName : rsKilogramSquareMeterPerCandelaPluralName;
     FPrefixes   : (pNone, pNone, pNone);
     FExponents  : (1, 2, -1));
+
+var
+  { kg.m²/cd - kilogram square meter per candela. }
+  KilogramSquareMeterPerCandela : TUnit absolute KilogramSquareMeterPerCandelaUnit;
 
 { TSteradianPerMeter } { @exclude }
 
@@ -17927,6 +21029,10 @@ const
     FPrefixes   : (pNone);
     FExponents  : (-1));
 
+var
+  { sr/m - steradian per meter. }
+  SteradianPerMeter : TUnit absolute SteradianPerMeterUnit;
+
 { TReciprocalCubicSecondCandela } { @exclude }
 
 const
@@ -17938,6 +21044,10 @@ const
     FPrefixes   : (pNone, pNone);
     FExponents  : (-3, -1));
 
+var
+  { 1/s³/cd - reciprocal cubic second candela. }
+  ReciprocalCubicSecondCandela : TUnit absolute ReciprocalCubicSecondCandelaUnit;
+
 { TKilogramPerCandela } { @exclude }
 
 const
@@ -17948,6 +21058,10 @@ const
     FPluralName : rsKilogramPerCandelaPluralName;
     FPrefixes   : (pNone, pNone);
     FExponents  : (1, -1));
+
+var
+  { kg/cd - kilogram per candela. }
+  KilogramPerCandela : TUnit absolute KilogramPerCandelaUnit;
 
 type
   { Represents the basis vector @code(e₁) of @code(ℝ²).
