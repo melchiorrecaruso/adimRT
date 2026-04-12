@@ -21924,6 +21924,8 @@ begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 2;
   result.FValue := Power(AQuantity.FValue, 1/2);
+
+  Check(result.FDim * 2, AQuantity.FDim);
 {$ELSE};
   result := Power(AQuantity, 1/2);
 {$ENDIF}
@@ -21934,6 +21936,8 @@ begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 3;
   result.FValue := Power(AQuantity.FValue, 1/3);
+
+  Check(result.FDim * 3, AQuantity.FDim);
 {$ELSE}
   result := Power(AQuantity, 1/3);
 {$ENDIF}
@@ -21944,6 +21948,8 @@ begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 4;
   result.FValue := Power(AQuantity.FValue, 1/4);
+
+  Check(result.FDim * 4, AQuantity.FDim);
 {$ELSE}
   result := Power(AQuantity, 1/4);
 {$ENDIF}
@@ -21954,6 +21960,8 @@ begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 5;
   result.FValue := Power(AQuantity.FValue, 1/5);
+
+  Check(result.FDim * 5, AQuantity.FDim);
 {$ELSE}
   result := Power(AQuantity, 1/5);
 {$ENDIF}
@@ -21964,6 +21972,8 @@ begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 6;
   result.FValue := Power(AQuantity.FValue, 1/6);
+
+  Check(result.FDim * 6, AQuantity.FDim);
 {$ELSE}
   result := Power(AQuantity, 1/6);
 {$ENDIF}
