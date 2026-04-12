@@ -31,8 +31,7 @@ uses
   SysUtils;
 
 type
-  {
-    Represents the physical dimension of a quantity using the SI base units.
+  { Represents the physical dimension of a quantity using the SI base units.
 
     Each field stores the integer exponent of the corresponding SI base unit.
     For example, a velocity has dimension @code(m¹·s⁻¹), represented as
@@ -70,15 +69,13 @@ type
     { Exponent of the SI base unit candela @code([cd]). Luminous intensity dimension. }
     FCandela: smallint;
 
-    {
-      Exponent of the SI derived unit steradian @code([sr]).
+    { Exponent of the SI derived unit steradian @code([sr]).
       Used to track solid angle dimensionality independently from dimensionless quantities.
     }
     FSteradian: smallint;
 
   public
-    {
-      Returns a human-readable string representation of the dimension.
+    { Returns a human-readable string representation of the dimension.
       Exponents equal to zero are omitted. Positive exponents are listed first,
       followed by negative ones with a @code(/) separator.
       Example: @code(kg·m²·s⁻³·A⁻¹) for the dimension of electric potential.
@@ -88,58 +85,50 @@ type
     { Unary plus. Returns the dimension unchanged. }
     class operator +(const ASelf: TDimension): TDimension;
 
-    {
-      Unary minus. Returns the inverse dimension.
+    { Unary minus. Returns the inverse dimension.
       Each exponent is negated: used to represent the dimension of a reciprocal quantity.
     }
     class operator -(const ASelf: TDimension): TDimension;
 
-    {
-      Returns the sum of two dimensions, i.e. the dimension resulting from
+    { Returns the sum of two dimensions, i.e. the dimension resulting from
       multiplying two physical quantities.
       Each exponent of the result equals the sum of the corresponding exponents.
     }
     class operator +(const ALeft, ARight: TDimension): TDimension;
 
-    {
-      Returns the difference of two dimensions, i.e. the dimension resulting from
+    { Returns the difference of two dimensions, i.e. the dimension resulting from
       dividing two physical quantities.
       Each exponent of the result equals the difference of the corresponding exponents.
     }
     class operator -(const ALeft, ARight: TDimension): TDimension;
 
-    {
-      Returns the dimension scaled by an integer exponent.
+    { Returns the dimension scaled by an integer exponent.
       Each exponent is multiplied by @code(ALeft).
       Used to represent the dimension of a quantity raised to an integer power,
       e.g. @code(3 * [m] = [m³]).
     }
     class operator *(const ALeft: longint; ARight: TDimension): TDimension;
 
-    {
-      Returns the dimension scaled by an integer exponent.
+    { Returns the dimension scaled by an integer exponent.
       Each exponent is multiplied by @code(ARight).
       Used to represent the dimension of a quantity raised to an integer power,
       e.g. @code([m] * 3 = [m³]).
     }
     class operator *(const ALeft: TDimension; ARight: longint): TDimension;
 
-    {
-      Returns the dimension divided by an integer.
+    { Returns the dimension divided by an integer.
       Each exponent is divided by @code(ARight).
       Used to represent the dimension of an integer root of a quantity,
       e.g. @code([m²] div 2 = [m]).
     }
     class operator div(const ALeft: TDimension; ARight: longint): TDimension;
 
-    {
-      Returns @true if the two dimensions differ in at least one exponent.
+    { Returns @true if the two dimensions differ in at least one exponent.
       Used internally to detect dimensional incompatibility between quantities.
     }
     class operator <>(const ALeft, ARight: TDimension): boolean;
 
-    {
-      Returns @true if all corresponding exponents of the two dimensions are equal.
+    { Returns @true if all corresponding exponents of the two dimensions are equal.
       Two quantities are dimensionally compatible if and only if their dimensions are equal.
     }
     class operator =(const ALeft, ARight: TDimension): boolean;
@@ -235,26 +224,26 @@ end;
 
 class operator TDimension.<>(const ALeft, ARight: TDimension): boolean;
 begin
-  Result := (ALeft.FKilogram <> ARight.FKilogram) or
-    (ALeft.FMeter     <> ARight.FMeter    ) or
-    (ALeft.FSecond    <> ARight.FSecond   ) or
-    (ALeft.FAmpere    <> ARight.FAmpere   ) or
-    (ALeft.FKelvin    <> ARight.FKelvin   ) or
-    (ALeft.FMole      <> ARight.FMole     ) or
-    (ALeft.FCandela   <> ARight.FCandela  ) or
-    (ALeft.FSteradian <> ARight.FSteradian);
+  Result := (ALeft.FKilogram  <> ARight.FKilogram ) or
+            (ALeft.FMeter     <> ARight.FMeter    ) or
+            (ALeft.FSecond    <> ARight.FSecond   ) or
+            (ALeft.FAmpere    <> ARight.FAmpere   ) or
+            (ALeft.FKelvin    <> ARight.FKelvin   ) or
+            (ALeft.FMole      <> ARight.FMole     ) or
+            (ALeft.FCandela   <> ARight.FCandela  ) or
+            (ALeft.FSteradian <> ARight.FSteradian);
 end;
 
 class operator TDimension.=(const ALeft, ARight: TDimension): boolean;
 begin
-  Result := (ALeft.FKilogram = ARight.FKilogram) and
-    (ALeft.FMeter     = ARight.FMeter    ) and
-    (ALeft.FSecond    = ARight.FSecond   ) and
-    (ALeft.FAmpere    = ARight.FAmpere   ) and
-    (ALeft.FKelvin    = ARight.FKelvin   ) and
-    (ALeft.FMole      = ARight.FMole     ) and
-    (ALeft.FCandela   = ARight.FCandela  ) and
-    (ALeft.FSteradian = ARight.FSteradian);
+  Result := (ALeft.FKilogram  = ARight.FKilogram ) and
+            (ALeft.FMeter     = ARight.FMeter    ) and
+            (ALeft.FSecond    = ARight.FSecond   ) and
+            (ALeft.FAmpere    = ARight.FAmpere   ) and
+            (ALeft.FKelvin    = ARight.FKelvin   ) and
+            (ALeft.FMole      = ARight.FMole     ) and
+            (ALeft.FCandela   = ARight.FCandela  ) and
+            (ALeft.FSteradian = ARight.FSteradian);
 end;
 
 function SymbolToString(AExponent: smallint; const ASymbol: string): string; inline;
