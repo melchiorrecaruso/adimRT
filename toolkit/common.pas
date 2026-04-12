@@ -48,7 +48,9 @@ function GetPluralName(const ALongSymbol: string): string;
 function GetPrefixes(const AShortSymbol: string): string;
 function GetExponents(const AShortSymbol: string): string;
 
-function GetReciprocal(const AExponents: TExponents): TExponents;
+function GetReciprocal(const ADim: TExponents): TExponents;
+
+function GetComment(const ADim: TExponents): string;
 
 function GetQuantity(const S: string): string;
 function GetUnitID(const S: string): string;
@@ -428,14 +430,29 @@ begin
   result[7] := ADim1[7] - ADim2[7];
 end;
 
-function GetReciprocal(const AExponents: TExponents): TExponents;
+function GetReciprocal(const ADim: TExponents): TExponents;
 var
   i: longint;
 begin
-  for i := Low(AExponents) to High(AExponents) do
+  for i := Low(ADim) to High(ADim) do
   begin
-    result[i] := -AExponents[i];
+    result[i] := -ADim[i];
   end;
+end;
+
+function GetComment(const ADim: TExponents): string;
+begin
+  result := Format('%s - %s.', [DimensionToShortString(ADim), DimensionToLongString(ADim)]);
+
+  result := StringReplace(result, '!',   '', [rfReplaceAll]);
+  result := StringReplace(result, '?',   '', [rfReplaceAll]);
+  result := StringReplace(result, '%s',  '', [rfReplaceAll]);
+
+  result := StringReplace(result, '2', '²', [rfReplaceAll]);
+  result := StringReplace(result, '3', '³', [rfReplaceAll]);
+  result := StringReplace(result, '4', '⁴', [rfReplaceAll]);
+  result := StringReplace(result, '5', '⁵', [rfReplaceAll]);
+  result := StringReplace(result, '6', '⁶', [rfReplaceAll]);
 end;
 
 function GetUnitTypeHelper(const S: string): string;

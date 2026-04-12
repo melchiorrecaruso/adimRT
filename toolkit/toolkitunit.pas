@@ -370,17 +370,29 @@ begin
 end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
+var
+  Identifier: string;
 begin
   if (AItem.FBase = '') then
   begin
     // Base unit symbols
+    ASection.Add('var');
+
+    Identifier := GetUnitID(AItem.FQuantity);
+    if CompareText(Identifier, AItem.FIdentifier) <> 0 then
+    begin
+      ASection.Add('  { %s }', [AItem.FComment]);
+      ASection.Add('  %s : TUnit absolute %sUnit;', [Identifier, GetUnitID(AItem.FQuantity)]);
+      ASection.Add('');
+    end;
+
     if AItem.FIdentifier <> '' then
     begin
-      ASection.Add('var');
       ASection.Add('  { %s }', [AItem.FComment]);
       ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
       ASection.Add('');
     end;
+
     if AItem.FIdentifier <> '' then
       AddFactoredSymbols(AItem, ASection);
   end else
@@ -388,13 +400,23 @@ begin
     if (AItem.FFactor = '') then
     begin
       // Cloned unit symbols
+      ASection.Add('var');
+
+      Identifier := GetUnitID(AItem.FQuantity);
+      if CompareText(Identifier, AItem.FIdentifier) <> 0 then
+      begin
+        ASection.Add('  { %s }', [AItem.FComment]);
+        ASection.Add('  %s : TUnit absolute %sUnit;', [Identifier, GetUnitID(AItem.FQuantity)]);
+        ASection.Add('');
+      end;
+
       if AItem.FIdentifier <> '' then
       begin
-        ASection.Add('var');
         ASection.Add('  { %s }', [AItem.FComment]);
         ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
         ASection.Add('');
       end;
+
       if AItem.FIdentifier <> '' then
         AddFactoredSymbols(AItem, ASection);
     end else
@@ -405,12 +427,30 @@ begin
         ASection.Add('var');
         ASection.Add('  { %s }', [AItem.FComment]);
         if LowerCase(AItem.FFactor) = 'celsius' then
+        begin
           ASection.Add('  %s : TDegreeCelsiusUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)])
-        else
+        end else
           if LowerCase(AItem.FFactor) = 'fahrenheit' then
+          begin
             ASection.Add('  %s : TDegreeFahrenheitUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)])
-          else
-            ASection.Add('  %s : TFactoredUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
+          end else
+          begin
+
+            Identifier := GetUnitID(AItem.FQuantity);
+            if CompareText(Identifier, AItem.FIdentifier) <> 0 then
+             begin
+               ASection.Add('  { %s }', [AItem.FComment]);
+               ASection.Add('  %s : TFactoredUnit absolute %sUnit;', [Identifier, GetUnitID(AItem.FQuantity)]);
+               ASection.Add('');
+             end;
+
+            if AItem.FIdentifier <> '' then
+            begin
+              ASection.Add('  { %s }', [AItem.FComment]);
+              ASection.Add('  %s : TFactoredUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
+              ASection.Add('');
+            end;
+          end;
         ASection.Add('');
       end;
       if AItem.FIdentifier <> '' then
@@ -748,7 +788,7 @@ begin
   NewItem.FFactor      := '';
   NewItem.FPrefixes    := '';
   NewItem.FExponents   := ADim;
-  NewItem.FComment     := '';
+  NewItem.FComment     := GetComment(ADim);
   NewItem.FColor       := '';
   FList.Add(NewItem);
 end;
