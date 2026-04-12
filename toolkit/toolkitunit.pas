@@ -438,39 +438,43 @@ var
 
   procedure Append(const ALongPrefix, APrefix, AIndex, AFactor, APower: string);
   var
-    S1, S2, S3, S4, S5, S6: string;
+    CurrSymbol, Kind, CurrName, BaseSymbol, BaseName: string;
   begin
-    S1 := APrefix + AItem.FIdentifier;
-    if (LowerCase(AItem.FIdentifier) = 'kg' ) then S1 := APrefix;
-    if (LowerCase(AItem.FIdentifier) = 'kg2') then S1 := APrefix;
+    CurrSymbol := APrefix + AItem.FIdentifier;
+    if (LowerCase(AItem.FIdentifier) = 'kg' ) then CurrSymbol := APrefix;
+    if (LowerCase(AItem.FIdentifier) = 'kg2') then CurrSymbol := APrefix;
 
     if Pos('+', APower) > 0 then
-      S2 := 'multiple'
+      Kind := 'multiple'
     else
-      S2 := 'submultiple';
+      Kind := 'submultiple';
 
-    S3 := AItem.FLongString;
-    S3 := StringReplace(S3, '%s', '',  [rfReplaceAll]);
-    S3 := StringReplace(S3, '!',  '',  [rfReplaceAll]);
-    S3 := StringReplace(S3, '?',  '',  [rfReplaceAll]);
-    S3 := GetSymbol(S3);
-    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then S3 := 'kilogram';
-    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then S3 := 'square kilogram';
+    CurrName := AItem.FLongString;
+    CurrName := StringReplace(CurrName, '%s', ALongPrefix,  [rfReplaceAll]);
+    CurrName := StringReplace(CurrName, '!',  '',           [rfReplaceAll]);
+    CurrName := StringReplace(CurrName, '?',  '',           [rfReplaceAll]);
+    CurrName := GetSymbol(CurrName);
+    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then CurrName := 'kilogram';
+    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then CurrName := 'square kilogram';
 
-    S4 := AItem.FShortString;
-    S4 := StringReplace(S4, '%s', '',  [rfReplaceAll]);
-    S4 := StringReplace(S4, '!',  '',  [rfReplaceAll]);
-    S4 := StringReplace(S4, '?',  '',  [rfReplaceAll]);
-    S4 := GetSymbol(S4);
-    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then S4 := 'kg';
-    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then S4 := 'kg2';
+    BaseSymbol := AItem.FShortString;
+    BaseSymbol := StringReplace(BaseSymbol, '%s', '',  [rfReplaceAll]);
+    BaseSymbol := StringReplace(BaseSymbol, '!',  '',  [rfReplaceAll]);
+    BaseSymbol := StringReplace(BaseSymbol, '?',  '',  [rfReplaceAll]);
+    BaseSymbol := GetSymbol(BaseSymbol);
+    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then BaseSymbol := 'kg';
+    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then BaseSymbol := 'kg2';
 
-    S6 := ALongPrefix + S3;
-    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then S6 := ALongPrefix;
-    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then S6 := ALongPrefix;
+    BaseName := AItem.FLongString;
+    BaseName := StringReplace(BaseName, '%s', '',  [rfReplaceAll]);
+    BaseName := StringReplace(BaseName, '!',  '',  [rfReplaceAll]);
+    BaseName := StringReplace(BaseName, '?',  '',  [rfReplaceAll]);
+    BaseName := GetSymbol(BaseName);
+    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then BaseName := 'kilogram';
+    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then BaseName := 'square kilogram';
 
-    SectionA.Add('  { %s - %s: %s of %s; 1 %s = %s %s. }', [GetSymbol(S1), S6, S2, S3, GetSymbol(S1), APower, GetSymbol(S4)]);
-    SectionA.Add(S, [S1, AIndex, AFactor + APower, AFactor + APower]);
+    SectionA.Add('  { %s - %s: %s of %s; 1 %s = %s %s. }', [GetSymbol(CurrSymbol), CurrName, Kind, BaseName, GetSymbol(CurrSymbol), APower, GetSymbol(BaseSymbol)]);
+    SectionA.Add(S, [CurrSymbol, AIndex, AFactor + APower, AFactor + APower]);
     SectionA.Add('');
   end;
 
