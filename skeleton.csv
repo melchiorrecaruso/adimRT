@@ -18,7 +18,7 @@
 ;TSexticSecond?;s6;sextic %ssecond?;%ss6;s6;;;------------SSSSSS------;s⁶ - sextic second: SI unit of sextic time.;clLime
 ;TMeter?;m;%smeter?;%sm;m;;;---------S--SSSSSS------;m - meter: SI base unit of length.;clLime
 ;TAstronomical;;astronomical unit?;au;au;TMeter?;149597870691;;"au - astronomical unit: unit of length used in astronomy; 1 au = 149597870691 m.";clWhite
-;TInch!;;inch!;in;inch;TMeter?;0.0254;;"in - inch: imperal unit of length; 1 inch = 0.0254 m.";clWhite
+;TInch!;;inch!;in;inch;TMeter?;0.0254;;"in - inch: imperial unit of length; 1 inch = 0.0254 m.";clWhite
 ;TFoot!;;foot!;ft;ft;TMeter?;0.3048;;"ft - foot: imperial unit of length; 1 ft = 0.3048 m.";clWhite
 ;TYard?;;yard?;yd;yd;TMeter?;0.9144;;"yd - yard: imperial unit of length; 1 yd = 0.9144 m.";clWhite
 ;TMile?;;mile?;mi;mi;TMeter?;1609.344;;"mi - mile: imperial unit of length; 1 mi = 1609.344 m.";clWhite
@@ -28,14 +28,14 @@
 ;TLightYear?;;%slight year?;%sly;ly;TMeter?;9.4607304725808E+15;--------S---------------;"ly - light year: unit of length used in astronomy; 1 ly = 9.460730E+15 m.";clYellow
 ;TSquareRootMeter?;m0.5;square root %smeter?;√%sm;;;;;√m — square root meter: unit of square root of length.;clLime
 ;TSquareMeter?;m2;square %smeter?;%sm2;m2;;;---------S--SSSSSS------;m² - square meter: SI unit of area.;clLime
-;TSquareInch!;;square inch!;in2;inch2;TSquareMeter?;0.00064516;;"in² - square inch: unit of area; 1 in² = 6.4516e-4 m².";clWhite
-;TSquareFoot!;;square foot!;ft2;ft2;TSquareMeter?;0.09290304;;"ft² - square foot: unit of area; 1 ft² = 0.09290304 m².";clWhite
-;TSquareYard?;;square yard?;yd2;yd2;TSquareMeter?;0.83612736;;"yd² - square yard: unit of area; 1 yd² = 0.83612736 m².";clWhite
-;TSquareMile?;;square mile?;mi2;mi2;TSquareMeter?;2589988.110336;;"mi² - square mile: unit of area; 1 mi² = 2589988.110336 m².";clWhite
+;TSquareInch!;;square inch!;in2;inch2;TSquareMeter?;0.00064516;;"in² - square inch: imperial unit of area; 1 in² = 6.4516e-4 m².";clWhite
+;TSquareFoot!;;square foot!;ft2;ft2;TSquareMeter?;0.09290304;;"ft² - square foot: imperial unit of area; 1 ft² = 0.09290304 m².";clWhite
+;TSquareYard?;;square yard?;yd2;yd2;TSquareMeter?;0.83612736;;"yd² - square yard: imperial unit of area; 1 yd² = 0.83612736 m².";clWhite
+;TSquareMile?;;square mile?;mi2;mi2;TSquareMeter?;2589988.110336;;"mi² - square mile: imperial unit of area; 1 mi² = 2589988.110336 m².";clWhite
 ;TCubicMeter?;m3;cubic %smeter?;%sm3;m3;;;---------S--SSSSSS------;m³ - cubic meter: SI derived unit of volume.;clLime
-;TCubicInch!;;cubic inch!;in3;inch3;TCubicMeter?;0.000016387064;;"in³ - cubic inch: unit of volume; 1 in³ = 1.6387064e-5 m³.";clWhite
-;TCubicFoot!;;cubic foot!;ft3;ft3;TCubicMeter?;0.028316846592;;"ft³ - cubic foot: unit of volume; 1 ft³ = 0.028316846592 m³.";clWhite
-;TCubicYard?;;cubic yard?;yd3;yd3;TCubicMeter?;0.764554857984;;"yd³ - cubic yard: unit of volume; 1 yd³ = 0.764554857984 m³.";clWhite
+;TCubicInch!;;cubic inch!;in3;inch3;TCubicMeter?;0.000016387064;;"in³ - cubic inch: imperial unit of volume; 1 in³ = 1.6387064e-5 m³.";clWhite
+;TCubicFoot!;;cubic foot!;ft3;ft3;TCubicMeter?;0.028316846592;;"ft³ - cubic foot: imperial unit of volume; 1 ft³ = 0.028316846592 m³.";clWhite
+;TCubicYard?;;cubic yard?;yd3;yd3;TCubicMeter?;0.764554857984;;"yd³ - cubic yard: imperial unit of volume; 1 yd³ = 0.764554857984 m³.";clWhite
 ;TLitre?;;%slitre?;%sL;L;TCubicMeter?;1E-03;------------SSS---------;"L - litre: unit of volume; 1 L = 1e-3 m³.";clWhite
 ;TGallon?;;gallon?;gal;gal;TCubicMeter?;0.0037854119678;;"gal - gallon: unit of volume; 1 gal = 3.785412e-3 m³.";clWhite
 ;TQuarticMeter?;m4;quartic %smeter?;%sm4;m4;;;---------S--SSSSSS------;m⁴ - quartic meter: SI derived unit of second moment of area.;clLime
@@ -83,13 +83,13 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;TJoule?PerKilogram;;%sjoule? per %sgram;%sJ/%sg;;TSquareMeter?PerSquareSecond;;;"J/kg - joule per kilogram: SI unit of specific energy; equivalent to m²/s².";clWhite
 ;TGray?;;%sgray?;%sGy;Gy;TSquareMeter?PerSquareSecond;;---------S----SSS-------;"Gy - gray: SI derived unit of absorbed radiation dose; 1 Gy = 1 J/kg.";clWhite
 ;TSievert?;;%ssievert?;%sSv;Sv;TSquareMeter?PerSquareSecond;;---------S----SSS-------;"Sv - sievert: SI derived unit of radiation dose equivalent; 1 Sv = 1 J/kg.";clWhite
-;TMeterSecond?;m s;%smeter %ssecond?;%sm.%ss;;;;;m·s - meter second: SI unit of length-time product.;clLime
-;TKilogramMeter?;kg m;%sgram %smeter?;%sg.%sm;;;;;kg·m - kilogram meter: SI unit of first moment of mass.;clLime
+;TMeterSecond?;m s;%smeter %ssecond?;%sm.%ss;;;;;m·s - meter second.;clLime
+;TKilogramMeter?;kg m;%sgram %smeter?;%sg.%sm;;;;;kg·m - kilogram meter.;clLime
 ;TKilogram?PerSecond;kg s-1;%sgram? per %ssecond;%sg/%ss;;;;;kg/s - kilogram per second: SI unit of mass flow rate.;clLime
 ;TJoule?PerSquareMeterPerHertz;;%sjoule? per square %smeter per %shertz;%sJ/%sm2/%sHz;;TKilogram?PerSecond;;;J/m²/Hz - joule per square meter per hertz: SI unit of spectral fluence.;clWhite
 ;TKilogramMeter?PerSecond;kg m s-1;%sgram %smeter? per %ssecond;%sg.%sm/%ss;;;;;kg·m/s - kilogram meter per second: SI unit of linear momentum.;clLime
 ;TNewtonSecond?;;%snewton %ssecond?;%sN.%ss;;TKilogramMeter?PerSecond;;;"N·s - newton second: SI unit of impulse; equivalent to kg·m/s.";clWhite
-;TSquareKilogramSquareMeter?PerSquareSecond;kg2 m2 s-2;square%sgram square%smeter? per square%ssecond;%sg2.%sm2/%ss2;;;;;kg²·m²/s² - square kilogram square meter per square second: SI unit of square momentum.;clLime
+;TSquareKilogramSquareMeter?PerSquareSecond;kg2 m2 s-2;square%sgram square%smeter? per square%ssecond;%sg2.%sm2/%ss2;;;;;kg²·m²/s² - square kilogram square meter per square second.;clLime
 ;TReciprocalSquareRootMeter?;m-0.5;reciprocal square root %smeter?;1/√%sm;;;;;1/√m - reciprocal square root meter: SI unit of reciprocal square root of length.;clLime
 ;TReciprocalMeter?;m-1;reciprocal %smeter?;1/%sm;;;;;1/m - reciprocal meter: SI unit of wavenumber.;clLime
 ;TDioptre?;;%sdioptre?;dpt;;TReciprocalMeter?;;;"dpt - dioptre: SI unit of optical power; 1 dpt = 1/m.";clWhite
@@ -144,154 +144,154 @@ Mechanics;TMeter?PerSquareSecond;m s-2;%smeter? per %ssecond squared;%sm/%ss2;;;
 ;TSquareCoulomb?;s2 A2;square %scoulomb?;%sC2;C2;;;---------SSSSSSSSS------;C² - square coulomb: SI unit of square electric charge.;clLime
 ;TSquareAmpereSquareSecond?;;square %sampere square %ssecond?;%sA2.%ss2;;TSquareCoulomb?;;;"A²·s² - square ampere square second: SI unit of square electric charge; equivalent to C².";clWhite
 ;TCoulombMeter?;m s A;%scoulomb %smeter?;%sC.%sm;;;;---------SSSSSSSSS------;C·m - coulomb meter: SI unit of electric dipole moment.;clLime
-;TVolt?;kg m2 s-3 A-1;%svolt?;%sV;V;;;---------S----S---------;;clLime
-;TJoule?PerCoulomb;;%sJoule? per %scoulomb;%sJ/%sC;;TVolt?;;;;clWhite
-;TKilogramSquareMeter?PerAmperePerCubicSecond;;%sgram square %smeter? per %sampere per cubic %ssecond;%sg.%sm2/%sA/%ss3;;TVolt?;;;;clWhite
-;TSquareVolt?;kg2 m4 s-6 A-2;square %svolt?;%sV2;V2;;;---------S----S---------;;clLime
-;TSquareKilogramQuarticMeter?PerSquareAmperePerSexticSecond;;square %sgram quartic %smeter? per square %sampere per sextic %ssecond;%sg2.%sm3/%sA2/%ss6;;TSquareVolt?;;;;clWhite
-;TFarad?;s4 A2 kg-1 m-2;%sfarad?;%sF;F;;;--------------SSSS------;;clLime
-;TCoulomb?PerVolt;;%scoulomb? per %svolt;%sC/%sV;;TFarad?;;;;clWhite
-;TSquareAmpereQuarticSecond?PerKilogramPerSquareMeter;;square %sampere quartic %ssecond? per %sgram per square %smeter;%sA2.%ss4/%sg/%sm2;;TFarad?;;;;clWhite
-;TOhm?;kg m2 s-3 A-2;%sohm?;%sΩ;ohm;;;-------SLS----SSS-------;;clLime
-;TKilogramSquareMeter?PerSquareAmperePerCubicSecond;;%sgram square %smeter? per square %sampere per cubic %ssecond;%sg.%sm2/%sA/%ss3;;TOhm?;;;;clWhite
-;TSiemens;s3 A2 kg-1 m-2;%ssiemens;%sS;siemens;;;--------------LLL-------;;clLime
-;TSquareAmpereCubicSecond?PerKilogramPerSquareMeter;;square %sampere cubic %ssecond? per %sgram per square %smeter;%sA2.%ss3/%sg/%sm2;;TSiemens;;;;clWhite
-;TSiemensPerMeter;s3 A2 kg-1 m-3;%ssiemens per %smeter;%sS/%sm;;;;;;clLime
-;TTesla?;kg s-2 A-1;%stesla?;%sT;T;;;--------------SSS-------;;clLime
-;TWeber?PerSquareMeter;;%sweber? per square %smeter;%sWb/%m2;;TTesla?;;;;clWhite
-;TKilogram?PerAmperePerSquareSecond;;%sgram? per %sampere per square %ssecond;%sg/%sA/%ss2;;TTesla?;;;;clWhite
-;TWeber?;kg m2 s-2 A-1;%sweber?;%sWb;Wb;;;;;clLime
-;TKilogramSquareMeter?PerAmperePerSquareSecond;;%sgram square %smeter? per %sampere per square %ssecond;%sg.%sm2/%sA/%ss2;;TWeber?;;;;clWhite
-;THenry!;kg m2 s-2 A-2;%shenry!;%sH;H;;;--------------SSS-------;;clLime
-;TKilogramSquareMeter?PerSquareAmperePerSquareSecond;;%sgram square %smeter? per square %sampere per square %ssecond;%sg.%sm2/%sA2/%ss2;;THenry!;;;;clWhite
-;TReciprocalHenry!;s2 A2 kg-1 m-2;reciprocal %shenry!;1/%sH;;;;;;clLime
-;TLumen?;cd sr;%slumen?;%slm;lm;;;;;clYellow
-;TCandelaSteradian?;;%scandela %ssteradian?;%scd.%ssr;;TLumen?;;;;clWhite
-;TLumenSecond?;cd sr s;%slumen %ssecond?;%slm.%ss;;;;;;clYellow
-;TLumenSecond?PerCubicMeter;cd sr s m-3;%slumen %ssecond? per cubic meter;%slm.%ss/%sm3;;;;;;clYellow
-;TLux;cd sr m-2;%slux;%slx;lx;;;;;clYellow
-;TCandelaSteradian?PerSquareMeter;;%scandela %ssteradian? per square %smeter;%scd.%ssr/%sm2;;TLux;;;;clWhite
-;TLuxSecond?;cd sr s m-2;%slux %ssecond?;%slx.%ss;;;;;;clYellow
-;TBequerel?;;%sbequerel?;%sBq;Bq;THertz;;---------S----SSSS------;;clWhite
-;TKatal?;mol s-1;%skatal?;%skat;kat;;;;;clLime
-;TMole?PerSecond;;%smole? per %ssecond;%smol/%ss;;TKatal?;;;;clWhite
-;TNewton?PerCubicMeter;kg m-2 s-2;%snewton? per cubic %smeter;%sN/%sm3;;;;;;clLime
-;TPascal?PerMeter;;%spascal? per %smeter;%sPa/%sm;;TNewton?PerCubicMeter;;;;clWhite
-;TKilogram?PerSquareMeterPerSquareSecond;;%sgram? per square %smeter per square %ssecond;%sg/%sm2/%ss2;;TNewton?PerCubicMeter;;;;clWhite
-;TNewton?PerMeter;kg s-2;%snewton? per %smeter;%sN/%sm;;;;;;clLime
-;TJoule?PerSquareMeter;;%sjoule? per square %smeter;%sJ/%sm2;;TNewton?PerMeter;;;;clWhite
-;TWatt?PerSquareMeterPerHertz;;%swatt? per square %smeter per %shertz;%sW/%sm2/%sHz;;TNewton?PerMeter;;;;clWhite
-;TPound?ForcePerInch;;pound?-force per inch;lbf/in;;TNewton?PerMeter;175.126835246476;;;clWhite
-;TKilogram?PerSquareSecond;;%sgram? per square %ssecond;%sg/%ss2;;TNewton?PerMeter;;;;clWhite
-;TCubicMeter?PerSecond;m3 s-1;cubic %smeter? per %ssecond;%sm3/%ss;;;;;;clLime
-;TPoiseuille?;kg m-1 s-1;%spoiseuille?;%sPl;Pl;;;-------------SSS--------;;clLime
-;TPascalSecond?;;%spascal %ssecond?;%sPa.%ss;;TPoiseuille?;;;;clWhite
-;TKilogram?PerMeterPerSecond;;%sgram? per %smeter per %ssecond;%sg/%sm/%ss;;TPoiseuille?;;;;clWhite
-;TSquareMeter?PerSecond;m2 s-1;square %smeter? per %ssecond;%sm2/%ss;;;;;;clLime
-;TKilogram?PerQuarticMeter;kg m-4;%sgram? per quartic %smeter;%sg/%sm4;;;;;;clLime
-;TQuarticMeterSecond?;m4 s;quartic %smeter %ssecond?;%sm4.%ss;;;;;;clLime
-;TKilogram?PerQuarticMeterPerSecond;kg m-4 s-1;%sgram? per quartic %smeter per %ssecond;%sg/%sm4/%ss;;;;;;clLime
-;TCubicMeter?PerKilogram;m3 kg-1;cubic %smeter? per %sgram;%sm3/%sg;;;;;;clLime
-;TKilogramSquareSecond?;kg s2;%sgram square %ssecond?;%sg.%ss2;;;;;;clLime
-;TCubicMeter?PerSquareSecond;m3 s-2;cubic %smeter? per square %ssecond;%sm3/%ss2;;;;;;clLime
-;TNewtonSquareMeter?;kg m3 s-2;%snewton square %smeter?;%sN.%sm2;;;;;;clLime
-;TKilogramCubicMeter?PerSquareSecond;;%sgram cubic %smeter? per square %ssecond;%sg.%sm3/%ss2;;TNewtonSquareMeter?;;;;clWhite
-;TNewtonCubicMeter?;kg m4 s-2;%snewton cubic %smeter?;%sN.%sm3;;;;;;clLime
-;TKilogramQuarticMeter?PerSquareSecond;;%sgram quartic %smeter? per square %ssecond;%sg.%sm4/%ss2;;TNewtonCubicMeter?;;;;clWhite
-;TNewton?PerSquareKilogram;m kg-1 s-2;%snewton? per square %sgram;%sN/%sg2;;;;;;clLime
-;TMeter?PerKilogramPerSquareSecond;;%smeter? per %sgram per square %ssecond;%sm/%sg/%ss2;;TNewton?PerSquareKilogram;;;;clWhite
-;TSquareKilogram?PerMeter;kg2 m-1;square %sgram? per %smeter;%sg2/%sm;;;;;;clLime
-;TSquareKilogram?PerSquareMeter;kg2 m-2;square %sgram? per square %smeter;%sg2/%sm2;;;;;;clLime
-;TSquareMeter?PerSquareKilogram;m2 kg-2;square %smeter? per square %sgram;%sm2/%sg2;;;;;;clLime
-;TNewtonSquareMeter?PerSquareKilogram;m3 kg-1 s-2;%snewton square %smeter? per square %sgram;%sN.%sm2/%sg2;;;;;;clLime
-;TCubicMeter?PerKilogramPerSquareSecond;;cubic %smeter? per %sgram per square %ssecond;%sm3/%sg/%ss2;;TNewtonSquareMeter?PerSquareKilogram;;;;clWhite
-;TReciprocalKelvin?;K-1;reciprocal %skelvin;1/%sK;;;;;;clLime
-;TKilogramKelvin?;kg K;%sgram %skelvin?;%sg.%sK;;;;;;clLime
-;TJoule?PerKelvin;kg m2 s-2 K-1;%sjoule? per %skelvin;%sJ/%sK;;;;;;clLime
-;TKilogramSquareMeter?PerSquareSecondPerKelvin;;%sgram square %smeter? per square %ssecond per %skelvin;%sg.%sm2/%ss2/%sK;;TJoule?PerKelvin;;;;clWhite
-;TJoule?PerKilogramPerKelvin;m2 s-2 K-1;%sjoule? per %sgram per %skelvin;%sJ/%sg/%sK;;;;;;clLime
-;TSquareMeter?PerSquareSecondPerKelvin;;square %smeter? per square %ssecond per %skelvin;%sm2/%ss2/%sK;;TJoule?PerKilogramPerKelvin;;;;clWhite
-;TMeterKelvin?;m K;%smeter %skelvin?;%sm.%sK;;;;;;clLime
-;TKelvin?PerMeter;K m-1;%skelvin? per %smeter;%sK/%sm;;;;;;clLime
-;TWatt?PerMeter;kg m s-3;%swatt? per %smeter;%sW/%sm;;;;;;clLime
-;TKilogramMeter?PerCubicSecond;;%sgram %smeter? per cubic %ssecond;%sg.%sm/%ss3;;TWatt?PerMeter;;;;clWhite
-;TWatt?PerSquareMeter;kg s-3;%swatt? per square %smeter;%sW/%sm2;;;;;;clLime
-;TKilogram?PerCubicSecond;;%sgram? per cubic %ssecond;%sg/%ss3;;TWatt?PerSquareMeter;;;;clWhite
-;TWatt?PerCubicMeter;kg m-1 s-3;%swatt? per cubic %smeter;%sW/%sm3;;;;;;clLime
-;TWatt?PerKelvin;kg m2 s-3 K-1;%swatt? per %skelvin;%sW/%sK;;;;;;clLime
-;TKilogramSquareMeter?PerCubicSecondPerKelvin;;%sgram square %smeter? per cubic %ssecond per %skelvin;%sg.%sm2/%ss3/%sK;;TWatt?PerKelvin;;;;clWhite
-;TWatt?PerMeterPerKelvin;kg m s-3 K-1;%swatt? per %smeter per %skelvin;%sW/%sm/%sK;;;;;;clLime
-;TKilogramMeter?PerCubicSecondPerKelvin;;%sgram %smeter? per cubic %ssecond per %skelvin;%sg.%sm/%ss3/%sK;;TWatt?PerMeterPerKelvin;;;;clWhite
-;TKelvin?PerWatt;s3 K kg-1 m-2;%skelvin? per %swatt;%sK/%sW;;;;;;clLime
-;TMeter?PerWatt;s3 kg-1 m-1;%smeter? per %swatt?;%sm/%sW;;;;;;clLime
-;TMeterKelvin?PerWatt;s3 K kg-1 m-1;%skelvin %smeter? per %swatt;%sK.%sm/%sW;;;;;;clLime
-;TSquareMeterKelvin?;m2 K;square %smeter %skelvin?;%sm2.%sK;;;;;;clLime
-;TWatt?PerSquareMeterPerKelvin;kg s-3 K-1;%swatt? per square %smeter per %skelvin;%sW/%sm2/%sK;;;;;;clLime
-;TKilogram?PerCubicSecondPerKelvin;;%sgram? per cubic %ssecond per %skelvin;%sg/%ss3/%sK;;TWatt?PerSquareMeterPerKelvin;;;;clWhite
-;TSquareMeterQuarticKelvin?;m2 K4;square %smeter quartic %skelvin?;%sm2.%sK4;;;;;;clLime
-;TWatt?PerQuarticKelvin;kg m2 s-3 K-4;%swatt? per quartic %skelvin;%sW/%sK4;;;;;;clLime
-;TWatt?PerSquareMeterPerQuarticKelvin;kg s-3 K-4;%swatt? per square %smeter per quartic %skelvin;%sW/%sm2/%sK4;;;;;;clLime
-;TJoule?PerMole;kg m2 s-2 mol-1;%sjoule? per %smole;%sJ/%smol;;;;;;clLime
-;TMoleKelvin?;mol K;%smole %skelvin?;%smol.%sK;;;;;;clLime
-;TJoule?PerMolePerKelvin;kg m2 s-2 mol-1 K-1;%sjoule? per %smole per %skelvin;%sJ/%smol/%sK;;;;;;clLime
-;TOhmMeter?;kg m3 s-3 A-2;%sohm %smeter?;%sΩ.%sm;;;;;;clLime
-;TVolt?PerMeter;kg m s-3 A-1;%svolt? per %smeter;%sV/%sm;;;;;;clLime
-;TNewton?PerCoulomb;;%snewton? per %scoulomb;%sN/%sC;;TVolt?PerMeter;;;;clWhite
-;TCoulomb?PerMeter;s A m-1;%scoulomb? per %smeter;%sC/%sm;;;;;;clLime
-;TSquareCoulomb?PerMeter;s2 A2 m-1;square %scoulomb? per %smeter;%sC2/%sm;;;;;;clLime
-;TCoulomb?PerSquareMeter;s A m-2;%scoulomb? per square %smeter;%sC/%sm2;;;;;;clLime
-;TSquareMeter?PerSquareCoulomb;m2 s-2 A-2;square %smeter? per square %scoulomb;%sm2/%sC2;;;;;;clLime
-;TNewton?PerSquareCoulomb;kg m s-4 A-2;%snewton? per square %scoulomb;%sN/%sC2;;;;;;clLime
-;TNewtonSquareMeter?PerSquareCoulomb;kg m3 s-4 A-2;%snewton square %smeter? per square %scoulomb;%sN.%sm2/%sC2;;;;;;clLime
-;TVoltMeter?;kg m3 s-3 A-1;%svolt %smeter?;%sV.%sm;;;;;;clLime
-;TNewtonSquareMeter?PerCoulomb;;%snewton square %smeter? per %scoulomb;%sN.%sm2/%sC;;TVoltMeter?;;;;clWhite
-;TVoltMeter?PerSecond;kg m3 s-4 A-1;%svolt %smeter? per %ssecond;%sV.%sm/%ss;;;;;;clLime
-;TFarad?PerMeter;s4 A2 kg-1 m-3;%sfarad? per %smeter;%sF/%sm;;;;;;clLime
-;TAmpere?PerMeter;A m-1;%sampere? per %smeter;%sA/%sm;;;;;;clLime
-;TMeter?PerAmpere;m A-1;%smeter? per %sampere;%sm/%sA;;;;;;clLime
-;TTeslaMeter?;kg m s-2 A-1;%stesla %smeter?;%sT.%sm;;;;;;clLime
-;TNewton?PerAmpere;;%snewton? per %sampere;%sN/%sA;;TTeslaMeter?;;;;clWhite
-;TTesla?PerAmpere;kg s-2 A-2;%stesla? per %sampere;%sT/%sA;;;;;;clLime
-;THenry!PerMeter;kg m s-2 A-2;%shenry! per %smeter;%sH/%sm;;;;;;clLime
-;TTeslaMeter?PerAmpere;;%stesla %smeter? per %sampere;%sT.%sm/%sA;;THenry!PerMeter;;;;clWhite
-;TNewton?PerSquareAmpere;;%snewton? per square %sampere;%sN/%sA2;;THenry!PerMeter;;;;clWhite
-;TRadian?PerMeter;;radian? per %smeter;rad/%sm;;TReciprocalMeter?;;;;clYellow
-;TSquareKilogram?PerSquareSecond;kg2 s-2;square %sgram? per square %ssecond;%sg2/%ss2;;;;;;clLime
-;TSquareSecond?PerSquareMeter;s2 m-2;square %ssecond? per square %smeter;%ss2/%sm2;;;;;;clLime
-;TSquareJoule?;kg2 m4 s-4;square %sjoule?;%sJ2;J2;;;------SSSS--------------;;clLime
-;TJouleSecond?;;%sjoule %ssecond?;%sJ.%ss;;TKilogramSquareMeter?PerSecond;;;;clWhite
-;TJoulePerHertz?;;%sjoule? per %shertz;%sJ/%sHz;;TKilogramSquareMeter?PerSecond;;;;clWhite
-;TElectronvoltSecond?;;%selectronvolt %ssecond?;%seV.%ss;;TKilogramSquareMeter?PerSecond;1.60217742320523E-019;;;clWhite
-;TElectronvoltMeter?PerSpeedOfLight;;%selectronvolt %smeter? per speed of  light;%seV.%sm/c;;TKilogramSquareMeter?PerSecond;1.7826619216279E-36;;;clWhite
-;TSquareJouleSquareSecond?;kg2 m4 s-2;square %sjoule square %ssecond?;%sJ2.%ss2;;;;;;clLime
-;TCoulomb?PerKilogram;s A kg-1;%scoulomb? per %sgram;%sC/%sg;;;;;;clLime
-;TSquareMeterAmpere?;m2 A;square %smeter %sampere?;%sm2.%sA;;;;;;clLime
-;TJoule?PerTesla;;%sjoule? per %stesla;%sJ/%sT;;TSquareMeterAmpere?;;;;clWhite
-;TLumen?PerWatt;s3 cd sr kg-1 m-2;%slumen? per %swatt;%slm/%sW;;;;;;clYellow
-;TReciprocalMole?;mol-1;reciprocal %smole?;1/%smol;;;;;;clLime
-;TAmpere?PerSquareMeter;A m-2;%sampere? per square %smeter;%sA/%sm2;;;;;;clLime
-;TMole?PerCubicMeter;mol m-3;%smole? per cubic %smeter;%smol/%sm3;;;;;;clLime
-;TCandela?PerSquareMeter;cd m-2;%scandela? per square %smeter;%scd/%sm2;;;;;;clLime
-;TCoulomb?PerCubicMeter;s A m-3;%scoulomb? per cubic %smeter;%sC/%sm3;;;;;;clLime
-;TGray?PerSecond;m2 s-3;%sgray? per %ssecond;%sGy/%ss;;;;;;clLime
-;TSteradianHertz;sr s-1;steradian %shertz;sr.%sHz;;;;;;clYellow
-;TMeterSteradian?;m sr;%smeter steradian?;%sm.sr;;;;;;clYellow
-;TSquareMeterSteradian?;m2 sr;square %smeter steradian?;%sm2.sr;;;;;;clYellow
-;TCubicMeterSteradian?;m3 sr;cubic %smeter steradian?;%sm3.sr;;;;;;clYellow
-;TSquareMeterSteradianHertz;m2 sr s-1;square %smeter steradian %shertz;%sm2.sr.%shertz;;;;;;clYellow
-;TWatt?PerSteradian;kg m2 s-3 sr-1;%swatt? per steradian;%sW/sr;;;;;;clYellow
-;TWatt?PerSteradianPerHertz;kg m2 s-2 sr-1;%swatt? per steradian per %shertz;%sW/sr/%sHz;;;;;;clYellow
-;TWatt?PerMeterPerSteradian;kg m s-3 sr-1;%swatt? per steradian per %smeter;%sW/sr/%sm;;;;;;clYellow
-;TWatt?PerSquareMeterPerSteradian;kg s-3 sr-1;%swatt? per square %smeter per steradian;%sW/%sm2/sr;;;;;;clYellow
-;TWatt?PerCubicMeterPerSteradian;kg s-3 m-1 sr-1;%swatt? per cubic %smeter per steradian;%sW/%sm3/sr;;;;;;clYellow
-;TWatt?PerSquareMeterPerSteradianPerHertz;kg s-2 sr-1;%swatt? per square %smeter per steradian per %shertz;%sW/%sm2/sr/%sHz;;;;;;clYellow
-;TKatal?PerCubicMeter;mol m-3 s-1;%skatal? per cubic %smeter;%skat/%sm3;;;;;;clLime
-;TCoulomb?PerMole;s A mol-1;%scoulomb? per %smole;%sC/%smol;;;;;;clLime
-;TReciprocalNewton?;s2 kg-1 m-1;reciprocal %snewton?;1/%sN;;;;;;clAqua
-;TReciprocalTesla?;s2 A kg-1;reciprocal %stesla?;1/%sT;;;;;;clAqua
-;TReciprocalPascal?;s2 m kg-1;reciprocal %spascal?;1/%sPa;;;;;;clAqua
-;TReciprocalWeber?;"s2 A kg-1 m-2 ";reciprocal %sweber?;1/%sWb;;;;;;clAqua
-;TReciprocalWatt?;s3 kg-1 m-2;reciprocal %swatt?;1/%sW;;;;;;clAqua
-;TReciprocalRadian?;rad-1;reciprocal %sradian?;1/%srad;;TScalar;;;;clAqua
-;TMeter?PerVolt;A s3 kg-1 m-1;%smeter? per %svolt;%sm/%sV;;;;;;clAqua
-;TSecond?PerRadian;;%ssecond? per radian;%ss/rad;;TSecond?;;;;clFuchsia
+;TVolt?;kg m2 s-3 A-1;%svolt?;%sV;V;;;---------S----S---------;"V - volt: SI derived unit of electric potential; 1 V = 1 J/C.";clLime
+;TJoule?PerCoulomb;;%sJoule? per %scoulomb;%sJ/%sC;;TVolt?;;;"J/C - joule per coulomb: SI unit of electric potential; equivalent to V.";clWhite
+;TKilogramSquareMeter?PerAmperePerCubicSecond;;%sgram square %smeter? per %sampere per cubic %ssecond;%sg.%sm2/%sA/%ss3;;TVolt?;;;"kg·m²/A/s³ - kilogram square meter per ampere per cubic second: SI unit of electric potential; equivalent to V.";clWhite
+;TSquareVolt?;kg2 m4 s-6 A-2;square %svolt?;%sV2;V2;;;---------S----S---------;V² - square volt: SI unit of square electric potential.;clLime
+;TSquareKilogramQuarticMeter?PerSquareAmperePerSexticSecond;;square %sgram quartic %smeter? per square %sampere per sextic %ssecond;%sg2.%sm3/%sA2/%ss6;;TSquareVolt?;;;"kg²·m⁴/A²/s⁶ - square kilogram quartic meter per square ampere per sextic second: SI unit of square electric potential; equivalent to V².";clWhite
+;TFarad?;s4 A2 kg-1 m-2;%sfarad?;%sF;F;;;--------------SSSS------;"F - farad: SI derived unit of electric capacitance; 1 F = 1 C/V.";clLime
+;TCoulomb?PerVolt;;%scoulomb? per %svolt;%sC/%sV;;TFarad?;;;"C/V - coulomb per volt: SI unit of electric capacitance; equivalent to F.";clWhite
+;TSquareAmpereQuarticSecond?PerKilogramPerSquareMeter;;square %sampere quartic %ssecond? per %sgram per square %smeter;%sA2.%ss4/%sg/%sm2;;TFarad?;;;"A²·s⁴/kg/m² - square ampere quartic second per kilogram per square meter: SI unit of electric capacitance; equivalent to F.";clWhite
+;TOhm?;kg m2 s-3 A-2;%sohm?;%sΩ;ohm;;;-------SLS----SSS-------;"Ω - ohm: SI derived unit of electric resistance; 1 Ω = 1 V/A.";clLime
+;TKilogramSquareMeter?PerSquareAmperePerCubicSecond;;%sgram square %smeter? per square %sampere per cubic %ssecond;%sg.%sm2/%sA/%ss3;;TOhm?;;;"kg·m²/A²/s³ - kilogram square meter per square ampere per cubic second: SI unit of electric resistance; equivalent to Ω.";clWhite
+;TSiemens;s3 A2 kg-1 m-2;%ssiemens;%sS;siemens;;;--------------LLL-------;"S - siemens: SI derived unit of electric conductance; 1 S = 1/Ω.";clLime
+;TSquareAmpereCubicSecond?PerKilogramPerSquareMeter;;square %sampere cubic %ssecond? per %sgram per square %smeter;%sA2.%ss3/%sg/%sm2;;TSiemens;;;"A²·s³/kg/m² - square ampere cubic second per kilogram per square meter: SI unit of electric conductance; equivalent to S.";clWhite
+;TSiemensPerMeter;s3 A2 kg-1 m-3;%ssiemens per %smeter;%sS/%sm;;;;;S/m - siemens per meter: SI unit of electric conductivity.;clLime
+;TTesla?;kg s-2 A-1;%stesla?;%sT;T;;;--------------SSS-------;"T - tesla: SI derived unit of magnetic flux density; 1 T = 1 Wb/m².";clLime
+;TWeber?PerSquareMeter;;%sweber? per square %smeter;%sWb/%m2;;TTesla?;;;"Wb/m² - weber per square meter: SI unit of magnetic flux density; equivalent to T.";clWhite
+;TKilogram?PerAmperePerSquareSecond;;%sgram? per %sampere per square %ssecond;%sg/%sA/%ss2;;TTesla?;;;"kg/A/s² - kilogram per ampere per square second: SI unit of magnetic flux density; equivalent to T.";clWhite
+;TWeber?;kg m2 s-2 A-1;%sweber?;%sWb;Wb;;;;"Wb - weber: SI derived unit of magnetic flux; 1 Wb = 1 V·s.";clLime
+;TKilogramSquareMeter?PerAmperePerSquareSecond;;%sgram square %smeter? per %sampere per square %ssecond;%sg.%sm2/%sA/%ss2;;TWeber?;;;"kg·m²/A/s² - kilogram square meter per ampere per square second: SI unit of magnetic flux; equivalent to Wb.";clWhite
+;THenry!;kg m2 s-2 A-2;%shenry!;%sH;H;;;--------------SSS-------;"H - henry: SI derived unit of inductance; 1 H = 1 Wb/A.";clLime
+;TKilogramSquareMeter?PerSquareAmperePerSquareSecond;;%sgram square %smeter? per square %sampere per square %ssecond;%sg.%sm2/%sA2/%ss2;;THenry!;;;"kg·m²/A²/s² - kilogram square meter per square ampere per square second: SI unit of inductance; equivalent to H.";clWhite
+;TReciprocalHenry!;s2 A2 kg-1 m-2;reciprocal %shenry!;1/%sH;;;;;1/H - reciprocal henry: SI unit of magnetic reluctance.;clLime
+;TLumen?;cd sr;%slumen?;%slm;lm;;;;"lm - lumen: SI derived unit of luminous flux; 1 lm = 1 cd·sr.";clYellow
+;TCandelaSteradian?;;%scandela %ssteradian?;%scd.%ssr;;TLumen?;;;"cd·sr - candela steradian: SI unit of luminous flux; equivalent to lm.";clWhite
+;TLumenSecond?;cd sr s;%slumen %ssecond?;%slm.%ss;;;;;lm·s - lumen second: SI unit of luminous energy.;clYellow
+;TLumenSecond?PerCubicMeter;cd sr s m-3;%slumen %ssecond? per cubic meter;%slm.%ss/%sm3;;;;;lm·s/m³ - lumen second per cubic meter: SI unit of luminous energy density.;clYellow
+;TLux;cd sr m-2;%slux;%slx;lx;;;;"lx - lux: SI derived unit of illuminance; 1 lx = 1 lm/m².";clYellow
+;TCandelaSteradian?PerSquareMeter;;%scandela %ssteradian? per square %smeter;%scd.%ssr/%sm2;;TLux;;;"cd·sr/m² - candela steradian per square meter: SI unit of illuminance; equivalent to lx.";clWhite
+;TLuxSecond?;cd sr s m-2;%slux %ssecond?;%slx.%ss;;;;;lx·s - lux second: SI unit of luminous exposure.;clYellow
+;TBequerel?;;%sbequerel?;%sBq;Bq;THertz;;---------S----SSSS------;"Bq - becquerel: SI derived unit of radioactivity; 1 Bq = 1 decay/s.";clWhite
+;TKatal?;mol s-1;%skatal?;%skat;kat;;;;"kat - katal: SI derived unit of catalytic activity; 1 kat = 1 mol/s.";clLime
+;TMole?PerSecond;;%smole? per %ssecond;%smol/%ss;;TKatal?;;;"mol/s - mole per second: SI unit of catalytic activity; equivalent to kat.";clWhite
+;TNewton?PerCubicMeter;kg m-2 s-2;%snewton? per cubic %smeter;%sN/%sm3;;;;;N/m³ - newton per cubic meter: SI unit of force density.;clLime
+;TPascal?PerMeter;;%spascal? per %smeter;%sPa/%sm;;TNewton?PerCubicMeter;;;Pa/m - pascal per meter: SI unit of pressure gradient.;clWhite
+;TKilogram?PerSquareMeterPerSquareSecond;;%sgram? per square %smeter per square %ssecond;%sg/%sm2/%ss2;;TNewton?PerCubicMeter;;;"kg/m²/s² - kilogram per square meter per square second: SI unit of pressure gradient; equivalent to Pa/m.";clWhite
+;TNewton?PerMeter;kg s-2;%snewton? per %smeter;%sN/%sm;;;;;N/m - newton per meter: SI unit of surface tension and stiffness.;clLime
+;TJoule?PerSquareMeter;;%sjoule? per square %smeter;%sJ/%sm2;;TNewton?PerMeter;;;J/m² - joule per square meter: SI unit of surface energy and fluence.;clWhite
+;TWatt?PerSquareMeterPerHertz;;%swatt? per square %smeter per %shertz;%sW/%sm2/%sHz;;TNewton?PerMeter;;;W/m²/Hz - watt per square meter per hertz: SI unit of spectral irradiance.;clWhite
+;TPound?ForcePerInch;;pound?-force per inch;lbf/in;;TNewton?PerMeter;175.126835246476;;"lbf/in - pound-force per inch: imperial unit of stiffness; 1 lbf/in = 175.126835 N/m.";clWhite
+;TKilogram?PerSquareSecond;;%sgram? per square %ssecond;%sg/%ss2;;TNewton?PerMeter;;;"kg/s² - kilogram per square second: SI unit of surface tension; equivalent to N/m.";clWhite
+;TCubicMeter?PerSecond;m3 s-1;cubic %smeter? per %ssecond;%sm3/%ss;;;;;m³/s - cubic meter per second: SI unit of volumetric flow rate.;clLime
+;TPoiseuille?;kg m-1 s-1;%spoiseuille?;%sPl;Pl;;;-------------SSS--------;"Pl - poiseuille: SI unit of dynamic viscosity; 1 Pl = 1 Pa·s.";clLime
+;TPascalSecond?;;%spascal %ssecond?;%sPa.%ss;;TPoiseuille?;;;"Pa·s - pascal second: SI unit of dynamic viscosity; equivalent to Pl.";clWhite
+;TKilogram?PerMeterPerSecond;;%sgram? per %smeter per %ssecond;%sg/%sm/%ss;;TPoiseuille?;;;"kg/m/s - kilogram per meter per second: SI unit of dynamic viscosity; equivalent to Pl.";clWhite
+;TSquareMeter?PerSecond;m2 s-1;square %smeter? per %ssecond;%sm2/%ss;;;;;m²/s - square meter per second: SI unit of kinematic viscosity.;clLime
+;TKilogram?PerQuarticMeter;kg m-4;%sgram? per quartic %smeter;%sg/%sm4;;;;;kg/m⁴ - kilogram per quartic meter: SI unit of mass per quartic length.;clLime
+;TQuarticMeterSecond?;m4 s;quartic %smeter %ssecond?;%sm4.%ss;;;;;m⁴·s - quartic meter second.;clLime
+;TKilogram?PerQuarticMeterPerSecond;kg m-4 s-1;%sgram? per quartic %smeter per %ssecond;%sg/%sm4/%ss;;;;;kg/m⁴/s - kilogram per quartic meter per second: SI unit of mass flow per quartic length.;clLime
+;TCubicMeter?PerKilogram;m3 kg-1;cubic %smeter? per %sgram;%sm3/%sg;;;;;m³/kg - cubic meter per kilogram: SI unit of specific volume.;clLime
+;TKilogramSquareSecond?;kg s2;%sgram square %ssecond?;%sg.%ss2;;;;;kg·s² - kilogram square second.;clLime
+;TCubicMeter?PerSquareSecond;m3 s-2;cubic %smeter? per square %ssecond;%sm3/%ss2;;;;;m³/s² - cubic meter per square second.;clLime
+;TNewtonSquareMeter?;kg m3 s-2;%snewton square %smeter?;%sN.%sm2;;;;;N·m² - newton square meter.;clLime
+;TKilogramCubicMeter?PerSquareSecond;;%sgram cubic %smeter? per square %ssecond;%sg.%sm3/%ss2;;TNewtonSquareMeter?;;;"kg·m³/s² - kilogram cubic meter per square second: SI unit of force-area product; equivalent to N·m².";clWhite
+;TNewtonCubicMeter?;kg m4 s-2;%snewton cubic %smeter?;%sN.%sm3;;;;;N·m³ - newton cubic meter.;clLime
+;TKilogramQuarticMeter?PerSquareSecond;;%sgram quartic %smeter? per square %ssecond;%sg.%sm4/%ss2;;TNewtonCubicMeter?;;;"kg·m⁴/s² - kilogram quartic meter per square second: SI unit of force-volume product; equivalent to N·m³.";clWhite
+;TNewton?PerSquareKilogram;m kg-1 s-2;%snewton? per square %sgram;%sN/%sg2;;;;;N/kg² - newton per square kilogram: SI unit of gravitational coupling.;clLime
+;TMeter?PerKilogramPerSquareSecond;;%smeter? per %sgram per square %ssecond;%sm/%sg/%ss2;;TNewton?PerSquareKilogram;;;"m/kg/s² - meter per kilogram per square second: SI unit of gravitational coupling; equivalent to N/kg².";clWhite
+;TSquareKilogram?PerMeter;kg2 m-1;square %sgram? per %smeter;%sg2/%sm;;;;;kg²/m - square kilogram per meter.;clLime
+;TSquareKilogram?PerSquareMeter;kg2 m-2;square %sgram? per square %smeter;%sg2/%sm2;;;;;kg²/m² - square kilogram per square meter.;clLime
+;TSquareMeter?PerSquareKilogram;m2 kg-2;square %smeter? per square %sgram;%sm2/%sg2;;;;;m²/kg² - square meter per square kilogram.;clLime
+;TNewtonSquareMeter?PerSquareKilogram;m3 kg-1 s-2;%snewton square %smeter? per square %sgram;%sN.%sm2/%sg2;;;;;N·m²/kg² - newton square meter per square kilogram: SI unit of gravitational constant.;clLime
+;TCubicMeter?PerKilogramPerSquareSecond;;cubic %smeter? per %sgram per square %ssecond;%sm3/%sg/%ss2;;TNewtonSquareMeter?PerSquareKilogram;;;"m³/kg/s² - cubic meter per kilogram per square second: SI unit of gravitational constant; equivalent to N·m²/kg².";clWhite
+;TReciprocalKelvin?;K-1;reciprocal %skelvin;1/%sK;;;;;1/K - reciprocal kelvin: SI unit of thermal expansion coefficient.;clLime
+;TKilogramKelvin?;kg K;%sgram %skelvin?;%sg.%sK;;;;;kg·K - kilogram kelvin.;clLime
+;TJoule?PerKelvin;kg m2 s-2 K-1;%sjoule? per %skelvin;%sJ/%sK;;;;;J/K - joule per kelvin: SI unit of heat capacity and entropy.;clLime
+;TKilogramSquareMeter?PerSquareSecondPerKelvin;;%sgram square %smeter? per square %ssecond per %skelvin;%sg.%sm2/%ss2/%sK;;TJoule?PerKelvin;;;"kg·m²/s²/K - kilogram square meter per square second per kelvin: SI unit of heat capacity; equivalent to J/K.";clWhite
+;TJoule?PerKilogramPerKelvin;m2 s-2 K-1;%sjoule? per %sgram per %skelvin;%sJ/%sg/%sK;;;;;J/kg/K - joule per kilogram per kelvin: SI unit of specific heat capacity.;clLime
+;TSquareMeter?PerSquareSecondPerKelvin;;square %smeter? per square %ssecond per %skelvin;%sm2/%ss2/%sK;;TJoule?PerKilogramPerKelvin;;;"m²/s²/K - square meter per square second per kelvin: SI unit of specific heat capacity; equivalent to J/kg/K.";clWhite
+;TMeterKelvin?;m K;%smeter %skelvin?;%sm.%sK;;;;;m·K - meter kelvin.;clLime
+;TKelvin?PerMeter;K m-1;%skelvin? per %smeter;%sK/%sm;;;;;K/m - kelvin per meter: SI unit of temperature gradient.;clLime
+;TWatt?PerMeter;kg m s-3;%swatt? per %smeter;%sW/%sm;;;;;W/m - watt per meter: SI unit of linear power density.;clLime
+;TKilogramMeter?PerCubicSecond;;%sgram %smeter? per cubic %ssecond;%sg.%sm/%ss3;;TWatt?PerMeter;;;"kg·m/s³ - kilogram meter per cubic second: SI unit of linear power density; equivalent to W/m.";clWhite
+;TWatt?PerSquareMeter;kg s-3;%swatt? per square %smeter;%sW/%sm2;;;;;W/m² - watt per square meter: SI unit of irradiance and heat flux density.;clLime
+;TKilogram?PerCubicSecond;;%sgram? per cubic %ssecond;%sg/%ss3;;TWatt?PerSquareMeter;;;"kg/s³ - kilogram per cubic second: SI unit of irradiance; equivalent to W/m².";clWhite
+;TWatt?PerCubicMeter;kg m-1 s-3;%swatt? per cubic %smeter;%sW/%sm3;;;;;W/m³ - watt per cubic meter: SI unit of volumetric power density.;clLime
+;TWatt?PerKelvin;kg m2 s-3 K-1;%swatt? per %skelvin;%sW/%sK;;;;;W/K - watt per kelvin: SI unit of thermal conductance.;clLime
+;TKilogramSquareMeter?PerCubicSecondPerKelvin;;%sgram square %smeter? per cubic %ssecond per %skelvin;%sg.%sm2/%ss3/%sK;;TWatt?PerKelvin;;;"kg·m²/s³/K - kilogram square meter per cubic second per kelvin: SI unit of thermal conductance; equivalent to W/K.";clWhite
+;TWatt?PerMeterPerKelvin;kg m s-3 K-1;%swatt? per %smeter per %skelvin;%sW/%sm/%sK;;;;;W/m/K - watt per meter per kelvin: SI unit of thermal conductivity.;clLime
+;TKilogramMeter?PerCubicSecondPerKelvin;;%sgram %smeter? per cubic %ssecond per %skelvin;%sg.%sm/%ss3/%sK;;TWatt?PerMeterPerKelvin;;;"kg·m/s³/K - kilogram meter per cubic second per kelvin: SI unit of thermal conductivity; equivalent to W/m/K.";clWhite
+;TKelvin?PerWatt;s3 K kg-1 m-2;%skelvin? per %swatt;%sK/%sW;;;;;K/W - kelvin per watt: SI unit of thermal resistance.;clLime
+;TMeter?PerWatt;s3 kg-1 m-1;%smeter? per %swatt?;%sm/%sW;;;;;m/W - meter per watt: SI unit of thermal resistivity.;clLime
+;TMeterKelvin?PerWatt;s3 K kg-1 m-1;%skelvin %smeter? per %swatt;%sK.%sm/%sW;;;;;K·m/W - kelvin meter per watt.;clLime
+;TSquareMeterKelvin?;m2 K;square %smeter %skelvin?;%sm2.%sK;;;;;m²·K - square meter kelvin.;clLime
+;TWatt?PerSquareMeterPerKelvin;kg s-3 K-1;%swatt? per square %smeter per %skelvin;%sW/%sm2/%sK;;;;;W/m²/K - watt per square meter per kelvin: SI unit of heat transfer coefficient.;clLime
+;TKilogram?PerCubicSecondPerKelvin;;%sgram? per cubic %ssecond per %skelvin;%sg/%ss3/%sK;;TWatt?PerSquareMeterPerKelvin;;;"kg/s³/K - kilogram per cubic second per kelvin: SI unit of heat transfer coefficient; equivalent to W/m²/K.";clWhite
+;TSquareMeterQuarticKelvin?;m2 K4;square %smeter quartic %skelvin?;%sm2.%sK4;;;;;m²·K⁴ - square meter quartic kelvin.;clLime
+;TWatt?PerQuarticKelvin;kg m2 s-3 K-4;%swatt? per quartic %skelvin;%sW/%sK4;;;;;W/K⁴ - watt per quartic kelvin.;clLime
+;TWatt?PerSquareMeterPerQuarticKelvin;kg s-3 K-4;%swatt? per square %smeter per quartic %skelvin;%sW/%sm2/%sK4;;;;;W/m²/K⁴ - watt per square meter per quartic kelvin.;clLime
+;TJoule?PerMole;kg m2 s-2 mol-1;%sjoule? per %smole;%sJ/%smol;;;;;J/mol - joule per mole: SI unit of molar energy.;clLime
+;TMoleKelvin?;mol K;%smole %skelvin?;%smol.%sK;;;;;mol·K - mole kelvin.;clLime
+;TJoule?PerMolePerKelvin;kg m2 s-2 mol-1 K-1;%sjoule? per %smole per %skelvin;%sJ/%smol/%sK;;;;;J/mol/K - joule per mole per kelvin: SI unit of molar heat capacity.;clLime
+;TOhmMeter?;kg m3 s-3 A-2;%sohm %smeter?;%sΩ.%sm;;;;;Ω·m - ohm meter: SI unit of electric resistivity.;clLime
+;TVolt?PerMeter;kg m s-3 A-1;%svolt? per %smeter;%sV/%sm;;;;;V/m - volt per meter: SI unit of electric field strength.;clLime
+;TNewton?PerCoulomb;;%snewton? per %scoulomb;%sN/%sC;;TVolt?PerMeter;;;"N/C - newton per coulomb: SI unit of electric field strength; equivalent to V/m.";clWhite
+;TCoulomb?PerMeter;s A m-1;%scoulomb? per %smeter;%sC/%sm;;;;;C/m - coulomb per meter: SI unit of linear charge density.;clLime
+;TSquareCoulomb?PerMeter;s2 A2 m-1;square %scoulomb? per %smeter;%sC2/%sm;;;;;C²/m - square coulomb per meter.;clLime
+;TCoulomb?PerSquareMeter;s A m-2;%scoulomb? per square %smeter;%sC/%sm2;;;;;C/m² - coulomb per square meter: SI unit of surface charge density.;clLime
+;TSquareMeter?PerSquareCoulomb;m2 s-2 A-2;square %smeter? per square %scoulomb;%sm2/%sC2;;;;;m²/C² - square meter per square coulomb.;clLime
+;TNewton?PerSquareCoulomb;kg m s-4 A-2;%snewton? per square %scoulomb;%sN/%sC2;;;;;N/C² - newton per square coulomb.;clLime
+;TNewtonSquareMeter?PerSquareCoulomb;kg m3 s-4 A-2;%snewton square %smeter? per square %scoulomb;%sN.%sm2/%sC2;;;;;N·m²/C² - newton square meter per square coulomb: SI unit of Coulomb constant.;clLime
+;TVoltMeter?;kg m3 s-3 A-1;%svolt %smeter?;%sV.%sm;;;;;V·m - volt meter: SI unit of electric flux.;clLime
+;TNewtonSquareMeter?PerCoulomb;;%snewton square %smeter? per %scoulomb;%sN.%sm2/%sC;;TVoltMeter?;;;"N·m²/C - newton square meter per coulomb: SI unit of electric flux; equivalent to V·m.";clWhite
+;TVoltMeter?PerSecond;kg m3 s-4 A-1;%svolt %smeter? per %ssecond;%sV.%sm/%ss;;;;;V·m/s - volt meter per second: SI unit of rate of change of electric flux.;clLime
+;TFarad?PerMeter;s4 A2 kg-1 m-3;%sfarad? per %smeter;%sF/%sm;;;;;F/m - farad per meter: SI unit of electric permittivity.;clLime
+;TAmpere?PerMeter;A m-1;%sampere? per %smeter;%sA/%sm;;;;;A/m - ampere per meter: SI unit of magnetic field strength.;clLime
+;TMeter?PerAmpere;m A-1;%smeter? per %sampere;%sm/%sA;;;;;m/A - meter per ampere.;clLime
+;TTeslaMeter?;kg m s-2 A-1;%stesla %smeter?;%sT.%sm;;;;;T·m - tesla meter: SI unit of magnetic rigidity.;clLime
+;TNewton?PerAmpere;;%snewton? per %sampere;%sN/%sA;;TTeslaMeter?;;;"N/A - newton per ampere: SI unit of magnetic rigidity; equivalent to T·m.";clWhite
+;TTesla?PerAmpere;kg s-2 A-2;%stesla? per %sampere;%sT/%sA;;;;;T/A - tesla per ampere: SI unit of magnetic flux density per current.;clLime
+;THenry!PerMeter;kg m s-2 A-2;%shenry! per %smeter;%sH/%sm;;;;;H/m - henry per meter: SI unit of magnetic permeability.;clLime
+;TTeslaMeter?PerAmpere;;%stesla %smeter? per %sampere;%sT.%sm/%sA;;THenry!PerMeter;;;"T·m/A - tesla meter per ampere: SI unit of magnetic permeability; equivalent to H/m.";clWhite
+;TNewton?PerSquareAmpere;;%snewton? per square %sampere;%sN/%sA2;;THenry!PerMeter;;;"N/A² - newton per square ampere: SI unit of magnetic permeability; equivalent to H/m.";clWhite
+;TRadian?PerMeter;;radian? per %smeter;rad/%sm;;TReciprocalMeter?;;;rad/m - radian per meter: SI unit of angular wavenumber.;clYellow
+;TSquareKilogram?PerSquareSecond;kg2 s-2;square %sgram? per square %ssecond;%sg2/%ss2;;;;;kg²/s² - square kilogram per square second.;clLime
+;TSquareSecond?PerSquareMeter;s2 m-2;square %ssecond? per square %smeter;%ss2/%sm2;;;;;s²/m² - square second per square meter.;clLime
+;TSquareJoule?;kg2 m4 s-4;square %sjoule?;%sJ2;J2;;;------SSSS--------------;J² - square joule.;clLime
+;TJouleSecond?;;%sjoule %ssecond?;%sJ.%ss;;TKilogramSquareMeter?PerSecond;;;J·s - joule second: SI unit of action.;clWhite
+;TJoulePerHertz?;;%sjoule? per %shertz;%sJ/%sHz;;TKilogramSquareMeter?PerSecond;;;"J/Hz - joule per hertz: SI unit of action; equivalent to J·s.";clWhite
+;TElectronvoltSecond?;;%selectronvolt %ssecond?;%seV.%ss;;TKilogramSquareMeter?PerSecond;1.60217742320523E-019;;"eV·s - electronvolt second: unit of action; 1 eV·s = 1.602176634e-19 J·s.";clWhite
+;TElectronvoltMeter?PerSpeedOfLight;;%selectronvolt %smeter? per speed of  light;%seV.%sm/c;;TKilogramSquareMeter?PerSecond;1.7826619216279E-36;;eV·m/c - electronvolt meter per speed of light: unit of action.;clWhite
+;TSquareJouleSquareSecond?;kg2 m4 s-2;square %sjoule square %ssecond?;%sJ2.%ss2;;;;;J²·s² - square joule square second.;clLime
+;TCoulomb?PerKilogram;s A kg-1;%scoulomb? per %sgram;%sC/%sg;;;;;C/kg - coulomb per kilogram: SI unit of radiation exposure.;clLime
+;TSquareMeterAmpere?;m2 A;square %smeter %sampere?;%sm2.%sA;;;;;m²·A - square meter ampere: SI unit of magnetic moment.;clLime
+;TJoule?PerTesla;;%sjoule? per %stesla;%sJ/%sT;;TSquareMeterAmpere?;;;"J/T - joule per tesla: SI unit of magnetic moment; equivalent to m²·A.";clWhite
+;TLumen?PerWatt;s3 cd sr kg-1 m-2;%slumen? per %swatt;%slm/%sW;;;;;lm/W - lumen per watt: SI unit of luminous efficacy.;clYellow
+;TReciprocalMole?;mol-1;reciprocal %smole?;1/%smol;;;;;1/mol - reciprocal mole: SI unit of reciprocal amount of substance.;clLime
+;TAmpere?PerSquareMeter;A m-2;%sampere? per square %smeter;%sA/%sm2;;;;;A/m² - ampere per square meter: SI unit of current density.;clLime
+;TMole?PerCubicMeter;mol m-3;%smole? per cubic %smeter;%smol/%sm3;;;;;mol/m³ - mole per cubic meter: SI unit of molar concentration.;clLime
+;TCandela?PerSquareMeter;cd m-2;%scandela? per square %smeter;%scd/%sm2;;;;;cd/m² - candela per square meter: SI unit of luminance.;clLime
+;TCoulomb?PerCubicMeter;s A m-3;%scoulomb? per cubic %smeter;%sC/%sm3;;;;;C/m³ - coulomb per cubic meter: SI unit of charge density.;clLime
+;TGray?PerSecond;m2 s-3;%sgray? per %ssecond;%sGy/%ss;;;;;Gy/s - gray per second: SI unit of absorbed dose rate.;clLime
+;TSteradianHertz;sr s-1;steradian %shertz;sr.%sHz;;;;;sr·Hz - steradian hertz.;clYellow
+;TMeterSteradian?;m sr;%smeter steradian?;%sm.sr;;;;;m·sr - meter steradian.;clYellow
+;TSquareMeterSteradian?;m2 sr;square %smeter steradian?;%sm2.sr;;;;;m²·sr - square meter steradian.;clYellow
+;TCubicMeterSteradian?;m3 sr;cubic %smeter steradian?;%sm3.sr;;;;;m³·sr - cubic meter steradian.;clYellow
+;TSquareMeterSteradianHertz;m2 sr s-1;square %smeter steradian %shertz;%sm2.sr.%shertz;;;;;m²·sr·Hz - square meter steradian hertz.;clYellow
+;TWatt?PerSteradian;kg m2 s-3 sr-1;%swatt? per steradian;%sW/sr;;;;;W/sr - watt per steradian: SI unit of radiant intensity.;clYellow
+;TWatt?PerSteradianPerHertz;kg m2 s-2 sr-1;%swatt? per steradian per %shertz;%sW/sr/%sHz;;;;;W/sr/Hz - watt per steradian per hertz.;clYellow
+;TWatt?PerMeterPerSteradian;kg m s-3 sr-1;%swatt? per steradian per %smeter;%sW/sr/%sm;;;;;W/sr/m - watt per steradian per meter.;clYellow
+;TWatt?PerSquareMeterPerSteradian;kg s-3 sr-1;%swatt? per square %smeter per steradian;%sW/%sm2/sr;;;;;W/m²/sr - watt per square meter per steradian: SI unit of radiance.;clYellow
+;TWatt?PerCubicMeterPerSteradian;kg s-3 m-1 sr-1;%swatt? per cubic %smeter per steradian;%sW/%sm3/sr;;;;;W/m³/sr - watt per cubic meter per steradian.;clYellow
+;TWatt?PerSquareMeterPerSteradianPerHertz;kg s-2 sr-1;%swatt? per square %smeter per steradian per %shertz;%sW/%sm2/sr/%sHz;;;;;W/m²/sr/Hz - watt per square meter per steradian per hertz: SI unit of spectral radiance.;clYellow
+;TKatal?PerCubicMeter;mol m-3 s-1;%skatal? per cubic %smeter;%skat/%sm3;;;;;kat/m³ - katal per cubic meter: SI unit of catalytic activity concentration.;clLime
+;TCoulomb?PerMole;s A mol-1;%scoulomb? per %smole;%sC/%smol;;;;;C/mol - coulomb per mole: SI unit of molar charge.;clLime
+;TReciprocalNewton?;s2 kg-1 m-1;reciprocal %snewton?;1/%sN;;;;;1/N - reciprocal newton.;clAqua
+;TReciprocalTesla?;s2 A kg-1;reciprocal %stesla?;1/%sT;;;;;1/T - reciprocal tesla.;clAqua
+;TReciprocalPascal?;s2 m kg-1;reciprocal %spascal?;1/%sPa;;;;;1/Pa - reciprocal pascal: SI unit of compressibility.;clAqua
+;TReciprocalWeber?;"s2 A kg-1 m-2 ";reciprocal %sweber?;1/%sWb;;;;;1/Wb - reciprocal weber.;clAqua
+;TReciprocalWatt?;s3 kg-1 m-2;reciprocal %swatt?;1/%sW;;;;;1/W - reciprocal watt.;clAqua
+;TReciprocalRadian?;rad-1;reciprocal %sradian?;1/%srad;;TScalar;;;1/rad - reciprocal radian.;clAqua
+;TMeter?PerVolt;A s3 kg-1 m-1;%smeter? per %svolt;%sm/%sV;;;;;m/V - meter per volt.;clAqua
+;TSecond?PerRadian;;%ssecond? per radian;%ss/rad;;TSecond?;;;s/rad - second per radian.;clFuchsia
