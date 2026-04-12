@@ -64,19 +64,10 @@
       <Unit>
         <Filename Value="benchmark.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos Y="9"/>
+        <Loaded Value="True"/>
         <UsageCount Value="41"/>
-        <Loaded Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../adim.pas"/>
-        <UnitName Value="ADim"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="370"/>
-        <CursorPos X="61" Y="302"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <CursorPos X="34" Y="35"/>
       </Unit>
     </Units>
   </ProjectOptions>
