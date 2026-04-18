@@ -1,20 +1,31 @@
-{
-  Description: ADim record types and data structures.
+{ ADim record types and data structures.
 
-  Copyright (C) 2025-2026 Melchiorre Caruso <@url(melchiorrecaruso@gmail.com)>
+  Defines the core record types and data structures used throughout the
+  ADimPas library, including:
 
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  @unorderedList(
+    @item(@link(TDimension) — the SI dimension exponent record, storing
+          the integer exponents of the eight SI base units and the steradian.)
+  )
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+  @author Melchiorre Caruso (melchiorrecaruso@@gmail.com)
+  @copyright 2025-2026 Melchiorre Caruso
+  @license GNU Lesser General Public License v3 with modified LGPL exception.
 
-  You should have received a copy of the GNU Lesser General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  This unit is part of the ADim library, distributed under the
+  GNU Lesser General Public License v3 (LGPL v3) with the following
+  special exception:
+
+  As a special exception, the copyright holders of this library give you
+  permission to link this library with independent modules to produce an
+  executable, regardless of the license terms of these independent modules,
+  and to copy and distribute the resulting executable under terms of your
+  choice, provided that you also meet, for each linked independent module,
+  the terms and conditions of the license of that module. An independent
+  module is a module which is not derived from or based on this library.
+  If you modify this library, you may extend this exception to your version
+  of the library, but you are not obligated to do so. If you do not wish
+  to do so, delete this exception statement from your version.
 }
 
 unit ADimTypes;
