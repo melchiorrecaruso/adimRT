@@ -31,15 +31,15 @@
 <div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></div><div class="one_section"><a class="section" href="#PasDoc-Variables">Variables</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="description">Description</h2>
 <p>
-Description: ADim C/C2/C3 vector space utils.
+ADim complex vector space utilities.
 
-<p>Copyright (C) 2025-2026 Melchiorre Caruso &lt;<a href="mailto:melchiorrecaruso@gmail.com">melchiorrecaruso@gmail.com</a>&gt;
+<p>Provides factory functions for constructing <a class="normal" href="ADim.TComplex.html">TComplex</a> numbers, complex vectors (<a class="normal" href="ADim.html#TC2Vector">TC2Vector</a>, <a class="normal" href="ADim.html#TC3Vector">TC3Vector</a>, <a class="normal" href="ADim.html#TC4Vector">TC4Vector</a>) and complex matrices (<a class="normal" href="ADim.html#TC2Matrix">TC2Matrix</a>, <a class="normal" href="ADim.html#TC3Matrix">TC3Matrix</a>, <a class="normal" href="ADim.html#TC4Matrix">TC4Matrix</a>) from their individual components, as well as the global imaginary unit constant <a class="normal" href="ADimC.html#img">img</a>.
 
-<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+<p> @copyright 2025-2026 Melchiorre Caruso @license GNU Lesser General Public License v3 with modified LGPL exception.
 
-<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+<p>This unit is part of the ADim library, distributed under the GNU Lesser General Public License v3 (LGPL v3) with the following special exception:
 
-<p>You should have received a copy of the GNU Lesser General Public License along with this program. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+<p>As a special exception, the copyright holders of this library give you permission to link this library with independent modules to produce an executable, regardless of the license terms of these independent modules, and to copy and distribute the resulting executable under terms of your choice, provided that you also meet, for each linked independent module, the terms and conditions of the license of that module. An independent module is a module which is not derived from or based on this library. If you modify this library, you may extend this exception to your version of the library, but you are not obligated to do so. If you do not wish to do so, delete this exception statement from your version.</p>
 <span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
 <span id="PasDoc-FuncsProcs"></span><h3 class="summary">Functions and Procedures</h3>
 <table class="summary wide_list">
@@ -78,49 +78,164 @@ Description: ADim C/C2/C3 vector space utils.
 <td class="itemcode"><span id="Complex-double-double-"></span><code>function <strong>Complex</strong>(const ARe, AIm: double): <a href="ADim.TComplex.html">TComplex</a>;</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Creates a <a class="normal" href="ADim.TComplex.html">TComplex</a> number from its real and imaginary parts.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>ARe</dt>
+<dd>The real part.</dd>
+<dt>AIm</dt>
+<dd>The imaginary part.</dd>
+</dl>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="Matrix-TComplex-TComplex-TComplex-TComplex-"></span><code>function <strong>Matrix</strong>(const a11, a12, a21, a22: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2Matrix">TC2Matrix</a>;</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Creates a 2×2 complex matrix from its elements in row-major order. The result is: <code>| a11 a12 |</code> <code>| a21 a22 |</code>    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>a11</dt>
+<dd>Element at row 1, column 1.</dd>
+<dt>a12</dt>
+<dd>Element at row 1, column 2.</dd>
+<dt>a21</dt>
+<dd>Element at row 2, column 1.</dd>
+<dt>a22</dt>
+<dd>Element at row 2, column 2.</dd>
+</dl>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-"></span><code>function <strong>Matrix</strong>(const a11, a12, a13, a21, a22, a23, a31, a32, a33: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC3Matrix">TC3Matrix</a>;</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Creates a 3×3 complex matrix from its elements in row-major order. The result is: <code>| a11 a12 a13 |</code> <code>| a21 a22 a23 |</code> <code>| a31 a32 a33 |</code>         </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>a11</dt>
+<dd>Element at row 1, column 1.</dd>
+<dt>a12</dt>
+<dd>Element at row 1, column 2.</dd>
+<dt>a13</dt>
+<dd>Element at row 1, column 3.</dd>
+<dt>a21</dt>
+<dd>Element at row 2, column 1.</dd>
+<dt>a22</dt>
+<dd>Element at row 2, column 2.</dd>
+<dt>a23</dt>
+<dd>Element at row 2, column 3.</dd>
+<dt>a31</dt>
+<dd>Element at row 3, column 1.</dd>
+<dt>a32</dt>
+<dd>Element at row 3, column 2.</dd>
+<dt>a33</dt>
+<dd>Element at row 3, column 3.</dd>
+</dl>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="Matrix-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-TComplex-"></span><code>function <strong>Matrix</strong>(const a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC4Matrix">TC4Matrix</a>;</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Creates a 4×4 complex matrix from its elements in row-major order. The result is: <code>| a11 a12 a13 a14 |</code> <code>| a21 a22 a23 a24 |</code> <code>| a31 a32 a33 a34 |</code> <code>| a41 a42 a43 a44 |</code>                </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>a11</dt>
+<dd>Element at row 1, column 1.</dd>
+<dt>a12</dt>
+<dd>Element at row 1, column 2.</dd>
+<dt>a13</dt>
+<dd>Element at row 1, column 3.</dd>
+<dt>a14</dt>
+<dd>Element at row 1, column 4.</dd>
+<dt>a21</dt>
+<dd>Element at row 2, column 1.</dd>
+<dt>a22</dt>
+<dd>Element at row 2, column 2.</dd>
+<dt>a23</dt>
+<dd>Element at row 2, column 3.</dd>
+<dt>a24</dt>
+<dd>Element at row 2, column 4.</dd>
+<dt>a31</dt>
+<dd>Element at row 3, column 1.</dd>
+<dt>a32</dt>
+<dd>Element at row 3, column 2.</dd>
+<dt>a33</dt>
+<dd>Element at row 3, column 3.</dd>
+<dt>a34</dt>
+<dd>Element at row 3, column 4.</dd>
+<dt>a41</dt>
+<dd>Element at row 4, column 1.</dd>
+<dt>a42</dt>
+<dd>Element at row 4, column 2.</dd>
+<dt>a43</dt>
+<dd>Element at row 4, column 3.</dd>
+<dt>a44</dt>
+<dd>Element at row 4, column 4.</dd>
+</dl>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="Vector-TComplex-TComplex-"></span><code>function <strong>Vector</strong>(const a1, a2: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC2Vector">TC2Vector</a>;</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Creates a 2-component complex vector from two complex numbers. The result is <code>v = (a1, a2)ᵀ</code>.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>a1</dt>
+<dd>The first component.</dd>
+<dt>a2</dt>
+<dd>The second component.</dd>
+</dl>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="Vector-TComplex-TComplex-TComplex-"></span><code>function <strong>Vector</strong>(const a1, a2, a3: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC3Vector">TC3Vector</a>;</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Creates a 3-component complex vector from three complex numbers. The result is <code>v = (a1, a2, a3)ᵀ</code>.   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>a1</dt>
+<dd>The first component.</dd>
+<dt>a2</dt>
+<dd>The second component.</dd>
+<dt>a3</dt>
+<dd>The third component.</dd>
+</dl>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="Vector-TComplex-TComplex-TComplex-TComplex-"></span><code>function <strong>Vector</strong>(const a1, a2, a3, a4: <a href="ADim.TComplex.html">TComplex</a>): <a href="ADim.html#TC4Vector">TC4Vector</a>;</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Creates a 4-component complex vector from four complex numbers. The result is <code>v = (a1, a2, a3, a4)ᵀ</code>.    </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>a1</dt>
+<dd>The first component.</dd>
+<dt>a2</dt>
+<dd>The second component.</dd>
+<dt>a3</dt>
+<dd>The third component.</dd>
+<dt>a4</dt>
+<dd>The fourth component.</dd>
+</dl>
+</td></tr>
 </table>
 <h3 class="detail">Variables</h3>
 <table class="detail visibility-published wide_list">
@@ -128,8 +243,14 @@ Description: ADim C/C2/C3 vector space utils.
 <td class="itemcode"><span id="img"></span><code><strong>img</strong>: <a href="ADim.TImaginaryUnit.html">TImaginaryUnit</a>;</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+The imaginary unit <code>i</code>, defined by <code>i² = -1</code>. Can be used directly in expressions to construct complex numbers idiomatically: <code>z := 3.0 + 2.0*img;</code></p>
+</td></tr>
 </table>
+<h2 class="authors">Author</h2>
+<ul class="authors">
+<li>Melchiorre Caruso (<a href="mailto:melchiorrecaruso@gmail.com">melchiorrecaruso@gmail.com</a>)</li>
+</ul>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>

@@ -31,15 +31,30 @@
 <div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section"><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section"><a class="section" href="#PasDoc-Constants">Constants</a></div><div class="one_section"><a class="section" href="#PasDoc-Variables">Variables</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="description">Description</h2>
 <p>
-Description: ADim Run-time library.
+ADim - Automatic Dimensional Analysis run-time library.
 
-<p>Copyright (C) 2024-2026 Melchiorre Caruso &lt;<a href="mailto:melchiorrecaruso@gmail.com">melchiorrecaruso@gmail.com</a>&gt;
+<p>ADim is a Free Pascal library for run-time dimensional analysis of physical quantities. It provides:
 
-<p>This library is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+<p></p>
 
-<p>This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+<ul class="paragraph_spacing">
+  <li><p>The <a class="normal" href="ADim.TQuantity.html">TQuantity</a> type, which associates a <code>double</code> value with a <a class="normal" href="ADimTypes.TDimension.html">TDimension</a> carrying the full SI exponent signature.</p></li>
+  <li><p>Arithmetic operators that propagate and verify physical dimensions at run time, raising exceptions on dimensional mismatches.</p></li>
+  <li><p>Support for complex quantities (<a class="normal" href="ADim.TComplexQuantity.html">TComplexQuantity</a>), real and complex vectors and matrices up to 4 dimensions, and Clifford algebra <code>Cl(3,0)</code> multivector quantities.</p></li>
+  <li><p>A comprehensive set of SI base and derived units (<a class="normal" href="ADim.TUnit.html">TUnit</a>, <a class="normal" href="ADim.TFactoredUnit.html">TFactoredUnit</a>) with prefix support.</p></li>
+  <li><p>Fundamental physical constants expressed as <a class="normal" href="ADim.TQuantity.html">TQuantity</a> values.</p></li>
+  <li><p>Mathematical functions (trigonometric, power, logarithm) that are dimensionally aware.</p></li>
+</ul>
 
-<p>You should have received a copy of the GNU Lesser General Public License along with this program. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+<p>
+
+<p>When the compiler symbol <code>ADIMOFF</code> is defined, all dimensional checking is disabled and every quantity type degenerates to its underlying numerical type (<code>double</code>, <a class="normal" href="ADim.TComplex.html">TComplex</a>, etc.), incurring zero run-time overhead.
+
+<p> @copyright 2024-2026 Melchiorre Caruso @license GNU Lesser General Public License v3 with modified LGPL exception.
+
+<p>This unit is part of the ADim library, distributed under the GNU Lesser General Public License v3 (LGPL v3) with the following special exception:
+
+<p>As a special exception, the copyright holders of this library give you permission to link this library with independent modules to produce an executable, regardless of the license terms of these independent modules, and to copy and distribute the resulting executable under terms of your choice, provided that you also meet, for each linked independent module, the terms and conditions of the license of that module. An independent module is a module which is not derived from or based on this library. If you modify this library, you may extend this exception to your version of the library, but you are not obligated to do so. If you do not wish to do so, delete this exception statement from your version.</p>
 <span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
 <span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
 <table class="classestable wide_list">
@@ -3324,738 +3339,741 @@ Description: ADim Run-time library.
 <td class="itemcode"><code><strong><a href="ADim.html#s6">s6</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondUnit;</code></td>
 </tr>
 <tr class="list2 visibility-published">
+<td class="itemcode"><code><strong><a href="ADim.html#Scalar">Scalar</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute ScalarUnit;</code></td>
+</tr>
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Second">Second</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondCandela">SecondCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondCandelaUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondCandelaPerCubicMeter">SecondCandelaPerCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondCandelaPerCubicMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondCandelaPerSquareMeter">SecondCandelaPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondCandelaPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerCubicMeter">SecondPerCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerCubicMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerKilogram">SecondPerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerKilogramUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerKilogramPerMeter">SecondPerKilogramPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerKilogramPerMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerKilogramPerSquareMeter">SecondPerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerMeter">SecondPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerMole">SecondPerMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerMoleUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerRadian">SecondPerRadian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerRadianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerSquareMeter">SecondPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerSquareMeterPerSteradian">SecondPerSquareMeterPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerSquareMeterPerSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondPerSteradian">SecondPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondPerSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondSteradian">SecondSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondSteradianPerCubicMeter">SecondSteradianPerCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondSteradianPerCubicMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SecondSteradianPerSquareMeter">SecondSteradianPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondSteradianPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticAmpere">SexticAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticAmpereUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticCandela">SexticCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticCandelaUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticKelvin">SexticKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticKilogram">SexticKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticMeter">SexticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticMole">SexticMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticMoleUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticRootAmpere">SexticRootAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticRootAmpereUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticRootCandela">SexticRootCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticRootCandelaUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticRootKelvin">SexticRootKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticRootKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticRootKilogram">SexticRootKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticRootKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticRootMeter">SexticRootMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticRootMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticRootMole">SexticRootMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticRootMoleUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticRootSecond">SexticRootSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticRootSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticRootSteradian">SexticRootSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticRootSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSecond">SexticSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSecondPerMeter">SexticSecondPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondPerMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSecondPerQuarticMeter">SexticSecondPerQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondPerQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSecondPerSquareKilogram">SexticSecondPerSquareKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondPerSquareKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSecondPerSquareKilogramPerQuarticMeter">SexticSecondPerSquareKilogramPerQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondPerSquareKilogramPerQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSecondSquareAmpere">SexticSecondSquareAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondSquareAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSecondSquareAmperePerQuarticMeter">SexticSecondSquareAmperePerQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondSquareAmperePerQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSecondSquareAmperePerSquareKilogram">SexticSecondSquareAmperePerSquareKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondSquareAmperePerSquareKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSecondSquareAmperePerSquareKilogramPerQuarticMeter">SexticSecondSquareAmperePerSquareKilogramPerQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSecondSquareAmperePerSquareKilogramPerQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SexticSteradian">SexticSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SexticSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#siemens">siemens</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SiemensUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SiemensPerMeter">SiemensPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SiemensPerMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Sievert">Sievert</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SievertUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmpere">SquareAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmpereCubicSecondPerKilogramPerSquareMeter">SquareAmpereCubicSecondPerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmpereCubicSecondPerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerCubicMeter">SquareAmperePerCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerCubicMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerKilogram">SquareAmperePerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerKilogramUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerKilogramPerCubicMeter">SquareAmperePerKilogramPerCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerKilogramPerCubicMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerKilogramPerMeter">SquareAmperePerKilogramPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerKilogramPerMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerKilogramPerSquareMeter">SquareAmperePerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerMeter">SquareAmperePerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerQuarticMeter">SquareAmperePerQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerSquareKilogram">SquareAmperePerSquareKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerSquareKilogramUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerSquareKilogramPerQuarticMeter">SquareAmperePerSquareKilogramPerQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerSquareKilogramPerQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmperePerSquareMeter">SquareAmperePerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmperePerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmpereQuarticSecondPerKilogramPerSquareMeter">SquareAmpereQuarticSecondPerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmpereQuarticSecondPerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareAmpereSquareSecond">SquareAmpereSquareSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareAmpereSquareSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareCandela">SquareCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareCandelaUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareCoulomb">SquareCoulomb</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareCoulombUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareCoulombPerMeter">SquareCoulombPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareCoulombPerMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareDay">SquareDay</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute SquareDayUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareDegree">SquareDegree</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute SquareDegreeUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareFoot">SquareFoot</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute SquareFootUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareHertz">SquareHertz</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareHertzUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareHour">SquareHour</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute SquareHourUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareInch">SquareInch</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute SquareInchUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareJoule">SquareJoule</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareJouleUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareJouleSquareSecond">SquareJouleSquareSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareJouleSquareSecondUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKelvin">SquareKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogram">SquareKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramPerMeter">SquareKilogramPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramPerMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramPerQuarticSecond">SquareKilogramPerQuarticSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramPerQuarticSecondUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramPerSexticSecond">SquareKilogramPerSexticSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramPerSexticSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramPerSexticSecondPerSquareAmpere">SquareKilogramPerSexticSecondPerSquareAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramPerSexticSecondPerSquareAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramPerSquareAmpere">SquareKilogramPerSquareAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramPerSquareAmpereUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramPerSquareMeter">SquareKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramPerSquareSecond">SquareKilogramPerSquareSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramPerSquareSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramQuarticMeter">SquareKilogramQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramQuarticMeterPerSexticSecond">SquareKilogramQuarticMeterPerSexticSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramQuarticMeterPerSexticSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramQuarticMeterPerSquareAmpere">SquareKilogramQuarticMeterPerSquareAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramQuarticMeterPerSquareAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramQuarticMeterPerSquareAmperePerSexticSecond">SquareKilogramQuarticMeterPerSquareAmperePerSexticSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramQuarticMeterPerSquareAmperePerSexticSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramSquareMeter">SquareKilogramSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramSquareMeterPerQuarticSecond">SquareKilogramSquareMeterPerQuarticSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramSquareMeterPerQuarticSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareKilogramSquareMeterPerSquareSecond">SquareKilogramSquareMeterPerSquareSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareKilogramSquareMeterPerSquareSecondUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeter">SquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterAmpere">SquareMeterAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterKelvin">SquareMeterKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerAmpere">SquareMeterPerAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerCandela">SquareMeterPerCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerCandelaUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerCandelaPerSteradian">SquareMeterPerCandelaPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerCandelaPerSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerCubicSecondPerAmpere">SquareMeterPerCubicSecondPerAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerCubicSecondPerAmpereUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerCubicSecondPerCandela">SquareMeterPerCubicSecondPerCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerCubicSecondPerCandelaUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerCubicSecondPerCandelaPerSteradian">SquareMeterPerCubicSecondPerCandelaPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerCubicSecondPerCandelaPerSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerCubicSecondPerKelvin">SquareMeterPerCubicSecondPerKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerCubicSecondPerKelvinUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerCubicSecondPerQuarticKelvin">SquareMeterPerCubicSecondPerQuarticKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerCubicSecondPerQuarticKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerCubicSecondPerSquareAmpere">SquareMeterPerCubicSecondPerSquareAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerCubicSecondPerSquareAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerCubicSecondPerSteradian">SquareMeterPerCubicSecondPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerCubicSecondPerSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerKelvin">SquareMeterPerKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerKelvinUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerKelvinPerMole">SquareMeterPerKelvinPerMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerKelvinPerMoleUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerKilogram">SquareMeterPerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerMole">SquareMeterPerMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerMoleUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerQuarticKelvin">SquareMeterPerQuarticKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerQuarticKelvinUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerQuarticSecond">SquareMeterPerQuarticSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerQuarticSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerQuarticSecondPerSquareAmpere">SquareMeterPerQuarticSecondPerSquareAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerQuarticSecondPerSquareAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSecond">SquareMeterPerSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSecondPerAmpere">SquareMeterPerSecondPerAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSecondPerAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSecondPerCandela">SquareMeterPerSecondPerCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSecondPerCandelaUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSecondPerCandelaPerSteradian">SquareMeterPerSecondPerCandelaPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSecondPerCandelaPerSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSecondPerSteradian">SquareMeterPerSecondPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSecondPerSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSquareAmpere">SquareMeterPerSquareAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSquareAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSquareCoulomb">SquareMeterPerSquareCoulomb</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSquareCoulombUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSquareKilogram">SquareMeterPerSquareKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSquareKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSquareSecond">SquareMeterPerSquareSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSquareSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSquareSecondPerAmpere">SquareMeterPerSquareSecondPerAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSquareSecondPerAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSquareSecondPerKelvin">SquareMeterPerSquareSecondPerKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSquareSecondPerKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSquareSecondPerKelvinPerMole">SquareMeterPerSquareSecondPerKelvinPerMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSquareSecondPerKelvinPerMoleUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSquareSecondPerMole">SquareMeterPerSquareSecondPerMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSquareSecondPerMoleUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSquareSecondPerSteradian">SquareMeterPerSquareSecondPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSquareSecondPerSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterPerSteradian">SquareMeterPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterPerSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterQuarticKelvin">SquareMeterQuarticKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterQuarticKelvinUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterSquareSecond">SquareMeterSquareSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterSquareSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterSquareSecondPerKilogram">SquareMeterSquareSecondPerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterSquareSecondPerKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterSteradian">SquareMeterSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMeterSteradianHertz">SquareMeterSteradianHertz</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMeterSteradianHertzUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMile">SquareMile</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute SquareMileUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMinute">SquareMinute</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute SquareMinuteUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareMole">SquareMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareMoleUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareNewton">SquareNewton</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareNewtonUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootAmpere">SquareRootAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootAmpereUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootCandela">SquareRootCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootCandelaUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootCubicAmpere">SquareRootCubicAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootCubicAmpereUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootCubicCandela">SquareRootCubicCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootCubicCandelaUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootCubicKelvin">SquareRootCubicKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootCubicKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootCubicKilogram">SquareRootCubicKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootCubicKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootCubicMeter">SquareRootCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootCubicMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootCubicMole">SquareRootCubicMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootCubicMoleUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootCubicSecond">SquareRootCubicSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootCubicSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootCubicSteradian">SquareRootCubicSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootCubicSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootKelvin">SquareRootKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootKilogram">SquareRootKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootMeter">SquareRootMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootMole">SquareRootMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootMoleUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootQuinticAmpere">SquareRootQuinticAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootQuinticAmpereUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootQuinticCandela">SquareRootQuinticCandela</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootQuinticCandelaUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootQuinticKelvin">SquareRootQuinticKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootQuinticKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootQuinticKilogram">SquareRootQuinticKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootQuinticKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootQuinticMeter">SquareRootQuinticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootQuinticMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootQuinticMole">SquareRootQuinticMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootQuinticMoleUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootQuinticSecond">SquareRootQuinticSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootQuinticSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootQuinticSteradian">SquareRootQuinticSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootQuinticSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootSecond">SquareRootSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareRootSteradian">SquareRootSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareRootSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecond">SquareSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondAmpere">SquareSecondAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondAmperePerKilogramPerMeter">SquareSecondAmperePerKilogramPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondAmperePerKilogramPerMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondAmperePerMeter">SquareSecondAmperePerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondAmperePerMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondAmperePerSquareMeter">SquareSecondAmperePerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondAmperePerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondKelvin">SquareSecondKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondKelvinUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondKelvinMole">SquareSecondKelvinMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondKelvinMoleUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondKelvinMolePerKilogram">SquareSecondKelvinMolePerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondKelvinMolePerKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondKelvinMolePerKilogramPerSquareMeter">SquareSecondKelvinMolePerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondKelvinMolePerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondKelvinMolePerSquareMeter">SquareSecondKelvinMolePerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondKelvinMolePerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondKelvinPerKilogram">SquareSecondKelvinPerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondKelvinPerKilogramUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondKelvinPerKilogramPerSquareMeter">SquareSecondKelvinPerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondKelvinPerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondKelvinPerSquareMeter">SquareSecondKelvinPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondKelvinPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondMole">SquareSecondMole</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondMoleUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondMolePerKilogram">SquareSecondMolePerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondMolePerKilogramUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondMolePerKilogramPerSquareMeter">SquareSecondMolePerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondMolePerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondMolePerSquareMeter">SquareSecondMolePerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondMolePerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerCubicMeter">SquareSecondPerCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerCubicMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerKilogram">SquareSecondPerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerKilogramUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerKilogramPerCubicMeter">SquareSecondPerKilogramPerCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerKilogramPerCubicMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerKilogramPerQuarticMeter">SquareSecondPerKilogramPerQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerKilogramPerQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerKilogramPerSquareMeter">SquareSecondPerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerMeter">SquareSecondPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerQuarticMeter">SquareSecondPerQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerSquareKilogram">SquareSecondPerSquareKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerSquareKilogramUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerSquareKilogramPerQuarticMeter">SquareSecondPerSquareKilogramPerQuarticMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerSquareKilogramPerQuarticMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerSquareKilogramPerSquareMeter">SquareSecondPerSquareKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerSquareKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerSquareMeter">SquareSecondPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondPerSteradian">SquareSecondPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondPerSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondSquareAmperePerKilogram">SquareSecondSquareAmperePerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondSquareAmperePerKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondSquareAmperePerKilogramPerMeter">SquareSecondSquareAmperePerKilogramPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondSquareAmperePerKilogramPerMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondSquareAmperePerSquareMeter">SquareSecondSquareAmperePerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondSquareAmperePerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondSteradian">SquareSecondSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondSteradianPerKilogram">SquareSecondSteradianPerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondSteradianPerKilogramUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondSteradianPerKilogramPerSquareMeter">SquareSecondSteradianPerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondSteradianPerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSecondSteradianPerSquareMeter">SquareSecondSteradianPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSecondSteradianPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareSteradian">SquareSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareVolt">SquareVolt</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareVoltUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SquareYard">SquareYard</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute SquareYardUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#sr">sr</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#st">st</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute StoneUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Steradian">Steradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SteradianHertz">SteradianHertz</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianHertzUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SteradianPerCubicMeter">SteradianPerCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianPerCubicMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SteradianPerKilogram">SteradianPerKilogram</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianPerKilogramUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SteradianPerKilogramPerMeter">SteradianPerKilogramPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianPerKilogramPerMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SteradianPerKilogramPerSquareMeter">SteradianPerKilogramPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianPerKilogramPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SteradianPerMeter">SteradianPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianPerMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SteradianPerSquareMeter">SteradianPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#SteradianPerSquareSecond">SteradianPerSquareSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SteradianPerSquareSecondUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Stone">Stone</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute StoneUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Sv">Sv</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SievertUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#T">T</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute TeslaUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Tesla">Tesla</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute TeslaUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#TeslaMeter">TeslaMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute TeslaMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#TeslaMeterPerAmpere">TeslaMeterPerAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute TeslaMeterPerAmpereUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#TeslaPerAmpere">TeslaPerAmpere</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute TeslaPerAmpereUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#ton">ton</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute TonUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#tonne">tonne</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute TonneUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Torr">Torr</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute TorrUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#V">V</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute VoltUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#V2">V2</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SquareVoltUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Volt">Volt</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute VoltUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#VoltMeter">VoltMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute VoltMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#VoltMeterPerSecond">VoltMeterPerSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute VoltMeterPerSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#VoltPerMeter">VoltPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute VoltPerMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#W">W</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Watt">Watt</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerCubicMeter">WattPerCubicMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerCubicMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerCubicMeterPerSteradian">WattPerCubicMeterPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerCubicMeterPerSteradianUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerHertz">WattPerHertz</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerHertzUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerKelvin">WattPerKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerKelvinUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerMeter">WattPerMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerMeterPerKelvin">WattPerMeterPerKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerMeterPerKelvinUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerMeterPerSteradian">WattPerMeterPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerMeterPerSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerQuarticKelvin">WattPerQuarticKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerQuarticKelvinUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerSquareMeter">WattPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerSquareMeterPerHertz">WattPerSquareMeterPerHertz</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerSquareMeterPerHertzUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerSquareMeterPerKelvin">WattPerSquareMeterPerKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerSquareMeterPerKelvinUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerSquareMeterPerQuarticKelvin">WattPerSquareMeterPerQuarticKelvin</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerSquareMeterPerQuarticKelvinUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerSquareMeterPerSteradian">WattPerSquareMeterPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerSquareMeterPerSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerSquareMeterPerSteradianPerHertz">WattPerSquareMeterPerSteradianPerHertz</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerSquareMeterPerSteradianPerHertzUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerSteradian">WattPerSteradian</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerSteradianUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattPerSteradianPerHertz">WattPerSteradianPerHertz</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattPerSteradianPerHertzUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WattSecond">WattSecond</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WattSecondUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Wb">Wb</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WeberUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Weber">Weber</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WeberUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#WeberPerSquareMeter">WeberPerSquareMeter</a></strong>: <a href="ADim.TUnit.html">TUnit</a> absolute WeberPerSquareMeterUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#Yard">Yard</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute YardUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#yd">yd</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute YardUnit;</code></td>
 </tr>
-<tr class="list visibility-published">
+<tr class="list2 visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#yd2">yd2</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute SquareYardUnit;</code></td>
 </tr>
-<tr class="list2 visibility-published">
+<tr class="list visibility-published">
 <td class="itemcode"><code><strong><a href="ADim.html#yd3">yd3</a></strong>: <a href="ADim.TFactoredUnit.html">TFactoredUnit</a> absolute CubicYardUnit;</code></td>
 </tr>
 </table>
@@ -5365,14 +5383,14 @@ Enumeration of the eight basis blade components of a multivector in the Clifford
 <p>The basis blades are: </p>
 
 <ul class="paragraph_spacing">
-  <li><p><code>mcm0</code> — scalar part: <code>1</code></p></li>
-  <li><p><code>mcm1</code> — vector basis blade: <code>e1</code></p></li>
-  <li><p><code>mcm2</code> — vector basis blade: <code>e2</code></p></li>
-  <li><p><code>mcm3</code> — vector basis blade: <code>e3</code></p></li>
-  <li><p><code>mcm12</code> — bivector basis blade: <code>e1∧e2</code></p></li>
-  <li><p><code>mcm13</code> — bivector basis blade: <code>e1∧e3</code></p></li>
-  <li><p><code>mcm23</code> — bivector basis blade: <code>e2∧e3</code></p></li>
-  <li><p><code>mcm123</code> — pseudoscalar (trivector) basis blade: <code>e1∧e2∧e3</code></p></li>
+  <li><p><code>mcm0</code> - scalar part: <code>1</code></p></li>
+  <li><p><code>mcm1</code> - vector basis blade: <code>e1</code></p></li>
+  <li><p><code>mcm2</code> - vector basis blade: <code>e2</code></p></li>
+  <li><p><code>mcm3</code> - vector basis blade: <code>e3</code></p></li>
+  <li><p><code>mcm12</code> - bivector basis blade: <code>e1∧e2</code></p></li>
+  <li><p><code>mcm13</code> - bivector basis blade: <code>e1∧e3</code></p></li>
+  <li><p><code>mcm23</code> - bivector basis blade: <code>e2∧e3</code></p></li>
+  <li><p><code>mcm123</code> - pseudoscalar (trivector) basis blade: <code>e1∧e2∧e3</code></p></li>
 </ul>
 
 <p> The algebra satisfies <code>e1·e1 = +1</code> for all <code>i</code>, and <code>e1·e2 = -e2·e1</code> for <code>i ≠ j</code>.</p>
@@ -13438,6 +13456,15 @@ s⁶ - sextic second: SI unit of sextic time.</p>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
+<td class="itemcode"><span id="Scalar"></span><code><strong>Scalar</strong>: <a href="ADim.TUnit.html">TUnit</a> absolute ScalarUnit;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+dimensionless real number.</p>
+</td></tr>
+</table>
+<table class="detail visibility-published wide_list">
+<tr class="list visibility-published">
 <td class="itemcode"><span id="Second"></span><code><strong>Second</strong>: <a href="ADim.TUnit.html">TUnit</a> absolute SecondUnit;</code></td>
 </tr>
 <tr><td colspan="1">
@@ -15641,6 +15668,10 @@ yd² - square yard: imperial unit of area; 1 yd² = 0.83612736 m².</p>
 yd³ - cubic yard: imperial unit of volume; 1 yd³ = 0.764554857984 m³.</p>
 </td></tr>
 </table>
+<h2 class="authors">Author</h2>
+<ul class="authors">
+<li>Melchiorre Caruso (<a href="mailto:melchiorrecaruso@gmail.com">melchiorrecaruso@gmail.com</a>)</li>
+</ul>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>
