@@ -7820,17 +7820,6 @@ const
     FPrefixes   : ();
     FExponents  : ());
 
-{ TScalar } { @exclude }
-
-const
-  ScalarUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
-    FSymbol     : rsScalarSymbol;
-    FName       : rsScalarName;
-    FPluralName : rsScalarPluralName;
-    FPrefixes   : ();
-    FExponents  : ());
-
 var
   { dimensionless real number. }
   Scalar : TUnit absolute ScalarUnit;
