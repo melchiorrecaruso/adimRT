@@ -1,20 +1,47 @@
 {
-  Description: ADim Run-time library.
+  ADim — Automatic Dimensional Analysis run-time library.
 
-  Copyright (C) 2024-2026 Melchiorre Caruso <@url(melchiorrecaruso@gmail.com)>
+  ADim is a Free Pascal library for run-time dimensional analysis of
+  physical quantities. It provides:
 
-  This library is free software: you can redistribute it and/or modify
-  it under the terms of the GNU Lesser General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+  @unorderedList(
+    @item(The @link(TQuantity) type, which associates a @code(double) value
+          with a @link(TDimension) carrying the full SI exponent signature.)
+    @item(Arithmetic operators that propagate and verify physical dimensions
+          at run time, raising exceptions on dimensional mismatches.)
+    @item(Support for complex quantities (@link(TComplexQuantity)), real and
+          complex vectors and matrices up to 4 dimensions, and Clifford algebra
+          @code(Cl(3,0)) multivector quantities.)
+    @item(A comprehensive set of SI base and derived units (@link(TUnit),
+          @link(TFactoredUnit)) with prefix support.)
+    @item(Fundamental physical constants expressed as @link(TQuantity) values.)
+    @item(Mathematical functions (trigonometric, power, logarithm) that are
+          dimensionally aware.)
+  )
 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+  When the compiler symbol @code(ADIMOFF) is defined, all dimensional
+  checking is disabled and every quantity type degenerates to its underlying
+  numerical type (@code(double), @link(TComplex), etc.), incurring zero
+  run-time overhead.
 
-  You should have received a copy of the GNU Lesser General Public License
-  along with this program. If not, see <http://www.gnu.org/licenses/>.
+  @author Melchiorre Caruso (melchiorrecaruso@@gmail.com)
+  @copyright 2024-2026 Melchiorre Caruso
+  @license GNU Lesser General Public License v3 with modified LGPL exception.
+
+  This unit is part of the ADim library, distributed under the
+  GNU Lesser General Public License v3 (LGPL v3) with the following
+  special exception:
+
+  As a special exception, the copyright holders of this library give you
+  permission to link this library with independent modules to produce an
+  executable, regardless of the license terms of these independent modules,
+  and to copy and distribute the resulting executable under terms of your
+  choice, provided that you also meet, for each linked independent module,
+  the terms and conditions of the license of that module. An independent
+  module is a module which is not derived from or based on this library.
+  If you modify this library, you may extend this exception to your version
+  of the library, but you are not obligated to do so. If you do not wish
+  to do so, delete this exception statement from your version.
 }
 
 unit ADim;
@@ -26,7 +53,7 @@ unit ADim;
 {$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
 
 {
-  ADim Run-time library built on 12-04-2026.
+  ADim Run-time library built on 18-04-2026.
 
   Number of base units: 687
   Number of factored units: 133
@@ -7792,6 +7819,21 @@ const
     FPluralName : rsScalarPluralName;
     FPrefixes   : ();
     FExponents  : ());
+
+{ TScalar } { @exclude }
+
+const
+  ScalarUnit : TUnit = (
+    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FSymbol     : rsScalarSymbol;
+    FName       : rsScalarName;
+    FPluralName : rsScalarPluralName;
+    FPrefixes   : ();
+    FExponents  : ());
+
+var
+  { dimensionless real number. }
+  Scalar : TUnit absolute ScalarUnit;
 
 { TRadian } { @exclude }
 

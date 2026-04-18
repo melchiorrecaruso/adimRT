@@ -63,9 +63,7 @@ Count=0
 Count=0
 
 [IncludeDirectories]
-Count=2
-Item_0=
-Item_1=/home/quacquero/Documenti/GitHub/adimRT
+Count=0
 
 [Files]
 Count=5
