@@ -31,15 +31,29 @@
 <div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Variables">Variables</a></div></div>
 <span id="PasDoc-Description"></span><h2 class="description">Description</h2>
 <p>
-Description: ADim CL3 vector space utils.
+ADim Clifford algebra <code>Cl(3,0)</code> utilities.
 
-<p>Copyright (C) 2025-2026 Melchiorre Caruso &lt;<a href="mailto:melchiorrecaruso@gmail.com">melchiorrecaruso@gmail.com</a>&gt;
+<p>Provides predefined global constants for the basis blades, unit elements and zero elements of the Clifford algebra <code>Cl(3,0)</code> over <code>ℝ³</code>.
 
-<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+<p>The basis blades are available both as versor/biversor/triversor singleton records (for use in operator expressions) and as pre-initialised <a class="normal" href="ADim.TCL3Vector.html">TCL3Vector</a>, <a class="normal" href="ADim.TCL3Bivector.html">TCL3Bivector</a> and <a class="normal" href="ADim.TCL3Trivector.html">TCL3Trivector</a> values (for use as numerical unit vectors):
 
-<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+<p></p>
 
-<p>You should have received a copy of the GNU Lesser General Public License along with this program. If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</p>
+<ul class="paragraph_spacing">
+  <li><p><strong>Versors</strong>: <a class="normal" href="ADimCL3.html#e1">e1</a>, <a class="normal" href="ADimCL3.html#e2">e2</a>, <a class="normal" href="ADimCL3.html#e3">e3</a> — allow expressions like <code>3.0*e1 + 2.0*e2</code>.</p></li>
+  <li><p><strong>Biversors</strong>: <a class="normal" href="ADimCL3.html#e12">e12</a>, <a class="normal" href="ADimCL3.html#e13">e13</a>, <a class="normal" href="ADimCL3.html#e23">e23</a> — allow expressions like <code>1.5*e12</code>.</p></li>
+  <li><p><strong>Triversor</strong>: <a class="normal" href="ADimCL3.html#e123">e123</a> — allows expressions like <code>2.0*e123</code>.</p></li>
+  <li><p><strong>Unit vectors</strong>: <a class="normal" href="ADimCL3.html#u1">u1</a>, <a class="normal" href="ADimCL3.html#u2">u2</a>, <a class="normal" href="ADimCL3.html#u3">u3</a>, <a class="normal" href="ADimCL3.html#u12">u12</a>, <a class="normal" href="ADimCL3.html#u13">u13</a>, <a class="normal" href="ADimCL3.html#u23">u23</a>, <a class="normal" href="ADimCL3.html#u123">u123</a> — pre-built numerical basis elements for direct arithmetic.</p></li>
+  <li><p><strong>Zero elements</strong>: <a class="normal" href="ADimCL3.html#NullMultivector">NullMultivector</a>, <a class="normal" href="ADimCL3.html#NullTrivector">NullTrivector</a>, <a class="normal" href="ADimCL3.html#NullBivector">NullBivector</a>, <a class="normal" href="ADimCL3.html#NullVector">NullVector</a>, <a class="normal" href="ADimCL3.html#NullScalar">NullScalar</a> — neutral elements for addition.</p></li>
+</ul>
+
+<p>
+
+<p> @copyright 2025-2026 Melchiorre Caruso @license GNU Lesser General Public License v3 with modified LGPL exception.
+
+<p>This unit is part of the ADim library, distributed under the GNU Lesser General Public License v3 (LGPL v3) with the following special exception:
+
+<p>As a special exception, the copyright holders of this library give you permission to link this library with independent modules to produce an executable, regardless of the license terms of these independent modules, and to copy and distribute the resulting executable under terms of your choice, provided that you also meet, for each linked independent module, the terms and conditions of the license of that module. An independent module is a module which is not derived from or based on this library. If you modify this library, you may extend this exception to your version of the library, but you are not obligated to do so. If you do not wish to do so, delete this exception statement from your version.</p>
 <span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
 <span id="PasDoc-Variables"></span><h3 class="summary">Variables</h3>
 <table class="summary wide_list">
@@ -80,25 +94,25 @@ Description: ADim CL3 vector space utils.
 <td class="itemcode"><code><strong><a href="ADimCL3.html#NullVector">NullVector</a></strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1:0.0; fm2:0.0; fm3:0.0);</code></td>
 </tr>
 <tr class="list visibility-published">
-<td class="itemcode"><code><strong><a href="ADimCL3.html#u1">u1</a></strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1:1.0; fm2:0.0; fm3:0.0);</code></td>
+<td class="itemcode"><code><strong><a href="ADimCL3.html#u1">u1</a></strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1: 1.0; fm2: 0.0; fm3: 0.0);</code></td>
 </tr>
 <tr class="list2 visibility-published">
-<td class="itemcode"><code><strong><a href="ADimCL3.html#u12">u12</a></strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12:1.0; fm13:0.0; fm23:0.0);</code></td>
+<td class="itemcode"><code><strong><a href="ADimCL3.html#u12">u12</a></strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12: 1.0; fm13: 0.0; fm23: 0.0);</code></td>
 </tr>
 <tr class="list visibility-published">
-<td class="itemcode"><code><strong><a href="ADimCL3.html#u123">u123</a></strong>: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a> = (fm123:1.0);</code></td>
+<td class="itemcode"><code><strong><a href="ADimCL3.html#u123">u123</a></strong>: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a> = (fm123: 1.0);</code></td>
 </tr>
 <tr class="list2 visibility-published">
-<td class="itemcode"><code><strong><a href="ADimCL3.html#u13">u13</a></strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12:0.0; fm13:1.0; fm23:0.0);</code></td>
+<td class="itemcode"><code><strong><a href="ADimCL3.html#u13">u13</a></strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12: 0.0; fm13: 1.0; fm23: 0.0);</code></td>
 </tr>
 <tr class="list visibility-published">
-<td class="itemcode"><code><strong><a href="ADimCL3.html#u2">u2</a></strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1:0.0; fm2:1.0; fm3:0.0);</code></td>
+<td class="itemcode"><code><strong><a href="ADimCL3.html#u2">u2</a></strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1: 0.0; fm2: 1.0; fm3: 0.0);</code></td>
 </tr>
 <tr class="list2 visibility-published">
-<td class="itemcode"><code><strong><a href="ADimCL3.html#u23">u23</a></strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12:0.0; fm13:0.0; fm23:1.0);</code></td>
+<td class="itemcode"><code><strong><a href="ADimCL3.html#u23">u23</a></strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12: 0.0; fm13: 0.0; fm23: 1.0);</code></td>
 </tr>
 <tr class="list visibility-published">
-<td class="itemcode"><code><strong><a href="ADimCL3.html#u3">u3</a></strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1:0.0; fm2:0.0; fm3:1.0);</code></td>
+<td class="itemcode"><code><strong><a href="ADimCL3.html#u3">u3</a></strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1: 0.0; fm2: 0.0; fm3: 1.0);</code></td>
 </tr>
 </table>
 <h2 class="description">Description</h2>
@@ -108,49 +122,63 @@ Description: ADim CL3 vector space utils.
 <td class="itemcode"><span id="e1"></span><code><strong>e1</strong>: <a href="ADim.TCL3Versor1.html">TCL3Versor1</a> = ();</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Basis versor <code>e₁</code> of <code>Cl(3,0)</code>. Enables expressions like <code>3.0 * e1</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="e12"></span><code><strong>e12</strong>: <a href="ADim.TCL3Biversor12.html">TCL3Biversor12</a> = ();</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Basis biversor <code>e₁∧e₂</code> of <code>Cl(3,0)</code>. Enables expressions like <code>2.0 * e12</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="e123"></span><code><strong>e123</strong>: <a href="ADim.TCL3Triversor123.html">TCL3Triversor123</a> = ();</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Unit pseudoscalar <code>e₁∧e₂∧e₃</code> of <code>Cl(3,0)</code>. Enables expressions like <code>2.0 * e123</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="e13"></span><code><strong>e13</strong>: <a href="ADim.TCL3Biversor13.html">TCL3Biversor13</a> = ();</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Basis biversor <code>e₁∧e₃</code> of <code>Cl(3,0)</code>. Enables expressions like <code>2.0 * e13</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="e2"></span><code><strong>e2</strong>: <a href="ADim.TCL3Versor2.html">TCL3Versor2</a> = ();</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Basis versor <code>e₂</code> of <code>Cl(3,0)</code>. Enables expressions like <code>3.0 * e2</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="e23"></span><code><strong>e23</strong>: <a href="ADim.TCL3Biversor23.html">TCL3Biversor23</a> = ();</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Basis biversor <code>e₂∧e₃</code> of <code>Cl(3,0)</code>. Enables expressions like <code>2.0 * e23</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
 <td class="itemcode"><span id="e3"></span><code><strong>e3</strong>: <a href="ADim.TCL3Versor3.html">TCL3Versor3</a> = ();</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Basis versor <code>e₃</code> of <code>Cl(3,0)</code>. Enables expressions like <code>3.0 * e3</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
@@ -199,53 +227,71 @@ The zero vector of <code>Cl(3,0)</code>. All three vector coefficients are zero:
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
-<td class="itemcode"><span id="u1"></span><code><strong>u1</strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1:1.0; fm2:0.0; fm3:0.0);</code></td>
+<td class="itemcode"><span id="u1"></span><code><strong>u1</strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1: 1.0; fm2: 0.0; fm3: 0.0);</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Unit vector along <code>e₁</code>: <code>u1 = 1·e₁ + 0·e₂ + 0·e₃</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
-<td class="itemcode"><span id="u12"></span><code><strong>u12</strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12:1.0; fm13:0.0; fm23:0.0);</code></td>
+<td class="itemcode"><span id="u12"></span><code><strong>u12</strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12: 1.0; fm13: 0.0; fm23: 0.0);</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Unit bivector along <code>e₁∧e₂</code>: <code>u12 = 1·e₁₂ + 0·e₁₃ + 0·e₂₃</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
-<td class="itemcode"><span id="u123"></span><code><strong>u123</strong>: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a> = (fm123:1.0);</code></td>
+<td class="itemcode"><span id="u123"></span><code><strong>u123</strong>: <a href="ADim.TCL3Trivector.html">TCL3Trivector</a> = (fm123: 1.0);</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Unit pseudoscalar: <code>u123 = 1·e₁∧e₂∧e₃</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
-<td class="itemcode"><span id="u13"></span><code><strong>u13</strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12:0.0; fm13:1.0; fm23:0.0);</code></td>
+<td class="itemcode"><span id="u13"></span><code><strong>u13</strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12: 0.0; fm13: 1.0; fm23: 0.0);</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Unit bivector along <code>e₁∧e₃</code>: <code>u13 = 0·e₁₂ + 1·e₁₃ + 0·e₂₃</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
-<td class="itemcode"><span id="u2"></span><code><strong>u2</strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1:0.0; fm2:1.0; fm3:0.0);</code></td>
+<td class="itemcode"><span id="u2"></span><code><strong>u2</strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1: 0.0; fm2: 1.0; fm3: 0.0);</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Unit vector along <code>e₂</code>: <code>u2 = 0·e₁ + 1·e₂ + 0·e₃</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
-<td class="itemcode"><span id="u23"></span><code><strong>u23</strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12:0.0; fm13:0.0; fm23:1.0);</code></td>
+<td class="itemcode"><span id="u23"></span><code><strong>u23</strong>: <a href="ADim.TCL3Bivector.html">TCL3Bivector</a> = (fm12: 0.0; fm13: 0.0; fm23: 1.0);</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Unit bivector along <code>e₂∧e₃</code>: <code>u23 = 0·e₁₂ + 0·e₁₃ + 1·e₂₃</code>.</p>
+</td></tr>
 </table>
 <table class="detail visibility-published wide_list">
 <tr class="list visibility-published">
-<td class="itemcode"><span id="u3"></span><code><strong>u3</strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1:0.0; fm2:0.0; fm3:1.0);</code></td>
+<td class="itemcode"><span id="u3"></span><code><strong>u3</strong>: <a href="ADim.TCL3Vector.html">TCL3Vector</a> = (fm1: 0.0; fm2: 0.0; fm3: 1.0);</code></td>
 </tr>
 <tr><td colspan="1">
-<p class="nodescription">This item has no description.</p></td></tr>
+<p>
+Unit vector along <code>e₃</code>: <code>u3 = 0·e₁ + 0·e₂ + 1·e₃</code>.</p>
+</td></tr>
 </table>
+<h2 class="authors">Author</h2>
+<ul class="authors">
+<li>Melchiorre Caruso (<a href="mailto:melchiorrecaruso@gmail.com">melchiorrecaruso@gmail.com</a>)</li>
+</ul>
 <hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 1.0.4</a>. </em>
 </span>
 </div></main>

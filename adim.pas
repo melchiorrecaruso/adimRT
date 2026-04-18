@@ -1,5 +1,5 @@
 {
-  ADim — Automatic Dimensional Analysis run-time library.
+  ADim - Automatic Dimensional Analysis run-time library.
 
   ADim is a Free Pascal library for run-time dimensional analysis of
   physical quantities. It provides:
@@ -1687,14 +1687,14 @@ type
 
     The basis blades are:
     @unorderedList(
-      @item(@code(mcm0)   — scalar part: @code(1))
-      @item(@code(mcm1)   — vector basis blade: @code(e1))
-      @item(@code(mcm2)   — vector basis blade: @code(e2))
-      @item(@code(mcm3)   — vector basis blade: @code(e3))
-      @item(@code(mcm12)  — bivector basis blade: @code(e1∧e2))
-      @item(@code(mcm13)  — bivector basis blade: @code(e1∧e3))
-      @item(@code(mcm23)  — bivector basis blade: @code(e2∧e3))
-      @item(@code(mcm123) — pseudoscalar (trivector) basis blade: @code(e1∧e2∧e3))
+      @item(@code(mcm0)   - scalar part: @code(1))
+      @item(@code(mcm1)   - vector basis blade: @code(e1))
+      @item(@code(mcm2)   - vector basis blade: @code(e2))
+      @item(@code(mcm3)   - vector basis blade: @code(e3))
+      @item(@code(mcm12)  - bivector basis blade: @code(e1∧e2))
+      @item(@code(mcm13)  - bivector basis blade: @code(e1∧e3))
+      @item(@code(mcm23)  - bivector basis blade: @code(e2∧e3))
+      @item(@code(mcm123) - pseudoscalar (trivector) basis blade: @code(e1∧e2∧e3))
     )
     The algebra satisfies @code(e1·e1 = +1) for all @code(i), and
     @code(e1·e2 = -e2·e1) for @code(i ≠ j).
@@ -1726,7 +1726,7 @@ type
     @unorderedList(
       @item(@code(ei² = +1) for @code(i = 1, 2, 3))
       @item(@code(ei·ej = -ej·ei) for @code(i ≠ j))
-      @item(@code(e1·e2·e3 = e123) — the unit pseudoscalar)
+      @item(@code(e1·e2·e3 = e123) - the unit pseudoscalar)
     )
   }
   TCL3Multivector = record
