@@ -53,7 +53,7 @@ unit ADim;
 {$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
 
 {
-  ADim Run-time library built on 18-04-2026.
+  ADim Run-time library built on 27-04-2026.
 
   Number of base units: 687
   Number of factored units: 133
@@ -8896,31 +8896,31 @@ var
   { kg - kilogram: SI base unit of mass. }
   kg : TUnit absolute KilogramUnit;
 
-  { hg - kilogram: submultiple of kilogram; 1 hg = 1e-01 kg. }
+  { hg - kilogram**: submultiple of kilogram; 1 hg = 1e-01 kg. }
   hg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-01); {$ELSE} (1e-01); {$ENDIF}
 
-  { dag - kilogram: submultiple of kilogram; 1 dag = 1e-02 kg. }
+  { dag - kilogram**: submultiple of kilogram; 1 dag = 1e-02 kg. }
   dag : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-02); {$ELSE} (1e-02); {$ENDIF}
 
-  { g - kilogram: submultiple of kilogram; 1 g = 1e-03 kg. }
+  { g - kilogram**: submultiple of kilogram; 1 g = 1e-03 kg. }
   g : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-03); {$ELSE} (1e-03); {$ENDIF}
 
-  { dg - kilogram: submultiple of kilogram; 1 dg = 1e-04 kg. }
+  { dg - kilogram**: submultiple of kilogram; 1 dg = 1e-04 kg. }
   dg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-04); {$ELSE} (1e-04); {$ENDIF}
 
-  { cg - kilogram: submultiple of kilogram; 1 cg = 1e-05 kg. }
+  { cg - kilogram**: submultiple of kilogram; 1 cg = 1e-05 kg. }
   cg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-05); {$ELSE} (1e-05); {$ENDIF}
 
-  { mg - kilogram: submultiple of kilogram; 1 mg = 1e-06 kg. }
+  { mg - kilogram**: submultiple of kilogram; 1 mg = 1e-06 kg. }
   mg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-06); {$ELSE} (1e-06); {$ENDIF}
 
-  { mig - kilogram: submultiple of kilogram; 1 mig = 1e-09 kg. }
+  { mig - kilogram**: submultiple of kilogram; 1 mig = 1e-09 kg. }
   mig : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-09); {$ELSE} (1e-09); {$ENDIF}
 
-  { ng - kilogram: submultiple of kilogram; 1 ng = 1e-12 kg. }
+  { ng - kilogram**: submultiple of kilogram; 1 ng = 1e-12 kg. }
   ng : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-12); {$ELSE} (1e-12); {$ENDIF}
 
-  { pg - kilogram: submultiple of kilogram; 1 pg = 1e-15 kg. }
+  { pg - kilogram**: submultiple of kilogram; 1 pg = 1e-15 kg. }
   pg : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: 60; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0); FValue: 1e-15); {$ELSE} (1e-15); {$ENDIF}
 
 { TTonne } { @exclude }

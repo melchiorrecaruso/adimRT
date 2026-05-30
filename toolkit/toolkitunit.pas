@@ -494,16 +494,16 @@ var
     CurrName := StringReplace(CurrName, '!',  '',           [rfReplaceAll]);
     CurrName := StringReplace(CurrName, '?',  '',           [rfReplaceAll]);
     CurrName := GetSymbol(CurrName);
-    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then CurrName := 'kilogram';
-    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then CurrName := 'square kilogram';
+    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then CurrName := 'kilogram**';
+    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then CurrName := 'square kilogram**';
 
     BaseSymbol := AItem.FShortString;
     BaseSymbol := StringReplace(BaseSymbol, '%s', '',  [rfReplaceAll]);
     BaseSymbol := StringReplace(BaseSymbol, '!',  '',  [rfReplaceAll]);
     BaseSymbol := StringReplace(BaseSymbol, '?',  '',  [rfReplaceAll]);
     BaseSymbol := GetSymbol(BaseSymbol);
-    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then BaseSymbol := 'kg';
-    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then BaseSymbol := 'kg2';
+    if (LowerCase(AItem.FIdentifier) = 'kg'  ) then BaseSymbol := 'kg**';
+    if (LowerCase(AItem.FIdentifier) = 'kg2' ) then BaseSymbol := 'kg2**';
 
     BaseName := AItem.FLongString;
     BaseName := StringReplace(BaseName, '%s', '',  [rfReplaceAll]);
