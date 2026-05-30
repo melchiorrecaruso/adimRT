@@ -200,6 +200,7 @@ type
     Concrete types are provided as @link(TR2Matrix), @link(TR3Matrix),
     and @link(TR4Matrix) for fixed small dimensions.
   }
+
   generic TRMatrix<TSpace> = record
   private
     fm: array of array of double;
@@ -695,7 +696,7 @@ type
     TRVector = specialize TRVector<TSpace>;
     TCMatrix = specialize TCMatrix<TSpace>;
   private
-    fm: array[0..TSpace.N-1] of TComplex;
+    fm: array of TComplex;
 
     { Reads the complex component at position @code(ARow). }
     function Get(ARow: longint): TComplex;

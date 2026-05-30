@@ -148,6 +148,8 @@ type
   TQuantity = double;
   {$ENDIF}
 
+  TArrayOfQuantity = array of TQuantity;
+
   { Represents a complex quantity with physical dimensions.
 
     Combines a @link(TComplex) value with a @link(TDimension), supporting
@@ -242,6 +244,8 @@ type
   TComplexQuantity = TComplex;
   {$ENDIF}
 
+  TArrayOfComplexQuantity = array of TComplexQuantity;
+
   { Returns the product of a dimensional quantity and the imaginary unit. The dimension is preserved. }
   operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
 
@@ -334,6 +338,18 @@ type
     { Reads the element at position (@code(ARow), @code(ACol)) as a @link(TComplexQuantity). }
     function Get(ARow, ACol: longint): TComplexQuantity;
   public
+
+
+    function Conjugate: TCMatrixQuantity;
+
+    function Determinant: TComplexQuantity;
+
+    function Diagonalize: TCMatrixQuantity;
+
+    function Eigenvalues: TArrayOfComplexQuantity;
+
+
+
     { Implicit conversion from a complex matrix to a complex quantity matrix.
       The resulting matrix has a scalar (dimensionless) dimension.
     }
@@ -11758,43 +11774,39 @@ end;
 // TC2MatrixQuantityHelper
 
 {$IFNDEF ADIMOFF}
-function TC2MatrixQuantityHelper.Diagonalize(const AEigenvalues: TC2ArrayOfQuantity): TC2MatrixQuantity;
-var
-  EigenVals: TC2ArrayOfComplex;
+function TCMatrixQuantity.Diagonalize: TCMatrixQuantity;
 begin
-  EigenVals[1] := AEigenvalues[1].FValue;
-  EigenVals[2] := AEigenvalues[2].FValue;
-
-  result.FDim := FDim;
-  result.FValue := FValue.Diagonalize(EigenVals);
+  result.FDim   := FDim;
+  result.FValue := FValue.Diagonalize(FValue.Eigenvalues);
 end;
 
-function TC2MatrixQuantityHelper.Conjugate: TC2MatrixQuantity;
+function TCMatrixQuantity.Conjugate: TCMatrixQuantity;
 begin
-  result.FDim := FDim;
+  result.FDim   := FDim;
   result.FValue := FValue.Conjugate;
 end;
 
-function TC2MatrixQuantityHelper.Determinant: TComplexQuantity;
+function TCMatrixQuantity.Determinant: TComplexQuantity;
 begin
-  result.FDim := FDim*2;
+  result.FDim   := FDim*2;
   result.FValue := FValue.Determinant;
 end;
 
-function TC2MatrixQuantityHelper.Eigenvalues: TC2ArrayOfQuantity;
+function TCMatrixQuantity.Eigenvalues: TArrayOfComplexQuantity;
 var
   i: longint;
-  EigenVals: TC2ArrayOfComplex;
+  Values: TArrayofComplex;
 begin
-  EigenVals := FValue.Eigenvalues;
-  for i := 1 to 2 do
+  Values := FValue.Eigenvalues;
+  SetLength(result, Length(Values));
+  for i := Low(result) to High(result) do
   begin
-    result[i].FDim := FDim;
-    result[i].FValue := EigenVals[i];
+    result[i].FDim   := FDim;
+    result[i].FValue := Values[i];
   end;
 end;
 
-function TC2MatrixQuantityHelper.Eigenvectors(const AEigenValues: TC2ArrayOfQuantity): TC2ArrayOfVector;
+function TCMatrixQuantity.Eigenvectors(const AEigenValues: TArrayOfComplexQuantity): TCMatrixQuantity;
 var
   i: longint;
   EigenVals: TC2ArrayOfComplex;
