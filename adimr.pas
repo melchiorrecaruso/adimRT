@@ -12,46 +12,188 @@ type
   { Dynamic array of @code(double) values. }
   TArrayOfDouble = array of double;
 
+  { Generic square matrix of real values (@code(double)) with dimension
+    @code(TSpace.N × TSpace.N), where @code(N) is determined at compile time.
+
+    Matrix elements are stored in a dynamic 0-based 2D array allocated
+    automatically via the @code(Initialize) operator.
+    Use the default array property @code(a[row, col]) to read and write
+    individual elements using 0-based indices.
+    Concrete types are provided as @link(TR2Matrix), @link(TR3Matrix),
+    and @link(TR4Matrix).
+  }
   generic TRMatrix<TSpace> = record
   private
     fm: array of array of double;
+
+    { Reads the element at position (@code(ARow), @code(ACol)). }
     function Get(ARow, ACol: longint): double;
+
+    { Writes the element at position (@code(ARow), @code(ACol)). }
     procedure Put(ARow, ACol: longint; const AValue: double);
+
+    { Performs forward Gaussian elimination with partial pivoting.
+      Used internally by @link(Determinant) and @link(RowReduction).
+      @param(SwapCount Number of row swaps performed, used to determine
+      the sign of the determinant.)
+      @return(Upper triangular matrix after elimination.)
+    }
     function ForwardElimination(out SwapCount: integer): TRMatrix; inline;
+
+    { Reduces the matrix to upper Hessenberg form using Householder reflections.
+      Used internally by @link(Eigenvalues).
+      @return(Upper Hessenberg matrix similar to Self, with same eigenvalues.)
+    }
     function HessenbergReduction: TRMatrix;
+
+    { Computes the Householder reflection vector for column @code(k).
+      Used internally by @link(HessenbergReduction).
+      @param(k Column index, 0-based.)
+      @return(Normalized Householder vector stored in column 0.)
+    }
     function HouseholderVector(k: longint): TRMatrix;
+
+    { Decomposes the Hessenberg matrix into Q·R using Givens rotations.
+      Optimized for Hessenberg matrices: @code(O(N²)) instead of @code(O(N³)).
+      Used internally by @link(Eigenvalues).
+      @param(Q Orthogonal matrix.)
+      @param(R Upper triangular matrix.)
+    }
     procedure QRDecompose(out Q, R: TRMatrix);
+
   public
+    { Returns a deep copy of the matrix.
+      Required because dynamic array assignment copies only the reference.
+    }
     function Clone: TRMatrix;
+
+    { Returns the determinant of the matrix using Gaussian elimination
+      with partial pivoting (LU decomposition).
+      Precision is equivalent to closed-form formulas for well-conditioned
+      matrices. Both methods are subject to standard IEEE 754 rounding.
+    }
     function Determinant: double;
+
+    { Returns the diagonal matrix built from the given eigenvalues.
+      Element @code(D[i,i] = AEigenValues[i]) and all off-diagonal elements are zero.
+      @param(AEigenValues 0-based dynamic array of @code(TSpace.N) real eigenvalues,
+      typically computed via @link(Eigenvalues).)
+    }
     function Diagonalize(const AEigenValues: TArrayOfDouble): TRMatrix;
+
+    { Returns the eigenvalues of the matrix as a dynamic array of @code(double).
+      Uses the QR algorithm with Hessenberg reduction and Wilkinson shift.
+      Convergence is typically cubic with Wilkinson shift.
+      @return(0-based dynamic array of @code(TSpace.N) real eigenvalues,
+      not guaranteed to be sorted.)
+    }
     function Eigenvalues: TArrayOfDouble;
+
+    { Returns the @code(N × N) identity matrix with ones on the diagonal
+      and zeros elsewhere.
+    }
     class function Identity: TRMatrix; static;
+
+    { Returns @true if all elements of the matrix are zero. }
     function IsNull: boolean;
+
+    { Returns @true if at least one element of the matrix is non-zero. }
     function IsNotNull: boolean;
+
+    { Returns @true if the matrix satisfies @code(A·Aᵀ = I). }
     function IsUnitary: boolean;
+
+    { Returns the Frobenius norm of the matrix:
+      @code(‖A‖_F = √(Σ|a[i,j]|²)).
+    }
     function Norm: double;
+
+    { Returns the @code(N × N) null matrix with all elements equal to zero. }
     class function Null: TRMatrix; static;
+
+    { Returns the number of linearly independent rows or columns. }
     function Rank: longint;
+
+    { Returns the inverse of the matrix given its precomputed determinant.
+      Uses the adjugate (cofactor transpose) method.
+      @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
+    }
     function Reciprocal(const ADeterminant: double): TRMatrix;
+
+    { Returns the row-reduced echelon form of the matrix using Gaussian
+      elimination with partial pivoting. The original matrix is not modified.
+    }
     function RowReduction: TRMatrix;
+
+    { Returns @true if two matrices are equal within the default floating
+      point tolerance @link(DefaultEpsilon).
+    }
     function SameValue(const AMatrix: TRMatrix): boolean;
+
+    { Swaps rows @code(ARow1) and @code(ARow2) in place. Indices are 0-based. }
     procedure Swap(ARow1, ARow2: longint);
+
+    { Returns the trace of the matrix, i.e. the sum of diagonal elements:
+      @code(tr(A) = Σ A[i,i]).
+    }
     function Trace: double;
+
+    { Converts the matrix to its default string representation. }
     function ToString: string;
+
+    { Converts the matrix to a formatted string with controlled precision.
+      @param(APrecision Number of significant digits.)
+      @param(ADigits Minimum number of digits in the output.)
+    }
     function ToString(APrecision, ADigits: integer): string;
+
+    { Returns the transpose of the matrix.
+      Element @code([i,j]) of the result equals element @code([j,i]) of the original.
+    }
     function Transpose: TRMatrix;
+
+    { Allocates the @code(N × N) dynamic array. Called automatically before first use. }
     class operator Initialize(var ASelf: TRMatrix);
+
+    { Releases the dynamic array. Called automatically when the record goes out of scope. }
     class operator Finalize(var ASelf: TRMatrix);
+
+    { Returns @true if the two matrices differ in at least one element. }
     class operator <>(const ALeft, ARight: TRMatrix): boolean;
+
+    { Returns @true if all corresponding elements of the two matrices are equal. }
     class operator =(const ALeft, ARight: TRMatrix): boolean;
+
+    { Returns the element-wise sum of two matrices of the same size. }
     class operator +(const ALeft, ARight: TRMatrix): TRMatrix;
+
+    { Returns the element-wise difference of two matrices of the same size. }
     class operator -(const ALeft, ARight: TRMatrix): TRMatrix;
+
+    { Returns the matrix product of two matrices.
+      @code((A·B)[i,j] = Σ_k A[i,k] · B[k,j])
+    }
     class operator *(const ALeft, ARight: TRMatrix): TRMatrix;
+
+    { Returns the product of a real scalar and a matrix.
+      Each element is multiplied by @code(ALeft).
+    }
     class operator *(const ALeft: double; const ARight: TRMatrix): TRMatrix;
+
+    { Returns the product of a matrix and a real scalar.
+      Each element is multiplied by @code(ARight).
+    }
     class operator *(const ALeft: TRMatrix; const ARight: double): TRMatrix;
+
+    { Returns the matrix divided by a real scalar.
+      Each element is divided by @code(ARight).
+    }
     class operator /(const ALeft: TRMatrix; const ARight: double): TRMatrix;
+
   public
+    { Provides access to individual matrix elements using 0-based row and
+      column indices. @code(a[0,0]) is the top-left element.
+    }
     property a[ARow, ACol: longint]: double read Get write Put; default;
   end;
 
@@ -66,8 +208,10 @@ type
 
   { Generic column vector of real values (@code(double)) with @code(TSpace.N) components.
 
-    Components are stored in a dynamic 0-based array allocated via @link(Init).
-    Use the default array property @code(a[row]) to read and write individual components.
+    Components are stored in a dynamic 0-based array allocated automatically
+    via the @code(Initialize) operator.
+    Use the default array property @code(a[row]) to read and write individual
+    components using 0-based indices.
     Concrete types are provided as @link(TR2Vector), @link(TR3Vector), and @link(TR4Vector).
   }
   generic TRVector<TSpace> = record
@@ -88,8 +232,8 @@ type
     { Returns @true if at least one component is non-zero. }
     function IsNotNull: boolean;
 
-    { Returns the Euclidean norm (magnitude) of the vector.
-      @code(|v| = √(Σ vᵢ²))
+    { Returns the Euclidean norm (magnitude) of the vector:
+      @code(|v| = √(Σ vᵢ²)).
     }
     function Norm: double;
 
@@ -98,17 +242,20 @@ type
     }
     function Normalize: TRVector;
 
-    { Returns the element-wise reciprocal of the vector.
-      Each component @code(vᵢ) is replaced by @code(1/vᵢ).
+    { Returns the dual (reciprocal) vector: each component @code(vᵢ)
+      is divided by the squared norm @code(|v|²).
     }
     function Reciprocal: TRVector;
 
-    { Returns the squared Euclidean norm of the vector.
+    { Returns the squared Euclidean norm of the vector:
       @code(|v|² = Σ vᵢ²). Avoids the square root of @link(Norm).
     }
     function SquaredNorm: double;
 
+    { Allocates the dynamic array. Called automatically before first use. }
     class operator Initialize(var ASelf: TRVector);
+
+    { Releases the dynamic array. Called automatically when the record goes out of scope. }
     class operator Finalize(var ASelf: TRVector);
 
     { Returns @true if the two vectors differ in at least one component. }
@@ -129,50 +276,67 @@ type
     { Returns the component-wise difference of two vectors. }
     class operator -(const ALeft, ARight: TRVector): TRVector;
 
-    { Returns the dot product (inner product) of two vectors.
-      @code(u·v = Σ uᵢ·vᵢ)
+    { Returns the dot product (inner product) of two vectors:
+      @code(u·v = Σ uᵢ·vᵢ).
     }
     class operator *(const ALeft, ARight: TRVector): double;
 
-    { Returns the product of a real scalar and a vector. }
+    { Returns the product of a real scalar and a vector.
+      Each component is multiplied by @code(ALeft).
+    }
     class operator *(const ALeft: double; const ARight: TRVector): TRVector;
 
-    { Returns the product of a vector and a real scalar. }
+    { Returns the product of a vector and a real scalar.
+      Each component is multiplied by @code(ARight).
+    }
     class operator *(const ALeft: TRVector; const ARight: double): TRVector;
 
-    { Returns the product of a row vector and a square matrix: @code(v' = v·A). }
+    { Returns the product of a row vector and a square matrix: @code(v' = v·A).
+      The result is a row vector.
+    }
     class operator *(const ALeft: TRVector; const ARight: TRMatrix): TRVector;
 
-    { Returns the product of a square matrix and a column vector: @code(v' = A·v). }
+    { Returns the product of a square matrix and a column vector: @code(v' = A·v).
+      The result is a column vector.
+    }
     class operator *(const ALeft: TRMatrix; const ARight: TRVector): TRVector;
 
-    { Returns the vector divided by a real scalar. }
+    { Returns the vector divided by a real scalar.
+      Each component is divided by @code(ARight).
+    }
     class operator /(const ALeft: TRVector; const ARight: double): TRVector;
 
-    { Returns the element-wise quotient of a scalar divided by a vector. }
+    { Returns @code(ALeft) scaled by the dual of @code(ARight):
+      each component of the result is @code(ALeft · vᵢ / |v|²).
+    }
     class operator /(const ALeft: double; const ARight: TRVector): TRVector;
 
-   public
-     { Provides access to individual vector components using a 0-based index. }
-     property a[ARow: longint]: double read Get write Put; default;
-   end;
+  public
+    { Provides access to individual vector components using a 0-based index.
+      @code(a[0]) is the first component.
+    }
+    property a[ARow: longint]: double read Get write Put; default;
+  end;
 
-   { 2-component real vector. Specialization of @link(TRVector) for @link(T2DSpace). }
-   TR2Vector = specialize TRVector<T2DSpace>;
+  { 2-component real vector. Specialization of @link(TRVector) for @link(T2DSpace). }
+  TR2Vector = specialize TRVector<T2DSpace>;
 
-   { 3-component real vector. Specialization of @link(TRVector) for @link(T3DSpace). }
-   TR3Vector = specialize TRVector<T3DSpace>;
+  { 3-component real vector. Specialization of @link(TRVector) for @link(T3DSpace). }
+  TR3Vector = specialize TRVector<T3DSpace>;
 
-   { 4-component real vector. Specialization of @link(TRVector) for @link(T4DSpace). }
-   TR4Vector = specialize TRVector<T4DSpace>;
+  { 4-component real vector. Specialization of @link(TRVector) for @link(T4DSpace). }
+  TR4Vector = specialize TRVector<T4DSpace>;
 
-   { Record helper for @link(TR3Vector) providing the cross product. }
-   TR3VectorHelper = record helper for TR3Vector
-     { Returns the cross product of two 3-component real vectors.
-       @code(u×v = (u₁v₂ - u₂v₁, u₂v₀ - u₀v₂, u₀v₁ - u₁v₀)) (0-based)
-     }
-     function Cross(const AVector: TR3Vector): TR3Vector;
-   end;
+  { Record helper for @link(TR3Vector) providing the cross product operation,
+    which is defined only for 3-component vectors.
+  }
+  TR3VectorHelper = record helper for TR3Vector
+    { Returns the cross product of two 3-component real vectors:
+      @code(u×v = (u[1]v[2]-u[2]v[1], u[2]v[0]-u[0]v[2], u[0]v[1]-u[1]v[0]))
+      using 0-based indices.
+    }
+    function Cross(const AVector: TR3Vector): TR3Vector;
+  end;
 
 { Returns the absolute value of a real number. }
 function Abs(const AValue: double): double;
@@ -180,35 +344,58 @@ function Abs(const AValue: double): double;
 { Returns @true if two real numbers are equal within @link(DefaultEpsilon). }
 function SameValueEx(const AValue1, AValue2: double): boolean;
 
-{ Solves @code(a·z = 0) over the real numbers. }
+{ Solves @code(a·x = 0) over the real numbers. Returns @code(-a). }
 function SolveEquation(const a: double): double;
 
+{ Returns the exact determinant of a 2×2 real matrix:
+  @code(det = a[0,0]·a[1,1] - a[0,1]·a[1,0]).
+}
 function Determinant(const M: TR2Matrix): double;
+
+{ Returns the exact determinant of a 3×3 real matrix using Sarrus' rule. }
 function Determinant(const M: TR3Matrix): double;
+
+{ Returns the exact determinant of a 4×4 real matrix using Laplace expansion. }
 function Determinant(const M: TR4Matrix): double;
 
-function Reciprocal(const M: TR3Matrix; const ADeterminant: double): TR3Matrix;
+{ Returns the exact inverse of a 2×2 real matrix given its precomputed determinant. }
 function Reciprocal(const M: TR2Matrix; const ADeterminant: double): TR2Matrix;
+
+{ Returns the exact inverse of a 3×3 real matrix given its precomputed determinant. }
+function Reciprocal(const M: TR3Matrix; const ADeterminant: double): TR3Matrix;
+
+{ Returns the exact inverse of a 4×4 real matrix given its precomputed determinant. }
 function Reciprocal(const M: TR4Matrix; const ADeterminant: double): TR4Matrix;
 
+{ Returns a 2-component real vector with components @code([m0, m1]) (0-based). }
 function Vector(const m0, m1: double): TR2Vector;
+
+{ Returns a 3-component real vector with components @code([m0, m1, m2]) (0-based). }
 function Vector(const m0, m1, m2: double): TR3Vector;
+
+{ Returns a 4-component real vector with components @code([m0, m1, m2, m3]) (0-based). }
 function Vector(const m0, m1, m2, m3: double): TR4Vector;
 
+{ Returns a 2×2 real matrix. Parameters are in row-major order, 0-based:
+  @code(m00, m01) for row 0; @code(m10, m11) for row 1.
+}
 function Matrix(const m00, m01,
                       m10, m11: double): TR2Matrix;
 
+{ Returns a 3×3 real matrix. Parameters are in row-major order, 0-based. }
 function Matrix(const m00, m01, m02,
                       m10, m11, m12,
                       m20, m21, m22: double): TR3Matrix;
 
+{ Returns a 4×4 real matrix. Parameters are in row-major order, 0-based. }
 function Matrix(const m00, m01, m02, m03,
                       m10, m11, m12, m13,
                       m20, m21, m22, m23,
                       m30, m31, m32, m33: double): TR4Matrix;
 
-{ Internal format routines. @exclude }
+{ @exclude Internal format routines. }
 function Fmt(const AValue: double): string;
+{ @exclude }
 function Fmt(const AValue: double; APrecision, ADigits: longint): string;
 
 implementation
@@ -508,8 +695,8 @@ var
 begin
   for i := 0 to TSpace.N - 1 do
     for j := 0 to TSpace.N - 1 do
-      if not SameValueEx(fm[i, j], 0) then Exit(false);
-  result := true;
+      if not SameValueEx(fm[i, j], 0) then Exit(False);
+  result := True;
 end;
 
 function TRMatrix.IsNotNull: boolean;
@@ -562,12 +749,12 @@ end;
 
 function TRMatrix.Reciprocal(const ADeterminant: double): TRMatrix;
 var
-  Adj:         TRMatrix;
-  sub:         TRMatrix;
+  Adj:    TRMatrix;
+  sub:    TRMatrix;
   i, j,
   ri, ci,
-  si, sj:      longint;
-  sign:        double;
+  si, sj: longint;
+  sign:   double;
 begin
   for i := 0 to TSpace.N - 1 do
     for j := 0 to TSpace.N - 1 do
@@ -1013,12 +1200,12 @@ end;
 
 function TR3VectorHelper.Cross(const AVector: TR3Vector): TR3Vector;
 begin
-  result.fm[0] :=  fm[1]*AVector.fm[2] - fm[2]*AVector.fm[1];
-  result.fm[1] :=  fm[2]*AVector.fm[0] - fm[0]*AVector.fm[2];
-  result.fm[2] :=  fm[0]*AVector.fm[1] - fm[1]*AVector.fm[0];
+  result.fm[0] := fm[1]*AVector.fm[2] - fm[2]*AVector.fm[1];
+  result.fm[1] := fm[2]*AVector.fm[0] - fm[0]*AVector.fm[2];
+  result.fm[2] := fm[0]*AVector.fm[1] - fm[1]*AVector.fm[0];
 end;
 
-// Exact specializations for TR2Matrix, TR3Matrix, TR4Matrix
+// Exact specializations
 
 function Determinant(const M: TR2Matrix): double;
 begin
@@ -1201,4 +1388,3 @@ begin
 end;
 
 end.
-
