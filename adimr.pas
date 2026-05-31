@@ -36,6 +36,9 @@ unit ADimR;
 
 {$H+}{$J-}
 {$modeswitch advancedrecords}
+{$WARN 5024 OFF}// Suppress warning for unused routine parameter.
+{$WARN 5033 OFF}// Suppress warning for unassigned function's return value.
+{$WARN 6058 OFF}// Suppress warning for function marked as inline that cannot be inlined.
 
 interface
 
