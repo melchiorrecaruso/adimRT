@@ -1,3 +1,38 @@
+{ ADim complex number, matrix and vector types.
+
+  Defines complex number, matrix and vector types used throughout the
+  ADimPas library, including:
+
+  @unorderedList(
+    @item(@link(TComplex) — complex number in Cartesian form with full
+          arithmetic operator support.)
+    @item(@link(TImaginaryUnit) — compile-time imaginary unit constant
+          for idiomatic complex number construction.)
+    @item(@link(TCMatrix) — generic N×N complex matrix with Gaussian elimination,
+          QR decomposition, eigenvalue computation, and Hermitian operations.)
+    @item(@link(TCVector) — generic N-component complex column vector with
+          standard linear algebra operations and matrix-vector products.)
+  )
+
+  @author Melchiorre Caruso (melchiorrecaruso@@gmail.com)
+  @copyright 2025-2026 Melchiorre Caruso
+  @license GNU Lesser General Public License v3 with modified LGPL exception.
+
+  This unit is part of the ADim library, distributed under the
+  GNU Lesser General Public License v3 (LGPL v3) with the following
+  special exception:
+
+  As a special exception, the copyright holders of this library give you
+  permission to link this library with independent modules to produce an
+  executable, regardless of the license terms of these independent modules,
+  and to copy and distribute the resulting executable under terms of your
+  choice, provided that you also meet, for each linked independent module,
+  the terms and conditions of the license of that module. An independent
+  module is a module which is not derived from or based on this library.
+  If you modify this library, you may extend this exception to your version
+  of the library, but you are not obligated to do so. If you do not wish
+  to do so, delete this exception statement from your version.
+}
 unit ADimC;
 
 {$H+}{$J-}
@@ -42,13 +77,13 @@ type
     }
     function IsNotNull: boolean;
 
-    { Returns the modulus (magnitude) of the complex number.
-      Defined as @code(|z| = √(Re² + Im²)).
+    { Returns the modulus (magnitude) of the complex number:
+      @code(|z| = √(Re² + Im²)).
     }
     function Norm: double;
 
-    { Returns the squared modulus of the complex number.
-      Defined as @code(|z|² = Re² + Im²).
+    { Returns the squared modulus of the complex number:
+      @code(|z|² = Re² + Im²).
       Avoids the square root computation of @link(Norm).
     }
     function SquaredNorm: double;
@@ -59,7 +94,7 @@ type
     function Reciprocal: TComplex;
 
     { Converts the complex number to its default string representation.
-      The format is @code(a + bi) or @code(a - bi).
+      The format is @code(a + b·i) or @code(a - b·i).
     }
     function ToString: string;
 
@@ -109,8 +144,8 @@ type
     { Returns the difference of a complex number and a real number. }
     class operator -(const ALeft: TComplex; const ARight: double): TComplex; inline;
 
-    { Returns the product of two complex numbers.
-      @code((a+bi)·(c+di) = (ac - bd) + (ad + bc)i)
+    { Returns the product of two complex numbers:
+      @code((a+bi)·(c+di) = (ac - bd) + (ad + bc)i).
     }
     class operator *(const ALeft, ARight: TComplex): TComplex; inline;
 
@@ -130,6 +165,7 @@ type
 
     { Returns the quotient of a complex number divided by a real number. }
     class operator /(const ALeft: TComplex; const ARight: double): TComplex; inline;
+
   public
     { Real part of the complex number. }
     property Re: double read fRe write fRe;
@@ -142,8 +178,8 @@ type
 
     This record has no fields: it acts as a compile-time constant used to construct
     @link(TComplex) numbers naturally via operator overloading.
-    A global constant of this type (conventionally named @code(i)) should be declared
-    to allow idiomatic use in expressions.
+    A global constant of this type (conventionally named @code(img)) should be
+    declared to allow idiomatic use in expressions such as @code(3.0 + 2.0*img).
   }
   TImaginaryUnit = record
   public
@@ -151,77 +187,275 @@ type
       Returns @code(TComplex(Re=0, Im=1)).
     }
     class operator := (const ASelf: TImaginaryUnit): TComplex;
+
+    { Returns @code(i·i = -1). }
     class operator *(const ALeft, ARight: TImaginaryUnit): double;
+
+    { Returns @code(i/i = 1). }
     class operator /(const ALeft, ARight: TImaginaryUnit): double;
+
+    { Returns @code(-i) as a @link(TComplex): @code(TComplex(Re=0, Im=-1)). }
     class operator -(const AValue: TImaginaryUnit): TComplex;
+
+    { Returns @code(+i) as a @link(TComplex): @code(TComplex(Re=0, Im=1)). }
     class operator +(const AValue: TImaginaryUnit): TComplex;
+
+    { Returns @code(a + i) as a @link(TComplex). }
     class operator +(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+
+    { Returns @code(i + a) as a @link(TComplex). }
     class operator +(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+
+    { Returns @code(a - i) as a @link(TComplex). }
     class operator -(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+
+    { Returns @code(i - a) as a @link(TComplex). }
     class operator -(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+
+    { Returns @code((a+bi) + i = a + (b+1)i). }
     class operator +(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+
+    { Returns @code(i + (a+bi) = a + (b+1)i). }
     class operator +(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+
+    { Returns @code((a+bi) - i = a + (b-1)i). }
     class operator -(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+
+    { Returns @code(i - (a+bi) = -a + (1-b)i). }
     class operator -(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+
+    { Returns @code(a·i) as a @link(TComplex): @code(TComplex(Re=0, Im=a)). }
     class operator *(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+
+    { Returns @code(i·a) as a @link(TComplex): @code(TComplex(Re=0, Im=a)). }
     class operator *(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+
+    { Returns @code((a+bi)·i = -b + ai). }
     class operator *(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+
+    { Returns @code(i·(a+bi) = -b + ai). }
     class operator *(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
+
+    { Returns @code(a/i = -ai) as a @link(TComplex). }
     class operator /(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+
+    { Returns @code(i/a) as a @link(TComplex): @code(TComplex(Re=0, Im=1/a)). }
     class operator /(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+
+    { Returns @code((a+bi)/i = b - ai). }
     class operator /(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
+
+    { Returns @code(i/(a+bi) = b/(a²+b²) + (-a/(a²+b²))i). }
     class operator /(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
   end;
 
   { Dynamic array of @link(TComplex) values. }
   TArrayOfComplex = array of TComplex;
 
+  { Generic square matrix of complex values (@link(TComplex)) with dimension
+    @code(TSpace.N × TSpace.N), where @code(N) is determined at compile time.
+
+    Matrix elements are stored in a dynamic 0-based 2D array allocated
+    automatically via the @code(Initialize) operator.
+    Use the default array property @code(a[row, col]) to read and write
+    individual elements using 0-based indices.
+    Concrete types are provided as @link(TC2Matrix), @link(TC3Matrix),
+    and @link(TC4Matrix).
+  }
   generic TCMatrix<TSpace> = record
   type
     TRMatrix = specialize TRMatrix<TSpace>;
   private
     fm: array of array of TComplex;
+
+    { Reads the complex element at position (@code(ARow), @code(ACol)). }
     function Get(ARow, ACol: longint): TComplex;
+
+    { Writes the complex element at position (@code(ARow), @code(ACol)). }
     procedure Put(ARow, ACol: longint; AValue: TComplex);
+
+    { Performs forward Gaussian elimination with partial pivoting.
+      Used internally by @link(Determinant) and @link(RowReduction).
+      @param(SwapCount Number of row swaps performed, used to determine
+      the sign of the determinant.)
+      @return(Upper triangular matrix after elimination.)
+    }
     function ForwardElimination(out SwapCount: integer): TCMatrix; inline;
+
+    { Reduces the matrix to upper Hessenberg form using Householder reflections.
+      Used internally by @link(Eigenvalues).
+      @return(Upper Hessenberg matrix similar to Self, with same eigenvalues.)
+    }
     function HessenbergReduction: TCMatrix;
+
+    { Computes the Householder reflection vector for column @code(k).
+      Used internally by @link(HessenbergReduction).
+      @param(k Column index, 0-based.)
+      @return(Normalized Householder vector stored in column 0.)
+    }
     function HouseholderVector(k: longint): TCMatrix;
+
+    { Decomposes the Hessenberg matrix into Q·R using Givens rotations.
+      Optimized for Hessenberg matrices: @code(O(N²)) instead of @code(O(N³)).
+      Used internally by @link(Eigenvalues).
+      @param(Q Unitary matrix.)
+      @param(R Upper triangular matrix.)
+    }
     procedure QRDecompose(out Q, R: TCMatrix);
+
   public
+    { Returns a deep copy of the matrix.
+      Required because dynamic array assignment copies only the reference.
+    }
     function Clone: TCMatrix;
+
+    { Returns the element-wise complex conjugate of the matrix.
+      Each element @code(a[i,j] = x + iy) becomes @code(x - iy).
+    }
     function Conjugate: TCMatrix;
+
+    { Returns the determinant of the matrix using Gaussian elimination
+      with partial pivoting (LU decomposition).
+      Precision is equivalent to closed-form formulas for well-conditioned
+      matrices. Both methods are subject to standard IEEE 754 rounding.
+    }
     function Determinant: TComplex;
+
+    { Returns the diagonal matrix built from the given eigenvalues.
+      Element @code(D[i,i] = AEigenValues[i]) and all off-diagonal elements are zero.
+      @param(AEigenValues 0-based dynamic array of @code(TSpace.N) complex eigenvalues,
+      typically computed via @link(Eigenvalues).)
+    }
     function Diagonalize(const AEigenValues: TArrayOfComplex): TCMatrix;
+
+    { Returns the eigenvalues of the matrix as a dynamic array of @link(TComplex).
+      Uses the QR algorithm with Hessenberg reduction and Wilkinson shift.
+      Convergence is typically cubic with Wilkinson shift.
+      @return(0-based dynamic array of @code(TSpace.N) complex eigenvalues,
+      not guaranteed to be sorted.)
+    }
     function Eigenvalues: TArrayOfComplex;
+
+    { Returns the @code(N × N) identity matrix with ones on the diagonal
+      and zeros elsewhere.
+    }
     class function Identity: TCMatrix; static;
+
+    { Returns @true if the matrix is equal to its conjugate transpose:
+      @code(A = Aᴴ), i.e. @code(a[i,j] = conj(a[j,i])) for all @code(i, j).
+    }
     function IsHermitian: boolean;
+
+    { Returns @true if all elements of the matrix are zero. }
     function IsNull: boolean;
+
+    { Returns @true if at least one element of the matrix is non-zero. }
     function IsNotNull: boolean;
+
+    { Returns @true if the matrix satisfies @code(A·Aᴴ = I). }
     function IsUnitary: boolean;
+
+    { Returns the Frobenius norm of the matrix:
+      @code(‖A‖_F = √(Σ|a[i,j]|²)).
+    }
     function Norm: double;
+
+    { Returns the @code(N × N) null matrix with all elements equal to zero. }
     class function Null: TCMatrix; static;
+
+    { Returns the number of linearly independent rows or columns. }
     function Rank: longint;
+
+    { Returns the inverse of the matrix given its precomputed determinant.
+      Uses the adjugate (cofactor transpose) method.
+      @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
+    }
     function Reciprocal(const ADeterminant: TComplex): TCMatrix;
+
+    { Returns the row-reduced echelon form of the matrix using Gaussian
+      elimination with partial pivoting. The original matrix is not modified.
+    }
     function RowReduction: TCMatrix;
+
+    { Returns @true if two matrices are equal within the default floating
+      point tolerance @link(DefaultEpsilon).
+    }
     function SameValue(const AMatrix: TCMatrix): boolean;
+
+    { Swaps rows @code(ARow1) and @code(ARow2) in place. Indices are 0-based. }
     procedure Swap(ARow1, ARow2: longint);
+
+    { Returns the trace of the matrix, i.e. the sum of diagonal elements:
+      @code(tr(A) = Σ A[i,i]).
+    }
     function Trace: TComplex;
+
+    { Converts the matrix to its default string representation. }
     function ToString: string;
+
+    { Converts the matrix to a formatted string with controlled precision.
+      @param(APrecision Number of significant digits.)
+      @param(ADigits Minimum number of digits in the output.)
+    }
     function ToString(APrecision, ADigits: integer): string;
+
+    { Returns the transpose of the matrix.
+      Element @code([i,j]) of the result equals element @code([j,i]) of the original.
+    }
     function Transpose: TCMatrix;
+
+    { Returns the conjugate transpose (Hermitian adjoint) of the matrix:
+      @code(Aᴴ[i,j] = conj(A[j,i])).
+    }
     function TransposeConjugate: TCMatrix;
+
+    { Allocates the @code(N × N) dynamic array. Called automatically before first use. }
     class operator Initialize(var ASelf: TCMatrix);
+
+    { Releases the dynamic array. Called automatically when the record goes out of scope. }
     class operator Finalize(var ASelf: TCMatrix);
+
+    { Implicit conversion from a real matrix to a complex matrix.
+      Each element @code(a[i,j]) is converted to @code(TComplex(Re=a[i,j], Im=0)).
+    }
     class operator := (const AMatrix: TRMatrix): TCMatrix;
+
+    { Returns @true if the two matrices differ in at least one element. }
     class operator <>(const ALeft, ARight: TCMatrix): boolean;
+
+    { Returns @true if all corresponding elements of the two matrices are equal. }
     class operator =(const ALeft, ARight: TCMatrix): boolean;
+
+    { Returns the element-wise sum of two complex matrices. }
     class operator +(const ALeft, ARight: TCMatrix): TCMatrix;
+
+    { Returns the element-wise difference of two complex matrices. }
     class operator -(const ALeft, ARight: TCMatrix): TCMatrix;
+
+    { Returns the matrix product of two complex matrices.
+      @code((A·B)[i,j] = Σ_k A[i,k] · B[k,j])
+    }
     class operator *(const ALeft, ARight: TCMatrix): TCMatrix;
+
+    { Returns the product of a complex scalar and a matrix.
+      Each element is multiplied by @code(ALeft).
+    }
     class operator *(const ALeft: TComplex; const ARight: TCMatrix): TCMatrix;
+
+    { Returns the product of a complex matrix and a complex scalar.
+      Each element is multiplied by @code(ARight).
+    }
     class operator *(const ALeft: TCMatrix; const ARight: TComplex): TCMatrix;
+
+    { Returns the complex matrix divided by a complex scalar.
+      Each element is divided by @code(ARight).
+    }
     class operator /(const ALeft: TCMatrix; const ARight: TComplex): TCMatrix;
+
   public
+    { Provides access to individual complex matrix elements using 0-based
+      row and column indices. @code(a[0,0]) is the top-left element.
+    }
     property a[ARow, ACol: longint]: TComplex read Get write Put; default;
   end;
 
@@ -237,7 +471,10 @@ type
   { Generic column vector of complex values (@link(TComplex)) with @code(TSpace.N) components.
 
     Extends @link(TRVector) to the complex domain. Supports implicit conversion
-    from a real vector. Components stored in a 0-based static array.
+    from a real vector. Components are stored in a dynamic 0-based array allocated
+    automatically via the @code(Initialize) operator.
+    Use the default array property @code(a[row]) to read and write individual
+    components using 0-based indices.
     Concrete types are provided as @link(TC2Vector), @link(TC3Vector), and @link(TC4Vector).
   }
   generic TCVector<TSpace> = record
@@ -253,6 +490,11 @@ type
     { Writes the complex component at position @code(ARow). }
     procedure Put(ARow: longint; AValue: TComplex);
   public
+    { Returns the bilinear dot product (inner product) of two complex vectors:
+      @code(u·v = Σ uᵢ·vᵢ).
+      Note: this is the bilinear form, not the Hermitian inner product.
+      For the Hermitian inner product use @code(u*.v = Σ conj(uᵢ)·vᵢ).
+    }
     function Dot(const AVector: TCVector): TComplex;
 
     { Returns @true if all components are zero. }
@@ -261,44 +503,112 @@ type
     { Returns @true if at least one component is non-zero. }
     function IsNotNull: boolean;
 
-    { Returns the Euclidean norm: @code(|v| = √(Σ |vᵢ|²)) }
+    { Returns the Euclidean norm: @code(|v| = √(Σ |vᵢ|²)). }
     function Norm: double;
 
-    { Returns the unit vector in the same direction. }
+    { Returns the unit vector in the same direction.
+      Each component is divided by @link(Norm).
+    }
     function Normalize: TCVector;
 
-    { Returns the element-wise reciprocal of the vector. }
+    { Returns the dual (reciprocal) vector: each component @code(vᵢ)
+      is divided by the squared norm @code(|v|²).
+    }
     function Reciprocal: TCVector;
 
-    { Returns the squared Euclidean norm: @code(|v|² = Σ |vᵢ|²) }
+    { Returns the squared Euclidean norm: @code(|v|² = Σ |vᵢ|²).
+      Avoids the square root of @link(Norm).
+    }
     function SquaredNorm: double;
 
+    { Allocates the dynamic array. Called automatically before first use. }
     class operator Initialize(var ASelf: TCVector);
+
+    { Releases the dynamic array. Called automatically when the record goes out of scope. }
     class operator Finalize(var ASelf: TCVector);
 
-    { Implicit conversion from a real vector to a complex vector. }
+    { Implicit conversion from a real vector to a complex vector.
+      Each component @code(vᵢ) is converted to @code(TComplex(Re=vᵢ, Im=0)).
+    }
     class operator :=(const ASelf: TRVector): TCVector;
 
+    { Returns @true if the two vectors differ in at least one component. }
     class operator <>(const ALeft, ARight: TCVector): boolean;
+
+    { Returns @true if all corresponding components of the two vectors are equal. }
     class operator =(const ALeft, ARight: TCVector): boolean;
+
+    { Unary plus. Returns the vector unchanged. }
     class operator +(const ASelf: TCVector): TCVector;
+
+    { Returns the component-wise sum of two complex vectors. }
     class operator +(const ALeft, ARight: TCVector): TCVector;
+
+    { Unary minus. Returns the negation of the vector. }
     class operator -(const ASelf: TCVector): TCVector;
+
+    { Returns the component-wise difference of two complex vectors. }
     class operator -(const ALeft, ARight: TCVector): TCVector;
 
+    { Returns the bilinear dot product of two complex vectors:
+      @code(u·v = Σ uᵢ·vᵢ).
+    }
+    class operator *(const ALeft, ARight: TCVector): TComplex;
+
+    { Returns the product of a real scalar and a complex vector.
+      Each component is multiplied by @code(ALeft).
+    }
     class operator *(const ALeft: double; const ARight: TCVector): TCVector;
+
+    { Returns the product of a complex vector and a real scalar.
+      Each component is multiplied by @code(ARight).
+    }
     class operator *(const ALeft: TCVector; const ARight: double): TCVector;
+
+    { Returns the product of a complex scalar and a complex vector.
+      Each component is multiplied by @code(ALeft).
+    }
     class operator *(const ALeft: TComplex; const ARight: TCVector): TCVector;
+
+    { Returns the product of a complex vector and a complex scalar.
+      Each component is multiplied by @code(ARight).
+    }
     class operator *(const ALeft: TCVector; const ARight: TComplex): TCVector;
+
+    { Returns the product of a row complex vector and a square complex matrix:
+      @code(v' = v·A). The result is a row vector.
+    }
     class operator *(const ALeft: TCVector; const ARight: TCMatrix): TCVector;
+
+    { Returns the product of a square complex matrix and a column complex vector:
+      @code(v' = A·v). The result is a column vector.
+    }
     class operator *(const ALeft: TCMatrix; const ARight: TCVector): TCVector;
+
+    { Returns the complex vector divided by a real scalar.
+      Each component is divided by @code(ARight).
+    }
     class operator /(const ALeft: TCVector; const ARight: double): TCVector;
+
+    { Returns @code(ALeft) scaled by the dual of @code(ARight):
+      each component of the result is @code(ALeft · vᵢ / |v|²).
+    }
     class operator /(const ALeft: double; const ARight: TCVector): TCVector;
+
+    { Returns the complex vector divided by a complex scalar.
+      Each component is divided by @code(ARight).
+    }
     class operator /(const ALeft: TCVector; const ARight: TComplex): TCVector;
+
+    { Returns @code(ALeft) scaled by the dual of @code(ARight):
+      each component of the result is @code(ALeft · vᵢ / |v|²).
+    }
     class operator /(const ALeft: TComplex; const ARight: TCVector): TCVector;
 
   public
-    { Provides access to individual complex vector components using a 0-based index. }
+    { Provides access to individual complex vector components using a 0-based index.
+      @code(a[0]) is the first component.
+    }
     property a[ARow: longint]: TComplex read Get write Put; default;
   end;
 
@@ -311,155 +621,110 @@ type
   { 4-component complex vector. Specialization of @link(TCVector) for @link(T4DSpace). }
   TC4Vector = specialize TCVector<T4DSpace>;
 
-  { Returns the modulus (magnitude) of a complex number: @code(|z| = √(Re² + Im²)). }
-  function Abs(const AValue: TComplex): double;
+{ Returns the modulus (magnitude) of a complex number: @code(|z| = √(Re² + Im²)). }
+function Abs(const AValue: TComplex): double;
 
-  { Returns the square of the complex number: @code(z² = (Re²-Im²) + 2·Re·Im·i). }
-  function SquarePower(const AValue: TComplex): TComplex;
+{ Returns the square of the complex number: @code(z² = (Re²-Im²) + 2·Re·Im·i). }
+function SquarePower(const AValue: TComplex): TComplex;
 
-  { Returns the cube of the complex number: @code(z³ = z²·z). }
-  function CubicPower(const AValue: TComplex): TComplex;
+{ Returns the cube of the complex number: @code(z³ = z²·z). }
+function CubicPower(const AValue: TComplex): TComplex;
 
-  { Returns the fourth power of the complex number: @code(z⁴ = (z²)²). }
-  function QuarticPower(const AValue: TComplex): TComplex;
+{ Returns the fourth power of the complex number: @code(z⁴ = (z²)²). }
+function QuarticPower(const AValue: TComplex): TComplex;
 
-  { Returns all square roots of the complex number as a fixed-size array. }
-  function SquareRoot(const AValue: TComplex): TArrayOfComplex;
+{ Returns all 2 square roots of the complex number as a 0-based dynamic array. }
+function SquareRoot(const AValue: TComplex): TArrayOfComplex;
 
-  { Returns all cube roots of the complex number as a fixed-size array. }
-  function CubicRoot(const AValue: TComplex): TArrayOfComplex;
+{ Returns all 3 cube roots of the complex number as a 0-based dynamic array. }
+function CubicRoot(const AValue: TComplex): TArrayOfComplex;
 
-  { Returns all fourth roots of the complex number as a fixed-size array. }
-  function QuarticRoot(const AValue: TComplex): TArrayOfComplex;
+{ Returns all 4 fourth roots of the complex number as a 0-based dynamic array. }
+function QuarticRoot(const AValue: TComplex): TArrayOfComplex;
 
-  { Returns the commutator of two 2×2 complex matrices: @code([A,B] = A·B - B·A). }
-  function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
+{ Returns the commutator of two 2×2 complex matrices: @code([A,B] = A·B - B·A). }
+function Commutator(const ALeft, ARight: TC2Matrix): TC2Matrix;
 
-  { Returns the commutator of two 3×3 complex matrices: @code([A,B] = A·B - B·A). }
-  function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
+{ Returns the commutator of two 3×3 complex matrices: @code([A,B] = A·B - B·A). }
+function Commutator(const ALeft, ARight: TC3Matrix): TC3Matrix;
 
-  { Returns the commutator of two 4×4 complex matrices: @code([A,B] = A·B - B·A). }
-  function Commutator(const ALeft, ARight: TC4Matrix): TC4Matrix;
+{ Returns the commutator of two 4×4 complex matrices: @code([A,B] = A·B - B·A). }
+function Commutator(const ALeft, ARight: TC4Matrix): TC4Matrix;
 
-  { Returns @true if two complex numbers are equal within @link(DefaultEpsilon). }
-  function SameValueEx(const AValue1, AValue2: TComplex): boolean;
+{ Returns @true if two complex numbers are equal within @link(DefaultEpsilon). }
+function SameValueEx(const AValue1, AValue2: TComplex): boolean;
 
-  { Returns @true if two 2-component complex vectors are equal within @link(DefaultEpsilon). }
-  function SameValueEx(const AValue1, AValue2: TC2Vector): boolean;
+{ Returns @true if two 2-component complex vectors are equal within @link(DefaultEpsilon). }
+function SameValueEx(const AValue1, AValue2: TC2Vector): boolean;
 
-  { Returns @true if two 3-component complex vectors are equal within @link(DefaultEpsilon). }
-  function SameValueEx(const AValue1, AValue2: TC3Vector): boolean;
+{ Returns @true if two 3-component complex vectors are equal within @link(DefaultEpsilon). }
+function SameValueEx(const AValue1, AValue2: TC3Vector): boolean;
 
-  { Returns @true if two 4-component complex vectors are equal within @link(DefaultEpsilon). }
-  function SameValueEx(const AValue1, AValue2: TC4Vector): boolean;
+{ Returns @true if two 4-component complex vectors are equal within @link(DefaultEpsilon). }
+function SameValueEx(const AValue1, AValue2: TC4Vector): boolean;
 
-  { Returns @true if two 2×2 complex matrices are equal within @link(DefaultEpsilon). }
-  function SameValueEx(const AValue1, AValue2: TC2Matrix): boolean;
+{ Returns @true if two 2×2 complex matrices are equal within @link(DefaultEpsilon). }
+function SameValueEx(const AValue1, AValue2: TC2Matrix): boolean;
 
-  { Returns @true if two 3×3 complex matrices are equal within @link(DefaultEpsilon). }
-  function SameValueEx(const AValue1, AValue2: TC3Matrix): boolean;
+{ Returns @true if two 3×3 complex matrices are equal within @link(DefaultEpsilon). }
+function SameValueEx(const AValue1, AValue2: TC3Matrix): boolean;
 
-  { Returns @true if two 4×4 complex matrices are equal within @link(DefaultEpsilon). }
-  function SameValueEx(const AValue1, AValue2: TC4Matrix): boolean;
+{ Returns @true if two 4×4 complex matrices are equal within @link(DefaultEpsilon). }
+function SameValueEx(const AValue1, AValue2: TC4Matrix): boolean;
 
-  { Solves @code(a·z = 0) over the complex numbers. }
-  function SolveEquation(const a: TComplex): TComplex;
+{ Solves @code(a·z = 0) over the complex numbers. Returns @code(-a). }
+function SolveEquation(const a: TComplex): TComplex;
 
-  { Solves @code(a·z + b = 0) over the complex numbers. }
-  function SolveEquation(const a, b: TComplex): TArrayOfComplex;
+{ Solves @code(a·z + b = 0) over the complex numbers.
+  Returns the two roots as a 0-based dynamic array.
+}
+function SolveEquation(const a, b: TComplex): TArrayOfComplex;
 
-  { Solves @code(a·z² + b·z + c = 0) over the complex numbers. }
-  function SolveEquation(const a, b, c: TComplex): TArrayOfComplex;
+{ Solves @code(a·z² + b·z + c = 0) over the complex numbers.
+  Returns the three roots as a 0-based dynamic array.
+}
+function SolveEquation(const a, b, c: TComplex): TArrayOfComplex;
 
-  { Solves @code(a·z³ + b·z² + c·z + d = 0) using Cardano's method. }
-  function SolveEquation(const a, b, c, d: TComplex): TArrayOfComplex;
+{ Solves @code(a·z³ + b·z² + c·z + d = 0) using Cardano's method.
+  Returns the four roots as a 0-based dynamic array.
+}
+function SolveEquation(const a, b, c, d: TComplex): TArrayOfComplex;
 
-  { Creates a @link(TComplex) number from its real and imaginary parts.
-    @param(ARe The real part.)
-    @param(AIm The imaginary part.)
-  }
-  function Complex(const ARe, AIm: double): TComplex;
+{ Creates a @link(TComplex) number from its real and imaginary parts.
+  @param(ARe The real part.)
+  @param(AIm The imaginary part.)
+}
+function Complex(const ARe, AIm: double): TComplex;
 
-  { Creates a 2-component complex vector from two complex numbers.
-    The result is @code(v = (a1, a2)ᵀ).
-    @param(a1 The first component.)
-    @param(a2 The second component.)
-  }
-  function Vector(const a1, a2: TComplex): TC2Vector;
+{ Returns a 2-component complex vector with components @code([a0, a1]) (0-based). }
+function Vector(const a0, a1: TComplex): TC2Vector;
 
-  { Creates a 3-component complex vector from three complex numbers.
-    The result is @code(v = (a1, a2, a3)ᵀ).
-    @param(a1 The first component.)
-    @param(a2 The second component.)
-    @param(a3 The third component.)
-  }
-  function Vector(const a1, a2, a3: TComplex): TC3Vector;
+{ Returns a 3-component complex vector with components @code([a0, a1, a2]) (0-based). }
+function Vector(const a0, a1, a2: TComplex): TC3Vector;
 
-  { Creates a 4-component complex vector from four complex numbers.
-    The result is @code(v = (a1, a2, a3, a4)ᵀ).
-    @param(a1 The first component.)
-    @param(a2 The second component.)
-    @param(a3 The third component.)
-    @param(a4 The fourth component.)
-  }
-  function Vector(const a1, a2, a3, a4: TComplex): TC4Vector;
+{ Returns a 4-component complex vector with components @code([a0, a1, a2, a3]) (0-based). }
+function Vector(const a0, a1, a2, a3: TComplex): TC4Vector;
 
-  { Creates a 2×2 complex matrix from its elements in row-major order.
-    The result is:
-    @code(| a11  a12 |)
-    @code(| a21  a22 |)
-    @param(a11 Element at row 1, column 1.)
-    @param(a12 Element at row 1, column 2.)
-    @param(a21 Element at row 2, column 1.)
-    @param(a22 Element at row 2, column 2.)
-  }
-  function Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
+{ Returns a 2×2 complex matrix. Parameters are in row-major order, 0-based:
+  @code(m00, m01) for row 0; @code(m10, m11) for row 1.
+}
+function Matrix(const m00, m01,
+                      m10, m11: TComplex): TC2Matrix;
 
-  { Creates a 3×3 complex matrix from its elements in row-major order.
-    The result is:
-    @code(| a11  a12  a13 |)
-    @code(| a21  a22  a23 |)
-    @code(| a31  a32  a33 |)
-    @param(a11 Element at row 1, column 1.)
-    @param(a12 Element at row 1, column 2.)
-    @param(a13 Element at row 1, column 3.)
-    @param(a21 Element at row 2, column 1.)
-    @param(a22 Element at row 2, column 2.)
-    @param(a23 Element at row 2, column 3.)
-    @param(a31 Element at row 3, column 1.)
-    @param(a32 Element at row 3, column 2.)
-    @param(a33 Element at row 3, column 3.)
-  }
-  function Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
+{ Returns a 3×3 complex matrix. Parameters are in row-major order, 0-based. }
+function Matrix(const m00, m01, m02,
+                      m10, m11, m12,
+                      m20, m21, m22: TComplex): TC3Matrix;
 
-  { Creates a 4×4 complex matrix from its elements in row-major order.
-    The result is:
-    @code(| a11  a12  a13  a14 |)
-    @code(| a21  a22  a23  a24 |)
-    @code(| a31  a32  a33  a34 |)
-    @code(| a41  a42  a43  a44 |)
-    @param(a11 Element at row 1, column 1.)
-    @param(a12 Element at row 1, column 2.)
-    @param(a13 Element at row 1, column 3.)
-    @param(a14 Element at row 1, column 4.)
-    @param(a21 Element at row 2, column 1.)
-    @param(a22 Element at row 2, column 2.)
-    @param(a23 Element at row 2, column 3.)
-    @param(a24 Element at row 2, column 4.)
-    @param(a31 Element at row 3, column 1.)
-    @param(a32 Element at row 3, column 2.)
-    @param(a33 Element at row 3, column 3.)
-    @param(a34 Element at row 3, column 4.)
-    @param(a41 Element at row 4, column 1.)
-    @param(a42 Element at row 4, column 2.)
-    @param(a43 Element at row 4, column 3.)
-    @param(a44 Element at row 4, column 4.)
-  }
-  function Matrix(const a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44: TComplex): TC4Matrix;
+{ Returns a 4×4 complex matrix. Parameters are in row-major order, 0-based. }
+function Matrix(const m00, m01, m02, m03,
+                      m10, m11, m12, m13,
+                      m20, m21, m22, m23,
+                      m30, m31, m32, m33: TComplex): TC4Matrix;
 
 var
   { The imaginary unit @code(i), defined by @code(i² = -1).
-    Can be used directly in expressions to construct complex numbers idiomatically:
+    Use in expressions to construct complex numbers idiomatically:
     @code(z := 3.0 + 2.0*img;)
   }
   img: TImaginaryUnit;
@@ -1556,6 +1821,15 @@ begin
     result.fm[i] := ALeft.fm[i] - ARight.fm[i];
 end;
 
+class operator TCVector.*(const ALeft, ARight: TCVector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 0 to TSpace.N - 1 do
+    result := result + ALeft.fm[i] * ARight.fm[i];
+end;
+
 class operator TCVector.*(const ALeft: double; const ARight: TCVector): TCVector;
 var
   i: longint;
@@ -1908,66 +2182,72 @@ begin
   result.Im := AIm;
 end;
 
-function Vector(const a1, a2: TComplex): TC2Vector;
+function Vector(const a0, a1: TComplex): TC2Vector;
 begin
+  result[0] := a0;
+  result[1] := a1;
+end;
+
+function Vector(const a0, a1, a2: TComplex): TC3Vector;
+begin
+  result[0] := a0;
   result[1] := a1;
   result[2] := a2;
 end;
 
-function Vector(const a1, a2, a3: TComplex): TC3Vector;
+function Vector(const a0, a1, a2, a3: TComplex): TC4Vector;
 begin
+  result[0] := a0;
   result[1] := a1;
   result[2] := a2;
   result[3] := a3;
 end;
 
-function Vector(const a1, a2, a3, a4: TComplex): TC4Vector;
+function Matrix(const m00, m01,
+                      m10, m11: TComplex): TC2Matrix;
 begin
-  result[1] := a1;
-  result[2] := a2;
-  result[3] := a3;
-  result[4] := a4;
+  result[0,0] := m00;
+  result[0,1] := m01;
+  result[1,0] := m10;
+  result[1,1] := m11;
 end;
 
-function Matrix(const a11, a12, a21, a22: TComplex): TC2Matrix;
+function Matrix(const m00, m01, m02,
+                      m10, m11, m12,
+                      m20, m21, m22: TComplex): TC3Matrix;
 begin
-  result[1,1] := a11;
-  result[1,2] := a12;
-  result[2,1] := a21;
-  result[2,2] := a22;
+  result[0,0] := m00;
+  result[0,1] := m01;
+  result[0,2] := m02;
+  result[1,0] := m10;
+  result[1,1] := m11;
+  result[1,2] := m12;
+  result[2,0] := m20;
+  result[2,1] := m21;
+  result[2,2] := m22;
 end;
 
-function Matrix(const a11, a12, a13, a21, a22, a23, a31, a32, a33: TComplex): TC3Matrix;
+function Matrix(const m00, m01, m02, m03,
+                      m10, m11, m12, m13,
+                      m20, m21, m22, m23,
+                      m30, m31, m32, m33: TComplex): TC4Matrix;
 begin
-  result[1,1] := a11;
-  result[1,2] := a12;
-  result[1,3] := a13;
-  result[2,1] := a21;
-  result[2,2] := a22;
-  result[2,3] := a23;
-  result[3,1] := a31;
-  result[3,2] := a32;
-  result[3,3] := a33;
-end;
-
-function Matrix(const a11, a12, a13, a14, a21, a22, a23, a24, a31, a32, a33, a34, a41, a42, a43, a44: TComplex): TC4Matrix;
-begin
-  result[1,1] := a11;
-  result[1,2] := a12;
-  result[1,3] := a13;
-  result[1,4] := a14;
-  result[2,1] := a21;
-  result[2,2] := a22;
-  result[2,3] := a23;
-  result[2,4] := a24;
-  result[3,1] := a31;
-  result[3,2] := a32;
-  result[3,3] := a33;
-  result[3,4] := a34;
-  result[4,1] := a41;
-  result[4,2] := a42;
-  result[4,3] := a43;
-  result[4,4] := a44;
+  result[0,0] := m00;
+  result[0,1] := m01;
+  result[0,2] := m02;
+  result[0,3] := m03;
+  result[1,0] := m10;
+  result[1,1] := m11;
+  result[1,2] := m12;
+  result[1,3] := m13;
+  result[2,0] := m20;
+  result[2,1] := m21;
+  result[2,2] := m22;
+  result[2,3] := m23;
+  result[3,0] := m30;
+  result[3,1] := m31;
+  result[3,2] := m32;
+  result[3,3] := m33;
 end;
 
 end.
