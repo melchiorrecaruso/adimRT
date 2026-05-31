@@ -1,3 +1,37 @@
+{ ADim real matrix and vector types.
+
+  Defines generic real matrix and vector types used throughout the
+  ADimPas library, including:
+
+  @unorderedList(
+    @item(@link(TRMatrix) — generic N×N real matrix with Gaussian elimination,
+          QR decomposition, eigenvalue computation, and exact specializations
+          for 2×2, 3×3, and 4×4 cases.)
+    @item(@link(TRVector) — generic N-component real column vector with
+          standard linear algebra operations and matrix-vector products.)
+    @item(@link(TR3VectorHelper) — cross product for 3-component real vectors.)
+  )
+
+  @author Melchiorre Caruso (melchiorrecaruso@@gmail.com)
+  @copyright 2025-2026 Melchiorre Caruso
+  @license GNU Lesser General Public License v3 with modified LGPL exception.
+
+  This unit is part of the ADim library, distributed under the
+  GNU Lesser General Public License v3 (LGPL v3) with the following
+  special exception:
+
+  As a special exception, the copyright holders of this library give you
+  permission to link this library with independent modules to produce an
+  executable, regardless of the license terms of these independent modules,
+  and to copy and distribute the resulting executable under terms of your
+  choice, provided that you also meet, for each linked independent module,
+  the terms and conditions of the license of that module. An independent
+  module is a module which is not derived from or based on this library.
+  If you modify this library, you may extend this exception to your version
+  of the library, but you are not obligated to do so. If you do not wish
+  to do so, delete this exception statement from your version.
+}
+
 unit ADimR;
 
 {$H+}{$J-}
