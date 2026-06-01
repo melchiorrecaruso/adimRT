@@ -37,6 +37,9 @@ unit ADimC;
 
 {$H+}{$J-}
 {$modeswitch advancedrecords}
+{$WARN 5024 OFF}// Suppress warning for unused routine parameter.
+{$WARN 5033 OFF}// Suppress warning for unassigned function's return value.
+{$WARN 6058 OFF}// Suppress warning for function marked as inline that cannot be inlined.
 
 interface
 
@@ -490,12 +493,22 @@ type
     { Writes the complex component at position @code(ARow). }
     procedure Put(ARow: longint; AValue: TComplex);
   public
-    { Returns the bilinear dot product (inner product) of two complex vectors:
-      @code(u·v = Σ uᵢ·vᵢ).
-      Note: this is the bilinear form, not the Hermitian inner product.
-      For the Hermitian inner product use @code(u*.v = Σ conj(uᵢ)·vᵢ).
+    { Returns the element-wise complex conjugate of the vector.
+      Each component @code(vᵢ = x + iy) becomes @code(x - iy).
+    }
+    function Conjugate: TCVector;
+
+    { Returns the bilinear dot product of two complex vectors:
+      @code(u·v = Σ uᵢ·vᵢ). Bilinear form, not Hermitian inner product.
     }
     function Dot(const AVector: TCVector): TComplex;
+
+    { Returns the Hermitian inner product of two complex vectors:
+      @code(⟨u,v⟩ = Σ conj(uᵢ)·vᵢ).
+      Unlike the bilinear @link(Dot), this form guarantees
+      @code(⟨v,v⟩ = Σ|vᵢ|² ≥ 0), making it suitable as a true inner product.
+    }
+    function HermitianDot(const AVector: TCVector): TComplex;
 
     { Returns @true if all components are zero. }
     function IsNull: boolean;
@@ -550,7 +563,7 @@ type
     { Returns the component-wise difference of two complex vectors. }
     class operator -(const ALeft, ARight: TCVector): TCVector;
 
-    { Returns the bilinear dot product of two complex vectors:
+    { Returns the dot product of two complex vectors:
       @code(u·v = Σ uᵢ·vᵢ).
     }
     class operator *(const ALeft, ARight: TCVector): TComplex;
@@ -672,20 +685,20 @@ function SameValueEx(const AValue1, AValue2: TC3Matrix): boolean;
 { Returns @true if two 4×4 complex matrices are equal within @link(DefaultEpsilon). }
 function SameValueEx(const AValue1, AValue2: TC4Matrix): boolean;
 
-{ Solves @code(a·z = 0) over the complex numbers. Returns @code(-a). }
+{ Solves @code(z + a = 0) over the complex numbers. Returns @code(-a). }
 function SolveEquation(const a: TComplex): TComplex;
 
-{ Solves @code(a·z + b = 0) over the complex numbers.
+{ Solves @code(z² + a·z + b = 0) over the complex numbers.
   Returns the two roots as a 0-based dynamic array.
 }
 function SolveEquation(const a, b: TComplex): TArrayOfComplex;
 
-{ Solves @code(a·z² + b·z + c = 0) over the complex numbers.
+{ Solves @code(z³ + a·z² + b·z + c = 0) over the complex numbers.
   Returns the three roots as a 0-based dynamic array.
 }
 function SolveEquation(const a, b, c: TComplex): TArrayOfComplex;
 
-{ Solves @code(a·z³ + b·z² + c·z + d = 0) using Cardano's method.
+{ Solves @code(z⁴ + a·z³ + b·z² + c·z + d = 0) over the complex numbers.
   Returns the four roots as a 0-based dynamic array.
 }
 function SolveEquation(const a, b, c, d: TComplex): TArrayOfComplex;
@@ -1699,6 +1712,14 @@ begin
   fm[ARow] := AValue;
 end;
 
+function TCVector.Conjugate: TCVector;
+var
+  i: longint;
+begin
+  for i := 0 to TSpace.N - 1 do
+    result.fm[i] := fm[i].Conjugate;
+end;
+
 function TCVector.Dot(const AVector: TCVector): TComplex;
 var
   i: longint;
@@ -1706,6 +1727,15 @@ begin
   result := 0;
   for i := 0 to TSpace.N - 1 do
     result := result + fm[i] * AVector.fm[i];
+end;
+
+function TCVector.HermitianDot(const AVector: TCVector): TComplex;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 0 to TSpace.N - 1 do
+    result := result + fm[i].Conjugate * AVector.fm[i];
 end;
 
 function TCVector.IsNull: boolean;
