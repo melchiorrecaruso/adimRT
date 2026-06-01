@@ -63,10 +63,6 @@
         <UnitName Value="ADimTest"/>
       </Unit>
       <Unit>
-        <Filename Value="adimr3.pas"/>
-        <UnitName Value="ADimR3"/>
-      </Unit>
-      <Unit>
         <Filename Value="adimc.pas"/>
         <UnitName Value="ADimC"/>
       </Unit>
@@ -77,6 +73,10 @@
       <Unit>
         <Filename Value="adim.pas"/>
         <UnitName Value="ADim"/>
+      </Unit>
+      <Unit>
+        <Filename Value="adimr.pas"/>
+        <UnitName Value="ADimR"/>
       </Unit>
     </Units>
   </ProjectOptions>
