@@ -20,7 +20,7 @@
 program ADimTest;
 
 uses
-  ADim, ADimR3, ADimC, ADimCL3, Math, SysUtils;
+  ADim, ADimC, ADimCL3, Math, SysUtils;
 
 var
   side1: TQuantity;
