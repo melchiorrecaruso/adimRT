@@ -14,24 +14,24 @@
         <UnitName Value="ADim"/>
       </Item>
       <Item>
-        <Filename Value="adimc.pas"/>
-        <UnitName Value="ADimC"/>
+        <Filename Value="adimres.pas"/>
+        <UnitName Value="ADimRes"/>
       </Item>
       <Item>
         <Filename Value="adimcl3.pas"/>
         <UnitName Value="ADimCL3"/>
       </Item>
       <Item>
-        <Filename Value="adimr3.pas"/>
-        <UnitName Value="ADimR3"/>
+        <Filename Value="adimc.pas"/>
+        <UnitName Value="adimc"/>
       </Item>
       <Item>
-        <Filename Value="adimres.pas"/>
-        <UnitName Value="ADimRes"/>
+        <Filename Value="adimr.pas"/>
+        <UnitName Value="ADimR"/>
       </Item>
       <Item>
-        <Filename Value="adimtypes.pas"/>
-        <UnitName Value="ADimTypes"/>
+        <Filename Value="adimcommon.pas"/>
+        <UnitName Value="ADimCommon"/>
       </Item>
     </Files>
     <RequiredPkgs>
