@@ -1,7 +1,7 @@
 object MainForm: TMainForm
-  Left = 703
+  Left = 154
   Height = 619
-  Top = 376
+  Top = 84
   Width = 989
   Caption = 'ADimPas Toolkit-v2'
   ClientHeight = 619
@@ -32,8 +32,8 @@ object MainForm: TMainForm
     OnChange = PageControlChange
     object TabSheet1: TTabSheet
       Caption = 'Unit of measurement'
-      ClientHeight = 540
-      ClientWidth = 979
+      ClientHeight = 545
+      ClientWidth = 981
       object StringGrid: TStringGrid
         AnchorSideLeft.Control = TabSheet1
         AnchorSideTop.Control = AddBtn
@@ -43,9 +43,9 @@ object MainForm: TMainForm
         AnchorSideBottom.Control = TabSheet1
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 492
+        Height = 497
         Top = 48
-        Width = 979
+        Width = 981
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 6
         ColCount = 10
@@ -192,13 +192,13 @@ object MainForm: TMainForm
     end
     object TabSheet2: TTabSheet
       Caption = 'Unit Source Code'
-      ClientHeight = 540
-      ClientWidth = 979
+      ClientHeight = 545
+      ClientWidth = 981
       inline SynEdit: TSynEdit
         Left = 0
-        Height = 540
+        Height = 545
         Top = 0
-        Width = 979
+        Width = 981
         Align = alClient
         Anchors = []
         Font.Height = -13
@@ -666,13 +666,13 @@ object MainForm: TMainForm
     end
     object TabSheet5: TTabSheet
       Caption = 'Resource strings'
-      ClientHeight = 540
-      ClientWidth = 979
+      ClientHeight = 545
+      ClientWidth = 981
       inline SynEdit1: TSynEdit
         Left = 0
-        Height = 540
+        Height = 545
         Top = 0
-        Width = 979
+        Width = 981
         Align = alClient
         Anchors = []
         Font.Height = -13
@@ -1140,15 +1140,15 @@ object MainForm: TMainForm
     end
     object TabSheet3: TTabSheet
       Caption = 'Messages'
-      ClientHeight = 540
-      ClientWidth = 979
+      ClientHeight = 545
+      ClientWidth = 981
       object Memo: TMemo
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Side = asrBottom
         Left = 0
-        Height = 540
+        Height = 545
         Top = 0
-        Width = 979
+        Width = 981
         Align = alClient
         Anchors = []
         Font.Height = -13
