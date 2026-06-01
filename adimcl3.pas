@@ -191,6 +191,15 @@ type
 
     { Returns the geometric quotient of a real scalar divided by a multivector: @code(ALeft / ARight). }
     class operator /(const ALeft: double; const ARight: TCL3Multivector): TCL3Multivector;
+  public
+    property m0:   double read fm0   write fm0;
+    property m1:   double read fm1   write fm1;
+    property m2:   double read fm2   write fm2;
+    property m3:   double read fm3   write fm3;
+    property m12:  double read fm12  write fm12;
+    property m13:  double read fm13  write fm13;
+    property m23:  double read fm23  write fm23;
+    property m123: double read fm123 write fm123;
   end;
 
   { Represents a pure trivector (pseudoscalar) in the Clifford algebra @code(Cl(3,0)).
@@ -348,6 +357,9 @@ type
       The result is a full multivector.
     }
     class operator /(const ALeft: TCL3Multivector; const ARight: TCL3Trivector): TCL3Multivector;
+
+  public
+    property m123: double read fm123 write fm123;
   end;
 
   { Represents a pure bivector (grade-2 element) in the Clifford algebra @code(Cl(3,0)).
@@ -564,6 +576,11 @@ type
       The result is a full @link(TCL3Multivector).
     }
     class operator /(const ALeft: TCL3Multivector; const ARight: TCL3Bivector): TCL3Multivector;
+
+  public
+    property m12:   double read fm12   write fm12;
+    property m13:   double read fm13   write fm13;
+    property m23:   double read fm23   write fm23;
   end;
 
   { Represents a pure vector (grade-1 element) in the Clifford algebra @code(Cl(3,0)).
@@ -832,6 +849,11 @@ type
       The result is a full @link(TCL3Multivector).
     }
     class operator /(const ALeft: TCL3Multivector; const ARight: TCL3Vector): TCL3Multivector;
+
+  public
+    property m1:   double read fm1   write fm1;
+    property m2:   double read fm2   write fm2;
+    property m3:   double read fm3   write fm3;
   end;
 
   { Record helper for @link(TCL3Multivector) providing the full set of geometric algebra
