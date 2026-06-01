@@ -517,6 +517,11 @@ type
     { Writes the component at position @code(ARow) as a @link(TComplexQuantity). }
     procedure Put(ARow: longint; const AQuantity: TComplexQuantity);
   public
+
+    function Dot(const AVector: TCVecQuantity): TComplexQuantity;
+
+    function Conjugate: TCVecQuantity;
+
     { Returns the unit vector in the same direction.
       The dimension is preserved; only the numerical values are normalized.
     }
@@ -5621,6 +5626,18 @@ begin
   FValue[ARow] := AQuantity.FValue;
 end;
 
+function TCVecQuantity.Dot(const AVector: TCVecQuantity): TComplexQuantity;
+begin
+  result.FDim := CheckMul(FDim, AVector.FDim);
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TCVecQuantity.Conjugate: TCVecQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue:= FValue.Conjugate;
+end;
+
 function TCVecQuantity.Normalize: TCVecQuantity;
 begin
   result.FDim := FDim;
@@ -6546,119 +6563,13 @@ begin
 end;
 {$ENDIF}
 
-// TComplexQuantityHelper
-
-{$IFNDEF ADIMOFF}
-function TComplexQuantityHelper.Conjugate: TComplexQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue := FValue.Conjugate;
-end;
-
-function TComplexQuantityHelper.Reciprocal: TComplexQuantity;
-begin
-  result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
-  result.FValue := FValue.Reciprocal;
-end;
-
-function TComplexQuantityHelper.Norm: TQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue := FValue.Norm;
-end;
-
-function TComplexQuantityHelper.SquaredNorm: TQuantity;
-begin
-  result.FDim := CheckMul(FDim, FDim);
-  result.FValue := FValue.SquaredNorm;
-end;
-{$ENDIF}
-
-{$IFNDEF ADIMOFF}
-
-{$ENDIF}
-
-// TC2VecQuantityHelper
-
-{$IFNDEF ADIMOFF}
-function TC2VecQuantityHelper.Dot(const AVector: TC2VecQuantity): TComplexQuantity;
-begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Dot(AVector.FValue);
-end;
-
-function TC2VecQuantityHelper.Conjugate: TC2VecQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue:= FValue.Conjugate;
-end;
-{$ENDIF}
-
-// TC3VecQuantityHelper
-
-{$IFNDEF ADIMOFF}
-function TC3VecQuantityHelper.Dot(const AVector: TC3VecQuantity): TComplexQuantity;
-begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Dot(AVector.FValue);
-end;
-
-function TC3VecQuantityHelper.Conjugate: TC3VecQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue:= FValue.Conjugate;
-end;
-{$ENDIF}
-
-// TC4VecQuantityHelper
-
-{$IFNDEF ADIMOFF}
-function TC4VecQuantityHelper.Dot(const AVector: TC4VecQuantity): TComplexQuantity;
-begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Dot(AVector.FValue);
-end;
-
-function TC4VecQuantityHelper.Conjugate: TC4VecQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue:= FValue.Conjugate;
-end;
-{$ENDIF}
-
-// TR2VecQuantityHelper
-
-{$IFNDEF ADIMOFF}
-function TR2VecQuantityHelper.Dot(const AVector: TR2VecQuantity): TQuantity;
-begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Dot(AVector.FValue);
-end;
-{$ENDIF}
-
 // TR3VecQuantityHelper
 
 {$IFNDEF ADIMOFF}
-function TR3VecQuantityHelper.Dot(const AVector: TR3VecQuantity): TQuantity;
-begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Dot(AVector.FValue);
-end;
-
 function TR3VecQuantityHelper.Cross(const AVector: TR3VecQuantity): TR3VecQuantity;
 begin
   result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Cross(AVector.FValue);
-end;
-{$ENDIF}
-
-// TR4VecQuantityHelper
-
-{$IFNDEF ADIMOFF}
-function TR4VecQuantityHelper.Dot(const AVector: TR4VecQuantity): TQuantity;
-begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Dot(AVector.FValue);
+//result.FValue := FValue.Cross(AVector.FValue);
 end;
 {$ENDIF}
 
@@ -9181,8 +9092,8 @@ end;
 
 function TUnitHelper.GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
 begin
-  result.fRe := GetValue(AQuantity.fRe, APrefixes);
-  result.fIm := GetValue(AQuantity.fIm, APrefixes);
+  result.Re := GetValue(AQuantity.Re, APrefixes);
+  result.Im := GetValue(AQuantity.Im, APrefixes);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TR2Vector; const APrefixes: TPrefixes): TR2Vector;
@@ -9283,33 +9194,33 @@ end;
 
 function TUnitHelper.GetValue(const AQuantity: TCL3Vector; const APrefixes: TPrefixes): TCL3Vector;
 begin
-  result.fm1 := GetValue(AQuantity.fm1, APrefixes);
-  result.fm2 := GetValue(AQuantity.fm2, APrefixes);
-  result.fm3 := GetValue(AQuantity.fm3, APrefixes);
+  result.m1 := GetValue(AQuantity.m1, APrefixes);
+  result.m2 := GetValue(AQuantity.m2, APrefixes);
+  result.m3 := GetValue(AQuantity.m3, APrefixes);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TCL3Bivector; const APrefixes: TPrefixes): TCL3Bivector;
 begin
-  result.fm12 := GetValue(AQuantity.fm12, APrefixes);
-  result.fm13 := GetValue(AQuantity.fm13, APrefixes);
-  result.fm23 := GetValue(AQuantity.fm23, APrefixes);
+  result.m12 := GetValue(AQuantity.m12, APrefixes);
+  result.m13 := GetValue(AQuantity.m13, APrefixes);
+  result.m23 := GetValue(AQuantity.m23, APrefixes);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TCL3Trivector; const APrefixes: TPrefixes): TCL3Trivector;
 begin
-  result.fm123 := GetValue(AQuantity.fm123, APrefixes);
+  result.m123 := GetValue(AQuantity.m123, APrefixes);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TCL3Multivector; const APrefixes: TPrefixes): TCL3Multivector;
 begin
-  result.fm0 := GetValue(AQuantity.fm0, APrefixes);
-  result.fm1 := GetValue(AQuantity.fm1, APrefixes);
-  result.fm2 := GetValue(AQuantity.fm2, APrefixes);
-  result.fm3 := GetValue(AQuantity.fm3, APrefixes);
-  result.fm12 := GetValue(AQuantity.fm12, APrefixes);
-  result.fm13 := GetValue(AQuantity.fm13, APrefixes);
-  result.fm23 := GetValue(AQuantity.fm23, APrefixes);
-  result.fm123 := GetValue(AQuantity.fm123, APrefixes);
+  result.m0   := GetValue(AQuantity.m0,   APrefixes);
+  result.m1   := GetValue(AQuantity.m1,   APrefixes);
+  result.m2   := GetValue(AQuantity.m2,   APrefixes);
+  result.m3   := GetValue(AQuantity.m3,   APrefixes);
+  result.m12  := GetValue(AQuantity.m12,  APrefixes);
+  result.m13  := GetValue(AQuantity.m13,  APrefixes);
+  result.m23  := GetValue(AQuantity.m23,  APrefixes);
+  result.m123 := GetValue(AQuantity.m123, APrefixes);
 end;
 
 function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
