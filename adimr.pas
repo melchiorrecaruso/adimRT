@@ -263,6 +263,11 @@ type
     { Writes the component at position @code(ARow). }
     procedure Put(ARow: longint; AValue: double);
   public
+    { Returns the dot product (inner product) of two real vectors:
+      @code(u·v = Σ uᵢ·vᵢ).
+    }
+    function Dot(const AVector: TRVector): double;
+
     { Returns @true if all components are zero. }
     function IsNull: boolean;
 
@@ -381,7 +386,7 @@ function Abs(const AValue: double): double;
 { Returns @true if two real numbers are equal within @link(DefaultEpsilon). }
 function SameValueEx(const AValue1, AValue2: double): boolean;
 
-{ Solves @code(a·x = 0) over the real numbers. Returns @code(-a). }
+{ Solves @code(x + a = 0) over the real numbers. Returns @code(-a). }
 function SolveEquation(const a: double): double;
 
 { Returns the exact determinant of a 2×2 real matrix:
@@ -1058,6 +1063,15 @@ end;
 procedure TRVector.Put(ARow: longint; AValue: double);
 begin
   fm[ARow] := AValue;
+end;
+
+function TRVector.Dot(const AVector: TRVector): double;
+var
+  i: longint;
+begin
+  result := 0;
+  for i := 0 to TSpace.N - 1 do
+    result := result + fm[i] * AVector.fm[i];
 end;
 
 function TRVector.IsNull: boolean;
