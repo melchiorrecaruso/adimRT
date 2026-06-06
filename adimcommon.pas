@@ -42,21 +42,6 @@ uses
   SysUtils;
 
 type
-  { Tag record representing a 2-dimensional space.
-    Used as a generic parameter to instantiate 2×2 matrix types.
-  }
-  T2DSpace = record const N = 2; end;
-
-  { Tag record representing a 3-dimensional space.
-    Used as a generic parameter to instantiate 3×3 matrix types.
-  }
-  T3DSpace = record const N = 3; end;
-
-  { Tag record representing a 4-dimensional space.
-    Used as a generic parameter to instantiate 4×4 matrix types.
-  }
-  T4DSpace = record const N = 4; end;
-
   { Represents the physical dimension of a quantity using the SI base units.
 
     Each field stores the integer exponent of the corresponding SI base unit.
