@@ -291,19 +291,21 @@ type
     Concrete types are provided as @link(TR2MatrixQuantity), @link(TR3MatrixQuantity), and @link(TR4MatrixQuantity).
   }
   {$IFNDEF ADIMOFF}
-  generic TRMatrixQuantity<TSpace> = record
-  type
-    TRMatrix = specialize TRMatrix<TSpace>;
+  TRMatrixQuantity = record
   private
-    FDim:   TDimension;
+    FDim: TDimension;
     FValue: TRMatrix;
-    procedure Put(ARow, ACol: longint; const AValue: TQuantity);
+    function GetSize: longint;
     function Get(ARow, ACol: longint): TQuantity;
+    procedure Put(ARow, ACol: longint; const AValue: TQuantity);
   public
+    procedure Initialize(ASize: longint);
+    procedure Finalize;
     function Clone: TRMatrixQuantity;
     function Determinant: TQuantity;
     function Diagonalize(const AEigenValues: TArrayOfQuantity): TRMatrixQuantity;
     function Eigenvalues: TArrayOfQuantity;
+    procedure Init(AN: longint);
     function IsNull: boolean;
     function IsNotNull: boolean;
     function IsUnitary: boolean;
@@ -318,8 +320,6 @@ type
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
     function Transpose: TRMatrixQuantity;
-    class operator Initialize(var ASelf: TRMatrixQuantity);
-    class operator Finalize(var ASelf: TRMatrixQuantity);
     class operator := (const AMatrix: TRMatrix): TRMatrixQuantity;
     class operator <>(const ALeft, ARight: TRMatrixQuantity): boolean;
     class operator =(const ALeft, ARight: TRMatrixQuantity): boolean;
@@ -331,12 +331,10 @@ type
     class operator /(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
   public
     property a[ARow, ACol: longint]: TQuantity read Get write Put; default;
+    property Size: longint read GetSize;
   end;
 
-  generic TCMatrixQuantity<TSpace> = record
-  type
-    TRMatrixQuantity = specialize TRMatrixQuantity<TSpace>;
-    TCMatrix         = specialize TCMatrix<TSpace>;
+  TCMatrixQuantity = record
   private
     FDim:   TDimension;
     FValue: TCMatrix;
@@ -348,6 +346,7 @@ type
     function Determinant: TComplexQuantity;
     function Diagonalize(const AEigenValues: TArrayOfComplexQuantity): TCMatrixQuantity;
     function Eigenvalues: TArrayOfComplexQuantity;
+    procedure Init(AN: longint);
     function IsHermitian: boolean;
     function IsNull: boolean;
     function IsNotNull: boolean;
@@ -380,27 +379,9 @@ type
     property a[ARow, ACol: longint]: TComplexQuantity read Get write Put; default;
   end;
 
-  { 2×2 real quantity matrix. Specialization of @link(TRMatrixQuantity) for @link(T2DSpace). }
-  TR2MatrixQuantity = specialize TRMatrixQuantity<T2DSpace>;
-  { 3×3 real quantity matrix. Specialization of @link(TRMatrixQuantity) for @link(T3DSpace). }
-  TR3MatrixQuantity = specialize TRMatrixQuantity<T3DSpace>;
-  { 4×4 real quantity matrix. Specialization of @link(TRMatrixQuantity) for @link(T4DSpace). }
-  TR4MatrixQuantity = specialize TRMatrixQuantity<T4DSpace>;
-
-  { 2×2 complex quantity matrix. Specialization of @link(TCMatrixQuantity) for @link(T2DSpace). }
-  TC2MatrixQuantity = specialize TCMatrixQuantity<T2DSpace>;
-  { 3×3 complex quantity matrix. Specialization of @link(TCMatrixQuantity) for @link(T3DSpace). }
-  TC3MatrixQuantity = specialize TCMatrixQuantity<T3DSpace>;
-  { 4×4 complex quantity matrix. Specialization of @link(TCMatrixQuantity) for @link(T4DSpace). }
-  TC4MatrixQuantity = specialize TCMatrixQuantity<T4DSpace>;
   {$ELSE}
-  TR2MatrixQuantity = specialize TRMatrix<T2DSpace>;
-  TR3MatrixQuantity = specialize TRMatrix<T3DSpace>;
-  TR4MatrixQuantity = specialize TRMatrix<T4DSpace>;
-
-  TC2MatrixQuantity = specialize TCMatrix<T2DSpace>;
-  TC3MatrixQuantity = specialize TCMatrix<T3DSpace>;
-  TC4MatrixQuantity = specialize TCMatrix<T4DSpace>;
+  TRMatrixQuantity = TRMatrix;
+  TCMatrixQuantity = TCMatrix;
   {$ENDIF}
 
   {$IFNDEF ADIMOFF}
@@ -411,10 +392,7 @@ type
     When @code(ADIMOFF) is defined, degenerates to the corresponding @link(TRVector) specialization.
     Concrete types are provided as @link(TR2VecQuantity), @link(TR3VecQuantity), and @link(TR4VecQuantity).
   }
-  generic TRVecQuantity<TSpace> = record
-  type
-    TRVector = specialize TRVector<TSpace>;
-    TRMatrixQuantity = specialize TRMatrixQuantity<TSpace>;
+  TRVecQuantity = record
   private
     FDim: TDimension;
     FValue: TRVector;
@@ -425,12 +403,16 @@ type
     { Writes the component at position @code(ARow) as a @link(TQuantity). }
     procedure Put(ARow: longint; const AQuantity: TQuantity);
   public
+    function Cross(const AVector: TRVecQuantity): TRVecQuantity;
+
     { Returns the dot product of two 3-component real quantity vectors.
       Defined as @code(u·v = u₁v₁ + u₂v₂ + u₃v₃).
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The right-hand operand.)
     }
     function Dot(const AVector: TRVecQuantity): TQuantity;
+
+    procedure Init(AN: longint);
 
     { Returns the unit vector in the same direction.
       The dimension is preserved; only the numerical values are normalized.
@@ -503,10 +485,7 @@ type
     When @code(ADIMOFF) is defined, degenerates to the corresponding @link(TCVector) specialization.
     Concrete types are provided as @link(TC2VecQuantity), @link(TC3VecQuantity), and @link(TC4VecQuantity).
   }
-  generic TCVecQuantity<TSpace> = record
-  type
-    TCVector = specialize TCVector<TSpace>;
-    TCMatrixQuantity = specialize TCMatrixQuantity<TSpace>;
+  TCVecQuantity = record
   private
     FDim: TDimension;
     FValue: TCVector;
@@ -519,6 +498,8 @@ type
   public
 
     function Dot(const AVector: TCVecQuantity): TComplexQuantity;
+
+    procedure Init(AN: longint);
 
     function Conjugate: TCVecQuantity;
 
@@ -597,28 +578,9 @@ type
     property a[ARow: longint]: TComplexQuantity read Get write Put; default;
   end;
 
-  { 2-component real quantity vector. Specialization of @link(TRVecQuantity) for @link(T2DSpace). }
-  TR2VecQuantity = specialize TRVecQuantity<T2DSpace>;
-  { 3-component real quantity vector. Specialization of @link(TRVecQuantity) for @link(T3DSpace). }
-  TR3VecQuantity = specialize TRVecQuantity<T3DSpace>;
-  { 4-component real quantity vector. Specialization of @link(TRVecQuantity) for @link(T4DSpace). }
-  TR4VecQuantity = specialize TRVecQuantity<T4DSpace>;
-
-  { 2-component complex quantity vector. Specialization of @link(TCVecQuantity) for @link(T2DSpace). }
-  TC2VecQuantity = specialize TCVecQuantity<T2DSpace>;
-  { 3-component complex quantity vector. Specialization of @link(TCVecQuantity) for @link(T3DSpace). }
-  TC3VecQuantity = specialize TCVecQuantity<T3DSpace>;
-  { 4-component complex quantity vector. Specialization of @link(TCVecQuantity) for @link(T4DSpace). }
-  TC4VecQuantity = specialize TCVecQuantity<T4DSpace>;
-
   {$ELSE}
-  TR2VecQuantity = specialize TRVector<T2DSpace>;
-  TR3VecQuantity = specialize TRVector<T3DSpace>;
-  TR4VecQuantity = specialize TRVector<T4DSpace>;
-
-  TC2VecQuantity = specialize TCVector<T2DSpace>;
-  TC3VecQuantity = specialize TCVector<T3DSpace>;
-  TC4VecQuantity = specialize TCVector<T4DSpace>;
+  TRVecQuantity = TRVector;
+  TCVecQuantity = TCVector;
   {$ENDIF}
 
   { Represents a general multivector of @code(Cl(3,0)) with physical dimensions.
@@ -1436,23 +1398,6 @@ type
   {$ENDIF}
 
 type
-  { Record helper for @link(TR3VecQuantity) providing additional operations
-    specific to 3-component real quantity vectors.
-    Only available when @code(ADIMOFF) is not defined.
-  }
-  {$IFNDEF ADIMOFF}
-  TR3VecQuantityHelper = record helper for TR3VecQuantity
-    { Returns the cross product of two 3-component real quantity vectors.
-      Defined as @code(u×v = (u₂v₃ - u₃v₂, u₃v₁ - u₁v₃, u₁v₂ - u₂v₁)).
-      The result is a vector perpendicular to both operands with magnitude
-      @code(|u||v|sin(θ)).
-      The resulting dimension is the product of the two operand dimensions.
-      @param(AVector The right-hand operand.)
-    }
-    function Cross(const AVector: TR3VecQuantity): TR3VecQuantity;
-  end;
-  {$ENDIF}
-
   { Record helper for @link(TCL3MultivecQuantity) providing the full set of
     geometric algebra operations on multivector quantities of @code(Cl(3,0)).
 
@@ -2684,76 +2629,28 @@ type
     class operator /(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 
     { Returns the 2-component real vector quantity @code(AVector [unit]). }
-    class operator *(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
-
-    { Returns the 3-component real vector quantity @code(AVector [unit]). }
-    class operator *(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
-
-    { Returns the 4-component real vector quantity @code(AVector [unit]). }
-    class operator *(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
+    class operator *(const AVector: TRVector; const ASelf: TUnit): TRVecQuantity; inline;
 
     { Returns the 2-component real vector quantity @code(AVector / [unit]), with inverted dimension. }
-    class operator /(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
-
-    { Returns the 3-component real vector quantity @code(AVector / [unit]), with inverted dimension. }
-    class operator /(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
-
-    { Returns the 4-component real vector quantity @code(AVector / [unit]), with inverted dimension. }
-    class operator /(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
+    class operator /(const AVector: TRVector; const ASelf: TUnit): TRVecQuantity; inline;
 
     { Returns the 2-component complex vector quantity @code(AVector [unit]). }
-    class operator *(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
-
-    { Returns the 3-component complex vector quantity @code(AVector [unit]). }
-    class operator *(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
-
-    { Returns the 4-component complex vector quantity @code(AVector [unit]). }
-    class operator *(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
+    class operator *(const AVector: TCVector; const ASelf: TUnit): TCVecQuantity; inline;
 
     { Returns the 2-component complex vector quantity @code(AVector / [unit]), with inverted dimension. }
-    class operator /(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
-
-    { Returns the 3-component complex vector quantity @code(AVector / [unit]), with inverted dimension. }
-    class operator /(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
-
-    { Returns the 4-component complex vector quantity @code(AVector / [unit]), with inverted dimension. }
-    class operator /(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
+    class operator /(const AVector: TCVector; const ASelf: TUnit): TCVecQuantity; inline;
 
     { Returns the 2×2 real matrix quantity @code(AMatrix [unit]). }
-    class operator *(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
-
-    { Returns the 3×3 real matrix quantity @code(AMatrix [unit]). }
-    class operator *(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
-
-    { Returns the 4×4 real matrix quantity @code(AMatrix [unit]). }
-    class operator *(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
+    class operator *(const AMatrix: TRMatrix; const ASelf: TUnit): TRMatrixQuantity; inline;
 
     { Returns the 2×2 real matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
-    class operator /(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
-
-    { Returns the 3×3 real matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
-    class operator /(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
-
-    { Returns the 4×4 real matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
-    class operator /(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
+    class operator /(const AMatrix: TRMatrix; const ASelf: TUnit): TRMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity @code(AMatrix [unit]). }
-    class operator *(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
-
-    { Returns the 3×3 complex matrix quantity @code(AMatrix [unit]). }
-    class operator *(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
-
-    { Returns the 4×4 complex matrix quantity @code(AMatrix [unit]). }
-    class operator *(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
+    class operator *(const AMatrix: TCMatrix; const ASelf: TUnit): TCMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
-    class operator /(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
-
-    { Returns the 3×3 complex matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
-    class operator /(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
-
-    { Returns the 4×4 complex matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
-    class operator /(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
+    class operator /(const AMatrix: TCMatrix; const ASelf: TUnit): TCMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity @code(AVector [unit]). }
     class operator *(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
@@ -2803,76 +2700,28 @@ type
     class operator /(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
 
     { Returns the 2-component real vector quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
-
-    { Returns the 3-component real vector quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
-
-    { Returns the 4-component real vector quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
+    class operator *(const AQuantity: TRVecQuantity; const ASelf: TUnit): TRVecQuantity; inline;
 
     { Returns the 2-component real vector quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
-
-    { Returns the 3-component real vector quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
-
-    { Returns the 4-component real vector quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
+    class operator /(const AQuantity: TRVecQuantity; const ASelf: TUnit): TRVecQuantity; inline;
 
     { Returns the 2-component complex vector quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
-
-    { Returns the 3-component complex vector quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
-
-    { Returns the 4-component complex vector quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
+    class operator *(const AQuantity: TCVecQuantity; const ASelf: TUnit): TCVecQuantity; inline;
 
     { Returns the 2-component complex vector quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
-
-    { Returns the 3-component complex vector quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
-
-    { Returns the 4-component complex vector quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
+    class operator /(const AQuantity: TCVecQuantity; const ASelf: TUnit): TCVecQuantity; inline;
 
     { Returns the 2×2 real matrix quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
-
-    { Returns the 3×3 real matrix quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
-
-    { Returns the 4×4 real matrix quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
+    class operator *(const AQuantity: TRMatrixQuantity; const ASelf: TUnit): TRMatrixQuantity; inline;
 
     { Returns the 2×2 real matrix quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
-
-    { Returns the 3×3 real matrix quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
-
-    { Returns the 4×4 real matrix quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
+    class operator /(const AQuantity: TRMatrixQuantity; const ASelf: TUnit): TRMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
-
-    { Returns the 3×3 complex matrix quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
-
-    { Returns the 4×4 complex matrix quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
+    class operator *(const AQuantity: TCMatrixQuantity; const ASelf: TUnit): TCMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
-
-    { Returns the 3×3 complex matrix quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
-
-    { Returns the 4×4 complex matrix quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
+    class operator /(const AQuantity: TCMatrixQuantity; const ASelf: TUnit): TCMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
@@ -2951,76 +2800,28 @@ type
     class operator /(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 
     { Returns the 2-component real vector quantity @code(AVector * FFactor [dim]). }
-    class operator *(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
-
-    { Returns the 3-component real vector quantity @code(AVector * FFactor [dim]). }
-    class operator *(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
-
-    { Returns the 4-component real vector quantity @code(AVector * FFactor [dim]). }
-    class operator *(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+    class operator *(const AVector: TRVector; const ASelf: TFactoredUnit): TRVecQuantity; inline;
 
     { Returns the 2-component real vector quantity @code(AVector / FFactor [dim⁻¹]). }
-    class operator /(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
-
-    { Returns the 3-component real vector quantity @code(AVector / FFactor [dim⁻¹]). }
-    class operator /(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
-
-    { Returns the 4-component real vector quantity @code(AVector / FFactor [dim⁻¹]). }
-    class operator /(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+    class operator /(const AVector: TRVector; const ASelf: TFactoredUnit): TRVecQuantity; inline;
 
     { Returns the 2-component complex vector quantity @code(AVector * FFactor [dim]). }
-    class operator *(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
-
-    { Returns the 3-component complex vector quantity @code(AVector * FFactor [dim]). }
-    class operator *(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-
-    { Returns the 4-component complex vector quantity @code(AVector * FFactor [dim]). }
-    class operator *(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+    class operator *(const AVector: TCVector; const ASelf: TFactoredUnit): TCVecQuantity; inline;
 
     { Returns the 2-component complex vector quantity @code(AVector / FFactor [dim⁻¹]). }
-    class operator /(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
-
-    { Returns the 3-component complex vector quantity @code(AVector / FFactor [dim⁻¹]). }
-    class operator /(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-
-    { Returns the 4-component complex vector quantity @code(AVector / FFactor [dim⁻¹]). }
-    class operator /(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+    class operator /(const AVector: TCVector; const ASelf: TFactoredUnit): TCVecQuantity; inline;
 
     { Returns the 2×2 real matrix quantity @code(AMatrix * FFactor [dim]). }
-    class operator *(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
-
-    { Returns the 3×3 real matrix quantity @code(AMatrix * FFactor [dim]). }
-    class operator *(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
-
-    { Returns the 4×4 real matrix quantity @code(AMatrix * FFactor [dim]). }
-    class operator *(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+    class operator *(const AMatrix: TRMatrix; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
 
     { Returns the 2×2 real matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
-    class operator /(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
-
-    { Returns the 3×3 real matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
-    class operator /(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
-
-    { Returns the 4×4 real matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
-    class operator /(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+    class operator /(const AMatrix: TRMatrix; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity @code(AMatrix * FFactor [dim]). }
-    class operator *(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
-
-    { Returns the 3×3 complex matrix quantity @code(AMatrix * FFactor [dim]). }
-    class operator *(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
-
-    { Returns the 4×4 complex matrix quantity @code(AMatrix * FFactor [dim]). }
-    class operator *(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+    class operator *(const AMatrix: TCMatrix; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
-    class operator /(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
-
-    { Returns the 3×3 complex matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
-    class operator /(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
-
-    { Returns the 4×4 complex matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
-    class operator /(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+    class operator /(const AMatrix: TCMatrix; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity @code(AQuantity * FFactor [dim]). }
     class operator *(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
@@ -3065,76 +2866,28 @@ type
     class operator /(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 
     { Returns the 2-component real vector quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
-
-    { Returns the 3-component real vector quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
-
-    { Returns the 4-component real vector quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+    class operator *(const AQuantity: TRVecQuantity; const ASelf: TFactoredUnit): TRVecQuantity; inline;
 
     { Returns the 2-component real vector quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
-
-    { Returns the 3-component real vector quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
-
-    { Returns the 4-component real vector quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+    class operator /(const AQuantity: TRVecQuantity; const ASelf: TFactoredUnit): TRVecQuantity; inline;
 
     { Returns the 2-component complex vector quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
-
-    { Returns the 3-component complex vector quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-
-    { Returns the 4-component complex vector quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+    class operator *(const AQuantity: TCVecQuantity; const ASelf: TFactoredUnit): TCVecQuantity; inline;
 
     { Returns the 2-component complex vector quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
-
-    { Returns the 3-component complex vector quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-
-    { Returns the 4-component complex vector quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
+    class operator /(const AQuantity: TCVecQuantity; const ASelf: TFactoredUnit): TCVecQuantity; inline;
 
     { Returns the 2×2 real matrix quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
-
-    { Returns the 3×3 real matrix quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
-
-    { Returns the 4×4 real matrix quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+    class operator *(const AQuantity: TRMatrixQuantity; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
 
     { Returns the 2×2 real matrix quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
-
-    { Returns the 3×3 real matrix quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
-
-    { Returns the 4×4 real matrix quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
+    class operator /(const AQuantity: TRMatrixQuantity; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
-
-    { Returns the 3×3 complex matrix quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
-
-    { Returns the 4×4 complex matrix quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+    class operator *(const AQuantity: TCMatrixQuantity; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
-
-    { Returns the 3×3 complex matrix quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
-
-    { Returns the 4×4 complex matrix quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+    class operator /(const AQuantity: TCMatrixQuantity; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
@@ -3276,73 +3029,25 @@ type
       @param(AQuantity The dimensionless vector to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
-    function GetValue(const AQuantity: TR2Vector; const APrefixes: TPrefixes): TR2Vector;
-
-    { Returns the 3-component real vector scaled for the given prefix.
-      @param(AQuantity The dimensionless vector to scale.)
-      @param(APrefixes  The SI prefixes defining the scaling factor.)
-    }
-    function GetValue(const AQuantity: TR3Vector; const APrefixes: TPrefixes): TR3Vector;
-
-    { Returns the 4-component real vector scaled for the given prefix.
-      @param(AQuantity The dimensionless vector to scale.)
-      @param(APrefixes  The SI prefixes defining the scaling factor.)
-    }
-    function GetValue(const AQuantity: TR4Vector; const APrefixes: TPrefixes): TR4Vector;
+    function GetValue(const AQuantity: TRVector; const APrefixes: TPrefixes): TRVector;
 
     { Returns the 2-component complex vector scaled for the given prefix.
       @param(AQuantity The dimensionless complex vector to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
-    function GetValue(const AQuantity: TC2Vector; const APrefixes: TPrefixes): TC2Vector;
-
-    { Returns the 3-component complex vector scaled for the given prefix.
-      @param(AQuantity The dimensionless complex vector to scale.)
-      @param(APrefixes  The SI prefixes defining the scaling factor.)
-    }
-    function GetValue(const AQuantity: TC3Vector; const APrefixes: TPrefixes): TC3Vector;
-
-    { Returns the 4-component complex vector scaled for the given prefix.
-      @param(AQuantity The dimensionless complex vector to scale.)
-      @param(APrefixes  The SI prefixes defining the scaling factor.)
-    }
-    function GetValue(const AQuantity: TC4Vector; const APrefixes: TPrefixes): TC4Vector;
+    function GetValue(const AQuantity: TCVector; const APrefixes: TPrefixes): TCVector;
 
     { Returns the 2×2 real matrix scaled for the given prefix.
       @param(AQuantity The dimensionless matrix to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
-    function GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
-
-    { Returns the 3×3 real matrix scaled for the given prefix.
-      @param(AQuantity The dimensionless matrix to scale.)
-      @param(APrefixes  The SI prefixes defining the scaling factor.)
-    }
-    function GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
-
-    { Returns the 4×4 real matrix scaled for the given prefix.
-      @param(AQuantity The dimensionless matrix to scale.)
-      @param(APrefixes  The SI prefixes defining the scaling factor.)
-    }
-    function GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
+    function GetValue(const AQuantity: TRMatrix; const APrefixes: TPrefixes): TRMatrix;
 
     { Returns the 2×2 complex matrix scaled for the given prefix.
       @param(AQuantity The dimensionless complex matrix to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
-    function GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
-
-    { Returns the 3×3 complex matrix scaled for the given prefix.
-      @param(AQuantity The dimensionless complex matrix to scale.)
-      @param(APrefixes  The SI prefixes defining the scaling factor.)
-    }
-    function GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
-
-    { Returns the 4×4 complex matrix scaled for the given prefix.
-      @param(AQuantity The dimensionless complex matrix to scale.)
-      @param(APrefixes  The SI prefixes defining the scaling factor.)
-    }
-    function GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
+    function GetValue(const AQuantity: TCMatrix; const APrefixes: TPrefixes): TCMatrix;
 
     { Returns the @code(Cl(3,0)) vector scaled for the given prefix.
       @param(AQuantity The dimensionless @link(TCL3Vector) to scale.)
@@ -3495,220 +3200,76 @@ type
     function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TR2Vector) of the 2-component real vector quantity expressed in this unit. }
-    function ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
-
-    { Returns the dimensionless @link(TR3Vector) of the 3-component real vector quantity expressed in this unit. }
-    function ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
-
-    { Returns the dimensionless @link(TR4Vector) of the 4-component real vector quantity expressed in this unit. }
-    function ToVector(const AQuantity: TR4VecQuantity): TR4Vector;
+    function ToVector(const AQuantity: TRVecQuantity): TRVector;
 
     { Returns the dimensionless @link(TR2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
-
-    { Returns the dimensionless @link(TR3Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
-
-    { Returns the dimensionless @link(TR4Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
+    function ToVector(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): TRVector;
 
     { Returns a compact string representation of the 2-component real vector quantity in this unit. }
-    function ToString(const AQuantity: TR2VecQuantity): string;
-
-    { Returns a compact string representation of the 3-component real vector quantity in this unit. }
-    function ToString(const AQuantity: TR3VecQuantity): string;
-
-    { Returns a compact string representation of the 4-component real vector quantity in this unit. }
-    function ToString(const AQuantity: TR4VecQuantity): string;
+    function ToString(const AQuantity: TRVecQuantity): string;
 
     { Returns a compact string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 3-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 4-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2-component real vector quantity in this unit. }
-    function ToVerboseString(const AQuantity: TR2VecQuantity): string;
-
-    { Returns a verbose string representation of the 3-component real vector quantity in this unit. }
-    function ToVerboseString(const AQuantity: TR3VecQuantity): string;
-
-    { Returns a verbose string representation of the 4-component real vector quantity in this unit. }
-    function ToVerboseString(const AQuantity: TR4VecQuantity): string;
+    function ToVerboseString(const AQuantity: TRVecQuantity): string;
 
     { Returns a verbose string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 3-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 4-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TC2Vector) of the 2-component complex vector quantity expressed in this unit. }
-    function ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
-
-    { Returns the dimensionless @link(TC3Vector) of the 3-component complex vector quantity expressed in this unit. }
-    function ToVector(const AQuantity: TC3VecQuantity): TC3Vector;
-
-    { Returns the dimensionless @link(TC4Vector) of the 4-component complex vector quantity expressed in this unit. }
-    function ToVector(const AQuantity: TC4VecQuantity): TC4Vector;
+    function ToVector(const AQuantity: TCVecQuantity): TCVector;
 
     { Returns the dimensionless @link(TC2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): TC2Vector;
-
-    { Returns the dimensionless @link(TC3Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): TC3Vector;
-
-    { Returns the dimensionless @link(TC4Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): TC4Vector;
+    function ToVector(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): TCVector;
 
     { Returns a compact string representation of the 2-component complex vector quantity in this unit. }
-    function ToString(const AQuantity: TC2VecQuantity): string;
-
-    { Returns a compact string representation of the 3-component complex vector quantity in this unit. }
-    function ToString(const AQuantity: TC3VecQuantity): string;
-
-    { Returns a compact string representation of the 4-component complex vector quantity in this unit. }
-    function ToString(const AQuantity: TC4VecQuantity): string;
+    function ToString(const AQuantity: TCVecQuantity): string;
 
     { Returns a compact string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 3-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 4-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2-component complex vector quantity in this unit. }
-    function ToVerboseString(const AQuantity: TC2VecQuantity): string;
-
-    { Returns a verbose string representation of the 3-component complex vector quantity in this unit. }
-    function ToVerboseString(const AQuantity: TC3VecQuantity): string;
-
-    { Returns a verbose string representation of the 4-component complex vector quantity in this unit. }
-    function ToVerboseString(const AQuantity: TC4VecQuantity): string;
+    function ToVerboseString(const AQuantity: TCVecQuantity): string;
 
     { Returns a verbose string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 3-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 4-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TR2Matrix) of the 2×2 real matrix quantity expressed in this unit. }
-    function ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
-
-    { Returns the dimensionless @link(TR3Matrix) of the 3×3 real matrix quantity expressed in this unit. }
-    function ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
-
-    { Returns the dimensionless @link(TR4Matrix) of the 4×4 real matrix quantity expressed in this unit. }
-    function ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
+    function ToMatrix(const AQuantity: TRMatrixQuantity): TRMatrix;
 
     { Returns the dimensionless @link(TR2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
-
-    { Returns the dimensionless @link(TR3Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
-
-    { Returns the dimensionless @link(TR4Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
+    function ToMatrix(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): TRMatrix;
 
     { Returns a compact string representation of the 2×2 real matrix quantity in this unit. }
-    function ToString(const AQuantity: TR2MatrixQuantity): string;
-
-    { Returns a compact string representation of the 3×3 real matrix quantity in this unit. }
-    function ToString(const AQuantity: TR3MatrixQuantity): string;
-
-    { Returns a compact string representation of the 4×4 real matrix quantity in this unit. }
-    function ToString(const AQuantity: TR4MatrixQuantity): string;
+    function ToString(const AQuantity: TRMatrixQuantity): string;
 
     { Returns a compact string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 3×3 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 4×4 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2×2 real matrix quantity in this unit. }
-    function ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
-
-    { Returns a verbose string representation of the 3×3 real matrix quantity in this unit. }
-    function ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
-
-    { Returns a verbose string representation of the 4×4 real matrix quantity in this unit. }
-    function ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TRMatrixQuantity): string;
 
     { Returns a verbose string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 3×3 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 4×4 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TC2Matrix) of the 2×2 complex matrix quantity expressed in this unit. }
-    function ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
-
-    { Returns the dimensionless @link(TC3Matrix) of the 3×3 complex matrix quantity expressed in this unit. }
-    function ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
-
-    { Returns the dimensionless @link(TC4Matrix) of the 4×4 complex matrix quantity expressed in this unit. }
-    function ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
+    function ToMatrix(const AQuantity: TCMatrixQuantity): TCMatrix;
 
     { Returns the dimensionless @link(TC2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
-
-    { Returns the dimensionless @link(TC3Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
-
-    { Returns the dimensionless @link(TC4Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
+    function ToMatrix(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): TCMatrix;
 
     { Returns a compact string representation of the 2×2 complex matrix quantity in this unit. }
-    function ToString(const AQuantity: TC2MatrixQuantity): string;
-
-    { Returns a compact string representation of the 3×3 complex matrix quantity in this unit. }
-    function ToString(const AQuantity: TC3MatrixQuantity): string;
-
-    { Returns a compact string representation of the 4×4 complex matrix quantity in this unit. }
-    function ToString(const AQuantity: TC4MatrixQuantity): string;
+    function ToString(const AQuantity: TCMatrixQuantity): string;
 
     { Returns a compact string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 3×3 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 4×4 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2×2 complex matrix quantity in this unit. }
-    function ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
-
-    { Returns a verbose string representation of the 3×3 complex matrix quantity in this unit. }
-    function ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
-
-    { Returns a verbose string representation of the 4×4 complex matrix quantity in this unit. }
-    function ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TCMatrixQuantity): string;
 
     { Returns a verbose string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 3×3 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 4×4 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the @code(Cl(3,0)) vector quantity in this unit. }
     function ToString(const AQuantity: TCL3VecQuantity): string;
@@ -3811,73 +3372,25 @@ type
       @param(AQuantity The dimensionless vector to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: TR2Vector; const APrefixes: TPrefixes): TR2Vector;
-
-    { Returns the 3-component real vector scaled by @code(FFactor) and the given prefix.
-      @param(AQuantity The dimensionless vector to scale.)
-      @param(APrefixes  The SI prefixes defining additional scaling.)
-    }
-    function GetValue(const AQuantity: TR3Vector; const APrefixes: TPrefixes): TR3Vector;
-
-    { Returns the 4-component real vector scaled by @code(FFactor) and the given prefix.
-      @param(AQuantity The dimensionless vector to scale.)
-      @param(APrefixes  The SI prefixes defining additional scaling.)
-    }
-    function GetValue(const AQuantity: TR4Vector; const APrefixes: TPrefixes): TR4Vector;
+    function GetValue(const AQuantity: TRVector; const APrefixes: TPrefixes): TRVector;
 
     { Returns the 2-component complex vector scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless complex vector to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: TC2Vector; const APrefixes: TPrefixes): TC2Vector;
-
-    { Returns the 3-component complex vector scaled by @code(FFactor) and the given prefix.
-      @param(AQuantity The dimensionless complex vector to scale.)
-      @param(APrefixes  The SI prefixes defining additional scaling.)
-    }
-    function GetValue(const AQuantity: TC3Vector; const APrefixes: TPrefixes): TC3Vector;
-
-    { Returns the 4-component complex vector scaled by @code(FFactor) and the given prefix.
-      @param(AQuantity The dimensionless complex vector to scale.)
-      @param(APrefixes  The SI prefixes defining additional scaling.)
-    }
-    function GetValue(const AQuantity: TC4Vector; const APrefixes: TPrefixes): TC4Vector;
+    function GetValue(const AQuantity: TCVector; const APrefixes: TPrefixes): TCVector;
 
     { Returns the 2×2 real matrix scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless matrix to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
-
-    { Returns the 3×3 real matrix scaled by @code(FFactor) and the given prefix.
-      @param(AQuantity The dimensionless matrix to scale.)
-      @param(APrefixes  The SI prefixes defining additional scaling.)
-    }
-    function GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
-
-    { Returns the 4×4 real matrix scaled by @code(FFactor) and the given prefix.
-      @param(AQuantity The dimensionless matrix to scale.)
-      @param(APrefixes  The SI prefixes defining additional scaling.)
-    }
-    function GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
+    function GetValue(const AQuantity: TRMatrix; const APrefixes: TPrefixes): TRMatrix;
 
     { Returns the 2×2 complex matrix scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless complex matrix to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
-
-    { Returns the 3×3 complex matrix scaled by @code(FFactor) and the given prefix.
-      @param(AQuantity The dimensionless complex matrix to scale.)
-      @param(APrefixes  The SI prefixes defining additional scaling.)
-    }
-    function GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
-
-    { Returns the 4×4 complex matrix scaled by @code(FFactor) and the given prefix.
-      @param(AQuantity The dimensionless complex matrix to scale.)
-      @param(APrefixes  The SI prefixes defining additional scaling.)
-    }
-    function GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
+    function GetValue(const AQuantity: TCMatrix; const APrefixes: TPrefixes): TCMatrix;
 
     { Returns the @code(Cl(3,0)) vector scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless @link(TCL3Vector) to scale.)
@@ -4019,220 +3532,76 @@ type
     function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TR2Vector) of the 2-component real vector quantity expressed in this factored unit. }
-    function ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
-
-    { Returns the dimensionless @link(TR3Vector) of the 3-component real vector quantity expressed in this factored unit. }
-    function ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
-
-    { Returns the dimensionless @link(TR4Vector) of the 4-component real vector quantity expressed in this factored unit. }
-    function ToVector(const AQuantity: TR4VecQuantity): TR4Vector;
+    function ToVector(const AQuantity: TRVecQuantity): TRVector;
 
     { Returns the dimensionless @link(TR2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
-
-    { Returns the dimensionless @link(TR3Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
-
-    { Returns the dimensionless @link(TR4Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
+    function ToVector(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): TRVector;
 
     { Returns a compact string representation of the 2-component real vector quantity in this factored unit. }
-    function ToString(const AQuantity: TR2VecQuantity): string;
-
-    { Returns a compact string representation of the 3-component real vector quantity in this factored unit. }
-    function ToString(const AQuantity: TR3VecQuantity): string;
-
-    { Returns a compact string representation of the 4-component real vector quantity in this factored unit. }
-    function ToString(const AQuantity: TR4VecQuantity): string;
+    function ToString(const AQuantity: TRVecQuantity): string;
 
     { Returns a compact string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 3-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 4-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2-component real vector quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TR2VecQuantity): string;
-
-    { Returns a verbose string representation of the 3-component real vector quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TR3VecQuantity): string;
-
-    { Returns a verbose string representation of the 4-component real vector quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TR4VecQuantity): string;
+    function ToVerboseString(const AQuantity: TRVecQuantity): string;
 
     { Returns a verbose string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 3-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 4-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TC2Vector) of the 2-component complex vector quantity expressed in this factored unit. }
-    function ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
-
-    { Returns the dimensionless @link(TC3Vector) of the 3-component complex vector quantity expressed in this factored unit. }
-    function ToVector(const AQuantity: TC3VecQuantity): TC3Vector;
-
-    { Returns the dimensionless @link(TC4Vector) of the 4-component complex vector quantity expressed in this factored unit. }
-    function ToVector(const AQuantity: TC4VecQuantity): TC4Vector;
+    function ToVector(const AQuantity: TCVecQuantity): TCVector;
 
     { Returns the dimensionless @link(TC2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): TC2Vector;
-
-    { Returns the dimensionless @link(TC3Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): TC3Vector;
-
-    { Returns the dimensionless @link(TC4Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): TC4Vector;
+    function ToVector(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): TCVector;
 
     { Returns a compact string representation of the 2-component complex vector quantity in this factored unit. }
-    function ToString(const AQuantity: TC2VecQuantity): string;
-
-    { Returns a compact string representation of the 3-component complex vector quantity in this factored unit. }
-    function ToString(const AQuantity: TC3VecQuantity): string;
-
-    { Returns a compact string representation of the 4-component complex vector quantity in this factored unit. }
-    function ToString(const AQuantity: TC4VecQuantity): string;
+    function ToString(const AQuantity: TCVecQuantity): string;
 
     { Returns a compact string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 3-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 4-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2-component complex vector quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TC2VecQuantity): string;
-
-    { Returns a verbose string representation of the 3-component complex vector quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TC3VecQuantity): string;
-
-    { Returns a verbose string representation of the 4-component complex vector quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TC4VecQuantity): string;
+    function ToVerboseString(const AQuantity: TCVecQuantity): string;
 
     { Returns a verbose string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 3-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 4-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TR2Matrix) of the 2×2 real matrix quantity expressed in this factored unit. }
-    function ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
-
-    { Returns the dimensionless @link(TR3Matrix) of the 3×3 real matrix quantity expressed in this factored unit. }
-    function ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
-
-    { Returns the dimensionless @link(TR4Matrix) of the 4×4 real matrix quantity expressed in this factored unit. }
-    function ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
+    function ToMatrix(const AQuantity: TRMatrixQuantity): TRMatrix;
 
     { Returns the dimensionless @link(TR2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
-
-    { Returns the dimensionless @link(TR3Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
-
-    { Returns the dimensionless @link(TR4Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
+    function ToMatrix(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): TRMatrix;
 
     { Returns a compact string representation of the 2×2 real matrix quantity in this factored unit. }
-    function ToString(const AQuantity: TR2MatrixQuantity): string;
-
-    { Returns a compact string representation of the 3×3 real matrix quantity in this factored unit. }
-    function ToString(const AQuantity: TR3MatrixQuantity): string;
-
-    { Returns a compact string representation of the 4×4 real matrix quantity in this factored unit. }
-    function ToString(const AQuantity: TR4MatrixQuantity): string;
+    function ToString(const AQuantity: TRMatrixQuantity): string;
 
     { Returns a compact string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 3×3 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 4×4 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2×2 real matrix quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
-
-    { Returns a verbose string representation of the 3×3 real matrix quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
-
-    { Returns a verbose string representation of the 4×4 real matrix quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TRMatrixQuantity): string;
 
     { Returns a verbose string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 3×3 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 4×4 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TC2Matrix) of the 2×2 complex matrix quantity expressed in this factored unit. }
-    function ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
-
-    { Returns the dimensionless @link(TC3Matrix) of the 3×3 complex matrix quantity expressed in this factored unit. }
-    function ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
-
-    { Returns the dimensionless @link(TC4Matrix) of the 4×4 complex matrix quantity expressed in this factored unit. }
-    function ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
+    function ToMatrix(const AQuantity: TCMatrixQuantity): TCMatrix;
 
     { Returns the dimensionless @link(TC2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
-
-    { Returns the dimensionless @link(TC3Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
-
-    { Returns the dimensionless @link(TC4Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
+    function ToMatrix(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): TCMatrix;
 
     { Returns a compact string representation of the 2×2 complex matrix quantity in this factored unit. }
-    function ToString(const AQuantity: TC2MatrixQuantity): string;
-
-    { Returns a compact string representation of the 3×3 complex matrix quantity in this factored unit. }
-    function ToString(const AQuantity: TC3MatrixQuantity): string;
-
-    { Returns a compact string representation of the 4×4 complex matrix quantity in this factored unit. }
-    function ToString(const AQuantity: TC4MatrixQuantity): string;
+    function ToString(const AQuantity: TCMatrixQuantity): string;
 
     { Returns a compact string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 3×3 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a compact string representation of the 4×4 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2×2 complex matrix quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
-
-    { Returns a verbose string representation of the 3×3 complex matrix quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
-
-    { Returns a verbose string representation of the 4×4 complex matrix quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TCMatrixQuantity): string;
 
     { Returns a verbose string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 3×3 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
-
-    { Returns a verbose string representation of the 4×4 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the @code(Cl(3,0)) vector quantity in this factored unit. }
     function ToString(const AQuantity: TCL3VecQuantity): string;
@@ -4524,88 +3893,6 @@ const
 
 {#UNITSOFMEASUREMENT}
 
-type
-  { Represents the basis vector @code(e₁) of @code(ℝ²).
-    Acts as a compile-time constant unit vector along the first axis of the 2D real space.
-    Multiplying a scalar by this record yields a @link(TR2Vector) scaled along @code(e₁).
-  }
-  TR2Versor1 = record
-    { Returns the vector @code(AValue · e₁) in @code(ℝ²). }
-    class operator *(const AValue: double; const ASelf: TR2Versor1): TR2Vector;
-  end;
-
-  { Represents the basis vector @code(e₂) of @code(ℝ²).
-    Acts as a compile-time constant unit vector along the second axis of the 2D real space.
-    Multiplying a scalar by this record yields a @link(TR2Vector) scaled along @code(e₂).
-  }
-  TR2Versor2 = record
-    { Returns the vector @code(AValue · e₂) in @code(ℝ²). }
-    class operator *(const AValue: double; const ASelf: TR2Versor2): TR2Vector;
-  end;
-
-  { Represents the basis vector @code(e₁) of @code(ℝ³).
-    Acts as a compile-time constant unit vector along the first axis of the 3D real space.
-    Multiplying a scalar by this record yields a @link(TR3Vector) scaled along @code(e₁).
-  }
-  TR3Versor1 = record
-    { Returns the vector @code(AValue · e₁) in @code(ℝ³). }
-    class operator *(const AValue: double; const ASelf: TR3Versor1): TR3Vector;
-  end;
-
-  { Represents the basis vector @code(e₂) of @code(ℝ³).
-    Acts as a compile-time constant unit vector along the second axis of the 3D real space.
-    Multiplying a scalar by this record yields a @link(TR3Vector) scaled along @code(e₂).
-  }
-  TR3Versor2 = record
-    { Returns the vector @code(AValue · e₂) in @code(ℝ³). }
-    class operator *(const AValue: double; const ASelf: TR3Versor2): TR3Vector;
-  end;
-
-  { Represents the basis vector @code(e₃) of @code(ℝ³).
-    Acts as a compile-time constant unit vector along the third axis of the 3D real space.
-    Multiplying a scalar by this record yields a @link(TR3Vector) scaled along @code(e₃).
-  }
-  TR3Versor3 = record
-    { Returns the vector @code(AValue · e₃) in @code(ℝ³). }
-    class operator *(const AValue: double; const ASelf: TR3Versor3): TR3Vector;
-  end;
-
-  { Represents the basis vector @code(e₁) of @code(ℝ⁴).
-    Acts as a compile-time constant unit vector along the first axis of the 4D real space.
-    Multiplying a scalar by this record yields a @link(TR4Vector) scaled along @code(e₁).
-  }
-  TR4Versor1 = record
-    { Returns the vector @code(AValue · e₁) in @code(ℝ⁴). }
-    class operator *(const AValue: double; const ASelf: TR4Versor1): TR4Vector;
-  end;
-
-  { Represents the basis vector @code(e₂) of @code(ℝ⁴).
-    Acts as a compile-time constant unit vector along the second axis of the 4D real space.
-    Multiplying a scalar by this record yields a @link(TR4Vector) scaled along @code(e₂).
-  }
-  TR4Versor2 = record
-    { Returns the vector @code(AValue · e₂) in @code(ℝ⁴). }
-    class operator *(const AValue: double; const ASelf: TR4Versor2): TR4Vector;
-  end;
-
-  { Represents the basis vector @code(e₃) of @code(ℝ⁴).
-    Acts as a compile-time constant unit vector along the third axis of the 4D real space.
-    Multiplying a scalar by this record yields a @link(TR4Vector) scaled along @code(e₃).
-  }
-  TR4Versor3 = record
-    { Returns the vector @code(AValue · e₃) in @code(ℝ⁴). }
-    class operator *(const AValue: double; const ASelf: TR4Versor3): TR4Vector;
-  end;
-
-  { Represents the basis vector @code(e₄) of @code(ℝ⁴).
-    Acts as a compile-time constant unit vector along the fourth axis of the 4D real space.
-    Multiplying a scalar by this record yields a @link(TR4Vector) scaled along @code(e₄).
-  }
-  TR4Versor4 = record
-    { Returns the vector @code(AValue · e₄) in @code(ℝ⁴). }
-    class operator *(const AValue: double; const ASelf: TR4Versor4): TR4Vector;
-  end;
-
   { External operator overloads for multiplying @link(TQuantity) scalars with
     dimensionless matrix types, producing the corresponding matrix quantity types.
 
@@ -4621,44 +3908,6 @@ type
 
     Only available when @code(ADIMOFF) is not defined.
   }
-  {$IFNDEF ADIMOFF}
-  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
-  operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
-
-  { Returns the 2×2 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
-  operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
-
-  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
-  operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
-
-  { Returns the 3×3 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
-  operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
-
-  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
-  operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
-
-  { Returns the 4×4 real matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
-  operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
-
-  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
-  operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
-
-  { Returns the 2×2 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
-  operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
-
-  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
-  operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
-
-  { Returns the 3×3 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
-  operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
-
-  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ALeft). } { @exclude }
-  operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
-
-  { Returns the 4×4 complex matrix quantity @code(ALeft · ARight). The dimension is taken from @code(ARight). } { @exclude }
-
-  operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
-  {$ENDIF}
 
   {$IFNDEF ADIMOFF}
   { Returns the square of the complex quantity @code(AQuantity).
@@ -5235,6 +4484,31 @@ end;
 // TComplexQuantity
 
 {$IFNDEF ADIMOFF}
+
+function TComplexQuantity.Conjugate: TComplexQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue := FValue.Conjugate;
+end;
+
+function TComplexQuantity.Reciprocal: TComplexQuantity;
+begin
+  result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TComplexQuantity.Norm: TQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue := FValue.Norm;
+end;
+
+function TComplexQuantity.SquaredNorm: TQuantity;
+begin
+  result.FDim := FDim *2;
+  result.FValue := FValue.SquaredNorm;
+end;
+
 class operator TComplexQuantity.:=(const AQuantity: TQuantity): TComplexQuantity;
 begin
   result.FDim := AQuantity.FDim;
@@ -5365,10 +4639,10 @@ end;
 // TRMatrixQuantity
 
 {$IFNDEF ADIMOFF}
-procedure TRMatrixQuantity.Put(ARow, ACol: longint; const AValue: TQuantity);
+
+function TRMatrixQuantity.GetSize: longint;
 begin
-  Check(FDim, AValue.FDim);
-  FValue[ARow, ACol] := AValue.FValue;
+  result := FValue.N;
 end;
 
 function TRMatrixQuantity.Get(ARow, ACol: longint): TQuantity;
@@ -5377,14 +4651,16 @@ begin
   result.FValue := FValue[ARow, ACol];
 end;
 
+procedure TRMatrixQuantity.Put(ARow, ACol: longint; const AValue: TQuantity);
+begin
+  Check(FDim, AValue.FDim);
+  FValue[ARow, ACol] := AValue.FValue;
+end;
+
 class operator TRMatrixQuantity.:=(const AMatrix: TRMatrix): TRMatrixQuantity;
-var
-  i, j: longint;
 begin
   result.FDim := ScalarUnit.FDim;
-  for i := 1 to TSpace.N do
-    for j := 1 to TSpace.N do
-      result.FValue[i, j] := AMatrix[i, j];
+  result.FValue := AMatrix;
 end;
 
 class operator TRMatrixQuantity.<>(const ALeft, ARight: TRMatrixQuantity): boolean;
@@ -5439,11 +4715,6 @@ end;
 // TCMatrixQuantity
 
 {$IFNDEF ADIMOFF}
-procedure TCMatrixQuantity.Put(ARow, ACol: longint; const AValue: TComplexQuantity);
-begin
-  Check(FDim, AValue.FDim);
-  FValue[ARow, ACol] := AValue.FValue;
-end;
 
 function TCMatrixQuantity.Get(ARow, ACol: longint): TComplexQuantity;
 begin
@@ -5451,14 +4722,16 @@ begin
   result.FValue := FValue[ARow, ACol];
 end;
 
+procedure TCMatrixQuantity.Put(ARow, ACol: longint; const AValue: TComplexQuantity);
+begin
+  Check(FDim, AValue.FDim);
+  FValue[ARow, ACol] := AValue.FValue;
+end;
+
 class operator TCMatrixQuantity.:=(const AMatrix: TCMatrix): TCMatrixQuantity;
-var
-  i, j: longint;
 begin
   result.FDim := ScalarUnit.FDim;
-  for i := 1 to TSpace.N do
-    for j := 1 to TSpace.N do
-      result.FValue[i, j] := AMatrix[i, j];
+  result.FValue := AMatrix;
 end;
 
 class operator TCMatrixQuantity.<>(const ALeft, ARight: TCMatrixQuantity): boolean;
@@ -5526,10 +4799,16 @@ begin
   FValue[ARow] := AQuantity.FValue;
 end;
 
+function TRVecQuantity.Cross(const AVector: TRVecQuantity): TRVecQuantity;
+begin
+  result.FDim := CheckMul(FDim, AVector.FDim);
+  result.FValue := FValue.Cross(AVector.FValue);
+end;
+
 function TRVecQuantity.Dot(const AVector: TRVecQuantity): TQuantity;
 begin
-
-
+  result.FDim := CheckMul(FDim, AVector.FDim);
+  result.FValue := FValue.Dot(AVector.FValue);
 end;
 
 function TRVecQuantity.Normalize: TRVecQuantity;
@@ -6563,15 +5842,6 @@ begin
 end;
 {$ENDIF}
 
-// TR3VecQuantityHelper
-
-{$IFNDEF ADIMOFF}
-function TR3VecQuantityHelper.Cross(const AVector: TR3VecQuantity): TR3VecQuantity;
-begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-//result.FValue := FValue.Cross(AVector.FValue);
-end;
-{$ENDIF}
 
 // TCL3MultivecQuantityHelper
 
@@ -7526,155 +6796,6 @@ begin
 end;
 {$ENDIF}
 
-// Versors
-
-class operator TR2Versor1.*(const AValue: double; const ASelf: TR2Versor1): TR2Vector;
-begin
-  result[1] := AValue;
-  result[2] := 0;
-end;
-
-class operator TR2Versor2.*(const AValue: double; const ASelf: TR2Versor2): TR2Vector;
-begin
-  result[1] := 0;
-  result[2] := AValue;
-end;
-
-class operator TR3Versor1.*(const AValue: double; const ASelf: TR3Versor1): TR3Vector;
-begin
-  result[1] := AValue;
-  result[2] := 0;
-  result[3] := 0;
-end;
-
-class operator TR3Versor2.*(const AValue: double; const ASelf: TR3Versor2): TR3Vector;
-begin
-  result[1] := 0;
-  result[2] := AValue;
-  result[3] := 0;
-end;
-
-class operator TR3Versor3.*(const AValue: double; const ASelf: TR3Versor3): TR3Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-  result[3] := AValue;
-end;
-
-class operator TR4Versor1.*(const AValue: double; const ASelf: TR4Versor1): TR4Vector;
-begin
-  result[1] := AValue;
-  result[2] := 0;
-  result[3] := 0;
-  result[4] := 0;
-end;
-
-class operator TR4Versor2.*(const AValue: double; const ASelf: TR4Versor2): TR4Vector;
-begin
-  result[1] := 0;
-  result[2] := AValue;
-  result[3] := 0;
-  result[4] := 0;
-end;
-
-class operator TR4Versor3.*(const AValue: double; const ASelf: TR4Versor3): TR4Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-  result[3] := AValue;
-  result[4] := 0;
-end;
-
-class operator TR4Versor4.*(const AValue: double; const ASelf: TR4Versor4): TR4Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-  result[3] := 0;
-  result[4] := AValue;
-end;
-
-// External operators
-
-{$IFNDEF ADIMOFF}
-operator * (const ALeft: TQuantity; const ARight: TR2Matrix): TR2MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TR2Matrix; const ARight: TQuantity): TR2MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TR3Matrix): TR3MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TR3Matrix; const ARight: TQuantity): TR3MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TR4Matrix): TR4MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TR4Matrix; const ARight: TQuantity): TR4MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TC2Matrix): TC2MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TC2Matrix; const ARight: TQuantity): TC2MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TC3Matrix): TC3MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TC3Matrix; const ARight: TQuantity): TC3MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-operator * (const ALeft: TQuantity; const ARight: TC4Matrix): TC4MatrixQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-operator * (const ALeft: TC4Matrix; const ARight: TQuantity): TC4MatrixQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-{$ENDIF}
-
-
-
-
-
-
-
 {$IFNDEF ADIMOFF}
 function SquarePower(const AQuantity: TComplexQuantity): TComplexQuantity;
 begin
@@ -7753,7 +6874,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
+class operator TUnit.*(const AVector: TRVector; const ASelf: TUnit): TRVecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7763,27 +6884,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AVector;
-{$ELSE}
-  result := AVector;
-{$ENDIF}
-end;
-
-class operator TUnit.*(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AVector;
-{$ELSE}
-  result := AVector;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AVector: TR2Vector; const ASelf: TUnit): TR2VecQuantity; inline;
+class operator TUnit./(const AVector: TRVector; const ASelf: TUnit): TRVecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -7793,27 +6894,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AVector: TR3Vector; const ASelf: TUnit): TR3VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AVector;
-{$ELSE}
-  result := AVector;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AVector: TR4Vector; const ASelf: TUnit): TR4VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AVector;
-{$ELSE}
-  result := AVector;
-{$ENDIF}
-end;
-
-class operator TUnit.*(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
+class operator TUnit.*(const AVector: TCVector; const ASelf: TUnit): TCVecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7823,27 +6904,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AVector;
-{$ELSE}
-  result := AVector;
-{$ENDIF}
-end;
-
-class operator TUnit.*(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AVector;
-{$ELSE}
-  result := AVector;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AVector: TC2Vector; const ASelf: TUnit): TC2VecQuantity; inline;
+class operator TUnit./(const AVector: TCVector; const ASelf: TUnit): TCVecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -7853,27 +6914,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AVector: TC3Vector; const ASelf: TUnit): TC3VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AVector;
-{$ELSE}
-  result := AVector;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AVector: TC4Vector; const ASelf: TUnit): TC4VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AVector;
-{$ELSE}
-  result := AVector;
-{$ENDIF}
-end;
-
-class operator TUnit.*(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
+class operator TUnit.*(const AMatrix: TRMatrix; const ASelf: TUnit): TRMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7883,27 +6924,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AMatrix;
-{$ELSE}
-  result := AMatrix;
-{$ENDIF}
-end;
-
-class operator TUnit.*(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AMatrix;
-{$ELSE}
-  result := AMatrix;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AMatrix: TR2Matrix; const ASelf: TUnit): TR2MatrixQuantity; inline;
+class operator TUnit./(const AMatrix: TRMatrix; const ASelf: TUnit): TRMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -7913,27 +6934,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AMatrix: TR3Matrix; const ASelf: TUnit): TR3MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AMatrix;
-{$ELSE}
-  result := AMatrix;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AMatrix: TR4Matrix; const ASelf: TUnit): TR4MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AMatrix;
-{$ELSE}
-  result := AMatrix;
-{$ENDIF}
-end;
-
-class operator TUnit.*(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
+class operator TUnit.*(const AMatrix: TCMatrix; const ASelf: TUnit): TCMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7943,47 +6944,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AMatrix;
-{$ELSE}
-  result := AMatrix;
-{$ENDIF}
-end;
-
-class operator TUnit.*(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AMatrix;
-{$ELSE}
-  result := AMatrix;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AMatrix: TC2Matrix; const ASelf: TUnit): TC2MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AMatrix;
-{$ELSE}
-  result := AMatrix;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AMatrix: TC3Matrix; const ASelf: TUnit): TC3MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AMatrix;
-{$ELSE}
-  result := AMatrix;
-{$ENDIF}
-end;
-
-class operator TUnit./(const AMatrix: TC4Matrix; const ASelf: TUnit): TC4MatrixQuantity; inline;
+class operator TUnit./(const AMatrix: TCMatrix; const ASelf: TUnit): TCMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -8111,145 +7072,49 @@ begin
   result.FValue := AQuantity.FValue.Reciprocal;
 end;
 
-class operator TUnit.*(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
+class operator TUnit.*(const AQuantity: TRVecQuantity; const ASelf: TUnit): TRVecQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit.*(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TR2VecQuantity; const ASelf: TUnit): TR2VecQuantity; inline;
+class operator TUnit./(const AQuantity: TRVecQuantity; const ASelf: TUnit): TRVecQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TR3VecQuantity; const ASelf: TUnit): TR3VecQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TR4VecQuantity; const ASelf: TUnit): TR4VecQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit.*(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
+class operator TUnit.*(const AQuantity: TCVecQuantity; const ASelf: TUnit): TCVecQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit.*(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TC2VecQuantity; const ASelf: TUnit): TC2VecQuantity; inline;
+class operator TUnit./(const AQuantity: TCVecQuantity; const ASelf: TUnit): TCVecQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TC3VecQuantity; const ASelf: TUnit): TC3VecQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TC4VecQuantity; const ASelf: TUnit): TC4VecQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit.*(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
+class operator TUnit.*(const AQuantity: TRMatrixQuantity; const ASelf: TUnit): TRMatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit.*(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TR2MatrixQuantity; const ASelf: TUnit): TR2MatrixQuantity; inline;
+class operator TUnit./(const AQuantity: TRMatrixQuantity; const ASelf: TUnit): TRMatrixQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TR3MatrixQuantity; const ASelf: TUnit): TR3MatrixQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TR4MatrixQuantity; const ASelf: TUnit): TR4MatrixQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit.*(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
+class operator TUnit.*(const AQuantity: TCMatrixQuantity; const ASelf: TUnit): TCMatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit.*(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TC2MatrixQuantity; const ASelf: TUnit): TC2MatrixQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TC3MatrixQuantity; const ASelf: TUnit): TC3MatrixQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TUnit./(const AQuantity: TC4MatrixQuantity; const ASelf: TUnit): TC4MatrixQuantity; inline;
+class operator TUnit./(const AQuantity: TCMatrixQuantity; const ASelf: TUnit): TCMatrixQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
@@ -8346,7 +7211,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+class operator TFactoredUnit.*(const AVector: TRVector; const ASelf: TFactoredUnit): TRVecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -8356,7 +7221,17 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
+class operator TFactoredUnit./(const AVector: TRVector; const ASelf: TFactoredUnit): TRVecQuantity; inline;
+begin
+{$IFNDEF ADIMOFF}
+  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
+  result.FValue := AVector / ASelf.FFactor;
+{$ELSE}
+  result := AVector / ASelf.FFactor;
+{$ENDIF}
+end;
+
+class operator TFactoredUnit.*(const AVector: TCVector; const ASelf: TFactoredUnit): TCVecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -8366,17 +7241,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AVector * ASelf.FFactor;
-{$ELSE}
-  result := AVector * ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AVector: TR2Vector; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+class operator TFactoredUnit./(const AVector: TCVector; const ASelf: TFactoredUnit): TCVecQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -8386,87 +7251,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AVector: TR3Vector; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AVector / ASelf.FFactor;
-{$ELSE}
-  result := AVector / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AVector: TR4Vector; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AVector / ASelf.FFactor;
-{$ELSE}
-  result := AVector / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit.*(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AVector * ASelf.FFactor;
-{$ELSE}
-  result := AVector * ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit.*(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AVector * ASelf.FFactor;
-{$ELSE}
-  result := AVector * ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit.*(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AVector * ASelf.FFactor;
-{$ELSE}
-  result := AVector * ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AVector: TC2Vector; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AVector / ASelf.FFactor;
-{$ELSE}
-  result := AVector / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AVector: TC3Vector; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AVector / ASelf.FFactor;
-{$ELSE}
-  result := AVector / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AVector: TC4Vector; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AVector / ASelf.FFactor;
-{$ELSE}
-  result := AVector / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit.*(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+class operator TFactoredUnit.*(const AMatrix: TRMatrix; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -8476,27 +7261,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AMatrix * ASelf.FFactor;
-{$ELSE}
-  result := AMatrix * ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit.*(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AMatrix * ASelf.FFactor;
-{$ELSE}
-  result := AMatrix * ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AMatrix: TR2Matrix; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
+class operator TFactoredUnit./(const AMatrix: TRMatrix; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -8506,27 +7271,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AMatrix: TR3Matrix; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AMatrix / ASelf.FFactor;
-{$ELSE}
-  result := AMatrix / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AMatrix: TR4Matrix; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AMatrix / ASelf.FFactor;
-{$ELSE}
-  result := AMatrix / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit.*(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
+class operator TFactoredUnit.*(const AMatrix: TCMatrix; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -8536,47 +7281,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AMatrix * ASelf.FFactor;
-{$ELSE}
-  result := AMatrix * ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit.*(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := ASelf.FDim;
-  result.FValue := AMatrix * ASelf.FFactor;
-{$ELSE}
-  result := AMatrix * ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AMatrix: TC2Matrix; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AMatrix / ASelf.FFactor;
-{$ELSE}
-  result := AMatrix / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AMatrix: TC3Matrix; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
-begin
-{$IFNDEF ADIMOFF}
-  result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
-  result.FValue := AMatrix / ASelf.FFactor;
-{$ELSE}
-  result := AMatrix / ASelf.FFactor;
-{$ENDIF}
-end;
-
-class operator TFactoredUnit./(const AMatrix: TC4Matrix; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+class operator TFactoredUnit./(const AMatrix: TCMatrix; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -8692,145 +7397,49 @@ begin
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TRVecQuantity; const ASelf: TFactoredUnit): TRVecQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TR2VecQuantity; const ASelf: TFactoredUnit): TR2VecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TRVecQuantity; const ASelf: TFactoredUnit): TRVecQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TCVecQuantity; const ASelf: TFactoredUnit): TCVecQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TR3VecQuantity; const ASelf: TFactoredUnit): TR3VecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TCVecQuantity; const ASelf: TFactoredUnit): TCVecQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TRMatrixQuantity; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TR4VecQuantity; const ASelf: TFactoredUnit): TR4VecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TRMatrixQuantity; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TCMatrixQuantity; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TC2VecQuantity; const ASelf: TFactoredUnit): TC2VecQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue / ASelf.FFactor;
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
-class operator TFactoredUnit./(const AQuantity: TC3VecQuantity; const ASelf: TFactoredUnit): TC3VecQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue / ASelf.FFactor;
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
-class operator TFactoredUnit./(const AQuantity: TC4VecQuantity; const ASelf: TFactoredUnit): TC4VecQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue / ASelf.FFactor;
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
-class operator TFactoredUnit./(const AQuantity: TR2MatrixQuantity; const ASelf: TFactoredUnit): TR2MatrixQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue / ASelf.FFactor;
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
-class operator TFactoredUnit./(const AQuantity: TR3MatrixQuantity; const ASelf: TFactoredUnit): TR3MatrixQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue / ASelf.FFactor;
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
-class operator TFactoredUnit./(const AQuantity: TR4MatrixQuantity; const ASelf: TFactoredUnit): TR4MatrixQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue / ASelf.FFactor;
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
-class operator TFactoredUnit./(const AQuantity: TC2MatrixQuantity; const ASelf: TFactoredUnit): TC2MatrixQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue / ASelf.FFactor;
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
-class operator TFactoredUnit./(const AQuantity: TC3MatrixQuantity; const ASelf: TFactoredUnit): TC3MatrixQuantity; inline;
-begin
-  result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue / ASelf.FFactor;
-end;
-
-class operator TFactoredUnit.*(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
-begin
-  result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
-  result.FValue := AQuantity.FValue * ASelf.FFactor;
-end;
-
-class operator TFactoredUnit./(const AQuantity: TC4MatrixQuantity; const ASelf: TFactoredUnit): TC4MatrixQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TCMatrixQuantity; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
@@ -9096,49 +7705,19 @@ begin
   result.Im := GetValue(AQuantity.Im, APrefixes);
 end;
 
-function TUnitHelper.GetValue(const AQuantity: TR2Vector; const APrefixes: TPrefixes): TR2Vector;
+function TUnitHelper.GetValue(const AQuantity: TRVector; const APrefixes: TPrefixes): TRVector;
 begin
   result[1] := GetValue(AQuantity[1], APrefixes);
   result[2] := GetValue(AQuantity[2], APrefixes);
 end;
 
-function TUnitHelper.GetValue(const AQuantity: TR3Vector; const APrefixes: TPrefixes): TR3Vector;
-begin
-  result[1] := GetValue(AQuantity[1], APrefixes);
-  result[2] := GetValue(AQuantity[2], APrefixes);
-  result[3] := GetValue(AQuantity[3], APrefixes);
-end;
-
-function TUnitHelper.GetValue(const AQuantity: TR4Vector; const APrefixes: TPrefixes): TR4Vector;
-begin
-  result[1] := GetValue(AQuantity[1], APrefixes);
-  result[2] := GetValue(AQuantity[2], APrefixes);
-  result[3] := GetValue(AQuantity[3], APrefixes);
-  result[4] := GetValue(AQuantity[4], APrefixes);
-end;
-
-function TUnitHelper.GetValue(const AQuantity: TC2Vector; const APrefixes: TPrefixes): TC2Vector;
+function TUnitHelper.GetValue(const AQuantity: TCVector; const APrefixes: TPrefixes): TCVector;
 begin
   result[1] := GetValue(AQuantity[1], APrefixes);
   result[2] := GetValue(AQuantity[2], APrefixes);
 end;
 
-function TUnitHelper.GetValue(const AQuantity: TC3Vector; const APrefixes: TPrefixes): TC3Vector;
-begin
-  result[1] := GetValue(AQuantity[1], APrefixes);
-  result[2] := GetValue(AQuantity[2], APrefixes);
-  result[3] := GetValue(AQuantity[3], APrefixes);
-end;
-
-function TUnitHelper.GetValue(const AQuantity: TC4Vector; const APrefixes: TPrefixes): TC4Vector;
-begin
-  result[1] := GetValue(AQuantity[1], APrefixes);
-  result[2] := GetValue(AQuantity[2], APrefixes);
-  result[3] := GetValue(AQuantity[3], APrefixes);
-  result[4] := GetValue(AQuantity[4], APrefixes);
-end;
-
-function TUnitHelper.GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
+function TUnitHelper.GetValue(const AQuantity: TRMatrix; const APrefixes: TPrefixes): TRMatrix;
 var
   i, j: longint;
 begin
@@ -9147,48 +7726,12 @@ begin
       result[i,j] := GetValue(AQuantity[i,j], APrefixes);
 end;
 
-function TUnitHelper.GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to 3 do
-    for j := 1 to 3 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
-end;
-
-function TUnitHelper.GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to 4 do
-    for j := 1 to 4 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
-end;
-
-function TUnitHelper.GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
+function TUnitHelper.GetValue(const AQuantity: TCMatrix; const APrefixes: TPrefixes): TCMatrix;
 var
   i, j: longint;
 begin
   for i := 1 to 2 do
     for j := 1 to 2 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
-end;
-
-function TUnitHelper.GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to 3 do
-    for j := 1 to 3 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
-end;
-
-function TUnitHelper.GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to 4 do
-    for j := 1 to 4 do
       result[i,j] := GetValue(AQuantity[i,j], APrefixes);
 end;
 
@@ -9513,7 +8056,7 @@ begin
     result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
+function TUnitHelper.ToVector(const AQuantity: TRVecQuantity): TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9523,27 +8066,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVector(const AQuantity: TR4VecQuantity): TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
+function TUnitHelper.ToVector(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9553,27 +8076,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity, APrefixes);;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity, APrefixes);;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TR2VecQuantity): string;
+function TUnitHelper.ToString(const AQuantity: TRVecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9583,29 +8086,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TR3VecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TR4VecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TR2Vector;
+  FactoredValue: TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9620,41 +8103,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
-end;
-
-function TUnitHelper.ToString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TR2VecQuantity): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRVecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9664,29 +8113,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TR3VecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TR4VecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TR2Vector;
+  FactoredValue: TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9701,41 +8130,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
-end;
-
-function TUnitHelper.ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
+function TUnitHelper.ToVector(const AQuantity: TCVecQuantity): TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9745,27 +8140,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVector(const AQuantity: TC3VecQuantity): TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVector(const AQuantity: TC4VecQuantity): TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVector(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): TC2Vector;
+function TUnitHelper.ToVector(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9775,27 +8150,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVector(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity, APrefixes);;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVector(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity, APrefixes);;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TC2VecQuantity): string;
+function TUnitHelper.ToString(const AQuantity: TCVecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9805,29 +8160,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TC3VecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TC4VecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TC2Vector;
+  FactoredValue: TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9842,41 +8177,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
-end;
-
-function TUnitHelper.ToString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC2VecQuantity): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TCVecQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9886,29 +8187,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TC3VecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC4VecQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TC2Vector;
+  FactoredValue: TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9923,41 +8204,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
-end;
-
-function TUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
+function TUnitHelper.ToMatrix(const AQuantity: TRMatrixQuantity): TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9967,27 +8214,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
+function TUnitHelper.ToMatrix(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9997,27 +8224,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity, APrefixes);;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity, APrefixes);;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TR2MatrixQuantity): string;
+function TUnitHelper.ToString(const AQuantity: TRMatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10027,29 +8234,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TR3MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TR4MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue : TR2Matrix;
+  FactoredValue : TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10064,41 +8251,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue : TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
-end;
-
-function TUnitHelper.ToString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue : TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRMatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10108,29 +8261,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TR2Matrix;
+  FactoredValue: TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10145,41 +8278,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
-end;
-
-function TUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
+function TUnitHelper.ToMatrix(const AQuantity: TCMatrixQuantity): TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10189,27 +8288,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue;
-{$ELSE}
-  result := AQuantity;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
+function TUnitHelper.ToMatrix(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10219,27 +8298,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity, APrefixes);;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity, APrefixes);;
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TC2MatrixQuantity): string;
+function TUnitHelper.ToString(const AQuantity: TCMatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10249,29 +8308,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TC3MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TC4MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetSymbol(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetSymbol(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue : TC2Matrix;
+  FactoredValue : TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10286,41 +8325,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue : TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
-end;
-
-function TUnitHelper.ToString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue : TC4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-     result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TCMatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10330,63 +8335,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue.ToString + ' ' + GetName(FPrefixes)
-{$ELSE}
-  result := AQuantity.ToString + ' ' + GetName(FPrefixes)
-{$ENDIF}
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TC2Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPRefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
-end;
-
-function TUnitHelper.ToVerboseString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC4Matrix;
+  FactoredValue: TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10767,11 +8718,11 @@ end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
 begin
-  result.FRe := GetValue(AQuantity.FRe, APrefixes);
-  result.FIm := GetValue(AQuantity.FIm, APrefixes);
+  result.Re := GetValue(AQuantity.Re, APrefixes);
+  result.Im := GetValue(AQuantity.Im, APrefixes);
 end;
 
-function TFactoredUnitHelper.GetValue(const AQuantity: TR2Vector; const APrefixes: TPrefixes): TR2Vector;
+function TFactoredUnitHelper.GetValue(const AQuantity: TRVector; const APrefixes: TPrefixes): TRVector;
 var
   i: longint;
 begin
@@ -10779,23 +8730,7 @@ begin
     result[i] := GetValue(AQuantity[i], APrefixes);
 end;
 
-function TFactoredUnitHelper.GetValue(const AQuantity: TR3Vector; const APrefixes: TPrefixes): TR3Vector;
-var
-  i: longint;
-begin
-  for i := 1 to 3 do
-    result[i] := GetValue(AQuantity[i], APrefixes);
-end;
-
-function TFactoredUnitHelper.GetValue(const AQuantity: TR4Vector; const APrefixes: TPrefixes): TR4Vector;
-var
-  i: longint;
-begin
-  for i := 1 to 4 do
-    result[i] := GetValue(AQuantity[i], APrefixes);
-end;
-
-function TFactoredUnitHelper.GetValue(const AQuantity: TC2Vector; const APrefixes: TPrefixes): TC2Vector;
+function TFactoredUnitHelper.GetValue(const AQuantity: TCVector; const APrefixes: TPrefixes): TCVector;
 var
   i: longint;
 begin
@@ -10803,23 +8738,7 @@ begin
     result[i] := GetValue(AQuantity[i], APrefixes);
 end;
 
-function TFactoredUnitHelper.GetValue(const AQuantity: TC3Vector; const APrefixes: TPrefixes): TC3Vector;
-var
-  i: longint;
-begin
-  for i := 1 to 3 do
-    result[i] := GetValue(AQuantity[i], APrefixes);
-end;
-
-function TFactoredUnitHelper.GetValue(const AQuantity: TC4Vector; const APrefixes: TPrefixes): TC4Vector;
-var
-  i: longint;
-begin
-  for i := 1 to 4 do
-    result[i] := GetValue(AQuantity[i], APrefixes);
-end;
-
-function TFactoredUnitHelper.GetValue(const AQuantity: TR2Matrix; const APrefixes: TPrefixes): TR2Matrix;
+function TFactoredUnitHelper.GetValue(const AQuantity: TRMatrix; const APrefixes: TPrefixes): TRMatrix;
 var
   i, j: longint;
 begin
@@ -10828,80 +8747,44 @@ begin
       result[i,j] := GetValue(AQuantity[i,j], APrefixes);
 end;
 
-function TFactoredUnitHelper.GetValue(const AQuantity: TR3Matrix; const APrefixes: TPrefixes): TR3Matrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to 3 do
-    for j := 1 to 3 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
-end;
-
-function TFactoredUnitHelper.GetValue(const AQuantity: TR4Matrix; const APrefixes: TPrefixes): TR4Matrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to 4 do
-    for j := 1 to 4 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
-end;
-
-function TFactoredUnitHelper.GetValue(const AQuantity: TC2Matrix; const APrefixes: TPrefixes): TC2Matrix;
+function TFactoredUnitHelper.GetValue(const AQuantity: TCMatrix; const APrefixes: TPrefixes): TCMatrix;
 var
   i, j: longint;
 begin
   for i := 1 to 2 do
     for j := 1 to 2 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
-end;
-
-function TFactoredUnitHelper.GetValue(const AQuantity: TC3Matrix; const APrefixes: TPrefixes): TC3Matrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to 3 do
-    for j := 1 to 3 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
-end;
-
-function TFactoredUnitHelper.GetValue(const AQuantity: TC4Matrix; const APrefixes: TPrefixes): TC4Matrix;
-var
-  i, j: longint;
-begin
-  for i := 1 to 4 do
-    for j := 1 to 4 do
       result[i,j] := GetValue(AQuantity[i,j], APrefixes);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TCL3Vector; const APrefixes: TPrefixes): TCL3Vector;
 begin
-  result.fm1 := GetValue(AQuantity.fm1, APrefixes);
-  result.fm2 := GetValue(AQuantity.fm2, APrefixes);
-  result.fm3 := GetValue(AQuantity.fm3, APrefixes);
+  result.m1 := GetValue(AQuantity.m1, APrefixes);
+  result.m2 := GetValue(AQuantity.m2, APrefixes);
+  result.m3 := GetValue(AQuantity.m3, APrefixes);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TCL3Bivector; const APrefixes: TPrefixes): TCL3Bivector;
 begin
-  result.fm12 := GetValue(AQuantity.fm12, APrefixes);
-  result.fm13 := GetValue(AQuantity.fm13, APrefixes);
-  result.fm23 := GetValue(AQuantity.fm23, APrefixes);
+  result.m12 := GetValue(AQuantity.m12, APrefixes);
+  result.m13 := GetValue(AQuantity.m13, APrefixes);
+  result.m23 := GetValue(AQuantity.m23, APrefixes);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TCL3Trivector; const APrefixes: TPrefixes): TCL3Trivector;
 begin
-  result.fm123 := GetValue(AQuantity.fm123, APrefixes);
+  result.m123 := GetValue(AQuantity.m123, APrefixes);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TCL3Multivector; const APrefixes: TPrefixes): TCL3Multivector;
 begin
-  result.fm0 := GetValue(AQuantity.fm0, APrefixes);
-  result.fm1 := GetValue(AQuantity.fm1, APrefixes);
-  result.fm2 := GetValue(AQuantity.fm2, APrefixes);
-  result.fm3 := GetValue(AQuantity.fm3, APrefixes);
-  result.fm12 := GetValue(AQuantity.fm12, APrefixes);
-  result.fm13 := GetValue(AQuantity.fm13, APrefixes);
-  result.fm23 := GetValue(AQuantity.fm23, APrefixes);
-  result.fm123 := GetValue(AQuantity.fm123, APrefixes);
+  result.m0   := GetValue(AQuantity.m0,   APrefixes);
+  result.m1   := GetValue(AQuantity.m1,   APrefixes);
+  result.m2   := GetValue(AQuantity.m2,   APrefixes);
+  result.m3   := GetValue(AQuantity.m3,   APrefixes);
+  result.m12  := GetValue(AQuantity.m12,  APrefixes);
+  result.m13  := GetValue(AQuantity.m13,  APrefixes);
+  result.m23  := GetValue(AQuantity.m23,  APrefixes);
+  result.m123 := GetValue(AQuantity.m123, APrefixes);
 end;
 
 function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
@@ -11201,7 +9084,7 @@ begin
     result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetPluralName(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToVector(const AQuantity: TR2VecQuantity): TR2Vector;
+function TFactoredUnitHelper.ToVector(const AQuantity: TRVecQuantity): TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11211,27 +9094,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToVector(const AQuantity: TR3VecQuantity): TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue / FFactor;
-{$ELSE}
-  result := AQuantity / FFactor;
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToVector(const AQuantity: TR4VecQuantity): TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue / FFactor;
-{$ELSE}
-  result := AQuantity / FFactor;
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToVector(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): TR2Vector;
+function TFactoredUnitHelper.ToVector(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11241,29 +9104,9 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToVector(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToVector(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TR2VecQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRVecQuantity): string;
 var
-  FactoredValue: TR2Vector;
+  FactoredValue: TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11274,35 +9117,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TR3VecQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TR4VecQuantity): string;
-var
-  FactoredValue: TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR2Vector;
+  FactoredValue: TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11313,35 +9130,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRVecQuantity): string;
 var
-  FactoredValue: TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR2VecQuantity): string;
-var
-  FactoredValue: TR2Vector;
+  FactoredValue: TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11352,35 +9143,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR3VecQuantity): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR4VecQuantity): string;
-var
-  FactoredValue: TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR2VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR2Vector;
+  FactoredValue: TRVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11395,41 +9160,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR3VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR4VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
-end;
-
-function TFactoredUnitHelper.ToVector(const AQuantity: TC2VecQuantity): TC2Vector;
+function TFactoredUnitHelper.ToVector(const AQuantity: TCVecQuantity): TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11439,27 +9170,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToVector(const AQuantity: TC3VecQuantity): TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue / FFactor;
-{$ELSE}
-  result := AQuantity / FFactor;
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToVector(const AQuantity: TC4VecQuantity): TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue / FFactor;
-{$ELSE}
-  result := AQuantity / FFactor;
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToVector(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): TC2Vector;
+function TFactoredUnitHelper.ToVector(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11469,29 +9180,9 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToVector(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToVector(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TC2VecQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TCVecQuantity): string;
 var
-  FactoredValue: TC2Vector;
+  FactoredValue: TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11502,35 +9193,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TC3VecQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TC4VecQuantity): string;
-var
-  FactoredValue: TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC2Vector;
+  FactoredValue: TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11541,35 +9206,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCVecQuantity): string;
 var
-  FactoredValue: TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC2VecQuantity): string;
-var
-  FactoredValue: TC2Vector;
+  FactoredValue: TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11580,35 +9219,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC3VecQuantity): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC4VecQuantity): string;
-var
-  FactoredValue: TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC2VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC2Vector;
+  FactoredValue: TCVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11623,41 +9236,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC3VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC3Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC4VecQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC4Vector;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
-end;
-
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity): TR2Matrix;
+function TFactoredUnitHelper.ToMatrix(const AQuantity: TRMatrixQuantity): TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11667,27 +9246,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity): TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue / FFactor;
-{$ELSE}
-  result := AQuantity / FFactor;
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity): TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue / FFactor;
-{$ELSE}
-  result := AQuantity / FFactor;
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): TR2Matrix;
+function TFactoredUnitHelper.ToMatrix(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11697,29 +9256,9 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TR2MatrixQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRMatrixQuantity): string;
 var
-  FactoredValue: TR2Matrix;
+  FactoredValue: TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11730,35 +9269,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TR3MatrixQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TR4MatrixQuantity): string;
-var
-  FactoredValue: TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR2Matrix;
+  FactoredValue: TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11769,35 +9282,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRMatrixQuantity): string;
 var
-  FactoredValue: TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR2MatrixQuantity): string;
-var
-  FactoredValue: TR2Matrix;
+  FactoredValue: TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11808,35 +9295,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR3MatrixQuantity): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR4MatrixQuantity): string;
-var
-  FactoredValue: TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR2MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR2Matrix;
+  FactoredValue: TRMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11851,41 +9312,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR3MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TR4MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TR4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
-end;
-
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity): TC2Matrix;
+function TFactoredUnitHelper.ToMatrix(const AQuantity: TCMatrixQuantity): TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11895,27 +9322,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity): TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue / FFactor;
-{$ELSE}
-  result := AQuantity / FFactor;
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity): TC4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue / FFactor;
-{$ELSE}
-  result := AQuantity / FFactor;
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): TC2Matrix;
+function TFactoredUnitHelper.ToMatrix(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11925,29 +9332,9 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): TC4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  result := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TC2MatrixQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TCMatrixQuantity): string;
 var
-  FactoredValue: TC2Matrix;
+  FactoredValue: TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11958,35 +9345,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TC3MatrixQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TC4MatrixQuantity): string;
-var
-  FactoredValue: TC4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC2Matrix;
+  FactoredValue: TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -11997,35 +9358,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCMatrixQuantity): string;
 var
-  FactoredValue: TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity): string;
-var
-  FactoredValue: TC2Matrix;
+  FactoredValue: TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -12036,69 +9371,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC3MatrixQuantity): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC4MatrixQuantity): string;
-var
-  FactoredValue: TC4Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue / FFactor;
-{$ELSE}
-  FactoredValue := AQuantity / FFactor;
-{$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC2MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC2Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC3MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC3Matrix;
-begin
-{$IFNDEF ADIMOFF}
-  Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
-{$ELSE}
-  FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
-{$ENDIF}
-
-  if Length(APrefixes) = 0 then
-    result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
-  else
-    result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
-end;
-
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TC4MatrixQuantity; const APrefixes: TPrefixes): string;
-var
-  FactoredValue: TC4Matrix;
+  FactoredValue: TCMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -13176,28 +10451,6 @@ begin
 {$ELSE}
   result := AQuantity > 0;
 {$ENDIF}
-end;
-
-function NullComplex: TComplex;
-begin
-  result.FRe := 0;
-  result.FIm := 0;
-end;
-
-function C3NullVector: TC3Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-  result[3] := 0;
-end;
-
-function C4NullVector: TC4Vector;
-begin
-  result[1] := 0;
-  result[2] := 0;
-
-  result[3] := 0;
-  result[4] := 0;
 end;
 
 function CheckEqual(ALeft, ARight: TDimension): TDimension;
