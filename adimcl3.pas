@@ -46,7 +46,7 @@ unit ADimCL3;
 interface
 
 uses
-  ADimR, ADimC, ADimRes, ADimCommon;
+  ADimMath, ADimRes, ADimCommon;
 
 type
   { Enumeration of the eight basis blade components of a multivector in the
