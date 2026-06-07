@@ -251,10 +251,14 @@ type
   }
   generic TMatrix<T> = record
   type
+    { Two-dimensional dynamic array of @code(T), used as row-major element storage. }
     TArrayOfArrayOfT = array of array of T;
+    { One-dimensional dynamic array of @code(T). }
     TArrayOfT = array of T;
   private
+    { Row-major storage of the matrix elements. }
     fm: TArrayOfArrayOfT;
+    { Number of rows and columns of the matrix. }
     fOrder: longint;
 
     { Reads the element at position (@code(ARow), @code(ACol)). }
@@ -291,6 +295,9 @@ type
       @param(R Upper triangular matrix.)
     }
     procedure QRDecompose(out Q, R: TMatrix);
+
+    { Returns the matrix product @code(Self · ARight). }
+    function Multiply(const ARight: TMatrix): TMatrix;
 
   public
     { Sets the matrix to @code(N × N) and resets all elements to zero, in place. }
@@ -362,9 +369,7 @@ type
     }
     function Trace: T;
 
-    { Returns a deep copy of the matrix.
-      Required because dynamic array assignment copies only the reference.
-    }
+    { Returns an independent copy of the matrix with its own storage. }
     function Clone: TMatrix;
 
     { Returns the transpose of the matrix.
@@ -405,14 +410,15 @@ type
     }
     function ToString(APrecision, ADigits: integer): string;
 
-    { Management operator: zero-initialises a new matrix (empty, order 0). }
+    { Initialises a new matrix to an empty state with order 0. }
     class operator Initialize(var ASelf: TMatrix);
 
-    { Management operator: releases the dynamic storage when the matrix goes out of scope. }
+    { Releases the dynamic storage of the matrix. }
     class operator Finalize(var ASelf: TMatrix);
 
-    { Management operator: performs a deep copy on assignment, so each matrix owns
-      independent storage. }
+    { Performs a deep copy on assignment so that each matrix variable
+      owns independent storage.
+    }
     class operator Copy(constref ASrc: TMatrix; var ADst: TMatrix);
 
     { Returns @true if the two matrices differ in at least one element. }
@@ -460,10 +466,14 @@ type
   }
   generic TVector<T> = record
   type
+    { Square matrix of the same element type, used in matrix-vector products. }
     TMatrix = specialize TMatrix<T>;
+    { One-dimensional dynamic array of @code(T). }
     TArrayOfT = array of T;
   private
+    { Storage of the vector components. }
     fm: TArrayOfT;
+    { Number of components of the vector. }
     fOrder: longint;
 
     { Reads the component at position @code(ARow). }
@@ -526,13 +536,15 @@ type
     { Converts the vector to its default string representation. }
     function ToString: string;
 
-    { Management operator: zero-initialises a new vector (empty, size 0). }
+    { Initialises a new vector to an empty state with size 0. }
     class operator Initialize(var ASelf: TVector);
 
-    { Management operator: releases the dynamic storage when the vector goes out of scope. }
+    { Releases the dynamic storage of the vector. }
     class operator Finalize(var ASelf: TVector);
 
-    { Management operator: performs a deep copy on assignment, so each vector owns independent storage. }
+    { Performs a deep copy on assignment so that each vector variable
+      owns independent storage.
+    }
     class operator Copy(constref ASrc: TVector; var ADst: TVector);
 
     { Returns @true if all corresponding components of the two vectors are equal. }
@@ -575,8 +587,9 @@ type
 
     { Returns @code(ALeft) scaled by the dual of @code(ARight):
       each component of the result is @code(ALeft · vᵢ / |v|²).
+      @exclude Not supported as operator overload; use @code(ALeft * ARight.Reciprocal).
     }
-    class operator /(const ALeft: T; const ARight: TVector): TVector;
+    //class operator /(const ALeft: T; const ARight: TVector): TVector;
 
     { Provides access to individual vector components using a 0-based index.
       @code(a[0]) is the first component.
@@ -587,30 +600,50 @@ type
     property Order: longint read fOrder;
   end;
 
+  { @link(TMatrix) specialised for real (@code(double)) elements. }
   TRMatrix = specialize TMatrix<double>;
 
+  { Extends @link(TRMatrix) with operations specific to real matrices. }
   TRMatrixHelper = record helper for TRMatrix
+    { Returns @true if the matrix is orthogonal, i.e. @code(Aᵀ · A = I). }
     function IsUnitary: boolean;
   end;
 
+  { @link(TMatrix) specialised for complex (@link(TComplex)) elements. }
   TCMatrix = specialize TMatrix<TComplex>;
 
+  { Extends @link(TCMatrix) with operations specific to complex matrices. }
   TCMatrixHelper = record helper for TCMatrix
+    { Returns the element-wise complex conjugate of the matrix:
+      each element @code(a[i,j]) is replaced by @code(a[i,j]*).
+    }
+    function Conjugate: TCMatrix;
+    { Returns the conjugate transpose (Hermitian adjoint) of the matrix:
+      @code(Aᴴ[i,j] = A[j,i]*).
+    }
     function TransposeConjugate: TCMatrix;
+    { Returns @true if the matrix is unitary, i.e. @code(Aᴴ · A = I). }
     function IsUnitary: boolean;
   end;
 
+  { @link(TVector) specialised for real (@code(double)) components. }
   TRVector = specialize TVector<double>;
 
+  { Extends @link(TRVector) with operations specific to real vectors. }
   TRVectorHelper = record helper for TRVector
 
   end;
 
+  { @link(TVector) specialised for complex (@link(TComplex)) components. }
   TCVector = specialize TVector<TComplex>;
 
+  { Extends @link(TCVector) with operations specific to complex vectors. }
   TCVectorHelper = record helper for TCVector
 
   end;
+
+{ Constructs a @link(TComplex) from real and imaginary parts. }
+function Complex(const ARe, AIm: double): TComplex;
 
 { Returns the absolute value of a real number. }
 function Abs(const AValue: double): double;
@@ -631,21 +664,73 @@ function SolveEquation(const a: double): double;
 function SolveEquation(const a: TComplex): TComplex;
 
 
+{ Returns the square of a real number: @code(x²). }
 function SquareNorm(const AValue: double): double;
+{ Returns the squared modulus of a complex number: @code(|z|² = Re² + Im²). }
 function SquareNorm(const AValue: TComplex): double;
 
-
+{ Returns the absolute value of a real number: @code(|x| = x). }
 function Norm(const AValue: double): double;
+{ Returns the modulus of a complex number: @code(|z| = √(Re² + Im²)). }
 function Norm(const AValue: TComplex): double;
 
+{ Converts a real number to its default string representation. }
 function FloatToStrF(const AValue: double): string;
+{ Converts a complex number to its default string representation. }
 function FloatToStrF(const AValue: TComplex): string;
 
+{ Converts a real number to a string with controlled precision.
+  @param(APrecision Number of significant digits.)
+  @param(ADigits    Minimum number of digits in the output.)
+}
 function FloatToStrF(const AValue: double; APrecision, ADigits: longint): string;
+{ Converts a complex number to a string with controlled precision.
+  @param(APrecision Number of significant digits.)
+  @param(ADigits    Minimum number of digits in the output.)
+}
 function FloatToStrF(const AValue: TComplex; APrecision, ADigits: longint): string;
 
 
-{ @exclude Internal format routines. }
+{ Returns @code(z²). }
+function SquarePower(const AValue: TComplex): TComplex;
+
+{ Returns @code(z³). }
+function CubicPower(const AValue: TComplex): TComplex;
+
+{ Returns @code(z⁴). }
+function QuarticPower(const AValue: TComplex): TComplex;
+
+{ Returns the two square roots of @code(AValue) as a 2-element array.
+  @code(result[0]) is the principal root; @code(result[1] = -result[0]).
+}
+function SquareRoot(const AValue: TComplex): TArrayOfComplex;
+
+{ Returns the three cube roots of @code(AValue) as a 3-element array,
+  at arguments @code(θ/3), @code((θ+2π)/3), and @code((θ+4π)/3).
+}
+function CubicRoot(const AValue: TComplex): TArrayOfComplex;
+
+{ Returns the four fourth roots of @code(AValue) as a 4-element array,
+  at arguments @code(θ/4), @code((θ+2π)/4), @code((θ+4π)/4), and @code((θ+6π)/4).
+}
+function QuarticRoot(const AValue: TComplex): TArrayOfComplex;
+
+{ Solves @code(x² + a·x + b = 0) over the complex numbers.
+  Returns a 2-element array containing both roots.
+}
+function SolveEquation(const a, b: TComplex): TArrayOfComplex;
+
+{ Solves @code(x³ + a·x² + b·x + c = 0) over the complex numbers.
+  Returns a 3-element array containing all three roots.
+}
+function SolveEquation(const a, b, c: TComplex): TArrayOfComplex;
+
+{ Solves @code(x⁴ + a·x³ + b·x² + c·x + d = 0) over the complex numbers.
+  Returns a 4-element array containing all four roots.
+}
+function SolveEquation(const a, b, c, d: TComplex): TArrayOfComplex;
+
+{ @exclude }
 function Fmt(const AValue: double): string;
 
 { @exclude }
@@ -1561,7 +1646,7 @@ begin
         H.fm[i, i] := H.fm[i, i] - shift;
 
       H.QRDecompose(Q, R);
-      H := R * Q;
+      H := R.Multiply(Q);
 
       for i := 0 to idx do
         H.fm[i, i] := H.fm[i, i] + shift;
@@ -1731,7 +1816,6 @@ begin
   end;
 end;
 
-(*
 class operator TMatrix.*(const ALeft: T; const ARight: TMatrix): TMatrix;
 var
   i, j: longint;
@@ -1750,7 +1834,7 @@ begin
   for i := 0 to ALeft.fOrder -1 do
     for j := 0 to ALeft.fOrder -1 do
       result.fm[i, j] := ALeft.fm[i, j] * ARight;
-end;  *)
+end;
 
 class operator TMatrix./(const ALeft: TMatrix; const ARight: T): TMatrix;
 var
@@ -1760,6 +1844,24 @@ begin
   for i := 0 to ALeft.fOrder -1 do
     for j := 0 to ALeft.fOrder -1 do
       result.fm[i, j] := ALeft.fm[i, j] / ARight;
+end;
+
+function TMatrix.Multiply(const ARight: TMatrix): TMatrix;
+var
+  i, j, k: longint;
+  row: TArrayOfT;
+begin
+  result.Init(fOrder);
+  for i := 0 to fOrder - 1 do
+  begin
+    row := fm[i];
+    for j := 0 to fOrder - 1 do
+    begin
+      result.fm[i, j] := 0;
+      for k := 0 to fOrder - 1 do
+        result.fm[i, j] := result.fm[i, j] + row[k] * ARight.fm[k, j];
+    end;
+  end;
 end;
 
 // TRMatrixHelper
@@ -1850,7 +1952,7 @@ begin
   result.fm[2] := fm[0]*AVector.fm[1] - fm[1]*AVector.fm[0];
 end;
 
-function TVector.Dot(const AVector: TVector): double;
+function TVector.Dot(const AVector: TVector): T;
 var
   i: longint;
 begin
@@ -2008,7 +2110,7 @@ begin
     result.fm[i] := ALeft.fm[i] - ARight.fm[i];
 end;
 
-class operator TVector.*(const ALeft, ARight: TVector): double;
+class operator TVector.*(const ALeft, ARight: TVector): T;
 var
   i: longint;
 begin
@@ -2082,6 +2184,7 @@ begin
 end;
 
 
+(*
 class operator TVector./(const ALeft: T; const ARight: TVector): TVector;
 var
   i: longint;
@@ -2090,6 +2193,7 @@ begin
   for i  := 0 to ARight.fOrder - 1 do
     result.fm[i] := ALeft * result.fm[i];
 end;
+*)
 
 // Standalone functions
 
@@ -2237,16 +2341,16 @@ begin
     end else
       if q.IsNull then
       begin
-        v         := SquareRoot(p);
-        result[0] := 0;
-        result[1] := v[0];
-        result[2] := v[1];
+        v         := SquareRoot(-p);
+        result[0] := (0    - a) / 3;
+        result[1] := (v[0] - a) / 3;
+        result[2] := (v[1] - a) / 3;
       end else
       begin
-        u         := CubicRoot(q);
-        result[0] := u[0];
-        result[1] := u[1];
-        result[2] := u[2];
+        u         := CubicRoot(-q);
+        result[0] := (u[0] - a) / 3;
+        result[1] := (u[1] - a) / 3;
+        result[2] := (u[2] - a) / 3;
       end;
 end;
 
