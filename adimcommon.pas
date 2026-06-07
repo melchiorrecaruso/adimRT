@@ -145,10 +145,6 @@ type
     class operator =(const ALeft, ARight: TDimension): boolean;
   end;
 
-var
-  { Default epsilon for floating point comparisons. }
-  DefaultEpsilon: double = 1E-12;
-
 implementation
 
 // TDimension
