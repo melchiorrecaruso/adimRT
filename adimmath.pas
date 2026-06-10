@@ -262,13 +262,13 @@ type
     fOrder: longint;
 
     { Reads the element at position (@code(ARow), @code(ACol)). }
-    function Get(ARow, ACol: longint): T;
+    function Get(ARow, ACol: longint): T; inline;
 
     { Writes the element at position (@code(ARow), @code(ACol)). }
-    procedure Put(ARow, ACol: longint; const AValue: T);
+    procedure Put(ARow, ACol: longint; const AValue: T); inline;
 
     { Performs forward Gaussian elimination with partial pivoting.
-      Used internally by @link(Determinant) and @link(RowReduction).
+      Used internally by @link(Determinant) and @link(Rank).
       @param(SwapCount Number of row swaps performed, used to determine
       the sign of the determinant.)
       @return(Upper triangular matrix after elimination.)
@@ -287,17 +287,6 @@ type
       @return(Normalized Householder vector stored in column 0.)
     }
     function HouseholderVector(k: longint): TMatrix;
-
-    { Decomposes the Hessenberg matrix into Q·R using Givens rotations.
-      Optimized for Hessenberg matrices: @code(O(N²)) instead of @code(O(N³)).
-      Used internally by @link(Eigenvalues).
-      @param(Q Orthogonal matrix.)
-      @param(R Upper triangular matrix.)
-    }
-    procedure QRDecompose(out Q, R: TMatrix);
-
-    { Returns the matrix product @code(Self · ARight). }
-    function Multiply(const ARight: TMatrix): TMatrix;
 
   public
     { Sets the matrix to @code(N × N) and resets all elements to zero, in place. }
@@ -378,9 +367,8 @@ type
     function Transpose: TMatrix;
 
     { Returns the inverse of the matrix given its precomputed determinant.
-      Uses the adjugate (cofactor transpose) method.
       @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
-      @raises(EZeroDivide if the matrix is singular, i.e. ADeterminant is zero.)
+      @raises(EZeroDivide if the matrix is singular.)
     }
     function Reciprocal(const ADeterminant: T): TMatrix;
 
@@ -477,10 +465,10 @@ type
     fOrder: longint;
 
     { Reads the component at position @code(ARow). }
-    function Get(ARow: longint): T;
+    function Get(ARow: longint): T; inline;
 
     { Writes the component at position @code(ARow). }
-    procedure Put(ARow: longint; AValue: T);
+    procedure Put(ARow: longint; AValue: T); inline;
 
   public
     { Sets the vector to @code(ASize) components and resets them to zero, in place. }
@@ -663,7 +651,6 @@ function SolveEquation(const a: double): double;
 { Solves @code(x + a = 0) over the complex numbers. Returns @code(-a). }
 function SolveEquation(const a: TComplex): TComplex;
 
-
 { Returns the square of a real number: @code(x²). }
 function SquareNorm(const AValue: double): double;
 { Returns the squared modulus of a complex number: @code(|z|² = Re² + Im²). }
@@ -689,7 +676,6 @@ function FloatToStrF(const AValue: double; APrecision, ADigits: longint): string
   @param(ADigits    Minimum number of digits in the output.)
 }
 function FloatToStrF(const AValue: TComplex; APrecision, ADigits: longint): string;
-
 
 { Returns @code(z²). }
 function SquarePower(const AValue: TComplex): TComplex;
@@ -744,7 +730,6 @@ var
 
   { Default epsilon for floating point comparisons. }
   DefaultEpsilon: double = 1E-12;
-
 
 implementation
 
@@ -1119,7 +1104,6 @@ begin
   SwapCount := 0;
   for i := 0 to fOrder - 1 do
   begin
-    // Find the row with the largest absolute value in column i (partial pivoting).
     maxRow := i;
     maxVal := Abs(result.fm[i, i]);
     for j := i + 1 to fOrder - 1 do
@@ -1129,7 +1113,6 @@ begin
         maxRow := j;
       end;
 
-    // Skip column if all entries below the diagonal are negligible (singular/rank-deficient).
     if maxVal < DefaultEpsilon then Continue;
 
     if maxRow <> i then
@@ -1141,7 +1124,6 @@ begin
     rowI  := result.fm[i];
     pivot := rowI[i];
 
-    // Eliminate entries below the pivot in column i.
     for j := i + 1 to fOrder - 1 do
     begin
       if Abs(result.fm[j, i]) < DefaultEpsilon then Continue;
@@ -1164,16 +1146,11 @@ var
 begin
   result := Self.Clone;
 
-  // Apply N-2 Householder reflections H_k = I - 2·v·vᵀ to reduce the matrix
-  // to upper Hessenberg form. Each reflection zeroes the subcolumn below the
-  // first subdiagonal in column k, while preserving eigenvalues via similarity:
-  // H_k · A · H_kᵀ (H_k is symmetric and orthogonal, so H_kᵀ = H_k).
   for k := 0 to fOrder - 3 do
   begin
     V := result.HouseholderVector(k);
     if V.IsNull then Continue;
 
-    // Apply from left: result := (I - 2·V·Vᵀ) · result
     for j := 0 to fOrder - 1 do
     begin
       dot := 0;
@@ -1183,7 +1160,6 @@ begin
         result.fm[i, j] := result.fm[i, j] - 2 * V.fm[i, 0] * dot;
     end;
 
-    // Apply from right: result := result · (I - 2·V·Vᵀ)
     for i := 0 to fOrder - 1 do
     begin
       rowI := result.fm[i];
@@ -1195,8 +1171,6 @@ begin
       result.fm[i] := rowI;
     end;
 
-    // Explicitly zero entries below the first subdiagonal to suppress
-    // floating-point noise that would otherwise accumulate across iterations.
     for i := k + 2 to fOrder - 1 do
       result.fm[i, k] := 0;
   end;
@@ -1222,59 +1196,12 @@ begin
 
   result.fm[k + 1, 0] := result.fm[k + 1, 0] + LNorm;
 
-  // Avoid recomputing norm via analytical update: norm2² = 2·norm·|v[k+1]|
   LNorm2 := sqrt(2 * LNorm * ADimMath.Norm(result.fm[k + 1, 0]));
 
   if LNorm2 < DefaultEpsilon then Exit;
 
   for i := k + 1 to fOrder - 1 do
     result.fm[i, 0] := result.fm[i, 0] / LNorm2;
-end;
-
-procedure TMatrix.QRDecompose(out Q, R: TMatrix);
-var
-  i, j: longint;
-  c, s, temp1, temp2, denom: T;
-  rowI, rowJ: TArrayOfT;
-begin
-  // Q accumulates the product of all Givens rotations Gⱼᵀ;
-  // at the end Q is orthogonal and R is upper triangular, with A = Q·R.
-  Q := Self.Identity;
-  R := Self.Clone;
-
-  // A Hessenberg matrix has at most one non-zero subdiagonal entry per column,
-  // so only adjacent-row Givens rotations are needed: O(N²) instead of O(N³).
-  for j := 0 to fOrder - 2 do
-    if Abs(R.fm[j + 1, j]) > DefaultEpsilon then
-    begin
-      denom := sqrt(SquareNorm(R.fm[j, j]) + SquareNorm(R.fm[j + 1, j]));
-      c :=  R.fm[j,     j] / denom;
-      s :=  R.fm[j + 1, j] / denom;
-
-      // Apply Givens rotation to R from the left: zero out R[j+1, j].
-      rowI := R.fm[j];
-      rowJ := R.fm[j + 1];
-      for i := j to fOrder - 1 do
-      begin
-        temp1   :=  c * rowI[i] + s * rowJ[i];
-        temp2   := -s * rowI[i] + c * rowJ[i];
-        rowI[i] := temp1;
-        rowJ[i] := temp2;
-      end;
-      R.fm[j]     := rowI;
-      R.fm[j + 1] := rowJ;
-
-      // Accumulate the transpose rotation into Q from the right.
-      for i := 0 to fOrder - 1 do
-      begin
-        rowI        := Q.fm[i];
-        temp1       :=  c * rowI[j] + s * rowI[j + 1];
-        temp2       := -s * rowI[j] + c * rowI[j + 1];
-        rowI[j]     := temp1;
-        rowI[j + 1] := temp2;
-        Q.fm[i]     := rowI;
-      end;
-    end;
 end;
 
 procedure TMatrix.Init(AOrder: longint);
@@ -1409,8 +1336,6 @@ var
   swaps: integer;
   i: longint;
 begin
-  // det(A) = det(U) · (-1)^swaps, where U is the upper triangular factor
-  // from Gaussian elimination and swaps is the number of row interchanges.
   U      := ForwardElimination(swaps);
   result := 1.0;
   for i  := 0 to fOrder - 1 do
@@ -1441,8 +1366,6 @@ var
   swaps: integer;
   i: longint;
 begin
-  // Count non-zero diagonal entries of the upper triangular factor.
-  // Each non-zero pivot corresponds to one linearly independent row.
   U      := ForwardElimination(swaps);
   result := 0;
   for i  := 0 to fOrder - 1 do
@@ -1481,54 +1404,61 @@ end;
 
 function TMatrix.Reciprocal(const ADeterminant: T): TMatrix;
 var
-  Adj: TMatrix;
-  sub: TMatrix;
-  i, j,
-  ri, ci,
-  si, sj: longint;
-  sign: double;
+  W: TMatrix;
+  pivot, factor: T;
+  maxVal: double;
+  i, j, k, maxRow: longint;
+  rowW, rowR, pivW, pivR: TArrayOfT;
 begin
-  // A singular matrix has no inverse; guard against division by a zero
-  // determinant, which would otherwise produce silent Inf/NaN entries.
   if Abs(ADeterminant) < DefaultEpsilon then
     raise EZeroDivide.Create('TRMatrix.Reciprocal: matrix is singular (determinant is zero).');
 
-  result.Init(fOrder);
-  Adj.Init(fOrder);
-
-  // sub is only needed for fOrder > 1; for a 1×1 matrix the inverse is 1/a[0,0].
-  if fOrder > 1 then
-    sub.Init(fOrder - 1);
+  W := Self.Clone;
+  result := Self.Identity;
 
   for i := 0 to fOrder - 1 do
-    for j := 0 to fOrder - 1 do
-    begin
-      // Build the (N-1)×(N-1) submatrix by deleting row i and column j.
-      si := 0;
-      for ri := 0 to fOrder - 1 do
+  begin
+    maxRow := i;
+    maxVal := Abs(W.fm[i, i]);
+    for j := i + 1 to fOrder - 1 do
+      if Abs(W.fm[j, i]) > maxVal then
       begin
-        if ri = i then Continue;
-        sj := 0;
-        for ci := 0 to fOrder - 1 do
-        begin
-          if ci = j then Continue;
-          sub.fm[si, sj] := fm[ri, ci];
-          Inc(sj);
-        end;
-        Inc(si);
+        maxVal := Abs(W.fm[j, i]);
+        maxRow := j;
       end;
 
-      // Cofactor: C[i,j] = (-1)^(i+j) · det(submatrix).
-      if Odd(i + j) then sign := -1.0 else sign := 1.0;
+    if maxVal < DefaultEpsilon then
+      raise EZeroDivide.Create('TRMatrix.Reciprocal: matrix is singular (zero pivot).');
 
-      // Adjugate is the transpose of the cofactor matrix: Adj[j,i] = C[i,j].
-      Adj.fm[j, i] := sign * sub.Determinant;
+    if maxRow <> i then
+    begin
+      W.Swap(i, maxRow);
+      result.Swap(i, maxRow);
     end;
 
-  // A⁻¹ = Adj(A) / det(A).
-  for i := 0 to fOrder - 1 do
+    pivW  := W.fm[i];
+    pivR  := result.fm[i];
+    pivot := pivW[i];
+    for k := 0 to fOrder - 1 do
+    begin
+      pivW[k] := pivW[k] / pivot;
+      pivR[k] := pivR[k] / pivot;
+    end;
+
     for j := 0 to fOrder - 1 do
-      result.fm[i, j] := Adj.fm[i, j] / ADeterminant;
+    begin
+      if j = i then Continue;
+      rowW   := W.fm[j];
+      factor := rowW[i];
+      if Abs(factor) = 0 then Continue;
+      rowR := result.fm[j];
+      for k := 0 to fOrder - 1 do
+      begin
+        rowW[k] := rowW[k] - factor * pivW[k];
+        rowR[k] := rowR[k] - factor * pivR[k];
+      end;
+    end;
+  end;
 end;
 
 function TMatrix.RowReduction: TMatrix;
@@ -1539,8 +1469,6 @@ var
 begin
   result := Self.Clone;
 
-  // Step 1: Forward elimination with partial pivoting.
-  // Produces an upper triangular matrix with leading 1s on each pivot row.
   for i := 0 to fOrder - 1 do
   begin
     maxRow := i;
@@ -1571,8 +1499,6 @@ begin
     end;
   end;
 
-  // Step 2: Back-substitution.
-  // Eliminates entries above each pivot, completing the reduced row echelon form.
   for i := fOrder - 1 downto 0 do
   begin
     if SameValueEx(result.fm[i, i], 0) then Continue;
@@ -1582,7 +1508,6 @@ begin
       rowJ    := result.fm[j];
       ratio   := rowJ[i];
       rowJ[i] := 0;
-      // Start from i+1: rowJ[i] has already been zeroed explicitly above.
       for k := i + 1 to fOrder - 1 do
         rowJ[k] := rowJ[k] - ratio * rowI[k];
       result.fm[j] := rowJ;
@@ -1592,43 +1517,37 @@ end;
 
 function TMatrix.Eigenvalues: TArrayOfT;
 var
-  H, Q, R: TMatrix;
-  i, iter,
-  idx: longint;
-  shift,
-  subA, subB,
-  subD,
-  delta, denom: T;
+  H: TMatrix;
+  cs, sn: TArrayOfT;
+  i, j, k, iter, idx, hi: longint;
+  shift, subA, subB, subD,
+  delta, denom, c, s,
+  t1, t2: T;
+  tol: double;
   converged: boolean;
+  rowJ, rowJ1, rowI: TArrayOfT;
 const
   MaxIter = 1000;
 begin
   SetLength(result, fOrder);
 
-  // Trivial case: a 1×1 matrix has a single eigenvalue equal to its only element.
   if fOrder = 1 then
   begin
     result[0] := fm[0, 0];
     Exit;
   end;
 
-  // Reduce to upper Hessenberg form first. This preserves eigenvalues and
-  // reduces each QR iteration from O(N³) to O(N²).
   H   := Self.HessenbergReduction;
   idx := fOrder - 1;
 
-  // Deflating QR iteration with Wilkinson shift.
+  SetLength(cs, fOrder);
+  SetLength(sn, fOrder);
+
   while idx > 0 do
   begin
     converged := False;
     for iter := 1 to MaxIter do
     begin
-      // Wilkinson shift: the eigenvalue of the trailing 2×2 block
-      //   [ subA  subB ]
-      //   [ subB  subD ]
-      // closest to subD. Unlike the bare Rayleigh shift subD, this breaks the
-      // symmetry of matrices with a (near-)constant or zero diagonal, for which
-      // the unshifted iteration never converges.
       subA  := H.fm[idx - 1, idx - 1];
       subB  := H.fm[idx,     idx - 1];
       subD  := H.fm[idx,     idx];
@@ -1641,18 +1560,57 @@ begin
       else
         shift := subD + SquareNorm(subB) / denom;
 
-      // Apply the shift, perform one QR step, then restore the shift.
       for i := 0 to idx do
         H.fm[i, i] := H.fm[i, i] - shift;
 
-      H.QRDecompose(Q, R);
-      H := R.Multiply(Q);
+      for j := 0 to idx - 1 do
+      begin
+        rowJ  := H.fm[j];
+        rowJ1 := H.fm[j + 1];
+        if Abs(rowJ1[j]) < DefaultEpsilon then
+        begin
+          cs[j] := 1;
+          sn[j] := 0;
+          Continue;
+        end;
+        denom := sqrt(SquareNorm(rowJ[j]) + SquareNorm(rowJ1[j]));
+        c := rowJ[j]  / denom;
+        s := rowJ1[j] / denom;
+        cs[j] := c;
+        sn[j] := s;
+        for k := j to idx do
+        begin
+          t1       :=  c * rowJ[k] + s * rowJ1[k];
+          t2       := -s * rowJ[k] + c * rowJ1[k];
+          rowJ[k]  := t1;
+          rowJ1[k] := t2;
+        end;
+      end;
+
+      for j := 0 to idx - 1 do
+      begin
+        s := sn[j];
+        if Abs(s) = 0 then Continue;
+        c := cs[j];
+        if j + 1 < idx then hi := j + 1 else hi := idx;
+        for i := 0 to hi do
+        begin
+          rowI         := H.fm[i];
+          t1           :=  c * rowI[j] + s * rowI[j + 1];
+          t2           := -s * rowI[j] + c * rowI[j + 1];
+          rowI[j]      := t1;
+          rowI[j + 1]  := t2;
+        end;
+      end;
 
       for i := 0 to idx do
         H.fm[i, i] := H.fm[i, i] + shift;
 
-      // Deflate when the subdiagonal entry is negligible.
-      if Abs(H.fm[idx, idx - 1]) < DefaultEpsilon then
+      tol := DefaultEpsilon * (Abs(H.fm[idx - 1, idx - 1]) + Abs(H.fm[idx, idx]));
+      if tol = 0 then
+        tol := DefaultEpsilon;
+
+      if Abs(H.fm[idx, idx - 1]) <= tol then
       begin
         result[idx] := H.fm[idx, idx];
         Dec(idx);
@@ -1661,13 +1619,8 @@ begin
       end;
     end;
 
-    // No convergence after MaxIter steps: record the best available approximation
-    // and deflate anyway to avoid an infinite loop.
     if not converged then
     begin
-      // A trailing 2x2 block that never deflates corresponds to a complex
-      // conjugate eigenvalue pair, which a real-shift QR iteration cannot
-      // isolate and which a real result array cannot represent.
       if Abs(SquareNorm(H.fm[idx - 1, idx - 1] - H.fm[idx, idx]) + 4 * H.fm[idx - 1, idx] * H.fm[idx, idx - 1]) < 0 then
         raise Exception.Create('TRMatrix.Eigenvalues: matrix has complex eigenvalues, which are not supported.');
 
@@ -1682,7 +1635,6 @@ procedure TMatrix.Swap(ARow1, ARow2: longint);
 var
   tmp: TArrayOfT;
 begin
-  // Row swap via reference exchange: O(1), no element copying.
   tmp       := fm[ARow1];
   fm[ARow1] := fm[ARow2];
   fm[ARow2] := tmp;
@@ -1844,24 +1796,6 @@ begin
   for i := 0 to ALeft.fOrder -1 do
     for j := 0 to ALeft.fOrder -1 do
       result.fm[i, j] := ALeft.fm[i, j] / ARight;
-end;
-
-function TMatrix.Multiply(const ARight: TMatrix): TMatrix;
-var
-  i, j, k: longint;
-  row: TArrayOfT;
-begin
-  result.Init(fOrder);
-  for i := 0 to fOrder - 1 do
-  begin
-    row := fm[i];
-    for j := 0 to fOrder - 1 do
-    begin
-      result.fm[i, j] := 0;
-      for k := 0 to fOrder - 1 do
-        result.fm[i, j] := result.fm[i, j] + row[k] * ARight.fm[k, j];
-    end;
-  end;
 end;
 
 // TRMatrixHelper
@@ -2027,8 +1961,6 @@ begin
   for i := 0 to fOrder - 1 do
     result := result + FloatToStrF(fm[i]) + ',';
 
-  // Remove the trailing comma before wrapping in parentheses.
-  // Max(0, ...) guards against the empty-vector case (fOrder = 0).
   i := Length(result);
   SetLength(result, Max(0, i - 1));
   result := '(' + result + ')';
@@ -2047,7 +1979,6 @@ end;
 
 class operator TVector.Copy(constref ASrc: TVector; var ADst: TVector);
 begin
-  // System.Copy on a 1D dynamic array produces a full independent copy.
   ADst.fOrder := ASrc.fOrder;
   ADst.fm    := System.Copy(ASrc.fm);
 end;
@@ -2145,7 +2076,6 @@ var
 begin
   Assert(ALeft.fOrder = ARight.fOrder, Format('TRVector.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
 
-  // v·A: treat ALeft as a row vector (1×N) and accumulate column-wise.
   result.Init(ALeft.fOrder);
   for i := 0 to ALeft.fOrder -1 do
   begin
@@ -2162,8 +2092,6 @@ var
 begin
   Assert(ALeft.fOrder = ARight.fOrder, Format('TRVector.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
 
-  // A·v: treat ARight as a column vector (N×1); cache each row of A for
-  // sequential memory access in the inner loop.
   result.Init(ARight.fOrder);
   for i := 0 to ARight.fOrder -1 do
   begin
@@ -2182,7 +2110,6 @@ begin
   for i := 0 to ALeft.fOrder - 1 do
     result.fm[i] := ALeft.fm[i] / ARight;
 end;
-
 
 (*
 class operator TVector./(const ALeft: T; const ARight: TVector): TVector;
