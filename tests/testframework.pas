@@ -48,6 +48,9 @@ procedure RunAllSuites;
 
 { --- shared helpers --- }
 function  C(ARe, AIm: double): TComplex;
+{ Extracts the real parts of an eigenvalue array, checking that every
+  imaginary part is negligible. }
+function  RealEigenvalues(const A: TArrayOfComplex): TArrayOfDouble;
 procedure SortAscArray(var A: TArrayOfDouble);
 
 { --- correctness layer (PASS/FAIL) --- }
@@ -106,6 +109,19 @@ end;
 function C(ARe, AIm: double): TComplex;
 begin
   result := Complex(ARe, AIm);
+end;
+
+function RealEigenvalues(const A: TArrayOfComplex): TArrayOfDouble;
+var
+  i: integer;
+begin
+  SetLength(result, Length(A));
+  for i := 0 to High(A) do
+  begin
+    Check(Format('eigenvalue[%d] is real (Im=%.3e)', [i, A[i].Im]),
+          Abs(A[i].Im) < 1e-9);
+    result[i] := A[i].Re;
+  end;
 end;
 
 procedure SortAscArray(var A: TArrayOfDouble);
