@@ -107,7 +107,7 @@ begin
   Section('TRVector - Matrix * Vector / Vector * Matrix');
 
   // A = [[1,2,3],[4,5,6],[7,8,10]]
-  A.Init(3, TArrayOfDouble.Create(1,2,3, 4,5,6, 7,8,10));
+  A.Init(TArrayOfDouble.Create(1,2,3, 4,5,6, 7,8,10));
   // A*u = [1+4+9, 4+10+18, 7+16+30] = [14, 32, 53]
   r := A * u;
   CheckNear('A*u [0]=14', r[0], 14.0, EPS);
@@ -151,7 +151,7 @@ begin
   CmpR('|normalize|=1', rn.Norm, 1.0);
 
   BeginCategory('Real matrix*vector (4-dim)');
-  M4.Init(4, TArrayOfDouble.Create(4,1,2,0.5, 1,3,0,1, 2,0,5,1, 0.5,1,1,4));
+  M4.Init(TArrayOfDouble.Create(4,1,2,0.5, 1,3,0,1, 2,0,5,1, 0.5,1,1,4));
   v4.Init(TArrayOfDouble.Create(1, 2, 3, 4));
 
   mr := M4 * v4;
