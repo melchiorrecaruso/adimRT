@@ -43,7 +43,14 @@ unit ADimMath;
 
 interface
 
+uses
+  SysUtils;
+
 type
+  { Raised when the dimensions of the operands are incompatible,
+    or when initialization data does not match the expected size. }
+  EDimensionError = class(Exception);
+
   { Dynamic array of @code(double) values. }
   TArrayOfDouble = array of double;
 
@@ -292,24 +299,19 @@ type
     { Sets the matrix to @code(N × N) and resets all elements to zero, in place. }
     procedure Init(AOrder: longint);
 
-    { Sets the matrix to @code(N × N) and fills it row-major from AData, in place.
-      No temporary matrix is allocated. AData must contain exactly
-      @code(AOrder·AOrder) values. }
-    procedure Init(AOrder: longint; const AData: TArrayOfT);
-
     { Sets the matrix from AData, in place, inferring the order from the number
-      of values (which must be a perfect square), filled row-major. }
+      of values, filled row-major.
+      @raises(EDimensionError if the number of values is not a perfect square.)
+    }
     procedure Init(const AData: TArrayOfT);
 
     { Returns a new N×N matrix with all elements set to zero. }
     class function New(AOrder: longint): TMatrix; static;
 
-    { Returns a new N×N matrix filled row-major from AData.
-      AData must contain exactly AOrder·AOrder values. }
-    class function New(AOrder: longint; const AData: TArrayOfT): TMatrix; static;
-
     { Returns a new square matrix whose order is inferred from the number of
-      values in AData (which must be a perfect square), filled row-major. }
+      values in AData, filled row-major.
+      @raises(EDimensionError if the number of values is not a perfect square.)
+    }
     class function New(const AData: TArrayOfT): TMatrix; static;
 
     { Returns the @code(N × N) identity matrix with ones on the diagonal
@@ -366,25 +368,24 @@ type
     }
     function Transpose: TMatrix;
 
-    { Returns the inverse of the matrix given its precomputed determinant.
-      @param(ADeterminant The determinant of the matrix, computed via @link(Determinant).)
+    { Returns the inverse of the matrix.
       @raises(EZeroDivide if the matrix is singular.)
     }
-    function Reciprocal(const ADeterminant: T): TMatrix;
+    function Inverse: TMatrix;
 
     { Returns the row-reduced echelon form of the matrix using Gaussian
       elimination with partial pivoting.
     }
     function RowReduction: TMatrix;
 
-    { Returns the eigenvalues of the matrix as a dynamic array of @code(double).
+    { Returns the eigenvalues of the matrix as a dynamic array of @link(TComplex).
       Uses the QR algorithm with Hessenberg reduction and Wilkinson shift.
-      Assumes a real spectrum (always true for symmetric matrices).
-      @return(0-based dynamic array of @code(N) real eigenvalues,
+      Real eigenvalues are returned with a zero imaginary part; complex
+      conjugate pairs are computed exactly from their trailing 2×2 block.
+      @return(0-based dynamic array of @code(N) eigenvalues,
       not guaranteed to be sorted.)
-      @raises(Exception if a complex conjugate eigenvalue pair is detected.)
     }
-    function Eigenvalues: TArrayOfT;
+    function Eigenvalues: TArrayOfComplex;
 
     { Swaps rows @code(ARow1) and @code(ARow2) in place. Indices are 0-based. }
     procedure Swap(ARow1, ARow2: longint);
@@ -733,7 +734,7 @@ var
 
 implementation
 
-uses Math, SysUtils;
+uses Math;
 
 function Fmt(const AValue: double): string;
 begin
@@ -1219,28 +1220,19 @@ begin
       fm[i, j] := 0;
 end;
 
-procedure TMatrix.Init(AOrder: longint; const AData: TArrayOfT);
-var
-  i, j: longint;
-begin
-  Assert(Length(AData) = AOrder * AOrder,
-    Format('TMatrix.Init: expected %d values, got %d', [AOrder * AOrder, Length(AData)]));
-
-  Init(AOrder);
-  for i := 0 to AOrder - 1 do
-    for j := 0 to AOrder - 1 do
-      fm[i, j] := AData[i * AOrder + j];
-end;
-
 procedure TMatrix.Init(const AData: TArrayOfT);
 var
-  n: longint;
+  n, i, j: longint;
 begin
   n := Round(Sqrt(Length(AData)));
-  Assert(n * n = Length(AData),
-    Format('TMatrix.Init: %d values do not form a square matrix', [Length(AData)]));
+  if n * n <> Length(AData) then
+    raise EDimensionError.CreateFmt(
+      'TMatrix.Init: %d values do not form a square matrix.', [Length(AData)]);
 
-  Init(n, AData);
+  Init(n);
+  for i := 0 to n - 1 do
+    for j := 0 to n - 1 do
+      fm[i, j] := AData[i * n + j];
 end;
 
 class function TMatrix.New(AOrder: longint): TMatrix; static;
@@ -1248,28 +1240,9 @@ begin
   result.Init(AOrder);
 end;
 
-class function TMatrix.New(AOrder: longint; const AData: TArrayOfT): TMatrix; static;
-var
-  i, j: longint;
-begin
-  Assert(Length(AData) = AOrder * AOrder,
-    Format('TMatrix.New: expected %d values, got %d', [AOrder * AOrder, Length(AData)]));
-
-  result.Init(AOrder);
-  for i := 0 to AOrder - 1 do
-    for j := 0 to AOrder - 1 do
-      result.fm[i, j] := AData[i * AOrder + j];
-end;
-
 class function TMatrix.New(const AData: TArrayOfT): TMatrix; static;
-var
-  n: longint;
 begin
-  n := Round(Sqrt(Length(AData)));
-  Assert(n * n = Length(AData),
-    Format('TMatrix.New: %d values do not form a square matrix', [Length(AData)]));
-
-  result.Init(n, AData);
+  result.Init(AData);
 end;
 
 function TMatrix.Identity: TMatrix;
@@ -1402,7 +1375,7 @@ begin
       result.fm[i, j] := fm[j, i];
 end;
 
-function TMatrix.Reciprocal(const ADeterminant: T): TMatrix;
+function TMatrix.Inverse: TMatrix;
 var
   W: TMatrix;
   pivot, factor: T;
@@ -1410,9 +1383,6 @@ var
   i, j, k, maxRow: longint;
   rowW, rowR, pivW, pivR: TArrayOfT;
 begin
-  if Abs(ADeterminant) < DefaultEpsilon then
-    raise EZeroDivide.Create('TRMatrix.Reciprocal: matrix is singular (determinant is zero).');
-
   W := Self.Clone;
   result := Self.Identity;
 
@@ -1428,7 +1398,7 @@ begin
       end;
 
     if maxVal < DefaultEpsilon then
-      raise EZeroDivide.Create('TRMatrix.Reciprocal: matrix is singular (zero pivot).');
+      raise EZeroDivide.Create('TRMatrix.Inverse: matrix is singular (zero pivot).');
 
     if maxRow <> i then
     begin
@@ -1515,7 +1485,7 @@ begin
   end;
 end;
 
-function TMatrix.Eigenvalues: TArrayOfT;
+function TMatrix.Eigenvalues: TArrayOfComplex;
 var
   H: TMatrix;
   cs, sn: TArrayOfT;
@@ -1523,8 +1493,10 @@ var
   shift, subA, subB, subD,
   delta, denom, c, s,
   t1, t2: T;
-  tol: double;
-  converged: boolean;
+  za, zb, zc, zd: TComplex;
+  pair: TArrayOfComplex;
+  tol, tol2: double;
+  converged, decoupled: boolean;
   rowJ, rowJ1, rowI: TArrayOfT;
 const
   MaxIter = 1000;
@@ -1548,6 +1520,42 @@ begin
     converged := False;
     for iter := 1 to MaxIter do
     begin
+      tol := DefaultEpsilon * (Abs(H.fm[idx - 1, idx - 1]) + Abs(H.fm[idx, idx]));
+      if tol = 0 then
+        tol := DefaultEpsilon;
+
+      if Abs(H.fm[idx, idx - 1]) <= tol then
+      begin
+        result[idx] := H.fm[idx, idx];
+        Dec(idx);
+        converged := True;
+        Break;
+      end;
+
+      if idx = 1 then
+        decoupled := True
+      else
+      begin
+        tol2 := DefaultEpsilon * (Abs(H.fm[idx - 2, idx - 2]) + Abs(H.fm[idx - 1, idx - 1]));
+        if tol2 = 0 then
+          tol2 := DefaultEpsilon;
+        decoupled := Abs(H.fm[idx - 1, idx - 2]) <= tol2;
+      end;
+
+      if decoupled then
+      begin
+        za := H.fm[idx - 1, idx - 1];
+        zb := H.fm[idx - 1, idx];
+        zc := H.fm[idx,     idx - 1];
+        zd := H.fm[idx,     idx];
+        pair := SolveEquation(-(za + zd), za * zd - zb * zc);
+        result[idx]     := pair[0];
+        result[idx - 1] := pair[1];
+        Dec(idx, 2);
+        converged := True;
+        Break;
+      end;
+
       subA  := H.fm[idx - 1, idx - 1];
       subB  := H.fm[idx,     idx - 1];
       subD  := H.fm[idx,     idx];
@@ -1605,30 +1613,17 @@ begin
 
       for i := 0 to idx do
         H.fm[i, i] := H.fm[i, i] + shift;
-
-      tol := DefaultEpsilon * (Abs(H.fm[idx - 1, idx - 1]) + Abs(H.fm[idx, idx]));
-      if tol = 0 then
-        tol := DefaultEpsilon;
-
-      if Abs(H.fm[idx, idx - 1]) <= tol then
-      begin
-        result[idx] := H.fm[idx, idx];
-        Dec(idx);
-        converged := True;
-        Break;
-      end;
     end;
 
     if not converged then
     begin
-      if Abs(SquareNorm(H.fm[idx - 1, idx - 1] - H.fm[idx, idx]) + 4 * H.fm[idx - 1, idx] * H.fm[idx, idx - 1]) < 0 then
-        raise Exception.Create('TRMatrix.Eigenvalues: matrix has complex eigenvalues, which are not supported.');
-
       result[idx] := H.fm[idx, idx];
       Dec(idx);
     end;
   end;
-  result[0] := H.fm[0, 0];
+
+  if idx = 0 then
+    result[0] := H.fm[0, 0];
 end;
 
 procedure TMatrix.Swap(ARow1, ARow2: longint);
@@ -1728,7 +1723,8 @@ class operator TMatrix.+(const ALeft, ARight: TMatrix): TMatrix;
 var
   i, j: longint;
 begin
-  Assert(ALeft.fOrder = ARight.fOrder, Format('TMatrix.+: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
+  if not (ALeft.fOrder = ARight.fOrder) then
+    raise EDimensionError.CreateFmt('TMatrix.+: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]);
 
   result.Init(ALeft.fOrder);
   for i := 0 to ALeft.fOrder -1 do
@@ -1740,7 +1736,8 @@ class operator TMatrix.-(const ALeft, ARight: TMatrix): TMatrix;
 var
   i, j: longint;
 begin
-  Assert(ALeft.fOrder = ARight.fOrder, Format('TMatrix.-: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
+  if not (ALeft.fOrder = ARight.fOrder) then
+    raise EDimensionError.CreateFmt('TMatrix.-: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]);
 
   result.Init(ALeft.fOrder);
   for i := 0 to ALeft.fOrder -1 do
@@ -1753,7 +1750,8 @@ var
   i, j, k: longint;
   row: TArrayOfT;
 begin
-  Assert(ALeft.fOrder = ARight.fOrder, Format('TMatrix.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
+  if not (ALeft.fOrder = ARight.fOrder) then
+    raise EDimensionError.CreateFmt('TMatrix.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]);
 
   result.Init(ALeft.fOrder);
   for i := 0 to ALeft.fOrder -1 do
@@ -1877,8 +1875,10 @@ end;
 
 function TVector.Cross(const AVector: TVector): TVector;
 begin
-  Assert(Self.fOrder = 3, Format('TRVector.Cross: Size must be 3, got %d.', [Self.fOrder]));
-  Assert(AVector.fOrder = 3, Format('TRVector.Cross: AVector.Size must be 3, got %d.', [AVector.fOrder]));
+  if not (Self.fOrder = 3) then
+    raise EDimensionError.CreateFmt('TRVector.Cross: Size must be 3, got %d.', [Self.fOrder]);
+  if not (AVector.fOrder = 3) then
+    raise EDimensionError.CreateFmt('TRVector.Cross: AVector.Size must be 3, got %d.', [AVector.fOrder]);
 
   result.Init(3);
   result.fm[0] := fm[1]*AVector.fm[2] - fm[2]*AVector.fm[1];
@@ -1890,7 +1890,8 @@ function TVector.Dot(const AVector: TVector): T;
 var
   i: longint;
 begin
-  Assert(fOrder = AVector.fOrder, Format('TRVector.Dot: size mismatch (%d <> %d)', [fOrder, AVector.fOrder]));
+  if not (fOrder = AVector.fOrder) then
+    raise EDimensionError.CreateFmt('TRVector.Dot: size mismatch (%d <> %d)', [fOrder, AVector.fOrder]);
 
   result := 0;
   for i := 0 to fOrder -1 do
@@ -2014,7 +2015,8 @@ class operator TVector.+(const ALeft, ARight: TVector): TVector;
 var
   i: longint;
 begin
-  Assert(ALeft.fOrder = ARight.fOrder, Format('TRVector.+: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
+  if not (ALeft.fOrder = ARight.fOrder) then
+    raise EDimensionError.CreateFmt('TRVector.+: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]);
 
   result.Init(ALeft.fOrder);
   for i := 0 to ALeft.fOrder -1 do
@@ -2034,7 +2036,8 @@ class operator TVector.-(const ALeft, ARight: TVector): TVector;
 var
   i: longint;
 begin
-  Assert(ALeft.fOrder = ARight.fOrder, Format('TRVector.-: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
+  if not (ALeft.fOrder = ARight.fOrder) then
+    raise EDimensionError.CreateFmt('TRVector.-: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]);
 
   result.Init(ALeft.fOrder);
   for i := 0 to ALeft.fOrder -1 do
@@ -2045,7 +2048,8 @@ class operator TVector.*(const ALeft, ARight: TVector): T;
 var
   i: longint;
 begin
-  Assert(ALeft.fOrder = ARight.fOrder, Format('TRVector.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
+  if not (ALeft.fOrder = ARight.fOrder) then
+    raise EDimensionError.CreateFmt('TRVector.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]);
 
   result := 0;
   for i := 0 to ALeft.fOrder -1 do
@@ -2074,7 +2078,8 @@ class operator TVector.*(const ALeft: TVector; const ARight: TMatrix): TVector;
 var
   i, j: longint;
 begin
-  Assert(ALeft.fOrder = ARight.fOrder, Format('TRVector.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
+  if not (ALeft.fOrder = ARight.fOrder) then
+    raise EDimensionError.CreateFmt('TRVector.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]);
 
   result.Init(ALeft.fOrder);
   for i := 0 to ALeft.fOrder -1 do
@@ -2090,7 +2095,8 @@ var
   i, j: longint;
   row: TArrayOfT;
 begin
-  Assert(ALeft.fOrder = ARight.fOrder, Format('TRVector.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]));
+  if not (ALeft.fOrder = ARight.fOrder) then
+    raise EDimensionError.CreateFmt('TRVector.*: size mismatch (%d <> %d)', [ALeft.fOrder, ARight.fOrder]);
 
   result.Init(ARight.fOrder);
   for i := 0 to ARight.fOrder -1 do
