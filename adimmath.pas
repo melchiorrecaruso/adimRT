@@ -260,11 +260,13 @@ type
   type
     { Two-dimensional dynamic array of @code(T), used as row-major element storage. }
     TArrayOfArrayOfT = array of array of T;
+
     { One-dimensional dynamic array of @code(T). }
     TArrayOfT = array of T;
   private
     { Row-major storage of the matrix elements. }
     fm: TArrayOfArrayOfT;
+
     { Number of rows and columns of the matrix. }
     fOrder: longint;
 
@@ -281,6 +283,14 @@ type
       @return(Upper triangular matrix after elimination.)
     }
     function ForwardElimination(out SwapCount: integer): TMatrix; inline;
+
+    { Returns the solution of the linear system @code(Self · x = AData),
+      operating on raw component arrays. Backs the public SolveLinear
+      methods of the type helpers.
+      @raises(EDimensionError if @code(Length(AData)) differs from the order.)
+      @raises(EZeroDivide if the matrix is singular.)
+    }
+    function SolveLU(const AData: TArrayOfT): TArrayOfT;
 
     { Reduces the matrix to upper Hessenberg form using Householder reflections.
       Used internally by @link(Eigenvalues).
@@ -574,12 +584,6 @@ type
     { Returns the vector divided by a real scalar. }
     class operator /(const ALeft: TVector; const ARight: T): TVector;
 
-    { Returns @code(ALeft) scaled by the dual of @code(ARight):
-      each component of the result is @code(ALeft · vᵢ / |v|²).
-      @exclude Not supported as operator overload; use @code(ALeft * ARight.Reciprocal).
-    }
-    //class operator /(const ALeft: T; const ARight: TVector): TVector;
-
     { Provides access to individual vector components using a 0-based index.
       @code(a[0]) is the first component.
     }
@@ -592,17 +596,47 @@ type
   { @link(TMatrix) specialised for real (@code(double)) elements. }
   TRMatrix = specialize TMatrix<double>;
 
+  { @link(TMatrix) specialised for complex (@link(TComplex)) elements. }
+  TCMatrix = specialize TMatrix<TComplex>;
+
+  { @link(TVector) specialised for real (@code(double)) components. }
+  TRVector = specialize TVector<double>;
+
+  { @link(TVector) specialised for complex (@link(TComplex)) components. }
+  TCVector = specialize TVector<TComplex>;
+
   { Extends @link(TRMatrix) with operations specific to real matrices. }
   TRMatrixHelper = record helper for TRMatrix
+    { Returns the solution @code(x) of the linear system @code(A·x = b).
+      @param(AVector The right-hand side @code(b).)
+      @raises(EDimensionError if the sizes of the matrix and the vector differ.)
+      @raises(EZeroDivide if the matrix is singular.)
+    }
+    function SolveLinear(const AVector: TRVector): TRVector;
+
+    { Returns the eigenvectors of the matrix as the columns of a complex
+      matrix, computed by inverse iteration; column @code(j) corresponds
+      to @code(AEigenvalues[j]). Eigenvectors are normalized to unit length;
+      within clusters of (nearly) equal eigenvalues they are orthogonalized.
+      For defective matrices a full set of independent eigenvectors does not
+      exist and some columns may not satisfy the eigenvector equation.
+      @param(AEigenvalues Receives the eigenvalues, as from @link(Eigenvalues).)
+    }
+    function Eigenvectors(out AEigenvalues: TArrayOfComplex): TCMatrix;
+
     { Returns @true if the matrix is orthogonal, i.e. @code(Aᵀ · A = I). }
     function IsUnitary: boolean;
   end;
 
-  { @link(TMatrix) specialised for complex (@link(TComplex)) elements. }
-  TCMatrix = specialize TMatrix<TComplex>;
-
   { Extends @link(TCMatrix) with operations specific to complex matrices. }
   TCMatrixHelper = record helper for TCMatrix
+    { Returns the solution @code(x) of the linear system @code(A·x = b).
+      @param(AVector The right-hand side @code(b).)
+      @raises(EDimensionError if the sizes of the matrix and the vector differ.)
+      @raises(EZeroDivide if the matrix is singular.)
+    }
+    function SolveLinear(const AVector: TCVector): TCVector;
+
     { Returns the element-wise complex conjugate of the matrix:
       each element @code(a[i,j]) is replaced by @code(a[i,j]*).
     }
@@ -615,20 +649,14 @@ type
     function IsUnitary: boolean;
   end;
 
-  { @link(TVector) specialised for real (@code(double)) components. }
-  TRVector = specialize TVector<double>;
-
   { Extends @link(TRVector) with operations specific to real vectors. }
   TRVectorHelper = record helper for TRVector
 
   end;
 
-  { @link(TVector) specialised for complex (@link(TComplex)) components. }
-  TCVector = specialize TVector<TComplex>;
-
   { Extends @link(TCVector) with operations specific to complex vectors. }
   TCVectorHelper = record helper for TCVector
-
+    function Conjugate: TCVector;
   end;
 
 { Constructs a @link(TComplex) from real and imaginary parts. }
@@ -1431,6 +1459,66 @@ begin
   end;
 end;
 
+function TMatrix.SolveLU(const AData: TArrayOfT): TArrayOfT;
+var
+  W: TMatrix;
+  v: TArrayOfT;
+  factor, s: T;
+  maxVal: double;
+  i, j, k, maxRow: longint;
+  rowI, rowJ: TArrayOfT;
+begin
+  if Length(AData) <> fOrder then
+    raise EDimensionError.CreateFmt(
+      'TRMatrix.SolveLU: vector size %d does not match matrix order %d.',
+      [Length(AData), fOrder]);
+
+  W := Self.Clone;
+  v := System.Copy(AData);
+
+  for i := 0 to fOrder - 1 do
+  begin
+    maxRow := i;
+    maxVal := Abs(W.fm[i, i]);
+    for j := i + 1 to fOrder - 1 do
+      if Abs(W.fm[j, i]) > maxVal then
+      begin
+        maxVal := Abs(W.fm[j, i]);
+        maxRow := j;
+      end;
+
+    if maxVal = 0 then
+      raise EZeroDivide.Create('TRMatrix.SolveLU: matrix is singular (zero pivot).');
+
+    if maxRow <> i then
+    begin
+      W.Swap(i, maxRow);
+      s := v[i]; v[i] := v[maxRow]; v[maxRow] := s;
+    end;
+
+    rowI := W.fm[i];
+    for j := i + 1 to fOrder - 1 do
+    begin
+      rowJ   := W.fm[j];
+      factor := rowJ[i] / rowI[i];
+      if Abs(factor) = 0 then Continue;
+      for k := i to fOrder - 1 do
+        rowJ[k] := rowJ[k] - factor * rowI[k];
+      v[j] := v[j] - factor * v[i];
+    end;
+  end;
+
+  SetLength(result, fOrder);
+  for i := fOrder - 1 downto 0 do
+  begin
+    rowI := W.fm[i];
+    s := v[i];
+    for k := i + 1 to fOrder - 1 do
+      s := s - rowI[k] * result[k];
+    result[i] := s / rowI[i];
+  end;
+end;
+
 function TMatrix.RowReduction: TMatrix;
 var
   ratio: T;
@@ -1798,12 +1886,108 @@ end;
 
 // TRMatrixHelper
 
+function TRMatrixHelper.SolveLinear(const AVector: TRVector): TRVector;
+begin
+  result.Init(SolveLU(AVector.fm));
+end;
+
+function TRMatrixHelper.Eigenvectors(out AEigenvalues: TArrayOfComplex): TCMatrix;
+var
+  ZA, M: TCMatrix;
+  v, w: TCVector;
+  lam, shift, proj: TComplex;
+  i, j, k, attempt, pass: longint;
+  delta, scale, clusterTol: double;
+  seed: longword;
+
+  function NextRand: double;
+  begin
+    {$push}{$R-}{$Q-}
+    seed := seed * 1664525 + 1013904223;
+    {$pop}
+    result := (seed / 4294967295.0) * 2 - 1;
+  end;
+
+begin
+  AEigenvalues := Self.Eigenvalues;
+
+  ZA.Init(Order);
+  for i := 0 to Order - 1 do
+    for j := 0 to Order - 1 do
+      ZA[i, j] := Complex(Self[i, j], 0);
+
+  result.Init(Order);
+  scale := Self.Norm;
+  seed  := 123456789;
+
+  for j := 0 to Order - 1 do
+  begin
+    lam := AEigenvalues[j];
+
+    v.Init(Order);
+    for i := 0 to Order - 1 do
+      v[i] := Complex(NextRand, 0);
+    v := v.Normalize;
+
+    delta := 0;
+    for attempt := 1 to 3 do
+    begin
+      shift := lam + delta;
+      M := ZA;
+      for i := 0 to Order - 1 do
+        M[i, i] := M[i, i] - shift;
+
+      try
+        for pass := 1 to 2 do
+        begin
+          w := M.SolveLinear(v);
+
+          for k := 0 to j - 1 do
+          begin
+            clusterTol := 1e-6 * (Abs(AEigenvalues[k]) + Abs(lam)) + DefaultEpsilon;
+            if Abs(AEigenvalues[k] - lam) <= clusterTol then
+            begin
+              proj := 0;
+              for i := 0 to Order - 1 do
+                proj := proj + w[i] * result[i, k].Conjugate;
+              for i := 0 to Order - 1 do
+                w[i] := w[i] - proj * result[i, k];
+            end;
+          end;
+
+          if w.Norm < DefaultEpsilon then
+          begin
+            for i := 0 to Order - 1 do
+              w[i] := Complex(NextRand, 0);
+          end;
+          v := w.Normalize;
+        end;
+        Break;
+      except
+        on EZeroDivide do
+          if delta = 0 then
+            delta := (scale + Abs(lam) + 1) * 1e-12
+          else
+            delta := delta * 1e3;
+      end;
+    end;
+
+    for i := 0 to Order - 1 do
+      result[i, j] := v[i];
+  end;
+end;
+
 function TRMatrixHelper.IsUnitary: boolean;
 begin
   result := Identity.SameValue(Transpose * Self);
 end;
 
 // TCMatrixHelper
+
+function TCMatrixHelper.SolveLinear(const AVector: TCVector): TCVector;
+begin
+  result.Init(SolveLU(AVector.fm));
+end;
 
 function TCMatrixHelper.Conjugate: TCMatrix;
 var
@@ -2117,16 +2301,14 @@ begin
     result.fm[i] := ALeft.fm[i] / ARight;
 end;
 
-(*
-class operator TVector./(const ALeft: T; const ARight: TVector): TVector;
+function TCVectorHelper.Conjugate: TCVector;
 var
   i: longint;
 begin
-  result := ARight.Reciprocal;
-  for i  := 0 to ARight.fOrder - 1 do
-    result.fm[i] := ALeft * result.fm[i];
+  for i := 0 to fOrder -1 do
+    result[i] := result[i].Conjugate;
 end;
-*)
+
 
 // Standalone functions
 
