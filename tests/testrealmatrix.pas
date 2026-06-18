@@ -1587,10 +1587,171 @@ begin
   Check('singular Inverse raises EZeroDivide', raised);
 end;
 
+procedure TestSolveLinear;
+var
+  A: TRMatrix;
+  xt, b, x, r: TRVector;
+  i, j, n: integer;
+  raised: boolean;
+begin
+  Section('TRMatrix - SolveLinear');
+
+  // Known system: [[2,1],[1,3]] * [1,2] = [4,7]
+  A.Init(TArrayOfDouble.Create(2,1, 1,3));
+  b.Init(TArrayOfDouble.Create(4, 7));
+  x := A.SolveLinear(b);
+  CheckNear('2x2 known x[0]=1', x[0], 1.0, EPS);
+  CheckNear('2x2 known x[1]=2', x[1], 2.0, EPS);
+
+  // Random well-conditioned systems: construct b = A*xt, recover xt
+  BeginCategory('SolveLinear forward error (random)');
+  for n := 4 to 8 do
+  begin
+    A.Init(n);
+    xt.Init(n);
+    for i := 0 to n-1 do
+    begin
+      xt[i] := i + 1;
+      for j := 0 to n-1 do A[i,j] := Sin(7.0*i + 13.0*j) ;
+      A[i,i] := A[i,i] + n;
+    end;
+    b := A * xt;
+    x := A.SolveLinear(b);
+    for i := 0 to n-1 do
+      CmpRRel(Format('n=%d x[%d]', [n, i]), x[i], xt[i], 1e-10);
+  end;
+
+  // Hilbert 8x8: residual must stay at machine level despite cond ~ 1e10
+  BeginCategory('SolveLinear residual (Hilbert 8, ill-cond)');
+  A.Init(8);
+  for i := 0 to 7 do
+    for j := 0 to 7 do
+      A[i,j] := 1.0 / (i + j + 1);
+  xt.Init(8);
+  for i := 0 to 7 do xt[i] := 1.0;
+  b := A * xt;
+  x := A.SolveLinear(b);
+  r := A * x - b;
+  CmpRAbs('residual |Ax-b|', r.Norm, 0.0, 1e-13);
+
+  Section('TRMatrix - SolveLinear exceptions');
+  raised := False;
+  A.Init(3);
+  b.Init(2);
+  try
+    x := A.SolveLinear(b);
+  except
+    on EDimensionError do raised := True;
+  end;
+  Check('size mismatch raises EDimensionError', raised);
+
+  raised := False;
+  A.Init(TArrayOfDouble.Create(1,2, 2,4));
+  b.Init(TArrayOfDouble.Create(1, 1));
+  try
+    x := A.SolveLinear(b);
+  except
+    on EZeroDivide do raised := True;
+  end;
+  Check('singular system raises EZeroDivide', raised);
+end;
+
+procedure TestEigenvectors;
+var
+  A: TRMatrix;
+  V, ZA: TCMatrix;
+  ev: TArrayOfComplex;
+  col, res: TCVector;
+  proj: TComplex;
+  i, j, k, n: integer;
+  offdiag: double;
+
+  procedure LoadComplexCopy;
+  var p, q: integer;
+  begin
+    ZA.Init(A.Order);
+    for p := 0 to A.Order-1 do
+      for q := 0 to A.Order-1 do
+        ZA[p,q] := C(A[p,q], 0);
+  end;
+
+  procedure CheckResiduals(const tag: string; ATol: double);
+  var p, q: integer;
+  begin
+    LoadComplexCopy;
+    for q := 0 to A.Order-1 do
+    begin
+      col.Init(A.Order);
+      for p := 0 to A.Order-1 do col[p] := V[p,q];
+      res := ZA * col - ev[q] * col;
+      CmpRAbs(Format('%s |Av-lv| col %d', [tag, q]), res.Norm, 0.0, ATol);
+      CmpRAbs(Format('%s |v|=1 col %d',  [tag, q]), col.Norm, 1.0, 1e-9);
+    end;
+  end;
+
+begin
+  Section('TRMatrix - Eigenvectors');
+
+  // Symmetric 3x3: residuals, unit norm, real vectors, orthogonality
+  A.Init(TArrayOfDouble.Create(4,2,1, 2,5,3, 1,3,6));
+  BeginCategory('Eigenvectors sym 3x3');
+  V := A.Eigenvectors(ev);
+  CheckResiduals('sym3', 1e-9);
+  for j := 0 to 2 do
+    for k := j+1 to 2 do
+    begin
+      proj := 0;
+      for i := 0 to 2 do proj := proj + V[i,j] * V[i,k].Conjugate;
+      CmpRAbs(Format('sym3 ortho %d.%d', [j, k]), Abs(proj), 0.0, 1e-9);
+    end;
+  for j := 0 to 2 do
+    for i := 0 to 2 do
+      CmpRAbs(Format('sym3 Im=0 [%d,%d]', [i, j]), Abs(V[i,j].Im), 0.0, 1e-12);
+
+  // Degenerate spectrum 2,2,2,5,5: orthonormality within clusters is the
+  // critical property
+  A.Init(TArrayOfDouble.Create(
+    3.9681451856646284, -0.6470635423949582, -1.0683766715308218, 0.6550202348522072, -0.20412897125396062,
+    -0.6470635423949582, 2.39008949997781, 0.07219196833991376, -0.2941787990675794, 0.712498847669345,
+    -1.0683766715308218, 0.07219196833991376, 3.019026569770013, -0.23153568981902073, -0.904663136857451,
+    0.6550202348522072, -0.2941787990675794, -0.23153568981902073, 2.253034895825433, -0.35479089535141245,
+    -0.20412897125396062, 0.712498847669345, -0.904663136857451, -0.35479089535141245, 4.369703848762114));
+  BeginCategory('Eigenvectors degenerate 2,2,2,5,5');
+  V := A.Eigenvectors(ev);
+  CheckResiduals('deg5', 1e-7);
+  offdiag := 0;
+  for j := 0 to 4 do
+    for k := j+1 to 4 do
+    begin
+      proj := 0;
+      for i := 0 to 4 do proj := proj + V[i,j] * V[i,k].Conjugate;
+      if Abs(proj) > offdiag then offdiag := Abs(proj);
+    end;
+  CmpRAbs('deg5 max |<vi,vj>|', offdiag, 0.0, 1e-7);
+
+  // Rotation 2x2: complex pair, complex eigenvectors
+  A.Init(TArrayOfDouble.Create(0,-1, 1,0));
+  BeginCategory('Eigenvectors rotation 2x2');
+  V := A.Eigenvectors(ev);
+  CheckResiduals('rot2', 1e-9);
+
+  // General 4x4 with mixed spectrum
+  A.Init(TArrayOfDouble.Create(
+    1,-2, 5, 0.5,
+    2, 1,-1, 0.25,
+    0, 0, 3, 1,
+    0, 0, 0,-2));
+  BeginCategory('Eigenvectors general 4x4 (mixed spectrum)');
+  V := A.Eigenvectors(ev);
+  CheckResiduals('gen4', 1e-8);
+end;
+
 { Entry point: runs every test procedure in this unit. }
 procedure Run;
 begin
   TestTRMatrix;
+  TestSolveLinear;
+  TestEigenvectors;
   TestComplexEigenvalues;
   TestExceptions;
   TestRealMatrices;
