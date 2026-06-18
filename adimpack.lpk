@@ -22,12 +22,8 @@
         <UnitName Value="ADimCL3"/>
       </Item>
       <Item>
-        <Filename Value="adimc.pas"/>
-        <UnitName Value="adimc"/>
-      </Item>
-      <Item>
-        <Filename Value="adimr.pas"/>
-        <UnitName Value="ADimR"/>
+        <Filename Value="adimmath.pas"/>
+        <UnitName Value="adimmath"/>
       </Item>
       <Item>
         <Filename Value="adimcommon.pas"/>
