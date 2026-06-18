@@ -708,10 +708,33 @@ begin
       CmpCRel('ZA*inv-I', Prod[i,j], Id[i,j].Re, Id[i,j].Im, 1e-9);
 end;
 
+procedure TestComplexSolveLinear;
+var
+  A: TCMatrix;
+  xt, b, x, r: TCVector;
+  i: integer;
+begin
+  Section('TCMatrix - SolveLinear');
+
+  BeginCategory('Complex SolveLinear');
+  A.Init(TArrayOfComplex.Create(
+    C(3,1),  C(1,-1), C(0,2),
+    C(1,0),  C(4,2),  C(1,1),
+    C(0,-2), C(1,0),  C(5,-1)));
+  xt.Init(TArrayOfComplex.Create(C(1,1), C(2,-1), C(0,3)));
+  b := A * xt;
+  x := A.SolveLinear(b);
+  for i := 0 to 2 do
+    CmpCRel(Format('x[%d]', [i]), x[i], xt[i].Re, xt[i].Im, 1e-12);
+  r := A * x - b;
+  CmpRAbs('residual |Ax-b|', r.Norm, 0.0, 1e-13);
+end;
+
 { Entry point: runs every test procedure in this unit. }
 procedure Run;
 begin
   TestTCMatrix;
+  TestComplexSolveLinear;
   TestComplexMatrices;
   TestLargeComplex;
 end;
