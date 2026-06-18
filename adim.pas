@@ -62,7 +62,7 @@ unit ADim;
 interface
 
 uses
-  AdimC, ADimCL3, ADimCommon, ADimR, ADimRes, SysUtils;
+  ADimCL3, ADimCommon, AdimMath, ADimRes, SysUtils;
 
 type
   { TPrefix }
