@@ -8,7 +8,7 @@ unit ADimPack;
 interface
 
 uses
-  ADim, ADimRes, ADimCL3, ADimC, ADimR, ADimCommon;
+  ADim, ADimRes, ADimCL3, ADimMath, ADimCommon;
 
 implementation
 
