@@ -57,7 +57,7 @@ unit Skeleton;
 interface
 
 uses
-  AdimC, ADimCL3, ADimCommon, ADimR, ADimRes, SysUtils;
+  ADimCL3, ADimCommon, ADimMath, ADimRes, SysUtils;
 
 type
   { TPrefix }
@@ -291,44 +291,46 @@ type
     Concrete types are provided as @link(TR2MatrixQuantity), @link(TR3MatrixQuantity), and @link(TR4MatrixQuantity).
   }
   {$IFNDEF ADIMOFF}
-  TRMatrixQuantity = record
+  generic TMatrixQuantity<T> = record
+  type
+    TMatrix = specialize TMatrix<T>;
   private
     FDim: TDimension;
-    FValue: TRMatrix;
+    FValue: TMatrix;
     function GetSize: longint;
     function Get(ARow, ACol: longint): TQuantity;
     procedure Put(ARow, ACol: longint; const AValue: TQuantity);
   public
-    procedure Initialize(ASize: longint);
-    procedure Finalize;
-    function Clone: TRMatrixQuantity;
+
+    function Clone: TMatrixQuantity;
+
     function Determinant: TQuantity;
-    function Diagonalize(const AEigenValues: TArrayOfQuantity): TRMatrixQuantity;
+    function Diagonalize(const AEigenValues: TArrayOfQuantity): TMatrixQuantity;
     function Eigenvalues: TArrayOfQuantity;
     procedure Init(AN: longint);
     function IsNull: boolean;
     function IsNotNull: boolean;
     function IsUnitary: boolean;
     function Norm: TQuantity;
-    class function Null: TRMatrixQuantity; static;
+    class function Null: TMatrixQuantity; static;
     function Rank: longint;
-    function Reciprocal(const ADeterminant: TQuantity): TRMatrixQuantity;
-    function RowReduction: TRMatrixQuantity;
-    function SameValue(const AMatrix: TRMatrixQuantity): boolean;
+    function Reciprocal(const ADeterminant: TQuantity): TMatrixQuantity;
+    function RowReduction: TMatrixQuantity;
+    function SameValue(const AMatrix: TMatrixQuantity): boolean;
     procedure Swap(ARow1, ARow2: longint);
     function Trace: TQuantity;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
-    function Transpose: TRMatrixQuantity;
-    class operator := (const AMatrix: TRMatrix): TRMatrixQuantity;
-    class operator <>(const ALeft, ARight: TRMatrixQuantity): boolean;
-    class operator =(const ALeft, ARight: TRMatrixQuantity): boolean;
-    class operator +(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
-    class operator -(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
-    class operator *(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
-    class operator *(const ALeft: TQuantity; const ARight: TRMatrixQuantity): TRMatrixQuantity;
-    class operator *(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
-    class operator /(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
+    function Transpose: TMatrixQuantity;
+    class operator := (const AMatrix: TRMatrix): TMatrixQuantity;
+    class operator <>(const ALeft, ARight: TMatrixQuantity): boolean;
+    class operator =(const ALeft, ARight: TMatrixQuantity): boolean;
+    class operator +(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
+    class operator -(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
+    class operator *(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
+    class operator *(const ALeft: TQuantity; const ARight: TMatrixQuantity): TMatrixQuantity;
+    class operator *(const ALeft: TMatrixQuantity; const ARight: TQuantity): TMatrixQuantity;
+    class operator /(const ALeft: TMatrixQuantity; const ARight: TQuantity): TMatrixQuantity;
   public
     property a[ARow, ACol: longint]: TQuantity read Get write Put; default;
     property Size: longint read GetSize;
@@ -4642,7 +4644,7 @@ end;
 
 function TRMatrixQuantity.GetSize: longint;
 begin
-  result := FValue.N;
+  result := FValue.Order;
 end;
 
 function TRMatrixQuantity.Get(ARow, ACol: longint): TQuantity;
@@ -4880,7 +4882,7 @@ end;
 class operator TRVecQuantity./(const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue / ARight.FValue;
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TRVecQuantity./(const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
@@ -5006,7 +5008,7 @@ end;
 class operator TCVecQuantity./(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue / ARight.FValue;
+  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
 class operator TCVecQuantity./(const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
