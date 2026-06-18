@@ -23,7 +23,7 @@ program test;
 {$mode objfpc}{$H+}{$J-}
 
 uses
-  Skeleton,
+//Skeleton,
   TestFramework,
   TestComplexNumbers,
   TestRealMatrix,
