@@ -301,9 +301,7 @@ type
     function Get(ARow, ACol: longint): TQuantity;
     procedure Put(ARow, ACol: longint; const AValue: TQuantity);
   public
-
     function Clone: TMatrixQuantity;
-
     function Determinant: TQuantity;
     function Diagonalize(const AEigenValues: TArrayOfQuantity): TMatrixQuantity;
     function Eigenvalues: TArrayOfQuantity;
@@ -336,14 +334,11 @@ type
     property Size: longint read GetSize;
   end;
 
-  TCMatrixQuantity = record
-  private
-    FDim:   TDimension;
-    FValue: TCMatrix;
-    procedure Put(ARow, ACol: longint; const AValue: TComplexQuantity);
-    function Get(ARow, ACol: longint): TComplexQuantity;
+  TRMatrixQuantity = specialize TMatrixQuantity<double>;
+  TCMatrixQuantity = specialize TMatrixQuantity<TComplex>;
+
+  TCMatrixQuantityHelper = record helper for TCMatrixQuantity
   public
-    function Clone: TCMatrixQuantity;
     function Conjugate: TCMatrixQuantity;
     function Determinant: TComplexQuantity;
     function Diagonalize(const AEigenValues: TArrayOfComplexQuantity): TCMatrixQuantity;
