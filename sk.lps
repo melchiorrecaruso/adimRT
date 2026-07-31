@@ -15,10 +15,9 @@
       <Unit>
         <Filename Value="adimmath.pas"/>
         <UnitName Value="ADimMath"/>
-        <Loaded Value="True"/>
         <UsageCount Value="52"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="333"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="28"/>
         <CursorPos X="84" Y="466"/>
         <FoldState Value=" TCiND{P111 PlKqCNM"/>
       </Unit>
@@ -27,9 +26,8 @@
         <UnitName Value="Skeleton"/>
         <Loaded Value="True"/>
         <UsageCount Value="26"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="304"/>
+        <TopLine Value="493"/>
         <CursorPos X="11" Y="363"/>
         <FoldState Value=" TCifEz1 PjKipOQ TLkN25 T3m/9044 PDM0^"/>
       </Unit>
@@ -101,16 +99,13 @@
         <UnitName Value="ADimCommon"/>
         <Loaded Value="True"/>
         <UsageCount Value="19"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="49"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="258"/>
         <CursorPos X="19" Y="309"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="adimmath.pas"/>
-        <Caret Line="2300" Column="5" TopLine="2276"/>
-      </Position>
+    <JumpHistory HistoryIndex="23">
       <Position>
         <Filename Value="skeleton.pas"/>
         <Caret Line="303" Column="40" TopLine="285"/>
@@ -136,16 +131,8 @@
         <Caret Line="296" Column="33" TopLine="282"/>
       </Position>
       <Position>
-        <Filename Value="adimmath.pas"/>
-        <Caret Line="259" Column="11" TopLine="185"/>
-      </Position>
-      <Position>
         <Filename Value="skeleton.pas"/>
         <Caret Line="308" Column="65" TopLine="282"/>
-      </Position>
-      <Position>
-        <Filename Value="adimmath.pas"/>
-        <Caret Line="259" Column="11" TopLine="185"/>
       </Position>
       <Position>
         <Filename Value="skeleton.pas"/>
@@ -185,23 +172,11 @@
       </Position>
       <Position>
         <Filename Value="skeleton.pas"/>
-        <Caret Line="304" TopLine="614"/>
-      </Position>
-      <Position>
-        <Filename Value="adimmath.pas"/>
-        <Caret Line="316" Column="46" TopLine="287"/>
-      </Position>
-      <Position>
-        <Filename Value="skeleton.pas"/>
         <Caret Line="341" Column="22" TopLine="312"/>
       </Position>
       <Position>
         <Filename Value="skeleton.pas"/>
         <Caret Line="338" Column="21" TopLine="312"/>
-      </Position>
-      <Position>
-        <Filename Value="skeleton.pas"/>
-        <Caret Line="341" Column="35" TopLine="2177"/>
       </Position>
       <Position>
         <Filename Value="skeleton.pas"/>
@@ -224,8 +199,8 @@
         <Caret Line="85" Column="3" TopLine="69"/>
       </Position>
       <Position>
-        <Filename Value="adimmath.pas"/>
-        <Caret Line="466" Column="84" TopLine="333"/>
+        <Filename Value="skeleton.pas"/>
+        <Caret Line="363" Column="11" TopLine="85"/>
       </Position>
     </JumpHistory>
     <RunParams>
