@@ -23,11 +23,6 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <Units>
-      <Unit>
-        <Filename Value="test.lpr"/>
-      </Unit>
-    </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
@@ -39,9 +34,24 @@
       <OtherUnitFiles Value="tests"/>
       <UnitOutputDirectory Value="build/lib"/>
     </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <IncludeAssertionCode Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <RangeChecks Value="True"/>
+        <OverflowChecks Value="True"/>
+        <StackChecks Value="True"/>
+      </Checks>
+      <VerifyObjMethodCallValidity Value="True"/>
+    </CodeGeneration>
     <Linking>
       <Debugging>
         <DebugInfoType Value="dsDwarf3"/>
+        <UseHeaptrc Value="True"/>
       </Debugging>
     </Linking>
   </CompilerOptions>
