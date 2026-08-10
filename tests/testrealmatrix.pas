@@ -29,6 +29,13 @@ type
   T8DTestSpace  = record const N = 8;  end;
   T9DTestSpace  = record const N = 9;  end;
   T10DTestSpace = record const N = 10; end;
+  T12DTestSpace = record const N = 12; end;
+  T16DTestSpace = record const N = 16; end;
+  T24DTestSpace = record const N = 24; end;
+  T32DTestSpace = record const N = 32; end;
+  T64DTestSpace = record const N = 64; end;
+  T100DTestSpace = record const N = 100; end;
+  T1000DTestSpace = record const N = 1000; end;
 
   T1RealMatrix  = specialize TRealMatrix<T1DTestSpace>;
   T5RealMatrix  = specialize TRealMatrix<T5DTestSpace>;
@@ -37,6 +44,13 @@ type
   T8RealMatrix  = specialize TRealMatrix<T8DTestSpace>;
   T9RealMatrix  = specialize TRealMatrix<T9DTestSpace>;
   T10RealMatrix = specialize TRealMatrix<T10DTestSpace>;
+  T12RealMatrix = specialize TRealMatrix<T12DTestSpace>;
+  T16RealMatrix = specialize TRealMatrix<T16DTestSpace>;
+  T24RealMatrix = specialize TRealMatrix<T24DTestSpace>;
+  T32RealMatrix = specialize TRealMatrix<T32DTestSpace>;
+  T64RealMatrix = specialize TRealMatrix<T64DTestSpace>;
+  T100RealMatrix = specialize TRealMatrix<T100DTestSpace>;
+  T1000RealMatrix = specialize TRealMatrix<T1000DTestSpace>;
 
   T5RealVector = specialize TRealVector<T5DTestSpace>;
   T6RealVector = specialize TRealVector<T6DTestSpace>;
@@ -50,6 +64,15 @@ type
   T8ComplexVector  = specialize TComplexVector<T8DTestSpace>;
   T9ComplexVector  = specialize TComplexVector<T9DTestSpace>;
   T10ComplexVector = specialize TComplexVector<T10DTestSpace>;
+
+  T12ComplexVector = specialize TComplexVector<T12DTestSpace>;
+  T16ComplexVector = specialize TComplexVector<T16DTestSpace>;
+  T24ComplexVector = specialize TComplexVector<T24DTestSpace>;
+  T32ComplexVector = specialize TComplexVector<T32DTestSpace>;
+  T64ComplexVector = specialize TComplexVector<T64DTestSpace>;
+  T100ComplexVector = specialize TComplexVector<T100DTestSpace>;
+  T1000ComplexVector = specialize TComplexVector<T1000DTestSpace>;
+  T12ComplexMatrix = specialize TComplexMatrix<T12DTestSpace>;
 
   T5ComplexMatrix = specialize TComplexMatrix<T5DTestSpace>;
 
@@ -341,13 +364,14 @@ end;
 procedure TestSolveLinear;
 var
   A2: T2RealMatrix;
-  A3: T3RealMatrix;
+  A3, Inv3, Prod3, Id3: T3RealMatrix;
   A4: T4RealMatrix;
   A5: T5RealMatrix;
   A6: T6RealMatrix;
   A7: T7RealMatrix;
   A8: T8RealMatrix;
   xt2, b2, x2: T2RealVector;
+  xt3, b3, x3: T3RealVector;
   xt4, b4, x4: T4RealVector;
   xt5, b5, x5: T5RealVector;
   xt6, b6, x6: T6RealVector;
@@ -363,6 +387,37 @@ begin
   x2 := A2.SolveLinear(b2);
   CheckNear('2x2 known x[0]=1', x2[0], 1.0, EPS);
   CheckNear('2x2 known x[1]=2', x2[1], 2.0, EPS);
+
+  BeginCategory('Scaled real matrix (numpy reference)');
+  A3.Assign([
+    4e-15, 1e-15, 2e-15,
+    1e-15, 3e-15, 0,
+    2e-15, 0,     5e-15]);
+  xt3.Assign([1, -2, 3]);
+  b3.Assign([8e-15, -5e-15, 1.7e-14]);
+  x3 := A3.SolveLinear(b3);
+  CmpRAbs('scaled solve x[0]', x3[0], xt3[0], 1e-14);
+  CmpRAbs('scaled solve x[1]', x3[1], xt3[1], 1e-14);
+  CmpRAbs('scaled solve x[2]', x3[2], xt3[2], 1e-14);
+  CmpRAbs('scaled determinant / 1e-44', A3.Determinant * 1e44,
+    4.2999999999999827, 1e-12);
+
+  Inv3 := A3.Inverse;
+  CmpRRel('scaled inverse[0,0] * 1e-15', Inv3[0,0] * 1e-15,
+    0.3488372093023256, 1e-14);
+  CmpRRel('scaled inverse[1,1] * 1e-15', Inv3[1,1] * 1e-15,
+    0.37209302325581395, 1e-14);
+  CmpRRel('scaled inverse[2,2] * 1e-15', Inv3[2,2] * 1e-15,
+    0.25581395348837205, 1e-14);
+  Prod3 := A3 * Inv3;
+  Id3 := A3.Identity;
+  for i := 0 to 2 do
+    for j := 0 to 2 do
+      CmpRAbs('scaled inverse reconstruction', Prod3[i,j], Id3[i,j], 1e-13);
+
+  A2.Assign([1e200, -1e200, 1e-200, -1e-200]);
+  CmpRRel('extreme matrix Frobenius norm', A2.Norm,
+    1.414213562373095e200, 1e-15);
 
   BeginCategory('Linear system forward error (random)');
 
@@ -1588,6 +1643,429 @@ begin
   CmpRRel('sum=trace', s, 40.99999999999999, 1e-8);
 end;
 
+procedure TestEigenvaluesBeyondOrder10;
+var
+  M12, D12, Q12: T12RealMatrix;
+  M16: T16RealMatrix;
+  M24: T24RealMatrix;
+  M32, D32, Q32: T32RealMatrix;
+  M64: T64RealMatrix;
+  V12: T12ComplexMatrix;
+  E12: T12ComplexVector;
+  E16: T16ComplexVector;
+  E24: T24ComplexVector;
+  E32: T32ComplexVector;
+  E64: T64ComplexVector;
+  Actual: TArrayOfDouble;
+  Used: array of boolean;
+  Expected, Sum, Dot: TComplex;
+  Scale, URow, UCol, SumU2, CAngle, SAngle, X, Y: double;
+  Err, BestErr, RNorm, VNorm, ANorm, MaxOrthogonality: double;
+  i, j, k, p, pass, PairIndex, SignIndex, BestIndex: integer;
+  AllFinite: boolean;
+
+  procedure CheckToeplitz12;
+  var
+    ii: integer;
+  begin
+    M12 := M12.Null;
+    for ii := 0 to 11 do
+    begin
+      M12[ii,ii] := 2;
+      if ii < 11 then
+      begin
+        M12[ii,ii+1] := -1;
+        M12[ii+1,ii] := -1;
+      end;
+    end;
+    E12 := M12.Eigenvalues;
+    SetLength(Actual, 12);
+    AllFinite := True;
+    for ii := 0 to 11 do
+    begin
+      AllFinite := AllFinite and not IsNan(E12[ii].Re) and
+        not IsInfinite(E12[ii].Re) and not IsNan(E12[ii].Im) and
+        not IsInfinite(E12[ii].Im);
+      Actual[ii] := E12[ii].Re;
+    end;
+    Check('order 12 Toeplitz eigenvalues are finite', AllFinite);
+    SortAscArray(Actual);
+    BeginCategory('Eigenvalues sym Toeplitz order 12 (analytic/NumPy)');
+    for ii := 0 to 11 do
+      CmpRRel(Format('eig[%d]', [ii]), Actual[ii],
+        2 - 2 * Cos((ii + 1) * Pi / 13), 1e-9);
+  end;
+
+  procedure CheckToeplitz16;
+  var
+    ii: integer;
+  begin
+    M16 := M16.Null;
+    for ii := 0 to 15 do
+    begin
+      M16[ii,ii] := 2;
+      if ii < 15 then
+      begin
+        M16[ii,ii+1] := -1;
+        M16[ii+1,ii] := -1;
+      end;
+    end;
+    E16 := M16.Eigenvalues;
+    SetLength(Actual, 16);
+    AllFinite := True;
+    for ii := 0 to 15 do
+    begin
+      AllFinite := AllFinite and not IsNan(E16[ii].Re) and
+        not IsInfinite(E16[ii].Re) and not IsNan(E16[ii].Im) and
+        not IsInfinite(E16[ii].Im);
+      Actual[ii] := E16[ii].Re;
+    end;
+    Check('order 16 Toeplitz eigenvalues are finite', AllFinite);
+    SortAscArray(Actual);
+    BeginCategory('Eigenvalues sym Toeplitz order 16 (analytic/NumPy)');
+    for ii := 0 to 15 do
+      CmpRRel(Format('eig[%d]', [ii]), Actual[ii],
+        2 - 2 * Cos((ii + 1) * Pi / 17), 1e-9);
+  end;
+
+  procedure CheckToeplitz24;
+  var
+    ii: integer;
+  begin
+    M24 := M24.Null;
+    for ii := 0 to 23 do
+    begin
+      M24[ii,ii] := 2;
+      if ii < 23 then
+      begin
+        M24[ii,ii+1] := -1;
+        M24[ii+1,ii] := -1;
+      end;
+    end;
+    E24 := M24.Eigenvalues;
+    SetLength(Actual, 24);
+    AllFinite := True;
+    for ii := 0 to 23 do
+    begin
+      AllFinite := AllFinite and not IsNan(E24[ii].Re) and
+        not IsInfinite(E24[ii].Re) and not IsNan(E24[ii].Im) and
+        not IsInfinite(E24[ii].Im);
+      Actual[ii] := E24[ii].Re;
+    end;
+    Check('order 24 Toeplitz eigenvalues are finite', AllFinite);
+    SortAscArray(Actual);
+    BeginCategory('Eigenvalues sym Toeplitz order 24 (analytic/NumPy)');
+    for ii := 0 to 23 do
+      CmpRRel(Format('eig[%d]', [ii]), Actual[ii],
+        2 - 2 * Cos((ii + 1) * Pi / 25), 1e-9);
+  end;
+
+  procedure CheckToeplitz32;
+  var
+    ii: integer;
+  begin
+    M32 := M32.Null;
+    for ii := 0 to 31 do
+    begin
+      M32[ii,ii] := 2;
+      if ii < 31 then
+      begin
+        M32[ii,ii+1] := -1;
+        M32[ii+1,ii] := -1;
+      end;
+    end;
+    E32 := M32.Eigenvalues;
+    SetLength(Actual, 32);
+    AllFinite := True;
+    for ii := 0 to 31 do
+    begin
+      AllFinite := AllFinite and not IsNan(E32[ii].Re) and
+        not IsInfinite(E32[ii].Re) and not IsNan(E32[ii].Im) and
+        not IsInfinite(E32[ii].Im);
+      Actual[ii] := E32[ii].Re;
+    end;
+    Check('order 32 Toeplitz eigenvalues are finite', AllFinite);
+    SortAscArray(Actual);
+    BeginCategory('Eigenvalues sym Toeplitz order 32 (analytic/NumPy)');
+    for ii := 0 to 31 do
+      CmpRRel(Format('eig[%d]', [ii]), Actual[ii],
+        2 - 2 * Cos((ii + 1) * Pi / 33), 1e-9);
+  end;
+
+  procedure CheckToeplitz64;
+  var
+    ii: integer;
+  begin
+    M64 := M64.Null;
+    for ii := 0 to 63 do
+    begin
+      M64[ii,ii] := 2;
+      if ii < 63 then
+      begin
+        M64[ii,ii+1] := -1;
+        M64[ii+1,ii] := -1;
+      end;
+    end;
+    E64 := M64.Eigenvalues;
+    SetLength(Actual, 64);
+    AllFinite := True;
+    for ii := 0 to 63 do
+    begin
+      AllFinite := AllFinite and not IsNan(E64[ii].Re) and
+        not IsInfinite(E64[ii].Re) and not IsNan(E64[ii].Im) and
+        not IsInfinite(E64[ii].Im);
+      Actual[ii] := E64[ii].Re;
+    end;
+    Check('order 64 Toeplitz eigenvalues are finite', AllFinite);
+    SortAscArray(Actual);
+    BeginCategory('Eigenvalues sym Toeplitz order 64 (analytic/NumPy)');
+    for ii := 0 to 63 do
+      CmpRRel(Format('eig[%d]', [ii]), Actual[ii],
+        2 - 2 * Cos((ii + 1) * Pi / 65), 1e-9);
+  end;
+
+begin
+  Section('TRealMatrix - eigenvalue limits beyond order 10');
+  CheckToeplitz12;
+  CheckToeplitz16;
+  CheckToeplitz24;
+  CheckToeplitz32;
+  CheckToeplitz64;
+
+  { Dense order-32 symmetric matrix Q*D*Q^T with a known, well-separated
+    spectrum.  Unlike the Toeplitz cases, this exercises the complete
+    Householder reduction before QR iteration. }
+  Q32 := Q32.Identity;
+  for pass := 0 to 4 do
+    for p := 0 to 31 do
+    begin
+      j := (13 * p + 7 * pass + 5) mod 32;
+      if j = p then Continue;
+      CAngle := Cos(0.019 * (pass + 1) * (p + 1));
+      SAngle := Sin(0.019 * (pass + 1) * (p + 1));
+      for i := 0 to 31 do
+      begin
+        X := Q32[i,p];
+        Y := Q32[i,j];
+        Q32[i,p] := CAngle * X - SAngle * Y;
+        Q32[i,j] := SAngle * X + CAngle * Y;
+      end;
+    end;
+  D32 := D32.Null;
+  for i := 0 to 31 do D32[i,i] := (i - 15.5) / 2;
+  M32 := Q32 * D32 * Q32.Transpose;
+  E32 := M32.Eigenvalues;
+  SetLength(Actual, 32);
+  AllFinite := True;
+  for i := 0 to 31 do
+  begin
+    AllFinite := AllFinite and not IsNan(E32[i].Re) and
+      not IsInfinite(E32[i].Re) and not IsNan(E32[i].Im) and
+      not IsInfinite(E32[i].Im);
+    Actual[i] := E32[i].Re;
+  end;
+  Check('order 32 dense symmetric eigenvalues are finite', AllFinite);
+  SortAscArray(Actual);
+  BeginCategory('Eigenvalues dense symmetric order 32 (analytic/NumPy)');
+  for i := 0 to 31 do
+    CmpRRel(Format('eig[%d]', [i]), Actual[i], (i - 15.5) / 2, 1e-9);
+
+  { Dense symmetric rank-one update: I + u*u^T.  Its spectrum is 1 with
+    multiplicity N-1 and 1+u^T*u once.  Scaling the complete matrix exposes
+    absolute tolerances without changing its mathematical conditioning. }
+  Scale := 1e-15;
+  SumU2 := 0;
+  for i := 0 to 11 do
+  begin
+    URow := (i + 1) / 12;
+    SumU2 := SumU2 + Sqr(URow);
+  end;
+  M12 := M12.Null;
+  for i := 0 to 11 do
+  begin
+    URow := (i + 1) / 12;
+    for j := 0 to 11 do
+    begin
+      UCol := (j + 1) / 12;
+      M12[i,j] := Scale * URow * UCol;
+      if i = j then M12[i,j] := M12[i,j] + Scale;
+    end;
+  end;
+  E12 := M12.Eigenvalues;
+  SetLength(Actual, 12);
+  AllFinite := True;
+  for i := 0 to 11 do
+  begin
+    AllFinite := AllFinite and not IsNan(E12[i].Re) and
+      not IsInfinite(E12[i].Re) and not IsNan(E12[i].Im) and
+      not IsInfinite(E12[i].Im);
+    Actual[i] := E12[i].Re / Scale;
+  end;
+  Check('scaled dense symmetric eigenvalues are finite', AllFinite);
+  SortAscArray(Actual);
+  BeginCategory('Eigenvalue scale invariance order 12 (analytic/NumPy)');
+  for i := 0 to 10 do
+    CmpRRel(Format('eig[%d]/scale', [i]), Actual[i], 1, 1e-9);
+  CmpRRel('eig[11]/scale', Actual[11], 1 + SumU2, 1e-9);
+
+  { Dense real normal matrix Q*D*Q^T with six known complex-conjugate
+    eigenvalue pairs. }
+  Q12 := Q12.Identity;
+  for pass := 0 to 2 do
+    for p := 0 to 10 do
+    begin
+      CAngle := Cos(0.071 * (pass + 1) * (p + 1));
+      SAngle := Sin(0.071 * (pass + 1) * (p + 1));
+      for i := 0 to 11 do
+      begin
+        X := Q12[i,p];
+        Y := Q12[i,p+1];
+        Q12[i,p]   := CAngle * X - SAngle * Y;
+        Q12[i,p+1] := SAngle * X + CAngle * Y;
+      end;
+    end;
+  D12 := D12.Null;
+  for PairIndex := 0 to 5 do
+  begin
+    X := PairIndex - 2.5;
+    Y := 0.25 + 0.2 * PairIndex;
+    D12[2*PairIndex, 2*PairIndex]       := X;
+    D12[2*PairIndex, 2*PairIndex+1]     := -Y;
+    D12[2*PairIndex+1, 2*PairIndex]     := Y;
+    D12[2*PairIndex+1, 2*PairIndex+1]   := X;
+  end;
+  M12 := Q12 * D12 * Q12.Transpose;
+  E12 := M12.Eigenvalues;
+  SetLength(Used, 12);
+  AllFinite := True;
+  for i := 0 to 11 do
+    AllFinite := AllFinite and not IsNan(E12[i].Re) and
+      not IsInfinite(E12[i].Re) and not IsNan(E12[i].Im) and
+      not IsInfinite(E12[i].Im);
+  Check('order 12 general eigenvalues are finite', AllFinite);
+  BeginCategory('Eigenvalues general order 12, complex pairs (analytic/NumPy)');
+  for PairIndex := 0 to 5 do
+    for SignIndex := 0 to 1 do
+    begin
+      if SignIndex = 0 then
+        Expected := Complex(PairIndex - 2.5, 0.25 + 0.2 * PairIndex)
+      else
+        Expected := Complex(PairIndex - 2.5, -(0.25 + 0.2 * PairIndex));
+      BestErr := MaxDouble;
+      BestIndex := -1;
+      for j := 0 to 11 do
+        if not Used[j] then
+        begin
+          Err := Abs(E12[j] - Expected) / (1 + Abs(Expected));
+          if Err < BestErr then
+          begin
+            BestErr := Err;
+            BestIndex := j;
+          end;
+        end;
+      if BestIndex >= 0 then Used[BestIndex] := True;
+      TrackTol(BestErr, 1e-9);
+    end;
+
+  V12 := M12.Eigenvectors(E12);
+  ANorm := M12.Norm;
+  MaxOrthogonality := 0;
+  BeginCategory('Eigenvectors general order 12 (residual/norm/orthogonality)');
+  for j := 0 to 11 do
+  begin
+    RNorm := 0;
+    VNorm := 0;
+    for i := 0 to 11 do
+    begin
+      Sum := 0;
+      for k := 0 to 11 do
+        Sum := Sum + M12[i,k] * V12[k,j];
+      Sum := Sum - E12[j] * V12[i,j];
+      RNorm := Hypot(RNorm, Abs(Sum));
+      VNorm := Hypot(VNorm, Abs(V12[i,j]));
+    end;
+    TrackTol(RNorm / ((ANorm + Abs(E12[j])) * VNorm), 1e-9);
+    TrackTol(Abs(VNorm - 1), 1e-9);
+  end;
+  for j := 0 to 10 do
+    for k := j + 1 to 11 do
+    begin
+      Dot := 0;
+      for i := 0 to 11 do
+        Dot := Dot + V12[i,j].Conjugate * V12[i,k];
+      if Abs(Dot) > MaxOrthogonality then MaxOrthogonality := Abs(Dot);
+    end;
+  TrackTol(MaxOrthogonality, 1e-8);
+end;
+
+procedure TestEigenvaluesOrder100;
+var
+  M: T100RealMatrix;
+  E: T100ComplexVector;
+  Actual: TArrayOfDouble;
+  i: integer;
+  AllFinite: boolean;
+begin
+  Section('TRealMatrix - opt-in eigenvalue stress order 100');
+  for i := 0 to 99 do
+  begin
+    M[i,i] := 2;
+    if i < 99 then
+    begin
+      M[i,i+1] := -1;
+      M[i+1,i] := -1;
+    end;
+  end;
+
+  E := M.Eigenvalues;
+  SetLength(Actual, 100);
+  AllFinite := True;
+  for i := 0 to 99 do
+  begin
+    AllFinite := AllFinite and not IsNan(E[i].Re) and
+      not IsInfinite(E[i].Re) and not IsNan(E[i].Im) and
+      not IsInfinite(E[i].Im);
+    Actual[i] := E[i].Re;
+  end;
+  Check('order 100 Toeplitz eigenvalues are finite', AllFinite);
+  SortAscArray(Actual);
+  BeginCategory('Eigenvalues sym Toeplitz order 100 (analytic/NumPy)');
+  for i := 0 to 99 do
+    CmpRRel(Format('eig[%d]', [i]), Actual[i],
+      2 - 2 * Cos((i + 1) * Pi / 101), 1e-9);
+end;
+
+procedure TestEigenvaluesOrder1000;
+var
+  M: T1000RealMatrix;
+  E: T1000ComplexVector;
+  Actual: TArrayOfDouble;
+  i: integer;
+  AllFinite: boolean;
+begin
+  Section('TRealMatrix - opt-in eigenvalue stress order 1000');
+  { A diagonal matrix is deliberately the cheapest possible spectral case.
+    It establishes the minimum overhead of the current Hessenberg pipeline
+    before attempting dense matrices of this order. }
+  for i := 0 to 999 do M[i,i] := i + 1;
+
+  E := M.Eigenvalues;
+  SetLength(Actual, 1000);
+  AllFinite := True;
+  for i := 0 to 999 do
+  begin
+    AllFinite := AllFinite and not IsNan(E[i].Re) and
+      not IsInfinite(E[i].Re) and not IsNan(E[i].Im) and
+      not IsInfinite(E[i].Im);
+    Actual[i] := E[i].Re;
+  end;
+  Check('order 1000 diagonal eigenvalues are finite', AllFinite);
+  SortAscArray(Actual);
+  BeginCategory('Eigenvalues diagonal order 1000 (analytic/NumPy)');
+  for i := 0 to 999 do
+    CmpRRel(Format('eig[%d]', [i]), Actual[i], i + 1, 1e-12);
+end;
+
 procedure TestLargeRealProducts;
 var
   A5, B5, P5: T5RealMatrix;
@@ -1926,6 +2404,8 @@ end;
 
 { Entry point: runs every test procedure in this unit. }
 procedure Run;
+var
+  StressOrder: integer;
 begin
   TestTRMatrix;
   TestSolveLinear;
@@ -1935,6 +2415,11 @@ begin
   TestRealMatrices;
   TestLargeRealInverse;
   TestLargeRealEigen;
+  TestEigenvaluesBeyondOrder10;
+  StressOrder := StrToIntDef(
+    GetEnvironmentVariable('ADIMMATH_EIGEN_STRESS_ORDER'), 0);
+  if StressOrder >= 100 then TestEigenvaluesOrder100;
+  if StressOrder >= 1000 then TestEigenvaluesOrder1000;
   TestLargeRealProducts;
 end;
 

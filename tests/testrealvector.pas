@@ -229,12 +229,35 @@ begin
   CmpR('cross.v=0', rn * rv, 0.0);
 end;
 
+procedure TestExtremeRealVectorNorms;
+var
+  v, n, r: T3RealVector;
+begin
+  BeginCategory('Real vector extreme norms (numpy hypot.reduce)');
+
+  v.Assign([1e200, -1e200, 1e-200]);
+  CmpRRel('large norm', v.Norm, 1.414213562373095e200, 1e-15);
+
+  v.Assign([1e-200, -1e-200, 0]);
+  CmpRAbs('small norm scaled', v.Norm * 1e200,
+    1.414213562373095, 1e-15);
+
+  n := v.Normalize;
+  CmpRAbs('small normalize[0]', n[0], 0.7071067811865475, 1e-15);
+  CmpRAbs('small normalize[1]', n[1], -0.7071067811865475, 1e-15);
+
+  r := v.Reciprocal;
+  CmpRAbs('small reciprocal[0] scaled', r[0] * 1e-200, 0.5, 1e-15);
+  CmpRAbs('small reciprocal[1] scaled', r[1] * 1e-200, -0.5, 1e-15);
+end;
+
 procedure Run;
 begin
   TestT3RealVector;
   TestT5RealVector;
   TestT4RealMatrixVector;
   TestT3RealCross;
+  TestExtremeRealVectorNorms;
 end;
 
 initialization

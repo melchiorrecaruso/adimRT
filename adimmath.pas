@@ -1017,8 +1017,25 @@ begin
 end;
 
 function TComplex.Reciprocal: TComplex;
+var
+  LRatio, LDenominator: double;
 begin
-  result := Conjugate / SquaredNorm;
+  if (fRe = 0) and (fIm = 0) then
+    raise EZeroDivide.Create('TComplex.Reciprocal: division by zero.');
+
+  if System.Abs(fRe) >= System.Abs(fIm) then
+  begin
+    LRatio := fIm / fRe;
+    LDenominator := fRe + fIm * LRatio;
+    result.fRe := 1 / LDenominator;
+    result.fIm := -LRatio / LDenominator;
+  end else
+  begin
+    LRatio := fRe / fIm;
+    LDenominator := fIm + fRe * LRatio;
+    result.fRe := LRatio / LDenominator;
+    result.fIm := -1 / LDenominator;
+  end;
 end;
 
 function TComplex.ToString: string;
@@ -1295,11 +1312,11 @@ end;
 
 class operator TImaginaryUnit./(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
 var
-  denom: double;
+  LReciprocal: TComplex;
 begin
-  denom      := ARight.SquaredNorm;
-  result.fRe := ARight.fIm / denom;
-  result.fIm := ARight.fRe / denom;
+  LReciprocal := ARight.Reciprocal;
+  result.fRe := -LReciprocal.fIm;
+  result.fIm :=  LReciprocal.fRe;
 end;
 
 // TComplexMatrix
@@ -1335,7 +1352,7 @@ begin
         maxRow := j;
       end;
 
-    if maxVal < DefaultEpsilon then Continue;
+    if maxVal = 0 then Continue;
 
     if maxRow <> i then
     begin
@@ -1348,7 +1365,7 @@ begin
 
     for j := i + 1 to Space.N - 1 do
     begin
-      if Abs(result.fm[j, i]) < DefaultEpsilon then Continue;
+      if Abs(result.fm[j, i]) = 0 then Continue;
       rowJ       := result.fm[j];
       ratio      := rowJ[i] / pivot;
       rowJ[i]    := 0;
@@ -1532,17 +1549,15 @@ end;
 function TComplexMatrix.Norm: double;
 var
   i, j: longint;
-  sum:  double;
   rowI: TArrayOfComplex;
 begin
-  sum := 0;
+  result := 0;
   for i := 0 to Space.N -1 do
   begin
     rowI := fm[i];
     for j := 0 to Space.N -1 do
-      sum := sum + SquareNorm(rowI[j]);
+      result := Hypot(result, rowI[j].Norm);
   end;
-  result := sqrt(sum);
 end;
 
 function TComplexMatrix.Rank: longint;
@@ -1644,7 +1659,7 @@ begin
         maxRow := j;
       end;
 
-    if maxVal < DefaultEpsilon then
+    if maxVal = 0 then
       raise EZeroDivide.Create('TComplexMatrix.Inverse: matrix is singular (zero pivot).');
 
     if maxRow <> i then
@@ -1701,7 +1716,7 @@ begin
         maxRow := j;
       end;
 
-    if maxVal <= DefaultEpsilon then
+    if maxVal = 0 then
       raise EZeroDivide.Create('TComplexMatrix.SolveLinear: matrix is singular (zero pivot).');
 
     if maxRow <> i then
@@ -1755,7 +1770,7 @@ begin
         maxRow := row;
       end;
 
-    if maxVal <= DefaultEpsilon then Continue;
+    if maxVal = 0 then Continue;
 
     if maxRow <> pivotRow then
       result.Swap(pivotRow, maxRow);
@@ -1771,7 +1786,7 @@ begin
       if row = pivotRow then Continue;
       rowR := result.fm[row];
       factor := rowR[col];
-      if Abs(factor) <= DefaultEpsilon then Continue;
+      if Abs(factor) = 0 then Continue;
       rowR[col] := 0;
       for k := col + 1 to Space.N - 1 do
         rowR[k] := rowR[k] - factor * rowP[k];
@@ -2327,8 +2342,12 @@ begin
 end;
 
 function TComplexVector.Norm: double;
+var
+  i: longint;
 begin
-  result := sqrt(SquaredNorm);
+  result := 0;
+  for i := 0 to Space.N - 1 do
+    result := Hypot(result, fm[i].Norm);
 end;
 
 function TComplexVector.SquaredNorm: double;
@@ -2346,7 +2365,7 @@ var
   LNorm: double;
 begin
   LNorm := Norm;
-  if LNorm < DefaultEpsilon then
+  if LNorm = 0 then
     raise EZeroDivide.Create('TRVector.Normalize: cannot normalise a null vector.');
 
   for i := 0 to Space.N -1 do
@@ -2356,14 +2375,14 @@ end;
 function TComplexVector.Reciprocal: TComplexVector;
 var
   i:           longint;
-  LSquareNorm: double;
+  LNorm: double;
 begin
-  LSquareNorm := SquaredNorm;
-  if LSquareNorm < DefaultEpsilon then
+  LNorm := Norm;
+  if LNorm = 0 then
     raise EZeroDivide.Create('TRVector.Reciprocal: cannot invert a null vector.');
 
   for i := 0 to Space.N -1 do
-    result.fm[i] := fm[i] / LSquareNorm;
+    result.fm[i] := (fm[i] / LNorm) / LNorm;
 end;
 
 function TComplexVector.ToString: string;
@@ -2568,8 +2587,12 @@ begin
 end;
 
 function TRealVector.Norm: TReal;
+var
+  LIndex: longint;
 begin
-  result := sqrt(SquaredNorm);
+  result := 0;
+  for LIndex := 0 to Space.N - 1 do
+    result := Hypot(result, fm[LIndex]);
 end;
 
 function TRealVector.SquaredNorm: TReal;
@@ -2587,7 +2610,7 @@ var
   LNorm: TReal;
 begin
   LNorm := Norm;
-  if LNorm < DefaultEpsilon then
+  if LNorm = 0 then
     raise EZeroDivide.Create('TRealVector.Normalize: cannot normalise a null vector.');
 
   for LIndex := 0 to Space.N - 1 do
@@ -2597,14 +2620,14 @@ end;
 function TRealVector.Reciprocal: TRealVector;
 var
   LIndex: longint;
-  LSquaredNorm: TReal;
+  LNorm: TReal;
 begin
-  LSquaredNorm := SquaredNorm;
-  if LSquaredNorm < DefaultEpsilon then
+  LNorm := Norm;
+  if LNorm = 0 then
     raise EZeroDivide.Create('TRealVector.Reciprocal: cannot invert a null vector.');
 
   for LIndex := 0 to Space.N - 1 do
-    result.fm[LIndex] := fm[LIndex] / LSquaredNorm;
+    result.fm[LIndex] := (fm[LIndex] / LNorm) / LNorm;
 end;
 
 function TRealVector.ToString: string;
@@ -2757,7 +2780,7 @@ begin
         LPivotRow := LRow;
       end;
 
-    if LMaxValue < DefaultEpsilon then Continue;
+    if LMaxValue = 0 then Continue;
 
     if LPivotRow <> LCol then
     begin
@@ -2770,7 +2793,7 @@ begin
 
     for LNextRow := LCol + 1 to Space.N - 1 do
     begin
-      if System.Abs(result.fm[LNextRow, LCol]) < DefaultEpsilon then Continue;
+      if result.fm[LNextRow, LCol] = 0 then Continue;
 
       LRowWork := result.fm[LNextRow];
       LRatio := LRowWork[LCol] / LPivot;
@@ -2807,7 +2830,7 @@ begin
         LPivotRow := LRow;
       end;
 
-    if LMaxValue < DefaultEpsilon then
+    if LMaxValue = 0 then
       raise EZeroDivide.Create('TRealMatrix.SolveLinear: matrix is singular.');
 
     if LPivotRow <> LCol then
@@ -2824,7 +2847,7 @@ begin
     begin
       LRowData := LWork.fm[LRow];
       LFactor := LRowData[LCol] / LPivotData[LCol];
-      if System.Abs(LFactor) < DefaultEpsilon then Continue;
+      if LFactor = 0 then Continue;
 
       LRowData[LCol] := 0;
       for LIndex := LCol + 1 to Space.N - 1 do
@@ -2939,8 +2962,7 @@ begin
   result := 0;
   for LRow := 0 to Space.N - 1 do
     for LCol := 0 to Space.N - 1 do
-      result := result + sqr(fm[LRow, LCol]);
-  result := sqrt(result);
+      result := Hypot(result, fm[LRow, LCol]);
 end;
 
 function TRealMatrix.Rank: longint;
@@ -3041,7 +3063,7 @@ begin
         LPivotRow := LRow;
       end;
 
-    if LMaxValue < DefaultEpsilon then
+    if LMaxValue = 0 then
       raise EZeroDivide.Create('TRealMatrix.Inverse: matrix is singular.');
 
     if LPivotRow <> LCol then
@@ -3069,7 +3091,7 @@ begin
 
       LWorkRow := LWork.fm[LRow];
       LFactor := LWorkRow[LCol];
-      if System.Abs(LFactor) < DefaultEpsilon then Continue;
+      if LFactor = 0 then Continue;
 
       LResultRow := result.fm[LRow];
       for LIndex := 0 to Space.N - 1 do
@@ -3106,7 +3128,7 @@ begin
         LPivotRow := LScanRow;
       end;
 
-    if LMaxValue <= DefaultEpsilon then Continue;
+    if LMaxValue = 0 then Continue;
 
     if LPivotRow <> LLeadRow then
       result.Swap(LLeadRow, LPivotRow);
@@ -3124,7 +3146,7 @@ begin
 
       LRowData := result.fm[LScanRow];
       LFactor := LRowData[LCol];
-      if System.Abs(LFactor) <= DefaultEpsilon then
+      if LFactor = 0 then
       begin
         LRowData[LCol] := 0;
         result.fm[LScanRow] := LRowData;

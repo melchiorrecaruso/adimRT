@@ -732,8 +732,11 @@ end;
 procedure TestComplexSolveLinear;
 var
   A: T3ComplexMatrix;
+  A2, Inv2, Prod2, Id2: T2ComplexMatrix;
   xt, b, x, r: T3ComplexVector;
-  i: integer;
+  xt2, b2, x2: T2ComplexVector;
+  det2: TComplex;
+  i, j: integer;
 begin
   Section('TCMatrix - SolveLinear');
 
@@ -749,6 +752,32 @@ begin
     CmpCRel(Format('x[%d]', [i]), x[i], xt[i].Re, xt[i].Im, 1e-12);
   r := A * x - b;
   CmpRAbs('residual |Ax-b|', r.Norm, 0.0, 1e-13);
+
+  BeginCategory('Scaled complex matrix (numpy reference)');
+  A2.Assign([
+    C(2e-15, 1e-15),  C(1e-15, -2e-15),
+    C(-1e-15, 0.5e-15), C(3e-15, -1e-15)]);
+  xt2.Assign([C(1, -2), C(-0.5, 3)]);
+  b2.Assign([C(9.5e-15, 1e-15), C(1.5e-15, 1.2e-14)]);
+  x2 := A2.SolveLinear(b2);
+  CmpCRel('scaled solve x[0]', x2[0], 1, -2, 1e-14);
+  CmpCRel('scaled solve x[1]', x2[1], -0.5, 3, 1e-14);
+
+  det2 := 1e30 * A2.Determinant;
+  CmpCRel('scaled determinant / 1e-30', det2,
+    7.000000000000043, -1.5000000000000085, 1e-14);
+
+  Inv2 := A2.Inverse;
+  CmpCRel('scaled inverse[0,0] * 1e-15', 1e-15 * Inv2[0,0],
+    0.43902439024390233, -0.04878048780487804, 1e-14);
+  CmpCRel('scaled inverse[1,1] * 1e-15', 1e-15 * Inv2[1,1],
+    0.24390243902439024, 0.19512195121951217, 1e-14);
+  Prod2 := A2 * Inv2;
+  Id2 := A2.Identity;
+  for i := 0 to 1 do
+    for j := 0 to 1 do
+      CmpCRel('scaled inverse reconstruction', Prod2[i,j],
+        Id2[i,j].Re, Id2[i,j].Im, 1e-13);
 end;
 
 { Entry point: runs every test procedure in this unit. }

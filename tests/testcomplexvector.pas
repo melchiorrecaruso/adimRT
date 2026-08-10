@@ -215,12 +215,39 @@ begin
   Check('T2ComplexVector.Cross raises ERangeError', Raised);
 end;
 
+procedure TestExtremeComplexVectorNorms;
+var
+  v, n, r: T3ComplexVector;
+begin
+  BeginCategory('Complex vector extreme norms (numpy hypot.reduce)');
+
+  v.Assign([C(1e200, 1e200), C(-1e200, 1e200), C(0, 1e-200)]);
+  CmpRRel('large complex norm', v.Norm, 2e200, 1e-15);
+
+  v.Assign([C(1e-200, 0), C(0, -1e-200), C(0, 0)]);
+  CmpRAbs('small complex norm scaled', v.Norm * 1e200,
+    1.414213562373095, 1e-15);
+
+  n := v.Normalize;
+  CmpCRel('small complex normalize[0]', n[0],
+    0.7071067811865475, 0, 1e-15);
+  CmpCRel('small complex normalize[1]', n[1],
+    0, -0.7071067811865475, 1e-15);
+
+  r := v.Reciprocal;
+  CmpCRel('small complex reciprocal[0] scaled', 1e-200 * r[0],
+    0.5, 0, 1e-15);
+  CmpCRel('small complex reciprocal[1] scaled', 1e-200 * r[1],
+    0, -0.5, 1e-15);
+end;
+
 { Entry point: runs every test procedure in this unit. }
 procedure Run;
 begin
   TestTCVector;
   TestComplexVectors;
   TestT2ComplexCrossException;
+  TestExtremeComplexVectorNorms;
 end;
 
 initialization

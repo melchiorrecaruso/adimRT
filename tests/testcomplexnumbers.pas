@@ -316,6 +316,34 @@ begin
   Check('cplx (1+i)<>(1+2i)',     not SameValueEx(C(1,1), C(1,2)));
 end;
 
+procedure TestExtremeMagnitudes;
+var
+  z, r: TComplex;
+  Raised: boolean;
+begin
+  BeginCategory('Complex scalar extreme magnitudes (numpy reference)');
+
+  z := C(1e200, 1e200);
+  r := 1e200 * z.Reciprocal;
+  CmpC('reciprocal(1e200+i*1e200) scaled', r, 0.5, -0.5);
+
+  z := C(1e-200, 1e-200);
+  r := 1e-200 * z.Reciprocal;
+  CmpC('reciprocal(1e-200+i*1e-200) scaled', r, 0.5, -0.5);
+
+  z := C(1e200, 1e200);
+  r := 1e200 * (img / z);
+  CmpC('i/(1e200+i*1e200) scaled', r, 0.5, 0.5);
+
+  Raised := False;
+  try
+    C(0, 0).Reciprocal;
+  except
+    on EZeroDivide do Raised := True;
+  end;
+  Check('Reciprocal(0) raises EZeroDivide', Raised);
+end;
+
 { Entry point: runs every test procedure in this unit. }
 procedure Run;
 begin
@@ -325,6 +353,7 @@ begin
   TestRoots;
   TestPowers;
   TestSameValueEx;
+  TestExtremeMagnitudes;
 end;
 
 initialization
