@@ -1328,8 +1328,10 @@ begin
   writeln('* TEST-107: PASSED');
 
   // TEST-108 - Affine temperature-unit conversions.
-  // Exercise: kelvin, degree Celsius and degree Fahrenheit require both a scale
-  // and an offset.  TFactoredUnit handles these conversions without changing dimension.
+  // Exercise: Celsius and Fahrenheit values are points on affine scales, so
+  // converting an absolute temperature requires an offset as well as a scale
+  // factor. Temperature differences are vectors: their delta units are purely
+  // multiplicative and must never include the zero-point offset.
   temp := 0*K;
   {$IFDEF WINDOWS}
   if Utf8ToAnsi(KelvinUnit.ToString(temp)) <> Utf8ToAnsi('0 K')                  then halt(1);
@@ -1353,6 +1355,49 @@ begin
   if Utf8ToAnsi(KelvinUnit.ToString(temp, 5, 2, [])) <> Utf8ToAnsi('255.37 K') then halt(5);
   {$ELSE}
   if KelvinUnit.ToString(temp, 5, 2, []) <> '255.37 K' then halt(5);
+  {$ENDIF}
+
+  // A change of 18 degrees Fahrenheit is exactly 10 kelvin or 10 degrees
+  // Celsius. DeltaDegreeFahrenheitUnit divides by its 5/9 conversion factor
+  // when the same interval is expressed again in delta degrees Fahrenheit.
+  deltatemp := 18*deltaDegF;
+  if not SameValue(KelvinUnit.ToFloat(deltatemp), 10, DefaultEpsilon) then halt(6);
+  if not SameValue(DeltaDegreeCelsiusUnit.ToFloat(deltatemp), 10, DefaultEpsilon) then halt(7);
+  if not SameValue(DeltaDegreeFahrenheitUnit.ToFloat(deltatemp), 18, DefaultEpsilon) then halt(8);
+
+  // Conversely, a 10-degree Celsius interval is 10 kelvin and 18 degrees
+  // Fahrenheit. No absolute-temperature offset participates in this conversion.
+  deltatemp := 10*deltaDegC;
+  if not SameValue(KelvinUnit.ToFloat(deltatemp), 10, DefaultEpsilon) then halt(9);
+  if not SameValue(DeltaDegreeFahrenheitUnit.ToFloat(deltatemp), 18, DefaultEpsilon) then halt(10);
+
+  // Subtracting two absolute temperatures produces an interval. The freezing
+  // point of water is 100 Celsius degrees below its boiling point, equivalently
+  // 180 Fahrenheit degrees.
+  deltatemp := 100*degC - 32*degF;
+  if not SameValue(DeltaDegreeCelsiusUnit.ToFloat(deltatemp), 100, DefaultEpsilon) then halt(11);
+  if not SameValue(DeltaDegreeFahrenheitUnit.ToFloat(deltatemp), 180, DefaultEpsilon) then halt(12);
+
+  // A tolerance is also an interval. The central value receives the affine
+  // conversion, whereas the uncertainty receives only the interval scale.
+  temp := 20*degC;
+  tolerance := 0.5*deltaDegC;
+  {$IFDEF WINDOWS}
+  if Utf8ToAnsi(DegreeCelsiusUnit.ToString(temp, tolerance, 4, 2, [])) <>
+    Utf8ToAnsi('20 ± 0.5 °C') then halt(13);
+  {$ELSE}
+  if DegreeCelsiusUnit.ToString(temp, tolerance, 4, 2, []) <>
+    '20 ± 0.5 °C' then halt(13);
+  {$ENDIF}
+
+  temp := 68*degF;
+  tolerance := 0.9*deltaDegF;
+  {$IFDEF WINDOWS}
+  if Utf8ToAnsi(DegreeFahrenheitUnit.ToString(temp, tolerance, 4, 2, [])) <>
+    Utf8ToAnsi('68 ± 0.9 °F') then halt(14);
+  {$ELSE}
+  if DegreeFahrenheitUnit.ToString(temp, tolerance, 4, 2, []) <>
+    '68 ± 0.9 °F' then halt(14);
   {$ENDIF}
   writeln('* TEST-108: PASSED');
 

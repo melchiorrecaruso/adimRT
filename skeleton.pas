@@ -2652,9 +2652,9 @@ type
     Example:
     @code(var T: TRealQuantity := 100.0 * DegreeCelsius;  // stores 373.15 K internally)
 
-    Note: because of the additive offset, Celsius degrees cannot be used
-    directly in multiplications or divisions to express temperature differences
-    without care. For temperature differences, use kelvin directly.
+    This affine unit represents an absolute point on the Celsius scale. Use the
+    generated @code(DeltaDegreeCelsius) or @code(deltaDegC) factored unit for
+    temperature differences and tolerances, because intervals have no offset.
   }
   TDegreeCelsiusUnit = record
   private
@@ -2682,9 +2682,9 @@ type
     Example:
     @code(var T: TRealQuantity := 212.0 * DegreeFahrenheit;  // stores 373.15 K internally)
 
-    Note: because of the additive offset, Fahrenheit degrees cannot be used
-    directly in multiplications or divisions to express temperature differences
-    without care. For temperature differences, use kelvin directly.
+    This affine unit represents an absolute point on the Fahrenheit scale. Use
+    the generated @code(DeltaDegreeFahrenheit) or @code(deltaDegF) factored unit
+    for temperature differences and tolerances, because intervals have no offset.
   }
   TDegreeFahrenheitUnit = record
   private
@@ -3455,7 +3455,9 @@ type
     { Returns a compact string representation of the temperature quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> °C').
       @param(AQuantity   The central temperature quantity to format.)
-      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(ATolerance  A temperature interval, normally constructed with
+                         @code(DeltaDegreeCelsius), @code(deltaDegC), or kelvin.
+                         No Celsius offset is applied to this value.)
       @param(APrecision  Number of significant digits.)
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
@@ -3485,7 +3487,9 @@ type
     { Returns a verbose string representation of the temperature quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> degrees Celsius').
       @param(AQuantity   The central temperature quantity to format.)
-      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(ATolerance  A temperature interval, normally constructed with
+                         @code(DeltaDegreeCelsius), @code(deltaDegC), or kelvin.
+                         No Celsius offset is applied to this value.)
       @param(APrecision  Number of significant digits.)
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
@@ -3569,7 +3573,9 @@ type
     { Returns a compact string representation of the temperature quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> °F').
       @param(AQuantity   The central temperature quantity to format.)
-      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(ATolerance  A temperature interval, normally constructed with
+                         @code(DeltaDegreeFahrenheit), @code(deltaDegF), or kelvin.
+                         Only the Fahrenheit scale factor is applied.)
       @param(APrecision  Number of significant digits.)
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
@@ -3599,7 +3605,9 @@ type
     { Returns a verbose string representation of the temperature quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> degrees Fahrenheit').
       @param(AQuantity   The central temperature quantity to format.)
-      @param(ATolerance  The tolerance quantity to display alongside the value.)
+      @param(ATolerance  A temperature interval, normally constructed with
+                         @code(DeltaDegreeFahrenheit), @code(deltaDegF), or kelvin.
+                         Only the Fahrenheit scale factor is applied.)
       @param(APrecision  Number of significant digits.)
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
@@ -4073,6 +4081,44 @@ begin
     result := -Math.Power(-AValue, 1.0 / ADegree)
   else
     result := Math.Power(AValue, 1.0 / ADegree);
+end;
+
+const
+  CelsiusZeroInKelvin: TReal = 273.15;
+  FahrenheitFreezingPoint: TReal = 32.0;
+  FahrenheitZeroInDegrees: TReal = 459.67;
+  KelvinPerFahrenheitDegree: TReal = 5.0 / 9.0;
+  FahrenheitDegreesPerKelvin: TReal = 9.0 / 5.0;
+
+function CelsiusPointToKelvin(const AValue: TReal): TReal; inline;
+begin
+  result := AValue + CelsiusZeroInKelvin;
+end;
+
+function KelvinPointToCelsius(const AValue: TReal): TReal; inline;
+begin
+  result := AValue - CelsiusZeroInKelvin;
+end;
+
+function FahrenheitPointToKelvin(const AValue: TReal): TReal; inline;
+begin
+  result := (AValue - FahrenheitFreezingPoint) * KelvinPerFahrenheitDegree +
+    CelsiusZeroInKelvin;
+end;
+
+function KelvinPointToFahrenheit(const AValue: TReal): TReal; inline;
+begin
+  result := AValue * FahrenheitDegreesPerKelvin - FahrenheitZeroInDegrees;
+end;
+
+function KelvinIntervalToCelsius(const AValue: TReal): TReal; inline;
+begin
+  result := AValue;
+end;
+
+function KelvinIntervalToFahrenheit(const AValue: TReal): TReal; inline;
+begin
+  result := AValue * FahrenheitDegreesPerKelvin;
 end;
 
 {$IFNDEF ADIMOFF}
@@ -7289,9 +7335,9 @@ class operator TDegreeCelsiusUnit.*(const AValue: TReal; const ASelf: TDegreeCel
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
-  result.FValue := AValue + 273.15;
+  result.FValue := CelsiusPointToKelvin(AValue);
 {$ELSE}
-  result := AValue + 273.15;
+  result := CelsiusPointToKelvin(AValue);
 {$ENDIF}
 end;
 
@@ -7301,9 +7347,9 @@ class operator TDegreeFahrenheitUnit.*(const AValue: TReal; const ASelf: TDegree
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
-  result.FValue := 5/9 * (AValue - 32) + 273.15;
+  result.FValue := FahrenheitPointToKelvin(AValue);
 {$ELSE}
-  result := 5/9 * (AValue - 32) + 273.15;
+  result := FahrenheitPointToKelvin(AValue);
 {$ENDIF}
 end;
 
@@ -9425,9 +9471,9 @@ function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TRealQuantity): TReal
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := AQuantity.FValue - 273.15;
+  result := KelvinPointToCelsius(AQuantity.FValue);
 {$ELSE}
-  result := AQuantity - 273.15;
+  result := KelvinPointToCelsius(AQuantity);
 {$ENDIF}
 end;
 
@@ -9435,9 +9481,9 @@ function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TRealQuantity; const 
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := GetValue(AQuantity.FValue - 273.15, APrefixes);
+  result := GetValue(KelvinPointToCelsius(AQuantity.FValue), APrefixes);
 {$ELSE}
-  result := GetValue(AQuantity - 273.15, APrefixes);
+  result := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
 {$ENDIF}
 end;
 
@@ -9445,9 +9491,9 @@ function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TRealQuantity): stri
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := FloatToStr(AQuantity.FValue - 273.15) + ' ' + GetSymbol(FPrefixes);
+  result := FloatToStr(KelvinPointToCelsius(AQuantity.FValue)) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
-  result := FloatToStr(AQuantity - 273.15) + ' ' + GetSymbol(FPrefixes);
+  result := FloatToStr(KelvinPointToCelsius(AQuantity)) + ' ' + GetSymbol(FPrefixes);
 {$ENDIF}
 end;
 
@@ -9457,9 +9503,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9474,9 +9520,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9493,11 +9539,11 @@ begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
   Check(FDim, ATolerance.FDim);
-  FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
-  FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity.FValue), APrefixes);
+  FactoredTol   := GetValue(KelvinIntervalToCelsius(ATolerance.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
-  FactoredTol   := GetValue(ATolerance, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
+  FactoredTol   := GetValue(KelvinIntervalToCelsius(ATolerance), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9517,9 +9563,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := AQuantity.FValue - 273.15;
+  FactoredValue := KelvinPointToCelsius(AQuantity.FValue);
 {$ELSE}
-  FactoredValue := AQuantity - 273.15;
+  FactoredValue := KelvinPointToCelsius(AQuantity);
 {$ENDIF}
 
   if UseSingularUnitName(FactoredValue) then
@@ -9534,9 +9580,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9560,9 +9606,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9588,11 +9634,11 @@ begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
   Check(FDim, ATolerance.FDim);
-  FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
-  FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity.FValue), APrefixes);
+  FactoredTol   := GetValue(KelvinIntervalToCelsius(ATolerance.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(AQuantity - 273.15, APrefixes);
-  FactoredTol   := GetValue(ATolerance, APrefixes);
+  FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
+  FactoredTol   := GetValue(KelvinIntervalToCelsius(ATolerance), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9687,9 +9733,9 @@ function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TRealQuantity): TR
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := 9/5 * AQuantity.FValue - 459.67;
+  result := KelvinPointToFahrenheit(AQuantity.FValue);
 {$ELSE}
-  result := 9/5 * AQuantity - 459.67;
+  result := KelvinPointToFahrenheit(AQuantity);
 {$ENDIF}
 end;
 
@@ -9697,9 +9743,9 @@ function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TRealQuantity; con
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
+  result := GetValue(KelvinPointToFahrenheit(AQuantity.FValue), APrefixes);
 {$ELSE}
-  result := GetValue(9/5 * AQuantity - 459.67, APrefixes);
+  result := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
 {$ENDIF}
 end;
 
@@ -9707,9 +9753,9 @@ function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TRealQuantity): s
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := FloatToStr(9/5 * AQuantity.FValue - 459.67) + ' ' + GetSymbol(FPrefixes);
+  result := FloatToStr(KelvinPointToFahrenheit(AQuantity.FValue)) + ' ' + GetSymbol(FPrefixes);
 {$ELSE}
-  result := FloatToStr(9/5 * AQuantity - 459.67) + ' ' + GetSymbol(FPrefixes);
+  result := FloatToStr(KelvinPointToFahrenheit(AQuantity)) + ' ' + GetSymbol(FPrefixes);
 {$ENDIF}
 end;
 
@@ -9719,9 +9765,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9736,9 +9782,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9755,11 +9801,11 @@ begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
   Check(FDim, ATolerance.FDim);
-  FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
-  FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity.FValue), APrefixes);
+  FactoredTol   := GetValue(KelvinIntervalToFahrenheit(ATolerance.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
-  FactoredTol   := GetValue(9/5 * ATolerance, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
+  FactoredTol   := GetValue(KelvinIntervalToFahrenheit(ATolerance), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9779,9 +9825,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := 9/5 * AQuantity.FValue - 459.67;
+  FactoredValue := KelvinPointToFahrenheit(AQuantity.FValue);
 {$ELSE}
-  FactoredValue := 9/5 * AQuantity - 459.67;
+  FactoredValue := KelvinPointToFahrenheit(AQuantity);
 {$ENDIF}
 
   if UseSingularUnitName(FactoredValue) then
@@ -9796,9 +9842,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9822,9 +9868,9 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
@@ -9850,11 +9896,11 @@ begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
   Check(FDim, ATolerance.FDim);
-  FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
-  FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity.FValue), APrefixes);
+  FactoredTol   := GetValue(KelvinIntervalToFahrenheit(ATolerance.FValue), APrefixes);
 {$ELSE}
-  FactoredValue := GetValue(9/5 * AQuantity - 459.67, APrefixes);
-  FactoredTol   := GetValue(9/5 * ATolerance, APrefixes);
+  FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
+  FactoredTol   := GetValue(KelvinIntervalToFahrenheit(ATolerance), APrefixes);
 {$ENDIF}
 
   if Length(APrefixes) = 0 then
