@@ -47,7 +47,7 @@ procedure RegisterSuite(const AName: string; AProc: TTestProc);
 procedure RunAllSuites;
 
 { --- shared helpers --- }
-function  C(ARe, AIm: double): TComplex;
+function  C(ARe, AIm: TReal): TComplex;
 { Extracts the real parts of an eigenvalue array, checking that every
   imaginary part is negligible. }
 function  RealEigenvalues(const A: TArrayOfComplex): TArrayOfReal;
@@ -55,19 +55,19 @@ procedure SortAscArray(var A: TArrayOfReal);
 
 { --- correctness layer (PASS/FAIL) --- }
 procedure Check(const AName: string; AOk: boolean);
-procedure CheckNear(const AName: string; AActual, AExpected, ATol: double);
-procedure CheckCplxNear(const AName: string; AActual, AExpected: TComplex; ATol: double);
+procedure CheckNear(const AName: string; AActual, AExpected, ATol: TReal);
+procedure CheckCplxNear(const AName: string; AActual, AExpected: TComplex; ATol: TReal);
 procedure Section(const ATitle: string);
 
 { --- numpy-alignment layer (max-error tracking) --- }
 procedure BeginCategory(const AName: string);
-procedure Track(AErr: double);
-procedure TrackTol(AErr, ATol: double);
-procedure CmpR(const ALabel: string; AGot, AExpected: double);
-procedure CmpC(const ALabel: string; AGot: TComplex; ARe, AIm: double);
-procedure CmpRAbs(const ALabel: string; AGot, AExpected, ATol: double);
-procedure CmpRRel(const ALabel: string; AGot, AExpected, ATol: double);
-procedure CmpCRel(const ALabel: string; AGot: TComplex; ARe, AIm, ATol: double);
+procedure Track(AErr: TReal);
+procedure TrackTol(AErr, ATol: TReal);
+procedure CmpR(const ALabel: string; AGot, AExpected: TReal);
+procedure CmpC(const ALabel: string; AGot: TComplex; ARe, AIm: TReal);
+procedure CmpRAbs(const ALabel: string; AGot, AExpected, ATol: TReal);
+procedure CmpRRel(const ALabel: string; AGot, AExpected, ATol: TReal);
+procedure CmpCRel(const ALabel: string; AGot: TComplex; ARe, AIm, ATol: TReal);
 
 implementation
 
@@ -77,7 +77,7 @@ uses
 type
   TCategory = record
     Name:   string;
-    MaxErr: double;
+    MaxErr: TReal;
     Count:  integer;
     Fails:  integer;
   end;
@@ -92,7 +92,7 @@ var
   GVerbose: boolean = False;
   GCats:    array of TCategory;
   GCur:     integer = -1;
-  GTolPass: double  = 1e-9;        // "aligned to numpy" threshold
+  GTolPass: TReal  = 1e-9;        // "aligned to numpy" threshold
   GSuites:  array of TSuite;
 
 // -- suite registration ---------------------------------------------------------
@@ -106,7 +106,7 @@ end;
 
 // -- shared helpers --------------------------------------------------------------
 
-function C(ARe, AIm: double): TComplex;
+function C(ARe, AIm: TReal): TComplex;
 begin
   result := Complex(ARe, AIm);
 end;
@@ -127,7 +127,7 @@ end;
 procedure SortAscArray(var A: TArrayOfReal);
 var
   i, j: integer;
-  t:    double;
+  t:    TReal;
 begin
   for i := 0 to High(A) - 1 do
     for j := i + 1 to High(A) do
@@ -152,14 +152,14 @@ begin
   end;
 end;
 
-procedure CheckNear(const AName: string; AActual, AExpected, ATol: double);
+procedure CheckNear(const AName: string; AActual, AExpected, ATol: TReal);
 begin
   Check(AName + Format(' (got %.10g, exp %.10g)', [AActual, AExpected]),
         Math.SameValue(AActual, AExpected, ATol));
 end;
 
 procedure CheckCplxNear(const AName: string; AActual, AExpected: TComplex;
-                        ATol: double);
+                        ATol: TReal);
 begin
   Check(AName,
         Math.SameValue(AActual.Re, AExpected.Re, ATol) and
@@ -185,23 +185,23 @@ begin
   GCats[GCur].Fails  := 0;
 end;
 
-procedure Track(AErr: double);
+procedure Track(AErr: TReal);
 begin
   Inc(GCats[GCur].Count);
   if AErr > GCats[GCur].MaxErr then GCats[GCur].MaxErr := AErr;
   if AErr > GTolPass then Inc(GCats[GCur].Fails);
 end;
 
-procedure TrackTol(AErr, ATol: double);
+procedure TrackTol(AErr, ATol: TReal);
 begin
   Inc(GCats[GCur].Count);
   if AErr > GCats[GCur].MaxErr then GCats[GCur].MaxErr := AErr;
   if AErr > ATol then Inc(GCats[GCur].Fails);
 end;
 
-procedure CmpR(const ALabel: string; AGot, AExpected: double);
+procedure CmpR(const ALabel: string; AGot, AExpected: TReal);
 var
-  e: double;
+  e: TReal;
 begin
   e := Abs(AGot - AExpected);
   Track(e);
@@ -210,9 +210,9 @@ begin
                    [ALabel, AGot, AExpected, e]));
 end;
 
-procedure CmpC(const ALabel: string; AGot: TComplex; ARe, AIm: double);
+procedure CmpC(const ALabel: string; AGot: TComplex; ARe, AIm: TReal);
 var
-  e: double;
+  e: TReal;
 begin
   e := Sqrt(Sqr(AGot.Re - ARe) + Sqr(AGot.Im - AIm));
   Track(e);
@@ -221,9 +221,9 @@ begin
                    [ALabel, AGot.Re, AGot.Im, ARe, AIm, e]));
 end;
 
-procedure CmpRAbs(const ALabel: string; AGot, AExpected, ATol: double);
+procedure CmpRAbs(const ALabel: string; AGot, AExpected, ATol: TReal);
 var
-  e: double;
+  e: TReal;
 begin
   e := Abs(AGot - AExpected);
   TrackTol(e, ATol);
@@ -232,9 +232,9 @@ begin
                    [ALabel, AGot, AExpected, e]));
 end;
 
-procedure CmpRRel(const ALabel: string; AGot, AExpected, ATol: double);
+procedure CmpRRel(const ALabel: string; AGot, AExpected, ATol: TReal);
 var
-  e: double;
+  e: TReal;
 begin
   e := Abs(AGot - AExpected) / (1 + Abs(AExpected));
   TrackTol(e, ATol);
@@ -243,9 +243,9 @@ begin
                    [ALabel, AGot, AExpected, e]));
 end;
 
-procedure CmpCRel(const ALabel: string; AGot: TComplex; ARe, AIm, ATol: double);
+procedure CmpCRel(const ALabel: string; AGot: TComplex; ARe, AIm, ATol: TReal);
 var
-  e, m: double;
+  e, m: TReal;
 begin
   m := Sqrt(Sqr(ARe) + Sqr(AIm));
   e := Sqrt(Sqr(AGot.Re - ARe) + Sqr(AGot.Im - AIm)) / (1 + m);
@@ -260,7 +260,7 @@ end;
 procedure RunAllSuites;
 var
   i, dev, totChecks: integer;
-  worst: double;
+  worst: TReal;
 begin
   GVerbose := FindCmdLineSwitch('v', ['-', '/'], True) or
               FindCmdLineSwitch('verbose', ['-', '/'], True);

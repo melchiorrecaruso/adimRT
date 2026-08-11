@@ -17,37 +17,27 @@ implementation
 uses
   Math, SysUtils, ADimMath, TestFramework;
 
-type
-  T5DSpace = record const N = 5; end;
-
-  T5RealVector = specialize TRealVector<T5DSpace>;
-
-procedure TestT3RealVector;
+procedure TestRealVectorCore;
 var
-  u, v, w, r: T3RealVector;
-  A: T3RealMatrix;
-  c: T3ComplexVector;
-  d: double;
-  Raised: boolean;
+  u, v, w, r: TRealVector;
+  A: TRealMatrix;
+  c: TComplexVector;
+  d: TReal;
 begin
-  Section('T3RealVector - Assign / Copy');
+  Section('TRealVector - Init / Copy');
 
-  u.Assign([1, 2, 3]);
+  u.Init([1, 2, 3]);
 
-  Check('Assign a[0]=1', Math.SameValue(u[0], 1, EPS));
-  Check('Assign a[1]=2', Math.SameValue(u[1], 2, EPS));
-  Check('Assign a[2]=3', Math.SameValue(u[2], 3, EPS));
+  Check('Init a[0]=1', Math.SameValue(u[0], 1, EPS));
+  Check('Init a[1]=2', Math.SameValue(u[1], 2, EPS));
+  Check('Init a[2]=3', Math.SameValue(u[2], 3, EPS));
+  Check('real vector ToString uses scalar helper',
+    u.ToString = '(1,2,3)');
 
-  Raised := False;
-  try
-    u.Assign([1, 2]);
-  except
-    on EArgumentException do
-      Raised := True;
-  end;
-  Check('Assign rejects wrong dimension', Raised);
+  u.Init([1, 2]);
+  Check('Init changes vector dimension', u.Size = 2);
 
-  u.Assign([1, 2, 3]);
+  u.Init([1, 2, 3]);
   v := u;
 
   Check('Copy: data same', Math.SameValue(v[0], u[0], EPS));
@@ -55,10 +45,10 @@ begin
   v[0] := 999;
   Check('Copy: independent', not Math.SameValue(v[0], u[0], EPS));
 
-  Section('T3RealVector - Arithmetic');
+  Section('TRealVector - Arithmetic');
 
-  u.Assign([1, 2, 3]);
-  v.Assign([4, -1, 2]);
+  u.Init([1, 2, 3]);
+  v.Init([4, -1, 2]);
 
   r := u + v;
   CheckNear('u+v [0]=5', r[0], 5.0, EPS);
@@ -86,7 +76,7 @@ begin
   CheckNear('-u [0]=-1', r[0], -1.0, EPS);
   CheckNear('-u [2]=-3', r[2], -3.0, EPS);
 
-  Section('T3RealVector - Dot / Cross / Norm');
+  Section('TRealVector - Dot / Cross / Norm');
 
   d := u * v;
   CheckNear('dot(u,v)=8', d, 8.0, EPS);
@@ -112,9 +102,9 @@ begin
   CheckNear('recip[1]=2/14', r[1], 2 / 14.0, EPS);
   CheckNear('recip[2]=3/14', r[2], 3 / 14.0, EPS);
 
-  Section('T3RealVector - Matrix * Vector / Vector * Matrix');
+  Section('TRealVector - Matrix * Vector / Vector * Matrix');
 
-  A.Assign([
+  A.Init([
     1, 2, 3,
     4, 5, 6,
     7, 8, 10
@@ -130,28 +120,24 @@ begin
   CheckNear('u*A [1]=36', r[1], 36.0, EPS);
   CheckNear('u*A [2]=45', r[2], 45.0, EPS);
 
-  Raised := False;
-  try
-    A.Assign([
-      1, 2,
-      3, 4
-    ]);
-  except
-    on EArgumentException do
-      Raised := True;
-  end;
-  Check('Matrix.Assign rejects wrong dimension', Raised);
+  A.Init([
+    1, 2,
+    3, 4
+  ]);
+  Check('Matrix.Init changes order', A.Order = 2);
+  Check('formatted real matrix ToString uses scalar helper',
+    A.ToString(15, 0) = '((1, 2), (3, 4))');
 
-  Section('T3RealVector - IsNull / IsNotNull / = / <>');
+  Section('TRealVector - IsNull / IsNotNull / = / <>');
 
-  w.Assign([0, 0, 0]);
+  w.Init([0, 0, 0]);
 
   Check('zeros IsNull', w.IsNull);
   Check('u IsNotNull', u.IsNotNull);
   Check('u = u', u = u);
   Check('u <> v', u <> v);
 
-  Section('T3RealVector - ToComplex');
+  Section('TRealVector - ToComplex');
 
   c := u.ToComplex;
   CheckNear('ToComplex[0].Re=1', c[0].Re, 1.0, EPS);
@@ -162,14 +148,14 @@ begin
   CheckNear('ToComplex[2].Im=0', c[2].Im, 0.0, EPS);
 end;
 
-procedure TestT5RealVector;
+procedure TestRealVector5;
 var
-  ru, rv, rn: T5RealVector;
+  ru, rv, rn: TRealVector;
 begin
   BeginCategory('Real vector ops (5-dim)');
 
-  ru.Assign([1, -2, 3, 0.5, 4]);
-  rv.Assign([2, 1, -1, 3, 0.25]);
+  ru.Init([1, -2, 3, 0.5, 4]);
+  rv.Init([2, 1, -1, 3, 0.25]);
 
   CmpR('dot(ru,rv)', ru * rv, -0.5);
   CmpR('norm(ru)', ru.Norm, 5.5);
@@ -182,21 +168,21 @@ begin
   CmpR('|normalize|=1', rn.Norm, 1.0);
 end;
 
-procedure TestT4RealMatrixVector;
+procedure TestRealMatrixVector4;
 var
-  M4: T4RealMatrix;
-  v4, mr: T4RealVector;
+  M4: TRealMatrix;
+  v4, mr: TRealVector;
 begin
   BeginCategory('Real matrix*vector / vector*matrix (4-dim)');
 
-  M4.Assign([
+  M4.Init([
     4,    1, 2, 0.5,
     2,    3, 0, 1,
     2,   -1, 5, 1,
     0.25, 1, 2, 4
   ]);
 
-  v4.Assign([1, 2, 3, 4]);
+  v4.Init([1, 2, 3, 4]);
 
   mr := M4 * v4;
   CmpR('M4*v4[0]', mr[0], 14.0);
@@ -211,14 +197,14 @@ begin
   CmpR('v4*M4[3]', mr[3], 21.5);
 end;
 
-procedure TestT3RealCross;
+procedure TestRealCross;
 var
-  ru, rv, rn: T3RealVector;
+  ru, rv, rn: TRealVector;
 begin
   BeginCategory('Real cross product');
 
-  ru.Assign([1, -2, 3]);
-  rv.Assign([2, 1, -1]);
+  ru.Init([1, -2, 3]);
+  rv.Init([2, 1, -1]);
 
   rn := ru.Cross(rv);
 
@@ -231,14 +217,14 @@ end;
 
 procedure TestExtremeRealVectorNorms;
 var
-  v, n, r: T3RealVector;
+  v, n, r: TRealVector;
 begin
   BeginCategory('Real vector extreme norms (numpy hypot.reduce)');
 
-  v.Assign([1e200, -1e200, 1e-200]);
+  v.Init([1e200, -1e200, 1e-200]);
   CmpRRel('large norm', v.Norm, 1.414213562373095e200, 1e-15);
 
-  v.Assign([1e-200, -1e-200, 0]);
+  v.Init([1e-200, -1e-200, 0]);
   CmpRAbs('small norm scaled', v.Norm * 1e200,
     1.414213562373095, 1e-15);
 
@@ -251,13 +237,68 @@ begin
   CmpRAbs('small reciprocal[1] scaled', r[1] * 1e-200, -0.5, 1e-15);
 end;
 
+procedure TestRuntimeDimensionChecks;
+var
+  V2, V3, VR: TRealVector;
+  M2, M3, MR: TRealMatrix;
+  Raised: boolean;
+begin
+  Section('Runtime dimension checks');
+
+  V2.Init([1, 2]);
+  V3.Init([1, 2, 3]);
+  M2.Init([1, 0, 0, 1]);
+  M3.Init([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+
+  Check('vectors with different dimensions are not equal', V2 <> V3);
+  Check('matrices with different orders are not equal', M2 <> M3);
+  Check('SameValue returns false for different orders', not M2.SameValue(M3));
+
+  Raised := False;
+  try VR := V2 + V3 except on EDimensionError do Raised := True end;
+  Check('vector addition checks dimensions', Raised);
+
+  Raised := False;
+  try VR := V2 - V3 except on EDimensionError do Raised := True end;
+  Check('vector subtraction checks dimensions', Raised);
+
+  Raised := False;
+  try V2.Dot(V3) except on EDimensionError do Raised := True end;
+  Check('dot product checks dimensions', Raised);
+
+  Raised := False;
+  try MR := M2 + M3 except on EDimensionError do Raised := True end;
+  Check('matrix addition checks dimensions', Raised);
+
+  Raised := False;
+  try MR := M2 - M3 except on EDimensionError do Raised := True end;
+  Check('matrix subtraction checks dimensions', Raised);
+
+  Raised := False;
+  try MR := M2 * M3 except on EDimensionError do Raised := True end;
+  Check('matrix multiplication checks dimensions', Raised);
+
+  Raised := False;
+  try VR := M2 * V3 except on EDimensionError do Raised := True end;
+  Check('matrix-vector product checks dimensions', Raised);
+
+  Raised := False;
+  try VR := V3 * M2 except on EDimensionError do Raised := True end;
+  Check('vector-matrix product checks dimensions', Raised);
+
+  Raised := False;
+  try VR := M2.SolveLinear(V3) except on EDimensionError do Raised := True end;
+  Check('SolveLinear checks dimensions', Raised);
+end;
+
 procedure Run;
 begin
-  TestT3RealVector;
-  TestT5RealVector;
-  TestT4RealMatrixVector;
-  TestT3RealCross;
+  TestRealVectorCore;
+  TestRealVector5;
+  TestRealMatrixVector4;
+  TestRealCross;
   TestExtremeRealVectorNorms;
+  TestRuntimeDimensionChecks;
 end;
 
 initialization

@@ -20,32 +20,26 @@ uses
 
 procedure TestTCVector;
 var
-  zv1, zv2, zvr, zcopy: T3ComplexVector;
+  zv1, zv2, zvr, zcopy: TComplexVector;
   d: TComplex;
   Raised: boolean;
 begin
-  Section('T3ComplexVector - Assign / arithmetic / Dot / Norm');
+  Section('TComplexVector - Init / arithmetic / Dot / Norm');
 
   // zv1 = [1+i, 2-i, 3i]
   // zv2 = [1, i, 2]
-  zv1.Assign([C(1,1), C(2,-1), C(0,3)]);
-  zv2.Assign([C(1,0), C(0,1), C(2,0)]);
+  zv1.Init([C(1,1), C(2,-1), C(0,3)]);
+  zv2.Init([C(1,0), C(0,1), C(2,0)]);
 
-  CheckCplxNear('Assign zv1[0]=1+i', zv1[0], C(1,1), EPS);
-  CheckCplxNear('Assign zv1[1]=2-i', zv1[1], C(2,-1), EPS);
-  CheckCplxNear('Assign zv1[2]=3i',  zv1[2], C(0,3), EPS);
+  CheckCplxNear('Init zv1[0]=1+i', zv1[0], C(1,1), EPS);
+  CheckCplxNear('Init zv1[1]=2-i', zv1[1], C(2,-1), EPS);
+  CheckCplxNear('Init zv1[2]=3i',  zv1[2], C(0,3), EPS);
 
-  Raised := False;
-  try
-    zv1.Assign([C(1,0), C(2,0)]);
-  except
-    on EArgumentException do
-      Raised := True;
-  end;
-  Check('Assign rejects wrong dimension', Raised);
+  zv1.Init([C(1,0), C(2,0)]);
+  Check('Init changes vector dimension', zv1.Size = 2);
 
   // Restore data after exception test.
-  zv1.Assign([C(1,1), C(2,-1), C(0,3)]);
+  zv1.Init([C(1,1), C(2,-1), C(0,3)]);
 
   // Deep-copy semantics.
   zcopy := zv1;
@@ -112,7 +106,7 @@ begin
   zvr := +zv1;
   CheckCplxNear('+zv1 [1]=2-i', zvr[1], C(2,-1), EPS);
 
-  Section('T3ComplexVector - Conjugate / Normalize / Reciprocal');
+  Section('TComplexVector - Conjugate / Normalize / Reciprocal');
 
   zvr := zv1.Conjugate;
   CheckCplxNear('conj(zv1)[0]=1-i', zvr[0], C(1,-1), EPS);
@@ -133,11 +127,11 @@ begin
   CheckCplxNear('reciprocal[2]=3i/16',
     zvr[2], C(0,3/16), EPS);
 
-  Section('T3ComplexVector - IsNull / equality');
+  Section('TComplexVector - IsNull / equality');
 
-  zvr.Assign([C(0,0), C(0,0), C(0,0)]);
-  Check('zero T3ComplexVector IsNull', zvr.IsNull);
-  Check('zero T3ComplexVector not IsNotNull', not zvr.IsNotNull);
+  zvr.Init([C(0,0), C(0,0), C(0,0)]);
+  Check('zero TComplexVector IsNull', zvr.IsNull);
+  Check('zero TComplexVector not IsNotNull', not zvr.IsNotNull);
   Check('zv1 IsNotNull', zv1.IsNotNull);
 
   zcopy := zv1;
@@ -145,7 +139,7 @@ begin
   zcopy[2] := C(1,3);
   Check('zv1 <> modified copy', zv1 <> zcopy);
 
-  Section('T3ComplexVector - zero-vector exceptions');
+  Section('TComplexVector - zero-vector exceptions');
 
   Raised := False;
   try
@@ -168,12 +162,12 @@ end;
 
 procedure TestComplexVectors;
 var
-  zu, zv, zr: T3ComplexVector;
+  zu, zv: TComplexVector;
 begin
   BeginCategory('Complex vector ops');
 
-  zu.Assign([C(1,1), C(2,-1), C(0,3)]);
-  zv.Assign([C(2,0), C(1,1), C(1,-2)]);
+  zu.Init([C(1,1), C(2,-1), C(0,3)]);
+  zv.Init([C(2,0), C(1,1), C(1,-2)]);
 
   // dot (bilinear, no conjugation - matches numpy.dot)
   CmpC('dot(zu,zv)', zu * zv, 11.0, 6.0);
@@ -183,48 +177,18 @@ begin
   CmpR('norm(zu)',   zu.Norm, 4.0);
   CmpR('sqnorm(zu)', zu.SquaredNorm, 16.0);
 
-  // Cross product in C^3, using the algebraic bilinear formula.
-  zr := zu.Cross(zv);
-  CmpC('cross[0]', zr[0],  3.0, -8.0);
-  CmpC('cross[1]', zr[1], -3.0,  7.0);
-  CmpC('cross[2]', zr[2], -4.0,  4.0);
-
-  // Bilinear orthogonality of algebraic cross product.
-  CmpC('cross dot zu = 0', zr * zu, 0.0, 0.0);
-  CmpC('cross dot zv = 0', zr * zv, 0.0, 0.0);
-end;
-
-procedure TestT2ComplexCrossException;
-var
-  u, v: T2ComplexVector;
-  Raised: boolean;
-begin
-  BeginCategory('Complex cross dimension check');
-
-  u.Assign([C(1,0), C(2,0)]);
-  v.Assign([C(3,0), C(4,0)]);
-
-  Raised := False;
-  try
-    u.Cross(v);
-  except
-    on ERangeError do
-      Raised := True;
-  end;
-
-  Check('T2ComplexVector.Cross raises ERangeError', Raised);
 end;
 
 procedure TestExtremeComplexVectorNorms;
 var
-  v, n, r: T3ComplexVector;
+  v, n, r: TComplexVector;
 begin
   BeginCategory('Complex vector extreme norms (numpy hypot.reduce)');
 
-  v.Assign([C(1e200, 1e200), C(-1e200, 1e200), C(0, 1e-200)]);
+  v.Init([C(1e200, 1e200), C(-1e200, 1e200), C(0, 1e-200)]);
   CmpRRel('large complex norm', v.Norm, 2e200, 1e-15);
 
-  v.Assign([C(1e-200, 0), C(0, -1e-200), C(0, 0)]);
+  v.Init([C(1e-200, 0), C(0, -1e-200), C(0, 0)]);
   CmpRAbs('small complex norm scaled', v.Norm * 1e200,
     1.414213562373095, 1e-15);
 
@@ -246,7 +210,6 @@ procedure Run;
 begin
   TestTCVector;
   TestComplexVectors;
-  TestT2ComplexCrossException;
   TestExtremeComplexVectorNorms;
 end;
 

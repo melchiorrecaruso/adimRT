@@ -1,12 +1,9 @@
 { ADim mathematical types and operations.
 
-  Defines real and complex scalar types, fixed-dimension real and complex
-  vectors and square matrices, and the related algebraic operations used
-  throughout the ADimPas library.
-
-  Vector and matrix dimensions are determined by the generic @code(Space)
-  parameter. The predefined @link(T2DSpace), @link(T3DSpace), and
-  @link(T4DSpace) tags provide dimensions 2, 3, and 4 respectively.
+  Defines real and complex scalar types, dynamically sized vectors and square
+  matrices, and the related algebraic operations used throughout the ADimPas
+  library. Vector sizes and matrix orders are inferred from the values passed
+  to Init.
 
   @author Melchiorre Caruso (melchiorrecaruso@@gmail.com)
   @copyright 2025-2026 Melchiorre Caruso
@@ -40,7 +37,7 @@ unit ADimMath;
 interface
 
 uses
-  SysUtils;
+  Math, SysUtils;
 
 type
   { Represents a real number. }
@@ -61,13 +58,13 @@ type
   }
   TComplex = record
   private
-    fRe, fIm: double;
+    fRe, fIm: TReal;
   public
     { Returns the argument (phase angle) of the complex number, in radians.
       The angle is measured from the positive real axis with the quadrant
       determined from both @link(Re) and @link(Im).
     }
-    function Arg: double;
+    function Arg: TReal;
 
     { Returns the complex conjugate of the number.
       If @code(z = a + i·b), the conjugate is @code(z* = a - i·b).
@@ -85,13 +82,17 @@ type
     { Returns the modulus (magnitude) of the complex number:
       @code(|z| = √(Re² + Im²)).
     }
-    function Norm: double;
+    function Norm: TReal;
 
     { Returns the squared modulus of the complex number:
       @code(|z|² = Re² + Im²).
       Avoids the square root computation of @link(Norm).
     }
-    function SquaredNorm: double;
+    function SquaredNorm: TReal;
+
+    { Returns @true if this value and AValue differ by no more than
+      @link(DefaultEpsilon) in both components. }
+    function SameValue(const AValue: TComplex): boolean;
 
     { Returns the reciprocal of the complex number: @code(1 / z). }
     function Reciprocal: TComplex;
@@ -109,7 +110,7 @@ type
     procedure Zero;
 
     { Implicit conversion from a real value to a complex number. }
-    class operator :=(const AValue: double): TComplex;
+    class operator :=(const AValue: TReal): TComplex;
 
     { Returns @true if the real or imaginary parts of the two operands differ. }
     class operator <>(const ALeft, ARight: TComplex): boolean; inline;
@@ -124,10 +125,10 @@ type
     class operator +(const ALeft, ARight: TComplex): TComplex; inline;
 
     { Returns the sum of a real number and a complex number. }
-    class operator +(const ALeft: double; const ARight: TComplex): TComplex; inline;
+    class operator +(const ALeft: TReal; const ARight: TComplex): TComplex; inline;
 
     { Returns the sum of a complex number and a real number. }
-    class operator +(const ALeft: TComplex; const ARight: double): TComplex; inline;
+    class operator +(const ALeft: TComplex; const ARight: TReal): TComplex; inline;
 
     { Unary minus. Returns the negation of the complex number. }
     class operator -(const AValue: TComplex): TComplex; inline;
@@ -136,35 +137,35 @@ type
     class operator -(const ALeft, ARight: TComplex): TComplex; inline;
 
     { Returns the difference of a real number and a complex number. }
-    class operator -(const ALeft: double; const ARight: TComplex): TComplex; inline;
+    class operator -(const ALeft: TReal; const ARight: TComplex): TComplex; inline;
 
     { Returns the difference of a complex number and a real number. }
-    class operator -(const ALeft: TComplex; const ARight: double): TComplex; inline;
+    class operator -(const ALeft: TComplex; const ARight: TReal): TComplex; inline;
 
     { Returns the product of two complex numbers. }
     class operator *(const ALeft, ARight: TComplex): TComplex; inline;
 
     { Returns the product of a real number and a complex number. }
-    class operator *(const ALeft: double; const ARight: TComplex): TComplex; inline;
+    class operator *(const ALeft: TReal; const ARight: TComplex): TComplex; inline;
 
     { Returns the product of a complex number and a real number. }
-    class operator *(const ALeft: TComplex; const ARight: double): TComplex; inline;
+    class operator *(const ALeft: TComplex; const ARight: TReal): TComplex; inline;
 
     { Returns the quotient of two complex numbers. }
     class operator /(const ALeft, ARight: TComplex): TComplex; inline;
 
     { Returns the quotient of a real number divided by a complex number. }
-    class operator /(const ALeft: double; const ARight: TComplex): TComplex; inline;
+    class operator /(const ALeft: TReal; const ARight: TComplex): TComplex; inline;
 
     { Returns the quotient of a complex number divided by a real number. }
-    class operator /(const ALeft: TComplex; const ARight: double): TComplex; inline;
+    class operator /(const ALeft: TComplex; const ARight: TReal): TComplex; inline;
 
   public
     { Real part of the complex number. }
-    property Re: double read fRe write fRe;
+    property Re: TReal read fRe write fRe;
 
     { Imaginary part of the complex number. }
-    property Im: double read fIm write fIm;
+    property Im: TReal read fIm write fIm;
   end;
 
   { Dynamic array of @link(TComplex) values. }
@@ -183,10 +184,10 @@ type
     class operator :=(const ASelf: TImaginaryUnit): TComplex;
 
     { Returns @code(i·i = -1). }
-    class operator *(const ALeft, ARight: TImaginaryUnit): double;
+    class operator *(const ALeft, ARight: TImaginaryUnit): TReal;
 
     { Returns @code(i/i = 1). }
-    class operator /(const ALeft, ARight: TImaginaryUnit): double;
+    class operator /(const ALeft, ARight: TImaginaryUnit): TReal;
 
     { Returns @code(-i) as a @link(TComplex). }
     class operator -(const AValue: TImaginaryUnit): TComplex;
@@ -195,16 +196,16 @@ type
     class operator +(const AValue: TImaginaryUnit): TComplex;
 
     { Returns @code(a + i) as a @link(TComplex). }
-    class operator +(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+    class operator +(const ALeft: TReal; const ARight: TImaginaryUnit): TComplex;
 
     { Returns @code(i + a) as a @link(TComplex). }
-    class operator +(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+    class operator +(const ALeft: TImaginaryUnit; const ARight: TReal): TComplex;
 
     { Returns @code(a - i) as a @link(TComplex). }
-    class operator -(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+    class operator -(const ALeft: TReal; const ARight: TImaginaryUnit): TComplex;
 
     { Returns @code(i - a) as a @link(TComplex). }
-    class operator -(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+    class operator -(const ALeft: TImaginaryUnit; const ARight: TReal): TComplex;
 
     { Returns @code((a+bi) + i). }
     class operator +(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
@@ -219,10 +220,10 @@ type
     class operator -(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
 
     { Returns @code(a·i) as a @link(TComplex). }
-    class operator *(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+    class operator *(const ALeft: TReal; const ARight: TImaginaryUnit): TComplex;
 
     { Returns @code(i·a) as a @link(TComplex). }
-    class operator *(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+    class operator *(const ALeft: TImaginaryUnit; const ARight: TReal): TComplex;
 
     { Returns @code((a+bi)·i = -b + ai). }
     class operator *(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
@@ -231,10 +232,10 @@ type
     class operator *(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
 
     { Returns @code(a/i = -ai). }
-    class operator /(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+    class operator /(const ALeft: TReal; const ARight: TImaginaryUnit): TComplex;
 
     { Returns @code(i/a). }
-    class operator /(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+    class operator /(const ALeft: TImaginaryUnit; const ARight: TReal): TComplex;
 
     { Returns @code((a+bi)/i = b - ai). }
     class operator /(const ALeft: TComplex; const ARight: TImaginaryUnit): TComplex;
@@ -243,647 +244,167 @@ type
     class operator /(const ALeft: TImaginaryUnit; const ARight: TComplex): TComplex;
   end;
 
-  { Tag record representing a 2-dimensional space.
-    Used as a generic parameter to instantiate 2×2 matrix types.
-  }
-  T2DSpace = record private const N = 2; end;
+function Abs(const AValue: TComplex): TReal; overload;
 
-  { Tag record representing a 3-dimensional space.
-    Used as a generic parameter to instantiate 3×3 matrix types.
-  }
-  T3DSpace = record private const N = 3; end;
+type
+  TRealHelper = type helper for TReal
+    function SameValue(const AValue: TReal): boolean; inline;
+    function SquaredNorm: TReal; inline;
+    function ToString: string; overload; inline;
+    function ToString(APrecision, ADigits: integer): string; overload; inline;
+  end;
 
-  { Tag record representing a 4-dimensional space.
-    Used as a generic parameter to instantiate 4×4 matrix types.
-  }
-  T4DSpace = record private const N = 4; end;
+  EDimensionError = class(EArgumentException);
 
-  { Fixed-dimension vector of complex values.
-
-    The vector is represented as a mathematical column vector. Its dimension
-    is determined by @code(Space.N). Components are stored internally in a
-    0-based dynamic array and are accessed through the default property
-    @code(a[row]).
-  }
-  generic TComplexVector<Space> = record
+  generic TVector<T> = record
   private
-    { Storage of the vector components. }
-    fm: TArrayOfComplex;
-
-    { Reads the component at position @code(ARow). }
-    function Get(ARow: longint): TComplex; inline;
-
-    { Writes the component at position @code(ARow). }
-    procedure Put(ARow: longint; AValue: TComplex); inline;
-
+    FData: array of T;
+    function Get(AIndex: longint): T; inline;
+    procedure Put(AIndex: longint; const AValue: T); inline;
+    procedure RequireSameSize(const AVector: TVector); inline;
+    procedure SetSize(ASize: longint);
   public
-    { Assigns all vector components from @code(AValues).
-
-      The number of supplied values must match the vector dimension
-      @code(Space.N). Values are assigned in component order, starting
-      from index 0.
-
-      @param(AValues Values to assign to the vector components.)
-      @raises(EArgumentException if the number of values does not match
-        @code(Space.N).)
-    }
-    procedure Assign(const AValues: array of TComplex);
-
-    { Returns the algebraic cross product of two 3-component vectors.
-      Using 0-based indices:
-      @code(u×v = (u[1]v[2]-u[2]v[1], u[2]v[0]-u[0]v[2], u[0]v[1]-u[1]v[0])).
-      Requires @code(Space.N = 3).
-      @raises(ERangeError if @code(Space.N <> 3).)
-    }
-    function Cross(const AVector: TComplexVector): TComplexVector;
-
-    { Returns the bilinear dot product of this vector and @code(AVector):
-      @code(u·v = Σ uᵢ·vᵢ). No complex conjugation is applied.
-    }
-    function Dot(const AVector: TComplexVector): TComplex;
-
-    { Returns @true if all components are zero. }
+    procedure Init(const AValues: array of T);
+    function Size: longint; inline;
+    function Dot(const AVector: TVector): T;
     function IsNull: boolean;
-
-    { Returns @true if at least one component is non-zero. }
     function IsNotNull: boolean;
-
-    { Returns the Euclidean norm (magnitude) of the vector:
-      @code(‖v‖ = √(Σ |vᵢ|²)).
-    }
     function Norm: TReal;
-    { Returns the squared Euclidean norm of the vector:
-      @code(‖v‖² = Σ |vᵢ|²).
-      Avoids the square root computation of @link(Norm).
-    }
     function SquaredNorm: TReal;
-
-    { Returns the unit vector in the same direction.
-      Each component is divided by @link(Norm).
-      @raises(EZeroDivide if the vector is null.)
-    }
-    function Normalize: TComplexVector;
-    { Returns the reciprocal vector defined component-wise by
-      @code(result[i] = Self[i] / ‖Self‖²).
-      @raises(EZeroDivide if the vector is null.)
-    }
-    function Reciprocal: TComplexVector;
-
-    { Converts the vector to its default string representation. }
+    function Normalize: TVector;
+    function Reciprocal: TVector;
     function ToString: string;
 
-    { Returns the component-wise complex conjugate of the vector. }
-    function Conjugate: TComplexVector;
+    class operator Initialize(var ASelf: TVector);
+    class operator Finalize(var ASelf: TVector);
+    class operator Copy(constref ASrc: TVector; var ADst: TVector);
+    class operator =(const ALeft, ARight: TVector): boolean;
+    class operator <>(const ALeft, ARight: TVector): boolean;
+    class operator +(const ASelf: TVector): TVector;
+    class operator +(const ALeft, ARight: TVector): TVector;
+    class operator -(const ASelf: TVector): TVector;
+    class operator -(const ALeft, ARight: TVector): TVector;
+    class operator *(const ALeft, ARight: TVector): T;
+    class operator *(const ALeft: T; const ARight: TVector): TVector;
+    class operator *(const ALeft: TVector; const ARight: T): TVector;
+    class operator /(const ALeft: TVector; const ARight: T): TVector;
 
-    { Initialises the vector storage. }
-    class operator Initialize(var ASelf: TComplexVector);
-
-    { Releases the dynamic storage of the vector. }
-    class operator Finalize(var ASelf: TComplexVector);
-
-    { Performs a deep copy on assignment so that each vector variable
-      owns independent storage.
-    }
-    class operator Copy(constref ASrc: TComplexVector; var ADst: TComplexVector);
-
-    { Returns @true if all corresponding components of the two vectors are equal. }
-    class operator =(const ALeft, ARight: TComplexVector): boolean;
-
-    { Returns @true if the two vectors differ in at least one component. }
-    class operator <>(const ALeft, ARight: TComplexVector): boolean;
-
-    { Unary plus. Returns the vector unchanged. }
-    class operator +(const ASelf: TComplexVector): TComplexVector;
-
-    { Returns the component-wise sum of two vectors. }
-    class operator +(const ALeft, ARight: TComplexVector): TComplexVector;
-
-    { Unary minus. Returns the negation of the vector. }
-    class operator -(const ASelf: TComplexVector): TComplexVector;
-
-    { Returns the component-wise difference of two vectors. }
-    class operator -(const ALeft, ARight: TComplexVector): TComplexVector;
-
-    { Returns the dot product of two vectors. }
-    class operator *(const ALeft, ARight: TComplexVector): TComplex;
-
-    { Returns the product of a real scalar and a vector. }
-    class operator *(const ALeft: TReal; const ARight: TComplexVector): TComplexVector;
-
-    { Returns the product of a vector and a real scalar. }
-    class operator *(const ALeft: TComplexVector; const ARight: TReal): TComplexVector;
-
-    { Returns the product of a complex scalar and a vector. }
-    class operator *(const ALeft: TComplex; const ARight: TComplexVector): TComplexVector;
-
-    { Returns the product of a vector and a complex scalar. }
-    class operator *(const ALeft: TComplexVector; const ARight: TComplex): TComplexVector;
-
-    { Returns the vector divided by a complex scalar. }
-    class operator /(const ALeft: TComplexVector; const ARight: TComplex): TComplexVector;
-
-    { Returns the vector divided by a real scalar. }
-    class operator /(const ALeft: TComplexVector; const ARight: TReal): TComplexVector;
-
-    { Provides access to individual vector components using a 0-based index.
-      @code(a[0]) is the first component.
-    }
-    property a[ARow: longint]: TComplex read Get write Put; default;
+    property A[AIndex: longint]: T read Get write Put; default;
   end;
 
-  { Fixed-dimension square matrix of complex values.
+  TRealVector = specialize TVector<TReal>;
+  TComplexVector = specialize TVector<TComplex>;
 
-    The matrix order is determined by @code(Space.N). Elements are stored
-    internally in a 0-based two-dimensional dynamic array and are accessed
-    through the default property @code(a[row, col]).
-  }
-  generic TComplexMatrix<Space> = record
-  type
-    TComplexVector = specialize TComplexVector<Space>;
-  private
-    { Row-major storage of the matrix elements. }
-    fm: array of array of TComplex;
-
-    { Reads the element at position (@code(ARow), @code(ACol)). }
-    function Get(ARow, ACol: longint): TComplex; inline;
-
-    { Writes the element at position (@code(ARow), @code(ACol)). }
-    procedure Put(ARow, ACol: longint; const AValue: TComplex); inline;
-
-    { Performs forward Gaussian elimination with partial pivoting.
-      Used internally by @link(Determinant) and @link(Rank).
-      @param(SwapCount Number of row swaps performed, used to determine
-      the sign of the determinant.)
-      @return(Upper triangular matrix after elimination.)
-    }
-    function ForwardElimination(out SwapCount: integer): TComplexMatrix; inline;
-
-    { Returns the solution of the linear system @code(Self · x = AData),
-      operating on raw component arrays. Backs the public SolveLinear
-      methods of the type helpers.
-      @raises(EDimensionError if @code(Length(AData)) differs from the order.)
-      @raises(EZeroDivide if the matrix is singular.)
-    }
-    { Reduces the matrix to upper Hessenberg form using Householder reflections.
-      Used internally by @link(Eigenvalues).
-      @return(Upper Hessenberg matrix similar to Self, with same eigenvalues.)
-    }
-    function HessenbergReduction: TComplexMatrix;
-
-    { Computes the Householder reflection vector for column @code(k).
-      Used internally by @link(HessenbergReduction).
-      @param(k Column index, 0-based.)
-      @return(Normalized Householder vector stored in column 0.)
-    }
-    function HouseholderVector(k: longint): TComplexMatrix;
-  public
-    { Solves the linear system @code(Self * x = AData) by Gaussian
-      elimination with partial pivoting, without explicitly forming the
-      inverse matrix.
-      @raises(EZeroDivide if the matrix is singular.)
-    }
-    function SolveLinear(const AData: TComplexVector): TComplexVector;
-
-    { Assigns all matrix elements from @code(AValues).
-
-      The number of supplied values must be exactly
-      @code(Space.N * Space.N). Values are assigned in row-major order:
-      all elements of row 0 are assigned first, followed by row 1, and
-      so on.
-
-      @param(AValues Values to assign to the matrix elements.)
-      @raises(EArgumentException if the number of values does not match
-      @code(Space.N * Space.N).)
-    }
-    procedure Assign(const AValues: array of TComplex);
-
-    { Returns the @code(N × N) identity matrix with ones on the diagonal
-      and zeros elsewhere. The result has the same dimension as Self.
-    }
-    function Identity: TComplexMatrix;
-
-    { Returns the @code(N × N) null matrix with all elements equal to zero.
-      The result has the same dimension as Self.
-    }
-    function Null: TComplexMatrix;
-
-    { Returns the diagonal matrix built from the supplied values.
-      Element @code(D[i,i] = AEigenValues[i]) and all off-diagonal elements
-      are zero.
-      @param(AEigenValues Vector containing the diagonal values.)
-    }
-    function Diagonalize(const AEigenValues: TComplexVector): TComplexMatrix;
-
-    { Returns @true if all elements of the matrix are zero. }
-    function IsNull: boolean;
-
-    { Returns @true if at least one element of the matrix is non-zero. }
-    function IsNotNull: boolean;
-
-    { Returns @true if two matrices are equal within the default floating
-      point tolerance @link(DefaultEpsilon).
-    }
-    function SameValue(const AMatrix: TComplexMatrix): boolean;
-
-    { Returns the determinant of the matrix using Gaussian elimination
-      with partial pivoting (LU decomposition).
-    }
-    function Determinant: TComplex;
-
-    { Returns the Frobenius norm of the matrix:
-      @code(‖A‖_F = √(Σ|a[i,j]|²)).
-    }
-    function Norm: TReal;
-
-    { Returns the number of linearly independent rows or columns. }
-    function Rank: longint;
-
-    { Returns the trace of the matrix, i.e. the sum of diagonal elements:
-      @code(tr(A) = Σ A[i,i]).
-    }
-    function Trace: TComplex;
-
-    { Returns an independent copy of the matrix with its own storage. }
-    function Clone: TComplexMatrix;
-
-    { Returns the transpose of the matrix.
-      Element @code([i,j]) of the result equals element @code([j,i]) of the original.
-    }
-    function Transpose: TComplexMatrix;
-
-    { Returns the inverse of the matrix.
-      @raises(EZeroDivide if the matrix is singular.)
-    }
-    function Inverse: TComplexMatrix;
-
-    { Returns the row-reduced echelon form of the matrix using Gaussian
-      elimination with partial pivoting.
-    }
-    function RowReduction: TComplexMatrix;
-
-    { Returns the eigenvalues of the matrix as a complex vector.
-      The result contains one value for each matrix dimension. The ordering
-      of the eigenvalues is not part of the interface contract.
-    }
-    function Eigenvalues: TComplexVector;
-
-    { Returns the eigenvectors of the matrix as columns of a complex matrix.
-      Column @code(j) corresponds to @code(AEigenvalues[j]).
-      @param(AEigenvalues Eigenvalues associated with the requested eigenvectors.)
-    }
-    function Eigenvectors(const AEigenvalues: TComplexVector): TComplexMatrix;
-
-    { Swaps rows @code(ARow1) and @code(ARow2) in place. Indices are 0-based. }
-    procedure Swap(ARow1, ARow2: longint);
-
-    { Converts the matrix to its default string representation. }
-    function ToString: string;
-
-    { Converts the matrix to a formatted string with controlled precision.
-      @param(APrecision Number of significant digits.)
-      @param(ADigits Minimum number of digits in the output.)
-    }
-    function ToString(APrecision, ADigits: integer): string;
-
-    { Returns the element-wise complex conjugate of the matrix:
-      each element @code(a[i,j]) is replaced by @code(a[i,j]*).
-    }
-    function Conjugate: TComplexMatrix;
-
-    { Returns the conjugate transpose (Hermitian adjoint) of the matrix:
-      @code(Aᴴ[i,j] = A[j,i]*).
-    }
-    function TransposeConjugate: TComplexMatrix;
-
-    { Returns @true if the matrix is unitary, i.e. @code(Aᴴ · A = I). }
-    function IsUnitary: boolean;
-
-    { Initialises a new matrix. }
-    class operator Initialize(var ASelf: TComplexMatrix);
-
-    { Releases the dynamic storage of the matrix. }
-    class operator Finalize(var ASelf: TComplexMatrix);
-
-    { Performs a deep copy on assignment so that each matrix variable
-      owns independent storage.
-    }
-    class operator Copy(constref ASrc: TComplexMatrix; var ADst: TComplexMatrix);
-
-    { Returns @true if the two matrices differ in at least one element. }
-    class operator <>(const ALeft, ARight: TComplexMatrix): boolean;
-
-    { Returns @true if all corresponding elements of the two matrices are equal. }
-    class operator =(const ALeft, ARight: TComplexMatrix): boolean;
-
-    { Returns the element-wise sum of two matrices of the same size. }
-    class operator +(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
-
-    { Returns the element-wise difference of two matrices of the same size. }
-    class operator -(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
-
-    { Returns the matrix product of two matrices.
-      @code((A·B)[i,j] = Σ_k A[i,k] · B[k,j])
-    }
-    class operator *(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
-
-    { Returns the product of a real scalar and a matrix. }
-    class operator *(const ALeft: TReal; const ARight: TComplexMatrix): TComplexMatrix;
-
-    { Returns the product of a matrix and a real scalar. }
-    class operator *(const ALeft: TComplexMatrix; const ARight: TReal): TComplexMatrix;
-
-    { Returns the product of a complex scalar and a matrix. }
-    class operator *(const ALeft: TComplex; const ARight: TComplexMatrix): TComplexMatrix;
-
-    { Returns the product of a matrix and a complex scalar. }
-    class operator *(const ALeft: TComplexMatrix; const ARight: TComplex): TComplexMatrix;
-
-    { Returns the row-vector product @code(v · A).
-      The left vector is interpreted as a row vector for this operation.
-    }
-    class operator *(const ALeft: TComplexVector; const ARight: TComplexMatrix): TComplexVector;
-
-    { Returns the matrix-column-vector product @code(A · v).
-      @code(ARight) is interpreted according to the vector's standard
-      column-vector representation.
-    }
-    class operator *(const ALeft: TComplexMatrix; const ARight: TComplexVector): TComplexVector;
-
-    { Provides access to individual matrix elements using 0-based row and
-      column indices. @code(a[0,0]) is the top-left element.
-    }
-    property a[ARow, ACol: longint]: TComplex read Get write Put; default;
-  end;
-
-  { Fixed-dimension vector of real values.
-
-    The vector is represented as a mathematical column vector. Its dimension
-    is determined by @code(Space.N). Components are stored internally in a
-    0-based dynamic array and are accessed through the default property
-    @code(a[row]).
-  }
-  generic TRealVector<Space> = record
-  type
-    TComplexVector = specialize TComplexVector<Space>;
-  private
-    fm: TArrayOfReal;
-
-    function Get(ARow: longint): TReal; inline;
-    procedure Put(ARow: longint; AValue: TReal); inline;
-
-  public
-    { Assigns all vector components from @code(AValues).
-
-      The number of supplied values must match the vector dimension
-      @code(Space.N). Values are assigned in component order, starting
-      from index 0.
-
-      @param(AValues Values to assign to the vector components.)
-      @raises(EArgumentException if the number of values does not match
-        @code(Space.N).)
-    }
-    procedure Assign(const AValues: array of TReal);
-
-    { Returns the cross product of two 3-component real vectors.
-      Requires @code(Space.N = 3).
-      @raises(ERangeError if @code(Space.N <> 3).)
-    }
+  TRealVectorHelper = type helper for TRealVector
     function Cross(const AVector: TRealVector): TRealVector;
-
-    { Returns the Euclidean dot product @code(u·v = Σ uᵢvᵢ). }
-    function Dot(const AVector: TRealVector): TReal;
-
-    { Returns @true if all components are zero. }
-    function IsNull: boolean;
-
-    { Returns @true if at least one component is non-zero. }
-    function IsNotNull: boolean;
-
-    { Returns the Euclidean norm @code(‖v‖ = √(Σ vᵢ²)). }
-    function Norm: TReal;
-
-    { Returns the squared Euclidean norm @code(‖v‖² = Σ vᵢ²). }
-    function SquaredNorm: TReal;
-
-    { Returns the unit vector in the same direction.
-      @raises(EZeroDivide if the vector is null.)
-    }
-    function Normalize: TRealVector;
-
-    { Returns the reciprocal vector defined by
-      @code(result[i] = Self[i] / ‖Self‖²).
-      @raises(EZeroDivide if the vector is null.)
-    }
-    function Reciprocal: TRealVector;
-
-    { Converts the vector to its default string representation. }
-    function ToString: string;
-
-    { Converts the real vector to the corresponding complex vector. }
     function ToComplex: TComplexVector;
-
-    class operator Initialize(var ASelf: TRealVector);
-    class operator Finalize(var ASelf: TRealVector);
-    class operator Copy(constref ASrc: TRealVector; var ADst: TRealVector);
-
-    class operator =(const ALeft, ARight: TRealVector): boolean;
-    class operator <>(const ALeft, ARight: TRealVector): boolean;
-
-    class operator +(const ASelf: TRealVector): TRealVector;
-    class operator +(const ALeft, ARight: TRealVector): TRealVector;
-
-    class operator -(const ASelf: TRealVector): TRealVector;
-    class operator -(const ALeft, ARight: TRealVector): TRealVector;
-
-    class operator *(const ALeft, ARight: TRealVector): TReal;
-
-    class operator *(const ALeft: TReal; const ARight: TRealVector): TRealVector;
-    class operator *(const ALeft: TRealVector; const ARight: TReal): TRealVector;
-
-    class operator /(const ALeft: TRealVector; const ARight: TReal): TRealVector;
-
-    property a[ARow: longint]: TReal read Get write Put; default;
   end;
 
-  { Fixed-dimension square matrix of real values.
+  TComplexVectorHelper = type helper for TComplexVector
+    function Conjugate: TComplexVector;
+  end;
 
-    The matrix order is determined by @code(Space.N). Elements are stored
-    internally in a 0-based two-dimensional dynamic array and are accessed
-    through the default property @code(a[row, col]).
-  }
-  generic TRealMatrix<Space> = record
+  generic TMatrix<T> = record
   type
-    TRealVector    = specialize TRealVector<Space>;
-    TComplexVector = specialize TComplexVector<Space>;
-    TComplexMatrix = specialize TComplexMatrix<Space>;
+    TVectorType = specialize TVector<T>;
   private
-    fm: array of array of TReal;
-
-    function Get(ARow, ACol: longint): TReal; inline;
-    procedure Put(ARow, ACol: longint; AValue: TReal); inline;
-
-    function ForwardElimination(out SwapCount: integer): TRealMatrix; inline;
+    FData: array of T;
+    FOrder: longint;
+    function Get(ARow, ACol: longint): T; inline;
+    procedure Put(ARow, ACol: longint; const AValue: T); inline;
+    procedure RequireSameOrder(const AMatrix: TMatrix); inline;
+    procedure SetOrder(AOrder: longint);
+    function ForwardElimination(out ASwapCount: integer): TMatrix;
+    function Multiply(const AMatrix: TMatrix): TMatrix;
   public
-    { Solves the linear system @code(Self * x = AData) by Gaussian
-      elimination with partial pivoting, without explicitly forming the
-      inverse matrix.
-      @raises(EZeroDivide if the matrix is singular.)
-    }
-    function SolveLinear(const AData: TRealVector): TRealVector;
-
-    { Assigns all matrix elements from @code(AValues).
-
-      The number of supplied values must be exactly
-      @code(Space.N * Space.N). Values are assigned in row-major order:
-      all elements of row 0 are assigned first, followed by row 1, and
-      so on.
-
-      @param(AValues Values to assign to the matrix elements.)
-      @raises(EArgumentException if the number of values does not match
-        @code(Space.N * Space.N).)
-    }
-    procedure Assign(const AValues: array of TReal);
-
-    { Returns the identity matrix. }
-    function Identity: TRealMatrix;
-
-    { Returns the null matrix. }
-    function Null: TRealMatrix;
-
-    { Returns a real diagonal matrix whose diagonal is @code(ADiagonal). }
-    function Diagonalize(const ADiagonal: TRealVector): TRealMatrix;
-
-    { Returns @true if all elements are zero. }
+    procedure Init(const AValues: array of T);
+    function Order: longint; inline;
+    function SolveLinear(const AData: TVectorType): TVectorType;
+    function Identity: TMatrix;
+    function Null: TMatrix;
+    function Diagonalize(const ADiagonal: TVectorType): TMatrix;
     function IsNull: boolean;
-
-    { Returns @true if at least one element is non-zero. }
     function IsNotNull: boolean;
-
-    { Returns @true if two matrices are equal within @link(DefaultEpsilon). }
-    function SameValue(const AMatrix: TRealMatrix): boolean;
-
-    { Returns the determinant using Gaussian elimination with partial pivoting. }
-    function Determinant: TReal;
-
-    { Returns the Frobenius norm. }
+    function SameValue(const AMatrix: TMatrix): boolean;
+    function Determinant: T;
     function Norm: TReal;
-
-    { Returns the matrix rank. }
     function Rank: longint;
-
-    { Returns the trace. }
-    function Trace: TReal;
-
-    { Returns an independent copy of the matrix. }
-    function Clone: TRealMatrix;
-
-    { Returns the transpose. }
-    function Transpose: TRealMatrix;
-
-    { Returns the inverse.
-      @raises(EZeroDivide if the matrix is singular.)
-    }
-    function Inverse: TRealMatrix;
-
-    { Returns the row-reduced echelon form. }
-    function RowReduction: TRealMatrix;
-
-    { Converts the real matrix to the corresponding complex matrix. }
-    function ToComplex: TComplexMatrix;
-
-    { Returns the eigenvalues as a complex vector.
-      The complex matrix eigensolver is reused without duplicating the
-      spectral algorithm.
-    }
-    function Eigenvalues: TComplexVector;
-
-    { Returns the eigenvectors as columns of a complex matrix.
-      The complex matrix eigensolver is reused without duplicating the
-      spectral algorithm.
-    }
-    function Eigenvectors(const AEigenvalues: TComplexVector): TComplexMatrix;
-
+    function Trace: T;
+    function Clone: TMatrix;
+    function Transpose: TMatrix;
+    function Inverse: TMatrix;
+    function RowReduction: TMatrix;
     procedure Swap(ARow1, ARow2: longint);
-
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
 
-    class operator Initialize(var ASelf: TRealMatrix);
-    class operator Finalize(var ASelf: TRealMatrix);
-    class operator Copy(constref ASrc: TRealMatrix; var ADst: TRealMatrix);
+    class operator Initialize(var ASelf: TMatrix);
+    class operator Finalize(var ASelf: TMatrix);
+    class operator Copy(constref ASrc: TMatrix; var ADst: TMatrix);
+    class operator =(const ALeft, ARight: TMatrix): boolean;
+    class operator <>(const ALeft, ARight: TMatrix): boolean;
+    class operator +(const ALeft, ARight: TMatrix): TMatrix;
+    class operator -(const ALeft, ARight: TMatrix): TMatrix;
+    class operator *(const ALeft, ARight: TMatrix): TMatrix;
+    class operator *(const ALeft: T; const ARight: TMatrix): TMatrix;
+    class operator *(const ALeft: TMatrix; const ARight: T): TMatrix;
+    class operator *(const ALeft: TVectorType; const ARight: TMatrix): TVectorType;
+    class operator *(const ALeft: TMatrix; const ARight: TVectorType): TVectorType;
+    class operator /(const ALeft: TMatrix; const ARight: T): TMatrix;
 
-    class operator =(const ALeft, ARight: TRealMatrix): boolean;
-    class operator <>(const ALeft, ARight: TRealMatrix): boolean;
-
-    class operator +(const ALeft, ARight: TRealMatrix): TRealMatrix;
-    class operator -(const ALeft, ARight: TRealMatrix): TRealMatrix;
-    class operator *(const ALeft, ARight: TRealMatrix): TRealMatrix;
-
-    class operator *(const ALeft: TReal; const ARight: TRealMatrix): TRealMatrix;
-    class operator *(const ALeft: TRealMatrix; const ARight: TReal): TRealMatrix;
-
-    { Returns the row-vector product @code(v · A). }
-    class operator *(const ALeft: TRealVector; const ARight: TRealMatrix): TRealVector;
-
-    { Returns the matrix-column-vector product @code(A · v). }
-    class operator *(const ALeft: TRealMatrix; const ARight: TRealVector): TRealVector;
-
-    property a[ARow, ACol: longint]: TReal read Get write Put; default;
+    property A[ARow, ACol: longint]: T read Get write Put; default;
   end;
 
-  { Complex vector specialisations. }
-  T2ComplexVector = specialize TComplexVector<T2DSpace>;
-  T3ComplexVector = specialize TComplexVector<T3DSpace>;
-  T4ComplexVector = specialize TComplexVector<T4DSpace>;
+  TRealMatrix = specialize TMatrix<TReal>;
+  TComplexMatrix = specialize TMatrix<TComplex>;
 
-  { Complex matrix specialisations. }
-  T2ComplexMatrix = specialize TComplexMatrix<T2DSpace>;
-  T3ComplexMatrix = specialize TComplexMatrix<T3DSpace>;
-  T4ComplexMatrix = specialize TComplexMatrix<T4DSpace>;
+  TRealMatrixHelper = type helper for TRealMatrix
+    function IsOrthogonal: boolean;
+    function ToComplex: TComplexMatrix;
+    function Eigenvalues: TComplexVector;
+    function Eigenvectors(const AEigenvalues: TComplexVector): TComplexMatrix;
+  end;
 
-  { Real vector specialisations. }
-  T2RealVector = specialize TRealVector<T2DSpace>;
-  T3RealVector = specialize TRealVector<T3DSpace>;
-  T4RealVector = specialize TRealVector<T4DSpace>;
+  TComplexMatrixHelper = type helper for TComplexMatrix
+  private
+    function HessenbergReduction: TComplexMatrix;
+    function HouseholderVector(AColumn: longint): TComplexVector;
+  public
+    function Conjugate: TComplexMatrix;
+    function Eigenvalues: TComplexVector;
+    function Eigenvectors(const AEigenvalues: TComplexVector): TComplexMatrix;
+    function IsUnitary: boolean;
+    function TransposeConjugate: TComplexMatrix;
+  end;
 
-  { Real matrix specialisations. }
-  T2RealMatrix = specialize TRealMatrix<T2DSpace>;
-  T3RealMatrix = specialize TRealMatrix<T3DSpace>;
-  T4RealMatrix = specialize TRealMatrix<T4DSpace>;
 
 { Constructs a @link(TComplex) from real and imaginary parts. }
-function Complex(const ARe, AIm: double): TComplex;
-
-{ Returns the absolute value of a real number. }
-function Abs(const AValue: double): double;
-
-{ Returns the absolute value of a complex number. }
-function Abs(const AValue: TComplex): double;
+function Complex(const ARe, AIm: TReal): TComplex;
 
 { Returns @true if two real numbers are equal within @link(DefaultEpsilon). }
-function SameValueEx(const AValue1, AValue2: double): boolean;
+function SameValueEx(const AValue1, AValue2: TReal): boolean;
 
 { Returns @true if two complex numbers are equal within @link(DefaultEpsilon). }
 function SameValueEx(const AValue1, AValue2: TComplex): boolean;
 
 { Solves @code(x + a = 0) over the real numbers. Returns @code(-a). }
-function SolveEquation(const a: double): double;
+function SolveEquation(const a: TReal): TReal;
 
 { Solves @code(x + a = 0) over the complex numbers. Returns @code(-a). }
 function SolveEquation(const a: TComplex): TComplex;
 
 { Returns the square of a real number: @code(x²). }
-function SquareNorm(const AValue: double): double;
+function SquareNorm(const AValue: TReal): TReal;
 { Returns the squared modulus of a complex number: @code(|z|² = Re² + Im²). }
-function SquareNorm(const AValue: TComplex): double;
+function SquareNorm(const AValue: TComplex): TReal;
 
 { Returns the absolute value of a real number: @code(|x|). }
-function Norm(const AValue: double): double;
+function Norm(const AValue: TReal): TReal;
 { Returns the modulus of a complex number: @code(|z| = √(Re² + Im²)). }
-function Norm(const AValue: TComplex): double;
+function Norm(const AValue: TComplex): TReal;
 
 { Converts a real number to its default string representation. }
-function FloatToStrF(const AValue: double): string;
+function FloatToStrF(const AValue: TReal): string;
 
 { Converts a complex number to its default string representation. }
 function FloatToStrF(const AValue: TComplex): string;
@@ -892,7 +413,7 @@ function FloatToStrF(const AValue: TComplex): string;
   @param(APrecision Number of significant digits.)
   @param(ADigits    Minimum number of digits in the output.)
 }
-function FloatToStrF(const AValue: double; APrecision, ADigits: longint): string;
+function FloatToStrF(const AValue: TReal; APrecision, ADigits: longint): string;
 { Converts a complex number to a string with controlled precision.
   @param(APrecision Number of significant digits.)
   @param(ADigits    Minimum number of digits in the output.)
@@ -955,8 +476,6 @@ var
 
 implementation
 
-uses Math;
-
 function Fmt(const AValue: TReal): string;
 begin
   if AValue < 0.0 then
@@ -985,7 +504,7 @@ end;
 
 // TComplex
 
-function TComplex.Arg: double;
+function TComplex.Arg: TReal;
 begin
   result := Math.ArcTan2(fIm, fRe);
 end;
@@ -1006,19 +525,24 @@ begin
   result := not IsNull;
 end;
 
-function TComplex.Norm: double;
+function TComplex.Norm: TReal;
 begin
   result := hypot(fRe, fIm);
 end;
 
-function TComplex.SquaredNorm: double;
+function TComplex.SquaredNorm: TReal;
 begin
   result := sqr(fRe) + sqr(fIm);
 end;
 
+function TComplex.SameValue(const AValue: TComplex): boolean;
+begin
+  result := SameValueEx(Self, AValue);
+end;
+
 function TComplex.Reciprocal: TComplex;
 var
-  LRatio, LDenominator: double;
+  LRatio, LDenominator: TReal;
 begin
   if (fRe = 0) and (fIm = 0) then
     raise EZeroDivide.Create('TComplex.Reciprocal: division by zero.');
@@ -1092,7 +616,7 @@ begin
   fIm := 0;
 end;
 
-class operator TComplex.:=(const AValue: double): TComplex;
+class operator TComplex.:=(const AValue: TReal): TComplex;
 begin
   result.fRe := AValue;
   result.fIm := 0;
@@ -1120,13 +644,13 @@ begin
   result.fIm := ALeft.fIm + ARight.fIm;
 end;
 
-class operator TComplex.+(const ALeft: double; const ARight: TComplex): TComplex;
+class operator TComplex.+(const ALeft: TReal; const ARight: TComplex): TComplex;
 begin
   result.fRe := ALeft + ARight.fRe;
   result.fIm :=         ARight.fIm;
 end;
 
-class operator TComplex.+(const ALeft: TComplex; const ARight: double): TComplex;
+class operator TComplex.+(const ALeft: TComplex; const ARight: TReal): TComplex;
 begin
   result.fRe := ALeft.fRe + ARight;
   result.fIm := ALeft.fIm;
@@ -1144,13 +668,13 @@ begin
   result.fIm := ALeft.fIm - ARight.fIm;
 end;
 
-class operator TComplex.-(const ALeft: double; const ARight: TComplex): TComplex;
+class operator TComplex.-(const ALeft: TReal; const ARight: TComplex): TComplex;
 begin
   result.fRe := ALeft - ARight.fRe;
   result.fIm :=       - ARight.fIm;
 end;
 
-class operator TComplex.-(const ALeft: TComplex; const ARight: double): TComplex;
+class operator TComplex.-(const ALeft: TComplex; const ARight: TReal): TComplex;
 begin
   result.fRe := ALeft.fRe - ARight;
   result.fIm := ALeft.fIm;
@@ -1162,13 +686,13 @@ begin
   result.fIm := ALeft.fRe * ARight.fIm + ALeft.fIm * ARight.fRe;
 end;
 
-class operator TComplex.*(const ALeft: double; const ARight: TComplex): TComplex;
+class operator TComplex.*(const ALeft: TReal; const ARight: TComplex): TComplex;
 begin
   result.fRe := ALeft * ARight.fRe;
   result.fIm := ALeft * ARight.fIm;
 end;
 
-class operator TComplex.*(const ALeft: TComplex; const ARight: double): TComplex;
+class operator TComplex.*(const ALeft: TComplex; const ARight: TReal): TComplex;
 begin
   result.fRe := ALeft.fRe * ARight;
   result.fIm := ALeft.fIm * ARight;
@@ -1179,12 +703,12 @@ begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TComplex./(const ALeft: double; const ARight: TComplex): TComplex;
+class operator TComplex./(const ALeft: TReal; const ARight: TComplex): TComplex;
 begin
   result := ALeft * ARight.Reciprocal;
 end;
 
-class operator TComplex./(const ALeft: TComplex; const ARight: double): TComplex;
+class operator TComplex./(const ALeft: TComplex; const ARight: TReal): TComplex;
 begin
   result.fRe := ALeft.fRe / ARight;
   result.fIm := ALeft.fIm / ARight;
@@ -1198,12 +722,12 @@ begin
   result.fIm := 1;
 end;
 
-class operator TImaginaryUnit.*(const ALeft, ARight: TImaginaryUnit): double;
+class operator TImaginaryUnit.*(const ALeft, ARight: TImaginaryUnit): TReal;
 begin
   result := -1;
 end;
 
-class operator TImaginaryUnit./(const ALeft, ARight: TImaginaryUnit): double;
+class operator TImaginaryUnit./(const ALeft, ARight: TImaginaryUnit): TReal;
 begin
   result := 1;
 end;
@@ -1220,25 +744,25 @@ begin
   result.fIm := 1;
 end;
 
-class operator TImaginaryUnit.+(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryUnit.+(const ALeft: TReal; const ARight: TImaginaryUnit): TComplex;
 begin
   result.fRe := ALeft;
   result.fIm := 1;
 end;
 
-class operator TImaginaryUnit.+(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+class operator TImaginaryUnit.+(const ALeft: TImaginaryUnit; const ARight: TReal): TComplex;
 begin
   result.fRe := ARight;
   result.fIm := 1;
 end;
 
-class operator TImaginaryUnit.-(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryUnit.-(const ALeft: TReal; const ARight: TImaginaryUnit): TComplex;
 begin
   result.fRe :=  ALeft;
   result.fIm := -1;
 end;
 
-class operator TImaginaryUnit.-(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+class operator TImaginaryUnit.-(const ALeft: TImaginaryUnit; const ARight: TReal): TComplex;
 begin
   result.fRe := -ARight;
   result.fIm :=  1;
@@ -1268,13 +792,13 @@ begin
   result.fIm := 1 - ARight.fIm;
 end;
 
-class operator TImaginaryUnit.*(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryUnit.*(const ALeft: TReal; const ARight: TImaginaryUnit): TComplex;
 begin
   result.fRe := 0;
   result.fIm := ALeft;
 end;
 
-class operator TImaginaryUnit.*(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+class operator TImaginaryUnit.*(const ALeft: TImaginaryUnit; const ARight: TReal): TComplex;
 begin
   result.fRe := 0;
   result.fIm := ARight;
@@ -1292,13 +816,13 @@ begin
   result.fIm :=  ARight.fRe;
 end;
 
-class operator TImaginaryUnit./(const ALeft: double; const ARight: TImaginaryUnit): TComplex;
+class operator TImaginaryUnit./(const ALeft: TReal; const ARight: TImaginaryUnit): TComplex;
 begin
   result.fRe :=  0;
   result.fIm := -ALeft;
 end;
 
-class operator TImaginaryUnit./(const ALeft: TImaginaryUnit; const ARight: double): TComplex;
+class operator TImaginaryUnit./(const ALeft: TImaginaryUnit; const ARight: TReal): TComplex;
 begin
   result.fRe := 0;
   result.fIm := 1 / ARight;
@@ -1319,2061 +843,1231 @@ begin
   result.fIm :=  LReciprocal.fRe;
 end;
 
-// TComplexMatrix
-
-function TComplexMatrix.Get(ARow, ACol: longint): TComplex;
+function TRealHelper.SameValue(const AValue: TReal): boolean;
 begin
-  result := fm[ARow, ACol];
+  result := SameValueEx(Self, AValue);
 end;
 
-procedure TComplexMatrix.Put(ARow, ACol: longint; const AValue: TComplex);
+function TRealHelper.SquaredNorm: TReal;
 begin
-  fm[ARow, ACol] := AValue;
+  result := Sqr(Self);
 end;
 
-function TComplexMatrix.ForwardElimination(out SwapCount: integer): TComplexMatrix; inline;
+function TRealHelper.ToString: string;
+begin
+  result := SysUtils.FloatToStr(Self);
+end;
+
+function TRealHelper.ToString(APrecision, ADigits: integer): string;
+begin
+  result := SysUtils.FloatToStrF(Self, ffGeneral, APrecision, ADigits);
+end;
+
+// TVector<T>
+
+function TVector.Get(AIndex: longint): T;
+begin
+  result := FData[AIndex];
+end;
+
+procedure TVector.Put(AIndex: longint; const AValue: T);
+begin
+  FData[AIndex] := AValue;
+end;
+
+procedure TVector.RequireSameSize(const AVector: TVector);
+begin
+  if Length(FData) <> Length(AVector.FData) then
+    raise EDimensionError.CreateFmt(
+      'Incompatible vector dimensions: %d and %d.',
+      [Length(FData), Length(AVector.FData)]);
+end;
+
+procedure TVector.SetSize(ASize: longint);
+begin
+  if ASize < 0 then
+    raise EDimensionError.Create('Vector dimension cannot be negative.');
+  SetLength(FData, ASize);
+end;
+
+procedure TVector.Init(const AValues: array of T);
 var
-  pivot, ratio: TComplex;
-  maxVal: double;
-  i, j, k, maxRow: longint;
-  rowI, rowJ: TArrayOfComplex;
+  LIndex: longint;
 begin
-  result := Self.Clone;
-
-  SwapCount := 0;
-  for i := 0 to Space.N - 1 do
-  begin
-    maxRow := i;
-    maxVal := Abs(result.fm[i, i]);
-    for j := i + 1 to Space.N - 1 do
-      if Abs(result.fm[j, i]) > maxVal then
-      begin
-        maxVal := Abs(result.fm[j, i]);
-        maxRow := j;
-      end;
-
-    if maxVal = 0 then Continue;
-
-    if maxRow <> i then
-    begin
-      result.Swap(i, maxRow);
-      Inc(SwapCount);
-    end;
-
-    rowI  := result.fm[i];
-    pivot := rowI[i];
-
-    for j := i + 1 to Space.N - 1 do
-    begin
-      if Abs(result.fm[j, i]) = 0 then Continue;
-      rowJ       := result.fm[j];
-      ratio      := rowJ[i] / pivot;
-      rowJ[i]    := 0;
-      for k := i + 1 to Space.N - 1 do
-        rowJ[k] := rowJ[k] - ratio * rowI[k];
-      result.fm[j] := rowJ;
-    end;
-  end;
+  SetSize(Length(AValues));
+  for LIndex := 0 to High(AValues) do
+    FData[LIndex] := AValues[LIndex];
 end;
 
-function TComplexMatrix.HessenbergReduction: TComplexMatrix;
-var
-  V: TComplexMatrix;
-  k, i, j: longint;
-  dot: TComplex;
-  rowI: TArrayOfComplex;
+function TVector.Size: longint;
 begin
-  result := Self.Clone;
-
-  for k := 0 to Space.N - 3 do
-  begin
-    V := result.HouseholderVector(k);
-    if V.IsNull then Continue;
-
-    for j := 0 to Space.N - 1 do
-    begin
-      dot := 0;
-      for i := k + 1 to Space.N - 1 do
-        dot := dot + V.fm[i, 0].Conjugate * result.fm[i, j];
-      for i := k + 1 to Space.N - 1 do
-        result.fm[i, j] := result.fm[i, j] - 2 * V.fm[i, 0] * dot;
-    end;
-
-    for i := 0 to Space.N - 1 do
-    begin
-      rowI := result.fm[i];
-      dot  := 0;
-      for j := k + 1 to Space.N - 1 do
-        dot := dot + rowI[j] * V.fm[j, 0];
-      for j := k + 1 to Space.N - 1 do
-        rowI[j] := rowI[j] - 2 * dot * V.fm[j, 0].Conjugate;
-      result.fm[i] := rowI;
-    end;
-
-    for i := k + 2 to Space.N - 1 do
-      result.fm[i, k] := 0;
-  end;
+  result := Length(FData);
 end;
 
-function TComplexMatrix.HouseholderVector(k: longint): TComplexMatrix;
-var
-  i: longint;
-  LNorm, VNorm, X0Norm: double;
-  phase, alpha: TComplex;
+function TRealVectorHelper.Cross(
+  const AVector: TRealVector): TRealVector;
 begin
-  result := Self.Null;
-
-  LNorm := 0;
-  for i := k + 1 to Space.N - 1 do
-  begin
-    result.fm[i, 0] := fm[i, k];
-    LNorm := LNorm + SquareNorm(result.fm[i, 0]);
-  end;
-  LNorm := sqrt(LNorm);
-
-  if LNorm < DefaultEpsilon then Exit;
-
-  X0Norm := Abs(result.fm[k + 1, 0]);
-  if X0Norm < DefaultEpsilon then
-    phase := 1
-  else
-    phase := result.fm[k + 1, 0] / X0Norm;
-
-  alpha := -phase * LNorm;
-  result.fm[k + 1, 0] := result.fm[k + 1, 0] - alpha;
-
-  VNorm := 0;
-  for i := k + 1 to Space.N - 1 do
-    VNorm := VNorm + SquareNorm(result.fm[i, 0]);
-  VNorm := sqrt(VNorm);
-
-  if VNorm < DefaultEpsilon then Exit;
-
-  for i := k + 1 to Space.N - 1 do
-    result.fm[i, 0] := result.fm[i, 0] / VNorm;
+  Self.RequireSameSize(AVector);
+  if Self.Size <> 3 then
+    raise EDimensionError.CreateFmt(
+      'Cross product requires dimension 3, received %d.', [Self.Size]);
+  result.SetSize(3);
+  result.FData[0] := Self.FData[1] * AVector.FData[2] -
+    Self.FData[2] * AVector.FData[1];
+  result.FData[1] := Self.FData[2] * AVector.FData[0] -
+    Self.FData[0] * AVector.FData[2];
+  result.FData[2] := Self.FData[0] * AVector.FData[1] -
+    Self.FData[1] * AVector.FData[0];
 end;
 
-procedure TComplexMatrix.Assign(const AValues: array of TComplex);
+function TVector.Dot(const AVector: TVector): T;
 var
-  row, col, i: longint;
+  LIndex: longint;
 begin
-  if Length(AValues) <> Space.N * Space.N then
-  begin
-    raise EArgumentException.CreateFmt('TComplexMatrix.Assign: expected %d values, received %d.', [Space.N * Space.N, Length(AValues)]);
-  end;
-
-  i := 0;
-  for row := 0 to Space.N - 1 do
-    for col := 0 to Space.N - 1 do
-    begin
-      fm[row, col] := AValues[i];
-      Inc(i);
-    end;
+  RequireSameSize(AVector);
+  if Size = 0 then
+    raise EDimensionError.Create('Dot product is undefined for empty vectors.');
+  result := FData[0] * AVector.FData[0];
+  for LIndex := 1 to Size - 1 do
+    result := result + FData[LIndex] * AVector.FData[LIndex];
 end;
 
-
-
-
-function TComplexMatrix.Identity: TComplexMatrix;
+function TVector.IsNull: boolean;
 var
-  i, j: longint;
+  LIndex: longint;
 begin
-  SetLength(result.fm, Space.N, Space.N);
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := Ord(i = j);
-end;
-
-function TComplexMatrix.Null: TComplexMatrix;
-var
-  i, j: longint;
-begin
-  SetLength(result.fm, Space.N, Space.N);
-  for i := 0 to Space.N - 1 do
-    for j := 0 to Space.N - 1 do
-      result.fm[i, j] := 0;
-end;
-
-function TComplexMatrix.Diagonalize(const AEigenValues: TComplexVector): TComplexMatrix;
-var
-  i, j: longint;
-begin
-  SetLength(result.fm, Space.N, Space.N);
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      if i = j then
-        result.fm[i, i] := AEigenValues[i]
-      else
-        result.fm[i, j] := 0;
-end;
-
-function TComplexMatrix.IsNull: boolean;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      if not SameValueEx(fm[i, j], 0) then Exit(False);
+  for LIndex := 0 to Size - 1 do
+    if not FData[LIndex].SameValue(0) then Exit(False);
   result := True;
 end;
 
-function TComplexMatrix.IsNotNull: boolean;
+function TVector.IsNotNull: boolean;
 begin
   result := not IsNull;
 end;
 
-function TComplexMatrix.SameValue(const AMatrix: TComplexMatrix): boolean;
+function TVector.Norm: TReal;
 var
-  i, j: longint;
+  LIndex: longint;
 begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      if not SameValueEx(fm[i, j], AMatrix.fm[i, j]) then Exit(False);
+  result := 0;
+  for LIndex := 0 to Size - 1 do
+    result := Math.Hypot(result, Abs(FData[LIndex]));
+end;
+
+function TVector.SquaredNorm: TReal;
+var
+  LIndex: longint;
+begin
+  result := 0;
+  for LIndex := 0 to Size - 1 do
+    result := result + FData[LIndex].SquaredNorm;
+end;
+
+function TVector.Normalize: TVector;
+var
+  LIndex: longint;
+  LNorm: TReal;
+begin
+  LNorm := Norm;
+  if LNorm = 0 then
+    raise EZeroDivide.Create('Cannot normalize a null vector.');
+  result.SetSize(Size);
+  for LIndex := 0 to Size - 1 do
+    result.FData[LIndex] := FData[LIndex] / LNorm;
+end;
+
+function TVector.Reciprocal: TVector;
+var
+  LIndex: longint;
+  LNorm: TReal;
+begin
+  LNorm := Norm;
+  if LNorm = 0 then
+    raise EZeroDivide.Create('Cannot invert a null vector.');
+  result.SetSize(Size);
+  for LIndex := 0 to Size - 1 do
+    result.FData[LIndex] := (FData[LIndex] / LNorm) / LNorm;
+end;
+
+function TComplexVectorHelper.Conjugate: TComplexVector;
+var
+  LIndex: longint;
+begin
+  result.SetSize(Self.Size);
+  for LIndex := 0 to Self.Size - 1 do
+    result.FData[LIndex] := Self.FData[LIndex].Conjugate;
+end;
+
+function TVector.ToString: string;
+var
+  LIndex: longint;
+begin
+  result := '(';
+  for LIndex := 0 to Size - 1 do
+  begin
+    if LIndex > 0 then result := result + ',';
+    result := result + FData[LIndex].ToString;
+  end;
+  result := result + ')';
+end;
+
+class operator TVector.Initialize(var ASelf: TVector);
+begin
+  ASelf.FData := nil;
+end;
+
+class operator TVector.Finalize(var ASelf: TVector);
+begin
+  ASelf.FData := nil;
+end;
+
+class operator TVector.Copy(constref ASrc: TVector; var ADst: TVector);
+begin
+  if @ASrc = @ADst then Exit;
+  ADst.FData := System.Copy(ASrc.FData);
+end;
+
+class operator TVector.=(const ALeft, ARight: TVector): boolean;
+var
+  LIndex: longint;
+begin
+  if ALeft.Size <> ARight.Size then Exit(False);
+  for LIndex := 0 to ALeft.Size - 1 do
+    if ALeft.FData[LIndex] <> ARight.FData[LIndex] then Exit(False);
   result := True;
 end;
 
-function TComplexMatrix.Determinant: TComplex;
-var
-  U: TComplexMatrix;
-  swaps: integer;
-  i: longint;
+class operator TVector.<>(const ALeft, ARight: TVector): boolean;
 begin
-  U      := ForwardElimination(swaps);
-  result := 1.0;
-  for i  := 0 to Space.N -1 do
-    result := result * U.fm[i, i];
-  if Odd(swaps) then
-    result := -result;
+  result := not (ALeft = ARight);
 end;
 
-function TComplexMatrix.Norm: double;
-var
-  i, j: longint;
-  rowI: TArrayOfComplex;
+class operator TVector.+(const ASelf: TVector): TVector;
 begin
-  result := 0;
-  for i := 0 to Space.N -1 do
-  begin
-    rowI := fm[i];
-    for j := 0 to Space.N -1 do
-      result := Hypot(result, rowI[j].Norm);
-  end;
+  result := ASelf;
 end;
 
-function TComplexMatrix.Rank: longint;
+class operator TVector.+(const ALeft, ARight: TVector): TVector;
 var
-  W: TComplexMatrix;
-  pivot, factor: TComplex;
-  maxVal: double;
-  pivotRow, col, row, k, maxRow: longint;
-  rowP, rowR: TArrayOfComplex;
+  LIndex: longint;
 begin
-  W := Self.Clone;
-  pivotRow := 0;
-  result := 0;
+  ALeft.RequireSameSize(ARight);
+  result.SetSize(ALeft.Size);
+  for LIndex := 0 to ALeft.Size - 1 do
+    result.FData[LIndex] := ALeft.FData[LIndex] + ARight.FData[LIndex];
+end;
 
-  for col := 0 to Space.N - 1 do
+class operator TVector.-(const ASelf: TVector): TVector;
+var
+  LIndex: longint;
+begin
+  result.SetSize(ASelf.Size);
+  for LIndex := 0 to ASelf.Size - 1 do
+    result.FData[LIndex] := -ASelf.FData[LIndex];
+end;
+
+class operator TVector.-(const ALeft, ARight: TVector): TVector;
+var
+  LIndex: longint;
+begin
+  ALeft.RequireSameSize(ARight);
+  result.SetSize(ALeft.Size);
+  for LIndex := 0 to ALeft.Size - 1 do
+    result.FData[LIndex] := ALeft.FData[LIndex] - ARight.FData[LIndex];
+end;
+
+class operator TVector.*(const ALeft, ARight: TVector): T;
+begin
+  result := ALeft.Dot(ARight);
+end;
+
+class operator TVector.*(const ALeft: T; const ARight: TVector): TVector;
+var
+  LIndex: longint;
+begin
+  result.SetSize(ARight.Size);
+  for LIndex := 0 to ARight.Size - 1 do
+    result.FData[LIndex] := ALeft * ARight.FData[LIndex];
+end;
+
+class operator TVector.*(const ALeft: TVector; const ARight: T): TVector;
+begin
+  result := ARight * ALeft;
+end;
+
+class operator TVector./(const ALeft: TVector; const ARight: T): TVector;
+var
+  LIndex: longint;
+begin
+  result.SetSize(ALeft.Size);
+  for LIndex := 0 to ALeft.Size - 1 do
+    result.FData[LIndex] := ALeft.FData[LIndex] / ARight;
+end;
+
+function TRealVectorHelper.ToComplex: TComplexVector;
+var
+  LIndex: longint;
+begin
+  result.SetSize(Self.Size);
+  for LIndex := 0 to Self.Size - 1 do
+    result.FData[LIndex] := Self.FData[LIndex];
+end;
+
+// TMatrix<T>
+
+function TMatrix.Get(ARow, ACol: longint): T;
+begin
+  result := FData[ARow * FOrder + ACol];
+end;
+
+procedure TMatrix.Put(ARow, ACol: longint; const AValue: T);
+begin
+  FData[ARow * FOrder + ACol] := AValue;
+end;
+
+procedure TMatrix.RequireSameOrder(const AMatrix: TMatrix);
+begin
+  if FOrder <> AMatrix.FOrder then
+    raise EDimensionError.CreateFmt(
+      'Incompatible matrix orders: %d and %d.', [FOrder, AMatrix.FOrder]);
+end;
+
+procedure TMatrix.SetOrder(AOrder: longint);
+var
+  LCount: int64;
+begin
+  if AOrder < 0 then
+    raise EDimensionError.Create('Matrix order cannot be negative.');
+  LCount := int64(AOrder) * AOrder;
+  if LCount > MaxLongint then
+    raise EDimensionError.Create('Matrix order exceeds addressable storage.');
+  FOrder := AOrder;
+  FData := nil;
+  SetLength(FData, longint(LCount));
+end;
+
+procedure TMatrix.Init(const AValues: array of T);
+var
+  LIndex, LOrder: longint;
+begin
+  LOrder := Trunc(Sqrt(Length(AValues)));
+  if LOrder * LOrder <> Length(AValues) then
+    raise EDimensionError.CreateFmt(
+      'A square matrix cannot be initialized with %d values.',
+      [Length(AValues)]);
+  SetOrder(LOrder);
+  for LIndex := 0 to High(AValues) do
+    FData[LIndex] := AValues[LIndex];
+end;
+
+function TMatrix.Order: longint;
+begin
+  result := FOrder;
+end;
+
+function TMatrix.ForwardElimination(out ASwapCount: integer): TMatrix;
+var
+  LPivot, LRatio: T;
+  LMaxValue: TReal;
+  LRow, LCol, LIndex, LMaxRow: longint;
+begin
+  result := Clone;
+  ASwapCount := 0;
+  for LCol := 0 to FOrder - 1 do
   begin
-    if pivotRow >= Space.N then Break;
-
-    maxRow := pivotRow;
-    maxVal := Abs(W.fm[pivotRow, col]);
-    for row := pivotRow + 1 to Space.N - 1 do
-      if Abs(W.fm[row, col]) > maxVal then
+    LMaxRow := LCol;
+    LMaxValue := Abs(result[LCol, LCol]);
+    for LRow := LCol + 1 to FOrder - 1 do
+      if Abs(result[LRow, LCol]) > LMaxValue then
       begin
-        maxVal := Abs(W.fm[row, col]);
-        maxRow := row;
+        LMaxValue := Abs(result[LRow, LCol]);
+        LMaxRow := LRow;
       end;
-
-    if maxVal <= DefaultEpsilon then Continue;
-
-    if maxRow <> pivotRow then
-      W.Swap(pivotRow, maxRow);
-
-    rowP := W.fm[pivotRow];
-    pivot := rowP[col];
-    for row := pivotRow + 1 to Space.N - 1 do
+    if LMaxValue = 0 then Continue;
+    if LMaxRow <> LCol then
     begin
-      rowR := W.fm[row];
-      if Abs(rowR[col]) <= DefaultEpsilon then Continue;
-      factor := rowR[col] / pivot;
-      rowR[col] := 0;
-      for k := col + 1 to Space.N - 1 do
-        rowR[k] := rowR[k] - factor * rowP[k];
-      W.fm[row] := rowR;
+      result.Swap(LCol, LMaxRow);
+      Inc(ASwapCount);
     end;
-
-    Inc(result);
-    Inc(pivotRow);
+    LPivot := result[LCol, LCol];
+    for LRow := LCol + 1 to FOrder - 1 do
+    begin
+      if Abs(result[LRow, LCol]) = 0 then Continue;
+      LRatio := result[LRow, LCol] / LPivot;
+      result[LRow, LCol] := 0;
+      for LIndex := LCol + 1 to FOrder - 1 do
+        result[LRow, LIndex] := result[LRow, LIndex] -
+          LRatio * result[LCol, LIndex];
+    end;
   end;
 end;
 
-function TComplexMatrix.Trace: TComplex;
+function TComplexMatrixHelper.HouseholderVector(
+  AColumn: longint): TComplexVector;
 var
-  i: longint;
+  LIndex: longint;
+  LNorm, LVectorNorm, LFirstNorm: TReal;
+  LPhase, LAlpha: TComplex;
 begin
-  result := 0;
-  for i := 0 to Space.N -1 do
-    result := result + fm[i, i];
-end;
-
-function TComplexMatrix.Clone: TComplexMatrix;
-var
-  i, j: longint;
-begin
-  SetLength(result.fm, Space.N, Space.N);
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := fm[i, j];
-end;
-
-function TComplexMatrix.Transpose: TComplexMatrix;
-var
-  i, j: longint;
-begin
-  SetLength(result.fm, Space.N, Space.N);
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := fm[j, i];
-end;
-
-function TComplexMatrix.Inverse: TComplexMatrix;
-var
-  W: TComplexMatrix;
-  pivot, factor: TComplex;
-  maxVal: double;
-  i, j, k, maxRow: longint;
-  rowW, rowR, pivW, pivR: TArrayOfComplex;
-begin
-  W := Self.Clone;
-  result := Self.Identity;
-
-  for i := 0 to Space.N -1 do
+  result.SetSize(Self.FOrder);
+  LNorm := 0;
+  for LIndex := AColumn + 1 to Self.FOrder - 1 do
   begin
-    maxRow := i;
-    maxVal := Abs(W.fm[i, i]);
-    for j := i + 1 to Space.N -1 do
-      if Abs(W.fm[j, i]) > maxVal then
-      begin
-        maxVal := Abs(W.fm[j, i]);
-        maxRow := j;
-      end;
-
-    if maxVal = 0 then
-      raise EZeroDivide.Create('TComplexMatrix.Inverse: matrix is singular (zero pivot).');
-
-    if maxRow <> i then
-    begin
-      W.Swap(i, maxRow);
-      result.Swap(i, maxRow);
-    end;
-
-    pivW  := W.fm[i];
-    pivR  := result.fm[i];
-    pivot := pivW[i];
-    for k := 0 to Space.N -1 do
-    begin
-      pivW[k] := pivW[k] / pivot;
-      pivR[k] := pivR[k] / pivot;
-    end;
-
-    for j := 0 to Space.N -1 do
-    begin
-      if j = i then Continue;
-      rowW   := W.fm[j];
-      factor := rowW[i];
-      if Abs(factor) = 0 then Continue;
-      rowR := result.fm[j];
-      for k := 0 to Space.N -1 do
-      begin
-        rowW[k] := rowW[k] - factor * pivW[k];
-        rowR[k] := rowR[k] - factor * pivR[k];
-      end;
-    end;
+    result[LIndex] := Self[LIndex, AColumn];
+    LNorm := Math.Hypot(LNorm, Abs(result[LIndex]));
   end;
+  if LNorm < DefaultEpsilon then Exit;
+  LFirstNorm := Abs(result[AColumn + 1]);
+  if LFirstNorm < DefaultEpsilon then
+    LPhase := 1
+  else
+    LPhase := result[AColumn + 1] / LFirstNorm;
+  LAlpha := -LPhase * LNorm;
+  result[AColumn + 1] := result[AColumn + 1] - LAlpha;
+  LVectorNorm := 0;
+  for LIndex := AColumn + 1 to Self.FOrder - 1 do
+    LVectorNorm := Math.Hypot(LVectorNorm, Abs(result[LIndex]));
+  if LVectorNorm < DefaultEpsilon then Exit;
+  for LIndex := AColumn + 1 to Self.FOrder - 1 do
+    result[LIndex] := result[LIndex] / LVectorNorm;
 end;
 
-function TComplexMatrix.SolveLinear(const AData: TComplexVector): TComplexVector;
+function TComplexMatrixHelper.HessenbergReduction: TComplexMatrix;
 var
-  W: TComplexMatrix;
-  v: TComplexVector;
-  factor, s: TComplex;
-  maxVal: double;
-  i, j, k, maxRow: longint;
-  rowI, rowJ: TArrayOfComplex;
-begin
-  W := Self.Clone;
-  v := AData;
-
-  for i := 0 to Space.N -1 do
-  begin
-    maxRow := i;
-    maxVal := Abs(W.fm[i, i]);
-    for j := i + 1 to Space.N -1 do
-      if Abs(W.fm[j, i]) > maxVal then
-      begin
-        maxVal := Abs(W.fm[j, i]);
-        maxRow := j;
-      end;
-
-    if maxVal = 0 then
-      raise EZeroDivide.Create('TComplexMatrix.SolveLinear: matrix is singular (zero pivot).');
-
-    if maxRow <> i then
-    begin
-      W.Swap(i, maxRow);
-      s := v[i]; v[i] := v[maxRow]; v[maxRow] := s;
-    end;
-
-    rowI := W.fm[i];
-    for j := i + 1 to Space.N -1 do
-    begin
-      rowJ   := W.fm[j];
-      factor := rowJ[i] / rowI[i];
-      if Abs(factor) = 0 then Continue;
-      for k := i to Space.N -1 do
-        rowJ[k] := rowJ[k] - factor * rowI[k];
-      v[j] := v[j] - factor * v[i];
-    end;
-  end;
-
-  for i := Space.N -1 downto 0 do
-  begin
-    rowI := W.fm[i];
-    s := v[i];
-    for k := i + 1 to Space.N -1 do
-      s := s - rowI[k] * result[k];
-    result[i] := s / rowI[i];
-  end;
-end;
-
-function TComplexMatrix.RowReduction: TComplexMatrix;
-var
-  pivot, factor: TComplex;
-  maxVal: double;
-  pivotRow, col, row, k, maxRow: longint;
-  rowP, rowR: TArrayOfComplex;
+  LVector: TComplexVector;
+  LColumn, LRow, LIndex: longint;
+  LDot: TComplex;
 begin
   result := Self.Clone;
-  pivotRow := 0;
-
-  for col := 0 to Space.N - 1 do
+  for LColumn := 0 to Self.FOrder - 3 do
   begin
-    if pivotRow >= Space.N then Break;
-
-    maxRow := pivotRow;
-    maxVal := Abs(result.fm[pivotRow, col]);
-    for row := pivotRow + 1 to Space.N - 1 do
-      if Abs(result.fm[row, col]) > maxVal then
-      begin
-        maxVal := Abs(result.fm[row, col]);
-        maxRow := row;
-      end;
-
-    if maxVal = 0 then Continue;
-
-    if maxRow <> pivotRow then
-      result.Swap(pivotRow, maxRow);
-
-    rowP := result.fm[pivotRow];
-    pivot := rowP[col];
-    for k := col to Space.N - 1 do
-      rowP[k] := rowP[k] / pivot;
-    result.fm[pivotRow] := rowP;
-
-    for row := 0 to Space.N - 1 do
+    LVector := result.HouseholderVector(LColumn);
+    if LVector.IsNull then Continue;
+    for LIndex := 0 to Self.FOrder - 1 do
     begin
-      if row = pivotRow then Continue;
-      rowR := result.fm[row];
-      factor := rowR[col];
-      if Abs(factor) = 0 then Continue;
-      rowR[col] := 0;
-      for k := col + 1 to Space.N - 1 do
-        rowR[k] := rowR[k] - factor * rowP[k];
-      result.fm[row] := rowR;
+      LDot := LVector[LColumn + 1].Conjugate *
+        result[LColumn + 1, LIndex];
+      for LRow := LColumn + 2 to Self.FOrder - 1 do
+        LDot := LDot + LVector[LRow].Conjugate *
+          result[LRow, LIndex];
+      for LRow := LColumn + 1 to Self.FOrder - 1 do
+        result[LRow, LIndex] := result[LRow, LIndex] -
+          2 * LVector[LRow] * LDot;
     end;
-
-    Inc(pivotRow);
+    for LRow := 0 to Self.FOrder - 1 do
+    begin
+      LDot := result[LRow, LColumn + 1] * LVector[LColumn + 1];
+      for LIndex := LColumn + 2 to Self.FOrder - 1 do
+        LDot := LDot + result[LRow, LIndex] * LVector[LIndex];
+      for LIndex := LColumn + 1 to Self.FOrder - 1 do
+        result[LRow, LIndex] := result[LRow, LIndex] -
+          2 * LDot * LVector[LIndex].Conjugate;
+    end;
+    for LRow := LColumn + 2 to Self.FOrder - 1 do
+      result[LRow, LColumn] := 0;
   end;
 end;
 
-function TComplexMatrix.Eigenvalues: TComplexVector;
+function TMatrix.SolveLinear(const AData: TVectorType): TVectorType;
+var
+  LWork: TMatrix;
+  LData: TVectorType;
+  LFactor, LValue, LTemp: T;
+  LMaxValue: TReal;
+  LRow, LCol, LIndex, LMaxRow: longint;
+begin
+  if AData.Size <> FOrder then
+    raise EDimensionError.CreateFmt(
+      'Matrix order %d and vector dimension %d are incompatible.',
+      [FOrder, AData.Size]);
+  LWork := Clone;
+  LData := AData;
+  result.SetSize(FOrder);
+  for LCol := 0 to FOrder - 1 do
+  begin
+    LMaxRow := LCol;
+    LMaxValue := Abs(LWork[LCol, LCol]);
+    for LRow := LCol + 1 to FOrder - 1 do
+      if Abs(LWork[LRow, LCol]) > LMaxValue then
+      begin
+        LMaxValue := Abs(LWork[LRow, LCol]);
+        LMaxRow := LRow;
+      end;
+    if LMaxValue = 0 then
+      raise EZeroDivide.Create('Matrix is singular.');
+    if LMaxRow <> LCol then
+    begin
+      LWork.Swap(LCol, LMaxRow);
+      LTemp := LData[LCol];
+      LData[LCol] := LData[LMaxRow];
+      LData[LMaxRow] := LTemp;
+    end;
+    for LRow := LCol + 1 to FOrder - 1 do
+    begin
+      LFactor := LWork[LRow, LCol] / LWork[LCol, LCol];
+      if Abs(LFactor) = 0 then Continue;
+      for LIndex := LCol to FOrder - 1 do
+        LWork[LRow, LIndex] := LWork[LRow, LIndex] -
+          LFactor * LWork[LCol, LIndex];
+      LData[LRow] := LData[LRow] - LFactor * LData[LCol];
+    end;
+  end;
+  for LRow := FOrder - 1 downto 0 do
+  begin
+    LValue := LData[LRow];
+    for LIndex := LRow + 1 to FOrder - 1 do
+      LValue := LValue - LWork[LRow, LIndex] * result[LIndex];
+    result[LRow] := LValue / LWork[LRow, LRow];
+  end;
+end;
+
+function TMatrix.Identity: TMatrix;
+var
+  LIndex: longint;
+begin
+  result.SetOrder(FOrder);
+  for LIndex := 0 to FOrder - 1 do result[LIndex, LIndex] := 1;
+end;
+
+function TMatrix.Null: TMatrix;
+begin
+  result.SetOrder(FOrder);
+end;
+
+function TMatrix.Diagonalize(const ADiagonal: TVectorType): TMatrix;
+var
+  LIndex: longint;
+begin
+  if ADiagonal.Size <> FOrder then
+    raise EDimensionError.CreateFmt(
+      'Matrix order %d and diagonal dimension %d are incompatible.',
+      [FOrder, ADiagonal.Size]);
+  result.SetOrder(FOrder);
+  for LIndex := 0 to FOrder - 1 do
+    result[LIndex, LIndex] := ADiagonal[LIndex];
+end;
+
+function TMatrix.IsNull: boolean;
+var
+  LIndex: longint;
+begin
+  for LIndex := 0 to High(FData) do
+    if not FData[LIndex].SameValue(0) then Exit(False);
+  result := True;
+end;
+
+function TMatrix.IsNotNull: boolean;
+begin
+  result := not IsNull;
+end;
+
+function TMatrix.SameValue(const AMatrix: TMatrix): boolean;
+var
+  LIndex: longint;
+begin
+  if FOrder <> AMatrix.FOrder then Exit(False);
+  for LIndex := 0 to High(FData) do
+    if not FData[LIndex].SameValue(AMatrix.FData[LIndex]) then
+      Exit(False);
+  result := True;
+end;
+
+function TMatrix.Determinant: T;
+var
+  LUpper: TMatrix;
+  LSwapCount, LIndex: longint;
+begin
+  if FOrder = 0 then
+    raise EDimensionError.Create('Determinant is undefined for an empty matrix.');
+  LUpper := ForwardElimination(LSwapCount);
+  result := LUpper[0, 0];
+  for LIndex := 1 to FOrder - 1 do
+    result := result * LUpper[LIndex, LIndex];
+  if Odd(LSwapCount) then result := -result;
+end;
+
+function TMatrix.Norm: TReal;
+var
+  LIndex: longint;
+begin
+  result := 0;
+  for LIndex := 0 to High(FData) do
+    result := Math.Hypot(result, Abs(FData[LIndex]));
+end;
+
+function TMatrix.Rank: longint;
+var
+  LWork: TMatrix;
+  LPivot, LFactor: T;
+  LMaxValue: TReal;
+  LPivotRow, LColumn, LRow, LIndex, LMaxRow: longint;
+begin
+  LWork := Clone;
+  LPivotRow := 0;
+  result := 0;
+  for LColumn := 0 to FOrder - 1 do
+  begin
+    if LPivotRow >= FOrder then Break;
+    LMaxRow := LPivotRow;
+    LMaxValue := Abs(LWork[LPivotRow, LColumn]);
+    for LRow := LPivotRow + 1 to FOrder - 1 do
+      if Abs(LWork[LRow, LColumn]) > LMaxValue then
+      begin
+        LMaxValue := Abs(LWork[LRow, LColumn]);
+        LMaxRow := LRow;
+      end;
+    if LMaxValue <= DefaultEpsilon then Continue;
+    if LMaxRow <> LPivotRow then LWork.Swap(LPivotRow, LMaxRow);
+    LPivot := LWork[LPivotRow, LColumn];
+    for LRow := LPivotRow + 1 to FOrder - 1 do
+    begin
+      if Abs(LWork[LRow, LColumn]) <= DefaultEpsilon then Continue;
+      LFactor := LWork[LRow, LColumn] / LPivot;
+      LWork[LRow, LColumn] := 0;
+      for LIndex := LColumn + 1 to FOrder - 1 do
+        LWork[LRow, LIndex] := LWork[LRow, LIndex] -
+          LFactor * LWork[LPivotRow, LIndex];
+    end;
+    Inc(result);
+    Inc(LPivotRow);
+  end;
+end;
+
+function TMatrix.Trace: T;
+var
+  LIndex: longint;
+begin
+  if FOrder = 0 then
+    raise EDimensionError.Create('Trace is undefined for an empty matrix.');
+  result := Self[0, 0];
+  for LIndex := 1 to FOrder - 1 do
+    result := result + Self[LIndex, LIndex];
+end;
+
+function TMatrix.Clone: TMatrix;
+begin
+  result.FOrder := FOrder;
+  result.FData := System.Copy(FData);
+end;
+
+function TMatrix.Transpose: TMatrix;
+var
+  LRow, LCol: longint;
+begin
+  result.SetOrder(FOrder);
+  for LRow := 0 to FOrder - 1 do
+    for LCol := 0 to FOrder - 1 do
+      result[LCol, LRow] := Self[LRow, LCol];
+end;
+
+function TMatrix.Inverse: TMatrix;
+var
+  LWork: TMatrix;
+  LPivot, LFactor: T;
+  LMaxValue: TReal;
+  LColumn, LRow, LIndex, LMaxRow: longint;
+begin
+  LWork := Clone;
+  result := Identity;
+  for LColumn := 0 to FOrder - 1 do
+  begin
+    LMaxRow := LColumn;
+    LMaxValue := Abs(LWork[LColumn, LColumn]);
+    for LRow := LColumn + 1 to FOrder - 1 do
+      if Abs(LWork[LRow, LColumn]) > LMaxValue then
+      begin
+        LMaxValue := Abs(LWork[LRow, LColumn]);
+        LMaxRow := LRow;
+      end;
+    if LMaxValue = 0 then
+      raise EZeroDivide.Create('Matrix is singular.');
+    if LMaxRow <> LColumn then
+    begin
+      LWork.Swap(LColumn, LMaxRow);
+      result.Swap(LColumn, LMaxRow);
+    end;
+    LPivot := LWork[LColumn, LColumn];
+    for LIndex := 0 to FOrder - 1 do
+    begin
+      LWork[LColumn, LIndex] := LWork[LColumn, LIndex] / LPivot;
+      result[LColumn, LIndex] := result[LColumn, LIndex] / LPivot;
+    end;
+    for LRow := 0 to FOrder - 1 do
+    begin
+      if LRow = LColumn then Continue;
+      LFactor := LWork[LRow, LColumn];
+      if Abs(LFactor) = 0 then Continue;
+      for LIndex := 0 to FOrder - 1 do
+      begin
+        LWork[LRow, LIndex] := LWork[LRow, LIndex] -
+          LFactor * LWork[LColumn, LIndex];
+        result[LRow, LIndex] := result[LRow, LIndex] -
+          LFactor * result[LColumn, LIndex];
+      end;
+    end;
+  end;
+end;
+
+function TMatrix.RowReduction: TMatrix;
+var
+  LPivot, LFactor: T;
+  LMaxValue: TReal;
+  LPivotRow, LColumn, LRow, LIndex, LMaxRow: longint;
+begin
+  result := Clone;
+  LPivotRow := 0;
+  for LColumn := 0 to FOrder - 1 do
+  begin
+    if LPivotRow >= FOrder then Break;
+    LMaxRow := LPivotRow;
+    LMaxValue := Abs(result[LPivotRow, LColumn]);
+    for LRow := LPivotRow + 1 to FOrder - 1 do
+      if Abs(result[LRow, LColumn]) > LMaxValue then
+      begin
+        LMaxValue := Abs(result[LRow, LColumn]);
+        LMaxRow := LRow;
+      end;
+    if LMaxValue = 0 then Continue;
+    if LMaxRow <> LPivotRow then result.Swap(LPivotRow, LMaxRow);
+    LPivot := result[LPivotRow, LColumn];
+    for LIndex := LColumn to FOrder - 1 do
+      result[LPivotRow, LIndex] := result[LPivotRow, LIndex] / LPivot;
+    for LRow := 0 to FOrder - 1 do
+    begin
+      if LRow = LPivotRow then Continue;
+      LFactor := result[LRow, LColumn];
+      if Abs(LFactor) = 0 then Continue;
+      result[LRow, LColumn] := 0;
+      for LIndex := LColumn + 1 to FOrder - 1 do
+        result[LRow, LIndex] := result[LRow, LIndex] -
+          LFactor * result[LPivotRow, LIndex];
+    end;
+    Inc(LPivotRow);
+  end;
+end;
+
+function TComplexMatrixHelper.Conjugate: TComplexMatrix;
+var
+  LIndex: longint;
+begin
+  result.SetOrder(Self.FOrder);
+  for LIndex := 0 to High(Self.FData) do
+    result.FData[LIndex] := Self.FData[LIndex].Conjugate;
+end;
+
+function TComplexMatrixHelper.TransposeConjugate: TComplexMatrix;
+begin
+  result := Self.Conjugate.Transpose;
+end;
+
+function TComplexMatrixHelper.IsUnitary: boolean;
+var
+  LAdjoint, LProduct, LIdentity: TComplexMatrix;
+begin
+  LAdjoint := Self.TransposeConjugate;
+  LProduct := LAdjoint * Self;
+  LIdentity := Self.Identity;
+  result := LProduct.SameValue(LIdentity);
+end;
+
+procedure TMatrix.Swap(ARow1, ARow2: longint);
+var
+  LColumn: longint;
+  LValue: T;
+begin
+  for LColumn := 0 to FOrder - 1 do
+  begin
+    LValue := Self[ARow1, LColumn];
+    Self[ARow1, LColumn] := Self[ARow2, LColumn];
+    Self[ARow2, LColumn] := LValue;
+  end;
+end;
+
+function TMatrix.ToString: string;
+var
+  LRow, LCol: longint;
+begin
+  result := '(';
+  for LRow := 0 to FOrder - 1 do
+  begin
+    if LRow > 0 then result := result + ', ';
+    result := result + '(';
+    for LCol := 0 to FOrder - 1 do
+    begin
+      if LCol > 0 then result := result + ', ';
+      result := result + Self[LRow, LCol].ToString;
+    end;
+    result := result + ')';
+  end;
+  result := result + ')';
+end;
+
+function TMatrix.ToString(APrecision, ADigits: integer): string;
+var
+  LRow, LCol: longint;
+begin
+  result := '(';
+  for LRow := 0 to FOrder - 1 do
+  begin
+    if LRow > 0 then result := result + ', ';
+    result := result + '(';
+    for LCol := 0 to FOrder - 1 do
+    begin
+      if LCol > 0 then result := result + ', ';
+      result := result + Self[LRow, LCol].ToString(APrecision, ADigits);
+    end;
+    result := result + ')';
+  end;
+  result := result + ')';
+end;
+
+class operator TMatrix.Initialize(var ASelf: TMatrix);
+begin
+  ASelf.FOrder := 0;
+  ASelf.FData := nil;
+end;
+
+class operator TMatrix.Finalize(var ASelf: TMatrix);
+begin
+  ASelf.FOrder := 0;
+  ASelf.FData := nil;
+end;
+
+class operator TMatrix.Copy(constref ASrc: TMatrix; var ADst: TMatrix);
+begin
+  if @ASrc = @ADst then Exit;
+  ADst.FOrder := ASrc.FOrder;
+  ADst.FData := System.Copy(ASrc.FData);
+end;
+
+class operator TMatrix.=(const ALeft, ARight: TMatrix): boolean;
+var
+  LIndex: longint;
+begin
+  if ALeft.FOrder <> ARight.FOrder then Exit(False);
+  for LIndex := 0 to High(ALeft.FData) do
+    if ALeft.FData[LIndex] <> ARight.FData[LIndex] then Exit(False);
+  result := True;
+end;
+
+class operator TMatrix.<>(const ALeft, ARight: TMatrix): boolean;
+begin
+  result := not (ALeft = ARight);
+end;
+
+class operator TMatrix.+(const ALeft, ARight: TMatrix): TMatrix;
+var
+  LIndex: longint;
+begin
+  ALeft.RequireSameOrder(ARight);
+  result.SetOrder(ALeft.FOrder);
+  for LIndex := 0 to High(ALeft.FData) do
+    result.FData[LIndex] := ALeft.FData[LIndex] + ARight.FData[LIndex];
+end;
+
+class operator TMatrix.-(const ALeft, ARight: TMatrix): TMatrix;
+var
+  LIndex: longint;
+begin
+  ALeft.RequireSameOrder(ARight);
+  result.SetOrder(ALeft.FOrder);
+  for LIndex := 0 to High(ALeft.FData) do
+    result.FData[LIndex] := ALeft.FData[LIndex] - ARight.FData[LIndex];
+end;
+
+function TMatrix.Multiply(const AMatrix: TMatrix): TMatrix;
+var
+  LRow, LCol, LIndex, LLeftOffset, LResultOffset: longint;
+  LValue: T;
+begin
+  RequireSameOrder(AMatrix);
+  result.SetOrder(FOrder);
+  if FOrder = 0 then Exit;
+  for LRow := 0 to FOrder - 1 do
+  begin
+    LLeftOffset := LRow * FOrder;
+    LResultOffset := LLeftOffset;
+    for LCol := 0 to FOrder - 1 do
+    begin
+      LValue := FData[LLeftOffset] * AMatrix.FData[LCol];
+      for LIndex := 1 to FOrder - 1 do
+        LValue := LValue + FData[LLeftOffset + LIndex] *
+          AMatrix.FData[LIndex * FOrder + LCol];
+      result.FData[LResultOffset + LCol] := LValue;
+    end;
+  end;
+end;
+
+class operator TMatrix.*(const ALeft, ARight: TMatrix): TMatrix;
+begin
+  result := ALeft.Multiply(ARight);
+end;
+
+class operator TMatrix.*(const ALeft: T; const ARight: TMatrix): TMatrix;
+var
+  LIndex: longint;
+begin
+  result.SetOrder(ARight.FOrder);
+  for LIndex := 0 to High(ARight.FData) do
+    result.FData[LIndex] := ALeft * ARight.FData[LIndex];
+end;
+
+class operator TMatrix.*(const ALeft: TMatrix; const ARight: T): TMatrix;
+begin
+  result := ARight * ALeft;
+end;
+
+class operator TMatrix.*(const ALeft: TVectorType;
+  const ARight: TMatrix): TVectorType;
+var
+  LRow, LCol: longint;
+  LValue: T;
+begin
+  if ALeft.Size <> ARight.FOrder then
+    raise EDimensionError.CreateFmt(
+      'Vector dimension %d and matrix order %d are incompatible.',
+      [ALeft.Size, ARight.FOrder]);
+  result.SetSize(ARight.FOrder);
+  if ARight.FOrder = 0 then Exit;
+  for LCol := 0 to ARight.FOrder - 1 do
+  begin
+    LValue := ALeft[0] * ARight[0, LCol];
+    for LRow := 1 to ARight.FOrder - 1 do
+      LValue := LValue + ALeft[LRow] * ARight[LRow, LCol];
+    result[LCol] := LValue;
+  end;
+end;
+
+class operator TMatrix.*(const ALeft: TMatrix;
+  const ARight: TVectorType): TVectorType;
+var
+  LRow, LCol, LOffset: longint;
+  LValue: T;
+begin
+  if ALeft.FOrder <> ARight.Size then
+    raise EDimensionError.CreateFmt(
+      'Matrix order %d and vector dimension %d are incompatible.',
+      [ALeft.FOrder, ARight.Size]);
+  result.SetSize(ALeft.FOrder);
+  if ALeft.FOrder = 0 then Exit;
+  for LRow := 0 to ALeft.FOrder - 1 do
+  begin
+    LOffset := LRow * ALeft.FOrder;
+    LValue := ALeft.FData[LOffset] * ARight[0];
+    for LCol := 1 to ALeft.FOrder - 1 do
+      LValue := LValue + ALeft.FData[LOffset + LCol] * ARight[LCol];
+    result[LRow] := LValue;
+  end;
+end;
+
+class operator TMatrix./(const ALeft: TMatrix; const ARight: T): TMatrix;
+var
+  LIndex: longint;
+begin
+  result.SetOrder(ALeft.FOrder);
+  for LIndex := 0 to High(ALeft.FData) do
+    result.FData[LIndex] := ALeft.FData[LIndex] / ARight;
+end;
+
+function TRealMatrixHelper.IsOrthogonal: boolean;
+var
+  LProduct: TRealMatrix;
+begin
+  LProduct := Self.Transpose * Self;
+  result := LProduct.SameValue(Self.Identity);
+end;
+
+function TRealMatrixHelper.ToComplex: TComplexMatrix;
+var
+  LIndex: longint;
+begin
+  result.SetOrder(Self.FOrder);
+  for LIndex := 0 to High(Self.FData) do
+    result.FData[LIndex] := Self.FData[LIndex];
+end;
+
+function TRealMatrixHelper.Eigenvalues: TComplexVector;
+begin
+  result := ToComplex.Eigenvalues;
+end;
+
+function TRealMatrixHelper.Eigenvectors(
+  const AEigenvalues: TComplexVector): TComplexMatrix;
+begin
+  result := ToComplex.Eigenvectors(AEigenvalues);
+end;
+
+function TComplexMatrixHelper.Eigenvalues: TComplexVector;
 const
   MaxIter = 2000;
 var
   LHessenberg, LShifted, LQ, LR: TComplexMatrix;
   LPair: TArrayOfComplex;
   LShift: TComplex;
-  LTolerance: double;
+  LTolerance, LRadius: TReal;
   LIndex, LLow, LRow, LCol, LIteration: longint;
   LConverged: boolean;
 
-  procedure QRDecompose(const AMatrix: TComplexMatrix; ALow, AHigh: longint;
-                        out AQ, AR: TComplexMatrix);
+  procedure QRDecompose(const AMatrix: TComplexMatrix;
+    ALow, AHigh: longint; out AQ, AR: TComplexMatrix);
   var
     LRowIndex, LColIndex, LK: longint;
     LCosine, LSine, LDiagonal, LSubDiagonal, LValue0, LValue1: TComplex;
-    LRadius: double;
-    LQRow, LRRow0, LRRow1: TArrayOfComplex;
   begin
     AQ := AMatrix.Identity;
     AR := AMatrix.Clone;
-
     for LColIndex := ALow to AHigh - 1 do
     begin
-      LDiagonal    := AR.fm[LColIndex, LColIndex];
-      LSubDiagonal := AR.fm[LColIndex + 1, LColIndex];
-      LRadius := sqrt(SquareNorm(LDiagonal) + SquareNorm(LSubDiagonal));
-
+      LDiagonal := AR[LColIndex, LColIndex];
+      LSubDiagonal := AR[LColIndex + 1, LColIndex];
+      LRadius := Hypot(LDiagonal.Norm, LSubDiagonal.Norm);
       if LRadius <= DefaultEpsilon then
       begin
         LCosine := 1;
-        LSine   := 0;
+        LSine := 0;
       end else
       begin
         LCosine := LDiagonal.Conjugate / LRadius;
-        LSine   := LSubDiagonal.Conjugate / LRadius;
+        LSine := LSubDiagonal.Conjugate / LRadius;
       end;
-
-      LRRow0 := AR.fm[LColIndex];
-      LRRow1 := AR.fm[LColIndex + 1];
       for LK := LColIndex to AHigh do
       begin
-        LValue0 :=  LCosine * LRRow0[LK] + LSine * LRRow1[LK];
-        LValue1 := -LSine.Conjugate * LRRow0[LK] +
-                    LCosine.Conjugate * LRRow1[LK];
-        LRRow0[LK] := LValue0;
-        LRRow1[LK] := LValue1;
+        LValue0 := LCosine * AR[LColIndex, LK] +
+          LSine * AR[LColIndex + 1, LK];
+        LValue1 := -LSine.Conjugate * AR[LColIndex, LK] +
+          LCosine.Conjugate * AR[LColIndex + 1, LK];
+        AR[LColIndex, LK] := LValue0;
+        AR[LColIndex + 1, LK] := LValue1;
       end;
-      AR.fm[LColIndex]     := LRRow0;
-      AR.fm[LColIndex + 1] := LRRow1;
-
       for LRowIndex := ALow to AHigh do
       begin
-        LQRow   := AQ.fm[LRowIndex];
-        LValue0 := LQRow[LColIndex];
-        LValue1 := LQRow[LColIndex + 1];
-        LQRow[LColIndex] :=
+        LValue0 := AQ[LRowIndex, LColIndex];
+        LValue1 := AQ[LRowIndex, LColIndex + 1];
+        AQ[LRowIndex, LColIndex] :=
           LCosine.Conjugate * LValue0 + LSine.Conjugate * LValue1;
-        LQRow[LColIndex + 1] :=
+        AQ[LRowIndex, LColIndex + 1] :=
           -LSine * LValue0 + LCosine * LValue1;
-        AQ.fm[LRowIndex] := LQRow;
       end;
     end;
   end;
 
 begin
+  result.SetSize(Self.FOrder);
   LHessenberg := Self.HessenbergReduction;
-  LIndex := Space.N - 1;
-
+  LIndex := Self.FOrder - 1;
   while LIndex >= 0 do
   begin
     if LIndex = 0 then
     begin
-      result[0] := LHessenberg.fm[0, 0];
+      result[0] := LHessenberg[0, 0];
       Break;
     end;
-
     LTolerance := DefaultEpsilon *
-      (Abs(LHessenberg.fm[LIndex - 1, LIndex - 1]) +
-       Abs(LHessenberg.fm[LIndex, LIndex]) + 1);
-    if Abs(LHessenberg.fm[LIndex, LIndex - 1]) <= LTolerance then
+      (LHessenberg[LIndex - 1, LIndex - 1].Norm +
+       LHessenberg[LIndex, LIndex].Norm + 1);
+    if LHessenberg[LIndex, LIndex - 1].Norm <= LTolerance then
     begin
-      LHessenberg.fm[LIndex, LIndex - 1] := 0;
-      result[LIndex] := LHessenberg.fm[LIndex, LIndex];
+      LHessenberg[LIndex, LIndex - 1] := 0;
+      result[LIndex] := LHessenberg[LIndex, LIndex];
       Dec(LIndex);
       Continue;
     end;
-
     LLow := LIndex - 1;
     while LLow > 0 do
     begin
       LTolerance := DefaultEpsilon *
-        (Abs(LHessenberg.fm[LLow - 1, LLow - 1]) +
-         Abs(LHessenberg.fm[LLow, LLow]) + 1);
-      if Abs(LHessenberg.fm[LLow, LLow - 1]) <= LTolerance then
+        (LHessenberg[LLow - 1, LLow - 1].Norm +
+         LHessenberg[LLow, LLow].Norm + 1);
+      if LHessenberg[LLow, LLow - 1].Norm <= LTolerance then
       begin
-        LHessenberg.fm[LLow, LLow - 1] := 0;
+        LHessenberg[LLow, LLow - 1] := 0;
         Break;
       end;
       Dec(LLow);
     end;
-
     if LIndex - LLow = 1 then
     begin
       LPair := SolveEquation(
-        -(LHessenberg.fm[LLow, LLow] + LHessenberg.fm[LIndex, LIndex]),
-         LHessenberg.fm[LLow, LLow] * LHessenberg.fm[LIndex, LIndex] -
-         LHessenberg.fm[LLow, LIndex] * LHessenberg.fm[LIndex, LLow]);
-      result[LLow]   := LPair[0];
+        -(LHessenberg[LLow, LLow] + LHessenberg[LIndex, LIndex]),
+         LHessenberg[LLow, LLow] * LHessenberg[LIndex, LIndex] -
+         LHessenberg[LLow, LIndex] * LHessenberg[LIndex, LLow]);
+      result[LLow] := LPair[0];
       result[LIndex] := LPair[1];
       LIndex := LLow - 1;
       Continue;
     end;
-
     LConverged := False;
     for LIteration := 1 to MaxIter do
     begin
       LPair := SolveEquation(
-        -(LHessenberg.fm[LIndex - 1, LIndex - 1] +
-          LHessenberg.fm[LIndex, LIndex]),
-         LHessenberg.fm[LIndex - 1, LIndex - 1] *
-         LHessenberg.fm[LIndex, LIndex] -
-         LHessenberg.fm[LIndex - 1, LIndex] *
-         LHessenberg.fm[LIndex, LIndex - 1]);
-
-      if Abs(LPair[0] - LHessenberg.fm[LIndex, LIndex]) <=
-         Abs(LPair[1] - LHessenberg.fm[LIndex, LIndex]) then
+        -(LHessenberg[LIndex - 1, LIndex - 1] +
+          LHessenberg[LIndex, LIndex]),
+         LHessenberg[LIndex - 1, LIndex - 1] *
+         LHessenberg[LIndex, LIndex] -
+         LHessenberg[LIndex - 1, LIndex] *
+         LHessenberg[LIndex, LIndex - 1]);
+      if (LPair[0] - LHessenberg[LIndex, LIndex]).Norm <=
+         (LPair[1] - LHessenberg[LIndex, LIndex]).Norm then
         LShift := LPair[0]
       else
         LShift := LPair[1];
-
       LShifted := LHessenberg.Clone;
       for LRow := LLow to LIndex do
-        LShifted.fm[LRow, LRow] := LShifted.fm[LRow, LRow] - LShift;
-
+        LShifted[LRow, LRow] := LShifted[LRow, LRow] - LShift;
       QRDecompose(LShifted, LLow, LIndex, LQ, LR);
       LShifted := LR * LQ;
       for LRow := LLow to LIndex do
-        LShifted.fm[LRow, LRow] := LShifted.fm[LRow, LRow] + LShift;
-
+        LShifted[LRow, LRow] := LShifted[LRow, LRow] + LShift;
       for LRow := LLow to LIndex do
         for LCol := LLow to LIndex do
-          LHessenberg.fm[LRow, LCol] := LShifted.fm[LRow, LCol];
-
+          LHessenberg[LRow, LCol] := LShifted[LRow, LCol];
       for LRow := LLow + 2 to LIndex do
         for LCol := LLow to LRow - 2 do
-          if Abs(LHessenberg.fm[LRow, LCol]) <= DefaultEpsilon then
-            LHessenberg.fm[LRow, LCol] := 0;
-
+          if LHessenberg[LRow, LCol].Norm <= DefaultEpsilon then
+            LHessenberg[LRow, LCol] := 0;
       LTolerance := DefaultEpsilon *
-        (Abs(LHessenberg.fm[LIndex - 1, LIndex - 1]) +
-         Abs(LHessenberg.fm[LIndex, LIndex]) + 1);
-      if Abs(LHessenberg.fm[LIndex, LIndex - 1]) <= LTolerance then
+        (LHessenberg[LIndex - 1, LIndex - 1].Norm +
+         LHessenberg[LIndex, LIndex].Norm + 1);
+      if LHessenberg[LIndex, LIndex - 1].Norm <= LTolerance then
       begin
         LConverged := True;
         Break;
       end;
     end;
-
     if LConverged then
     begin
-      LHessenberg.fm[LIndex, LIndex - 1] := 0;
-      result[LIndex] := LHessenberg.fm[LIndex, LIndex];
+      LHessenberg[LIndex, LIndex - 1] := 0;
+      result[LIndex] := LHessenberg[LIndex, LIndex];
       Dec(LIndex);
     end else
     begin
       LPair := SolveEquation(
-        -(LHessenberg.fm[LIndex - 1, LIndex - 1] +
-          LHessenberg.fm[LIndex, LIndex]),
-         LHessenberg.fm[LIndex - 1, LIndex - 1] *
-         LHessenberg.fm[LIndex, LIndex] -
-         LHessenberg.fm[LIndex - 1, LIndex] *
-         LHessenberg.fm[LIndex, LIndex - 1]);
+        -(LHessenberg[LIndex - 1, LIndex - 1] +
+          LHessenberg[LIndex, LIndex]),
+         LHessenberg[LIndex - 1, LIndex - 1] *
+         LHessenberg[LIndex, LIndex] -
+         LHessenberg[LIndex - 1, LIndex] *
+         LHessenberg[LIndex, LIndex - 1]);
       result[LIndex - 1] := LPair[0];
-      result[LIndex]     := LPair[1];
+      result[LIndex] := LPair[1];
       Dec(LIndex, 2);
     end;
   end;
 end;
 
-procedure TComplexMatrix.Swap(ARow1, ARow2: longint);
+function TComplexMatrixHelper.Eigenvectors(
+  const AEigenvalues: TComplexVector): TComplexMatrix;
 var
-  tmp: TArrayOfComplex;
-begin
-  tmp       := fm[ARow1];
-  fm[ARow1] := fm[ARow2];
-  fm[ARow2] := tmp;
-end;
+  LMatrix: TComplexMatrix;
+  LVector, LWork: TComplexVector;
+  LEigenvalue, LShift, LProjection, LPhase: TComplex;
+  LRow, LColumn, LPrevious, LAttempt, LPass, LPhaseIndex: longint;
+  LDelta, LScale, LClusterTolerance, LPhaseNorm, LMaxNorm: TReal;
+  LSeed: longword;
+  LSolved: boolean;
 
-function TComplexMatrix.ToString: string;
-var
-  i, j: longint;
-  rows: array of string;
-begin
-  SetLength(rows, Space.N);
-  for i := 0 to Space.N -1 do
-  begin
-    rows[i] := '(';
-    for j := 0 to Space.N -1 do
-    begin
-      if j > 0 then rows[i] := rows[i] + ', ';
-      rows[i] := rows[i] + (fm[i, j].ToString);
-    end;
-    rows[i] := rows[i] + ')';
-  end;
-  result := '(' + string.Join(', ', rows) + ')';
-end;
-
-function TComplexMatrix.ToString(APrecision, ADigits: integer): string;
-var
-  i, j: longint;
-  rows: array of string;
-begin
-  SetLength(rows, Space.N);
-  for i := 0 to Space.N -1 do
-  begin
-    rows[i] := '(';
-    for j := 0 to Space.N -1 do
-    begin
-      if j > 0 then rows[i] := rows[i] + ', ';
-      rows[i] := rows[i] + FloatToStrF(fm[i, j], APrecision, ADigits);
-    end;
-    rows[i] := rows[i] + ')';
-  end;
-  result := '(' + string.Join(', ', rows) + ')';
-end;
-
-class operator TComplexMatrix.Initialize(var ASelf: TComplexMatrix);
-begin
-  SetLength(ASelf.fm, Space.N, Space.N);
-end;
-
-class operator TComplexMatrix.Finalize(var ASelf: TComplexMatrix);
-begin
-  SetLength(ASelf.fm, 0, 0);
-end;
-
-class operator TComplexMatrix.Copy(constref ASrc: TComplexMatrix; var ADst: TComplexMatrix);
-var
-  i, j: longint;
-begin
-  SetLength(ADst.fm, Space.N, Space.N);
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      ADst.fm[i, j] := ASrc.fm[i, j];
-end;
-
-class operator TComplexMatrix.=(const ALeft, ARight: TComplexMatrix): boolean;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      if ALeft.fm[i, j] <> ARight.fm[i, j] then Exit(False);
-  result := True;
-end;
-
-class operator TComplexMatrix.<>(const ALeft, ARight: TComplexMatrix): boolean;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      if ALeft.fm[i, j] <> ARight.fm[i, j] then Exit(True);
-  result := False;
-end;
-
-class operator TComplexMatrix.+(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := ALeft.fm[i, j] + ARight.fm[i, j];
-end;
-
-class operator TComplexMatrix.-(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := ALeft.fm[i, j] - ARight.fm[i, j];
-end;
-
-class operator TComplexMatrix.*(const ALeft, ARight: TComplexMatrix): TComplexMatrix;
-var
-  i, j, k: longint;
-  row: TArrayOfComplex;
-begin
-  for i := 0 to Space.N -1 do
-  begin
-    row := ALeft.fm[i];
-    for j := 0 to Space.N -1 do
-    begin
-      result.fm[i, j] := 0;
-      for k := 0 to Space.N -1 do
-        result.fm[i, j] := result.fm[i, j] + row[k] * ARight.fm[k, j];
-    end;
-  end;
-end;
-
-class operator TComplexMatrix.*(const ALeft: TComplex; const ARight: TComplexMatrix): TComplexMatrix;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := ALeft * ARight.fm[i, j];
-end;
-
-class operator TComplexMatrix.*(const ALeft: TComplexMatrix; const ARight: TComplex): TComplexMatrix;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := ALeft.fm[i, j] * ARight;
-end;
-
-class operator TComplexMatrix.*(const ALeft: TReal; const ARight: TComplexMatrix): TComplexMatrix;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := ALeft * ARight.fm[i, j];
-end;
-
-class operator TComplexMatrix.*(const ALeft: TComplexMatrix; const ARight: TReal): TComplexMatrix;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := ALeft.fm[i, j] * ARight;
-end;
-
-class operator TComplexMatrix.*(const ALeft: TComplexVector; const ARight: TComplexMatrix): TComplexVector;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-  begin
-    result.fm[i] := 0;
-    for j := 0 to Space.N -1 do
-      result.fm[i] := result.fm[i] + ALeft.fm[j] * ARight.fm[j, i];
-  end;
-end;
-
-class operator TComplexMatrix.*(const ALeft: TComplexMatrix; const ARight: TComplexVector): TComplexVector;
-var
-  i, j: longint;
-  row: TArrayOfComplex;
-begin
-  for i := 0 to Space.N -1 do
-  begin
-    row := ALeft.fm[i];
-    result.fm[i] := 0;
-    for j := 0 to Space.N -1 do
-      result.fm[i] := result.fm[i] + row[j] * ARight.fm[j];
-  end;
-end;
-
-function TComplexMatrix.Eigenvectors(const AEigenvalues: TComplexVector): TComplexMatrix;
-var
-  M: TComplexMatrix;
-  v, w: TComplexVector;
-  lam, shift, proj, phase: TComplex;
-  i, j, k, attempt, pass, phaseIndex: longint;
-  delta, scale, clusterTol, phaseNorm, maxComponentNorm: TReal;
-  seed: longword;
-  solved: boolean;
-
-  function NextRand: double;
+  function NextRandom: TReal;
   begin
     {$push}{$R-}{$Q-}
-    seed := seed * 1664525 + 1013904223;
+    LSeed := LSeed * 1664525 + 1013904223;
     {$pop}
-    result := (seed / 4294967295.0) * 2 - 1;
+    result := (LSeed / 4294967295.0) * 2 - 1;
   end;
 
 begin
-  scale := Self.Norm;
-  seed  := 123456789;
-
-  for j := 0 to Space.N -1 do
+  if AEigenvalues.Size <> Self.FOrder then
+    raise EDimensionError.CreateFmt(
+      'Matrix order %d and eigenvalue count %d are incompatible.',
+      [Self.FOrder, AEigenvalues.Size]);
+  result.SetOrder(Self.FOrder);
+  LVector.SetSize(Self.FOrder);
+  LScale := Self.Norm;
+  LSeed := 123456789;
+  for LColumn := 0 to Self.FOrder - 1 do
   begin
-    lam := AEigenvalues[j];
-
-    for i := 0 to Space.N -1 do
-      v[i] := Complex(NextRand, NextRand);
-    v := v.Normalize;
-
-    delta := 0;
-    solved := False;
-    for attempt := 1 to 6 do
+    LEigenvalue := AEigenvalues[LColumn];
+    for LRow := 0 to Self.FOrder - 1 do
+      LVector[LRow] := Complex(NextRandom, NextRandom);
+    LVector := LVector.Normalize;
+    LDelta := 0;
+    LSolved := False;
+    for LAttempt := 1 to 6 do
     begin
-      shift := lam + delta;
-      M := Self.Clone;
-      for i := 0 to Space.N -1 do
-        M[i, i] := M[i, i] - shift;
-
+      LShift := LEigenvalue + LDelta;
+      LMatrix := Self.Clone;
+      for LRow := 0 to Self.FOrder - 1 do
+        LMatrix[LRow, LRow] := LMatrix[LRow, LRow] - LShift;
       try
-        for pass := 1 to 3 do
+        for LPass := 1 to 3 do
         begin
-          w := M.SolveLinear(v);
-
-          for k := 0 to j - 1 do
+          LWork := LMatrix.SolveLinear(LVector);
+          for LPrevious := 0 to LColumn - 1 do
           begin
-            clusterTol := 100 * DefaultEpsilon * (Abs(AEigenvalues[k]) + Abs(lam) + 1);
-            if Abs(AEigenvalues[k] - lam) <= clusterTol then
+            LClusterTolerance := 100 * DefaultEpsilon *
+              (AEigenvalues[LPrevious].Norm + LEigenvalue.Norm + 1);
+            if (AEigenvalues[LPrevious] - LEigenvalue).Norm <=
+              LClusterTolerance then
             begin
-              proj := 0;
-              for i := 0 to Space.N -1 do
-                proj := proj + result[i, k].Conjugate * w[i];
-              for i := 0 to Space.N -1 do
-                w[i] := w[i] - proj * result[i, k];
+              LProjection := result[0, LPrevious].Conjugate * LWork[0];
+              for LRow := 1 to Self.FOrder - 1 do
+                LProjection := LProjection +
+                  result[LRow, LPrevious].Conjugate * LWork[LRow];
+              for LRow := 0 to Self.FOrder - 1 do
+                LWork[LRow] := LWork[LRow] -
+                  LProjection * result[LRow, LPrevious];
             end;
           end;
-
-          if w.Norm < DefaultEpsilon then
-          begin
-            for i := 0 to Space.N -1 do
-              w[i] := Complex(NextRand, NextRand);
-          end;
-          v := w.Normalize;
+          if LWork.Norm < DefaultEpsilon then
+            for LRow := 0 to Self.FOrder - 1 do
+              LWork[LRow] := Complex(NextRandom, NextRandom);
+          LVector := LWork.Normalize;
         end;
-        solved := True;
+        LSolved := True;
         Break;
       except
         on EZeroDivide do
-          if delta = 0 then
-            delta := (scale + Abs(lam) + 1) * 1e-12
+          if LDelta = 0 then
+            LDelta := (LScale + LEigenvalue.Norm + 1) * 1E-12
           else
-            delta := delta * 1e2;
+            LDelta := LDelta * 1E2;
       end;
     end;
-
-    if not solved then
-      raise EInvalidOp.Create('TComplexMatrix.Eigenvectors: inverse iteration did not converge.');
-
-    { An eigenvector is defined only up to a unit complex factor.  Choose a
-      deterministic phase by making its largest component real and
-      non-negative.  Besides making repeated calls reproducible, this removes
-      the arbitrary complex phase from eigenvectors of real matrices. }
-    phaseIndex := 0;
-    maxComponentNorm := Abs(v[0]);
-    for i := 1 to Space.N - 1 do
-      if Abs(v[i]) > maxComponentNorm then
+    if not LSolved then
+      raise EInvalidOp.Create(
+        'TComplexMatrix.Eigenvectors: inverse iteration did not converge.');
+    LPhaseIndex := 0;
+    LMaxNorm := LVector[0].Norm;
+    for LRow := 1 to Self.FOrder - 1 do
+      if LVector[LRow].Norm > LMaxNorm then
       begin
-        phaseIndex := i;
-        maxComponentNorm := Abs(v[i]);
+        LPhaseIndex := LRow;
+        LMaxNorm := LVector[LRow].Norm;
       end;
-
-    if maxComponentNorm > 0 then
+    if LMaxNorm > 0 then
     begin
-      phaseNorm := Abs(v[phaseIndex]);
-      phase := v[phaseIndex].Conjugate / phaseNorm;
-      v := phase * v;
+      LPhaseNorm := LVector[LPhaseIndex].Norm;
+      LPhase := LVector[LPhaseIndex].Conjugate / LPhaseNorm;
+      LVector := LPhase * LVector;
     end;
-
-    for i := 0 to Space.N -1 do
-      result[i, j] := v[i];
+    for LRow := 0 to Self.FOrder - 1 do
+      result[LRow, LColumn] := LVector[LRow];
   end;
 end;
 
-function TComplexMatrix.Conjugate: TComplexMatrix;
-var
-  i, j: longint;
-begin
-  for i := 0 to Space.N -1 do
-    for j := 0 to Space.N -1 do
-      result.fm[i, j] := fm[i, j].Conjugate;
-end;
 
-function TComplexMatrix.TransposeConjugate: TComplexMatrix;
-begin
-  result := Transpose.Conjugate;
-end;
-
-function TComplexMatrix.IsUnitary: boolean;
-begin
-  result := Identity.SameValue(Self.TransposeConjugate * Self);
-end;
-
-// TComplexVector
-
-function TComplexVector.Get(ARow: longint): TComplex;
-begin
-  result := fm[ARow];
-end;
-
-procedure TComplexVector.Put(ARow: longint; AValue: TComplex);
-begin
-  fm[ARow] := AValue;
-end;
-
-procedure TComplexVector.Assign(const AValues: array of TComplex);
-var
-  i: longint;
-begin
-  if Length(AValues) <> Space.N then
-  begin
-    raise EArgumentException.CreateFmt('TComplexVector.Assign: expected %d values, received %d.', [Space.N, Length(AValues)]);
-  end;
-
-  for i := 0 to Space.N -1 do
-    fm[i] := AValues[i];
-end;
-
-function TComplexVector.Cross(const AVector: TComplexVector): TComplexVector;
-begin
-  if Space.N <> 3 then
-    raise ERangeError.Create('TComplexVector.Cross: cross product is defined only for 3-dimensional vectors.');
-
-  result.fm[0] := fm[1]*AVector.fm[2] - fm[2]*AVector.fm[1];
-  result.fm[1] := fm[2]*AVector.fm[0] - fm[0]*AVector.fm[2];
-  result.fm[2] := fm[0]*AVector.fm[1] - fm[1]*AVector.fm[0];
-end;
-
-function TComplexVector.Dot(const AVector: TComplexVector): TComplex;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 0 to Space.N -1 do
-    result := result + fm[i] * AVector.fm[i];
-end;
-
-function TComplexVector.IsNull: boolean;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    if not SameValueEx(fm[i], 0) then Exit(False);
-  result := True;
-end;
-
-function TComplexVector.IsNotNull: boolean;
-begin
-  result := not IsNull;
-end;
-
-function TComplexVector.Norm: double;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 0 to Space.N - 1 do
-    result := Hypot(result, fm[i].Norm);
-end;
-
-function TComplexVector.SquaredNorm: double;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 0 to Space.N -1 do
-    result := result + SquareNorm(fm[i]);
-end;
-
-function TComplexVector.Normalize: TComplexVector;
-var
-  i:     longint;
-  LNorm: double;
-begin
-  LNorm := Norm;
-  if LNorm = 0 then
-    raise EZeroDivide.Create('TRVector.Normalize: cannot normalise a null vector.');
-
-  for i := 0 to Space.N -1 do
-    result.fm[i] := fm[i] / LNorm;
-end;
-
-function TComplexVector.Reciprocal: TComplexVector;
-var
-  i:           longint;
-  LNorm: double;
-begin
-  LNorm := Norm;
-  if LNorm = 0 then
-    raise EZeroDivide.Create('TRVector.Reciprocal: cannot invert a null vector.');
-
-  for i := 0 to Space.N -1 do
-    result.fm[i] := (fm[i] / LNorm) / LNorm;
-end;
-
-function TComplexVector.ToString: string;
-var
-  i: longint;
-begin
-  result := '';
-  for i := 0 to Space.N -1 do
-    result := result + FloatToStrF(fm[i]) + ',';
-
-  i := Length(result);
-  SetLength(result, Max(0, i - 1));
-  result := '(' + result + ')';
-end;
-
-class operator TComplexVector.Initialize(var ASelf: TComplexVector);
-begin
-  SetLength(ASelf.fm, Space.N);
-end;
-
-class operator TComplexVector.Finalize(var ASelf: TComplexVector);
-begin
-  SetLength(ASelf.fm, 0);
-end;
-
-class operator TComplexVector.Copy(constref ASrc: TComplexVector; var ADst: TComplexVector);
-begin
-  SetLength(ADst.fm, Space.N);
-  ADst.fm := System.Copy(ASrc.fm);
-end;
-
-class operator TComplexVector.=(const ALeft, ARight: TComplexVector): boolean;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    if ALeft.fm[i] <> ARight.fm[i] then Exit(False);
-  result := True;
-end;
-
-class operator TComplexVector.<>(const ALeft, ARight: TComplexVector): boolean;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    if ALeft.fm[i] <> ARight.fm[i] then Exit(True);
-  result := False;
-end;
-
-class operator TComplexVector.+(const ASelf: TComplexVector): TComplexVector;
-begin
-  result := ASelf;
-end;
-
-class operator TComplexVector.+(const ALeft, ARight: TComplexVector): TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result.fm[i] := ALeft.fm[i] + ARight.fm[i];
-end;
-
-class operator TComplexVector.-(const ASelf: TComplexVector): TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result.fm[i] := -ASelf.fm[i];
-end;
-
-class operator TComplexVector.-(const ALeft, ARight: TComplexVector): TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result.fm[i] := ALeft.fm[i] - ARight.fm[i];
-end;
-
-class operator TComplexVector.*(const ALeft, ARight: TComplexVector): TComplex;
-var
-  i: longint;
-begin
-  result := 0;
-  for i := 0 to Space.N -1 do
-    result := result + ALeft.fm[i] * ARight.fm[i];
-end;
-
-class operator TComplexVector.*(const ALeft: TComplex; const ARight: TComplexVector): TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result.fm[i] := ALeft * ARight.fm[i];
-end;
-
-class operator TComplexVector.*(const ALeft: TComplexVector; const ARight: TComplex): TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result.fm[i] := ALeft.fm[i] * ARight;
-end;
-
-class operator TComplexVector.*(const ALeft: TReal; const ARight: TComplexVector): TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result.fm[i] := ALeft * ARight.fm[i];
-end;
-
-class operator TComplexVector.*(const ALeft: TComplexVector; const ARight: TReal): TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result.fm[i] := ALeft.fm[i] * ARight;
-end;
-
-class operator TComplexVector./(const ALeft: TComplexVector; const ARight: TComplex): TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result.fm[i] := ALeft.fm[i] / ARight;
-end;
-
-class operator TComplexVector./(const ALeft: TComplexVector; const ARight: TReal): TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result.fm[i] := ALeft.fm[i] / ARight;
-end;
-
-function TComplexVector.Conjugate: TComplexVector;
-var
-  i: longint;
-begin
-  for i := 0 to Space.N -1 do
-    result[i] := fm[i].Conjugate;
-end;
-
-// TRealVector
-
-function TRealVector.Get(ARow: longint): TReal;
-begin
-  result := fm[ARow];
-end;
-
-procedure TRealVector.Put(ARow: longint; AValue: TReal);
-begin
-  fm[ARow] := AValue;
-end;
-
-procedure TRealVector.Assign(const AValues: array of TReal);
-var
-  i: longint;
-begin
-  if Length(AValues) <> Space.N then
-  begin
-    raise EArgumentException.CreateFmt('TRealVector.Assign: expected %d values, received %d.', [Space.N, Length(AValues)]);
-  end;
-
-  for i := 0 to Space.N - 1 do
-    fm[i] := AValues[i];
-end;
-
-function TRealVector.Cross(const AVector: TRealVector): TRealVector;
-begin
-  if Space.N <> 3 then
-  begin
-    raise ERangeError.Create('TRealVector.Cross: cross product is defined only for 3-dimensional vectors.');
-  end;
-
-  result.fm[0] := fm[1] * AVector.fm[2] - fm[2] * AVector.fm[1];
-  result.fm[1] := fm[2] * AVector.fm[0] - fm[0] * AVector.fm[2];
-  result.fm[2] := fm[0] * AVector.fm[1] - fm[1] * AVector.fm[0];
-end;
-
-function TRealVector.Dot(const AVector: TRealVector): TReal;
-var
-  LIndex: longint;
-begin
-  result := 0;
-  for LIndex := 0 to Space.N - 1 do
-    result := result + fm[LIndex] * AVector.fm[LIndex];
-end;
-
-function TRealVector.IsNull: boolean;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    if not SameValueEx(fm[LIndex], 0) then Exit(False);
-  result := True;
-end;
-
-function TRealVector.IsNotNull: boolean;
-begin
-  result := not IsNull;
-end;
-
-function TRealVector.Norm: TReal;
-var
-  LIndex: longint;
-begin
-  result := 0;
-  for LIndex := 0 to Space.N - 1 do
-    result := Hypot(result, fm[LIndex]);
-end;
-
-function TRealVector.SquaredNorm: TReal;
-var
-  LIndex: longint;
-begin
-  result := 0;
-  for LIndex := 0 to Space.N - 1 do
-    result := result + sqr(fm[LIndex]);
-end;
-
-function TRealVector.Normalize: TRealVector;
-var
-  LIndex: longint;
-  LNorm: TReal;
-begin
-  LNorm := Norm;
-  if LNorm = 0 then
-    raise EZeroDivide.Create('TRealVector.Normalize: cannot normalise a null vector.');
-
-  for LIndex := 0 to Space.N - 1 do
-    result.fm[LIndex] := fm[LIndex] / LNorm;
-end;
-
-function TRealVector.Reciprocal: TRealVector;
-var
-  LIndex: longint;
-  LNorm: TReal;
-begin
-  LNorm := Norm;
-  if LNorm = 0 then
-    raise EZeroDivide.Create('TRealVector.Reciprocal: cannot invert a null vector.');
-
-  for LIndex := 0 to Space.N - 1 do
-    result.fm[LIndex] := (fm[LIndex] / LNorm) / LNorm;
-end;
-
-function TRealVector.ToString: string;
-var
-  LIndex: longint;
-begin
-  result := '';
-  for LIndex := 0 to Space.N - 1 do
-  begin
-    if LIndex > 0 then result := result + ',';
-    result := result + FloatToStrF(fm[LIndex]);
-  end;
-  result := '(' + result + ')';
-end;
-
-function TRealVector.ToComplex: TComplexVector;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    result[LIndex] := fm[LIndex];
-end;
-
-class operator TRealVector.Initialize(var ASelf: TRealVector);
-begin
-  SetLength(ASelf.fm, Space.N);
-end;
-
-class operator TRealVector.Finalize(var ASelf: TRealVector);
-begin
-  SetLength(ASelf.fm, 0);
-end;
-
-class operator TRealVector.Copy(constref ASrc: TRealVector; var ADst: TRealVector);
-begin
-  SetLength(ADst.fm, Space.N);
-  ADst.fm := System.Copy(ASrc.fm);
-end;
-
-class operator TRealVector.=(const ALeft, ARight: TRealVector): boolean;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    if ALeft.fm[LIndex] <> ARight.fm[LIndex] then Exit(False);
-  result := True;
-end;
-
-class operator TRealVector.<>(const ALeft, ARight: TRealVector): boolean;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    if ALeft.fm[LIndex] <> ARight.fm[LIndex] then Exit(True);
-  result := False;
-end;
-
-class operator TRealVector.+(const ASelf: TRealVector): TRealVector;
-begin
-  result := ASelf;
-end;
-
-class operator TRealVector.+(const ALeft, ARight: TRealVector): TRealVector;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    result.fm[LIndex] := ALeft.fm[LIndex] + ARight.fm[LIndex];
-end;
-
-class operator TRealVector.-(const ASelf: TRealVector): TRealVector;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    result.fm[LIndex] := -ASelf.fm[LIndex];
-end;
-
-class operator TRealVector.-(const ALeft, ARight: TRealVector): TRealVector;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    result.fm[LIndex] := ALeft.fm[LIndex] - ARight.fm[LIndex];
-end;
-
-class operator TRealVector.*(const ALeft, ARight: TRealVector): TReal;
-var
-  LIndex: longint;
-begin
-  result := 0;
-  for LIndex := 0 to Space.N - 1 do
-    result := result + ALeft.fm[LIndex] * ARight.fm[LIndex];
-end;
-
-class operator TRealVector.*(const ALeft: TReal; const ARight: TRealVector): TRealVector;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    result.fm[LIndex] := ALeft * ARight.fm[LIndex];
-end;
-
-class operator TRealVector.*(const ALeft: TRealVector; const ARight: TReal): TRealVector;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    result.fm[LIndex] := ALeft.fm[LIndex] * ARight;
-end;
-
-class operator TRealVector./(const ALeft: TRealVector; const ARight: TReal): TRealVector;
-var
-  LIndex: longint;
-begin
-  for LIndex := 0 to Space.N - 1 do
-    result.fm[LIndex] := ALeft.fm[LIndex] / ARight;
-end;
-
-// TRealMatrix
-
-function TRealMatrix.Get(ARow, ACol: longint): TReal;
-begin
-  result := fm[ARow, ACol];
-end;
-
-procedure TRealMatrix.Put(ARow, ACol: longint; AValue: TReal);
-begin
-  fm[ARow, ACol] := AValue;
-end;
-
-function TRealMatrix.ForwardElimination(out SwapCount: integer): TRealMatrix;
-var
-  LPivot, LRatio, LMaxValue: TReal;
-  LRow, LCol, LNextRow, LPivotRow: longint;
-  LRowPivot, LRowWork: TArrayOfReal;
-begin
-  result := Self.Clone;
-  SwapCount := 0;
-
-  for LCol := 0 to Space.N - 1 do
-  begin
-    LPivotRow := LCol;
-    LMaxValue := System.Abs(result.fm[LCol, LCol]);
-
-    for LRow := LCol + 1 to Space.N - 1 do
-      if System.Abs(result.fm[LRow, LCol]) > LMaxValue then
-      begin
-        LMaxValue := System.Abs(result.fm[LRow, LCol]);
-        LPivotRow := LRow;
-      end;
-
-    if LMaxValue = 0 then Continue;
-
-    if LPivotRow <> LCol then
-    begin
-      result.Swap(LCol, LPivotRow);
-      Inc(SwapCount);
-    end;
-
-    LRowPivot := result.fm[LCol];
-    LPivot := LRowPivot[LCol];
-
-    for LNextRow := LCol + 1 to Space.N - 1 do
-    begin
-      if result.fm[LNextRow, LCol] = 0 then Continue;
-
-      LRowWork := result.fm[LNextRow];
-      LRatio := LRowWork[LCol] / LPivot;
-      LRowWork[LCol] := 0;
-
-      for LRow := LCol + 1 to Space.N - 1 do
-        LRowWork[LRow] := LRowWork[LRow] - LRatio * LRowPivot[LRow];
-
-      result.fm[LNextRow] := LRowWork;
-    end;
-  end;
-end;
-
-function TRealMatrix.SolveLinear(const AData: TRealVector): TRealVector;
-var
-  LWork: TRealMatrix;
-  LData: TRealVector;
-  LFactor, LSum, LMaxValue, LTemp: TReal;
-  LCol, LRow, LIndex, LPivotRow: longint;
-  LPivotData, LRowData: TArrayOfReal;
-begin
-  LWork := Self.Clone;
-  LData := AData;
-
-  for LCol := 0 to Space.N - 1 do
-  begin
-    LPivotRow := LCol;
-    LMaxValue := System.Abs(LWork.fm[LCol, LCol]);
-
-    for LRow := LCol + 1 to Space.N - 1 do
-      if System.Abs(LWork.fm[LRow, LCol]) > LMaxValue then
-      begin
-        LMaxValue := System.Abs(LWork.fm[LRow, LCol]);
-        LPivotRow := LRow;
-      end;
-
-    if LMaxValue = 0 then
-      raise EZeroDivide.Create('TRealMatrix.SolveLinear: matrix is singular.');
-
-    if LPivotRow <> LCol then
-    begin
-      LWork.Swap(LCol, LPivotRow);
-      LTemp := LData[LCol];
-      LData[LCol] := LData[LPivotRow];
-      LData[LPivotRow] := LTemp;
-    end;
-
-    LPivotData := LWork.fm[LCol];
-
-    for LRow := LCol + 1 to Space.N - 1 do
-    begin
-      LRowData := LWork.fm[LRow];
-      LFactor := LRowData[LCol] / LPivotData[LCol];
-      if LFactor = 0 then Continue;
-
-      LRowData[LCol] := 0;
-      for LIndex := LCol + 1 to Space.N - 1 do
-        LRowData[LIndex] := LRowData[LIndex] - LFactor * LPivotData[LIndex];
-
-      LData[LRow] := LData[LRow] - LFactor * LData[LCol];
-      LWork.fm[LRow] := LRowData;
-    end;
-  end;
-
-  for LRow := Space.N - 1 downto 0 do
-  begin
-    LSum := LData[LRow];
-    for LIndex := LRow + 1 to Space.N - 1 do
-      LSum := LSum - LWork.fm[LRow, LIndex] * result[LIndex];
-
-    result[LRow] := LSum / LWork.fm[LRow, LRow];
-  end;
-end;
-
-procedure TRealMatrix.Assign(const AValues: array of TReal);
-var
-  row, col, i: longint;
-begin
-  if Length(AValues) <> Space.N * Space.N then
-  begin
-    raise EArgumentException.CreateFmt('TRealMatrix.Assign: expected %d values, received %d.', [Space.N * Space.N, Length(AValues)]);
-  end;
-
-  i := 0;
-  for row := 0 to Space.N -1 do
-    for col := 0 to Space.N -1 do
-    begin
-      fm[row, col] := AValues[i];
-      Inc(i);
-    end;
-end;
-
-function TRealMatrix.Identity: TRealMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result.fm[LRow, LCol] := Ord(LRow = LCol);
-end;
-
-function TRealMatrix.Null: TRealMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result.fm[LRow, LCol] := 0;
-end;
-
-function TRealMatrix.Diagonalize(const ADiagonal: TRealVector): TRealMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      if LRow = LCol then
-        result.fm[LRow, LCol] := ADiagonal[LRow]
-      else
-        result.fm[LRow, LCol] := 0;
-end;
-
-function TRealMatrix.IsNull: boolean;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      if not SameValueEx(fm[LRow, LCol], 0) then Exit(False);
-  result := True;
-end;
-
-function TRealMatrix.IsNotNull: boolean;
-begin
-  result := not IsNull;
-end;
-
-function TRealMatrix.SameValue(const AMatrix: TRealMatrix): boolean;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      if not SameValueEx(fm[LRow, LCol], AMatrix.fm[LRow, LCol]) then Exit(False);
-  result := True;
-end;
-
-function TRealMatrix.Determinant: TReal;
-var
-  LUpper: TRealMatrix;
-  LSwapCount: integer;
-  LIndex: longint;
-begin
-  LUpper := ForwardElimination(LSwapCount);
-  result := 1;
-  for LIndex := 0 to Space.N - 1 do
-    result := result * LUpper.fm[LIndex, LIndex];
-
-  if Odd(LSwapCount) then result := -result;
-end;
-
-function TRealMatrix.Norm: TReal;
-var
-  LRow, LCol: longint;
-begin
-  result := 0;
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result := Hypot(result, fm[LRow, LCol]);
-end;
-
-function TRealMatrix.Rank: longint;
-var
-  LWork: TRealMatrix;
-  LRow, LCol, LPivotRow, LScanRow, LIndex: longint;
-  LMaxValue, LFactor: TReal;
-  LPivotData, LRowData: TArrayOfReal;
-begin
-  LWork := Self.Clone;
-  result := 0;
-  LRow := 0;
-
-  for LCol := 0 to Space.N - 1 do
-  begin
-    if LRow >= Space.N then Break;
-
-    LPivotRow := LRow;
-    LMaxValue := System.Abs(LWork.fm[LRow, LCol]);
-    for LScanRow := LRow + 1 to Space.N - 1 do
-      if System.Abs(LWork.fm[LScanRow, LCol]) > LMaxValue then
-      begin
-        LMaxValue := System.Abs(LWork.fm[LScanRow, LCol]);
-        LPivotRow := LScanRow;
-      end;
-
-    if LMaxValue <= DefaultEpsilon then Continue;
-
-    if LPivotRow <> LRow then
-      LWork.Swap(LRow, LPivotRow);
-
-    LPivotData := LWork.fm[LRow];
-
-    for LScanRow := LRow + 1 to Space.N - 1 do
-    begin
-      LRowData := LWork.fm[LScanRow];
-      LFactor := LRowData[LCol] / LPivotData[LCol];
-      if System.Abs(LFactor) <= DefaultEpsilon then Continue;
-
-      LRowData[LCol] := 0;
-      for LIndex := LCol + 1 to Space.N - 1 do
-        LRowData[LIndex] := LRowData[LIndex] - LFactor * LPivotData[LIndex];
-
-      LWork.fm[LScanRow] := LRowData;
-    end;
-
-    Inc(result);
-    Inc(LRow);
-  end;
-end;
-
-function TRealMatrix.Trace: TReal;
-var
-  LIndex: longint;
-begin
-  result := 0;
-  for LIndex := 0 to Space.N - 1 do
-    result := result + fm[LIndex, LIndex];
-end;
-
-function TRealMatrix.Clone: TRealMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result.fm[LRow, LCol] := fm[LRow, LCol];
-end;
-
-function TRealMatrix.Transpose: TRealMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result.fm[LRow, LCol] := fm[LCol, LRow];
-end;
-
-function TRealMatrix.Inverse: TRealMatrix;
-var
-  LWork: TRealMatrix;
-  LPivot, LFactor, LMaxValue: TReal;
-  LCol, LRow, LIndex, LPivotRow: longint;
-  LWorkRow, LResultRow, LPivotWorkRow, LPivotResultRow: TArrayOfReal;
-begin
-  LWork := Self.Clone;
-  result := Identity;
-
-  for LCol := 0 to Space.N - 1 do
-  begin
-    LPivotRow := LCol;
-    LMaxValue := System.Abs(LWork.fm[LCol, LCol]);
-
-    for LRow := LCol + 1 to Space.N - 1 do
-      if System.Abs(LWork.fm[LRow, LCol]) > LMaxValue then
-      begin
-        LMaxValue := System.Abs(LWork.fm[LRow, LCol]);
-        LPivotRow := LRow;
-      end;
-
-    if LMaxValue = 0 then
-      raise EZeroDivide.Create('TRealMatrix.Inverse: matrix is singular.');
-
-    if LPivotRow <> LCol then
-    begin
-      LWork.Swap(LCol, LPivotRow);
-      result.Swap(LCol, LPivotRow);
-    end;
-
-    LPivotWorkRow := LWork.fm[LCol];
-    LPivotResultRow := result.fm[LCol];
-    LPivot := LPivotWorkRow[LCol];
-
-    for LIndex := 0 to Space.N - 1 do
-    begin
-      LPivotWorkRow[LIndex] := LPivotWorkRow[LIndex] / LPivot;
-      LPivotResultRow[LIndex] := LPivotResultRow[LIndex] / LPivot;
-    end;
-
-    LWork.fm[LCol] := LPivotWorkRow;
-    result.fm[LCol] := LPivotResultRow;
-
-    for LRow := 0 to Space.N - 1 do
-    begin
-      if LRow = LCol then Continue;
-
-      LWorkRow := LWork.fm[LRow];
-      LFactor := LWorkRow[LCol];
-      if LFactor = 0 then Continue;
-
-      LResultRow := result.fm[LRow];
-      for LIndex := 0 to Space.N - 1 do
-      begin
-        LWorkRow[LIndex] := LWorkRow[LIndex] - LFactor * LPivotWorkRow[LIndex];
-        LResultRow[LIndex] := LResultRow[LIndex] - LFactor * LPivotResultRow[LIndex];
-      end;
-
-      LWork.fm[LRow] := LWorkRow;
-      result.fm[LRow] := LResultRow;
-    end;
-  end;
-end;
-
-function TRealMatrix.RowReduction: TRealMatrix;
-var
-  LLeadRow, LCol, LPivotRow, LScanRow, LIndex: longint;
-  LMaxValue, LPivot, LFactor: TReal;
-  LPivotData, LRowData: TArrayOfReal;
-begin
-  result := Self.Clone;
-  LLeadRow := 0;
-
-  for LCol := 0 to Space.N - 1 do
-  begin
-    if LLeadRow >= Space.N then Break;
-
-    LPivotRow := LLeadRow;
-    LMaxValue := System.Abs(result.fm[LLeadRow, LCol]);
-    for LScanRow := LLeadRow + 1 to Space.N - 1 do
-      if System.Abs(result.fm[LScanRow, LCol]) > LMaxValue then
-      begin
-        LMaxValue := System.Abs(result.fm[LScanRow, LCol]);
-        LPivotRow := LScanRow;
-      end;
-
-    if LMaxValue = 0 then Continue;
-
-    if LPivotRow <> LLeadRow then
-      result.Swap(LLeadRow, LPivotRow);
-
-    LPivotData := result.fm[LLeadRow];
-    LPivot := LPivotData[LCol];
-
-    for LIndex := LCol to Space.N - 1 do
-      LPivotData[LIndex] := LPivotData[LIndex] / LPivot;
-    result.fm[LLeadRow] := LPivotData;
-
-    for LScanRow := 0 to Space.N - 1 do
-    begin
-      if LScanRow = LLeadRow then Continue;
-
-      LRowData := result.fm[LScanRow];
-      LFactor := LRowData[LCol];
-      if LFactor = 0 then
-      begin
-        LRowData[LCol] := 0;
-        result.fm[LScanRow] := LRowData;
-        Continue;
-      end;
-
-      for LIndex := LCol to Space.N - 1 do
-        LRowData[LIndex] := LRowData[LIndex] - LFactor * LPivotData[LIndex];
-
-      LRowData[LCol] := 0;
-      result.fm[LScanRow] := LRowData;
-    end;
-
-    Inc(LLeadRow);
-  end;
-end;
-
-function TRealMatrix.ToComplex: TComplexMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result[LRow, LCol] := fm[LRow, LCol];
-end;
-
-function TRealMatrix.Eigenvalues: TComplexVector;
-var
-  LComplexMatrix: TComplexMatrix;
-begin
-  LComplexMatrix := ToComplex;
-  result := LComplexMatrix.Eigenvalues;
-end;
-
-function TRealMatrix.Eigenvectors(const AEigenvalues: TComplexVector): TComplexMatrix;
-var
-  LComplexMatrix: TComplexMatrix;
-begin
-  LComplexMatrix := ToComplex;
-  result := LComplexMatrix.Eigenvectors(AEigenvalues);
-end;
-
-procedure TRealMatrix.Swap(ARow1, ARow2: longint);
-var
-  LTemp: TArrayOfReal;
-begin
-  LTemp := fm[ARow1];
-  fm[ARow1] := fm[ARow2];
-  fm[ARow2] := LTemp;
-end;
-
-function TRealMatrix.ToString: string;
-var
-  LRow, LCol: longint;
-  LRows: array of string;
-begin
-  SetLength(LRows, Space.N);
-
-  for LRow := 0 to Space.N - 1 do
-  begin
-    LRows[LRow] := '(';
-    for LCol := 0 to Space.N - 1 do
-    begin
-      if LCol > 0 then LRows[LRow] := LRows[LRow] + ', ';
-      LRows[LRow] := LRows[LRow] + FloatToStrF(fm[LRow, LCol]);
-    end;
-    LRows[LRow] := LRows[LRow] + ')';
-  end;
-
-  result := '(' + string.Join(', ', LRows) + ')';
-end;
-
-function TRealMatrix.ToString(APrecision, ADigits: integer): string;
-var
-  LRow, LCol: longint;
-  LRows: array of string;
-begin
-  SetLength(LRows, Space.N);
-
-  for LRow := 0 to Space.N - 1 do
-  begin
-    LRows[LRow] := '(';
-    for LCol := 0 to Space.N - 1 do
-    begin
-      if LCol > 0 then LRows[LRow] := LRows[LRow] + ', ';
-      LRows[LRow] := LRows[LRow] +
-        FloatToStrF(fm[LRow, LCol], APrecision, ADigits);
-    end;
-    LRows[LRow] := LRows[LRow] + ')';
-  end;
-
-  result := '(' + string.Join(', ', LRows) + ')';
-end;
-
-class operator TRealMatrix.Initialize(var ASelf: TRealMatrix);
-begin
-  SetLength(ASelf.fm, Space.N, Space.N);
-end;
-
-class operator TRealMatrix.Finalize(var ASelf: TRealMatrix);
-begin
-  SetLength(ASelf.fm, 0, 0);
-end;
-
-class operator TRealMatrix.Copy(constref ASrc: TRealMatrix; var ADst: TRealMatrix);
-var
-  LRow, LCol: longint;
-begin
-  SetLength(ADst.fm, Space.N, Space.N);
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      ADst.fm[LRow, LCol] := ASrc.fm[LRow, LCol];
-end;
-
-class operator TRealMatrix.=(const ALeft, ARight: TRealMatrix): boolean;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      if ALeft.fm[LRow, LCol] <> ARight.fm[LRow, LCol] then Exit(False);
-  result := True;
-end;
-
-class operator TRealMatrix.<>(const ALeft, ARight: TRealMatrix): boolean;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      if ALeft.fm[LRow, LCol] <> ARight.fm[LRow, LCol] then Exit(True);
-  result := False;
-end;
-
-class operator TRealMatrix.+(const ALeft, ARight: TRealMatrix): TRealMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result.fm[LRow, LCol] := ALeft.fm[LRow, LCol] + ARight.fm[LRow, LCol];
-end;
-
-class operator TRealMatrix.-(const ALeft, ARight: TRealMatrix): TRealMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result.fm[LRow, LCol] := ALeft.fm[LRow, LCol] - ARight.fm[LRow, LCol];
-end;
-
-class operator TRealMatrix.*(const ALeft, ARight: TRealMatrix): TRealMatrix;
-var
-  LRow, LCol, LIndex: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-    begin
-      result.fm[LRow, LCol] := 0;
-      for LIndex := 0 to Space.N - 1 do
-        result.fm[LRow, LCol] := result.fm[LRow, LCol] +
-          ALeft.fm[LRow, LIndex] * ARight.fm[LIndex, LCol];
-    end;
-end;
-
-class operator TRealMatrix.*(const ALeft: TReal; const ARight: TRealMatrix): TRealMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result.fm[LRow, LCol] := ALeft * ARight.fm[LRow, LCol];
-end;
-
-class operator TRealMatrix.*(const ALeft: TRealMatrix; const ARight: TReal): TRealMatrix;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-    for LCol := 0 to Space.N - 1 do
-      result.fm[LRow, LCol] := ALeft.fm[LRow, LCol] * ARight;
-end;
-
-class operator TRealMatrix.*(const ALeft: TRealVector; const ARight: TRealMatrix): TRealVector;
-var
-  LRow, LCol: longint;
-begin
-  for LCol := 0 to Space.N - 1 do
-  begin
-    result.fm[LCol] := 0;
-    for LRow := 0 to Space.N - 1 do
-      result.fm[LCol] := result.fm[LCol] +
-        ALeft.fm[LRow] * ARight.fm[LRow, LCol];
-  end;
-end;
-
-class operator TRealMatrix.*(const ALeft: TRealMatrix; const ARight: TRealVector): TRealVector;
-var
-  LRow, LCol: longint;
-begin
-  for LRow := 0 to Space.N - 1 do
-  begin
-    result.fm[LRow] := 0;
-    for LCol := 0 to Space.N - 1 do
-      result.fm[LRow] := result.fm[LRow] +
-        ALeft.fm[LRow, LCol] * ARight.fm[LCol];
-  end;
-end;
-
-function Complex(const ARe, AIm: double): TComplex;
+function Complex(const ARe, AIm: TReal): TComplex;
 begin
   result.Re := ARe;
   result.Im := AIm;
 end;
 
-function Abs(const AValue: double): double;
-begin
-  result := System.Abs(AValue);
-end;
-
-function Abs(const AValue: TComplex): double;
+function Abs(const AValue: TComplex): TReal;
 begin
   result := AValue.Norm;
 end;
 
-function SameValueEx(const AValue1, AValue2: double): boolean;
+function SameValueEx(const AValue1, AValue2: TReal): boolean;
 begin
   result := Math.SameValue(AValue1, AValue2, DefaultEpsilon);
 end;
@@ -3401,8 +2095,9 @@ end;
 
 function SquareRoot(const AValue: TComplex): TArrayOfComplex;
 var
-  norm: double;
+  norm: TReal;
 begin
+  result := nil;
   SetLength(result, 2);
   norm := hypot(AValue.fRe, AValue.fIm);
   result[0].fRe := sqrt(0.5 * (norm + AValue.fRe));
@@ -3417,8 +2112,9 @@ function CubicRoot(const AValue: TComplex): TArrayOfComplex;
 const
   i: TImaginaryUnit = ();
 var
-  theta, rootModulus, rootArgument: double;
+  theta, rootModulus, rootArgument: TReal;
 begin
+  result := nil;
   SetLength(result, 3);
   rootModulus := Power(AValue.Norm, 1/3);
   theta       := Math.ArcTan2(AValue.fIm, AValue.fRe);
@@ -3437,8 +2133,9 @@ function QuarticRoot(const AValue: TComplex): TArrayOfComplex;
 const
   i: TImaginaryUnit = ();
 var
-  theta, rootModulus, rootArgument: double;
+  theta, rootModulus, rootArgument: TReal;
 begin
+  result := nil;
   SetLength(result, 4);
   rootModulus := Power(AValue.Norm, 1/4);
   theta       := Math.ArcTan2(AValue.fIm, AValue.fRe);
@@ -3456,7 +2153,7 @@ begin
   result[3] := rootModulus * (Cos(rootArgument) + Sin(rootArgument) * i);
 end;
 
-function SolveEquation(const a: double): double;
+function SolveEquation(const a: TReal): TReal;
 begin
   result := -a;
 end;
@@ -3470,6 +2167,7 @@ function SolveEquation(const a, b: TComplex): TArrayOfComplex;
 var
   delta: TComplex;
 begin
+  result := nil;
   SetLength(result, 2);
   delta     := SquareRoot(SquarePower(a) - 4*b)[0];
   result[0] := (-a + delta) / 2;
@@ -3481,6 +2179,7 @@ var
   p, q, s1, t: TComplex;
   u, v:        TArrayOfComplex;
 begin
+  result := nil;
   SetLength(result, 3);
   p := 9*b - 3*SquarePower(a);
   q := 27*c - 9*a*b + 2*CubicPower(a);
@@ -3522,6 +2221,7 @@ var
   alpha, beta,
   gamma:       TComplex;
 begin
+  result := nil;
   SetLength(result, 4);
   p := 16*b - 6*SquarePower(a);
   q := 64*c - 32*a*b + 8*CubicPower(a);
@@ -3551,27 +2251,27 @@ begin
   end;
 end;
 
-function SquareNorm(const AValue: double): double;
+function SquareNorm(const AValue: TReal): TReal;
 begin
   result := sqr(Avalue);
 end;
 
-function SquareNorm(const AValue: TComplex): double;
+function SquareNorm(const AValue: TComplex): TReal;
 begin
   result := AValue.SquaredNorm;
 end;
 
-function Norm(const AValue: double): double;
+function Norm(const AValue: TReal): TReal;
 begin
   result := System.Abs(AValue);
 end;
 
-function Norm(const AValue: TComplex): double;
+function Norm(const AValue: TComplex): TReal;
 begin
   result := AValue.Norm;
 end;
 
-function FloatToStrF(const AValue: double): string;
+function FloatToStrF(const AValue: TReal): string;
 begin
   result := AValue.ToString;
 end;
@@ -3581,7 +2281,7 @@ begin
   result := AValue.ToString;
 end;
 
-function FloatToStrF(const AValue: double; APrecision, ADigits: longint): string;
+function FloatToStrF(const AValue: TReal; APrecision, ADigits: longint): string;
 begin
   result := SysUtils.FloatToStrF(AValue, ffGeneral, APrecision, ADigits);
 end;

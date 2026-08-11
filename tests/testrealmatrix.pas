@@ -1,7 +1,7 @@
 { TestRealMatrix.pas - Real matrix tests for ADimMath.
 
-  Updated for the fixed-dimension generic matrix/vector API.
-  Existing numerical/stress cases are retained; initialization now uses Assign.
+  Covers the dynamically sized real matrix/vector API and its numerical
+  algorithms.
 
   @author Melchiorre Caruso
 }
@@ -19,169 +19,68 @@ uses
   Math, SysUtils, StrUtils, ADimMath, TestFramework;
 
 
-type
-  TArrayOfDouble = array of double;
-
-  T1DTestSpace  = record const N = 1;  end;
-  T5DTestSpace  = record const N = 5;  end;
-  T6DTestSpace  = record const N = 6;  end;
-  T7DTestSpace  = record const N = 7;  end;
-  T8DTestSpace  = record const N = 8;  end;
-  T9DTestSpace  = record const N = 9;  end;
-  T10DTestSpace = record const N = 10; end;
-  T12DTestSpace = record const N = 12; end;
-  T16DTestSpace = record const N = 16; end;
-  T24DTestSpace = record const N = 24; end;
-  T32DTestSpace = record const N = 32; end;
-  T64DTestSpace = record const N = 64; end;
-  T100DTestSpace = record const N = 100; end;
-  T1000DTestSpace = record const N = 1000; end;
-
-  T1RealMatrix  = specialize TRealMatrix<T1DTestSpace>;
-  T5RealMatrix  = specialize TRealMatrix<T5DTestSpace>;
-  T6RealMatrix  = specialize TRealMatrix<T6DTestSpace>;
-  T7RealMatrix  = specialize TRealMatrix<T7DTestSpace>;
-  T8RealMatrix  = specialize TRealMatrix<T8DTestSpace>;
-  T9RealMatrix  = specialize TRealMatrix<T9DTestSpace>;
-  T10RealMatrix = specialize TRealMatrix<T10DTestSpace>;
-  T12RealMatrix = specialize TRealMatrix<T12DTestSpace>;
-  T16RealMatrix = specialize TRealMatrix<T16DTestSpace>;
-  T24RealMatrix = specialize TRealMatrix<T24DTestSpace>;
-  T32RealMatrix = specialize TRealMatrix<T32DTestSpace>;
-  T64RealMatrix = specialize TRealMatrix<T64DTestSpace>;
-  T100RealMatrix = specialize TRealMatrix<T100DTestSpace>;
-  T1000RealMatrix = specialize TRealMatrix<T1000DTestSpace>;
-
-  T5RealVector = specialize TRealVector<T5DTestSpace>;
-  T6RealVector = specialize TRealVector<T6DTestSpace>;
-  T7RealVector = specialize TRealVector<T7DTestSpace>;
-  T8RealVector = specialize TRealVector<T8DTestSpace>;
-
-  T1ComplexVector  = specialize TComplexVector<T1DTestSpace>;
-  T5ComplexVector  = specialize TComplexVector<T5DTestSpace>;
-  T6ComplexVector  = specialize TComplexVector<T6DTestSpace>;
-  T7ComplexVector  = specialize TComplexVector<T7DTestSpace>;
-  T8ComplexVector  = specialize TComplexVector<T8DTestSpace>;
-  T9ComplexVector  = specialize TComplexVector<T9DTestSpace>;
-  T10ComplexVector = specialize TComplexVector<T10DTestSpace>;
-
-  T12ComplexVector = specialize TComplexVector<T12DTestSpace>;
-  T16ComplexVector = specialize TComplexVector<T16DTestSpace>;
-  T24ComplexVector = specialize TComplexVector<T24DTestSpace>;
-  T32ComplexVector = specialize TComplexVector<T32DTestSpace>;
-  T64ComplexVector = specialize TComplexVector<T64DTestSpace>;
-  T100ComplexVector = specialize TComplexVector<T100DTestSpace>;
-  T1000ComplexVector = specialize TComplexVector<T1000DTestSpace>;
-  T12ComplexMatrix = specialize TComplexMatrix<T12DTestSpace>;
-
-  T5ComplexMatrix = specialize TComplexMatrix<T5DTestSpace>;
-
-function ExtractRealEigenvalues(const AValues: T1ComplexVector): TArrayOfDouble; overload;
+procedure InitZeroMatrix(var AMatrix: TRealMatrix; AOrder: longint);
+var
+  LValues: array of TReal;
 begin
-  SetLength(result, 1);
-  result[0] := AValues[0].Re;
+  SetLength(LValues, AOrder * AOrder);
+  AMatrix.Init(LValues);
 end;
 
-function ExtractRealEigenvalues(const AValues: T2ComplexVector): TArrayOfDouble; overload;
+procedure InitZeroVector(var AVector: TRealVector; ASize: longint);
+var
+  LValues: array of TReal;
+begin
+  SetLength(LValues, ASize);
+  AVector.Init(LValues);
+end;
+
+procedure InitZeroComplexVector(var AVector: TComplexVector; ASize: longint);
+var
+  LValues: array of TComplex;
+begin
+  SetLength(LValues, ASize);
+  AVector.Init(LValues);
+end;
+
+function ExtractRealEigenvalues(
+  const AValues: TComplexVector): TArrayOfReal;
 var
   i: integer;
 begin
-  SetLength(result, 2);
-  for i := 0 to 1 do result[i] := AValues[i].Re;
-end;
-
-function ExtractRealEigenvalues(const AValues: T3ComplexVector): TArrayOfDouble; overload;
-var
-  i: integer;
-begin
-  SetLength(result, 3);
-  for i := 0 to 2 do result[i] := AValues[i].Re;
-end;
-
-function ExtractRealEigenvalues(const AValues: T4ComplexVector): TArrayOfDouble; overload;
-var
-  i: integer;
-begin
-  SetLength(result, 4);
-  for i := 0 to 3 do result[i] := AValues[i].Re;
-end;
-
-function ExtractRealEigenvalues(const AValues: T5ComplexVector): TArrayOfDouble; overload;
-var
-  i: integer;
-begin
-  SetLength(result, 5);
-  for i := 0 to 4 do result[i] := AValues[i].Re;
-end;
-
-function ExtractRealEigenvalues(const AValues: T6ComplexVector): TArrayOfDouble; overload;
-var
-  i: integer;
-begin
-  SetLength(result, 6);
-  for i := 0 to 5 do result[i] := AValues[i].Re;
-end;
-
-function ExtractRealEigenvalues(const AValues: T7ComplexVector): TArrayOfDouble; overload;
-var
-  i: integer;
-begin
-  SetLength(result, 7);
-  for i := 0 to 6 do result[i] := AValues[i].Re;
-end;
-
-function ExtractRealEigenvalues(const AValues: T8ComplexVector): TArrayOfDouble; overload;
-var
-  i: integer;
-begin
-  SetLength(result, 8);
-  for i := 0 to 7 do result[i] := AValues[i].Re;
-end;
-
-function ExtractRealEigenvalues(const AValues: T9ComplexVector): TArrayOfDouble; overload;
-var
-  i: integer;
-begin
-  SetLength(result, 9);
-  for i := 0 to 8 do result[i] := AValues[i].Re;
-end;
-
-function ExtractRealEigenvalues(const AValues: T10ComplexVector): TArrayOfDouble; overload;
-var
-  i: integer;
-begin
-  SetLength(result, 10);
-  for i := 0 to 9 do result[i] := AValues[i].Re;
+  result := nil;
+  SetLength(result, AValues.Size);
+  for i := 0 to AValues.Size - 1 do result[i] := AValues[i].Re;
 end;
 
 procedure TestTRMatrix;
 var
-  A1: T1RealMatrix;
-  A2, Res2: T2RealMatrix;
-  A3, B3, C3, Res3: T3RealMatrix;
-  A4: T4RealMatrix;
-  eigs: TArrayOfDouble;
+  A1: TRealMatrix;
+  A2, Res2: TRealMatrix;
+  A3, B3, C3, Res3: TRealMatrix;
+  A4: TRealMatrix;
+  eigs: TArrayOfReal;
   Raised: boolean;
 
   procedure LoadA;
   begin
-    A3.Assign([1,2,3, 4,5,6, 7,8,10]);
+    A3.Init([1,2,3, 4,5,6, 7,8,10]);
   end;
 
   procedure LoadB;
   begin
-    B3.Assign([2,0,1, 1,3,0, 0,1,2]);
+    B3.Init([2,0,1, 1,3,0, 0,1,2]);
   end;
 
 begin
-  Section('TRealMatrix - Assign / Clone');
+  Section('TRealMatrix - Init / Clone');
 
-  A3 := A3.Null;
+  InitZeroMatrix(A3, 3);
   Check('3x3 all zero', A3.IsNull);
 
   LoadA;
-  Check('Assign with data: a[0,0]=1', Math.SameValue(A3[0,0],1, EPS));
-  Check('Assign with data: a[2,2]=10', Math.SameValue(A3[2,2],10,EPS));
+  Check('Init with data: a[0,0]=1', Math.SameValue(A3[0,0],1, EPS));
+  Check('Init with data: a[2,2]=10', Math.SameValue(A3[2,2],10,EPS));
 
   C3 := A3.Clone;
   Check('Clone: same data', C3.SameValue(A3));
@@ -190,11 +89,11 @@ begin
 
   Raised := False;
   try
-    A3.Assign([1,2,3,4,5]);
+    A3.Init([1,2,3,4,5]);
   except
     on EArgumentException do Raised := True;
   end;
-  Check('Assign with 5 values raises EArgumentException', Raised);
+  Check('Init with 5 values raises EArgumentException', Raised);
 
   Section('TRealMatrix - Identity / Null / Diagonalize');
 
@@ -217,7 +116,7 @@ begin
   CheckNear('trace(A) = 16', A3.Trace, 16.0, EPS);
   CheckNear('norm(A) frob', A3.Norm, 17.4355957741627, EPS);
 
-  C3.Assign([1,2,3, 2,4,6, 3,6,9]);
+  C3.Init([1,2,3, 2,4,6, 3,6,9]);
   Check('rank([[1,2,3],[2,4,6],[3,6,9]]) = 1', C3.Rank = 1);
 
   C3 := C3.Null;
@@ -274,7 +173,7 @@ begin
   Check('A*inv(A)[1,1]~=1', Math.SameValue(C3[1,1],1,EPS));
   Check('A*inv(A)[2,2]~=1', Math.SameValue(C3[2,2],1,EPS));
 
-  A2.Assign([3,1, 2,4]);
+  A2.Init([3,1, 2,4]);
   CheckNear('det([[3,1],[2,4]]) = 10', A2.Determinant, 10.0, EPS);
   Res2 := A2.Inverse;
   CheckNear('inv(2x2)[0,0]=0.4', Res2[0,0], 0.4, EPS);
@@ -284,7 +183,7 @@ begin
 
   Section('TRealMatrix - RowReduction');
 
-  A3.Assign([2,1,-1, 4,3,1, 2,2,3]);
+  A3.Init([2,1,-1, 4,3,1, 2,2,3]);
   Res3 := A3.RowReduction;
   Check('RREF[0,0]=1', Math.SameValue(Res3[0,0],1,EPS));
   Check('RREF[0,1]=0', Math.SameValue(Res3[0,1],0,EPS));
@@ -298,14 +197,14 @@ begin
 
   Section('TRealMatrix - Eigenvalues');
 
-  A3.Assign([4,2,1, 2,5,3, 1,3,6]);
+  A3.Init([4,2,1, 2,5,3, 1,3,6]);
   eigs := ExtractRealEigenvalues(A3.Eigenvalues);
   SortAscArray(eigs);
   CheckNear('S3 eig[0] ~= 1.9213', eigs[0], 1.9213469419616895, 1e-6);
   CheckNear('S3 eig[1] ~= 3.7302', eigs[1], 3.730159123688258, 1e-6);
   CheckNear('S3 eig[2] ~= 9.3485', eigs[2], 9.348493934350051, 1e-6);
 
-  A4.Assign([5,1,0,2, 1,4,1,0, 0,1,3,1, 2,0,1,6]);
+  A4.Init([5,1,0,2, 1,4,1,0, 0,1,3,1, 2,0,1,6]);
   eigs := ExtractRealEigenvalues(A4.Eigenvalues);
   SortAscArray(eigs);
   CheckNear('S4 eig[0] ~= 1.8122', eigs[0], 1.81216339, 1e-5);
@@ -313,37 +212,37 @@ begin
   CheckNear('S4 eig[2] ~= 4.5484', eigs[2], 4.54837849, 1e-5);
   CheckNear('S4 eig[3] ~= 7.8556', eigs[3], 7.85563479, 1e-5);
 
-  A1.Assign([7]);
+  A1.Init([7]);
   eigs := ExtractRealEigenvalues(A1.Eigenvalues);
   CheckNear('1x1 eigenvalue = 7', eigs[0], 7.0, EPS);
 
-  A2.Assign([3,1, 1,3]);
+  A2.Init([3,1, 1,3]);
   eigs := ExtractRealEigenvalues(A2.Eigenvalues);
   SortAscArray(eigs);
   CheckNear('2x2 symm eig[0]=2', eigs[0], 2.0, 1e-6);
   CheckNear('2x2 symm eig[1]=4', eigs[1], 4.0, 1e-6);
 
-  A3.Assign([3,0,0, 0,1,0, 0,0,5]);
+  A3.Init([3,0,0, 0,1,0, 0,0,5]);
   eigs := ExtractRealEigenvalues(A3.Eigenvalues);
   SortAscArray(eigs);
   CheckNear('diag(3,1,5) eig[0]=1', eigs[0], 1.0, 1e-6);
   CheckNear('diag(3,1,5) eig[1]=3', eigs[1], 3.0, 1e-6);
   CheckNear('diag(3,1,5) eig[2]=5', eigs[2], 5.0, 1e-6);
 
-  Section('TRealMatrix - IsUnitary (orthogonal)');
+  Section('TRealMatrix - IsOrthogonal');
 
   Res3 := A3.Identity;
-  Check('I3 IsUnitary=true', (Res3.Transpose * Res3).SameValue(Res3.Identity));
+  Check('I3 IsOrthogonal=true', Res3.IsOrthogonal);
 
-  A3.Assign([
+  A3.Init([
     cos(Pi/4), -sin(Pi/4), 0,
     sin(Pi/4),  cos(Pi/4), 0,
     0,          0,         1
   ]);
-  Check('Rz(45deg) IsUnitary=true', (A3.Transpose * A3).SameValue(A3.Identity));
+  Check('Rz(45deg) IsOrthogonal=true', A3.IsOrthogonal);
 
   LoadA;
-  Check('A IsUnitary=false', not (A3.Transpose * A3).SameValue(A3.Identity));
+  Check('A IsOrthogonal=false', not A3.IsOrthogonal);
 
   Section('TRealMatrix - SameValue / = / <>');
 
@@ -355,7 +254,7 @@ begin
 
   Section('TRealMatrix - Swap');
 
-  A2.Assign([1,2, 3,4]);
+  A2.Init([1,2, 3,4]);
   A2.Swap(0,1);
   Check('Swap rows: [0,0]=3', Math.SameValue(A2[0,0],3,EPS));
   Check('Swap rows: [1,0]=1', Math.SameValue(A2[1,0],1,EPS));
@@ -363,38 +262,38 @@ end;
 
 procedure TestSolveLinear;
 var
-  A2: T2RealMatrix;
-  A3, Inv3, Prod3, Id3: T3RealMatrix;
-  A4: T4RealMatrix;
-  A5: T5RealMatrix;
-  A6: T6RealMatrix;
-  A7: T7RealMatrix;
-  A8: T8RealMatrix;
-  xt2, b2, x2: T2RealVector;
-  xt3, b3, x3: T3RealVector;
-  xt4, b4, x4: T4RealVector;
-  xt5, b5, x5: T5RealVector;
-  xt6, b6, x6: T6RealVector;
-  xt7, b7, x7: T7RealVector;
-  xt8, b8, x8, r8: T8RealVector;
+  A2: TRealMatrix;
+  A3, Inv3, Prod3, Id3: TRealMatrix;
+  A4: TRealMatrix;
+  A5: TRealMatrix;
+  A6: TRealMatrix;
+  A7: TRealMatrix;
+  A8: TRealMatrix;
+  xt2, b2, x2: TRealVector;
+  xt3, b3, x3: TRealVector;
+  xt4, b4, x4: TRealVector;
+  xt5, b5, x5: TRealVector;
+  xt6, b6, x6: TRealVector;
+  xt7, b7, x7: TRealVector;
+  xt8, b8, x8, r8: TRealVector;
   i, j: integer;
   Raised: boolean;
 begin
   Section('TRealMatrix - linear systems via public API');
 
-  A2.Assign([2,1, 1,3]);
-  b2.Assign([4,7]);
+  A2.Init([2,1, 1,3]);
+  b2.Init([4,7]);
   x2 := A2.SolveLinear(b2);
   CheckNear('2x2 known x[0]=1', x2[0], 1.0, EPS);
   CheckNear('2x2 known x[1]=2', x2[1], 2.0, EPS);
 
   BeginCategory('Scaled real matrix (numpy reference)');
-  A3.Assign([
+  A3.Init([
     4e-15, 1e-15, 2e-15,
     1e-15, 3e-15, 0,
     2e-15, 0,     5e-15]);
-  xt3.Assign([1, -2, 3]);
-  b3.Assign([8e-15, -5e-15, 1.7e-14]);
+  xt3.Init([1, -2, 3]);
+  b3.Init([8e-15, -5e-15, 1.7e-14]);
   x3 := A3.SolveLinear(b3);
   CmpRAbs('scaled solve x[0]', x3[0], xt3[0], 1e-14);
   CmpRAbs('scaled solve x[1]', x3[1], xt3[1], 1e-14);
@@ -415,13 +314,14 @@ begin
     for j := 0 to 2 do
       CmpRAbs('scaled inverse reconstruction', Prod3[i,j], Id3[i,j], 1e-13);
 
-  A2.Assign([1e200, -1e200, 1e-200, -1e-200]);
+  A2.Init([1e200, -1e200, 1e-200, -1e-200]);
   CmpRRel('extreme matrix Frobenius norm', A2.Norm,
     1.414213562373095e200, 1e-15);
 
   BeginCategory('Linear system forward error (random)');
 
-  A4 := A4.Null;
+  InitZeroMatrix(A4, 4);
+  InitZeroVector(xt4, 4);
   for i := 0 to 3 do
   begin
     xt4[i] := i + 1;
@@ -433,7 +333,8 @@ begin
   for i := 0 to 3 do
     CmpRRel(Format('n=4 x[%d]', [i]), x4[i], xt4[i], 1e-10);
 
-  A5 := A5.Null;
+  InitZeroMatrix(A5, 5);
+  InitZeroVector(xt5, 5);
   for i := 0 to 4 do
   begin
     xt5[i] := i + 1;
@@ -445,7 +346,8 @@ begin
   for i := 0 to 4 do
     CmpRRel(Format('n=5 x[%d]', [i]), x5[i], xt5[i], 1e-10);
 
-  A6 := A6.Null;
+  InitZeroMatrix(A6, 6);
+  InitZeroVector(xt6, 6);
   for i := 0 to 5 do
   begin
     xt6[i] := i + 1;
@@ -457,7 +359,8 @@ begin
   for i := 0 to 5 do
     CmpRRel(Format('n=6 x[%d]', [i]), x6[i], xt6[i], 1e-10);
 
-  A7 := A7.Null;
+  InitZeroMatrix(A7, 7);
+  InitZeroVector(xt7, 7);
   for i := 0 to 6 do
   begin
     xt7[i] := i + 1;
@@ -469,7 +372,8 @@ begin
   for i := 0 to 6 do
     CmpRRel(Format('n=7 x[%d]', [i]), x7[i], xt7[i], 1e-10);
 
-  A8 := A8.Null;
+  InitZeroMatrix(A8, 8);
+  InitZeroVector(xt8, 8);
   for i := 0 to 7 do
   begin
     xt8[i] := i + 1;
@@ -482,7 +386,7 @@ begin
     CmpRRel(Format('n=8 x[%d]', [i]), x8[i], xt8[i], 1e-10);
 
   BeginCategory('Linear system residual (Hilbert 8, ill-cond)');
-  A8 := A8.Null;
+  InitZeroMatrix(A8, 8);
   for i := 0 to 7 do
     for j := 0 to 7 do
       A8[i,j] := 1.0 / (i + j + 1);
@@ -496,15 +400,15 @@ begin
 
   Raised := False;
   try
-    A3.Assign([1,2,3,4]);
+    A3.Init([1,2,3]);
   except
     on EArgumentException do Raised := True;
   end;
-  Check('size mismatch represented by Assign raises EArgumentException', Raised);
+  Check('non-square Init raises EArgumentException', Raised);
 
   Raised := False;
-  A2.Assign([1,2, 2,4]);
-  b2.Assign([1,1]);
+  A2.Init([1,2, 2,4]);
+  b2.Init([1,1]);
   try
     x2 := A2.SolveLinear(b2);
   except
@@ -515,29 +419,34 @@ end;
 
 procedure TestEigenvectors;
 var
-  A2: T2RealMatrix;
-  A3: T3RealMatrix;
-  A4: T4RealMatrix;
-  A5: T5RealMatrix;
-  V2, ZA2: T2ComplexMatrix;
-  V3, ZA3: T3ComplexMatrix;
-  V4, ZA4: T4ComplexMatrix;
-  V5, ZA5: T5ComplexMatrix;
-  ev2: T2ComplexVector;
-  ev3: T3ComplexVector;
-  ev4: T4ComplexVector;
-  ev5: T5ComplexVector;
-  col2, res2: T2ComplexVector;
-  col3, res3: T3ComplexVector;
-  col4, res4: T4ComplexVector;
-  col5, res5: T5ComplexVector;
+  A2: TRealMatrix;
+  A3: TRealMatrix;
+  A4: TRealMatrix;
+  A5: TRealMatrix;
+  V2, ZA2: TComplexMatrix;
+  V3, ZA3: TComplexMatrix;
+  V4, ZA4: TComplexMatrix;
+  V5, ZA5: TComplexMatrix;
+  ev2: TComplexVector;
+  ev3: TComplexVector;
+  ev4: TComplexVector;
+  ev5: TComplexVector;
+  col2, res2: TComplexVector;
+  col3, res3: TComplexVector;
+  col4, res4: TComplexVector;
+  col5, res5: TComplexVector;
   proj: TComplex;
   i, j, k: integer;
-  offdiag: double;
+  offdiag: TReal;
 begin
   Section('TRealMatrix - Eigenvectors');
 
-  A3.Assign([4,2,1, 2,5,3, 1,3,6]);
+  InitZeroComplexVector(col2, 2);
+  InitZeroComplexVector(col3, 3);
+  InitZeroComplexVector(col4, 4);
+  InitZeroComplexVector(col5, 5);
+
+  A3.Init([4,2,1, 2,5,3, 1,3,6]);
   BeginCategory('Eigenvectors sym 3x3');
   ev3 := A3.Eigenvalues;
   V3 := A3.Eigenvectors(ev3);
@@ -560,7 +469,7 @@ begin
     for i := 0 to 2 do
       CmpRAbs(Format('sym3 Im=0 [%d,%d]', [i, j]), Abs(V3[i,j].Im), 0.0, 1e-12);
 
-  A5.Assign([
+  A5.Init([
     3.9681451856646284, -0.6470635423949582, -1.0683766715308218, 0.6550202348522072, -0.20412897125396062,
     -0.6470635423949582, 2.39008949997781, 0.07219196833991376, -0.2941787990675794, 0.712498847669345,
     -1.0683766715308218, 0.07219196833991376, 3.019026569770013, -0.23153568981902073, -0.904663136857451,
@@ -588,7 +497,7 @@ begin
     end;
   CmpRAbs('deg5 max |<vi,vj>|', offdiag, 0.0, 1e-7);
 
-  A2.Assign([0,-1, 1,0]);
+  A2.Init([0,-1, 1,0]);
   BeginCategory('Eigenvectors rotation 2x2');
   ev2 := A2.Eigenvalues;
   V2 := A2.Eigenvectors(ev2);
@@ -601,7 +510,7 @@ begin
     CmpRAbs(Format('rot2 |v|=1 col %d', [j]), col2.Norm, 1.0, 1e-9);
   end;
 
-  A4.Assign([
+  A4.Init([
     1,-2,5,0.5,
     2,1,-1,0.25,
     0,0,3,1,
@@ -622,16 +531,16 @@ end;
 
 procedure TestComplexEigenvalues;
 var
-  A2: T2RealMatrix;
-  A3: T3RealMatrix;
-  ev2: T2ComplexVector;
-  ev3: T3ComplexVector;
+  A2: TRealMatrix;
+  A3: TRealMatrix;
+  ev2: TComplexVector;
+  ev3: TComplexVector;
   i, j: integer;
   tmp: TComplex;
 begin
   Section('TRealMatrix - complex eigenvalues');
 
-  A2.Assign([0,-1, 1,0]);
+  A2.Init([0,-1, 1,0]);
   ev2 := A2.Eigenvalues;
   if ev2[0].Im > ev2[1].Im then
   begin
@@ -640,7 +549,7 @@ begin
   CheckCplxNear('rot90 eig[0] = -i', ev2[0], C(0,-1), EPS);
   CheckCplxNear('rot90 eig[1] = +i', ev2[1], C(0, 1), EPS);
 
-  A3.Assign([1,-2,5, 2,1,-1, 0,0,3]);
+  A3.Init([1,-2,5, 2,1,-1, 0,0,3]);
   ev3 := A3.Eigenvalues;
   for i := 0 to 1 do
     for j := i+1 to 2 do
@@ -656,30 +565,30 @@ end;
 
 procedure TestExceptions;
 var
-  A2, R2: T2RealMatrix;
-  A3: T3RealMatrix;
+  A2, R2: TRealMatrix;
+  A3: TRealMatrix;
   Raised: boolean;
 begin
   Section('TRealMatrix - exceptions');
 
   Raised := False;
   try
-    A2.Assign([1,2,3,4,5]);
+    A2.Init([1,2,3,4,5]);
   except
     on EArgumentException do Raised := True;
   end;
-  Check('Assign with 5 values raises EArgumentException', Raised);
+  Check('Init with 5 values raises EArgumentException', Raised);
 
   Raised := False;
   try
-    A3.Assign([1,2,3,4]);
+    A3.Init([1,2,3]);
   except
     on EArgumentException do Raised := True;
   end;
-  Check('3x3 Assign with 4 values raises EArgumentException', Raised);
+  Check('non-square Init raises EArgumentException', Raised);
 
   Raised := False;
-  A2.Assign([1,2, 2,4]);
+  A2.Init([1,2, 2,4]);
   try
     R2 := A2.Inverse;
   except
@@ -690,14 +599,14 @@ end;
 
 procedure TestRealMatrices;
 var
-  M3, G3, Inv3, Prod3, Id3: T3RealMatrix;
-  M4, H4, Inv4, Prod4, Id4: T4RealMatrix;
-  S5, D5: T5RealMatrix;
-  ev: TArrayOfDouble;
+  M3, G3, Inv3, Prod3, Id3: TRealMatrix;
+  M4, H4, Inv4, Prod4, Id4: TRealMatrix;
+  S5, D5: TRealMatrix;
+  ev: TArrayOfReal;
   i, j: integer;
 
-  procedure SortAsc(var A: TArrayOfDouble);
-  var p, q: integer; t: double;
+  procedure SortAsc(var A: TArrayOfReal);
+  var p, q: integer; t: TReal;
   begin
     for p := 0 to High(A)-1 do
       for q := p+1 to High(A) do
@@ -706,13 +615,13 @@ var
 
 begin
   // M3 = tridiagonal SPD [[2,-1,0],[-1,2,-1],[0,-1,2]]
-  M3.Assign([2,-1,0, -1,2,-1, 0,-1,2]);
+  M3.Init([2,-1,0, -1,2,-1, 0,-1,2]);
   // M4 SPD-ish
-  M4.Assign([4,1,2,0.5, 1,3,0,1, 2,0,5,1, 0.5,1,1,4]);
+  M4.Init([4,1,2,0.5, 1,3,0,1, 2,0,5,1, 0.5,1,1,4]);
   // G3 general non-symmetric
-  G3.Assign([3,2,-1, 2,-2,4, -1,0.5,-1]);
+  G3.Init([3,2,-1, 2,-2,4, -1,0.5,-1]);
   // H4 Hilbert 4x4 (ill-conditioned)
-  H4.Assign([
+  H4.Init([
     1, 1/2, 1/3, 1/4,
     1/2, 1/3, 1/4, 1/5,
     1/3, 1/4, 1/5, 1/6,
@@ -816,7 +725,7 @@ begin
 
   // -- Eigenvalues (5x5 symmetric - QR convergence stress) --
   BeginCategory('Real eigenvalues (5x5 symmetric)');
-  S5.Assign([
+  S5.Init([
     -0.14235884270194815, 0.9940954392257044, 0.058106254249750605, -0.05259808280494438, -0.443119050750149,
     0.9940954392257044, 0.7551804850779186, 0.755522308012678, 0.384873968241723, -1.053041066678274,
     0.058106254249750605, 0.755522308012678, 0.02350010848492948, -0.06194019222457631, -0.29265139847469945,
@@ -831,7 +740,7 @@ begin
 
   // -- Eigenvalues (degenerate spectrum 2,2,2,5,5) --
   BeginCategory('Real eigenvalues (degenerate)');
-  D5.Assign([
+  D5.Init([
     3.9681451856646284, -0.6470635423949582, -1.0683766715308218, 0.6550202348522072, -0.20412897125396062,
     -0.6470635423949582, 2.39008949997781, 0.07219196833991376, -0.2941787990675794, 0.712498847669345,
     -1.0683766715308218, 0.07219196833991376, 3.019026569770013, -0.23153568981902073, -0.904663136857451,
@@ -847,14 +756,14 @@ end;
 
 procedure TestLargeRealInverse;
 var
-  M5, Inv5, Prod5, Id5: T5RealMatrix;
-  M6, Inv6, Prod6, Id6: T6RealMatrix;
-  M7, Inv7, Prod7, Id7: T7RealMatrix;
-  M8, Inv8, Prod8, Id8: T8RealMatrix;
+  M5, Inv5, Prod5, Id5: TRealMatrix;
+  M6, Inv6, Prod6, Id6: TRealMatrix;
+  M7, Inv7, Prod7, Id7: TRealMatrix;
+  M8, Inv8, Prod8, Id8: TRealMatrix;
   i, j: integer;
 begin
   // --- general real matrix, order 5 #1, cond=1.63 ---
-  M5.Assign([
+  M5.Init([
     4.464600132057632, 0.6562114398235255, 0.05593869930914064, 0.8112058585830866, -0.664874906936775, 0.4715117142980525, 5.810568567370548, -0.2887185821356433,
     0.6295604388561127, 0.3315677508053454, -0.5141257122993563, 0.5687109426080146, 5.55476944777156, -0.012793148535181098, 0.17183074116486186, 0.2577061034992283,
     0.02534851804401428, -0.07966838246171459, 5.565743799499041, -0.3622834652402058, -0.335999068783676, 0.22021516675755848, 0.3336940833724975, -0.4748997191142621,
@@ -898,7 +807,7 @@ begin
     for j := 0 to 4 do
       CmpRAbs('M5*inv-I', Prod5[i,j], Id5[i,j], 1e-9);
   // --- general real matrix, order 5 #2, cond=1.88 ---
-  M5.Assign([
+  M5.Init([
     4.337154366099732, -0.6287805869624594, 0.917330432390359, 0.7127002817895094, 0.8843207336202106, 0.16954441073997573, 4.8874628592336995, -0.73470257216417,
     0.13577726480032348, -0.4090937187688306, -0.21090886786373808, 0.7394991587410129, 5.727251959888948, -0.9949531306398611, 0.8241307977342749, 0.5788244482089171,
     0.11209706807903785, -0.10565914307134316, 4.303839717458031, 0.14196753671343787, 0.23208035161269103, -0.38769686405650194, 0.048953675363139215, -0.6213240077760216,
@@ -942,7 +851,7 @@ begin
     for j := 0 to 4 do
       CmpRAbs('M5*inv-I', Prod5[i,j], Id5[i,j], 1e-9);
   // --- general real matrix, order 6 #1, cond=1.69 ---
-  M6.Assign([
+  M6.Init([
     6.696584559225658, 0.9764795662889532, 0.9173366500221565, -0.25408864396042397, -0.9237272317302081, 0.9251616408330574, 0.6483161770093875, 5.750713228492364,
     -0.6386514027296839, -0.3813109412283988, -0.2256207359992788, 0.7626090664741887, 0.11596190758196512, 0.5199661575524177, 5.756719270160521, 0.8510492250348294,
     0.9538742695287012, -0.907418381387584, 0.39859743161029315, 0.3571824226250191, 0.16319925082539233, 6.152524120501795, 0.8456291873972486, -0.04030843942427742,
@@ -998,7 +907,7 @@ begin
     for j := 0 to 5 do
       CmpRAbs('M6*inv-I', Prod6[i,j], Id6[i,j], 1e-9);
   // --- general real matrix, order 6 #2, cond=1.81 ---
-  M6.Assign([
+  M6.Init([
     6.3938768112421425, -0.1956233735108035, 0.4870507897637639, 0.648591401146299, 0.5348906261853137, -0.5767838074953968, 0.020203973647338058, 5.2619053338390325,
     -0.628862757799207, -0.8944805978443657, -0.748202160278761, 0.8708265516021823, 0.4078578056113058, -0.7654141481155421, 5.301351800072786, 0.4374342039612773,
     -0.593761458539815, -0.7040701933534241, 0.6362237219939635, 0.05125967025817446, -0.5649782082248371, 5.6717474303608615, -0.05813109913690728, 0.32613032879747217,
@@ -1054,7 +963,7 @@ begin
     for j := 0 to 5 do
       CmpRAbs('M6*inv-I', Prod6[i,j], Id6[i,j], 1e-9);
   // --- general real matrix, order 7 #1, cond=1.71 ---
-  M7.Assign([
+  M7.Init([
     7.761796611320179, 0.7262296369747705, 0.1682250352414143, 0.62747740287845, -0.1192738838009264, 0.16540932592961943, -0.8318083252134258, -0.600425358283007,
     7.500453761824895, -0.3173329617152114, 0.6304382883509747, -0.6992450821326683, -0.5535728918641762, -0.27698968603457974, -0.18442383126925677, -0.9006732140736595,
     6.425129622199651, -0.7029621652321576, 0.016824203697030526, 0.7128751910877844, 0.6254878689899319, 0.35943323759673307, 0.12064518590891504, -0.6261672641023452,
@@ -1125,7 +1034,7 @@ begin
     for j := 0 to 6 do
       CmpRAbs('M7*inv-I', Prod7[i,j], Id7[i,j], 1e-9);
   // --- general real matrix, order 7 #2, cond=1.49 ---
-  M7.Assign([
+  M7.Init([
     7.973042603552368, 0.31474999730408015, -0.013139253082802282, -0.3868546286293073, -0.42944755064894014, -0.08388653307643157, 0.17219901381645397, 0.8568714551682437,
     6.821382808643177, 0.709846860710428, -0.5667770214823447, 0.14243752785674801, -0.3290176490385808, -0.3207761578467474, 0.07263391084515036, -0.3539358679417801,
     7.390428477042728, 0.9016149451909361, -0.758500229690255, -0.06078425625812667, -0.3208555347624493, -0.02708838605907249, -0.13686331614302905, -0.5934643752423716,
@@ -1196,7 +1105,7 @@ begin
     for j := 0 to 6 do
       CmpRAbs('M7*inv-I', Prod7[i,j], Id7[i,j], 1e-9);
   // --- general real matrix, order 8 #1, cond=1.57 ---
-  M8.Assign([
+  M8.Init([
     8.679366942343949, 0.27125239148089686, 0.08364802528462456, -0.49508273295225513, -0.36640601295898234, -0.49891537143664677, -0.36205756145592227, -0.23350963973559158,
     0.32876879798033465, 7.271618350255698, -0.6764952339453238, -0.8783722194737282, 0.6477055860238636, 0.17547842607649367, -0.9076836525543805, 0.8828335002581038,
     0.5087292481362922, -0.9926669303581988, 7.818784494920059, 0.29071564603595434, 0.4672484735427591, 0.5839632753220518, -0.5710301903742667, -0.20621378430110426,
@@ -1283,7 +1192,7 @@ begin
     for j := 0 to 7 do
       CmpRAbs('M8*inv-I', Prod8[i,j], Id8[i,j], 1e-9);
   // --- general real matrix, order 8 #2, cond=1.71 ---
-  M8.Assign([
+  M8.Init([
     8.62520070811119, 0.9670855956168274, -0.14928643362077554, 0.4699234922157809, 0.8803754863392808, 0.9528370467488911, -0.6727788315143348, 0.37469264501442656,
     -0.15011099214581014, 7.369902282572006, 0.5791778267766876, 0.5632273996999897, 0.05660335590002785, -0.31878738517399197, -0.9596616502142654, -0.24301481464422414,
     -0.8136129096903901, -0.2931355700221534, 8.212837544743046, -0.7795415227822644, 0.039081031444150094, -0.013152306519579993, -0.9270280280862195, -0.5842440213809366,
@@ -1373,18 +1282,18 @@ end;
 
 procedure TestLargeRealEigen;
 var
-  M5: T5RealMatrix;
-  M6: T6RealMatrix;
-  M7: T7RealMatrix;
-  M8: T8RealMatrix;
-  M9: T9RealMatrix;
-  M10: T10RealMatrix;
-  ev: TArrayOfDouble;
-  s: double;
+  M5: TRealMatrix;
+  M6: TRealMatrix;
+  M7: TRealMatrix;
+  M8: TRealMatrix;
+  M9: TRealMatrix;
+  M10: TRealMatrix;
+  ev: TArrayOfReal;
+  s: TReal;
   i: integer;
 begin
   // --- symmetric, order 5 #1 (well-sep) ---
-  M5.Assign([
+  M5.Init([
     1.877038618100526, 0.37675191946407327, 2.2546487118191565, -0.7746835299354351, -0.030433597245280775, 0.37675191946407327, 1.3423252971070254, -1.9613643482167642,
     0.8960361461072767, 0.318857598837507, 2.2546487118191565, -1.9613643482167642, 0.9917374187508881, -1.014298552761613, -2.0494425368630704, -0.7746835299354351,
     0.8960361461072767, -1.014298552761613, 0.2460588289725014, -0.4187620819579271, -0.030433597245280775, 0.318857598837507, -2.0494425368630704, -0.4187620819579271,
@@ -1400,7 +1309,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 3.5, 1e-9);
   // --- symmetric, order 5 #2 (well-sep) ---
-  M5.Assign([
+  M5.Init([
     3.9932502297285004, 0.2774892985808819, 0.9195588924553463, 0.4854068576102204, -0.07896346913254619, 0.2774892985808819, 2.6142794805711964, -0.8256175367371235,
     0.49715476094451855, -0.971990534170303, 0.9195588924553463, -0.8256175367371235, 2.8271658623359515, 0.8987240463996049, 0.4616652277387977, 0.4854068576102204,
     0.49715476094451855, 0.8987240463996049, 2.9743108867097865, 0.5239957289859325, -0.07896346913254619, -0.971990534170303, 0.4616652277387977, 0.5239957289859325,
@@ -1416,7 +1325,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 15.0, 1e-9);
   // --- symmetric, order 6 #1 (well-sep) ---
-  M6.Assign([
+  M6.Init([
     -0.6121084908600687, 2.245343023674996, 0.16674229500224264, -0.49847519974089755, 1.5221706349740396, 0.20748750728111692, 2.245343023674996, -1.2032325169660814,
     1.5563671977822997, 3.17414482661633, -0.16417971387666466, 0.3563533913707971, 0.16674229500224264, 1.5563671977822997, 0.8012098925577938, -1.295853738177847,
     0.4276105071339328, -1.858701979390446, -0.49847519974089755, 3.17414482661633, -1.295853738177847, 2.3691910552547886, -0.5849273230609542, 2.8333598073865778,
@@ -1434,7 +1343,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 3.5, 1e-9);
   // --- symmetric, order 6 #2 (well-sep) ---
-  M6.Assign([
+  M6.Init([
     2.480402734497463, 1.441374863657384, 0.3670830522428436, 0.7575301121341951, 0.35746768233559023, -0.11114766738372994, 1.441374863657384, 3.7732825343897685,
     -0.5157016692239338, 0.6810159404958745, 0.3753263455229465, 0.6011392517099333, 0.3670830522428436, -0.5157016692239338, 2.214517669948381, -0.8059040074582409,
     -1.7958168118429223, -0.09141629028725604, 0.7575301121341951, 0.6810159404958745, -0.8059040074582409, 4.470035011193196, 1.6015415642401545, -0.5555025428202363,
@@ -1452,7 +1361,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 16.000000000000004, 1e-9);
   // --- symmetric, order 7 #1 (well-sep) ---
-  M7.Assign([
+  M7.Init([
     3.2520735001205017, -0.2696725535453295, 1.1041108958273742, 0.5646037366301281, 1.5689608399073425, 0.31320424819472037, -1.0411975754057115, -0.2696725535453295,
     -0.025820031670374603, 0.18342177521235087, 1.6555473386903283, 1.1892624677715125, 0.04966500873481965, -0.7042812467242934, 1.1041108958273742, 0.18342177521235087,
     -1.9189221712118987, 0.23460451276070493, -1.7873327766661153, 0.18678090684145948, 1.4373698918714344, 0.5646037366301281, 1.6555473386903283, 0.23460451276070493,
@@ -1473,7 +1382,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 2.999999999999997, 1e-9);
   // --- symmetric, order 8 #1 (well-sep) ---
-  M8.Assign([
+  M8.Init([
     4.440492093761296, -0.5454288725648272, 0.3853181859508925, -2.353027573744856, -2.627915472288499, 1.011306746322341, -0.7604210009826493, -0.3647430530025336,
     -0.5454288725648272, 4.6398238597801855, 0.0327703018616899, 1.6246084553179005, -1.7520692949355055, 1.2393644689067043, 1.020423820415878, -3.464091226299134,
     0.3853181859508925, 0.0327703018616899, 1.855397063999697, -1.4949978181169263, -1.1127550162283368, 2.8139822466746596, -1.3115345471815423, 1.688208744649234,
@@ -1496,7 +1405,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 13.499999999999996, 1e-9);
   // --- symmetric, order 9 #1 (well-sep) ---
-  M9.Assign([
+  M9.Init([
     -2.1352440038441967, -1.7405590219081462, 0.8792406557675978, -0.9695225716054277, -0.38956707785332645, 1.9933941415576224, -0.5532805878382351, 0.46931932035332147,
     -1.274780028823254, -1.7405590219081462, 4.667718563997424, -1.5358536472297188, 0.21657323489559638, -2.931080535769775, 1.4985118224916594, -0.8958563312137127,
     -0.40206836706182497, 0.049931731120945386, 0.8792406557675978, -1.5358536472297188, 1.777795463127532, -3.2430867234553773, 1.8345414025835458, 0.6856224932698044,
@@ -1523,7 +1432,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 4.500000000000007, 1e-9);
   // --- symmetric, order 10 #1 (well-sep) ---
-  M10.Assign([
+  M10.Init([
     3.5372119616224236, -2.0666971385722905, -0.7453494093768062, 2.740017630525798, 1.0240776930748223, 0.6531414288645745, -0.15100637549321372, 0.07366019052116873,
     0.8352507132149899, 4.601335885933053, -2.0666971385722905, 0.5818237434601758, -0.1576032927379089, 1.417181231577184, 2.1355865446663893, -2.3327371950176143,
     -5.413265153926185, 3.474044333611415, -0.35964769015022224, -0.4899815102322837, -0.7453494093768062, -0.1576032927379089, 2.6433903823467007, -1.8007475944525866,
@@ -1553,7 +1462,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 5.9999999999999964, 1e-9);
   // --- symmetric, order 6 #1 (clustered) ---
-  M6.Assign([
+  M6.Init([
     5.925050384913917, 1.2444925064804988, 1.623658325214669, 1.933493081770353, 0.6126905229278468, -1.756737547541638, 1.2444925064804988, 4.182060953292831,
     0.5071489557957389, -0.30710418490074437, -0.33901022161070726, 0.5699465652864619, 1.623658325214669, 0.5071489557957389, 3.020248780456357, 0.2654730321941132,
     -0.16348519174606854, -1.4199277376151365, 1.933493081770353, -0.30710418490074437, 0.2654730321941132, 4.257386600341189, 1.223724799808677, -0.38240217218546535,
@@ -1571,7 +1480,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 24.999999999999993, 1e-8);
   // --- symmetric, order 6 #2 (clustered) ---
-  M6.Assign([
+  M6.Init([
     3.062741796832745, -0.6669652865785141, 0.012600730538453758, -0.37761777800404034, -0.6976079886566673, 0.9416954189854538, -0.6669652865785141, 1.5922323950700792,
     -1.2631339799846288, 0.6038806167982181, 0.2997387318667559, 0.053088260834368114, 0.012600730538453758, -1.2631339799846288, 5.5031842472011006, -2.4582054425155304,
     0.4035731119675662, -0.9322854776390861, -0.37761777800404034, 0.6038806167982181, -2.4582054425155304, 4.124065238114904, -1.6707478937678157, -0.4593295127566775,
@@ -1589,7 +1498,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 19.0003, 1e-8);
   // --- symmetric, order 8 #1 (clustered) ---
-  M8.Assign([
+  M8.Init([
     6.234978496224475, -2.1760849770907154, 0.5177758267409841, 0.1889409563020285, -0.06602061550096633, -1.930319749289369, 0.7714197854685676, -1.3871552850974478,
     -2.1760849770907154, 5.219583570499929, -0.4448344735665426, 0.0016726506529782157, 0.9260476248057818, 0.10064770336902626, -0.05026372270939565, 0.3445287836910894,
     0.5177758267409841, -0.4448344735665426, 4.024392222750218, -1.266214382507782, -0.8401029540159997, -0.9557152762733626, 0.9648564013872885, -0.18228195617170495,
@@ -1612,7 +1521,7 @@ begin
   s := 0; for i := 0 to High(ev) do s := s + ev[i];
   CmpRRel('sum=trace', s, 44.000000000000014, 1e-8);
   // --- symmetric, order 10 #1 (clustered) ---
-  M10.Assign([
+  M10.Init([
     2.4632029036275154, -0.8429906947748914, -0.5414650807133667, -0.01442687364489214, 0.4937673455536109, 0.8561820450313145, 0.45727095536309414, -2.269225303109905,
     0.24940046583090875, 0.9301344410516985, -0.8429906947748914, 2.642856253965738, 0.3580701180276382, 0.05741344697224389, -0.6395161475353561, -1.5327416181828615,
     -0.12656613463008237, -0.12882801474238215, -1.2433167093981974, -0.8499527814961385, -0.5414650807133667, 0.3580701180276382, 5.12925135199565, -0.30094835297882305,
@@ -1645,22 +1554,22 @@ end;
 
 procedure TestEigenvaluesBeyondOrder10;
 var
-  M12, D12, Q12: T12RealMatrix;
-  M16: T16RealMatrix;
-  M24: T24RealMatrix;
-  M32, D32, Q32: T32RealMatrix;
-  M64: T64RealMatrix;
-  V12: T12ComplexMatrix;
-  E12: T12ComplexVector;
-  E16: T16ComplexVector;
-  E24: T24ComplexVector;
-  E32: T32ComplexVector;
-  E64: T64ComplexVector;
-  Actual: TArrayOfDouble;
+  M12, D12, Q12: TRealMatrix;
+  M16: TRealMatrix;
+  M24: TRealMatrix;
+  M32, D32, Q32: TRealMatrix;
+  M64: TRealMatrix;
+  V12: TComplexMatrix;
+  E12: TComplexVector;
+  E16: TComplexVector;
+  E24: TComplexVector;
+  E32: TComplexVector;
+  E64: TComplexVector;
+  Actual: TArrayOfReal;
   Used: array of boolean;
   Expected, Sum, Dot: TComplex;
-  Scale, URow, UCol, SumU2, CAngle, SAngle, X, Y: double;
-  Err, BestErr, RNorm, VNorm, ANorm, MaxOrthogonality: double;
+  Scale, URow, UCol, SumU2, CAngle, SAngle, X, Y: TReal;
+  Err, BestErr, RNorm, VNorm, ANorm, MaxOrthogonality: TReal;
   i, j, k, p, pass, PairIndex, SignIndex, BestIndex: integer;
   AllFinite: boolean;
 
@@ -1668,7 +1577,7 @@ var
   var
     ii: integer;
   begin
-    M12 := M12.Null;
+    InitZeroMatrix(M12, 12);
     for ii := 0 to 11 do
     begin
       M12[ii,ii] := 2;
@@ -1700,7 +1609,7 @@ var
   var
     ii: integer;
   begin
-    M16 := M16.Null;
+    InitZeroMatrix(M16, 16);
     for ii := 0 to 15 do
     begin
       M16[ii,ii] := 2;
@@ -1732,7 +1641,7 @@ var
   var
     ii: integer;
   begin
-    M24 := M24.Null;
+    InitZeroMatrix(M24, 24);
     for ii := 0 to 23 do
     begin
       M24[ii,ii] := 2;
@@ -1764,7 +1673,7 @@ var
   var
     ii: integer;
   begin
-    M32 := M32.Null;
+    InitZeroMatrix(M32, 32);
     for ii := 0 to 31 do
     begin
       M32[ii,ii] := 2;
@@ -1796,7 +1705,7 @@ var
   var
     ii: integer;
   begin
-    M64 := M64.Null;
+    InitZeroMatrix(M64, 64);
     for ii := 0 to 63 do
     begin
       M64[ii,ii] := 2;
@@ -1835,6 +1744,7 @@ begin
   { Dense order-32 symmetric matrix Q*D*Q^T with a known, well-separated
     spectrum.  Unlike the Toeplitz cases, this exercises the complete
     Householder reduction before QR iteration. }
+  InitZeroMatrix(Q32, 32);
   Q32 := Q32.Identity;
   for pass := 0 to 4 do
     for p := 0 to 31 do
@@ -1851,7 +1761,7 @@ begin
         Q32[i,j] := SAngle * X + CAngle * Y;
       end;
     end;
-  D32 := D32.Null;
+  InitZeroMatrix(D32, 32);
   for i := 0 to 31 do D32[i,i] := (i - 15.5) / 2;
   M32 := Q32 * D32 * Q32.Transpose;
   E32 := M32.Eigenvalues;
@@ -1880,7 +1790,7 @@ begin
     URow := (i + 1) / 12;
     SumU2 := SumU2 + Sqr(URow);
   end;
-  M12 := M12.Null;
+  InitZeroMatrix(M12, 12);
   for i := 0 to 11 do
   begin
     URow := (i + 1) / 12;
@@ -1910,6 +1820,7 @@ begin
 
   { Dense real normal matrix Q*D*Q^T with six known complex-conjugate
     eigenvalue pairs. }
+  InitZeroMatrix(Q12, 12);
   Q12 := Q12.Identity;
   for pass := 0 to 2 do
     for p := 0 to 10 do
@@ -1924,7 +1835,7 @@ begin
         Q12[i,p+1] := SAngle * X + CAngle * Y;
       end;
     end;
-  D12 := D12.Null;
+  InitZeroMatrix(D12, 12);
   for PairIndex := 0 to 5 do
   begin
     X := PairIndex - 2.5;
@@ -2000,13 +1911,14 @@ end;
 
 procedure TestEigenvaluesOrder100;
 var
-  M: T100RealMatrix;
-  E: T100ComplexVector;
-  Actual: TArrayOfDouble;
+  M: TRealMatrix;
+  E: TComplexVector;
+  Actual: TArrayOfReal;
   i: integer;
   AllFinite: boolean;
 begin
   Section('TRealMatrix - opt-in eigenvalue stress order 100');
+  InitZeroMatrix(M, 100);
   for i := 0 to 99 do
   begin
     M[i,i] := 2;
@@ -2037,9 +1949,9 @@ end;
 
 procedure TestEigenvaluesOrder1000;
 var
-  M: T1000RealMatrix;
-  E: T1000ComplexVector;
-  Actual: TArrayOfDouble;
+  M: TRealMatrix;
+  E: TComplexVector;
+  Actual: TArrayOfReal;
   i: integer;
   AllFinite: boolean;
 begin
@@ -2047,6 +1959,7 @@ begin
   { A diagonal matrix is deliberately the cheapest possible spectral case.
     It establishes the minimum overhead of the current Hessenberg pipeline
     before attempting dense matrices of this order. }
+  InitZeroMatrix(M, 1000);
   for i := 0 to 999 do M[i,i] := i + 1;
 
   E := M.Eigenvalues;
@@ -2068,24 +1981,24 @@ end;
 
 procedure TestLargeRealProducts;
 var
-  A5, B5, P5: T5RealMatrix;
-  A6, B6, P6: T6RealMatrix;
-  A7, B7, P7: T7RealMatrix;
-  A8, B8, P8: T8RealMatrix;
-  u5, w5: T5RealVector;
-  u6, w6: T6RealVector;
-  u7, w7: T7RealVector;
-  u8, w8: T8RealVector;
+  A5, B5, P5: TRealMatrix;
+  A6, B6, P6: TRealMatrix;
+  A7, B7, P7: TRealMatrix;
+  A8, B8, P8: TRealMatrix;
+  u5, w5: TRealVector;
+  u6, w6: TRealVector;
+  u7, w7: TRealVector;
+  u8, w8: TRealVector;
   i, j: integer;
 begin
   // --- matrix product, order 5 ---
-  A5.Assign([
+  A5.Init([
     1.3558487040494454, -0.5777679637967572, -0.33083337758644094, -0.5947293810985288, -0.7805181361650892, 1.1993938145972192, 0.4091665052072475, 0.21204617419477811,
     1.6147056386372305, -0.07320837299860061, 1.8457342583287062, 0.61361494065275, 1.2323497586835863, 0.14875922860718127, 0.4863270871351921, 1.7076922888633321,
     1.0812578613868715, 1.3505324440275208, -1.5496062327209938, 1.2864224332968024, -1.104327978118632, 1.7264675641597758, 1.9394922228907352, -1.5964804996369848,
     -0.5713671999295311
   ]);
-  B5.Assign([
+  B5.Init([
     -0.00014634534230806295, -0.8363134325210688, -0.2394306562828339, 1.0711872778573164, -1.0595070780430849, -1.6417304168427687, -1.4546797738795125, 1.7601526917350685,
     1.2420245757001829, 0.9124121862492349, 1.3008406768312168, -1.282658211653449, 1.4971648952131944, 0.20296954845279824, -1.610700000695224, 1.8668500938903985,
     1.7663266448536712, -1.3064396290184623, -1.66703056830623, -0.2433591097412915, 1.3351474293293175, -1.6461050202011287, 0.09872400625694855, 1.7137102824026789,
@@ -2118,7 +2031,7 @@ begin
   CmpRRel('AB[4,2]', P5[4,2], 8.236293906112662, 1e-11);
   CmpRRel('AB[4,3]', P5[4,3], 3.0372548728537407, 1e-11);
   CmpRRel('AB[4,4]', P5[4,4], 0.3344901465749805, 1e-11);
-  u5.Assign([1.424954195784542, -1.7977301165340287, 1.910423984247195, -1.6741566519831728, 0.19931017979268129]);
+  u5.Init([1.424954195784542, -1.7977301165340287, 1.910423984247195, -1.6741566519831728, 0.19931017979268129]);
   BeginCategory('Real matrix*vector order 5 (vs numpy)');
   w5 := A5 * u5;
   CmpRRel('Au[0]', w5[0], 3.1787660886850437, 1e-11);
@@ -2134,14 +2047,14 @@ begin
   CmpRRel('uA[3]', w5[3], -1.1899851176126044, 1e-11);
   CmpRRel('uA[4]', w5[4], -2.3190547379500037, 1e-11);
   // --- matrix product, order 6 ---
-  A6.Assign([
+  A6.Init([
     0.6203045512449648, -1.1567275206419465, 0.4868410472493241, 0.8838748568447024, -1.6123830780717783, 1.0754412780834972, 1.9133504776627883, 1.9368413686450974,
     1.4607312165713364, -1.5837222537744298, 0.5528199793058337, 0.5011911169313752, -1.465989277644602, 1.1293172499549264, 0.9603097115639856, 0.01946917325047348,
     -0.45378692629771056, 1.5579969604587753, 0.030729062327908174, -0.8209594812499428, -0.1682618531882496, 0.2301721489158406, -0.07537106382295011, 1.527843602905461,
     0.3757351723598621, -0.5976901242179271, -1.870935934727469, -0.9113991199840847, 0.10150497680087778, -0.7701884114756421, -0.9861588960800529, 1.0756739618683655,
     0.24247412137973345, 0.46923767265645866, 1.579736565003199, -0.21295820474820504
   ]);
-  B6.Assign([
+  B6.Init([
     -1.364683497343325, -0.4932600835011254, 1.3472809043693528, 0.5661806262479132, -0.1775783931713235, 0.1679780656861447, 1.310041635965408, -1.7449387659873303,
     -1.574098603048812, 0.602983393160855, 0.2643908574176139, 0.23155923004182766, 0.005626960489368393, 0.25123182639219754, -0.40052930062621916, 1.2903467252811276,
     0.35194487594853197, 1.8500623266125125, -0.2410236256484546, 0.9460013057165715, -1.717348137636654, 0.903537178408949, -1.7808169212511231, -0.6193290195631387,
@@ -2186,7 +2099,7 @@ begin
   CmpRRel('AB[5,3]', P6[5,3], -0.9017619633786438, 1e-11);
   CmpRRel('AB[5,4]', P6[5,4], 1.0423487863930165, 1e-11);
   CmpRRel('AB[5,5]', P6[5,5], -0.6358903820432925, 1e-11);
-  u6.Assign([-0.9978385936001821, -0.9465489884754725, -0.021353216666806674, 1.9213123665494587, -1.4501551569676479, -1.1181019199046665]);
+  u6.Init([-0.9978385936001821, -0.9465489884754725, -0.021353216666806674, 1.9213123665494587, -1.4501551569676479, -1.1181019199046665]);
   BeginCategory('Real matrix*vector order 6 (vs numpy)');
   w6 := A6 * u6;
   CmpRRel('Au[0]', w6[0], 3.2994921920642293, 1e-11);
@@ -2204,7 +2117,7 @@ begin
   CmpRRel('uA[4]', w6[4], -0.9629991275376699, 1e-11);
   CmpRRel('uA[5]', w6[5], 2.7096794788926775, 1e-11);
   // --- matrix product, order 7 ---
-  A7.Assign([
+  A7.Init([
     0.5373998529336239, -0.4115961189684323, -0.03258735795364753, -0.6215403050438351, -1.7850752548612308, -0.819909640538925, -1.3439304158633534, 0.1310483993327427,
     1.9464828546550974, -0.7091661311084407, -1.2831479751443071, 1.1717018638009127, -0.3125314388970266, -1.7564287205127878, 1.60985552538685, -0.803369737673501,
     0.47392506755082, 1.7545520138442643, 1.256790950595176, 1.6982206245365323, -0.8415766185083586, -1.4643325803172136, -0.41277327975010225, 0.3138237926674887,
@@ -2213,7 +2126,7 @@ begin
     -0.4739319563843871, 0.9624611424825678, -1.3631708271908192, 0.03161746541379662, -1.4268518214296684, 0.3796095276420699, -1.0288993713732424, 0.6032068789596456,
     -1.6730678529067795
   ]);
-  B7.Assign([
+  B7.Init([
     -1.8024253854372367, 0.06290293718821172, 1.0169055089201282, 0.22976391342389846, 1.362762194499298, 0.9373000638141256, -0.8658562963948127, 0.45695925514318425,
     0.7917315106346501, 1.5552022846319442, 1.605279965897381, 0.3391444419013907, 0.3170481862600618, -1.6515137933618185, 0.46742521969403317, 0.9046115818956677,
     0.31919856896240795, -1.23134460840771, -0.654462563976943, -0.40485754927161866, 1.7681891024471965, -1.5879921913740604, 0.8518342905255158, 0.49881004656100725,
@@ -2273,7 +2186,7 @@ begin
   CmpRRel('AB[6,4]', P7[6,4], -2.0404987032971134, 1e-11);
   CmpRRel('AB[6,5]', P7[6,5], -5.6506004727726165, 1e-11);
   CmpRRel('AB[6,6]', P7[6,6], 0.5896030294073081, 1e-11);
-  u7.Assign([-0.701614436224661, -1.66823687693759, -1.8471983871387563, -1.2278061957446877, -0.32865101494560234, 1.1786932958954432, -0.28409487131106514]);
+  u7.Init([-0.701614436224661, -1.66823687693759, -1.8471983871387563, -1.2278061957446877, -0.32865101494560234, 1.1786932958954432, -0.28409487131106514]);
   BeginCategory('Real matrix*vector order 7 (vs numpy)');
   w7 := A7 * u7;
   CmpRRel('Au[0]', w7[0], 1.13496721798212, 1e-11);
@@ -2293,7 +2206,7 @@ begin
   CmpRRel('uA[5]', w7[5], -3.2011924204143294, 1e-11);
   CmpRRel('uA[6]', w7[6], 8.26527338690053, 1e-11);
   // --- matrix product, order 8 ---
-  A8.Assign([
+  A8.Init([
     0.7867892889901378, -1.4651139088060887, 0.3820827243948717, 1.6767096642265646, 0.7054678854683609, 0.16364307982053639, -1.0024075528722212, 1.9933619139561802,
     0.1353146904349316, 1.4385096719506612, 0.23354300810601147, -1.470912362310251, 0.05814087372759902, 0.44307542419613943, -0.6073770901995275, 0.22684685507142532,
     1.3741257027591542, 1.93165910059616, -1.5912755204527147, 1.6394475758430431, -0.9039176107131439, 1.9091613408443902, 0.38346121459227733, -0.1255524906811556,
@@ -2303,7 +2216,7 @@ begin
     -0.21038189362673654, -0.67637492528833, -0.38226175878112967, -0.23662627171695627, -1.0953140015774832, 0.7085627325982204, 1.7047738933184728, 0.6562982541872655,
     -1.5534668374955785, 1.804626878061788, 0.33817571635233623, 0.18679957236241496, -1.1695559241999005, 0.4683967580204045, 0.8573374097408912, 0.5615451122151369
   ]);
-  B8.Assign([
+  B8.Init([
     -0.30162193701584483, 1.1781078027639786, 0.8633567243840115, -0.08654728576283688, -1.3774519150125544, -1.1327618933945391, -0.3638953049063396, -0.9628284933136468,
     -0.298741355779351, 1.9243745945614652, 0.08153293020065888, -0.802684546117018, -1.274396674383023, 1.2966798426727508, 1.3609109939840254, -1.7848452042049634,
     1.2443993604772978, 1.2759548699563283, 1.5342603167479747, 1.0618913701115473, 1.0610128183808625, -1.0846912347707058, 1.2815711276150061, -1.2512045273595356,
@@ -2379,7 +2292,7 @@ begin
   CmpRRel('AB[7,5]', P8[7,5], 4.365385973147889, 1e-11);
   CmpRRel('AB[7,6]', P8[7,6], 5.216079289224521, 1e-11);
   CmpRRel('AB[7,7]', P8[7,7], -0.09612544195492402, 1e-11);
-  u8.Assign([0.9070925915762484, -1.7460064414572276, 0.3285849551813822, 1.3473516677568789, -1.7461546500740175, -1.9228393747001915, -1.4973236931843341, -1.6694871356591952]);
+  u8.Init([0.9070925915762484, -1.7460064414572276, 0.3285849551813822, 1.3473516677568789, -1.7461546500740175, -1.9228393747001915, -1.4973236931843341, -1.6694871356591952]);
   BeginCategory('Real matrix*vector order 8 (vs numpy)');
   w8 := A8 * u8;
   CmpRRel('Au[0]', w8[0], 2.282974375844187, 1e-11);

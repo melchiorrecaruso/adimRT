@@ -69,7 +69,7 @@ begin
   Check('Zero sets Re=0', Math.SameValue(z1.Re, 0, EPS));
   Check('Zero sets Im=0', Math.SameValue(z1.Im, 0, EPS));
 
-  // Assignment from double
+  // Assignment from TReal
   zr := 5.0;
   Check(':=(5.0) sets Re=5', Math.SameValue(zr.Re, 5, EPS));
   Check(':=(5.0) sets Im=0', Math.SameValue(zr.Im, 0, EPS));
