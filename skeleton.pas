@@ -4121,6 +4121,134 @@ begin
   result := AValue * FahrenheitDegreesPerKelvin;
 end;
 
+function FormatPrefixTemplate(const ATemplate: string;
+  const APrefixes: TPrefixes; const AUseSymbols: boolean): string;
+
+  function PrefixText(const AIndex: longint): string; inline;
+  begin
+    if AUseSymbols then
+      result := PrefixTable[APrefixes[AIndex]].Symbol
+    else
+      result := PrefixTable[APrefixes[AIndex]].Name;
+  end;
+
+begin
+  case Length(APrefixes) of
+    0: result := ATemplate;
+    1: result := Format(ATemplate, [PrefixText(0)]);
+    2: result := Format(ATemplate, [PrefixText(0), PrefixText(1)]);
+    3: result := Format(ATemplate, [PrefixText(0), PrefixText(1),
+         PrefixText(2)]);
+    4: result := Format(ATemplate, [PrefixText(0), PrefixText(1),
+         PrefixText(2), PrefixText(3)]);
+    5: result := Format(ATemplate, [PrefixText(0), PrefixText(1),
+         PrefixText(2), PrefixText(3), PrefixText(4)]);
+    6: result := Format(ATemplate, [PrefixText(0), PrefixText(1),
+         PrefixText(2), PrefixText(3), PrefixText(4), PrefixText(5)]);
+    7: result := Format(ATemplate, [PrefixText(0), PrefixText(1),
+         PrefixText(2), PrefixText(3), PrefixText(4), PrefixText(5),
+         PrefixText(6)]);
+  else
+    raise Exception.Create('Wrong number of prefixes.');
+  end;
+end;
+
+function FormatUnitText(const ATemplate: string; const APrefixes,
+  ADefaultPrefixes: TPrefixes; const AUseSymbols: boolean): string;
+var
+  LPrefixes: TPrefixes;
+begin
+  LPrefixes := APrefixes;
+  if Length(LPrefixes) = 0 then
+    LPrefixes := ADefaultPrefixes
+  else if Length(LPrefixes) <> Length(ADefaultPrefixes) then
+    raise Exception.Create('Wrong number of prefixes.');
+  result := FormatPrefixTemplate(ATemplate, LPrefixes, AUseSymbols);
+end;
+
+function FormatAffineUnitText(const ATemplate: string;
+  const APrefixes: TPrefixes; const AUseSymbols: boolean): string;
+begin
+  if Length(APrefixes) > 1 then
+    raise Exception.Create('Wrong number of prefixes.');
+  result := FormatPrefixTemplate(ATemplate, APrefixes, AUseSymbols);
+end;
+
+function PrefixScale(const AUnitPrefixes: TPrefixes;
+  const AExponents: TExponents; const APrefixes: TPrefixes): TReal;
+var
+  I: longint;
+  LExponent: longint;
+begin
+  if Length(APrefixes) = 0 then Exit(1);
+  if Length(APrefixes) <> Length(AUnitPrefixes) then
+    raise Exception.Create('Wrong number of prefixes.');
+
+  LExponent := 0;
+  for I := 0 to High(APrefixes) do
+    Inc(LExponent, (PrefixTable[AUnitPrefixes[I]].Exponent -
+      PrefixTable[APrefixes[I]].Exponent) * AExponents[I]);
+
+  if LExponent = 0 then
+    result := 1
+  else
+    result := IntPower(10, LExponent);
+end;
+
+function FormatCompactValue(const AValue: TReal;
+  const AUnitSymbol: string): string; inline;
+begin
+  result := FloatToStr(AValue) + ' ' + AUnitSymbol;
+end;
+
+function FormatCompactValueWithPrecision(const AValue: TReal;
+  const APrecision, ADigits: longint; const AUnitSymbol: string): string; inline;
+begin
+  result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' +
+    AUnitSymbol;
+end;
+
+function FormatCompactTolerance(const AValue, ATolerance: TReal;
+  const APrecision, ADigits: longint; const AUnitSymbol: string): string; inline;
+begin
+  result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+    FloatToStrF(ATolerance, ffGeneral, APrecision, ADigits) + ' ' + AUnitSymbol;
+end;
+
+function FormatVerboseValue(const AValue: TReal; const AUnitName,
+  AUnitPluralName: string): string; inline;
+begin
+  if UseSingularUnitName(AValue) then
+    result := FloatToStr(AValue) + ' ' + AUnitName
+  else
+    result := FloatToStr(AValue) + ' ' + AUnitPluralName;
+end;
+
+function FormatVerboseValueWithPrecision(const AValue: TReal;
+  const APrecision, ADigits: longint; const AUnitName,
+  AUnitPluralName: string): string; inline;
+begin
+  if UseSingularUnitName(AValue) then
+    result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' + AUnitName
+  else
+    result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ' +
+      AUnitPluralName;
+end;
+
+function FormatVerboseTolerance(const AValue, ATolerance: TReal;
+  const APrecision, ADigits: longint; const AUnitName,
+  AUnitPluralName: string): string; inline;
+var
+  LUnitText: string;
+begin
+  if UseSingularUnitName(AValue) then
+    LUnitText := AUnitName
+  else
+    LUnitText := AUnitPluralName;
+  result := FloatToStrF(AValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+    FloatToStrF(ATolerance, ffGeneral, APrecision, ADigits) + ' ' + LUnitText;
+end;
+
 {$IFNDEF ADIMOFF}
 
 { FPC 3.2.2 does not resolve ADimMath helpers through a field of a generic
@@ -7357,178 +7485,22 @@ end;
 
 function TUnitHelper.GetName(Prefixes: TPrefixes): string;
 begin
-  if Length(Prefixes) = 0 then
-  begin
-    Prefixes := FPrefixes;
-  end else
-    if Length(Prefixes) <> Length(FPrefixes) then
-      raise Exception.Create('Wrong number of prefixes.');
-
-  case Length(Prefixes) of
-    0: result := FName;
-    1: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name]);
-    2: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name]);
-    3: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name]);
-    4: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name]);
-    5: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name]);
-    6: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name,
-         PrefixTable[Prefixes[5]].Name]);
-    7: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name,
-         PrefixTable[Prefixes[5]].Name,
-         PrefixTable[Prefixes[6]].Name]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
+  result := FormatUnitText(FName, Prefixes, FPrefixes, False);
 end;
 
 function TUnitHelper.GetPluralName(Prefixes: TPrefixes): string;
 begin
-  if Length(Prefixes) = 0 then
-  begin
-    Prefixes := FPrefixes;
-  end else
-    if Length(Prefixes) <> Length(FPrefixes) then
-      raise Exception.Create('Wrong number of prefixes.');
-
-  case Length(Prefixes) of
-    0: result := FPluralName;
-    1: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name]);
-    2: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name]);
-    3: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name]);
-    4: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name]);
-    5: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name]);
-    6: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name,
-         PrefixTable[Prefixes[5]].Name]);
-    7: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name,
-         PrefixTable[Prefixes[5]].Name,
-         PrefixTable[Prefixes[6]].Name]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
+  result := FormatUnitText(FPluralName, Prefixes, FPrefixes, False);
 end;
 
 function TUnitHelper.GetSymbol(Prefixes: TPrefixes): string;
 begin
-  if Length(Prefixes) = 0 then
-  begin
-    Prefixes := FPrefixes;
-  end else
-    if Length(Prefixes) <> Length(FPrefixes) then
-      raise Exception.Create('Wrong number of prefixes.');
-
-  case Length(Prefixes) of
-    0: result := FSymbol;
-    1: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol]);
-    2: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol]);
-    3: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol]);
-    4: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol,
-         PrefixTable[Prefixes[3]].Symbol]);
-    5: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol,
-         PrefixTable[Prefixes[3]].Symbol,
-         PrefixTable[Prefixes[4]].Symbol]);
-    6: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol,
-         PrefixTable[Prefixes[3]].Symbol,
-         PrefixTable[Prefixes[4]].Symbol,
-         PrefixTable[Prefixes[5]].Symbol]);
-    7: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol,
-         PrefixTable[Prefixes[3]].Symbol,
-         PrefixTable[Prefixes[4]].Symbol,
-         PrefixTable[Prefixes[5]].Symbol,
-         PrefixTable[Prefixes[6]].Symbol]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
+  result := FormatUnitText(FSymbol, Prefixes, FPrefixes, True);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
-var
-  I: longint;
-  Exponent: longint;
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(APrefixes);
-  if PrefixCount = Length(FPrefixes) then
-  begin
-    Exponent := 0;
-    for I := 0 to PrefixCount -1 do
-      Inc(Exponent, (PrefixTable[FPrefixes[I]].Exponent -
-        PrefixTable[APrefixes[I]].Exponent) * FExponents[I]);
-
-    if Exponent <> 0 then
-      result := AQuantity * IntPower(10, Exponent)
-    else
-      result := AQuantity;
-
-  end else
-    if PrefixCount = 0 then
-      result := AQuantity
-    else
-      raise Exception.Create('Wrong number of prefixes.');
+  result := AQuantity * PrefixScale(FPrefixes, FExponents, APrefixes);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
@@ -7600,9 +7572,9 @@ function TUnitHelper.ToString(const AQuantity: TRealQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := FloatToStr(AQuantity.FValue) + ' ' + GetSymbol(FPrefixes);
+  result := FormatCompactValue(AQuantity.FValue, GetSymbol(FPrefixes));
 {$ELSE}
-  result := FloatToStr(AQuantity) + ' ' + GetSymbol(FPrefixes);
+  result := FormatCompactValue(AQuantity, GetSymbol(FPrefixes));
 {$ENDIF}
 end;
 
@@ -7617,10 +7589,7 @@ begin
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
+  result := FormatCompactValue(FactoredValue, GetSymbol(APrefixes));
 end;
 
 function TUnitHelper.ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -7634,10 +7603,8 @@ begin
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
+  result := FormatCompactValueWithPrecision(FactoredValue, APrecision,
+    ADigits, GetSymbol(APrefixes));
 end;
 
 function TUnitHelper.ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -7655,30 +7622,19 @@ begin
   FactoredTol   := GetValue(ATolerance, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
-  end else
-  begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
-  end;
+  result := FormatCompactTolerance(FactoredValue, FactoredTol, APrecision,
+    ADigits, GetSymbol(APrefixes));
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TRealQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  if UseSingularUnitName(AQuantity.FValue) then
-    result := FloatToStr(AQuantity.FValue) + ' ' + GetName(FPrefixes)
-  else
-    result := FloatToStr(AQuantity.FValue) + ' ' + GetPluralName(FPrefixes);
+  result := FormatVerboseValue(AQuantity.FValue, GetName(FPrefixes),
+    GetPluralName(FPrefixes));
 {$ELSE}
-  if UseSingularUnitName(AQuantity) then
-    result := FloatToStr(AQuantity) + ' ' + GetName(FPrefixes)
-  else
-    result := FloatToStr(AQuantity) + ' ' + GetPluralName(FPrefixes);
+  result := FormatVerboseValue(AQuantity, GetName(FPrefixes),
+    GetPluralName(FPrefixes));
 {$ENDIF}
 end;
 
@@ -7693,19 +7649,8 @@ begin
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(FPRefixes)
-    else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPRefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
-    else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
-  end;
+  result := FormatVerboseValue(FactoredValue, GetName(APrefixes),
+    GetPluralName(APrefixes));
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -7719,19 +7664,8 @@ begin
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPRefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPRefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
-  end;
+  result := FormatVerboseValueWithPrecision(FactoredValue, APrecision,
+    ADigits, GetName(APrefixes), GetPluralName(APrefixes));
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -7749,23 +7683,8 @@ begin
   FactoredTol   := GetValue(ATolerance, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(APrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
-  end;
+  result := FormatVerboseTolerance(FactoredValue, FactoredTol, APrecision,
+    ADigits, GetName(APrefixes), GetPluralName(APrefixes));
 end;
 
 function TUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
@@ -8360,178 +8279,22 @@ end;
 
 function TFactoredUnitHelper.GetName(Prefixes: TPrefixes): string;
 begin
-  if Length(Prefixes) = 0 then
-  begin
-    Prefixes := FPrefixes;
-  end else
-    if Length(Prefixes) <> Length(FPrefixes) then
-      raise Exception.Create('Wrong number of prefixes.');
-
-  case Length(Prefixes) of
-    0: result := FName;
-    1: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name]);
-    2: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name]);
-    3: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name]);
-    4: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name]);
-    5: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name]);
-    6: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name,
-         PrefixTable[Prefixes[5]].Name]);
-    7: result := Format(FName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name,
-         PrefixTable[Prefixes[5]].Name,
-         PrefixTable[Prefixes[6]].Name]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
+  result := FormatUnitText(FName, Prefixes, FPrefixes, False);
 end;
 
 function TFactoredUnitHelper.GetPluralName(Prefixes: TPrefixes): string;
 begin
-  if Length(Prefixes) = 0 then
-  begin
-    Prefixes := FPrefixes;
-  end else
-    if Length(Prefixes) <> Length(FPrefixes) then
-      raise Exception.Create('Wrong number of prefixes.');
-
-  case Length(Prefixes) of
-    0: result := FPluralName;
-    1: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name]);
-    2: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name]);
-    3: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name]);
-    4: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name]);
-    5: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name]);
-    6: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name,
-         PrefixTable[Prefixes[5]].Name]);
-    7: result := Format(FPluralName, [
-         PrefixTable[Prefixes[0]].Name,
-         PrefixTable[Prefixes[1]].Name,
-         PrefixTable[Prefixes[2]].Name,
-         PrefixTable[Prefixes[3]].Name,
-         PrefixTable[Prefixes[4]].Name,
-         PrefixTable[Prefixes[5]].Name,
-         PrefixTable[Prefixes[6]].Name]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
+  result := FormatUnitText(FPluralName, Prefixes, FPrefixes, False);
 end;
 
 function TFactoredUnitHelper.GetSymbol(Prefixes: TPrefixes): string;
 begin
-  if Length(Prefixes) = 0 then
-  begin
-    Prefixes := FPrefixes;
-  end else
-    if Length(Prefixes) <> Length(FPrefixes) then
-      raise Exception.Create('Wrong number of prefixes.');
-
-  case Length(Prefixes) of
-    0: result := FSymbol;
-    1: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol]);
-    2: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol]);
-    3: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol]);
-    4: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol,
-         PrefixTable[Prefixes[3]].Symbol]);
-    5: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol,
-         PrefixTable[Prefixes[3]].Symbol,
-         PrefixTable[Prefixes[4]].Symbol]);
-    6: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol,
-         PrefixTable[Prefixes[3]].Symbol,
-         PrefixTable[Prefixes[4]].Symbol,
-         PrefixTable[Prefixes[5]].Symbol]);
-    7: result := Format(FSymbol, [
-         PrefixTable[Prefixes[0]].Symbol,
-         PrefixTable[Prefixes[1]].Symbol,
-         PrefixTable[Prefixes[2]].Symbol,
-         PrefixTable[Prefixes[3]].Symbol,
-         PrefixTable[Prefixes[4]].Symbol,
-         PrefixTable[Prefixes[5]].Symbol,
-         PrefixTable[Prefixes[6]].Symbol]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
+  result := FormatUnitText(FSymbol, Prefixes, FPrefixes, True);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
-var
-  I: longint;
-  Exponent: longint;
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(APrefixes);
-  if PrefixCount = Length(FPrefixes) then
-  begin
-    Exponent := 0;
-    for I := 0 to PrefixCount -1 do
-      Inc(Exponent, (PrefixTable[FPrefixes[I]].Exponent -
-        PrefixTable[APrefixes[I]].Exponent) * FExponents[I]);
-
-    if Exponent <> 0 then
-      result := AQuantity * IntPower(10, Exponent)
-    else
-      result := AQuantity;
-
-  end else
-    if PrefixCount = 0 then
-      result := AQuantity
-    else
-      raise Exception.Create('Wrong number of prefixes.');
+  result := AQuantity * PrefixScale(FPrefixes, FExponents, APrefixes);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
@@ -8603,9 +8366,9 @@ function TFactoredUnitHelper.ToString(const AQuantity: TRealQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := FloatToStr(AQuantity.FValue / FFactor) + ' ' + GetSymbol(FPrefixes);
+  result := FormatCompactValue(AQuantity.FValue / FFactor, GetSymbol(FPrefixes));
 {$ELSE}
-  result := FloatToStr(AQuantity / FFactor) + ' ' + GetSymbol(FPrefixes);
+  result := FormatCompactValue(AQuantity / FFactor, GetSymbol(FPrefixes));
 {$ENDIF}
 end;
 
@@ -8620,10 +8383,7 @@ begin
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
+  result := FormatCompactValue(FactoredValue, GetSymbol(APrefixes));
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -8637,10 +8397,8 @@ begin
    FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
+  result := FormatCompactValueWithPrecision(FactoredValue, APrecision,
+    ADigits, GetSymbol(APrefixes));
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -8658,15 +8416,8 @@ begin
   FactoredTol   := GetValue(ATolerance / FFactor, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
-  end else
-  begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
-  end;
+  result := FormatCompactTolerance(FactoredValue, FactoredTol, APrecision,
+    ADigits, GetSymbol(APrefixes));
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealQuantity): string;
@@ -8680,10 +8431,8 @@ begin
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  if UseSingularUnitName(FactoredValue) then
-    result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
-  else
-    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
+  result := FormatVerboseValue(FactoredValue, GetName(FPrefixes),
+    GetPluralName(FPrefixes));
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
@@ -8697,19 +8446,8 @@ begin
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
-    else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
-  end;
+  result := FormatVerboseValue(FactoredValue, GetName(APrefixes),
+    GetPluralName(APrefixes));
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -8723,19 +8461,8 @@ begin
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
-  end;
+  result := FormatVerboseValueWithPrecision(FactoredValue, APrecision,
+    ADigits, GetName(APrefixes), GetPluralName(APrefixes));
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -8753,23 +8480,8 @@ begin
   FactoredTol   := GetValue(ATolerance / FFactor, APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(APrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
-  end;
+  result := FormatVerboseTolerance(FactoredValue, FactoredTol, APrecision,
+    ADigits, GetName(APrefixes), GetPluralName(APrefixes));
 end;
 
 function TFactoredUnitHelper.ToComplex(const AQuantity: TComplexQuantity): TComplex;
@@ -9401,70 +9113,23 @@ end;
 // TDegreeCelsiusUnitHelper
 
 function TDegreeCelsiusUnitHelper.GetName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FName;
-    1:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  result := FormatAffineUnitText(FName, Prefixes, False);
 end;
 
 function TDegreeCelsiusUnitHelper.GetPluralName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FPluralName;
-    1:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  result := FormatAffineUnitText(FPluralName, Prefixes, False);
 end;
 
 function TDegreeCelsiusUnitHelper.GetSymbol(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FSymbol;
-    1:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
+  result := FormatAffineUnitText(FSymbol, Prefixes, True);
 end;
 
 function TDegreeCelsiusUnitHelper.GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
-var
-  I: longint;
-  Exponent: longint;
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(APrefixes);
-  if PrefixCount = Length(FPrefixes) then
-  begin
-    Exponent := 0;
-    for I := 0 to PrefixCount -1 do
-      Inc(Exponent, PrefixTable[FPrefixes[I]].Exponent * FExponents[I]);
-
-    for I := 0 to PrefixCount -1 do
-      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * FExponents[I]);
-
-    if Exponent <> 0 then
-      result := AQuantity * IntPower(10, Exponent)
-    else
-      result := AQuantity;
-
-  end else
-    if PrefixCount = 0 then
-      result := AQuantity
-    else
-      raise Exception.Create('Wrong number of prefixes.');
+  result := AQuantity * PrefixScale(FPrefixes, FExponents, APrefixes);
 end;
 
 function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TRealQuantity): TReal;
@@ -9491,9 +9156,11 @@ function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TRealQuantity): stri
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := FloatToStr(KelvinPointToCelsius(AQuantity.FValue)) + ' ' + GetSymbol(FPrefixes);
+  result := FormatCompactValue(KelvinPointToCelsius(AQuantity.FValue),
+    GetSymbol(FPrefixes));
 {$ELSE}
-  result := FloatToStr(KelvinPointToCelsius(AQuantity)) + ' ' + GetSymbol(FPrefixes);
+  result := FormatCompactValue(KelvinPointToCelsius(AQuantity),
+    GetSymbol(FPrefixes));
 {$ENDIF}
 end;
 
@@ -9508,10 +9175,7 @@ begin
   FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
+  result := FormatCompactValue(FactoredValue, GetSymbol(APrefixes));
 end;
 
 function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -9525,10 +9189,8 @@ begin
   FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
+  result := FormatCompactValueWithPrecision(FactoredValue, APrecision,
+    ADigits, GetSymbol(APrefixes));
 end;
 
 function TDegreeCelsiusUnitHelper.ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -9546,15 +9208,8 @@ begin
   FactoredTol   := GetValue(KelvinIntervalToCelsius(ATolerance), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
-  end else
-  begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
-  end;
+  result := FormatCompactTolerance(FactoredValue, FactoredTol, APrecision,
+    ADigits, GetSymbol(APrefixes));
 end;
 
 function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TRealQuantity): string;
@@ -9568,10 +9223,8 @@ begin
   FactoredValue := KelvinPointToCelsius(AQuantity);
 {$ENDIF}
 
-  if UseSingularUnitName(FactoredValue) then
-    result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
-  else
-    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
+  result := FormatVerboseValue(FactoredValue, GetName(FPrefixes),
+    GetPluralName(FPrefixes));
 end;
 
 function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
@@ -9585,19 +9238,8 @@ begin
   FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
-    else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
-  end;
+  result := FormatVerboseValue(FactoredValue, GetName(APrefixes),
+    GetPluralName(APrefixes));
 end;
 
 function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -9611,19 +9253,8 @@ begin
   FactoredValue := GetValue(KelvinPointToCelsius(AQuantity), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
-  end;
+  result := FormatVerboseValueWithPrecision(FactoredValue, APrecision,
+    ADigits, GetName(APrefixes), GetPluralName(APrefixes));
 end;
 
 function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -9641,92 +9272,30 @@ begin
   FactoredTol   := GetValue(KelvinIntervalToCelsius(ATolerance), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(APrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
-  end;
+  result := FormatVerboseTolerance(FactoredValue, FactoredTol, APrecision,
+    ADigits, GetName(APrefixes), GetPluralName(APrefixes));
 end;
 
 // TDegreeFahrenheitUnitHelper
 
 function TDegreeFahrenheitUnitHelper.GetName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FName;
-    1:  result := Format(FName, [
-          PrefixTable[Prefixes[0]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  result := FormatAffineUnitText(FName, Prefixes, False);
 end;
 
 function TDegreeFahrenheitUnitHelper.GetPluralName(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FPluralName;
-    1:  result := Format(FPluralName, [
-          PrefixTable[Prefixes[0]].Name]);
-   else raise Exception.Create('Wrong number of prefixes.');
-   end;
+  result := FormatAffineUnitText(FPluralName, Prefixes, False);
 end;
 
 function TDegreeFahrenheitUnitHelper.GetSymbol(const Prefixes: TPrefixes): string;
-var
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(Prefixes);
-  case PrefixCount of
-    0:  result := FSymbol;
-    1:  result := Format(FSymbol, [
-          PrefixTable[Prefixes[0]].Symbol]);
-  else raise Exception.Create('Wrong number of prefixes.');
-  end;
+  result := FormatAffineUnitText(FSymbol, Prefixes, True);
 end;
 
 function TDegreeFahrenheitUnitHelper.GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
-var
-  I: longint;
-  Exponent: longint;
-  PrefixCount: longint;
 begin
-  PrefixCount := Length(APrefixes);
-  if PrefixCount = Length(FPrefixes) then
-  begin
-    Exponent := 0;
-    for I := 0 to PrefixCount -1 do
-      Inc(Exponent, PrefixTable[FPrefixes[I]].Exponent * FExponents[I]);
-
-    for I := 0 to PrefixCount -1 do
-      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * FExponents[I]);
-
-    if Exponent <> 0 then
-      result := AQuantity * IntPower(10, Exponent)
-    else
-      result := AQuantity;
-
-  end else
-    if PrefixCount = 0 then
-      result := AQuantity
-    else
-      raise Exception.Create('Wrong number of prefixes.');
+  result := AQuantity * PrefixScale(FPrefixes, FExponents, APrefixes);
 end;
 
 function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TRealQuantity): TReal;
@@ -9753,9 +9322,11 @@ function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TRealQuantity): s
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  result := FloatToStr(KelvinPointToFahrenheit(AQuantity.FValue)) + ' ' + GetSymbol(FPrefixes);
+  result := FormatCompactValue(KelvinPointToFahrenheit(AQuantity.FValue),
+    GetSymbol(FPrefixes));
 {$ELSE}
-  result := FloatToStr(KelvinPointToFahrenheit(AQuantity)) + ' ' + GetSymbol(FPrefixes);
+  result := FormatCompactValue(KelvinPointToFahrenheit(AQuantity),
+    GetSymbol(FPrefixes));
 {$ENDIF}
 end;
 
@@ -9770,10 +9341,7 @@ begin
   FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
+  result := FormatCompactValue(FactoredValue, GetSymbol(APrefixes));
 end;
 
 function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -9787,10 +9355,8 @@ begin
   FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
-  else
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
+  result := FormatCompactValueWithPrecision(FactoredValue, APrecision,
+    ADigits, GetSymbol(APrefixes));
 end;
 
 function TDegreeFahrenheitUnitHelper.ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -9808,15 +9374,8 @@ begin
   FactoredTol   := GetValue(KelvinIntervalToFahrenheit(ATolerance), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(FPrefixes)
-  end else
-  begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
-  end;
+  result := FormatCompactTolerance(FactoredValue, FactoredTol, APrecision,
+    ADigits, GetSymbol(APrefixes));
 end;
 
 function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TRealQuantity): string;
@@ -9830,10 +9389,8 @@ begin
   FactoredValue := KelvinPointToFahrenheit(AQuantity);
 {$ENDIF}
 
-  if UseSingularUnitName(FactoredValue) then
-    result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
-  else
-    result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
+  result := FormatVerboseValue(FactoredValue, GetName(FPrefixes),
+    GetPluralName(FPrefixes));
 end;
 
 function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
@@ -9847,19 +9404,8 @@ begin
   FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
-    else
-      result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
-  end;
+  result := FormatVerboseValue(FactoredValue, GetName(APrefixes),
+    GetPluralName(APrefixes));
 end;
 
 function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -9873,19 +9419,8 @@ begin
   FactoredValue := GetValue(KelvinPointToFahrenheit(AQuantity), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
-  end;
+  result := FormatVerboseValueWithPrecision(FactoredValue, APrecision,
+    ADigits, GetName(APrefixes), GetPluralName(APrefixes));
 end;
 
 function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
@@ -9903,23 +9438,8 @@ begin
   FactoredTol   := GetValue(KelvinIntervalToFahrenheit(ATolerance), APrefixes);
 {$ENDIF}
 
-  if Length(APrefixes) = 0 then
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
-  end else
-  begin
-    if UseSingularUnitName(FactoredValue) then
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(APrefixes)
-    else
-      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
-  end;
+  result := FormatVerboseTolerance(FactoredValue, FactoredTol, APrecision,
+    ADigits, GetName(APrefixes), GetPluralName(APrefixes));
 end;
 
 { Power functions }
