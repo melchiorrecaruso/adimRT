@@ -8,55 +8,55 @@
       <Unit>
         <Filename Value="test.lpr"/>
         <Loaded Value="True"/>
-        <UsageCount Value="64"/>
+        <UsageCount Value="68"/>
         <CursorPos X="3" Y="26"/>
       </Unit>
       <Unit>
         <Filename Value="adimmath.pas"/>
         <UnitName Value="ADimMath"/>
         <Loaded Value="True"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="26"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="8"/>
-        <TopLine Value="229"/>
-        <CursorPos X="20" Y="252"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="529"/>
+        <CursorPos Y="548"/>
+        <FoldState Value=" TCl8J;S"/>
       </Unit>
       <Unit>
         <Filename Value="skeleton.pas"/>
         <UnitName Value="Skeleton"/>
         <Loaded Value="True"/>
-        <UsageCount Value="29"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="4857"/>
-        <CursorPos X="33" Y="4883"/>
+        <UsageCount Value="32"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="70"/>
+        <CursorPos Y="85"/>
       </Unit>
       <Unit>
         <Filename Value="adim.pas"/>
         <UnitName Value="ADim"/>
-        <Loaded Value="True"/>
-        <UsageCount Value="12"/>
-        <EditorIndex Value="9"/>
+        <UsageCount Value="14"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="65"/>
         <CursorPos X="36" Y="65"/>
       </Unit>
       <Unit>
         <Filename Value="adimcl3.pas"/>
         <UnitName Value="ADimCL3"/>
-        <UsageCount Value="16"/>
+        <UsageCount Value="15"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="11" Y="49"/>
       </Unit>
       <Unit>
         <Filename Value="adimres.pas"/>
         <UnitName Value="ADimRes"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="3" Y="27"/>
       </Unit>
       <Unit>
         <Filename Value="adimtypes.pas"/>
         <UnitName Value="ADimTypes"/>
-        <UsageCount Value="16"/>
+        <UsageCount Value="15"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="94"/>
         <CursorPos X="100" Y="13"/>
@@ -64,7 +64,7 @@
       <Unit>
         <Filename Value="adimc.pas"/>
         <UnitName Value="ADimC"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="26"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="856"/>
         <CursorPos Y="950"/>
@@ -73,14 +73,14 @@
       <Unit>
         <Filename Value="adimr3.pas"/>
         <UnitName Value="ADimR3"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="32" Y="13"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/share/fpcsrc/rtl/objpas/math.pp"/>
         <UnitName Value="Math"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="255"/>
         <CursorPos X="10" Y="288"/>
@@ -88,21 +88,21 @@
       <Unit>
         <Filename Value="adimcommon.pas"/>
         <UnitName Value="ADimCommon"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="19"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="59"/>
         <CursorPos X="58" Y="37"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/share/fpcsrc/rtl/objpas/sysutils/sysstrh.inc"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="140"/>
         <CursorPos X="10" Y="166"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/share/fpcsrc/rtl/objpas/sysutils/syshelph.inc"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="287"/>
         <CursorPos X="14" Y="313"/>
@@ -110,7 +110,7 @@
       <Unit>
         <Filename Value="adimr.pas"/>
         <UnitName Value="ADimMath"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2257"/>
         <CursorPos X="14" Y="35"/>
@@ -119,169 +119,175 @@
         <Filename Value="tests/testcomplexmatrix.pas"/>
         <UnitName Value="TestComplexMatrix"/>
         <Loaded Value="True"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="14"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="644"/>
-        <CursorPos X="21" Y="667"/>
+        <TopLine Value="87"/>
+        <CursorPos X="24" Y="106"/>
       </Unit>
       <Unit>
         <Filename Value="tests/testcomplexnumbers.pas"/>
         <UnitName Value="TestComplexNumbers"/>
         <Loaded Value="True"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="14"/>
         <EditorIndex Value="2"/>
       </Unit>
       <Unit>
         <Filename Value="tests/testcomplexvector.pas"/>
         <UnitName Value="TestComplexVector"/>
         <Loaded Value="True"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="14"/>
         <EditorIndex Value="3"/>
+        <TopLine Value="193"/>
+        <CursorPos Y="220"/>
       </Unit>
       <Unit>
         <Filename Value="tests/testframework.pas"/>
         <UnitName Value="TestFramework"/>
         <Loaded Value="True"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="14"/>
         <EditorIndex Value="4"/>
+        <TopLine Value="45"/>
+        <CursorPos X="43" Y="127"/>
       </Unit>
       <Unit>
         <Filename Value="tests/testrealmatrix.pas"/>
         <UnitName Value="TestRealMatrix"/>
         <Loaded Value="True"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="14"/>
         <EditorIndex Value="5"/>
+        <TopLine Value="49"/>
+        <CursorPos X="49" Y="85"/>
       </Unit>
       <Unit>
         <Filename Value="tests/testrealvector.pas"/>
         <UnitName Value="TestRealVector"/>
         <Loaded Value="True"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="14"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="128"/>
-        <CursorPos X="11" Y="154"/>
+        <TopLine Value="4"/>
+        <CursorPos X="51" Y="23"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="adimmath.pas"/>
-        <Caret Line="247" Column="23" TopLine="241"/>
+        <Caret Line="247" Column="25" TopLine="229"/>
       </Position>
       <Position>
         <Filename Value="adimmath.pas"/>
-        <Caret Line="2434" Column="5" TopLine="2382"/>
+        <Caret Line="265" Column="30" TopLine="256"/>
       </Position>
       <Position>
         <Filename Value="adimmath.pas"/>
-        <Caret Line="228" Column="13" TopLine="228"/>
+        <Caret Line="255" Column="21" TopLine="235"/>
       </Position>
       <Position>
         <Filename Value="adimmath.pas"/>
-        <Caret Line="2428" Column="125" TopLine="2382"/>
+        <Caret Line="243" Column="19" TopLine="235"/>
       </Position>
       <Position>
         <Filename Value="adimmath.pas"/>
-        <Caret Line="2434" Column="5" TopLine="2382"/>
+        <Caret Line="251" Column="23" TopLine="178"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
-        <Caret Line="4883" Column="33" TopLine="4857"/>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="72" Column="14" TopLine="53"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
-        <Caret Line="88" Column="5" TopLine="62"/>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="251" Column="14" TopLine="168"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
-        <Caret Line="4883" Column="33" TopLine="4857"/>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="278" Column="14" TopLine="259"/>
       </Position>
       <Position>
-        <Filename Value="skeleton.pas"/>
-        <Caret Line="395" Column="3" TopLine="369"/>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1247" Column="36" TopLine="1228"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1250" Column="38" TopLine="1228"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1263" Column="38" TopLine="1232"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1548" Column="18" TopLine="1529"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1554" Column="43" TopLine="1529"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1559" Column="13" TopLine="1529"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1566" Column="29" TopLine="1535"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1821" Column="30" TopLine="1804"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1822" Column="31" TopLine="1804"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1828" Column="27" TopLine="1804"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1829" Column="19" TopLine="1804"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1838" Column="19" TopLine="1809"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1554" Column="43" TopLine="1534"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1557" Column="27" TopLine="1534"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="251" Column="7" TopLine="175"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="844" Column="3" TopLine="822"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="251" Column="7" TopLine="172"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="846" Column="3" TopLine="822"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="994" Column="37" TopLine="981"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="1000" Column="43" TopLine="981"/>
+      </Position>
+      <Position>
+        <Filename Value="adimmath.pas"/>
+        <Caret Line="252" Column="23" TopLine="181"/>
       </Position>
       <Position>
         <Filename Value="test.lpr"/>
-        <Caret Line="26" Column="12"/>
-      </Position>
-      <Position>
-        <Filename Value="adimmath.pas"/>
-        <Caret Line="169" Column="3" TopLine="143"/>
-      </Position>
-      <Position>
-        <Filename Value="adimmath.pas"/>
-        <Caret Line="2361" Column="5" TopLine="2309"/>
-      </Position>
-      <Position>
-        <Filename Value="adimmath.pas"/>
-        <Caret Line="252" Column="20" TopLine="229"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testrealvector.pas"/>
-        <Caret Line="110" Column="10" TopLine="83"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testrealvector.pas"/>
-        <Caret Line="154" Column="11" TopLine="128"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="32" Column="13" TopLine="5"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="38" Column="13" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="123" Column="11" TopLine="96"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="162" Column="26" TopLine="136"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="147" Column="49" TopLine="137"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="162" Column="21" TopLine="136"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="175" Column="10" TopLine="158"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="200" Column="11" TopLine="182"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="209" Column="11" TopLine="191"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="277" Column="21" TopLine="251"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="318" Column="11" TopLine="291"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="386" Column="21" TopLine="360"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="429" Column="11" TopLine="402"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="521" Column="21" TopLine="495"/>
-      </Position>
-      <Position>
-        <Filename Value="tests/testcomplexmatrix.pas"/>
-        <Caret Line="575" Column="11" TopLine="548"/>
+        <Caret Line="26" Column="3"/>
       </Position>
     </JumpHistory>
     <RunParams>
