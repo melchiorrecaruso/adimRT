@@ -3798,10 +3798,10 @@ const
     using the signs of both arguments to determine the correct quadrant.
     The result is in the range @code([-π, π]).
     The result has the dimension of an angle (radians).
-    @param(x The dimensionless x-coordinate.)
-    @param(y The dimensionless y-coordinate.)
+    @param(AY The dimensionless y-coordinate.)
+    @param(AX The dimensionless x-coordinate.)
   }
-  function ArcTan2(const x, y: TReal): TRealQuantity;
+  function ArcTan2(const AY, AX: TReal): TRealQuantity;
 
   { Returns the smaller of two quantities.
     Both operands must have the same dimension.
@@ -3958,7 +3958,7 @@ const
   { Molar gas constant @code(R = 8.314462618 J·mol⁻¹·K⁻¹).
     Relates energy to temperature and amount of substance in the ideal gas law.
   }
-  MolarGasConstant               : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
+  MolarGasConstant               : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
 
   { Neutron rest mass @code(m_n = 1.67492750056 × 10⁻²⁷ kg).
     Rest mass of the neutron.
@@ -4061,6 +4061,19 @@ const
 implementation
 
 uses Math;
+
+function UseSingularUnitName(const AValue: TReal): boolean; inline;
+begin
+  result := Math.SameValue(System.Abs(AValue), 1.0, DefaultEpsilon);
+end;
+
+function OddRoot(const AValue: TReal; const ADegree: longint): TReal; inline;
+begin
+  if AValue < 0 then
+    result := -Math.Power(-AValue, 1.0 / ADegree)
+  else
+    result := Math.Power(AValue, 1.0 / ADegree);
+end;
 
 {$IFNDEF ADIMOFF}
 
@@ -7588,6 +7601,7 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
+  Check(FDim, ATolerance.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -7610,12 +7624,12 @@ function TUnitHelper.ToVerboseString(const AQuantity: TRealQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
-  if (AQuantity.FValue > -1) and (AQuantity.FValue < 1) then
+  if UseSingularUnitName(AQuantity.FValue) then
     result := FloatToStr(AQuantity.FValue) + ' ' + GetName(FPrefixes)
   else
     result := FloatToStr(AQuantity.FValue) + ' ' + GetPluralName(FPrefixes);
 {$ELSE}
-  if (AQuantity > -1) and (AQuantity < 1) then
+  if UseSingularUnitName(AQuantity) then
     result := FloatToStr(AQuantity) + ' ' + GetName(FPrefixes)
   else
     result := FloatToStr(AQuantity) + ' ' + GetPluralName(FPrefixes);
@@ -7635,13 +7649,13 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStr(FactoredValue) + ' ' + GetName(FPRefixes)
     else
       result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPRefixes);
   end else
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
     else
       result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
@@ -7661,13 +7675,13 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPRefixes)
     else
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPRefixes);
   end else
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
     else
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
@@ -7681,6 +7695,7 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
+  Check(FDim, ATolerance.FDim);
   FactoredValue := GetValue(AQuantity.FValue, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -7690,12 +7705,20 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes);
+    if UseSingularUnitName(FactoredValue) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
+    if UseSingularUnitName(FactoredValue) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(APrefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
 end;
 
@@ -8581,6 +8604,7 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
+  Check(FDim, ATolerance.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -8610,7 +8634,7 @@ begin
   FactoredValue := AQuantity / FFactor;
 {$ENDIF}
 
-  if (FactoredValue > -1) and (FactoredValue < 1) then
+  if UseSingularUnitName(FactoredValue) then
     result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
   else
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
@@ -8629,13 +8653,13 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
     else
       result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
     else
       result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
@@ -8655,13 +8679,13 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
     else
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
     else
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
@@ -8675,6 +8699,7 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
+  Check(FDim, ATolerance.FDim);
   FactoredValue := GetValue(AQuantity.FValue / FFactor, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue / FFactor, APrefixes);
 {$ELSE}
@@ -8684,12 +8709,20 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes);
+    if UseSingularUnitName(FactoredValue) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
+    if UseSingularUnitName(FactoredValue) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(APrefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
 end;
 
@@ -9459,6 +9492,7 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
+  Check(FDim, ATolerance.FDim);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -9488,7 +9522,7 @@ begin
   FactoredValue := AQuantity - 273.15;
 {$ENDIF}
 
-  if (FactoredValue > -1) and (FactoredValue < 1) then
+  if UseSingularUnitName(FactoredValue) then
     result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
   else
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
@@ -9507,13 +9541,13 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
     else
       result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
     else
       result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
@@ -9533,13 +9567,13 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
     else
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
     else
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
@@ -9553,6 +9587,7 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
+  Check(FDim, ATolerance.FDim);
   FactoredValue := GetValue(AQuantity.FValue - 273.15, APrefixes);
   FactoredTol   := GetValue(ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -9562,12 +9597,20 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes);
+    if UseSingularUnitName(FactoredValue) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
+    if UseSingularUnitName(FactoredValue) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(APrefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
 end;
 
@@ -9711,6 +9754,7 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
+  Check(FDim, ATolerance.FDim);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -9740,7 +9784,7 @@ begin
   FactoredValue := 9/5 * AQuantity - 459.67;
 {$ENDIF}
 
-  if (FactoredValue > -1) and (FactoredValue < 1) then
+  if UseSingularUnitName(FactoredValue) then
     result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
   else
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
@@ -9759,13 +9803,13 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStr(FactoredValue) + ' ' + GetName(FPrefixes)
     else
       result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStr(FactoredValue) + ' ' + GetName(APRefixes)
     else
       result := FloatToStr(FactoredValue) + ' ' + GetPluralName(APRefixes);
@@ -9785,13 +9829,13 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
     else
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    if (FactoredValue > -1) and (FactoredValue < 1) then
+    if UseSingularUnitName(FactoredValue) then
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetName(APRefixes)
     else
       result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APRefixes);
@@ -9805,6 +9849,7 @@ var
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
+  Check(FDim, ATolerance.FDim);
   FactoredValue := GetValue(9/5 * AQuantity.FValue - 459.67, APrefixes);
   FactoredTol   := GetValue(9/5 * ATolerance.FValue, APrefixes);
 {$ELSE}
@@ -9814,12 +9859,20 @@ begin
 
   if Length(APrefixes) = 0 then
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes);
+    if UseSingularUnitName(FactoredValue) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(FPrefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(FPrefixes);
   end else
   begin
-    result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
-              FloatToStrF(FactoredTol,   ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
+    if UseSingularUnitName(FactoredValue) then
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetName(APrefixes)
+    else
+      result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ± ' +
+                FloatToStrF(FactoredTol, ffGeneral, APrecision, ADigits) + ' ' + GetPluralName(APrefixes);
   end;
 end;
 
@@ -9891,11 +9944,10 @@ function CubicRoot(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 3;
-  result.FValue := Power(AQuantity.FValue, 1/3);
-
   Check(result.FDim * 3, AQuantity.FDim);
+  result.FValue := OddRoot(AQuantity.FValue, 3);
 {$ELSE}
-  result := Power(AQuantity, 1/3);
+  result := OddRoot(AQuantity, 3);
 {$ENDIF}
 end;
 
@@ -9915,11 +9967,10 @@ function QuinticRoot(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 5;
-  result.FValue := Power(AQuantity.FValue, 1/5);
-
   Check(result.FDim * 5, AQuantity.FDim);
+  result.FValue := OddRoot(AQuantity.FValue, 5);
 {$ELSE}
-  result := Power(AQuantity, 1/5);
+  result := OddRoot(AQuantity, 5);
 {$ENDIF}
 end;
 
@@ -10027,13 +10078,13 @@ begin
 {$ENDIF}
 end;
 
-function ArcTan2(const x, y: TReal): TRealQuantity;
+function ArcTan2(const AY, AX: TReal): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ScalarUnit.FDim;
-  result.FValue := Math.ArcTan2(x, y);
+  result.FValue := Math.ArcTan2(AY, AX);
 {$ELSE}
-  result := Math.ArcTan2(x, y);
+  result := Math.ArcTan2(AY, AX);
 {$ENDIF}
 end;
 

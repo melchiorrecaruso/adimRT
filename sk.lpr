@@ -44,6 +44,28 @@ begin
     'Complex quantity real-scalar arithmetic');
 end;
 
+procedure TestCorrectedMathFunctions;
+var
+  LRatio: TReal;
+begin
+  LRatio := ScalarUnit.ToFloat(MolarGasConstant /
+    (BoltzmannConstant * AvogadroConstant));
+  Require(Abs(LRatio - 1) < 1E-9,
+    'Molar gas constant dimension and value');
+
+  RequireSame(Pi / 2, ScalarUnit.ToFloat(ArcTan2(1, 0)),
+    'ArcTan2 positive y-axis');
+  RequireSame(Pi, ScalarUnit.ToFloat(ArcTan2(0, -1)),
+    'ArcTan2 negative x-axis');
+  RequireSame(-Pi / 2, ScalarUnit.ToFloat(ArcTan2(-1, 0)),
+    'ArcTan2 negative y-axis');
+
+  RequireSame(-2, ScalarUnit.ToFloat(Skeleton.CubicRoot(TRealQuantity(-8))),
+    'Real cubic root of a negative value');
+  RequireSame(-2, ScalarUnit.ToFloat(Skeleton.QuinticRoot(TRealQuantity(-32))),
+    'Real quintic root of a negative value');
+end;
+
 procedure TestRealVectorQuantities;
 var
   LRaw, LNormalized, LRightHandSide: TRealVector;
@@ -296,6 +318,7 @@ end;
 {$IFNDEF ADIMOFF}
 procedure TestDimensionChecks;
 var
+  LText: string;
   LValue: TRealQuantity;
   LRaised: boolean;
 begin
@@ -306,6 +329,16 @@ begin
     on EDimensionError do LRaised := True;
   end;
   Require(LRaised, 'Incompatible physical dimensions must raise');
+
+  LRaised := False;
+  try
+    LText := ScalarUnit.ToString(TRealQuantity(1), BohrRadius, 4, 2, []);
+    Require(LText <> '', 'Compatible formatting must return text');
+  except
+    on EDimensionError do LRaised := True;
+  end;
+  Require(LRaised, 'Formatting rejects a tolerance with incompatible dimensions');
+
   LValue := BohrRadius;
   Require(LValue.SameValue(BohrRadius), 'Dimension check test completion');
 end;
@@ -314,6 +347,7 @@ end;
 procedure RunSkeletonTests;
 begin
   TestScalarQuantities;
+  TestCorrectedMathFunctions;
   TestRealVectorQuantities;
   TestComplexVectorQuantities;
   TestMatrixQuantities;
