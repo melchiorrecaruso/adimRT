@@ -5,7 +5,7 @@
   physical quantities. It provides:
 
   @unorderedList(
-    @item(The @link(TQuantity) type, which associates a @code(double) value
+    @item(The @link(TRealQuantity) type, which associates a @code(TReal) value
           with a @link(TDimension) carrying the full SI exponent signature.)
     @item(Arithmetic operators that propagate and verify physical dimensions
           at run time, raising exceptions on dimensional mismatches.)
@@ -14,14 +14,14 @@
           @code(Cl(3,0)) multivector quantities.)
     @item(A comprehensive set of SI base and derived units (@link(TUnit),
           @link(TFactoredUnit)) with prefix support.)
-    @item(Fundamental physical constants expressed as @link(TQuantity) values.)
+    @item(Fundamental physical constants expressed as @link(TRealQuantity) values.)
     @item(Mathematical functions (trigonometric, power, logarithm) that are
           dimensionally aware.)
   )
 
   When the compiler symbol @code(ADIMOFF) is defined, all dimensional
   checking is disabled and every quantity type degenerates to its underlying
-  numerical type (@code(double), @link(TComplex), etc.), incurring zero
+  numerical type (@code(TReal), @link(TComplex), etc.), incurring zero
   run-time overhead.
 
   @author Melchiorre Caruso (melchiorrecaruso@@gmail.com)
@@ -75,17 +75,17 @@ type
 
   { Represents a physical quantity with dimension checking at runtime.
 
-    Combines a @code(double) value with a @link(TDimension), ensuring that
+    Combines a @code(TReal) value with a @link(TDimension), ensuring that
     arithmetic operations are dimensionally consistent. Incompatible dimensions
     raise an exception at runtime.
-    When the symbol @code(ADIMOFF) is defined, this type degenerates to @code(double)
+    When the symbol @code(ADIMOFF) is defined, this type degenerates to @code(TReal)
     and all dimension checking is disabled.
   }
   {$IFNDEF ADIMOFF}
-  TQuantity = record
+  generic TQuantity<T> = record
   private
     FDim: TDimension;
-    FValue: double;
+    FValue: T;
   public
     { Returns the reciprocal of the quantity: @code(1 / self).
       The resulting dimension is the inverse of the original dimension. }
@@ -107,479 +107,209 @@ type
     class operator *(const ALeft, ARight: TQuantity): TQuantity;
 
     { Returns the product of a dimensionless real scalar and a quantity. The dimension is preserved. }
-    class operator *(const ALeft: double; const ARight: TQuantity): TQuantity;
+    class operator *(const ALeft: T; const ARight: TQuantity): TQuantity;
 
     { Returns the product of a quantity and a dimensionless real scalar. The dimension is preserved. }
-    class operator *(const ALeft: TQuantity; const ARight: double): TQuantity;
+    class operator *(const ALeft: TQuantity; const ARight: T): TQuantity;
 
     { Returns the quotient of two quantities. The resulting dimension is the ratio of the two dimensions. }
     class operator /(const ALeft, ARight: TQuantity): TQuantity;
 
     { Returns the quotient of a dimensionless real scalar divided by a quantity.
       The resulting dimension is the inverse of @code(ARight). }
-    class operator /(const ALeft: double; const ARight: TQuantity): TQuantity;
-
-    { Returns the quotient of a quantity divided by a dimensionless real scalar. The dimension is preserved. }
-    class operator /(const ALeft: TQuantity; const ARight: double): TQuantity;
+    { Returns the quotient of a quantity divided by a dimensionless scalar. }
+    class operator /(const ALeft: TQuantity; const ARight: T): TQuantity;
 
     { Returns @true if both operands have the same dimension and equal values. }
     class operator =(const ALeft, ARight: TQuantity): boolean;
 
     { Returns @true if @code(ALeft) is dimensionally compatible with @code(ARight) and its value is strictly less. }
-    class operator <(const ALeft, ARight: TQuantity): boolean;
-
-    { Returns @true if @code(ALeft) is dimensionally compatible with @code(ARight) and its value is strictly greater. }
-    class operator >(const ALeft, ARight: TQuantity): boolean;
-
-    { Returns @true if @code(ALeft) is dimensionally compatible with @code(ARight) and its value is less than or equal. }
-    class operator <=(const ALeft, ARight: TQuantity): boolean;
-
-    { Returns @true if @code(ALeft) is dimensionally compatible with @code(ARight) and its value is greater than or equal. }
-    class operator >=(const ALeft, ARight: TQuantity): boolean;
-
-    { Returns @true if the operands differ in dimension or in value. }
     class operator <>(const ALeft, ARight: TQuantity): boolean;
 
-    { Implicit conversion from a dimensionless real value to a @link(TQuantity).
+    { Implicit conversion from a dimensionless real value to a @link(TRealQuantity).
       The resulting quantity has a scalar (dimensionless) dimension. }
-    class operator :=(const AValue: double): TQuantity;
+    class operator :=(const AValue: T): TQuantity;
   end;
-  {$ELSE}
-  TQuantity = double;
-  {$ENDIF}
 
-  TArrayOfQuantity = array of TQuantity;
+  TRealQuantity = specialize TQuantity<TReal>;
+  TComplexQuantity = specialize TQuantity<TComplex>;
 
-  { Represents a complex quantity with physical dimensions.
+  TRealQuantityHelper = record helper for TRealQuantity
+    function SameValue(const AQuantity: TRealQuantity): boolean;
+  end;
 
-    Combines a @link(TComplex) value with a @link(TDimension), supporting
-    arithmetic operations while preserving dimensional consistency.
-    When the symbol @code(ADIMOFF) is defined, this type degenerates to @link(TComplex).
-  }
-  {$IFNDEF ADIMOFF}
-  TComplexQuantity = record
-  private
-    FDim: TDimension;
-    FValue: TComplex;
-  public
-    { Returns the complex conjugate of the quantity.
-      If @code(z = (a + i·b) [dim]* ), the conjugate is @code(z* = (a - i·b) [dim]).
-      The physical dimension is preserved.
-    }
+  TComplexQuantityHelper = record helper for TComplexQuantity
     function Conjugate: TComplexQuantity;
-
-    { Returns the reciprocal of the complex quantity: @code(1 / z).
-      The resulting dimension is the inverse of the original dimension.
-    }
-    function Reciprocal: TComplexQuantity;
-
-    { Returns the modulus (magnitude) of the complex quantity as a real quantity.
-      Defined as @code(|z| = √(Re² + Im²)).
-      The resulting dimension equals the dimension of the original quantity.
-    }
-    function Norm: TQuantity;
-
-    { Returns the squared modulus of the complex quantity as a real quantity.
-      Defined as @code(|z|² = Re² + Im²).
-      The resulting dimension is the square of the dimension of the original quantity.
-      Avoids the square root computation of @link(Norm).
-    }
-    function SquaredNorm: TQuantity;
-
-    { Implicit conversion from a real @link(TQuantity) to a complex quantity. The imaginary part is set to zero. }
-    class operator := (const AQuantity: TQuantity): TComplexQuantity;
-
-    { Returns @true if both operands have the same dimension and equal complex values. }
-    class operator =(const ALeft, ARight: TComplexQuantity): boolean; inline;
-
-    { Returns @true if the operands differ in dimension or in complex value. }
-    class operator <>(const ALeft, ARight: TComplexQuantity): boolean; inline;
-
-    { Unary plus. Returns the complex quantity unchanged. }
-    class operator +(const AValue: TComplexQuantity): TComplexQuantity; inline;
-
-    { Unary minus. Returns the negation of the complex quantity. }
-    class operator -(const AValue: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the sum of two complex quantities. Both operands must have the same dimension. }
-    class operator +(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the difference of two complex quantities. Both operands must have the same dimension. }
-    class operator -(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the product of two complex quantities. The resulting dimension is the product of the two dimensions. }
-    class operator *(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the product of a dimensionless real scalar and a complex quantity. }
-    class operator *(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the product of a complex quantity and a dimensionless real scalar. }
-    class operator *(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity; inline;
-
-    { Returns the product of a real quantity and a complex quantity. The resulting dimension is the product of the two dimensions. }
-    class operator *(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the product of a complex quantity and a real quantity. The resulting dimension is the product of the two dimensions. }
-    class operator *(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
-
-    { Returns the quotient of two complex quantities.
-      The resulting dimension is the ratio of the two dimensions.
-      @raises(Exception if the divisor is zero.)
-    }
-    class operator /(const ALeft, ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the quotient of a dimensionless real scalar divided by a complex quantity. }
-    class operator /(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the quotient of a complex quantity divided by a dimensionless real scalar. }
-    class operator /(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity; inline;
-
-    { Returns the quotient of a real quantity divided by a complex quantity.
-      The resulting dimension is the ratio of the two dimensions.
-    }
-    class operator /(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the quotient of a complex quantity divided by a real quantity.
-      The resulting dimension is the ratio of the two dimensions.
-    }
-    class operator /(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
-
-    { Returns the sum of a real quantity and a complex quantity.
-      Both operands must have the same dimension.
-    }
-    class operator +(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the sum of a complex quantity and a real quantity.
-      Both operands must have the same dimension.
-    }
-    class operator +(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
-
-    { Returns the difference of a real quantity and a complex quantity.
-      Both operands must have the same dimension.
-    }
-    class operator -(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
-
-    { Returns the difference of a complex quantity and a real quantity.
-      Both operands must have the same dimension.
-    }
-    class operator -(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+    function Norm: TRealQuantity;
+    function SameValue(const AQuantity: TComplexQuantity): boolean;
+    function SquaredNorm: TRealQuantity;
   end;
   {$ELSE}
+  TRealQuantity = TReal;
   TComplexQuantity = TComplex;
   {$ENDIF}
 
+  TArrayOfQuantity = array of TRealQuantity;
+
   TArrayOfComplexQuantity = array of TComplexQuantity;
 
+  {$IFNDEF ADIMOFF}
+  operator :=(const AValue: TRealQuantity): TComplexQuantity;
+  operator <(const ALeft, ARight: TRealQuantity): boolean;
+  operator >(const ALeft, ARight: TRealQuantity): boolean;
+  operator <=(const ALeft, ARight: TRealQuantity): boolean;
+  operator >=(const ALeft, ARight: TRealQuantity): boolean;
+  operator /(const ALeft: TReal; const ARight: TRealQuantity): TRealQuantity;
+  operator /(const ALeft: TComplex; const ARight: TComplexQuantity): TComplexQuantity;
+  operator +(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+  operator +(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
+  operator -(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+  operator -(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
+  operator *(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+  operator *(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
+  operator /(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+  operator /(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
+
   { Returns the product of a dimensional quantity and the imaginary unit. The dimension is preserved. }
-  operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+  operator *(const ALeft: TRealQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
 
   { Returns the product of the imaginary unit and a dimensional quantity. The dimension is preserved. }
-  operator *(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
+  operator *(const ALeft: TImaginaryUnit; const ARight: TRealQuantity): TComplexQuantity;
 
   { Returns the quotient of the imaginary unit divided by a dimensional quantity. The resulting dimension is the inverse of @code(ARight). }
-  operator /(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
+  operator /(const ALeft: TImaginaryUnit; const ARight: TRealQuantity): TComplexQuantity;
 
   { Returns the quotient of a dimensional quantity divided by the imaginary unit. The dimension is preserved. }
-  operator /(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+  operator /(const ALeft: TRealQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+  {$ENDIF}
 
 type
-  { Generic square matrix of real physical quantities (@link(TQuantity)) with dimension @code(TSpace.N × TSpace.N).
-
-    Each element carries the same physical dimension, stored in @code(FDim).
-    Supports arithmetic operations with dimensional consistency checking.
-    When @code(ADIMOFF) is defined, degenerates to the corresponding @link(TRMatrix) specialization.
-    Concrete types are provided as @link(TR2MatrixQuantity), @link(TR3MatrixQuantity), and @link(TR4MatrixQuantity).
-  }
   {$IFNDEF ADIMOFF}
+  generic TVectorQuantity<T> = record
+  type
+    TValueVector = specialize TVector<T>;
+    TScalarQuantity = specialize TQuantity<T>;
+  private
+    FDim: TDimension;
+    FValue: TValueVector;
+    function Get(AIndex: longint): TScalarQuantity;
+    procedure Put(AIndex: longint; const AQuantity: TScalarQuantity);
+  public
+    function Size: longint;
+    function Dot(const AVector: TVectorQuantity): TScalarQuantity;
+    function IsNull: boolean;
+    function IsNotNull: boolean;
+    function Norm: TRealQuantity;
+    function SquaredNorm: TRealQuantity;
+    function Normalize: TValueVector;
+    function Reciprocal: TVectorQuantity;
+    function ToString: string;
+
+    class operator =(const ALeft, ARight: TVectorQuantity): boolean;
+    class operator <>(const ALeft, ARight: TVectorQuantity): boolean;
+    class operator +(const ASelf: TVectorQuantity): TVectorQuantity;
+    class operator -(const ASelf: TVectorQuantity): TVectorQuantity;
+    class operator +(const ALeft, ARight: TVectorQuantity): TVectorQuantity;
+    class operator -(const ALeft, ARight: TVectorQuantity): TVectorQuantity;
+    class operator *(const ALeft, ARight: TVectorQuantity): TScalarQuantity;
+    class operator *(const ALeft: TScalarQuantity; const ARight: TVectorQuantity): TVectorQuantity;
+    class operator *(const ALeft: TVectorQuantity; const ARight: TScalarQuantity): TVectorQuantity;
+    class operator /(const ALeft: TVectorQuantity; const ARight: TScalarQuantity): TVectorQuantity;
+
+    property A[AIndex: longint]: TScalarQuantity read Get write Put; default;
+  end;
+
+  TRealVectorQuantity = specialize TVectorQuantity<TReal>;
+  TComplexVectorQuantity = specialize TVectorQuantity<TComplex>;
+
+  TRealVectorQuantityHelper = record helper for TRealVectorQuantity
+    function Cross(const AVector: TRealVectorQuantity): TRealVectorQuantity;
+    function SameValue(const AVector: TRealVectorQuantity): boolean;
+    function ToComplex: TComplexVectorQuantity;
+  end;
+
+  TComplexVectorQuantityHelper = record helper for TComplexVectorQuantity
+    function Conjugate: TComplexVectorQuantity;
+    function SameValue(const AVector: TComplexVectorQuantity): boolean;
+  end;
+
   generic TMatrixQuantity<T> = record
   type
-    TMatrix = specialize TMatrix<T>;
+    TValueMatrix = specialize TMatrix<T>;
+    TScalarQuantity = specialize TQuantity<T>;
+    TVectorQuantityType = specialize TVectorQuantity<T>;
   private
     FDim: TDimension;
-    FValue: TMatrix;
-    function GetSize: longint;
-    function Get(ARow, ACol: longint): TQuantity;
-    procedure Put(ARow, ACol: longint; const AValue: TQuantity);
+    FValue: TValueMatrix;
+    function Get(ARow, ACol: longint): TScalarQuantity;
+    procedure Put(ARow, ACol: longint; const AQuantity: TScalarQuantity);
   public
-    function Clone: TMatrixQuantity;
-    function Determinant: TQuantity;
-    function Diagonalize(const AEigenValues: TArrayOfQuantity): TMatrixQuantity;
-    function Eigenvalues: TArrayOfQuantity;
-    procedure Init(AN: longint);
+    function Order: longint;
+    function SolveLinear(const AData: TVectorQuantityType): TVectorQuantityType;
+    function Identity: TValueMatrix;
+    function Null: TMatrixQuantity;
+    function Diagonalize(const ADiagonal: TVectorQuantityType): TMatrixQuantity;
     function IsNull: boolean;
     function IsNotNull: boolean;
-    function IsUnitary: boolean;
-    function Norm: TQuantity;
-    class function Null: TMatrixQuantity; static;
+    function Determinant: TScalarQuantity;
+    function Norm: TRealQuantity;
     function Rank: longint;
-    function Reciprocal(const ADeterminant: TQuantity): TMatrixQuantity;
-    function RowReduction: TMatrixQuantity;
-    function SameValue(const AMatrix: TMatrixQuantity): boolean;
+    function Trace: TScalarQuantity;
+    function Clone: TMatrixQuantity;
+    function Transpose: TMatrixQuantity;
+    function Inverse: TMatrixQuantity;
+    function RowReduction: TValueMatrix;
     procedure Swap(ARow1, ARow2: longint);
-    function Trace: TQuantity;
     function ToString: string;
     function ToString(APrecision, ADigits: integer): string;
-    function Transpose: TMatrixQuantity;
-    class operator := (const AMatrix: TRMatrix): TMatrixQuantity;
-    class operator <>(const ALeft, ARight: TMatrixQuantity): boolean;
+
     class operator =(const ALeft, ARight: TMatrixQuantity): boolean;
+    class operator <>(const ALeft, ARight: TMatrixQuantity): boolean;
     class operator +(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
     class operator -(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
-    class operator *(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
-    class operator *(const ALeft: TQuantity; const ARight: TMatrixQuantity): TMatrixQuantity;
-    class operator *(const ALeft: TMatrixQuantity; const ARight: TQuantity): TMatrixQuantity;
-    class operator /(const ALeft: TMatrixQuantity; const ARight: TQuantity): TMatrixQuantity;
-  public
-    property a[ARow, ACol: longint]: TQuantity read Get write Put; default;
-    property Size: longint read GetSize;
+    class operator *(const ALeft: TScalarQuantity; const ARight: TMatrixQuantity): TMatrixQuantity;
+    class operator *(const ALeft: TMatrixQuantity; const ARight: TScalarQuantity): TMatrixQuantity;
+    class operator /(const ALeft: TMatrixQuantity; const ARight: TScalarQuantity): TMatrixQuantity;
+
+    property A[ARow, ACol: longint]: TScalarQuantity read Get write Put; default;
   end;
 
-  TRMatrixQuantity = specialize TMatrixQuantity<double>;
-  TCMatrixQuantity = specialize TMatrixQuantity<TComplex>;
+  TRealMatrixQuantity = specialize TMatrixQuantity<TReal>;
+  TComplexMatrixQuantity = specialize TMatrixQuantity<TComplex>;
 
-  TCMatrixQuantityHelper = record helper for TCMatrixQuantity
-  public
-    function Conjugate: TCMatrixQuantity;
-    function Determinant: TComplexQuantity;
-    function Diagonalize(const AEigenValues: TArrayOfComplexQuantity): TCMatrixQuantity;
-    function Eigenvalues: TArrayOfComplexQuantity;
-    procedure Init(AN: longint);
+  TRealMatrixQuantityHelper = record helper for TRealMatrixQuantity
+    function IsOrthogonal: boolean;
+    function SameValue(const AMatrix: TRealMatrixQuantity): boolean;
+    function ToComplex: TComplexMatrixQuantity;
+    function Eigenvalues: TComplexVectorQuantity;
+    function Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
+  end;
+
+  TComplexMatrixQuantityHelper = record helper for TComplexMatrixQuantity
+    function Conjugate: TComplexMatrixQuantity;
+    function Eigenvalues: TComplexVectorQuantity;
+    function Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
     function IsHermitian: boolean;
-    function IsNull: boolean;
-    function IsNotNull: boolean;
     function IsUnitary: boolean;
-    function Norm: TQuantity;
-    class function Null: TCMatrixQuantity; static;
-    function Rank: longint;
-    function Reciprocal(const ADeterminant: TComplexQuantity): TCMatrixQuantity;
-    function RowReduction: TCMatrixQuantity;
-    function SameValue(const AMatrix: TCMatrixQuantity): boolean;
-    procedure Swap(ARow1, ARow2: longint);
-    function Trace: TComplexQuantity;
-    function ToString: string;
-    function ToString(APrecision, ADigits: integer): string;
-    function Transpose: TCMatrixQuantity;
-    function TransposeConjugate: TCMatrixQuantity;
-    class operator Initialize(var ASelf: TCMatrixQuantity);
-    class operator Finalize(var ASelf: TCMatrixQuantity);
-    class operator := (const AMatrix: TRMatrixQuantity): TCMatrixQuantity;
-    class operator := (const AMatrix: TCMatrix): TCMatrixQuantity;
-    class operator <>(const ALeft, ARight: TCMatrixQuantity): boolean;
-    class operator =(const ALeft, ARight: TCMatrixQuantity): boolean;
-    class operator +(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
-    class operator -(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
-    class operator *(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
-    class operator *(const ALeft: TComplexQuantity; const ARight: TCMatrixQuantity): TCMatrixQuantity;
-    class operator *(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
-    class operator /(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
-  public
-    property a[ARow, ACol: longint]: TComplexQuantity read Get write Put; default;
+    function SameValue(const AMatrix: TComplexMatrixQuantity): boolean;
+    function TransposeConjugate: TComplexMatrixQuantity;
   end;
 
+  operator *(const ALeft, ARight: TRealMatrixQuantity): TRealMatrixQuantity;
+  operator *(const ALeft, ARight: TComplexMatrixQuantity): TComplexMatrixQuantity;
+  operator *(const ALeft: TRealMatrixQuantity; const ARight: TRealVectorQuantity): TRealVectorQuantity;
+  operator *(const ALeft: TRealVectorQuantity; const ARight: TRealMatrixQuantity): TRealVectorQuantity;
+  operator *(const ALeft: TComplexMatrixQuantity; const ARight: TComplexVectorQuantity): TComplexVectorQuantity;
+  operator *(const ALeft: TComplexVectorQuantity; const ARight: TComplexMatrixQuantity): TComplexVectorQuantity;
   {$ELSE}
-  TRMatrixQuantity = TRMatrix;
-  TCMatrixQuantity = TCMatrix;
+  TRealVectorQuantity = TRealVector;
+  TComplexVectorQuantity = TComplexVector;
+  TRealMatrixQuantity = TRealMatrix;
+  TComplexMatrixQuantity = TComplexMatrix;
   {$ENDIF}
 
-  {$IFNDEF ADIMOFF}
-  { Generic column vector of real physical quantities (@link(TQuantity)) with @code(TSpace.N) components.
 
-    Each component carries the same physical dimension, stored in @code(FDim).
-    Supports arithmetic operations with dimensional consistency checking.
-    When @code(ADIMOFF) is defined, degenerates to the corresponding @link(TRVector) specialization.
-    Concrete types are provided as @link(TR2VecQuantity), @link(TR3VecQuantity), and @link(TR4VecQuantity).
-  }
-  TRVecQuantity = record
-  private
-    FDim: TDimension;
-    FValue: TRVector;
-
-    { Reads the component at position @code(ARow) as a @link(TQuantity). }
-    function Get(ARow: longint): TQuantity;
-
-    { Writes the component at position @code(ARow) as a @link(TQuantity). }
-    procedure Put(ARow: longint; const AQuantity: TQuantity);
-  public
-    function Cross(const AVector: TRVecQuantity): TRVecQuantity;
-
-    { Returns the dot product of two 3-component real quantity vectors.
-      Defined as @code(u·v = u₁v₁ + u₂v₂ + u₃v₃).
-      The resulting dimension is the product of the two operand dimensions.
-      @param(AVector The right-hand operand.)
-    }
-    function Dot(const AVector: TRVecQuantity): TQuantity;
-
-    procedure Init(AN: longint);
-
-    { Returns the unit vector in the same direction.
-      The dimension is preserved; only the numerical values are normalized.
-    }
-    function Normalize: TRVecQuantity;
-
-    { Returns @true if the two vectors differ in dimension or in at least one component. }
-    class operator <>(const ALeft, ARight: TRVecQuantity): boolean;
-
-    { Returns @true if both vectors have the same dimension and all corresponding components are equal. }
-    class operator =(const ALeft, ARight: TRVecQuantity): boolean;
-
-    { Unary plus. Returns the quantity vector unchanged. }
-    class operator +(const AValue: TRVecQuantity): TRVecQuantity;
-
-    { Returns the component-wise sum of two quantity vectors.
-      Both operands must have the same dimension.
-    }
-    class operator +(const ALeft, ARight: TRVecQuantity): TRVecQuantity;
-
-    { Unary minus. Returns the negation of the quantity vector. }
-    class operator -(const AValue: TRVecQuantity): TRVecQuantity;
-
-    { Returns the component-wise difference of two quantity vectors.
-      Both operands must have the same dimension.
-    }
-    class operator -(const ALeft, ARight: TRVecQuantity): TRVecQuantity;
-
-    { Returns the product of a real quantity scalar and a quantity vector.
-      The resulting dimension is the product of the two dimensions.
-    }
-    class operator *(const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
-
-    { Returns the product of a quantity vector and a real quantity scalar.
-      The resulting dimension is the product of the two dimensions.
-    }
-    class operator *(const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
-
-    { Returns the product of a real quantity matrix and a quantity vector: @code(v' = A·v).
-      The resulting dimension is the product of the two dimensions.
-    }
-    class operator *(const ALeft: TRMatrixQuantity; const ARight: TRVecQuantity): TRVecQuantity;
-
-    { Returns the dot product of two quantity vectors.
-      @code(u·v = Σ uᵢ·vᵢ). The resulting dimension is the product of the two dimensions.
-    }
-    class operator *(const ALeft, ARight: TRVecQuantity): TQuantity;
-
-    { Returns the quotient of a real quantity scalar divided by a quantity vector.
-      Each component becomes @code(ALeft/vᵢ). The resulting dimension is the ratio of the two dimensions.
-    }
-    class operator /(const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
-
-    { Returns the quantity vector divided by a real quantity scalar.
-      The resulting dimension is the ratio of the two dimensions.
-    }
-    class operator /(const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
-
-  public
-    { Provides access to individual vector components using a 1-based index.
-      Each component is returned as a @link(TQuantity) carrying the vector's dimension.
-    }
-    property a[ARow: longint]: TQuantity read Get write Put; default;
-  end;
-
-  { Generic column vector of complex physical quantities (@link(TComplexQuantity)) with @code(TSpace.N) components.
-
-    Each component carries the same physical dimension, stored in @code(FDim).
-    Supports arithmetic operations with dimensional consistency checking.
-    When @code(ADIMOFF) is defined, degenerates to the corresponding @link(TCVector) specialization.
-    Concrete types are provided as @link(TC2VecQuantity), @link(TC3VecQuantity), and @link(TC4VecQuantity).
-  }
-  TCVecQuantity = record
-  private
-    FDim: TDimension;
-    FValue: TCVector;
-
-    { Reads the component at position @code(ARow) as a @link(TComplexQuantity). }
-    function Get(ARow: longint): TComplexQuantity;
-
-    { Writes the component at position @code(ARow) as a @link(TComplexQuantity). }
-    procedure Put(ARow: longint; const AQuantity: TComplexQuantity);
-  public
-
-    function Dot(const AVector: TCVecQuantity): TComplexQuantity;
-
-    procedure Init(AN: longint);
-
-    function Conjugate: TCVecQuantity;
-
-    { Returns the unit vector in the same direction.
-      The dimension is preserved; only the numerical values are normalized.
-    }
-    function Normalize: TCVecQuantity;
-
-    { Implicit conversion from a dimensionless complex vector to a complex quantity vector.
-      The resulting vector has a scalar (dimensionless) dimension.
-    }
-    class operator :=(const AValue: TCVector): TCVecQuantity;
-
-    { Returns @true if the two vectors differ in dimension or in at least one component. }
-    class operator <>(const ALeft, ARight: TCVecQuantity): boolean;
-
-    { Returns @true if both vectors have the same dimension and all corresponding components are equal. }
-    class operator =(const ALeft, ARight: TCVecQuantity): boolean;
-
-    { Unary plus. Returns the complex quantity vector unchanged. }
-    class operator +(const AValue: TCVecQuantity): TCVecQuantity;
-
-    { Returns the component-wise sum of two complex quantity vectors. Both operands must have the same dimension. }
-    class operator +(const ALeft, ARight: TCVecQuantity): TCVecQuantity;
-
-    { Unary minus. Returns the negation of the complex quantity vector. }
-    class operator -(const AValue: TCVecQuantity): TCVecQuantity;
-
-    { Returns the component-wise difference of two complex quantity vectors. Both operands must have the same dimension. }
-    class operator -(const ALeft, ARight: TCVecQuantity): TCVecQuantity;
-
-    { Returns the dot product of two complex quantity vectors.
-      @code(u·v = Σ uᵢ·vᵢ). The resulting dimension is the product of the two dimensions.
-    }
-    class operator *(const ALeft, ARight: TCVecQuantity): TComplexQuantity;
-
-    { Returns the product of a real quantity scalar and a complex quantity vector.
-      The resulting dimension is the product of the two dimensions.
-    }
-    class operator *(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
-
-    { Returns the product of a complex quantity vector and a real quantity scalar.
-      The resulting dimension is the product of the two dimensions.
-    }
-    class operator *(const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
-
-    { Returns the product of a complex quantity vector and a complex quantity matrix: @code(v' = v·A).
-      The resulting dimension is the product of the two dimensions.
-    }
-    class operator *(const ALeft: TCVecQuantity; const ARight: TCMatrixQuantity): TCVecQuantity;
-
-    { Returns the product of a complex quantity matrix and a complex quantity vector: @code(v' = A·v).
-      The resulting dimension is the product of the two dimensions.
-    }
-    class operator *(const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
-
-    { Returns the dot product of a dimensionless complex vector and a complex quantity vector.
-      @code(u·v = Σ uᵢ·vᵢ). The dimension of the result equals the dimension of @code(ARight).
-    }
-    class operator *(const ALeft: TCVector; const ARight: TCVecQuantity): TComplexQuantity;
-
-    { Returns the quotient of a real quantity scalar divided by a complex quantity vector.
-      Each component becomes @code(ALeft/vᵢ). The resulting dimension is the ratio of the two dimensions.
-    }
-    class operator /(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
-
-    { Returns the complex quantity vector divided by a real quantity scalar.
-      The resulting dimension is the ratio of the two dimensions.
-    }
-    class operator /(const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
-
-  public
-    { Provides access to individual vector components using a 1-based index.
-      Each component is returned as a @link(TComplexQuantity) carrying the vector's dimension.
-    }
-    property a[ARow: longint]: TComplexQuantity read Get write Put; default;
-  end;
-
-  {$ELSE}
-  TRVecQuantity = TRVector;
-  TCVecQuantity = TCVector;
-  {$ENDIF}
-
+type
   { Represents a general multivector of @code(Cl(3,0)) with physical dimensions.
 
     Combines a @link(TCL3Multivector) value with a @link(TDimension), supporting
@@ -634,68 +364,68 @@ type
       @code(ALeft * ARight⁻¹).
       The resulting dimension is the inverse of @code(ARight).
     }
-    class operator /(const ALeft: double; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator /(const ALeft: TReal; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
     { Returns the geometric quotient of a multivector quantity divided by a dimensionless real scalar.
       Each component is divided by @code(ARight). The dimension is preserved.
     }
-    class operator /(const ALeft: TCL3MultivecQuantity; const ARight: double): TCL3MultivecQuantity;
+    class operator /(const ALeft: TCL3MultivecQuantity; const ARight: TReal): TCL3MultivecQuantity;
 
     { Returns @true if the multivector quantity and the real quantity differ in dimension or in any component. }
-    class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+    class operator <>(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): boolean;
 
     { Returns @true if the real quantity and the multivector quantity differ in dimension or in any component. }
-    class operator <>(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator <>(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): boolean;
 
     { Returns @true if the multivector quantity equals the real quantity,
       i.e. all non-scalar components are negligible.
     }
-    class operator =(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+    class operator =(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): boolean;
 
     { Returns @true if the real quantity equals the multivector quantity,
       i.e. all non-scalar components are negligible.
     }
-    class operator =(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
+    class operator =(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): boolean;
 
     { Returns the sum of a multivector quantity and a real quantity.
       Both operands must have the same dimension.
     }
-    class operator +(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator +(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the sum of a real quantity and a multivector quantity.
       Both operands must have the same dimension.
     }
-    class operator +(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator +(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
     { Returns the difference of a multivector quantity and a real quantity.
       Both operands must have the same dimension.
     }
-    class operator -(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator -(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the difference of a real quantity and a multivector quantity.
       Both operands must have the same dimension.
     }
-    class operator -(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator -(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
     { Returns the geometric product of a multivector quantity and a real quantity.
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator *(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the geometric product of a real quantity and a multivector quantity.
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator *(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 
     { Returns the geometric quotient of a multivector quantity divided by a real quantity: @code(ALeft * ARight⁻¹).
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator /(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the geometric quotient of a real quantity divided by a multivector quantity: @code(ALeft * ARight⁻¹).
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+    class operator /(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
   TCL3MultivecQuantity = TCL3Multivector;
@@ -798,37 +528,37 @@ type
       @code((m123₁·e₁₂₃) · (m123₂·e₁₂₃) = -m123₁·m123₂).
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+    class operator *(const ALeft, ARight: TCL3TrivecQuantity): TRealQuantity;
 
     { Returns the geometric product of a real quantity scalar and a trivector quantity.
       The coefficient @code(m123) is scaled by @code(ALeft).
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator *(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 
     { Returns the geometric product of a trivector quantity and a real quantity scalar.
       The coefficient @code(m123) is scaled by @code(ARight).
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+    class operator *(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3TrivecQuantity;
 
     { Returns the geometric quotient of two trivector quantities: @code(ALeft * ARight⁻¹).
       Since @code(e₁₂₃² = -1), the result is a scalar quantity:
       @code((m123₁·e₁₂₃) / (m123₂·e₁₂₃) = -m123₁/m123₂).
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+    class operator /(const ALeft, ARight: TCL3TrivecQuantity): TRealQuantity;
 
     { Returns the geometric quotient of a dimensionless real scalar divided by a trivector quantity:
       @code(ALeft * ARight⁻¹).
       The resulting dimension is the inverse of @code(ARight).
     }
-    class operator /(const ALeft: double; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator /(const ALeft: TReal; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 
     { Returns the geometric quotient of a trivector quantity divided by a dimensionless real scalar.
       The coefficient @code(m123) is divided by @code(ARight). The dimension is preserved.
     }
-    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: double): TCL3TrivecQuantity;
+    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: TReal): TCL3TrivecQuantity;
 
     { Returns the geometric quotient of a trivector quantity divided by a multivector quantity:
       @code(ALeft * ARight⁻¹).
@@ -846,33 +576,33 @@ type
       @code(ALeft * ARight⁻¹).
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+    class operator /(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3TrivecQuantity;
 
     { Returns the geometric quotient of a real quantity scalar divided by a trivector quantity:
       @code(ALeft * ARight⁻¹).
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+    class operator /(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 
     { Returns the sum of a trivector quantity and a real quantity. Both operands must have the same dimension.
       The result is a full multivector quantity with the scalar part from @code(ARight) and grade-3 part from @code(ALeft).
     }
-    class operator +(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator +(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the sum of a real quantity and a trivector quantity. Both operands must have the same dimension.
       The result is a full multivector quantity with the scalar part from @code(ALeft) and grade-3 part from @code(ARight).
     }
-    class operator +(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator +(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 
     { Returns the difference of a trivector quantity and a real quantity. Both operands must have the same dimension.
       The result is a full multivector quantity with negated scalar part from @code(ARight) and grade-3 part from @code(ALeft).
     }
-    class operator -(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator -(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the difference of a real quantity and a trivector quantity. Both operands must have the same dimension.
       The result is a full multivector quantity with scalar part from @code(ALeft) and negated grade-3 part from @code(ARight).
     }
-    class operator -(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+    class operator -(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
   TCL3TrivecQuantity = TCL3Trivector;
@@ -1018,13 +748,13 @@ type
       Each component is scaled by @code(ALeft).
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator *(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 
     { Returns the geometric product of a bivector quantity and a real quantity scalar.
       Each component is scaled by @code(ARight).
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+    class operator *(const ALeft: TCL3BivecQuantity; const ARight: TRealQuantity): TCL3BivecQuantity;
 
     { Returns the geometric quotient of two bivector quantities: @code(ALeft * ARight⁻¹).
       The result is a mixed-grade element, hence a full @link(TCL3MultivecQuantity).
@@ -1037,12 +767,12 @@ type
       The inverse of a bivector @code(B) is @code(B⁻¹ = -B / |B|²).
       The resulting dimension is the inverse of @code(ARight).
     }
-    class operator /(const ALeft: double; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator /(const ALeft: TReal; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 
     { Returns the geometric quotient of a bivector quantity divided by a dimensionless real scalar.
       Each component is divided by @code(ARight). The dimension is preserved.
     }
-    class operator /(const ALeft: TCL3BivecQuantity; const ARight: double): TCL3BivecQuantity;
+    class operator /(const ALeft: TCL3BivecQuantity; const ARight: TReal): TCL3BivecQuantity;
 
     { Returns the geometric quotient of a bivector quantity divided by a trivector quantity:
       @code(ALeft * ARight⁻¹).
@@ -1072,37 +802,37 @@ type
       @code(ALeft * ARight⁻¹).
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+    class operator /(const ALeft: TCL3BivecQuantity; const ARight: TRealQuantity): TCL3BivecQuantity;
 
     { Returns the geometric quotient of a real quantity scalar divided by a bivector quantity:
       @code(ALeft * ARight⁻¹).
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+    class operator /(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 
     { Returns the sum of a bivector quantity and a real quantity.
       Both operands must have the same dimension. The result is a full multivector
       quantity with @code(m0 = ARight) and the bivector components of @code(ALeft).
     }
-    class operator +(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator +(const ALeft: TCL3BivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the sum of a real quantity and a bivector quantity.
       Both operands must have the same dimension. The result is a full multivector
       quantity with @code(m0 = ALeft) and the bivector components of @code(ARight).
     }
-    class operator +(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator +(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 
     { Returns the difference of a bivector quantity and a real quantity.
       Both operands must have the same dimension. The result is a full multivector
       quantity with @code(m0 = -ARight) and the bivector components of @code(ALeft).
     }
-    class operator -(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator -(const ALeft: TCL3BivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the difference of a real quantity and a bivector quantity.
       Both operands must have the same dimension. The result is a full multivector
       quantity with @code(m0 = ALeft) and negated bivector components of @code(ARight).
     }
-    class operator -(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+    class operator -(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
   TCL3BivecQuantity = TCL3Bivector;
@@ -1290,13 +1020,13 @@ type
       Each component is scaled by @code(ALeft).
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+    class operator *(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 
     { Returns the geometric product of a vector quantity and a real quantity scalar.
       Each component is scaled by @code(ARight).
       The resulting dimension is the product of the two dimensions.
     }
-    class operator *(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+    class operator *(const ALeft: TCL3VecQuantity; const ARight: TRealQuantity): TCL3VecQuantity;
 
     { Returns the geometric quotient of two vector quantities: @code(ALeft * ARight⁻¹).
       The result is a mixed-grade element (scalar + bivector), hence a full @link(TCL3MultivecQuantity).
@@ -1309,12 +1039,12 @@ type
       The inverse of a vector @code(v) is @code(v⁻¹ = v / |v|²).
       The resulting dimension is the inverse of @code(ARight).
     }
-    class operator /(const ALeft: double; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+    class operator /(const ALeft: TReal; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 
     { Returns the geometric quotient of a vector quantity divided by a dimensionless real scalar.
       Each component is divided by @code(ARight). The dimension is preserved.
     }
-    class operator /(const ALeft: TCL3VecQuantity; const ARight: double): TCL3VecQuantity;
+    class operator /(const ALeft: TCL3VecQuantity; const ARight: TReal): TCL3VecQuantity;
 
     { Returns the geometric quotient of a vector quantity divided by a bivector quantity:
       @code(ALeft * ARight⁻¹).
@@ -1358,37 +1088,37 @@ type
       @code(ALeft * ARight⁻¹).
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+    class operator /(const ALeft: TCL3VecQuantity; const ARight: TRealQuantity): TCL3VecQuantity;
 
     { Returns the geometric quotient of a real quantity scalar divided by a vector quantity:
       @code(ALeft * ARight⁻¹).
       The resulting dimension is the ratio of the two dimensions.
     }
-    class operator /(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+    class operator /(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 
     { Returns the sum of a vector quantity and a real quantity.
       Both operands must have the same dimension. The result is a full multivector
       quantity with @code(m0 = ARight) and the vector components of @code(ALeft).
     }
-    class operator +(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator +(const ALeft: TCL3VecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the sum of a real quantity and a vector quantity.
       Both operands must have the same dimension. The result is a full multivector
       quantity with @code(m0 = ALeft) and the vector components of @code(ARight).
     }
-    class operator +(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator +(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 
     { Returns the difference of a vector quantity and a real quantity.
       Both operands must have the same dimension. The result is a full multivector
       quantity with @code(m0 = -ARight) and the vector components of @code(ALeft).
     }
-    class operator -(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+    class operator -(const ALeft: TCL3VecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 
     { Returns the difference of a real quantity and a vector quantity.
       Both operands must have the same dimension. The result is a full multivector
       quantity with @code(m0 = ALeft) and negated vector components of @code(ARight).
     }
-    class operator -(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+    class operator -(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
   TCL3VecQuantity = TCL3Vector;
@@ -1457,13 +1187,13 @@ type
     { Returns the norm of the multivector quantity: @code(|M| = √(M · M̃)).
       The resulting dimension equals the dimension of the original quantity.
     }
-    function Norm: TQuantity;
+    function Norm: TRealQuantity;
 
     { Returns the squared norm of the multivector quantity: @code(|M|² = M · M̃).
       The resulting dimension is the square of the original dimension.
       Avoids the square root computation of @link(Norm).
     }
-    function SquaredNorm: TQuantity;
+    function SquaredNorm: TRealQuantity;
 
     { Returns the inner (dot) product of the multivector quantity and a vector quantity.
       Lowers the grade of each component by 1.
@@ -1575,7 +1305,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The trivector quantity defining the subspace to reject from.)
     }
-    function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3TrivecQuantity): TRealQuantity; overload;
 
     { Returns the rejection of the multivector quantity from a multivector quantity subspace.
       Defined as: @code(rej(M₁, M₂) = M₁ - proj(M₁, M₂)).
@@ -1677,7 +1407,7 @@ type
       All non-scalar components must be negligible.
       @param(AVector The real quantity to compare against.)
     }
-    function SameValue(const AVector: TQuantity): boolean;
+    function SameValue(const AVector: TRealQuantity): boolean;
 
     { Returns a new multivector quantity containing only the components specified
       by @code(AComponents). Components not present in @code(AComponents) are set to zero.
@@ -1717,10 +1447,10 @@ type
     }
     function ExtractVector: TCL3VecQuantity;
 
-    { Returns the grade-0 (scalar) component of the multivector quantity as a @link(TQuantity).
+    { Returns the grade-0 (scalar) component of the multivector quantity as a @link(TRealQuantity).
       All other grade components are discarded.
     }
-    function ExtractScalar: TQuantity;
+    function ExtractScalar: TRealQuantity;
 
     { Returns @true if all components of the multivector quantity are zero
       within the default floating point tolerance.
@@ -1771,7 +1501,7 @@ type
       @code(T* = T · e₁₂₃⁻¹ = -m123 [dim]).
       The physical dimension is preserved.
     }
-    function Dual: TQuantity;
+    function Dual: TRealQuantity;
 
     { Returns the inverse of the trivector quantity under the geometric product.
       For @code(T = m123·e₁₂₃ [dim]):
@@ -1806,13 +1536,13 @@ type
     { Returns the norm of the trivector quantity: @code(|T| = |m123| [dim]).
       The resulting dimension equals the dimension of the original quantity.
     }
-    function Norm: TQuantity;
+    function Norm: TRealQuantity;
 
     { Returns the squared norm of the trivector quantity: @code(|T|² = m123² [dim²]).
       The resulting dimension is the square of the original dimension.
       Avoids the square root computation of @link(Norm).
     }
-    function SquaredNorm: TQuantity;
+    function SquaredNorm: TRealQuantity;
 
     { Returns the inner (dot) product of the trivector quantity and a vector quantity.
       Lowers the grade: @code(grade(3) · grade(1) → grade(2) = bivector quantity).
@@ -1834,7 +1564,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The grade-3 right operand.)
     }
-    function Dot(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Dot(const AVector: TCL3TrivecQuantity): TRealQuantity; overload;
 
     { Returns the inner (dot) product of the trivector quantity and a multivector quantity.
       The result is a full @link(TCL3MultivecQuantity) due to grade mixing.
@@ -1848,21 +1578,21 @@ type
       The result is a scalar quantity equal to zero.
       @param(AVector The grade-1 right operand.)
     }
-    function Wedge(const AVector: TCL3VecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3VecQuantity): TRealQuantity; overload;
 
     { Returns the outer (wedge) product of the trivector quantity and a bivector quantity.
       Always zero in @code(ℝ³): @code(grade(3) ∧ grade(2) → grade(5) = 0).
       The result is a scalar quantity equal to zero.
       @param(AVector The grade-2 right operand.)
     }
-    function Wedge(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3BivecQuantity): TRealQuantity; overload;
 
     { Returns the outer (wedge) product of two trivector quantities.
       Always zero in @code(ℝ³): @code(grade(3) ∧ grade(3) → grade(6) = 0).
       The result is a scalar quantity equal to zero.
       @param(AVector The grade-3 right operand.)
     }
-    function Wedge(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3TrivecQuantity): TRealQuantity; overload;
 
     { Returns the outer (wedge) product of the trivector quantity and a multivector quantity.
       Only the scalar part of @code(AVector) contributes to a non-zero result.
@@ -1906,7 +1636,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The vector quantity defining the subspace to reject from.)
     }
-    function Rejection(const AVector: TCL3VecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3VecQuantity): TRealQuantity; overload;
 
     { Returns the rejection of the trivector quantity from a bivector quantity subspace.
       Defined as: @code(rej(T, B) = T - proj(T, B)).
@@ -1914,7 +1644,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The bivector quantity defining the subspace to reject from.)
     }
-    function Rejection(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3BivecQuantity): TRealQuantity; overload;
 
     { Returns the rejection of the trivector quantity from another trivector quantity subspace.
       Defined as: @code(rej(T₁, T₂) = T₁ - proj(T₁, T₂)).
@@ -1922,7 +1652,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The trivector quantity defining the subspace to reject from.)
     }
-    function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3TrivecQuantity): TRealQuantity; overload;
 
     { Returns the rejection of the trivector quantity from a multivector quantity subspace.
       Defined as: @code(rej(T, M) = T - proj(T, M)).
@@ -2065,14 +1795,14 @@ type
       @code(|B| = √(m12² + m13² + m23²) [dim]).
       The resulting dimension equals the dimension of the original quantity.
     }
-    function Norm: TQuantity;
+    function Norm: TRealQuantity;
 
     { Returns the squared norm of the bivector quantity:
       @code(|B|² = m12² + m13² + m23² [dim²]).
       The resulting dimension is the square of the original dimension.
       Avoids the square root computation of @link(Norm).
     }
-    function SquaredNorm: TQuantity;
+    function SquaredNorm: TRealQuantity;
 
     { Returns the inner (dot) product of the bivector quantity and a vector quantity.
       Lowers the grade: @code(grade(2) · grade(1) → grade(1) = vector quantity).
@@ -2087,7 +1817,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The grade-2 right operand.)
     }
-    function Dot(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Dot(const AVector: TCL3BivecQuantity): TRealQuantity; overload;
 
     { Returns the inner (dot) product of the bivector quantity and a trivector quantity.
       Lowers the grade: @code(grade(2) · grade(3) → grade(1) = vector quantity).
@@ -2115,14 +1845,14 @@ type
       The result is a scalar quantity equal to zero.
       @param(AVector The grade-2 right operand.)
     }
-    function Wedge(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3BivecQuantity): TRealQuantity; overload;
 
     { Returns the outer (wedge) product of the bivector quantity and a trivector quantity.
       Always zero in @code(ℝ³): @code(grade(2) ∧ grade(3) → grade(5) = 0).
       The result is a scalar quantity equal to zero.
       @param(AVector The grade-3 right operand.)
     }
-    function Wedge(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3TrivecQuantity): TRealQuantity; overload;
 
     { Returns the outer (wedge) product of the bivector quantity and a multivector quantity.
       Only the scalar and vector parts of @code(AVector) contribute to a non-zero result.
@@ -2178,7 +1908,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The bivector quantity defining the subspace to reject from.)
     }
-    function Rejection(const AVector: TCL3BivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3BivecQuantity): TRealQuantity; overload;
 
     { Returns the rejection of the bivector quantity from a trivector quantity subspace.
       Defined as: @code(rej(B, T) = B - proj(B, T)).
@@ -2186,7 +1916,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The trivector quantity defining the subspace to reject from.)
     }
-    function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3TrivecQuantity): TRealQuantity; overload;
 
     { Returns the rejection of the bivector quantity from a multivector quantity subspace.
       Defined as: @code(rej(B, M) = B - proj(B, M)).
@@ -2343,14 +2073,14 @@ type
       @code(|v| = √(m1² + m2² + m3²) [dim]).
       The resulting dimension equals the dimension of the original quantity.
     }
-    function Norm: TQuantity;
+    function Norm: TRealQuantity;
 
     { Returns the squared Euclidean norm of the vector quantity:
       @code(|v|² = m1² + m2² + m3² [dim²]).
       The resulting dimension is the square of the original dimension.
       Avoids the square root computation of @link(Norm).
     }
-    function SquaredNorm: TQuantity;
+    function SquaredNorm: TRealQuantity;
 
     { Returns the inner (dot) product of two vector quantities.
       Lowers the grade: @code(grade(1) · grade(1) → grade(0) = scalar quantity).
@@ -2358,7 +2088,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The grade-1 right operand.)
     }
-    function Dot(const AVector: TCL3VecQuantity): TQuantity; overload;
+    function Dot(const AVector: TCL3VecQuantity): TRealQuantity; overload;
 
     { Returns the inner (dot) product of a vector quantity and a bivector quantity.
       Lowers the grade: @code(grade(1) · grade(2) → grade(1) = vector quantity).
@@ -2402,7 +2132,7 @@ type
       The result is a scalar quantity equal to zero.
       @param(AVector The grade-3 right operand.)
     }
-    function Wedge(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Wedge(const AVector: TCL3TrivecQuantity): TRealQuantity; overload;
 
     { Returns the outer (wedge) product of a vector quantity and a multivector quantity.
       Only components of @code(AVector) up to grade 2 contribute to a non-zero result.
@@ -2478,7 +2208,7 @@ type
       The resulting dimension is the product of the two operand dimensions.
       @param(AVector The trivector quantity defining the subspace to reject from.)
     }
-    function Rejection(const AVector: TCL3TrivecQuantity): TQuantity; overload;
+    function Rejection(const AVector: TCL3TrivecQuantity): TRealQuantity; overload;
 
     { Returns the rejection of the vector quantity from a multivector quantity subspace.
       Defined as: @code(rej(v, M) = v - proj(v, M)).
@@ -2596,7 +2326,7 @@ type
     by a @code(TUnit) instance produces the corresponding dimensioned quantity type.
 
     Example idiomatic usage:
-    @code(var v: TQuantity := 9.81 * MetrePerSquareSecond;)
+    @code(var v: TRealQuantity := 9.81 * MetrePerSquareSecond;)
     @code(var z: TComplexQuantity := (1 + 2*i) * Ohm;)
     @code(var F: TR3VecQuantity := TR3Vector(...) * Newton;)
 
@@ -2614,10 +2344,10 @@ type
     FExponents: TExponents;
   public
     { Returns the real quantity @code(AValue [unit]). }
-    class operator *(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+    class operator *(const AValue: TReal; const ASelf: TUnit): TRealQuantity; inline;
 
     { Returns the real quantity @code(AValue / [unit]), with inverted dimension. }
-    class operator /(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+    class operator /(const AValue: TReal; const ASelf: TUnit): TRealQuantity; inline;
 
     { Returns the complex quantity @code(AValue [unit]). }
     class operator *(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
@@ -2626,28 +2356,28 @@ type
     class operator /(const AValue: TComplex; const ASelf: TUnit): TComplexQuantity; inline;
 
     { Returns the 2-component real vector quantity @code(AVector [unit]). }
-    class operator *(const AVector: TRVector; const ASelf: TUnit): TRVecQuantity; inline;
+    class operator *(const AVector: TRealVector; const ASelf: TUnit): TRealVectorQuantity; inline;
 
     { Returns the 2-component real vector quantity @code(AVector / [unit]), with inverted dimension. }
-    class operator /(const AVector: TRVector; const ASelf: TUnit): TRVecQuantity; inline;
+    class operator /(const AVector: TRealVector; const ASelf: TUnit): TRealVectorQuantity; inline;
 
     { Returns the 2-component complex vector quantity @code(AVector [unit]). }
-    class operator *(const AVector: TCVector; const ASelf: TUnit): TCVecQuantity; inline;
+    class operator *(const AVector: TComplexVector; const ASelf: TUnit): TComplexVectorQuantity; inline;
 
     { Returns the 2-component complex vector quantity @code(AVector / [unit]), with inverted dimension. }
-    class operator /(const AVector: TCVector; const ASelf: TUnit): TCVecQuantity; inline;
+    class operator /(const AVector: TComplexVector; const ASelf: TUnit): TComplexVectorQuantity; inline;
 
     { Returns the 2×2 real matrix quantity @code(AMatrix [unit]). }
-    class operator *(const AMatrix: TRMatrix; const ASelf: TUnit): TRMatrixQuantity; inline;
+    class operator *(const AMatrix: TRealMatrix; const ASelf: TUnit): TRealMatrixQuantity; inline;
 
     { Returns the 2×2 real matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
-    class operator /(const AMatrix: TRMatrix; const ASelf: TUnit): TRMatrixQuantity; inline;
+    class operator /(const AMatrix: TRealMatrix; const ASelf: TUnit): TRealMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity @code(AMatrix [unit]). }
-    class operator *(const AMatrix: TCMatrix; const ASelf: TUnit): TCMatrixQuantity; inline;
+    class operator *(const AMatrix: TComplexMatrix; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity @code(AMatrix / [unit]), with inverted dimension. }
-    class operator /(const AMatrix: TCMatrix; const ASelf: TUnit): TCMatrixQuantity; inline;
+    class operator /(const AMatrix: TComplexMatrix; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity @code(AVector [unit]). }
     class operator *(const AVector: TCL3Vector; const ASelf: TUnit): TCL3VecQuantity; inline;
@@ -2677,12 +2407,12 @@ type
     { Returns the real quantity with dimension scaled by @code([unit]).
       Used for unit conversion: @code(1.0*km * (1/Metre) = 1000).
     }
-    class operator *(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
+    class operator *(const AQuantity: TRealQuantity; const ASelf: TUnit): TRealQuantity; inline;
 
     { Returns the real quantity with dimension divided by @code([unit]).
       Used for unit conversion: @code(1000.0*m / km = 1).
     }
-    class operator /(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
+    class operator /(const AQuantity: TRealQuantity; const ASelf: TUnit): TRealQuantity; inline;
 
     { Returns the complex quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TComplexQuantity; const ASelf: TUnit): TComplexQuantity; inline;
@@ -2697,28 +2427,28 @@ type
     class operator /(const ASelf: TUnit; const AQuantity: TComplexQuantity): TComplexQuantity; inline;
 
     { Returns the 2-component real vector quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TRVecQuantity; const ASelf: TUnit): TRVecQuantity; inline;
+    class operator *(const AQuantity: TRealVectorQuantity; const ASelf: TUnit): TRealVectorQuantity; inline;
 
     { Returns the 2-component real vector quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TRVecQuantity; const ASelf: TUnit): TRVecQuantity; inline;
+    class operator /(const AQuantity: TRealVectorQuantity; const ASelf: TUnit): TRealVectorQuantity; inline;
 
     { Returns the 2-component complex vector quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TCVecQuantity; const ASelf: TUnit): TCVecQuantity; inline;
+    class operator *(const AQuantity: TComplexVectorQuantity; const ASelf: TUnit): TComplexVectorQuantity; inline;
 
     { Returns the 2-component complex vector quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TCVecQuantity; const ASelf: TUnit): TCVecQuantity; inline;
+    class operator /(const AQuantity: TComplexVectorQuantity; const ASelf: TUnit): TComplexVectorQuantity; inline;
 
     { Returns the 2×2 real matrix quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TRMatrixQuantity; const ASelf: TUnit): TRMatrixQuantity; inline;
+    class operator *(const AQuantity: TRealMatrixQuantity; const ASelf: TUnit): TRealMatrixQuantity; inline;
 
     { Returns the 2×2 real matrix quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TRMatrixQuantity; const ASelf: TUnit): TRMatrixQuantity; inline;
+    class operator /(const AQuantity: TRealMatrixQuantity; const ASelf: TUnit): TRealMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity with dimension scaled by @code([unit]). }
-    class operator *(const AQuantity: TCMatrixQuantity; const ASelf: TUnit): TCMatrixQuantity; inline;
+    class operator *(const AQuantity: TComplexMatrixQuantity; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity with dimension divided by @code([unit]). }
-    class operator /(const AQuantity: TCMatrixQuantity; const ASelf: TUnit): TCMatrixQuantity; inline;
+    class operator /(const AQuantity: TComplexMatrixQuantity; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity with dimension scaled by @code([unit]). }
     class operator *(const AQuantity: TCL3VecQuantity; const ASelf: TUnit): TCL3VecQuantity; inline;
@@ -2756,11 +2486,11 @@ type
 
     When multiplying or dividing a numerical value by a @code(TFactoredUnit),
     the value is automatically scaled by @code(FFactor) so that the resulting
-    @link(TQuantity) is always expressed in SI base units internally.
+    @link(TRealQuantity) is always expressed in SI base units internally.
 
     Example idiomatic usage:
-    @code(var d: TQuantity := 5.0 * Kilometre;   // stores 5000.0 m internally)
-    @code(var a: TQuantity := 90.0 * Degree;     // stores π/2 rad internally)
+    @code(var d: TRealQuantity := 5.0 * Kilometre;   // stores 5000.0 m internally)
+    @code(var a: TRealQuantity := 90.0 * Degree;     // stores π/2 rad internally)
 
     When the symbol @code(ADIMOFF) is defined, all operators that accept or
     return quantity types are disabled and raw numerical types are used directly.
@@ -2773,18 +2503,18 @@ type
     FPluralName: string;
     FPrefixes: TPrefixes;
     FExponents: TExponents;
-    FFactor: double;
+    FFactor: TReal;
   public
     {
       Returns the real quantity @code(AValue * FFactor [dim]).
       The value is converted to SI base units using @code(FFactor).
     }
-    class operator *(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+    class operator *(const AValue: TReal; const ASelf: TFactoredUnit): TRealQuantity; inline;
 
     { Returns the real quantity @code(AValue / FFactor [dim⁻¹]).
       The value is converted to SI base units using @code(FFactor).
     }
-    class operator /(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+    class operator /(const AValue: TReal; const ASelf: TFactoredUnit): TRealQuantity; inline;
 
     { Returns the complex quantity @code(AValue * FFactor [dim]).
       Each component is scaled by @code(FFactor).
@@ -2797,28 +2527,28 @@ type
     class operator /(const AValue: TComplex; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 
     { Returns the 2-component real vector quantity @code(AVector * FFactor [dim]). }
-    class operator *(const AVector: TRVector; const ASelf: TFactoredUnit): TRVecQuantity; inline;
+    class operator *(const AVector: TRealVector; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 
     { Returns the 2-component real vector quantity @code(AVector / FFactor [dim⁻¹]). }
-    class operator /(const AVector: TRVector; const ASelf: TFactoredUnit): TRVecQuantity; inline;
+    class operator /(const AVector: TRealVector; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 
     { Returns the 2-component complex vector quantity @code(AVector * FFactor [dim]). }
-    class operator *(const AVector: TCVector; const ASelf: TFactoredUnit): TCVecQuantity; inline;
+    class operator *(const AVector: TComplexVector; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 
     { Returns the 2-component complex vector quantity @code(AVector / FFactor [dim⁻¹]). }
-    class operator /(const AVector: TCVector; const ASelf: TFactoredUnit): TCVecQuantity; inline;
+    class operator /(const AVector: TComplexVector; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 
     { Returns the 2×2 real matrix quantity @code(AMatrix * FFactor [dim]). }
-    class operator *(const AMatrix: TRMatrix; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
+    class operator *(const AMatrix: TRealMatrix; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 
     { Returns the 2×2 real matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
-    class operator /(const AMatrix: TRMatrix; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
+    class operator /(const AMatrix: TRealMatrix; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity @code(AMatrix * FFactor [dim]). }
-    class operator *(const AMatrix: TCMatrix; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
+    class operator *(const AMatrix: TComplexMatrix; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity @code(AMatrix / FFactor [dim⁻¹]). }
-    class operator /(const AMatrix: TCMatrix; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
+    class operator /(const AMatrix: TComplexMatrix; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity @code(AQuantity * FFactor [dim]). }
     class operator *(const AQuantity: TCL3Vector; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
@@ -2849,12 +2579,12 @@ type
       Used for unit conversion between factored units:
       @code(5.0*km * (1/Mile) → distance in miles).
     }
-    class operator *(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+    class operator *(const AQuantity: TRealQuantity; const ASelf: TFactoredUnit): TRealQuantity; inline;
 
     { Returns the real quantity with dimension and value rescaled by @code(1/FFactor).
       Used for unit conversion: @code(5000.0*m / km → 5.0).
     }
-    class operator /(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+    class operator /(const AQuantity: TRealQuantity; const ASelf: TFactoredUnit): TRealQuantity; inline;
 
     { Returns the complex quantity with dimension and value rescaled by @code(FFactor). }
     class operator *(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
@@ -2863,28 +2593,28 @@ type
     class operator /(const AQuantity: TComplexQuantity; const ASelf: TFactoredUnit): TComplexQuantity; inline;
 
     { Returns the 2-component real vector quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TRVecQuantity; const ASelf: TFactoredUnit): TRVecQuantity; inline;
+    class operator *(const AQuantity: TRealVectorQuantity; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 
     { Returns the 2-component real vector quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TRVecQuantity; const ASelf: TFactoredUnit): TRVecQuantity; inline;
+    class operator /(const AQuantity: TRealVectorQuantity; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 
     { Returns the 2-component complex vector quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TCVecQuantity; const ASelf: TFactoredUnit): TCVecQuantity; inline;
+    class operator *(const AQuantity: TComplexVectorQuantity; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 
     { Returns the 2-component complex vector quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TCVecQuantity; const ASelf: TFactoredUnit): TCVecQuantity; inline;
+    class operator /(const AQuantity: TComplexVectorQuantity; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 
     { Returns the 2×2 real matrix quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TRMatrixQuantity; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
+    class operator *(const AQuantity: TRealMatrixQuantity; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 
     { Returns the 2×2 real matrix quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TRMatrixQuantity; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
+    class operator /(const AQuantity: TRealMatrixQuantity; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity rescaled by @code(FFactor). }
-    class operator *(const AQuantity: TCMatrixQuantity; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
+    class operator *(const AQuantity: TComplexMatrixQuantity; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 
     { Returns the 2×2 complex matrix quantity rescaled by @code(1/FFactor). }
-    class operator /(const AQuantity: TCMatrixQuantity; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
+    class operator /(const AQuantity: TComplexMatrixQuantity; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 
     { Returns the @code(Cl(3,0)) vector quantity rescaled by @code(FFactor). }
     class operator *(const AQuantity: TCL3VecQuantity; const ASelf: TFactoredUnit): TCL3VecQuantity; inline;
@@ -2917,10 +2647,10 @@ type
     Unlike SI base units, the Celsius scale has an offset relative to the
     SI base unit of temperature (kelvin): @code(T[K] = T[°C] + 273.15).
     The multiplication operator applies this offset conversion, so that
-    the resulting @link(TQuantity) is always expressed in kelvin internally.
+    the resulting @link(TRealQuantity) is always expressed in kelvin internally.
 
     Example:
-    @code(var T: TQuantity := 100.0 * DegreeCelsius;  // stores 373.15 K internally)
+    @code(var T: TRealQuantity := 100.0 * DegreeCelsius;  // stores 373.15 K internally)
 
     Note: because of the additive offset, Celsius degrees cannot be used
     directly in multiplications or divisions to express temperature differences
@@ -2935,11 +2665,11 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
-    { Converts a temperature value in degrees Celsius to a @link(TQuantity) in kelvin.
+    { Converts a temperature value in degrees Celsius to a @link(TRealQuantity) in kelvin.
       Applies the offset: @code(T[K] = AValue + 273.15).
       The resulting quantity has the thermodynamic temperature dimension @code([K]).
     }
-    class operator *(const AValue: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
+    class operator *(const AValue: TReal; const ASelf: TDegreeCelsiusUnit): TRealQuantity; inline;
   end;
 
   { Represents the degree Fahrenheit temperature unit (@code(°F)).
@@ -2947,10 +2677,10 @@ type
     The Fahrenheit scale has both a scale factor and an offset relative to kelvin:
     @code(T[K] = (T[°F] + 459.67) × 5/9).
     The multiplication operator applies this full conversion, so that
-    the resulting @link(TQuantity) is always expressed in kelvin internally.
+    the resulting @link(TRealQuantity) is always expressed in kelvin internally.
 
     Example:
-    @code(var T: TQuantity := 212.0 * DegreeFahrenheit;  // stores 373.15 K internally)
+    @code(var T: TRealQuantity := 212.0 * DegreeFahrenheit;  // stores 373.15 K internally)
 
     Note: because of the additive offset, Fahrenheit degrees cannot be used
     directly in multiplications or divisions to express temperature differences
@@ -2965,11 +2695,11 @@ type
     FPrefixes: TPrefixes;
     FExponents: TExponents;
   public
-    { Converts a temperature value in degrees Fahrenheit to a @link(TQuantity) in kelvin.
+    { Converts a temperature value in degrees Fahrenheit to a @link(TRealQuantity) in kelvin.
       Applies the affine conversion: @code(T[K] = (AValue + 459.67) × 5/9).
       The resulting quantity has the thermodynamic temperature dimension @code([K]).
     }
-    class operator *(const AValue: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
+    class operator *(const AValue: TReal; const ASelf: TDegreeFahrenheitUnit): TRealQuantity; inline;
   end;
 
   { Record helper for @link(TUnit) providing conversion and formatting operations
@@ -3014,7 +2744,7 @@ type
       @param(AQuantity The dimensionless real value to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
-    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
 
     { Returns the complex value scaled for the given prefix.
       @param(AQuantity The dimensionless complex value to scale.)
@@ -3026,25 +2756,25 @@ type
       @param(AQuantity The dimensionless vector to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
-    function GetValue(const AQuantity: TRVector; const APrefixes: TPrefixes): TRVector;
+    function GetValue(const AQuantity: TRealVector; const APrefixes: TPrefixes): TRealVector;
 
     { Returns the 2-component complex vector scaled for the given prefix.
       @param(AQuantity The dimensionless complex vector to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
-    function GetValue(const AQuantity: TCVector; const APrefixes: TPrefixes): TCVector;
+    function GetValue(const AQuantity: TComplexVector; const APrefixes: TPrefixes): TComplexVector;
 
     { Returns the 2×2 real matrix scaled for the given prefix.
       @param(AQuantity The dimensionless matrix to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
-    function GetValue(const AQuantity: TRMatrix; const APrefixes: TPrefixes): TRMatrix;
+    function GetValue(const AQuantity: TRealMatrix; const APrefixes: TPrefixes): TRealMatrix;
 
     { Returns the 2×2 complex matrix scaled for the given prefix.
       @param(AQuantity The dimensionless complex matrix to scale.)
       @param(APrefixes  The SI prefixes defining the scaling factor.)
     }
-    function GetValue(const AQuantity: TCMatrix; const APrefixes: TPrefixes): TCMatrix;
+    function GetValue(const AQuantity: TComplexMatrix; const APrefixes: TPrefixes): TComplexMatrix;
 
     { Returns the @code(Cl(3,0)) vector scaled for the given prefix.
       @param(AQuantity The dimensionless @link(TCL3Vector) to scale.)
@@ -3075,27 +2805,27 @@ type
       The value is converted from the internal SI representation.
       @param(AQuantity The real quantity to extract the value from.)
     }
-    function ToFloat(const AQuantity: TQuantity): double;
+    function ToFloat(const AQuantity: TRealQuantity): TReal;
 
     { Returns the numerical value of the real quantity expressed in this unit
       with the given prefix applied.
       @param(AQuantity  The real quantity to extract the value from.)
       @param(APrefixes  The SI prefixes defining the output scaling.)
     }
-    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function ToFloat(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): TReal;
 
     { Returns a compact string representation of the real quantity in this unit.
       Format: @code('<value> <symbol>'), e.g. @code('9.81 m/s²').
       @param(AQuantity The real quantity to format.)
     }
-    function ToString(const AQuantity: TQuantity): string;
+    function ToString(const AQuantity: TRealQuantity): string;
 
     { Returns a compact string representation of the real quantity in this unit
       with the given prefix applied.
       @param(AQuantity  The real quantity to format.)
       @param(APrefixes  The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the real quantity with controlled precision.
       @param(AQuantity   The real quantity to format.)
@@ -3103,7 +2833,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the real quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> <symbol>').
@@ -3113,19 +2843,19 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the real quantity in this unit.
       Format: @code('<value> <plural name>'), e.g. @code('9.81 metres per square second').
       @param(AQuantity The real quantity to format.)
     }
-    function ToVerboseString(const AQuantity: TQuantity): string;
+    function ToVerboseString(const AQuantity: TRealQuantity): string;
 
     { Returns a verbose string representation of the real quantity with the given prefix.
       @param(AQuantity  The real quantity to format.)
       @param(APrefixes  The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the real quantity with controlled precision.
       @param(AQuantity   The real quantity to format.)
@@ -3133,7 +2863,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the real quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> <plural name>').
@@ -3143,7 +2873,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TComplex) value of the complex quantity expressed in this unit.
       @param(AQuantity The complex quantity to extract the value from.)
@@ -3197,76 +2927,76 @@ type
     function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TR2Vector) of the 2-component real vector quantity expressed in this unit. }
-    function ToVector(const AQuantity: TRVecQuantity): TRVector;
+    function ToVector(const AQuantity: TRealVectorQuantity): TRealVector;
 
     { Returns the dimensionless @link(TR2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): TRVector;
+    function ToVector(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): TRealVector;
 
     { Returns a compact string representation of the 2-component real vector quantity in this unit. }
-    function ToString(const AQuantity: TRVecQuantity): string;
+    function ToString(const AQuantity: TRealVectorQuantity): string;
 
     { Returns a compact string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2-component real vector quantity in this unit. }
-    function ToVerboseString(const AQuantity: TRVecQuantity): string;
+    function ToVerboseString(const AQuantity: TRealVectorQuantity): string;
 
     { Returns a verbose string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TC2Vector) of the 2-component complex vector quantity expressed in this unit. }
-    function ToVector(const AQuantity: TCVecQuantity): TCVector;
+    function ToVector(const AQuantity: TComplexVectorQuantity): TComplexVector;
 
     { Returns the dimensionless @link(TC2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): TCVector;
+    function ToVector(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): TComplexVector;
 
     { Returns a compact string representation of the 2-component complex vector quantity in this unit. }
-    function ToString(const AQuantity: TCVecQuantity): string;
+    function ToString(const AQuantity: TComplexVectorQuantity): string;
 
     { Returns a compact string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2-component complex vector quantity in this unit. }
-    function ToVerboseString(const AQuantity: TCVecQuantity): string;
+    function ToVerboseString(const AQuantity: TComplexVectorQuantity): string;
 
     { Returns a verbose string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TR2Matrix) of the 2×2 real matrix quantity expressed in this unit. }
-    function ToMatrix(const AQuantity: TRMatrixQuantity): TRMatrix;
+    function ToMatrix(const AQuantity: TRealMatrixQuantity): TRealMatrix;
 
     { Returns the dimensionless @link(TR2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): TRMatrix;
+    function ToMatrix(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): TRealMatrix;
 
     { Returns a compact string representation of the 2×2 real matrix quantity in this unit. }
-    function ToString(const AQuantity: TRMatrixQuantity): string;
+    function ToString(const AQuantity: TRealMatrixQuantity): string;
 
     { Returns a compact string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2×2 real matrix quantity in this unit. }
-    function ToVerboseString(const AQuantity: TRMatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TRealMatrixQuantity): string;
 
     { Returns a verbose string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TC2Matrix) of the 2×2 complex matrix quantity expressed in this unit. }
-    function ToMatrix(const AQuantity: TCMatrixQuantity): TCMatrix;
+    function ToMatrix(const AQuantity: TComplexMatrixQuantity): TComplexMatrix;
 
     { Returns the dimensionless @link(TC2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): TCMatrix;
+    function ToMatrix(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): TComplexMatrix;
 
     { Returns a compact string representation of the 2×2 complex matrix quantity in this unit. }
-    function ToString(const AQuantity: TCMatrixQuantity): string;
+    function ToString(const AQuantity: TComplexMatrixQuantity): string;
 
     { Returns a compact string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2×2 complex matrix quantity in this unit. }
-    function ToVerboseString(const AQuantity: TCMatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TComplexMatrixQuantity): string;
 
     { Returns a verbose string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the @code(Cl(3,0)) vector quantity in this unit. }
     function ToString(const AQuantity: TCL3VecQuantity): string;
@@ -3357,7 +3087,7 @@ type
       @param(AQuantity The dimensionless real value to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
 
     { Returns the complex value scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless complex value to scale.)
@@ -3369,25 +3099,25 @@ type
       @param(AQuantity The dimensionless vector to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: TRVector; const APrefixes: TPrefixes): TRVector;
+    function GetValue(const AQuantity: TRealVector; const APrefixes: TPrefixes): TRealVector;
 
     { Returns the 2-component complex vector scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless complex vector to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: TCVector; const APrefixes: TPrefixes): TCVector;
+    function GetValue(const AQuantity: TComplexVector; const APrefixes: TPrefixes): TComplexVector;
 
     { Returns the 2×2 real matrix scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless matrix to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: TRMatrix; const APrefixes: TPrefixes): TRMatrix;
+    function GetValue(const AQuantity: TRealMatrix; const APrefixes: TPrefixes): TRealMatrix;
 
     { Returns the 2×2 complex matrix scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless complex matrix to scale.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: TCMatrix; const APrefixes: TPrefixes): TCMatrix;
+    function GetValue(const AQuantity: TComplexMatrix; const APrefixes: TPrefixes): TComplexMatrix;
 
     { Returns the @code(Cl(3,0)) vector scaled by @code(FFactor) and the given prefix.
       @param(AQuantity The dimensionless @link(TCL3Vector) to scale.)
@@ -3418,27 +3148,27 @@ type
       The SI base value is divided by @code(FFactor).
       @param(AQuantity The real quantity to extract the value from.)
     }
-    function ToFloat(const AQuantity: TQuantity): double;
+    function ToFloat(const AQuantity: TRealQuantity): TReal;
 
     { Returns the numerical value of the real quantity expressed in this factored unit
       with the given prefix applied.
       @param(AQuantity  The real quantity to extract the value from.)
       @param(APrefixes  The SI prefixes defining additional output scaling.)
     }
-    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function ToFloat(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): TReal;
 
     { Returns a compact string representation of the real quantity in this factored unit.
       Format: @code('<value> <symbol>'), e.g. @code('5 km'), @code('90 °').
       @param(AQuantity The real quantity to format.)
     }
-    function ToString(const AQuantity: TQuantity): string;
+    function ToString(const AQuantity: TRealQuantity): string;
 
     { Returns a compact string representation of the real quantity in this factored unit
       with the given prefix applied.
       @param(AQuantity  The real quantity to format.)
       @param(APrefixes  The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the real quantity with controlled precision.
       @param(AQuantity   The real quantity to format.)
@@ -3446,7 +3176,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the real quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> <symbol>').
@@ -3456,19 +3186,19 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the real quantity in this factored unit.
       Format: @code('<value> <plural name>'), e.g. @code('5 kilometres').
       @param(AQuantity The real quantity to format.)
     }
-    function ToVerboseString(const AQuantity: TQuantity): string;
+    function ToVerboseString(const AQuantity: TRealQuantity): string;
 
     { Returns a verbose string representation of the real quantity with the given prefix.
       @param(AQuantity  The real quantity to format.)
       @param(APrefixes  The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the real quantity with controlled precision.
       @param(AQuantity   The real quantity to format.)
@@ -3476,7 +3206,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the real quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> <plural name>').
@@ -3486,7 +3216,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TComplex) value of the complex quantity
       expressed in this factored unit. The SI base value is divided by @code(FFactor).
@@ -3529,76 +3259,76 @@ type
     function ToVerboseString(const AQuantity: TComplexQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TR2Vector) of the 2-component real vector quantity expressed in this factored unit. }
-    function ToVector(const AQuantity: TRVecQuantity): TRVector;
+    function ToVector(const AQuantity: TRealVectorQuantity): TRealVector;
 
     { Returns the dimensionless @link(TR2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): TRVector;
+    function ToVector(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): TRealVector;
 
     { Returns a compact string representation of the 2-component real vector quantity in this factored unit. }
-    function ToString(const AQuantity: TRVecQuantity): string;
+    function ToString(const AQuantity: TRealVectorQuantity): string;
 
     { Returns a compact string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2-component real vector quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TRVecQuantity): string;
+    function ToVerboseString(const AQuantity: TRealVectorQuantity): string;
 
     { Returns a verbose string representation of the 2-component real vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TC2Vector) of the 2-component complex vector quantity expressed in this factored unit. }
-    function ToVector(const AQuantity: TCVecQuantity): TCVector;
+    function ToVector(const AQuantity: TComplexVectorQuantity): TComplexVector;
 
     { Returns the dimensionless @link(TC2Vector) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVector(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): TCVector;
+    function ToVector(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): TComplexVector;
 
     { Returns a compact string representation of the 2-component complex vector quantity in this factored unit. }
-    function ToString(const AQuantity: TCVecQuantity): string;
+    function ToString(const AQuantity: TComplexVectorQuantity): string;
 
     { Returns a compact string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2-component complex vector quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TCVecQuantity): string;
+    function ToVerboseString(const AQuantity: TComplexVectorQuantity): string;
 
     { Returns a verbose string representation of the 2-component complex vector quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TR2Matrix) of the 2×2 real matrix quantity expressed in this factored unit. }
-    function ToMatrix(const AQuantity: TRMatrixQuantity): TRMatrix;
+    function ToMatrix(const AQuantity: TRealMatrixQuantity): TRealMatrix;
 
     { Returns the dimensionless @link(TR2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): TRMatrix;
+    function ToMatrix(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): TRealMatrix;
 
     { Returns a compact string representation of the 2×2 real matrix quantity in this factored unit. }
-    function ToString(const AQuantity: TRMatrixQuantity): string;
+    function ToString(const AQuantity: TRealMatrixQuantity): string;
 
     { Returns a compact string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2×2 real matrix quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TRMatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TRealMatrixQuantity): string;
 
     { Returns a verbose string representation of the 2×2 real matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns the dimensionless @link(TC2Matrix) of the 2×2 complex matrix quantity expressed in this factored unit. }
-    function ToMatrix(const AQuantity: TCMatrixQuantity): TCMatrix;
+    function ToMatrix(const AQuantity: TComplexMatrixQuantity): TComplexMatrix;
 
     { Returns the dimensionless @link(TC2Matrix) with the given prefix applied. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToMatrix(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): TCMatrix;
+    function ToMatrix(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): TComplexMatrix;
 
     { Returns a compact string representation of the 2×2 complex matrix quantity in this factored unit. }
-    function ToString(const AQuantity: TCMatrixQuantity): string;
+    function ToString(const AQuantity: TComplexMatrixQuantity): string;
 
     { Returns a compact string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the 2×2 complex matrix quantity in this factored unit. }
-    function ToVerboseString(const AQuantity: TCMatrixQuantity): string;
+    function ToVerboseString(const AQuantity: TComplexMatrixQuantity): string;
 
     { Returns a verbose string representation of the 2×2 complex matrix quantity with the given prefix. @param(APrefixes The SI prefixes defining the output scaling.) }
-    function ToVerboseString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the @code(Cl(3,0)) vector quantity in this factored unit. }
     function ToString(const AQuantity: TCL3VecQuantity): string;
@@ -3684,7 +3414,7 @@ type
       @param(AQuantity The dimensionless real value in SI base units (kelvin) to convert.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
 
   public
 
@@ -3692,27 +3422,27 @@ type
       Applies the inverse offset conversion: @code(T[°C] = T[K] - 273.15).
       @param(AQuantity The real temperature quantity stored internally in kelvin.)
     }
-    function ToFloat(const AQuantity: TQuantity): double;
+    function ToFloat(const AQuantity: TRealQuantity): TReal;
 
     { Returns the numerical value of the real quantity expressed in degrees Celsius
       with the given prefix applied.
       @param(AQuantity  The real temperature quantity stored internally in kelvin.)
       @param(APrefixes  The SI prefixes defining additional output scaling.)
     }
-    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function ToFloat(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): TReal;
 
     { Returns a compact string representation of the temperature quantity in degrees Celsius.
       Format: @code('<value> °C'), e.g. @code('100 °C').
       @param(AQuantity The real temperature quantity to format.)
     }
-    function ToString(const AQuantity: TQuantity): string;
+    function ToString(const AQuantity: TRealQuantity): string;
 
     { Returns a compact string representation of the temperature quantity in degrees Celsius
       with the given prefix applied.
       @param(AQuantity  The real temperature quantity to format.)
       @param(APrefixes  The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the temperature quantity with controlled precision.
       @param(AQuantity   The real temperature quantity to format.)
@@ -3720,7 +3450,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the temperature quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> °C').
@@ -3730,19 +3460,19 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the temperature quantity in degrees Celsius.
       Format: @code('<value> degrees Celsius'), e.g. @code('100 degrees Celsius').
       @param(AQuantity The real temperature quantity to format.)
     }
-    function ToVerboseString(const AQuantity: TQuantity): string;
+    function ToVerboseString(const AQuantity: TRealQuantity): string;
 
     { Returns a verbose string representation of the temperature quantity with the given prefix.
       @param(AQuantity  The real temperature quantity to format.)
       @param(APrefixes  The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the temperature quantity with controlled precision.
       @param(AQuantity   The real temperature quantity to format.)
@@ -3750,7 +3480,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the temperature quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> degrees Celsius').
@@ -3760,7 +3490,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
 
   { Record helper for @link(TDegreeFahrenheitUnit) providing conversion and
@@ -3798,7 +3528,7 @@ type
       @param(AQuantity The dimensionless real value in SI base units (kelvin) to convert.)
       @param(APrefixes  The SI prefixes defining additional scaling.)
     }
-    function GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+    function GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
 
   public
 
@@ -3806,27 +3536,27 @@ type
       Applies the inverse affine conversion: @code(T[°F] = T[K] × 9/5 - 459.67).
       @param(AQuantity The real temperature quantity stored internally in kelvin.)
     }
-    function ToFloat(const AQuantity: TQuantity): double;
+    function ToFloat(const AQuantity: TRealQuantity): TReal;
 
     { Returns the numerical value of the real quantity expressed in degrees Fahrenheit
       with the given prefix applied.
       @param(AQuantity  The real temperature quantity stored internally in kelvin.)
       @param(APrefixes  The SI prefixes defining additional output scaling.)
     }
-    function ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+    function ToFloat(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): TReal;
 
     { eturns a compact string representation of the temperature quantity in degrees Fahrenheit.
       Format: @code('<value> °F'), e.g. @code('212 °F').
       @param(AQuantity The real temperature quantity to format.)
     }
-    function ToString(const AQuantity: TQuantity): string;
+    function ToString(const AQuantity: TRealQuantity): string;
 
     { Returns a compact string representation of the temperature quantity in degrees Fahrenheit
       with the given prefix applied.
       @param(AQuantity  The real temperature quantity to format.)
       @param(APrefixes  The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the temperature quantity with controlled precision.
       @param(AQuantity   The real temperature quantity to format.)
@@ -3834,7 +3564,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a compact string representation of the temperature quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> °F').
@@ -3844,19 +3574,19 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the temperature quantity in degrees Fahrenheit.
       Format: @code('<value> degrees Fahrenheit'), e.g. @code('212 degrees Fahrenheit').
       @param(AQuantity The real temperature quantity to format.)
     }
-    function ToVerboseString(const AQuantity: TQuantity): string;
+    function ToVerboseString(const AQuantity: TRealQuantity): string;
 
     { Returns a verbose string representation of the temperature quantity with the given prefix.
       @param(AQuantity  The real temperature quantity to format.)
       @param(APrefixes  The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the temperature quantity with controlled precision.
       @param(AQuantity   The real temperature quantity to format.)
@@ -3864,7 +3594,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 
     { Returns a verbose string representation of the temperature quantity with a tolerance range.
       Format: @code('<value> ± <tolerance> degrees Fahrenheit').
@@ -3874,7 +3604,7 @@ type
       @param(ADigits     Minimum number of digits in the output.)
       @param(APrefixes   The SI prefixes defining the output scaling.)
     }
-    function ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+    function ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
   end;
 
 { TScalar } { @exclude }
@@ -3890,17 +3620,17 @@ const
 
 {#UNITSOFMEASUREMENT}
 
-  { External operator overloads for multiplying @link(TQuantity) scalars with
+  { External operator overloads for multiplying @link(TRealQuantity) scalars with
     dimensionless matrix types, producing the corresponding matrix quantity types.
 
     These operators are necessary because Free Pascal does not allow operator
     overloads between two different record types to be defined inside either record
-    when neither owns the other. They bridge @link(TQuantity) (defined in the
+    when neither owns the other. They bridge @link(TRealQuantity) (defined in the
     dimensional analysis layer) with the generic matrix types (defined in the
     linear algebra layer).
 
     All operators follow the rule: the resulting dimension equals the dimension
-    of the @link(TQuantity) operand, and the numerical values of the matrix
+    of the @link(TRealQuantity) operand, and the numerical values of the matrix
     elements are scaled accordingly.
 
     Only available when @code(ADIMOFF) is not defined.
@@ -3932,7 +3662,7 @@ const
     @param(ALeft  The first quantity.)
     @param(ARight The second quantity.)
   }
-  function SameValueEx(const ALeft, ARight: TQuantity): boolean;
+  function SameValueEx(const ALeft, ARight: TRealQuantity): boolean;
   {$ENDIF}
 
   { Returns the square of the quantity: @code(AQuantity²).
@@ -3940,129 +3670,129 @@ const
     @param(AQuantity The quantity to square.)
     @exclude
   }
-  function SquarePower(const AQuantity: TQuantity): TQuantity;
+  function SquarePower(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the cube of the quantity: @code(AQuantity³).
     The resulting dimension is the cube of the original dimension.
     @param(AQuantity The quantity to cube.)
   }
-  function CubicPower(const AQuantity: TQuantity): TQuantity;
+  function CubicPower(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the fourth power of the quantity: @code(AQuantity⁴).
     The resulting dimension is the fourth power of the original dimension.
     @param(AQuantity The quantity to raise to the fourth power.)
   }
-  function QuarticPower(const AQuantity: TQuantity): TQuantity;
+  function QuarticPower(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the fifth power of the quantity: @code(AQuantity⁵).
     The resulting dimension is the fifth power of the original dimension.
     @param(AQuantity The quantity to raise to the fifth power.)
   }
-  function QuinticPower(const AQuantity: TQuantity): TQuantity;
+  function QuinticPower(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the sixth power of the quantity: @code(AQuantity⁶).
     The resulting dimension is the sixth power of the original dimension.
     @param(AQuantity The quantity to raise to the sixth power.)
   }
-  function SexticPower(const AQuantity: TQuantity): TQuantity;
+  function SexticPower(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the square root of the quantity: @code(AQuantity^(1/2)).
     The resulting dimension has all exponents halved.
     @raises(Exception if any dimension exponent is odd.)
     @param(AQuantity The quantity whose square root is computed.)
   }
-  function SquareRoot(const AQuantity: TQuantity): TQuantity;
+  function SquareRoot(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the cube root of the quantity: @code(AQuantity^(1/3)).
     The resulting dimension has all exponents divided by 3.
     @raises(Exception if any dimension exponent is not divisible by 3.)
     @param(AQuantity The quantity whose cube root is computed.)
   }
-  function CubicRoot(const AQuantity: TQuantity): TQuantity;
+  function CubicRoot(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the fourth root of the quantity: @code(AQuantity^(1/4)).
     The resulting dimension has all exponents divided by 4.
     @raises(Exception if any dimension exponent is not divisible by 4.)
     @param(AQuantity The quantity whose fourth root is computed.)
   }
-  function QuarticRoot(const AQuantity: TQuantity): TQuantity;
+  function QuarticRoot(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the fifth root of the quantity: @code(AQuantity^(1/5)).
     The resulting dimension has all exponents divided by 5.
     @raises(Exception if any dimension exponent is not divisible by 5.)
     @param(AQuantity The quantity whose fifth root is computed.)
   }
-  function QuinticRoot(const AQuantity: TQuantity): TQuantity;
+  function QuinticRoot(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the sixth root of the quantity: @code(AQuantity^(1/6)).
     The resulting dimension has all exponents divided by 6.
     @raises(Exception if any dimension exponent is not divisible by 6.)
     @param(AQuantity The quantity whose sixth root is computed.)
   }
-  function SexticRoot(const AQuantity: TQuantity): TQuantity;
+  function SexticRoot(const AQuantity: TRealQuantity): TRealQuantity;
 
   { Returns the cosine of the angle quantity.
     The quantity must have the dimension of an angle (radians).
-    The result is a dimensionless @code(double).
+    The result is a dimensionless @code(TReal).
     @param(AQuantity The angle quantity in radians.)
   }
-  function Cos(const AQuantity: TQuantity): double;
+  function Cos(const AQuantity: TRealQuantity): TReal;
 
   { Returns the sine of the angle quantity.
     The quantity must have the dimension of an angle (radians).
-    The result is a dimensionless @code(double).
+    The result is a dimensionless @code(TReal).
     @param(AQuantity The angle quantity in radians.)
   }
-  function Sin(const AQuantity: TQuantity): double;
+  function Sin(const AQuantity: TRealQuantity): TReal;
 
   { Returns the tangent of the angle quantity.
     The quantity must have the dimension of an angle (radians).
-    The result is a dimensionless @code(double).
+    The result is a dimensionless @code(TReal).
     @param(AQuantity The angle quantity in radians.)
   }
-  function Tan(const AQuantity: TQuantity): double;
+  function Tan(const AQuantity: TRealQuantity): TReal;
 
   { Returns the cotangent of the angle quantity: @code(cos(θ)/sin(θ)).
     The quantity must have the dimension of an angle (radians).
-    The result is a dimensionless @code(double).
+    The result is a dimensionless @code(TReal).
     @param(AQuantity The angle quantity in radians.)
   }
-  function Cotan(const AQuantity: TQuantity): double;
+  function Cotan(const AQuantity: TRealQuantity): TReal;
 
   { Returns the secant of the angle quantity: @code(1/cos(θ)).
     The quantity must have the dimension of an angle (radians).
-    The result is a dimensionless @code(double).
+    The result is a dimensionless @code(TReal).
     @param(AQuantity The angle quantity in radians.)
   }
-  function Secant(const AQuantity: TQuantity): double;
+  function Secant(const AQuantity: TRealQuantity): TReal;
 
   { Returns the cosecant of the angle quantity: @code(1/sin(θ)).
     The quantity must have the dimension of an angle (radians).
-    The result is a dimensionless @code(double).
+    The result is a dimensionless @code(TReal).
     @param(AQuantity The angle quantity in radians.)
   }
-  function Cosecant(const AQuantity: TQuantity): double;
+  function Cosecant(const AQuantity: TRealQuantity): TReal;
 
   { Returns the arc cosine of @code(AValue) as an angle quantity in radians.
     @code(AValue) must be in the range @code([-1, 1]).
     The result has the dimension of an angle (radians).
     @param(AValue The dimensionless cosine value.)
   }
-  function ArcCos(const AValue: double): TQuantity;
+  function ArcCos(const AValue: TReal): TRealQuantity;
 
   { Returns the arc sine of @code(AValue) as an angle quantity in radians.
     @code(AValue) must be in the range @code([-1, 1]).
     The result has the dimension of an angle (radians).
     @param(AValue The dimensionless sine value.)
   }
-  function ArcSin(const AValue: double): TQuantity;
+  function ArcSin(const AValue: TReal): TRealQuantity;
 
   { Returns the arc tangent of @code(AValue) as an angle quantity in radians.
     The result is in the range @code((-π/2, π/2)).
     The result has the dimension of an angle (radians).
     @param(AValue The dimensionless tangent value.)
   }
-  function ArcTan(const AValue: double): TQuantity;
+  function ArcTan(const AValue: TReal): TRealQuantity;
 
   { Returns the arc tangent of @code(y/x) as an angle quantity in radians,
     using the signs of both arguments to determine the correct quadrant.
@@ -4071,220 +3801,220 @@ const
     @param(x The dimensionless x-coordinate.)
     @param(y The dimensionless y-coordinate.)
   }
-  function ArcTan2(const x, y: double): TQuantity;
+  function ArcTan2(const x, y: TReal): TRealQuantity;
 
   { Returns the smaller of two quantities.
     Both operands must have the same dimension.
     @param(ALeft  The first quantity.)
     @param(ARight The second quantity.)
   }
-  function Min(const ALeft, ARight: TQuantity): TQuantity;
+  function Min(const ALeft, ARight: TRealQuantity): TRealQuantity;
 
   { Returns the larger of two quantities.
     Both operands must have the same dimension.
     @param(ALeft  The first quantity.)
     @param(ARight The second quantity.)
   }
-  function Max(const ALeft, ARight: TQuantity): TQuantity;
+  function Max(const ALeft, ARight: TRealQuantity): TRealQuantity;
 
   { Returns @code(e^AQuantity) as a dimensioned quantity.
     The argument must be dimensionless; the result has the same dimension as the argument.
     @param(AQuantity The dimensionless exponent quantity.)
   }
-  function Exp(const AQuantity: TQuantity): TQuantity;
+  function Exp(const AQuantity: TRealQuantity): TRealQuantity;
 
-  { Returns the base-10 logarithm of the quantity as a dimensionless @code(double).
+  { Returns the base-10 logarithm of the quantity as a dimensionless @code(TReal).
     The argument must be dimensionless and positive.
     @param(AQuantity The dimensionless positive quantity.)
   }
-  function Log10(const AQuantity: TQuantity): double;
+  function Log10(const AQuantity: TRealQuantity): TReal;
 
-  { Returns the base-2 logarithm of the quantity as a dimensionless @code(double).
+  { Returns the base-2 logarithm of the quantity as a dimensionless @code(TReal).
     The argument must be dimensionless and positive.
     @param(AQuantity The dimensionless positive quantity.)
   }
-  function Log2(const AQuantity: TQuantity): double;
+  function Log2(const AQuantity: TRealQuantity): TReal;
 
-  { Returns the base-@code(ABase) logarithm of the quantity as a dimensionless @code(double).
+  { Returns the base-@code(ABase) logarithm of the quantity as a dimensionless @code(TReal).
     The argument must be dimensionless and positive.
     @param(ABase     The integer logarithm base.)
     @param(AQuantity The dimensionless positive quantity.)
   }
-  function LogN(ABase: longint; const AQuantity: TQuantity): double;
+  function LogN(ABase: longint; const AQuantity: TRealQuantity): TReal;
 
-  { Returns the logarithm of @code(AQuantity) in the base @code(ABase) as a dimensionless @code(double).
+  { Returns the logarithm of @code(AQuantity) in the base @code(ABase) as a dimensionless @code(TReal).
     Both arguments must be dimensionless and positive.
     @param(ABase     The dimensionless base quantity.)
     @param(AQuantity The dimensionless positive quantity.)
   }
-  function LogN(const ABase, AQuantity: TQuantity): double;
+  function LogN(const ABase, AQuantity: TRealQuantity): TReal;
 
-  { Returns @code(ABase^AExponent) as a dimensionless @code(double).
+  { Returns @code(ABase^AExponent) as a dimensionless @code(TReal).
     The base must be dimensionless. Used for fractional or real exponents
     where dimensional consistency cannot be verified at compile time.
     @param(ABase     The dimensionless base quantity.)
     @param(AExponent The real exponent.)
   }
-  function Power(const ABase: TQuantity; AExponent: double): double;
+  function Power(const ABase: TRealQuantity; AExponent: TReal): TReal;
 
   { Returns @true if the quantity is less than or equal to zero.
     The quantity must be dimensionless or the comparison must be meaningful
     within its dimension context.
     @param(AQuantity The quantity to test.)
   }
-  function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+  function LessThanOrEqualToZero(const AQuantity: TRealQuantity): boolean;
 
   { Returns @true if the quantity is strictly less than zero.
     @param(AQuantity The quantity to test.)
   }
-  function LessThanZero(const AQuantity: TQuantity): boolean;
+  function LessThanZero(const AQuantity: TRealQuantity): boolean;
 
   { Returns @true if the quantity is equal to zero within the default floating point tolerance.
     @param(AQuantity The quantity to test.)
   }
-  function EqualToZero(const AQuantity: TQuantity): boolean;
+  function EqualToZero(const AQuantity: TRealQuantity): boolean;
 
   { Returns @true if the quantity is not equal to zero within the default floating point tolerance.
     @param(AQuantity The quantity to test.)
   }
-  function NotEqualToZero(const AQuantity: TQuantity): boolean;
+  function NotEqualToZero(const AQuantity: TRealQuantity): boolean;
 
   { Returns @true if the quantity is greater than or equal to zero.
     @param(AQuantity The quantity to test.)
   }
-  function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+  function GreaterThanOrEqualToZero(const AQuantity: TRealQuantity): boolean;
 
   { Returns @true if the quantity is strictly greater than zero.
     @param(AQuantity The quantity to test.)
   }
-  function GreaterThanZero(const AQuantity: TQuantity): boolean;
+  function GreaterThanZero(const AQuantity: TRealQuantity): boolean;
 
 const
   { Avogadro constant @code(Nₐ = 6.02214076 × 10²³ mol⁻¹).
     Number of constituent particles per mole of substance.
   }
-  AvogadroConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole: -60; FCandela: 0; FSteradian: 0); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
+  AvogadroConstant               : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole: -60; FCandela: 0; FSteradian: 0); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
 
   { Bohr magneton @code(μB = 9.2740100657 × 10⁻²⁴ J·T⁻¹).
     Natural unit of electronic magnetic dipole moment.
   }
-  BohrMagneton                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond:    0; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
+  BohrMagneton                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond:    0; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
 
   { Bohr radius @code(a₀ = 5.29177210903 × 10⁻¹¹ m).
     Most probable distance between the electron and nucleus in a hydrogen atom ground state.
   }
-  BohrRadius                     : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
+  BohrRadius                     : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
 
   { Boltzmann constant @code(kB = 1.380649 × 10⁻²³ J·K⁻¹).
     Relates the average kinetic energy of particles in a gas to the thermodynamic temperature.
   }
-  BoltzmannConstant              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole:   0; FCandela: 0; FSteradian: 0); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
+  BoltzmannConstant              : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole:   0; FCandela: 0; FSteradian: 0); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
 
   { Compton wavelength @code(λC = 2.42631023867 × 10⁻¹² m).
     Quantum mechanical property of the electron; sets the scale at which quantum field effects become significant.
   }
-  ComptonWaveLength              : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
+  ComptonWaveLength              : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
 
   { Coulomb constant @code(ke = 8.9875517923 × 10⁹ N·m²·C⁻²).
     Proportionality constant in Coulomb's law of electrostatic force.
   }
-  CoulombConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  180; FSecond: -240; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
+  CoulombConstant                : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  180; FSecond: -240; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
 
   { Deuteron mass @code(m_d = 3.3435837768 × 10⁻²⁷ kg).
     Rest mass of the deuteron (nucleus of deuterium, one proton and one neutron).
   }
-  DeuteronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
+  DeuteronMass                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
 
   { Electric permittivity of free space @code(ε₀ = 8.8541878188 × 10⁻¹² F·m⁻¹).
     Relates electric field to electric displacement field in a vacuum.
   }
-  ElectricPermittivity           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -180; FSecond:  240; FAmpere:  120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
+  ElectricPermittivity           : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -180; FSecond:  240; FAmpere:  120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
 
   { Electron rest mass @code(m_e = 9.1093837015 × 10⁻³¹ kg).
     Rest mass of the electron.
   }
-  ElectronMass                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
+  ElectronMass                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
 
   { Elementary charge @code(e = 1.602176634 × 10⁻¹⁹ C).
       Electric charge carried by a single proton; the fundamental unit of electric charge.
   }
-  ElectronCharge                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:   60; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
+  ElectronCharge                 : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:   60; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
 
   { Fine-structure constant @code(α = 7.2973525643 × 10⁻³) (dimensionless).
     Characterises the strength of the electromagnetic interaction between elementary charged particles.
   }
-  FineStructureConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
+  FineStructureConstant          : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
 
   { Inverse fine-structure constant @code(α⁻¹ = 137.035999177) (dimensionless).
     Reciprocal of the fine-structure constant; often used in quantum electrodynamics.
   }
-  InverseFineStructureConstant   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
+  InverseFineStructureConstant   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
 
   { Magnetic permeability of free space @code(μ₀ = 1.25663706212 × 10⁻⁶ H·m⁻¹).
     Relates magnetic field intensity to magnetic flux density in a vacuum.
   }
-  MagneticPermeability           : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:   60; FSecond: -120; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
+  MagneticPermeability           : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:   60; FSecond: -120; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
 
   { Molar gas constant @code(R = 8.314462618 J·mol⁻¹·K⁻¹).
     Relates energy to temperature and amount of substance in the ideal gas law.
   }
-  MolarGasConstant               : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
+  MolarGasConstant               : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
 
   { Neutron rest mass @code(m_n = 1.67492750056 × 10⁻²⁷ kg).
     Rest mass of the neutron.
   }
-  NeutronRestMass                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+  NeutronRestMass                : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
 
   { Newtonian constant of gravitation @code(G = 6.67430 × 10⁻¹¹ m³·kg⁻¹·s⁻²).
     Proportionality constant in Newton's law of universal gravitation.
   }
-  NewtonianConstantOfGravitation : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter:  180; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
+  NewtonianConstantOfGravitation : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter:  180; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
 
   { Planck constant @code(h = 6.62607015 × 10⁻³⁴ J·s).
     Relates the energy of a photon to its frequency; fundamental constant of quantum mechanics.
   }
-  PlanckConstant                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
+  PlanckConstant                 : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
 
   { Proton rest mass @code(m_p = 1.67262192595 × 10⁻²⁷ kg).
     Rest mass of the proton.
   }
-  ProtonRestMass                 : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+  ProtonRestMass                 : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
 
   { Rydberg constant @code(R∞ = 10973731.568157 m⁻¹).
     Relates the wavelengths of spectral lines of the hydrogen atom.
   }
-  RydbergConstant                : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
+  RydbergConstant                : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
 
   { Speed of light in vacuum @code(c = 299792458 m·s⁻¹).
     Exact defined value; maximum speed of propagation of any physical interaction.
   }
-  SpeedOfLight                   : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
+  SpeedOfLight                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
 
   { Squared speed of light in vacuum @code(c² = 8.98755178736818 × 10¹⁶ m²·s⁻²).
     Appears in the mass-energy equivalence relation @code(E = mc²).
   }
-  SquaredSpeedOfLight            : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
+  SquaredSpeedOfLight            : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
 
   { Standard acceleration of gravity @code(g = 9.80665 m·s⁻²).
     Conventional standard value of the acceleration due to Earth's gravity at sea level.
   }
-  StandardAccelerationOfGravity  : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
+  StandardAccelerationOfGravity  : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
 
   { Reduced Planck constant @code(ℏ = h / (2π) = 1.054571817 × 10⁻³⁴ J·s).
     Also called the Dirac constant; appears in quantum mechanics wherever angular frequency is used.
   }
-  ReducedPlanckConstant          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
+  ReducedPlanckConstant          : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
 
   { Unified atomic mass unit @code(u = 1.66053906892 × 10⁻²⁷ kg).
     Defined as one twelfth of the mass of a carbon-12 atom at rest.
   }
-  UnifiedAtomicMassUnit          : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
+  UnifiedAtomicMassUnit          : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
 
   { Reference sound intensity @code(I₀ = 10⁻¹² W·m⁻²).
     Conventional threshold of human hearing at 1 kHz; used as the reference level
     for the decibel scale of sound intensity.
   }
-  SoundIntensityReference        : TQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond: -180; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:                1E-12); {$ELSE} (               1E-12); {$ENDIF}
+  SoundIntensityReference        : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond: -180; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:                1E-12); {$ELSE} (               1E-12); {$ENDIF}
 
 const
   { Prefix Table } { @exclude }
@@ -4332,45 +4062,99 @@ implementation
 
 uses Math;
 
-operator *(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
-const
-  i: TImaginaryUnit = ();
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * i;
-end;
-
-operator *(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
-const
-  i: TImaginaryUnit = ();
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ARight.FValue * i;
-end;
-
-operator /(const ALeft: TQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
-const
-  i: TImaginaryUnit = ();
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue / i;
-end;
-
-operator /(const ALeft: TImaginaryUnit; const ARight: TQuantity): TComplexQuantity;
-const
-  i: TImaginaryUnit = ();
-begin
-  result.FDim := -ARight.FDim;
-  result.FValue := i / ARight.FValue;
-end;
-
-// TQuantity
-
 {$IFNDEF ADIMOFF}
+
+{ FPC 3.2.2 does not resolve ADimMath helpers through a field of a generic
+  specialization. These adapters keep the input passed by reference and avoid
+  the deep copies that a local TRealVector/TMatrix assignment would trigger. }
+
+function RawRealVectorCross(constref ALeft, ARight: TRealVector): TRealVector; inline;
+begin
+  result := ALeft.Cross(ARight);
+end;
+
+function RawRealVectorToComplex(constref AValue: TRealVector): TComplexVector; inline;
+begin
+  result := AValue.ToComplex;
+end;
+
+function RawComplexVectorConjugate(constref AValue: TComplexVector): TComplexVector; inline;
+begin
+  result := AValue.Conjugate;
+end;
+
+function RawRealMatrixIsOrthogonal(constref AValue: TRealMatrix): boolean; inline;
+begin
+  result := AValue.IsOrthogonal;
+end;
+
+function RawRealMatrixToComplex(constref AValue: TRealMatrix): TComplexMatrix; inline;
+begin
+  result := AValue.ToComplex;
+end;
+
+function RawRealMatrixEigenvalues(constref AValue: TRealMatrix): TComplexVector; inline;
+begin
+  result := AValue.Eigenvalues;
+end;
+
+function RawRealMatrixEigenvectors(constref AValue: TRealMatrix;
+  constref AEigenvalues: TComplexVector): TComplexMatrix; inline;
+begin
+  result := AValue.Eigenvectors(AEigenvalues);
+end;
+
+function RawComplexMatrixConjugate(constref AValue: TComplexMatrix): TComplexMatrix; inline;
+begin
+  result := AValue.Conjugate;
+end;
+
+function RawComplexMatrixEigenvalues(constref AValue: TComplexMatrix): TComplexVector; inline;
+begin
+  result := AValue.Eigenvalues;
+end;
+
+function RawComplexMatrixEigenvectors(constref AValue: TComplexMatrix;
+  constref AEigenvalues: TComplexVector): TComplexMatrix; inline;
+begin
+  result := AValue.Eigenvectors(AEigenvalues);
+end;
+
+function RawComplexMatrixIsUnitary(constref AValue: TComplexMatrix): boolean; inline;
+begin
+  result := AValue.IsUnitary;
+end;
+
+function RawComplexMatrixTransposeConjugate(
+  constref AValue: TComplexMatrix): TComplexMatrix; inline;
+begin
+  result := AValue.TransposeConjugate;
+end;
+
+{ TQuantity<T> }
+
 function TQuantity.Reciprocal: TQuantity;
 begin
-  result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
-  result.FValue := 1/FValue;
+  result.FDim := -FDim;
+  result.FValue := 1 / FValue;
+end;
+
+class operator TQuantity.:=(const AValue: T): TQuantity;
+begin
+  result.FDim := ScalarUnit.FDim;
+  result.FValue := AValue;
+end;
+
+class operator TQuantity.=(const ALeft, ARight: TQuantity): boolean;
+begin
+  Check(ALeft.FDim, ARight.FDim);
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TQuantity.<>(const ALeft, ARight: TQuantity): boolean;
+begin
+  Check(ALeft.FDim, ARight.FDim);
+  result := ALeft.FValue <> ARight.FValue;
 end;
 
 class operator TQuantity.+(const ASelf: TQuantity): TQuantity;
@@ -4403,615 +4187,609 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
+class operator TQuantity.*(const ALeft: T; const ARight: TQuantity): TQuantity;
+begin
+  result.FDim := ARight.FDim;
+  result.FValue := ALeft * ARight.FValue;
+end;
+
+class operator TQuantity.*(const ALeft: TQuantity; const ARight: T): TQuantity;
+begin
+  result.FDim := ALeft.FDim;
+  result.FValue := ALeft.FValue * ARight;
+end;
+
 class operator TQuantity./(const ALeft, ARight: TQuantity): TQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TQuantity.*(const ALeft: double; const ARight: TQuantity): TQuantity;
-begin
-  result.FDim := CheckMul(ScalarUnit.FDim, ARight.FDim);
-  result.FValue:= ALeft * ARight.FValue;
-end;
-
-class operator TQuantity.*(const ALeft: TQuantity; const ARight: double): TQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue:= ALeft.FValue * ARight;
-end;
-
-class operator TQuantity./(const ALeft: double; const ARight: TQuantity): TQuantity;
-begin
-  result.FDim := -ARight.FDim;
-  result.FValue:= ALeft / ARight.FValue;
-end;
-
-class operator TQuantity./(const ALeft: TQuantity; const ARight: double): TQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue:= ALeft.FValue / ARight;
-end;
-
-class operator TQuantity.=(const ALeft, ARight: TQuantity): boolean; inline;
-begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue = ARight.FValue;
-end;
-
-class operator TQuantity.<(const ALeft, ARight: TQuantity): boolean;
-begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue < ARight.FValue;
-end;
-
-class operator TQuantity.>(const ALeft, ARight: TQuantity): boolean;
-begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue > ARight.FValue;
-end;
-
-class operator TQuantity.<=(const ALeft, ARight: TQuantity): boolean;
-begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue <= ARight.FValue;
-end;
-
-class operator TQuantity.>=(const ALeft, ARight: TQuantity): boolean;
-begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue >= ARight.FValue;
-end;
-
-class operator TQuantity.<>(const ALeft, ARight: TQuantity): boolean;
-begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue <> ARight.FValue;
-end;
-
-class operator TQuantity.:=(const AValue: double): TQuantity;
-const
-  Scalar : TDimension = (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
-begin
-  result.FDim := Scalar;
-  result.FValue := AValue;
-end;
-{$ENDIF}
-
-// TComplexQuantity
-
-{$IFNDEF ADIMOFF}
-
-function TComplexQuantity.Conjugate: TComplexQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue := FValue.Conjugate;
-end;
-
-function TComplexQuantity.Reciprocal: TComplexQuantity;
-begin
-  result.FDim := CheckDiv(ScalarUnit.FDim, FDim);
-  result.FValue := FValue.Reciprocal;
-end;
-
-function TComplexQuantity.Norm: TQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue := FValue.Norm;
-end;
-
-function TComplexQuantity.SquaredNorm: TQuantity;
-begin
-  result.FDim := FDim *2;
-  result.FValue := FValue.SquaredNorm;
-end;
-
-class operator TComplexQuantity.:=(const AQuantity: TQuantity): TComplexQuantity;
-begin
-  result.FDim := AQuantity.FDim;
-  result.FValue := AQuantity.FValue;
-end;
-
-class operator TComplexQuantity.=(const ALeft, ARight: TComplexQuantity): boolean;
-begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue = ARight.FValue;
-end;
-
-class operator TComplexQuantity.<>(const ALeft, ARight: TComplexQuantity): boolean;
-begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue <> ARight.FValue;
-end;
-
-class operator TComplexQuantity.+(const AValue: TComplexQuantity): TComplexQuantity;
-begin
-  result.FDim := AValue.FDim;
-  result.FValue := AValue.FValue;
-end;
-
-class operator TComplexQuantity.+(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
-begin
-  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue + ARight.FValue;
-end;
-
-class operator TComplexQuantity.-(const AValue: TComplexQuantity): TComplexQuantity;
-begin
-  result.FDim := AValue.FDim;
-  result.FValue := -AValue.FValue;
-end;
-
-class operator TComplexQuantity.-(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
-begin
-  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue - ARight.FValue;
-end;
-
-class operator TComplexQuantity.*(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TComplexQuantity.*(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity;
-begin
-  result.FDim := ARight.FDim;
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-class operator TComplexQuantity.*(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity;
-begin
-  result.FDim := ALeft.FDim;
-  result.FValue := ALeft.FValue * ARight;
-end;
-
-class operator TComplexQuantity./(const ALeft, ARight: TComplexQuantity): TComplexQuantity;
-begin
-  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue / ARight.FValue;
-end;
-
-class operator TComplexQuantity./(const ALeft: double; const ARight: TComplexQuantity): TComplexQuantity;
-begin
-  result.FDim := -ARight.FDim;
-  result.FValue := ALeft / ARight.FValue;
-end;
-
-class operator TComplexQuantity./(const ALeft: TComplexQuantity; const ARight: double): TComplexQuantity;
+class operator TQuantity./(const ALeft: TQuantity; const ARight: T): TQuantity;
 begin
   result.FDim := ALeft.FDim;
   result.FValue := ALeft.FValue / ARight;
 end;
 
-class operator TComplexQuantity.+(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+{ Scalar specializations }
+
+function TRealQuantityHelper.SameValue(const AQuantity: TRealQuantity): boolean;
+begin
+  Check(Self.FDim, AQuantity.FDim);
+  result := Math.SameValue(Self.FValue, AQuantity.FValue, DefaultEpsilon);
+end;
+
+function TComplexQuantityHelper.Conjugate: TComplexQuantity;
+begin
+  result.FDim := Self.FDim;
+  result.FValue := Self.FValue.Conjugate;
+end;
+
+function TComplexQuantityHelper.Norm: TRealQuantity;
+begin
+  result.FDim := Self.FDim;
+  result.FValue := Self.FValue.Norm;
+end;
+
+function TComplexQuantityHelper.SameValue(const AQuantity: TComplexQuantity): boolean;
+begin
+  Check(Self.FDim, AQuantity.FDim);
+  result := Self.FValue.SameValue(AQuantity.FValue);
+end;
+
+function TComplexQuantityHelper.SquaredNorm: TRealQuantity;
+begin
+  result.FDim := Self.FDim * 2;
+  result.FValue := Self.FValue.SquaredNorm;
+end;
+
+operator :=(const AValue: TRealQuantity): TComplexQuantity;
+begin
+  result.FDim := AValue.FDim;
+  result.FValue := AValue.FValue;
+end;
+
+operator <(const ALeft, ARight: TRealQuantity): boolean;
+begin
+  Check(ALeft.FDim, ARight.FDim);
+  result := ALeft.FValue < ARight.FValue;
+end;
+
+operator >(const ALeft, ARight: TRealQuantity): boolean;
+begin
+  Check(ALeft.FDim, ARight.FDim);
+  result := ALeft.FValue > ARight.FValue;
+end;
+
+operator <=(const ALeft, ARight: TRealQuantity): boolean;
+begin
+  Check(ALeft.FDim, ARight.FDim);
+  result := ALeft.FValue <= ARight.FValue;
+end;
+
+operator >=(const ALeft, ARight: TRealQuantity): boolean;
+begin
+  Check(ALeft.FDim, ARight.FDim);
+  result := ALeft.FValue >= ARight.FValue;
+end;
+
+operator /(const ALeft: TReal; const ARight: TRealQuantity): TRealQuantity;
+begin
+  result.FDim := -ARight.FDim;
+  result.FValue := ALeft / ARight.FValue;
+end;
+
+operator /(const ALeft: TComplex; const ARight: TComplexQuantity): TComplexQuantity;
+begin
+  result.FDim := -ARight.FDim;
+  result.FValue := ALeft / ARight.FValue;
+end;
+
+operator +(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TComplexQuantity.+(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+operator +(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TComplexQuantity.-(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+operator -(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TComplexQuantity.-(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+operator -(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TComplexQuantity.*(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+operator *(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TComplexQuantity.*(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+operator *(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TComplexQuantity./(const ALeft: TQuantity; const ARight: TComplexQuantity): TComplexQuantity; inline;
+operator /(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TComplexQuantity./(const ALeft: TComplexQuantity; const ARight: TQuantity): TComplexQuantity; inline;
+operator /(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
-{$ENDIF}
 
-// TRMatrixQuantity
+operator *(const ALeft: TRealQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+begin
+  result.FDim := ALeft.FDim;
+  result.FValue := ALeft.FValue * ARight;
+end;
 
-{$IFNDEF ADIMOFF}
+operator *(const ALeft: TImaginaryUnit; const ARight: TRealQuantity): TComplexQuantity;
+begin
+  result.FDim := ARight.FDim;
+  result.FValue := ALeft * ARight.FValue;
+end;
 
-function TRMatrixQuantity.GetSize: longint;
+operator /(const ALeft: TRealQuantity; const ARight: TImaginaryUnit): TComplexQuantity;
+begin
+  result.FDim := ALeft.FDim;
+  result.FValue := ALeft.FValue / ARight;
+end;
+
+operator /(const ALeft: TImaginaryUnit; const ARight: TRealQuantity): TComplexQuantity;
+begin
+  result.FDim := -ARight.FDim;
+  result.FValue := ALeft / ARight.FValue;
+end;
+
+{ TVectorQuantity<T> }
+
+function TVectorQuantity.Get(AIndex: longint): TScalarQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue := FValue[AIndex];
+end;
+
+procedure TVectorQuantity.Put(AIndex: longint; const AQuantity: TScalarQuantity);
+begin
+  Check(FDim, AQuantity.FDim);
+  FValue[AIndex] := AQuantity.FValue;
+end;
+
+function TVectorQuantity.Size: longint;
+begin
+  result := FValue.Size;
+end;
+
+function TVectorQuantity.Dot(const AVector: TVectorQuantity): TScalarQuantity;
+begin
+  result.FDim := CheckMul(FDim, AVector.FDim);
+  result.FValue := FValue.Dot(AVector.FValue);
+end;
+
+function TVectorQuantity.IsNull: boolean;
+begin
+  result := FValue.IsNull;
+end;
+
+function TVectorQuantity.IsNotNull: boolean;
+begin
+  result := FValue.IsNotNull;
+end;
+
+function TVectorQuantity.Norm: TRealQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue := FValue.Norm;
+end;
+
+function TVectorQuantity.SquaredNorm: TRealQuantity;
+begin
+  result.FDim := FDim * 2;
+  result.FValue := FValue.SquaredNorm;
+end;
+
+function TVectorQuantity.Normalize: TValueVector;
+begin
+  result := FValue.Normalize;
+end;
+
+function TVectorQuantity.Reciprocal: TVectorQuantity;
+begin
+  result.FDim := -FDim;
+  result.FValue := FValue.Reciprocal;
+end;
+
+function TVectorQuantity.ToString: string;
+begin
+  result := FValue.ToString;
+end;
+
+class operator TVectorQuantity.=(const ALeft, ARight: TVectorQuantity): boolean;
+begin
+  Check(ALeft.FDim, ARight.FDim);
+  result := ALeft.FValue = ARight.FValue;
+end;
+
+class operator TVectorQuantity.<>(const ALeft, ARight: TVectorQuantity): boolean;
+begin
+  Check(ALeft.FDim, ARight.FDim);
+  result := ALeft.FValue <> ARight.FValue;
+end;
+
+class operator TVectorQuantity.+(const ASelf: TVectorQuantity): TVectorQuantity;
+begin
+  result.FDim := ASelf.FDim;
+  result.FValue := ASelf.FValue;
+end;
+
+class operator TVectorQuantity.-(const ASelf: TVectorQuantity): TVectorQuantity;
+begin
+  result.FDim := ASelf.FDim;
+  result.FValue := -ASelf.FValue;
+end;
+
+class operator TVectorQuantity.+(const ALeft, ARight: TVectorQuantity): TVectorQuantity;
+begin
+  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue + ARight.FValue;
+end;
+
+class operator TVectorQuantity.-(const ALeft, ARight: TVectorQuantity): TVectorQuantity;
+begin
+  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue - ARight.FValue;
+end;
+
+class operator TVectorQuantity.*(const ALeft, ARight: TVectorQuantity): TScalarQuantity;
+begin
+  result := ALeft.Dot(ARight);
+end;
+
+class operator TVectorQuantity.*(const ALeft: TScalarQuantity; const ARight: TVectorQuantity): TVectorQuantity;
+begin
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVectorQuantity.*(const ALeft: TVectorQuantity; const ARight: TScalarQuantity): TVectorQuantity;
+begin
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue * ARight.FValue;
+end;
+
+class operator TVectorQuantity./(const ALeft: TVectorQuantity; const ARight: TScalarQuantity): TVectorQuantity;
+begin
+  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue / ARight.FValue;
+end;
+
+function TRealVectorQuantityHelper.Cross(const AVector: TRealVectorQuantity): TRealVectorQuantity;
+begin
+  result.FDim := CheckMul(Self.FDim, AVector.FDim);
+  result.FValue := RawRealVectorCross(Self.FValue, AVector.FValue);
+end;
+
+function TRealVectorQuantityHelper.SameValue(const AVector: TRealVectorQuantity): boolean;
+var
+  LIndex: longint;
+begin
+  Check(Self.FDim, AVector.FDim);
+  if Self.Size <> AVector.Size then Exit(False);
+  for LIndex := 0 to Self.Size - 1 do
+    if not Math.SameValue(Self.FValue[LIndex], AVector.FValue[LIndex], DefaultEpsilon) then
+      Exit(False);
+  result := True;
+end;
+
+function TRealVectorQuantityHelper.ToComplex: TComplexVectorQuantity;
+begin
+  result.FDim := Self.FDim;
+  result.FValue := RawRealVectorToComplex(Self.FValue);
+end;
+
+function TComplexVectorQuantityHelper.Conjugate: TComplexVectorQuantity;
+begin
+  result.FDim := Self.FDim;
+  result.FValue := RawComplexVectorConjugate(Self.FValue);
+end;
+
+function TComplexVectorQuantityHelper.SameValue(const AVector: TComplexVectorQuantity): boolean;
+var
+  LIndex: longint;
+begin
+  Check(Self.FDim, AVector.FDim);
+  if Self.Size <> AVector.Size then Exit(False);
+  for LIndex := 0 to Self.Size - 1 do
+    if not Self.FValue[LIndex].SameValue(AVector.FValue[LIndex]) then Exit(False);
+  result := True;
+end;
+
+{ TMatrixQuantity<T> }
+
+function TMatrixQuantity.Get(ARow, ACol: longint): TScalarQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue := FValue[ARow, ACol];
+end;
+
+procedure TMatrixQuantity.Put(ARow, ACol: longint; const AQuantity: TScalarQuantity);
+begin
+  Check(FDim, AQuantity.FDim);
+  FValue[ARow, ACol] := AQuantity.FValue;
+end;
+
+function TMatrixQuantity.Order: longint;
 begin
   result := FValue.Order;
 end;
 
-function TRMatrixQuantity.Get(ARow, ACol: longint): TQuantity;
+function TMatrixQuantity.SolveLinear(const AData: TVectorQuantityType): TVectorQuantityType;
+begin
+  result.FDim := CheckDiv(AData.FDim, FDim);
+  result.FValue := FValue.SolveLinear(AData.FValue);
+end;
+
+function TMatrixQuantity.Identity: TValueMatrix;
+begin
+  result := FValue.Identity;
+end;
+
+function TMatrixQuantity.Null: TMatrixQuantity;
 begin
   result.FDim := FDim;
-  result.FValue := FValue[ARow, ACol];
+  result.FValue := FValue.Null;
 end;
 
-procedure TRMatrixQuantity.Put(ARow, ACol: longint; const AValue: TQuantity);
+function TMatrixQuantity.Diagonalize(const ADiagonal: TVectorQuantityType): TMatrixQuantity;
 begin
-  Check(FDim, AValue.FDim);
-  FValue[ARow, ACol] := AValue.FValue;
+  result.FDim := ADiagonal.FDim;
+  result.FValue := FValue.Diagonalize(ADiagonal.FValue);
 end;
 
-class operator TRMatrixQuantity.:=(const AMatrix: TRMatrix): TRMatrixQuantity;
+function TMatrixQuantity.IsNull: boolean;
 begin
-  result.FDim := ScalarUnit.FDim;
-  result.FValue := AMatrix;
+  result := FValue.IsNull;
 end;
 
-class operator TRMatrixQuantity.<>(const ALeft, ARight: TRMatrixQuantity): boolean;
+function TMatrixQuantity.IsNotNull: boolean;
 begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue <> ARight.FValue;
+  result := FValue.IsNotNull;
 end;
 
-class operator TRMatrixQuantity.=(const ALeft, ARight: TRMatrixQuantity): boolean;
+function TMatrixQuantity.Determinant: TScalarQuantity;
+begin
+  result.FDim := FDim * Order;
+  result.FValue := FValue.Determinant;
+end;
+
+function TMatrixQuantity.Norm: TRealQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue := FValue.Norm;
+end;
+
+function TMatrixQuantity.Rank: longint;
+begin
+  result := FValue.Rank;
+end;
+
+function TMatrixQuantity.Trace: TScalarQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue := FValue.Trace;
+end;
+
+function TMatrixQuantity.Clone: TMatrixQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue := FValue.Clone;
+end;
+
+function TMatrixQuantity.Transpose: TMatrixQuantity;
+begin
+  result.FDim := FDim;
+  result.FValue := FValue.Transpose;
+end;
+
+function TMatrixQuantity.Inverse: TMatrixQuantity;
+begin
+  result.FDim := -FDim;
+  result.FValue := FValue.Inverse;
+end;
+
+function TMatrixQuantity.RowReduction: TValueMatrix;
+begin
+  result := FValue.RowReduction;
+end;
+
+procedure TMatrixQuantity.Swap(ARow1, ARow2: longint);
+begin
+  FValue.Swap(ARow1, ARow2);
+end;
+
+function TMatrixQuantity.ToString: string;
+begin
+  result := FValue.ToString;
+end;
+
+function TMatrixQuantity.ToString(APrecision, ADigits: integer): string;
+begin
+  result := FValue.ToString(APrecision, ADigits);
+end;
+
+class operator TMatrixQuantity.=(const ALeft, ARight: TMatrixQuantity): boolean;
 begin
   Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TRMatrixQuantity.+(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
-begin
-  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue + ARight.FValue;
-end;
-
-class operator TRMatrixQuantity.-(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
-begin
-  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue - ARight.FValue;
-end;
-
-class operator TRMatrixQuantity.*(const ALeft, ARight: TRMatrixQuantity): TRMatrixQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TRMatrixQuantity.*(const ALeft: TQuantity; const ARight: TRMatrixQuantity): TRMatrixQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TRMatrixQuantity.*(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TRMatrixQuantity./(const ALeft: TRMatrixQuantity; const ARight: TQuantity): TRMatrixQuantity;
-begin
-  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue / ARight.FValue;
-end;
-{$ENDIF}
-
-// TCMatrixQuantity
-
-{$IFNDEF ADIMOFF}
-
-function TCMatrixQuantity.Get(ARow, ACol: longint): TComplexQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue := FValue[ARow, ACol];
-end;
-
-procedure TCMatrixQuantity.Put(ARow, ACol: longint; const AValue: TComplexQuantity);
-begin
-  Check(FDim, AValue.FDim);
-  FValue[ARow, ACol] := AValue.FValue;
-end;
-
-class operator TCMatrixQuantity.:=(const AMatrix: TCMatrix): TCMatrixQuantity;
-begin
-  result.FDim := ScalarUnit.FDim;
-  result.FValue := AMatrix;
-end;
-
-class operator TCMatrixQuantity.<>(const ALeft, ARight: TCMatrixQuantity): boolean;
+class operator TMatrixQuantity.<>(const ALeft, ARight: TMatrixQuantity): boolean;
 begin
   Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TCMatrixQuantity.=(const ALeft, ARight: TCMatrixQuantity): boolean;
-begin
-  Check(ALeft.FDim, ARight.FDim);
-  result := ALeft.FValue = ARight.FValue;
-end;
-
-class operator TCMatrixQuantity.+(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
+class operator TMatrixQuantity.+(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCMatrixQuantity.-(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
+class operator TMatrixQuantity.-(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCMatrixQuantity.*(const ALeft, ARight: TCMatrixQuantity): TCMatrixQuantity;
+class operator TMatrixQuantity.*(const ALeft: TScalarQuantity; const ARight: TMatrixQuantity): TMatrixQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCMatrixQuantity.*(const ALeft: TComplexQuantity; const ARight: TCMatrixQuantity): TCMatrixQuantity;
+class operator TMatrixQuantity.*(const ALeft: TMatrixQuantity; const ARight: TScalarQuantity): TMatrixQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCMatrixQuantity.*(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TCMatrixQuantity./(const ALeft: TCMatrixQuantity; const ARight: TComplexQuantity): TCMatrixQuantity;
+class operator TMatrixQuantity./(const ALeft: TMatrixQuantity; const ARight: TScalarQuantity): TMatrixQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
-{$ENDIF}
 
-// TRVecQuantity
-
-{$IFNDEF ADIMOFF}
-
-function TRVecQuantity.Get(ARow: longint): TQuantity;
+function TRealMatrixQuantityHelper.IsOrthogonal: boolean;
 begin
-  result.FDim := FDim;
-  result.FValue := FValue[ARow];
+  Check(Self.FDim, ScalarUnit.FDim);
+  result := RawRealMatrixIsOrthogonal(Self.FValue);
 end;
 
-procedure TRVecQuantity.Put(ARow: longint; const AQuantity: TQuantity);
+function TRealMatrixQuantityHelper.SameValue(const AMatrix: TRealMatrixQuantity): boolean;
 begin
-  Check(FDim, AQuantity.FDim);
-  FValue[ARow] := AQuantity.FValue;
+  Check(Self.FDim, AMatrix.FDim);
+  result := Self.FValue.SameValue(AMatrix.FValue);
 end;
 
-function TRVecQuantity.Cross(const AVector: TRVecQuantity): TRVecQuantity;
+function TRealMatrixQuantityHelper.ToComplex: TComplexMatrixQuantity;
 begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Cross(AVector.FValue);
+  result.FDim := Self.FDim;
+  result.FValue := RawRealMatrixToComplex(Self.FValue);
 end;
 
-function TRVecQuantity.Dot(const AVector: TRVecQuantity): TQuantity;
+function TRealMatrixQuantityHelper.Eigenvalues: TComplexVectorQuantity;
 begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Dot(AVector.FValue);
+  result.FDim := Self.FDim;
+  result.FValue := RawRealMatrixEigenvalues(Self.FValue);
 end;
 
-function TRVecQuantity.Normalize: TRVecQuantity;
+function TRealMatrixQuantityHelper.Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
 begin
-  result.FDim := FDim;
-  result.FValue := FValue / FValue.Norm;
+  Check(Self.FDim, AEigenvalues.FDim);
+  result := RawRealMatrixEigenvectors(Self.FValue, AEigenvalues.FValue);
 end;
 
-class operator TRVecQuantity.<>(const ALeft, ARight: TRVecQuantity): boolean;
+function TComplexMatrixQuantityHelper.Conjugate: TComplexMatrixQuantity;
 begin
-  Check(ALeft.FDim, ARight.FDim );
-  result := ALeft.FValue <> ARight.FValue;
+  result.FDim := Self.FDim;
+  result.FValue := RawComplexMatrixConjugate(Self.FValue);
 end;
 
-class operator TRVecQuantity.=(const ALeft, ARight: TRVecQuantity): boolean;
+function TComplexMatrixQuantityHelper.Eigenvalues: TComplexVectorQuantity;
 begin
-  Check(ALeft.FDim, ARight.FDim );
-  result := ALeft.FValue = ARight.FValue;
+  result.FDim := Self.FDim;
+  result.FValue := RawComplexMatrixEigenvalues(Self.FValue);
 end;
 
-class operator TRVecQuantity.+(const AValue: TRVecQuantity): TRVecQuantity;
+function TComplexMatrixQuantityHelper.Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
 begin
-  result.FDim := AValue.FDim;
-  result.FValue := AValue.FValue;
+  Check(Self.FDim, AEigenvalues.FDim);
+  result := RawComplexMatrixEigenvectors(Self.FValue, AEigenvalues.FValue);
 end;
 
-class operator TRVecQuantity.+(const ALeft, ARight: TRVecQuantity): TRVecQuantity;
+function TComplexMatrixQuantityHelper.IsHermitian: boolean;
+var
+  LRow, LColumn: longint;
 begin
-  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue + ARight.FValue;
-end;
-
-class operator TRVecQuantity.-(const AValue: TRVecQuantity): TRVecQuantity;
-begin
-  result.FDim := AValue.FDim;
-  result.FValue := -AValue.FValue;
-end;
-
-class operator TRVecQuantity.-(const ALeft, ARight: TRVecQuantity): TRVecQuantity;
-begin
-  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue - ARight.FValue;
-end;
-
-class operator TRVecQuantity.*(const ALeft: TRMatrixQuantity; const ARight: TRVecQuantity): TRVecQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TRVecQuantity.*(const ALeft, ARight: TRVecQuantity): TQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TRVecQuantity.*(const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TRVecQuantity.*(const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
-begin
-  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue;
-end;
-
-class operator TRVecQuantity./(const ALeft: TQuantity; const ARight: TRVecQuantity): TRVecQuantity;
-begin
-  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
-end;
-
-class operator TRVecQuantity./(const ALeft: TRVecQuantity; const ARight: TQuantity): TRVecQuantity;
-begin
-  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue / ARight.FValue;
-end;
-{$ENDIF}
-
-// TCVecQuantity
-
-{$IFNDEF ADIMOFF}
-function TCVecQuantity.Get(ARow: longint): TComplexQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue := FValue[ARow];
-end;
-
-procedure TCVecQuantity.Put(ARow: longint; const AQuantity: TComplexQuantity);
-begin
-  Check(FDim, AQuantity.FDim);
-  FValue[ARow] := AQuantity.FValue;
-end;
-
-function TCVecQuantity.Dot(const AVector: TCVecQuantity): TComplexQuantity;
-begin
-  result.FDim := CheckMul(FDim, AVector.FDim);
-  result.FValue := FValue.Dot(AVector.FValue);
-end;
-
-function TCVecQuantity.Conjugate: TCVecQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue:= FValue.Conjugate;
-end;
-
-function TCVecQuantity.Normalize: TCVecQuantity;
-begin
-  result.FDim := FDim;
-  result.FValue := FValue / FValue.Norm;
-end;
-
-class operator TCVecQuantity.:=(const AValue: TCVector): TCVecQuantity;
-begin
-  result.FDim := ScalarUnit.FDim;
-  result.FValue := AValue;
-end;
-
-class operator TCVecQuantity.<>(const ALeft, ARight: TCVecQuantity): boolean;
-begin
-  if ALeft.FDim <> ARight.FDim then Exit(True);
-  if ALeft.FValue <> ARight.FValue then Exit(True);
-  result := False;
-end;
-
-class operator TCVecQuantity.=(const ALeft, ARight: TCVecQuantity): boolean;
-begin
-  if ALeft.FDim <> ARight.FDim then Exit(False);
-  if ALeft.FValue <> ARight.FValue then Exit(False);
+  for LRow := 0 to Self.Order - 1 do
+    for LColumn := LRow to Self.Order - 1 do
+      if not Self.FValue[LRow, LColumn].SameValue(
+        Self.FValue[LColumn, LRow].Conjugate) then Exit(False);
   result := True;
 end;
 
-class operator TCVecQuantity.+(const AValue: TCVecQuantity): TCVecQuantity;
+function TComplexMatrixQuantityHelper.IsUnitary: boolean;
 begin
-  result.FDim := AValue.FDim;
-  result.FValue := AValue.FValue;
+  Check(Self.FDim, ScalarUnit.FDim);
+  result := RawComplexMatrixIsUnitary(Self.FValue);
 end;
 
-class operator TCVecQuantity.+(const ALeft, ARight: TCVecQuantity): TCVecQuantity;
+function TComplexMatrixQuantityHelper.SameValue(const AMatrix: TComplexMatrixQuantity): boolean;
 begin
-  result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue + ARight.FValue;
+  Check(Self.FDim, AMatrix.FDim);
+  result := Self.FValue.SameValue(AMatrix.FValue);
 end;
 
-class operator TCVecQuantity.-(const AValue: TCVecQuantity): TCVecQuantity;
+function TComplexMatrixQuantityHelper.TransposeConjugate: TComplexMatrixQuantity;
 begin
-  result.FDim := AValue.FDim;
-  result.FValue := -AValue.FValue;
+  result.FDim := Self.FDim;
+  result.FValue := RawComplexMatrixTransposeConjugate(Self.FValue);
 end;
 
-class operator TCVecQuantity.-(const ALeft, ARight: TCVecQuantity): TCVecQuantity;
-begin
-  result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue - ARight.FValue;
-end;
-
-class operator TCVecQuantity.*(const ALeft, ARight: TCVecQuantity): TComplexQuantity;
+operator *(const ALeft, ARight: TRealMatrixQuantity): TRealMatrixQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCVecQuantity.*(const ALeft: TCVecQuantity; const ARight: TCMatrixQuantity): TCVecQuantity;
+operator *(const ALeft, ARight: TComplexMatrixQuantity): TComplexMatrixQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCVecQuantity.*(const ALeft: TCMatrixQuantity; const ARight: TCVecQuantity): TCVecQuantity;
+operator *(const ALeft: TRealMatrixQuantity; const ARight: TRealVectorQuantity): TRealVectorQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCVecQuantity.*(const ALeft: TCVector; const ARight: TCVecQuantity): TComplexQuantity;
-begin
-  result.FDim := CheckMul(ScalarUnit.FDim, ARight.FDim);
-  result.FValue := ALeft * ARight.FValue;
-end;
-
-class operator TCVecQuantity.*(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
+operator *(const ALeft: TRealVectorQuantity; const ARight: TRealMatrixQuantity): TRealVectorQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCVecQuantity.*(const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
+operator *(const ALeft: TComplexMatrixQuantity; const ARight: TComplexVectorQuantity): TComplexVectorQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCVecQuantity./(const ALeft: TQuantity; const ARight: TCVecQuantity): TCVecQuantity;
+operator *(const ALeft: TComplexVectorQuantity; const ARight: TComplexMatrixQuantity): TComplexVectorQuantity;
 begin
-  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
+  result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
+  result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCVecQuantity./(const ALeft: TCVecQuantity; const ARight: TQuantity): TCVecQuantity;
-begin
-  result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
-  result.FValue := ALeft.FValue / ARight.FValue;
-end;
 {$ENDIF}
+
 
 {$IFNDEF ADIMOFF}
 class operator TCL3MultivecQuantity.<>(const ALeft, ARight: TCL3MultivecQuantity): boolean;
@@ -5056,85 +4834,85 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3MultivecQuantity./(const ALeft: double; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity./(const ALeft: TReal; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
   result.FValue := ALeft * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3MultivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: double): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TReal): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ScalarUnit.FDim);
   result.FValue := ALeft.FValue / ARight;
 end;
 
-class operator TCL3MultivecQuantity.<>(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+class operator TCL3MultivecQuantity.<>(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): boolean;
 begin
   Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity.<>(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
+class operator TCL3MultivecQuantity.<>(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue <> ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity.=(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): boolean;
+class operator TCL3MultivecQuantity.=(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): boolean;
 begin
   Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity.=(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): boolean;
+class operator TCL3MultivecQuantity.=(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): boolean;
 begin
   Check(ALeft.FDim, ARight.FDim);
   result := ALeft.FValue = ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity.+(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity.+(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity.+(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity.-(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity.-(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity.-(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity.*(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity.*(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity.*(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity./(const ALeft: TCL3MultivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TCL3MultivecQuantity./(const ALeft: TQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
+class operator TCL3MultivecQuantity./(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
@@ -5241,13 +5019,13 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3TrivecQuantity./(const ALeft: double; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TReal; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
   result.FValue := ALeft * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: double): TCL3TrivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TReal): TCL3TrivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ScalarUnit.FDim);
   result.FValue := ALeft.FValue / ARight;
@@ -5265,61 +5043,61 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3TrivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCL3TrivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+class operator TCL3TrivecQuantity.+(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCL3TrivecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCL3TrivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
+class operator TCL3TrivecQuantity.-(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCL3TrivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3TrivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3TrivecQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3TrivecQuantity.*(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+class operator TCL3TrivecQuantity.*(const ALeft, ARight: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3TrivecQuantity./(const ALeft, ARight: TCL3TrivecQuantity): TQuantity;
+class operator TCL3TrivecQuantity./(const ALeft, ARight: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TQuantity): TCL3TrivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TCL3TrivecQuantity; const ARight: TRealQuantity): TCL3TrivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TCL3TrivecQuantity./(const ALeft: TQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
+class operator TCL3TrivecQuantity./(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3TrivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
@@ -5474,13 +5252,13 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3BivecQuantity./(const ALeft: double; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TReal; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
   result.FValue := ALeft * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: double): TCL3BivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TReal): TCL3BivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ScalarUnit.FDim);
   result.FValue := ALeft.FValue * ARight;
@@ -5510,49 +5288,49 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3BivecQuantity.+(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3BivecQuantity.+(const ALeft: TCL3BivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCL3BivecQuantity.+(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+class operator TCL3BivecQuantity.+(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCL3BivecQuantity.-(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3BivecQuantity.-(const ALeft: TCL3BivecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCL3BivecQuantity.-(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
+class operator TCL3BivecQuantity.-(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCL3BivecQuantity.*(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+class operator TCL3BivecQuantity.*(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3BivecQuantity.*(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+class operator TCL3BivecQuantity.*(const ALeft: TCL3BivecQuantity; const ARight: TRealQuantity): TCL3BivecQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TQuantity): TCL3BivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TCL3BivecQuantity; const ARight: TRealQuantity): TCL3BivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TCL3BivecQuantity./(const ALeft: TQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
+class operator TCL3BivecQuantity./(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3BivecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
@@ -5742,13 +5520,13 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3VecQuantity./(const ALeft: double; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TReal; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FDim := CheckDiv(ScalarUnit.FDim, ARight.FDim);
   result.FValue := ALeft * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: double): TCL3VecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TCL3VecQuantity; const ARight: TReal): TCL3VecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ScalarUnit.FDim);
   result.FValue := ALeft.FValue * ARight;
@@ -5790,49 +5568,49 @@ begin
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
 end;
 
-class operator TCL3VecQuantity.+(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TCL3VecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCL3VecQuantity.+(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+class operator TCL3VecQuantity.+(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue + ARight.FValue;
 end;
 
-class operator TCL3VecQuantity.-(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3MultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TCL3VecQuantity; const ARight: TRealQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCL3VecQuantity.-(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
+class operator TCL3VecQuantity.-(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
 begin
   result.FDim := CheckSub(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue - ARight.FValue;
 end;
 
-class operator TCL3VecQuantity.*(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3VecQuantity.*(const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+class operator TCL3VecQuantity.*(const ALeft: TCL3VecQuantity; const ARight: TRealQuantity): TCL3VecQuantity;
 begin
   result.FDim := CheckMul(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue;
 end;
 
-class operator TCL3VecQuantity./ (const ALeft: TCL3VecQuantity; const ARight: TQuantity): TCL3VecQuantity;
+class operator TCL3VecQuantity./ (const ALeft: TCL3VecQuantity; const ARight: TRealQuantity): TCL3VecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue / ARight.FValue;
 end;
 
-class operator TCL3VecQuantity./(const ALeft: TQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
+class operator TCL3VecQuantity./(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3VecQuantity;
 begin
   result.FDim := CheckDiv(ALeft.FDim, ARight.FDim);
   result.FValue := ALeft.FValue * ARight.FValue.Reciprocal;
@@ -5885,13 +5663,13 @@ begin
   result.FValue := FValue.Normalized;
 end;
 
-function TCL3MultivecQuantityHelper.Norm: TQuantity;
+function TCL3MultivecQuantityHelper.Norm: TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := FValue.Norm;
 end;
 
-function TCL3MultivecQuantityHelper.SquaredNorm: TQuantity;
+function TCL3MultivecQuantityHelper.SquaredNorm: TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, FDim);
   result.FValue := FValue.SquaredNorm;
@@ -5981,7 +5759,7 @@ begin
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TCL3MultivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
+function TCL3MultivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := FValue.Rejection(AVector.FValue);
@@ -6061,7 +5839,7 @@ begin
   result := FValue.SameValue(AVector.FValue);
 end;
 
-function TCL3MultivecQuantityHelper.SameValue(const AVector: TQuantity): boolean;
+function TCL3MultivecQuantityHelper.SameValue(const AVector: TRealQuantity): boolean;
 begin
   result := FValue.SameValue(AVector.FValue);
 end;
@@ -6102,7 +5880,7 @@ begin
   result.FValue := FValue.ExtractVector;
 end;
 
-function TCL3MultivecQuantityHelper.ExtractScalar: TQuantity;
+function TCL3MultivecQuantityHelper.ExtractScalar: TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := FValue.ExtractScalar;
@@ -6142,7 +5920,7 @@ end;
 // TCL3TrivecQuantityHelper
 
 {$IFNDEF ADIMOFF}
-function TCL3TrivecQuantityHelper.Dual: TQuantity;
+function TCL3TrivecQuantityHelper.Dual: TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := FValue.Dual;
@@ -6178,13 +5956,13 @@ begin
   result.FValue := FValue.Normalized;
 end;
 
-function TCL3TrivecQuantityHelper.Norm: TQuantity;
+function TCL3TrivecQuantityHelper.Norm: TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := FValue.Norm;
 end;
 
-function TCL3TrivecQuantityHelper.SquaredNorm: TQuantity;
+function TCL3TrivecQuantityHelper.SquaredNorm: TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, FDim);
   result.FValue := FValue.SquaredNorm;
@@ -6202,7 +5980,7 @@ begin
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TCL3TrivecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Dot(const AVector: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, AVector.FDim);
   result.FValue := FValue.Dot(AVector.FValue);
@@ -6214,19 +5992,19 @@ begin
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3VecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3VecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, AVector.FDim);
   result.FValue := 0.0;
 end;
 
-function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3BivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3BivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, AVector.FDim);
   result.FValue := 0.0;
 end;
 
-function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, AVector.FDim);
   result.FValue := 0.0;
@@ -6262,19 +6040,19 @@ begin
   result.FValue := FValue.Projection(AVector.FValue);
 end;
 
-function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3VecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3VecQuantity): TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := 0.0;
 end;
 
-function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3BivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3BivecQuantity): TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := 0.0;
 end;
 
-function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
+function TCL3TrivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := 0.0;
@@ -6390,13 +6168,13 @@ begin
   result.FValue := FValue.Normalized;
 end;
 
-function TCL3BivecQuantityHelper.Norm: TQuantity;
+function TCL3BivecQuantityHelper.Norm: TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := FValue.Norm;
 end;
 
-function TCL3BivecQuantityHelper.SquaredNorm: TQuantity;
+function TCL3BivecQuantityHelper.SquaredNorm: TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, FDim);
   result.FValue := FValue.SquaredNorm;
@@ -6408,7 +6186,7 @@ begin
   result.FValue := FValue.Dot(AVector.FValue);
 end;
 
-function TCL3BivecQuantityHelper.Dot(const AVector: TCL3BivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Dot(const AVector: TCL3BivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, AVector.FDim);
   result.FValue := FValue.Dot(AVector.FValue);
@@ -6432,13 +6210,13 @@ begin
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TCL3BivecQuantityHelper.Wedge(const AVector: TCL3BivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Wedge(const AVector: TCL3BivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, AVector.FDim);
   result.FValue := 0.0;
 end;
 
-function TCL3BivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, AVector.FDim);
   result.FValue := 0.0;
@@ -6480,13 +6258,13 @@ begin
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TCL3BivecQuantityHelper.Rejection(const AVector: TCL3BivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Rejection(const AVector: TCL3BivecQuantity): TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := 0.0;
 end;
 
-function TCL3BivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
+function TCL3BivecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := 0.0;
@@ -6608,19 +6386,19 @@ begin
   result.FValue := FValue.Normalized;
 end;
 
-function TCL3VecQuantityHelper.Norm: TQuantity;
+function TCL3VecQuantityHelper.Norm: TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := FValue.Norm;
 end;
 
-function TCL3VecQuantityHelper.SquaredNorm: TQuantity;
+function TCL3VecQuantityHelper.SquaredNorm: TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, FDim);
   result.FValue := FValue.SquaredNorm;
 end;
 
-function TCL3VecQuantityHelper.Dot(const AVector: TCL3VecQuantity): TQuantity;
+function TCL3VecQuantityHelper.Dot(const AVector: TCL3VecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, AVector.FDim);
   result.FValue := FValue.Dot(AVector.FValue);
@@ -6656,7 +6434,7 @@ begin
   result.FValue := FValue.Wedge(AVector.FValue);
 end;
 
-function TCL3VecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TQuantity;
+function TCL3VecQuantityHelper.Wedge(const AVector: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := CheckMul(FDim, FDim);
   result.FValue := 0.0;
@@ -6704,7 +6482,7 @@ begin
   result.FValue := FValue.Rejection(AVector.FValue);
 end;
 
-function TCL3VecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TQuantity;
+function TCL3VecQuantityHelper.Rejection(const AVector: TCL3TrivecQuantity): TRealQuantity;
 begin
   result.FDim := FDim;
   result.FValue := 0.0;
@@ -6814,7 +6592,7 @@ end;
 {$ENDIF}
 
 {$IFNDEF ADIMOFF}
-function SameValueEx(const ALeft, ARight: TQuantity): boolean;
+function SameValueEx(const ALeft, ARight: TRealQuantity): boolean;
 begin
   Check(ALeft.FDim, ARight.FDim);
   result := SameValueEx(ALeft.FValue, ARight.FValue);
@@ -6831,7 +6609,7 @@ end;
 
 // TUnit
 
-class operator TUnit.*(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit.*(const AValue: TReal; const ASelf: TUnit): TRealQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -6841,7 +6619,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AValue: double; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit./(const AValue: TReal; const ASelf: TUnit): TRealQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -6871,7 +6649,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AVector: TRVector; const ASelf: TUnit): TRVecQuantity; inline;
+class operator TUnit.*(const AVector: TRealVector; const ASelf: TUnit): TRealVectorQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -6881,7 +6659,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AVector: TRVector; const ASelf: TUnit): TRVecQuantity; inline;
+class operator TUnit./(const AVector: TRealVector; const ASelf: TUnit): TRealVectorQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -6891,7 +6669,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AVector: TCVector; const ASelf: TUnit): TCVecQuantity; inline;
+class operator TUnit.*(const AVector: TComplexVector; const ASelf: TUnit): TComplexVectorQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -6901,7 +6679,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AVector: TCVector; const ASelf: TUnit): TCVecQuantity; inline;
+class operator TUnit./(const AVector: TComplexVector; const ASelf: TUnit): TComplexVectorQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -6911,7 +6689,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AMatrix: TRMatrix; const ASelf: TUnit): TRMatrixQuantity; inline;
+class operator TUnit.*(const AMatrix: TRealMatrix; const ASelf: TUnit): TRealMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -6921,7 +6699,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AMatrix: TRMatrix; const ASelf: TUnit): TRMatrixQuantity; inline;
+class operator TUnit./(const AMatrix: TRealMatrix; const ASelf: TUnit): TRealMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -6931,7 +6709,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit.*(const AMatrix: TCMatrix; const ASelf: TUnit): TCMatrixQuantity; inline;
+class operator TUnit.*(const AMatrix: TComplexMatrix; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -6941,7 +6719,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TUnit./(const AMatrix: TCMatrix; const ASelf: TUnit): TCMatrixQuantity; inline;
+class operator TUnit./(const AMatrix: TComplexMatrix; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -7033,13 +6811,13 @@ end;
 
 {$IFNDEF ADIMOFF}
 
-class operator TUnit.*(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit.*(const AQuantity: TRealQuantity; const ASelf: TUnit): TRealQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TQuantity; const ASelf: TUnit): TQuantity; inline;
+class operator TUnit./(const AQuantity: TRealQuantity; const ASelf: TUnit): TRealQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
@@ -7069,49 +6847,49 @@ begin
   result.FValue := AQuantity.FValue.Reciprocal;
 end;
 
-class operator TUnit.*(const AQuantity: TRVecQuantity; const ASelf: TUnit): TRVecQuantity; inline;
+class operator TUnit.*(const AQuantity: TRealVectorQuantity; const ASelf: TUnit): TRealVectorQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TRVecQuantity; const ASelf: TUnit): TRVecQuantity; inline;
+class operator TUnit./(const AQuantity: TRealVectorQuantity; const ASelf: TUnit): TRealVectorQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TCVecQuantity; const ASelf: TUnit): TCVecQuantity; inline;
+class operator TUnit.*(const AQuantity: TComplexVectorQuantity; const ASelf: TUnit): TComplexVectorQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TCVecQuantity; const ASelf: TUnit): TCVecQuantity; inline;
+class operator TUnit./(const AQuantity: TComplexVectorQuantity; const ASelf: TUnit): TComplexVectorQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TRMatrixQuantity; const ASelf: TUnit): TRMatrixQuantity; inline;
+class operator TUnit.*(const AQuantity: TRealMatrixQuantity; const ASelf: TUnit): TRealMatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TRMatrixQuantity; const ASelf: TUnit): TRMatrixQuantity; inline;
+class operator TUnit./(const AQuantity: TRealMatrixQuantity; const ASelf: TUnit): TRealMatrixQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit.*(const AQuantity: TCMatrixQuantity; const ASelf: TUnit): TCMatrixQuantity; inline;
+class operator TUnit.*(const AQuantity: TComplexMatrixQuantity; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
 end;
 
-class operator TUnit./(const AQuantity: TCMatrixQuantity; const ASelf: TUnit): TCMatrixQuantity; inline;
+class operator TUnit./(const AQuantity: TComplexMatrixQuantity; const ASelf: TUnit): TComplexMatrixQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue;
@@ -7168,7 +6946,7 @@ end;
 
 // TFactoredUnit
 
-class operator TFactoredUnit.*(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit.*(const AValue: TReal; const ASelf: TFactoredUnit): TRealQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7178,7 +6956,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AValue: double; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit./(const AValue: TReal; const ASelf: TFactoredUnit): TRealQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -7208,7 +6986,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AVector: TRVector; const ASelf: TFactoredUnit): TRVecQuantity; inline;
+class operator TFactoredUnit.*(const AVector: TRealVector; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7218,7 +6996,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AVector: TRVector; const ASelf: TFactoredUnit): TRVecQuantity; inline;
+class operator TFactoredUnit./(const AVector: TRealVector; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -7228,7 +7006,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AVector: TCVector; const ASelf: TFactoredUnit): TCVecQuantity; inline;
+class operator TFactoredUnit.*(const AVector: TComplexVector; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7238,7 +7016,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AVector: TCVector; const ASelf: TFactoredUnit): TCVecQuantity; inline;
+class operator TFactoredUnit./(const AVector: TComplexVector; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -7248,7 +7026,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AMatrix: TRMatrix; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
+class operator TFactoredUnit.*(const AMatrix: TRealMatrix; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7258,7 +7036,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AMatrix: TRMatrix; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
+class operator TFactoredUnit./(const AMatrix: TRealMatrix; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -7268,7 +7046,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit.*(const AMatrix: TCMatrix; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
+class operator TFactoredUnit.*(const AMatrix: TComplexMatrix; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7278,7 +7056,7 @@ begin
 {$ENDIF}
 end;
 
-class operator TFactoredUnit./(const AMatrix: TCMatrix; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
+class operator TFactoredUnit./(const AMatrix: TComplexMatrix; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckDiv(ScalarUnit.FDim, ASelf.FDim);
@@ -7370,13 +7148,13 @@ end;
 
 {$IFNDEF ADIMOFF}
 
-class operator TFactoredUnit.*(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TRealQuantity; const ASelf: TFactoredUnit): TRealQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TQuantity; const ASelf: TFactoredUnit): TQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TRealQuantity; const ASelf: TFactoredUnit): TRealQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
@@ -7394,49 +7172,49 @@ begin
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TRVecQuantity; const ASelf: TFactoredUnit): TRVecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TRealVectorQuantity; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TRVecQuantity; const ASelf: TFactoredUnit): TRVecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TRealVectorQuantity; const ASelf: TFactoredUnit): TRealVectorQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TCVecQuantity; const ASelf: TFactoredUnit): TCVecQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TComplexVectorQuantity; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TCVecQuantity; const ASelf: TFactoredUnit): TCVecQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TComplexVectorQuantity; const ASelf: TFactoredUnit): TComplexVectorQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TRMatrixQuantity; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TRealMatrixQuantity; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TRMatrixQuantity; const ASelf: TFactoredUnit): TRMatrixQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TRealMatrixQuantity; const ASelf: TFactoredUnit): TRealMatrixQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
 end;
 
-class operator TFactoredUnit.*(const AQuantity: TCMatrixQuantity; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
+class operator TFactoredUnit.*(const AQuantity: TComplexMatrixQuantity; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 begin
   result.FDim := CheckMul(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue * ASelf.FFactor;
 end;
 
-class operator TFactoredUnit./(const AQuantity: TCMatrixQuantity; const ASelf: TFactoredUnit): TCMatrixQuantity; inline;
+class operator TFactoredUnit./(const AQuantity: TComplexMatrixQuantity; const ASelf: TFactoredUnit): TComplexMatrixQuantity; inline;
 begin
   result.FDim := CheckDiv(AQuantity.FDim, ASelf.FDim);
   result.FValue := AQuantity.FValue / ASelf.FFactor;
@@ -7494,7 +7272,7 @@ end;
 
 // TDegreeCelsiusUnit
 
-class operator TDegreeCelsiusUnit.*(const AValue: double; const ASelf: TDegreeCelsiusUnit): TQuantity; inline;
+class operator TDegreeCelsiusUnit.*(const AValue: TReal; const ASelf: TDegreeCelsiusUnit): TRealQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7506,7 +7284,7 @@ end;
 
 // TDegreeFahrenheitUnit
 
-class operator TDegreeFahrenheitUnit.*(const AValue: double; const ASelf: TDegreeFahrenheitUnit): TQuantity; inline;
+class operator TDegreeFahrenheitUnit.*(const AValue: TReal; const ASelf: TDegreeFahrenheitUnit): TRealQuantity; inline;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ASelf.FDim;
@@ -7668,7 +7446,7 @@ begin
   end;
 end;
 
-function TUnitHelper.GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+function TUnitHelper.GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
 var
   I: longint;
   Exponent: longint;
@@ -7679,10 +7457,8 @@ begin
   begin
     Exponent := 0;
     for I := 0 to PrefixCount -1 do
-      Inc(Exponent, PrefixTable[FPrefixes[I]].Exponent * FExponents[I]);
-
-    for I := 0 to PrefixCount -1 do
-      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * FExponents[I]);
+      Inc(Exponent, (PrefixTable[FPrefixes[I]].Exponent -
+        PrefixTable[APrefixes[I]].Exponent) * FExponents[I]);
 
     if Exponent <> 0 then
       result := AQuantity * IntPower(10, Exponent)
@@ -7698,72 +7474,50 @@ end;
 
 function TUnitHelper.GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
 begin
-  result.Re := GetValue(AQuantity.Re, APrefixes);
-  result.Im := GetValue(AQuantity.Im, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TUnitHelper.GetValue(const AQuantity: TRVector; const APrefixes: TPrefixes): TRVector;
+function TUnitHelper.GetValue(const AQuantity: TRealVector; const APrefixes: TPrefixes): TRealVector;
 begin
-  result[1] := GetValue(AQuantity[1], APrefixes);
-  result[2] := GetValue(AQuantity[2], APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TUnitHelper.GetValue(const AQuantity: TCVector; const APrefixes: TPrefixes): TCVector;
+function TUnitHelper.GetValue(const AQuantity: TComplexVector; const APrefixes: TPrefixes): TComplexVector;
 begin
-  result[1] := GetValue(AQuantity[1], APrefixes);
-  result[2] := GetValue(AQuantity[2], APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TUnitHelper.GetValue(const AQuantity: TRMatrix; const APrefixes: TPrefixes): TRMatrix;
-var
-  i, j: longint;
+function TUnitHelper.GetValue(const AQuantity: TRealMatrix; const APrefixes: TPrefixes): TRealMatrix;
 begin
-  for i := 1 to 2 do
-    for j := 1 to 2 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TUnitHelper.GetValue(const AQuantity: TCMatrix; const APrefixes: TPrefixes): TCMatrix;
-var
-  i, j: longint;
+function TUnitHelper.GetValue(const AQuantity: TComplexMatrix; const APrefixes: TPrefixes): TComplexMatrix;
 begin
-  for i := 1 to 2 do
-    for j := 1 to 2 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TCL3Vector; const APrefixes: TPrefixes): TCL3Vector;
 begin
-  result.m1 := GetValue(AQuantity.m1, APrefixes);
-  result.m2 := GetValue(AQuantity.m2, APrefixes);
-  result.m3 := GetValue(AQuantity.m3, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TCL3Bivector; const APrefixes: TPrefixes): TCL3Bivector;
 begin
-  result.m12 := GetValue(AQuantity.m12, APrefixes);
-  result.m13 := GetValue(AQuantity.m13, APrefixes);
-  result.m23 := GetValue(AQuantity.m23, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TCL3Trivector; const APrefixes: TPrefixes): TCL3Trivector;
 begin
-  result.m123 := GetValue(AQuantity.m123, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
 function TUnitHelper.GetValue(const AQuantity: TCL3Multivector; const APrefixes: TPrefixes): TCL3Multivector;
 begin
-  result.m0   := GetValue(AQuantity.m0,   APrefixes);
-  result.m1   := GetValue(AQuantity.m1,   APrefixes);
-  result.m2   := GetValue(AQuantity.m2,   APrefixes);
-  result.m3   := GetValue(AQuantity.m3,   APrefixes);
-  result.m12  := GetValue(AQuantity.m12,  APrefixes);
-  result.m13  := GetValue(AQuantity.m13,  APrefixes);
-  result.m23  := GetValue(AQuantity.m23,  APrefixes);
-  result.m123 := GetValue(AQuantity.m123, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TUnitHelper.ToFloat(const AQuantity: TQuantity): double;
+function TUnitHelper.ToFloat(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -7773,7 +7527,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TUnitHelper.ToFloat(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -7783,7 +7537,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TQuantity): string;
+function TUnitHelper.ToString(const AQuantity: TRealQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -7793,9 +7547,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -7810,9 +7564,9 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -7827,10 +7581,10 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredTol: double;
-  FactoredValue: double;
+  FactoredTol: TReal;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -7852,7 +7606,7 @@ begin
   end;
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRealQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -7868,9 +7622,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -7894,9 +7648,9 @@ begin
   end;
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -7920,10 +7674,10 @@ begin
   end;
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredTol: double;
-  FactoredValue: double;
+  FactoredTol: TReal;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8053,7 +7807,7 @@ begin
     result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToVector(const AQuantity: TRVecQuantity): TRVector;
+function TUnitHelper.ToVector(const AQuantity: TRealVectorQuantity): TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8063,7 +7817,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVector(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): TRVector;
+function TUnitHelper.ToVector(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8073,7 +7827,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TRVecQuantity): string;
+function TUnitHelper.ToString(const AQuantity: TRealVectorQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8083,9 +7837,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TRVector;
+  FactoredValue: TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8100,7 +7854,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TRVecQuantity): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRealVectorQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8110,9 +7864,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TRVector;
+  FactoredValue: TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8127,7 +7881,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
-function TUnitHelper.ToVector(const AQuantity: TCVecQuantity): TCVector;
+function TUnitHelper.ToVector(const AQuantity: TComplexVectorQuantity): TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8137,7 +7891,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVector(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): TCVector;
+function TUnitHelper.ToVector(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8147,7 +7901,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TCVecQuantity): string;
+function TUnitHelper.ToString(const AQuantity: TComplexVectorQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8157,9 +7911,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TCVector;
+  FactoredValue: TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8174,7 +7928,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TCVecQuantity): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TComplexVectorQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8184,9 +7938,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TCVector;
+  FactoredValue: TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8201,7 +7955,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
-function TUnitHelper.ToMatrix(const AQuantity: TRMatrixQuantity): TRMatrix;
+function TUnitHelper.ToMatrix(const AQuantity: TRealMatrixQuantity): TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8211,7 +7965,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToMatrix(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): TRMatrix;
+function TUnitHelper.ToMatrix(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8221,7 +7975,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TRMatrixQuantity): string;
+function TUnitHelper.ToString(const AQuantity: TRealMatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8231,9 +7985,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue : TRMatrix;
+  FactoredValue : TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8248,7 +8002,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TRMatrixQuantity): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRealMatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8258,9 +8012,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TRMatrix;
+  FactoredValue: TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8275,7 +8029,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APRefixes);
 end;
 
-function TUnitHelper.ToMatrix(const AQuantity: TCMatrixQuantity): TCMatrix;
+function TUnitHelper.ToMatrix(const AQuantity: TComplexMatrixQuantity): TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8285,7 +8039,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToMatrix(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): TCMatrix;
+function TUnitHelper.ToMatrix(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8295,7 +8049,7 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TCMatrixQuantity): string;
+function TUnitHelper.ToString(const AQuantity: TComplexMatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8305,9 +8059,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue : TCMatrix;
+  FactoredValue : TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8322,7 +8076,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes);
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TCMatrixQuantity): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TComplexMatrixQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8332,9 +8086,9 @@ begin
 {$ENDIF}
 end;
 
-function TUnitHelper.ToVerboseString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
+function TUnitHelper.ToVerboseString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TCMatrix;
+  FactoredValue: TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8399,7 +8153,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
 function TUnitHelper.ToString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
@@ -8412,7 +8166,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
 function TUnitHelper.ToString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
@@ -8425,7 +8179,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
 function TUnitHelper.ToString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
@@ -8438,7 +8192,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3VecQuantity): string;
@@ -8491,7 +8245,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes)
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
@@ -8504,7 +8258,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes)
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
@@ -8517,7 +8271,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes)
 end;
 
 function TUnitHelper.ToVerboseString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
@@ -8530,7 +8284,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes)
 end;
 
 // TFactoredUnitHelper
@@ -8685,7 +8439,7 @@ begin
   end;
 end;
 
-function TFactoredUnitHelper.GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+function TFactoredUnitHelper.GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
 var
   I: longint;
   Exponent: longint;
@@ -8696,10 +8450,8 @@ begin
   begin
     Exponent := 0;
     for I := 0 to PrefixCount -1 do
-      Inc(Exponent, PrefixTable[FPrefixes[I]].Exponent * FExponents[I]);
-
-    for I := 0 to PrefixCount -1 do
-      Dec(Exponent, PrefixTable[APrefixes[I]].Exponent * FExponents[I]);
+      Inc(Exponent, (PrefixTable[FPrefixes[I]].Exponent -
+        PrefixTable[APrefixes[I]].Exponent) * FExponents[I]);
 
     if Exponent <> 0 then
       result := AQuantity * IntPower(10, Exponent)
@@ -8715,76 +8467,50 @@ end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TComplex; const APrefixes: TPrefixes): TComplex;
 begin
-  result.Re := GetValue(AQuantity.Re, APrefixes);
-  result.Im := GetValue(AQuantity.Im, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TFactoredUnitHelper.GetValue(const AQuantity: TRVector; const APrefixes: TPrefixes): TRVector;
-var
-  i: longint;
+function TFactoredUnitHelper.GetValue(const AQuantity: TRealVector; const APrefixes: TPrefixes): TRealVector;
 begin
-  for i := 1 to 2 do
-    result[i] := GetValue(AQuantity[i], APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TFactoredUnitHelper.GetValue(const AQuantity: TCVector; const APrefixes: TPrefixes): TCVector;
-var
-  i: longint;
+function TFactoredUnitHelper.GetValue(const AQuantity: TComplexVector; const APrefixes: TPrefixes): TComplexVector;
 begin
-  for i := 1 to 2 do
-    result[i] := GetValue(AQuantity[i], APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TFactoredUnitHelper.GetValue(const AQuantity: TRMatrix; const APrefixes: TPrefixes): TRMatrix;
-var
-  i, j: longint;
+function TFactoredUnitHelper.GetValue(const AQuantity: TRealMatrix; const APrefixes: TPrefixes): TRealMatrix;
 begin
-  for i := 1 to 2 do
-    for j := 1 to 2 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TFactoredUnitHelper.GetValue(const AQuantity: TCMatrix; const APrefixes: TPrefixes): TCMatrix;
-var
-  i, j: longint;
+function TFactoredUnitHelper.GetValue(const AQuantity: TComplexMatrix; const APrefixes: TPrefixes): TComplexMatrix;
 begin
-  for i := 1 to 2 do
-    for j := 1 to 2 do
-      result[i,j] := GetValue(AQuantity[i,j], APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TCL3Vector; const APrefixes: TPrefixes): TCL3Vector;
 begin
-  result.m1 := GetValue(AQuantity.m1, APrefixes);
-  result.m2 := GetValue(AQuantity.m2, APrefixes);
-  result.m3 := GetValue(AQuantity.m3, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TCL3Bivector; const APrefixes: TPrefixes): TCL3Bivector;
 begin
-  result.m12 := GetValue(AQuantity.m12, APrefixes);
-  result.m13 := GetValue(AQuantity.m13, APrefixes);
-  result.m23 := GetValue(AQuantity.m23, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TCL3Trivector; const APrefixes: TPrefixes): TCL3Trivector;
 begin
-  result.m123 := GetValue(AQuantity.m123, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
 function TFactoredUnitHelper.GetValue(const AQuantity: TCL3Multivector; const APrefixes: TPrefixes): TCL3Multivector;
 begin
-  result.m0   := GetValue(AQuantity.m0,   APrefixes);
-  result.m1   := GetValue(AQuantity.m1,   APrefixes);
-  result.m2   := GetValue(AQuantity.m2,   APrefixes);
-  result.m3   := GetValue(AQuantity.m3,   APrefixes);
-  result.m12  := GetValue(AQuantity.m12,  APrefixes);
-  result.m13  := GetValue(AQuantity.m13,  APrefixes);
-  result.m23  := GetValue(AQuantity.m23,  APrefixes);
-  result.m123 := GetValue(AQuantity.m123, APrefixes);
+  result := AQuantity * GetValue(1, APrefixes);
 end;
 
-function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity): double;
+function TFactoredUnitHelper.ToFloat(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8794,7 +8520,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TFactoredUnitHelper.ToFloat(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8804,7 +8530,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRealQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8814,9 +8540,9 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8831,9 +8557,9 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
    Check(FDim, AQuantity.FDim);
@@ -8848,10 +8574,10 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredTol: double;
-  FactoredValue: double;
+  FactoredTol: TReal;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8873,9 +8599,9 @@ begin
   end;
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealQuantity): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8890,9 +8616,9 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8916,9 +8642,9 @@ begin
   end;
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -8942,10 +8668,10 @@ begin
   end;
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredTol: double;
-  FactoredValue: double;
+  FactoredTol: TReal;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9081,7 +8807,7 @@ begin
     result := '(' + FactoredValue.ToString(APrecision, ADigits) + ') ' + GetPluralName(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToVector(const AQuantity: TRVecQuantity): TRVector;
+function TFactoredUnitHelper.ToVector(const AQuantity: TRealVectorQuantity): TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9091,7 +8817,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToVector(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): TRVector;
+function TFactoredUnitHelper.ToVector(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9101,9 +8827,9 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TRVecQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRealVectorQuantity): string;
 var
-  FactoredValue: TRVector;
+  FactoredValue: TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9114,9 +8840,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TRVector;
+  FactoredValue: TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9124,12 +8850,12 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRVecQuantity): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealVectorQuantity): string;
 var
-  FactoredValue: TRVector;
+  FactoredValue: TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9140,9 +8866,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRVecQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealVectorQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TRVector;
+  FactoredValue: TRealVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9157,7 +8883,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToVector(const AQuantity: TCVecQuantity): TCVector;
+function TFactoredUnitHelper.ToVector(const AQuantity: TComplexVectorQuantity): TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9167,7 +8893,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToVector(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): TCVector;
+function TFactoredUnitHelper.ToVector(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9177,9 +8903,9 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TCVecQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TComplexVectorQuantity): string;
 var
-  FactoredValue: TCVector;
+  FactoredValue: TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9190,9 +8916,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TCVector;
+  FactoredValue: TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9200,12 +8926,12 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCVecQuantity): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexVectorQuantity): string;
 var
-  FactoredValue: TCVector;
+  FactoredValue: TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9216,9 +8942,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCVecQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexVectorQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TCVector;
+  FactoredValue: TComplexVector;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9233,7 +8959,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TRMatrixQuantity): TRMatrix;
+function TFactoredUnitHelper.ToMatrix(const AQuantity: TRealMatrixQuantity): TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9243,7 +8969,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): TRMatrix;
+function TFactoredUnitHelper.ToMatrix(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9253,9 +8979,9 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TRMatrixQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRealMatrixQuantity): string;
 var
-  FactoredValue: TRMatrix;
+  FactoredValue: TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9266,9 +8992,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TRMatrix;
+  FactoredValue: TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9276,12 +9002,12 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRMatrixQuantity): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealMatrixQuantity): string;
 var
-  FactoredValue: TRMatrix;
+  FactoredValue: TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9292,9 +9018,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRMatrixQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TRealMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TRMatrix;
+  FactoredValue: TRealMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9309,7 +9035,7 @@ begin
     result := FactoredValue.ToString + ' ' + GetPluralName(APrefixes);
 end;
 
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TCMatrixQuantity): TCMatrix;
+function TFactoredUnitHelper.ToMatrix(const AQuantity: TComplexMatrixQuantity): TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9319,7 +9045,7 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToMatrix(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): TCMatrix;
+function TFactoredUnitHelper.ToMatrix(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9329,9 +9055,9 @@ begin
 {$ENDIF}
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TCMatrixQuantity): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TComplexMatrixQuantity): string;
 var
-  FactoredValue: TCMatrix;
+  FactoredValue: TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9342,9 +9068,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TCMatrix;
+  FactoredValue: TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9352,12 +9078,12 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCMatrixQuantity): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexMatrixQuantity): string;
 var
-  FactoredValue: TCMatrix;
+  FactoredValue: TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9368,9 +9094,9 @@ begin
   result := FactoredValue.ToString + ' ' + GetPluralName(FPrefixes)
 end;
 
-function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCMatrixQuantity; const APrefixes: TPrefixes): string;
+function TFactoredUnitHelper.ToVerboseString(const AQuantity: TComplexMatrixQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: TCMatrix;
+  FactoredValue: TComplexMatrix;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9447,7 +9173,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3BivecQuantity; const APrefixes: TPrefixes): string;
@@ -9460,7 +9186,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3TrivecQuantity; const APrefixes: TPrefixes): string;
@@ -9473,7 +9199,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToString(const AQuantity: TCL3MultivecQuantity; const APrefixes: TPrefixes): string;
@@ -9486,7 +9212,7 @@ begin
 {$ELSE}
   FactoredValue := GetValue(AQuantity / FFactor, APrefixes);
 {$ENDIF}
-  result := FactoredValue.ToString + ' ' + GetSymbol(FPrefixes)
+  result := FactoredValue.ToString + ' ' + GetSymbol(APrefixes)
 end;
 
 function TFactoredUnitHelper.ToVerboseString(const AQuantity: TCL3VecQuantity): string;
@@ -9634,7 +9360,7 @@ begin
   end;
 end;
 
-function TDegreeCelsiusUnitHelper.GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+function TDegreeCelsiusUnitHelper.GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
 var
   I: longint;
   Exponent: longint;
@@ -9662,7 +9388,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity): double;
+function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9672,7 +9398,7 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TDegreeCelsiusUnitHelper.ToFloat(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9682,7 +9408,7 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity): string;
+function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TRealQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9692,9 +9418,9 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9709,9 +9435,9 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9726,10 +9452,10 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TDegreeCelsiusUnitHelper.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredTol: double;
-  FactoredValue: double;
+  FactoredTol: TReal;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9751,9 +9477,9 @@ begin
   end;
 end;
 
-function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
+function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TRealQuantity): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9768,9 +9494,9 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
 end;
 
-function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9794,9 +9520,9 @@ begin
   end;
 end;
 
-function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9820,10 +9546,10 @@ begin
   end;
 end;
 
-function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeCelsiusUnitHelper.ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredTol: double;
-  FactoredValue: double;
+  FactoredTol: TReal;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9886,7 +9612,7 @@ begin
   end;
 end;
 
-function TDegreeFahrenheitUnitHelper.GetValue(const AQuantity: double; const APrefixes: TPrefixes): double;
+function TDegreeFahrenheitUnitHelper.GetValue(const AQuantity: TReal; const APrefixes: TPrefixes): TReal;
 var
   I: longint;
   Exponent: longint;
@@ -9914,7 +9640,7 @@ begin
       raise Exception.Create('Wrong number of prefixes.');
 end;
 
-function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity): double;
+function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9924,7 +9650,7 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TQuantity; const APrefixes: TPrefixes): double;
+function TDegreeFahrenheitUnitHelper.ToFloat(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9934,7 +9660,7 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity): string;
+function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TRealQuantity): string;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9944,9 +9670,9 @@ begin
 {$ENDIF}
 end;
 
-function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9961,9 +9687,9 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -9978,10 +9704,10 @@ begin
     result := FloatToStrF(FactoredValue, ffGeneral, APrecision, ADigits) + ' ' + GetSymbol(APrefixes);
 end;
 
-function TDegreeFahrenheitUnitHelper.ToString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredTol: double;
-  FactoredValue: double;
+  FactoredTol: TReal;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10003,9 +9729,9 @@ begin
   end;
 end;
 
-function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TQuantity): string;
+function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TRealQuantity): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10020,9 +9746,9 @@ begin
     result := FloatToStr(FactoredValue) + ' ' + GetPluralName(FPrefixes);
 end;
 
-function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TQuantity; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10046,9 +9772,9 @@ begin
   end;
 end;
 
-function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredValue: double;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10072,10 +9798,10 @@ begin
   end;
 end;
 
-function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity, ATolerance: TQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
+function TDegreeFahrenheitUnitHelper.ToVerboseString(const AQuantity, ATolerance: TRealQuantity; APrecision, ADigits: longint; const APrefixes: TPrefixes): string;
 var
-  FactoredTol: double;
-  FactoredValue: double;
+  FactoredTol: TReal;
+  FactoredValue: TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(FDim, AQuantity.FDim);
@@ -10099,7 +9825,7 @@ end;
 
 { Power functions }
 
-function SquarePower(const AQuantity: TQuantity): TQuantity;
+function SquarePower(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim * 2;
@@ -10109,7 +9835,7 @@ begin
 {$ENDIF}
 end;
 
-function CubicPower(const AQuantity: TQuantity): TQuantity;
+function CubicPower(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim * 3;
@@ -10119,7 +9845,7 @@ begin
 {$ENDIF}
 end;
 
-function QuarticPower(const AQuantity: TQuantity): TQuantity;
+function QuarticPower(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim * 4;
@@ -10129,7 +9855,7 @@ begin
 {$ENDIF}
 end;
 
-function QuinticPower(const AQuantity: TQuantity): TQuantity;
+function QuinticPower(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim * 5;
@@ -10139,7 +9865,7 @@ begin
 {$ENDIF}
 end;
 
-function SexticPower(const AQuantity: TQuantity): TQuantity;
+function SexticPower(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim * 6;
@@ -10149,7 +9875,7 @@ begin
 {$ENDIF}
 end;
 
-function SquareRoot(const AQuantity: TQuantity): TQuantity;
+function SquareRoot(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 2;
@@ -10161,7 +9887,7 @@ begin
 {$ENDIF}
 end;
 
-function CubicRoot(const AQuantity: TQuantity): TQuantity;
+function CubicRoot(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 3;
@@ -10173,7 +9899,7 @@ begin
 {$ENDIF}
 end;
 
-function QuarticRoot(const AQuantity: TQuantity): TQuantity;
+function QuarticRoot(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 4;
@@ -10185,7 +9911,7 @@ begin
 {$ENDIF}
 end;
 
-function QuinticRoot(const AQuantity: TQuantity): TQuantity;
+function QuinticRoot(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 5;
@@ -10197,7 +9923,7 @@ begin
 {$ENDIF}
 end;
 
-function SexticRoot(const AQuantity: TQuantity): TQuantity;
+function SexticRoot(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := AQuantity.FDim div 6;
@@ -10211,7 +9937,7 @@ end;
 
 { Trigonometric functions }
 
-function Cos(const AQuantity: TQuantity): double;
+function Cos(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, AQuantity.FDim);
@@ -10221,7 +9947,7 @@ begin
 {$ENDIF}
 end;
 
-function Sin(const AQuantity: TQuantity): double;
+function Sin(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, AQuantity.FDim);
@@ -10231,7 +9957,7 @@ begin
 {$ENDIF}
 end;
 
-function Tan(const AQuantity: TQuantity): double;
+function Tan(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, AQuantity.FDim);
@@ -10241,7 +9967,7 @@ begin
 {$ENDIF}
 end;
 
-function Cotan(const AQuantity: TQuantity): double;
+function Cotan(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, AQuantity.FDim);
@@ -10251,7 +9977,7 @@ begin
 {$ENDIF}
 end;
 
-function Secant(const AQuantity: TQuantity): double;
+function Secant(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, AQuantity.FDim);
@@ -10261,7 +9987,7 @@ begin
 {$ENDIF}
 end;
 
-function Cosecant(const AQuantity: TQuantity): double;
+function Cosecant(const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, AQuantity.FDim);
@@ -10271,7 +9997,7 @@ begin
 {$ENDIF}
 end;
 
-function ArcCos(const AValue: double): TQuantity;
+function ArcCos(const AValue: TReal): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ScalarUnit.FDim;
@@ -10281,7 +10007,7 @@ begin
 {$ENDIF}
 end;
 
-function ArcSin(const AValue: double): TQuantity;
+function ArcSin(const AValue: TReal): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ScalarUnit.FDim;
@@ -10291,7 +10017,7 @@ begin
 {$ENDIF}
 end;
 
-function ArcTan(const AValue: double): TQuantity;
+function ArcTan(const AValue: TReal): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ScalarUnit.FDim;
@@ -10301,7 +10027,7 @@ begin
 {$ENDIF}
 end;
 
-function ArcTan2(const x, y: double): TQuantity;
+function ArcTan2(const x, y: TReal): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := ScalarUnit.FDim;
@@ -10313,7 +10039,7 @@ end;
 
 { Math functions }
 
-function Min(const ALeft, ARight: TQuantity): TQuantity;
+function Min(const ALeft, ARight: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
@@ -10323,7 +10049,7 @@ begin
 {$ENDIF}
 end;
 
-function Max(const ALeft, ARight: TQuantity): TQuantity;
+function Max(const ALeft, ARight: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckSum(ALeft.FDim, ARight.FDim);
@@ -10333,7 +10059,7 @@ begin
 {$ENDIF}
 end;
 
-function Exp(const AQuantity: TQuantity): TQuantity;
+function Exp(const AQuantity: TRealQuantity): TRealQuantity;
 begin
 {$IFNDEF ADIMOFF}
   result.FDim := CheckSum(ScalarUnit.FDim, AQuantity.FDim);
@@ -10343,7 +10069,7 @@ begin
 {$ENDIF}
 end;
 
-function Log10(const AQuantity : TQuantity) : double;
+function Log10(const AQuantity : TRealQuantity) : TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, AQuantity.FDim);
@@ -10353,7 +10079,7 @@ begin
 {$ENDIF}
 end;
 
-function Log2(const AQuantity : TQuantity) : double;
+function Log2(const AQuantity : TRealQuantity) : TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, AQuantity.FDim);
@@ -10363,7 +10089,7 @@ begin
 {$ENDIF}
 end;
 
-function LogN(ABase: longint; const AQuantity: TQuantity): double;
+function LogN(ABase: longint; const AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, AQuantity.FDim);
@@ -10373,7 +10099,7 @@ begin
 {$ENDIF}
 end;
 
-function LogN(const ABase, AQuantity: TQuantity): double;
+function LogN(const ABase, AQuantity: TRealQuantity): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, ABase.FDim);
@@ -10384,7 +10110,7 @@ begin
 {$ENDIF}
 end;
 
-function Power(const ABase: TQuantity; AExponent: double): double;
+function Power(const ABase: TRealQuantity; AExponent: TReal): TReal;
 begin
 {$IFNDEF ADIMOFF}
   Check(ScalarUnit.FDim, ABase.FDim);
@@ -10396,7 +10122,7 @@ end;
 
 { Helper functions }
 
-function LessThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+function LessThanOrEqualToZero(const AQuantity: TRealQuantity): boolean;
 begin
 {$IFNDEF ADIMOFF}
   result := AQuantity.FValue <= 0;
@@ -10405,7 +10131,7 @@ begin
 {$ENDIF}
 end;
 
-function LessThanZero(const AQuantity: TQuantity): boolean;
+function LessThanZero(const AQuantity: TRealQuantity): boolean;
 begin
 {$IFNDEF ADIMOFF}
   result := AQuantity.FValue < 0;
@@ -10414,7 +10140,7 @@ begin
 {$ENDIF}
 end;
 
-function EqualToZero(const AQuantity: TQuantity): boolean;
+function EqualToZero(const AQuantity: TRealQuantity): boolean;
 begin
 {$IFNDEF ADIMOFF}
   result := AQuantity.FValue = 0;
@@ -10423,7 +10149,7 @@ begin
 {$ENDIF}
 end;
 
-function NotEqualToZero(const AQuantity: TQuantity): boolean;
+function NotEqualToZero(const AQuantity: TRealQuantity): boolean;
 begin
 {$IFNDEF ADIMOFF}
   result := AQuantity.FValue <> 0;
@@ -10432,7 +10158,7 @@ begin
 {$ENDIF}
 end;
 
-function GreaterThanOrEqualToZero(const AQuantity: TQuantity): boolean;
+function GreaterThanOrEqualToZero(const AQuantity: TRealQuantity): boolean;
 begin
 {$IFNDEF ADIMOFF}
   result := AQuantity.FValue >= 0;
@@ -10441,7 +10167,7 @@ begin
 {$ENDIF}
 end;
 
-function GreaterThanZero(const AQuantity: TQuantity): boolean;
+function GreaterThanZero(const AQuantity: TRealQuantity): boolean;
 begin
 {$IFNDEF ADIMOFF}
   result := AQuantity.FValue > 0;
@@ -10452,19 +10178,28 @@ end;
 
 function CheckEqual(ALeft, ARight: TDimension): TDimension;
 begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+  if ALeft <> ARight then
+    raise EDimensionError.CreateFmt(
+      'Incompatible physical dimensions: %s expected, %s found.',
+      [ALeft.ToString, ARight.ToString]);
   result := ALeft;
 end;
 
 function CheckSum(ALeft, ARight: TDimension): TDimension;
 begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+  if ALeft <> ARight then
+    raise EDimensionError.CreateFmt(
+      'Cannot add quantities with dimensions %s and %s.',
+      [ALeft.ToString, ARight.ToString]);
   result := ALeft;
 end;
 
 function CheckSub(ALeft, ARight: TDimension): TDimension;
 begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, "%s" expected but "%s" found', [ALeft.ToString, ARight.ToString]));
+  if ALeft <> ARight then
+    raise EDimensionError.CreateFmt(
+      'Cannot subtract quantities with dimensions %s and %s.',
+      [ALeft.ToString, ARight.ToString]);
   result := ALeft;
 end;
 
@@ -10480,7 +10215,10 @@ end;
 
 procedure Check(ALeft, ARight: TDimension);
 begin
-  Assert(ALeft = ARight, Format('Wrong units of measurement detected, %s expected but %s found', [ALeft.ToString, ARight.ToString]));
+  if ALeft <> ARight then
+    raise EDimensionError.CreateFmt(
+      'Incompatible physical dimensions: %s and %s.',
+      [ALeft.ToString, ARight.ToString]);
 end;
 
 end.

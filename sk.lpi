@@ -32,6 +32,10 @@
         <Filename Value="adimmath.pas"/>
         <UnitName Value="ADimMath"/>
       </Unit>
+      <Unit>
+        <Filename Value="skeleton.pas"/>
+        <UnitName Value="Skeleton"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
