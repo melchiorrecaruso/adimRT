@@ -24,7 +24,7 @@ unit ToolKitUnit;
 interface
 
 uses
-  Classes, Common, Dialogs, FGL, Graphics, StrUtils, SysUtils;
+  Classes, Common, Contnrs, SysUtils;
 
 type
   TToolKitItem = class
@@ -47,7 +47,7 @@ type
 
   TToolKitList = class
   private
-    FList: TList;
+    FList: TObjectList;
     function GetItem(Index: longint): TToolKitItem;
     function GetCount: longint;
   public
@@ -62,11 +62,8 @@ type
     procedure MoveUp(Index: longint);
     procedure MoveDown(Index: longint);
 
-    function Search(const AValue: string; AIndex: longint): longint;
-    function Search(const ADim: TExponents): longint;
-    function SearchFromEnd(const ADim: TExponents): longint;
-    function SameValue(const ADim1, ADim2: TExponents): boolean;
-
+    function IndexOfQuantity(const AValue: string): longint;
+    function IndexOfDimension(const ADim: TExponents): longint;
     procedure LoadFromFile(const AFileName: string);
     procedure SaveToFile(const AFileName: string);
   public
@@ -74,7 +71,7 @@ type
     property Count: longint read GetCount;
   end;
 
-  TToolKitBuilder = class(TThread)
+  TToolKitBuilder = class
   private
     FList: TToolKitList;
     FBaseUnits: TStringList;
@@ -82,15 +79,8 @@ type
     FDocument: TStringList;
     FResources: TStringList;
 
-    FMessage: string;
-    FOnMessage: TThreadMethod;
-    FOnStart: TThreadMethod;
-    FOnStop: TThreadMethod;
-
-    function  SearchLine(const ALine: string; ASection: TStringList): longint;
-  public
-    constructor Create(const AList: TToolKitList);
-    destructor Destroy; override;
+    FTemplateFileName: string;
+    FResourceTemplateFileName: string;
 
     procedure AddUnits(const ASection: TStringList);
     procedure AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
@@ -105,32 +95,42 @@ type
     procedure AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
 
-    procedure Add(const AItem: TToolkitItem);
     procedure ExpandUnits;
-    procedure Execute; override;
   public
+    constructor Create(const AList: TToolKitList;
+      const ATemplateFileName: string = 'skeleton.pas';
+      const AResourceTemplateFileName: string = 'skeletonres.pas');
+    destructor Destroy; override;
+
+    procedure Build;
+
     property Document: TStringList read FDocument;
     property BaseUnits: TStringList read FBaseUnits;
     property FactoredUnits: TStringList read FFactoredUnits;
     property Resources: TStringList read FResources;
 
-    property Message: string read FMessage;
-    property OnMessage: TThreadMethod read FOnMessage write FOnMessage;
-    property OnStart: TThreadMethod read FOnStart write FOnStart;
-    property OnStop: TThreadMethod read FOnStop write FOnStop;
   end;
-
-  TIntegerList = specialize TFPGList<Integer>;
 
 
 implementation
 
 uses
-  CSVDocument, DateUtils,  LCLType, Math;
+  CSVDocument, Math;
 
-function CompareInteger(const Item1, Item2: longint): integer;
+function EscapePascalString(const AValue: string): string;
 begin
-  result := Item2 - Item1;
+  result := StringReplace(AValue, '''', '''''', [rfReplaceAll]);
+end;
+
+function IsValidPrefixMask(const AValue: string): boolean;
+var
+  I: integer;
+begin
+  if AValue = '' then Exit(True);
+  if Length(AValue) <> 24 then Exit(False);
+  for I := 1 to Length(AValue) do
+    if not (AValue[I] in ['L', 'S', '-']) then Exit(False);
+  result := True;
 end;
 
 // TToolKitItem
@@ -154,50 +154,77 @@ end;
 
 // TToolKitBuilder
 
-constructor TToolKitBuilder.Create(const AList: TToolKitList);
+constructor TToolKitBuilder.Create(const AList: TToolKitList;
+  const ATemplateFileName: string; const AResourceTemplateFileName: string);
 var
   i: longint;
+  LItem: TToolKitItem;
 begin
-  inherited Create(True);
-  FreeOnTerminate := True;
+  inherited Create;
   FList := TToolKitList.Create;
   for i := 0 to AList.Count -1 do
-    FList.Add(AList[i].NewItem);
+  begin
+    LItem := AList[i].NewItem;
+    try
+      FList.Add(LItem);
+      LItem := nil;
+    finally
+      LItem.Free;
+    end;
+  end;
 
   FBaseUnits     := TStringList.Create;
   FFactoredUnits := TStringList.Create;
   FDocument      := TStringList.Create;
   FResources     := TStringList.Create;
+  FTemplateFileName := ExpandFileName(ATemplateFileName);
+  FResourceTemplateFileName := ExpandFileName(AResourceTemplateFileName);
 end;
 
 destructor TToolKitBuilder.Destroy;
 begin
-  FBaseUnits.Destroy;
-  FFactoredUnits.Destroy;
-  FResources.Destroy;
-  FDocument.Destroy;
-  FList.Destroy;
+  FBaseUnits.Free;
+  FFactoredUnits.Free;
+  FResources.Free;
+  FDocument.Free;
+  FList.Free;
   inherited Destroy;
 end;
 
 procedure TToolKitBuilder.AddUnits(const ASection: TStringList);
 var
-  i, j: longint;
-begin
-  for i := 0 to FList.Count -1 do
-  begin;
-    if FList[i].FBase = '' then
-    begin
-      FList[i].FExponents := StringToDimensions(FList[i].FDimension);
-    end else
-    begin
-      j := FList.Search(FList[i].FBase, 1);
-      if j <> -1 then
-      begin
-        FList[i].FExponents := FList[j].FExponents;
-      end;
+  i: longint;
+  LState: array of byte;
+
+  procedure ResolveDimensions(AIndex: longint);
+  var
+    LBaseIndex: longint;
+  begin
+    case LState[AIndex] of
+      1: raise Exception.CreateFmt('Cyclic base-unit dependency involving %s.',
+           [FList[AIndex].FQuantity]);
+      2: Exit;
     end;
+
+    LState[AIndex] := 1;
+    if FList[AIndex].FBase = '' then
+      FList[AIndex].FExponents := StringToDimensions(FList[AIndex].FDimension)
+    else
+    begin
+      LBaseIndex := FList.IndexOfQuantity(FList[AIndex].FBase);
+      if LBaseIndex = -1 then
+        raise Exception.CreateFmt('Base unit %s referenced by %s was not found.',
+          [FList[AIndex].FBase, FList[AIndex].FQuantity]);
+      ResolveDimensions(LBaseIndex);
+      FList[AIndex].FExponents := FList[LBaseIndex].FExponents;
+    end;
+    LState[AIndex] := 2;
   end;
+begin
+  LState := nil;
+  SetLength(LState, FList.Count);
+  for i := 0 to FList.Count -1 do
+    ResolveDimensions(i);
 
   ExpandUnits;
   for i := 0 to FList.Count -1 do
@@ -208,20 +235,15 @@ begin
       AddSymbols(FList[i], ASection);
     end else
     begin
-      if (FList[i].FFactor = '') then
+      if FList[i].FFactor = '' then
       begin
         AddClonedUnit(FList[i], ASection);
         AddSymbols(FList[i], ASection);
       end else
-        if Pos('%s', FList[i].FFactor) = 0 then
-        begin
-          AddFactoredUnit(FList[i], ASection);
-          AddSymbols(FList[i], ASection);
-        end else
-        begin
-          AddFactoredUnit(FList[i], ASection);
-          AddSymbols(FList[i], ASection);
-        end;
+      begin
+        AddFactoredUnit(FList[i], ASection);
+        AddSymbols(FList[i], ASection);
+      end;
     end;
   end;
 end;
@@ -232,23 +254,7 @@ var
 begin
   for i := 0 to FList.Count -1 do
   begin
-    if (FList[i].FBase = '') then
-    begin
-      AddResource(FList[i], ASection);
-    end else
-    begin
-      if (FList[i].FFactor = '') then
-      begin
-        AddResource(FList[i], ASection);
-      end else
-        if Pos('%s', FList[i].FFactor) = 0 then
-        begin
-          AddResource(FList[i], ASection);
-        end else
-        begin
-          AddResource(FList[i], ASection);
-        end;
-    end;
+    AddResource(FList[i], ASection);
   end;
 end;
 
@@ -262,6 +268,10 @@ end;
 procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
   FBaseUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
+
+  { ScalarUnit is part of skeleton.pas because the template must compile on its
+    own. Keep it in the generated unit summary, but do not declare it twice. }
+  if CompareText(GetUnitID(AItem.FQuantity), 'Scalar') = 0 then Exit;
 
   ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
 
@@ -364,9 +374,12 @@ end;
 
 procedure TToolKitBuilder.AddResource(const AItem: TToolKitItem; const ASection: TStringList);
 begin
-  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity), GetSymbol(AItem.FShortString)]);
-  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity), GetSingularName(AItem.FLongString)]);
-  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity), GetPluralName(AItem.FLongString)]);
+  ASection.Add('  %s = ''%s'';', [GetSymbolResourceString(AItem.FQuantity),
+    EscapePascalString(GetSymbol(AItem.FShortString))]);
+  ASection.Add('  %s = ''%s'';', [GetSingularNameResourceString(AItem.FQuantity),
+    EscapePascalString(GetSingularName(AItem.FLongString))]);
+  ASection.Add('  %s = ''%s'';', [GetPluralNameResourceString(AItem.FQuantity),
+    EscapePascalString(GetPluralName(AItem.FLongString))]);
 end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
@@ -459,18 +472,46 @@ begin
   end;
 end;
 
-function GetIdentifier(const S: string): string;
-begin
-  result := S;
-  if Pos(' :', result) > 0 then
-    SetLength(result, Pos(' :', result));
-  result := CleanSingleSpaces(result);
-end;
+type
+  TGeneratorPrefix = record
+    LongName: string[6];
+    ShortName: string[2];
+    Exponent: shortint;
+  end;
+
+const
+  GeneratorPrefixes: array[1..24] of TGeneratorPrefix = (
+    (LongName: 'quetta'; ShortName: 'Q';  Exponent:  30),
+    (LongName: 'ronna';  ShortName: 'R';  Exponent:  27),
+    (LongName: 'yotta';  ShortName: 'Y';  Exponent:  24),
+    (LongName: 'zetta';  ShortName: 'Z';  Exponent:  21),
+    (LongName: 'exa';    ShortName: 'E';  Exponent:  18),
+    (LongName: 'peta';   ShortName: 'P';  Exponent:  15),
+    (LongName: 'tera';   ShortName: 'T';  Exponent:  12),
+    (LongName: 'giga';   ShortName: 'G';  Exponent:   9),
+    (LongName: 'mega';   ShortName: 'M';  Exponent:   6),
+    (LongName: 'kilo';   ShortName: 'k';  Exponent:   3),
+    (LongName: 'hecto';  ShortName: 'h';  Exponent:   2),
+    (LongName: 'deca';   ShortName: 'da'; Exponent:   1),
+    (LongName: 'deci';   ShortName: 'd';  Exponent:  -1),
+    (LongName: 'centi';  ShortName: 'c';  Exponent:  -2),
+    (LongName: 'milli';  ShortName: 'm';  Exponent:  -3),
+    (LongName: 'micro';  ShortName: 'mi'; Exponent:  -6),
+    (LongName: 'nano';   ShortName: 'n';  Exponent:  -9),
+    (LongName: 'pico';   ShortName: 'p';  Exponent: -12),
+    (LongName: 'femto';  ShortName: 'f';  Exponent: -15),
+    (LongName: 'atto';   ShortName: 'a';  Exponent: -18),
+    (LongName: 'zepto';  ShortName: 'z';  Exponent: -21),
+    (LongName: 'yocto';  ShortName: 'y';  Exponent: -24),
+    (LongName: 'ronto';  ShortName: 'r';  Exponent: -27),
+    (LongName: 'quecto'; ShortName: 'q';  Exponent: -30)
+  );
 
 procedure TToolKitBuilder.AddFactoredSymbols(const AItem: TToolKitItem; const SectionA: TStringList);
 const
-  S = '  %s : TQuantity = {$IFNDEF ADIMOFF} (FDim: %s; FValue: %s); {$ELSE} (%s); {$ENDIF}';
+  S = '  %s : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: %s; FValue: %s); {$ELSE} (%s); {$ENDIF}';
 var
+  I: integer;
   Params: string;
   Power: longint;
   Factor: string;
@@ -523,21 +564,26 @@ begin
   if AItem.FFactor <> '' then
     Factor := AItem.FFactor + ' * ';
 
-  if Length(AItem.FPrefixes) = 24 then
+  if AItem.FPrefixes = '' then
+    Params := '------------------------'
+  else
   begin
+    if Length(AItem.FPrefixes) <> Length(GeneratorPrefixes) then
+      raise Exception.CreateFmt(
+        'Invalid prefix mask for %s: expected %d characters, got %d.',
+        [AItem.FQuantity, Length(GeneratorPrefixes), Length(AItem.FPrefixes)]);
     Params := AItem.FPrefixes;
-  end else
-    Params := '------------------------';
+    for I := 1 to Length(Params) do
+      if not (Params[I] in ['L', 'S', '-']) then
+        raise Exception.CreateFmt(
+          'Invalid prefix marker "%s" for %s at position %d.',
+          [Params[I], AItem.FQuantity, I]);
+  end;
 
   Power  := 1;
-  if Pos('2', AItem.FIdentifier) > 0 then Power := 2;
-  if Pos('3', AItem.FIdentifier) > 0 then Power := 3;
-  if Pos('4', AItem.FIdentifier) > 0 then Power := 4;
-  if Pos('5', AItem.FIdentifier) > 0 then Power := 5;
-  if Pos('6', AItem.FIdentifier) > 0 then Power := 6;
-  if Pos('7', AItem.FIdentifier) > 0 then Power := 7;
-  if Pos('8', AItem.FIdentifier) > 0 then Power := 8;
-  if Pos('9', AItem.FIdentifier) > 0 then Power := 9;
+  if (AItem.FIdentifier <> '') and
+     (AItem.FIdentifier[Length(AItem.FIdentifier)] in ['2'..'9']) then
+    Power := Ord(AItem.FIdentifier[Length(AItem.FIdentifier)]) - Ord('0');
 
   FIndex := GetUnitID(AItem.FExponents);
 
@@ -547,56 +593,17 @@ begin
   if (LowerCase(AItem.FIdentifier) <> 'kg' ) and
      (LowerCase(AItem.FIdentifier) <> 'kg2') then
   begin
-    if Params[ 1] = 'L' then Append('quetta', 'quetta', FIndex, Factor, FormatFloat('0e+00', IntPower(10, +30*Power)));
-    if Params[ 1] = 'S' then Append('quetta', 'Q'     , FIndex, Factor, FormatFloat('0e+00', IntPower(10, +30*Power)));
-    if Params[ 2] = 'L' then Append('ronna',  'ronna',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, +27*Power)));
-    if Params[ 2] = 'S' then Append('ronna',  'R',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, +27*Power)));
-    if Params[ 3] = 'L' then Append('yotta',  'yotta',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, +24*Power)));
-    if Params[ 3] = 'S' then Append('yotta',  'Y',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, +24*Power)));
-    if Params[ 4] = 'L' then Append('zetta',  'zetta',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, +21*Power)));
-    if Params[ 4] = 'S' then Append('zetta',  'Z',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, +21*Power)));
-    if Params[ 5] = 'L' then Append('exa',    'exa',    FIndex, Factor, FormatFloat('0e+00', IntPower(10, +18*Power)));
-    if Params[ 5] = 'S' then Append('exa',    'exa',    FIndex, Factor, FormatFloat('0e+00', IntPower(10, +18*Power)));
-    if Params[ 6] = 'L' then Append('peta',   'peta',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, +15*Power)));
-    if Params[ 6] = 'S' then Append('peta',   'P',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, +15*Power)));
-
-    if Params[ 7] = 'L' then Append('tera',   'tera',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, +12*Power)));
-    if Params[ 7] = 'S' then Append('tera',   'T',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, +12*Power)));
-    if Params[ 8] = 'L' then Append('giga',   'giga',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 9*Power)));
-    if Params[ 8] = 'S' then Append('giga',   'G',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 9*Power)));
-    if Params[ 9] = 'L' then Append('mega',   'mega',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 6*Power)));
-    if Params[ 9] = 'S' then Append('mega',   'M',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 6*Power)));
-    if Params[10] = 'L' then Append('kilo',   'kilo',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 3*Power)));
-    if Params[10] = 'S' then Append('kilo',   'k',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 3*Power)));
-    if Params[11] = 'L' then Append('hecto',  'hecto',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 2*Power)));
-    if Params[11] = 'S' then Append('hecto',  'h',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 2*Power)));
-    if Params[12] = 'L' then Append('deca',   'deca',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 1*Power)));
-    if Params[12] = 'S' then Append('deca',   'da',     FIndex, Factor, FormatFloat('0e+00', IntPower(10, + 1*Power)));
-    if Params[13] = 'L' then Append('deci',   'deci',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 1*Power)));
-    if Params[13] = 'S' then Append('deci',   'd',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 1*Power)));
-    if Params[14] = 'L' then Append('centi',  'centi',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 2*Power)));
-    if Params[14] = 'S' then Append('centi',  'c',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 2*Power)));
-    if Params[15] = 'L' then Append('milli',  'milli',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 3*Power)));
-    if Params[15] = 'S' then Append('milli',  'm',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 3*Power)));
-    if Params[16] = 'L' then Append('micro',  'micro',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 6*Power)));
-    if Params[16] = 'S' then Append('micro',  'mi',     FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 6*Power)));
-    if Params[17] = 'L' then Append('nano',   'nano',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 9*Power)));
-    if Params[17] = 'S' then Append('nano',   'n',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, - 9*Power)));
-    if Params[18] = 'L' then Append('pico',   'pico',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, -12*Power)));
-    if Params[18] = 'S' then Append('pico',   'p',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, -12*Power)));
-
-    if Params[19] = 'L' then Append('femto',  'femto',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, -15*Power)));
-    if Params[19] = 'S' then Append('femto',  'f',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, -15*Power)));
-    if Params[20] = 'L' then Append('atto',   'atto',   FIndex, Factor, FormatFloat('0e+00', IntPower(10, -18*Power)));
-    if Params[20] = 'S' then Append('atto',   'a',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, -18*Power)));
-    if Params[21] = 'L' then Append('zepto',  'zepto',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, -21*Power)));
-    if Params[21] = 'S' then Append('zepto',  'z',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, -21*Power)));
-    if Params[22] = 'L' then Append('yocto',  'yocto',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, -24*Power)));
-    if Params[22] = 'S' then Append('yocto',  'y',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, -24*Power)));
-    if Params[23] = 'L' then Append('ronto',  'ronto',  FIndex, Factor, FormatFloat('0e+00', IntPower(10, -27*Power)));
-    if Params[23] = 'S' then Append('ronto',  'r',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, -27*Power)));
-    if Params[24] = 'L' then Append('quecto', 'quecto', FIndex, Factor, FormatFloat('0e+00', IntPower(10, -30*Power)));
-    if Params[24] = 'S' then Append('quecto', 'q',      FIndex, Factor, FormatFloat('0e+00', IntPower(10, -30*Power)));
+    for I := Low(GeneratorPrefixes) to High(GeneratorPrefixes) do
+      case Params[I] of
+        'L': Append(GeneratorPrefixes[I].LongName,
+          GeneratorPrefixes[I].LongName, FIndex, Factor,
+          FormatFloat('0e+00', IntPower(10,
+            GeneratorPrefixes[I].Exponent * Power)));
+        'S': Append(GeneratorPrefixes[I].LongName,
+          GeneratorPrefixes[I].ShortName, FIndex, Factor,
+          FormatFloat('0e+00', IntPower(10,
+            GeneratorPrefixes[I].Exponent * Power)));
+      end;
   end else
     if (LowerCase(AItem.FIdentifier) = 'kg') then
     begin
@@ -626,11 +633,6 @@ begin
   SectionA.Add('');
 end;
 
-procedure TToolKitBuilder.Add(const AItem: TToolkitItem);
-begin
-  FList.Add(AItem);
-end;
-
 procedure TToolKitBuilder.ExpandUnits;
 var
  i, j: longint;
@@ -642,7 +644,7 @@ begin
     begin
       NewDim := NullExponents;
       NewDim[i] := TExponentValues[j];
-      if FList.Search(NewDim) = -1 then
+      if FList.IndexOfDimension(NewDim) = -1 then
         FList.Add(NewDim);
     end;
 
@@ -656,7 +658,7 @@ begin
       begin
          NewDim := FList[i].FExponents;
          NewDim[j] := 0;
-         if FList.Search(NewDim) = -1 then
+         if FList.IndexOfDimension(NewDim) = -1 then
            FList.Add(NewDim);
        end;
     end;
@@ -671,83 +673,83 @@ begin
     begin
       for j := Low(NewDim) to High(NewDim) do
         NewDim[j] := -FList[i].FExponents[j];
-      if FList.Search(NewDim) = -1 then
+      if FList.IndexOfDimension(NewDim) = -1 then
         FList.Add(NewDim);
     end;
     Inc(i);
   end;
 end;
 
-procedure TToolKitBuilder.Execute;
+procedure TToolKitBuilder.Build;
 var
-  i: longint;
+  i, LUnitDeclarationCount: longint;
   Section0: TStringList;
   Section1: TStringList;
   Section2: TStringList;
 begin
-  if Assigned(FOnStart) then
-    Synchronize(FOnStart);
-
   FBaseUnits.Clear;
   FFactoredUnits.Clear;
   FDocument.Clear;
   FResources.Clear;
 
-  Section0 := TStringList.Create;
-  AddUnits(Section0);
+  Section0 := nil;
+  Section1 := nil;
+  Section2 := nil;
+  try
+    Section0 := TStringList.Create;
+    AddUnits(Section0);
 
-  Section1 := TStringList.Create;
-  Section1.Append('{');
-  Section1.Append(Format('  ADim Run-time library built on %s.', [FormatDateTime('DD/MM/YYYY', Now)]));
-  Section1.Append('');
+    Section1 := TStringList.Create;
+    Section1.Append('{');
+    Section1.Append('  ADim Run-time library generated by ADimPas Toolkit.');
+    Section1.Append('');
+    Section1.Append(Format('  Number of base units: %d', [FBaseUnits.Count]));
+    Section1.Append(Format('  Number of factored units: %d', [FFactoredUnits.Count]));
+    Section1.Append('}');
+    Section1.Append('');
 
-  Section1.Append(Format('  Number of base units: %d', [FBaseUnits.Count]));
-  Section1.Append(Format('  Number of factored units: %d', [FFactoredUnits.Count]));
-  Section1.Append('}');
-  Section1.Append('');
-
-  FDocument.LoadFromFile('skeleton.pas');
-  for i := 0 to  FDocument.Count -1 do
-  begin
-    if CompareText(FDocument[i], 'unit skeleton;') = 0 then
+    FDocument.LoadFromFile(FTemplateFileName);
+    LUnitDeclarationCount := 0;
+    for i := 0 to FDocument.Count -1 do
     begin
-      FDocument[i] := 'unit ADim;';
+      if CompareText(Trim(FDocument[i]), 'unit skeleton;') = 0 then
+      begin
+        FDocument[i] := 'unit ADim;';
+        Inc(LUnitDeclarationCount);
+      end;
     end;
-  end;
-  RemoveIncludeDirective(Section1, FDocument, '{#HEADER}');
-  RemoveIncludeDirective(Section0, FDocument, '{#UNITSOFMEASUREMENT}');
-  CleanDocument(FDocument);
+    if LUnitDeclarationCount <> 1 then
+      raise Exception.CreateFmt(
+        'Template %s must contain exactly one "unit skeleton;" declaration.',
+        [FTemplateFileName]);
+    RemoveIncludeDirective(Section1, FDocument, '{#HEADER}');
+    RemoveIncludeDirective(Section0, FDocument, '{#UNITSOFMEASUREMENT}');
+    CleanDocument(FDocument);
 
-  Section2 := TStringList.Create;
-  AddResources(Section2);
+    Section2 := TStringList.Create;
+    AddResources(Section2);
 
-  FResources.LoadFromFile('skeletonres.pas');
-  for i := 0 to  FResources.Count -1 do
-  begin
-    if CompareText(FResources[i], 'unit skeletonres;') = 0 then
+    FResources.LoadFromFile(FResourceTemplateFileName);
+    LUnitDeclarationCount := 0;
+    for i := 0 to FResources.Count -1 do
     begin
-      FResources[i] := 'unit ADimRes;';
+      if CompareText(Trim(FResources[i]), 'unit skeletonres;') = 0 then
+      begin
+        FResources[i] := 'unit ADimRes;';
+        Inc(LUnitDeclarationCount);
+      end;
     end;
+    if LUnitDeclarationCount <> 1 then
+      raise Exception.CreateFmt(
+        'Template %s must contain exactly one "unit skeletonres;" declaration.',
+        [FResourceTemplateFileName]);
+    RemoveIncludeDirective(Section2, FResources, '{#RESOURCESTRINGS}');
+    CleanDocument(FResources);
+  finally
+    Section2.Free;
+    Section1.Free;
+    Section0.Free;
   end;
-  RemoveIncludeDirective(Section2, FResources, '{#RESOURCESTRINGS}');
-  CleanDocument(FResources);
-
-  Section0.Destroy;
-  Section1.Destroy;
-  Section2.Destroy;
-  if Assigned(FOnStop) then
-    Synchronize(FOnStop);
-end;
-
-function TToolKitBuilder.SearchLine(const ALine: string; ASection: TStringList): longint;
-var
-  i: longint;
-begin
-  for i := 0 to ASection.Count -1 do
-  begin
-    if IsWild(ASection[i], ALine, False) then Exit(i);
-  end;
-  Result := -1;
 end;
 
 // TToolKitList
@@ -755,22 +757,24 @@ end;
 constructor TToolKitList.Create;
 begin
   inherited Create;
-  FList := TList.Create;
+  FList := TObjectList.Create(True);
 end;
 
 destructor TToolKitList.Destroy;
 begin
-  Clear;
-  FList.Destroy;
+  FList.Free;
   inherited Destroy;
 end;
 
 procedure TToolKitList.Add(const AItem: TToolKitItem);
 begin
-  if Search(AItem.FQuantity, 1) = -1 then
-    FList.Add(AItem)
-  else
-    AItem.Destroy;
+  if AItem = nil then
+    raise EArgumentNilException.Create('AItem');
+  if Trim(AItem.FQuantity) = '' then
+    raise Exception.Create('The quantity name cannot be empty.');
+  if IndexOfQuantity(AItem.FQuantity) <> -1 then
+    raise Exception.CreateFmt('Duplicate quantity: %s.', [AItem.FQuantity]);
+  FList.Add(AItem);
 end;
 
 procedure TToolKitList.Add(const ADim: TExponents);
@@ -795,50 +799,27 @@ end;
 
 procedure TToolKitList.Delete(Index: longint);
 begin
-  TToolKitItem(FList[Index]).Destroy;
   FList.Delete(Index);
 end;
 
 procedure TToolKitList.Clear;
-var
-  i: longint;
 begin
-  for i := 0 to FList.Count -1 do
-    TToolKitItem(FList[i]).Destroy;
   FList.Clear;
 end;
 
 procedure TToolKitList.MoveUp(Index: longint);
-var
-  Item1: pointer;
-  Item2: pointer;
 begin
   if Index > 0 then
-  begin
-    Item1 := FList[Index -1];
-    Item2 := FList[Index   ];
-
-    FList[Index -1] := Item2;
-    FList[Index   ] := Item1;
-  end;
+    FList.Exchange(Index, Index -1);
 end;
 
 procedure TToolKitList.MoveDown(Index: longint);
-var
-  Item1: pointer;
-  Item2: pointer;
 begin
   if Index < FList.Count -1 then
-  begin
-    Item1 := FList[Index   ];
-    Item2 := FList[Index +1];
-
-    FList[Index   ] := Item2;
-    FList[Index +1] := Item1;
-  end;
+    FList.Exchange(Index, Index +1);
 end;
 
-function TToolKitList.Search(const AValue: string; AIndex: longint): longint;
+function TToolKitList.IndexOfQuantity(const AValue: string): longint;
 var
   i: longint;
   Item: TToolKitItem;
@@ -846,23 +827,12 @@ begin
   for i := 0 to FList.Count -1 do
   begin
     Item := TToolKitItem(FList[i]);
-    case AIndex of
-      0: if CompareText(Item.FField,       AValue) = 0 then Exit(i);
-      1: if CompareText(Item.FQuantity,    AValue) = 0 then Exit(i);
-      2: if CompareText(Item.FDimension,   AValue) = 0 then Exit(i);
-      3: if CompareText(Item.FLongString,  AValue) = 0 then Exit(i);
-      4: if CompareText(Item.FShortString, AValue) = 0 then Exit(i);
-      5: if CompareText(Item.FIdentifier,  AValue) = 0 then Exit(i);
-      6: if CompareText(Item.FBase,        AValue) = 0 then Exit(i);
-      7: if CompareText(Item.FFactor,      AValue) = 0 then Exit(i);
-      8: if CompareText(Item.FPrefixes,    AValue) = 0 then Exit(i);
-      9: if CompareText(Item.FComment,     AValue) = 0 then Exit(i);
-    end;
+    if CompareText(Item.FQuantity, AValue) = 0 then Exit(i);
   end;
   result := -1;
 end;
 
-function TToolKitList.Search(const ADim: TExponents): longint;
+function TToolKitList.IndexOfDimension(const ADim: TExponents): longint;
 var
   i: longint;
   Item: TToolKitItem;
@@ -883,40 +853,6 @@ begin
     end;
   end;
   result := -1;
-end;
-
-function TToolKitList.SearchFromEnd(const ADim: TExponents): longint;
-var
-  i: longint;
-  Item: TToolKitItem;
-begin
-  for i := FList.Count -1 downto 0 do
-  begin
-    Item := TToolKitItem(FList[i]);
-    if Item.FBase = '' then
-    begin
-      if (Item.FExponents[0] = ADim[0]) and
-         (Item.FExponents[1] = ADim[1]) and
-         (Item.FExponents[2] = ADim[2]) and
-         (Item.FExponents[3] = ADim[3]) and
-         (Item.FExponents[4] = ADim[4]) and
-         (Item.FExponents[5] = ADim[5]) and
-         (Item.FExponents[6] = ADim[6]) and
-         (Item.FExponents[7] = ADim[7]) then Exit(i);
-    end;
-  end;
-  result := -1;
-end;
-
-function TToolKitList.SameValue(const ADim1, ADim2: TExponents): boolean;
-begin
-  result := (ADim1[1] = ADim2[1]) and
-            (ADim1[2] = ADim2[2]) and
-            (ADim1[3] = ADim2[3]) and
-            (ADim1[4] = ADim2[4]) and
-            (ADim1[5] = ADim2[5]) and
-            (ADim1[6] = ADim2[6]) and
-            (ADim1[7] = ADim2[7]);
 end;
 
 procedure TToolKitList.SaveToFile(const AFileName: string);
@@ -926,60 +862,92 @@ var
   Item: TToolKitItem;
 begin
   CSVDoc := TCSVDocument.Create;
-  CSVDoc.Delimiter := ';';
+  try
+    CSVDoc.Delimiter := ';';
 
-  for i := 0 to FList.Count -1 do
-  begin
-    Item := TToolKitItem(FList[i]);
+    for i := 0 to FList.Count -1 do
+    begin
+      Item := TToolKitItem(FList[i]);
 
-    CSVDoc.AddRow();
-    CSVDoc.AddCell(i, Item.FField);
-    CSVDoc.AddCell(i, Item.FQuantity);
-    CSVDoc.AddCell(i, Item.FDimension);
-    CSVDoc.AddCell(i, Item.FLongString);
-    CSVDoc.AddCell(i, Item.FShortString);
-    CSVDoc.AddCell(i, Item.FIdentifier);
-    CSVDoc.AddCell(i, Item.FBase);
-    CSVDoc.AddCell(i, Item.FFactor);
-    CSVDoc.AddCell(i, Item.FPrefixes);
-    CSVDoc.AddCell(i, Item.FComment);
-    CSVDoc.AddCell(i, Item.FColor);
+      CSVDoc.AddRow();
+      CSVDoc.AddCell(i, Item.FField);
+      CSVDoc.AddCell(i, Item.FQuantity);
+      CSVDoc.AddCell(i, Item.FDimension);
+      CSVDoc.AddCell(i, Item.FLongString);
+      CSVDoc.AddCell(i, Item.FShortString);
+      CSVDoc.AddCell(i, Item.FIdentifier);
+      CSVDoc.AddCell(i, Item.FBase);
+      CSVDoc.AddCell(i, Item.FFactor);
+      CSVDoc.AddCell(i, Item.FPrefixes);
+      CSVDoc.AddCell(i, Item.FComment);
+      CSVDoc.AddCell(i, Item.FColor);
+    end;
+    CSVDoc.SaveToFile(AFileName);
+  finally
+    CSVDoc.Free;
   end;
-  CSVDoc.SaveToFile(AFileName);
-  CSVDoc.Destroy;
 end;
 
 procedure TToolKitList.LoadFromFile(const AFileName: string);
 var
   i: longint;
-  CSVDoc:TCSVDocument;
+  CSVDoc: TCSVDocument;
   Item: TToolKitItem;
+  LLoadedList: TToolKitList;
+  LOldList: TObjectList;
 begin
   CSVDoc := TCSVDocument.Create;
-  CSVDoc.Delimiter := ';';
-  CSVDoc.LoadFromFile(AFileName);
-  for i := 0 to CSVDoc.RowCount -1 do
-  begin
-    Item              := TToolKitItem.Create;
-    Item.FField       := CSVDoc.Cells[ 0, i];
-    Item.FQuantity    := CSVDoc.Cells[ 1, i];
-    Item.FDimension   := CSVDoc.Cells[ 2, i];
-    Item.FLongString  := CSVDoc.Cells[ 3, i];
-    Item.FShortString := CSVDoc.Cells[ 4, i];
-    Item.FIdentifier  := CSVDoc.Cells[ 5, i];
-    Item.FBase        := CSVDoc.Cells[ 6, i];
-    Item.FFactor      := CSVDoc.Cells[ 7, i];
-    Item.FPrefixes    := CSVDoc.Cells[ 8, i];
-    Item.FComment     := CSVDoc.Cells[ 9, i];
-    Item.FColor       := CSVDoc.Cells[10, i];
-
-    if Item.FColor = '' then
+  LLoadedList := TToolKitList.Create;
+  try
+    CSVDoc.Delimiter := ';';
+    CSVDoc.LoadFromFile(AFileName);
+    for i := 0 to CSVDoc.RowCount -1 do
     begin
-      Item.FColor := ColorToString(clWhite);
+      if CSVDoc.ColCount[i] < 11 then
+        raise Exception.CreateFmt(
+          'Invalid CSV row %d: expected 11 columns, got %d.',
+          [i + 1, CSVDoc.ColCount[i]]);
+
+      Item := TToolKitItem.Create;
+      try
+        try
+          Item.FField       := CSVDoc.Cells[ 0, i];
+          Item.FQuantity    := CSVDoc.Cells[ 1, i];
+          Item.FDimension   := CSVDoc.Cells[ 2, i];
+          Item.FLongString  := CSVDoc.Cells[ 3, i];
+          Item.FShortString := CSVDoc.Cells[ 4, i];
+          Item.FIdentifier  := CSVDoc.Cells[ 5, i];
+          Item.FBase        := CSVDoc.Cells[ 6, i];
+          Item.FFactor      := CSVDoc.Cells[ 7, i];
+          Item.FPrefixes    := CSVDoc.Cells[ 8, i];
+          Item.FComment     := CSVDoc.Cells[ 9, i];
+          Item.FColor       := CSVDoc.Cells[10, i];
+
+          if Item.FColor = '' then
+            Item.FColor := 'clWhite';
+          if not IsValidPrefixMask(Item.FPrefixes) then
+            raise Exception.CreateFmt('Invalid prefix mask for %s.',
+              [Item.FQuantity]);
+
+          LLoadedList.Add(Item);
+          Item := nil;
+        except
+          on E: Exception do
+            raise Exception.CreateFmt('Invalid CSV row %d: %s',
+              [i + 1, E.Message]);
+        end;
+      finally
+        Item.Free;
+      end;
     end;
-    Add(Item);
+
+    LOldList := FList;
+    FList := LLoadedList.FList;
+    LLoadedList.FList := LOldList;
+  finally
+    LLoadedList.Free;
+    CSVDoc.Free;
   end;
-  CSVDoc.Destroy;
 end;
 
 function TToolKitList.GetItem(Index: longint): TToolKitItem;

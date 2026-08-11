@@ -24,7 +24,7 @@ unit Common;
 interface
 
 uses
-  Dialogs, Classes, SysUtils;
+  Classes, SysUtils;
 
 type
   TExponents = array [0..7] of longint;
@@ -38,9 +38,6 @@ const
 function GetSymbolResourceString(const AClassName: string): string;
 function GetSingularNameResourceString(const AClassName: string): string;
 function GetPluralNameResourceString(const AClassName: string): string;
-function GetPrefixesConst(const AClassName: string): string;
-function GetExponentsConst(const AClassName: string): string;
-function GetFactorConst(const AClassName: string): string;
 
 function GetSymbol(const AShortSymbol: string): string;
 function GetSingularName(const ALongSymbol: string): string;
@@ -68,8 +65,6 @@ function SubDim(const ADim1, ADim2: TExponents): TExponents;
 function GetUnitTypeHelper(const S: string): string;
 function GetUnitIdentifier(const S: string): string;
 
-function  CleanSingleSpaces(const S: string): string;
-function  CleanDoubleSpaces(const S: string): string;
 procedure CleanDocument(S: TStrings);
 
 procedure RemoveIncludeDirective(ASource, ADest: TStrings; const ADirective: string);
@@ -120,21 +115,6 @@ end;
 function GetPluralNameResourceString(const AClassName: string): string;
 begin
   result := Format('rs%sPluralName', [GetUnitID(AClassName)]);
-end;
-
-function GetPrefixesConst(const AClassName: string): string;
-begin
-  result := Format('c%sPrefixes', [GetUnitID(AClassName)]);
-end;
-
-function GetExponentsConst(const AClassName: string): string;
-begin
-  result := Format('c%sExponents', [GetUnitID(AClassName)]);
-end;
-
-function GetFactorConst(const AClassName: string): string;
-begin
-  result := Format('c%sFactor', [GetUnitID(AClassName)]);
 end;
 
 function GetSymbol(const AShortSymbol: string): string;
@@ -190,31 +170,35 @@ var
   i: longint;
   List1: TStringList;
   List2: TStringDynArray;
-  R: string;
 
   function GetExponent(const AKey: string): longint;
   var
     i: longint;
-    D: double;
+    D, LScaled: double;
+    LExponent: int64;
+    LSuffix: string;
   begin
     i := 0;
     while i < List1.Count do
     begin
-      if Pos(AKey, List1[i]) <> 0 then
+      if Copy(List1[i], 1, Length(AKey)) = AKey then
       begin
-        R := List1[i];
-        Delete(R, 1, Length(AKey));
+        LSuffix := Copy(List1[i], Length(AKey) + 1, MaxInt);
 
-        if Length(R) = 0 then
+        if LSuffix = '' then
         begin
           List1.Delete(i);
           Exit(TExponentBase)
-        end else
-          if TryStrToFloat(R, D) then
-          begin
-            List1.Delete(i);
-            Exit(Trunc(D*TExponentBase));
-          end;
+        end else if TryStrToFloat(LSuffix, D) then
+        begin
+          LScaled := D * TExponentBase;
+          LExponent := Round(LScaled);
+          if (LExponent < Low(longint)) or (LExponent > High(longint)) then
+            raise ERangeError.CreateFmt('Exponent out of range: %s%s.',
+              [AKey, LSuffix]);
+          List1.Delete(i);
+          Exit(longint(LExponent));
+        end;
       end;
       Inc(i);
     end;
@@ -223,22 +207,26 @@ var
 
 begin
   List1 := TStringList.Create;
-  List2 := SplitString(S, ' ');
-  for i := Low(List2) to High(List2) do
-  begin
-    List1.Add(List2[i]);
-  end;
-  List2 := nil;
+  try
+    List2 := SplitString(Trim(S), ' ');
+    for i := Low(List2) to High(List2) do
+      if List2[i] <> '' then
+        List1.Add(List2[i]);
+    List2 := nil;
 
-  result[0] := GetExponent(  'kg');
-  result[1] := GetExponent(   'm');
-  result[2] := GetExponent(   's');
-  result[3] := GetExponent(   'A');
-  result[4] := GetExponent(   'K');
-  result[5] := GetExponent( 'mol');
-  result[6] := GetExponent(  'cd');
-  result[7] := GetExponent(  'sr');
-  List1.Destroy;
+    result[0] := GetExponent(  'kg');
+    result[1] := GetExponent(   'm');
+    result[2] := GetExponent(   's');
+    result[3] := GetExponent(   'A');
+    result[4] := GetExponent(   'K');
+    result[5] := GetExponent( 'mol');
+    result[6] := GetExponent(  'cd');
+    result[7] := GetExponent(  'sr');
+    if List1.Count <> 0 then
+      raise EConvertError.CreateFmt('Unknown dimension token: %s.', [List1[0]]);
+  finally
+    List1.Free;
+  end;
 end;
 
 function DimensionToString(const ADim: TExponents): string;
@@ -541,24 +529,6 @@ begin
   while (Length(Result) > 0) and (Result[High(Result)] = ',') do Delete(Result, High(Result), 1);
 end;
 
-function CleanDoubleSpaces(const S: string): string;
-begin
-  Result := S;
-  while Pos('  ', Result) > 0 do
-  begin
-    Delete(Result, Pos('  ', Result), 1);
-  end;
-end;
-
-function CleanSingleSpaces(const S: string): string;
-begin
-  Result := S;
-  while Pos(' ', Result) > 0 do
-  begin
-    Delete(Result, Pos(' ', Result), 1);
-  end;
-end;
-
 procedure CleanDocument(S: TStrings);
 var
   i: longint;
@@ -586,32 +556,31 @@ end;
 
 procedure RemoveIncludeDirective(ASource, ADest: TStrings; const ADirective: string);
 var
-  i, j: longint;
-  Line: string;
+  i, j, LDirectiveCount: longint;
   Lines: TStringList;
 begin
   Lines := TStringList.Create;
-  for i := 0 to ADest.Count -1 do
-  begin
-    Line := ADest[i];
-    if Pos(ADirective, Line) > 0 then
+  try
+    LDirectiveCount := 0;
+    for i := 0 to ADest.Count -1 do
     begin
-      for j := 0 to ASource.Count -1 do
+      if Pos(ADirective, ADest[i]) > 0 then
       begin
-        Lines.Add(ASource[j]);
-      end;
-    end else
-    begin
-      Lines.Add(ADest[i]);
+        Inc(LDirectiveCount);
+        for j := 0 to ASource.Count -1 do
+          Lines.Add(ASource[j]);
+      end else
+        Lines.Add(ADest[i]);
     end;
-  end;
 
-  ADest.Clear;
-  for i := 0 to Lines.Count -1 do
-  begin
-    ADest.Add(Lines[i]);
+    if LDirectiveCount <> 1 then
+      raise Exception.CreateFmt(
+        'Template directive %s must occur exactly once; found %d.',
+        [ADirective, LDirectiveCount]);
+    ADest.Assign(Lines);
+  finally
+    Lines.Free;
   end;
-  Lines.Destroy;
 end;
 
 end.

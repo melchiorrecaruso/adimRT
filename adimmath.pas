@@ -2028,7 +2028,10 @@ begin
       except
         on EZeroDivide do
           if LDelta = 0 then
-            LDelta := (LScale + LEigenvalue.Norm + 1) * 1E-12
+          begin
+            LDelta := Max(LScale, LEigenvalue.Norm) * 1E-12;
+            if LDelta = 0 then LDelta := 1E-12;
+          end
           else
             LDelta := LDelta * 1E2;
       end;

@@ -4018,7 +4018,7 @@ const
 
 const
   { Prefix Table } { @exclude }
-  
+
   PrefixTable: array[pQuetta..pQuecto] of
     record  Symbol, Name: string; Exponent: longint end = (
     (Symbol: 'Q';   Name: 'quetta';  Exponent: +30),
@@ -4051,7 +4051,7 @@ const
 
 
 
-{ @exclude } function  CheckEqual(ALeft, ARight: TDimension): TDimension; inline; 
+{ @exclude } function  CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
 { @exclude } function  CheckSum  (ALeft, ARight: TDimension): TDimension; inline;
 { @exclude } function  CheckSub  (ALeft, ARight: TDimension): TDimension; inline;
 { @exclude } function  CheckMul  (ALeft, ARight: TDimension): TDimension; inline;
@@ -6595,7 +6595,7 @@ end;
 function SameValueEx(const ALeft, ARight: TRealQuantity): boolean;
 begin
   Check(ALeft.FDim, ARight.FDim);
-  result := SameValueEx(ALeft.FValue, ARight.FValue);
+  result := ADimMath.SameValueEx(ALeft.FValue, ARight.FValue);
 end;
 {$ENDIF}
 

@@ -20,168 +20,168 @@
 program ADimTest;
 
 uses
-  ADim, ADimC, ADimCL3, Math, SysUtils;
+  ADimMath, ADim, ADimCL3, Math, SysUtils;
 
 var
-  side1: TQuantity;
-  side2, side3, side4: TQuantity;
-  area: TQuantity;
-  volume: TQuantity;
-  hypervolume: TQuantity;
+  side1: TRealQuantity;
+  side2, side3, side4: TRealQuantity;
+  area: TRealQuantity;
+  volume: TRealQuantity;
+  hypervolume: TRealQuantity;
 
-  pressure: TQuantity;
-  stiffness: TQuantity;
+  pressure: TRealQuantity;
+  stiffness: TRealQuantity;
 
-  squarecharge: TQuantity;
-  capacitance: TQuantity;
+  squarecharge: TRealQuantity;
+  capacitance: TRealQuantity;
 
-  distance: TQuantity;
-  tolerance: TQuantity;
-  time: TQuantity;
-  speed: TQuantity;
-  spin: TQuantity;
-  acc: TQuantity;
-  density: TQuantity;
-  specificw: TQuantity;
-  force, normal: TQuantity;
+  distance: TRealQuantity;
+  tolerance: TRealQuantity;
+  time: TRealQuantity;
+  speed: TRealQuantity;
+  spin: TRealQuantity;
+  acc: TRealQuantity;
+  density: TRealQuantity;
+  specificw: TRealQuantity;
+  force, normal: TRealQuantity;
 
-  torque: TQuantity;
-  work: TQuantity;
-  power: TQuantity;
+  torque: TRealQuantity;
+  work: TRealQuantity;
+  power: TRealQuantity;
 
-  charge: TQuantity;
-  potential: TQuantity;
-  current: TQuantity;
+  charge: TRealQuantity;
+  potential: TRealQuantity;
+  current: TRealQuantity;
 
-  flux: TQuantity;
-  fluxdensity: TQuantity;
+  flux: TRealQuantity;
+  fluxdensity: TRealQuantity;
 
-  inductance: TQuantity;
-  resistance: TQuantity;
-  conductance: TQuantity;
+  inductance: TRealQuantity;
+  resistance: TRealQuantity;
+  conductance: TRealQuantity;
 
-  solidangle: TQuantity;
-  intensity: TQuantity;
-  luminousflux: TQuantity;
+  solidangle: TRealQuantity;
+  intensity: TRealQuantity;
+  luminousflux: TRealQuantity;
 
-  dose1: TQuantity;
-  dose2: TQuantity;
+  dose1: TRealQuantity;
+  dose2: TRealQuantity;
 
-  angularspeed: TQuantity;
+  angularspeed: TRealQuantity;
 
-  kA: TQuantity;
-  kAr: TQuantity;
-  radius: TQuantity;
-  radius1: TQuantity;
-  radius2: TQuantity;
+  kA: TRealQuantity;
+  kAr: TRealQuantity;
+  radius: TRealQuantity;
+  radius1: TRealQuantity;
+  radius2: TRealQuantity;
 
-  Mass: TQuantity;
-  MassOfSun: TQuantity;
-  MassOfSagittariusAStar: TQuantity;
-  eta: TQuantity;
-  Cb: TQuantity;
+  Mass: TRealQuantity;
+  MassOfSun: TRealQuantity;
+  MassOfSagittariusAStar: TRealQuantity;
+  eta: TRealQuantity;
+  Cb: TRealQuantity;
 
-  mass1: TQuantity;
-  mass2: TQuantity;
+  mass1: TRealQuantity;
+  mass2: TRealQuantity;
 
-  cCd: TQuantity;
-  angle: TQuantity;
+  cCd: TRealQuantity;
+  angle: TRealQuantity;
 
-  Uc: TQuantity;
-  Ug: TQuantity;
+  Uc: TRealQuantity;
+  Ug: TRealQuantity;
 
-  Ue: TQuantity;
-  kx: TQuantity;
-  x: TQuantity;
+  Ue: TRealQuantity;
+  kx: TRealQuantity;
+  x: TRealQuantity;
 
-  q1: TQuantity;
-  q2: TQuantity;
-  Uel: TQuantity;
-  U: TQuantity;
+  q1: TRealQuantity;
+  q2: TRealQuantity;
+  Uel: TRealQuantity;
+  U: TRealQuantity;
 
-  p: TQuantity;
-  p2: TQuantity;
-  impulse: TQuantity;
-  Lp: TQuantity;
+  p: TRealQuantity;
+  p2: TRealQuantity;
+  impulse: TRealQuantity;
+  Lp: TRealQuantity;
 
-  flowrate: TQuantity;
+  flowrate: TRealQuantity;
 
-  lambda: TQuantity;
-  deltadist: TQuantity;
-  deltatemp: TQuantity;
-  temp: TQuantity;
+  lambda: TRealQuantity;
+  deltadist: TRealQuantity;
+  deltatemp: TRealQuantity;
+  temp: TRealQuantity;
 
-  specificheatcapacity: TQuantity;
-  heatcapacity: TQuantity;
+  specificheatcapacity: TRealQuantity;
+  heatcapacity: TRealQuantity;
 
-  _m1: TQuantity;
-  _m2: TQuantity;
-  _tf: TQuantity;
-  _t1: TQuantity;
-  _t2: TQuantity;
-  _c1: TQuantity;
-  _c2: TQuantity;
+  _m1: TRealQuantity;
+  _m2: TRealQuantity;
+  _tf: TRealQuantity;
+  _t1: TRealQuantity;
+  _t2: TRealQuantity;
+  _c1: TRealQuantity;
+  _c2: TRealQuantity;
 
-  lambda2: TQuantity;
+  lambda2: TRealQuantity;
 
-  E: TQuantity;
-  sigma: TQuantity;
+  E: TRealQuantity;
+  sigma: TRealQuantity;
 
-  B: TQuantity;
-  Bx: TQuantity;
-  By: TQuantity;
-  Bz: TQuantity;
-  muB: TQuantity;
-  len: TQuantity;
-  r: TQuantity;
-  z: TQuantity;
+  B: TRealQuantity;
+  Bx: TRealQuantity;
+  By: TRealQuantity;
+  Bz: TRealQuantity;
+  muB: TRealQuantity;
+  len: TRealQuantity;
+  r: TRealQuantity;
+  z: TRealQuantity;
   loops: longint;
 
-  i1, i2: TQuantity;
-  magneticflux: TQuantity;
+  i1, i2: TRealQuantity;
+  magneticflux: TRealQuantity;
 
-  DeltaE: TQuantity;
+  DeltaE: TRealQuantity;
 
-  Ampl: TQuantity;
-  Kw: TQuantity;
-  Omega: TQuantity;
-  phi: TQuantity;
+  Ampl: TRealQuantity;
+  Kw: TRealQuantity;
+  Omega: TRealQuantity;
+  phi: TRealQuantity;
 
-  wavelen: TQuantity;
-  wavelenc: TQuantity;
-  yspeed: TQuantity;
-  yacc: TQuantity;
+  wavelen: TRealQuantity;
+  wavelenc: TRealQuantity;
+  yspeed: TRealQuantity;
+  yacc: TRealQuantity;
 
-  E0: TQuantity;
-  Energy: TQuantity;
-  freq: TQuantity;
+  E0: TRealQuantity;
+  Energy: TRealQuantity;
+  freq: TRealQuantity;
 
-  I: TQuantity;
-  Re: TQuantity;
+  I: TRealQuantity;
+  Re: TRealQuantity;
 
   num: integer;
-  alpha: TQuantity;
-  kc: TQuantity;
-  BoxLen: TQuantity;
-  EnergyLevels: array[1..4] of TQuantity;
-  SquarePsi: array[1..4] of TQuantity;
-  Psi0: TQuantity;
-  PsiValues: array [1..4] of TQuantity;
-  A0: TQuantity;
-  y: TQuantity;
+  alpha: TRealQuantity;
+  kc: TRealQuantity;
+  BoxLen: TRealQuantity;
+  EnergyLevels: array[1..4] of TRealQuantity;
+  SquarePsi: array[1..4] of TRealQuantity;
+  Psi0: TRealQuantity;
+  PsiValues: array [1..4] of TRealQuantity;
+  A0: TRealQuantity;
+  y: TRealQuantity;
 
   Iteration: longint;
   Iterations: longint;
-  Probability: TQuantity;
-  mu: TQuantity;
+  Probability: TRealQuantity;
+  mu: TRealQuantity;
 
-  ELV1, ELV2: TQuantity;
-  L1, L2: TQuantity;
+  ELV1, ELV2: TRealQuantity;
+  L1, L2: TRealQuantity;
 
-  kfactor: TQuantity;
-  bfactor: TQuantity;
-  U0: TQuantity;
-  TunnelingProbability: TQuantity;
+  kfactor: TRealQuantity;
+  bfactor: TRealQuantity;
+  U0: TRealQuantity;
+  TunnelingProbability: TRealQuantity;
 
   side1_: TCL3VecQuantity;
   side2_: TCL3VecQuantity;
@@ -210,53 +210,33 @@ var
   impedance_: TCL3MultivecQuantity;
   power_: TCL3MultivecQuantity;
 
-  acc__: TR3VecQuantity;
-  radius__: TR3VecQuantity;
-  force__: TR3VecQuantity;
-  momentum__: TR3VecQuantity;
-  angle__: TR3VecQuantity;
-  angularspeed__: TR3VecQuantity;
-  angularacc__: TR3VecQuantity;
-  angularmomentum__: TR3VecQuantity;
-  torque__: TR3VecQuantity;
-  magneticfield__: TR3VecQuantity;
-  area__: TR3VecQuantity;
-  omega__: TR3VecQuantity;
+  acc__: TRealVectorQuantity;
+  radius__: TRealVectorQuantity;
+  force__: TRealVectorQuantity;
+  momentum__: TRealVectorQuantity;
+  angle__: TRealVectorQuantity;
+  angularspeed__: TRealVectorQuantity;
+  angularacc__: TRealVectorQuantity;
+  angularmomentum__: TRealVectorQuantity;
+  torque__: TRealVectorQuantity;
+  magneticfield__: TRealVectorQuantity;
+  area__: TRealVectorQuantity;
+  omega__: TRealVectorQuantity;
   potential__: TComplexQuantity;
   impedance__: TComplexQuantity;
   current__: TComplexQuantity;
   power__: TComplexQuantity;
 
-  H2: TC2MatrixQuantity;
-  H3: TC3MatrixQuantity;
-  H4: TC4MatrixQuantity;
+  H2, U2: TComplexMatrixQuantity;
+  State, Coeff, EigenValues: TComplexVectorQuantity;
+  EigenVectors: TComplexMatrix;
+  StateValues: TComplexVector;
+  PauliX, PauliZ: TComplexMatrix;
 
-  U2: TC2Matrix;
+  x1, x2, x3: TRealVector;
 
-  H2Eigenvalues: TC2ArrayOfQuantity;
-  H3Eigenvalues: TC3ArrayOfQuantity;
-  H4Eigenvalues: TC4ArrayOfQuantity;
-
-  H2Eigenvectors: TC2ArrayOfVecQuantity;
-  H3Eigenvectors: TC3ArrayOfVecQuantity;
-  H4Eigenvectors: TC4ArrayOfVecQuantity;
-
-  State: TC2VecQuantity;
-  StateUp : TC2VecQuantity;
-  StateDown : TC2VecQuantity;
-
-  EigenValues: TC2ArrayOfQuantity;
-  EigenVectors: TC2ArrayOfVector;
-
-  coeff: TC2ArrayOfQuantity;
-
-  a_: TQuantity;
-  H0: TQuantity;
-
-const
-  x1 : TR3Versor1 = ();
-  x2 : TR3Versor2 = ();
-  x3 : TR3Versor3 = ();
+  a_: TRealQuantity;
+  H0: TRealQuantity;
 
 begin
   ExitCode := 0;
@@ -1284,61 +1264,65 @@ begin
   writeln('* TEST-515: PASSED');
 
   // R3 VECTOR SPACE
+  x1.Init([1.0, 0.0, 0.0]);
+  x2.Init([0.0, 1.0, 0.0]);
+  x3.Init([0.0, 0.0, 1.0]);
+
   // TEST-601: Angular speed
   angle__ := (10*x3)*rad;
   time   := 2.5*s;
   angularspeed__ := angle__/time;
-  time := angle__.dot(1.0/angularspeed__);
-  freq := angularspeed__.dot(1/angle__);
+  time := angle__.dot(angularspeed__.Reciprocal);
+  freq := angularspeed__.dot(angle__.Reciprocal);
   if SecondUnit.ToVerboseString(time) <> '2.5 seconds'              then halt(1);
-  if RadianPerSecondUnit.ToString(angularspeed__) <> '(+4e3) rad/s' then halt(2);
+  if RadianPerSecondUnit.ToString(angularspeed__) <> '(0,0,4) rad/s' then halt(2);
   writeln('* TEST-601: PASSED');
 
   // TEST-602: Angular acceleration
   angularspeed__ := 5*x3*rad/s;
   angularacc__   := angularspeed__/(2*s);
-  if RadianPerSquareSecondUnit.ToString(angularacc__) <> '(+2.5e3) rad/s²' then halt(1);
+  if RadianPerSquareSecondUnit.ToString(angularacc__) <> '(0,0,2.5) rad/s²' then halt(1);
   writeln('* TEST-602: PASSED');
 
   // TEST-603: Angular momentum
   radius__          := 2*x1*m;
   momentum__        := 5*x2*kg*m/s;
   angularmomentum__ := radius__.cross(momentum__);
-  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum__) <> '(+10e3) kg∙m²/s' then halt(1);
+  if KilogramSquareMeterPerSecondUnit.ToString(angularmomentum__) <> '(0,0,10) kg∙m²/s' then halt(1);
   writeln('* TEST-603: PASSED');
 
   // TEST-604: Force
   mass    := 10*kg;
   acc__   := (2*x1 + 2*x2)*m/s2;
   force__ := mass*acc__;
-  if NewtonUnit.ToString(force__) <> '(+20e1 +20e2) N' then halt(1);
+  if NewtonUnit.ToString(force__) <> '(20,20,0) N' then halt(1);
 
   momentum__ := 10*x1*kg*m/s;
   time       := 10*s;
   force__    := momentum__/time;
-  if NewtonUnit.ToString(force__) <> '(+1e1) N' then halt(2);
+  if NewtonUnit.ToString(force__) <> '(1,0,0) N' then halt(2);
   writeln('* TEST-604: PASSED');
 
   // TEST-605: Torque
   radius__ :=  2*x1*m;
   force__  := 10*x2*N;
   torque__ := radius__.cross(force__);
-  radius__ := (1/force__).cross(torque__);
-  force__  := (1/radius__).cross(torque__);
-  if NewtonMeterUnit.ToString(torque__) <> '(+20e3) N∙m' then halt(1);
-  if MeterUnit.ToString(radius__) <> '(+2e1) m'           then halt(2);
-  if NewtonUnit.ToString(force__) <> '(+10e2) N'          then halt(3);
+  radius__ := force__.Reciprocal.cross(torque__);
+  force__  := torque__.cross(radius__.Reciprocal);
+  if NewtonMeterUnit.ToString(torque__) <> '(0,0,20) N∙m' then halt(1);
+  if MeterUnit.ToString(radius__) <> '(2,0,0) m'           then halt(2);
+  if NewtonUnit.ToString(force__) <> '(0,10,0) N'          then halt(3);
   writeln('* TEST-605: PASSED');
 
   // TEST-606: Weber
   magneticfield__ := (10*x1)*T;
   area__          := (5*x1)*m2;
   magneticflux    := magneticfield__.dot(area__);
-  magneticfield__ := magneticflux/area__;
-  area__          := magneticflux/magneticfield__;
+  magneticfield__ := area__.Reciprocal * magneticflux;
+  area__          := magneticfield__.Reciprocal * magneticflux;
   if WeberUnit.ToString(magneticflux)    <> '50 Wb'     then halt(1);
-  if TeslaUnit.ToString(magneticfield__) <> '(+10e1) T' then halt(2);
-  if SquareMeterUnit.ToString(area__)    <> '(+5e1) m²' then halt(3);
+  if TeslaUnit.ToString(magneticfield__) <> '(10,0,0) T' then halt(2);
+  if SquareMeterUnit.ToString(area__)    <> '(5,0,0) m²' then halt(3);
   writeln('* TEST-606: PASSED');
 
   // TEST-607: Henry
@@ -1356,7 +1340,8 @@ begin
   capacitance  := 1*F;
   inductance   := 2*H;
 
-  impedance__  := resistance + 1/(img*omega*capacitance) + img*omega*inductance;
+  impedance__  := resistance + Complex(1, 0)/(img*omega*capacitance) +
+    img*omega*inductance;
   current__    := potential__/impedance__;
   power__      := current__*potential__;
 
@@ -1367,7 +1352,7 @@ begin
   {$ENDIF}
   if            Format('I = %s', [A.ToString(current__)]) <> 'I = (20 -10∙i) A'                then halt(2);
   if            Format('P = %s', [W.ToString(power__)]) <> 'P = (1000 -500∙i) W'               then halt(3);
-  if            Format('Y = %s', [siemens.ToString(1/impedance__)]) <> 'Y = (0.4 -0.2∙i) S'    then halt(4);
+  if            Format('Y = %s', [siemens.ToString(Complex(1, 0)/impedance__)]) <> 'Y = (0.4 -0.2∙i) S'    then halt(4);
 
   if V.ToString(potential__.Norm) <> '50 V'             then halt(5);
   if A.ToString(current__.Norm) <> '22.3606797749979 A' then halt(6);
@@ -1387,30 +1372,37 @@ begin
   Bx  := 1.0*T;
   Bz  := 2.0*T;
   muB := 9.274009994E-24*J/T;
-  State := Vector(3/sqrt(10), 1/sqrt(10));
+  StateValues.Init([
+    Complex(3/sqrt(10), 0),
+    Complex(1/sqrt(10), 0)
+  ]);
+  State := StateValues * ScalarUnit;
 
-  H2 := 2*muB/2*(Bx*Matrix(0,1,1,0) + Bz*Matrix(1,0,0,-1));
+  PauliX.Init([
+    Complex(0, 0), Complex(1, 0),
+    Complex(1, 0), Complex(0, 0)
+  ]);
+  PauliZ.Init([
+    Complex(1, 0), Complex(0, 0),
+    Complex(0, 0), Complex(-1, 0)
+  ]);
+  H2 := TComplexQuantity(muB) *
+    (TComplexQuantity(Bx) * (PauliX * ScalarUnit) +
+     TComplexQuantity(Bz) * (PauliZ * ScalarUnit));
 
   if eV.toString(State.Conjugate*H2*State) <> '(0.00012734439857522) eV' then halt(1);
 
   EigenValues  := H2.EigenValues;
   EigenVectors := H2.EigenVectors(EigenValues);
-  EigenVectors[1] := EigenVectors[1].Normalize;
-  EigenVectors[2] := EigenVectors[2].Normalize;
-
+  U2 := EigenVectors.TransposeConjugate * ScalarUnit;
   H2 := H2.Diagonalize(EigenValues);
-  U2:= Matrix(EigenVectors[1][1],
-              EigenVectors[2][1],
-              EigenVectors[1][2],
-              EigenVectors[2][2]).TransposeConjugate;
 
   if eV.toString((U2*State).Conjugate*H2*(U2*State)) <> '(0.00012734439857522) eV' then halt(2);
 
-  coeff[1] := EigenVectors[1].Conjugate*State;
-  coeff[2] := EigenVectors[2].Conjugate*State;
+  coeff := U2 * State;
 
-  if eV.ToString(SquarePower(coeff[1])*EigenValues[1] +
-                 SquarePower(coeff[2])*EigenValues[2]) <> '(0.00012734439857522) eV' then halt(3);
+  if eV.ToString(coeff[0].SquaredNorm*EigenValues[0] +
+                 coeff[1].SquaredNorm*EigenValues[1]) <> '(0.00012734439857522) eV' then halt(3);
   writeln('* TEST-609: PASSED');
 
   // TEST-610: Fine-structure constant

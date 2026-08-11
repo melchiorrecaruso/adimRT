@@ -25,8 +25,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Grids, Buttons,
-  ComCtrls, StdCtrls, Spin, SynHighlighterPas, SynEdit, SpinEx, ToolKitUnit,
-  Types;
+  ComCtrls, StdCtrls, SynHighlighterPas, SynEdit, ToolKitUnit;
 
 type
   { TMainForm }
@@ -56,7 +55,6 @@ type
     procedure AddBtnClick(Sender: TObject);
     procedure DeleteBtnClick(Sender: TObject);
     procedure EditBtnClick(Sender: TObject);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure MoveDownBtnClick(Sender: TObject);
     procedure MoveUtBtnClick(Sender: TObject);
     procedure PageControlChange(Sender: TObject);
@@ -69,9 +67,8 @@ type
     procedure StringGridDblClick(Sender: TObject);
     procedure StringGridPrepareCanvas(Sender: TObject; aCol, aRow: Integer; aState: TGridDrawState);
     procedure UpdateButton(Value: boolean);
-    procedure OnMessage;
-    procedure OnStart;
-    procedure OnStop;
+  private
+    FTemplateDirectory: string;
   public
     FList: TToolKitList;
     procedure UpdateGrid;
@@ -81,12 +78,11 @@ type
 
 var
   MainForm: TMainForm;
-  Builder: TToolKitBuilder;
 
 implementation
 
 uses
-  InsertForm, Common;
+  InsertForm;
 
 {$R *.lfm}
 
@@ -95,6 +91,7 @@ uses
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   FList := TToolKitList.Create;
+  FTemplateDirectory := GetCurrentDir;
 
   PageControl.TabIndex   := 0;
   WindowState            := wsNormal;
@@ -117,11 +114,14 @@ begin
   OpenDialog.Filter := 'CSV Document|*.csv;';
   if OpenDialog.Execute then
   begin
-    SetCurrentDir(ExtractFileDir(OpenDialog.FileName));
-
-    FList.Clear;
-    FList.LoadFromFile(OpenDialog.FileName);
-    UpdateGrid;
+    try
+      FList.LoadFromFile(OpenDialog.FileName);
+      FTemplateDirectory := ExtractFileDir(ExpandFileName(OpenDialog.FileName));
+      UpdateGrid;
+    except
+      on E: Exception do
+        MessageDlg('Load error', E.Message, mtError, [mbOk], '');
+    end;
   end;
 end;
 
@@ -154,18 +154,28 @@ begin
   if InsertFrm.ShowModal = mrOk then
   begin
     Item               := TToolKitItem.Create;
-    Item.FField        := InsertFrm.Field       .Text;
-    Item.FQuantity     := InsertFrm.Quantity    .Text;
-    Item.FDimension    := InsertFrm.Dimension   .Text;
-    Item.FLongString   := InsertFrm.LongSymbol  .Text;
-    Item.FShortString  := InsertFrm.ShortSymbol .Text;
-    Item.FIdentifier   := InsertFrm.Identifier  .Text;
-    Item.FBase         := InsertFrm.BaseQuantity.Text;
-    Item.FFactor       := InsertFrm.Factor      .Text;
-    Item.FPrefixes     := InsertFrm.Prefixes    .Text;
-    Item.FComment      := InsertFrm.Comment     .Text;
-    Item.FColor        := ColorToString(InsertFrm.ColorBtn.ButtonColor);
-    FList.Add(Item);
+    try
+      Item.FField        := InsertFrm.Field       .Text;
+      Item.FQuantity     := InsertFrm.Quantity    .Text;
+      Item.FDimension    := InsertFrm.Dimension   .Text;
+      Item.FLongString   := InsertFrm.LongSymbol  .Text;
+      Item.FShortString  := InsertFrm.ShortSymbol .Text;
+      Item.FIdentifier   := InsertFrm.Identifier  .Text;
+      Item.FBase         := InsertFrm.BaseQuantity.Text;
+      Item.FFactor       := InsertFrm.Factor      .Text;
+      Item.FPrefixes     := InsertFrm.Prefixes    .Text;
+      Item.FComment      := InsertFrm.Comment     .Text;
+      Item.FColor        := ColorToString(InsertFrm.ColorBtn.ButtonColor);
+      try
+        FList.Add(Item);
+        Item := nil;
+      except
+        on E: Exception do
+          MessageDlg('Invalid unit', E.Message, mtError, [mbOk], '');
+      end;
+    finally
+      Item.Free;
+    end;
   end;
   UpdateGrid;
 end;
@@ -184,6 +194,7 @@ end;
 
 procedure TMainForm.EditBtnClick(Sender: TObject);
 var
+  LExistingIndex: longint;
   Item: TToolKitItem;
 begin
   if StringGrid.Row > 0 then
@@ -204,6 +215,22 @@ begin
     UpdateInsertFrmField;
     if InsertFrm.ShowModal = mrOk then
     begin
+      LExistingIndex := FList.IndexOfQuantity(InsertFrm.Quantity.Text);
+      if Trim(InsertFrm.Quantity.Text) = '' then
+      begin
+        MessageDlg('Invalid unit', 'The quantity name cannot be empty.',
+          mtError, [mbOk], '');
+        Exit;
+      end;
+      if (LExistingIndex <> -1) and
+         (LExistingIndex <> StringGrid.Row -1) then
+      begin
+        MessageDlg('Invalid unit',
+          Format('Duplicate quantity: %s.', [InsertFrm.Quantity.Text]),
+          mtError, [mbOk], '');
+        Exit;
+      end;
+
       Item.FField        := InsertFrm.Field       .Text;
       Item.FQuantity     := InsertFrm.Quantity    .Text;
       Item.FDimension    := InsertFrm.Dimension   .Text;
@@ -218,11 +245,6 @@ begin
     end;
   end;
   UpdateGrid;
-end;
-
-procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-begin
-  CanClose := not Assigned(Builder)
 end;
 
 procedure TMainForm.MoveDownBtnClick(Sender: TObject);
@@ -300,13 +322,34 @@ begin
 end;
 
 procedure TMainForm.RunBtnClick(Sender: TObject);
+var
+  LBuilder: TToolKitBuilder;
 begin
   UpdateButton(False);
-  Builder := TToolKitBuilder.Create(FList);
-  Builder.OnMessage := @OnMessage;
-  Builder.OnStart := @OnStart;
-  Builder.OnStop := @OnStop;
-  Builder.Start;
+  SynEdit.Clear;
+  SynEdit1.Clear;
+  Memo.Clear;
+
+  LBuilder := nil;
+  try
+    LBuilder := TToolKitBuilder.Create(FList,
+      IncludeTrailingPathDelimiter(FTemplateDirectory) + 'skeleton.pas',
+      IncludeTrailingPathDelimiter(FTemplateDirectory) + 'skeletonres.pas');
+    try
+      LBuilder.Build;
+      SynEdit.Lines.Assign(LBuilder.Document);
+      SynEdit1.Lines.Assign(LBuilder.Resources);
+    except
+      on E: Exception do
+      begin
+        Memo.Lines.Add(E.Message);
+        MessageDlg('Generation error', E.Message, mtError, [mbOk], '');
+      end;
+    end;
+  finally
+    LBuilder.Free;
+    UpdateButton(True);
+  end;
 end;
 
 procedure TMainForm.StringGridDblClick(Sender: TObject);
@@ -338,37 +381,6 @@ begin
     PageControl.TabIndex := 1
   else
     PageControl.TabIndex := 2;
-end;
-
-procedure TMainForm.OnMessage;
-begin
-  Memo.Lines.Add(Builder.Message);
-end;
-
-procedure TMainForm.OnStart;
-begin
-  UpdateButton(False);
-  SynEdit.Clear;
-  SynEdit1.Clear;
-  Memo.Clear;
-end;
-
-procedure TMainForm.OnStop;
-var
-  i: longint;
-begin
-  SynEdit.BeginUpdate(True);
-  for i := 0 to Builder.Document.Count -1 do
-    SynEdit.Append(Builder.Document[i]);
-  SynEdit.EndUpdate;
-
-  SynEdit1.BeginUpdate(True);
-  for i := 0 to Builder.Resources.Count -1 do
-    SynEdit1.Append(Builder.Resources[i]);
-  SynEdit1.EndUpdate;
-
-  UpdateButton(True);
-  Builder := nil;
 end;
 
 end.

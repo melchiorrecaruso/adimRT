@@ -82,13 +82,16 @@ begin
 end;
 
 procedure TInsertFrm.DimensionEditingDone(Sender: TObject);
+var
+  LDimension: TExponents;
 begin
   LongSymbol.Items.Clear;
   ShortSymbol.Items.Clear;
   if Dimension.Text <> '' then
   begin
-    LongSymbol.Items.Add(DimensionToLongString(StringToDimensions(Dimension.Text)));
-    ShortSymbol.Items.Add(DimensionToShortString(StringToDimensions(Dimension.Text)));
+    LDimension := StringToDimensions(Dimension.Text);
+    LongSymbol.Items.Add(DimensionToLongString(LDimension));
+    ShortSymbol.Items.Add(DimensionToShortString(LDimension));
   end;
 end;
 
