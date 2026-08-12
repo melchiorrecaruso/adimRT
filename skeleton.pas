@@ -60,26 +60,28 @@ uses
   ADimCL3, ADimCommon, ADimMath, ADimRes, SysUtils;
 
 type
-  { TPrefix }
-
+  { Identifies an SI decimal prefix from quetta (@code(10^30)) to quecto
+    (@code(10^-30)). @code(pNone) represents the absence of a prefix. }
   TPrefix = (pQuetta, pRonna, pYotta, pZetta, pExa, pPeta, pTera, pGiga, pMega, pKilo, pHecto, pDeca,
     pNone, pDeci, pCenti, pMilli, pMicro, pNano, pPico, pFemto, pAtto, pZepto, pYocto, pRonto, pQuecto);
 
-  { TPrefixes }
-
+  { Ordered list of SI prefixes applied to the factors of a compound unit.
+    Its length must match the number of prefix placeholders supported by that
+    unit. An empty array selects the unit's default prefixes. }
   TPrefixes = array of TPrefix;
 
-  { TExponents }
-
+  { Exponents associated with the prefix placeholders of a unit. They determine
+    how each decimal prefix contributes to the overall conversion factor. }
   TExponents = array of longint;
 
   { Represents a physical quantity with dimension checking at runtime.
 
-    Combines a @code(TReal) value with a @link(TDimension), ensuring that
-    arithmetic operations are dimensionally consistent. Incompatible dimensions
-    raise an exception at runtime.
-    When the symbol @code(ADIMOFF) is defined, this type degenerates to @code(TReal)
-    and all dimension checking is disabled.
+    Combines a value of generic scalar type @code(T) with a @link(TDimension).
+    The supported specializations use @link(TReal) and @link(TComplex).
+    Arithmetic operations preserve or combine dimensions as appropriate, while
+    incompatible additive operations raise @link(EDimensionError) at runtime.
+    When @code(ADIMOFF) is defined, the public specializations become aliases of
+    their underlying mathematical scalar types and dimension checking is disabled.
   }
   {$IFNDEF ADIMOFF}
   generic TQuantity<T> = record
@@ -106,68 +108,121 @@ type
     { Returns the product of two quantities. The resulting dimension is the product of the two dimensions. }
     class operator *(const ALeft, ARight: TQuantity): TQuantity;
 
-    { Returns the product of a dimensionless real scalar and a quantity. The dimension is preserved. }
+    { Returns the product of a mathematical scalar and a quantity. }
     class operator *(const ALeft: T; const ARight: TQuantity): TQuantity;
 
-    { Returns the product of a quantity and a dimensionless real scalar. The dimension is preserved. }
+    { Returns the product of a quantity and a mathematical scalar. }
     class operator *(const ALeft: TQuantity; const ARight: T): TQuantity;
 
     { Returns the quotient of two quantities. The resulting dimension is the ratio of the two dimensions. }
     class operator /(const ALeft, ARight: TQuantity): TQuantity;
 
-    { Returns the quotient of a dimensionless real scalar divided by a quantity.
-      The resulting dimension is the inverse of @code(ARight). }
-    { Returns the quotient of a quantity divided by a dimensionless scalar. }
+    { Returns the quotient of a quantity divided by a mathematical scalar. }
     class operator /(const ALeft: TQuantity; const ARight: T): TQuantity;
 
     { Returns @true if both operands have the same dimension and equal values. }
     class operator =(const ALeft, ARight: TQuantity): boolean;
 
-    { Returns @true if @code(ALeft) is dimensionally compatible with @code(ARight) and its value is strictly less. }
+    { Returns @true if the operands have compatible dimensions and different
+      scalar values. }
     class operator <>(const ALeft, ARight: TQuantity): boolean;
 
-    { Implicit conversion from a dimensionless real value to a @link(TRealQuantity).
-      The resulting quantity has a scalar (dimensionless) dimension. }
+    { Converts a mathematical scalar to a dimensionless quantity. }
     class operator :=(const AValue: T): TQuantity;
   end;
 
+  { Real-valued physical quantity with runtime dimensional information. }
   TRealQuantity = specialize TQuantity<TReal>;
+
+  { Complex-valued physical quantity with runtime dimensional information. }
   TComplexQuantity = specialize TQuantity<TComplex>;
 
+  { Adds tolerant comparison to @link(TRealQuantity). }
   TRealQuantityHelper = record helper for TRealQuantity
+    { Returns @true when both quantities have the same dimension and their
+      values differ by no more than @link(DefaultEpsilon). }
     function SameValue(const AQuantity: TRealQuantity): boolean;
   end;
 
+  { Adds complex-specific operations to @link(TComplexQuantity). }
   TComplexQuantityHelper = record helper for TComplexQuantity
+    { Returns the complex conjugate. }
     function Conjugate: TComplexQuantity;
+
+    { Returns the complex modulus with the same physical dimension. }
     function Norm: TRealQuantity;
+
+    { Returns @true when both quantities have the same dimension and their real
+      and imaginary components agree within @link(DefaultEpsilon). }
     function SameValue(const AQuantity: TComplexQuantity): boolean;
+
+    { Returns the squared modulus. The physical dimension is squared. }
     function SquaredNorm: TRealQuantity;
   end;
   {$ELSE}
+  { Real scalar used in place of a dimensioned quantity when dimensional checks
+    are disabled. }
   TRealQuantity = TReal;
+
+  { Complex scalar used in place of a dimensioned quantity when dimensional
+    checks are disabled. }
   TComplexQuantity = TComplex;
   {$ENDIF}
 
+  { Dynamic array of real-valued physical quantities. }
   TArrayOfQuantity = array of TRealQuantity;
 
+  { Dynamic array of complex-valued physical quantities. }
   TArrayOfComplexQuantity = array of TComplexQuantity;
 
   {$IFNDEF ADIMOFF}
+  { Converts a real quantity to a complex quantity with zero imaginary part. }
   operator :=(const AValue: TRealQuantity): TComplexQuantity;
+
+  { Returns @true if @code(ALeft) is smaller than @code(ARight). The operands
+    must have the same physical dimension. }
   operator <(const ALeft, ARight: TRealQuantity): boolean;
+
+  { Returns @true if @code(ALeft) is greater than @code(ARight). The operands
+    must have the same physical dimension. }
   operator >(const ALeft, ARight: TRealQuantity): boolean;
+
+  { Returns @true if @code(ALeft) is smaller than or equal to @code(ARight).
+    The operands must have the same physical dimension. }
   operator <=(const ALeft, ARight: TRealQuantity): boolean;
+
+  { Returns @true if @code(ALeft) is greater than or equal to @code(ARight).
+    The operands must have the same physical dimension. }
   operator >=(const ALeft, ARight: TRealQuantity): boolean;
+
+  { Divides a mathematical real scalar by a real quantity. }
   operator /(const ALeft: TReal; const ARight: TRealQuantity): TRealQuantity;
+
+  { Divides a mathematical complex scalar by a complex quantity. }
   operator /(const ALeft: TComplex; const ARight: TComplexQuantity): TComplexQuantity;
+
+  { Adds compatible real and complex quantities and returns a complex quantity. }
   operator +(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+
+  { Adds compatible complex and real quantities and returns a complex quantity. }
   operator +(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
+
+  { Subtracts a complex quantity from a compatible real quantity. }
   operator -(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+
+  { Subtracts a real quantity from a compatible complex quantity. }
   operator -(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
+
+  { Multiplies real and complex quantities. }
   operator *(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+
+  { Multiplies complex and real quantities. }
   operator *(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
+
+  { Divides a real quantity by a complex quantity. }
   operator /(const ALeft: TRealQuantity; const ARight: TComplexQuantity): TComplexQuantity;
+
+  { Divides a complex quantity by a real quantity. }
   operator /(const ALeft: TComplexQuantity; const ARight: TRealQuantity): TComplexQuantity;
 
   { Returns the product of a dimensional quantity and the imaginary unit. The dimension is preserved. }
@@ -185,126 +240,304 @@ type
 
 type
   {$IFNDEF ADIMOFF}
+  { Represents a dynamically sized vector whose coefficients share one physical
+    dimension. @code(T) is the mathematical coefficient type, normally
+    @link(TReal) or @link(TComplex). Vector sizes are determined by the
+    underlying @link(TVector) value, and binary operations require equal sizes. }
   generic TVectorQuantity<T> = record
   type
+    { Mathematical vector type used to store the coefficients. }
     TValueVector = specialize TVector<T>;
+    { Scalar physical quantity returned for individual coefficients and scalar
+      products. }
     TScalarQuantity = specialize TQuantity<T>;
   private
     FDim: TDimension;
     FValue: TValueVector;
+    { @exclude }
     function Get(AIndex: longint): TScalarQuantity;
+    { @exclude }
     procedure Put(AIndex: longint; const AQuantity: TScalarQuantity);
   public
+    { Returns the number of vector coefficients. }
     function Size: longint;
+
+    { Returns the dot product with @code(AVector). Both vectors must have the
+      same size. }
     function Dot(const AVector: TVectorQuantity): TScalarQuantity;
+
+    { Returns @true if every coefficient is numerically zero. }
     function IsNull: boolean;
+
+    { Returns @true if at least one coefficient is non-zero. }
     function IsNotNull: boolean;
+
+    { Returns the Euclidean norm with the same physical dimension as the vector. }
     function Norm: TRealQuantity;
+
+    { Returns the squared Euclidean norm. The physical dimension is squared. }
     function SquaredNorm: TRealQuantity;
+
+    { Returns the dimensionless mathematical unit vector in the same direction.
+      The original quantity vector is not modified. }
     function Normalize: TValueVector;
+
+    { Returns the component-wise reciprocal vector. }
     function Reciprocal: TVectorQuantity;
+
+    { Returns the mathematical coefficients in their default string form. The
+      unit symbol is intentionally omitted. }
     function ToString: string;
 
+    { Returns @true when dimensions, sizes and all coefficients are exactly equal. }
     class operator =(const ALeft, ARight: TVectorQuantity): boolean;
+
+    { Returns @true when dimensions, sizes or any coefficients differ. }
     class operator <>(const ALeft, ARight: TVectorQuantity): boolean;
+
+    { Unary plus. Returns the vector quantity unchanged. }
     class operator +(const ASelf: TVectorQuantity): TVectorQuantity;
+
+    { Unary minus. Negates every coefficient. }
     class operator -(const ASelf: TVectorQuantity): TVectorQuantity;
+
+    { Adds two same-sized vector quantities with equal physical dimensions. }
     class operator +(const ALeft, ARight: TVectorQuantity): TVectorQuantity;
+
+    { Subtracts two same-sized vector quantities with equal physical dimensions. }
     class operator -(const ALeft, ARight: TVectorQuantity): TVectorQuantity;
+
+    { Returns the dot product of two same-sized vector quantities. }
     class operator *(const ALeft, ARight: TVectorQuantity): TScalarQuantity;
+
+    { Multiplies a scalar quantity by a vector quantity. }
     class operator *(const ALeft: TScalarQuantity; const ARight: TVectorQuantity): TVectorQuantity;
+
+    { Multiplies a vector quantity by a scalar quantity. }
     class operator *(const ALeft: TVectorQuantity; const ARight: TScalarQuantity): TVectorQuantity;
+
+    { Divides a vector quantity by a scalar quantity. }
     class operator /(const ALeft: TVectorQuantity; const ARight: TScalarQuantity): TVectorQuantity;
 
+    { Provides zero-based indexed access to vector coefficients as physical
+      quantities. Assigned coefficients must have the vector's dimension. }
     property A[AIndex: longint]: TScalarQuantity read Get write Put; default;
   end;
 
+  { Real-valued dynamically sized vector quantity. }
   TRealVectorQuantity = specialize TVectorQuantity<TReal>;
+
+  { Complex-valued dynamically sized vector quantity. }
   TComplexVectorQuantity = specialize TVectorQuantity<TComplex>;
 
+  { Adds operations specific to real vector quantities. }
   TRealVectorQuantityHelper = record helper for TRealVectorQuantity
+    { Returns the three-dimensional cross product with @code(AVector). }
     function Cross(const AVector: TRealVectorQuantity): TRealVectorQuantity;
+
+    { Returns @true when dimensions and sizes agree and corresponding
+      coefficients differ by no more than @link(DefaultEpsilon). }
     function SameValue(const AVector: TRealVectorQuantity): boolean;
+
+    { Converts every real coefficient to a complex coefficient with zero
+      imaginary part. }
     function ToComplex: TComplexVectorQuantity;
   end;
 
+  { Adds operations specific to complex vector quantities. }
   TComplexVectorQuantityHelper = record helper for TComplexVectorQuantity
+    { Returns the component-wise complex conjugate. }
     function Conjugate: TComplexVectorQuantity;
+
+    { Returns @true when dimensions and sizes agree and corresponding complex
+      coefficients agree within @link(DefaultEpsilon). }
     function SameValue(const AVector: TComplexVectorQuantity): boolean;
   end;
 
+  { Represents a dynamically sized square matrix whose coefficients share one
+    physical dimension. @code(T) is the mathematical coefficient type, normally
+    @link(TReal) or @link(TComplex). Matrix order is determined by the underlying
+    @link(TMatrix) value. }
   generic TMatrixQuantity<T> = record
   type
+    { Mathematical square-matrix type used to store the coefficients. }
     TValueMatrix = specialize TMatrix<T>;
+    { Scalar physical quantity used for coefficients and scalar results. }
     TScalarQuantity = specialize TQuantity<T>;
+    { Vector quantity compatible with the matrix coefficient type. }
     TVectorQuantityType = specialize TVectorQuantity<T>;
   private
     FDim: TDimension;
     FValue: TValueMatrix;
+    { @exclude }
     function Get(ARow, ACol: longint): TScalarQuantity;
+    { @exclude }
     procedure Put(ARow, ACol: longint; const AQuantity: TScalarQuantity);
   public
+    { Returns the number of rows and columns of the square matrix. }
     function Order: longint;
+
+    { Solves @code(Self * X = AData). The result dimension is
+      @code(AData.Dimension / Self.Dimension). }
     function SolveLinear(const AData: TVectorQuantityType): TVectorQuantityType;
+
+    { Returns a dimensionless mathematical identity matrix of the same order. }
     function Identity: TValueMatrix;
+
+    { Returns a zero matrix quantity of the same order and physical dimension. }
     function Null: TMatrixQuantity;
+
+    { Returns a diagonal matrix quantity whose diagonal coefficients come from
+      @code(ADiagonal). Its physical dimension is the vector dimension. }
     function Diagonalize(const ADiagonal: TVectorQuantityType): TMatrixQuantity;
+
+    { Returns @true if every matrix coefficient is numerically zero. }
     function IsNull: boolean;
+
+    { Returns @true if at least one matrix coefficient is non-zero. }
     function IsNotNull: boolean;
+
+    { Returns the determinant. For order @code(N), its physical dimension is
+      the matrix dimension raised to @code(N). }
     function Determinant: TScalarQuantity;
+
+    { Returns the matrix norm with the same physical dimension as its coefficients. }
     function Norm: TRealQuantity;
+
+    { Returns the numerical rank of the underlying mathematical matrix. }
     function Rank: longint;
+
+    { Returns the trace with the same physical dimension as the coefficients. }
     function Trace: TScalarQuantity;
+
+    { Returns an independent copy of the matrix quantity. }
     function Clone: TMatrixQuantity;
+
+    { Returns the transpose while preserving the physical dimension. }
     function Transpose: TMatrixQuantity;
+
+    { Returns the inverse matrix. The physical dimension is inverted. }
     function Inverse: TMatrixQuantity;
+
+    { Returns the row-reduced mathematical matrix. The physical unit is omitted
+      because row reduction is used as a numerical decomposition step. }
     function RowReduction: TValueMatrix;
+
+    { Exchanges rows @code(ARow1) and @code(ARow2) in place. }
     procedure Swap(ARow1, ARow2: longint);
+
+    { Returns the mathematical coefficients in their default string form. }
     function ToString: string;
+
+    { Returns the mathematical coefficients using the requested floating-point
+      precision and digit count. }
     function ToString(APrecision, ADigits: integer): string;
 
+    { Returns @true when dimensions, orders and all coefficients are exactly equal. }
     class operator =(const ALeft, ARight: TMatrixQuantity): boolean;
+
+    { Returns @true when dimensions, orders or any coefficients differ. }
     class operator <>(const ALeft, ARight: TMatrixQuantity): boolean;
+
+    { Adds two matrices of equal order and physical dimension. }
     class operator +(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
+
+    { Subtracts two matrices of equal order and physical dimension. }
     class operator -(const ALeft, ARight: TMatrixQuantity): TMatrixQuantity;
+
+    { Multiplies a scalar quantity by a matrix quantity. }
     class operator *(const ALeft: TScalarQuantity; const ARight: TMatrixQuantity): TMatrixQuantity;
+
+    { Multiplies a matrix quantity by a scalar quantity. }
     class operator *(const ALeft: TMatrixQuantity; const ARight: TScalarQuantity): TMatrixQuantity;
+
+    { Divides a matrix quantity by a scalar quantity. }
     class operator /(const ALeft: TMatrixQuantity; const ARight: TScalarQuantity): TMatrixQuantity;
 
+    { Provides zero-based indexed access to coefficients as physical quantities.
+      Assigned coefficients must have the matrix's dimension. }
     property A[ARow, ACol: longint]: TScalarQuantity read Get write Put; default;
   end;
 
+  { Real-valued dynamically sized square-matrix quantity. }
   TRealMatrixQuantity = specialize TMatrixQuantity<TReal>;
+
+  { Complex-valued dynamically sized square-matrix quantity. }
   TComplexMatrixQuantity = specialize TMatrixQuantity<TComplex>;
 
+  { Adds real-matrix algorithms to @link(TRealMatrixQuantity). }
   TRealMatrixQuantityHelper = record helper for TRealMatrixQuantity
+    { Returns @true if the matrix is dimensionless and orthogonal. }
     function IsOrthogonal: boolean;
+
+    { Returns @true when dimensions and matrix coefficients agree within
+      @link(DefaultEpsilon). }
     function SameValue(const AMatrix: TRealMatrixQuantity): boolean;
+
+    { Converts every coefficient to complex form. }
     function ToComplex: TComplexMatrixQuantity;
+
+    { Returns the generally complex eigenvalues with the same physical dimension
+      as the matrix coefficients. }
     function Eigenvalues: TComplexVectorQuantity;
+
+    { Returns the dimensionless complex eigenvectors corresponding to
+      @code(AEigenvalues). The eigenvalue dimension must match the matrix. }
     function Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
   end;
 
+  { Adds complex-matrix algorithms to @link(TComplexMatrixQuantity). }
   TComplexMatrixQuantityHelper = record helper for TComplexMatrixQuantity
+    { Returns the component-wise complex conjugate. }
     function Conjugate: TComplexMatrixQuantity;
+
+    { Returns the complex eigenvalues with the same physical dimension as the
+      matrix coefficients. }
     function Eigenvalues: TComplexVectorQuantity;
+
+    { Returns the dimensionless complex eigenvectors corresponding to
+      @code(AEigenvalues). The eigenvalue dimension must match the matrix. }
     function Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
+
+    { Returns @true if the matrix equals its conjugate transpose. }
     function IsHermitian: boolean;
+
+    { Returns @true if the matrix is dimensionless and unitary. }
     function IsUnitary: boolean;
+
+    { Returns @true when dimensions and complex coefficients agree within
+      @link(DefaultEpsilon). }
     function SameValue(const AMatrix: TComplexMatrixQuantity): boolean;
+
+    { Returns the conjugate transpose. }
     function TransposeConjugate: TComplexMatrixQuantity;
   end;
 
+  { Returns the product of two real matrix quantities. Matrix orders must agree. }
   operator *(const ALeft, ARight: TRealMatrixQuantity): TRealMatrixQuantity;
+
+  { Returns the product of two complex matrix quantities. Matrix orders must agree. }
   operator *(const ALeft, ARight: TComplexMatrixQuantity): TComplexMatrixQuantity;
+
+  { Returns a real matrix-vector product. Sizes must agree. }
   operator *(const ALeft: TRealMatrixQuantity; const ARight: TRealVectorQuantity): TRealVectorQuantity;
+
+  { Returns a real row-vector/matrix product. Sizes must agree. }
   operator *(const ALeft: TRealVectorQuantity; const ARight: TRealMatrixQuantity): TRealVectorQuantity;
+
+  { Returns a complex matrix-vector product. Sizes must agree. }
   operator *(const ALeft: TComplexMatrixQuantity; const ARight: TComplexVectorQuantity): TComplexVectorQuantity;
+
+  { Returns a complex row-vector/matrix product. Sizes must agree. }
   operator *(const ALeft: TComplexVectorQuantity; const ARight: TComplexMatrixQuantity): TComplexVectorQuantity;
   {$ELSE}
+  { Mathematical real vector used when dimensional checks are disabled. }
   TRealVectorQuantity = TRealVector;
+  { Mathematical complex vector used when dimensional checks are disabled. }
   TComplexVectorQuantity = TComplexVector;
+  { Mathematical real square matrix used when dimensional checks are disabled. }
   TRealMatrixQuantity = TRealMatrix;
+  { Mathematical complex square matrix used when dimensional checks are disabled. }
   TComplexMatrixQuantity = TComplexMatrix;
   {$ENDIF}
 
@@ -428,6 +661,8 @@ type
     class operator /(const ALeft: TRealQuantity; const ARight: TCL3MultivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
+  { Mathematical @code(Cl(3,0)) multivector used when dimensional checks are
+    disabled. }
   TCL3MultivecQuantity = TCL3Multivector;
   {$ENDIF}
 
@@ -605,6 +840,8 @@ type
     class operator -(const ALeft: TRealQuantity; const ARight: TCL3TrivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
+  { Mathematical @code(Cl(3,0)) trivector used when dimensional checks are
+    disabled. }
   TCL3TrivecQuantity = TCL3Trivector;
   {$ENDIF}
 
@@ -835,6 +1072,8 @@ type
     class operator -(const ALeft: TRealQuantity; const ARight: TCL3BivecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
+  { Mathematical @code(Cl(3,0)) bivector used when dimensional checks are
+    disabled. }
   TCL3BivecQuantity = TCL3Bivector;
   {$ENDIF}
 
@@ -1121,6 +1360,8 @@ type
     class operator -(const ALeft: TRealQuantity; const ARight: TCL3VecQuantity): TCL3MultivecQuantity;
   end;
   {$ELSE}
+  { Mathematical @code(Cl(3,0)) vector used when dimensional checks are
+    disabled. }
   TCL3VecQuantity = TCL3Vector;
   {$ENDIF}
 
@@ -3549,7 +3790,7 @@ type
     }
     function ToFloat(const AQuantity: TRealQuantity; const APrefixes: TPrefixes): TReal;
 
-    { eturns a compact string representation of the temperature quantity in degrees Fahrenheit.
+    { Returns a compact string representation of the temperature quantity in degrees Fahrenheit.
       Format: @code('<value> °F'), e.g. @code('212 °F').
       @param(AQuantity The real temperature quantity to format.)
     }
