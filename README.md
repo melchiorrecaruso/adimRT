@@ -18,9 +18,9 @@ The ADimRT library allows defining variables and constants in terms of quantity 
 uses
   adim;
 var 
-  distance: TQuantity;
-  time:     TQuantity;
-  speed:    TQuantity;  
+  distance: TRealQuantity;
+  time:     TRealQuantity;
+  speed:    TRealQuantity;
 begin
   distance := 5000*m;
   time     := 2*hr;
@@ -38,11 +38,11 @@ The value of speed is 2.5 km/h
 uses
   adim;
 var 
-  plank:  TQuantity;
-  e0:     TQuantity;
-  ke:     TQuantity;  
-  mass:   TQuantity;
-  radius: TQuantity;
+  plank:  TRealQuantity;
+  e0:     TRealQuantity;
+  ke:     TRealQuantity;
+  mass:   TRealQuantity;
+  radius: TRealQuantity;
 begin
   plank  := 6.62607015E-34*J*s;    // Planck constant
   e0     := 8.8541878128E-12*F/m;  // vacuum permittivity
