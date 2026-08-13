@@ -28,7 +28,7 @@
   to do so, delete this exception statement from your version.
 }
 
-unit ADimTypes;
+unit ADimCommon;
 
 {$H+}{$J-}
 {$modeswitch advancedrecords}

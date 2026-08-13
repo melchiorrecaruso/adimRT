@@ -55,6 +55,8 @@
 ;TKelvin?;K;%skelvin?;%sK;K;;;;K - kelvin: SI base unit of thermodynamic temperature.;clLime
 ;TDegree?Celsius;;degree? Celsius;°C;degC;TKelvin?;Celsius;;"°C - degree Celsius: unit of temperature; T(°C) = T(K) - 273.15.";clWhite
 ;TDegree?Fahrenheit;;degree? Fahrenheit;°F;degF;TKelvin?;Fahrenheit;;"°F - degree Fahrenheit: unit of temperature; T(°F) = T(K) * 9/5 - 459.67.";clWhite
+;TDeltaDegree?Celsius;;delta degree? Celsius;Δ°C;deltaDegC;TKelvin?;1;;"Δ°C - delta degree Celsius: unit of temperature interval; 1 Δ°C = 1 K.";clWhite
+;TDeltaDegree?Fahrenheit;;delta degree? Fahrenheit;Δ°F;deltaDegF;TKelvin?;5/9;;"Δ°F - delta degree Fahrenheit: unit of temperature interval; 1 Δ°F = 5/9 K.";clWhite
 ;TSquareKelvin?;K2;square %skelvin?;%sK2;K2;;;;K² - square kelvin: unit of square temperature.;clLime
 ;TCubicKelvin?;K3;cubic %skelvin?;%sK3;K3;;;;K³ - cubic kelvin: unit of cubic temperature.;clLime
 ;TQuarticKelvin?;K4;quartic %skelvin?;%sK4;K4;;;;K⁴ - quartic kelvin: unit of quartic temperature.;clLime

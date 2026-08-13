@@ -195,6 +195,12 @@ resourcestring
   rsDegreeFahrenheitSymbol = '°F';
   rsDegreeFahrenheitName = 'degree Fahrenheit';
   rsDegreeFahrenheitPluralName = 'degrees Fahrenheit';
+  rsDeltaDegreeCelsiusSymbol = 'Δ°C';
+  rsDeltaDegreeCelsiusName = 'delta degree Celsius';
+  rsDeltaDegreeCelsiusPluralName = 'delta degrees Celsius';
+  rsDeltaDegreeFahrenheitSymbol = 'Δ°F';
+  rsDeltaDegreeFahrenheitName = 'delta degree Fahrenheit';
+  rsDeltaDegreeFahrenheitPluralName = 'delta degrees Fahrenheit';
   rsSquareKelvinSymbol = '%sK²';
   rsSquareKelvinName = 'square %skelvin';
   rsSquareKelvinPluralName = 'square %skelvins';

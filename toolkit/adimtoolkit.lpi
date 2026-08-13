@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="12"/>
+    <Version Value="13"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -21,6 +21,28 @@
     </General>
     <BuildModes>
       <Item Name="Default" Default="True"/>
+      <Item Name="CLI">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="build\cli\adimtoolkit"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <UnitOutputDirectory Value="build\cli\lib"/>
+          </SearchPaths>
+          <Linking>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="False"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dTOOLKIT_CLI"/>
+          </Other>
+        </CompilerOptions>
+      </Item>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -49,11 +71,9 @@
     <Units>
       <Unit>
         <Filename Value="adimtoolkit.lpr"/>
-        <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="mainfrm.pas"/>
-        <IsPartOfProject Value="True"/>
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
@@ -61,17 +81,14 @@
       </Unit>
       <Unit>
         <Filename Value="toolkitunit.pas"/>
-        <IsPartOfProject Value="True"/>
         <UnitName Value="ToolKitUnit"/>
       </Unit>
       <Unit>
         <Filename Value="common.pas"/>
-        <IsPartOfProject Value="True"/>
         <UnitName Value="Common"/>
       </Unit>
       <Unit>
         <Filename Value="insertform.pas"/>
-        <IsPartOfProject Value="True"/>
         <ComponentName Value="InsertFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>

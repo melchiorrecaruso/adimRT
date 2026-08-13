@@ -22,7 +22,7 @@ unit skeletonres;
 {$H+}{$J-}
 
 interface
-  
+
 resourcestring
 {#RESOURCESTRINGS}
 
