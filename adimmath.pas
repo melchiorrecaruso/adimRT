@@ -476,6 +476,10 @@ var
 
 implementation
 
+const
+  { Binary64 spacing between 1 and the next representable value. }
+  Precision = 2.2204460492503131E-16;
+
 function Fmt(const AValue: TReal): string;
 begin
   if AValue < 0.0 then
@@ -1217,9 +1221,9 @@ begin
     result[LIndex] := Self[LIndex, AColumn];
     LNorm := Math.Hypot(LNorm, Abs(result[LIndex]));
   end;
-  if LNorm < DefaultEpsilon then Exit;
+  if LNorm = 0 then Exit;
   LFirstNorm := Abs(result[AColumn + 1]);
-  if LFirstNorm < DefaultEpsilon then
+  if LFirstNorm = 0 then
     LPhase := 1
   else
     LPhase := result[AColumn + 1] / LFirstNorm;
@@ -1228,7 +1232,7 @@ begin
   LVectorNorm := 0;
   for LIndex := AColumn + 1 to Self.FOrder - 1 do
     LVectorNorm := Math.Hypot(LVectorNorm, Abs(result[LIndex]));
-  if LVectorNorm < DefaultEpsilon then Exit;
+  if LVectorNorm = 0 then Exit;
   for LIndex := AColumn + 1 to Self.FOrder - 1 do
     result[LIndex] := result[LIndex] / LVectorNorm;
 end;
@@ -1397,13 +1401,18 @@ begin
 end;
 
 function TMatrix.Rank: longint;
+const
+  { Binary64 spacing available within this generic template instance. }
+  Precision = 2.2204460492503131E-16;
 var
   LWork: TMatrix;
   LPivot, LFactor: T;
-  LMaxValue: TReal;
+  LMaxValue, LScale, LTolerance: TReal;
   LPivotRow, LColumn, LRow, LIndex, LMaxRow: longint;
 begin
   LWork := Clone;
+  LScale := Norm;
+  LTolerance := FOrder * Precision * LScale;
   LPivotRow := 0;
   result := 0;
   for LColumn := 0 to FOrder - 1 do
@@ -1417,12 +1426,12 @@ begin
         LMaxValue := Abs(LWork[LRow, LColumn]);
         LMaxRow := LRow;
       end;
-    if LMaxValue <= DefaultEpsilon then Continue;
+    if LMaxValue <= LTolerance then Continue;
     if LMaxRow <> LPivotRow then LWork.Swap(LPivotRow, LMaxRow);
     LPivot := LWork[LPivotRow, LColumn];
     for LRow := LPivotRow + 1 to FOrder - 1 do
     begin
-      if Abs(LWork[LRow, LColumn]) <= DefaultEpsilon then Continue;
+      if Abs(LWork[LRow, LColumn]) <= LTolerance then Continue;
       LFactor := LWork[LRow, LColumn] / LPivot;
       LWork[LRow, LColumn] := 0;
       for LIndex := LColumn + 1 to FOrder - 1 do
@@ -1809,6 +1818,20 @@ var
   LIndex, LLow, LRow, LCol, LIteration: longint;
   LConverged: boolean;
 
+  function Eigenvalues2x2(const A00, A01, A10, A11: TComplex):
+    TArrayOfComplex;
+  var
+    LCenter: TComplex;
+    LRoot: TArrayOfComplex;
+  begin
+    result := nil;
+    SetLength(result, 2);
+    LCenter := (A00 + A11) / 2;
+    LRoot := SquareRoot(SquarePower((A00 - A11) / 2) + A01 * A10);
+    result[0] := LCenter + LRoot[0];
+    result[1] := LCenter - LRoot[0];
+  end;
+
   procedure QRDecompose(const AMatrix: TComplexMatrix;
     ALow, AHigh: longint; out AQ, AR: TComplexMatrix);
   var
@@ -1822,7 +1845,7 @@ var
       LDiagonal := AR[LColIndex, LColIndex];
       LSubDiagonal := AR[LColIndex + 1, LColIndex];
       LRadius := Hypot(LDiagonal.Norm, LSubDiagonal.Norm);
-      if LRadius <= DefaultEpsilon then
+      if LRadius = 0 then
       begin
         LCosine := 1;
         LSine := 0;
@@ -1863,9 +1886,9 @@ begin
       result[0] := LHessenberg[0, 0];
       Break;
     end;
-    LTolerance := DefaultEpsilon *
+    LTolerance := Precision *
       (LHessenberg[LIndex - 1, LIndex - 1].Norm +
-       LHessenberg[LIndex, LIndex].Norm + 1);
+       LHessenberg[LIndex, LIndex].Norm);
     if LHessenberg[LIndex, LIndex - 1].Norm <= LTolerance then
     begin
       LHessenberg[LIndex, LIndex - 1] := 0;
@@ -1876,9 +1899,9 @@ begin
     LLow := LIndex - 1;
     while LLow > 0 do
     begin
-      LTolerance := DefaultEpsilon *
+      LTolerance := Precision *
         (LHessenberg[LLow - 1, LLow - 1].Norm +
-         LHessenberg[LLow, LLow].Norm + 1);
+         LHessenberg[LLow, LLow].Norm);
       if LHessenberg[LLow, LLow - 1].Norm <= LTolerance then
       begin
         LHessenberg[LLow, LLow - 1] := 0;
@@ -1888,10 +1911,9 @@ begin
     end;
     if LIndex - LLow = 1 then
     begin
-      LPair := SolveEquation(
-        -(LHessenberg[LLow, LLow] + LHessenberg[LIndex, LIndex]),
-         LHessenberg[LLow, LLow] * LHessenberg[LIndex, LIndex] -
-         LHessenberg[LLow, LIndex] * LHessenberg[LIndex, LLow]);
+      LPair := Eigenvalues2x2(
+        LHessenberg[LLow, LLow], LHessenberg[LLow, LIndex],
+        LHessenberg[LIndex, LLow], LHessenberg[LIndex, LIndex]);
       result[LLow] := LPair[0];
       result[LIndex] := LPair[1];
       LIndex := LLow - 1;
@@ -1900,13 +1922,11 @@ begin
     LConverged := False;
     for LIteration := 1 to MaxIter do
     begin
-      LPair := SolveEquation(
-        -(LHessenberg[LIndex - 1, LIndex - 1] +
-          LHessenberg[LIndex, LIndex]),
-         LHessenberg[LIndex - 1, LIndex - 1] *
-         LHessenberg[LIndex, LIndex] -
-         LHessenberg[LIndex - 1, LIndex] *
-         LHessenberg[LIndex, LIndex - 1]);
+      LPair := Eigenvalues2x2(
+        LHessenberg[LIndex - 1, LIndex - 1],
+        LHessenberg[LIndex - 1, LIndex],
+        LHessenberg[LIndex, LIndex - 1],
+        LHessenberg[LIndex, LIndex]);
       if (LPair[0] - LHessenberg[LIndex, LIndex]).Norm <=
          (LPair[1] - LHessenberg[LIndex, LIndex]).Norm then
         LShift := LPair[0]
@@ -1922,13 +1942,14 @@ begin
       for LRow := LLow to LIndex do
         for LCol := LLow to LIndex do
           LHessenberg[LRow, LCol] := LShifted[LRow, LCol];
+      { Entries below the first subdiagonal are structural zeros of the
+        upper-Hessenberg form maintained by shifted QR iteration. }
       for LRow := LLow + 2 to LIndex do
         for LCol := LLow to LRow - 2 do
-          if LHessenberg[LRow, LCol].Norm <= DefaultEpsilon then
-            LHessenberg[LRow, LCol] := 0;
-      LTolerance := DefaultEpsilon *
+          LHessenberg[LRow, LCol] := 0;
+      LTolerance := Precision *
         (LHessenberg[LIndex - 1, LIndex - 1].Norm +
-         LHessenberg[LIndex, LIndex].Norm + 1);
+         LHessenberg[LIndex, LIndex].Norm);
       if LHessenberg[LIndex, LIndex - 1].Norm <= LTolerance then
       begin
         LConverged := True;
@@ -1942,13 +1963,13 @@ begin
       Dec(LIndex);
     end else
     begin
-      LPair := SolveEquation(
-        -(LHessenberg[LIndex - 1, LIndex - 1] +
-          LHessenberg[LIndex, LIndex]),
-         LHessenberg[LIndex - 1, LIndex - 1] *
-         LHessenberg[LIndex, LIndex] -
-         LHessenberg[LIndex - 1, LIndex] *
-         LHessenberg[LIndex, LIndex - 1]);
+      { The centered 2x2 formula preserves the separation of close
+        eigenvalues without forming a cancellation-prone determinant. }
+      LPair := Eigenvalues2x2(
+        LHessenberg[LIndex - 1, LIndex - 1],
+        LHessenberg[LIndex - 1, LIndex],
+        LHessenberg[LIndex, LIndex - 1],
+        LHessenberg[LIndex, LIndex]);
       result[LIndex - 1] := LPair[0];
       result[LIndex] := LPair[1];
       Dec(LIndex, 2);
@@ -1965,7 +1986,7 @@ var
   LRow, LColumn, LPrevious, LAttempt, LPass, LPhaseIndex: longint;
   LDelta, LScale, LClusterTolerance, LPhaseNorm, LMaxNorm: TReal;
   LSeed: longword;
-  LSolved: boolean;
+  LSolved, LIsHermitian: boolean;
 
   function NextRandom: TReal;
   begin
@@ -1983,6 +2004,13 @@ begin
   result.SetOrder(Self.FOrder);
   LVector.SetSize(Self.FOrder);
   LScale := Self.Norm;
+  LIsHermitian := True;
+  for LRow := 0 to Self.FOrder - 1 do
+    for LColumn := LRow + 1 to Self.FOrder - 1 do
+      if (Self[LRow, LColumn] -
+          Self[LColumn, LRow].Conjugate).Norm >
+          100 * Precision * LScale then
+        LIsHermitian := False;
   LSeed := 123456789;
   for LColumn := 0 to Self.FOrder - 1 do
   begin
@@ -1990,7 +2018,10 @@ begin
     for LRow := 0 to Self.FOrder - 1 do
       LVector[LRow] := Complex(NextRandom, NextRandom);
     LVector := LVector.Normalize;
-    LDelta := 0;
+    { The scale-relative shift makes the inverse-iteration system nonsingular
+      while remaining close to the requested eigenvalue. }
+    LDelta := Max(LScale, LEigenvalue.Norm) * (10 * Precision);
+    if LDelta = 0 then LDelta := 10 * Precision;
     LSolved := False;
     for LAttempt := 1 to 6 do
     begin
@@ -2004,10 +2035,12 @@ begin
           LWork := LMatrix.SolveLinear(LVector);
           for LPrevious := 0 to LColumn - 1 do
           begin
-            LClusterTolerance := 100 * DefaultEpsilon *
-              (AEigenvalues[LPrevious].Norm + LEigenvalue.Norm + 1);
-            if (AEigenvalues[LPrevious] - LEigenvalue).Norm <=
-              LClusterTolerance then
+            LClusterTolerance := 100 * Precision *
+              Max(LScale, Max(AEigenvalues[LPrevious].Norm,
+                LEigenvalue.Norm));
+            if LIsHermitian or
+              ((AEigenvalues[LPrevious] - LEigenvalue).Norm <=
+               LClusterTolerance) then
             begin
               LProjection := result[0, LPrevious].Conjugate * LWork[0];
               for LRow := 1 to Self.FOrder - 1 do
@@ -2018,7 +2051,7 @@ begin
                   LProjection * result[LRow, LPrevious];
             end;
           end;
-          if LWork.Norm < DefaultEpsilon then
+          if LWork.Norm = 0 then
             for LRow := 0 to Self.FOrder - 1 do
               LWork[LRow] := Complex(NextRandom, NextRandom);
           LVector := LWork.Normalize;
@@ -2027,13 +2060,7 @@ begin
         Break;
       except
         on EZeroDivide do
-          if LDelta = 0 then
-          begin
-            LDelta := Max(LScale, LEigenvalue.Norm) * 1E-12;
-            if LDelta = 0 then LDelta := 1E-12;
-          end
-          else
-            LDelta := LDelta * 1E2;
+          LDelta := LDelta * 1E2;
       end;
     end;
     if not LSolved then
