@@ -927,13 +927,26 @@ end;
 function TVector.Dot(const AVector: TVector): T;
 var
   LIndex: longint;
+  LValue, LUpdated, LCompensation: T;
 begin
   RequireSameSize(AVector);
   if Size = 0 then
     raise EDimensionError.Create('Dot product is undefined for empty vectors.');
   result := FData[0] * AVector.FData[0];
+  LCompensation := result - result;
   for LIndex := 1 to Size - 1 do
-    result := result + FData[LIndex] * AVector.FData[LIndex];
+  begin
+    LValue := FData[LIndex] * AVector.FData[LIndex];
+    LUpdated := result + LValue;
+    { Neumaier compensated summation. Abs works for both supported scalar
+      types, while the correction retains the real or complex type. }
+    if Abs(result) >= Abs(LValue) then
+      LCompensation := LCompensation + ((result - LUpdated) + LValue)
+    else
+      LCompensation := LCompensation + ((LValue - LUpdated) + result);
+    result := LUpdated;
+  end;
+  result := result + LCompensation;
 end;
 
 function TVector.IsNull: boolean;
@@ -953,10 +966,36 @@ end;
 function TVector.Norm: TReal;
 var
   LIndex: longint;
+  LAbsolute, LRatio, LScale, LSumSquares: TReal;
 begin
-  result := 0;
+  { Scaled sum of squares avoids intermediate overflow/underflow and needs
+    only one square root, independently of the vector length. }
+  LScale := 0;
+  LSumSquares := 0;
   for LIndex := 0 to Size - 1 do
-    result := Math.Hypot(result, Abs(FData[LIndex]));
+  begin
+    LAbsolute := Abs(FData[LIndex]);
+    if LAbsolute = 0 then Continue;
+    if Math.IsNan(LAbsolute) then Exit(NaN);
+    if Math.IsInfinite(LAbsolute) then Exit(Infinity);
+    if LScale < LAbsolute then
+    begin
+      if LScale = 0 then
+        LSumSquares := 1
+      else
+      begin
+        LRatio := LScale / LAbsolute;
+        LSumSquares := 1 + LSumSquares * Sqr(LRatio);
+      end;
+      LScale := LAbsolute;
+    end
+    else
+    begin
+      LRatio := LAbsolute / LScale;
+      LSumSquares := LSumSquares + Sqr(LRatio);
+    end;
+  end;
+  result := LScale * Sqrt(LSumSquares);
 end;
 
 function TVector.SquaredNorm: TReal;
@@ -1394,10 +1433,34 @@ end;
 function TMatrix.Norm: TReal;
 var
   LIndex: longint;
+  LAbsolute, LRatio, LScale, LSumSquares: TReal;
 begin
-  result := 0;
+  LScale := 0;
+  LSumSquares := 0;
   for LIndex := 0 to High(FData) do
-    result := Math.Hypot(result, Abs(FData[LIndex]));
+  begin
+    LAbsolute := Abs(FData[LIndex]);
+    if LAbsolute = 0 then Continue;
+    if Math.IsNan(LAbsolute) then Exit(NaN);
+    if Math.IsInfinite(LAbsolute) then Exit(Infinity);
+    if LScale < LAbsolute then
+    begin
+      if LScale = 0 then
+        LSumSquares := 1
+      else
+      begin
+        LRatio := LScale / LAbsolute;
+        LSumSquares := 1 + LSumSquares * Sqr(LRatio);
+      end;
+      LScale := LAbsolute;
+    end
+    else
+    begin
+      LRatio := LAbsolute / LScale;
+      LSumSquares := LSumSquares + Sqr(LRatio);
+    end;
+  end;
+  result := LScale * Sqrt(LSumSquares);
 end;
 
 function TMatrix.Rank: longint;
@@ -1687,8 +1750,8 @@ end;
 
 function TMatrix.Multiply(const AMatrix: TMatrix): TMatrix;
 var
-  LRow, LCol, LIndex, LLeftOffset, LResultOffset: longint;
-  LValue: T;
+  LRow, LCol, LIndex, LLeftOffset: longint;
+  LValue, LProduct, LUpdated, LCompensation: T;
 begin
   RequireSameOrder(AMatrix);
   result.SetOrder(FOrder);
@@ -1696,14 +1759,24 @@ begin
   for LRow := 0 to FOrder - 1 do
   begin
     LLeftOffset := LRow * FOrder;
-    LResultOffset := LLeftOffset;
     for LCol := 0 to FOrder - 1 do
     begin
       LValue := FData[LLeftOffset] * AMatrix.FData[LCol];
+      LCompensation := LValue - LValue;
       for LIndex := 1 to FOrder - 1 do
-        LValue := LValue + FData[LLeftOffset + LIndex] *
+      begin
+        LProduct := FData[LLeftOffset + LIndex] *
           AMatrix.FData[LIndex * FOrder + LCol];
-      result.FData[LResultOffset + LCol] := LValue;
+        LUpdated := LValue + LProduct;
+        if Abs(LValue) >= Abs(LProduct) then
+          LCompensation := LCompensation +
+            ((LValue - LUpdated) + LProduct)
+        else
+          LCompensation := LCompensation +
+            ((LProduct - LUpdated) + LValue);
+        LValue := LUpdated;
+      end;
+      result.FData[LLeftOffset + LCol] := LValue + LCompensation;
     end;
   end;
 end;
@@ -1731,7 +1804,7 @@ class operator TMatrix.*(const ALeft: TVectorType;
   const ARight: TMatrix): TVectorType;
 var
   LRow, LCol: longint;
-  LValue: T;
+  LValue, LProduct, LUpdated, LCompensation: T;
 begin
   if ALeft.Size <> ARight.FOrder then
     raise EDimensionError.CreateFmt(
@@ -1742,9 +1815,20 @@ begin
   for LCol := 0 to ARight.FOrder - 1 do
   begin
     LValue := ALeft[0] * ARight[0, LCol];
+    LCompensation := LValue - LValue;
     for LRow := 1 to ARight.FOrder - 1 do
-      LValue := LValue + ALeft[LRow] * ARight[LRow, LCol];
-    result[LCol] := LValue;
+    begin
+      LProduct := ALeft[LRow] * ARight[LRow, LCol];
+      LUpdated := LValue + LProduct;
+      if Abs(LValue) >= Abs(LProduct) then
+        LCompensation := LCompensation +
+          ((LValue - LUpdated) + LProduct)
+      else
+        LCompensation := LCompensation +
+          ((LProduct - LUpdated) + LValue);
+      LValue := LUpdated;
+    end;
+    result[LCol] := LValue + LCompensation;
   end;
 end;
 
@@ -1752,7 +1836,7 @@ class operator TMatrix.*(const ALeft: TMatrix;
   const ARight: TVectorType): TVectorType;
 var
   LRow, LCol, LOffset: longint;
-  LValue: T;
+  LValue, LProduct, LUpdated, LCompensation: T;
 begin
   if ALeft.FOrder <> ARight.Size then
     raise EDimensionError.CreateFmt(
@@ -1764,9 +1848,20 @@ begin
   begin
     LOffset := LRow * ALeft.FOrder;
     LValue := ALeft.FData[LOffset] * ARight[0];
+    LCompensation := LValue - LValue;
     for LCol := 1 to ALeft.FOrder - 1 do
-      LValue := LValue + ALeft.FData[LOffset + LCol] * ARight[LCol];
-    result[LRow] := LValue;
+    begin
+      LProduct := ALeft.FData[LOffset + LCol] * ARight[LCol];
+      LUpdated := LValue + LProduct;
+      if Abs(LValue) >= Abs(LProduct) then
+        LCompensation := LCompensation +
+          ((LValue - LUpdated) + LProduct)
+      else
+        LCompensation := LCompensation +
+          ((LProduct - LUpdated) + LValue);
+      LValue := LUpdated;
+    end;
+    result[LRow] := LValue + LCompensation;
   end;
 end;
 
