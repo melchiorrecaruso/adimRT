@@ -363,8 +363,8 @@ type
   TRealMatrixHelper = type helper for TRealMatrix
     function IsOrthogonal: boolean;
     function ToComplex: TComplexMatrix;
-    procedure Eigenpairs(out AValues: TArrayOfComplex;
-      out AVectors: TArrayOfComplexVector);
+    procedure Eigenpairs(out AValues: TComplexVector;
+      out AVectors: TComplexMatrix);
     procedure SymmetricEigenpairs(out AValues: TRealVector;
       out AVectors: TRealMatrix);
   end;
@@ -375,8 +375,8 @@ type
     function HouseholderVector(AColumn: longint): TComplexVector;
   public
     function Conjugate: TComplexMatrix;
-    procedure Eigenpairs(out AValues: TArrayOfComplex;
-      out AVectors: TArrayOfComplexVector);
+    procedure Eigenpairs(out AValues: TComplexVector;
+      out AVectors: TComplexMatrix);
     procedure HermitianEigenpairs(out AValues: TRealVector;
       out AVectors: TComplexMatrix);
     function IsUnitary: boolean;
@@ -2277,8 +2277,8 @@ begin
     result.FData[LIndex] := Self.FData[LIndex];
 end;
 
-procedure TRealMatrixHelper.Eigenpairs(out AValues: TArrayOfComplex;
-  out AVectors: TArrayOfComplexVector);
+procedure TRealMatrixHelper.Eigenpairs(out AValues: TComplexVector;
+  out AVectors: TComplexMatrix);
 var
   LComplexMatrix: TComplexMatrix;
 begin
@@ -2394,8 +2394,8 @@ begin
     AVectors := Q * TridiagonalVectors;
 end;
 
-procedure TComplexMatrixHelper.Eigenpairs(out AValues: TArrayOfComplex;
-  out AVectors: TArrayOfComplexVector);
+procedure TComplexMatrixHelper.Eigenpairs(out AValues: TComplexVector;
+  out AVectors: TComplexMatrix);
 const
   MaxIter = 2000;
 var
@@ -2410,6 +2410,7 @@ var
   LSeed: longword;
   LConverged, LSolved, LIsHermitian, LIsDiagonal: boolean;
   LPivots: array of longint;
+  LZeroData: TArrayOfComplex;
 
   function Eigenvalues2x2(const A00, A01, A10, A11: TComplex):
     TArrayOfComplex;
@@ -2534,10 +2535,9 @@ var
   end;
 
 begin
-  SetLength(AValues, Self.FOrder);
-  SetLength(AVectors, Self.FOrder);
-  for LIndex := 0 to Self.FOrder - 1 do
-    AVectors[LIndex].SetSize(Self.FOrder);
+  AValues.SetSize(Self.FOrder);
+  SetLength(LZeroData, Self.FOrder * Self.FOrder);
+  AVectors.Init(LZeroData);
   LIsDiagonal := True;
   for LRow := 0 to Self.FOrder - 1 do
     for LCol := 0 to Self.FOrder - 1 do
@@ -2548,7 +2548,7 @@ begin
     for LIndex := 0 to Self.FOrder - 1 do
     begin
       AValues[LIndex] := Self[LIndex, LIndex];
-      AVectors[LIndex][LIndex] := 1;
+      AVectors[LIndex, LIndex] := 1;
     end;
     Exit;
   end;
@@ -2692,13 +2692,13 @@ begin
               ((AValues[LPrevious] - LEigenvalue).Norm <=
                LClusterTolerance) then
             begin
-              LProjection := AVectors[LPrevious][0].Conjugate * LWork[0];
+              LProjection := AVectors[0, LPrevious].Conjugate * LWork[0];
               for LRow := 1 to Self.FOrder - 1 do
                 LProjection := LProjection +
-                  AVectors[LPrevious][LRow].Conjugate * LWork[LRow];
+                  AVectors[LRow, LPrevious].Conjugate * LWork[LRow];
               for LRow := 0 to Self.FOrder - 1 do
                 LWork[LRow] := LWork[LRow] -
-                  LProjection * AVectors[LPrevious][LRow];
+                  LProjection * AVectors[LRow, LPrevious];
             end;
           end;
           if LWork.Norm = 0 then
@@ -2731,7 +2731,7 @@ begin
       LVector := LPhase * LVector;
     end;
     for LRow := 0 to Self.FOrder - 1 do
-      AVectors[LColumn][LRow] := LVector[LRow];
+      AVectors[LRow, LColumn] := LVector[LRow];
   end;
 end;
 
