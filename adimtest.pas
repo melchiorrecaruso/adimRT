@@ -1699,8 +1699,6 @@ begin
   // original basis, in the eigenbasis, and as sum_i |c_i|^2*E_i.  Agreement
   // demonstrates matrix quantities, conjugation, eigenpairs and basis changes.
 
-  DefaultEpsilon := 1E-30;
-
   Bx  := 1.0*T;
   Bz  := 2.0*T;
   muB := 9.274009994E-24*J/T;
@@ -1724,8 +1722,7 @@ begin
 
   if eV.toString(State.Conjugate*H2*State) <> '(0.00012734439857522) eV' then halt(1);
 
-  EigenValues  := H2.EigenValues;
-  EigenVectors := H2.EigenVectors(EigenValues);
+  H2.Eigenpairs(EigenValues, EigenVectors);
   U2 := EigenVectors.TransposeConjugate * ScalarUnit;
   H2 := H2.Diagonalize(EigenValues);
 
