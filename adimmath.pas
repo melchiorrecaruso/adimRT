@@ -294,6 +294,8 @@ type
 
   TRealVector = specialize TVector<TReal>;
   TComplexVector = specialize TVector<TComplex>;
+  TArrayOfRealVector = array of TRealVector;
+  TArrayOfComplexVector = array of TComplexVector;
 
   TRealVectorHelper = type helper for TRealVector
     function Cross(const AVector: TRealVector): TRealVector;
@@ -361,8 +363,10 @@ type
   TRealMatrixHelper = type helper for TRealMatrix
     function IsOrthogonal: boolean;
     function ToComplex: TComplexMatrix;
-    function Eigenvalues: TComplexVector;
-    function Eigenvectors(const AEigenvalues: TComplexVector): TComplexMatrix;
+    procedure Eigenpairs(out AValues: TArrayOfComplex;
+      out AVectors: TArrayOfComplexVector);
+    procedure SymmetricEigenpairs(out AValues: TRealVector;
+      out AVectors: TRealMatrix);
   end;
 
   TComplexMatrixHelper = type helper for TComplexMatrix
@@ -371,11 +375,26 @@ type
     function HouseholderVector(AColumn: longint): TComplexVector;
   public
     function Conjugate: TComplexMatrix;
-    function Eigenvalues: TComplexVector;
-    function Eigenvectors(const AEigenvalues: TComplexVector): TComplexMatrix;
+    procedure Eigenpairs(out AValues: TArrayOfComplex;
+      out AVectors: TArrayOfComplexVector);
+    procedure HermitianEigenpairs(out AValues: TRealVector;
+      out AVectors: TComplexMatrix);
     function IsUnitary: boolean;
     function TransposeConjugate: TComplexMatrix;
   end;
+
+{ Returns the ACount lowest eigenpairs of a real symmetric tridiagonal matrix.
+  The diagonal has N elements and the off-diagonal has N-1 elements. }
+procedure TridiagonalLowestEigenpairs(
+  const ADiagonal, AOffDiagonal: TRealVector; ACount: longint;
+  out AValues: TRealVector; out AVectors: TArrayOfRealVector);
+
+{ Returns the ACount lowest eigenpairs of a complex Hermitian tridiagonal
+  matrix. AOffDiagonal contains the lower subdiagonal. }
+procedure HermitianTridiagonalLowestEigenpairs(
+  const ADiagonal: TRealVector; const AOffDiagonal: TComplexVector;
+  ACount: longint; out AValues: TRealVector;
+  out AVectors: TArrayOfComplexVector);
 
 
 { Constructs a @link(TComplex) from real and imaginary parts. }
@@ -465,6 +484,10 @@ function Fmt(const AValue: TReal): string;
 { @exclude }
 function Fmt(const AValue: TReal; APrecision, ADigits: longint): string;
 
+const
+  { Binary64 spacing between 1 and the next representable value. }
+  Precision = 2.2204460492503131E-16;
+
 var
   { The imaginary unit @code(i), defined by @code(i² = -1).
     Use in expressions: @code(z := 3.0 + 2.0*img;)
@@ -475,10 +498,6 @@ var
   DefaultEpsilon: TReal = 1E-12;
 
 implementation
-
-const
-  { Binary64 spacing between 1 and the next representable value. }
-  Precision = 2.2204460492503131E-16;
 
 function Fmt(const AValue: TReal): string;
 begin
@@ -1464,9 +1483,6 @@ begin
 end;
 
 function TMatrix.Rank: longint;
-const
-  { Binary64 spacing available within this generic template instance. }
-  Precision = 2.2204460492503131E-16;
 var
   LWork: TMatrix;
   LPivot, LFactor: T;
@@ -1874,6 +1890,376 @@ begin
     result.FData[LIndex] := ALeft.FData[LIndex] / ARight;
 end;
 
+{ Implicit-shift QL iteration on a real symmetric tridiagonal matrix. }
+procedure TridiagonalQL(var ADiagonal, AOffDiagonal: TArrayOfReal;
+  out AEigenvectors: TRealMatrix);
+const
+  MaxIterations = 100;
+var
+  Initial: TArrayOfReal;
+  N, L, M, I, J, K, Iteration: longint;
+  B, C, F, G, P, R, S, Temporary: TReal;
+begin
+  N := Length(ADiagonal);
+  SetLength(Initial, N * N);
+  AEigenvectors.Init(Initial);
+  for I := 0 to N - 1 do AEigenvectors[I, I] := 1;
+
+  for L := 0 to N - 1 do
+  begin
+    Iteration := 0;
+    repeat
+      M := L;
+      while M < N - 1 do
+      begin
+        if (AOffDiagonal[M] = 0) or
+           (Abs(AOffDiagonal[M]) <= Precision *
+            (Abs(ADiagonal[M]) + Abs(ADiagonal[M + 1]))) then Break;
+        Inc(M);
+      end;
+      if M = L then Break;
+      Inc(Iteration);
+      if Iteration > MaxIterations then
+        raise EInvalidOp.Create('Symmetric tridiagonal QL did not converge.');
+
+      G := (ADiagonal[L + 1] - ADiagonal[L]) /
+        (2 * AOffDiagonal[L]);
+      R := Hypot(G, 1);
+      if G < 0 then R := -R;
+      G := ADiagonal[M] - ADiagonal[L] + AOffDiagonal[L] / (G + R);
+      S := 1;
+      C := 1;
+      P := 0;
+      for I := M - 1 downto L do
+      begin
+        F := S * AOffDiagonal[I];
+        B := C * AOffDiagonal[I];
+        if (F = 0) and (G = 0) then
+        begin
+          AOffDiagonal[I + 1] := 0;
+          S := 0;
+          C := 1;
+        end else if Abs(F) >= Abs(G) then
+        begin
+          C := G / F;
+          R := Hypot(C, 1);
+          AOffDiagonal[I + 1] := F * R;
+          S := 1 / R;
+          C := C * S;
+        end else
+        begin
+          S := F / G;
+          R := Hypot(S, 1);
+          AOffDiagonal[I + 1] := G * R;
+          C := 1 / R;
+          S := S * C;
+        end;
+        G := ADiagonal[I + 1] - P;
+        R := (ADiagonal[I] - G) * S + 2 * C * B;
+        P := S * R;
+        ADiagonal[I + 1] := G + P;
+        G := C * R - B;
+        for K := 0 to N - 1 do
+        begin
+          F := AEigenvectors[K, I + 1];
+          AEigenvectors[K, I + 1] :=
+            S * AEigenvectors[K, I] + C * F;
+          AEigenvectors[K, I] :=
+            C * AEigenvectors[K, I] - S * F;
+        end;
+      end;
+      ADiagonal[L] := ADiagonal[L] - P;
+      AOffDiagonal[L] := G;
+      AOffDiagonal[M] := 0;
+    until False;
+  end;
+
+  for I := 0 to N - 2 do
+  begin
+    K := I;
+    for J := I + 1 to N - 1 do
+      if ADiagonal[J] < ADiagonal[K] then K := J;
+    if K <> I then
+    begin
+      Temporary := ADiagonal[I];
+      ADiagonal[I] := ADiagonal[K];
+      ADiagonal[K] := Temporary;
+      for J := 0 to N - 1 do
+      begin
+        Temporary := AEigenvectors[J, I];
+        AEigenvectors[J, I] := AEigenvectors[J, K];
+        AEigenvectors[J, K] := Temporary;
+      end;
+    end;
+  end;
+end;
+
+{ Sturm bisection followed by fixed-shift inverse iteration and
+  orthogonal deflation; clustered or unconverged cases use the full solver. }
+procedure TridiagonalLowestEigenpairs(
+  const ADiagonal, AOffDiagonal: TRealVector; ACount: longint;
+  out AValues: TRealVector; out AVectors: TArrayOfRealVector);
+const
+  PivotFloor: TReal = 1E-300;
+  MaxBisectionSteps = 120;
+  MaxInverseSteps = 2000;
+var
+  D, E, Eigenvalues, LFactors, Pivots, Raw: TArrayOfReal;
+  FullD, FullE: TArrayOfReal;
+  FullVectors: TRealMatrix;
+  X, Y, ProductVector, ResidualVector: TRealVector;
+  Scale, LowerBound, UpperBound, Radius, Low, High, Mid,
+    Shift, Projection, VectorNorm, Rayleigh, ResidualNorm, Tolerance: TReal;
+  N, I, J, K, Pass, Iteration, SeedIndex: longint;
+  Seed: longword;
+  Converged: boolean;
+
+  function SturmCount(const AX: TReal): longint;
+  var
+    Index: longint;
+    Quotient: TReal;
+  begin
+    result := 0;
+    Quotient := D[0] - AX;
+    if Quotient <= 0 then Inc(result);
+    for Index := 1 to N - 1 do
+    begin
+      if Abs(Quotient) < PivotFloor then Quotient := -PivotFloor;
+      Quotient := D[Index] - AX - Sqr(E[Index - 1]) / Quotient;
+      if Quotient <= 0 then Inc(result);
+    end;
+  end;
+
+  procedure UseFullSolver;
+  var
+    State, Row: longint;
+    VectorData, ValueData: TArrayOfReal;
+  begin
+    FullD := System.Copy(D);
+    FullE := System.Copy(E);
+    TridiagonalQL(FullD, FullE, FullVectors);
+    SetLength(ValueData, ACount);
+    SetLength(VectorData, N);
+    SetLength(AVectors, ACount);
+    for State := 0 to ACount - 1 do
+    begin
+      ValueData[State] := FullD[State] * Scale;
+      for Row := 0 to N - 1 do
+        VectorData[Row] := FullVectors[Row, State];
+      AVectors[State].Init(VectorData);
+    end;
+    AValues.Init(ValueData);
+  end;
+
+begin
+  N := ADiagonal.Size;
+  if (N = 0) or (AOffDiagonal.Size <> N - 1) or
+     (ACount < 1) or (ACount > N) then
+    raise EDimensionError.Create(
+      'Require N diagonal, N-1 off-diagonal, and 1..N eigenpairs.');
+
+  Scale := 0;
+  for I := 0 to N - 1 do
+  begin
+    if IsNan(ADiagonal[I]) or IsInfinite(ADiagonal[I]) then
+      raise EInvalidOp.Create('Tridiagonal entries must be finite.');
+    Scale := Max(Scale, Abs(ADiagonal[I]));
+    if I < N - 1 then
+    begin
+      if IsNan(AOffDiagonal[I]) or IsInfinite(AOffDiagonal[I]) then
+        raise EInvalidOp.Create('Tridiagonal entries must be finite.');
+      Scale := Max(Scale, Abs(AOffDiagonal[I]));
+    end;
+  end;
+  if Scale = 0 then Scale := 1;
+  SetLength(D, N);
+  SetLength(E, N);
+  for I := 0 to N - 1 do
+  begin
+    D[I] := ADiagonal[I] / Scale;
+    if I < N - 1 then E[I] := AOffDiagonal[I] / Scale;
+  end;
+  if (N <= 32) or (ACount * 3 >= N) then
+  begin
+    UseFullSolver;
+    Exit;
+  end;
+
+  LowerBound := Infinity;
+  UpperBound := -Infinity;
+  for I := 0 to N - 1 do
+  begin
+    Radius := 0;
+    if I > 0 then Radius := Radius + Abs(E[I - 1]);
+    if I < N - 1 then Radius := Radius + Abs(E[I]);
+    LowerBound := Min(LowerBound, D[I] - Radius);
+    UpperBound := Max(UpperBound, D[I] + Radius);
+  end;
+  LowerBound := LowerBound - 32 * Precision *
+    Max(1.0, Abs(LowerBound));
+  UpperBound := UpperBound + 32 * Precision *
+    Max(1.0, Abs(UpperBound));
+
+  SetLength(Eigenvalues, ACount);
+  for J := 0 to ACount - 1 do
+  begin
+    Low := LowerBound;
+    High := UpperBound;
+    for Iteration := 1 to MaxBisectionSteps do
+    begin
+      Mid := Low + (High - Low) / 2;
+      if (Mid = Low) or (Mid = High) then Break;
+      if SturmCount(Mid) <= J then Low := Mid else High := Mid;
+      if High - Low <= Precision *
+        Max(1.0, Max(Abs(Low), Abs(High))) then Break;
+    end;
+    Eigenvalues[J] := Low + (High - Low) / 2;
+    if (J > 0) and
+       (Eigenvalues[J] - Eigenvalues[J - 1] <= 64 * Precision) then
+    begin
+      UseFullSolver;
+      Exit;
+    end;
+  end;
+
+  Shift := LowerBound - 64 * Precision;
+  SetLength(LFactors, N - 1);
+  SetLength(Pivots, N);
+  Pivots[0] := D[0] - Shift;
+  for I := 0 to N - 2 do
+  begin
+    if Pivots[I] <= 0 then
+    begin
+      UseFullSolver;
+      Exit;
+    end;
+    LFactors[I] := E[I] / Pivots[I];
+    Pivots[I + 1] := D[I + 1] - Shift - LFactors[I] * E[I];
+  end;
+  if Pivots[N - 1] <= 0 then
+  begin
+    UseFullSolver;
+    Exit;
+  end;
+
+  SetLength(AVectors, ACount);
+  SetLength(Raw, N);
+  Seed := 123456789;
+  for J := 0 to ACount - 1 do
+  begin
+    for I := 0 to N - 1 do
+    begin
+      {$push}{$Q-}{$R-}
+      Seed := Seed * 1664525 + 1013904223;
+      {$pop}
+      Raw[I] := (Seed / 4294967295.0) * 2 - 1;
+    end;
+    X.Init(Raw);
+    Converged := False;
+    for Iteration := 1 to MaxInverseSteps do
+    begin
+      Raw[0] := X[0];
+      for I := 1 to N - 1 do
+        Raw[I] := X[I] - LFactors[I - 1] * Raw[I - 1];
+      for I := 0 to N - 1 do Raw[I] := Raw[I] / Pivots[I];
+      for I := N - 2 downto 0 do
+        Raw[I] := Raw[I] - LFactors[I] * Raw[I + 1];
+      Y.Init(Raw);
+
+      for Pass := 1 to 2 do
+        for K := 0 to J - 1 do
+        begin
+          Projection := Y.Dot(AVectors[K]);
+          for I := 0 to N - 1 do
+            Y[I] := Y[I] - Projection * AVectors[K][I];
+        end;
+      VectorNorm := Y.Norm;
+      if (VectorNorm = 0) or IsNan(VectorNorm) or
+         IsInfinite(VectorNorm) then Break;
+      Y := Y / VectorNorm;
+
+      for I := 0 to N - 1 do
+      begin
+        Raw[I] := D[I] * Y[I];
+        if I > 0 then Raw[I] := Raw[I] + E[I - 1] * Y[I - 1];
+        if I < N - 1 then Raw[I] := Raw[I] + E[I] * Y[I + 1];
+      end;
+      ProductVector.Init(Raw);
+      Rayleigh := Y.Dot(ProductVector);
+      for I := 0 to N - 1 do
+        Raw[I] := Raw[I] - Rayleigh * Y[I];
+      ResidualVector.Init(Raw);
+      ResidualNorm := ResidualVector.Norm;
+      Tolerance := 32 * Precision * Max(1.0, Abs(Rayleigh));
+      if ResidualNorm <= Tolerance then
+      begin
+        AVectors[J] := Y;
+        Eigenvalues[J] := Rayleigh;
+        Converged := True;
+        Break;
+      end;
+      X := Y;
+    end;
+    if not Converged then
+    begin
+      UseFullSolver;
+      Exit;
+    end;
+  end;
+  for J := 1 to ACount - 1 do
+    if Eigenvalues[J] < Eigenvalues[J - 1] then
+    begin
+      UseFullSolver;
+      Exit;
+    end;
+  for SeedIndex := 0 to ACount - 1 do
+    Eigenvalues[SeedIndex] := Eigenvalues[SeedIndex] * Scale;
+  AValues.Init(Eigenvalues);
+end;
+
+{ A diagonal unitary change of basis removes the off-diagonal phases. }
+procedure HermitianTridiagonalLowestEigenpairs(
+  const ADiagonal: TRealVector; const AOffDiagonal: TComplexVector;
+  ACount: longint; out AValues: TRealVector;
+  out AVectors: TArrayOfComplexVector);
+var
+  OffMagnitudes: TRealVector;
+  RealVectors: TArrayOfRealVector;
+  Phase: TArrayOfComplex;
+  Magnitudes: TArrayOfReal;
+  ComplexData: TArrayOfComplex;
+  Magnitude: TReal;
+  I, J, N: longint;
+begin
+  N := ADiagonal.Size;
+  if (N = 0) or (AOffDiagonal.Size <> N - 1) then
+    raise EDimensionError.Create(
+      'A Hermitian tridiagonal matrix needs N diagonal and N-1 lower values.');
+  SetLength(Phase, N);
+  SetLength(Magnitudes, N - 1);
+  Phase[0] := 1;
+  for I := 0 to N - 2 do
+  begin
+    Magnitude := AOffDiagonal[I].Norm;
+    Magnitudes[I] := Magnitude;
+    if Magnitude = 0 then
+      Phase[I + 1] := Phase[I]
+    else
+      Phase[I + 1] := Phase[I] * (AOffDiagonal[I] / Magnitude);
+  end;
+  OffMagnitudes.Init(Magnitudes);
+  TridiagonalLowestEigenpairs(ADiagonal, OffMagnitudes, ACount,
+    AValues, RealVectors);
+  SetLength(AVectors, ACount);
+  SetLength(ComplexData, N);
+  for J := 0 to ACount - 1 do
+  begin
+    for I := 0 to N - 1 do
+      ComplexData[I] := Phase[I] * RealVectors[J][I];
+    AVectors[J].Init(ComplexData);
+  end;
+end;
+
 function TRealMatrixHelper.IsOrthogonal: boolean;
 var
   LProduct: TRealMatrix;
@@ -1891,27 +2277,139 @@ begin
     result.FData[LIndex] := Self.FData[LIndex];
 end;
 
-function TRealMatrixHelper.Eigenvalues: TComplexVector;
+procedure TRealMatrixHelper.Eigenpairs(out AValues: TArrayOfComplex;
+  out AVectors: TArrayOfComplexVector);
+var
+  LComplexMatrix: TComplexMatrix;
 begin
-  result := ToComplex.Eigenvalues;
+  LComplexMatrix := ToComplex;
+  LComplexMatrix.Eigenpairs(AValues, AVectors);
 end;
 
-function TRealMatrixHelper.Eigenvectors(
-  const AEigenvalues: TComplexVector): TComplexMatrix;
+procedure TRealMatrixHelper.SymmetricEigenpairs(out AValues: TRealVector;
+  out AVectors: TRealMatrix);
+var
+  Work, Q, TridiagonalVectors: TRealMatrix;
+  D, E, U, W: TArrayOfReal;
+  Scale, Tolerance, VectorNorm, Alpha, Beta, Value, Projection: TReal;
+  N, I, J, K: longint;
+  IsTridiagonal: boolean;
 begin
-  result := ToComplex.Eigenvectors(AEigenvalues);
+  N := Self.Order;
+  if N = 0 then
+    raise EDimensionError.Create('Eigenpairs are undefined for an empty matrix.');
+  Work := Self.Clone;
+  Scale := 0;
+  for I := 0 to N - 1 do
+    for J := 0 to N - 1 do
+    begin
+      if IsNan(Work[I, J]) or IsInfinite(Work[I, J]) then
+        raise EInvalidOp.Create('Matrix entries must be finite.');
+      Scale := Max(Scale, Abs(Work[I, J]));
+    end;
+  Tolerance := 32 * Precision * Scale;
+  IsTridiagonal := True;
+  for I := 0 to N - 1 do
+    for J := I + 1 to N - 1 do
+    begin
+      if Abs(Work[I, J] - Work[J, I]) > Tolerance then
+        raise EInvalidOp.Create('Matrix must be real symmetric.');
+      Value := (Work[I, J] + Work[J, I]) / 2;
+      Work[I, J] := Value;
+      Work[J, I] := Value;
+      if (J > I + 1) and (Value <> 0) then IsTridiagonal := False;
+    end;
+
+  Q.Init([]);
+  if not IsTridiagonal then
+  begin
+    Q := Self.Identity;
+    SetLength(U, N);
+    SetLength(W, N);
+    for K := 0 to N - 3 do
+    begin
+      VectorNorm := 0;
+      for I := K + 1 to N - 1 do
+        VectorNorm := Hypot(VectorNorm, Work[I, K]);
+      if VectorNorm = 0 then Continue;
+      if Work[K + 1, K] >= 0 then
+        Alpha := -VectorNorm
+      else
+        Alpha := VectorNorm;
+      U[K + 1] := Work[K + 1, K] - Alpha;
+      for I := K + 2 to N - 1 do U[I] := Work[I, K];
+      VectorNorm := 0;
+      for I := K + 1 to N - 1 do
+        VectorNorm := Hypot(VectorNorm, U[I]);
+      for I := K + 1 to N - 1 do U[I] := U[I] / VectorNorm;
+
+      for I := K + 1 to N - 1 do
+      begin
+        W[I] := 0;
+        for J := K + 1 to N - 1 do
+          W[I] := W[I] + Work[I, J] * U[J];
+        W[I] := 2 * W[I];
+      end;
+      Beta := 0;
+      for I := K + 1 to N - 1 do Beta := Beta + U[I] * W[I];
+      for I := K + 1 to N - 1 do W[I] := W[I] - Beta * U[I];
+      for I := K + 1 to N - 1 do
+        for J := I to N - 1 do
+        begin
+          Value := Work[I, J] - U[I] * W[J] - W[I] * U[J];
+          Work[I, J] := Value;
+          Work[J, I] := Value;
+        end;
+      Work[K + 1, K] := Alpha;
+      Work[K, K + 1] := Alpha;
+      for I := K + 2 to N - 1 do
+      begin
+        Work[I, K] := 0;
+        Work[K, I] := 0;
+      end;
+
+      for I := 0 to N - 1 do
+      begin
+        Projection := 0;
+        for J := K + 1 to N - 1 do
+          Projection := Projection + Q[I, J] * U[J];
+        for J := K + 1 to N - 1 do
+          Q[I, J] := Q[I, J] - 2 * Projection * U[J];
+      end;
+    end;
+  end;
+
+  SetLength(D, N);
+  SetLength(E, N);
+  for I := 0 to N - 1 do
+  begin
+    D[I] := Work[I, I];
+    if I < N - 1 then E[I] := Work[I + 1, I];
+  end;
+  TridiagonalQL(D, E, TridiagonalVectors);
+  AValues.Init(D);
+  if IsTridiagonal then
+    AVectors := TridiagonalVectors
+  else
+    AVectors := Q * TridiagonalVectors;
 end;
 
-function TComplexMatrixHelper.Eigenvalues: TComplexVector;
+procedure TComplexMatrixHelper.Eigenpairs(out AValues: TArrayOfComplex;
+  out AVectors: TArrayOfComplexVector);
 const
   MaxIter = 2000;
 var
-  LHessenberg, LShifted, LQ, LR: TComplexMatrix;
+  LHessenberg, LShifted, LQ, LR, LMatrix: TComplexMatrix;
   LPair: TArrayOfComplex;
-  LShift: TComplex;
-  LTolerance, LRadius: TReal;
-  LIndex, LLow, LRow, LCol, LIteration: longint;
-  LConverged: boolean;
+  LVector, LWork: TComplexVector;
+  LShift, LEigenvalue, LProjection, LPhase: TComplex;
+  LTolerance, LRadius, LDelta, LScale, LClusterTolerance,
+    LPhaseNorm, LMaxNorm: TReal;
+  LIndex, LLow, LRow, LCol, LIteration, LColumn, LPrevious,
+    LAttempt, LPass, LPhaseIndex: longint;
+  LSeed: longword;
+  LConverged, LSolved, LIsHermitian, LIsDiagonal: boolean;
+  LPivots: array of longint;
 
   function Eigenvalues2x2(const A00, A01, A10, A11: TComplex):
     TArrayOfComplex;
@@ -1970,15 +2468,97 @@ var
     end;
   end;
 
+  function NextRandom: TReal;
+  begin
+    {$push}{$R-}{$Q-}
+    LSeed := LSeed * 1664525 + 1013904223;
+    {$pop}
+    result := (LSeed / 4294967295.0) * 2 - 1;
+  end;
+
+  procedure FactorShiftedMatrix;
+  var
+    Row, Col, Index, MaxRow: longint;
+    MaxValue: TReal;
+    Factor: TComplex;
+  begin
+    for Col := 0 to Self.FOrder - 1 do
+    begin
+      MaxRow := Col;
+      MaxValue := LMatrix[Col, Col].Norm;
+      for Row := Col + 1 to Self.FOrder - 1 do
+        if LMatrix[Row, Col].Norm > MaxValue then
+        begin
+          MaxValue := LMatrix[Row, Col].Norm;
+          MaxRow := Row;
+        end;
+      if MaxValue = 0 then
+        raise EZeroDivide.Create('Matrix is singular.');
+      LPivots[Col] := MaxRow;
+      if MaxRow <> Col then LMatrix.Swap(Col, MaxRow);
+      for Row := Col + 1 to Self.FOrder - 1 do
+      begin
+        Factor := LMatrix[Row, Col] / LMatrix[Col, Col];
+        LMatrix[Row, Col] := Factor;
+        for Index := Col + 1 to Self.FOrder - 1 do
+          LMatrix[Row, Index] := LMatrix[Row, Index] -
+            Factor * LMatrix[Col, Index];
+      end;
+    end;
+  end;
+
+  function SolveFactored(const AVector: TComplexVector): TComplexVector;
+  var
+    Row, Col: longint;
+    Value: TComplex;
+  begin
+    result.SetSize(Self.FOrder);
+    for Row := 0 to Self.FOrder - 1 do
+      result[Row] := AVector[Row];
+    for Col := 0 to Self.FOrder - 1 do
+      if LPivots[Col] <> Col then
+      begin
+        Value := result[Col];
+        result[Col] := result[LPivots[Col]];
+        result[LPivots[Col]] := Value;
+      end;
+    for Row := 0 to Self.FOrder - 1 do
+      for Col := 0 to Row - 1 do
+        result[Row] := result[Row] - LMatrix[Row, Col] * result[Col];
+    for Row := Self.FOrder - 1 downto 0 do
+    begin
+      for Col := Row + 1 to Self.FOrder - 1 do
+        result[Row] := result[Row] - LMatrix[Row, Col] * result[Col];
+      result[Row] := result[Row] / LMatrix[Row, Row];
+    end;
+  end;
+
 begin
-  result.SetSize(Self.FOrder);
+  SetLength(AValues, Self.FOrder);
+  SetLength(AVectors, Self.FOrder);
+  for LIndex := 0 to Self.FOrder - 1 do
+    AVectors[LIndex].SetSize(Self.FOrder);
+  LIsDiagonal := True;
+  for LRow := 0 to Self.FOrder - 1 do
+    for LCol := 0 to Self.FOrder - 1 do
+      if (LRow <> LCol) and (Self[LRow, LCol].Norm <> 0) then
+        LIsDiagonal := False;
+  if LIsDiagonal then
+  begin
+    for LIndex := 0 to Self.FOrder - 1 do
+    begin
+      AValues[LIndex] := Self[LIndex, LIndex];
+      AVectors[LIndex][LIndex] := 1;
+    end;
+    Exit;
+  end;
   LHessenberg := Self.HessenbergReduction;
   LIndex := Self.FOrder - 1;
   while LIndex >= 0 do
   begin
     if LIndex = 0 then
     begin
-      result[0] := LHessenberg[0, 0];
+      AValues[0] := LHessenberg[0, 0];
       Break;
     end;
     LTolerance := Precision *
@@ -1987,7 +2567,7 @@ begin
     if LHessenberg[LIndex, LIndex - 1].Norm <= LTolerance then
     begin
       LHessenberg[LIndex, LIndex - 1] := 0;
-      result[LIndex] := LHessenberg[LIndex, LIndex];
+      AValues[LIndex] := LHessenberg[LIndex, LIndex];
       Dec(LIndex);
       Continue;
     end;
@@ -2009,8 +2589,8 @@ begin
       LPair := Eigenvalues2x2(
         LHessenberg[LLow, LLow], LHessenberg[LLow, LIndex],
         LHessenberg[LIndex, LLow], LHessenberg[LIndex, LIndex]);
-      result[LLow] := LPair[0];
-      result[LIndex] := LPair[1];
+      AValues[LLow] := LPair[0];
+      AValues[LIndex] := LPair[1];
       LIndex := LLow - 1;
       Continue;
     end;
@@ -2054,7 +2634,7 @@ begin
     if LConverged then
     begin
       LHessenberg[LIndex, LIndex - 1] := 0;
-      result[LIndex] := LHessenberg[LIndex, LIndex];
+      AValues[LIndex] := LHessenberg[LIndex, LIndex];
       Dec(LIndex);
     end else
     begin
@@ -2065,38 +2645,12 @@ begin
         LHessenberg[LIndex - 1, LIndex],
         LHessenberg[LIndex, LIndex - 1],
         LHessenberg[LIndex, LIndex]);
-      result[LIndex - 1] := LPair[0];
-      result[LIndex] := LPair[1];
+      AValues[LIndex - 1] := LPair[0];
+      AValues[LIndex] := LPair[1];
       Dec(LIndex, 2);
     end;
   end;
-end;
-
-function TComplexMatrixHelper.Eigenvectors(
-  const AEigenvalues: TComplexVector): TComplexMatrix;
-var
-  LMatrix: TComplexMatrix;
-  LVector, LWork: TComplexVector;
-  LEigenvalue, LShift, LProjection, LPhase: TComplex;
-  LRow, LColumn, LPrevious, LAttempt, LPass, LPhaseIndex: longint;
-  LDelta, LScale, LClusterTolerance, LPhaseNorm, LMaxNorm: TReal;
-  LSeed: longword;
-  LSolved, LIsHermitian: boolean;
-
-  function NextRandom: TReal;
-  begin
-    {$push}{$R-}{$Q-}
-    LSeed := LSeed * 1664525 + 1013904223;
-    {$pop}
-    result := (LSeed / 4294967295.0) * 2 - 1;
-  end;
-
-begin
-  if AEigenvalues.Size <> Self.FOrder then
-    raise EDimensionError.CreateFmt(
-      'Matrix order %d and eigenvalue count %d are incompatible.',
-      [Self.FOrder, AEigenvalues.Size]);
-  result.SetOrder(Self.FOrder);
+  SetLength(LPivots, Self.FOrder);
   LVector.SetSize(Self.FOrder);
   LScale := Self.Norm;
   LIsHermitian := True;
@@ -2109,7 +2663,7 @@ begin
   LSeed := 123456789;
   for LColumn := 0 to Self.FOrder - 1 do
   begin
-    LEigenvalue := AEigenvalues[LColumn];
+    LEigenvalue := AValues[LColumn];
     for LRow := 0 to Self.FOrder - 1 do
       LVector[LRow] := Complex(NextRandom, NextRandom);
     LVector := LVector.Normalize;
@@ -2125,25 +2679,26 @@ begin
       for LRow := 0 to Self.FOrder - 1 do
         LMatrix[LRow, LRow] := LMatrix[LRow, LRow] - LShift;
       try
+        FactorShiftedMatrix;
         for LPass := 1 to 3 do
         begin
-          LWork := LMatrix.SolveLinear(LVector);
+          LWork := SolveFactored(LVector);
           for LPrevious := 0 to LColumn - 1 do
           begin
             LClusterTolerance := 100 * Precision *
-              Max(LScale, Max(AEigenvalues[LPrevious].Norm,
+              Max(LScale, Max(AValues[LPrevious].Norm,
                 LEigenvalue.Norm));
             if LIsHermitian or
-              ((AEigenvalues[LPrevious] - LEigenvalue).Norm <=
+              ((AValues[LPrevious] - LEigenvalue).Norm <=
                LClusterTolerance) then
             begin
-              LProjection := result[0, LPrevious].Conjugate * LWork[0];
+              LProjection := AVectors[LPrevious][0].Conjugate * LWork[0];
               for LRow := 1 to Self.FOrder - 1 do
                 LProjection := LProjection +
-                  result[LRow, LPrevious].Conjugate * LWork[LRow];
+                  AVectors[LPrevious][LRow].Conjugate * LWork[LRow];
               for LRow := 0 to Self.FOrder - 1 do
                 LWork[LRow] := LWork[LRow] -
-                  LProjection * result[LRow, LPrevious];
+                  LProjection * AVectors[LPrevious][LRow];
             end;
           end;
           if LWork.Norm = 0 then
@@ -2160,7 +2715,7 @@ begin
     end;
     if not LSolved then
       raise EInvalidOp.Create(
-        'TComplexMatrix.Eigenvectors: inverse iteration did not converge.');
+        'TComplexMatrix.Eigenpairs: inverse iteration did not converge.');
     LPhaseIndex := 0;
     LMaxNorm := LVector[0].Norm;
     for LRow := 1 to Self.FOrder - 1 do
@@ -2176,7 +2731,155 @@ begin
       LVector := LPhase * LVector;
     end;
     for LRow := 0 to Self.FOrder - 1 do
-      result[LRow, LColumn] := LVector[LRow];
+      AVectors[LColumn][LRow] := LVector[LRow];
+  end;
+end;
+
+procedure TComplexMatrixHelper.HermitianEigenpairs(out AValues: TRealVector;
+  out AVectors: TComplexMatrix);
+var
+  Work, Q, Rotations: TComplexMatrix;
+  TridiagonalVectors: TRealMatrix;
+  D, E: TArrayOfReal;
+  U, W, Phase, Initial: TArrayOfComplex;
+  Scale, Tolerance, VectorNorm, OffNorm: TReal;
+  Alpha, Beta, Value, Projection: TComplex;
+  N, I, J, K: longint;
+  IsTridiagonal: boolean;
+begin
+  N := Self.Order;
+  if N = 0 then
+    raise EDimensionError.Create('Eigenpairs are undefined for an empty matrix.');
+  Work := Self.Clone;
+  Scale := 0;
+  for I := 0 to N - 1 do
+    for J := 0 to N - 1 do
+    begin
+      if IsNan(Work[I, J].Re) or IsInfinite(Work[I, J].Re) or
+         IsNan(Work[I, J].Im) or IsInfinite(Work[I, J].Im) then
+        raise EInvalidOp.Create('Matrix entries must be finite.');
+      Scale := Max(Scale, Work[I, J].Norm);
+    end;
+  Tolerance := 32 * Precision * Scale;
+  IsTridiagonal := True;
+  for I := 0 to N - 1 do
+  begin
+    if Abs(Work[I, I].Im) > Tolerance then
+      raise EInvalidOp.Create('Matrix must be Hermitian.');
+    Work[I, I] := Complex(Work[I, I].Re, 0);
+    for J := I + 1 to N - 1 do
+    begin
+      if (Work[I, J] - Work[J, I].Conjugate).Norm > Tolerance then
+        raise EInvalidOp.Create('Matrix must be Hermitian.');
+      Value := (Work[I, J] + Work[J, I].Conjugate) / 2;
+      Work[I, J] := Value;
+      Work[J, I] := Value.Conjugate;
+      if (J > I + 1) and (Value.Norm <> 0) then
+        IsTridiagonal := False;
+    end;
+  end;
+
+  Q.Init([]);
+  if not IsTridiagonal then
+  begin
+    Q := Self.Identity;
+    SetLength(U, N);
+    SetLength(W, N);
+    for K := 0 to N - 3 do
+    begin
+      VectorNorm := 0;
+      for I := K + 1 to N - 1 do
+        VectorNorm := Hypot(VectorNorm, Work[I, K].Norm);
+      if VectorNorm = 0 then Continue;
+      OffNorm := Work[K + 1, K].Norm;
+      if OffNorm = 0 then
+        Alpha := -VectorNorm
+      else
+        Alpha := -VectorNorm * (Work[K + 1, K] / OffNorm);
+      U[K + 1] := Work[K + 1, K] - Alpha;
+      for I := K + 2 to N - 1 do U[I] := Work[I, K];
+      VectorNorm := 0;
+      for I := K + 1 to N - 1 do
+        VectorNorm := Hypot(VectorNorm, U[I].Norm);
+      for I := K + 1 to N - 1 do U[I] := U[I] / VectorNorm;
+
+      for I := K + 1 to N - 1 do
+      begin
+        W[I] := 0;
+        for J := K + 1 to N - 1 do
+          W[I] := W[I] + Work[I, J] * U[J];
+        W[I] := 2 * W[I];
+      end;
+      Beta := 0;
+      for I := K + 1 to N - 1 do
+        Beta := Beta + U[I].Conjugate * W[I];
+      for I := K + 1 to N - 1 do
+        W[I] := W[I] - Beta.Re * U[I];
+      for I := K + 1 to N - 1 do
+        for J := I to N - 1 do
+        begin
+          Value := Work[I, J] - U[I] * W[J].Conjugate -
+            W[I] * U[J].Conjugate;
+          if I = J then Value.Im := 0;
+          Work[I, J] := Value;
+          Work[J, I] := Value.Conjugate;
+        end;
+      Work[K + 1, K] := Alpha;
+      Work[K, K + 1] := Alpha.Conjugate;
+      for I := K + 2 to N - 1 do
+      begin
+        Work[I, K] := 0;
+        Work[K, I] := 0;
+      end;
+
+      for I := 0 to N - 1 do
+      begin
+        Projection := 0;
+        for J := K + 1 to N - 1 do
+          Projection := Projection + Q[I, J] * U[J];
+        for J := K + 1 to N - 1 do
+          Q[I, J] := Q[I, J] - 2 * Projection * U[J].Conjugate;
+      end;
+    end;
+  end;
+
+  SetLength(D, N);
+  SetLength(E, N);
+  SetLength(Phase, N);
+  Phase[0] := 1;
+  for I := 0 to N - 1 do
+  begin
+    D[I] := Work[I, I].Re;
+    if I < N - 1 then
+    begin
+      OffNorm := Work[I + 1, I].Norm;
+      E[I] := OffNorm;
+      if OffNorm = 0 then
+        Phase[I + 1] := Phase[I]
+      else
+        Phase[I + 1] := Phase[I] *
+          (Work[I + 1, I] / OffNorm);
+    end;
+  end;
+  TridiagonalQL(D, E, TridiagonalVectors);
+  AValues.Init(D);
+  SetLength(Initial, N * N);
+  if IsTridiagonal then
+  begin
+    AVectors.Init(Initial);
+    for I := 0 to N - 1 do
+      for J := 0 to N - 1 do
+        AVectors[I, J] := Phase[I] * TridiagonalVectors[I, J];
+  end else
+  begin
+    for I := 0 to N - 1 do
+      for J := 0 to N - 1 do
+        Q[I, J] := Q[I, J] * Phase[J];
+    Rotations.Init(Initial);
+    for I := 0 to N - 1 do
+      for J := 0 to N - 1 do
+        Rotations[I, J] := TridiagonalVectors[I, J];
+    AVectors := Q * Rotations;
   end;
 end;
 
