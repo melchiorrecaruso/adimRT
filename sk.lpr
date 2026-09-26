@@ -132,7 +132,7 @@ var
   LDimensionless, LLengthMatrix, LInverse: TRealMatrixQuantity;
   LRightHandSide, LSolution: TRealVectorQuantity;
   LEigenvalues: TComplexVectorQuantity;
-  LEigenvectors, LIdentity: TComplexMatrix;
+  LEigenvectors: TComplexMatrix;
   LComplexTrace: TComplexQuantity;
 begin
   LRawMatrix.Init([
@@ -160,14 +160,18 @@ begin
   RequireSame(1, LReduced[0, 0], 'Dimensionless row reduction');
   RequireSame(1, LReduced[1, 1], 'Dimensionless row reduction diagonal');
 
-  LEigenvalues := LLengthMatrix.Eigenvalues;
+  LLengthMatrix.Eigenpairs(LEigenvalues, LEigenvectors);
   LComplexTrace := LLengthMatrix.Trace;
   Require((LEigenvalues[0] + LEigenvalues[1]).SameValue(LComplexTrace),
     'Dimensional eigenvalues');
-  LEigenvectors := LLengthMatrix.Eigenvectors(LEigenvalues);
-  LIdentity := LEigenvectors.Identity;
-  Require((LEigenvectors.TransposeConjugate * LEigenvectors).SameValue(LIdentity),
-    'Dimensionless normalized eigenvectors');
+  Require(LEigenvectors.Order = 2, 'Dimensional eigenvector count');
+  RequireSame(1, Sqrt(LEigenvectors[0, 0].SquaredNorm +
+    LEigenvectors[1, 0].SquaredNorm), 'First eigenvector norm');
+  RequireSame(1, Sqrt(LEigenvectors[0, 1].SquaredNorm +
+    LEigenvectors[1, 1].SquaredNorm), 'Second eigenvector norm');
+  Require((LEigenvectors[0, 0].Conjugate * LEigenvectors[0, 1] +
+    LEigenvectors[1, 0].Conjugate * LEigenvectors[1, 1]).Norm < 1e-12,
+    'Dimensionless orthogonal eigenvectors');
 
   LRawVector.Init([4.0, 9.0]);
   LRightHandSide := (BohrRadius * BohrRadius) *
@@ -183,6 +187,8 @@ procedure TestComplexMatrixQuantities;
 var
   LRaw: TComplexMatrix;
   LQuantity, LConjugate: TComplexMatrixQuantity;
+  LEigenvalues: TComplexVectorQuantity;
+  LEigenvectors: TComplexMatrix;
   {$IFNDEF ADIMOFF}
   LHermitianRaw: TComplexMatrix;
   LHermitian: TComplexMatrixQuantity;
@@ -199,6 +205,11 @@ begin
     'Complex quantity matrix conjugate');
   Require(LQuantity.TransposeConjugate.SameValue(LConjugate.Transpose),
     'Complex quantity matrix adjoint');
+  LQuantity.Eigenpairs(LEigenvalues, LEigenvectors);
+  Require((LEigenvalues[0] + LEigenvalues[1]).SameValue(LQuantity.Trace),
+    'Complex dimensional eigenvalues');
+  Require(LEigenvectors.Order = LRaw.Order,
+    'Complex dimensionless eigenvectors');
 
   {$IFNDEF ADIMOFF}
   LHermitianRaw.Init([
