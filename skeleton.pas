@@ -170,7 +170,7 @@ type
   {$ENDIF}
 
   { Dynamic array of real-valued physical quantities. }
-  TArrayOfQuantity = array of TRealQuantity;
+  TArrayOfRealQuantity = array of TRealQuantity;
 
   { Dynamic array of complex-valued physical quantities. }
   TArrayOfComplexQuantity = array of TComplexQuantity;
@@ -477,13 +477,10 @@ type
     { Converts every coefficient to complex form. }
     function ToComplex: TComplexMatrixQuantity;
 
-    { Returns the generally complex eigenvalues with the same physical dimension
-      as the matrix coefficients. }
-    function Eigenvalues: TComplexVectorQuantity;
-
-    { Returns the dimensionless complex eigenvectors corresponding to
-      @code(AEigenvalues). The eigenvalue dimension must match the matrix. }
-    function Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
+    { Returns dimensioned complex eigenvalues and dimensionless eigenvectors
+      with matching array indices. }
+    procedure Eigenpairs(out AValues: TArrayOfComplexQuantity;
+      out AVectors: TArrayOfComplexVector);
   end;
 
   { Adds complex-matrix algorithms to @link(TComplexMatrixQuantity). }
@@ -491,13 +488,10 @@ type
     { Returns the component-wise complex conjugate. }
     function Conjugate: TComplexMatrixQuantity;
 
-    { Returns the complex eigenvalues with the same physical dimension as the
-      matrix coefficients. }
-    function Eigenvalues: TComplexVectorQuantity;
-
-    { Returns the dimensionless complex eigenvectors corresponding to
-      @code(AEigenvalues). The eigenvalue dimension must match the matrix. }
-    function Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
+    { Returns dimensioned complex eigenvalues and dimensionless eigenvectors
+      with matching array indices. }
+    procedure Eigenpairs(out AValues: TArrayOfComplexQuantity;
+      out AVectors: TArrayOfComplexVector);
 
     { Returns @true if the matrix equals its conjugate transpose. }
     function IsHermitian: boolean;
@@ -4521,15 +4515,11 @@ begin
   result := AValue.ToComplex;
 end;
 
-function RawRealMatrixEigenvalues(constref AValue: TRealMatrix): TComplexVector; inline;
+procedure RawRealMatrixEigenpairs(constref AValue: TRealMatrix;
+  out AValues: TArrayOfComplex;
+  out AVectors: TArrayOfComplexVector); inline;
 begin
-  result := AValue.Eigenvalues;
-end;
-
-function RawRealMatrixEigenvectors(constref AValue: TRealMatrix;
-  constref AEigenvalues: TComplexVector): TComplexMatrix; inline;
-begin
-  result := AValue.Eigenvectors(AEigenvalues);
+  AValue.Eigenpairs(AValues, AVectors);
 end;
 
 function RawComplexMatrixConjugate(constref AValue: TComplexMatrix): TComplexMatrix; inline;
@@ -4537,15 +4527,11 @@ begin
   result := AValue.Conjugate;
 end;
 
-function RawComplexMatrixEigenvalues(constref AValue: TComplexMatrix): TComplexVector; inline;
+procedure RawComplexMatrixEigenpairs(constref AValue: TComplexMatrix;
+  out AValues: TArrayOfComplex;
+  out AVectors: TArrayOfComplexVector); inline;
 begin
-  result := AValue.Eigenvalues;
-end;
-
-function RawComplexMatrixEigenvectors(constref AValue: TComplexMatrix;
-  constref AEigenvalues: TComplexVector): TComplexMatrix; inline;
-begin
-  result := AValue.Eigenvectors(AEigenvalues);
+  AValue.Eigenpairs(AValues, AVectors);
 end;
 
 function RawComplexMatrixIsUnitary(constref AValue: TComplexMatrix): boolean; inline;
@@ -5121,16 +5107,20 @@ begin
   result.FValue := RawRealMatrixToComplex(Self.FValue);
 end;
 
-function TRealMatrixQuantityHelper.Eigenvalues: TComplexVectorQuantity;
+procedure TRealMatrixQuantityHelper.Eigenpairs(
+  out AValues: TArrayOfComplexQuantity;
+  out AVectors: TArrayOfComplexVector);
+var
+  RawValues: TArrayOfComplex;
+  I: longint;
 begin
-  result.FDim := Self.FDim;
-  result.FValue := RawRealMatrixEigenvalues(Self.FValue);
-end;
-
-function TRealMatrixQuantityHelper.Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
-begin
-  Check(Self.FDim, AEigenvalues.FDim);
-  result := RawRealMatrixEigenvectors(Self.FValue, AEigenvalues.FValue);
+  RawRealMatrixEigenpairs(Self.FValue, RawValues, AVectors);
+  SetLength(AValues, Length(RawValues));
+  for I := 0 to High(RawValues) do
+  begin
+    AValues[I].FDim := Self.FDim;
+    AValues[I].FValue := RawValues[I];
+  end;
 end;
 
 function TComplexMatrixQuantityHelper.Conjugate: TComplexMatrixQuantity;
@@ -5139,16 +5129,20 @@ begin
   result.FValue := RawComplexMatrixConjugate(Self.FValue);
 end;
 
-function TComplexMatrixQuantityHelper.Eigenvalues: TComplexVectorQuantity;
+procedure TComplexMatrixQuantityHelper.Eigenpairs(
+  out AValues: TArrayOfComplexQuantity;
+  out AVectors: TArrayOfComplexVector);
+var
+  RawValues: TArrayOfComplex;
+  I: longint;
 begin
-  result.FDim := Self.FDim;
-  result.FValue := RawComplexMatrixEigenvalues(Self.FValue);
-end;
-
-function TComplexMatrixQuantityHelper.Eigenvectors(const AEigenvalues: TComplexVectorQuantity): TComplexMatrix;
-begin
-  Check(Self.FDim, AEigenvalues.FDim);
-  result := RawComplexMatrixEigenvectors(Self.FValue, AEigenvalues.FValue);
+  RawComplexMatrixEigenpairs(Self.FValue, RawValues, AVectors);
+  SetLength(AValues, Length(RawValues));
+  for I := 0 to High(RawValues) do
+  begin
+    AValues[I].FDim := Self.FDim;
+    AValues[I].FValue := RawValues[I];
+  end;
 end;
 
 function TComplexMatrixQuantityHelper.IsHermitian: boolean;
