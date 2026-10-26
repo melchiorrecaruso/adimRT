@@ -86,8 +86,8 @@ type
     procedure AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
     procedure AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
-    procedure AddDegreeCelsiusUnit(const AItem: TToolKitItem; const ASection: TStringList);
-    procedure AddDegreeFahrenheitUnit(const AItem: TToolKitItem; const ASection: TStringList);
+    procedure AddUnitConstant(const AItem: TToolKitItem; const ASection: TStringList;
+      const ATypeName, AFactor: string);
 
     procedure AddResources(const ASection: TStringList);
     procedure AddResource(const AItem: TToolKitItem; const ASection: TStringList);
@@ -265,6 +265,31 @@ begin
   result := StringReplace(result, '%s', '', [rfReplaceAll]);
 end;
 
+procedure TToolKitBuilder.AddUnitConstant(const AItem: TToolKitItem;
+  const ASection: TStringList; const ATypeName, AFactor: string);
+var
+  LUnitID: string;
+begin
+  LUnitID := GetUnitID(AItem.FQuantity);
+  ASection.Add('{ T%s } { @exclude }', [LUnitID]);
+  ASection.Add('');
+  ASection.Add('const');
+  ASection.Add('  %sUnit : %s = (', [LUnitID, ATypeName]);
+  ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
+  ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
+  ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
+  ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
+  ASection.Add('    FPrefixes   : (%s);', [GetPrefixes(AItem.FShortString)]);
+  if AFactor = '' then
+    ASection.Add('    FExponents  : (%s));', [GetExponents(AItem.FShortString)])
+  else
+  begin
+    ASection.Add('    FExponents  : (%s);', [GetExponents(AItem.FShortString)]);
+    ASection.Add('    FFactor     : (%s));', [AFactor]);
+  end;
+  ASection.Add('');
+end;
+
 procedure TToolKitBuilder.AddUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
   FBaseUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
@@ -273,103 +298,27 @@ begin
     own. Keep it in the generated unit summary, but do not declare it twice. }
   if CompareText(GetUnitID(AItem.FQuantity), 'Scalar') = 0 then Exit;
 
-  ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
-
-  ASection.Add('');
-  ASection.Add('const');
-  ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
-  ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
-  ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
-  ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
-  ASection.Add('    FPrefixes   : (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    FExponents  : (%s));', [GetExponents(AItem.FShortString)]);
-  ASection.Add('');
+  AddUnitConstant(AItem, ASection, 'TUnit', '');
 end;
 
 procedure TToolKitBuilder.AddClonedUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
   FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
-
-  ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
-
-  ASection.Add('');
-  ASection.Add('const');
-  ASection.Add('  %sUnit : TUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
-  ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
-  ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
-  ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
-  ASection.Add('    FPrefixes   : (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    FExponents  : (%s));', [GetExponents(AItem.FShortString)]);
-  ASection.Add('');
+  AddUnitConstant(AItem, ASection, 'TUnit', '');
 end;
 
 procedure TToolKitBuilder.AddFactoredUnit(const AItem: TToolKitItem; const ASection: TStringList);
 begin
+  FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
+
+  { Temperature scales with an offset use dedicated unit types instead of a
+    multiplicative factor. }
   if LowerCase(AItem.FFactor) = 'celsius' then
-  begin
-    AddDegreeCelsiusUnit(AItem, ASection)
-  end else
-  begin
-    if LowerCase(AItem.FFactor) = 'fahrenheit' then
-    begin
-      AddDegreeFahrenheitUnit(AItem, ASection)
-    end else
-    begin
-      FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
-
-      ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
-
-      ASection.Add('');
-      ASection.Add('const');
-      ASection.Add('  %sUnit : TFactoredUnit = (', [GetUnitID(AItem.FQuantity)]);
-      ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
-      ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
-      ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
-      ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
-      ASection.Add('    FPrefixes   : (%s);', [GetPrefixes(AItem.FShortString)]);
-      ASection.Add('    FExponents  : (%s);', [GetExponents(AItem.FShortString)]);
-      ASection.Add('    FFactor     : (%s));', [AItem.FFactor]);
-      ASection.Add('');
-    end;
-  end;
-end;
-
-procedure TToolKitBuilder.AddDegreeCelsiusUnit(const AItem: TToolKitItem; const ASection: TStringList);
-begin
-  FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
-
-  ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
-
-  ASection.Add('');
-  ASection.Add('const');
-  ASection.Add('  %sUnit : TDegreeCelsiusUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FDim        : %s;', [GetUnitID(AItem.FExponents)]);
-  ASection.Add('    FSymbol     : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
-  ASection.Add('    FName       : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
-  ASection.Add('    FPluralName : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
-  ASection.Add('    FPrefixes   : (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    FExponents  : (%s));', [GetExponents(AItem.FShortString)]);
-  ASection.Add('');
-end;
-
-procedure TToolKitBuilder.AddDegreeFahrenheitUnit(const AItem: TToolKitItem; const ASection: TStringList);
-begin
-  FFactoredUnits.Add(Format(' - %s [%sUnit]', [GetDescription(GetPluralName(AItem.FLongString)), GetUnitID(AItem.FQuantity)]));
-
-  ASection.Add('{ T%s } { @exclude }', [GetUnitID(AItem.FQuantity)]);
-
-  ASection.Add('');
-  ASection.Add('const');
-  ASection.Add('  %sUnit : TDegreeFahrenheitUnit = (', [GetUnitID(AItem.FQuantity)]);
-  ASection.Add('    FDim               : %s;', [GetUnitID(AItem.FExponents)]);
-  ASection.Add('    FSymbol            : %s;', [GetSymbolResourceString(AItem.FQuantity)]);
-  ASection.Add('    FName              : %s;', [GetSingularNameResourceString(AItem.FQuantity)]);
-  ASection.Add('    FPluralName        : %s;', [GetPluralNameResourceString(AItem.FQuantity)]);
-  ASection.Add('    FPrefixes          : (%s);', [GetPrefixes(AItem.FShortString)]);
-  ASection.Add('    FExponents         : (%s));', [GetExponents(AItem.FShortString)]);
-  ASection.Add('');
+    AddUnitConstant(AItem, ASection, 'TDegreeCelsiusUnit', '')
+  else if LowerCase(AItem.FFactor) = 'fahrenheit' then
+    AddUnitConstant(AItem, ASection, 'TDegreeFahrenheitUnit', '')
+  else
+    AddUnitConstant(AItem, ASection, 'TFactoredUnit', AItem.FFactor);
 end;
 
 procedure TToolKitBuilder.AddResource(const AItem: TToolKitItem; const ASection: TStringList);
@@ -384,91 +333,48 @@ end;
 
 procedure TToolKitBuilder.AddSymbols(const AItem: TToolKitItem; const ASection: TStringList);
 var
-  Identifier: string;
+  LTypeName: string;
+  LUnitID: string;
+  LIsTemperatureScale: boolean;
+
+  procedure AddAlias(const AName: string);
+  begin
+    ASection.Add('  { %s }', [AItem.FComment]);
+    ASection.Add('  %s : %s absolute %sUnit;', [AName, LTypeName, LUnitID]);
+    ASection.Add('');
+  end;
+
 begin
-  if (AItem.FBase = '') then
+  LIsTemperatureScale := False;
+  if (AItem.FBase = '') or (AItem.FFactor = '') then
+    // Base and cloned units
+    LTypeName := 'TUnit'
+  else
   begin
-    // Base unit symbols
-    ASection.Add('var');
+    // Factored units are exposed only through their identifier.
+    if AItem.FIdentifier = '' then Exit;
 
-    Identifier := GetUnitID(AItem.FQuantity);
-    if CompareText(Identifier, AItem.FIdentifier) <> 0 then
+    LIsTemperatureScale := True;
+    if LowerCase(AItem.FFactor) = 'celsius' then
+      LTypeName := 'TDegreeCelsiusUnit'
+    else if LowerCase(AItem.FFactor) = 'fahrenheit' then
+      LTypeName := 'TDegreeFahrenheitUnit'
+    else
     begin
-      ASection.Add('  { %s }', [AItem.FComment]);
-      ASection.Add('  %s : TUnit absolute %sUnit;', [Identifier, GetUnitID(AItem.FQuantity)]);
-      ASection.Add('');
+      LTypeName := 'TFactoredUnit';
+      LIsTemperatureScale := False;
     end;
+  end;
 
-    if AItem.FIdentifier <> '' then
-    begin
-      ASection.Add('  { %s }', [AItem.FComment]);
-      ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
-      ASection.Add('');
-    end;
+  LUnitID := GetUnitID(AItem.FQuantity);
+  ASection.Add('var');
+  if (not LIsTemperatureScale) and (CompareText(LUnitID, AItem.FIdentifier) <> 0) then
+    AddAlias(LUnitID);
 
-    if AItem.FIdentifier <> '' then
-      AddFactoredSymbols(AItem, ASection);
-  end else
+  if AItem.FIdentifier <> '' then
   begin
-    if (AItem.FFactor = '') then
-    begin
-      // Cloned unit symbols
-      ASection.Add('var');
-
-      Identifier := GetUnitID(AItem.FQuantity);
-      if CompareText(Identifier, AItem.FIdentifier) <> 0 then
-      begin
-        ASection.Add('  { %s }', [AItem.FComment]);
-        ASection.Add('  %s : TUnit absolute %sUnit;', [Identifier, GetUnitID(AItem.FQuantity)]);
-        ASection.Add('');
-      end;
-
-      if AItem.FIdentifier <> '' then
-      begin
-        ASection.Add('  { %s }', [AItem.FComment]);
-        ASection.Add('  %s : TUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
-        ASection.Add('');
-      end;
-
-      if AItem.FIdentifier <> '' then
-        AddFactoredSymbols(AItem, ASection);
-    end else
-    begin
-      // Factored unit symbol
-      if AItem.FIdentifier <> '' then
-      begin
-        ASection.Add('var');
-        ASection.Add('  { %s }', [AItem.FComment]);
-        if LowerCase(AItem.FFactor) = 'celsius' then
-        begin
-          ASection.Add('  %s : TDegreeCelsiusUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)])
-        end else
-          if LowerCase(AItem.FFactor) = 'fahrenheit' then
-          begin
-            ASection.Add('  %s : TDegreeFahrenheitUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)])
-          end else
-          begin
-
-            Identifier := GetUnitID(AItem.FQuantity);
-            if CompareText(Identifier, AItem.FIdentifier) <> 0 then
-             begin
-               ASection.Add('  { %s }', [AItem.FComment]);
-               ASection.Add('  %s : TFactoredUnit absolute %sUnit;', [Identifier, GetUnitID(AItem.FQuantity)]);
-               ASection.Add('');
-             end;
-
-            if AItem.FIdentifier <> '' then
-            begin
-              ASection.Add('  { %s }', [AItem.FComment]);
-              ASection.Add('  %s : TFactoredUnit absolute %sUnit;', [AItem.FIdentifier, GetUnitID(AItem.FQuantity)]);
-              ASection.Add('');
-            end;
-          end;
-        ASection.Add('');
-      end;
-      if AItem.FIdentifier <> '' then
-        AddFactoredSymbols(AItem, ASection);
-    end;
+    AddAlias(AItem.FIdentifier);
+    AddFactoredSymbols(AItem, ASection);
   end;
 end;
 

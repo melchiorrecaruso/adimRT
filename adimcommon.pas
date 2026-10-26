@@ -42,12 +42,32 @@ uses
   SysUtils;
 
 type
+  { SI base units tracked by @link(TDimension). The order defines the
+    position of each exponent in @code(TDimension.FExponents). }
+  TBaseUnit = (buKilogram, buMeter, buSecond, buAmpere, buKelvin, buMole,
+    buCandela, buSteradian);
+
+const
+  { Number of 16-bit exponents that fit in one 64-bit word. }
+  ExponentsPerWord = SizeOf(QWord) div SizeOf(smallint);
+
+  { Number of 64-bit words needed to hold one exponent per base unit. }
+  DimensionWords = (Ord(High(TBaseUnit)) + ExponentsPerWord) div ExponentsPerWord;
+
+  { Number of exponent slots: the base units rounded up to whole words. The
+    slots beyond @code(High(TBaseUnit)) are padding and are always zero. }
+  DimensionSlots = DimensionWords * ExponentsPerWord;
+
+type
   { Represents the physical dimension of a quantity using the SI base units.
 
-    Each field stores the integer exponent of the corresponding SI base unit.
-    For example, a velocity has dimension @code(m¹·s⁻¹), represented as
-    @code(FMeter=1, FSecond=-1) with all other exponents equal to zero.
-    A dimensionless quantity has all exponents equal to zero.
+    Each slot of @code(FExponents) stores the integer exponent of the SI base
+    unit at position @code(Ord(TBaseUnit)). Exponents are stored in sixtieths
+    (60 = 1, 30 = 1/2, 20 = 1/3, ...), so that roots up to the sixth remain
+    integral. For example, a velocity has dimension @code(m¹·s⁻¹), represented
+    by the exponents of @code(buMeter) and @code(buSecond) set to 60 and -60,
+    with all other exponents equal to zero. A dimensionless quantity has all
+    exponents equal to zero.
 
     Dimension arithmetic follows the rules of dimensional analysis:
     @unorderedList(
@@ -58,33 +78,6 @@ type
     )
   }
   TDimension = record
-  private
-    { Exponent of the SI base unit kilogram @code([kg]). Mass dimension. }
-    FKilogram: smallint;
-
-    { Exponent of the SI base unit metre @code([m]). Length dimension. }
-    FMeter: smallint;
-
-    { Exponent of the SI base unit second @code([s]). Time dimension. }
-    FSecond: smallint;
-
-    { Exponent of the SI base unit ampere @code([A]). Electric current dimension. }
-    FAmpere: smallint;
-
-    { Exponent of the SI base unit kelvin @code([K]). Thermodynamic temperature dimension. }
-    FKelvin: smallint;
-
-    { Exponent of the SI base unit mole @code([mol]). Amount of substance dimension. }
-    FMole: smallint;
-
-    { Exponent of the SI base unit candela @code([cd]). Luminous intensity dimension. }
-    FCandela: smallint;
-
-    { Exponent of the SI derived unit steradian @code([sr]).
-      Used to track solid angle dimensionality independently from dimensionless quantities.
-    }
-    FSteradian: smallint;
-
   public
     { Returns a human-readable string representation of the dimension.
       Exponents equal to zero are omitted. Positive exponents are listed first,
@@ -94,168 +87,168 @@ type
     function ToString: string;
 
     { Unary plus. Returns the dimension unchanged. }
-    class operator +(const ASelf: TDimension): TDimension;
+    class operator +(const ASelf: TDimension): TDimension; inline;
 
     { Unary minus. Returns the inverse dimension.
       Each exponent is negated: used to represent the dimension of a reciprocal quantity.
     }
-    class operator -(const ASelf: TDimension): TDimension;
+    class operator -(const ASelf: TDimension): TDimension; inline;
 
     { Returns the sum of two dimensions, i.e. the dimension resulting from
       multiplying two physical quantities.
       Each exponent of the result equals the sum of the corresponding exponents.
     }
-    class operator +(const ALeft, ARight: TDimension): TDimension;
+    class operator +(const ALeft, ARight: TDimension): TDimension; inline;
 
     { Returns the difference of two dimensions, i.e. the dimension resulting from
       dividing two physical quantities.
       Each exponent of the result equals the difference of the corresponding exponents.
     }
-    class operator -(const ALeft, ARight: TDimension): TDimension;
+    class operator -(const ALeft, ARight: TDimension): TDimension; inline;
 
     { Returns the dimension scaled by an integer exponent.
       Each exponent is multiplied by @code(ALeft).
       Used to represent the dimension of a quantity raised to an integer power,
       e.g. @code(3 * [m] = [m³]).
     }
-    class operator *(const ALeft: longint; ARight: TDimension): TDimension;
+    class operator *(const ALeft: longint; ARight: TDimension): TDimension; inline;
 
     { Returns the dimension scaled by an integer exponent.
       Each exponent is multiplied by @code(ARight).
       Used to represent the dimension of a quantity raised to an integer power,
       e.g. @code([m] * 3 = [m³]).
     }
-    class operator *(const ALeft: TDimension; ARight: longint): TDimension;
+    class operator *(const ALeft: TDimension; ARight: longint): TDimension; inline;
 
     { Returns the dimension divided by an integer.
       Each exponent is divided by @code(ARight).
       Used to represent the dimension of an integer root of a quantity,
       e.g. @code([m²] div 2 = [m]).
     }
-    class operator div(const ALeft: TDimension; ARight: longint): TDimension;
+    class operator div(const ALeft: TDimension; ARight: longint): TDimension; inline;
 
     { Returns @true if the two dimensions differ in at least one exponent.
       Used internally to detect dimensional incompatibility between quantities.
     }
-    class operator <>(const ALeft, ARight: TDimension): boolean;
+    class operator <>(const ALeft, ARight: TDimension): boolean; inline;
 
     { Returns @true if all corresponding exponents of the two dimensions are equal.
       Two quantities are dimensionally compatible if and only if their dimensions are equal.
     }
-    class operator =(const ALeft, ARight: TDimension): boolean;
+    class operator =(const ALeft, ARight: TDimension): boolean; inline;
+  private
+    case byte of
+      { Exponent of each SI base unit, indexed by @code(Ord(TBaseUnit)). }
+      0: (FExponents: array[0..DimensionSlots - 1] of smallint);
+      { The same exponents viewed as 64-bit words of four 16-bit lanes. }
+      1: (FWords: array[0..DimensionWords - 1] of QWord);
   end;
 
 implementation
+
+{ The 16-bit exponents are added and subtracted four at a time, as lanes of a
+  64-bit word. The sign bit of every lane is excluded from the carry chain and
+  recomputed separately, so no carry or borrow ever crosses a lane boundary.
+  The results equal the lane-by-lane smallint arithmetic, including
+  wrap-around. Padding lanes stay zero because 0 + 0 = 0 - 0 = 0. }
+const
+  LaneSignBits = QWord($8000800080008000);
+
+function PackedAdd(ALeft, ARight: QWord): QWord; inline;
+begin
+  Result := ((ALeft and not LaneSignBits) + (ARight and not LaneSignBits)) xor
+    ((ALeft xor ARight) and LaneSignBits);
+end;
+
+function PackedSub(ALeft, ARight: QWord): QWord; inline;
+begin
+  Result := ((ALeft or LaneSignBits) - (ARight and not LaneSignBits)) xor
+    ((ALeft xor not ARight) and LaneSignBits);
+end;
 
 // TDimension
 
 class operator TDimension.+(const ASelf: TDimension): TDimension;
 begin
-  Result.FKilogram  := ASelf.FKilogram;
-  Result.FMeter     := ASelf.FMeter;
-  Result.FSecond    := ASelf.FSecond;
-  Result.FAmpere    := ASelf.FAmpere;
-  Result.FKelvin    := ASelf.FKelvin;
-  Result.FMole      := ASelf.FMole;
-  Result.FCandela   := ASelf.FCandela;
-  Result.FSteradian := ASelf.FSteradian;
+  Result := ASelf;
 end;
 
 class operator TDimension.-(const ASelf: TDimension): TDimension;
+var
+  I: longint;
 begin
-  Result.FKilogram  := -ASelf.FKilogram;
-  Result.FMeter     := -ASelf.FMeter;
-  Result.FSecond    := -ASelf.FSecond;
-  Result.FAmpere    := -ASelf.FAmpere;
-  Result.FKelvin    := -ASelf.FKelvin;
-  Result.FMole      := -ASelf.FMole;
-  Result.FCandela   := -ASelf.FCandela;
-  Result.FSteradian := -ASelf.FSteradian;
+  for I := Low(Result.FWords) to High(Result.FWords) do
+    Result.FWords[I] := PackedSub(0, ASelf.FWords[I]);
 end;
 
 class operator TDimension.+(const ALeft, ARight: TDimension): TDimension;
+var
+  I: longint;
 begin
-  Result.FKilogram  := ALeft.FKilogram  + ARight.FKilogram;
-  Result.FMeter     := ALeft.FMeter     + ARight.FMeter;
-  Result.FSecond    := ALeft.FSecond    + ARight.FSecond;
-  Result.FAmpere    := ALeft.FAmpere    + ARight.FAmpere;
-  Result.FKelvin    := ALeft.FKelvin    + ARight.FKelvin;
-  Result.FMole      := ALeft.FMole      + ARight.FMole;
-  Result.FCandela   := ALeft.FCandela   + ARight.FCandela;
-  Result.FSteradian := ALeft.FSteradian + ARight.FSteradian;
+  for I := Low(Result.FWords) to High(Result.FWords) do
+    Result.FWords[I] := PackedAdd(ALeft.FWords[I], ARight.FWords[I]);
 end;
 
 class operator TDimension.-(const ALeft, ARight: TDimension): TDimension;
+var
+  I: longint;
 begin
-  Result.FKilogram  := ALeft.FKilogram  - ARight.FKilogram;
-  Result.FMeter     := ALeft.FMeter     - ARight.FMeter;
-  Result.FSecond    := ALeft.FSecond    - ARight.FSecond;
-  Result.FAmpere    := ALeft.FAmpere    - ARight.FAmpere;
-  Result.FKelvin    := ALeft.FKelvin    - ARight.FKelvin;
-  Result.FMole      := ALeft.FMole      - ARight.FMole;
-  Result.FCandela   := ALeft.FCandela   - ARight.FCandela;
-  Result.FSteradian := ALeft.FSteradian - ARight.FSteradian;
+  for I := Low(Result.FWords) to High(Result.FWords) do
+    Result.FWords[I] := PackedSub(ALeft.FWords[I], ARight.FWords[I]);
 end;
 
+{ Scaling and division run over every slot, padding included, so the padding
+  of the result is always written (0 * k = 0 div k = 0). }
+
 class operator TDimension.*(const ALeft: longint; ARight: TDimension): TDimension;
+var
+  I: longint;
 begin
-  Result.FKilogram  := ALeft * ARight.FKilogram;
-  Result.FMeter     := ALeft * ARight.FMeter;
-  Result.FSecond    := ALeft * ARight.FSecond;
-  Result.FAmpere    := ALeft * ARight.FAmpere;
-  Result.FKelvin    := ALeft * ARight.FKelvin;
-  Result.FMole      := ALeft * ARight.FMole;
-  Result.FCandela   := ALeft * ARight.FCandela;
-  Result.FSteradian := ALeft * ARight.FSteradian;
+  for I := Low(Result.FExponents) to High(Result.FExponents) do
+    Result.FExponents[I] := ALeft * ARight.FExponents[I];
 end;
 
 class operator TDimension.*(const ALeft: TDimension; ARight: longint): TDimension;
+var
+  I: longint;
 begin
-  Result.FKilogram  := ALeft.FKilogram  * ARight;
-  Result.FMeter     := ALeft.FMeter     * ARight;
-  Result.FSecond    := ALeft.FSecond    * ARight;
-  Result.FAmpere    := ALeft.FAmpere    * ARight;
-  Result.FKelvin    := ALeft.FKelvin    * ARight;
-  Result.FMole      := ALeft.FMole      * ARight;
-  Result.FCandela   := ALeft.FCandela   * ARight;
-  Result.FSteradian := ALeft.FSteradian * ARight;
+  for I := Low(Result.FExponents) to High(Result.FExponents) do
+    Result.FExponents[I] := ALeft.FExponents[I] * ARight;
 end;
 
 class operator TDimension.div(const ALeft: TDimension; ARight: longint): TDimension;
+var
+  I: longint;
 begin
-  Result.FKilogram  := ALeft.FKilogram  div ARight;
-  Result.FMeter     := ALeft.FMeter     div ARight;
-  Result.FSecond    := ALeft.FSecond    div ARight;
-  Result.FAmpere    := ALeft.FAmpere    div ARight;
-  Result.FKelvin    := ALeft.FKelvin    div ARight;
-  Result.FMole      := ALeft.FMole      div ARight;
-  Result.FCandela   := ALeft.FCandela   div ARight;
-  Result.FSteradian := ALeft.FSteradian div ARight;
+  for I := Low(Result.FExponents) to High(Result.FExponents) do
+    Result.FExponents[I] := ALeft.FExponents[I] div ARight;
 end;
 
 class operator TDimension.<>(const ALeft, ARight: TDimension): boolean;
+var
+  I: longint;
+  LDifference: QWord;
 begin
-  Result := (ALeft.FKilogram  <> ARight.FKilogram ) or
-            (ALeft.FMeter     <> ARight.FMeter    ) or
-            (ALeft.FSecond    <> ARight.FSecond   ) or
-            (ALeft.FAmpere    <> ARight.FAmpere   ) or
-            (ALeft.FKelvin    <> ARight.FKelvin   ) or
-            (ALeft.FMole      <> ARight.FMole     ) or
-            (ALeft.FCandela   <> ARight.FCandela  ) or
-            (ALeft.FSteradian <> ARight.FSteradian);
+  LDifference := 0;
+  for I := Low(ALeft.FWords) to High(ALeft.FWords) do
+    LDifference := LDifference or (ALeft.FWords[I] xor ARight.FWords[I]);
+  Result := LDifference <> 0;
 end;
 
 class operator TDimension.=(const ALeft, ARight: TDimension): boolean;
+var
+  I: longint;
+  LDifference: QWord;
 begin
-  Result := (ALeft.FKilogram  = ARight.FKilogram ) and
-            (ALeft.FMeter     = ARight.FMeter    ) and
-            (ALeft.FSecond    = ARight.FSecond   ) and
-            (ALeft.FAmpere    = ARight.FAmpere   ) and
-            (ALeft.FKelvin    = ARight.FKelvin   ) and
-            (ALeft.FMole      = ARight.FMole     ) and
-            (ALeft.FCandela   = ARight.FCandela  ) and
-            (ALeft.FSteradian = ARight.FSteradian);
+  LDifference := 0;
+  for I := Low(ALeft.FWords) to High(ALeft.FWords) do
+    LDifference := LDifference or (ALeft.FWords[I] xor ARight.FWords[I]);
+  Result := LDifference = 0;
 end;
+
+const
+  BaseUnitSymbols: array[TBaseUnit] of string = (
+    'kg', 'm', 's', 'A', 'K', 'mol', 'cd', 'sr');
 
 function SymbolToString(AExponent: smallint; const ASymbol: string): string; inline;
 begin
@@ -279,29 +272,21 @@ end;
 
 function TDimension.ToString: string;
 var
+  LUnit: TBaseUnit;
+  LExponent: smallint;
   Num, Denom: string;
 begin
   Num := '';
-  if FKilogram  > 0 then Num := Num + '.' + SymbolToString(FKilogram,  'kg');
-  if FMeter     > 0 then Num := Num + '.' + SymbolToString(FMeter,      'm');
-  if FSecond    > 0 then Num := Num + '.' + SymbolToString(FSecond,     's');
-  if FAmpere    > 0 then Num := Num + '.' + SymbolToString(FAmpere,     'A');
-  if FKelvin    > 0 then Num := Num + '.' + SymbolToString(FKelvin,     'K');
-  if FMole      > 0 then Num := Num + '.' + SymbolToString(FMole,     'mol');
-  if FCandela   > 0 then Num := Num + '.' + SymbolToString(FCandela,   'cd');
-  if FSteradian > 0 then Num := Num + '.' + SymbolToString(FSteradian, 'sr');
-
-  if (Length(Num) > 0) then Delete(Num, 1, 1);
-
   Denom := '';
-  if FKilogram  < 0 then Denom := Denom + '/' + SymbolToString(FKilogram,  'kg');
-  if FMeter     < 0 then Denom := Denom + '/' + SymbolToString(FMeter,      'm');
-  if FSecond    < 0 then Denom := Denom + '/' + SymbolToString(FSecond,     's');
-  if FAmpere    < 0 then Denom := Denom + '/' + SymbolToString(FAmpere,     'A');
-  if FKelvin    < 0 then Denom := Denom + '/' + SymbolToString(FKelvin,     'K');
-  if FMole      < 0 then Denom := Denom + '/' + SymbolToString(FMole,     'mol');
-  if FCandela   < 0 then Denom := Denom + '/' + SymbolToString(FCandela,   'cd');
-  if FSteradian < 0 then Denom := Denom + '/' + SymbolToString(FSteradian, 'sr');
+  for LUnit := Low(TBaseUnit) to High(TBaseUnit) do
+  begin
+    LExponent := FExponents[Ord(LUnit)];
+    if LExponent > 0 then
+      Num := Num + '.' + SymbolToString(LExponent, BaseUnitSymbols[LUnit])
+    else if LExponent < 0 then
+      Denom := Denom + '/' + SymbolToString(LExponent, BaseUnitSymbols[LUnit]);
+  end;
+  Delete(Num, 1, 1);
 
   if Num = '' then
   begin
@@ -310,18 +295,7 @@ begin
     else
       Result := '1' + Denom;
   end else
-  begin
-    if Denom = '' then
-      Result := Num
-    else
-      Result := Num + Denom;
-  end;
-
-  while (Length(Result) > 0) and (Result[Low(Result)]  = ' ') do Delete(Result, Low(Result),  1);
-  while (Length(Result) > 0) and (Result[High(Result)] = ' ') do Delete(Result, High(Result), 1);
-
-  Result := StringReplace(Result, '//', '/', [rfReplaceAll]);
-  Result := StringReplace(Result, '  ', ' ', [rfReplaceAll]);
+    Result := Num + Denom;
 end;
 
 end.
