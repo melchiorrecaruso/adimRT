@@ -1441,43 +1441,51 @@ begin
   result := LScale * Sqrt(LSumSquares);
 end;
 
+{ Gaussian elimination with complete pivoting, which reveals the rank
+  reliably in practice; partial pivoting can leave rounding residuals above
+  the tolerance in the trailing block. }
 function TMatrix.Rank: longint;
 var
   LWork: TMatrix;
-  LPivot, LFactor: T;
-  LMaxValue, LScale, LTolerance: TReal;
-  LPivotRow, LColumn, LRow, LIndex, LMaxRow: longint;
+  LPivot, LFactor, LTemp: T;
+  LMaxValue, LTolerance: TReal;
+  LStep, LRow, LCol, LIndex, LMaxRow, LMaxCol: longint;
 begin
   LWork := Clone;
-  LScale := Norm;
-  LTolerance := FOrder * Precision * LScale;
-  LPivotRow := 0;
+  LTolerance := FOrder * Precision * Norm;
   result := 0;
-  for LColumn := 0 to FOrder - 1 do
+  for LStep := 0 to FOrder - 1 do
   begin
-    if LPivotRow >= FOrder then Break;
-    LMaxRow := LPivotRow;
-    LMaxValue := Abs(LWork[LPivotRow, LColumn]);
-    for LRow := LPivotRow + 1 to FOrder - 1 do
-      if Abs(LWork[LRow, LColumn]) > LMaxValue then
+    LMaxRow := LStep;
+    LMaxCol := LStep;
+    LMaxValue := 0;
+    for LRow := LStep to FOrder - 1 do
+      for LCol := LStep to FOrder - 1 do
+        if Abs(LWork[LRow, LCol]) > LMaxValue then
+        begin
+          LMaxValue := Abs(LWork[LRow, LCol]);
+          LMaxRow := LRow;
+          LMaxCol := LCol;
+        end;
+    if LMaxValue <= LTolerance then Break;
+    if LMaxRow <> LStep then LWork.Swap(LStep, LMaxRow);
+    if LMaxCol <> LStep then
+      for LRow := 0 to FOrder - 1 do
       begin
-        LMaxValue := Abs(LWork[LRow, LColumn]);
-        LMaxRow := LRow;
+        LTemp := LWork[LRow, LStep];
+        LWork[LRow, LStep] := LWork[LRow, LMaxCol];
+        LWork[LRow, LMaxCol] := LTemp;
       end;
-    if LMaxValue <= LTolerance then Continue;
-    if LMaxRow <> LPivotRow then LWork.Swap(LPivotRow, LMaxRow);
-    LPivot := LWork[LPivotRow, LColumn];
-    for LRow := LPivotRow + 1 to FOrder - 1 do
+    LPivot := LWork[LStep, LStep];
+    for LRow := LStep + 1 to FOrder - 1 do
     begin
-      if Abs(LWork[LRow, LColumn]) <= LTolerance then Continue;
-      LFactor := LWork[LRow, LColumn] / LPivot;
-      LWork[LRow, LColumn] := 0;
-      for LIndex := LColumn + 1 to FOrder - 1 do
+      LFactor := LWork[LRow, LStep] / LPivot;
+      LWork[LRow, LStep] := 0;
+      for LIndex := LStep + 1 to FOrder - 1 do
         LWork[LRow, LIndex] := LWork[LRow, LIndex] -
-          LFactor * LWork[LPivotRow, LIndex];
+          LFactor * LWork[LStep, LIndex];
     end;
     Inc(result);
-    Inc(LPivotRow);
   end;
 end;
 
@@ -1723,29 +1731,40 @@ begin
     result.FData[LIndex] := ALeft.FData[LIndex] - ARight.FData[LIndex];
 end;
 
+{ Row-oriented (i-k-j) loop: each entry keeps its own compensated
+  accumulator and receives its products in the same order as an inner
+  product would, so the result is unchanged while every access to the
+  right operand is contiguous. }
 function TMatrix.Multiply(const AMatrix: TMatrix): TMatrix;
 var
-  LRow, LCol, LIndex, LLeftOffset: longint;
-  LValue, LProduct, LCompensation: T;
+  LRow, LCol, LIndex, LLeftOffset, LRightOffset: longint;
+  LFactor: T;
+  LCompensation: array of T;
 begin
   RequireSameOrder(AMatrix);
   result.SetOrder(FOrder);
   if FOrder = 0 then Exit;
+  SetLength(LCompensation, FOrder);
   for LRow := 0 to FOrder - 1 do
   begin
     LLeftOffset := LRow * FOrder;
+    LFactor := FData[LLeftOffset];
     for LCol := 0 to FOrder - 1 do
     begin
-      LValue := FData[LLeftOffset] * AMatrix.FData[LCol];
-      LCompensation := LValue - LValue;
-      for LIndex := 1 to FOrder - 1 do
-      begin
-        LProduct := FData[LLeftOffset + LIndex] *
-          AMatrix.FData[LIndex * FOrder + LCol];
-        CompensatedAdd(LValue, LCompensation, LProduct);
-      end;
-      result.FData[LLeftOffset + LCol] := LValue + LCompensation;
+      result.FData[LLeftOffset + LCol] := LFactor * AMatrix.FData[LCol];
+      LCompensation[LCol] := LFactor - LFactor;
     end;
+    for LIndex := 1 to FOrder - 1 do
+    begin
+      LFactor := FData[LLeftOffset + LIndex];
+      LRightOffset := LIndex * FOrder;
+      for LCol := 0 to FOrder - 1 do
+        CompensatedAdd(result.FData[LLeftOffset + LCol], LCompensation[LCol],
+          LFactor * AMatrix.FData[LRightOffset + LCol]);
+    end;
+    for LCol := 0 to FOrder - 1 do
+      result.FData[LLeftOffset + LCol] :=
+        result.FData[LLeftOffset + LCol] + LCompensation[LCol];
   end;
 end;
 
@@ -1771,8 +1790,9 @@ end;
 class operator TMatrix.*(const ALeft: TVectorType;
   const ARight: TMatrix): TVectorType;
 var
-  LRow, LCol: longint;
-  LValue, LProduct, LCompensation: T;
+  LRow, LCol, LOffset: longint;
+  LFactor: T;
+  LCompensation: array of T;
 begin
   if ALeft.Size <> ARight.FOrder then
     raise EDimensionError.CreateFmt(
@@ -1780,17 +1800,24 @@ begin
       [ALeft.Size, ARight.FOrder]);
   result.SetSize(ARight.FOrder);
   if ARight.FOrder = 0 then Exit;
+  { Row-oriented loop with one accumulator per column, as in Multiply. }
+  SetLength(LCompensation, ARight.FOrder);
+  LFactor := ALeft.FData[0];
   for LCol := 0 to ARight.FOrder - 1 do
   begin
-    LValue := ALeft[0] * ARight[0, LCol];
-    LCompensation := LValue - LValue;
-    for LRow := 1 to ARight.FOrder - 1 do
-    begin
-      LProduct := ALeft[LRow] * ARight[LRow, LCol];
-      CompensatedAdd(LValue, LCompensation, LProduct);
-    end;
-    result[LCol] := LValue + LCompensation;
+    result.FData[LCol] := LFactor * ARight.FData[LCol];
+    LCompensation[LCol] := LFactor - LFactor;
   end;
+  for LRow := 1 to ARight.FOrder - 1 do
+  begin
+    LFactor := ALeft.FData[LRow];
+    LOffset := LRow * ARight.FOrder;
+    for LCol := 0 to ARight.FOrder - 1 do
+      CompensatedAdd(result.FData[LCol], LCompensation[LCol],
+        LFactor * ARight.FData[LOffset + LCol]);
+  end;
+  for LCol := 0 to ARight.FOrder - 1 do
+    result.FData[LCol] := result.FData[LCol] + LCompensation[LCol];
 end;
 
 class operator TMatrix.*(const ALeft: TMatrix;
@@ -2703,6 +2730,8 @@ begin
     Alpha := AVectors.FData[J * N + K].Conjugate / (Largest * VectorNorm);
     for Row := 0 to N - 1 do
       AVectors.FData[Row * N + K] := Alpha * AVectors.FData[Row * N + K];
+    { Remove the rounding residue, as LAPACK ZGEEV does. }
+    AVectors.FData[J * N + K].fIm := 0;
   end;
 end;
 
@@ -2893,26 +2922,54 @@ begin
   result := AValue * AValue * AValue * AValue;
 end;
 
+{ Scales AValue by an exact power of two when its larger component is
+  outside [1e-300, 1e300], so that the modulus can be formed without
+  overflow or loss of precision. 2^600 is a perfect square, cube and fourth
+  power: the k-th root of the scaled value is multiplied by AFactor^(600/k)
+  with AFactor = 2 or 1/2 to undo the scaling. }
+function ScaleForRoot(const AValue: TComplex; out AFactor: TReal): TComplex;
+const
+  Down = 2.4099198651028841E-181; { 2^-600 }
+  Up = 4.1495155688809929E+180;   { 2^600 }
+var
+  LMax: TReal;
+begin
+  LMax := Max(System.Abs(AValue.fRe), System.Abs(AValue.fIm));
+  if LMax > 1E300 then
+  begin
+    result := AValue * Down;
+    AFactor := 2;
+  end else if (LMax < 1E-300) and (LMax > 0) then
+  begin
+    result := AValue * Up;
+    AFactor := 0.5;
+  end else
+  begin
+    result := AValue;
+    AFactor := 1;
+  end;
+end;
+
 function SquareRoot(const AValue: TComplex): TArrayOfComplex;
 var
-  LModulus, LLarge, LSmall: TReal;
+  LScaled: TComplex;
+  LFactor, LLarge, LSmall: TReal;
 begin
   result := nil;
   SetLength(result, 2);
-  LModulus := Hypot(AValue.fRe, AValue.fIm);
-  if LModulus = 0 then
+  if (AValue.fRe = 0) and (AValue.fIm = 0) then
   begin
     result[0] := 0;
     result[1] := 0;
     Exit;
   end;
+  LScaled := ScaleForRoot(AValue, LFactor);
   { The larger component is formed without cancellation as
-    sqrt((|Re| + |z|)/2); the smaller one follows from Im = 2*x*y. Taking
-    sqrt(|z|) first keeps the intermediate values inside the double range. }
-  LLarge := Sqrt(LModulus) *
-    Sqrt(0.5 * (1 + System.Abs(AValue.fRe) / LModulus));
-  LSmall := (System.Abs(AValue.fIm) / LLarge) / 2;
-  if AValue.fRe >= 0 then
+    sqrt((|Re| + |z|)/2); the smaller one follows from Im = 2*x*y. }
+  LLarge := Sqrt(0.5 * (System.Abs(LScaled.fRe) +
+    Hypot(LScaled.fRe, LScaled.fIm)));
+  LSmall := (System.Abs(LScaled.fIm) / LLarge) / 2;
+  if LScaled.fRe >= 0 then
   begin
     result[0].fRe := LLarge;
     result[0].fIm := LSmall;
@@ -2922,52 +2979,52 @@ begin
     result[0].fIm := LLarge;
   end;
   if AValue.fIm < 0 then result[0].fIm := -result[0].fIm;
+  if LFactor <> 1 then
+    result[0] := result[0] * IntPower(LFactor, 300);
   result[1] := -result[0];
 end;
 
-function CubicRoot(const AValue: TComplex): TArrayOfComplex;
-const
-  i: TImaginaryUnit = ();
+{ The k roots of AValue at arguments (theta + 2*pi*j)/k. }
+function KthRoots(const AValue: TComplex; K: longint): TArrayOfComplex;
 var
-  theta, rootModulus, rootArgument: TReal;
+  LScaled: TComplex;
+  LFactor, LModulus, LRoot, LTheta, LArgument: TReal;
+  LIndex: longint;
 begin
   result := nil;
-  SetLength(result, 3);
-  rootModulus := Power(AValue.Norm, 1/3);
-  theta       := Math.ArcTan2(AValue.fIm, AValue.fRe);
+  SetLength(result, K);
+  LScaled := ScaleForRoot(AValue, LFactor);
+  LModulus := LScaled.Norm;
+  if K = 4 then
+    { Two correctly rounded square roots. }
+    LRoot := Sqrt(Sqrt(LModulus))
+  else
+  begin
+    { Power(x, 1/3) uses a rounded exponent whose error is amplified by
+      ln(x); one Newton step restores full accuracy. }
+    LRoot := Power(LModulus, 1 / 3);
+    if LRoot > 0 then
+      LRoot := LRoot + (LModulus / (LRoot * LRoot) - LRoot) / 3;
+  end;
+  if LFactor <> 1 then
+    LRoot := LRoot * IntPower(LFactor, 600 div K);
+  LTheta := Math.ArcTan2(AValue.fIm, AValue.fRe);
+  for LIndex := 0 to K - 1 do
+  begin
+    LArgument := (LTheta + 2 * LIndex * Pi) / K;
+    result[LIndex].fRe := LRoot * Cos(LArgument);
+    result[LIndex].fIm := LRoot * Sin(LArgument);
+  end;
+end;
 
-  rootArgument := theta / 3;
-  result[0] := rootModulus * (Cos(rootArgument) + Sin(rootArgument) * i);
-
-  rootArgument := (theta + 2*Pi) / 3;
-  result[1] := rootModulus * (Cos(rootArgument) + Sin(rootArgument) * i);
-
-  rootArgument := (theta + 4*Pi) / 3;
-  result[2] := rootModulus * (Cos(rootArgument) + Sin(rootArgument) * i);
+function CubicRoot(const AValue: TComplex): TArrayOfComplex;
+begin
+  result := KthRoots(AValue, 3);
 end;
 
 function QuarticRoot(const AValue: TComplex): TArrayOfComplex;
-const
-  i: TImaginaryUnit = ();
-var
-  theta, rootModulus, rootArgument: TReal;
 begin
-  result := nil;
-  SetLength(result, 4);
-  rootModulus := Power(AValue.Norm, 1/4);
-  theta       := Math.ArcTan2(AValue.fIm, AValue.fRe);
-
-  rootArgument := theta / 4;
-  result[0] := rootModulus * (Cos(rootArgument) + Sin(rootArgument) * i);
-
-  rootArgument := (theta + 2*Pi) / 4;
-  result[1] := rootModulus * (Cos(rootArgument) + Sin(rootArgument) * i);
-
-  rootArgument := (theta + 4*Pi) / 4;
-  result[2] := rootModulus * (Cos(rootArgument) + Sin(rootArgument) * i);
-
-  rootArgument := (theta + 6*Pi) / 4;
-  result[3] := rootModulus * (Cos(rootArgument) + Sin(rootArgument) * i);
+  result := KthRoots(AValue, 4);
 end;
 
 function SolveEquation(const a: TReal): TReal;
@@ -3112,12 +3169,97 @@ begin
   end;
 end;
 
+{ Newton iterations on one root, keeping only steps that lower the
+  residual. }
+procedure PolishRoot(const ACoefficients: TArrayOfComplex; var ARoot: TComplex);
+const
+  MaxSteps = 8;
+var
+  LValue, LDerivative, LCandidate, LNewValue, LNewDerivative: TComplex;
+  LStep: longint;
+begin
+  EvaluatePolynomial(ACoefficients, ARoot, LValue, LDerivative);
+  for LStep := 1 to MaxSteps do
+  begin
+    if (LValue.Norm = 0) or (LDerivative.Norm = 0) then Exit;
+    LCandidate := ARoot - LValue / LDerivative;
+    if LCandidate = ARoot then Exit;
+    EvaluatePolynomial(ACoefficients, LCandidate, LNewValue, LNewDerivative);
+    if LNewValue.Norm >= LValue.Norm then Exit;
+    ARoot := LCandidate;
+    LValue := LNewValue;
+    LDerivative := LNewDerivative;
+  end;
+end;
+
+{ Index of the element of largest modulus. }
+function LargestRoot(const ARoots: TArrayOfComplex): longint;
+var
+  LIndex: longint;
+begin
+  result := 0;
+  for LIndex := 1 to High(ARoots) do
+    if ARoots[LIndex].Norm > ARoots[result].Norm then result := LIndex;
+end;
+
+{ Roots of the scaled monic cubic y^3 + c[0]*y^2 + c[1]*y + c[2]. The
+  closed form only supplies the largest root, which it determines to full
+  relative accuracy after Newton polishing; that root is removed by
+  backward deflation, stable for the root of largest modulus
+  (G. Peters, J. H. Wilkinson, J. Inst. Maths Applics 8, 1971), and the
+  remaining quadratic is solved with the stable formula. }
+function ScaledCubicRoots(const AScaled: TArrayOfComplex): TArrayOfComplex;
+var
+  LShift, p, q, LRoot, LCube, LLargest, LBeta, LAlpha: TComplex;
+  LCubeRoots, LPair: TArrayOfComplex;
+  LIndex: longint;
+begin
+  result := nil;
+  SetLength(result, 3);
+  if (AScaled[2].fRe = 0) and (AScaled[2].fIm = 0) then
+  begin
+    { An exact zero root. }
+    LPair := SolveEquation(AScaled[0], AScaled[1]);
+    result[0] := LPair[0];
+    result[1] := LPair[1];
+    result[2] := 0;
+    Exit;
+  end;
+  { Depressed cubic t^3 + p*t + q = 0 with y = t - a/3. }
+  LShift := AScaled[0] / 3;
+  p := AScaled[1] - AScaled[0] * LShift;
+  q := (2 * LShift * LShift - AScaled[1]) * LShift + AScaled[2];
+  { Cardano: choose the sign that gives the larger u^3 to avoid
+    cancellation. u^3 = 0 only when p = q = 0. }
+  LRoot := SquareRoot(SquarePower(q / 2) + CubicPower(p / 3))[0];
+  if q.fRe * LRoot.fRe + q.fIm * LRoot.fIm >= 0 then
+    LCube := -(q / 2 + LRoot)
+  else
+    LCube := LRoot - q / 2;
+  if LCube.Norm = 0 then
+  begin
+    for LIndex := 0 to 2 do result[LIndex] := -LShift;
+    Exit;
+  end;
+  LCubeRoots := CubicRoot(LCube);
+  for LIndex := 0 to 2 do
+    result[LIndex] := LCubeRoots[LIndex] -
+      p / (3 * LCubeRoots[LIndex]) - LShift;
+  LLargest := result[LargestRoot(result)];
+  PolishRoot(AScaled, LLargest);
+  { y^3 + a*y^2 + b*y + c = (y - r)(y^2 + alpha*y + beta). }
+  LBeta := -AScaled[2] / LLargest;
+  LAlpha := (LBeta - AScaled[1]) / LLargest;
+  LPair := SolveEquation(LAlpha, LBeta);
+  result[0] := LLargest;
+  result[1] := LPair[0];
+  result[2] := LPair[1];
+end;
+
 function SolveEquation(const a, b, c: TComplex): TArrayOfComplex;
 var
   LScale: TReal;
   LScaled: TArrayOfComplex;
-  LShift, p, q, LRoot, LCube: TComplex;
-  LCubeRoots: TArrayOfComplex;
   LIndex: longint;
 begin
   result := nil;
@@ -3129,26 +3271,7 @@ begin
     Exit;
   end;
   ScalePolynomial([a, b, c], LScale, LScaled);
-  { Depressed cubic t^3 + p*t + q = 0 with y = t - a/3. }
-  LShift := LScaled[0] / 3;
-  p := LScaled[1] - LScaled[0] * LShift;
-  q := (2 * LShift * LShift - LScaled[1]) * LShift + LScaled[2];
-  { Cardano: choose the sign that gives the larger u^3 to avoid
-    cancellation. u^3 = 0 only when p = q = 0. }
-  LRoot := SquareRoot(SquarePower(q / 2) + CubicPower(p / 3))[0];
-  if q.fRe * LRoot.fRe + q.fIm * LRoot.fIm >= 0 then
-    LCube := -(q / 2 + LRoot)
-  else
-    LCube := LRoot - q / 2;
-  if LCube.Norm = 0 then
-    for LIndex := 0 to 2 do result[LIndex] := -LShift
-  else
-  begin
-    LCubeRoots := CubicRoot(LCube);
-    for LIndex := 0 to 2 do
-      result[LIndex] := LCubeRoots[LIndex] -
-        p / (3 * LCubeRoots[LIndex]) - LShift;
-  end;
+  result := ScaledCubicRoots(LScaled);
   PolishRoots(LScaled, result);
   for LIndex := 0 to 2 do result[LIndex] := LScale * result[LIndex];
 end;
@@ -3156,8 +3279,8 @@ end;
 function SolveEquation(const a, b, c, d: TComplex): TArrayOfComplex;
 var
   LScale, LBest: TReal;
-  LScaled, LResolvent, LPair: TArrayOfComplex;
-  LShift, p, q, r, m, s, LTerm: TComplex;
+  LScaled, LResolvent, LPair, LCubic, LApproximations: TArrayOfComplex;
+  LShift, p, q, r, m, s, LTerm, LLargest, LAlpha, LBeta, LGamma: TComplex;
   LIndex: longint;
 begin
   result := nil;
@@ -3169,44 +3292,65 @@ begin
     Exit;
   end;
   ScalePolynomial([a, b, c, d], LScale, LScaled);
-  { Depressed quartic z^4 + p*z^2 + q*z + r = 0 with y = z - a/4. }
-  LShift := LScaled[0] / 4;
-  p := LScaled[1] - 6 * LShift * LShift;
-  q := LScaled[2] - 2 * LScaled[1] * LShift + 8 * CubicPower(LShift);
-  r := LScaled[3] - LScaled[2] * LShift + LScaled[1] * LShift * LShift -
-    3 * QuarticPower(LShift);
-  { Ferrari: (z^2 + m)^2 = (2m - p)*(z - q/(2*(2m - p)))^2, where m solves
-    the resolvent cubic. The root with the largest |2m - p| is the best
-    conditioned choice for the division by s = sqrt(2m - p). }
-  LResolvent := SolveEquation(-p / 2, -r, p * r / 2 - q * q / 8);
-  m := LResolvent[0];
-  LBest := (2 * m - p).Norm;
-  for LIndex := 1 to 2 do
-    if (2 * LResolvent[LIndex] - p).Norm > LBest then
-    begin
-      m := LResolvent[LIndex];
-      LBest := (2 * m - p).Norm;
-    end;
-  if LBest <= 16 * Precision * Max(p.Norm, 2 * m.Norm) then
+  if (LScaled[3].fRe = 0) and (LScaled[3].fIm = 0) then
   begin
-    { Biquadratic: z^4 + p*z^2 + r = 0. }
-    LPair := SolveEquation(p, r);
-    result[0] := SquareRoot(LPair[0])[0];
-    result[1] := -result[0];
-    result[2] := SquareRoot(LPair[1])[0];
-    result[3] := -result[2];
+    { An exact zero root. }
+    LCubic := ScaledCubicRoots([LScaled[0], LScaled[1], LScaled[2]]);
+    for LIndex := 0 to 2 do result[LIndex] := LCubic[LIndex];
+    result[3] := 0;
   end else
   begin
-    s := SquareRoot(2 * m - p)[0];
-    LTerm := q / (2 * s);
-    LPair := SolveEquation(-s, m + LTerm);
-    result[0] := LPair[0];
-    result[1] := LPair[1];
-    LPair := SolveEquation(s, m - LTerm);
-    result[2] := LPair[0];
-    result[3] := LPair[1];
+    { Depressed quartic z^4 + p*z^2 + q*z + r = 0 with y = z - a/4. }
+    LShift := LScaled[0] / 4;
+    p := LScaled[1] - 6 * LShift * LShift;
+    q := LScaled[2] - 2 * LScaled[1] * LShift + 8 * CubicPower(LShift);
+    r := LScaled[3] - LScaled[2] * LShift + LScaled[1] * LShift * LShift -
+      3 * QuarticPower(LShift);
+    { Ferrari: (z^2 + m)^2 = (2m - p)*(z - q/(2*(2m - p)))^2, where m solves
+      the resolvent cubic. The root with the largest |2m - p| is the best
+      conditioned choice for the division by s = sqrt(2m - p). }
+    LResolvent := SolveEquation(-p / 2, -r, p * r / 2 - q * q / 8);
+    m := LResolvent[0];
+    LBest := (2 * m - p).Norm;
+    for LIndex := 1 to 2 do
+      if (2 * LResolvent[LIndex] - p).Norm > LBest then
+      begin
+        m := LResolvent[LIndex];
+        LBest := (2 * m - p).Norm;
+      end;
+    SetLength(LApproximations, 4);
+    if LBest <= 16 * Precision * Max(p.Norm, 2 * m.Norm) then
+    begin
+      { Biquadratic: z^4 + p*z^2 + r = 0. }
+      LPair := SolveEquation(p, r);
+      LApproximations[0] := SquareRoot(LPair[0])[0];
+      LApproximations[1] := -LApproximations[0];
+      LApproximations[2] := SquareRoot(LPair[1])[0];
+      LApproximations[3] := -LApproximations[2];
+    end else
+    begin
+      s := SquareRoot(2 * m - p)[0];
+      LTerm := q / (2 * s);
+      LPair := SolveEquation(-s, m + LTerm);
+      LApproximations[0] := LPair[0];
+      LApproximations[1] := LPair[1];
+      LPair := SolveEquation(s, m - LTerm);
+      LApproximations[2] := LPair[0];
+      LApproximations[3] := LPair[1];
+    end;
+    for LIndex := 0 to 3 do
+      LApproximations[LIndex] := LApproximations[LIndex] - LShift;
+    { As for the cubic, keep the largest root and deflate:
+      y^4 + a*y^3 + b*y^2 + c*y + d = (y - r)(y^3 + alpha*y^2 + beta*y + gamma). }
+    LLargest := LApproximations[LargestRoot(LApproximations)];
+    PolishRoot(LScaled, LLargest);
+    LGamma := -LScaled[3] / LLargest;
+    LBeta := (LGamma - LScaled[2]) / LLargest;
+    LAlpha := (LBeta - LScaled[1]) / LLargest;
+    LCubic := SolveEquation(LAlpha, LBeta, LGamma);
+    result[0] := LLargest;
+    for LIndex := 0 to 2 do result[LIndex + 1] := LCubic[LIndex];
   end;
-  for LIndex := 0 to 3 do result[LIndex] := result[LIndex] - LShift;
   PolishRoots(LScaled, result);
   for LIndex := 0 to 3 do result[LIndex] := LScale * result[LIndex];
 end;
