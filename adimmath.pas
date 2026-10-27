@@ -71,12 +71,13 @@ type
     }
     function Conjugate: TComplex;
 
-    { Returns @true if the complex number is zero, i.e. both @code(Re = 0) and @code(Im = 0). }
+    { Returns @true if both @code(|Re|) and @code(|Im|) are at most
+      @link(DefaultEpsilon). The tolerance is absolute: it does not scale
+      with the magnitude of the operands, so it is meant for values of order
+      one and not as a numerical zero test. }
     function IsNull: boolean;
 
-    { Returns @true if the complex number is not zero,
-      i.e. at least one of @code(Re) or @code(Im) is non-zero.
-    }
+    { Returns @code(not IsNull). }
     function IsNotNull: boolean;
 
     { Returns the modulus (magnitude) of the complex number:
@@ -91,7 +92,7 @@ type
     function SquaredNorm: TReal;
 
     { Returns @true if this value and AValue differ by no more than
-      @link(DefaultEpsilon) in both components. }
+      @link(DefaultEpsilon) in both components (absolute tolerance). }
     function SameValue(const AValue: TComplex): boolean;
 
     { Returns the reciprocal of the complex number: @code(1 / z). }
@@ -246,6 +247,15 @@ type
 
 function Abs(const AValue: TComplex): TReal; overload;
 
+{ @exclude Neumaier compensated summation step used by the generic
+  containers; the complex overload compensates each component. }
+procedure CompensatedAdd(var ASum, ACompensation: TReal;
+  const AValue: TReal); overload; inline;
+
+{ @exclude }
+procedure CompensatedAdd(var ASum, ACompensation: TComplex;
+  const AValue: TComplex); overload; inline;
+
 type
   TRealHelper = type helper for TReal
     function SameValue(const AValue: TReal): boolean; inline;
@@ -370,10 +380,6 @@ type
   end;
 
   TComplexMatrixHelper = type helper for TComplexMatrix
-  private
-    function HessenbergReduction: TComplexMatrix;
-    function HouseholderVector(AColumn: longint): TComplexVector;
-  public
     function Conjugate: TComplexMatrix;
     procedure Eigenpairs(out AValues: TComplexVector;
       out AVectors: TComplexMatrix);
@@ -585,52 +591,57 @@ begin
   end;
 end;
 
-function TComplex.ToString: string;
+{ A component is printed when it is not negligible relative to the larger
+  one, so the output does not depend on the absolute scale of the number. }
+function FormatComplex(const AValue: TComplex; AFormat: boolean;
+  APrecision, ADigits: integer): string;
+const
+  Sign: array[boolean] of string = ('+', '-');
 var
-  sign: array[boolean] of string = ('+', '-');
-begin
-  if (not SameValueEx(fRe, 0)) and (not SameValueEx(fIm, 0)) then
+  LTiny: TReal;
+  LShowRe, LShowIm: boolean;
+
+  function Text(const AReal: TReal): string;
   begin
-    if SameValueEx(System.Abs(fIm), 1) then
-      result := Format('%s %si', [FloatToStr(fRe), sign[fIm < 0]])
+    if AFormat then
+      result := SysUtils.FloatToStrF(AReal, ffGeneral, APrecision, ADigits)
     else
-      result := Format('%s %s%s∙i', [FloatToStr(fRe), sign[fIm < 0], FloatToStr(System.Abs(fIm))]);
+      result := FloatToStr(AReal);
+  end;
+
+begin
+  LTiny := DefaultEpsilon *
+    Max(System.Abs(AValue.fRe), System.Abs(AValue.fIm));
+  LShowRe := System.Abs(AValue.fRe) > LTiny;
+  LShowIm := System.Abs(AValue.fIm) > LTiny;
+  if LShowRe and LShowIm then
+  begin
+    if SameValueEx(System.Abs(AValue.fIm), 1) then
+      result := Format('%s %si', [Text(AValue.fRe), Sign[AValue.fIm < 0]])
+    else
+      result := Format('%s %s%s∙i', [Text(AValue.fRe), Sign[AValue.fIm < 0],
+        Text(System.Abs(AValue.fIm))]);
   end else
-    if not SameValueEx(fRe, 0) then
-      result := FloatToStr(fRe)
+    if LShowRe then
+      result := Text(AValue.fRe)
     else
-      if not SameValueEx(fIm, 0) then
+      if LShowIm then
       begin
-        if SameValueEx(fIm, 1) then result := 'i'
-        else if SameValueEx(fIm, -1) then result := '-i'
-        else result := Format('%s∙i', [FloatToStr(fIm)])
+        if SameValueEx(AValue.fIm, 1) then result := 'i'
+        else if SameValueEx(AValue.fIm, -1) then result := '-i'
+        else result := Format('%s∙i', [Text(AValue.fIm)])
       end else
         result := '0';
 end;
 
-function TComplex.ToString(APrecision, ADigits: integer): string;
-var
-  sign: array[boolean] of string = ('+', '-');
+function TComplex.ToString: string;
 begin
-  if (not SameValueEx(fRe, 0)) and (not SameValueEx(fIm, 0)) then
-  begin
-    if SameValueEx(System.Abs(fIm), 1) then
-      result := Format('%s %si', [SysUtils.FloatToStrF(fRe, ffGeneral, APrecision, ADigits), sign[fIm < 0]])
-    else
-      result := Format('%s %s%s∙i', [
-        SysUtils.FloatToStrF(fRe,             ffGeneral, APrecision, ADigits), sign[fIm < 0],
-        SysUtils.FloatToStrF(System.Abs(fIm), ffGeneral, APrecision, ADigits)]);
-  end else
-    if not SameValueEx(fRe, 0) then
-      result := SysUtils.FloatToStrF(fRe, ffGeneral, APrecision, ADigits)
-    else
-      if not SameValueEx(fIm, 0) then
-      begin
-        if SameValueEx(fIm, 1) then result := 'i'
-        else if SameValueEx(fIm, -1) then result := '-i'
-        else result := Format('%s∙i', [SysUtils.FloatToStrF(fIm, ffGeneral, APrecision, ADigits)])
-      end else
-        result := '0';
+  result := FormatComplex(Self, False, 0, 0);
+end;
+
+function TComplex.ToString(APrecision, ADigits: integer): string;
+begin
+  result := FormatComplex(Self, True, APrecision, ADigits);
 end;
 
 procedure TComplex.Zero;
@@ -886,6 +897,29 @@ begin
   result := SysUtils.FloatToStrF(Self, ffGeneral, APrecision, ADigits);
 end;
 
+{ Neumaier compensated summation step. The complex overload compensates
+  the real and imaginary parts independently: a branch chosen from the
+  complex modulus is wrong when the parts have different magnitudes. }
+procedure CompensatedAdd(var ASum, ACompensation: TReal;
+  const AValue: TReal);
+var
+  LUpdated: TReal;
+begin
+  LUpdated := ASum + AValue;
+  if System.Abs(ASum) >= System.Abs(AValue) then
+    ACompensation := ACompensation + ((ASum - LUpdated) + AValue)
+  else
+    ACompensation := ACompensation + ((AValue - LUpdated) + ASum);
+  ASum := LUpdated;
+end;
+
+procedure CompensatedAdd(var ASum, ACompensation: TComplex;
+  const AValue: TComplex);
+begin
+  CompensatedAdd(ASum.fRe, ACompensation.fRe, AValue.fRe);
+  CompensatedAdd(ASum.fIm, ACompensation.fIm, AValue.fIm);
+end;
+
 // TVector<T>
 
 function TVector.Get(AIndex: longint): T;
@@ -946,7 +980,7 @@ end;
 function TVector.Dot(const AVector: TVector): T;
 var
   LIndex: longint;
-  LValue, LUpdated, LCompensation: T;
+  LCompensation: T;
 begin
   RequireSameSize(AVector);
   if Size = 0 then
@@ -954,17 +988,8 @@ begin
   result := FData[0] * AVector.FData[0];
   LCompensation := result - result;
   for LIndex := 1 to Size - 1 do
-  begin
-    LValue := FData[LIndex] * AVector.FData[LIndex];
-    LUpdated := result + LValue;
-    { Neumaier compensated summation. Abs works for both supported scalar
-      types, while the correction retains the real or complex type. }
-    if Abs(result) >= Abs(LValue) then
-      LCompensation := LCompensation + ((result - LUpdated) + LValue)
-    else
-      LCompensation := LCompensation + ((LValue - LUpdated) + result);
-    result := LUpdated;
-  end;
+    CompensatedAdd(result, LCompensation,
+      FData[LIndex] * AVector.FData[LIndex]);
   result := result + LCompensation;
 end;
 
@@ -1262,72 +1287,6 @@ begin
         result[LRow, LIndex] := result[LRow, LIndex] -
           LRatio * result[LCol, LIndex];
     end;
-  end;
-end;
-
-function TComplexMatrixHelper.HouseholderVector(
-  AColumn: longint): TComplexVector;
-var
-  LIndex: longint;
-  LNorm, LVectorNorm, LFirstNorm: TReal;
-  LPhase, LAlpha: TComplex;
-begin
-  result.SetSize(Self.FOrder);
-  LNorm := 0;
-  for LIndex := AColumn + 1 to Self.FOrder - 1 do
-  begin
-    result[LIndex] := Self[LIndex, AColumn];
-    LNorm := Math.Hypot(LNorm, Abs(result[LIndex]));
-  end;
-  if LNorm = 0 then Exit;
-  LFirstNorm := Abs(result[AColumn + 1]);
-  if LFirstNorm = 0 then
-    LPhase := 1
-  else
-    LPhase := result[AColumn + 1] / LFirstNorm;
-  LAlpha := -LPhase * LNorm;
-  result[AColumn + 1] := result[AColumn + 1] - LAlpha;
-  LVectorNorm := 0;
-  for LIndex := AColumn + 1 to Self.FOrder - 1 do
-    LVectorNorm := Math.Hypot(LVectorNorm, Abs(result[LIndex]));
-  if LVectorNorm = 0 then Exit;
-  for LIndex := AColumn + 1 to Self.FOrder - 1 do
-    result[LIndex] := result[LIndex] / LVectorNorm;
-end;
-
-function TComplexMatrixHelper.HessenbergReduction: TComplexMatrix;
-var
-  LVector: TComplexVector;
-  LColumn, LRow, LIndex: longint;
-  LDot: TComplex;
-begin
-  result := Self.Clone;
-  for LColumn := 0 to Self.FOrder - 3 do
-  begin
-    LVector := result.HouseholderVector(LColumn);
-    if LVector.IsNull then Continue;
-    for LIndex := 0 to Self.FOrder - 1 do
-    begin
-      LDot := LVector[LColumn + 1].Conjugate *
-        result[LColumn + 1, LIndex];
-      for LRow := LColumn + 2 to Self.FOrder - 1 do
-        LDot := LDot + LVector[LRow].Conjugate *
-          result[LRow, LIndex];
-      for LRow := LColumn + 1 to Self.FOrder - 1 do
-        result[LRow, LIndex] := result[LRow, LIndex] -
-          2 * LVector[LRow] * LDot;
-    end;
-    for LRow := 0 to Self.FOrder - 1 do
-    begin
-      LDot := result[LRow, LColumn + 1] * LVector[LColumn + 1];
-      for LIndex := LColumn + 2 to Self.FOrder - 1 do
-        LDot := LDot + result[LRow, LIndex] * LVector[LIndex];
-      for LIndex := LColumn + 1 to Self.FOrder - 1 do
-        result[LRow, LIndex] := result[LRow, LIndex] -
-          2 * LDot * LVector[LIndex].Conjugate;
-    end;
-    for LRow := LColumn + 2 to Self.FOrder - 1 do
-      result[LRow, LColumn] := 0;
   end;
 end;
 
@@ -1767,7 +1726,7 @@ end;
 function TMatrix.Multiply(const AMatrix: TMatrix): TMatrix;
 var
   LRow, LCol, LIndex, LLeftOffset: longint;
-  LValue, LProduct, LUpdated, LCompensation: T;
+  LValue, LProduct, LCompensation: T;
 begin
   RequireSameOrder(AMatrix);
   result.SetOrder(FOrder);
@@ -1783,14 +1742,7 @@ begin
       begin
         LProduct := FData[LLeftOffset + LIndex] *
           AMatrix.FData[LIndex * FOrder + LCol];
-        LUpdated := LValue + LProduct;
-        if Abs(LValue) >= Abs(LProduct) then
-          LCompensation := LCompensation +
-            ((LValue - LUpdated) + LProduct)
-        else
-          LCompensation := LCompensation +
-            ((LProduct - LUpdated) + LValue);
-        LValue := LUpdated;
+        CompensatedAdd(LValue, LCompensation, LProduct);
       end;
       result.FData[LLeftOffset + LCol] := LValue + LCompensation;
     end;
@@ -1820,7 +1772,7 @@ class operator TMatrix.*(const ALeft: TVectorType;
   const ARight: TMatrix): TVectorType;
 var
   LRow, LCol: longint;
-  LValue, LProduct, LUpdated, LCompensation: T;
+  LValue, LProduct, LCompensation: T;
 begin
   if ALeft.Size <> ARight.FOrder then
     raise EDimensionError.CreateFmt(
@@ -1835,14 +1787,7 @@ begin
     for LRow := 1 to ARight.FOrder - 1 do
     begin
       LProduct := ALeft[LRow] * ARight[LRow, LCol];
-      LUpdated := LValue + LProduct;
-      if Abs(LValue) >= Abs(LProduct) then
-        LCompensation := LCompensation +
-          ((LValue - LUpdated) + LProduct)
-      else
-        LCompensation := LCompensation +
-          ((LProduct - LUpdated) + LValue);
-      LValue := LUpdated;
+      CompensatedAdd(LValue, LCompensation, LProduct);
     end;
     result[LCol] := LValue + LCompensation;
   end;
@@ -1852,7 +1797,7 @@ class operator TMatrix.*(const ALeft: TMatrix;
   const ARight: TVectorType): TVectorType;
 var
   LRow, LCol, LOffset: longint;
-  LValue, LProduct, LUpdated, LCompensation: T;
+  LValue, LProduct, LCompensation: T;
 begin
   if ALeft.FOrder <> ARight.Size then
     raise EDimensionError.CreateFmt(
@@ -1868,14 +1813,7 @@ begin
     for LCol := 1 to ALeft.FOrder - 1 do
     begin
       LProduct := ALeft.FData[LOffset + LCol] * ARight[LCol];
-      LUpdated := LValue + LProduct;
-      if Abs(LValue) >= Abs(LProduct) then
-        LCompensation := LCompensation +
-          ((LValue - LUpdated) + LProduct)
-      else
-        LCompensation := LCompensation +
-          ((LProduct - LUpdated) + LValue);
-      LValue := LUpdated;
+      CompensatedAdd(LValue, LCompensation, LProduct);
     end;
     result[LRow] := LValue + LCompensation;
   end;
@@ -1890,20 +1828,22 @@ begin
     result.FData[LIndex] := ALeft.FData[LIndex] / ARight;
 end;
 
-{ Implicit-shift QL iteration on a real symmetric tridiagonal matrix. }
+{ Implicit-shift QL iteration on a real symmetric tridiagonal matrix.
+  ARows holds N contiguous rows of ARowLength reals: row i is the i-th
+  column of the transformation that reduced the original matrix to
+  tridiagonal form (the identity when there was none), possibly stored as
+  interleaved real/imaginary parts. Each rotation updates two contiguous
+  rows, so on exit row i is the eigenvector of ADiagonal[i]. Eigenvalues
+  are sorted in ascending order together with their rows. }
 procedure TridiagonalQL(var ADiagonal, AOffDiagonal: TArrayOfReal;
-  out AEigenvectors: TRealMatrix);
+  var ARows: TArrayOfReal; ARowLength: longint);
 const
   MaxIterations = 100;
 var
-  Initial: TArrayOfReal;
-  N, L, M, I, J, K, Iteration: longint;
+  N, L, M, I, J, K, Iteration, Row0, Row1: longint;
   B, C, F, G, P, R, S, Temporary: TReal;
 begin
   N := Length(ADiagonal);
-  SetLength(Initial, N * N);
-  AEigenvectors.Init(Initial);
-  for I := 0 to N - 1 do AEigenvectors[I, I] := 1;
 
   for L := 0 to N - 1 do
   begin
@@ -1959,13 +1899,13 @@ begin
         P := S * R;
         ADiagonal[I + 1] := G + P;
         G := C * R - B;
-        for K := 0 to N - 1 do
+        Row0 := I * ARowLength;
+        Row1 := Row0 + ARowLength;
+        for K := 0 to ARowLength - 1 do
         begin
-          F := AEigenvectors[K, I + 1];
-          AEigenvectors[K, I + 1] :=
-            S * AEigenvectors[K, I] + C * F;
-          AEigenvectors[K, I] :=
-            C * AEigenvectors[K, I] - S * F;
+          F := ARows[Row1 + K];
+          ARows[Row1 + K] := S * ARows[Row0 + K] + C * F;
+          ARows[Row0 + K] := C * ARows[Row0 + K] - S * F;
         end;
       end;
       ADiagonal[L] := ADiagonal[L] - P;
@@ -1984,33 +1924,35 @@ begin
       Temporary := ADiagonal[I];
       ADiagonal[I] := ADiagonal[K];
       ADiagonal[K] := Temporary;
-      for J := 0 to N - 1 do
+      for J := 0 to ARowLength - 1 do
       begin
-        Temporary := AEigenvectors[J, I];
-        AEigenvectors[J, I] := AEigenvectors[J, K];
-        AEigenvectors[J, K] := Temporary;
+        Temporary := ARows[I * ARowLength + J];
+        ARows[I * ARowLength + J] := ARows[K * ARowLength + J];
+        ARows[K * ARowLength + J] := Temporary;
       end;
     end;
   end;
 end;
 
-{ Sturm bisection followed by fixed-shift inverse iteration and
-  orthogonal deflation; clustered or unconverged cases use the full solver. }
+{ Sturm bisection for the eigenvalues, then inverse iteration with each
+  eigenvalue as its own shift (as in LAPACK DSTEIN). Each shifted matrix is
+  factored once by tridiagonal LU with partial pivoting. Clustered or
+  unconverged cases use the full QL solver. }
 procedure TridiagonalLowestEigenpairs(
   const ADiagonal, AOffDiagonal: TRealVector; ACount: longint;
   out AValues: TRealVector; out AVectors: TArrayOfRealVector);
 const
   PivotFloor: TReal = 1E-300;
   MaxBisectionSteps = 120;
-  MaxInverseSteps = 2000;
+  MaxInverseSteps = 8;
 var
-  D, E, Eigenvalues, LFactors, Pivots, Raw: TArrayOfReal;
-  FullD, FullE: TArrayOfReal;
-  FullVectors: TRealMatrix;
+  D, E, Eigenvalues, Raw, Multipliers, U0, U1, U2: TArrayOfReal;
+  Swapped: array of boolean;
   X, Y, ProductVector, ResidualVector: TRealVector;
   Scale, LowerBound, UpperBound, Radius, Low, High, Mid,
-    Shift, Projection, VectorNorm, Rayleigh, ResidualNorm, Tolerance: TReal;
-  N, I, J, K, Pass, Iteration, SeedIndex: longint;
+    Projection, VectorNorm, Rayleigh, ResidualNorm, Tolerance,
+    PivotTolerance: TReal;
+  N, I, J, K, Pass, Iteration: longint;
   Seed: longword;
   Converged: boolean;
 
@@ -2024,7 +1966,7 @@ var
     if Quotient <= 0 then Inc(result);
     for Index := 1 to N - 1 do
     begin
-      if Abs(Quotient) < PivotFloor then Quotient := -PivotFloor;
+      if System.Abs(Quotient) < PivotFloor then Quotient := -PivotFloor;
       Quotient := D[Index] - AX - Sqr(E[Index - 1]) / Quotient;
       if Quotient <= 0 then Inc(result);
     end;
@@ -2033,11 +1975,13 @@ var
   procedure UseFullSolver;
   var
     State, Row: longint;
-    VectorData, ValueData: TArrayOfReal;
+    FullD, FullE, Rows, VectorData, ValueData: TArrayOfReal;
   begin
     FullD := System.Copy(D);
     FullE := System.Copy(E);
-    TridiagonalQL(FullD, FullE, FullVectors);
+    SetLength(Rows, N * N);
+    for Row := 0 to N - 1 do Rows[Row * N + Row] := 1;
+    TridiagonalQL(FullD, FullE, Rows, N);
     SetLength(ValueData, ACount);
     SetLength(VectorData, N);
     SetLength(AVectors, ACount);
@@ -2045,10 +1989,73 @@ var
     begin
       ValueData[State] := FullD[State] * Scale;
       for Row := 0 to N - 1 do
-        VectorData[Row] := FullVectors[Row, State];
+        VectorData[Row] := Rows[State * N + Row];
       AVectors[State].Init(VectorData);
     end;
     AValues.Init(ValueData);
+  end;
+
+  { LU factorization with partial pivoting of T - AShift*I. U has the main
+    diagonal U0 and two superdiagonals U1, U2. }
+  procedure FactorShifted(const AShift: TReal);
+  var
+    Index: longint;
+    Next0, Next1: TReal;
+  begin
+    for Index := 0 to N - 1 do
+    begin
+      U0[Index] := D[Index] - AShift;
+      if Index < N - 1 then U1[Index] := E[Index] else U1[Index] := 0;
+      U2[Index] := 0;
+    end;
+    for Index := 0 to N - 2 do
+    begin
+      if System.Abs(E[Index]) <= System.Abs(U0[Index]) then
+      begin
+        Swapped[Index] := False;
+        if U0[Index] = 0 then U0[Index] := PivotTolerance;
+        Multipliers[Index] := E[Index] / U0[Index];
+        U0[Index + 1] := U0[Index + 1] - Multipliers[Index] * U1[Index];
+      end else
+      begin
+        Swapped[Index] := True;
+        Multipliers[Index] := U0[Index] / E[Index];
+        Next0 := U0[Index + 1];
+        Next1 := U1[Index + 1];
+        U0[Index] := E[Index];
+        U0[Index + 1] := U1[Index] - Multipliers[Index] * Next0;
+        U1[Index + 1] := -Multipliers[Index] * Next1;
+        U1[Index] := Next0;
+        U2[Index] := Next1;
+      end;
+    end;
+    for Index := 0 to N - 1 do
+      if System.Abs(U0[Index]) < PivotTolerance then
+        if U0[Index] < 0 then U0[Index] := -PivotTolerance
+        else U0[Index] := PivotTolerance;
+  end;
+
+  procedure SolveShifted(var AData: TArrayOfReal);
+  var
+    Index: longint;
+    Temporary: TReal;
+  begin
+    for Index := 0 to N - 2 do
+    begin
+      if Swapped[Index] then
+      begin
+        Temporary := AData[Index];
+        AData[Index] := AData[Index + 1];
+        AData[Index + 1] := Temporary;
+      end;
+      AData[Index + 1] := AData[Index + 1] - Multipliers[Index] * AData[Index];
+    end;
+    AData[N - 1] := AData[N - 1] / U0[N - 1];
+    if N > 1 then
+      AData[N - 2] := (AData[N - 2] - U1[N - 2] * AData[N - 1]) / U0[N - 2];
+    for Index := N - 3 downto 0 do
+      AData[Index] := (AData[Index] - U1[Index] * AData[Index + 1] -
+        U2[Index] * AData[Index + 2]) / U0[Index];
   end;
 
 begin
@@ -2063,12 +2070,12 @@ begin
   begin
     if IsNan(ADiagonal[I]) or IsInfinite(ADiagonal[I]) then
       raise EInvalidOp.Create('Tridiagonal entries must be finite.');
-    Scale := Max(Scale, Abs(ADiagonal[I]));
+    Scale := Max(Scale, System.Abs(ADiagonal[I]));
     if I < N - 1 then
     begin
       if IsNan(AOffDiagonal[I]) or IsInfinite(AOffDiagonal[I]) then
         raise EInvalidOp.Create('Tridiagonal entries must be finite.');
-      Scale := Max(Scale, Abs(AOffDiagonal[I]));
+      Scale := Max(Scale, System.Abs(AOffDiagonal[I]));
     end;
   end;
   if Scale = 0 then Scale := 1;
@@ -2090,15 +2097,15 @@ begin
   for I := 0 to N - 1 do
   begin
     Radius := 0;
-    if I > 0 then Radius := Radius + Abs(E[I - 1]);
-    if I < N - 1 then Radius := Radius + Abs(E[I]);
+    if I > 0 then Radius := Radius + System.Abs(E[I - 1]);
+    if I < N - 1 then Radius := Radius + System.Abs(E[I]);
     LowerBound := Min(LowerBound, D[I] - Radius);
     UpperBound := Max(UpperBound, D[I] + Radius);
   end;
   LowerBound := LowerBound - 32 * Precision *
-    Max(1.0, Abs(LowerBound));
+    Max(1.0, System.Abs(LowerBound));
   UpperBound := UpperBound + 32 * Precision *
-    Max(1.0, Abs(UpperBound));
+    Max(1.0, System.Abs(UpperBound));
 
   SetLength(Eigenvalues, ACount);
   for J := 0 to ACount - 1 do
@@ -2111,7 +2118,7 @@ begin
       if (Mid = Low) or (Mid = High) then Break;
       if SturmCount(Mid) <= J then Low := Mid else High := Mid;
       if High - Low <= Precision *
-        Max(1.0, Max(Abs(Low), Abs(High))) then Break;
+        Max(1.0, Max(System.Abs(Low), System.Abs(High))) then Break;
     end;
     Eigenvalues[J] := Low + (High - Low) / 2;
     if (J > 0) and
@@ -2122,31 +2129,19 @@ begin
     end;
   end;
 
-  Shift := LowerBound - 64 * Precision;
-  SetLength(LFactors, N - 1);
-  SetLength(Pivots, N);
-  Pivots[0] := D[0] - Shift;
-  for I := 0 to N - 2 do
-  begin
-    if Pivots[I] <= 0 then
-    begin
-      UseFullSolver;
-      Exit;
-    end;
-    LFactors[I] := E[I] / Pivots[I];
-    Pivots[I + 1] := D[I + 1] - Shift - LFactors[I] * E[I];
-  end;
-  if Pivots[N - 1] <= 0 then
-  begin
-    UseFullSolver;
-    Exit;
-  end;
-
+  { The matrix is scaled to unit max-norm, so this is a relative floor. }
+  PivotTolerance := Precision;
+  SetLength(Multipliers, N);
+  SetLength(Swapped, N);
+  SetLength(U0, N);
+  SetLength(U1, N);
+  SetLength(U2, N);
   SetLength(AVectors, ACount);
   SetLength(Raw, N);
   Seed := 123456789;
   for J := 0 to ACount - 1 do
   begin
+    FactorShifted(Eigenvalues[J]);
     for I := 0 to N - 1 do
     begin
       {$push}{$Q-}{$R-}
@@ -2158,13 +2153,13 @@ begin
     Converged := False;
     for Iteration := 1 to MaxInverseSteps do
     begin
-      Raw[0] := X[0];
-      for I := 1 to N - 1 do
-        Raw[I] := X[I] - LFactors[I - 1] * Raw[I - 1];
-      for I := 0 to N - 1 do Raw[I] := Raw[I] / Pivots[I];
-      for I := N - 2 downto 0 do
-        Raw[I] := Raw[I] - LFactors[I] * Raw[I + 1];
+      for I := 0 to N - 1 do Raw[I] := X[I];
+      SolveShifted(Raw);
       Y.Init(Raw);
+      VectorNorm := Y.Norm;
+      if (VectorNorm = 0) or IsNan(VectorNorm) or
+         IsInfinite(VectorNorm) then Break;
+      Y := Y / VectorNorm;
 
       for Pass := 1 to 2 do
         for K := 0 to J - 1 do
@@ -2174,8 +2169,7 @@ begin
             Y[I] := Y[I] - Projection * AVectors[K][I];
         end;
       VectorNorm := Y.Norm;
-      if (VectorNorm = 0) or IsNan(VectorNorm) or
-         IsInfinite(VectorNorm) then Break;
+      if (VectorNorm = 0) or IsNan(VectorNorm) then Break;
       Y := Y / VectorNorm;
 
       for I := 0 to N - 1 do
@@ -2190,7 +2184,7 @@ begin
         Raw[I] := Raw[I] - Rayleigh * Y[I];
       ResidualVector.Init(Raw);
       ResidualNorm := ResidualVector.Norm;
-      Tolerance := 32 * Precision * Max(1.0, Abs(Rayleigh));
+      Tolerance := 32 * Precision * Max(1.0, System.Abs(Rayleigh));
       if ResidualNorm <= Tolerance then
       begin
         AVectors[J] := Y;
@@ -2212,8 +2206,8 @@ begin
       UseFullSolver;
       Exit;
     end;
-  for SeedIndex := 0 to ACount - 1 do
-    Eigenvalues[SeedIndex] := Eigenvalues[SeedIndex] * Scale;
+  for J := 0 to ACount - 1 do
+    Eigenvalues[J] := Eigenvalues[J] * Scale;
   AValues.Init(Eigenvalues);
 end;
 
@@ -2289,8 +2283,8 @@ end;
 procedure TRealMatrixHelper.SymmetricEigenpairs(out AValues: TRealVector;
   out AVectors: TRealMatrix);
 var
-  Work, Q, TridiagonalVectors: TRealMatrix;
-  D, E, U, W: TArrayOfReal;
+  Work, Q: TRealMatrix;
+  D, E, U, W, Rows: TArrayOfReal;
   Scale, Tolerance, VectorNorm, Alpha, Beta, Value, Projection: TReal;
   N, I, J, K: longint;
   IsTridiagonal: boolean;
@@ -2386,362 +2380,338 @@ begin
     D[I] := Work[I, I];
     if I < N - 1 then E[I] := Work[I + 1, I];
   end;
-  TridiagonalQL(D, E, TridiagonalVectors);
-  AValues.Init(D);
+  { The QL rotations are accumulated directly into Q, stored by columns. }
+  SetLength(Rows, N * N);
   if IsTridiagonal then
-    AVectors := TridiagonalVectors
+    for I := 0 to N - 1 do Rows[I * N + I] := 1
   else
-    AVectors := Q * TridiagonalVectors;
+    for I := 0 to N - 1 do
+      for J := 0 to N - 1 do
+        Rows[J * N + I] := Q[I, J];
+  TridiagonalQL(D, E, Rows, N);
+  AValues.Init(D);
+  AVectors.SetOrder(N);
+  for I := 0 to N - 1 do
+    for J := 0 to N - 1 do
+      AVectors[I, J] := Rows[J * N + I];
 end;
 
+{ Complex Schur decomposition A = Z*T*Z^H followed by eigenvectors of the
+  triangular factor, as in LAPACK ZGEEV: Householder reduction to upper
+  Hessenberg form, single-shift QR iteration with Wilkinson and exceptional
+  shifts and the Ahues-Tisseur deflation test (ZLAHQR), then triangular
+  back substitution (ZTREVC). The cost is O(N^3). Hermitian input uses
+  HermitianEigenpairs, which returns orthonormal eigenvectors. }
 procedure TComplexMatrixHelper.Eigenpairs(out AValues: TComplexVector;
   out AVectors: TComplexMatrix);
 const
-  MaxIter = 2000;
+  SafeMinimum = 2.2250738585072014E-308;
+  BigValue = 1E100;
+  ExceptionalFactor = 0.75;
 var
-  LHessenberg, LShifted, LQ, LR, LMatrix: TComplexMatrix;
-  LPair: TArrayOfComplex;
-  LVector, LWork: TComplexVector;
-  LShift, LEigenvalue, LProjection, LPhase: TComplex;
-  LTolerance, LRadius, LDelta, LScale, LClusterTolerance,
-    LPhaseNorm, LMaxNorm: TReal;
-  LIndex, LLow, LRow, LCol, LIteration, LColumn, LPrevious,
-    LAttempt, LPass, LPhaseIndex: longint;
-  LSeed: longword;
-  LConverged, LSolved, LIsHermitian, LIsDiagonal: boolean;
-  LPivots: array of longint;
-  LZeroData: TArrayOfComplex;
+  N, I, J, K, L, Row, Iteration, MaxIterations, Last: longint;
+  H, Z, V, X: TArrayOfComplex;
+  W: TArrayOfComplex;
+  HermitianValues: TRealVector;
+  Alpha, Sum, Shift, U, XShift, Y, C2, S, R, Temporary, Diagonal: TComplex;
+  Scale, Tolerance, VectorNorm, FirstNorm, SmallNumber, Test, AB, BA, AA,
+    BB, Total, C, Largest, MinPivot: TReal;
+  IsHermitian, IsDiagonal: boolean;
 
-  function Eigenvalues2x2(const A00, A01, A10, A11: TComplex):
-    TArrayOfComplex;
-  var
-    LCenter: TComplex;
-    LRoot: TArrayOfComplex;
+  function Abs1(const AValue: TComplex): TReal; inline;
   begin
-    result := nil;
-    SetLength(result, 2);
-    LCenter := (A00 + A11) / 2;
-    LRoot := SquareRoot(SquarePower((A00 - A11) / 2) + A01 * A10);
-    result[0] := LCenter + LRoot[0];
-    result[1] := LCenter - LRoot[0];
+    result := System.Abs(AValue.fRe) + System.Abs(AValue.fIm);
   end;
 
-  procedure QRDecompose(const AMatrix: TComplexMatrix;
-    ALow, AHigh: longint; out AQ, AR: TComplexMatrix);
+  { Rotation [c s; -conj(s) c], c real, mapping (AX, AY) to (ARadius, 0). }
+  procedure Rotation(const AX, AY: TComplex; out ACos: TReal;
+    out ASin, ARadius: TComplex);
   var
-    LRowIndex, LColIndex, LK: longint;
-    LCosine, LSine, LDiagonal, LSubDiagonal, LValue0, LValue1: TComplex;
+    LNormX, LNorm: TReal;
+    LPhase: TComplex;
   begin
-    AQ := AMatrix.Identity;
-    AR := AMatrix.Clone;
-    for LColIndex := ALow to AHigh - 1 do
+    LNormX := AX.Norm;
+    LNorm := Hypot(LNormX, AY.Norm);
+    if LNorm = 0 then
     begin
-      LDiagonal := AR[LColIndex, LColIndex];
-      LSubDiagonal := AR[LColIndex + 1, LColIndex];
-      LRadius := Hypot(LDiagonal.Norm, LSubDiagonal.Norm);
-      if LRadius = 0 then
-      begin
-        LCosine := 1;
-        LSine := 0;
-      end else
-      begin
-        LCosine := LDiagonal.Conjugate / LRadius;
-        LSine := LSubDiagonal.Conjugate / LRadius;
-      end;
-      for LK := LColIndex to AHigh do
-      begin
-        LValue0 := LCosine * AR[LColIndex, LK] +
-          LSine * AR[LColIndex + 1, LK];
-        LValue1 := -LSine.Conjugate * AR[LColIndex, LK] +
-          LCosine.Conjugate * AR[LColIndex + 1, LK];
-        AR[LColIndex, LK] := LValue0;
-        AR[LColIndex + 1, LK] := LValue1;
-      end;
-      for LRowIndex := ALow to AHigh do
-      begin
-        LValue0 := AQ[LRowIndex, LColIndex];
-        LValue1 := AQ[LRowIndex, LColIndex + 1];
-        AQ[LRowIndex, LColIndex] :=
-          LCosine.Conjugate * LValue0 + LSine.Conjugate * LValue1;
-        AQ[LRowIndex, LColIndex + 1] :=
-          -LSine * LValue0 + LCosine * LValue1;
-      end;
-    end;
-  end;
-
-  function NextRandom: TReal;
-  begin
-    {$push}{$R-}{$Q-}
-    LSeed := LSeed * 1664525 + 1013904223;
-    {$pop}
-    result := (LSeed / 4294967295.0) * 2 - 1;
-  end;
-
-  procedure FactorShiftedMatrix;
-  var
-    Row, Col, Index, MaxRow: longint;
-    MaxValue: TReal;
-    Factor: TComplex;
-  begin
-    for Col := 0 to Self.FOrder - 1 do
+      ACos := 1;
+      ASin := 0;
+      ARadius := 0;
+    end else if LNormX = 0 then
     begin
-      MaxRow := Col;
-      MaxValue := LMatrix[Col, Col].Norm;
-      for Row := Col + 1 to Self.FOrder - 1 do
-        if LMatrix[Row, Col].Norm > MaxValue then
-        begin
-          MaxValue := LMatrix[Row, Col].Norm;
-          MaxRow := Row;
-        end;
-      if MaxValue = 0 then
-        raise EZeroDivide.Create('Matrix is singular.');
-      LPivots[Col] := MaxRow;
-      if MaxRow <> Col then LMatrix.Swap(Col, MaxRow);
-      for Row := Col + 1 to Self.FOrder - 1 do
-      begin
-        Factor := LMatrix[Row, Col] / LMatrix[Col, Col];
-        LMatrix[Row, Col] := Factor;
-        for Index := Col + 1 to Self.FOrder - 1 do
-          LMatrix[Row, Index] := LMatrix[Row, Index] -
-            Factor * LMatrix[Col, Index];
-      end;
-    end;
-  end;
-
-  function SolveFactored(const AVector: TComplexVector): TComplexVector;
-  var
-    Row, Col: longint;
-    Value: TComplex;
-  begin
-    result.SetSize(Self.FOrder);
-    for Row := 0 to Self.FOrder - 1 do
-      result[Row] := AVector[Row];
-    for Col := 0 to Self.FOrder - 1 do
-      if LPivots[Col] <> Col then
-      begin
-        Value := result[Col];
-        result[Col] := result[LPivots[Col]];
-        result[LPivots[Col]] := Value;
-      end;
-    for Row := 0 to Self.FOrder - 1 do
-      for Col := 0 to Row - 1 do
-        result[Row] := result[Row] - LMatrix[Row, Col] * result[Col];
-    for Row := Self.FOrder - 1 downto 0 do
+      ACos := 0;
+      ASin := AY.Conjugate / LNorm;
+      ARadius := LNorm;
+    end else
     begin
-      for Col := Row + 1 to Self.FOrder - 1 do
-        result[Row] := result[Row] - LMatrix[Row, Col] * result[Col];
-      result[Row] := result[Row] / LMatrix[Row, Row];
+      LPhase := AX / LNormX;
+      ACos := LNormX / LNorm;
+      ASin := LPhase * (AY.Conjugate / LNorm);
+      ARadius := LPhase * LNorm;
     end;
   end;
 
 begin
-  AValues.SetSize(Self.FOrder);
-  SetLength(LZeroData, Self.FOrder * Self.FOrder);
-  AVectors.Init(LZeroData);
-  LIsDiagonal := True;
-  for LRow := 0 to Self.FOrder - 1 do
-    for LCol := 0 to Self.FOrder - 1 do
-      if (LRow <> LCol) and (Self[LRow, LCol].Norm <> 0) then
-        LIsDiagonal := False;
-  if LIsDiagonal then
+  N := Self.FOrder;
+  AValues.SetSize(N);
+  AVectors.SetOrder(N);
+  if N = 0 then Exit;
+
+  Scale := 0;
+  for I := 0 to High(Self.FData) do
   begin
-    for LIndex := 0 to Self.FOrder - 1 do
+    if IsNan(Self.FData[I].fRe) or IsInfinite(Self.FData[I].fRe) or
+       IsNan(Self.FData[I].fIm) or IsInfinite(Self.FData[I].fIm) then
+      raise EInvalidOp.Create('Matrix entries must be finite.');
+    Scale := Max(Scale, Self.FData[I].Norm);
+  end;
+
+  IsDiagonal := True;
+  IsHermitian := True;
+  Tolerance := 32 * Precision * Scale;
+  for I := 0 to N - 1 do
+  begin
+    if System.Abs(Self.FData[I * N + I].fIm) > Tolerance then
+      IsHermitian := False;
+    for J := 0 to N - 1 do
+      if J <> I then
+      begin
+        if Self.FData[I * N + J].Norm <> 0 then IsDiagonal := False;
+        if (Self.FData[I * N + J] - Self.FData[J * N + I].Conjugate).Norm >
+           Tolerance then IsHermitian := False;
+      end;
+  end;
+  if IsDiagonal then
+  begin
+    for I := 0 to N - 1 do
     begin
-      AValues[LIndex] := Self[LIndex, LIndex];
-      AVectors[LIndex, LIndex] := 1;
+      AValues[I] := Self.FData[I * N + I];
+      AVectors[I, I] := 1;
     end;
     Exit;
   end;
-  LHessenberg := Self.HessenbergReduction;
-  LIndex := Self.FOrder - 1;
-  while LIndex >= 0 do
+
+  if IsHermitian then
   begin
-    if LIndex = 0 then
+    Self.HermitianEigenpairs(HermitianValues, AVectors);
+    for I := 0 to N - 1 do AValues[I] := HermitianValues[I];
+  end else
+  begin
+    H := System.Copy(Self.FData);
+    SetLength(Z, N * N);
+    for I := 0 to N - 1 do Z[I * N + I] := 1;
+    SetLength(V, N);
+    SetLength(W, N);
+
+    { Householder reduction to upper Hessenberg form, accumulating Z. }
+    for K := 0 to N - 3 do
     begin
-      AValues[0] := LHessenberg[0, 0];
-      Break;
-    end;
-    LTolerance := Precision *
-      (LHessenberg[LIndex - 1, LIndex - 1].Norm +
-       LHessenberg[LIndex, LIndex].Norm);
-    if LHessenberg[LIndex, LIndex - 1].Norm <= LTolerance then
-    begin
-      LHessenberg[LIndex, LIndex - 1] := 0;
-      AValues[LIndex] := LHessenberg[LIndex, LIndex];
-      Dec(LIndex);
-      Continue;
-    end;
-    LLow := LIndex - 1;
-    while LLow > 0 do
-    begin
-      LTolerance := Precision *
-        (LHessenberg[LLow - 1, LLow - 1].Norm +
-         LHessenberg[LLow, LLow].Norm);
-      if LHessenberg[LLow, LLow - 1].Norm <= LTolerance then
-      begin
-        LHessenberg[LLow, LLow - 1] := 0;
-        Break;
-      end;
-      Dec(LLow);
-    end;
-    if LIndex - LLow = 1 then
-    begin
-      LPair := Eigenvalues2x2(
-        LHessenberg[LLow, LLow], LHessenberg[LLow, LIndex],
-        LHessenberg[LIndex, LLow], LHessenberg[LIndex, LIndex]);
-      AValues[LLow] := LPair[0];
-      AValues[LIndex] := LPair[1];
-      LIndex := LLow - 1;
-      Continue;
-    end;
-    LConverged := False;
-    for LIteration := 1 to MaxIter do
-    begin
-      LPair := Eigenvalues2x2(
-        LHessenberg[LIndex - 1, LIndex - 1],
-        LHessenberg[LIndex - 1, LIndex],
-        LHessenberg[LIndex, LIndex - 1],
-        LHessenberg[LIndex, LIndex]);
-      if (LPair[0] - LHessenberg[LIndex, LIndex]).Norm <=
-         (LPair[1] - LHessenberg[LIndex, LIndex]).Norm then
-        LShift := LPair[0]
+      VectorNorm := 0;
+      for I := K + 1 to N - 1 do
+        VectorNorm := Hypot(VectorNorm, H[I * N + K].Norm);
+      if VectorNorm = 0 then Continue;
+      FirstNorm := H[(K + 1) * N + K].Norm;
+      if FirstNorm = 0 then
+        Alpha := -VectorNorm
       else
-        LShift := LPair[1];
-      LShifted := LHessenberg.Clone;
-      for LRow := LLow to LIndex do
-        LShifted[LRow, LRow] := LShifted[LRow, LRow] - LShift;
-      QRDecompose(LShifted, LLow, LIndex, LQ, LR);
-      LShifted := LR * LQ;
-      for LRow := LLow to LIndex do
-        LShifted[LRow, LRow] := LShifted[LRow, LRow] + LShift;
-      for LRow := LLow to LIndex do
-        for LCol := LLow to LIndex do
-          LHessenberg[LRow, LCol] := LShifted[LRow, LCol];
-      { Entries below the first subdiagonal are structural zeros of the
-        upper-Hessenberg form maintained by shifted QR iteration. }
-      for LRow := LLow + 2 to LIndex do
-        for LCol := LLow to LRow - 2 do
-          LHessenberg[LRow, LCol] := 0;
-      LTolerance := Precision *
-        (LHessenberg[LIndex - 1, LIndex - 1].Norm +
-         LHessenberg[LIndex, LIndex].Norm);
-      if LHessenberg[LIndex, LIndex - 1].Norm <= LTolerance then
+        Alpha := -VectorNorm * (H[(K + 1) * N + K] / FirstNorm);
+      for I := K + 1 to N - 1 do V[I] := H[I * N + K];
+      V[K + 1] := V[K + 1] - Alpha;
+      VectorNorm := 0;
+      for I := K + 1 to N - 1 do
+        VectorNorm := Hypot(VectorNorm, V[I].Norm);
+      for I := K + 1 to N - 1 do V[I] := V[I] / VectorNorm;
+      { H := (I - 2vv^H) H, row by row for contiguous access. }
+      for J := K to N - 1 do W[J] := 0;
+      for I := K + 1 to N - 1 do
+        for J := K to N - 1 do
+          W[J] := W[J] + V[I].Conjugate * H[I * N + J];
+      for I := K + 1 to N - 1 do
+        for J := K to N - 1 do
+          H[I * N + J] := H[I * N + J] - 2 * V[I] * W[J];
+      { H := H (I - 2vv^H) and Z := Z (I - 2vv^H). }
+      for Row := 0 to N - 1 do
       begin
-        LConverged := True;
-        Break;
+        Sum := 0;
+        for J := K + 1 to N - 1 do Sum := Sum + H[Row * N + J] * V[J];
+        Sum := 2 * Sum;
+        for J := K + 1 to N - 1 do
+          H[Row * N + J] := H[Row * N + J] - Sum * V[J].Conjugate;
+        Sum := 0;
+        for J := K + 1 to N - 1 do Sum := Sum + Z[Row * N + J] * V[J];
+        Sum := 2 * Sum;
+        for J := K + 1 to N - 1 do
+          Z[Row * N + J] := Z[Row * N + J] - Sum * V[J].Conjugate;
       end;
+      H[(K + 1) * N + K] := Alpha;
+      for I := K + 2 to N - 1 do H[I * N + K] := 0;
     end;
-    if LConverged then
+
+    { Single-shift QR iteration to the complex Schur form T, kept in H. }
+    SmallNumber := SafeMinimum * (N / Precision);
+    MaxIterations := 30 * Max(10, N);
+    Last := N - 1;
+    while Last >= 0 do
     begin
-      LHessenberg[LIndex, LIndex - 1] := 0;
-      AValues[LIndex] := LHessenberg[LIndex, LIndex];
-      Dec(LIndex);
-    end else
+      Iteration := 0;
+      repeat
+        { Look for a negligible subdiagonal element. }
+        K := Last;
+        while K > 0 do
+        begin
+          if Abs1(H[K * N + K - 1]) <= SmallNumber then Break;
+          Test := Abs1(H[(K - 1) * N + K - 1]) + Abs1(H[K * N + K]);
+          if Test = 0 then
+          begin
+            if K - 2 >= 0 then Test := Test + Abs1(H[(K - 1) * N + K - 2]);
+            if K + 1 <= N - 1 then Test := Test + Abs1(H[(K + 1) * N + K]);
+          end;
+          if Abs1(H[K * N + K - 1]) <= Precision * Test then
+          begin
+            AB := Max(Abs1(H[K * N + K - 1]), Abs1(H[(K - 1) * N + K]));
+            BA := Min(Abs1(H[K * N + K - 1]), Abs1(H[(K - 1) * N + K]));
+            AA := Max(Abs1(H[K * N + K]),
+              Abs1(H[(K - 1) * N + K - 1] - H[K * N + K]));
+            BB := Min(Abs1(H[K * N + K]),
+              Abs1(H[(K - 1) * N + K - 1] - H[K * N + K]));
+            Total := AA + AB;
+            if BA * (AB / Total) <=
+               Max(SmallNumber, Precision * (BB * (AA / Total))) then Break;
+          end;
+          Dec(K);
+        end;
+        L := K;
+        if L > 0 then H[L * N + L - 1] := 0;
+        if L >= Last then Break;
+
+        Inc(Iteration);
+        if Iteration > MaxIterations then
+          raise EInvalidOp.Create(
+            'TComplexMatrix.Eigenpairs: QR iteration did not converge.');
+
+        if Iteration mod 30 = 10 then
+          Shift := ExceptionalFactor * System.Abs(H[(L + 1) * N + L].fRe) +
+            H[L * N + L]
+        else if Iteration mod 30 = 20 then
+          Shift := ExceptionalFactor *
+            System.Abs(H[Last * N + Last - 1].fRe) + H[Last * N + Last]
+        else
+        begin
+          { Wilkinson shift: eigenvalue of the trailing 2x2 block closer to
+            its last diagonal entry, in the form used by ZLAHQR. }
+          Shift := H[Last * N + Last];
+          U := SquareRoot(H[(Last - 1) * N + Last])[0] *
+            SquareRoot(H[Last * N + Last - 1])[0];
+          Total := Abs1(U);
+          if Total <> 0 then
+          begin
+            XShift := (H[(Last - 1) * N + Last - 1] - Shift) / 2;
+            C := Abs1(XShift);
+            Total := Max(Total, C);
+            Y := Total * SquareRoot(SquarePower(XShift / Total) +
+              SquarePower(U / Total))[0];
+            if (C > 0) and
+               ((XShift.fRe / C) * Y.fRe + (XShift.fIm / C) * Y.fIm < 0) then
+              Y := -Y;
+            Shift := Shift - U * (U / (XShift + Y));
+          end;
+        end;
+
+        { Implicit QR sweep on rows and columns L..Last. }
+        for K := L to Last - 1 do
+        begin
+          if K = L then
+            Rotation(H[L * N + L] - Shift, H[(L + 1) * N + L], C, S, R)
+          else
+          begin
+            Rotation(H[K * N + K - 1], H[(K + 1) * N + K - 1], C, S, R);
+            H[K * N + K - 1] := R;
+            H[(K + 1) * N + K - 1] := 0;
+          end;
+          C2 := S.Conjugate;
+          for J := K to N - 1 do
+          begin
+            Temporary := H[K * N + J];
+            H[K * N + J] := C * Temporary + S * H[(K + 1) * N + J];
+            H[(K + 1) * N + J] := C * H[(K + 1) * N + J] - C2 * Temporary;
+          end;
+          for Row := 0 to Min(K + 2, Last) do
+          begin
+            Temporary := H[Row * N + K];
+            H[Row * N + K] := C * Temporary + H[Row * N + K + 1] * C2;
+            H[Row * N + K + 1] := C * H[Row * N + K + 1] - Temporary * S;
+          end;
+          for Row := 0 to N - 1 do
+          begin
+            Temporary := Z[Row * N + K];
+            Z[Row * N + K] := C * Temporary + Z[Row * N + K + 1] * C2;
+            Z[Row * N + K + 1] := C * Z[Row * N + K + 1] - Temporary * S;
+          end;
+        end;
+      until False;
+      Dec(Last);
+    end;
+
+    { Eigenvectors of T by back substitution, then back-transformed by Z. }
+    SetLength(X, N);
+    for K := 0 to N - 1 do
     begin
-      { The centered 2x2 formula preserves the separation of close
-        eigenvalues without forming a cancellation-prone determinant. }
-      LPair := Eigenvalues2x2(
-        LHessenberg[LIndex - 1, LIndex - 1],
-        LHessenberg[LIndex - 1, LIndex],
-        LHessenberg[LIndex, LIndex - 1],
-        LHessenberg[LIndex, LIndex]);
-      AValues[LIndex - 1] := LPair[0];
-      AValues[LIndex] := LPair[1];
-      Dec(LIndex, 2);
+      AValues[K] := H[K * N + K];
+      Diagonal := H[K * N + K];
+      MinPivot := Max(Precision * Abs1(Diagonal), SmallNumber);
+      X[K] := 1;
+      for I := K - 1 downto 0 do
+      begin
+        Sum := 0;
+        for J := I + 1 to K do Sum := Sum + H[I * N + J] * X[J];
+        Temporary := H[I * N + I] - Diagonal;
+        if Abs1(Temporary) < MinPivot then Temporary := MinPivot;
+        X[I] := -Sum / Temporary;
+        if Abs1(X[I]) > BigValue then
+        begin
+          C := 1 / Abs1(X[I]);
+          for J := I to K do X[J] := C * X[J];
+        end;
+      end;
+      for Row := 0 to N - 1 do
+      begin
+        Sum := 0;
+        for J := 0 to K do Sum := Sum + Z[Row * N + J] * X[J];
+        V[Row] := Sum;
+      end;
+      for Row := 0 to N - 1 do AVectors.FData[Row * N + K] := V[Row];
     end;
   end;
-  SetLength(LPivots, Self.FOrder);
-  LVector.SetSize(Self.FOrder);
-  LScale := Self.Norm;
-  LIsHermitian := True;
-  for LRow := 0 to Self.FOrder - 1 do
-    for LColumn := LRow + 1 to Self.FOrder - 1 do
-      if (Self[LRow, LColumn] -
-          Self[LColumn, LRow].Conjugate).Norm >
-          100 * Precision * LScale then
-        LIsHermitian := False;
-  LSeed := 123456789;
-  for LColumn := 0 to Self.FOrder - 1 do
+
+  { Unit 2-norm columns; the largest component is made real and positive. }
+  for K := 0 to N - 1 do
   begin
-    LEigenvalue := AValues[LColumn];
-    for LRow := 0 to Self.FOrder - 1 do
-      LVector[LRow] := Complex(NextRandom, NextRandom);
-    LVector := LVector.Normalize;
-    { The scale-relative shift makes the inverse-iteration system nonsingular
-      while remaining close to the requested eigenvalue. }
-    LDelta := Max(LScale, LEigenvalue.Norm) * (10 * Precision);
-    if LDelta = 0 then LDelta := 10 * Precision;
-    LSolved := False;
-    for LAttempt := 1 to 6 do
+    VectorNorm := 0;
+    Largest := 0;
+    J := 0;
+    for Row := 0 to N - 1 do
     begin
-      LShift := LEigenvalue + LDelta;
-      LMatrix := Self.Clone;
-      for LRow := 0 to Self.FOrder - 1 do
-        LMatrix[LRow, LRow] := LMatrix[LRow, LRow] - LShift;
-      try
-        FactorShiftedMatrix;
-        for LPass := 1 to 3 do
-        begin
-          LWork := SolveFactored(LVector);
-          for LPrevious := 0 to LColumn - 1 do
-          begin
-            LClusterTolerance := 100 * Precision *
-              Max(LScale, Max(AValues[LPrevious].Norm,
-                LEigenvalue.Norm));
-            if LIsHermitian or
-              ((AValues[LPrevious] - LEigenvalue).Norm <=
-               LClusterTolerance) then
-            begin
-              LProjection := AVectors[0, LPrevious].Conjugate * LWork[0];
-              for LRow := 1 to Self.FOrder - 1 do
-                LProjection := LProjection +
-                  AVectors[LRow, LPrevious].Conjugate * LWork[LRow];
-              for LRow := 0 to Self.FOrder - 1 do
-                LWork[LRow] := LWork[LRow] -
-                  LProjection * AVectors[LRow, LPrevious];
-            end;
-          end;
-          if LWork.Norm = 0 then
-            for LRow := 0 to Self.FOrder - 1 do
-              LWork[LRow] := Complex(NextRandom, NextRandom);
-          LVector := LWork.Normalize;
-        end;
-        LSolved := True;
-        Break;
-      except
-        on EZeroDivide do
-          LDelta := LDelta * 1E2;
-      end;
-    end;
-    if not LSolved then
-      raise EInvalidOp.Create(
-        'TComplexMatrix.Eigenpairs: inverse iteration did not converge.');
-    LPhaseIndex := 0;
-    LMaxNorm := LVector[0].Norm;
-    for LRow := 1 to Self.FOrder - 1 do
-      if LVector[LRow].Norm > LMaxNorm then
+      C := AVectors.FData[Row * N + K].Norm;
+      VectorNorm := Hypot(VectorNorm, C);
+      if C > Largest then
       begin
-        LPhaseIndex := LRow;
-        LMaxNorm := LVector[LRow].Norm;
+        Largest := C;
+        J := Row;
       end;
-    if LMaxNorm > 0 then
-    begin
-      LPhaseNorm := LVector[LPhaseIndex].Norm;
-      LPhase := LVector[LPhaseIndex].Conjugate / LPhaseNorm;
-      LVector := LPhase * LVector;
     end;
-    for LRow := 0 to Self.FOrder - 1 do
-      AVectors[LRow, LColumn] := LVector[LRow];
+    if VectorNorm = 0 then Continue;
+    Alpha := AVectors.FData[J * N + K].Conjugate / (Largest * VectorNorm);
+    for Row := 0 to N - 1 do
+      AVectors.FData[Row * N + K] := Alpha * AVectors.FData[Row * N + K];
   end;
 end;
 
 procedure TComplexMatrixHelper.HermitianEigenpairs(out AValues: TRealVector;
   out AVectors: TComplexMatrix);
 var
-  Work, Q, Rotations: TComplexMatrix;
-  TridiagonalVectors: TRealMatrix;
-  D, E: TArrayOfReal;
-  U, W, Phase, Initial: TArrayOfComplex;
+  Work, Q: TComplexMatrix;
+  D, E, Rows: TArrayOfReal;
+  U, W, Phase: TArrayOfComplex;
   Scale, Tolerance, VectorNorm, OffNorm: TReal;
   Alpha, Beta, Value, Projection: TComplex;
   N, I, J, K: longint;
@@ -2861,26 +2831,28 @@ begin
           (Work[I + 1, I] / OffNorm);
     end;
   end;
-  TridiagonalQL(D, E, TridiagonalVectors);
+  { The real QL rotations act identically on interleaved real/imaginary
+    parts, so they are accumulated directly into Q*diag(Phase), stored by
+    columns. }
+  SetLength(Rows, 2 * N * N);
+  for J := 0 to N - 1 do
+    for I := 0 to N - 1 do
+    begin
+      if IsTridiagonal then
+      begin
+        if I = J then Value := Phase[J] else Value := 0;
+      end else
+        Value := Q[I, J] * Phase[J];
+      Rows[2 * (J * N + I)] := Value.Re;
+      Rows[2 * (J * N + I) + 1] := Value.Im;
+    end;
+  TridiagonalQL(D, E, Rows, 2 * N);
   AValues.Init(D);
-  SetLength(Initial, N * N);
-  if IsTridiagonal then
-  begin
-    AVectors.Init(Initial);
-    for I := 0 to N - 1 do
-      for J := 0 to N - 1 do
-        AVectors[I, J] := Phase[I] * TridiagonalVectors[I, J];
-  end else
-  begin
-    for I := 0 to N - 1 do
-      for J := 0 to N - 1 do
-        Q[I, J] := Q[I, J] * Phase[J];
-    Rotations.Init(Initial);
-    for I := 0 to N - 1 do
-      for J := 0 to N - 1 do
-        Rotations[I, J] := TridiagonalVectors[I, J];
-    AVectors := Q * Rotations;
-  end;
+  AVectors.SetOrder(N);
+  for I := 0 to N - 1 do
+    for J := 0 to N - 1 do
+      AVectors[I, J] := Complex(Rows[2 * (J * N + I)],
+        Rows[2 * (J * N + I) + 1]);
 end;
 
 
@@ -2923,16 +2895,33 @@ end;
 
 function SquareRoot(const AValue: TComplex): TArrayOfComplex;
 var
-  norm: TReal;
+  LModulus, LLarge, LSmall: TReal;
 begin
   result := nil;
   SetLength(result, 2);
-  norm := hypot(AValue.fRe, AValue.fIm);
-  result[0].fRe := sqrt(0.5 * (norm + AValue.fRe));
-  if AValue.fIm >= 0 then
-    result[0].fIm :=  sqrt(0.5 * (norm - AValue.fRe))
-  else
-    result[0].fIm := -sqrt(0.5 * (norm - AValue.fRe));
+  LModulus := Hypot(AValue.fRe, AValue.fIm);
+  if LModulus = 0 then
+  begin
+    result[0] := 0;
+    result[1] := 0;
+    Exit;
+  end;
+  { The larger component is formed without cancellation as
+    sqrt((|Re| + |z|)/2); the smaller one follows from Im = 2*x*y. Taking
+    sqrt(|z|) first keeps the intermediate values inside the double range. }
+  LLarge := Sqrt(LModulus) *
+    Sqrt(0.5 * (1 + System.Abs(AValue.fRe) / LModulus));
+  LSmall := (System.Abs(AValue.fIm) / LLarge) / 2;
+  if AValue.fRe >= 0 then
+  begin
+    result[0].fRe := LLarge;
+    result[0].fIm := LSmall;
+  end else
+  begin
+    result[0].fRe := LSmall;
+    result[0].fIm := LLarge;
+  end;
+  if AValue.fIm < 0 then result[0].fIm := -result[0].fIm;
   result[1] := -result[0];
 end;
 
@@ -2991,92 +2980,235 @@ begin
   result := -a;
 end;
 
+{ Returns a power of two s such that the monic polynomial with coefficients
+  ACoefficients[k]/s^(k+1) has coefficients of order one. Power-of-two
+  scaling is exact unless the values underflow or overflow. }
+function PolynomialScale(const ACoefficients: array of TComplex): TReal;
+var
+  LIndex: longint;
+  LBound: TReal;
+begin
+  LBound := 0;
+  for LIndex := 0 to High(ACoefficients) do
+    if ACoefficients[LIndex].Norm > 0 then
+      LBound := Max(LBound,
+        Power(ACoefficients[LIndex].Norm, 1 / (LIndex + 1)));
+  if LBound = 0 then Exit(0);
+  result := IntPower(2, Math.Ceil(Math.Log2(LBound)));
+end;
+
+{ Coefficients of y^n + c[0]*y^(n-1) + ... + c[n-1] after x = s*y. }
+procedure ScalePolynomial(const ACoefficients: array of TComplex;
+  AScale: TReal; out AScaled: TArrayOfComplex);
+var
+  LIndex, LPower: longint;
+begin
+  AScaled := nil;
+  SetLength(AScaled, Length(ACoefficients));
+  for LIndex := 0 to High(ACoefficients) do
+  begin
+    AScaled[LIndex] := ACoefficients[LIndex];
+    for LPower := 0 to LIndex do
+      AScaled[LIndex] := AScaled[LIndex] / AScale;
+  end;
+end;
+
+{ Horner evaluation of the monic polynomial and of its derivative. }
+procedure EvaluatePolynomial(const ACoefficients: TArrayOfComplex;
+  const AX: TComplex; out AValue, ADerivative: TComplex);
+var
+  LIndex: longint;
+begin
+  AValue := 1;
+  ADerivative := 0;
+  for LIndex := 0 to High(ACoefficients) do
+  begin
+    ADerivative := ADerivative * AX + AValue;
+    AValue := AValue * AX + ACoefficients[LIndex];
+  end;
+end;
+
+{ Refines all roots together with Ehrlich-Aberth corrections. A correction
+  is accepted only when it lowers the residual, so a root never drifts to a
+  neighbour and multiple roots are left at their closed-form values. }
+procedure PolishRoots(const ACoefficients: TArrayOfComplex;
+  var ARoots: TArrayOfComplex);
+const
+  MaxSweeps = 8;
+var
+  LValue, LDerivative, LNewton, LSum, LCandidate, LNewValue,
+    LDifference, LDenominator: TComplex;
+  LSweep, LIndex, LOther: longint;
+  LChanged, LSkip: boolean;
+begin
+  for LSweep := 1 to MaxSweeps do
+  begin
+    LChanged := False;
+    for LIndex := 0 to High(ARoots) do
+    begin
+      EvaluatePolynomial(ACoefficients, ARoots[LIndex], LValue, LDerivative);
+      if (LValue.Norm = 0) or (LDerivative.Norm = 0) then Continue;
+      LNewton := LValue / LDerivative;
+      LSum := 0;
+      LSkip := False;
+      for LOther := 0 to High(ARoots) do
+        if LOther <> LIndex then
+        begin
+          LDifference := ARoots[LIndex] - ARoots[LOther];
+          if LDifference.Norm = 0 then
+          begin
+            LSkip := True;
+            Break;
+          end;
+          LSum := LSum + LDifference.Reciprocal;
+        end;
+      if LSkip then Continue;
+      LDenominator := 1 - LNewton * LSum;
+      if LDenominator.Norm = 0 then Continue;
+      LCandidate := ARoots[LIndex] - LNewton / LDenominator;
+      if LCandidate = ARoots[LIndex] then Continue;
+      EvaluatePolynomial(ACoefficients, LCandidate, LNewValue, LDerivative);
+      if LNewValue.Norm < LValue.Norm then
+      begin
+        ARoots[LIndex] := LCandidate;
+        LChanged := True;
+      end;
+    end;
+    if not LChanged then Break;
+  end;
+end;
+
 function SolveEquation(const a, b: TComplex): TArrayOfComplex;
 var
-  delta: TComplex;
+  LScale: TReal;
+  LScaled: TArrayOfComplex;
+  LRoot, LLarge: TComplex;
 begin
   result := nil;
   SetLength(result, 2);
-  delta     := SquareRoot(SquarePower(a) - 4*b)[0];
-  result[0] := (-a + delta) / 2;
-  result[1] := (-a - delta) / 2;
+  LScale := PolynomialScale([a, b]);
+  if LScale = 0 then
+  begin
+    result[0] := 0;
+    result[1] := 0;
+    Exit;
+  end;
+  ScalePolynomial([a, b], LScale, LScaled);
+  LRoot := SquareRoot(SquarePower(LScaled[0]) - 4 * LScaled[1])[0];
+  { The larger root is formed from two terms that do not cancel; the
+    smaller one follows from the product of the roots, using the unscaled b
+    so that it cannot underflow. result[0] is still the root associated
+    with +sqrt(discriminant). }
+  if LScaled[0].fRe * LRoot.fRe + LScaled[0].fIm * LRoot.fIm >= 0 then
+  begin
+    LLarge := LScale * (-(LScaled[0] + LRoot) / 2);
+    result[1] := LLarge;
+    result[0] := b / LLarge;
+  end else
+  begin
+    LLarge := LScale * ((LRoot - LScaled[0]) / 2);
+    result[0] := LLarge;
+    result[1] := b / LLarge;
+  end;
 end;
 
 function SolveEquation(const a, b, c: TComplex): TArrayOfComplex;
 var
-  p, q, s1, t: TComplex;
-  u, v:        TArrayOfComplex;
+  LScale: TReal;
+  LScaled: TArrayOfComplex;
+  LShift, p, q, LRoot, LCube: TComplex;
+  LCubeRoots: TArrayOfComplex;
+  LIndex: longint;
 begin
   result := nil;
   SetLength(result, 3);
-  p := 9*b - 3*SquarePower(a);
-  q := 27*c - 9*a*b + 2*CubicPower(a);
-
-  if p.IsNotNull and q.IsNotNull then
+  LScale := PolynomialScale([a, b, c]);
+  if LScale = 0 then
   begin
-    s1 := -q/2 + SquareRoot(SquarePower(q)/4 + CubicPower(p)/27)[0];
-    u  := CubicRoot(s1);
-    t := u[0] - p/(3*u[0]); result[0] := (t - a)/3;
-    t := u[1] - p/(3*u[1]); result[1] := (t - a)/3;
-    t := u[2] - p/(3*u[2]); result[2] := (t - a)/3;
-  end else
-    if p.IsNull and q.IsNull then
-    begin
-      result[0] := -a/3;
-      result[1] := -a/3;
-      result[2] := -a/3;
-    end else
-      if q.IsNull then
-      begin
-        v         := SquareRoot(-p);
-        result[0] := (0    - a) / 3;
-        result[1] := (v[0] - a) / 3;
-        result[2] := (v[1] - a) / 3;
-      end else
-      begin
-        u         := CubicRoot(-q);
-        result[0] := (u[0] - a) / 3;
-        result[1] := (u[1] - a) / 3;
-        result[2] := (u[2] - a) / 3;
-      end;
+    for LIndex := 0 to 2 do result[LIndex] := 0;
+    Exit;
+  end;
+  ScalePolynomial([a, b, c], LScale, LScaled);
+  { Depressed cubic t^3 + p*t + q = 0 with y = t - a/3. }
+  LShift := LScaled[0] / 3;
+  p := LScaled[1] - LScaled[0] * LShift;
+  q := (2 * LShift * LShift - LScaled[1]) * LShift + LScaled[2];
+  { Cardano: choose the sign that gives the larger u^3 to avoid
+    cancellation. u^3 = 0 only when p = q = 0. }
+  LRoot := SquareRoot(SquarePower(q / 2) + CubicPower(p / 3))[0];
+  if q.fRe * LRoot.fRe + q.fIm * LRoot.fIm >= 0 then
+    LCube := -(q / 2 + LRoot)
+  else
+    LCube := LRoot - q / 2;
+  if LCube.Norm = 0 then
+    for LIndex := 0 to 2 do result[LIndex] := -LShift
+  else
+  begin
+    LCubeRoots := CubicRoot(LCube);
+    for LIndex := 0 to 2 do
+      result[LIndex] := LCubeRoots[LIndex] -
+        p / (3 * LCubeRoots[LIndex]) - LShift;
+  end;
+  PolishRoots(LScaled, result);
+  for LIndex := 0 to 2 do result[LIndex] := LScale * result[LIndex];
 end;
 
 function SolveEquation(const a, b, c, d: TComplex): TArrayOfComplex;
 var
-  p, q, r:     TComplex;
-  u1, u2, u3,
-  v1, v2, v3:  TArrayOfComplex;
-  alpha, beta,
-  gamma:       TComplex;
+  LScale, LBest: TReal;
+  LScaled, LResolvent, LPair: TArrayOfComplex;
+  LShift, p, q, r, m, s, LTerm: TComplex;
+  LIndex: longint;
 begin
   result := nil;
   SetLength(result, 4);
-  p := 16*b - 6*SquarePower(a);
-  q := 64*c - 32*a*b + 8*CubicPower(a);
-  r := 256*d - 64*a*c + 16*b*SquarePower(a) - 3*QuarticPower(a);
-
-  if q.IsNull then
+  LScale := PolynomialScale([a, b, c, d]);
+  if LScale = 0 then
   begin
-    u1 := SolveEquation(p, r);
-    u2 := SquareRoot(u1[0]);
-    u3 := SquareRoot(u1[1]);
-    result[0] := (u2[0] - a) / 4;
-    result[1] := (u2[1] - a) / 4;
-    result[2] := (u3[0] - a) / 4;
-    result[3] := (u3[1] - a) / 4;
+    for LIndex := 0 to 3 do result[LIndex] := 0;
+    Exit;
+  end;
+  ScalePolynomial([a, b, c, d], LScale, LScaled);
+  { Depressed quartic z^4 + p*z^2 + q*z + r = 0 with y = z - a/4. }
+  LShift := LScaled[0] / 4;
+  p := LScaled[1] - 6 * LShift * LShift;
+  q := LScaled[2] - 2 * LScaled[1] * LShift + 8 * CubicPower(LShift);
+  r := LScaled[3] - LScaled[2] * LShift + LScaled[1] * LShift * LShift -
+    3 * QuarticPower(LShift);
+  { Ferrari: (z^2 + m)^2 = (2m - p)*(z - q/(2*(2m - p)))^2, where m solves
+    the resolvent cubic. The root with the largest |2m - p| is the best
+    conditioned choice for the division by s = sqrt(2m - p). }
+  LResolvent := SolveEquation(-p / 2, -r, p * r / 2 - q * q / 8);
+  m := LResolvent[0];
+  LBest := (2 * m - p).Norm;
+  for LIndex := 1 to 2 do
+    if (2 * LResolvent[LIndex] - p).Norm > LBest then
+    begin
+      m := LResolvent[LIndex];
+      LBest := (2 * m - p).Norm;
+    end;
+  if LBest <= 16 * Precision * Max(p.Norm, 2 * m.Norm) then
+  begin
+    { Biquadratic: z^4 + p*z^2 + r = 0. }
+    LPair := SolveEquation(p, r);
+    result[0] := SquareRoot(LPair[0])[0];
+    result[1] := -result[0];
+    result[2] := SquareRoot(LPair[1])[0];
+    result[3] := -result[2];
   end else
   begin
-    v1    := SolveEquation(2*p, SquarePower(p) - 4*r, -SquarePower(q));
-    alpha := SquareRoot(v1[0])[0];
-    beta  := (SquarePower(alpha)*alpha + p*alpha - q) / (2*alpha);
-    gamma := (SquarePower(alpha)*alpha + p*alpha + q) / (2*alpha);
-    v2 := SolveEquation( alpha,  beta);
-    v3 := SolveEquation(-alpha, gamma);
-    result[0] := (v2[0] - a) / 4;
-    result[1] := (v2[1] - a) / 4;
-    result[2] := (v3[0] - a) / 4;
-    result[3] := (v3[1] - a) / 4;
+    s := SquareRoot(2 * m - p)[0];
+    LTerm := q / (2 * s);
+    LPair := SolveEquation(-s, m + LTerm);
+    result[0] := LPair[0];
+    result[1] := LPair[1];
+    LPair := SolveEquation(s, m - LTerm);
+    result[2] := LPair[0];
+    result[3] := LPair[1];
   end;
+  for LIndex := 0 to 3 do result[LIndex] := result[LIndex] - LShift;
+  PolishRoots(LScaled, result);
+  for LIndex := 0 to 3 do result[LIndex] := LScale * result[LIndex];
 end;
 
 function SquareNorm(const AValue: TReal): TReal;
