@@ -18,6 +18,14 @@ jobs:
         sudo apt-get update
         sudo apt-get install lazarus
 
+    - name: Build ADimMath validation suite
+      run: |
+        lazbuild test.lpi
+
+    - name: Run ADimMath validation suite
+      run: |
+        ./build/test
+
     - name: Build project
       run: |
         lazbuild adimtest.lpi

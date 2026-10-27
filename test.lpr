@@ -1,36 +1,32 @@
-{ TestADimMath.pas - Main program of the modular ADimMath test suite.
+{ Test - Validation suite for ADimMath.
 
-  Each test unit listed below registers its own suite with TestFramework
-  during initialization, so this program merely runs them all and prints
-  the combined report.
+  Each Spec* unit registers its specification during initialization; the
+  specs run in the order of the uses clause. See docs/TESTING.md for the
+  validation policy, the acceptance thresholds and their sources.
 
-  Build (Free Pascal 3.2.2):
-    fpc -Mobjfpc -O2 TestADimMath.pas
-    ./TestADimMath          (quiet: only failures + summary)
-    ./TestADimMath -v       (verbose: every individual check)
-
-  All units (ADimMath.pas, TestFramework.pas and the Test* units) must be
-  in the same directory or on the unit search path.
-
-  TO ADD A NEW STRUCTURE'S TESTS: create a unit that registers a Run
-  procedure (see any Test* unit as a template) and add it to the uses
-  clause below. No other change is required.
-
-  @author  Melchiorre Caruso
-}
-program test;
+  Build from the repository root with Lazarus (test.lpi: range, overflow
+  and stack checks plus heaptrc) or with Free Pascal 3.2.2 or later:
+    lazbuild test.lpi
+    fpc -Mobjfpc -O2 -Fu. -Futests -FEbuild test.lpr
+  Run:
+    build/test [-v] [--extended] [--perf] [--filter=TEXT] }
+program Test;
 
 {$mode objfpc}{$H+}{$J-}
 
 uses
-  Skeleton,
-  TestFramework,
-  TestComplexNumbers,
-  TestRealMatrix,
-  TestRealVector,
-  TestComplexMatrix,
-  TestComplexVector;
+  TestRunner,
+  SpecComplex,
+  SpecRoots,
+  SpecPolynomials,
+  SpecVectors,
+  SpecMatrices,
+  SpecLinear,
+  SpecEigenSymmetric,
+  SpecEigenGeneral,
+  SpecEigenTridiagonal,
+  SpecPerformance;
 
 begin
-  RunAllSuites;
+  RunAll;
 end.
