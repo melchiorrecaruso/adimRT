@@ -41,32 +41,43 @@ interface
 uses
   SysUtils;
 
-type
-  { SI base units tracked by @link(TDimension). The order defines the
-    position of each exponent in @code(TDimension.FExponents). }
-  TBaseUnit = (buKilogram, buMeter, buSecond, buAmpere, buKelvin, buMole,
-    buCandela, buSteradian);
-
 const
+  { Number of SI base units tracked by TDimension.
+
+    Each base unit has a fixed index in TDimension.FExponents:
+
+      0 = kilogram  (kg)
+      1 = meter     (m)
+      2 = second    (s)
+      3 = ampere    (A)
+      4 = kelvin    (K)
+      5 = mole      (mol)
+      6 = candela   (cd)
+      7 = steradian (sr)
+
+    The same order is used by BaseUnitSymbols and by the unit generator
+    in toolkit/common.pas. }
+  BaseUnitCount = 8;
+
   { Number of 16-bit exponents that fit in one 64-bit word. }
   ExponentsPerWord = SizeOf(QWord) div SizeOf(smallint);
 
   { Number of 64-bit words needed to hold one exponent per base unit. }
-  DimensionWords = (Ord(High(TBaseUnit)) + ExponentsPerWord) div ExponentsPerWord;
+  DimensionWords = (BaseUnitCount + ExponentsPerWord - 1) div ExponentsPerWord;
 
   { Number of exponent slots: the base units rounded up to whole words. The
-    slots beyond @code(High(TBaseUnit)) are padding and are always zero. }
+    slots from BaseUnitCount onwards are padding and are always zero. }
   DimensionSlots = DimensionWords * ExponentsPerWord;
 
 type
   { Represents the physical dimension of a quantity using the SI base units.
 
     Each slot of @code(FExponents) stores the integer exponent of the SI base
-    unit at position @code(Ord(TBaseUnit)). Exponents are stored in sixtieths
-    (60 = 1, 30 = 1/2, 20 = 1/3, ...), so that roots up to the sixth remain
-    integral. For example, a velocity has dimension @code(m¹·s⁻¹), represented
-    by the exponents of @code(buMeter) and @code(buSecond) set to 60 and -60,
-    with all other exponents equal to zero. A dimensionless quantity has all
+    unit at the index listed for BaseUnitCount. Exponents are stored in
+    sixtieths (60 = 1, 30 = 1/2, 20 = 1/3, ...), so that roots up to the sixth
+    remain integral. For example, a velocity has dimension @code(m¹·s⁻¹),
+    represented by the exponents at index 1 (meter) and 2 (second) set to 60
+    and -60, with all other exponents equal to zero. A dimensionless quantity has all
     exponents equal to zero.
 
     Dimension arithmetic follows the rules of dimensional analysis:
@@ -138,7 +149,7 @@ type
     class operator =(const ALeft, ARight: TDimension): boolean; inline;
   private
     case byte of
-      { Exponent of each SI base unit, indexed by @code(Ord(TBaseUnit)). }
+      { Exponent of each SI base unit, at the index listed for BaseUnitCount. }
       0: (FExponents: array[0..DimensionSlots - 1] of smallint);
       { The same exponents viewed as 64-bit words of four 16-bit lanes. }
       1: (FWords: array[0..DimensionWords - 1] of QWord);
@@ -247,7 +258,8 @@ begin
 end;
 
 const
-  BaseUnitSymbols: array[TBaseUnit] of string = (
+  { Symbols of the SI base units, in the index order listed for BaseUnitCount. }
+  BaseUnitSymbols: array[0..BaseUnitCount - 1] of string = (
     'kg', 'm', 's', 'A', 'K', 'mol', 'cd', 'sr');
 
 function SymbolToString(AExponent: smallint; const ASymbol: string): string; inline;
@@ -272,15 +284,15 @@ end;
 
 function TDimension.ToString: string;
 var
-  LUnit: TBaseUnit;
+  LUnit: longint;
   LExponent: smallint;
   Num, Denom: string;
 begin
   Num := '';
   Denom := '';
-  for LUnit := Low(TBaseUnit) to High(TBaseUnit) do
+  for LUnit := 0 to BaseUnitCount - 1 do
   begin
-    LExponent := FExponents[Ord(LUnit)];
+    LExponent := FExponents[LUnit];
     if LExponent > 0 then
       Num := Num + '.' + SymbolToString(LExponent, BaseUnitSymbols[LUnit])
     else if LExponent < 0 then
