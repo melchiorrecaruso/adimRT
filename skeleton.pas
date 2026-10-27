@@ -51,6 +51,7 @@ unit Skeleton;
 {$WARN 5024 OFF} // Suppress warning for unused routine parameter.
 {$WARN 5033 OFF} // Suppress warning for unassigned function''s return value.
 {$WARN 6058 OFF} // Suppress warning for function marked as inline that cannot be inlined.
+{$STACKFRAMES ON} // Dimension checks walk the call stack to report the caller's line.
 
 {#HEADER}
 
@@ -3848,7 +3849,7 @@ type
 
 const
   ScalarUnit : TUnit = (
-    FDim        : (FKilogram: 0; FMeter: 0; FSecond: 0; FAmpere: 0; FKelvin: 0; FMole: 0; FCandela: 0; FSteradian: 0);
+    FDim        : (FExponents: (0, 0, 0, 0, 0, 0, 0, 0));
     FSymbol     : rsScalarSymbol;
     FName       : rsScalarName;
     FPluralName : rsScalarPluralName;
@@ -4130,128 +4131,128 @@ const
   { Avogadro constant @code(Nₐ = 6.02214076 × 10²³ mol⁻¹).
     Number of constituent particles per mole of substance.
   }
-  AvogadroConstant               : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole: -60; FCandela: 0; FSteradian: 0); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
+  AvogadroConstant               : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,    0,    0,    0,    0,  -60,    0,    0)); FValue:       6.02214076E+23); {$ELSE} (      6.02214076E+23); {$ENDIF}
 
   { Bohr magneton @code(μB = 9.2740100657 × 10⁻²⁴ J·T⁻¹).
     Natural unit of electronic magnetic dipole moment.
   }
-  BohrMagneton                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond:    0; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
+  BohrMagneton                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,  120,    0,   60,    0,    0,    0,    0)); FValue:     9.2740100657E-24); {$ELSE} (    9.2740100657E-24); {$ENDIF}
 
   { Bohr radius @code(a₀ = 5.29177210903 × 10⁻¹¹ m).
     Most probable distance between the electron and nucleus in a hydrogen atom ground state.
   }
-  BohrRadius                     : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
+  BohrRadius                     : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,   60,    0,    0,    0,    0,    0,    0)); FValue:    5.29177210903E-11); {$ELSE} (   5.29177210903E-11); {$ENDIF}
 
   { Boltzmann constant @code(kB = 1.380649 × 10⁻²³ J·K⁻¹).
     Relates the average kinetic energy of particles in a gas to the thermodynamic temperature.
   }
-  BoltzmannConstant              : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole:   0; FCandela: 0; FSteradian: 0); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
+  BoltzmannConstant              : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,  120, -120,    0,  -60,    0,    0,    0)); FValue:         1.380649E-23); {$ELSE} (        1.380649E-23); {$ENDIF}
 
   { Compton wavelength @code(λC = 2.42631023867 × 10⁻¹² m).
     Quantum mechanical property of the electron; sets the scale at which quantum field effects become significant.
   }
-  ComptonWaveLength              : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
+  ComptonWaveLength              : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,   60,    0,    0,    0,    0,    0,    0)); FValue:    2.42631023867E-12); {$ELSE} (   2.42631023867E-12); {$ENDIF}
 
   { Coulomb constant @code(ke = 8.9875517923 × 10⁹ N·m²·C⁻²).
     Proportionality constant in Coulomb's law of electrostatic force.
   }
-  CoulombConstant                : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  180; FSecond: -240; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
+  CoulombConstant                : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,  180, -240, -120,    0,    0,    0,    0)); FValue:      8.9875517923E+9); {$ELSE} (     8.9875517923E+9); {$ENDIF}
 
   { Deuteron mass @code(m_d = 3.3435837768 × 10⁻²⁷ kg).
     Rest mass of the deuteron (nucleus of deuterium, one proton and one neutron).
   }
-  DeuteronMass                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
+  DeuteronMass                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,    0,    0,    0,    0,    0,    0,    0)); FValue:     3.3435837768E-27); {$ELSE} (    3.3435837768E-27); {$ENDIF}
 
   { Electric permittivity of free space @code(ε₀ = 8.8541878188 × 10⁻¹² F·m⁻¹).
     Relates electric field to electric displacement field in a vacuum.
   }
-  ElectricPermittivity           : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter: -180; FSecond:  240; FAmpere:  120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
+  ElectricPermittivity           : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: ( -60, -180,  240,  120,    0,    0,    0,    0)); FValue:     8.8541878188E-12); {$ELSE} (    8.8541878188E-12); {$ENDIF}
 
   { Electron rest mass @code(m_e = 9.1093837015 × 10⁻³¹ kg).
     Rest mass of the electron.
   }
-  ElectronMass                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
+  ElectronMass                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,    0,    0,    0,    0,    0,    0,    0)); FValue:     9.1093837015E-31); {$ELSE} (    9.1093837015E-31); {$ENDIF}
 
   { Elementary charge @code(e = 1.602176634 × 10⁻¹⁹ C).
       Electric charge carried by a single proton; the fundamental unit of electric charge.
   }
-  ElectronCharge                 : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:   60; FAmpere:   60; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
+  ElectronCharge                 : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,    0,   60,   60,    0,    0,    0,    0)); FValue:      1.602176634E-19); {$ELSE} (     1.602176634E-19); {$ENDIF}
 
   { Fine-structure constant @code(α = 7.2973525643 × 10⁻³) (dimensionless).
     Characterises the strength of the electromagnetic interaction between elementary charged particles.
   }
-  FineStructureConstant          : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
+  FineStructureConstant          : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,    0,    0,    0,    0,    0,    0,    0)); FValue:      7.2973525643E-3); {$ELSE} (     7.2973525643E-3); {$ENDIF}
 
   { Inverse fine-structure constant @code(α⁻¹ = 137.035999177) (dimensionless).
     Reciprocal of the fine-structure constant; often used in quantum electrodynamics.
   }
-  InverseFineStructureConstant   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
+  InverseFineStructureConstant   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,    0,    0,    0,    0,    0,    0,    0)); FValue:        137.035999177); {$ELSE} (       137.035999177); {$ENDIF}
 
   { Magnetic permeability of free space @code(μ₀ = 1.25663706212 × 10⁻⁶ H·m⁻¹).
     Relates magnetic field intensity to magnetic flux density in a vacuum.
   }
-  MagneticPermeability           : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:   60; FSecond: -120; FAmpere: -120; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
+  MagneticPermeability           : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,   60, -120, -120,    0,    0,    0,    0)); FValue:     1.25663706212E-6); {$ELSE} (    1.25663706212E-6); {$ENDIF}
 
   { Molar gas constant @code(R = 8.314462618 J·mol⁻¹·K⁻¹).
     Relates energy to temperature and amount of substance in the ideal gas law.
   }
-  MolarGasConstant               : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin: -60; FMole: -60; FCandela: 0; FSteradian: 0); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
+  MolarGasConstant               : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,  120, -120,    0,  -60,  -60,    0,    0)); FValue:          8.314462618); {$ELSE} (         8.314462618); {$ENDIF}
 
   { Neutron rest mass @code(m_n = 1.67492750056 × 10⁻²⁷ kg).
     Rest mass of the neutron.
   }
-  NeutronRestMass                : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
+  NeutronRestMass                : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,    0,    0,    0,    0,    0,    0,    0)); FValue:    1.67492750056E-27); {$ELSE} (   1.67492750056E-27); {$ENDIF}
 
   { Newtonian constant of gravitation @code(G = 6.67430 × 10⁻¹¹ m³·kg⁻¹·s⁻²).
     Proportionality constant in Newton's law of universal gravitation.
   }
-  NewtonianConstantOfGravitation : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram: -60; FMeter:  180; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
+  NewtonianConstantOfGravitation : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: ( -60,  180, -120,    0,    0,    0,    0,    0)); FValue:          6.67430E-11); {$ELSE} (         6.67430E-11); {$ENDIF}
 
   { Planck constant @code(h = 6.62607015 × 10⁻³⁴ J·s).
     Relates the energy of a photon to its frequency; fundamental constant of quantum mechanics.
   }
-  PlanckConstant                 : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
+  PlanckConstant                 : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,  120,  -60,    0,    0,    0,    0,    0)); FValue:       6.62607015E-34); {$ELSE} (      6.62607015E-34); {$ENDIF}
 
   { Proton rest mass @code(m_p = 1.67262192595 × 10⁻²⁷ kg).
     Rest mass of the proton.
   }
-  ProtonRestMass                 : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
+  ProtonRestMass                 : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,    0,    0,    0,    0,    0,    0,    0)); FValue:    1.67262192595E-27); {$ELSE} (   1.67262192595E-27); {$ENDIF}
 
   { Rydberg constant @code(R∞ = 10973731.568157 m⁻¹).
     Relates the wavelengths of spectral lines of the hydrogen atom.
   }
-  RydbergConstant                : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  -60; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
+  RydbergConstant                : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,  -60,    0,    0,    0,    0,    0,    0)); FValue:      10973731.568157); {$ELSE} (     10973731.568157); {$ENDIF}
 
   { Speed of light in vacuum @code(c = 299792458 m·s⁻¹).
     Exact defined value; maximum speed of propagation of any physical interaction.
   }
-  SpeedOfLight                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
+  SpeedOfLight                   : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,   60,  -60,    0,    0,    0,    0,    0)); FValue:            299792458); {$ELSE} (           299792458); {$ENDIF}
 
   { Squared speed of light in vacuum @code(c² = 8.98755178736818 × 10¹⁶ m²·s⁻²).
     Appears in the mass-energy equivalence relation @code(E = mc²).
   }
-  SquaredSpeedOfLight            : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:  120; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
+  SquaredSpeedOfLight            : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,  120, -120,    0,    0,    0,    0,    0)); FValue: 8.98755178736818E+16); {$ELSE} (8.98755178736818E+16); {$ENDIF}
 
   { Standard acceleration of gravity @code(g = 9.80665 m·s⁻²).
     Conventional standard value of the acceleration due to Earth's gravity at sea level.
   }
-  StandardAccelerationOfGravity  : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:   0; FMeter:   60; FSecond: -120; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
+  StandardAccelerationOfGravity  : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (   0,   60, -120,    0,    0,    0,    0,    0)); FValue:              9.80665); {$ELSE} (             9.80665); {$ENDIF}
 
   { Reduced Planck constant @code(ℏ = h / (2π) = 1.054571817 × 10⁻³⁴ J·s).
     Also called the Dirac constant; appears in quantum mechanics wherever angular frequency is used.
   }
-  ReducedPlanckConstant          : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:  120; FSecond:  -60; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
+  ReducedPlanckConstant          : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,  120,  -60,    0,    0,    0,    0,    0)); FValue:  6.62607015E-34/2/pi); {$ELSE} ( 6.62607015E-34/2/pi); {$ENDIF}
 
   { Unified atomic mass unit @code(u = 1.66053906892 × 10⁻²⁷ kg).
     Defined as one twelfth of the mass of a carbon-12 atom at rest.
   }
-  UnifiedAtomicMassUnit          : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond:    0; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
+  UnifiedAtomicMassUnit          : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,    0,    0,    0,    0,    0,    0,    0)); FValue:    1.66053906892E-27); {$ELSE} (   1.66053906892E-27); {$ENDIF}
 
   { Reference sound intensity @code(I₀ = 10⁻¹² W·m⁻²).
     Conventional threshold of human hearing at 1 kHz; used as the reference level
     for the decibel scale of sound intensity.
   }
-  SoundIntensityReference        : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FKilogram:  60; FMeter:    0; FSecond: -180; FAmpere:    0; FKelvin:   0; FMole:   0; FCandela: 0; FSteradian: 0); FValue:                1E-12); {$ELSE} (               1E-12); {$ENDIF}
+  SoundIntensityReference        : TRealQuantity = {$IFNDEF ADIMOFF} (FDim: (FExponents: (  60,    0, -180,    0,    0,    0,    0,    0)); FValue:                1E-12); {$ELSE} (               1E-12); {$ENDIF}
 
 const
   { Prefix Table } { @exclude }
@@ -4288,16 +4289,71 @@ const
 
 
 
-{ @exclude } function  CheckEqual(ALeft, ARight: TDimension): TDimension; inline;
-{ @exclude } function  CheckSum  (ALeft, ARight: TDimension): TDimension; inline;
-{ @exclude } function  CheckSub  (ALeft, ARight: TDimension): TDimension; inline;
+{ CheckSum, CheckSub and Check must never be inlined: they report errors at
+  the return address of their caller's caller (see RaiseDimensionError). }
+{ @exclude } function  CheckSum  (ALeft, ARight: TDimension): TDimension;
+{ @exclude } function  CheckSub  (ALeft, ARight: TDimension): TDimension;
 { @exclude } function  CheckMul  (ALeft, ARight: TDimension): TDimension; inline;
 { @exclude } function  CheckDiv  (ALeft, ARight: TDimension): TDimension; inline;
-{ @exclude } procedure Check     (ALeft, ARight: TDimension); inline;
+{ @exclude } procedure Check     (ALeft, ARight: TDimension);
 
 implementation
 
 uses Math;
+
+{ Dimension checks. They are implemented first so that the routines below can
+  inline CheckMul and CheckDiv: FPC only inlines a call when the body of the
+  callee has already been compiled. }
+
+{ Raises EDimensionError as if it originated in the routine that called the
+  library routine owning ACheckFrame (the frame of a Check* function). This way
+  debuggers and backtraces point at the user's expression, e.g. "a + b", rather
+  than at the internals of the operator. }
+procedure RaiseDimensionError(const AFormat: string; ALeft, ARight: TDimension;
+  ACheckFrame: Pointer);
+var
+  LOwnerFrame: Pointer;
+begin
+  LOwnerFrame := get_caller_frame(ACheckFrame);
+  raise EDimensionError.CreateFmt(AFormat, [ALeft.ToString, ARight.ToString])
+    at get_caller_addr(LOwnerFrame), get_caller_frame(LOwnerFrame);
+end;
+
+function CheckSum(ALeft, ARight: TDimension): TDimension;
+begin
+  if ALeft <> ARight then
+    RaiseDimensionError(
+      'Cannot add quantities with dimensions %s and %s.',
+      ALeft, ARight, get_frame);
+  result := ALeft;
+end;
+
+function CheckSub(ALeft, ARight: TDimension): TDimension;
+begin
+  if ALeft <> ARight then
+    RaiseDimensionError(
+      'Cannot subtract quantities with dimensions %s and %s.',
+      ALeft, ARight, get_frame);
+  result := ALeft;
+end;
+
+function CheckMul(ALeft, ARight: TDimension): TDimension;
+begin
+  result := ALeft + ARight;
+end;
+
+function CheckDiv(ALeft, ARight: TDimension): TDimension;
+begin
+  result := ALeft - ARight;
+end;
+
+procedure Check(ALeft, ARight: TDimension);
+begin
+  if ALeft <> ARight then
+    RaiseDimensionError(
+      'Incompatible physical dimensions: %s and %s.',
+      ALeft, ARight, get_frame);
+end;
 
 function UseSingularUnitName(const AValue: TReal): boolean; inline;
 begin
@@ -4305,11 +4361,16 @@ begin
 end;
 
 function OddRoot(const AValue: TReal; const ADegree: longint): TReal; inline;
+var
+  LExponent: TReal;
 begin
+  { Computed in TReal: "1.0 / ADegree" would be evaluated in single precision,
+    because FPC types the literal 1.0 as single. }
+  LExponent := 1 / ADegree;
   if AValue < 0 then
-    result := -Math.Power(-AValue, 1.0 / ADegree)
+    result := -Math.Power(-AValue, LExponent)
   else
-    result := Math.Power(AValue, 1.0 / ADegree);
+    result := Math.Power(AValue, LExponent);
 end;
 
 const
@@ -10010,51 +10071,6 @@ begin
 {$ELSE}
   result := AQuantity > 0;
 {$ENDIF}
-end;
-
-function CheckEqual(ALeft, ARight: TDimension): TDimension;
-begin
-  if ALeft <> ARight then
-    raise EDimensionError.CreateFmt(
-      'Incompatible physical dimensions: %s expected, %s found.',
-      [ALeft.ToString, ARight.ToString]);
-  result := ALeft;
-end;
-
-function CheckSum(ALeft, ARight: TDimension): TDimension;
-begin
-  if ALeft <> ARight then
-    raise EDimensionError.CreateFmt(
-      'Cannot add quantities with dimensions %s and %s.',
-      [ALeft.ToString, ARight.ToString]);
-  result := ALeft;
-end;
-
-function CheckSub(ALeft, ARight: TDimension): TDimension;
-begin
-  if ALeft <> ARight then
-    raise EDimensionError.CreateFmt(
-      'Cannot subtract quantities with dimensions %s and %s.',
-      [ALeft.ToString, ARight.ToString]);
-  result := ALeft;
-end;
-
-function CheckMul(ALeft, ARight: TDimension): TDimension;
-begin
-  result := ALeft + ARight;
-end;
-
-function CheckDiv(ALeft, ARight: TDimension): TDimension;
-begin
-  result := ALeft - ARight;
-end;
-
-procedure Check(ALeft, ARight: TDimension);
-begin
-  if ALeft <> ARight then
-    raise EDimensionError.CreateFmt(
-      'Incompatible physical dimensions: %s and %s.',
-      [ALeft.ToString, ARight.ToString]);
 end;
 
 end.

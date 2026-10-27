@@ -161,7 +161,8 @@ end;
 
 function GetUnitID(const ADim: TExponents): string;
 begin
-  result := Format('(FKilogram: %d; FMeter: %d; FSecond: %d; FAmpere: %d; FKelvin: %d; FMole: %d; FCandela: %d; FSteradian: %d)', [
+  // Exponent order: kg, m, s, A, K, mol, cd, sr (see BaseUnitCount in adimcommon.pas).
+  result := Format('(FExponents: (%d, %d, %d, %d, %d, %d, %d, %d))', [
     ADim[0], ADim[1], ADim[2], ADim[3], ADim[4], ADim[5], ADim[6], ADim[7]]);
 end;
 
