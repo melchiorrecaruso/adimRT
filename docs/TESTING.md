@@ -102,7 +102,7 @@ LAPACK:
 | Area | Measure | Threshold | Source |
 |---|---|---|---|
 | complex `*` | `|fl(x*y) - x*y| / (u |x*y|)` | sqrt(5) | proved (Brent, Percival, Zimmermann 2007) |
-| complex `1/z`, `/` | normwise relative error / u | 8, 10 | project (first-order bounds 5u and (sqrt(5)+5)u) |
+| complex `1/z`, `/` | normwise relative error / u | 8, 10 | project (first-order bound about 5u for the robust Smith formula, Baudin and Smith 2012) |
 | `SquareRoot` | relative error of **each component** / u | 8 | project (first-order estimate 5.5u; Kahan 1987) |
 | `CubicRoot`, `QuarticRoot` | `|r^k - z| / (k |z| u)` | 8 | project |
 | powers | normwise error / ((k-1) sqrt(5) u) | 1 | proved (composition of the product bound) |
@@ -151,14 +151,14 @@ implementation returned `1+0i` instead of `1+1i`, which is within
 
 | Spec | Functions | Input classes |
 |---|---|---|
-| Complex scalars | `TComplex` operators, `Reciprocal`, `Arg`, `Norm`, `ToString`, `TImaginaryUnit`, `IsNull`, `SameValue` | scales 1e-300..1e300, cancellation, signed zeros |
+| Complex scalars | `TComplex` operators, `Reciprocal`, `Arg`, `Norm`, `ToString`, `TImaginaryUnit`, `IsNull`, `SameValue` | scales 1e-300..1e300, operands near overflow and subnormal, cancellation, signed zeros |
 | Scalar roots and powers | `SquareRoot`, `CubicRoot`, `QuarticRoot`, `SquarePower`..`QuarticPower`, linear `SolveEquation` | every quadrant, unbalanced components, near overflow/underflow, subnormals |
 | Polynomial equations | `SolveEquation` degrees 2-4 | random roots at all scales, conjugate pairs, magnitudes 1e-60..1e60 in one polynomial, exact zero, multiple and clustered roots, power-of-two equivariance |
 | Vectors | construction, elementwise operations, `Dot`, `Norm`, `Normalize`, `Reciprocal`, `Cross`, `Conjugate` | lengths 1..1000, cancellation, components dominated by different elements, non-finite inputs |
 | Matrices | construction, elementwise operations, transposes, products, `Norm`, `Trace`, predicates | orders 1..40, scales 1e-100..1e100, cancelling rows |
 | Linear systems | `SolveLinear`, `Inverse`, `Determinant`, `Rank`, `RowReduction` | xCHKGE classes: diagonal, triangular, cond 2, sqrt(1/eps), 0.1/eps, scaled 1e-290 and 1e290, zero columns; prescribed rank at scales 1e-200..1e200 |
 | Symmetric and Hermitian eigenpairs | `SymmetricEigenpairs`, `HermitianEigenpairs` | zero, identity, arithmetic, geometric cond 1/eps and sqrt(1/eps), one large/small, mixed signs, repeated, scaled 1e-290 and 1e290, Wilkinson, Hilbert, Laplacian |
-| General eigenpairs | `Eigenpairs` (real and complex) | prescribed spectra with cond(X) 1, 1e3, 1e6; random; scaled; cyclic permutations; Jordan; Grcar; Frank; Kahan; companion; graded; triangular; Hermitian path |
+| General eigenpairs | `Eigenpairs` (real and complex) | prescribed spectra with cond(X) 1, 1e3, 1e6; graded similarities D*A*D^-1 with D = diag(g^i), g up to 1e8 (balancing); permuted triangular; random; scaled; cyclic permutations; Jordan; Grcar; Frank; Kahan; companion; graded; triangular; Hermitian path |
 | Tridiagonal lowest eigenpairs | `TridiagonalLowestEigenpairs`, `HermitianTridiagonalLowestEigenpairs` | Laplacian (analytic), Wilkinson, random, graded, disconnected, zero; partial and fall-back paths; complex phases |
 | Performance | products, `SolveLinear`, `Inverse`, all eigen solvers | complexity T(128)/T(64); cost relative to a plain triple loop |
 
@@ -207,6 +207,14 @@ With the original implementation `--perf` does not finish in reasonable
 time: the tridiagonal case of order 6400 alone would take well over a
 quarter of an hour. The figures above were measured with single timed
 calls.
+
+Defects found later, in the implementation validated above (commit
+`e17c34e`), and the checks added for them:
+
+| Defect in `e17c34e` | Detected by | Evidence |
+|---|---|---|
+| complex `/` computed as `x * (1/y)`: spurious overflow and underflow | complex scalars: reciprocal and division near the ends of the range | `1e308/(1e308+1e308i)` gave 0; section aborted (EUnderflow) |
+| general `Eigenpairs` without balancing | general eigenpairs: graded similarity, permuted triangular | 25 failures, worst ratio 3.5e46; 11 failures |
 
 To repeat the validation against another `adimmath.pas`, compile the suite
 from a directory that does not contain the current source, because Free

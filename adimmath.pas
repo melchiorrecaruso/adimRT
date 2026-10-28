@@ -531,6 +531,78 @@ begin
   result := AValue.ToString(APrecision, ADigits)
 end;
 
+{ Robust complex division (a + ib)/(c + id) = e + if (M. Baudin,
+  R. L. Smith, "A Robust Complex Division in Scilab", 2012): Smith's
+  formula with the operands prescaled by powers of two, so that no
+  intermediate overflows or underflows unless the quotient itself does. }
+procedure ComplexDivide(a, b, c, d: TReal; out e, f: TReal);
+const
+  Overflow = 1.7976931348623157E+308;  { largest finite double }
+  Underflow = 2.2250738585072014E-308; { smallest normal double }
+  Boost = 8.1129638414606682E+031;     { 2/eps^2 = 2^105 }
+var
+  LScale, LRatio, LInverse: TReal;
+  LSwap: boolean;
+
+  function Component(const AX, AY: TReal): TReal;
+  var
+    LProduct: TReal;
+  begin
+    { (AX + AY*r)/(c + d*r) without spurious underflow of AY*r. }
+    if LRatio <> 0 then
+    begin
+      LProduct := AY * LRatio;
+      if LProduct <> 0 then
+        result := (AX + LProduct) * LInverse
+      else
+        result := AX * LInverse + (AY * LInverse) * LRatio;
+    end else
+      result := (AX + d * (AY / c)) * LInverse;
+  end;
+
+begin
+  if (c = 0) and (d = 0) then
+    raise EZeroDivide.Create('TComplex: division by zero.');
+  LScale := 1;
+  if Max(System.Abs(a), System.Abs(b)) >= Overflow / 2 then
+  begin
+    a := a / 2;
+    b := b / 2;
+    LScale := LScale * 2;
+  end;
+  if Max(System.Abs(c), System.Abs(d)) >= Overflow / 2 then
+  begin
+    c := c / 2;
+    d := d / 2;
+    LScale := LScale / 2;
+  end;
+  if Max(System.Abs(a), System.Abs(b)) <= Underflow * 2 / Precision then
+  begin
+    a := a * Boost;
+    b := b * Boost;
+    LScale := LScale / Boost;
+  end;
+  if Max(System.Abs(c), System.Abs(d)) <= Underflow * 2 / Precision then
+  begin
+    c := c * Boost;
+    d := d * Boost;
+    LScale := LScale * Boost;
+  end;
+  { Divide by the larger component of the divisor: for |d| > |c| the
+    quotient is obtained from (b + ia)/(d + ic) = f - ie. }
+  LSwap := System.Abs(d) > System.Abs(c);
+  if LSwap then
+  begin
+    LRatio := a; a := b; b := LRatio;
+    LRatio := c; c := d; d := LRatio;
+  end;
+  LRatio := d / c;
+  LInverse := 1 / (c + d * LRatio);
+  e := Component(a, b) * LScale;
+  f := Component(b, -a) * LScale;
+  if LSwap then f := -f;
+end;
+
 // TComplex
 
 function TComplex.Arg: TReal;
@@ -570,25 +642,8 @@ begin
 end;
 
 function TComplex.Reciprocal: TComplex;
-var
-  LRatio, LDenominator: TReal;
 begin
-  if (fRe = 0) and (fIm = 0) then
-    raise EZeroDivide.Create('TComplex.Reciprocal: division by zero.');
-
-  if System.Abs(fRe) >= System.Abs(fIm) then
-  begin
-    LRatio := fIm / fRe;
-    LDenominator := fRe + fIm * LRatio;
-    result.fRe := 1 / LDenominator;
-    result.fIm := -LRatio / LDenominator;
-  end else
-  begin
-    LRatio := fRe / fIm;
-    LDenominator := fIm + fRe * LRatio;
-    result.fRe := LRatio / LDenominator;
-    result.fIm := -1 / LDenominator;
-  end;
+  ComplexDivide(1, 0, fRe, fIm, result.fRe, result.fIm);
 end;
 
 { A component is printed when it is not negligible relative to the larger
@@ -734,12 +789,13 @@ end;
 
 class operator TComplex./(const ALeft, ARight: TComplex): TComplex;
 begin
-  result := ALeft * ARight.Reciprocal;
+  ComplexDivide(ALeft.fRe, ALeft.fIm, ARight.fRe, ARight.fIm,
+    result.fRe, result.fIm);
 end;
 
 class operator TComplex./(const ALeft: TReal; const ARight: TComplex): TComplex;
 begin
-  result := ALeft * ARight.Reciprocal;
+  ComplexDivide(ALeft, 0, ARight.fRe, ARight.fIm, result.fRe, result.fIm);
 end;
 
 class operator TComplex./(const ALeft: TComplex; const ARight: TReal): TComplex;
@@ -2424,26 +2480,37 @@ begin
 end;
 
 { Complex Schur decomposition A = Z*T*Z^H followed by eigenvectors of the
-  triangular factor, as in LAPACK ZGEEV: Householder reduction to upper
-  Hessenberg form, single-shift QR iteration with Wilkinson and exceptional
-  shifts and the Ahues-Tisseur deflation test (ZLAHQR), then triangular
-  back substitution (ZTREVC). The cost is O(N^3). Hermitian input uses
-  HermitianEigenpairs, which returns orthonormal eigenvectors. }
+  triangular factor, as in LAPACK ZGEEV: balancing (ZGEBAL), Householder
+  reduction to upper Hessenberg form, single-shift QR iteration with
+  Wilkinson and exceptional shifts and the Ahues-Tisseur deflation test
+  (ZLAHQR), then triangular back substitution (ZTREVC) and back
+  transformation of the balancing (ZGEBAK). The cost is O(N^3). Hermitian
+  input uses HermitianEigenpairs, which returns orthonormal eigenvectors. }
 procedure TComplexMatrixHelper.Eigenpairs(out AValues: TComplexVector;
   out AVectors: TComplexMatrix);
 const
   SafeMinimum = 2.2250738585072014E-308;
   BigValue = 1E100;
   ExceptionalFactor = 0.75;
+  { Limits and convergence factor of the ZGEBAL scaling loop. }
+  SafeMinimum1 = SafeMinimum / Precision;
+  SafeMaximum1 = 1 / SafeMinimum1;
+  SafeMinimum2 = SafeMinimum1 * 2;
+  SafeMaximum2 = 1 / SafeMinimum2;
+  BalanceFactor = 0.95;
 var
-  N, I, J, K, L, Row, Iteration, MaxIterations, Last: longint;
+  N, I, J, K, L, Row, Iteration, MaxIterations, Last, BalanceLow,
+    BalanceHigh: longint;
   H, Z, V, X: TArrayOfComplex;
   W: TArrayOfComplex;
+  Balance: TArrayOfReal;
+  Swaps: array of longint;
   HermitianValues: TRealVector;
   Alpha, Sum, Shift, U, XShift, Y, C2, S, R, Temporary, Diagonal: TComplex;
   Scale, Tolerance, VectorNorm, FirstNorm, SmallNumber, Test, AB, BA, AA,
-    BB, Total, C, Largest, MinPivot: TReal;
-  IsHermitian, IsDiagonal: boolean;
+    BB, Total, C, Largest, MinPivot, ColumnNorm, RowNorm, ColumnMax, RowMax,
+    Factor, Ratio, Before: TReal;
+  IsHermitian, IsDiagonal, Changed, CanSwap: boolean;
 
   function Abs1(const AValue: TComplex): TReal; inline;
   begin
@@ -2475,6 +2542,31 @@ var
       ACos := LNormX / LNorm;
       ASin := LPhase * (AY.Conjugate / LNorm);
       ARadius := LPhase * LNorm;
+    end;
+  end;
+
+  { Applies the permutation similarity exchanging indices AFirst and
+    ASecond to H and records it for the back transformation. }
+  procedure SwapRowsAndColumns(AFirst, ASecond: longint);
+  var
+    LIndex: longint;
+    LValue: TComplex;
+  begin
+    SetLength(Swaps, Length(Swaps) + 2);
+    Swaps[High(Swaps) - 1] := AFirst;
+    Swaps[High(Swaps)] := ASecond;
+    if AFirst = ASecond then Exit;
+    for LIndex := 0 to N - 1 do
+    begin
+      LValue := H[LIndex * N + AFirst];
+      H[LIndex * N + AFirst] := H[LIndex * N + ASecond];
+      H[LIndex * N + ASecond] := LValue;
+    end;
+    for LIndex := 0 to N - 1 do
+    begin
+      LValue := H[AFirst * N + LIndex];
+      H[AFirst * N + LIndex] := H[ASecond * N + LIndex];
+      H[ASecond * N + LIndex] := LValue;
     end;
   end;
 
@@ -2525,6 +2617,120 @@ begin
   end else
   begin
     H := System.Copy(Self.FData);
+
+    { Balancing, as in LAPACK ZGEBAL. Symmetric permutations first move
+      rows and columns that isolate an eigenvalue to the bottom and to the
+      top; a diagonal similarity D^-1*A*D by powers of two then makes the
+      2-norms of corresponding rows and columns comparable. Without it the
+      eigenvalues of a badly scaled matrix carry errors relative to its
+      largest entries. }
+    SetLength(Balance, N);
+    for I := 0 to N - 1 do Balance[I] := 1;
+    Swaps := nil;
+    BalanceLow := 0;
+    BalanceHigh := N - 1;
+    Changed := True;
+    while Changed and (BalanceHigh > 0) do
+    begin
+      Changed := False;
+      for I := BalanceHigh downto 0 do
+      begin
+        CanSwap := True;
+        for J := 0 to BalanceHigh do
+          if (J <> I) and ((H[I * N + J].fRe <> 0) or
+             (H[I * N + J].fIm <> 0)) then
+          begin
+            CanSwap := False;
+            Break;
+          end;
+        if not CanSwap then Continue;
+        SwapRowsAndColumns(I, BalanceHigh);
+        Changed := True;
+        Dec(BalanceHigh);
+        if BalanceHigh = 0 then Break;
+      end;
+    end;
+    Changed := BalanceHigh > 0;
+    while Changed do
+    begin
+      Changed := False;
+      for J := BalanceLow to BalanceHigh do
+      begin
+        CanSwap := True;
+        for I := BalanceLow to BalanceHigh do
+          if (I <> J) and ((H[I * N + J].fRe <> 0) or
+             (H[I * N + J].fIm <> 0)) then
+          begin
+            CanSwap := False;
+            Break;
+          end;
+        if not CanSwap then Continue;
+        SwapRowsAndColumns(J, BalanceLow);
+        Changed := True;
+        Inc(BalanceLow);
+      end;
+    end;
+    Changed := BalanceLow < BalanceHigh;
+    while Changed do
+    begin
+      Changed := False;
+      for I := BalanceLow to BalanceHigh do
+      begin
+        ColumnNorm := 0;
+        RowNorm := 0;
+        for J := BalanceLow to BalanceHigh do
+        begin
+          ColumnNorm := Hypot(ColumnNorm, H[J * N + I].Norm);
+          RowNorm := Hypot(RowNorm, H[I * N + J].Norm);
+        end;
+        ColumnMax := 0;
+        RowMax := 0;
+        for J := 0 to N - 1 do
+        begin
+          ColumnMax := Max(ColumnMax, H[J * N + I].Norm);
+          RowMax := Max(RowMax, H[I * N + J].Norm);
+        end;
+        if (ColumnNorm = 0) or (RowNorm = 0) then Continue;
+        Factor := 1;
+        Before := ColumnNorm + RowNorm;
+        Ratio := RowNorm / 2;
+        while (ColumnNorm < Ratio) and
+          (Max(Factor, Max(ColumnNorm, ColumnMax)) < SafeMaximum2) and
+          (Min(RowNorm, Min(Ratio, RowMax)) > SafeMinimum2) do
+        begin
+          Factor := Factor * 2;
+          ColumnNorm := ColumnNorm * 2;
+          ColumnMax := ColumnMax * 2;
+          RowNorm := RowNorm / 2;
+          Ratio := Ratio / 2;
+          RowMax := RowMax / 2;
+        end;
+        Ratio := ColumnNorm / 2;
+        while (Ratio >= RowNorm) and (Max(RowNorm, RowMax) < SafeMaximum2) and
+          (Min(Min(Factor, ColumnNorm), Min(Ratio, ColumnMax)) > SafeMinimum2) do
+        begin
+          Factor := Factor / 2;
+          ColumnNorm := ColumnNorm / 2;
+          Ratio := Ratio / 2;
+          ColumnMax := ColumnMax / 2;
+          RowNorm := RowNorm * 2;
+          RowMax := RowMax * 2;
+        end;
+        if ColumnNorm + RowNorm >= BalanceFactor * Before then Continue;
+        if (Factor < 1) and (Balance[I] < 1) and
+           (Factor * Balance[I] <= SafeMinimum1) then Continue;
+        if (Factor > 1) and (Balance[I] > 1) and
+           (Balance[I] >= SafeMaximum1 / Factor) then Continue;
+        Balance[I] := Balance[I] * Factor;
+        Changed := True;
+        for J := 0 to N - 1 do
+        begin
+          H[I * N + J] := H[I * N + J] / Factor;
+          H[J * N + I] := H[J * N + I] * Factor;
+        end;
+      end;
+    end;
+
     SetLength(Z, N * N);
     for I := 0 to N - 1 do Z[I * N + I] := 1;
     SetLength(V, N);
@@ -2708,6 +2914,15 @@ begin
       end;
       for Row := 0 to N - 1 do AVectors.FData[Row * N + K] := V[Row];
     end;
+
+    { Undo the balancing (ZGEBAK): the eigenvectors of A are P*D*x. }
+    for Row := 0 to N - 1 do
+      if Balance[Row] <> 1 then
+        for K := 0 to N - 1 do
+          AVectors.FData[Row * N + K] :=
+            Balance[Row] * AVectors.FData[Row * N + K];
+    for I := Length(Swaps) div 2 - 1 downto 0 do
+      AVectors.Swap(Swaps[2 * I], Swaps[2 * I + 1]);
   end;
 
   { Unit 2-norm columns; the largest component is made real and positive. }

@@ -119,6 +119,107 @@ begin
       end;
 end;
 
+{ D*A*D^-1 with D = diag(g^i) has the spectrum of A, but entries spread
+  over up to g^(2(n-1)). Balancing (ZGEBAL) must recover a scaling close to
+  D^-1, so the eigenvalues keep the accuracy they have for A. }
+procedure BalancingChecks;
+const
+  Orders: array[0..2] of Integer = (3, 5, 8);
+  Gradings: array[0..2] of Double = (1E2, 1E4, 1E8);
+var
+  S, G, K, I, J, N: Integer;
+  LValues: array of TComplex;
+  LCondition: TArrayOfReal;
+  LPermutation: array of Integer;
+  A, B: TComplexMatrix;
+  R: TRealMatrix;
+  D: TComplexVector;
+  V: TComplexMatrix;
+  LDiagonal: array of Double;
+  LUsed: array of Boolean;
+  LOk: Boolean;
+begin
+  Group('Graded similarity D*A*D^-1: eigenvalue error / condition of A',
+    ckAccuracy, ProjectThreshold, tsProject, '|error| / (n kappa_i ||A||_F ulp)');
+  SetSeed(941);
+  for S := Low(Orders) to High(Orders) do
+    for G := Low(Gradings) to High(Gradings) do
+      for K := 1 to 3 do
+      begin
+        N := Orders[S];
+        SetLength(LValues, N);
+        for I := 0 to N - 1 do LValues[I] := RandomComplex;
+        A := GeneralWithSpectrum(LValues, 1, LCondition);
+        B := A.Clone;
+        for I := 0 to N - 1 do
+          for J := 0 to N - 1 do
+            B[I, J] := A[I, J] * Power(Gradings[G], I - J);
+        B.Eigenpairs(D, V);
+        CheckRatio(Format('n=%d g=%g #%d', [N, Gradings[G], K]),
+          EigenvalueRatio(D, LValues, LCondition, FrobeniusNorm(A)));
+      end;
+
+  Group('Graded similarity D*A*D^-1: residual (ZGET22)', ckStability,
+    LAPACKGeneralEigenThreshold, tsLAPACK, 'nep.in');
+  SetSeed(941);
+  for S := Low(Orders) to High(Orders) do
+    for G := Low(Gradings) to High(Gradings) do
+      for K := 1 to 3 do
+      begin
+        N := Orders[S];
+        SetLength(LValues, N);
+        for I := 0 to N - 1 do LValues[I] := RandomComplex;
+        A := GeneralWithSpectrum(LValues, 1, LCondition);
+        B := A.Clone;
+        for I := 0 to N - 1 do
+          for J := 0 to N - 1 do
+            B[I, J] := A[I, J] * Power(Gradings[G], I - J);
+        CheckResidual(Format('n=%d g=%g #%d', [N, Gradings[G], K]), B);
+      end;
+
+  { P*T*P^T with T upper triangular: the balancing permutations isolate
+    every eigenvalue, which is then returned exactly. }
+  Group('Permuted triangular matrices: exact eigenvalues', ckExact);
+  SetSeed(942);
+  for N in [2, 3, 6, 12] do
+    for K := 1 to 3 do
+    begin
+      SetLength(LPermutation, N);
+      for I := 0 to N - 1 do LPermutation[I] := I;
+      for I := N - 1 downto 1 do
+      begin
+        J := Trunc((RandomUniform + 1) / 2 * (I + 1));
+        if J > I then J := I;
+        S := LPermutation[I];
+        LPermutation[I] := LPermutation[J];
+        LPermutation[J] := S;
+      end;
+      R := RandomRealMatrix(N);
+      SetLength(LDiagonal, N);
+      for I := 0 to N - 1 do
+      begin
+        for J := 0 to I - 1 do R[I, J] := 0;
+        LDiagonal[I] := R[I, I];
+      end;
+      B := NewComplexMatrix(N);
+      for I := 0 to N - 1 do
+        for J := 0 to N - 1 do
+          B[LPermutation[I], LPermutation[J]] := R[I, J];
+      B.Eigenpairs(D, V);
+      SetLength(LUsed, N);
+      for I := 0 to N - 1 do LUsed[I] := False;
+      LOk := True;
+      for I := 0 to N - 1 do
+      begin
+        J := 0;
+        while (J < N) and (LUsed[J] or (D[J] <> Complex(LDiagonal[I], 0))) do
+          Inc(J);
+        if J = N then LOk := False else LUsed[J] := True;
+      end;
+      Check(Format('n=%d #%d', [N, K]), LOk);
+    end;
+end;
+
 procedure RealChecks;
 const
   Orders: array[0..6] of Integer = (1, 2, 3, 5, 10, 20, 40);
@@ -238,6 +339,7 @@ end;
 procedure Run;
 begin
   Guard(@GeneratedChecks);
+  Guard(@BalancingChecks);
   Guard(@RealChecks);
   Guard(@ClassicalChecks);
   Guard(@ContractChecks);
