@@ -258,6 +258,7 @@ procedure CompensatedAdd(var ASum, ACompensation: TComplex;
 
 type
   TRealHelper = type helper for TReal
+    function Conjugate: TReal; inline;
     function SameValue(const AValue: TReal): boolean; inline;
     function SquaredNorm: TReal; inline;
     function ToString: string; overload; inline;
@@ -319,6 +320,8 @@ type
   generic TMatrix<T> = record
   type
     TVectorType = specialize TVector<T>;
+    TValues = array of T;
+    TPivots = array of longint;
   private
     FData: array of T;
     FOrder: longint;
@@ -326,11 +329,22 @@ type
     procedure Put(ARow, ACol: longint; const AValue: T); inline;
     procedure RequireSameOrder(const AMatrix: TMatrix); inline;
     procedure SetOrder(AOrder: longint);
-    function ForwardElimination(out ASwapCount: integer): TMatrix;
+    function Factorize(out APivots: TPivots; out ASwapCount: integer): TMatrix;
+    function SolveFactored(const APivots: TPivots; var AData: TValues;
+      AAdjoint: boolean; ALimit: TReal): boolean;
+    function OneNorm: TReal;
+    function InverseOneNormEstimate(const APivots: TPivots;
+      AMatrixNorm: TReal): TReal;
+    function FactorizeNonsingular(out APivots: TPivots): TMatrix;
     function Multiply(const AMatrix: TMatrix): TMatrix;
   public
     procedure Init(const AValues: array of T);
     function Order: longint; inline;
+    { Solves @code(A*x = AData) by LU factorization with partial pivoting.
+      Raises @code(EZeroDivide) when the matrix is singular to working
+      precision, that is when the estimated reciprocal condition number in
+      the 1-norm is below the unit roundoff (as LAPACK xGESVX): the
+      solution would then have no correct digits. }
     function SolveLinear(const AData: TVectorType): TVectorType;
     function Identity: TMatrix;
     function Null: TMatrix;
@@ -344,6 +358,8 @@ type
     function Trace: T;
     function Clone: TMatrix;
     function Transpose: TMatrix;
+    { Inverse matrix from the LU factorization; raises @code(EZeroDivide)
+      under the same condition as @link(SolveLinear). }
     function Inverse: TMatrix;
     function RowReduction: TMatrix;
     procedure Swap(ARow1, ARow2: longint);
@@ -933,6 +949,11 @@ begin
   result.fIm :=  LReciprocal.fRe;
 end;
 
+function TRealHelper.Conjugate: TReal;
+begin
+  result := Self;
+end;
+
 function TRealHelper.SameValue(const AValue: TReal): boolean;
 begin
   result := SameValueEx(Self, AValue);
@@ -1309,13 +1330,20 @@ begin
   result := FOrder;
 end;
 
-function TMatrix.ForwardElimination(out ASwapCount: integer): TMatrix;
+{ LU factorization with partial pivoting, P*A = L*U (LAPACK xGETF2). The
+  result holds U on and above the diagonal and the multipliers of L below
+  it; APivots[k] is the row exchanged with row k at step k. A column with
+  no nonzero pivot candidate is skipped and leaves a zero on the diagonal. }
+function TMatrix.Factorize(out APivots: TPivots;
+  out ASwapCount: integer): TMatrix;
 var
-  LPivot, LRatio: T;
+  LPivot, LFactor: T;
   LMaxValue: TReal;
   LRow, LCol, LIndex, LMaxRow: longint;
 begin
   result := Clone;
+  APivots := nil;
+  SetLength(APivots, FOrder);
   ASwapCount := 0;
   for LCol := 0 to FOrder - 1 do
   begin
@@ -1327,6 +1355,7 @@ begin
         LMaxValue := Abs(result[LRow, LCol]);
         LMaxRow := LRow;
       end;
+    APivots[LCol] := LMaxRow;
     if LMaxValue = 0 then Continue;
     if LMaxRow <> LCol then
     begin
@@ -1337,66 +1366,211 @@ begin
     for LRow := LCol + 1 to FOrder - 1 do
     begin
       if Abs(result[LRow, LCol]) = 0 then Continue;
-      LRatio := result[LRow, LCol] / LPivot;
-      result[LRow, LCol] := 0;
+      LFactor := result[LRow, LCol] / LPivot;
+      result[LRow, LCol] := LFactor;
       for LIndex := LCol + 1 to FOrder - 1 do
         result[LRow, LIndex] := result[LRow, LIndex] -
-          LRatio * result[LCol, LIndex];
+          LFactor * result[LCol, LIndex];
     end;
   end;
 end;
 
+{ Solves A*x = b, or A^H*x = b when AAdjoint, with Self holding the LU
+  factors of A (LAPACK xGETRS). AData holds b on entry and x on exit.
+  Returns @false, leaving AData undefined, when a component would exceed
+  ALimit in modulus; the condition estimator uses this to stop before an
+  overflow. }
+function TMatrix.SolveFactored(const APivots: TPivots; var AData: TValues;
+  AAdjoint: boolean; ALimit: TReal): boolean;
+var
+  LRow, LIndex: longint;
+  LValue, LPivot, LTemp: T;
+begin
+  result := False;
+  if not AAdjoint then
+  begin
+    { P*b, then L*y = P*b and U*x = y. }
+    for LRow := 0 to FOrder - 1 do
+      if APivots[LRow] <> LRow then
+      begin
+        LTemp := AData[LRow];
+        AData[LRow] := AData[APivots[LRow]];
+        AData[APivots[LRow]] := LTemp;
+      end;
+    for LRow := 1 to FOrder - 1 do
+    begin
+      LValue := AData[LRow];
+      for LIndex := 0 to LRow - 1 do
+        LValue := LValue - Self[LRow, LIndex] * AData[LIndex];
+      AData[LRow] := LValue;
+    end;
+    for LRow := FOrder - 1 downto 0 do
+    begin
+      LValue := AData[LRow];
+      for LIndex := LRow + 1 to FOrder - 1 do
+        LValue := LValue - Self[LRow, LIndex] * AData[LIndex];
+      LPivot := Self[LRow, LRow];
+      if (Abs(LPivot) < 1) and (Abs(LValue) > ALimit * Abs(LPivot)) then Exit;
+      AData[LRow] := LValue / LPivot;
+    end;
+  end else
+  begin
+    { A^H = U^H*L^H*P: U^H*y = b, L^H*z = y, then x = P^T*z. }
+    for LRow := 0 to FOrder - 1 do
+    begin
+      LValue := AData[LRow];
+      for LIndex := 0 to LRow - 1 do
+        LValue := LValue - Self[LIndex, LRow].Conjugate * AData[LIndex];
+      LPivot := Self[LRow, LRow].Conjugate;
+      if (Abs(LPivot) < 1) and (Abs(LValue) > ALimit * Abs(LPivot)) then Exit;
+      AData[LRow] := LValue / LPivot;
+    end;
+    for LRow := FOrder - 2 downto 0 do
+    begin
+      LValue := AData[LRow];
+      for LIndex := LRow + 1 to FOrder - 1 do
+        LValue := LValue - Self[LIndex, LRow].Conjugate * AData[LIndex];
+      AData[LRow] := LValue;
+    end;
+    for LRow := FOrder - 1 downto 0 do
+      if APivots[LRow] <> LRow then
+      begin
+        LTemp := AData[LRow];
+        AData[LRow] := AData[APivots[LRow]];
+        AData[APivots[LRow]] := LTemp;
+      end;
+  end;
+  result := True;
+end;
+
+{ Maximum absolute column sum. }
+function TMatrix.OneNorm: TReal;
+var
+  LRow, LCol: longint;
+  LSum: TReal;
+begin
+  result := 0;
+  for LCol := 0 to FOrder - 1 do
+  begin
+    LSum := 0;
+    for LRow := 0 to FOrder - 1 do LSum := LSum + Abs(Self[LRow, LCol]);
+    result := Max(result, LSum);
+  end;
+end;
+
+{ Lower estimate of ||A^-1||_1 from the LU factors held in Self, by the
+  method of Hager and Higham (LAPACK xLACN2, as used by xGECON): a few
+  solves with A and A^H, then the alternative estimate of Higham (1988).
+  Every estimate is ||A^-1*x||_1 for some ||x||_1 = 1, so it never exceeds
+  the true norm. Returns Infinity when a solve would overflow, which
+  happens only when the reciprocal condition number is far below the unit
+  roundoff. }
+function TMatrix.InverseOneNormEstimate(const APivots: TPivots;
+  AMatrixNorm: TReal): TReal;
+const
+  MaxIterations = 5;
+var
+  X, Z: TValues;
+  LLimit, LEstimate, LPrevious, LLargest, LAbsolute: TReal;
+  LIndex, LColumn, LPreviousColumn, LIteration: longint;
+
+  function NormOf(const AValues: TValues): TReal;
+  var
+    LPosition: longint;
+  begin
+    result := 0;
+    for LPosition := 0 to High(AValues) do
+      result := result + Abs(AValues[LPosition]);
+  end;
+
+begin
+  { The right-hand sides have 1-norm at most 1 and the entries of U are
+    bounded by the growth of the factorization, so components below
+    LLimit cannot make the next solve overflow. }
+  LLimit := 1E300 / (FOrder * Max(OneNorm, TReal(1)));
+  SetLength(X, FOrder);
+  SetLength(Z, FOrder);
+  for LIndex := 0 to FOrder - 1 do X[LIndex] := 1 / FOrder;
+  if not SolveFactored(APivots, X, False, LLimit) then Exit(Infinity);
+  LEstimate := NormOf(X);
+  if FOrder = 1 then Exit(LEstimate);
+  LColumn := -1;
+  for LIteration := 1 to MaxIterations do
+  begin
+    { Z := A^-H * sign(X), a subgradient of ||A^-1*x||_1. }
+    for LIndex := 0 to FOrder - 1 do
+    begin
+      LAbsolute := Abs(X[LIndex]);
+      if LAbsolute = 0 then Z[LIndex] := 1
+      else Z[LIndex] := X[LIndex] / LAbsolute;
+    end;
+    if not SolveFactored(APivots, Z, True, LLimit) then Exit(Infinity);
+    LPreviousColumn := LColumn;
+    LColumn := 0;
+    LLargest := Abs(Z[0]);
+    for LIndex := 1 to FOrder - 1 do
+      if Abs(Z[LIndex]) > LLargest then
+      begin
+        LLargest := Abs(Z[LIndex]);
+        LColumn := LIndex;
+      end;
+    if LColumn = LPreviousColumn then Break;
+    for LIndex := 0 to FOrder - 1 do X[LIndex] := 0;
+    X[LColumn] := 1;
+    if not SolveFactored(APivots, X, False, LLimit) then Exit(Infinity);
+    LPrevious := LEstimate;
+    LEstimate := Max(LEstimate, NormOf(X));
+    if LEstimate <= LPrevious then Break;
+  end;
+  { Alternative estimate, which catches the rare matrices that mislead the
+    iteration. }
+  for LIndex := 0 to FOrder - 1 do
+  begin
+    X[LIndex] := 1 + LIndex / (FOrder - 1);
+    if Odd(LIndex) then X[LIndex] := -X[LIndex];
+  end;
+  if not SolveFactored(APivots, X, False, LLimit) then Exit(Infinity);
+  result := Max(LEstimate, 2 * NormOf(X) / (3 * FOrder));
+end;
+
+{ LU factors of a matrix that is nonsingular to working precision. The
+  threshold is the unit roundoff 2^-53, as for INFO = N+1 in LAPACK
+  xGESVX. }
+function TMatrix.FactorizeNonsingular(out APivots: TPivots): TMatrix;
+const
+  UnitRoundoff = Precision / 2;
+var
+  LSwapCount, LIndex: integer;
+  LNorm: TReal;
+begin
+  result := Factorize(APivots, LSwapCount);
+  if FOrder = 0 then Exit;
+  for LIndex := 0 to FOrder - 1 do
+    if Abs(result[LIndex, LIndex]) = 0 then
+      raise EZeroDivide.Create('Matrix is singular.');
+  LNorm := OneNorm;
+  if 1 / (LNorm * result.InverseOneNormEstimate(APivots, LNorm)) <
+     UnitRoundoff then
+    raise EZeroDivide.Create('Matrix is singular to working precision.');
+end;
+
 function TMatrix.SolveLinear(const AData: TVectorType): TVectorType;
 var
-  LWork: TMatrix;
-  LData: TVectorType;
-  LFactor, LValue, LTemp: T;
-  LMaxValue: TReal;
-  LRow, LCol, LIndex, LMaxRow: longint;
+  LFactors: TMatrix;
+  LPivots: TPivots;
+  LData: TValues;
+  LIndex: longint;
 begin
   if AData.Size <> FOrder then
     raise EDimensionError.CreateFmt(
       'Matrix order %d and vector dimension %d are incompatible.',
       [FOrder, AData.Size]);
-  LWork := Clone;
-  LData := AData;
+  LFactors := FactorizeNonsingular(LPivots);
+  SetLength(LData, FOrder);
+  for LIndex := 0 to FOrder - 1 do LData[LIndex] := AData[LIndex];
+  LFactors.SolveFactored(LPivots, LData, False, Infinity);
   result.SetSize(FOrder);
-  for LCol := 0 to FOrder - 1 do
-  begin
-    LMaxRow := LCol;
-    LMaxValue := Abs(LWork[LCol, LCol]);
-    for LRow := LCol + 1 to FOrder - 1 do
-      if Abs(LWork[LRow, LCol]) > LMaxValue then
-      begin
-        LMaxValue := Abs(LWork[LRow, LCol]);
-        LMaxRow := LRow;
-      end;
-    if LMaxValue = 0 then
-      raise EZeroDivide.Create('Matrix is singular.');
-    if LMaxRow <> LCol then
-    begin
-      LWork.Swap(LCol, LMaxRow);
-      LTemp := LData[LCol];
-      LData[LCol] := LData[LMaxRow];
-      LData[LMaxRow] := LTemp;
-    end;
-    for LRow := LCol + 1 to FOrder - 1 do
-    begin
-      LFactor := LWork[LRow, LCol] / LWork[LCol, LCol];
-      if Abs(LFactor) = 0 then Continue;
-      for LIndex := LCol to FOrder - 1 do
-        LWork[LRow, LIndex] := LWork[LRow, LIndex] -
-          LFactor * LWork[LCol, LIndex];
-      LData[LRow] := LData[LRow] - LFactor * LData[LCol];
-    end;
-  end;
-  for LRow := FOrder - 1 downto 0 do
-  begin
-    LValue := LData[LRow];
-    for LIndex := LRow + 1 to FOrder - 1 do
-      LValue := LValue - LWork[LRow, LIndex] * result[LIndex];
-    result[LRow] := LValue / LWork[LRow, LRow];
-  end;
+  for LIndex := 0 to FOrder - 1 do result[LIndex] := LData[LIndex];
 end;
 
 function TMatrix.Identity: TMatrix;
@@ -1453,11 +1627,13 @@ end;
 function TMatrix.Determinant: T;
 var
   LUpper: TMatrix;
-  LSwapCount, LIndex: longint;
+  LPivots: TPivots;
+  LSwapCount: integer;
+  LIndex: longint;
 begin
   if FOrder = 0 then
     raise EDimensionError.Create('Determinant is undefined for an empty matrix.');
-  LUpper := ForwardElimination(LSwapCount);
+  LUpper := Factorize(LPivots, LSwapCount);
   result := LUpper[0, 0];
   for LIndex := 1 to FOrder - 1 do
     result := result * LUpper[LIndex, LIndex];
@@ -1574,49 +1750,20 @@ end;
 
 function TMatrix.Inverse: TMatrix;
 var
-  LWork: TMatrix;
-  LPivot, LFactor: T;
-  LMaxValue: TReal;
-  LColumn, LRow, LIndex, LMaxRow: longint;
+  LFactors: TMatrix;
+  LPivots: TPivots;
+  LColumn: TValues;
+  LRow, LCol: longint;
 begin
-  LWork := Clone;
-  result := Identity;
-  for LColumn := 0 to FOrder - 1 do
+  LFactors := FactorizeNonsingular(LPivots);
+  result.SetOrder(FOrder);
+  SetLength(LColumn, FOrder);
+  for LCol := 0 to FOrder - 1 do
   begin
-    LMaxRow := LColumn;
-    LMaxValue := Abs(LWork[LColumn, LColumn]);
-    for LRow := LColumn + 1 to FOrder - 1 do
-      if Abs(LWork[LRow, LColumn]) > LMaxValue then
-      begin
-        LMaxValue := Abs(LWork[LRow, LColumn]);
-        LMaxRow := LRow;
-      end;
-    if LMaxValue = 0 then
-      raise EZeroDivide.Create('Matrix is singular.');
-    if LMaxRow <> LColumn then
-    begin
-      LWork.Swap(LColumn, LMaxRow);
-      result.Swap(LColumn, LMaxRow);
-    end;
-    LPivot := LWork[LColumn, LColumn];
-    for LIndex := 0 to FOrder - 1 do
-    begin
-      LWork[LColumn, LIndex] := LWork[LColumn, LIndex] / LPivot;
-      result[LColumn, LIndex] := result[LColumn, LIndex] / LPivot;
-    end;
-    for LRow := 0 to FOrder - 1 do
-    begin
-      if LRow = LColumn then Continue;
-      LFactor := LWork[LRow, LColumn];
-      if Abs(LFactor) = 0 then Continue;
-      for LIndex := 0 to FOrder - 1 do
-      begin
-        LWork[LRow, LIndex] := LWork[LRow, LIndex] -
-          LFactor * LWork[LColumn, LIndex];
-        result[LRow, LIndex] := result[LRow, LIndex] -
-          LFactor * result[LColumn, LIndex];
-      end;
-    end;
+    for LRow := 0 to FOrder - 1 do LColumn[LRow] := Default(T);
+    LColumn[LCol] := 1;
+    LFactors.SolveFactored(LPivots, LColumn, False, Infinity);
+    for LRow := 0 to FOrder - 1 do result[LRow, LCol] := LColumn[LRow];
   end;
 end;
 

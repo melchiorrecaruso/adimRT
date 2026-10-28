@@ -119,6 +119,27 @@ LAPACK:
 | general `Eigenpairs` | `|lambda_i - lambda_i(true)| / (n kappa_i ||A||_F ulp)` | 20 | project (first-order perturbation) |
 | tridiagonal partial | ZSTT22, ZUNT01 | 50 | LAPACK `sep.in` |
 
+### Singular to working precision
+
+`SolveLinear` and `Inverse` estimate the reciprocal condition number in
+the 1-norm from the LU factors (Hager-Higham estimator, LAPACK xGECON) and
+raise `EZeroDivide` when it is below `u`, as LAPACK xGESVX reports
+`INFO = N+1`. The estimate of `||inv(A)||_1` never exceeds the true value,
+so:
+
+- a matrix with `n cond_2(A) u < 1`, hence `cond_1(A) < 1/u`, never
+  raises; the checks require this;
+- for the xCHKGE class `cond = 0.1/eps` at larger orders, where
+  `cond_1(A)` may exceed `1/u`, the exception is accepted in place of the
+  residual, forward-error and inverse checks (in the current run only at
+  n = 32);
+- matrices with `cond_2 = 1e20` and exactly singular integer matrices,
+  where rounding leaves a tiny nonzero pivot, must raise.
+
+Against SciPy (`scipy.linalg.solve`, which warns when the `dgecon`
+estimate is below eps) on 200 systems of order 10, `SolveLinear` raised on
+exactly the 100 systems where SciPy warned or failed, and on no other.
+
 ### Polynomial roots
 
 Each case starts from a known multiset of roots. The computed roots are
@@ -156,7 +177,7 @@ implementation returned `1+0i` instead of `1+1i`, which is within
 | Polynomial equations | `SolveEquation` degrees 2-4 | random roots at all scales, conjugate pairs, magnitudes 1e-60..1e60 in one polynomial, exact zero, multiple and clustered roots, power-of-two equivariance |
 | Vectors | construction, elementwise operations, `Dot`, `Norm`, `Normalize`, `Reciprocal`, `Cross`, `Conjugate` | lengths 1..1000, cancellation, components dominated by different elements, non-finite inputs |
 | Matrices | construction, elementwise operations, transposes, products, `Norm`, `Trace`, predicates | orders 1..40, scales 1e-100..1e100, cancelling rows |
-| Linear systems | `SolveLinear`, `Inverse`, `Determinant`, `Rank`, `RowReduction` | xCHKGE classes: diagonal, triangular, cond 2, sqrt(1/eps), 0.1/eps, scaled 1e-290 and 1e290, zero columns; prescribed rank at scales 1e-200..1e200 |
+| Linear systems | `SolveLinear`, `Inverse`, `Determinant`, `Rank`, `RowReduction` | xCHKGE classes: diagonal, triangular, cond 2, sqrt(1/eps), 0.1/eps, scaled 1e-290 and 1e290, zero columns; singular to working precision (cond 1e20, exactly singular integer matrices) and well conditioned (cond 1e12); prescribed rank at scales 1e-200..1e200 |
 | Symmetric and Hermitian eigenpairs | `SymmetricEigenpairs`, `HermitianEigenpairs` | zero, identity, arithmetic, geometric cond 1/eps and sqrt(1/eps), one large/small, mixed signs, repeated, scaled 1e-290 and 1e290, Wilkinson, Hilbert, Laplacian |
 | General eigenpairs | `Eigenpairs` (real and complex) | prescribed spectra with cond(X) 1, 1e3, 1e6; graded similarities D*A*D^-1 with D = diag(g^i), g up to 1e8 (balancing); permuted triangular; random; scaled; cyclic permutations; Jordan; Grcar; Frank; Kahan; companion; graded; triangular; Hermitian path |
 | Tridiagonal lowest eigenpairs | `TridiagonalLowestEigenpairs`, `HermitianTridiagonalLowestEigenpairs` | Laplacian (analytic), Wilkinson, random, graded, disconnected, zero; partial and fall-back paths; complex phases |
@@ -215,6 +236,7 @@ Defects found later, in the implementation validated above (commit
 |---|---|---|
 | complex `/` computed as `x * (1/y)`: spurious overflow and underflow | complex scalars: reciprocal and division near the ends of the range | `1e308/(1e308+1e308i)` gave 0; section aborted (EUnderflow) |
 | general `Eigenpairs` without balancing | general eigenpairs: graded similarity, permuted triangular | 25 failures, worst ratio 3.5e46; 11 failures |
+| `SolveLinear` and `Inverse` return results without correct digits, silently, for matrices singular to working precision | linear systems: singular to working precision | 27 failures |
 
 To repeat the validation against another `adimmath.pas`, compile the suite
 from a directory that does not contain the current source, because Free

@@ -10,7 +10,15 @@
     DGET03  ||I - inv(A)*A||_1 / (n ||A||_1 ||inv(A)||_1 eps) < 30
     DGET04  ||x - x_true||_2 / (||x_true||_2 cond_2(A) eps)   < 30
 
-  (threshold 30 from dtest.in and ztest.in). The determinant of a
+  (threshold 30 from dtest.in and ztest.in).
+
+  SolveLinear and Inverse raise EZeroDivide when the estimated reciprocal
+  condition number in the 1-norm is below u (LAPACK xGESVX, INFO = N+1).
+  The estimate of ||inv(A)||_1 never exceeds the true value, so a matrix
+  with n*cond_2(A)*u < 1 (hence cond_1(A) < 1/u) must never raise; above
+  that bound the exception is accepted in place of the ratio checks.
+
+  The determinant of a
   generated matrix has modulus prod(sigma_i); its relative error is
   checked against n * cond_2(A) * eps, the first-order condition of the
   determinant for a backward-stable factorization. }
@@ -39,6 +47,12 @@ const
     'scaled 1e-290', 'scaled 1e290');
   ModeNames: array[TSigmaMode] of string = ('one large', 'one small',
     'geometric', 'arithmetic', 'random log');
+
+{ @true when cond_1(A) >= 1/u is possible, cond_1 <= n*cond_2. }
+function RaiseAllowed(N: Integer; ACond: Double): Boolean;
+begin
+  result := N * ACond * UnitRoundoff >= 1;
+end;
 
 { A generated test matrix together with cond_2 and |det|. }
 procedure MakeReal(AClass: TMatrixClass; N: Integer; AMode: TSigmaMode;
@@ -120,8 +134,14 @@ begin
           for J := 0 to Orders[S] - 1 do LSum := LSum + TwoProd(A[I, J], XTrue[J]);
           B[I] := LSum.ToDouble;
         end;
-        X := A.SolveLinear(B);
-        CheckRatio('real ' + LLabel, SolveRatio(A, X, B));
+        try
+          X := A.SolveLinear(B);
+          CheckRatio('real ' + LLabel, SolveRatio(A, X, B));
+        except
+          on EZeroDivide do
+            Check('real ' + LLabel + ' singular to working precision',
+              RaiseAllowed(Orders[S], LCond));
+        end;
         CA := RealToComplexMatrix(A) * Complex(Cos(K + 0.5), Sin(K + 0.5));
         CXTrue := RandomComplexVector(Orders[S]);
         CB := NewComplexVector(Orders[S]);
@@ -132,8 +152,14 @@ begin
             LCSum := LCSum + TDDComplex(CA[I, J]) * TDDComplex(CXTrue[J]);
           CB[I] := LCSum.ToComplex;
         end;
-        CX := CA.SolveLinear(CB);
-        CheckRatio('complex ' + LLabel, SolveRatio(CA, CX, CB));
+        try
+          CX := CA.SolveLinear(CB);
+          CheckRatio('complex ' + LLabel, SolveRatio(CA, CX, CB));
+        except
+          on EZeroDivide do
+            Check('complex ' + LLabel + ' singular to working precision',
+              RaiseAllowed(Orders[S], LCond));
+        end;
         Inc(K);
       end;
 
@@ -156,9 +182,16 @@ begin
         end;
         { The rounded right-hand side changes the exact solution by at most
           cond * eps * ||x||, which the ratio already allows for. }
-        X := A.SolveLinear(B);
-        CheckRatio(Format('n=%d %s mode %s', [Orders[S], ClassNames[LClass],
-          ModeNames[LMode]]), ForwardRatio(X, XTrue, LCond) / LScale);
+        LLabel := Format('n=%d %s mode %s', [Orders[S], ClassNames[LClass],
+          ModeNames[LMode]]);
+        try
+          X := A.SolveLinear(B);
+          CheckRatio(LLabel, ForwardRatio(X, XTrue, LCond) / LScale);
+        except
+          on EZeroDivide do
+            Check(LLabel + ' singular to working precision',
+              RaiseAllowed(Orders[S], LCond));
+        end;
       end;
 
   Group('Determinant modulus, relative error', ckAccuracy, ProjectThreshold,
@@ -188,6 +221,7 @@ var
   A: TRealMatrix;
   CA: TComplexMatrix;
   LCond, LLogDet: Double;
+  LLabel: string;
 begin
   Group('Inverse residual (DGET03/ZGET03)', ckStability, LAPACKLinearThreshold,
     tsLAPACK, 'dtest.in/ztest.in');
@@ -197,11 +231,23 @@ begin
       for LMode := Low(TSigmaMode) to High(TSigmaMode) do
       begin
         MakeReal(LClass, Orders[S], LMode, A, LCond, LLogDet);
-        CheckRatio(Format('real n=%d %s mode %s', [Orders[S], ClassNames[LClass],
-          ModeNames[LMode]]), InverseRatio(A, A.Inverse));
+        LLabel := Format('n=%d %s mode %s', [Orders[S], ClassNames[LClass],
+          ModeNames[LMode]]);
+        try
+          CheckRatio('real ' + LLabel, InverseRatio(A, A.Inverse));
+        except
+          on EZeroDivide do
+            Check('real ' + LLabel + ' singular to working precision',
+              RaiseAllowed(Orders[S], LCond));
+        end;
         CA := RealToComplexMatrix(A) * Complex(0.6, -0.8);
-        CheckRatio(Format('complex n=%d %s mode %s', [Orders[S], ClassNames[LClass],
-          ModeNames[LMode]]), InverseRatio(CA, CA.Inverse));
+        try
+          CheckRatio('complex ' + LLabel, InverseRatio(CA, CA.Inverse));
+        except
+          on EZeroDivide do
+            Check('complex ' + LLabel + ' singular to working precision',
+              RaiseAllowed(Orders[S], LCond));
+        end;
       end;
   A := HilbertMatrix(6);
   CheckRatio('Hilbert 6', InverseRatio(A, A.Inverse));
@@ -214,6 +260,7 @@ var
   A, AInverse: TRealMatrix;
   X, B: TRealVector;
   N, LColumn, I: Integer;
+  LMode: TSigmaMode;
 
   procedure SolveSingular;
   begin
@@ -250,6 +297,38 @@ begin
   N := 3;
   A := RandomRealMatrix(N);
   CheckRaises('SolveLinear with wrong vector size', EDimensionError, @SolveMismatched);
+
+  Group('Singular to working precision', ckContract);
+  SetSeed(722);
+  for N in [2, 5, 10, 20] do
+  begin
+    { cond_2 = 1e20: the reciprocal condition number is far below u. }
+    for LMode := Low(TSigmaMode) to High(TSigmaMode) do
+    begin
+      A := RealMatrixWithSigma(SigmaValues(N, LMode, 1E20), 1);
+      B := RandomRealVector(N);
+      CheckRaises(Format('SolveLinear n=%d cond 1e20 mode %s', [N, ModeNames[LMode]]),
+        EZeroDivide, @SolveSingular);
+      CheckRaises(Format('Inverse n=%d cond 1e20 mode %s', [N, ModeNames[LMode]]),
+        EZeroDivide, @InvertSingular);
+    end;
+    { Exactly singular with integer entries: rounding leaves a tiny
+      nonzero pivot, so only the condition estimate detects it. }
+    A := NewRealMatrix(N);
+    for I := 0 to N - 2 do
+      for LColumn := 0 to N - 1 do
+      begin
+        A[I, LColumn] := Round(9 * RandomUniform);
+        A[N - 1, LColumn] := A[N - 1, LColumn] + A[I, LColumn];
+      end;
+    B := RandomRealVector(N);
+    CheckRaises(Format('SolveLinear n=%d last row = sum of the others', [N]),
+      EZeroDivide, @SolveSingular);
+    { Well conditioned: n*cond_2*u < 1 guarantees no exception. }
+    A := RealMatrixWithSigma(SigmaValues(N, smGeometric, 1E12), 1);
+    CheckNoRaise(Format('SolveLinear n=%d cond 1e12', [N]), @SolveSingular);
+    CheckNoRaise(Format('Inverse n=%d cond 1e12', [N]), @InvertSingular);
+  end;
 end;
 
 procedure RankAndReductionChecks;
