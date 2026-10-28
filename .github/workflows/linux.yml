@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -11,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install Lazarus
       run: |
@@ -33,12 +36,3 @@ jobs:
     - name: Test project
       run: |
         ./build/adimtest
-        exit_code=$?
-
-        if [ $exit_code -ne 0 ]; then
-          echo "Test exited with a non-zero exit code: $exit_code"
-          exit 1
-        fi
-
-
-

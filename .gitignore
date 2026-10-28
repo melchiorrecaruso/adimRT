@@ -2,3 +2,7 @@ build/**
 benchmark/build/**
 toolkit/build/**
 /lib
+
+# Lazarus per-user session files and editor backups
+*.lps
+backup/
