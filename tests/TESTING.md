@@ -9,14 +9,14 @@ inputs are exercised, and how the suite itself was validated.
 From the repository root:
 
 ```sh
-lazbuild test.lpi          # range, overflow and stack checks, heaptrc
-./build/test               # quick run (about 5 s)
+lazbuild tests/test.lpi    # range, overflow and stack checks, heaptrc
+./build/test               # quick run (about 30 s)
 ```
 
 or with Free Pascal alone (3.2.2 or later):
 
 ```sh
-fpc -Mobjfpc -O2 -Fu. -Futests -FEbuild test.lpr
+fpc -Mobjfpc -O2 -Fu. -Futests -FEbuild tests/test.lpr
 ```
 
 Options:
@@ -37,12 +37,12 @@ GitHub Actions builds and runs the suite on every push to `main`
 
 | File | Role |
 |---|---|
-| `test.lpr` | program; the order of the `Spec*` units is the run order |
+| `tests/test.lpr`, `tests/test.lpi` | program and Lazarus project; the order of the `Spec*` units is the run order |
 | `tests/testrunner.pas` | specs, groups, checks, report, exit code |
 | `tests/testdoubledouble.pas` | double-double arithmetic (reference oracle) |
 | `tests/testgenerators.pas` | deterministic input generators |
 | `tests/testmeasures.pas` | norms and LAPACK-style ratios |
-| `tests/spec*.pas` | one specification per area of the public API |
+| `tests/spec*.pas` | one specification per area of the public API, and `speclapack*.pas` for the routines of the internal LAPACK layer, tested as the LAPACK test programs test them |
 
 A *spec* covers one area of the API. Its checks are organised in *groups*,
 and every group declares the kind of property it verifies:
@@ -90,9 +90,7 @@ LAPACK:
 - `GeneralWithSpectrum` (xLATME): `X * D * inv(X)` with `cond_2(X)`
   prescribed, also returning the eigenvalue condition numbers;
 - classical matrices: Jordan, cyclic permutation, Grcar, Frank, Kahan,
-  Hilbert, companion, Wilkinson and 1D Laplacian tridiagonals;
-- `CoefficientsFromRoots`: monic coefficients from a root multiset,
-  formed in double-double and rounded once.
+  Hilbert, companion, Wilkinson and 1D Laplacian tridiagonals.
 
 ## Measures and thresholds
 
@@ -106,8 +104,7 @@ LAPACK:
 | `SquareRoot` | relative error of **each component** / u | 8 | project (first-order estimate 5.5u; Kahan 1987) |
 | `CubicRoot`, `QuarticRoot` | `|r^k - z| / (k |z| u)` | 8 | project |
 | powers | normwise error / ((k-1) sqrt(5) u) | 1 | proved (composition of the product bound) |
-| `SolveEquation` | `|r_computed - r| / delta`, see below | 20 | project |
-| `Dot`, matrix products | `|computed - s| / (u|s| + gamma(n-1)^2 sum|p_i|)`, per component | 1 | proved (Ogita, Rump, Oishi 2005, Prop. 4.5) |
+| `Dot`, matrix products | `|computed - s| / (ulp sum|x_k||y_k|)` per entry (`|re|+|im|` for complex), as xMVCH and xMMCH | 16 | reference BLAS tests (`dblat2.in`, `dblat3.in`) |
 | `Norm` | relative error / gamma(n+2) | 1 | project (summation bound) |
 | `SolveLinear` | DGET02 / ZGET02 | 30 | LAPACK `dtest.in`, `ztest.in` |
 | `SolveLinear` | DGET04 (2-norm, exact `cond_2` from the generator) | 30 | LAPACK |
@@ -116,6 +113,10 @@ LAPACK:
 | symmetric / Hermitian | ZHET21, ZUNT01 | 50 | LAPACK `sep.in` |
 | symmetric / Hermitian | `|lambda_i - lambda_i(true)| / (n ||A||_2 ulp)` | 20 | project (Weyl) |
 | general `Eigenpairs` | ZGET22 | 20 | LAPACK `nep.in` |
+| LAPACK layer xGETRF, xGETRS, xGETRI, xGECON | xCHKGE tests (1)-(4), (8): xGET01, xGET03, xGET02, xGET04, xGET06 | 30 | LAPACK `dtest.in`, `ztest.in` |
+| LAPACK layer xGEHRD, xORGHR, xHSEQR, xTREVC3, xGEEV | xCHKHS tests (1)-(9): xHST01, xORT01, xGET10, eigenvalue difference, ZGET22; xDRVEV tests (1), (3) | 20 | LAPACK `nep.in` |
+| LAPACK layer xSYTRD, xORGTR, xSTEQR, xSYEV, DSTEBZ, DSTEIN, DSTEVX | xCHKST tests (1)-(4), (9), (10), (18)-(21): xSYT21, xSTT21, DSXT1; xDRVST: xSYT21, DSTT21, DSTT22 | 50 | LAPACK `sep.in` |
+| LAPACK layer xGEBRD, DBDSQR, xGESVD | xCHKBD tests (1)-(3), (8), (10): xBDT01, xORT01, DSVDCH; xDRVBD test (4) | 50 | LAPACK `svd.in` |
 | general `Eigenpairs` | `|lambda_i - lambda_i(true)| / (n kappa_i ||A||_F ulp)` | 20 | project (first-order perturbation) |
 | tridiagonal partial | ZSTT22, ZUNT01 | 50 | LAPACK `sep.in` |
 
@@ -140,47 +141,31 @@ Against SciPy (`scipy.linalg.solve`, which warns when the `dgecon`
 estimate is below eps) on 200 systems of order 10, `SolveLinear` raised on
 exactly the 100 systems where SciPy warned or failed, and on no other.
 
-### Polynomial roots
+### Products
 
-Each case starts from a known multiset of roots. The computed roots are
-matched to the true ones as a multiset, taking the best of all
-permutations, so returning one root several times cannot pass. With
-`p(x) = sum c_k x^(n-k)`, `S(r) = sum |c_k| |r|^(n-k)` and `t_m` the m-th
-Taylor coefficient of `p` at a root of multiplicity `m`, a relative
-perturbation `e` of the coefficients moves the root by about
-
-```text
-delta = (e * S(r) / |t_m|)^(1/m),   e = 2 n u
-```
-
-(Wilkinson 1963; Gautschi 1973). For an exact zero root `S(r) = 0`, and the
-error is measured relative to the largest root modulus. Cases whose
-coefficients would leave the normal floating-point range are skipped,
-because the rounded polynomial no longer has the prescribed roots.
-
-### Why the sum-of-products bound matters
-
-`Dot` and the matrix products add the rounded products with Neumaier's
-compensated summation (algorithm Sum2). Its proved bound is
-`u|s| + gamma(n-1)^2 sum|p_i|`. The naive-summation bound
-`gamma(n) sum|p_i|` is far wider and is met even by a broken compensation:
-for `[1e16+i, 1+1e16i, -1e16-1e16i] . [1, 1, 1]` the previous
-implementation returned `1+0i` instead of `1+1i`, which is within
-`gamma(n) sum|p_i|` but exceeds the Sum2 bound by a factor of about 10^15.
+`Dot`, the matrix products and the matrix-vector products are DDOT,
+ZDOTU, xGEMM and xGEMV of the reference BLAS, which add the products in
+order. They are checked as the test programs of the reference BLAS
+check every computed entry (xMVCH, xMMCH): the error divided by
+`ulp sum |x_k| |y_k|` must stay below 16. The exact sum is formed in
+double-double.
 
 ## Coverage
 
 | Spec | Functions | Input classes |
 |---|---|---|
 | Complex scalars | `TComplex` operators, `Reciprocal`, `Arg`, `Norm`, `ToString`, `TImaginaryUnit`, `IsNull`, `SameValue` | scales 1e-300..1e300, operands near overflow and subnormal, cancellation, signed zeros |
-| Scalar roots and powers | `SquareRoot`, `CubicRoot`, `QuarticRoot`, `SquarePower`..`QuarticPower`, linear `SolveEquation` | every quadrant, unbalanced components, near overflow/underflow, subnormals |
-| Polynomial equations | `SolveEquation` degrees 2-4 | random roots at all scales, conjugate pairs, magnitudes 1e-60..1e60 in one polynomial, exact zero, multiple and clustered roots, power-of-two equivariance |
+| Scalar roots and powers | `SquareRoot`, `CubicRoot`, `QuarticRoot`, `SquarePower`..`QuarticPower` | every quadrant, unbalanced components, near overflow/underflow, subnormals |
 | Vectors | construction, elementwise operations, `Dot`, `Norm`, `Normalize`, `Reciprocal`, `Cross`, `Conjugate` | lengths 1..1000, cancellation, components dominated by different elements, non-finite inputs |
 | Matrices | construction, elementwise operations, transposes, products, `Norm`, `Trace`, predicates | orders 1..40, scales 1e-100..1e100, cancelling rows |
-| Linear systems | `SolveLinear`, `Inverse`, `Determinant`, `Rank`, `RowReduction` | xCHKGE classes: diagonal, triangular, cond 2, sqrt(1/eps), 0.1/eps, scaled 1e-290 and 1e290, zero columns; singular to working precision (cond 1e20, exactly singular integer matrices) and well conditioned (cond 1e12); prescribed rank at scales 1e-200..1e200 |
+| Linear systems | `SolveLinear`, `Inverse`, `Determinant`, `Rank` | xCHKGE classes: diagonal, triangular, cond 2, sqrt(1/eps), 0.1/eps, scaled 1e-290 and 1e290, zero columns; singular to working precision (cond 1e20, exactly singular integer matrices) and well conditioned (cond 1e12); prescribed rank at scales 1e-200..1e200 |
 | Symmetric and Hermitian eigenpairs | `SymmetricEigenpairs`, `HermitianEigenpairs` | zero, identity, arithmetic, geometric cond 1/eps and sqrt(1/eps), one large/small, mixed signs, repeated, scaled 1e-290 and 1e290, Wilkinson, Hilbert, Laplacian |
-| General eigenpairs | `Eigenpairs` (real and complex) | prescribed spectra with cond(X) 1, 1e3, 1e6; graded similarities D*A*D^-1 with D = diag(g^i), g up to 1e8 (balancing); permuted triangular; random; scaled; cyclic permutations; Jordan; Grcar; Frank; Kahan; companion; graded; triangular; Hermitian path |
-| Tridiagonal lowest eigenpairs | `TridiagonalLowestEigenpairs`, `HermitianTridiagonalLowestEigenpairs` | Laplacian (analytic), Wilkinson, random, graded, disconnected, zero; partial and fall-back paths; complex phases |
+| General eigenpairs | `Eigenpairs` (real and complex) | prescribed spectra with cond(X) 1, 1e3, 1e6; graded similarities D*A*D^-1 with D = diag(g^i), g up to 1e8 (balancing); permuted triangular; random; scaled; cyclic permutations; Jordan; Grcar; Frank; Kahan; companion; graded; triangular; Hermitian path; real input (real Schur solver): prescribed spectra with real eigenvalues and conjugate pairs, graded similarities, permuted triangular, eigenpairs exactly real or in exactly conjugate pairs |
+| LAPACK layer: LU factorization | xGETRF (xGETRF2), xGETRS, xGETRI (xTRTRI), xGECON (xLACN2, xLATRS), real and complex | the 11 matrix types of xCHKGE (diagonal, triangular, cond 2, zero first/last/trailing columns, cond sqrt(0.1/eps) and 0.1/eps, scaled near underflow and overflow); dtest.in orders 0-50, also rectangular, 1, 2 and 15 right-hand sides, TRANS N/T/C, block sizes 1, 3 and 20 (64, 65 and 100 with the default block size with `--extended`) |
+| LAPACK layer: Hessenberg QR | xGEHRD, xORGHR, xHSEQR (xLAHQR, xLAQR0..5, xTREXC), xTREVC3, xGEEV (tests (1) and (3) of xDRVEV), real and complex | the 21 matrix types of xCHKHS (zero, identity, Jordan, diagonal with modes 4/3/1, scaled near overflow and underflow, U^T T U and X^-1 T X with cond(X) = 1/sqrt(ulp), real and complex-pair spectra, random); nep.in orders 0-16 with its five tuning sets (NMIN, NWIN, NIBBLE, NSHFTS, KACC22), orders 20 and 80 with the default tuning (40, 80 and 150 with `--extended`) |
+| LAPACK layer: symmetric eigenproblem | xSYTRD/xHETRD (xLATRD, xSYTD2), xORGTR/xUNGTR (xORGQR, xORGQL), xSTEQR, xSYEV/xHEEV, DSTEBZ, DSTEIN, DSTEVX | the matrix types 1-8 and 10-21 of xCHKST (zero, identity, diagonal and U^T D U with modes 4/3/1, scaled near overflow and underflow, random, positive definite, diagonally dominant tridiagonal); sep.in orders 0-20 with its five block sizes and crossover points, order 40 with the default ones (100 and 140 with `--extended`); UPLO U and L; DSTEBZ with RANGE A, I, V; DSTEVX with RANGE A, I, V |
+| LAPACK layer: singular values | xGEBRD (xLABRD, xGEBD2), DBDSQR without vectors (DLASQ1..DLASQ6, DLASV2, DLAS2, DLASRT), xGESVD with JOBU = JOBVT = 'N', real and complex | the 16 matrix types of xCHKBD (zero, identity, diagonal and U D V^T with modes 4/3/1, scaled near overflow and underflow, random, random bidiagonal with entries 1e-32..1e32); the (M, N) pairs of svd.in with M >= N (and M < N for the lower bidiagonal) with its five block sizes and crossover points, 40 x 40 with the default ones (140 x 140 and 200 x 160 with `--extended`) |
+| Tridiagonal lowest eigenpairs | `TridiagonalLowestEigenpairs`, `HermitianTridiagonalLowestEigenpairs` | Laplacian (analytic), Wilkinson, random, graded, disconnected, zero; complex phases |
 | Performance | products, `SolveLinear`, `Inverse`, all eigen solvers | complexity T(128)/T(64); cost relative to a plain triple loop |
 
 ### Performance checks
@@ -196,6 +181,107 @@ the current implementation. Each time is the median of three runs lasting
 at least 40 ms. These checks are not part of the default run because
 shared CI machines make timings noisy.
 
+## The internal LAPACK layer
+
+The products, the norms, the linear system solvers and the eigenvalue
+solvers are built on an internal LAPACK layer, the unit
+`adimlapack.pas`: translations of the reference BLAS and of LAPACK 3.12.1
+with the names, arguments and results of the originals, 0-based indices
+and matrices stored by rows. It contains:
+
+- BLAS: xDOT, xNRM2, xASUM, xAXPY, xSCAL, xSWAP, IxAMAX, xGEMV, xGER,
+  xSYMV/xHEMV, xSYR2/xHER2, xTRMV, xTRSV, xGEMM, xSYR2K/xHER2K, xTRMM,
+  xTRSM;
+- linear systems: xGETRF (blocked, with the recursive xGETRF2), xGETRS,
+  xGETRI (with xTRTRI, xTRTI2), xGECON (with xLACN2, xLATRS, xRSCL),
+  xLANGE (with xLASSQ);
+- symmetric and Hermitian eigenproblem: xSYEV/xHEEV with xSYTRD/xHETRD
+  (blocked, xLATRD, xSYTD2), xORGTR/xUNGTR (xORGQR, xORGQL, blocked with
+  xLARFT and xLARFB), xSTEQR; DSTEVX with DSTEBZ (DLAEBZ) and DSTEIN
+  (DLAGTF, DLAGTS, DLARNV);
+- general eigenproblem: xGEEV with xGEBAL, xGEHRD (blocked, xLAHR2),
+  xORGHR, xHSEQR with xLAHQR and the multishift QR xLAQR0..xLAQR5 (with
+  the blocked xORMQR), xTREXC, DLANV2, xTREVC3 (DLALN2, ZLATRS),
+  xGEBAK;
+- singular values: xGESVD with JOBU = JOBVT = 'N' for square matrices,
+  with xGEBRD (blocked, xLABRD, xGEBD2) and DBDSQR without singular
+  vectors (the dqds algorithm DLASQ1..DLASQ6 with DLASRT, and the
+  implicit QR with DLASV2 and DLAS2 when dqds fails).
+
+`Dot`, `Norm` and the products call xDOT, xNRM2, xLANGE, xGEMV and
+xGEMM; `SolveLinear` calls xGETRF, xGECON (raising when the reciprocal
+condition number is below 2^-53, as INFO = N+1 in xGESVX) and xGETRS;
+`Inverse` calls xGETRF, xGECON and xGETRI; `Determinant` calls xGETRF;
+`SymmetricEigenpairs` and `HermitianEigenpairs` call xSYEV and xHEEV on
+the lower triangle; `TridiagonalLowestEigenpairs` calls DSTEVX for the
+lowest eigenvalues with the absolute tolerance 2*safe minimum;
+`Eigenpairs` calls xGEEV; `Rank` counts the singular values of xGESVD
+above S_max*n*2^-52, the default tolerance of `numpy.linalg.matrix_rank`.
+
+The routines of the layer are tested as LAPACK tests them, by the specs
+`LAPACK layer: LU factorization (xCHKGE)` (`tests/speclapackge.pas`),
+`LAPACK layer: Hessenberg QR (xCHKHS)` (`tests/speclapackhseqr.pas`,
+with the tests of xDRVEV for xGEEV) and `LAPACK layer: symmetric
+eigenproblem (xCHKST, xDRVST)` (`tests/speclapacksyev.pas`) and
+`LAPACK layer: singular values (xCHKBD, xDRVBD)`
+(`tests/speclapacksvd.pas`): the matrix types, the test ratios and
+thresholds and the input files (`dtest.in`, `nep.in`, `sep.in`, `svd.in`)
+of the LAPACK test programs. Like XLAENV and the
+ILAENV of those programs, `LapackBlockSize` and `LapackCrossover` set the
+block sizes and crossover points and `LapackTuning` the parameters of
+xHSEQR, so that the blocked code and xLAQR0 run on small matrices. The
+tests that need routines the layer does not provide (the iterative
+refinement xGERFS, the eigenvalues without eigenvectors of xSTERF and
+xSTEQR with COMPZ = 'N', the left eigenvectors of xGEEV, the singular
+vectors of xBDSQR and xGESVD) are not run. Test (10) of xCHKBD, the
+check of the singular values of DBDSQR against Sturm counts with DSVDCH,
+is run as xCHKBD documents it; the code of xCHKBD 3.12.1 no longer calls
+DSVDCH.
+
+The translations reproduce the reference LAPACK 3.12.1 and BLAS, as
+compiled by gfortran, bit for bit; this was verified on random and
+difficult inputs (scaled near underflow and overflow, graded, singular,
+clustered, with signed zeros), with the default block sizes and with
+small ones, at `-O1` with range checks and at `-O2`. gfortran takes
+|z|, the complex square root and log from the C library; the layer
+contains translations of the functions of glibc 2.43 (`hypot`, `csqrt`
+and the `log` that glibc selects on processors with FMA, whose FMAs are
+emulated exactly), identical to them on every argument tried, so that
+the complex routines are bit-identical to the reference on Linux without
+calling the C library. The work
+spaces are those of the LAPACK workspace queries: xGEEV passes on its
+optimal work space as LAPACK does, and the block sizes of xGEHRD,
+xTREVC3 and of the xGEHRD and xORMQR called by xLAQR3 are derived from
+it in the same way.
+
+A literal translation was not enough for bit identity:
+
+- the order of the operations of the reference BLAS, including the quick
+  returns of xSCAL (factor one) and xAXPY (factor zero) and the tests for
+  zero entries in xTRSM, xTRMM, xTRMV, xTRSV and xGER, which keep the
+  signs of zeros;
+- gfortran's mixed real-complex arithmetic (a real operand becomes
+  (r, +0) and the full complex operation is performed) and Smith's
+  complex division as GCC expands it;
+- typed real constants: Free Pascal evaluates expressions with untyped
+  real constants, and divisions of two integers, in the 80-bit Extended
+  type on x86_64;
+- typed arguments of `Math.Min` and `Math.Max`: with an integer literal
+  and a Double argument Free Pascal 3.2.3 selects the Single overload
+  (`Max(x, 1)` overflows for x = 1e300).
+- unsigned wrap-around in the bit manipulations of glibc: Free Pascal
+  evaluates `longword - constant` in Int64, so `TOP - $10 >= $7FE0` is
+  false for TOP = 0 unless the difference is cast back to `longword`;
+  hexadecimal literals above 2^63 are Int64 constants, so the tables of
+  bit patterns are declared `Int64`.
+
+`adimlapack.pas` is compiled with `{$OPTIMIZATION NOREGVAR}`: with
+register variables (-O2) Free Pascal 3.2.3 loads the index and the
+address of an open array element into the same register and the access
+fails. With the operation order of the reference BLAS every entry of the
+LU factors receives the same sequence of operations whatever the
+blocking, so xGETRF gives the same bits for every block size.
+
 ## Validation of the suite
 
 A suite that passes on the code it was written for proves little. This
@@ -207,9 +293,7 @@ suite was also run against the implementation it replaced (commit
 | `SquareRoot` loses the smaller component | roots: componentwise accuracy | 124 failures, worst ratio 9e15 |
 | `SquareRoot` overflows when \|z\| exceeds MaxDouble | roots: componentwise accuracy | section aborted (EOverflow) |
 | `CubicRoot` loses accuracy at large and small moduli (`Power(x, 1/3)`) | roots: backward error | 240 failures, worst 59 |
-| quadratic formula cancellation | polynomials: widely different magnitudes | `x^2+1e8x+1` and others |
-| absolute `IsNull` tests in the cubic and quartic | polynomials: random roots at all scales; equivariance | 705 and 9 failures |
-| Neumaier branch chosen by complex modulus | vectors: Dot; matrices: products | worst ratios 9e14 and 1e4 |
+| Neumaier branch chosen by complex modulus | vectors: Dot; matrices: products (then the Sum2 bound of Ogita, Rump and Oishi) | worst ratios 9e14 and 1e4 |
 | `ToString` prints small values as 0 | complex scalars: ToString | 3 failures |
 | `Rank` misjudged by partial pivoting | linear systems: prescribed rank | 3 failures (about 0.7% of random rank-deficient matrices) |
 | general `Eigenpairs` silent non-convergence | general eigenpairs: classical matrices | cyclic permutation, ratio 4.5e15 |
@@ -237,6 +321,20 @@ Defects found later, in the implementation validated above (commit
 | complex `/` computed as `x * (1/y)`: spurious overflow and underflow | complex scalars: reciprocal and division near the ends of the range | `1e308/(1e308+1e308i)` gave 0; section aborted (EUnderflow) |
 | general `Eigenpairs` without balancing | general eigenpairs: graded similarity, permuted triangular | 25 failures, worst ratio 3.5e46; 11 failures |
 | `SolveLinear` and `Inverse` return results without correct digits, silently, for matrices singular to working precision | linear systems: singular to working precision | 27 failures |
+| real `Eigenpairs` leaves rounding residues in the real structure (imaginary parts of real eigenvalues, pairs not exactly conjugate) | general eigenpairs: real input structure | 33 failures out of 45 |
+
+The specs of the LAPACK layer were checked against defects introduced on
+purpose. In xLAQR5, an off-by-one in the rows of the accumulated
+reflections (`I2 := Max(I2, KMS + 2 - (KRCOL - INCOL))`, an error made
+and found during the port) makes tests (3) to (6) of xCHKHS fail for 42
+real and 42 complex matrices, with ratios up to 6e15. In xGETRS, solving
+with U^T instead of U^H makes tests (3) and (4) of ZCHKGE fail for 144
+cases (ratios up to 2e16); in the blocked xGETRI, an offset of one row in
+the block of L makes test (2) fail for 24 real and 24 complex matrices
+(ratios up to 9e14). In DLASQ3, a perturbed deflation of a 2 x 2 block
+makes test (10) of xCHKBD fail for 192 real and 208 complex cases; in
+ZLABRD, a missing conjugation of the current row makes test (1) of
+ZCHKBD fail for 168 cases (ratios up to 6e14).
 
 To repeat the validation against another `adimmath.pas`, compile the suite
 from a directory that does not contain the current source, because Free
@@ -246,7 +344,7 @@ Pascal searches the current directory before `-Fu`:
 REPO=$(pwd)
 WORK=$(mktemp -d)
 git show f75c37b:adimmath.pas > "$WORK/adimmath.pas"
-cd "$WORK" && fpc -Mobjfpc -O2 -Fu. -Fu"$REPO/tests" -FE. "$REPO/test.lpr"
+cd "$WORK" && fpc -Mobjfpc -O2 -Fu. -Fu"$REPO/tests" -FE. "$REPO/tests/test.lpr"
 ./test            # add --perf for the performance checks
 ```
 
@@ -256,25 +354,22 @@ The previous suite used LAPACK's residual formulas but not LAPACK's testing
 method, and several defects passed because of that:
 
 1. **Residuals on benign inputs only.** Square roots were tested only at
-   `(0.75, -1.25) * scale`, with both components of the same size, and
-   polynomials only with roots 1 to 4 at scale one. Here every function is
+   `(0.75, -1.25) * scale`, with both components of the same size. Here
+   every function is
    tested on generated input classes, including unbalanced components,
    cancellation, mixed magnitudes and the extremes of the range.
-2. **Per-root residuals cannot see repeated roots.** Returning one exact
-   root three times gives a zero residual. Roots are now matched as a
-   multiset against the true ones, with condition-based tolerances.
-3. **Bounds wider than the algorithm's guarantee.** The naive summation
+2. **Bounds wider than the algorithm's guarantee.** The naive summation
    bound accepted a broken compensated sum. Each check now uses the
    strongest bound that the algorithm actually guarantees.
-4. **A reference that was not more precise.** `Extended` is `Double` on
+3. **A reference that was not more precise.** `Extended` is `Double` on
    Win64. The oracle is now double-double on every target.
-5. **No forward error relative to the condition.** Solvers are checked
+4. **No forward error relative to the condition.** Solvers are checked
    against generated problems with known condition and known solutions
    (DGET04, eigenvalue condition numbers, Weyl), not only residuals.
-6. **Tolerances not derived from the measure.** One check required an
+5. **Tolerances not derived from the measure.** One check required an
    absolute error of 2.2e-16 on an eigenvalue of modulus 2.2, which is
    below one ulp of the value. Thresholds are now stated with their source.
-7. **No performance checks.** An O(n^4) eigensolver passed every test.
+6. **No performance checks.** An O(n^4) eigensolver passed every test.
 
 ## Writing new checks
 
@@ -309,10 +404,5 @@ method, and several defects passed because of that:
   Sci. Comput.* 26 (2005).
 - W. Kahan, "Branch cuts for complex elementary functions", in *The State
   of the Art in Numerical Analysis*, 1987.
-- J. H. Wilkinson, *Rounding Errors in Algebraic Processes*, 1963;
-  W. Gautschi, "On the condition of algebraic equations", *Numer. Math.*
-  20 (1973).
-- G. Peters, J. H. Wilkinson, "Practical problems arising in the solution
-  of polynomial equations", *J. Inst. Maths Applics* 8 (1971).
 - T. J. Dekker, "A floating-point technique for extending the available
   precision", *Numer. Math.* 18 (1971).

@@ -129,9 +129,6 @@ begin
         AngleDistance(R[J].Arg, LExpected) < 1E-12);
     end;
   end;
-  CheckEqual('SolveEquation real linear', SolveEquation(2.5), -2.5);
-  CheckEqual('SolveEquation complex linear', SolveEquation(Complex(1, -2)),
-    Complex(-1, 2));
 end;
 
 procedure SquareRootAccuracy;

@@ -25,7 +25,8 @@ interface
 implementation
 
 uses
-  SysUtils, Math, ADimMath, TestRunner, TestDoubleDouble, TestGenerators,
+  SysUtils, Math, ADimMath, ADimLapack, TestRunner, TestDoubleDouble,
+  TestGenerators,
   TestMeasures;
 
 procedure CheckResidual(const ALabel: string; const A: TComplexMatrix);
@@ -220,6 +221,127 @@ begin
     end;
 end;
 
+{ Q*B*Q^T with Q orthogonal and B block diagonal: N - 2*APairs real
+  eigenvalues and APairs complex-conjugate pairs from blocks [a b; -b a].
+  The matrix is normal, so every eigenvalue has condition number 1. }
+function RealWithSpectrum(N, APairs: Integer; out AValues: TArrayOfComplex): TRealMatrix;
+var
+  B, Q: TRealMatrix;
+  I: Integer;
+  LRe, LIm: Double;
+begin
+  B := NewRealMatrix(N);
+  SetLength(AValues, N);
+  I := 0;
+  while I < 2 * APairs do
+  begin
+    LRe := RandomUniform;
+    LIm := 0.1 + 0.9 * System.Abs(RandomUniform);
+    B[I, I] := LRe;
+    B[I, I + 1] := LIm;
+    B[I + 1, I] := -LIm;
+    B[I + 1, I + 1] := LRe;
+    AValues[I] := Complex(LRe, LIm);
+    AValues[I + 1] := Complex(LRe, -LIm);
+    Inc(I, 2);
+  end;
+  for I := 2 * APairs to N - 1 do
+  begin
+    B[I, I] := RandomUniform;
+    AValues[I] := B[I, I];
+  end;
+  Q := RandomOrthogonal(N);
+  result := Q * B * Q.Transpose;
+end;
+
+{ The real Schur solver: prescribed spectra, balancing of graded
+  similarities and exact isolation of permuted triangular matrices, as
+  for complex input above. }
+procedure RealSolverChecks;
+const
+  Orders: array[0..4] of Integer = (2, 3, 5, 10, 30);
+  Gradings: array[0..2] of Double = (1E2, 1E4, 1E8);
+var
+  S, G, K, I, J, N: Integer;
+  LValues: TArrayOfComplex;
+  LCondition: TArrayOfReal;
+  LPermutation: array of Integer;
+  LUsed: array of Boolean;
+  LOk: Boolean;
+  A, B: TRealMatrix;
+  D: TComplexVector;
+  V: TComplexMatrix;
+begin
+  Group('Real input, prescribed spectra: eigenvalue error / condition',
+    ckAccuracy, ProjectThreshold, tsProject, '|error| / (n kappa_i ||A||_F ulp)');
+  SetSeed(961);
+  for S := Low(Orders) to High(Orders) do
+    for K := 0 to 3 do
+    begin
+      N := Orders[S];
+      A := RealWithSpectrum(N, Min(K, N div 2), LValues);
+      SetLength(LCondition, N);
+      for I := 0 to N - 1 do LCondition[I] := 1;
+      A.Eigenpairs(D, V);
+      CheckRatio(Format('n=%d pairs=%d', [N, Min(K, N div 2)]),
+        EigenvalueRatio(D, LValues, LCondition, FrobeniusNorm(A)));
+    end;
+
+  Group('Real input, graded similarity D*A*D^-1: eigenvalue error / condition of A',
+    ckAccuracy, ProjectThreshold, tsProject, '|error| / (n kappa_i ||A||_F ulp)');
+  SetSeed(962);
+  for S := 1 to 3 do
+    for G := Low(Gradings) to High(Gradings) do
+      for K := 1 to 3 do
+      begin
+        N := Orders[S];
+        A := RealWithSpectrum(N, N div 3, LValues);
+        SetLength(LCondition, N);
+        for I := 0 to N - 1 do LCondition[I] := 1;
+        B := A.Clone;
+        for I := 0 to N - 1 do
+          for J := 0 to N - 1 do
+            B[I, J] := A[I, J] * Power(Gradings[G], I - J);
+        B.Eigenpairs(D, V);
+        CheckRatio(Format('n=%d g=%g #%d', [N, Gradings[G], K]),
+          EigenvalueRatio(D, LValues, LCondition, FrobeniusNorm(A)));
+      end;
+
+  Group('Real input, permuted triangular matrices: exact eigenvalues', ckExact);
+  SetSeed(963);
+  for N in [2, 3, 6, 12] do
+    for K := 1 to 3 do
+    begin
+      SetLength(LPermutation, N);
+      for I := 0 to N - 1 do LPermutation[I] := I;
+      for I := N - 1 downto 1 do
+      begin
+        J := Min(Trunc((RandomUniform + 1) / 2 * (I + 1)), I);
+        S := LPermutation[I];
+        LPermutation[I] := LPermutation[J];
+        LPermutation[J] := S;
+      end;
+      A := RandomRealMatrix(N);
+      for I := 0 to N - 1 do
+        for J := 0 to I - 1 do A[I, J] := 0;
+      B := NewRealMatrix(N);
+      for I := 0 to N - 1 do
+        for J := 0 to N - 1 do
+          B[LPermutation[I], LPermutation[J]] := A[I, J];
+      B.Eigenpairs(D, V);
+      SetLength(LUsed, N);
+      for I := 0 to N - 1 do LUsed[I] := False;
+      LOk := True;
+      for I := 0 to N - 1 do
+      begin
+        J := 0;
+        while (J < N) and (LUsed[J] or (D[J] <> Complex(A[I, I], 0))) do Inc(J);
+        if J = N then LOk := False else LUsed[J] := True;
+      end;
+      Check(Format('n=%d #%d', [N, K]), LOk);
+    end;
+end;
+
 procedure RealChecks;
 const
   Orders: array[0..6] of Integer = (1, 2, 3, 5, 10, 20, 40);
@@ -284,6 +406,68 @@ begin
   CheckRealResidual('symmetric (Hermitian path) n=10', A);
 end;
 
+{ True when every eigenpair of a real matrix is real (value and vector)
+  or has an exactly conjugate partner (value and vector). }
+function RealStructure(const D: TComplexVector; const V: TComplexMatrix): Boolean;
+var
+  N, I, J, K: Integer;
+  LFound, LSame: Boolean;
+begin
+  N := D.Size;
+  result := True;
+  for I := 0 to N - 1 do
+  begin
+    if D[I].Im = 0 then
+    begin
+      for K := 0 to N - 1 do
+        if V[K, I].Im <> 0 then Exit(False);
+      Continue;
+    end;
+    LFound := False;
+    for J := 0 to N - 1 do
+      if (J <> I) and (D[J] = D[I].Conjugate) then
+      begin
+        LSame := True;
+        for K := 0 to N - 1 do
+          if V[K, J] <> V[K, I].Conjugate then LSame := False;
+        if LSame then LFound := True;
+      end;
+    if not LFound then Exit(False);
+  end;
+end;
+
+procedure RealStructureChecks;
+var
+  N, K: Integer;
+  A: TRealMatrix;
+  D: TComplexVector;
+  V: TComplexMatrix;
+
+  procedure CheckMatrix(const ALabel: string; const AMatrix: TRealMatrix);
+  begin
+    AMatrix.Eigenpairs(D, V);
+    Check(ALabel, RealStructure(D, V));
+  end;
+
+begin
+  Group('Real input: real eigenpairs exactly real, complex ones in exactly conjugate pairs',
+    ckContract);
+  SetSeed(951);
+  for N in [1, 2, 3, 5, 10, 20, 40] do
+    for K := 1 to 5 do
+      CheckMatrix(Format('random n=%d #%d', [N, K]), RandomRealMatrix(N));
+  for N in [2, 7, 16] do
+    CheckMatrix(Format('cyclic permutation n=%d', [N]), CyclicPermutation(N));
+  for N in [5, 20, 40] do
+    CheckMatrix(Format('Grcar n=%d', [N]), GrcarMatrix(N));
+  CheckMatrix('Frank n=12', FrankMatrix(12));
+  CheckMatrix('companion x^10 - 1',
+    CompanionMatrix([0, 0, 0, 0, 0, 0, 0, 0, 0, -1]));
+  CheckMatrix('Jordan block n=10', JordanBlock(10, 2));
+  A := RandomRealMatrix(10);
+  CheckMatrix('symmetric n=10', A + A.Transpose);
+end;
+
 procedure ContractChecks;
 var
   A: TRealMatrix;
@@ -342,6 +526,8 @@ begin
   Guard(@BalancingChecks);
   Guard(@RealChecks);
   Guard(@ClassicalChecks);
+  Guard(@RealStructureChecks);
+  Guard(@RealSolverChecks);
   Guard(@ContractChecks);
 end;
 

@@ -1,12 +1,11 @@
 { SpecEigenTridiagonal - TridiagonalLowestEigenpairs and
   HermitianTridiagonalLowestEigenpairs.
 
-  Orders cover both the partial solver (N > 32 and few requested pairs)
-  and its documented fall-back to the full QL solver. Inputs: the 1D
-  Laplacian (analytic eigenpairs), Wilkinson matrices (pairs that agree to
-  many digits, which trigger the cluster fall-back), random, graded,
-  disconnected and zero tridiagonals, and complex Hermitian tridiagonals
-  with arbitrary phases. Ratios for m selected pairs (sep.in, threshold 50):
+  The solver is DSTEVX (bisection with DSTEBZ, inverse iteration with
+  DSTEIN). Inputs: the 1D Laplacian (analytic eigenpairs), Wilkinson
+  matrices (pairs that agree to many digits, where DSTEIN
+  reorthogonalizes), random, graded, disconnected and zero tridiagonals,
+  and complex Hermitian tridiagonals with arbitrary phases. Ratios for m selected pairs (sep.in, threshold 50):
 
     ZSTT22  ||V^H*A*V - D||_1 / (m ||A||_1 ulp)
     ZUNT01  ||I - V^H*V||_1 / (m ulp)

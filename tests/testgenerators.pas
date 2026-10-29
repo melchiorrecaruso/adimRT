@@ -89,10 +89,6 @@ function TridiagonalToMatrix(const ADiagonal, AOffDiagonal: TRealVector): TRealM
 function HermitianTridiagonalToMatrix(const ADiagonal: TRealVector;
   const AOffDiagonal: TComplexVector): TComplexMatrix;
 
-{ Monic polynomial coefficients [a, b, ...] of prod (x - r_i), computed in
-  double-double and rounded once. }
-function CoefficientsFromRoots(const ARoots: array of TComplex): TArrayOfComplex;
-
 implementation
 
 var
@@ -630,25 +626,6 @@ begin
       result[I, I + 1] := AOffDiagonal[I].Conjugate;
     end;
   end;
-end;
-
-function CoefficientsFromRoots(const ARoots: array of TComplex): TArrayOfComplex;
-var
-  LCoefficients: array of TDDComplex;
-  N, I, K: Integer;
-begin
-  N := Length(ARoots);
-  SetLength(LCoefficients, N + 1);
-  LCoefficients[0] := DDComplex(1, 0);
-  for I := 1 to N do LCoefficients[I] := DDComplex(0, 0);
-  { Multiply by (x - r) for each root; LCoefficients[k] multiplies x^(n-k). }
-  for I := 0 to N - 1 do
-    for K := I + 1 downto 1 do
-      LCoefficients[K] := LCoefficients[K] -
-        TDDComplex(ARoots[I]) * LCoefficients[K - 1];
-  result := nil;
-  SetLength(result, N);
-  for K := 1 to N do result[K - 1] := LCoefficients[K].ToComplex;
 end;
 
 end.

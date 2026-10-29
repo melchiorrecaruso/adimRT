@@ -1,4 +1,4 @@
-{ SpecLinear - SolveLinear, Inverse, Determinant, Rank and RowReduction.
+{ SpecLinear - SolveLinear, Inverse, Determinant and Rank.
 
   The matrix classes follow the LAPACK linear-equation tests (xCHKGE):
   diagonal, upper and lower triangular, random with cond = 2, ill
@@ -207,7 +207,7 @@ begin
         CheckRatio(Format('n=%d %s mode %s', [Orders[S], ClassNames[LClass],
           ModeNames[LMode]]),
           System.Abs(Ln(System.Abs(LDet)) - LLogDet) /
-          (Orders[S] * Max(LCond, 1) * UnitRoundoff));
+          (Orders[S] * Max(LCond, 1.0) * UnitRoundoff));
       end;
 end;
 
@@ -331,12 +331,12 @@ begin
   end;
 end;
 
-procedure RankAndReductionChecks;
+procedure RankChecks;
 const
   Scales: array[0..4] of Double = (1E-200, 1E-50, 1, 1E50, 1E200);
 var
   N, R, K, T, I, J: Integer;
-  A, U, V, Reduced: TRealMatrix;
+  A, U, V: TRealMatrix;
   CA: TComplexMatrix;
   LSigma: TArrayOfReal;
   LSum: TDD;
@@ -365,25 +365,6 @@ begin
         CheckEqual(Format('complex n=%d rank %d scale %g', [N, R, Scales[T]]),
           CA.Rank, R);
       end;
-
-  Group('RowReduction of nonsingular matrices gives the identity', ckStability,
-    ProjectThreshold, tsProject, '||RREF - I||_1 / (n cond_2 eps)');
-  SetSeed(732);
-  for N := 1 to 10 do
-    for T := Low(Scales) to High(Scales) do
-    begin
-      A := GenerateRealMatrix(N, smRandomLog, 10, Scales[T]);
-      Reduced := A.RowReduction;
-      CheckRatio(Format('n=%d scale %g', [N, Scales[T]]),
-        MatrixOneNorm(Reduced - A.Identity) / (N * 10 * UnitRoundoff));
-    end;
-
-  Group('RowReduction is idempotent on rank-deficient matrices', ckProperty);
-  A.Init([1, 2, 3, 2, 4, 6, 1, 0, 1]);
-  Reduced := A.RowReduction;
-  Check('RREF(RREF(A)) = RREF(A)', Reduced.RowReduction = Reduced);
-  Check('pivot structure', (Reduced[0, 0] = 1) and (Reduced[1, 1] = 1) and
-    (Reduced[2, 0] = 0) and (Reduced[2, 1] = 0) and (Reduced[2, 2] = 0));
 end;
 
 procedure Run;
@@ -391,7 +372,7 @@ begin
   Guard(@SolveChecks);
   Guard(@InverseChecks);
   Guard(@SingularChecks);
-  Guard(@RankAndReductionChecks);
+  Guard(@RankChecks);
 end;
 
 initialization
