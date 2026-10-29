@@ -26,6 +26,10 @@
         <UnitName Value="adimmath"/>
       </Item>
       <Item>
+        <Filename Value="adimlapack.pas"/>
+        <UnitName Value="ADimLapack"/>
+      </Item>
+      <Item>
         <Filename Value="adimcommon.pas"/>
         <UnitName Value="ADimCommon"/>
       </Item>

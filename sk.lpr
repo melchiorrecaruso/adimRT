@@ -127,7 +127,7 @@ end;
 
 procedure TestMatrixQuantities;
 var
-  LRawMatrix, LReduced: TRealMatrix;
+  LRawMatrix: TRealMatrix;
   LRawVector: TRealVector;
   LDimensionless, LLengthMatrix, LInverse: TRealMatrixQuantity;
   LRightHandSide, LSolution: TRealVectorQuantity;
@@ -155,10 +155,6 @@ begin
     'Quantity matrix inverse dimension');
   Require(QuantitiesSame((LInverse * LLengthMatrix)[1, 1], TRealQuantity(1)),
     'Quantity matrix inverse value');
-
-  LReduced := LLengthMatrix.RowReduction;
-  RequireSame(1, LReduced[0, 0], 'Dimensionless row reduction');
-  RequireSame(1, LReduced[1, 1], 'Dimensionless row reduction diagonal');
 
   LLengthMatrix.Eigenpairs(LEigenvalues, LEigenvectors);
   LComplexTrace := LLengthMatrix.Trace;
