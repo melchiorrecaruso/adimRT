@@ -332,3 +332,8 @@ ADimRT is distributed under the [GNU Lesser General Public License v3](COPYING.L
 with the [modified LGPL linking exception](COPYING.modifiedLGPL). The exception
 allows the library to be linked with independent modules under the conditions
 stated in that file.
+
+The unit `adimlapack.pas` contains translations to Pascal of routines of
+[LAPACK](https://www.netlib.org/lapack), distributed under the LAPACK license
+reproduced in [COPYING.LAPACK](COPYING.LAPACK). Redistributions in binary form
+must reproduce that notice in their documentation.

@@ -23,7 +23,7 @@ jobs:
 
     - name: Build ADimMath validation suite
       run: |
-        lazbuild test.lpi
+        lazbuild tests/test.lpi
 
     - name: Run ADimMath validation suite
       run: |

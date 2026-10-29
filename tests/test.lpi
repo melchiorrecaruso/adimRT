@@ -33,12 +33,12 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="build/test"/>
+      <Filename Value="../build/test"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="tests"/>
-      <UnitOutputDirectory Value="build/lib"/>
+      <OtherUnitFiles Value=".."/>
+      <UnitOutputDirectory Value="../build/lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

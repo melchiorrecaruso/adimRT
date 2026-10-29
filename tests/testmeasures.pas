@@ -31,10 +31,12 @@ const
   Ulp = 2.2204460492503131E-16;           { 2^-52 }
   SafeMinimum = 2.2250738585072014E-308;
 
-  { LAPACK test-input thresholds (dtest.in/ztest.in, sep.in, nep.in). }
+  { LAPACK test-input thresholds (dtest.in/ztest.in, sep.in, nep.in,
+    svd.in). }
   LAPACKLinearThreshold = 30;
   LAPACKSymmetricEigenThreshold = 50;
   LAPACKGeneralEigenThreshold = 20;
+  LAPACKSVDThreshold = 50;
   { Threshold defined by this project where no external one applies. }
   ProjectThreshold = 20;
 

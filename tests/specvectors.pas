@@ -1,18 +1,13 @@
 { SpecVectors - TRealVector and TComplexVector.
 
-  Dot computes the products with the scalar operator and adds them with
-  Neumaier's compensated summation, which is algorithm Sum2 of T. Ogita,
-  S. M. Rump, S. Oishi, "Accurate sum and dot product", SIAM J. Sci.
-  Comput. 26 (2005). For the products p_i as rounded by the scalar
-  operator, with s = sum p_i (computed exactly in double-double here), the
-  proved bound (Proposition 4.5) is
+  Dot is DDOT or ZDOTU of the reference BLAS. It is checked as the test
+  programs of the reference BLAS check every computed entry (xMVCH and
+  xMMCH of dblat2 and dblat3): with g = sum |x(k)|*|y(k)| (|re|+|im| for
+  complex numbers), the error ratio |dot - s| / (eps*g), eps = 2^-52,
+  must stay below the threshold 16 of dblat2.in and dblat3.in. The exact
+  sum s is computed in double-double here (in working precision there).
 
-      |Dot - s| <= u*|s| + gamma(n-1)^2 * sum |p_i|,
-
-  applied to each component of a complex result. The naive bound
-  gamma(n)*sum|p_i| would accept a broken compensation.
-
-  Norm uses a scaled sum of squares; the bound gamma(n+2)*||x|| is the
+  Norm is DNRM2 or DZNRM2; the bound gamma(n+2)*||x|| is the
   forward-error bound of recursive summation of n non-negative terms
   followed by a square root (Higham, Accuracy and Stability, ch. 3-4). }
 unit SpecVectors;
@@ -24,65 +19,93 @@ unit SpecVectors;
 
 interface
 
-{ Ratio of the error of a compensated sum of AProducts to the Sum2 bound;
-  shared with the matrix product checks. }
-function CompensatedSumRatio(AComputed: Double; const AProducts: array of Double): Double;
+uses
+  ADimMath;
+
+{ Error ratio of the reference BLAS tests (xMVCH, xMMCH) for an entry
+  computed as the sum of X(k)*Y(k); shared with the matrix product
+  checks. }
+function BlasRatio(AComputed: Double; const X, Y: array of Double): Double;
+  overload;
+function BlasRatio(const AComputed: TComplex;
+  const X, Y: array of TComplex): Double; overload;
 
 implementation
 
 uses
-  SysUtils, Math, ADimMath, TestRunner, TestDoubleDouble, TestGenerators,
+  SysUtils, Math, TestRunner, TestDoubleDouble, TestGenerators,
   TestMeasures;
 
-function CompensatedSumRatio(AComputed: Double; const AProducts: array of Double): Double;
+const
+  BlasEpsilon = 2.2204460492503131E-16; { EPSILON of Fortran, 2^-52 }
+
+function BlasRatio(AComputed: Double; const X, Y: array of Double): Double;
 var
   LSum: TDD;
-  LAbsolute, LBound, LExact: Double;
+  G: Double;
   I: Integer;
 begin
   LSum := 0;
-  LAbsolute := 0;
-  for I := 0 to High(AProducts) do
+  G := 0;
+  for I := 0 to High(X) do
   begin
-    LSum := LSum + TDD(AProducts[I]);
-    LAbsolute := LAbsolute + System.Abs(AProducts[I]);
+    LSum := LSum + TwoProd(X[I], Y[I]);
+    G := G + System.Abs(X[I]) * System.Abs(Y[I]);
   end;
-  LExact := LSum.ToDouble;
-  LBound := UnitRoundoff * System.Abs(LExact) +
-    Sqr(Gamma(Max(Length(AProducts) - 1, 1))) * LAbsolute;
-  if AComputed = LExact then Exit(0);
-  if LBound = 0 then Exit(Infinity);
-  { The exact error, evaluated in double-double. }
-  result := DDAbs(TDD(AComputed) - LSum).ToDouble / LBound;
+  result := DDAbs(LSum - TDD(AComputed)).ToDouble / BlasEpsilon;
+  if G <> 0 then result := result / G;
+end;
+
+function BlasRatio(const AComputed: TComplex;
+  const X, Y: array of TComplex): Double;
+var
+  LRe, LIm: TDD;
+  G: Double;
+  I: Integer;
+begin
+  LRe := 0;
+  LIm := 0;
+  G := 0;
+  for I := 0 to High(X) do
+  begin
+    LRe := LRe + TwoProd(X[I].Re, Y[I].Re) - TwoProd(X[I].Im, Y[I].Im);
+    LIm := LIm + TwoProd(X[I].Re, Y[I].Im) + TwoProd(X[I].Im, Y[I].Re);
+    G := G + (System.Abs(X[I].Re) + System.Abs(X[I].Im)) *
+      (System.Abs(Y[I].Re) + System.Abs(Y[I].Im));
+  end;
+  result := (DDAbs(LRe - TDD(AComputed.Re)).ToDouble +
+    DDAbs(LIm - TDD(AComputed.Im)).ToDouble) / BlasEpsilon;
+  if G <> 0 then result := result / G;
 end;
 
 procedure CheckRealDot(const ALabel: string; const X, Y: TRealVector);
 var
-  LProducts: array of Double;
+  LX, LY: array of Double;
   I: Integer;
 begin
-  SetLength(LProducts, X.Size);
-  for I := 0 to X.Size - 1 do LProducts[I] := X[I] * Y[I];
-  CheckRatio(ALabel, CompensatedSumRatio(X * Y, LProducts));
+  SetLength(LX, X.Size);
+  SetLength(LY, X.Size);
+  for I := 0 to X.Size - 1 do
+  begin
+    LX[I] := X[I];
+    LY[I] := Y[I];
+  end;
+  CheckRatio(ALabel, BlasRatio(X * Y, LX, LY));
 end;
 
 procedure CheckComplexDot(const ALabel: string; const X, Y: TComplexVector);
 var
-  LRe, LIm: array of Double;
-  LProduct, LDot: TComplex;
+  LX, LY: array of TComplex;
   I: Integer;
 begin
-  SetLength(LRe, X.Size);
-  SetLength(LIm, X.Size);
+  SetLength(LX, X.Size);
+  SetLength(LY, X.Size);
   for I := 0 to X.Size - 1 do
   begin
-    LProduct := X[I] * Y[I];
-    LRe[I] := LProduct.Re;
-    LIm[I] := LProduct.Im;
+    LX[I] := X[I];
+    LY[I] := Y[I];
   end;
-  LDot := X * Y;
-  CheckRatio(ALabel + ' Re', CompensatedSumRatio(LDot.Re, LRe));
-  CheckRatio(ALabel + ' Im', CompensatedSumRatio(LDot.Im, LIm));
+  CheckRatio(ALabel, BlasRatio(X * Y, LX, LY));
 end;
 
 { A vector whose products with the all-ones vector cancel: large values
@@ -246,8 +269,8 @@ var
   X, Y: TRealVector;
   CX, CY: TComplexVector;
 begin
-  Group('Dot, compensated-sum bound per component', ckAccuracy, 1, tsProved,
-    'Ogita-Rump-Oishi 2005, Prop. 4.5');
+  Group('Dot, error ratio of the reference BLAS tests', ckAccuracy, 16,
+    tsLAPACK, 'dblat2/dblat3 xMVCH, xMMCH');
   SetSeed(511);
   for S := Low(Sizes) to High(Sizes) do
     for K := 1 to 20 do

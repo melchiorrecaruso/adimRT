@@ -414,10 +414,6 @@ type
     { Returns the inverse matrix. The physical dimension is inverted. }
     function Inverse: TMatrixQuantity;
 
-    { Returns the row-reduced mathematical matrix. The physical unit is omitted
-      because row reduction is used as a numerical decomposition step. }
-    function RowReduction: TValueMatrix;
-
     { Exchanges rows @code(ARow1) and @code(ARow2) in place. }
     procedure Swap(ARow1, ARow2: longint);
 
@@ -5080,11 +5076,6 @@ function TMatrixQuantity.Inverse: TMatrixQuantity;
 begin
   result.FDim := -FDim;
   result.FValue := FValue.Inverse;
-end;
-
-function TMatrixQuantity.RowReduction: TValueMatrix;
-begin
-  result := FValue.RowReduction;
 end;
 
 procedure TMatrixQuantity.Swap(ARow1, ARow2: longint);

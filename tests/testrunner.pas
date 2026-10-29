@@ -8,7 +8,7 @@
     tsProved   a published error bound for the algorithm in use;
     tsLAPACK   the threshold used by the corresponding LAPACK test program;
     tsProject  a threshold defined by this project (documented in
-               docs/TESTING.md), used where no external reference exists.
+               tests/TESTING.md), used where no external reference exists.
 
   Command line:
     -v            print every check

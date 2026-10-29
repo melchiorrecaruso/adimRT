@@ -4,8 +4,8 @@
     multiplication  |fl(x*y) - x*y| <= sqrt(5)*u*|x*y|   (proved for the
                     textbook formula: R. P. Brent, C. Percival,
                     P. Zimmermann, Math. Comp. 76 (2007));
-    reciprocal      Smith-type formula, first-order bound about 5u;
-    division        x * (1/y), first-order bound sqrt(5)u + 5u;
+    reciprocal,     robust Smith formula (M. Baudin, R. L. Smith 2012),
+    division        first-order bound about 5u, over the whole range;
     modulus, Arg    a few ulps from the run-time library. }
 unit SpecComplex;
 
@@ -200,7 +200,7 @@ begin
   end;
 
   Group('Reciprocal, normwise relative error', ckAccuracy, 8, tsProject,
-    'first-order bound 5u for the Smith-type formula');
+    'first-order bound 5u for the robust Smith formula');
   SetSeed(202);
   for S := 0 to 8 do
     for K := 1 to 40 do
@@ -211,22 +211,34 @@ begin
       CheckRatio(Format('1/x scale %g #%d', [Scales[S], K]),
         NormwiseError(X.Reciprocal, LReference) / UnitRoundoff);
     end;
+  { |c + d*d/c| overflows although 1/x is representable. }
+  X := Complex(1E308, 1E308);
+  CheckRatio('1/x near overflow',
+    NormwiseError(X.Reciprocal, DDComplex(1, 0) / TDDComplex(X)) / UnitRoundoff);
+  X := Complex(-1.5E308, 1E300);
+  CheckRatio('1/x near overflow, unbalanced',
+    NormwiseError(X.Reciprocal, DDComplex(1, 0) / TDDComplex(X)) / UnitRoundoff);
 
   Group('Division, normwise relative error', ckAccuracy, 10, tsProject,
-    'first-order bound (sqrt(5)+5)u for x*(1/y)');
+    'first-order bound about 5u for the robust Smith formula');
   SetSeed(203);
-  for S := 1 to 7 do
-    for T := 1 to 7 do
+  for S := 0 to 8 do
+    for T := 0 to 8 do
       for K := 1 to 10 do
       begin
         LScaleX := Scales[S];
         LScaleY := Scales[T];
         X := RandomComplex * LScaleX;
         Y := RandomComplex * LScaleY;
-        if (LScaleX / LScaleY > 1E290) or (LScaleY / LScaleX > 1E290) then Continue;
-        LReference := TDDComplex(X) * (DDComplex(1, 0) / TDDComplex(Y));
+        { Skip quotients outside the normal range (their ratio would
+          itself underflow or overflow). }
+        if System.Abs(Log10(LScaleX) - Log10(LScaleY)) > 290 then Continue;
+        LReference := TDDComplex(X) / TDDComplex(Y);
         CheckRatio(Format('x/y scales %d,%d #%d', [S, T, K]),
           NormwiseError(X / Y, LReference) / UnitRoundoff);
+        CheckRatio(Format('r/y scales %d,%d #%d', [S, T, K]),
+          NormwiseError(X.Re / Y, DDComplex(X.Re, 0) / TDDComplex(Y)) /
+            UnitRoundoff);
       end;
   for S := 0 to 8 do
   begin
@@ -234,6 +246,20 @@ begin
     CheckRatio(Format('z/z scale %g', [Scales[S]]),
       (X / X - 1).Norm / UnitRoundoff);
   end;
+  { Operands near the ends of the range, where forming 1/y or |y|^2
+    overflows or underflows although the quotient is representable. }
+  X := Complex(0.75, -1.25) * 1.2E308;
+  CheckRatio('z/z near overflow', (X / X - 1).Norm / UnitRoundoff);
+  X := Complex(1E308, 0);
+  Y := Complex(1E308, 1E308);
+  CheckRatio('1e308/(1e308+1e308i)',
+    NormwiseError(X / Y, TDDComplex(X) / TDDComplex(Y)) / UnitRoundoff);
+  X := Complex(Math.LdExp(3, -1070), Math.LdExp(4, -1070));
+  Y := Complex(Math.LdExp(1, -1070), 0);
+  CheckRatio('subnormal/subnormal', (X / Y - Complex(3, 4)).Norm / UnitRoundoff);
+  Y := Complex(0, Math.LdExp(1, -1072));
+  CheckRatio('subnormal/subnormal imaginary',
+    (X / Y - Complex(16, -12)).Norm / UnitRoundoff);
 
   Group('Modulus and SquaredNorm, relative error', ckAccuracy, 4, tsProject,
     'a few ulps for hypot and two products');

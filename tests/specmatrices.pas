@@ -1,10 +1,9 @@
 { SpecMatrices - TRealMatrix and TComplexMatrix: construction, elementwise
   operations, products, norms and structural predicates.
 
-  Every entry of a matrix product is a compensated dot product, so it is
-  checked against the Ogita-Rump-Oishi Sum2 bound described in
-  SpecVectors, per component, using the products as rounded by the scalar
-  operator. }
+  The products are DGEMM, ZGEMM, DGEMV and ZGEMV of the reference BLAS;
+  every entry is checked with the error ratio of the reference BLAS tests
+  (xMMCH, xMVCH) described in SpecVectors. }
 unit SpecMatrices;
 
 {$mode objfpc}{$H+}{$J-}
@@ -162,19 +161,24 @@ end;
 procedure CheckRealProduct(const ALabel: string; const A, B: TRealMatrix);
 var
   P: TRealMatrix;
-  LProducts: array of Double;
+  LX, LY: array of Double;
   N, I, J, K: Integer;
   LWorst: Double;
 begin
   N := A.Order;
   P := A * B;
-  SetLength(LProducts, N);
+  SetLength(LX, N);
+  SetLength(LY, N);
   LWorst := 0;
   for I := 0 to N - 1 do
     for J := 0 to N - 1 do
     begin
-      for K := 0 to N - 1 do LProducts[K] := A[I, K] * B[K, J];
-      LWorst := Max(LWorst, CompensatedSumRatio(P[I, J], LProducts));
+      for K := 0 to N - 1 do
+      begin
+        LX[K] := A[I, K];
+        LY[K] := B[K, J];
+      end;
+      LWorst := Max(LWorst, BlasRatio(P[I, J], LX, LY));
     end;
   CheckRatio(ALabel, LWorst);
 end;
@@ -182,64 +186,53 @@ end;
 procedure CheckComplexProduct(const ALabel: string; const A, B: TComplexMatrix);
 var
   P: TComplexMatrix;
-  LRe, LIm: array of Double;
-  LProduct: TComplex;
+  LX, LY: array of TComplex;
   N, I, J, K: Integer;
   LWorst: Double;
 begin
   N := A.Order;
   P := A * B;
-  SetLength(LRe, N);
-  SetLength(LIm, N);
+  SetLength(LX, N);
+  SetLength(LY, N);
   LWorst := 0;
   for I := 0 to N - 1 do
     for J := 0 to N - 1 do
     begin
       for K := 0 to N - 1 do
       begin
-        LProduct := A[I, K] * B[K, J];
-        LRe[K] := LProduct.Re;
-        LIm[K] := LProduct.Im;
+        LX[K] := A[I, K];
+        LY[K] := B[K, J];
       end;
-      LWorst := Max(LWorst, CompensatedSumRatio(P[I, J].Re, LRe));
-      LWorst := Max(LWorst, CompensatedSumRatio(P[I, J].Im, LIm));
+      LWorst := Max(LWorst, BlasRatio(P[I, J], LX, LY));
     end;
   CheckRatio(ALabel, LWorst);
 end;
 
+{ A*x and x^T*A. }
 procedure CheckComplexMatVec(const ALabel: string; const A: TComplexMatrix;
   const X: TComplexVector);
 var
   Y, Z: TComplexVector;
-  LRe, LIm: array of Double;
-  LProduct: TComplex;
+  LX, LY: array of TComplex;
   N, I, K: Integer;
   LWorst: Double;
 begin
   N := A.Order;
   Y := A * X;
   Z := X * A;
-  SetLength(LRe, N);
-  SetLength(LIm, N);
+  SetLength(LX, N);
+  SetLength(LY, N);
   LWorst := 0;
   for I := 0 to N - 1 do
   begin
     for K := 0 to N - 1 do
     begin
-      LProduct := A[I, K] * X[K];
-      LRe[K] := LProduct.Re;
-      LIm[K] := LProduct.Im;
+      LX[K] := A[I, K];
+      LY[K] := X[K];
     end;
-    LWorst := Max(LWorst, CompensatedSumRatio(Y[I].Re, LRe));
-    LWorst := Max(LWorst, CompensatedSumRatio(Y[I].Im, LIm));
-    for K := 0 to N - 1 do
-    begin
-      LProduct := X[K] * A[K, I];
-      LRe[K] := LProduct.Re;
-      LIm[K] := LProduct.Im;
-    end;
-    LWorst := Max(LWorst, CompensatedSumRatio(Z[I].Re, LRe));
-    LWorst := Max(LWorst, CompensatedSumRatio(Z[I].Im, LIm));
+    LWorst := Max(LWorst, BlasRatio(Y[I], LX, LY));
+    for K := 0 to N - 1 do LX[K] := A[K, I];
+    LWorst := Max(LWorst, BlasRatio(Z[I], LX, LY));
   end;
   CheckRatio(ALabel, LWorst);
 end;
@@ -248,27 +241,30 @@ procedure CheckRealMatVec(const ALabel: string; const A: TRealMatrix;
   const X: TRealVector);
 var
   Y, Z: TRealVector;
-  LProducts: array of Double;
+  LX, LY: array of Double;
   N, I, K: Integer;
   LWorst: Double;
 begin
   N := A.Order;
   Y := A * X;
   Z := X * A;
-  SetLength(LProducts, N);
+  SetLength(LX, N);
+  SetLength(LY, N);
   LWorst := 0;
   for I := 0 to N - 1 do
   begin
-    for K := 0 to N - 1 do LProducts[K] := A[I, K] * X[K];
-    LWorst := Max(LWorst, CompensatedSumRatio(Y[I], LProducts));
-    for K := 0 to N - 1 do LProducts[K] := X[K] * A[K, I];
-    LWorst := Max(LWorst, CompensatedSumRatio(Z[I], LProducts));
+    for K := 0 to N - 1 do
+    begin
+      LX[K] := A[I, K];
+      LY[K] := X[K];
+    end;
+    LWorst := Max(LWorst, BlasRatio(Y[I], LX, LY));
+    for K := 0 to N - 1 do LX[K] := A[K, I];
+    LWorst := Max(LWorst, BlasRatio(Z[I], LX, LY));
   end;
   CheckRatio(ALabel, LWorst);
 end;
 
-{ Rows whose products cancel: [big, small, -big, ...] patterns, with the
-  real and imaginary parts dominated by different columns. }
 function CancellingComplexMatrix(N: Integer): TComplexMatrix;
 var
   I, J: Integer;
@@ -293,8 +289,8 @@ var
   A, B: TRealMatrix;
   CA, CB: TComplexMatrix;
 begin
-  Group('Matrix products, compensated-sum bound per entry', ckAccuracy, 1,
-    tsProved, 'Ogita-Rump-Oishi 2005, Prop. 4.5');
+  Group('Matrix products, error ratio of the reference BLAS tests',
+    ckAccuracy, 16, tsLAPACK, 'dblat2/dblat3 xMVCH, xMMCH');
   SetSeed(611);
   for S := Low(Orders) to High(Orders) do
     for T := Low(Scales) to High(Scales) do
