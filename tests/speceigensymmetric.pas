@@ -285,7 +285,7 @@ begin
     N := K mod 10 + 1;
     A := SymmetricWithSpectrum(MakeSpectrum(spMixedSigns, N));
     A.SymmetricEigenpairs(D, V);
-    (A * Ldexp(1, 300)).SymmetricEigenpairs(D2, V2);
+    (A * Ldexp(Double(1), 300)).SymmetricEigenpairs(D2, V2);
     LOk := True;
     for I := 0 to N - 1 do LOk := LOk and (D2[I] = Ldexp(D[I], 300));
     Check(Format('eigenvalues scale exactly n=%d #%d', [N, K]), LOk);

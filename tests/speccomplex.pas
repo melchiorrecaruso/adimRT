@@ -254,10 +254,10 @@ begin
   Y := Complex(1E308, 1E308);
   CheckRatio('1e308/(1e308+1e308i)',
     NormwiseError(X / Y, TDDComplex(X) / TDDComplex(Y)) / UnitRoundoff);
-  X := Complex(Math.LdExp(3, -1070), Math.LdExp(4, -1070));
-  Y := Complex(Math.LdExp(1, -1070), 0);
+  X := Complex(Math.LdExp(Double(3), -1070), Math.LdExp(Double(4), -1070));
+  Y := Complex(Math.LdExp(Double(1), -1070), 0);
   CheckRatio('subnormal/subnormal', (X / Y - Complex(3, 4)).Norm / UnitRoundoff);
-  Y := Complex(0, Math.LdExp(1, -1072));
+  Y := Complex(0, Math.LdExp(Double(1), -1072));
   CheckRatio('subnormal/subnormal imaginary',
     (X / Y - Complex(16, -12)).Norm / UnitRoundoff);
 
