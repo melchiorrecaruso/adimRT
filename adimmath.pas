@@ -81,7 +81,8 @@ type
     function IsNotNull: boolean;
 
     { Returns the modulus (magnitude) of the complex number:
-      @code(|z| = √(Re² + Im²)).
+      @code(|z| = √(Re² + Im²)), computed without spurious overflow or
+      underflow (hypot of glibc, as the LAPACK layer computes it).
     }
     function Norm: TReal;
 
@@ -555,9 +556,10 @@ begin
   result := not IsNull;
 end;
 
+{ ZABS of the LAPACK layer, so that |z| is the same here and in LAPACK. }
 function TComplex.Norm: TReal;
 begin
-  result := hypot(fRe, fIm);
+  result := ZABS(Self);
 end;
 
 function TComplex.SquaredNorm: TReal;
@@ -2023,8 +2025,7 @@ begin
   LScaled := ScaleForRoot(AValue, LFactor);
   { The larger component is formed without cancellation as
     sqrt((|Re| + |z|)/2); the smaller one follows from Im = 2*x*y. }
-  LLarge := Sqrt(0.5 * (System.Abs(LScaled.fRe) +
-    Hypot(LScaled.fRe, LScaled.fIm)));
+  LLarge := Sqrt(0.5 * (System.Abs(LScaled.fRe) + LScaled.Norm));
   LSmall := (System.Abs(LScaled.fIm) / LLarge) / 2;
   if LScaled.fRe >= 0 then
   begin

@@ -132,6 +132,10 @@ function CABS1(const AValue: TComplex): TReal; overload; inline;
   The divisor must not be zero. }
 procedure DLADIV(A, B, C, D: TReal; out P, Q: TReal);
 
+{ |Z| as gfortran computes ABS of a complex number: hypot of glibc 2.43,
+  without spurious overflow or underflow and with an error below one ulp. }
+function ZABS(const Z: TComplex): TReal; inline;
+
 { Balancing of a general matrix, JOB = 'B': permutation to
   isolate eigenvalues, then diagonal scaling by powers of two
   (A := D^-1*P^T*A*P*D). On exit A[ILO..IHI, ILO..IHI] is the part left to
