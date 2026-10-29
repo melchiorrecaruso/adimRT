@@ -126,6 +126,12 @@ function CABS1(const AValue: TReal): TReal; overload; inline;
 
 function CABS1(const AValue: TComplex): TReal; overload; inline;
 
+{ Robust complex division P + iQ = (A + iB) / (C + iD) (DLADIV, Baudin and
+  Smith): Smith's formula with the operands prescaled so that no
+  intermediate overflows or underflows unless the quotient itself does.
+  The divisor must not be zero. }
+procedure DLADIV(A, B, C, D: TReal; out P, Q: TReal);
+
 { Balancing of a general matrix, JOB = 'B': permutation to
   isolate eigenvalues, then diagonal scaling by powers of two
   (A := D^-1*P^T*A*P*D). On exit A[ILO..IHI, ILO..IHI] is the part left to
@@ -774,8 +780,8 @@ begin
   Q := Q * S;
 end;
 
-{ X / Y by DLADIV (ZLADIV). The division operator of TComplex uses the
-  same algorithm but may differ in the sign of zero parts. }
+{ X / Y by DLADIV (ZLADIV), the algorithm of the division operator of
+  TComplex. }
 function ZLADIV(const X, Y: TComplex): TComplex;
 var
   ZR, ZI: TReal;

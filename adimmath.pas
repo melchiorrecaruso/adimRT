@@ -488,20 +488,27 @@ implementation
 uses
   ADimLapack;
 
+var
+  { Number formatting independent of the regional settings: '.' is the
+    decimal separator whatever the locale of the system. }
+  InvariantFormat: TFormatSettings;
+
 function Fmt(const AValue: TReal): string;
 begin
   if AValue < 0.0 then
-    result := FloatToStr(AValue)
+    result := FloatToStr(AValue, InvariantFormat)
   else
-    result := '+' + FloatToStr(AValue);
+    result := '+' + FloatToStr(AValue, InvariantFormat);
 end;
 
 function Fmt(const AValue: TReal; APrecision, ADigits: longint): string;
 begin
   if AValue < 0.0 then
-    result := SysUtils.FloatToStrF(AValue, ffGeneral, APrecision, ADigits)
+    result := SysUtils.FloatToStrF(AValue, ffGeneral, APrecision, ADigits,
+      InvariantFormat)
   else
-    result := '+' + SysUtils.FloatToStrF(AValue, ffGeneral, APrecision, ADigits);
+    result := '+' + SysUtils.FloatToStrF(AValue, ffGeneral, APrecision,
+      ADigits, InvariantFormat);
 end;
 
 function Fmt(const AValue: TComplex): string;
@@ -514,76 +521,15 @@ begin
   result := AValue.ToString(APrecision, ADigits)
 end;
 
-{ Robust complex division (a + ib)/(c + id) = e + if (M. Baudin,
-  R. L. Smith, "A Robust Complex Division in Scilab", 2012): Smith's
-  formula with the operands prescaled by powers of two, so that no
-  intermediate overflows or underflows unless the quotient itself does. }
+{ Robust complex division (a + ib)/(c + id) = e + if by DLADIV of the
+  LAPACK layer (M. Baudin, R. L. Smith, "A Robust Complex Division in
+  Scilab", 2012): no intermediate overflows or underflows unless the
+  quotient itself does. }
 procedure ComplexDivide(a, b, c, d: TReal; out e, f: TReal);
-const
-  Overflow = 1.7976931348623157E+308;  { largest finite double }
-  Underflow = 2.2250738585072014E-308; { smallest normal double }
-  Boost = 8.1129638414606682E+031;     { 2/eps^2 = 2^105 }
-var
-  LScale, LRatio, LInverse: TReal;
-  LSwap: boolean;
-
-  function Component(const AX, AY: TReal): TReal;
-  var
-    LProduct: TReal;
-  begin
-    { (AX + AY*r)/(c + d*r) without spurious underflow of AY*r. }
-    if LRatio <> 0 then
-    begin
-      LProduct := AY * LRatio;
-      if LProduct <> 0 then
-        result := (AX + LProduct) * LInverse
-      else
-        result := AX * LInverse + (AY * LInverse) * LRatio;
-    end else
-      result := (AX + d * (AY / c)) * LInverse;
-  end;
-
 begin
   if (c = 0) and (d = 0) then
     raise EZeroDivide.Create('TComplex: division by zero.');
-  LScale := 1;
-  if Max(System.Abs(a), System.Abs(b)) >= Overflow / 2 then
-  begin
-    a := a / 2;
-    b := b / 2;
-    LScale := LScale * 2;
-  end;
-  if Max(System.Abs(c), System.Abs(d)) >= Overflow / 2 then
-  begin
-    c := c / 2;
-    d := d / 2;
-    LScale := LScale / 2;
-  end;
-  if Max(System.Abs(a), System.Abs(b)) <= Underflow * 2 / Precision then
-  begin
-    a := a * Boost;
-    b := b * Boost;
-    LScale := LScale / Boost;
-  end;
-  if Max(System.Abs(c), System.Abs(d)) <= Underflow * 2 / Precision then
-  begin
-    c := c * Boost;
-    d := d * Boost;
-    LScale := LScale * Boost;
-  end;
-  { Divide by the larger component of the divisor: for |d| > |c| the
-    quotient is obtained from (b + ia)/(d + ic) = f - ie. }
-  LSwap := System.Abs(d) > System.Abs(c);
-  if LSwap then
-  begin
-    LRatio := a; a := b; b := LRatio;
-    LRatio := c; c := d; d := LRatio;
-  end;
-  LRatio := d / c;
-  LInverse := 1 / (c + d * LRatio);
-  e := Component(a, b) * LScale;
-  f := Component(b, -a) * LScale;
-  if LSwap then f := -f;
+  DLADIV(a, b, c, d, e, f);
 end;
 
 // TComplex
@@ -642,9 +588,10 @@ var
   function Text(const AReal: TReal): string;
   begin
     if AFormat then
-      result := SysUtils.FloatToStrF(AReal, ffGeneral, APrecision, ADigits)
+      result := SysUtils.FloatToStrF(AReal, ffGeneral, APrecision, ADigits,
+        InvariantFormat)
     else
-      result := FloatToStr(AReal);
+      result := FloatToStr(AReal, InvariantFormat);
   end;
 
 begin
@@ -933,12 +880,13 @@ end;
 
 function TRealHelper.ToString: string;
 begin
-  result := SysUtils.FloatToStr(Self);
+  result := SysUtils.FloatToStr(Self, InvariantFormat);
 end;
 
 function TRealHelper.ToString(APrecision, ADigits: integer): string;
 begin
-  result := SysUtils.FloatToStrF(Self, ffGeneral, APrecision, ADigits);
+  result := SysUtils.FloatToStrF(Self, ffGeneral, APrecision, ADigits,
+    InvariantFormat);
 end;
 
 function TVector.Get(AIndex: longint): T;
@@ -1720,42 +1668,53 @@ begin
     result.FData[LIndex] := Self.FData[LIndex];
 end;
 
-{ Unit 2-norm columns whose largest component is real and positive. For
-  the eigenvectors of a real matrix, AImaginary holds the imaginary parts
-  of the eigenvalues: the column of an eigenvalue with positive imaginary
-  part is normalized and the next one, its conjugate pair, is set to its
-  conjugate, so that the pairs stay exactly conjugate. }
+{ Columns whose largest component is real and positive. The columns come
+  from LAPACK (xGEEV, xSYEV, xHEEV) with unit 2-norm and are not
+  normalized again. When the largest component (the first of largest
+  |Re|^2 + |Im|^2, as xGEEV chooses it) is already real, as xGEEV makes
+  it, the column is at most negated, which is exact; otherwise (xHEEV) it
+  is rotated by the phase that makes that component real and positive, as
+  ZGEEV does. For the eigenvectors of a real matrix, AImaginary holds the
+  imaginary parts of the eigenvalues: the column of an eigenvalue with
+  positive imaginary part is processed and the next one, its conjugate
+  pair, is set to its conjugate, so that the pairs stay exactly
+  conjugate. }
 procedure NormalizeEigenvectors(var AVectors: TComplexMatrix;
   const AImaginary: TArrayOfReal);
 var
   N, Row, Col, Largest: longint;
-  VectorNorm, Modulus, LargestModulus: TReal;
+  Modulus, LargestModulus: TReal;
   Phase: TComplex;
 begin
   N := AVectors.Order;
   Col := 0;
   while Col < N do
   begin
-    VectorNorm := 0;
     LargestModulus := 0;
     Largest := 0;
     for Row := 0 to N - 1 do
     begin
-      Modulus := AVectors[Row, Col].Norm;
-      VectorNorm := Hypot(VectorNorm, Modulus);
+      Modulus := AVectors[Row, Col].SquaredNorm;
       if Modulus > LargestModulus then
       begin
         LargestModulus := Modulus;
         Largest := Row;
       end;
     end;
-    if VectorNorm > 0 then
-    begin
-      Phase := AVectors[Largest, Col].Conjugate / (LargestModulus * VectorNorm);
-      for Row := 0 to N - 1 do
-        AVectors[Row, Col] := Phase * AVectors[Row, Col];
-      AVectors[Largest, Col] := AVectors[Largest, Col].Re;
-    end;
+    if LargestModulus > 0 then
+      if AVectors[Largest, Col].Im = 0 then
+      begin
+        if AVectors[Largest, Col].Re < 0 then
+          for Row := 0 to N - 1 do
+            AVectors[Row, Col] := -AVectors[Row, Col];
+      end else
+      begin
+        Phase := AVectors[Largest, Col].Conjugate /
+          AVectors[Largest, Col].Norm;
+        for Row := 0 to N - 1 do
+          AVectors[Row, Col] := Phase * AVectors[Row, Col];
+        AVectors[Largest, Col] := AVectors[Largest, Col].Re;
+      end;
     if (AImaginary <> nil) and (AImaginary[Col] > 0) then
     begin
       for Row := 0 to N - 1 do
@@ -2157,7 +2116,8 @@ end;
 
 function FloatToStrF(const AValue: TReal; APrecision, ADigits: longint): string;
 begin
-  result := SysUtils.FloatToStrF(AValue, ffGeneral, APrecision, ADigits);
+  result := SysUtils.FloatToStrF(AValue, ffGeneral, APrecision, ADigits,
+    InvariantFormat);
 end;
 
 function FloatToStrF(const AValue: TComplex; APrecision, ADigits: longint): string;
@@ -2165,4 +2125,8 @@ begin
   result := AValue.ToString(APrecision, ADigits);
 end;
 
+initialization
+  InvariantFormat := DefaultFormatSettings;
+  InvariantFormat.DecimalSeparator := '.';
+  InvariantFormat.ThousandSeparator := ',';
 end.
